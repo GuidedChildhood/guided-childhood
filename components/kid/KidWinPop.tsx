@@ -39,11 +39,13 @@ export type Win = {
 
 const CHAR = new Map(STAGE_CHARACTERS.map(c => [c.key, c]))
 
-export default function KidWinPop({ token, wins, onDone }: {
+export default function KidWinPop({ token, wins, onDone, onOpenBook }: {
   token: string
   wins: Win[]
   /** Fired when the last one is dismissed, so the page can refresh its counts. */
   onDone?: () => void
+  /** A sorted stamp offers the passport as its way out, so the moment ends on the stamp. */
+  onOpenBook?: () => void
 }) {
   const [i, setI] = useState(0)
   const popRef = useRef<HTMLDivElement>(null)
@@ -74,6 +76,10 @@ export default function KidWinPop({ token, wins, onDone }: {
       gsap.from('.gc-win-card', { scale: 0.4, opacity: 0, y: 30, duration: 0.55, ease: 'back.out(1.8)' })
       gsap.from('.gc-win-face', { scale: 0, rotate: -20, duration: 0.6, ease: 'back.out(2.2)', delay: 0.12 })
       gsap.from('.gc-win-spark', { scale: 0, opacity: 0, duration: 0.5, ease: 'back.out(2)', stagger: 0.035, delay: 0.2 })
+      // The stamp comes down from above, big, and lands with a tilt, the way a
+      // real one is slammed onto a passport page. Justin, 2 September 2026:
+      // "so great, you scored a stamp in your passport."
+      gsap.from('.gc-win-stamp', { scale: 2.4, opacity: 0, rotate: 8, duration: 0.5, ease: 'back.out(1.4)', delay: 0.45 })
     }, popRef)
     return () => ctx.revert()
   }, [win])
@@ -81,7 +87,8 @@ export default function KidWinPop({ token, wins, onDone }: {
   if (!win) return null
 
   const friend = CHAR.get(win.character)
-  const colour = friend?.colour ?? 'var(--terracotta)'
+  const sorted = win.kind === 'sorted'
+  const colour = sorted ? '#2F8F6B' : (friend?.colour ?? 'var(--terracotta)')
   const more = wins.length - i - 1
 
   function next() {
@@ -120,22 +127,38 @@ export default function KidWinPop({ token, wins, onDone }: {
           ))}
         </div>
 
-        <div className="gc-win-face" style={{
-          width: 116, height: 116, margin: '0 auto 12px', borderRadius: '50%',
-          background: '#fff', border: `3px solid ${colour}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-        }}>
-          {friend
-            // eslint-disable-next-line @next/next/no-img-element
-            ? <img src={friend.cutout} alt={friend.name} width={100} height={100} style={{ width: 100, height: 100, objectFit: 'contain' }} />
-            : <span style={{ fontSize: 56 }}>🔥</span>}
+        <div style={{ position: 'relative', width: 116, margin: '0 auto 12px' }}>
+          <div className="gc-win-face" style={{
+            width: 116, height: 116, borderRadius: '50%',
+            background: '#fff', border: `3px solid ${colour}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+          }}>
+            {friend
+              // eslint-disable-next-line @next/next/no-img-element
+              ? <img src={friend.cutout} alt={friend.name} width={100} height={100} style={{ width: 100, height: 100, objectFit: 'contain' }} />
+              : <span style={{ fontSize: 56 }}>🔥</span>}
+          </div>
+          {sorted && (
+            // The stamp itself: a seal with a tick, set on the tilt, the same
+            // mark the passport page and the sticker tile wear. It overlaps
+            // the Friend so the Friend is holding it up.
+            <div className="gc-win-stamp" aria-hidden style={{
+              position: 'absolute', right: -30, bottom: -8, width: 74, height: 74, borderRadius: '50%',
+              background: '#fff', border: `4px solid ${colour}`, color: colour,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              transform: 'rotate(-12deg)', boxShadow: '0 0 0 3px #fff, 0 6px 14px rgba(26,26,46,0.22)',
+            }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', marginTop: -2 }}>SORTED</span>
+            </div>
+          )}
         </div>
 
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.12em', textTransform: 'uppercase', color: colour, marginBottom: 6,
         }}>
-          {win.kind === 'friend' ? 'A new Planet Friend' : win.kind === 'run' ? 'Look at that run' : 'Stars banked'}
+          {win.kind === 'friend' ? 'A new Planet Friend' : win.kind === 'run' ? 'Look at that run' : sorted ? 'A stamp in your passport' : 'Stars banked'}
         </div>
 
         <h2 style={{
@@ -164,6 +187,19 @@ export default function KidWinPop({ token, wins, onDone }: {
         >
           {more > 0 ? `Brilliant. What else? (${more} more)` : 'Brilliant!'}
         </button>
+        {sorted && onOpenBook && more === 0 && (
+          <button
+            type="button"
+            onClick={() => { try { playKidSound('tap') } catch { /* sound off */ } onDone?.(); onOpenBook() }}
+            style={{
+              width: '100%', marginTop: 10, background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+              letterSpacing: '0.08em', textTransform: 'uppercase', color: colour, padding: '8px 0',
+            }}
+          >
+            Show me the stamp
+          </button>
+        )}
       </div>
     </div>
   )

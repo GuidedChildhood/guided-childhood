@@ -26,7 +26,7 @@ import { streaksForFriend, friendsFromStreaks } from '@/lib/pathway/streak-unloc
 // is silent when it does not. That is the ICO Children's Code position on
 // engineered urgency and it is also simply how you would talk to a child.
 
-export type MilestoneKind = 'friend' | 'run' | 'bank'
+export type MilestoneKind = 'friend' | 'run' | 'bank' | 'sorted'
 
 export type Milestone = {
   kind: MilestoneKind
@@ -99,8 +99,32 @@ export function milestonesEarned(input: {
   completedStreaks: number
   bestRun: number
   bankBalance: number
+  /**
+   * The worries the parent raised for this child and has since given five
+   * stars, from lib/concerns/sorted. Each is a stamp in the passport and the
+   * win a child most deserves to be told about, because it is the one the
+   * whole product is for.
+   */
+  sorted?: { id: string; label: string }[]
+  /** The Planet Friend who delivers a sorted stamp: the child's own, or Pebble. */
+  friend?: string
 }): Milestone[] {
   const out: Milestone[] = []
+
+  // ── Sorted together ─────────────────────────────────────────────────────
+  // Justin, 2 September 2026: "as the star went to 5 stars, so great, you
+  // scored a stamp in your passport." Keyed on the worry, so each one lands
+  // once however many times the parent scores it five.
+  for (const w of input.sorted ?? []) {
+    out.push({
+      kind: 'sorted',
+      key: w.id,
+      value: 5,
+      label: `${w.label}: sorted`,
+      detail: 'Your grown up gave it five stars. That was you. It is stamped in your passport.',
+      character: input.friend ?? 'pebble',
+    })
+  }
 
   // ── The family growing ──────────────────────────────────────────────────
   // Each rung of the ladder brings a Planet Friend home. This is the big one, and it

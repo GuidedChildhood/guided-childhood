@@ -1,7 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { milestonesEarned, runsFromDays, type Milestone } from '@/lib/kid/milestones'
-import { streakCurrency } from '@/lib/pathway/streak-unlock'
+import { streakCurrency, friendsFromStreaks } from '@/lib/pathway/streak-unlock'
+import { characterForStage } from '@/lib/content/stage-characters'
+import { childWorries } from '@/lib/concerns/sorted'
 import { getStarBanks } from '@/lib/quests/bank'
 import { ukToday } from '@/lib/kid/five-a-day'
 
@@ -81,7 +83,15 @@ export async function GET(request: NextRequest) {
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
 
   const totals = await currentTotals(link.admin, link.userId, link.childId)
-  const earned = milestonesEarned(totals)
+  // The worries the parent has sorted for this child, delivered by the
+  // child's own newest Planet Friend, or Pebble before any have come home.
+  const worries = await childWorries(link.admin, link.userId, link.childId)
+  const friend = characterForStage(Math.max(1, Math.min(5, friendsFromStreaks(totals.completedStreaks))))?.key ?? 'pebble'
+  const earned = milestonesEarned({
+    ...totals,
+    sorted: worries.filter(w => w.sorted).map(w => ({ id: w.id, label: w.label })),
+    friend,
+  })
 
   // What is already written down. A read error here means the table is not there
   // yet, so the route hands back an empty queue rather than pretending: the home

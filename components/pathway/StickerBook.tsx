@@ -11,7 +11,7 @@ import StickerBadge from './StickerBadge'
 
 function Tile({ s }: { s: StickerState }) {
   const art = stickerArt(s)
-  const showCount = !s.earned && (s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak')
+  const showCount = !s.earned && (s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak' || s.rule.kind === 'lessons' || s.rule.kind === 'sorted' || s.rule.kind === 'stamp')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, textAlign: 'center' }}>
       <div
@@ -93,7 +93,7 @@ export default function StickerBook({ book, childName }: { book: Book; childName
       </div>
 
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 0 0' }}>
-        Stickers are earned from real stars, finished printables and growing through the stages. Once earned they are kept for good.
+        Stickers are earned from full days, lessons passed, printables finished, screen time saved rather than spent, and worries you have sorted together at the check in. Once earned they are kept for good.
       </p>
 
       {/* The obvious next question, answered on the same card: yes, you can

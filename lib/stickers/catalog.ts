@@ -39,6 +39,18 @@ export type StickerRule =
   | { kind: 'friend'; n: number; streaks: number }
   // A passport stamp. `n` is the stage (1 to 5) whose page has been stamped.
   | { kind: 'stamp'; n: number }
+  // Lessons passed in the shared player, counted for THIS child. Justin, 2
+  // September 2026: "stickers that lessons done are added." A whole stage
+  // stamps the passport, which takes months; these are the rungs on the way.
+  | { kind: 'lessons'; n: number }
+  // A worry the parent raised for this child and then gave five stars.
+  //
+  // Justin, 2 September 2026: "trace the moment that the parent said phones
+  // in the car were a problem: as the star went to 5 stars, so great, you
+  // scored a stamp in your passport." One sticker per worry, made at read
+  // time from the concerns table rather than listed here, because the worries
+  // are the family's own. `n` is always 5: the stars it takes.
+  | { kind: 'sorted'; n: 5 }
 
 export type Sticker = {
   key: string
@@ -111,7 +123,38 @@ export const STICKERS: Sticker[] = [
 
   // Showing up.
   { key: 'streak-7', name: 'Week Streak', emoji: '🔥', colour: '#D4600A', earn: 'Keep a 7 day streak', rule: { kind: 'streak', n: 7 } },
+
+  // Lessons passed. The first is the moment (one lesson, passed properly at
+  // the seventy percent line the player holds), then five, then ten. Every
+  // lesson also fills the stage stamp above, so the ladder is the short road
+  // and the stamp is the long one.
+  { key: 'lessons-1', name: 'First Lesson', emoji: '📚', colour: '#2E6F8E', earn: 'Pass your first lesson', rule: { kind: 'lessons', n: 1 } },
+  { key: 'lessons-5', name: 'Five Lessons', emoji: '📚', colour: '#2E6F8E', earn: 'Pass 5 lessons', rule: { kind: 'lessons', n: 5 } },
+  { key: 'lessons-10', name: 'Ten Lessons', emoji: '🎓', colour: '#7A5CC0', earn: 'Pass 10 lessons', rule: { kind: 'lessons', n: 10 } },
 ]
+
+/** The sticker key for a sorted worry, one per concern. */
+export function sortedStickerKey(concernId: string): string {
+  return `sorted-${concernId}`
+}
+
+/** The green every sorted stamp wears: the retro green the check in says "better" in. */
+export const SORTED_COLOUR = '#2F8F6B'
+
+/**
+ * A sorted stamp for one of the family's worries, in the same shape as the
+ * catalog entries so every book, badge and celebration draws it the same way.
+ */
+export function sortedSticker(concern: { id: string; label: string }): Sticker {
+  return {
+    key: sortedStickerKey(concern.id),
+    name: concern.label,
+    emoji: '🛂',
+    colour: SORTED_COLOUR,
+    earn: 'Five stars from your grown up',
+    rule: { kind: 'sorted', n: 5 },
+  }
+}
 
 // The full colour art for a Planet Friend sticker, or null for a badge.
 //

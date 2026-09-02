@@ -20,6 +20,8 @@ import FiveADayReport from '@/components/pathway/FiveADayReport'
 import { getFiveADayReport } from '@/lib/kid/day-report'
 import WhatIsWorkingLink from '@/components/working/WhatIsWorkingLink'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
+import { isStageStamped } from '@/lib/pathway/stamped'
+import { restingConcernIds } from '@/lib/concerns/resting'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import PassportToDo from '@/components/pathway/PassportToDo'
 import { parentPassportToDo } from '@/lib/pathway/passport-todo'
@@ -124,7 +126,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // the quiet pull to switch when the OTHER child's week needs a look.
   const sibling = children.find(c => c.id !== primaryChild?.id) ?? null
   const [openMomentsRes, solvedMomentsRes, weekReport, weekTicksRes, siblingReport] = await Promise.all([
-    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).or(childScope).in('status', ['open', 'improving']),
+    supabase.from('concerns').select('id, last_flagged_at, created_at').eq('user_id', user.id).or(childScope).in('status', ['open', 'improving']),
     supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).or(childScope).eq('status', 'resolved'),
     getWeekParentReport(supabase, user.id, primaryChild ?? null),
     // This star week's approved ticks for the selected child, for the balance
@@ -135,11 +137,36 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       : Promise.resolve({ data: null }),
     sibling ? getWeekParentReport(supabase, user.id, sibling) : Promise.resolve(null),
   ])
+  // A RESTING WORRY COUNTS AS SORTED. The check in stopped asking about a
+  // worry the parent scored five stars (lib/concerns/resting), and the child's
+  // passport stamps it, but this row still counted it as open because it read
+  // the raw status. So a parent could watch the check in say "sorted" and the
+  // passport say "2 to resolve" about the same two worries. One rule, read
+  // here too. Found in the passport audit, 2 September 2026.
+  const liveRows = (openMomentsRes.data ?? []) as { id: string; last_flagged_at: string | null; created_at: string }[]
+  let restingCount = 0
+  if (liveRows.length > 0) {
+    const { data: ev } = await supabase
+      .from('concern_events').select('concern_id, score, created_at')
+      .in('concern_id', liveRows.map(r => r.id)).not('score', 'is', null)
+      .order('created_at', { ascending: false })
+    const lastScore = new Map<string, number>()
+    const lastAt = new Map<string, string>()
+    for (const e of ev ?? []) {
+      const id = String(e.concern_id)
+      if (lastScore.has(id)) continue
+      lastScore.set(id, Number(e.score)); lastAt.set(id, String(e.created_at))
+    }
+    restingCount = restingConcernIds(
+      liveRows.map(r => ({ id: r.id, last_flagged_at: r.last_flagged_at ?? r.created_at })),
+      lastScore, lastAt,
+    ).size
+  }
   const stageSections = await buildPassportSections(
     supabase, user.id, primaryChild ?? null, allStagesProgress, currentStageNum,
     {
-      openMoments: openMomentsRes.count ?? 0,
-      solvedMoments: solvedMomentsRes.count ?? 0,
+      openMoments: Math.max(0, liveRows.length - restingCount),
+      solvedMoments: (solvedMomentsRes.count ?? 0) + restingCount,
       parentReport: weekReport,
     },
   )
@@ -199,7 +226,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     ? STAGES.map(s => {
         const prog = allStagesProgress[STAGE_SLUGS_ARR[s.id - 1]]
         const status: StampStatus =
-          prog.contentComplete && passedStages.has(s.id) ? 'earned'
+          isStageStamped(prog, passedStages, s.id) ? 'earned'
           : s.id === currentStageNum ? 'current'
           : s.id < currentStageNum ? 'catchup'
           : 'upcoming'
