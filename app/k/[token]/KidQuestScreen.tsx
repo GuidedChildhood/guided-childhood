@@ -35,6 +35,7 @@ import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
 import HappyIcon from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
+import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
@@ -1610,7 +1611,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES } } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES }, mission: missionSheetFor(assignedPrintable.key) } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it

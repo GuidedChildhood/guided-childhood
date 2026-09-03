@@ -6,6 +6,7 @@ import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import { DRAWN_KEYS, isDrawnKey, type DrawnSpec } from '@/components/printables/drawn'
 import { getPrintable } from '@/lib/printables/registry'
+import { MISSIONS_FOR_PRINT, missionSheetFor, planetPrintableKey } from '@/lib/printables/mission-sheets'
 
 // Dev only fixture: the happy news device balance sheets.
 //
@@ -20,6 +21,10 @@ import { getPrintable } from '@/lib/printables/registry'
 //                                     examples (add &key= for one)
 //   /dev/drawn-sheets?covers=1        the six tile fronts at phone width,
 //                                     the crop each tile shows
+//   /dev/drawn-sheets?key=mission-sheet&mission=plant_seed   one Planet Friends
+//                                     mission sheet (add &card=pictures or
+//                                     &card=letters for the Moonflower card
+//                                     with a pretend code on it)
 //
 // Never reachable in production.
 
@@ -35,7 +40,22 @@ export default function DrawnSheetsFixture() {
   const spec = (key: DrawnSpec['key']): DrawnSpec => ({
     key, childName: blank ? '' : 'Alfie', stars: getPrintable(key)?.stars ?? 3, facts: blank || example ? {} : FACTS, example,
   })
+  const cardMode = q.get('card') === 'letters' ? 'letters' : q.get('card') === 'pictures' ? 'pictures' : null
+  const missionSpec = (missionKey: string): DrawnSpec => ({
+    key: 'mission-sheet', childName: blank ? '' : 'Alfie', stars: 0, example,
+    mission: missionSheetFor(planetPrintableKey(missionKey), { card: cardMode ? { code: cardMode === 'pictures' ? ['star', 'moon', 'rocket'] : ['m', 'o', 'o', 'n'], mode: cardMode } : null }),
+  })
   const one = q.get('key')
+  if (one === 'mission-sheet') {
+    const mk = q.get('mission') ?? 'plant_seed'
+    return (
+      <div style={{ background: '#fff', fontFamily: 'var(--font-body)' }}>
+        <div style={{ maxWidth: 794, margin: '0 auto' }}>
+          <DrawnPaper spec={missionSpec(mk)} />
+        </div>
+      </div>
+    )
+  }
   if (isDrawnKey(one)) {
     return (
       <div style={{ background: '#fff', fontFamily: 'var(--font-body)' }}>
@@ -49,7 +69,7 @@ export default function DrawnSheetsFixture() {
     return (
       <div style={{ minHeight: '100dvh', background: '#3B3F47', padding: 16, fontFamily: 'var(--font-body)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 420, margin: '0 auto' }}>
-          {DRAWN_KEYS.map(k => (
+          {DRAWN_KEYS.filter(k => k !== 'mission-sheet').map(k => (
             <div key={k} style={{ background: '#fff', border: '2px solid #1A1A2E', borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 0 #1A1A2E' }}>
               <div style={{ position: 'relative', aspectRatio: '3 / 3.6', borderBottom: '2px solid #1A1A2E' }}>
                 <DrawnCover spec={spec(k)} />
@@ -66,9 +86,14 @@ export default function DrawnSheetsFixture() {
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--app-bg)', padding: 20, fontFamily: 'var(--font-body)' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: 20 }}>
-        {DRAWN_KEYS.map(k => (
+        {DRAWN_KEYS.filter(k => k !== 'mission-sheet').map(k => (
           <a key={k} href={`/dev/drawn-sheets?key=${k}${example ? '&example=1' : ''}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
             <DrawnPaper spec={spec(k)} />
+          </a>
+        ))}
+        {MISSIONS_FOR_PRINT.map(m => (
+          <a key={m.key} href={`/dev/drawn-sheets?key=mission-sheet&mission=${m.key}${example ? '&example=1' : ''}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
+            <DrawnPaper spec={missionSpec(m.key)} />
           </a>
         ))}
       </div>

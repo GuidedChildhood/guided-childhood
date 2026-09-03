@@ -66,7 +66,7 @@ export function HappyPaper({ title, kicker, stars, deal, children }: {
   title: string
   /** The mono line under the ribbon: whose sheet, what to do. */
   kicker?: string
-  /** What the finished sheet is worth, from the registry. */
+  /** What the finished sheet is worth, from the registry. Zero for a sheet that pays on the planet, not in stars. */
   stars: number
   /** The sentence on the star strip at the foot, after "Worth n stars". */
   deal: string
@@ -113,7 +113,7 @@ export function HappyPaper({ title, kicker, stars, deal, children }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: DEEP, borderRadius: 14, padding: '10px 16px', marginTop: 12, flexShrink: 0 }}>
         <span style={{ fontSize: 22, lineHeight: 1 }}>⭐</span>
         <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.35 }}>
-          {deal} Worth {stars} {stars === 1 ? 'star' : 'stars'} toward your screen time.
+          {deal}{stars > 0 ? ` Worth ${stars} ${stars === 1 ? 'star' : 'stars'} toward your screen time.` : ''}
         </span>
       </div>
       <div style={{ flexShrink: 0 }}>

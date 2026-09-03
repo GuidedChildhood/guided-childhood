@@ -11,6 +11,7 @@
 
 import { characterByKey } from '@/lib/content/stage-characters'
 import type { DrawnKey } from '@/components/printables/drawn'
+import { MISSIONS_FOR_PRINT, blurbFor, planetPrintableKey, stagesForTiers } from './mission-sheets'
 
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 
@@ -527,6 +528,20 @@ for (const p of PRINTABLES) {
   if (local.blurb) p.blurb = local.blurb
   if (local.title) p.title = local.title
 }
+
+// Planet Friends missions (slice 2b): the paper twin of every mission on the
+// child's planet, drawn by MissionSheet from the catalogue in
+// lib/planet/missions.ts, so a new mission is a new sheet with no work here.
+// Worth no stars: missions pay on the planet (Justin, 2 September 2026).
+// Free, because the planet is on the child link for every family.
+PRINTABLES.push(...MISSIONS_FOR_PRINT.map((m): Printable => ({
+  key: planetPrintableKey(m.key), title: m.title, emoji: m.emoji, kind: 'challenge',
+  stages: stagesForTiers(m.tiers),
+  minutes: m.timerMinutes ? `${m.timerMinutes} minutes` : m.perChild ? 'One hunt' : 'One go',
+  setting: m.key === 'leaf_walk' || m.key === 'spider_legs' ? 'outdoors' : m.key === 'moonflower_card' ? 'anywhere' : 'indoors',
+  skill: 'Planet Friends', stars: 0, blurb: blurbFor(m.key),
+  sheetUrl: '', previewUrl: '', drawn: 'mission-sheet', free: true,
+})))
 
 export function getPrintable(key: string): Printable | null {
   return PRINTABLES.find(p => p.key === key) ?? null

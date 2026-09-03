@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { deviceEmoji, deviceLabel, minutesToStars } from '@/lib/quests/device-time'
 import { chunky } from '@/components/scripts/card-system'
+import { missionByKey } from '@/lib/planet/missions'
 
 // A child's ask, popped up wherever the parent is in the app.
 //
@@ -29,7 +30,7 @@ type Kid = {
   session: { id: string } | null
   request: { id: string; device: string; minutes: number; deviceName?: string | null } | null
   /** Planet Friends: the child asked to wake the Friends early, or says a mission is done. */
-  planet?: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null } | null
+  planet?: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null; missionKey?: string | null } | null
 }
 
 const DISMISSED_KEY = 'gc-ask-popup-dismissed'
@@ -167,7 +168,7 @@ export default function AskPopup({ initial }: {
 // none and spends none.
 function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
   kid: Kid
-  planet: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null }
+  planet: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null; missionKey?: string | null }
   dismissed: Set<string>
   setDismissed: (s: Set<string>) => void
   setKids: (f: (ks: Kid[]) => Kid[]) => void
@@ -244,6 +245,13 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
                 Not now
               </button>
             </div>
+            {/* The grown up prompt that rides every mission is a scripts row
+                (migration 253): the one thing to talk about, one tap away. */}
+            {mission && planet.missionKey && missionByKey(planet.missionKey)?.scriptOrder ? (
+              <a href={`/dashboard/scripts/${missionByKey(planet.missionKey)!.scriptOrder}`} style={{ display: 'block', margin: '12px auto 0', textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>
+                💬 Talk about it: what to ask them
+              </a>
+            ) : null}
             <button onClick={later} style={{ display: 'block', margin: '10px auto 0', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
               Decide later
             </button>

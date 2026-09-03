@@ -280,6 +280,26 @@ export default function HomePlanet({
           {sky === 'night' && <circle cx={0} cy={-46} r={22} fill="url(#pl-glow)" />}
         </g>
       )}
+      {/* A moonflower opens as the star goes down: from the wind down on,
+          because the night side is an overlay and a flower that only opened
+          behind it would never be seen. */}
+      {rewards.includes('moonflower') && (
+        <g data-reward="moonflower" transform="translate(70 468)">
+          <path d="M0 4 V-30" stroke="#4E9A5B" strokeWidth={2.5} strokeLinecap="round" />
+          <path d="M0 -10 q-9 -2 -11 -10 q9 -1 11 10 M0 -18 q9 -2 11 -10 q-9 -1 -11 10" fill="#93CFA8" stroke="#1A1A2E" strokeWidth={1.2} />
+          {sky !== 'day' ? (
+            <g>
+              <circle cx={0} cy={-36} r={20} fill="url(#pl-glow)" />
+              {[0, 60, 120, 180, 240, 300].map(a => (
+                <ellipse key={a} cx={0} cy={-36} rx={4} ry={9} fill="#F3EEFF" stroke="#1A1A2E" strokeWidth={1} transform={`rotate(${a} 0 -36) translate(0 -6)`} />
+              ))}
+              <circle cx={0} cy={-36} r={3.5} fill="#F4C542" stroke="#1A1A2E" strokeWidth={1} />
+            </g>
+          ) : (
+            <path d="M0 -44 q7 6 5 14 q-5 6 -10 0 q-2 -8 5 -14 z" fill="#E9E2F7" stroke="#1A1A2E" strokeWidth={1.4} strokeLinejoin="round" />
+          )}
+        </g>
+      )}
       {rewards.includes('blanket') && (
         <g data-reward="blanket" transform="translate(280 520)">
           <rect x={-30} y={-12} width={60} height={24} rx={4} fill="#FBE0CC" stroke="#1A1A2E" strokeWidth={1.8} transform="skewX(-12)" />

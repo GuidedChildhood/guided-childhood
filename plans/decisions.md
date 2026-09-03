@@ -10182,3 +10182,19 @@ applied in production on Justin's "ready". The design document is
 plans/planet-friends-architecture.md. Slice 2 (the missions) is claimed on
 the same branch: plans/week-of-2026-08-31-planet-friends-slice-2-plan.md.
 No migration needed.
+
+## 2 September 2026: Planet Friends slice 2b, the paper twins and the Moonflower card
+
+Justin's "Word" was the go. Built on migration 253: every mission has a
+printed twin through the drawn sheets engine (a registry entry planet-<key>
+drawn by MissionSheet, free, worth no stars because missions pay on the
+planet), the Moonflower card is a new Tier 2 and 3 mission whose code the
+server makes for one child (three pictures before 8, a four letter word from
+8, stored in planet_codes, printed by the parent, checked by the server, never
+sent to the child's device), and the grown up prompt that rides each mission is
+a scripts row (9630 to 9638) linked from the mission ask in AskPopup and printed
+on the sheet. Decided on the way: the moonflower opens from the wind down
+rather than only at night, because the night side is an overlay and a flower
+that only opened behind it would never be seen; a lost card prints again with
+the same code; the card mission shows no pad until the card is printed. The
+Tier 3 schedule and trust stay slice 4.

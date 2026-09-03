@@ -17,8 +17,12 @@ export type Mission = MissionDef & {
   rewardLabel: string
   /** For a grown up's tap: the line the parent reads in the pop up, after the child's name. */
   askLine: string
-  /** The one thing to talk about, for the grown up. */
+  /** The one thing to talk about, for the grown up. The fuller version is a scripts row (see scriptOrder). */
   grownupLine: string
+  /** The scripts row that rides this mission: its sort_order, which is the script's address at /dashboard/scripts/<sort_order>. Migration 253. */
+  scriptOrder: number
+  /** One picture per step for the printed sheet, so a child who cannot read can follow it. */
+  stepArt: [string, string, string]
 }
 
 export const MISSIONS: Mission[] = [
@@ -28,6 +32,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Find a pot and some soil.', 'Push a seed in with your finger.', 'Give it a little water.'],
     askLine: 'says you planted a real seed together.',
     grownupLine: 'Ask what the seed needs first: water, light or time.',
+    scriptOrder: 9630, stepArt: ['🪴', '👆', '💧'],
   },
   {
     key: 'leaf_walk', title: 'A walk for three leaves', emoji: '🍂', tiers: [1, 2, 3],
@@ -35,6 +40,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Go outside with your grown up.', 'Find three different leaves.', 'Bring them home.'],
     askLine: 'says you went out and found three leaves together.',
     grownupLine: 'Ask which leaf was hardest to find, and why.',
+    scriptOrder: 9631, stepArt: ['🚪', '🍃', '🏠'],
   },
   {
     key: 'stretch', title: 'Five minute stretch', emoji: '🤸', tiers: [1, 2, 3],
@@ -42,6 +48,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Stand up tall.', 'Reach for the sky, then touch your toes.', 'Keep going until the ring fills.'],
     askLine: 'stretched for five whole minutes.',
     grownupLine: 'Do it with them. Five minutes is longer than it sounds.',
+    scriptOrder: 9632, stepArt: ['🧍', '🙆', '⭕'],
   },
   {
     key: 'water_plant', title: 'Water a real plant', emoji: '💧', tiers: [1, 2],
@@ -49,6 +56,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Find a plant in your house.', 'Give it a drink, not a flood.', 'Say hello to it.'],
     askLine: 'says you watered a real plant together.',
     grownupLine: 'Ask how they can tell when a plant is thirsty.',
+    scriptOrder: 9633, stepArt: ['🪴', '🚿', '👋'],
   },
   {
     key: 'read_book', title: 'Read a real book', emoji: '📖', tiers: [2, 3],
@@ -56,6 +64,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Pick a real book, paper and all.', 'Find a comfy spot.', 'Read until the ring fills.'],
     askLine: 'read a real book for ten minutes.',
     grownupLine: 'Ask what happened in the bit they just read.',
+    scriptOrder: 9634, stepArt: ['📖', '🛋️', '⭕'],
   },
   {
     key: 'spider_legs', title: 'The counting hunt', emoji: '🔎', tiers: [2],
@@ -63,6 +72,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Find a spider, outside or in a book.', 'Count its legs. Carefully.', 'Come back and tap the number.'],
     askLine: 'counted the legs on a spider.',
     grownupLine: 'Ask where they found it, and whether it was scary or interesting.',
+    scriptOrder: 9635, stepArt: ['🕷️', '🔢', '🔎'],
   },
   {
     key: 'screens_off_dinner', title: 'Screens off dinner', emoji: '🍽️', tiers: [2, 3],
@@ -70,6 +80,7 @@ export const MISSIONS: Mission[] = [
     steps: ['Every screen goes on the charger. Grown ups too.', 'Eat together.', 'Tell each other one good thing about today.'],
     askLine: 'says the whole family had a screens off dinner.',
     grownupLine: 'Ask which good thing they picked, and tell them yours.',
+    scriptOrder: 9636, stepArt: ['🔌', '🍽️', '💬'],
   },
   {
     key: 'do_lesson', title: 'Do a lesson', emoji: '📚', tiers: [2, 3],
@@ -77,11 +88,23 @@ export const MISSIONS: Mission[] = [
     steps: ['Open the Learn tab.', 'Pass a lesson your grown up sent you.', 'Come back to your planet.'],
     askLine: 'passed a lesson.',
     grownupLine: 'Ask them to teach you the one thing they remember from it.',
+    scriptOrder: 9637, stepArt: ['📚', '✅', '🪐'],
+  },
+  {
+    // The hidden code card (design 5.2). The grown up prints the card, the
+    // server has made its code for this child, and the child taps what is
+    // on it. The code never reaches the child's device.
+    key: 'moonflower_card', title: 'The Moonflower card', emoji: '🌙', tiers: [2, 3],
+    proof: 'code', perChild: true, together: 'required', reward: 'moonflower', rewardLabel: 'A moonflower that opens at night',
+    steps: ['Your grown up prints the Moonflower card and hides it.', 'Hunt for it. Ten steps from a door is a good start.', 'Found it? Come back and tap what is on the card.'],
+    askLine: 'found the Moonflower card.',
+    grownupLine: 'Hide it somewhere they have to really look. Then ask how they worked it out.',
+    scriptOrder: 9638, stepArt: ['🖨️', '🔎', '🌙'],
   },
 ]
 
 export const MISSION_DEFS: Record<string, MissionDef> = Object.fromEntries(
-  MISSIONS.map(m => [m.key, { key: m.key, tiers: m.tiers, proof: m.proof, timerMinutes: m.timerMinutes, answer: m.answer, reward: m.reward }]),
+  MISSIONS.map(m => [m.key, { key: m.key, tiers: m.tiers, proof: m.proof, timerMinutes: m.timerMinutes, answer: m.answer, perChild: m.perChild, reward: m.reward }]),
 )
 
 export function missionByKey(key: string): Mission | undefined {
@@ -102,7 +125,11 @@ export const REWARD_LABELS: Record<RewardKey, string> = {
   star: 'A bright new star',
   blanket: 'A picnic blanket',
   moon: 'A pale moon',
+  moonflower: 'A moonflower',
 }
+
+/** The six pictures a code card can carry, as the child sees them on the pad and on the card. */
+export const PICTURE_ART: Record<string, string> = { star: '⭐', moon: '🌙', rocket: '🚀', planet: '🪐', comet: '☄️', sun: '☀️' }
 
 export const MISSION_LINES = {
   board: 'Missions',
@@ -121,6 +148,9 @@ export const MISSION_LINES = {
   notQuite: 'Not quite. Have another look.',
   landed: 'It landed on your planet!',
   tapNumber: 'Tap the number',
+  tapPictures: 'Tap the pictures in order',
+  tapLetters: 'Tap the letters',
+  cardFirst: 'Your grown up prints the Moonflower card first. Then the hunt is on.',
   close: 'Back to my planet',
   learnTab: 'Open the Learn tab',
 } as const

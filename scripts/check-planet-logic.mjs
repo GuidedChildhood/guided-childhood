@@ -12,6 +12,7 @@ import assert from 'node:assert/strict'
 import {
   TIERS, GROWTH, SLEEPY_AT, TICK_CAP_SECONDS, ACTIVE_BY_TIER, FRIEND_MIN_AGE, BOARD_SIZE,
   tierFor, childAgeFor, isGrownUp, newHome, applyEvent, reconcile, moodOf, restOverlay, bedtimePhase, nightKeyFor, minutesLeft, addMinutes, boardFor,
+  PICTURE_TOKENS, CODE_WORDS, codeModeFor, makeCode, withChildAnswers,
 } from '../lib/planet/logic.ts'
 
 // The mission mechanics, stated here rather than imported from the registry
@@ -23,6 +24,7 @@ const DEFS = {
   water_plant: { key: 'water_plant', tiers: [1, 2], proof: 'grownup_tap', reward: 'pool' },
   spider_legs: { key: 'spider_legs', tiers: [2], proof: 'code', answer: ['8'], reward: 'moon' },
   do_lesson: { key: 'do_lesson', tiers: [2], proof: 'lesson', reward: 'star' },
+  moonflower_card: { key: 'moonflower_card', tiers: [2, 3], proof: 'code', perChild: true, reward: 'moonflower' },
 }
 
 const T0 = '2026-09-02T15:00:00.000Z'
@@ -249,6 +251,34 @@ check('a planet saved before the missions existed is filled in, not broken', () 
   const fixed = reconcile(old, T0, null)
   assert.deepEqual(fixed.missions, [])
   assert.deepEqual(fixed.rewards, [])
+})
+
+check('a code card: pictures before 8 and letters from 8, three different pictures or one real word', () => {
+  assert.equal(codeModeFor(7), 'pictures')
+  assert.equal(codeModeFor(8), 'letters')
+  const pick = (n) => (n * 7 + 3) % n
+  const pics = makeCode('pictures', pick)
+  assert.equal(pics.length, 3)
+  assert.equal(new Set(pics).size, 3)
+  for (const t of pics) assert.ok(PICTURE_TOKENS.includes(t))
+  const word = makeCode('letters', pick)
+  assert.equal(word.length, 4)
+  assert.ok(CODE_WORDS.includes(word.join('')))
+})
+
+check('a card mission lands only with the answer the server made for this child, and stays put without one', () => {
+  let h = newHome(2, T0, null)
+  h = applyEvent(h, { kind: 'mission_start', key: 'moonflower_card' }, T0, DEFS)
+  // No card printed yet: nothing to check against, so nothing lands.
+  const none = applyEvent(h, { kind: 'mission_claim', key: 'moonflower_card', code: ['star', 'moon', 'rocket'] }, at(1), DEFS)
+  assert.equal(none.missions.find(m => m.key === 'moonflower_card').status, 'doing')
+  const defs = withChildAnswers(DEFS, { moonflower_card: ['star', 'moon', 'rocket'], stretch: ['x'] })
+  assert.equal(defs.stretch.answer, undefined, 'only a card mission takes a child answer')
+  const wrong = applyEvent(h, { kind: 'mission_claim', key: 'moonflower_card', code: ['moon', 'star', 'rocket'] }, at(1), defs)
+  assert.equal(wrong.missions.find(m => m.key === 'moonflower_card').status, 'doing')
+  const right = applyEvent(h, { kind: 'mission_claim', key: 'moonflower_card', code: ['star', 'moon', 'rocket'] }, at(1), defs)
+  assert.equal(right.missions.find(m => m.key === 'moonflower_card').status, 'approved')
+  assert.ok(right.rewards.includes('moonflower'))
 })
 
 console.log(`\nPASS  ${passed} checks. The loop ends itself, the planet grows while the child is away, the cast grows up with them, and the night lands once.`)
