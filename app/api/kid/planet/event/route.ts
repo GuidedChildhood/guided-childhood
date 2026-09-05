@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { applyHomeEvent, type ClientEvent } from '@/lib/planet/server'
-import { FRIEND_KEYS, type FriendKey } from '@/lib/planet/logic'
+import { FRIEND_KEYS, isDeviceKey, isMovable, isRoomKey, isWhere, type FriendKey } from '@/lib/planet/logic'
 
 // One event from the child's planet. The client reports what the child did
 // (a drag to the pod, a tap at the sun catcher, a minute of play); the server
@@ -10,7 +10,7 @@ import { FRIEND_KEYS, type FriendKey } from '@/lib/planet/logic'
 
 export const dynamic = 'force-dynamic'
 
-const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen', 'part_place', 'part_move', 'part_remove', 'outfit_set'])
+const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen', 'part_place', 'part_move', 'part_remove', 'outfit_set', 'room_move', 'thing_place', 'thing_home', 'thing_give', 'eat', 'snap', 'device_dock'])
 
 function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   const kind = String(body.kind ?? '')
@@ -23,6 +23,31 @@ function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   if (kind === 'cloud') {
     if (!friend) return null
     return { kind, friend, on: Boolean(body.on) }
+  }
+  // The Den (slice 3a): the client asks, the rules decide.
+  if (kind === 'room_move') {
+    if (!friend || !isWhere(body.where)) return null
+    return { kind, friend, where: body.where }
+  }
+  if (kind === 'thing_place') {
+    if (!isMovable(body.thing) || !isRoomKey(body.room) || typeof body.spot !== 'string' || !/^[a-z]_[a-z]\d$/.test(body.spot)) return null
+    return { kind, thing: body.thing, room: body.room, spot: body.spot }
+  }
+  if (kind === 'thing_home') {
+    if (!isMovable(body.thing)) return null
+    return { kind, thing: body.thing }
+  }
+  if (kind === 'thing_give') {
+    if (!friend || !isMovable(body.thing) || (body.thing as string).length > 24) return null
+    return { kind, thing: body.thing as never, friend }
+  }
+  if (kind === 'eat' || kind === 'snap') {
+    if (!friend) return null
+    return { kind, friend }
+  }
+  if (kind === 'device_dock') {
+    if (!isDeviceKey(body.device)) return null
+    return { kind, device: body.device }
   }
   if (kind === 'mission_start' || kind === 'mission_claim' || kind === 'mission_seen') {
     const key = typeof body.key === 'string' && /^[a-z_]{2,32}$/.test(body.key) ? body.key : null

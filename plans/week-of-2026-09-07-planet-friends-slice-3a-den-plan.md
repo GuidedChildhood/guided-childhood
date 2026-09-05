@@ -1,6 +1,7 @@
 # Planet Friends slice 3a: the Den and the charging shelf
 
-Status: in build from 6 September 2026 on Justin's "Go 3a". Written from his
+Status: built 6 September 2026 on Justin's "Go 3a" (PR 972, no migration).
+The bathroom waits for a drop; the living room made it in. Written from his
 note the same day: "this should have planets they can move around, like Toca
 Boca works, and to progress they get devices and put them in a charging port
 in the kitchen for example, and add in the lessons to unlock planets. This

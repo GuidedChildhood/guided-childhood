@@ -7,8 +7,12 @@ import type { ClientEvent, HomeView } from '@/lib/planet/view'
 import {
   GROWTH, TIERS, TICK_CAP_SECONDS, AMBIENT_AFTER_SECONDS,
   applyEvent, drainPerMinute, isGrownUp, minutesLeft, moodOf, reconcile, restOverlay,
-  type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef, boxParts, boxOutfits, plotsFor, PART_ZONE, type Outfit, type PartKey } from '@/lib/planet/logic'
+  type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef, boxParts, boxOutfits, plotsFor, PART_ZONE, type Outfit, type PartKey,
+  type Where, type RoomKey, type Movable, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, CHARGE_MINUTES, PHOTOS_MAX } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
+import { HOUSE_LINES, ROOM_EMOJI, ROOM_TITLES, THING_LABELS, THING_LINES, ZONE_HINTS } from '@/lib/planet/world'
+import RoomScene, { DOORS, nearestFreeRoomSpot, roomStandingX, type FriendTarget, type RoomFurniture, type ThingTarget } from './RoomScene'
+import { Furniture, PhoneArt } from './ThingArt'
 import { playFx, startTune } from '@/lib/planet/sounds'
 import { soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import KidBackLink from '@/components/kid/KidBackLink'
@@ -39,9 +43,16 @@ function liveHome(home: Home, nowIso: string): Home {
   const h = reconcile(home, nowIso, null)
   const cfg = TIERS[h.tier]
   const secs = Math.max(0, Math.min(TICK_CAP_SECONDS, (new Date(nowIso).getTime() - new Date(h.energyTickedAt).getTime()) / 1000))
+  const devices = { ...h.world.devices }
+  for (const f of h.friends) {
+    const dev = f.cooldown ? null : heldDevice(h, f.key)
+    const d = dev ? devices[dev] : null
+    if (dev && d) devices[dev] = { ...d, battery: Math.max(0, d.battery - (secs / 60) * (100 / cfg.playMinutes)) }
+  }
   return {
     ...h,
-    friends: h.friends.map(f => (f.cooldown ? f : { ...f, energy: Math.max(0, f.energy - (secs / 60) * drainPerMinute(cfg, f.cloud)) })),
+    friends: h.friends.map(f => (f.cooldown ? f : { ...f, energy: Math.max(0, f.energy - (secs / 60) * drainPerMinute(cfg, f.cloud) * drainMultiplier(h, f.key)) })),
+    world: { ...h.world, devices },
   }
 }
 
@@ -75,12 +86,14 @@ const OUTFIT_ICON: Record<Outfit, string> = { party_hat: '🎉', glasses: '🕶�
 
 const reduceMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
-export default function PlanetFriends({ token, initial, theme, childName, fixture = false, fixtureAnswers }: {
+export default function PlanetFriends({ token, initial, theme, childName, fixture = false, fixtureAnswers, initialWhere = 'outdoors' }: {
   token: string | null
   initial: HomeView
   theme: KidTheme
   childName: string
   fixture?: boolean
+  /** Which scene opens first: the planet, or a room of the Den (the fixture uses it). */
+  initialWhere?: Where
   /** Fixture only: the pretend codes on pretend cards, so the pad can be driven with no database. */
   fixtureAnswers?: Record<string, string[]>
 }) {
@@ -111,6 +124,12 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const [carry, setCarry] = useState<(Carry & { x: number; y: number }) | null>(null)
   const [using, setUsing] = useState<PartKey | null>(null)
   const sceneRef = useRef<SVGSVGElement | null>(null)
+  // The Den (slice 3a): which scene the child is looking at, what is open,
+  // and the one piece being used right now.
+  const [where, setWhere] = useState<Where>(initialWhere)
+  const [open, setOpen] = useState<'fridge' | 'toybox' | 'wardrobe' | null>(null)
+  const [lampOn, setLampOn] = useState(false)
+  const [roomUsing, setRoomUsing] = useState<string | null>(null)
   // One ask column, two kinds. The pods and the orbit only care about a wake
   // ask; a mission ask belongs to the board. A save from before the kinds
   // existed reads as a wake ask.
@@ -144,6 +163,10 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   overlayRef.current = overlay
   const sky: Sky = bedtimeLocked ? 'night' : view.bedtime.phase === 'winddown' ? 'evening' : 'day'
   const awake = live.friends.filter(f => !f.cooldown)
+  const here = live.friends.filter(f => whereIs(live, f.key) === where)
+  const outdoorFriends = live.friends.filter(f => whereIs(live, f.key) === 'outdoors')
+  const room: RoomKey | null = isRoomKey(where) ? where : null
+  const freeSpotsHere = room ? ROOM_SPOTS[room].filter(sp => !live.world.placed.some(x => x.room === room && x.spot === sp.id)).length : 0
   const box = boxParts(live)
   const boxWear = boxOutfits(live)
   const plots = plotsFor(live.growthStage)
@@ -184,8 +207,20 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   // Only real play drains: one tick a minute while the planet is open and on
   // screen. Hidden or resting, nothing is sent and nothing drains.
   useEffect(() => {
-    const id = setInterval(() => {
-      if (document.visibilityState === 'visible' && overlayRef.current === 'none') void send({ kind: 'tick' })
+    const id = setInterval(async () => {
+      if (document.visibilityState !== 'visible' || overlayRef.current !== 'none') return
+      const before = viewRef.current.home
+      const next = await send({ kind: 'tick' })
+      if (!next) return
+      // A phone that walked itself to the shelf (flat, or its Friend got
+      // sleepy) is said out loud, because the modelling is the point.
+      for (const f of next.home.friends) {
+        const dev = deviceOf(f.key)
+        if (before.world?.devices?.[dev]?.at === 'hand' && next.home.world.devices[dev]?.at === 'shelf') {
+          playFx('chime')
+          setLine(f.energy <= 20 ? HOUSE_LINES.sleepyDock(friendArt(f.key).name) : HOUSE_LINES.phoneFlat(friendArt(f.key).name))
+        }
+      }
     }, 60000)
     return () => clearInterval(id)
   }, [send])
@@ -229,7 +264,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
 
   // The wind down says its one line, once.
   useEffect(() => {
-    if (view.bedtime.phase === 'winddown' && !windDownSaidRef.current) { windDownSaidRef.current = true; say(LINES.windDown) }
+    if (view.bedtime.phase === 'winddown' && !windDownSaidRef.current) { windDownSaidRef.current = true; say(HOUSE_LINES.windDown) }
   }, [view.bedtime.phase, say])
 
   // The music box plays through a rest and stops the moment it ends.
@@ -297,7 +332,30 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     }
     if (zone === 'pod') { playFx('yawn'); say(LINES.napStart); void send({ kind: 'nap_start', friend }) }
     else if (zone === 'catcher') { playFx('tap'); setSunlight({ friend, stage: 'prompt', sparks: 0 }) }
+    else if (zone === 'den') { void moveFriend(friend, 'kitchen', HOUSE_LINES.enter) }
     else playFx('boop')
+  }
+  /** A tap on a Friend: a photo if it holds its phone, a bite if it holds food, a tickle otherwise. */
+  const onTapFriend = (friend: FriendKey) => {
+    const h = live.world.held[friend]
+    if (h && isDeviceKey(h)) { void snap(friend); return }
+    if (h && isFoodKey(h)) { void eat(friend); return }
+    onTickle(friend)
+  }
+  async function snap(friend: FriendKey) {
+    interact()
+    const d = live.world.devices[deviceOf(friend)]
+    if (!d) return
+    if (d.photos >= PHOTOS_MAX) { playFx('boop'); say(HOUSE_LINES.galleryFull); return }
+    playFx('sparkle'); flash(setRoomUsing, `snap:${friend}`, 600)
+    const next = await send({ kind: 'snap', friend })
+    const after = next?.home.world.devices[deviceOf(friend)]
+    if (after) say(after.photos >= PHOTOS_MAX ? HOUSE_LINES.galleryFull : HOUSE_LINES.snap(after.photos))
+  }
+  async function eat(friend: FriendKey) {
+    interact(); playFx('giggle'); flash(setRoomUsing, `eat:${friend}`, 1000)
+    say(HOUSE_LINES.munch)
+    await send({ kind: 'eat', friend })
   }
   const onTickle = (friend: FriendKey) => {
     interact(); playFx('giggle')
@@ -333,6 +391,16 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     if (!item || !svg) return
     const p = sceneFromClient(svg, e.clientX, e.clientY)
     if (p.x < 0 || p.x > SCENE_W || p.y < 0 || p.y > SCENE_H) return
+    if (item.kind === 'part' && room) {
+      // Indoors (slice 3a): a part goes on a free spot of its zone in this room.
+      const zone = roomZoneOf(item.part)
+      if (!zone) { playFx('boop'); say(MISSION_LINES.placeOutside); return }
+      const spot = nearestFreeRoomSpot(room, item.part, live.world.placed, p, 100)
+      if (!spot) { say(freeSpotsHere === 0 ? HOUSE_LINES.noSpot : ZONE_HINTS[zone]); return }
+      playFx('chime'); say(HOUSE_LINES.placed(PART_LABELS[item.part]))
+      void send({ kind: 'thing_place', thing: item.part, room, spot })
+      return
+    }
     if (item.kind === 'part') {
       if (live.build.placed.length >= plots) { playFx('boop'); say(MISSION_LINES.noRoom); return }
       const slot = nearestFreeSlot(item.part, live.build.placed, p, 110)
@@ -340,12 +408,13 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
       playFx('chime'); say(`${PART_LABELS[item.part]}. Nice spot.`)
       void send({ kind: 'part_place', part: item.part, slot })
     } else {
-      const xs = standingX(live.friends.length)
+      const crowd = room ? here : outdoorFriends
+      const xs = room ? roomStandingX(crowd.length) : standingX(crowd.length)
       let best: FriendKey | null = null
       let bestD = 95
-      live.friends.forEach((f, i) => {
+      crowd.forEach((f, i) => {
         if (f.cooldown) return
-        const d = Math.hypot(p.x - xs[i], p.y - (surfaceY(xs[i]) - 60))
+        const d = Math.hypot(p.x - xs[i], p.y - ((room ? 480 : surfaceY(xs[i])) - 60))
         if (d < bestD) { bestD = d; best = f.key }
       })
       if (!best) { say(MISSION_LINES.wear); return }
@@ -354,6 +423,97 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     }
   }
   const takeOff = (friend: FriendKey) => { interact(); playFx('tap'); void send({ kind: 'outfit_set', friend, outfit: null }) }
+
+  // ── The Den (slice 3a) ───────────────────────────────────────────────
+  /** The view moves to a scene: the planet or a room. */
+  function goTo(next: Where, line?: string) {
+    interact(); playFx('tap')
+    setOpen(null); setWhere(next)
+    say(line ?? (next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
+  }
+  /** A Friend walks through a door, and the view follows it. */
+  async function moveFriend(friend: FriendKey, next: Where, line?: string) {
+    interact(); playFx('tap')
+    setOpen(null); setWhere(next)
+    say(line ?? (next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
+    await send({ kind: 'room_move', friend, where: next })
+  }
+  const onRoomDropFriend = (friend: FriendKey, target: FriendTarget | null) => {
+    if (!room) return
+    if (target === 'door_left') { void moveFriend(friend, DOORS[room].left); return }
+    if (target === 'door_right' && DOORS[room].right) { void moveFriend(friend, DOORS[room].right!); return }
+    if (target === 'bed') { playFx('yawn'); say(HOUSE_LINES.bed(friendArt(friend).name)); void send({ kind: 'nap_start', friend }); return }
+    if (target === 'sofa') { interact(); playFx('giggle'); say(HOUSE_LINES.sofa); flash(setRoomUsing, `sofa:${friend}`, 1600); return }
+    playFx('boop')
+  }
+  const onThingDrop = (thing: Movable, target: ThingTarget | null) => {
+    interact()
+    if (!target) { playFx('boop'); if (room) { const z = roomZoneOf(thing); say(z && freeSpotsHere > 0 ? ZONE_HINTS[z] : HOUSE_LINES.noSpot) } return }
+    if (target.kind === 'friend') {
+      if (isDeviceKey(thing)) {
+        const d = live.world.devices[thing]
+        if (!d) return
+        if (d.owner !== target.friend) { playFx('boop'); say(HOUSE_LINES.notYours(friendArt(d.owner).name)); return }
+        if (charging(d, nowIso)) { playFx('boop'); say(HOUSE_LINES.charging(Math.max(1, Math.ceil((new Date(d.chargedAt!).getTime() - (nowMs + offset)) / 60000)))); return }
+        playFx('chime'); say(HOUSE_LINES.phoneTaken(friendArt(target.friend).name))
+        void send({ kind: 'thing_give', thing, friend: target.friend })
+        return
+      }
+      if (isThingKey(thing)) {
+        playFx('giggle'); say(HOUSE_LINES.gave(friendArt(target.friend).name, THING_LABELS[thing]))
+        void send({ kind: 'thing_give', thing, friend: target.friend })
+        return
+      }
+      playFx('boop'); say(HOUSE_LINES.noSpot)
+      return
+    }
+    if (target.kind === 'shelf') {
+      if (!isDeviceKey(thing)) { playFx('boop'); say(HOUSE_LINES.shelf); return }
+      playFx('chime')
+      void send({ kind: 'device_dock', device: thing }).then(next => say(next?.home.world.devices[thing]?.chargedAt ? HOUSE_LINES.docked : HOUSE_LINES.dockedFull))
+      return
+    }
+    if (target.kind === 'home') {
+      if (isDeviceKey(thing)) { playFx('chime'); say(HOUSE_LINES.docked); void send({ kind: 'device_dock', device: thing }); return }
+      playFx('tap'); say(HOUSE_LINES.home(isThingKey(thing) ? THING_LABELS[thing] : PART_LABELS[thing as PartKey]))
+      void send({ kind: 'thing_home', thing })
+      return
+    }
+    if (!room) return
+    const label = isThingKey(thing) ? THING_LABELS[thing] : isDeviceKey(thing) ? `${friendArt(live.world.devices[thing]?.owner ?? 'pebble').name}'s MoonPhone` : PART_LABELS[thing as PartKey]
+    playFx('tap'); say(HOUSE_LINES.placed(label))
+    void send({ kind: 'thing_place', thing, room, spot: target.spot })
+  }
+  const onThingTap = (thing: Movable) => {
+    interact(); playFx('boop')
+    if (isThingKey(thing)) { say(THING_LINES[thing]); return }
+    if (isDeviceKey(thing)) {
+      const d = live.world.devices[thing]
+      if (d && charging(d, nowIso)) say(HOUSE_LINES.charging(Math.max(1, Math.ceil((new Date(d.chargedAt!).getTime() - (nowMs + offset)) / 60000))))
+      else if (d && d.at === 'shelf') say(HOUSE_LINES.phoneToShelf.replace('Drag the phone onto the shelf to charge it.', `${friendArt(d.owner).name}'s MoonPhone. Drag it onto ${friendArt(d.owner).name}.`))
+      else say(HOUSE_LINES.shelf)
+      return
+    }
+    say(PART_LINES[thing as PartKey])
+  }
+  const onFurnitureTap = (kind: RoomFurniture) => {
+    interact()
+    if (kind === 'fridge') { playFx('tap'); const next = open === 'fridge' ? null : 'fridge'; setOpen(next); if (next) say(atHome(live, 'fridge').length ? HOUSE_LINES.fridge : HOUSE_LINES.fridgeEmpty); return }
+    if (kind === 'toybox') { playFx('tap'); const next = open === 'toybox' ? null : 'toybox'; setOpen(next); if (next) say(atHome(live, 'toybox').length ? HOUSE_LINES.toybox : HOUSE_LINES.toyboxEmpty); return }
+    if (kind === 'wardrobe') { playFx('tap'); const next = open === 'wardrobe' ? null : 'wardrobe'; setOpen(next); if (next) say(HOUSE_LINES.wardrobe); return }
+    if (kind === 'cooker') { playFx('sparkle'); say(HOUSE_LINES.cooker); flash(setRoomUsing, 'cooker', 1400); return }
+    if (kind === 'picture') { playFx('boop'); say(HOUSE_LINES.picture); flash(setRoomUsing, 'picture', 1200); return }
+    if (kind === 'music_box') { playFx('chime'); say(HOUSE_LINES.musicBox); flash(setRoomUsing, 'music_box', 1600); return }
+    if (kind === 'bookshelf') { playFx('boop'); say(THING_LINES.book); flash(setRoomUsing, 'bookshelf', 700); return }
+    if (kind === 'lamp') { playFx('tap'); setLampOn(v => !v); say(HOUSE_LINES.lamp); return }
+    if (kind === 'shelf') { playFx('tap'); say(HOUSE_LINES.shelf); return }
+    if (kind === 'mobile') { playFx('sparkle'); say(LINES.sprinkled); return }
+    playFx('tap'); say(HOUSE_LINES.window)
+  }
+  const onOutfitDrop = (outfit: Outfit, friend: FriendKey) => {
+    interact(); playFx('giggle'); say(`${friendArt(friend).name} loves it.`)
+    void send({ kind: 'outfit_set', friend, outfit })
+  }
   /** The box is a sheet along the bottom of the screen; opening it brings the planet up above it. */
   function openBox(open: boolean) {
     setBoxOpen(open)
@@ -544,7 +704,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
       <div style={{ maxWidth: 480, margin: '0 auto', padding: `10px 12px calc(env(safe-area-inset-bottom, 0px) + ${boxOpen ? 300 : 24}px)` }}>
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '6px 4px 10px' }}>
           {token ? <KidBackLink href={`/k/${token}`} color={theme.ink} /> : <span />}
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>My planet 🪐</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>{ROOM_TITLES[where]} {ROOM_EMOJI[where]}</span>
           <button onClick={toggleMute} aria-label={muted ? 'Sound on' : 'Sound off'} style={{ width: 42, height: 42, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', cursor: 'pointer', fontSize: 18 }}>
             {muted ? '🔇' : '🔊'}
           </button>
@@ -556,8 +716,45 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         </div>
 
         <div ref={stageRef} style={{ position: 'relative', borderRadius: 24, border: '2.5px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)', overflow: 'hidden', background: '#fff' }}>
+          {room ? (
+            <RoomScene
+              room={room}
+              friends={here}
+              allFriends={live.friends}
+              moods={moods}
+              childAge={view.childAge}
+              wearing={live.build.wearing}
+              held={live.world.held}
+              devices={live.world.devices}
+              nowIso={nowIso}
+              sky={sky}
+              accent={theme.hex}
+              placed={live.world.placed}
+              fridge={atHome(live, 'fridge')}
+              toybox={atHome(live, 'toybox')}
+              outfits={boxWear}
+              open={open}
+              using={roomUsing}
+              wiggle={wiggle}
+              lampOn={lampOn}
+              carrying={carry ? (carry.kind === 'part' ? { kind: 'part', part: carry.part } : { kind: 'outfit', outfit: carry.outfit }) : null}
+              onDropFriend={onRoomDropFriend}
+              onTapFriend={onTapFriend}
+              onThingDrop={onThingDrop}
+              onThingTap={onThingTap}
+              onOutfitDrop={onOutfitDrop}
+              onFurnitureTap={onFurnitureTap}
+              onInteract={interact}
+              onSvg={el => { sceneRef.current = el }}
+            />
+          ) : (
           <HomePlanet
-            friends={live.friends}
+            friends={outdoorFriends}
+            activeKeys={live.friends.map(f => f.key)}
+            held={live.world.held}
+            devices={live.world.devices}
+            nowIso={nowIso}
+            onDen={() => goTo('kitchen', HOUSE_LINES.enter)}
             moods={moods}
             tier={live.tier}
             childAge={view.childAge}
@@ -575,7 +772,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             sparkle={sparkle}
             boopCrater={boopCrater}
             onDropFriend={onDropFriend}
-            onTickle={onTickle}
+            onTickle={onTapFriend}
             onSprinkle={onSprinkle}
             onBoop={onBoop}
             onCloud={onCloud}
@@ -585,6 +782,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             onPartTap={onPartTap}
             onSvg={el => { sceneRef.current = el }}
           />
+          )}
 
           {landed && landedCard && !boardOpen && overlay !== 'night' && (
             <div style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -700,6 +898,17 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               <div style={{ position: 'absolute', left: 18, bottom: 18, width: 70, height: 70, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,214,120,0.55) 0%, rgba(255,214,120,0) 70%)' }} aria-hidden />
               <img src="/digi-squad/DiGi-star.svg" alt="" width={30} height={30} className="pl-float" style={{ position: 'absolute', top: 18, right: 22, width: 30, height: 30, opacity: 0.9 }} />
               {smallRow('asleep', { blanket: true, pyjamas: true }, live.friends)}
+              {/* the charging shelf in the dark kitchen, every phone on it (slice 3a) */}
+              <svg viewBox="0 0 200 70" width={180} height={63} aria-label="Every MoonPhone on the charging shelf" role="img">
+                <defs><radialGradient id="pl-glow-night"><stop offset="0" stopColor="#FFF3B0" stopOpacity={0.7} /><stop offset="1" stopColor="#FFF3B0" stopOpacity={0} /></radialGradient></defs>
+                <ellipse cx={100} cy={40} rx={90} ry={30} fill="url(#pl-glow-night)" />
+                <g transform="translate(100 56)"><Furniture kind="shelf" accent={theme.hex} /></g>
+                {live.friends.map((f, i, all) => (
+                  <g key={f.key} data-night-phone={f.key} transform={`translate(${100 + (i - (all.length - 1) / 2) * 28} 52)`}>
+                    <PhoneArt colour={friendArt(f.key).colour} battery={batteryNow(live.world.devices[deviceOf(f.key)] ?? { owner: f.key, battery: 100, at: 'shelf', chargedAt: null, photos: 0 }, nowIso)} charging={!!live.world.devices[deviceOf(f.key)]?.chargedAt} />
+                  </g>
+                ))}
+              </svg>
               <p style={overlayLine}>{live.tier === 1 ? LINES.nightTier1 : LINES.nightTier2}</p>
               {(() => {
                 const ask = view.screenAsk
@@ -719,6 +928,9 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             <button onClick={() => { interact(); playFx('tap'); setBoardOpen(o => !o) }} style={chunky(boardOpen ? 'white' : 'accent')}>
               🎯 {live.tier === 1 ? MISSION_LINES.boardTier1 : MISSION_LINES.board}{inProgress > 0 ? ` (${inProgress})` : ''}
             </button>
+            {overlay === 'none' && room && (
+              <button onClick={() => goTo('outdoors')} style={chunky('white')}>🪐 {LINES.backToPlanet}</button>
+            )}
             {overlay === 'none' && (
               <button onClick={() => { interact(); playFx('tap'); openBox(!boxOpen) }} style={chunky(boxOpen ? 'white' : 'accent')} aria-expanded={boxOpen}>
                 🧰 {MISSION_LINES.box}{box.length + boxWear.length > 0 ? ` (${box.length + boxWear.length})` : ''}
@@ -738,7 +950,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
            <div style={{ maxWidth: 480, margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
               <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)' }}>🧰 {MISSION_LINES.box}</p>
-              <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{MISSION_LINES.spaces(spacesLeft)}</p>
+              <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{MISSION_LINES.spaces(room ? freeSpotsHere : spacesLeft)}</p>
               <button onClick={() => { playFx('tap'); setBoxOpen(false) }} aria-label={MISSION_LINES.close} style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 2px 0 var(--ink)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900 }}>✕</button>
             </div>
             <p style={{ margin: '2px 0 8px', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.3 }}>

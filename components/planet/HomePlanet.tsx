@@ -1,11 +1,12 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import type { Friend, FriendKey, Mood, Outfit, PartKey, Placed, Tier } from '@/lib/planet/logic'
-import { FRIEND_KEYS, PART_ZONE, SLOTS, isGrownUp } from '@/lib/planet/logic'
+import type { Friend, FriendKey, Mood, Outfit, PartKey, Placed, Tier, World } from '@/lib/planet/logic'
+import { FRIEND_KEYS, PART_ZONE, SLOTS, batteryNow, isDeviceKey, isGrownUp, isThingKey } from '@/lib/planet/logic'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
 import PartArt from './PartArt'
+import { PhoneArt, ThingArt } from './ThingArt'
 import { PLANET, SCENE_H, SCENE_W, SLOT_POS, sceneFromClient, surfaceY } from './scene'
 
 // The HomePlanetNode (design section 2.1): the sandbox, drawn in one SVG so
@@ -30,10 +31,11 @@ const POD = { x: 288, y: 236, w: 94, h: 104 }
 const CATCHER = { x: 10, y: 222, w: 100, h: 116 }
 const SHAKER_HOME = { x: 44, y: 420 }
 const NURSERY = { x: 62, y: 84 }
-const CHARGER = { x: 195, y: 470 }
+/** The round door into the Den (slice 3a), where the charger pad used to be: the phones charge in the kitchen now. */
+const DEN = { x: 195, y: 478, hit: { x: 150, y: 430, w: 90, h: 70 } }
 
-/** What a Friend landed on: the pod, the sun catcher, or a part the child built with (slice 3). */
-export type DropZone = 'pod' | 'catcher' | { part: PartKey }
+/** What a Friend landed on: the pod, the sun catcher, the door into the Den, or a part the child built with (slice 3). */
+export type DropZone = 'pod' | 'catcher' | 'den' | { part: PartKey }
 /** Something carried from the parts box over the planet. */
 export type Carry = { kind: 'part'; part: PartKey } | { kind: 'outfit'; outfit: Outfit }
 export type Sky = 'day' | 'evening' | 'night'
@@ -72,10 +74,17 @@ export function standingX(count: number): number[] {
 }
 
 export default function HomePlanet({
-  friends, moods, tier, childAge, sky, starEnergy, growthStage, placed = [], plots = 0, wearing = {}, carrying = null, using = null, accent, pyjamas, wiggle, sparkle, boopCrater,
-  onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onInteract, onMovePart, onPartTap, onSvg,
+  friends, activeKeys, moods, tier, childAge, sky, starEnergy, growthStage, placed = [], plots = 0, wearing = {}, held = {}, devices = {}, nowIso = '', carrying = null, using = null, accent, pyjamas, wiggle, sparkle, boopCrater,
+  onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onDen, onInteract, onMovePart, onPartTap, onSvg,
 }: {
+  /** The Friends outdoors right now. */
   friends: Friend[]
+  /** Every active Friend, so one who is indoors is not drawn as a baby in the nursery. */
+  activeKeys?: FriendKey[]
+  /** What each Friend holds and the MoonPhones (slice 3a). */
+  held?: World['held']
+  devices?: World['devices']
+  nowIso?: string
   /** The parts on the planet, by slot (slice 3). */
   placed?: Placed[]
   /** How many parts the planet has room for right now. */
@@ -105,6 +114,8 @@ export default function HomePlanet({
   onBoop: (crater: number) => void
   onCloud: (friend: FriendKey, on: boolean) => void
   onNursery: () => void
+  /** A tap on the round door into the Den. */
+  onDen?: () => void
   onInteract: () => void
   /** A placed part dragged to another slot, or off the bottom (null) back to the box. */
   onMovePart?: (part: PartKey, slot: string | null) => void
@@ -117,7 +128,8 @@ export default function HomePlanet({
   const [sprinklingOn, setSprinklingOn] = useState<FriendKey | null>(null)
   const colours = SKY[sky]
   const xs = standingX(friends.length)
-  const babies = FRIEND_KEYS.filter(k => !friends.some(f => f.key === k))
+  const cast = activeKeys ?? friends.map(f => f.key)
+  const babies = FRIEND_KEYS.filter(k => !cast.includes(k))
   void plots
 
   function toSvg(e: React.PointerEvent): { x: number; y: number } {
@@ -152,7 +164,7 @@ export default function HomePlanet({
       else {
         // A part first (a Friend on the trampoline), then the pod and the catcher.
         const onPart = placed.find(x => { const z = PART_ZONE[x.part]; if (z === 'sky' || z === 'ring') return false; const pos = SLOT_POS[x.slot]; return pos && Math.hypot(p.x - pos.x, p.y - (pos.y - 24)) < 46 })
-        onDropFriend(key, onPart ? { part: onPart.part } : inRect(p, POD) ? 'pod' : inRect(p, CATCHER) ? 'catcher' : null)
+        onDropFriend(key, onPart ? { part: onPart.part } : inRect(p, POD) ? 'pod' : inRect(p, CATCHER) ? 'catcher' : inRect(p, DEN.hit) ? 'den' : null)
       }
     } else if (drag.kind === 'part') {
       const part = drag.id as PartKey
@@ -304,16 +316,16 @@ export default function HomePlanet({
       {/* what the child built on the ground (slice 3) */}
       {bySlot('ground').map(partAt)}
 
-      {/* the MoonPhone charger pad, where phones go when the star goes down */}
-      <g transform={`translate(${CHARGER.x} ${CHARGER.y})`}>
-        <rect x={-34} y={-8} width={68} height={16} rx={8} fill="#FFFFFF" stroke="#1A1A2E" strokeWidth={2} />
-        <path d="M2 -5 l-5 6 h4 l-2 5 l6 -7 h-4 z" fill="#F4C542" stroke="#1A1A2E" strokeWidth={1} strokeLinejoin="round" />
-        {friends.filter(f => moods[f.key] !== 'happy').map((f, i) => (
-          <g key={f.key} transform={`translate(${-22 + i * 16} -16)`}>
-            <rect x={-5} y={-9} width={10} height={18} rx={2.5} fill="#FFFFFF" stroke="#1A1A2E" strokeWidth={1.3} />
-            <circle cx={0} cy={-2} r={2.2} fill={friendArt(f.key).colour} />
-          </g>
-        ))}
+      {/* the round door into the Den, the Friends' house (slice 3a) */}
+      <g data-den transform={`translate(${DEN.x} ${DEN.y})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onDen?.() }} style={{ cursor: 'pointer' }} aria-label="The door into the Den">
+        <rect x={-45} y={-48} width={90} height={70} fill="transparent" />
+        <ellipse cx={0} cy={6} rx={40} ry={9} fill="#1A1A2E" opacity={0.15} />
+        <path d="M-34 4 a34 34 0 0 1 68 0 z" fill="#FFF6DD" stroke={draggingFriend ? '#F4C542' : '#1A1A2E'} strokeWidth={draggingFriend ? 4 : 2.5} strokeLinejoin="round" />
+        <path d="M-24 4 a24 24 0 0 1 48 0 z" fill={draggingFriend ? '#F4C542' : '#D9A066'} stroke="#1A1A2E" strokeWidth={1.8} strokeLinejoin="round" />
+        <circle cx={10} cy={-8} r={3} fill="#F4C542" stroke="#1A1A2E" strokeWidth={1} />
+        <rect x={-40} y={4} width={80} height={6} rx={3} fill="#D8D2E8" stroke="#1A1A2E" strokeWidth={1.5} />
+        {sky !== 'day' && <circle cx={0} cy={-14} r={22} fill="url(#pl-glow)" />}
+        <path d="M-8 -30 h16" stroke="#1A1A2E" strokeWidth={1.5} strokeLinecap="round" opacity={0.5} />
       </g>
 
       {/* the sun catcher, the offline transition zone for real sunshine */}
@@ -379,8 +391,16 @@ export default function HomePlanet({
           >
             {carrying?.kind === 'outfit' && !f.cooldown && <circle cx={0} cy={-70} r={70} fill="rgba(255,255,255,0.25)" stroke="#F4C542" strokeWidth={4} strokeDasharray="8 7" className="pl-target" data-target={`friend-${f.key}`} />}
             <g className={wiggle === f.key ? 'pl-wiggle' : undefined}>
-              <FriendFigure friend={f.key} mood={mood} baby={baby} pyjamas={pyjamas} phone={mood === 'happy' && !baby ? 'hand' : 'none'} clock={f.cooldown?.reason === 'ambient'} outfit={wearing[f.key] ?? null} />
+              <FriendFigure friend={f.key} mood={mood} baby={baby} pyjamas={pyjamas} phone="none" clock={f.cooldown?.reason === 'ambient'} outfit={wearing[f.key] ?? null} />
             </g>
+            {(() => {
+              // What this Friend holds (slice 3a): its MoonPhone with the battery on the screen, or a snack, or a toy.
+              const h = held[f.key]
+              if (!h) return null
+              if (isDeviceKey(h)) { const d = devices[h]; return d ? <g transform="translate(42 -46)"><PhoneArt colour={friendArt(f.key).colour} battery={batteryNow(d, nowIso || new Date().toISOString())} tilt={-18} /></g> : null }
+              if (isThingKey(h)) return <g transform="translate(42 -36)"><ThingArt thing={h} small /></g>
+              return null
+            })()}
             {sparkle === f.key && (
               <g className="pl-sparkle">
                 {[-30, 0, 30].map((dx, k) => <circle key={k} cx={dx} cy={-130 - (k % 2) * 16} r={4.5} fill="#F4C542" />)}

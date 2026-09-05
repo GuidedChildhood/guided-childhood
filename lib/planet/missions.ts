@@ -226,6 +226,7 @@ export const MISSION_LINES = {
   boxHint: 'Drag a part onto your planet. Drag it off the bottom to put it back.',
   boxEmpty: 'Your box is empty. Missions bring parts, and the planet makes more room while you are away.',
   noRoom: 'No room yet. Your planet grows more room while you are away.',
+  placeOutside: 'The ring goes around the planet, not indoors.',
   spaces: (n: number) => (n === 1 ? '1 space left' : `${n} spaces left`),
   wear: 'Drag an outfit onto a Friend.',
 } as const

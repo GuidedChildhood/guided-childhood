@@ -2,8 +2,8 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b and 2c built; section 7, the world,
-proposed 5 September and waiting on Justin's go. When the code
+own typo was found. Status: design plus slices 1, 2, 2b, 2c and 3a built; the rest of section 7,
+the world, waits on Justin's go slice by slice. When the code
 and this file disagree, the code is right and this file gets updated, the
 same rule THE-STORY.md runs on.
 
@@ -415,7 +415,7 @@ be at least as much fun as the thing it replaces.
 | StardustShaker | Drag the shaker over a Friend | `mood` to happy for a moment, a sparkle. No growth. Stardust is fun, not fuel |
 | Craters | Tap | A puff of moon dust and a boop. Pure tactility |
 | Clouds | Tap, Tier 2 | A cloud floats over the Friend. It drains 20 percent slower, which is the first hint that light and starlight are linked |
-| ChargerPad | Watched, never operated | Each Friend's MoonPhone appears here the moment that Friend is sleepy or resting. The modelling beat |
+| The Den's door | Tap, or drag a Friend onto it | Into the kitchen (section 7.3, slice 3a). The charging shelf lives there now; the charger pad this row used to describe is gone |
 | NurseryDome | Tap | The babies giggle. "Still babies. They grow up with you." |
 | SunCatcher | Drag a Friend onto the dish | Starts the sunshine mission (section 3.1) |
 | SleepPod | Drag a Friend into the pod | Starts a nap for that Friend. When every active Friend is asleep the planet locks |
@@ -1162,6 +1162,26 @@ in exactly one place, a spot, a Friend's hands, or the pocket.
 
 ### 7.3 Devices and the charging shelf, the modelling beat
 
+**As built, 6 September 2026 (slice 3a).** Three rooms, one renderer
+(`components/planet/RoomScene.tsx` from `ROOM_SPOTS` in the rules and the
+words in `lib/planet/world.ts`): the kitchen with the charging shelf, the
+fridge and the cooker; the living room with the sofa, the bookshelf, the
+picture that wobbles and the music box; the bedroom with two beds, the
+wardrobe (the outfits live there now, and the box still works), the toy box
+and no shelf. The MoonPhone starts full on the shelf, not in the hand, so the
+play lengths in the tier table stay true for a Friend without one; the child
+hands it over, the drain doubles, the battery runs down at the base rate, a
+tap takes a photo (six, then full means done), and a flat or sleepy Friend
+puts it back by itself. The shelf charges for a real five minutes on the
+server's clock and nobody can pick the phone up until then; a phone docked at
+95 or more counts as full. Wind down and bedtime dock every phone on the
+server before the child sees the room, and the night side shows the shelf
+glowing with every phone on it. Food is eaten in one tap and the fridge
+restocks the next day; a Friend puts its snack or toy away before a rest. A
+part from the box can come indoors (floor and wall spots, never the ring)
+and a part indoors is not on the planet. Everything is one document,
+`home.world`, no migration. The rest of this section is still the design.
+
 **The ladder.** To progress the Friends get devices, in a fixed order, each a
 named reward of the planet that brings it: the MoonPhone with the Den, the
 StarPad with the Playground, the SpaceCam with the Observatory, the
@@ -1287,12 +1307,12 @@ type World = {
 
 ### 7.8 The build order, each slice shippable
 
-- **3a The Den and the charging shelf.** `RoomScene`, the door from the
-  outdoors into the house, kitchen and bedroom first (bathroom and living
-  room in the same slice if the art allows), the MoonPhone as a thing per
-  active Friend with a battery, holding and docking, wind down sending every
-  device to the shelf, bedtime glowing it, the pocket. Justin's own example,
-  and the modelling beat.
+- **3a The Den and the charging shelf.** Built, 6 September 2026: the
+  kitchen, the living room and the bedroom (the bathroom waits for a drop),
+  the door on the planet, the fridge and the toy box, the MoonPhone per
+  Friend with its battery and its gallery, the shelf and its five real
+  minutes, the wind down and the night, the parts box working indoors.
+  Justin's own example, and the modelling beat.
 - **3b The star system and travel.** The map, the rocket, Friends and the
   pocket travelling, Moonbase School and the Playground planet, the lesson
   count unlock read on the server, the reveal on the map and on the Learn
