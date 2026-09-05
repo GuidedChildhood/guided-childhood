@@ -18,6 +18,7 @@ const tiles: HomeTile[] = [
   { icon: 'passport', label: 'My passport', sub: '3 of 21 collected', tint: CRAYON.butter, onClick: noop },
   { icon: 'lessons', label: 'My lessons', sub: 'Learn it, pass it', tint: CRAYON.paper, onClick: noop },
   { icon: 'games', label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: noop },
+  { icon: 'friends', label: 'My planet', sub: 'Your Planet Friends', tint: CRAYON.green, onClick: noop },
   { icon: 'deal', label: 'Our deal', sub: 'How it works', tint: CRAYON.paper, onClick: noop },
   { icon: 'make', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: CRAYON.green, onClick: noop },
   { icon: 'ask', label: 'Ask for a job', sub: 'Pitch your own idea', tint: CRAYON.butter, onClick: noop },

@@ -1,7 +1,7 @@
 import { soundEnabled } from '@/lib/sound/kidSounds'
 
-// The greenhouse's sounds, made with Web Audio so there are no files to load
-// and nothing plays on the parent's side. Every touch makes a sound (design
+// The planet's sounds, made with Web Audio so there are no files to load and
+// nothing plays on the parent's side. Every touch makes a sound (design
 // section 2.1), the music box plays a public domain nursery rhyme during a
 // rest, and the child's own mute (the same one the quest screen uses) turns
 // all of it off. Browsers only allow audio after a gesture, so the first tap
@@ -54,7 +54,7 @@ function hush(c: AudioContext, start: number, dur: number, cutoff: number, kind:
   src.stop(t0 + dur + 0.05)
 }
 
-export type Fx = 'tap' | 'pour' | 'pat' | 'giggle' | 'shh' | 'yawn' | 'chime' | 'sparkle' | 'snore'
+export type Fx = 'tap' | 'sprinkle' | 'boop' | 'giggle' | 'shh' | 'yawn' | 'chime' | 'sparkle'
 
 export function playFx(name: Fx): void {
   if (!soundEnabled()) return
@@ -62,19 +62,19 @@ export function playFx(name: Fx): void {
   if (!c) return
   switch (name) {
     case 'tap': tone(c, 620, 0, 0.08, 0.10); break
-    case 'pour': hush(c, 0, 0.55, 900, 'lowpass', 0.10); tone(c, 1200, 0.05, 0.4, 0.03, 'sine', 900); break
-    case 'pat': tone(c, 130, 0, 0.12, 0.16, 'sine', 90); tone(c, 130, 0.16, 0.12, 0.14, 'sine', 90); break
+    case 'sprinkle': hush(c, 0, 0.4, 3000, 'highpass', 0.05); tone(c, 1760, 0.02, 0.12, 0.06, 'sine'); tone(c, 2349, 0.12, 0.14, 0.06, 'sine'); tone(c, 2960, 0.22, 0.18, 0.05, 'sine'); break
+    case 'boop': tone(c, 300, 0, 0.14, 0.14, 'sine', 160); break
     case 'giggle': tone(c, 660, 0, 0.08, 0.12); tone(c, 880, 0.09, 0.08, 0.12); tone(c, 990, 0.18, 0.1, 0.12); break
     case 'shh': hush(c, 0, 0.7, 2200, 'highpass', 0.04); break
     case 'yawn': tone(c, 440, 0, 0.7, 0.09, 'sine', 220); break
     case 'chime': tone(c, 784, 0, 0.16, 0.13, 'sine'); tone(c, 1175, 0.09, 0.24, 0.13, 'sine'); break
     case 'sparkle': tone(c, 1568, 0, 0.09, 0.08, 'sine'); tone(c, 2093, 0.07, 0.12, 0.07, 'sine'); break
-    case 'snore': tone(c, 110, 0, 0.5, 0.05, 'sine', 90); break
   }
 }
 
 // Twinkle Twinkle Little Star, which has been public domain for two
-// centuries. C D E F G A as frequencies in the fifth octave.
+// centuries and is about a star, which is the whole toy. C D E F G A in the
+// fifth octave.
 const C = 523.25, D = 587.33, E = 659.25, F = 698.46, G = 783.99, A = 880
 const TWINKLE: [number, number][] = [
   [C, 1], [C, 1], [G, 1], [G, 1], [A, 1], [A, 1], [G, 2],
@@ -85,7 +85,7 @@ const TWINKLE: [number, number][] = [
   [F, 1], [F, 1], [E, 1], [E, 1], [D, 1], [D, 1], [C, 2],
 ]
 
-/** How long the music box plays before it fades out and the room goes quiet. */
+/** How long the music box plays before it fades out and the planet goes quiet. */
 export const TUNE_MINUTES = 10
 
 /**

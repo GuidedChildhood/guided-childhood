@@ -9,6 +9,7 @@ import { MAX_ROWS } from '@/components/printables/StarChartSheet'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { dealFactsFrom } from '@/lib/printables/deal-facts'
 import type { DrawnSpec } from '@/components/printables/drawn'
+import { missionSheetFor } from '@/lib/printables/mission-sheets'
 
 // The child's print page. See lib/kid/print-anywhere for why it exists:
 // inside an installed iOS app window.print() does nothing, so every print
@@ -62,7 +63,8 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
         const s = settings.get(link.child_id as string)
         if (s) facts = dealFactsFrom(s)
       } catch { /* dotted lines */ }
-      drawn = { key: p.drawn, childName, stars: p.stars, facts }
+      // A mission sheet on the child's link carries no code: the card is the grown up's print.
+      drawn = { key: p.drawn, childName, stars: p.stars, facts, mission: missionSheetFor(p.key) }
     }
     job = {
       kind: 'sheet', key: p.key,

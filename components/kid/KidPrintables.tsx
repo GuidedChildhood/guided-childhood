@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Printable } from '@/lib/printables/registry'
@@ -562,7 +563,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
               <Image src={p.previewUrl} alt={p.title} fill sizes="560px" style={{ objectFit: 'contain', padding: 10 }} />
             </div>
           ) : (
-            <KidSheetPaper sheet={{ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn, drawn: p.drawn ? { key: p.drawn, childName, stars: p.stars, facts: dealFacts } : undefined }} />
+            <KidSheetPaper sheet={{ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn, drawn: p.drawn ? { key: p.drawn, childName, stars: p.stars, facts: dealFacts, mission: missionSheetFor(p.key) } : undefined }} />
           )}
         </div>
       </div>

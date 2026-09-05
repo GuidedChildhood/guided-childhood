@@ -4,6 +4,7 @@ import ScreenTimeDealSheet, { type DealFacts } from './ScreenTimeDealSheet'
 import HelpingHandSheet from './HelpingHandSheet'
 import ReadyForMyPhoneSheet from './ReadyForMyPhoneSheet'
 import KindnessPostcardsSheet from './KindnessPostcardsSheet'
+import MissionSheet, { type MissionSheetSpec } from './MissionSheet'
 import { ExampleContext } from './HappyPaper'
 
 // The drawn sheets: printables drawn in code rather than fetched as art.
@@ -17,7 +18,7 @@ import { ExampleContext } from './HappyPaper'
 // works exactly as it does for a sheet of art, because the sheet is still a
 // registry entry. This file is the only place a key meets a component.
 
-export const DRAWN_KEYS = ['balance-wheel', 'phones-to-bed', 'screen-time-deal', 'helping-hand', 'ready-for-my-phone', 'kindness-postcards'] as const
+export const DRAWN_KEYS = ['balance-wheel', 'phones-to-bed', 'screen-time-deal', 'helping-hand', 'ready-for-my-phone', 'kindness-postcards', 'mission-sheet'] as const
 export type DrawnKey = typeof DRAWN_KEYS[number]
 
 export function isDrawnKey(k: unknown): k is DrawnKey {
@@ -34,9 +35,11 @@ export type DrawnSpec = {
   facts?: DealFacts
   /** Show it filled in and coloured in, the way a child's might look when done. Never for a print. */
   example?: boolean
+  /** For the mission sheet: which Planet Friends mission, and the child's card when the parent is printing it. */
+  mission?: MissionSheetSpec
 }
 
-export type { DealFacts, Bedtime }
+export type { DealFacts, Bedtime, MissionSheetSpec }
 
 export function DrawnSheet({ spec }: { spec: DrawnSpec }) {
   const { key, childName, stars, facts } = spec
@@ -48,6 +51,7 @@ export function DrawnSheet({ spec }: { spec: DrawnSpec }) {
     case 'helping-hand': sheet = <HelpingHandSheet childName={childName} stars={stars} />; break
     case 'ready-for-my-phone': sheet = <ReadyForMyPhoneSheet childName={childName} stars={stars} />; break
     case 'kindness-postcards': sheet = <KindnessPostcardsSheet childName={childName} stars={stars} />; break
+    case 'mission-sheet': sheet = <MissionSheet childName={childName} mission={spec.mission ?? null} />; break
   }
   return <ExampleContext.Provider value={!!spec.example}>{sheet}</ExampleContext.Provider>
 }
@@ -68,4 +72,5 @@ export const COVER: Record<DrawnKey, { x: number; y: number; w: number; h: numbe
   'helping-hand': { x: 40, y: 318, w: 370, h: 446 },
   'ready-for-my-phone': { x: 96, y: 236, w: 602, h: 724 },
   'kindness-postcards': { x: 45, y: 238, w: 352, h: 424 },
+  'mission-sheet': { x: 60, y: 210, w: 520, h: 624 },
 }

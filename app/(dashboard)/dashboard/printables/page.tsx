@@ -7,6 +7,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
 import PrintableActions from './PrintableActions'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
+import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { getChildren } from '@/lib/children/server'
 
@@ -69,7 +70,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
                 {p.drawn ? (
                   // A drawn sheet's front is its picture, filled in and
                   // coloured in, cropped to the card (DrawnCover).
-                  <DrawnCover spec={{ key: p.drawn, childName: childName ?? '', stars: p.stars }} />
+                  <DrawnCover spec={{ key: p.drawn, childName: childName ?? '', stars: p.stars, mission: missionSheetFor(p.key) }} />
                 ) : (
                   <Image src={p.previewUrl} alt={`${p.title} preview`} fill sizes="(max-width: 640px) 50vw, 300px" style={{ objectFit: 'cover' }} />
                 )}

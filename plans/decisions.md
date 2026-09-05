@@ -10115,6 +10115,30 @@ screen time and balance, the child's own app, the road to 16, what you get,
 the door. The product pictures are drawn in code in Mocks.tsx so they
 survive redesigns. Dev preview: /starter-pack?preview=result.
 
+## 2 September 2026: it is Planet Friends, not Planter Friends, and the toy is rebuilt
+
+Justin, on the merged garden: "it's not Planter Friends it's Planet Friends
+... is that why you have gone for garden? It should be the cast we have as
+Planet Friends already designed and planets not gardens ... give it a full
+rebuild please and the younger one could be mini characters as babies until
+they all reach the age ... I did migrate the 251 so please redo all of it
+properly ... remember we are trying to combine offline activity and balance
+responsible device use with online education." The brief had arrived as
+"Planter Friends" and was plant themed end to end, so the first build was a
+garden. Decided: the toy is Planet Friends: Growing Up Digital, the child's
+own Planet Friends (Pebble, Bloop, Orbit, Nova, Cosmo, from
+lib/content/stage-characters) on a home planet that grows while the child is
+away; the whole cast is on the planet from day one, each Friend a baby until
+the child reaches the bottom of that Friend's stage, then grown up alongside
+them; the loop, the rests, the bedtime sync and the ask doors stay exactly as
+designed; the Friends model balanced device use (a MoonPhone that goes on
+the charger when the star goes down) and the growth reveal carries a door
+into the child's lessons, so offline activity, responsible device use and
+online education meet on one screen. Migration 251 is applied and empty, so
+migration 252 drops its tables and creates planet_homes and planet_events.
+The garden code is removed; the design document is rewritten as
+plans/planet-friends-architecture.md. The My planet tile sits after the
+games on the Games tab, so the games stay first.
 ## 2 September 2026: child home tiles wear the happy news finish, Games on the front
 
 Justin, with the child's home grid: make it Apple level with happy news
@@ -10151,3 +10175,59 @@ greeting, the four home rows, the Everything else door, the day close
 sheet and the bottom tab bar. Every handler and every decision about what
 shows is untouched. The parent side keeps its calmer register: no stickers
 or dot scatter. Fixture: /dev/today-path.
+## 2 September 2026: Planet Friends is the toy, rebuilt in full, and slice 2 starts
+
+The brief had arrived as "Planter Friends" and the first build was a garden
+(PR 957, migration 251). Justin: "it's not Planter Friends, it's Planet
+Friends ... the cast we have as Planet Friends already designed and planets
+not gardens ... give it a full rebuild ... the younger one could be mini
+characters as babies until they all reach the age ... remember we are trying
+to combine offline activity and balance responsible device use with online
+education." Decided and built (PR 961, merged): the child's own Planet
+Friends on a home planet, every Friend on the planet from day one as a baby
+in a bonnet until the child reaches the bottom of that Friend's stage, the
+ones not yet looked after asleep in a nursery dome in orbit; the planet grows
+while the child is away; each Friend's MoonPhone goes to the charger when it
+gets sleepy; the growth reveal opens the child's lessons. Migration 252
+retired the empty garden tables and created planet_homes and planet_events;
+applied in production on Justin's "ready". The design document is
+plans/planet-friends-architecture.md. Slice 2 (the missions) is claimed on
+the same branch: plans/week-of-2026-08-31-planet-friends-slice-2-plan.md.
+No migration needed.
+
+## 2 September 2026: Planet Friends slice 2b, the paper twins and the Moonflower card
+
+Justin's "Word" was the go. Built on migration 253: every mission has a
+printed twin through the drawn sheets engine (a registry entry planet-<key>
+drawn by MissionSheet, free, worth no stars because missions pay on the
+planet), the Moonflower card is a new Tier 2 and 3 mission whose code the
+server makes for one child (three pictures before 8, a four letter word from
+8, stored in planet_codes, printed by the parent, checked by the server, never
+sent to the child's device), and the grown up prompt that rides each mission is
+a scripts row (9630 to 9638) linked from the mission ask in AskPopup and printed
+on the sheet. Decided on the way: the moonflower opens from the wind down
+rather than only at night, because the night side is an overlay and a flower
+that only opened behind it would never be seen; a lost card prints again with
+the same code; the card mission shows no pad until the card is printed. The
+Tier 3 schedule and trust stay slice 4.
+
+## 5 September 2026: The contrarian sweep briefing, and the lines it fixed
+
+Justin's ask: review all the services and find the most recent contrarian
+studies on social media and how we solve the problems for kids. Delivered as
+briefings/2026-09-05-contrarian-studies-and-services-v2.html, six lenses,
+36 sources adversarially verified (14 confirmed, 6 with caveats, 16 corrected,
+none demoted). Decisions and discipline lines that came out of it: the
+schools pitch leads with the RSHE mandate (compulsory in England from
+1 September 2026, promised training grants undelivered), not the ban; the
+cliff edge is the passport's best evidenced argument (BMJ: daily use 80% to
+89% at 16 in Australia; Queensland graduated licensing 13.9% a year with an
+unmoved age line); we never say the Australian ban "failed", only that there
+is no evidence it delivered what parents were promised and the first thing it
+measurably changed was how much parents know (eSafety: parents unaware up ten
+points); and five numbers are banned from our copy alongside the old
+folklore: the Norwegian 60% clinic figure (magnitude untraceable, direction
+only), the 1 in 5 surveilled figure (not in its source), the Florida
+happiness study, the Sapien data, and any measurement artefact story (the
+big Norwegian test rejected it). The missing seventh lens is the Teacher,
+recommended as a V3 before the autumn school pitch cycle.

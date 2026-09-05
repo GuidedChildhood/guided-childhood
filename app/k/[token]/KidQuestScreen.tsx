@@ -35,6 +35,7 @@ import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
 import HappyIcon from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
+import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
@@ -102,10 +103,10 @@ export default function KidQuestScreen({
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
-  fiveADayInitial = null, passportCode = null, gardenTier = null,
+  fiveADayInitial = null, passportCode = null, planetTier = null,
 }: {
-  /** Planter Friends: 1 or 2 shows the My garden tile; 3 and null hide it until slice 4. */
-  gardenTier?: 1 | 2 | 3 | null
+  /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
+  planetTier?: 1 | 2 | 3 | null
   token: string
   childName: string
   // The public passport number on the child's own book (migration 227). Not
@@ -1610,7 +1611,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES } } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES }, mission: missionSheetFor(assignedPrintable.key) } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
@@ -1664,6 +1665,11 @@ export default function KidQuestScreen({
             // appear?" They lived only as a sub tab of Lessons, so a child
             // had to know to look there. Only when the stage has any.
             ...(hasGames ? [{ icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
+            // Planet Friends, the digital toy, on the front. Justin, 2 September
+            // 2026: "can't see the new game?" It sat at the bottom of the Games
+            // sub tab, under every game, and was hidden at 10 plus. Every age
+            // has a planet now; Tier 3's own schedule comes in slice 4.
+            ...(planetTier ? [{ icon: 'friends' as const, label: 'My planet', sub: 'Your Planet Friends', tint: CRAYON.green, onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/planet` } }] : []),
             { icon: 'deal', label: 'Our deal', sub: 'How it works', tint: CRAYON.paper, onClick: () => { setDealOpen(true); playKidSound('tap') } },
             { icon: 'make', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: CRAYON.green, onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
             // Opens the ask page, always, in both states.
@@ -2476,24 +2482,6 @@ export default function KidQuestScreen({
                 )
               })}
 
-              {/* Planter Friends, the digital toy: a garden that grows while the
-                  child is away. Tier 1 and 2 only in slice 1 (see
-                  plans/planter-friends-architecture.md). */}
-              {activeLessonTab === 'games' && (gardenTier === 1 || gardenTier === 2) && (
-                <>
-                  <SectionHead icon="🌱">My garden</SectionHead>
-                  <a href={`/k/${token}/garden`} onClick={() => playKidSound('tap')} style={bigCardShell(false)}>
-                    <CardFace
-                      seed="planter-garden" done={false}
-                      emoji="🌱" isNew
-                      title="Planter Friends"
-                      subtitle="A garden that grows while you are away. Water, tickle, tuck in."
-                      pill="Toy"
-                      actionIcon="🌱"
-                    />
-                  </a>
-                </>
-              )}
               {activeLessonTab === 'games' && stageGames.length > 0 && <SectionHead kidIcon="games">Games to play</SectionHead>}
               {activeLessonTab === 'games' && stageGames.map(game => {
                 const done = doneGames.has(game.key)
@@ -2512,6 +2500,26 @@ export default function KidQuestScreen({
                   </button>
                 )
               })}
+
+              {/* Planet Friends, the digital toy: the child's own Planet Friends
+                  on a home planet that grows while the child is away. After the
+                  games, so the games stay first. Tier 1 and 2 only in slice 1
+                  (see plans/planet-friends-architecture.md). */}
+              {activeLessonTab === 'games' && planetTier !== null && (
+                <>
+                  <SectionHead icon="🪐">My planet</SectionHead>
+                  <a href={`/k/${token}/planet`} onClick={() => playKidSound('tap')} style={bigCardShell(false)}>
+                    <CardFace
+                      seed="planet-friends" done={false}
+                      emoji="🪐" isNew
+                      title="Planet Friends"
+                      subtitle="Your Planet Friends, growing up with you. Sprinkle, tickle, tuck in."
+                      pill="Toy"
+                      actionIcon="🪐"
+                    />
+                  </a>
+                </>
+              )}
 
               {/* Printable adventures: the child browses their stage's sheets
                   and the ask rides the same pitch flow as quest ideas. The
