@@ -150,9 +150,10 @@ function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: 
             <span
               style={{
                 position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: 44, height: 28, borderRadius: 100,
-                background: isActive ? tab.tint : 'transparent',
-                color: isActive ? tab.colour : 'var(--ink-soft)',
+                width: 46, height: 30, borderRadius: 100, boxSizing: 'border-box',
+                background: isActive ? 'var(--terracotta)' : 'transparent',
+                border: isActive ? '2px solid var(--ink)' : '2px solid transparent',
+                color: isActive ? 'var(--ink)' : 'var(--ink-soft)',
                 transition: 'background 0.15s, color 0.15s',
               }}
             >

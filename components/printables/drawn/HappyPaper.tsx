@@ -42,15 +42,10 @@ export const DEEP = 'var(--deep-teal)'
 export const ExampleContext = createContext(false)
 export function useExample() { return useContext(ExampleContext) }
 
-/** Crayon colours: the house butter, sky, coral and green, lightened the way
- *  a wax crayon lands on paper, so the ink lines still lead. */
-export const CRAYON = {
-  butter: '#F4D072',
-  sky: '#8EC3F0',
-  coral: '#F2957A',
-  green: '#93CFA8',
-  paper: '#FEF7E0',
-} as const
+/** Crayon colours live in crayon.ts (no React there) and are re exported
+ *  here so every sheet keeps its import. */
+import { CRAYON } from './crayon'
+export { CRAYON }
 
 /** Something written in by hand: the pen colour, a slant, Nunito at 800. */
 export function Pen({ children, size = 16 }: { children: React.ReactNode; size?: number }) {

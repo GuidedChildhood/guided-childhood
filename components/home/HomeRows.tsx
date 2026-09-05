@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
+import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 
 // Everything that is not today's loop, folded to big friendly rows: Family
 // quests (with the live approve count riding as a badge), the road to 16 (with
@@ -10,30 +12,32 @@ import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 // icon tiles, chunky borders, one tap each: the folded half of the simplified
 // Home the sample page agreed.
 
-function SlimRow({ href, emoji, title, meta, badge, urgent }: {
-  href: string; emoji: string; title: string; meta: string; badge?: string | null; urgent?: boolean
+// The happy news finish (plans/week-of-2026-08-31-parent-happy-news-plan.md):
+// ink edge, hard ledge, a drawn icon in a crayon well instead of an emoji.
+function SlimRow({ href, icon, tint, title, meta, badge, urgent }: {
+  href: string; icon: HappyIconName; tint: string; title: string; meta: string; badge?: string | null; urgent?: boolean
 }) {
   return (
-    <Link href={href} style={{ textDecoration: 'none', display: 'block' }}>
+    <Link href={href} style={{ textDecoration: 'none', display: 'block', minWidth: 0 }}>
       <div style={{
-        display: 'flex', alignItems: 'center', gap: '13px',
-        background: '#fff', border: `1.5px solid ${urgent ? '#E5484D' : 'var(--border)'}`,
-        borderRadius: '16px', padding: '14px 15px',
-        boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+        display: 'flex', alignItems: 'center', gap: '13px', minWidth: 0, overflow: 'hidden',
+        background: '#fff', border: `2px solid ${urgent ? '#E5484D' : 'var(--ink)'}`,
+        borderRadius: '18px', padding: '12px 15px 12px 12px',
+        boxShadow: `0 4px 0 ${urgent ? '#B93B3F' : 'var(--ink)'}`,
       }}>
-        <span style={{
-          width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0,
-        }}>{emoji}</span>
+        <span aria-hidden style={{
+          width: 52, height: 52, borderRadius: '50%', background: tint, border: '2px solid var(--ink)', boxSizing: 'border-box',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}><HappyIcon name={icon} size={34} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>{title}</span>
           <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{meta}</span>
         </span>
         {badge && (
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, flexShrink: 0,
-            background: urgent ? '#E5484D' : 'var(--tint-blue)', color: urgent ? '#fff' : 'var(--ink)',
-            borderRadius: '100px', padding: '5px 11px',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 900, flexShrink: 0,
+            background: urgent ? '#E5484D' : 'var(--terracotta)', color: urgent ? '#fff' : 'var(--ink)',
+            border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px 10px',
           }}>{badge}</span>
         )}
         <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
@@ -81,7 +85,7 @@ export default function HomeRows({ stageName, stageNum, criticalWindow = false, 
     <div style={{ display: 'grid', gap: '10px', marginBottom: '20px' }}>
       <SlimRow
         href="/dashboard/quests"
-        emoji="🧹"
+        icon="jobs" tint={CRAYON.butter}
         title="Family quests"
         meta={toApprove > 0 ? 'A tick is waiting for you' : 'Jobs earn stars, stars buy screen time'}
         badge={toApprove > 0 ? `${toApprove} to approve` : null}
@@ -98,14 +102,14 @@ export default function HomeRows({ stageName, stageNum, criticalWindow = false, 
 
       <SlimRow
         href="/dashboard/pathway"
-        emoji="🛣️"
+        icon="passport" tint={CRAYON.sky}
         title="The road to 16"
         meta={`${stageName} stage · stamp ${stageNum} of 5 on the way${criticalWindow ? ' · critical window' : ''}`}
       />
 
       <SlimRow
         href="/dashboard/digi"
-        emoji="💬"
+        icon="tell" tint={CRAYON.paper}
         title="Ask DiGi anything"
         meta="He knows your setup, your timer and your week"
       />
@@ -117,7 +121,7 @@ export default function HomeRows({ stageName, stageNum, criticalWindow = false, 
           row is the door and it stays. */}
       <SlimRow
         href="/dashboard/week"
-        emoji="🗞️"
+        icon="calendar" tint={CRAYON.green}
         title="Your week, rounded up"
         meta="The balance, the wins, and one thing to try next"
       />

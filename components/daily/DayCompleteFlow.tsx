@@ -149,7 +149,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
       <div style={{
         width: '100%', maxWidth: 420,
         background: 'var(--cream)', borderRadius: 24,
-        border: '1.5px solid var(--border)', boxShadow: '0 8px 0 rgba(0,0,0,0.25)',
+        border: '2px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)',
         padding: '28px 24px 22px', textAlign: 'center',
       }}>
         <div aria-hidden style={{ fontSize: 46, lineHeight: 1, marginBottom: 12 }}>{b.emoji}</div>
@@ -168,8 +168,8 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
               display: 'block', textDecoration: 'none', marginBottom: 12,
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               color: 'var(--ink)', background: '#fff',
-              border: '2px solid var(--terracotta)', borderRadius: 16, padding: '13px 0',
-              boxShadow: '0 4px 0 var(--terracotta-dark)',
+              border: '2px solid var(--ink)', borderRadius: 16, padding: '13px 0',
+              boxShadow: '0 4px 0 var(--ink)',
             }}
           >
             {b.action.label} ›
@@ -182,8 +182,8 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
             display: 'block', width: '100%', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
             color: 'var(--ink)', background: 'var(--terracotta)',
-            border: 'none', borderRadius: 16, padding: '15px 0',
-            boxShadow: '0 5px 0 var(--terracotta-dark)',
+            border: '2px solid var(--ink)', borderRadius: 16, padding: '15px 0',
+            boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           {b.next}

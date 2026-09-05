@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import KidIcon from '@/components/kid/KidIcon'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { CRAYON } from '@/components/printables/drawn/crayon'
 
 // The five places a parent actually goes, and one door to everything else.
 //
@@ -87,12 +89,15 @@ export default function HomeMain({ questsBadge: _questsBadge }: { questsBadge?: 
         href="/dashboard/explore"
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-          background: '#fff', border: '2px solid var(--border)', borderRadius: 18,
-          boxShadow: '0 4px 0 var(--border)', padding: '15px 18px',
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+          boxShadow: '0 4px 0 var(--ink)', padding: '12px 16px 12px 12px',
           textDecoration: 'none', marginBottom: 22,
         }}
       >
-        <span>
+        <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', background: CRAYON.paper, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <HappyIcon name="lessons" size={34} />
+        </span>
+        <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
             Everything else
           </span>
@@ -101,7 +106,7 @@ export default function HomeMain({ questsBadge: _questsBadge }: { questsBadge?: 
           </span>
         </span>
         <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>
-          →
+          ›
         </span>
       </Link>
     </>

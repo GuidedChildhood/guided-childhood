@@ -211,13 +211,13 @@ function StepCard({ step, number, state, child, childList, userId }: {
         display: 'flex', flexDirection: 'column', gap: 0,
         // A done step is sage rather than white, so the finished block reads as
         // one run of green at a glance without anybody counting ticks.
+        // The happy news finish (plans/week-of-2026-08-31-parent-happy-news-plan.md):
+        // the live card wears the ink edge and ledge, done steps the sage.
         background: live ? '#fff' : done ? 'var(--tint-sage)' : 'var(--cream)',
-        border: live
-          ? '1.5px solid var(--terracotta)'
-          : done ? '1px solid var(--stage-1-bold)' : '1px solid var(--border)',
-        borderRadius: '18px',
+        border: live ? '2px solid var(--ink)' : done ? '2px solid var(--ink)' : '2px solid var(--border)',
+        borderRadius: '20px',
         padding: live ? '18px 20px' : '15px 18px',
-        boxShadow: live ? '0 6px 20px rgba(201,154,40,0.14)' : 'none',
+        boxShadow: live ? '0 4px 0 var(--ink)' : done ? '0 3px 0 var(--ink)' : 'none',
         scrollMarginTop: '80px',
       }}
     >
@@ -230,13 +230,14 @@ function StepCard({ step, number, state, child, childList, userId }: {
         aria-hidden
         style={{
           flexShrink: 0,
-          width: live ? 38 : 32, height: live ? 38 : 32, borderRadius: '50%',
+          width: live ? 40 : 32, height: live ? 40 : 32, borderRadius: '50%', boxSizing: 'border-box',
           background: live ? 'var(--terracotta)' : done ? '#fff' : 'transparent',
-          border: live ? 'none' : done ? '1.5px solid var(--stage-1-bold)' : '1.5px solid var(--border)',
+          border: live ? '2px solid var(--ink)' : done ? '2px solid var(--ink)' : '2px solid var(--border)',
+          boxShadow: live ? '0 3px 0 var(--ink)' : 'none',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-mono)', fontWeight: 700,
+          fontFamily: 'var(--font-display)', fontWeight: 900,
           fontSize: live ? 'var(--text-md)' : 'var(--text-sm)',
-          color: live ? 'var(--ink)' : done ? '#1F7A54' : 'var(--ink-muted)',
+          color: live ? 'var(--ink)' : done ? 'var(--ink)' : 'var(--ink-muted)',
         }}
       >
         {number}
@@ -272,9 +273,9 @@ function StepCard({ step, number, state, child, childList, userId }: {
         aria-hidden
         style={{
           flexShrink: 0, marginTop: '2px',
-          width: 26, height: 26, borderRadius: '50%',
-          background: done ? '#1F7A54' : 'transparent',
-          border: done ? 'none' : '2px solid var(--border)',
+          width: 28, height: 28, borderRadius: '50%', boxSizing: 'border-box',
+          background: done ? 'var(--retro-green)' : 'transparent',
+          border: done ? '2px solid var(--ink)' : '2px solid var(--border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: '#fff', fontSize: '15px', fontWeight: 800, lineHeight: 1,
         }}
@@ -333,9 +334,9 @@ function StepAction({ step, child, childList, userId }: {
           href="/dashboard/settings"
           style={{
             display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
+            border: '2px solid var(--ink)', borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-            boxShadow: '0 5px 0 var(--terracotta-dark)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           Add your child first
@@ -651,12 +652,12 @@ function OtherChildren() {
         disabled={!ready || busy !== null}
         style={{
           marginTop: '12px',
-          background: ready ? 'var(--terracotta)' : 'var(--border)',
+          background: ready ? 'var(--terracotta)' : '#fff',
           color: ready ? 'var(--ink)' : 'var(--ink-muted)',
-          border: 'none', borderRadius: 16, padding: '13px 22px',
+          border: ready ? '2px solid var(--ink)' : '2px solid var(--border)', borderRadius: 16, padding: '13px 22px',
           cursor: ready && busy === null ? 'pointer' : 'default',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-          boxShadow: ready ? '0 5px 0 var(--terracotta-dark)' : 'none',
+          boxShadow: ready ? '0 4px 0 var(--ink)' : 'none',
         }}
       >
         {busy === 'add' ? 'Adding...' : 'Add this child'}
@@ -671,7 +672,7 @@ function OtherChildren() {
       {added.length > 0 && (
         <div style={{
           marginTop: '14px', background: 'var(--tint-sage)',
-          border: '1.5px solid var(--stage-1-bold)', borderRadius: 16, padding: '14px 16px',
+          border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px',
         }}>
           <p style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
@@ -688,10 +689,10 @@ function OtherChildren() {
             style={{
               marginTop: '12px', width: '100%',
               background: 'var(--terracotta)', color: 'var(--ink)',
-              border: 'none', borderRadius: 16, padding: '13px 22px',
+              border: '2px solid var(--ink)', borderRadius: 16, padding: '13px 22px',
               cursor: busy === null ? 'pointer' : 'default',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-              boxShadow: '0 5px 0 var(--terracotta-dark)',
+              boxShadow: '0 4px 0 var(--ink)',
             }}
           >
             {busy === 'only' ? 'Saving...' : 'Done, that is everyone'}
@@ -829,10 +830,10 @@ function HomeScreenHow() {
           onClick={() => settle('done')}
           disabled={busy !== null}
           style={{
-            background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
             borderRadius: 16, padding: '12px 20px', cursor: busy ? 'default' : 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
-            boxShadow: '0 4px 0 var(--terracotta-dark)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           {busy === 'done' ? 'Saving...' : 'Done, it is on there'}
@@ -872,8 +873,8 @@ function HomeScreenHow() {
 function AllDone() {
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '1.5px solid var(--stage-1-bold)',
-      borderRadius: '20px', padding: '26px 22px', textAlign: 'center',
+      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+      borderRadius: '22px', padding: '26px 22px', textAlign: 'center',
     }}>
       {/* THE BIG TICK. "All completes and big tick appears in screen, lets get
           started." It is the one moment in setup worth marking, so it is drawn
@@ -883,9 +884,9 @@ function AllDone() {
       <div
         aria-hidden
         style={{
-          width: 84, height: 84, borderRadius: '50%', background: '#1F7A54',
+          width: 84, height: 84, borderRadius: '50%', background: 'var(--retro-green)', border: '2.5px solid var(--ink)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          margin: '0 auto 14px', boxShadow: '0 6px 0 #145C3E',
+          margin: '0 auto 14px', boxShadow: '0 5px 0 var(--ink)',
           color: '#fff', fontSize: '46px', fontWeight: 800, lineHeight: 1,
         }}
       >
@@ -917,9 +918,9 @@ function AllDone() {
         href="/dashboard/checkin"
         style={{
           display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-          borderRadius: 16, padding: '15px 28px', textDecoration: 'none',
+          border: '2px solid var(--ink)', borderRadius: 16, padding: '15px 28px', textDecoration: 'none',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-          boxShadow: '0 5px 0 var(--terracotta-dark)',
+          boxShadow: '0 4px 0 var(--ink)',
         }}
       >
         Start today's check in
