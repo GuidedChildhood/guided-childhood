@@ -157,7 +157,7 @@ export default function ParentStageCheck({
       </div>
 
       {picked !== null && (
-        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 13, padding: '11px 13px', marginTop: 11 }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 13, padding: '11px 13px', marginTop: 11 }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {q.why}
           </p>

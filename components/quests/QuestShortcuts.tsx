@@ -1,4 +1,11 @@
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
+
+// Which tile icons have a drawn twin in the child's set.
+const HAPPY_FOR: Partial<Record<KidIconName, HappyIconName>> = {
+  jobs: 'jobs', time: 'time', star: 'wins', printables: 'print', games: 'games',
+  deal: 'deal', lessons: 'lessons', keepsakes: 'heart',
+}
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import type { BoardStatus } from '@/lib/quests/board-status'
 
@@ -207,7 +214,9 @@ export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
       // A badged tile goes where its number lives. See hrefWithBadge.
       href: badge && t.hrefWithBadge ? t.hrefWithBadge : t.href,
       label: t.label, sub: t.sub,
-      icon: <KidIcon name={t.icon} size={23} />,
+      // The story icons from the child's home, where one exists, so the two
+      // apps share a drawing style (the happy news finish, 5 September).
+      icon: HAPPY_FOR[t.icon] ? <HappyIcon name={HAPPY_FOR[t.icon]!} size={34} /> : <KidIcon name={t.icon} size={23} />,
       bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)', iconColor: t.iconColor,
       ...(badge ? { badge, badgeTone: typeof t.badgeTone === 'function' ? t.badgeTone(status!) : (t.badgeTone ?? 'quiet') } : {}),
     }

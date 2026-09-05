@@ -93,7 +93,7 @@ export default function YourAgreements({
           <button
             onClick={() => setAsking(true)}
             style={{
-              marginTop: 12, background: 'none', border: '1.5px solid var(--border)',
+              marginTop: 12, background: 'none', border: '2px solid var(--ink)',
               borderRadius: '14px', padding: '10px 18px', cursor: 'pointer',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
               color: 'var(--terracotta-dark)',
@@ -123,7 +123,7 @@ export default function YourAgreements({
               <button
                 onClick={() => { setAsking(false); setFailed(false) }}
                 style={{
-                  background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
+                  background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
                   padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                   fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
                 }}

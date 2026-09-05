@@ -43,7 +43,7 @@ export default function SettingsLinks() {
             href={l.href}
             style={{
               display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
               padding: '14px 16px',
             }}
           >

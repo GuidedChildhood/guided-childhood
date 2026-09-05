@@ -177,7 +177,7 @@ export function NextOnTheApplication({ strands, checkHref }: { strands: Strand[]
       </Link>
       {after && (
         <div style={{
-          opacity: 0.6, background: '#fff', border: '1.5px solid var(--border)',
+          opacity: 0.6, background: '#fff', border: '2px solid var(--ink)',
           borderRadius: 12, padding: '9px 14px', marginTop: 8,
           fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
         }}>

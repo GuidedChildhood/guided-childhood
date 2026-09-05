@@ -8,6 +8,7 @@ import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/c
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { buddyFor } from '@/lib/kid/buddy'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { assessJobLoad } from '@/lib/quests/job-load'
 
 // The jobs page's client half: the real KidTodayList (the exact component the
 // home screen used to render, in its jobs only shape), wired to the same tick
@@ -15,12 +16,14 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 // here is a copy of markup; the one list component keeps one behaviour.
 
 export default function KidJobsScreen({
-  token, childName, buddy, stageId, quests, todayTicks, giftStarsOwed,
+  token, childName, buddy, stageId, ageBand = null, quests, todayTicks, giftStarsOwed,
 }: {
   token: string
   childName: string
   buddy: string | null
   stageId: number
+  /** The child's band, so the list can read the healthy job load for their age. */
+  ageBand?: string | null
   quests: TodayQuest[]
   todayTicks: { quest_id: string; status: string }[]
   giftStarsOwed: number
@@ -33,6 +36,28 @@ export default function KidJobsScreen({
   const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
   const [swapFor, setSwapFor] = useState<TodayQuest | null>(null)
   const who = buddyFor(buddy)
+
+  // Guided by age, on the child's side.
+  //
+  // Justin, 5 September 2026: parents "need to be able to add several jobs,
+  // guided on the kid, too many, then ask them to pick today's tasks." The
+  // parent side already says a gentle word at five. The child's side showed
+  // every due job as one wall, and a child who opens the app to a wall does
+  // fewer, not more (lib/quests/job-load.ts has the science and the sweet spot
+  // per age). So Today holds the age's healthy number and the rest fold under
+  // "If you fancy more", each one a tap from joining Today.
+  //
+  // What always stays in Today: a job the child has already ticked (a done
+  // thing cannot hide), and a job that gates screens (it is the deal, not an
+  // optional extra). Nothing about the jobs themselves changes: stars, ticks
+  // and approval are exactly as before. The fold is how the list is read.
+  const [promoted, setPromoted] = useState<Set<string>>(new Set())
+  const maxToday = assessJobLoad(ageBand, quests.map(q => ({ title: q.title, stars: q.stars }))).maxJobs
+  const pinned = quests.filter(q => ticks[q.id] || q.blocks_screens || promoted.has(q.id))
+  const room = Math.max(0, maxToday - pinned.length)
+  const filler = quests.filter(q => !pinned.includes(q)).slice(0, room)
+  const todayQuests = quests.length > maxToday ? quests.filter(q => pinned.includes(q) || filler.includes(q)) : quests
+  const moreQuests = quests.filter(q => !todayQuests.includes(q))
 
   // The same tick flow as the home screen: optimistic to pending, a burst and
   // a friendly face, the server reconciling underneath.
@@ -191,7 +216,7 @@ export default function KidJobsScreen({
             buddyName={who.name}
             buddyImg={who.img}
             buddyIsStar={who.key === 'digi'}
-            quests={quests}
+            quests={todayQuests}
             ticks={ticks}
             onToggleQuest={q => toggle(q)}
             burstQuestId={burst}
@@ -224,6 +249,39 @@ export default function KidJobsScreen({
               setTimeout(() => { window.location.assign(`/k/${token}`) }, 1800)
             }}
           />
+        )}
+
+        {moreQuests.length > 0 && (
+          <div style={{
+            marginTop: 18, background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
+            boxShadow: '0 4px 0 var(--ink)', padding: '16px 16px 14px',
+          }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 4px', lineHeight: 1.2 }}>
+              If you fancy more
+            </p>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+              {todayQuests.length} {todayQuests.length === 1 ? 'job' : 'jobs'} is plenty for one day. These can wait, or tap one to do it today.
+            </p>
+            {moreQuests.map(q => (
+              <div key={q.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderTop: '2px dotted rgba(26,26,46,0.15)' }}>
+                <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                  {q.title}
+                  <span style={{ color: 'var(--ink-muted)', fontWeight: 700, whiteSpace: 'nowrap' }}> · {q.stars} ⭐</span>
+                </span>
+                <button
+                  onClick={() => { playKidSound('tap'); setPromoted(prev => new Set(prev).add(q.id)) }}
+                  style={{
+                    flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
+                    borderRadius: 100, padding: '8px 13px', cursor: 'pointer', boxShadow: '0 3px 0 var(--ink)',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
+                  }}
+                >
+                  Do it today
+                </button>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>

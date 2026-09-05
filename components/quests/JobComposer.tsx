@@ -276,7 +276,7 @@ export default function JobComposer({
             // phone screen.
             style={{
               flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-              border: '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
               background: tone === 'cream' ? 'var(--cream)' : '#fff',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
@@ -286,11 +286,11 @@ export default function JobComposer({
             onClick={() => ready && startWith(title.trim())}
             disabled={!ready}
             style={{
-              flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-              borderRadius: '12px', padding: '12px 20px',
+              flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
+              borderRadius: '14px', padding: '12px 20px',
               cursor: ready ? 'pointer' : 'default',
-              fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
-              boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: ready ? 1 : 0.5,
+              fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900,
+              boxShadow: '0 4px 0 var(--ink)', opacity: ready ? 1 : 0.5,
             }}
           >
             Next
@@ -479,10 +479,10 @@ export default function JobComposer({
           type="button"
           onClick={() => { setStep('what'); setTitle('') }}
           style={{
-            flex: 1, minWidth: 130, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-            borderRadius: 12, padding: '12px 16px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
-            boxShadow: '0 3px 0 var(--terracotta-dark)',
+            flex: 1, minWidth: 130, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
+            borderRadius: 14, padding: '12px 16px', cursor: 'pointer',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900,
+            boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           Add another
@@ -493,7 +493,7 @@ export default function JobComposer({
             onClick={onSeeWaiting}
             style={{
               flex: 1, minWidth: 130, background: '#fff', color: 'var(--ink)',
-              border: '1.5px solid var(--border)', borderRadius: 12, padding: '12px 16px',
+              border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 16px',
               cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 700,
             }}
           >

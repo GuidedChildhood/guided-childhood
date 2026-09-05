@@ -125,7 +125,12 @@ function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: 
           <Link
             key={tab.href}
             href={childId ? `${tab.href}?child=${childId}` : tab.href}
-            prefetch
+            // No full prefetch. On a dynamic page `prefetch` keeps a whole copy
+            // in the router cache for five minutes, so a parent who added a job
+            // on Quests and tapped Home saw the Home fetched before the job
+            // existed: "First job" still current a minute after the job landed
+            // (Justin, 5 September). The default prefetches only the loading
+            // state and renders the page as it is now on every tap.
             onClick={e => {
               // Tapping the tab you are already on scrolls back to the top,
               // the way every app with a tab bar behaves. Next does nothing at

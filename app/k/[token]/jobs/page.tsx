@@ -55,6 +55,7 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
       childName={childRes.data?.name ?? 'Superstar'}
       buddy={(childRes.data?.buddy as string | null) ?? null}
       stageId={stageId}
+      ageBand={ageBand ?? null}
       quests={jobs.dueQuests.map(q => ({
         id: q.id, title: q.title, emoji: q.emoji, stars: q.stars, blocks_screens: q.blocks_screens,
       }))}

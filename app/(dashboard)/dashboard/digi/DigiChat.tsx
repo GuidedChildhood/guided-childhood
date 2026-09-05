@@ -707,7 +707,7 @@ export default function DigiChat({
                 display: 'inline-flex', alignItems: 'center', gap: 5,
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                 color: 'var(--ink)', textDecoration: 'none',
-                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                background: 'var(--cream)', border: '2px solid var(--ink)',
                 borderRadius: 100, padding: '6px 13px', whiteSpace: 'nowrap',
               }}
             >
@@ -762,7 +762,7 @@ export default function DigiChat({
             {stageId && stageName && !deviceSetupDismissed && (
               <div style={{
                 background: 'var(--stage-2)',
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 borderRadius: '16px',
                 padding: '16px 18px',
                 marginBottom: '20px',
@@ -873,7 +873,7 @@ export default function DigiChat({
               onClick={() => setHistoryOpen(o => !o)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8, width: '100%',
-                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                background: 'var(--cream)', border: '2px solid var(--ink)',
                 borderRadius: 14, padding: '11px 14px', cursor: 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 color: 'var(--ink-soft)', textAlign: 'left',
@@ -1000,7 +1000,7 @@ export default function DigiChat({
                       disabled={sentToChild[i] === 'sending' || sentToChild[i] === 'sent'}
                       style={{
                         background: sentToChild[i] === 'sent' ? 'var(--tint-sage)' : '#fff',
-                        border: '1.5px solid var(--border)',
+                        border: '2px solid var(--ink)',
                         color: 'var(--ink)', borderRadius: 12, padding: '9px 14px',
                         cursor: sentToChild[i] === 'sent' ? 'default' : 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
@@ -1096,7 +1096,7 @@ export default function DigiChat({
                     rows={2}
                     style={{
                       width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: '12px',
-                      border: '1.5px solid var(--border)', background: 'var(--cream)',
+                      border: '2px solid var(--ink)', background: 'var(--cream)',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)',
                       resize: 'none', outline: 'none', lineHeight: 1.5, marginBottom: '8px',
                     }}
@@ -1119,7 +1119,7 @@ export default function DigiChat({
                     <button
                       onClick={() => { setFlagOpen(false); setFlagNote('') }}
                       style={{
-                        background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px', padding: '9px 14px',
+                        background: 'none', border: '2px solid var(--ink)', borderRadius: '10px', padding: '9px 14px',
                         cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                       }}
                     >
@@ -1203,7 +1203,7 @@ export default function DigiChat({
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: '10px',
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 background: 'var(--cream)',
                 fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-md)',
@@ -1360,7 +1360,7 @@ export default function DigiChat({
                 in the corner, the reference feel in our palette. */}
             <div style={{
               display: 'flex', gap: '8px', alignItems: 'flex-end',
-              background: 'var(--cream)', border: '1.5px solid var(--border)',
+              background: 'var(--cream)', border: '2px solid var(--ink)',
               borderRadius: '26px', padding: '6px 6px 6px 18px',
               transition: 'border-color 0.15s',
             }}>

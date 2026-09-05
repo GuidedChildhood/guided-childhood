@@ -10273,3 +10273,51 @@ only), the 1 in 5 surveilled figure (not in its source), the Florida
 happiness study, the Sapien data, and any measurement artefact story (the
 big Norwegian test rejected it). The missing seventh lens is the Teacher,
 recommended as a V3 before the autumn school pitch cycle.
+
+## 5 September 2026: the tab bar loop fix, the child's jobs guided by age, the finish on the other parent pages
+
+Justin, late, with three screenshots: "New look looks great, apply to all other
+pages, and check the loop: added a job for Jonny and it has not updated in jobs
+for today on the parent side. They need to be able to add several jobs, guided
+on the kid, too many, then ask them to pick today's tasks." Found: the job had
+landed (daily, after school, 23:19), and the Home tab was a copy up to five
+minutes old because every mobile tab bar link carried `prefetch`, which on a
+dynamic page keeps a full copy in the router cache. Decided: no full prefetch on
+the tab bar, the page renders as it is now on every tap. Adding several jobs
+already worked, so the guide moved to the child's side: the jobs page reads the
+age sweet spot from lib/quests/job-load.ts, keeps that many under Today (a
+ticked job and a screen gating job always stay), and folds the rest under "If
+you fancy more", a tap each to join Today. No migration: the fold is how the
+list is read, the jobs and stars are untouched. The happy news finish went to
+the shared section tiles (with the child's story icons), the Quests page and
+its cards, Add a job, the picks, the child code card, DiGi, Lessons, Passport,
+Printables and Settings, by swapping the soft border for the ink edge and giving
+the card shells the hard ledge. PR 969.
+
+## 5 September 2026: a server render is not a read, and the child switcher stops prefetching
+
+Justin, on Todd's road: "make sure works for multi children. Not sure why here
+Todd has updated script and today's done when have only done first child."
+The database had script 107 opened for Jonny and for Todd 267 milliseconds
+apart. The script page wrote its opened row during the server render, keyed to
+whichever child the address named, and the child switcher pills on Jonny's
+script page fully prefetched the same page for Todd. A render nobody looked at
+became a read Todd never did. Decided: no page writes on render. The reader
+posts its open from the browser once it is really on the screen
+(components/scripts/RecordScriptOpen.tsx, through /api/completions, which now
+refreshes completed_at and records the learning stream event for a bare open),
+the same way the deck already did. The child switcher pills no longer fully
+prefetch, for the same reason the tab bar stopped: a full prefetch of a dynamic
+page is a copy, or a side effect, nobody asked for. Todd's phantom row for
+tonight was deleted by hand. Todd's check in tick was real: both children's
+worries were scored at 22:17.
+
+## 5 September 2026: lessons open on the child's own stage, on both views
+
+Justin, on Lessons for Todd: "Lessons still showing same list for both
+children even if different ages." The library was handed to every child whole
+and Watch together opened on all ages, so Jonny (11 to 13) and Todd (13 to 15)
+saw the same ten films and the same 141 on the tabs under a heading that named
+one of them. Decided: both views open on the child's stage, the tab counts are
+the child's counts, the chips still step to any age, and a stage with no films
+falls back to all of them. LessonsBrowser only; the data is unchanged.

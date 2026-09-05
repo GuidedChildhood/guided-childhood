@@ -95,9 +95,13 @@ export default function LessonsBrowser({
   // video. Lessons open on the child's own age, the set that moves their
   // progress, in a clear numbered order to work through; the chips still let
   // a parent step to another stage. A deep link overrides both.
-  const [stage, setStage] = useState<number | 'all'>(
-    initialStage ?? ((initialView ?? 'together') === 'library' ? childStageNum : 'all')
-  )
+  // The child's own stage, on BOTH views. Watch together used to open on
+  // every age, so Jonny (11 to 13) and Todd (13 to 15) saw the same ten films
+  // and the same counts on the tabs, and the page called that "Lessons for
+  // Todd". Justin, 5 September 2026: "Lessons still showing same list for
+  // both children even if different ages." The chips still step to any age,
+  // and a stage with no films falls back to all of them (watchFallback below).
+  const [stage, setStage] = useState<number | 'all'>(initialStage ?? childStageNum)
 
   // The chip row scrolls sideways, and the child's own stage is the fifth chip
   // along. On a phone only "All ages" and "Stage 1" fit, so the selected chip
@@ -161,9 +165,13 @@ export default function LessonsBrowser({
   )
   const stageChips = STAGE_LIST.filter(s => stagesWith.has(s.num))
 
+  // The counts are this child's: how many films and lessons are at their
+  // stage, not the size of the whole library. A stage with nothing at it
+  // shows the total, which is what the list falls back to.
+  const countFor = (n: number, total: number) => (n > 0 ? n : total)
   const TABS: { key: View; icon: string; label: string; count: number }[] = [
-    { key: 'together', icon: '🎬', label: 'Watch together', count: watchItems.length },
-    { key: 'library', icon: '📚', label: 'Lessons', count: libraryItems.length },
+    { key: 'together', icon: '🎬', label: 'Watch together', count: countFor(watchItems.filter(w => w.stageNum === childStageNum).length, watchItems.length) },
+    { key: 'library', icon: '📚', label: 'Lessons', count: countFor(libraryItems.filter(l => l.stageNum === childStageNum).length, libraryItems.length) },
   ]
 
   return (
@@ -282,7 +290,7 @@ export default function LessonsBrowser({
                 {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
                 {g.items.map(w => (
-                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
+                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
                     <Link href={`/dashboard/lessons/together/${w.code}${childId ? `?child=${childId}` : ''}`} style={{ position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '16 / 10', overflow: 'hidden', background: `linear-gradient(150deg, var(--stage-${w.stageNum}-bold) 0%, var(--stage-${w.stageNum}) 100%)` }}>
                       {w.posterUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -588,7 +596,7 @@ function ProgressLessonsBanner({
           title={childId ? `Ping ${childName} to open My lessons on their page` : 'Add your child first'}
           style={{
             background: sendState === 'sent' ? 'var(--tint-sage)' : '#fff',
-            border: '1.5px solid var(--border)', borderRadius: '11px', padding: '8px 12px',
+            border: '2px solid var(--ink)', borderRadius: '11px', padding: '8px 12px',
             cursor: childId && sendState !== 'sending' ? 'pointer' : 'default',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
             whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,

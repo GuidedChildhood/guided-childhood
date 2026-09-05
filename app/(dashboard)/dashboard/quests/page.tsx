@@ -310,7 +310,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           the balance where the evidence points. This names the numbers and
           the one adjustment when the board runs light or rich. */}
       {tuning.length > 0 && (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginTop: '14px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '15px 17px', marginTop: '14px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '8px' }}>
             The deal, tuned to their age
           </div>
@@ -351,7 +351,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
 
       {/* What they wrote in the Homework step, exactly as they wrote it. */}
       {homeworkNotes.length > 0 && (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginTop: '14px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '15px 17px', marginTop: '14px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
             Homework, in their words
           </div>
