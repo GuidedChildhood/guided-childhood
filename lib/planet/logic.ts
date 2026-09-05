@@ -83,6 +83,8 @@ export type Home = {
   rewards: PartKey[]
   /** Where the parts are and who wears what (slice 3). */
   build: Build
+  /** The Den, the things in it, the MoonPhones and the shelf (slice 3a). */
+  world: World
   /** 0 bare rock, 1 first grass, 2 a flag, 3 a little house, 4 rings, 5 a moon. */
   growthStage: number
   /** 0 to 100 toward the next stage. Moves only when a rest closes. */
@@ -222,6 +224,7 @@ export function newHome(tier: Tier, nowIso: string, nightKey: string | null): Ho
     missions: [],
     rewards: [...STARTER_PARTS],
     build: newBuild(),
+    world: newWorld(ACTIVE_BY_TIER[tier]),
     growthStage: 1,
     growthProgress: 0,
     grewWhileAway: 0,
@@ -255,6 +258,14 @@ export function grow(home: Home, points: number): Home {
 
 export function startCooldown(friend: Friend, reason: CooldownReason, minutes: number, nowIso: string): Friend {
   return { ...friend, cooldown: { reason, startedAt: nowIso, endsAt: addMinutes(nowIso, minutes), lengthMinutes: minutes } }
+}
+
+/** A rest for one Friend: the cooldown starts and whatever it was holding is put away first. */
+function restFriend(home: Home, key: FriendKey, reason: CooldownReason, minutes: number, nowIso: string): Home {
+  const f = home.friends.find(x => x.key === key)
+  if (!f || f.cooldown) return home
+  const put = handsEmpty(home, key, nowIso)
+  return { ...put, friends: put.friends.map(x => (x.key === key ? startCooldown(x, reason, minutes, nowIso) : x)) }
 }
 
 function fractionRested(cooldown: Cooldown, nowIso: string): number {
@@ -292,6 +303,10 @@ export function reconcile(home: Home, nowIso: string, nightKey: string | null): 
     const kept = home.rewards.filter(isPartKey)
     home = { ...home, rewards: [...STARTER_PARTS.filter(p => !kept.includes(p)), ...kept], build: newBuild() }
   }
+  // The Den (slice 3a): a save from before it gets a world, and a Friend who
+  // joined at a tier change gets a MoonPhone.
+  home = ensureWorld(home)
+  home = settleWorld(home, nowIso)
   let points = 0
   let friends = home.friends.map(f => {
     if (f.cooldown && new Date(f.cooldown.endsAt).getTime() <= new Date(nowIso).getTime()) {
@@ -332,6 +347,13 @@ export type HomeEvent =
   | { kind: 'part_move'; part: PartKey; slot: string }
   | { kind: 'part_remove'; part: PartKey }
   | { kind: 'outfit_set'; friend: FriendKey; outfit: Outfit | null }
+  | { kind: 'room_move'; friend: FriendKey; where: Where }
+  | { kind: 'thing_place'; thing: Movable; room: RoomKey; spot: string }
+  | { kind: 'thing_home'; thing: Movable }
+  | { kind: 'thing_give'; thing: ThingKey | DeviceKey; friend: FriendKey }
+  | { kind: 'eat'; friend: FriendKey }
+  | { kind: 'snap'; friend: FriendKey }
+  | { kind: 'device_dock'; device: DeviceKey }
 
 /** Starlight lost per minute of play for this tier and cloud. */
 export function drainPerMinute(cfg: TierConfig, cloud: boolean): number {
@@ -362,6 +384,8 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Reco
     case 'part_place': {
       const b = home.build
       if (!home.rewards.includes(ev.part) || b.placed.some(p => p.part === ev.part)) return home
+      // A part in a room of the Den is not in the box (slice 3a).
+      if (home.world?.placed?.some(p => p.thing === ev.part)) return home
       if (!slotTakes(ev.slot, ev.part) || b.placed.some(p => p.slot === ev.slot)) return home
       if (b.placed.length >= plotsFor(home.growthStage)) return home
       return { ...home, build: { ...b, placed: [...b.placed, { part: ev.part, slot: ev.slot }] } }
@@ -439,23 +463,98 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Reco
     }
     case 'tick': {
       // Only real play drains: the seconds since the last tick, capped, and
-      // only Friends that are awake. A resting Friend is not playing.
+      // only Friends that are awake. A resting Friend is not playing. A
+      // Friend holding its MoonPhone drains double (design 3.1), and the
+      // phone's battery runs down at the base rate with it.
       const seconds = Math.max(0, Math.min(TICK_CAP_SECONDS, secondsBetween(home.energyTickedAt, nowIso)))
+      let next: Home = home
       const friends = home.friends.map(f => {
         if (f.cooldown) return f
-        const energy = Math.max(0, f.energy - (seconds / 60) * drainPerMinute(cfg, f.cloud))
+        const energy = Math.max(0, f.energy - (seconds / 60) * drainPerMinute(cfg, f.cloud) * drainMultiplier(home, f.key))
         return { ...f, energy: Math.round(energy * 100) / 100 }
       })
-      return { ...home, friends, energyTickedAt: nowIso }
+      next = { ...next, friends, energyTickedAt: nowIso }
+      for (const f of friends) {
+        const dev = heldDevice(next, f.key)
+        if (!dev) continue
+        const d = next.world.devices[dev]
+        if (!d) continue
+        const battery = Math.max(0, Math.round((d.battery - (seconds / 60) * (100 / cfg.playMinutes)) * 100) / 100)
+        next = { ...next, world: { ...next.world, devices: { ...next.world.devices, [dev]: { ...d, battery } } } }
+        // Flat, or sleepy: the Friend puts its phone on the shelf by itself.
+        // The modelling beat, before the child is asked to do anything.
+        if (battery <= 0 || f.energy <= SLEEPY_AT) next = dockDevice(next, dev, nowIso)
+      }
+      return next
     }
     case 'nap_start':
-      return forFriend(ev.friend, f => (f.cooldown ? f : startCooldown(f, 'nap', cfg.napMinutes, nowIso)))
+      return restFriend(home, ev.friend, 'nap', cfg.napMinutes, nowIso)
     case 'sunlight_start':
-      return forFriend(ev.friend, f => (f.cooldown ? f : startCooldown(f, 'sunlight', cfg.sunlightMinutes, nowIso)))
-    case 'ambient_start':
+      return restFriend(home, ev.friend, 'sunlight', cfg.sunlightMinutes, nowIso)
+    case 'ambient_start': {
       // Only a fully drained Friend rests by itself. Anything else is a drag
       // the child chose, which is one of the two events above.
-      return forFriend(ev.friend, f => (f.cooldown || f.energy > 0 ? f : startCooldown(f, 'ambient', cfg.ambientMinutes, nowIso)))
+      const f = home.friends.find(x => x.key === ev.friend)
+      if (!f || f.cooldown || f.energy > 0) return home
+      return restFriend(home, ev.friend, 'ambient', cfg.ambientMinutes, nowIso)
+    }
+    // ── The Den: rooms, things, the MoonPhones and the shelf (slice 3a) ──
+    case 'room_move': {
+      const f = home.friends.find(x => x.key === ev.friend)
+      if (!f || f.cooldown || !isWhere(ev.where)) return home
+      return { ...home, world: { ...home.world, where: { ...home.world.where, [ev.friend]: ev.where } } }
+    }
+    case 'thing_place': {
+      const w = home.world
+      if (!isMovable(ev.thing) || !ROOM_KEYS.includes(ev.room)) return home
+      const spot = ROOM_SPOTS[ev.room].find(sp => sp.id === ev.spot)
+      if (!spot || spot.zone !== roomZoneOf(ev.thing)) return home
+      if (w.placed.some(p => p.room === ev.room && p.spot === ev.spot && p.thing !== ev.thing)) return home
+      if (isPartKey(ev.thing) && (!home.rewards.includes(ev.thing) || home.build.placed.some(p => p.part === ev.thing))) return home
+      if (isThingKey(ev.thing) && w.eaten[ev.thing]) return home
+      if (isDeviceKey(ev.thing)) { const d = w.devices[ev.thing]; if (!d || charging(d, nowIso)) return home }
+      const lifted = lift(home, ev.thing)
+      const devices = isDeviceKey(ev.thing) && lifted.world.devices[ev.thing] ? { ...lifted.world.devices, [ev.thing]: { ...lifted.world.devices[ev.thing]!, at: 'placed' as const, chargedAt: null } } : lifted.world.devices
+      return { ...lifted, world: { ...lifted.world, devices, placed: [...lifted.world.placed, { thing: ev.thing, room: ev.room, spot: ev.spot }] } }
+    }
+    case 'thing_home': {
+      // Back where it lives: the fridge, the toy box, the parts box. A phone
+      // lives on the shelf, which is device_dock.
+      if (!isMovable(ev.thing) || isDeviceKey(ev.thing)) return home
+      return lift(home, ev.thing)
+    }
+    case 'thing_give': {
+      const w = home.world
+      const f = home.friends.find(x => x.key === ev.friend)
+      if (!f || f.cooldown) return home
+      if (!(isThingKey(ev.thing) || isDeviceKey(ev.thing))) return home
+      if (isThingKey(ev.thing) && w.eaten[ev.thing]) return home
+      if (isDeviceKey(ev.thing)) {
+        const d = w.devices[ev.thing]
+        if (!d || d.owner !== ev.friend || charging(d, nowIso)) return home
+      }
+      // The hand holds one thing: what was there goes back where it lives.
+      let next = handsEmpty(home, ev.friend, nowIso)
+      next = lift(next, ev.thing)
+      const devices = isDeviceKey(ev.thing) && next.world.devices[ev.thing] ? { ...next.world.devices, [ev.thing]: { ...next.world.devices[ev.thing]!, at: 'hand' as const, chargedAt: null } } : next.world.devices
+      return { ...next, world: { ...next.world, devices, held: { ...next.world.held, [ev.friend]: ev.thing } } }
+    }
+    case 'eat': {
+      const held = home.world.held[ev.friend]
+      if (!held || !isFoodKey(held)) return home
+      const { [ev.friend]: _gone, ...rest } = home.world.held
+      void _gone
+      return { ...home, world: { ...home.world, held: rest, eaten: { ...home.world.eaten, [held]: dayOf(nowIso) } } }
+    }
+    case 'snap': {
+      const dev = heldDevice(home, ev.friend)
+      if (!dev) return home
+      const d = home.world.devices[dev]
+      if (!d || d.battery <= 0 || d.photos >= PHOTOS_MAX) return home
+      return { ...home, world: { ...home.world, devices: { ...home.world.devices, [dev]: { ...d, photos: d.photos + 1 } } } }
+    }
+    case 'device_dock':
+      return dockDevice(home, ev.device, nowIso)
     case 'cloud':
       return forFriend(ev.friend, f => ({ ...f, cloud: ev.on }))
     case 'seen':
@@ -646,11 +745,212 @@ export function newBuild(): Build {
 
 /** The parts in the box: owned and not on the planet. */
 export function boxParts(home: Home): PartKey[] {
-  return home.rewards.filter(p => isPartKey(p) && !home.build.placed.some(x => x.part === p))
+  return home.rewards.filter(p => isPartKey(p) && !home.build.placed.some(x => x.part === p) && !home.world.placed.some(x => x.thing === p))
 }
 
 /** The outfits in the box: owned and not being worn. */
 export function boxOutfits(home: Home): Outfit[] {
   const worn = new Set(Object.values(home.build.wearing))
   return home.build.outfits.filter(o => !worn.has(o))
+}
+
+// ── The Den (slice 3a): rooms, things, the MoonPhones and the shelf ──────────
+// Justin, 5 September 2026: "to progress they get devices and put them in a
+// charging port in the kitchen for example." The Friends have a house on the
+// home planet. Their phones run down while they hold them and charge on the
+// shelf in the kitchen for a real five minutes, and a Friend that gets sleepy
+// or flat takes its phone to the shelf by itself, before the child is asked
+// to do anything. Food lives in the fridge and is eaten in bites; toys live
+// in the toy box; the parts from the box can come indoors. One rule for all
+// of it: a thing is in exactly one place, a spot, a hand, or where it lives.
+
+export type RoomKey = 'kitchen' | 'living' | 'bedroom'
+export type Where = 'outdoors' | RoomKey
+export type RoomZone = 'wall' | 'floor' | 'table'
+export type FoodKey = 'apple' | 'toast' | 'juice' | 'cake'
+export type ToyKey = 'teddy' | 'ball' | 'book'
+export type ThingKey = FoodKey | ToyKey
+export type DeviceKey = `phone_${FriendKey}`
+/** Anything that can sit in a room spot. */
+export type Movable = ThingKey | PartKey | DeviceKey
+
+export type Device = {
+  owner: FriendKey
+  /** 0 to 100. Runs down in the hand, fills on the shelf. */
+  battery: number
+  at: 'hand' | 'shelf' | 'placed'
+  /** On the shelf and not yet full: when the charge completes, on the server's clock. */
+  chargedAt: string | null
+  /** The pretend gallery: six frames, then it is full, which is done. Cleared by a full charge. */
+  photos: number
+}
+export type RoomPlaced = { thing: Movable; room: RoomKey; spot: string }
+export type World = {
+  /** Which room each active Friend is in. Not listed means outdoors. */
+  where: Partial<Record<FriendKey, Where>>
+  placed: RoomPlaced[]
+  /** What each Friend holds. One thing per hand. */
+  held: Partial<Record<FriendKey, ThingKey | DeviceKey>>
+  /** Food eaten today, by the day it was eaten. The fridge restocks tomorrow. */
+  eaten: Partial<Record<ThingKey, string>>
+  devices: Partial<Record<DeviceKey, Device>>
+}
+
+export const ROOM_KEYS: RoomKey[] = ['kitchen', 'living', 'bedroom']
+/** The walk through the house: the kitchen is the front door, the bedroom the far end. */
+export const ROOM_ORDER: Where[] = ['outdoors', 'kitchen', 'living', 'bedroom']
+export const FOOD_KEYS: FoodKey[] = ['apple', 'toast', 'juice', 'cake']
+export const TOY_KEYS: ToyKey[] = ['teddy', 'ball', 'book']
+export const THING_KEYS: ThingKey[] = [...FOOD_KEYS, ...TOY_KEYS]
+export const THING_ZONE: Record<ThingKey, RoomZone> = { apple: 'table', toast: 'table', juice: 'table', cake: 'table', teddy: 'floor', ball: 'floor', book: 'table' }
+export const THING_HOME: Record<ThingKey, 'fridge' | 'toybox'> = { apple: 'fridge', toast: 'fridge', juice: 'fridge', cake: 'fridge', teddy: 'toybox', ball: 'toybox', book: 'toybox' }
+/** Where an outdoor part goes indoors. The ring stays outside. */
+export const PART_ROOM_ZONE: Record<Zone, RoomZone | null> = { ground: 'floor', horizon: 'floor', sky: 'wall', ring: null }
+/** The places in each room, by id and zone. Where they are drawn lives in RoomScene. */
+export const ROOM_SPOTS: Record<RoomKey, { id: string; zone: RoomZone }[]> = {
+  kitchen: [
+    { id: 'k_t1', zone: 'table' }, { id: 'k_t2', zone: 'table' },
+    { id: 'k_f1', zone: 'floor' }, { id: 'k_f2', zone: 'floor' },
+    { id: 'k_w1', zone: 'wall' },
+  ],
+  living: [
+    { id: 'l_t1', zone: 'table' },
+    { id: 'l_f1', zone: 'floor' }, { id: 'l_f2', zone: 'floor' },
+    { id: 'l_w1', zone: 'wall' },
+  ],
+  bedroom: [
+    { id: 'b_t1', zone: 'table' },
+    { id: 'b_f1', zone: 'floor' }, { id: 'b_f2', zone: 'floor' },
+    { id: 'b_w1', zone: 'wall' }, { id: 'b_w2', zone: 'wall' },
+  ],
+}
+/** A real five minutes on the shelf, on the server's clock. */
+export const CHARGE_MINUTES = 5
+export const PHOTOS_MAX = 6
+
+export const isRoomKey = (k: unknown): k is RoomKey => typeof k === 'string' && (ROOM_KEYS as string[]).includes(k)
+export const isWhere = (k: unknown): k is Where => k === 'outdoors' || isRoomKey(k)
+export const isFoodKey = (k: unknown): k is FoodKey => typeof k === 'string' && (FOOD_KEYS as string[]).includes(k)
+export const isThingKey = (k: unknown): k is ThingKey => typeof k === 'string' && (THING_KEYS as string[]).includes(k)
+export const isDeviceKey = (k: unknown): k is DeviceKey => typeof k === 'string' && k.startsWith('phone_') && (FRIEND_KEYS as string[]).includes(k.slice(6))
+export const isMovable = (k: unknown): k is Movable => isThingKey(k) || isPartKey(k) || isDeviceKey(k)
+export const deviceOf = (friend: FriendKey): DeviceKey => `phone_${friend}`
+
+/** The room zone a movable thing needs. Null for the ring, which never comes indoors. */
+export function roomZoneOf(thing: Movable): RoomZone | null {
+  if (isThingKey(thing)) return THING_ZONE[thing]
+  if (isDeviceKey(thing)) return 'table'
+  return PART_ROOM_ZONE[PART_ZONE[thing]]
+}
+
+/** A new phone: full, on the shelf in the kitchen. The child hands it over; the play lengths in TIERS are for a Friend without one. */
+export function newDevice(owner: FriendKey): Device {
+  return { owner, battery: 100, at: 'shelf', chargedAt: null, photos: 0 }
+}
+
+/** A fresh world: everyone outdoors, every phone full on the shelf, the fridge full, nothing in anyone's hands. */
+export function newWorld(friends: FriendKey[]): World {
+  const devices: World['devices'] = {}
+  for (const f of friends) devices[deviceOf(f)] = newDevice(f)
+  return { where: {}, placed: [], held: {}, eaten: {}, devices }
+}
+
+/** A save from before the Den gets a world; a Friend who joined later gets a phone. */
+export function ensureWorld(home: Home): Home {
+  let world: World = home.world && Array.isArray(home.world.placed) ? home.world : newWorld(home.friends.map(f => f.key))
+  for (const f of home.friends) {
+    const key = deviceOf(f.key)
+    if (world.devices[key]) continue
+    world = { ...world, devices: { ...world.devices, [key]: newDevice(f.key) } }
+  }
+  return world === home.world ? home : { ...home, world }
+}
+
+export const dayOf = (iso: string): string => iso.slice(0, 10)
+
+/** Still charging on the shelf: it cannot be picked up. */
+export function charging(d: Device, nowIso: string): boolean {
+  return d.at === 'shelf' && !!d.chargedAt && new Date(d.chargedAt).getTime() > new Date(nowIso).getTime()
+}
+
+/** The battery as it is right now: what was stored, filling over the five minutes on the shelf. */
+export function batteryNow(d: Device, nowIso: string): number {
+  if (!charging(d, nowIso) || !d.chargedAt) return d.at === 'shelf' && !d.chargedAt ? 100 : d.battery
+  const start = new Date(d.chargedAt).getTime() - CHARGE_MINUTES * 60000
+  const f = Math.max(0, Math.min(1, (new Date(nowIso).getTime() - start) / (CHARGE_MINUTES * 60000)))
+  return Math.round(d.battery + (100 - d.battery) * f)
+}
+
+/** The phone in this Friend's hand, if it is holding one. */
+export function heldDevice(home: Home, friend: FriendKey): DeviceKey | null {
+  const h = home.world?.held?.[friend]
+  return h && isDeviceKey(h) ? h : null
+}
+
+/** A Friend holding its phone drains double (design 3.1). */
+export function drainMultiplier(home: Home, friend: FriendKey): number {
+  return heldDevice(home, friend) ? 2 : 1
+}
+
+/** Where every Friend is. */
+export function whereIs(home: Home, friend: FriendKey): Where {
+  return home.world?.where?.[friend] ?? 'outdoors'
+}
+
+/** The food and toys where they live: not on a spot, not in a hand, not eaten today. */
+export function atHome(home: Home, place: 'fridge' | 'toybox'): ThingKey[] {
+  const w = home.world
+  const held = new Set(Object.values(w.held))
+  return THING_KEYS.filter(t => THING_HOME[t] === place && !w.eaten[t] && !held.has(t) && !w.placed.some(p => p.thing === t))
+}
+
+/** Take a thing out of wherever it is: any spot, any hand. Pure bookkeeping, no rules. */
+function lift(home: Home, thing: Movable): Home {
+  const w = home.world
+  const held: World['held'] = {}
+  for (const [k, v] of Object.entries(w.held)) if (v && v !== thing) held[k as FriendKey] = v
+  return { ...home, world: { ...w, held, placed: w.placed.filter(p => p.thing !== thing) } }
+}
+
+/** One Friend's hand emptied: a phone goes to the shelf, anything else goes back where it lives. */
+export function handsEmpty(home: Home, friend: FriendKey, nowIso: string): Home {
+  const h = home.world.held[friend]
+  if (!h) return home
+  if (isDeviceKey(h)) return dockDevice(home, h, nowIso)
+  return lift(home, h)
+}
+
+/** The phone onto the shelf. Below full it charges for the real five minutes; nobody can pick it up until then. */
+export function dockDevice(home: Home, device: DeviceKey, nowIso: string): Home {
+  const d = home.world.devices[device]
+  if (!d || d.at === 'shelf') return home
+  const lifted = lift(home, device)
+  // A phone that is all but full is full: five minutes for the last sliver would be silly.
+  const full = d.battery >= 95
+  const docked: Device = { ...d, at: 'shelf', battery: full ? 100 : d.battery, chargedAt: full ? null : addMinutes(nowIso, CHARGE_MINUTES) }
+  return { ...lifted, world: { ...lifted.world, devices: { ...lifted.world.devices, [device]: docked } } }
+}
+
+/** Wind down and bedtime: every phone goes on the shelf and every hand is empty. The Friends do it themselves. */
+export function dockAllDevices(home: Home, nowIso: string): Home {
+  let next = home
+  for (const f of home.friends) next = handsEmpty(next, f.key, nowIso)
+  for (const key of Object.keys(next.world.devices) as DeviceKey[]) next = dockDevice(next, key, nowIso)
+  return next
+}
+
+/** Charges that have completed complete, and the fridge restocks each new day. Idempotent. */
+export function settleWorld(home: Home, nowIso: string): Home {
+  const w = home.world
+  let devices = w.devices
+  for (const [key, d] of Object.entries(w.devices) as [DeviceKey, Device][]) {
+    if (d.at === 'shelf' && d.chargedAt && new Date(d.chargedAt).getTime() <= new Date(nowIso).getTime()) {
+      devices = { ...devices, [key]: { ...d, battery: 100, chargedAt: null, photos: 0 } }
+    }
+  }
+  const today = dayOf(nowIso)
+  const eaten: World['eaten'] = {}
+  for (const [t, day] of Object.entries(w.eaten)) if (day === today) eaten[t as ThingKey] = day
+  if (devices === w.devices && Object.keys(eaten).length === Object.keys(w.eaten).length) return home
+  return { ...home, world: { ...w, devices, eaten } }
 }

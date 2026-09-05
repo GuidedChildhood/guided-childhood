@@ -10390,3 +10390,23 @@ was. On the time question: ten minutes a day stays the family promise, since
 the only per child steps are now the check in and the jobs, about two minutes
 for a second child; no copy change. Migration 255 goes to production on
 Justin's word.
+
+## 6 September 2026: Planet Friends slice 3a, the Den and the charging shelf, built
+
+Justin: "Go 3a". Built the same day (PR 972, no migration): the Friends'
+house on the home planet, a round door where the charger pad was. Three
+rooms from one renderer and registry data (the kitchen with the charging
+shelf, fridge and cooker; the living room with the sofa, bookshelf, a picture
+that wobbles and the music box; the bedroom with two beds, the wardrobe, the
+toy box and no shelf on purpose). Decided on the way: the MoonPhone starts
+full on the shelf, not in the hand, so the tier play lengths stay what the
+design says for a Friend without a phone, and the double drain is a cost the
+child sees the moment they hand it over; a flat or sleepy Friend puts its
+phone on the shelf by itself; the shelf charges for a real five minutes on
+the server's clock and nobody can pick the phone up until then, with 95 or
+more counting as full; wind down and bedtime dock every phone on the server
+before the child sees the room; a Friend puts its snack or toy away before a
+rest; food is eaten in one tap and the fridge restocks each new day; a part
+from the box can come indoors (never the ring) and is then not on the
+planet. Forty seven Playwright checks and six new logic checks. Next on
+Justin's go: 3b, the star system map and lessons unlocking planets.

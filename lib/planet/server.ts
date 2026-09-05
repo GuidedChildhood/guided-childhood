@@ -5,7 +5,7 @@ import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
 import { sendPush } from '@/lib/push/send'
 import {
-  ACTIVE_BY_TIER, applyEvent, bedtimePhase, childAgeFor, codeModeFor, makeCode, minutesLeft, newFriend, newHome, nightKeyFor, reconcile, tierFor, withChildAnswers,
+  ACTIVE_BY_TIER, applyEvent, bedtimePhase, childAgeFor, codeModeFor, dockAllDevices, makeCode, minutesLeft, newFriend, newHome, nightKeyFor, reconcile, tierFor, withChildAnswers,
   type CodeMode, type Home, type HomeAsk, type Tier,
 } from './logic'
 import { friendArt } from './registry'
@@ -147,7 +147,11 @@ async function loadReconciled(admin: Admin, userId: string, childId: string, chi
   let home = reconcile({ ...row.state, tier }, c.nowIso, c.nightKey)
   const want = ACTIVE_BY_TIER[tier]
   const missing = want.filter(k => !home.friends.some(f => f.key === k))
-  if (missing.length) home = { ...home, friends: [...home.friends, ...missing.map(newFriend)] }
+  if (missing.length) home = reconcile({ ...home, friends: [...home.friends, ...missing.map(newFriend)] }, c.nowIso, c.nightKey)
+  // The wind down and bedtime (design 7.3): every MoonPhone goes on the
+  // shelf in the kitchen and every hand is empty, and the Friends do it
+  // themselves, before the child is asked to do anything.
+  if (bedtimePhase(c.minutesNow, c.startMin, c.endMin) !== 'day') home = dockAllDevices(home, c.nowIso)
   const nightLanded = home.lastNightAppliedOn !== row.state.lastNightAppliedOn && !created
   if (JSON.stringify(home) !== before) {
     await saveState(admin, childId, home)

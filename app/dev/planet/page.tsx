@@ -1,6 +1,6 @@
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
-import { applyEvent, isOutfit, isPartKey, newHome, type CodeMode, type FriendKey, type Tier } from '@/lib/planet/logic'
+import { applyEvent, addMinutes, dockAllDevices, isMovable, isOutfit, isPartKey, isRoomKey, isWhere, newHome, type CodeMode, type DeviceKey, type FriendKey, type Tier, type Where } from '@/lib/planet/logic'
 import { MISSION_DEFS } from '@/lib/planet/missions'
 
 // The pretend code on the pretend card, one per shape, so the pad can be driven.
@@ -24,6 +24,11 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?doing=spider_legs  missions already under way, the first on the board
 //   ?landed=plant_seed a mission just approved, the reveal waiting
 //   ?card=pictures|letters  the Comet card printed, in that shape (the code is FIXTURE_CODES)
+//   ?room=kitchen|living|bedroom  open the Den in that room (slice 3a)
+//   ?in=pebble:kitchen,bloop:bedroom  which room each Friend is in
+//   ?held=pebble:apple  what a Friend holds (a thing, or its own phone as phone_pebble)
+//   ?things=apple@k_t1,teddy@b_f1  things already on room spots
+//   ?battery=pebble:20  a phone's battery; ?charging=pebble puts it on the shelf mid charge
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
 
@@ -52,12 +57,41 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
     if (!home.build.outfits.includes(outfit)) home = { ...home, build: { ...home.build, outfits: [...home.build.outfits, outfit] } }
     home = applyEvent(home, { kind: 'outfit_set', friend: friend as FriendKey, outfit }, now)
   }
+  // The Den (slice 3a).
+  if (sp.in) for (const pair of sp.in.split(',')) {
+    const [friend, where] = pair.split(':')
+    if (isWhere(where) && home.friends.some(f => f.key === friend)) home = applyEvent(home, { kind: 'room_move', friend: friend as FriendKey, where }, now)
+  }
+  if (sp.things) for (const pair of sp.things.split(',')) {
+    const [thing, spot] = pair.split('@')
+    const room = spot?.startsWith('k_') ? 'kitchen' : spot?.startsWith('l_') ? 'living' : spot?.startsWith('b_') ? 'bedroom' : null
+    if (!isMovable(thing) || !room || !isRoomKey(room)) continue
+    if (isPartKey(thing) && !home.rewards.includes(thing)) home = { ...home, rewards: [...home.rewards, thing] }
+    home = applyEvent(home, { kind: 'thing_place', thing, room, spot }, now)
+  }
+  if (sp.battery) for (const pair of sp.battery.split(',')) {
+    const [friend, level] = pair.split(':')
+    const key = `phone_${friend}` as DeviceKey
+    const d = home.world.devices[key]
+    if (d) home = { ...home, world: { ...home.world, devices: { ...home.world.devices, [key]: { ...d, battery: Math.max(0, Math.min(100, Number(level) || 0)) } } } }
+  }
+  if (sp.charging) for (const friend of sp.charging.split(',')) {
+    const key = `phone_${friend}` as DeviceKey
+    const d = home.world.devices[key]
+    if (d) home = { ...home, world: { ...home.world, devices: { ...home.world.devices, [key]: { ...d, at: 'shelf', chargedAt: addMinutes(now, 4) } } } }
+  }
+  if (sp.held) for (const pair of sp.held.split(',')) {
+    const [friend, thing] = pair.split(':')
+    if ((isMovable(thing)) && home.friends.some(f => f.key === friend)) home = applyEvent(home, { kind: 'thing_give', thing: thing as never, friend: friend as FriendKey }, now)
+  }
   if (sp.doing) for (const key of sp.doing.split(',')) if (MISSION_DEFS[key]) home = applyEvent(home, { kind: 'mission_start', key }, now, MISSION_DEFS)
   if (sp.landed && MISSION_DEFS[sp.landed]) {
     home = applyEvent(home, { kind: 'mission_start', key: sp.landed }, now, MISSION_DEFS)
     home = applyEvent(home, { kind: 'mission_approve', key: sp.landed }, now, MISSION_DEFS)
   }
   const phase = sp.phase === 'winddown' ? 'winddown' : sp.phase === 'bedtime' ? 'bedtime' : 'day'
+  if (phase !== 'day') home = dockAllDevices(home, now)
+  const initialWhere: Where = isWhere(sp.room) ? sp.room : 'outdoors'
   const view: HomeView = {
     home, serverNow: now, tier,
     childAge: sp.age !== undefined ? Math.max(0, Math.min(16, Number(sp.age))) : 4,
@@ -72,6 +106,7 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
       initial={view}
       theme={resolveTheme(sp.accent ?? null)}
       childName="Teo"
+      initialWhere={initialWhere}
       fixtureAnswers={sp.card === 'pictures' || sp.card === 'letters' ? { comet_card: FIXTURE_CODES[sp.card] } : undefined}
     />
   )
