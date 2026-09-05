@@ -38,7 +38,7 @@ function CardShell({ n, children }: { n: Notification; children: React.ReactNode
         <span style={{
           flexShrink: 0, width: 48, height: 48, borderRadius: '14px',
           background: n.urgent ? '#FDECEC' : isDigi ? 'var(--terracotta-lt)' : 'var(--cream)',
-          border: isDigi ? '1.5px solid var(--terracotta)' : '1px solid var(--border)',
+          border: '2px solid var(--ink)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
         }}>
           {isDigi ? <DigiCharacter mood="speak" size={32} once /> : n.icon}
@@ -65,9 +65,9 @@ function CardShell({ n, children }: { n: Notification; children: React.ReactNode
 
 const cardStyle = (n: Notification): React.CSSProperties => ({
   display: 'block', textDecoration: 'none', background: '#fff',
-  border: `1.5px solid ${n.urgent ? '#E5484D' : 'var(--border)'}`,
+  border: `2px solid ${n.urgent ? '#E5484D' : 'var(--ink)'}`,
   borderRadius: '20px', padding: '18px 18px 16px',
-  boxShadow: n.urgent ? '0 6px 22px rgba(229,72,77,0.14)' : '0 3px 14px rgba(26,26,46,0.05)',
+  boxShadow: n.urgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--ink)',
 })
 
 const pill = (n: Notification): React.CSSProperties => ({

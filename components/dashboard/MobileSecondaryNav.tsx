@@ -58,7 +58,7 @@ export default function MobileSecondaryNav() {
                 padding: '8px 15px', borderRadius: '100px', whiteSpace: 'nowrap',
                 background: on ? 'var(--deep-teal)' : 'var(--cream)',
                 color: on ? '#fff' : 'var(--ink-soft)',
-                border: `1px solid ${on ? 'var(--deep-teal)' : 'var(--border)'}`,
+                border: '2px solid var(--ink)',
               }}
             >
               {tab.label}
@@ -70,7 +70,7 @@ export default function MobileSecondaryNav() {
         .mobile-secondary-nav {
           position: sticky; top: 0; z-index: 40;
           background: rgba(255,255,255,0.96); backdrop-filter: blur(16px);
-          border-bottom: 1px solid var(--border);
+          border-bottom: 2px solid var(--ink);
         }
         /* Right edge fade: signals the strip scrolls, so a partly shown last
            tab reads as more to come, not as a clipped layout. */

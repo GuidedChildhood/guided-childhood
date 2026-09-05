@@ -72,7 +72,7 @@ type Phase = 'rest' | 'flip' | 'slide' | 'back'
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
+const CARD_SHADOW = '0 4px 0 var(--ink)'
 
 function ScriptCardFace({ card, script }: { card: CardDef; script: ScriptData }) {
   return (
@@ -81,7 +81,7 @@ function ScriptCardFace({ card, script }: { card: CardDef; script: ScriptData })
       borderRadius: '28px',
       overflow: 'hidden',
       boxShadow: CARD_SHADOW,
-      border: '1px solid var(--border)',
+      border: '2px solid var(--ink)',
     }}>
       {/* Curved header band */}
       <div style={{
@@ -123,7 +123,7 @@ function DoneFace() {
     <div style={{
       height: '100%',
       background: 'var(--tint-green)',
-      border: '1px solid var(--border)',
+      border: '2px solid var(--ink)',
       borderRadius: '28px',
       boxShadow: CARD_SHADOW,
       display: 'flex', flexDirection: 'column',
@@ -131,7 +131,7 @@ function DoneFace() {
     }}>
       <div style={{
         width: 76, height: 76, borderRadius: '50%',
-        background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+        background: 'var(--tint-sage)', border: '2px solid var(--ink)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 'var(--text-3xl)', color: 'var(--ink)',
       }}>✓</div>
@@ -373,7 +373,7 @@ export default function DeckViewer({
               style={{
                 padding: '14px 20px',
                 background: 'var(--cream)',
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 borderRadius: 'var(--radius-btn)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 'var(--text-sm)',
@@ -487,7 +487,7 @@ function CompletionCard({
         <div style={{ background: 'var(--tint-green)', padding: '22px 26px 26px', borderRadius: '0 0 32px 32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
             width: '36px', height: '36px', borderRadius: '50%',
-            background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+            background: 'var(--tint-sage)', border: '2px solid var(--ink)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 'var(--text-lg)', color: 'var(--ink)',
           }}>✓</div>
@@ -506,7 +506,7 @@ function CompletionCard({
       </div>
 
       {/* Did this work feedback — feeds DiGi so it knows what has actually helped */}
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '16px' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '18px 20px', marginBottom: '16px' }}>
         {worked ? (
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600 }}>
             ✓ Thanks, saved. DiGi will remember this next time.
@@ -527,7 +527,7 @@ function CompletionCard({
                   onClick={() => sendWorked(opt.value)}
                   style={{
                     padding: '9px 14px', borderRadius: '100px',
-                    border: '1.5px solid var(--border)', background: 'var(--cream)',
+                    border: '2px solid var(--ink)', background: 'var(--cream)',
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
                     color: 'var(--ink)', cursor: 'pointer', letterSpacing: '.02em',
                   }}

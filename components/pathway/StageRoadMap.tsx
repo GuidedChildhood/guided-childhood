@@ -24,9 +24,9 @@ export default function StageRoadMap({
 
   return (
     <div style={{
-      background: 'var(--white, #fff)', border: '1px solid var(--border)',
+      background: 'var(--white, #fff)', border: '2px solid var(--ink)',
       borderRadius: '20px', padding: '18px 16px 14px',
-      boxShadow: '0 4px 20px rgba(26,26,46,0.06)',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       <style>{`
         @keyframes roadmap-pulse {
@@ -71,7 +71,7 @@ export default function StageRoadMap({
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                     background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
-                    border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--border)',
+                    border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--ink)',
                     color: here ? 'var(--terracotta-dark)' : behind ? 'var(--terracotta-dark)' : 'var(--ink-light)',
                     animation: here ? 'roadmap-pulse 1.6s ease-in-out infinite' : undefined,
                     position: 'relative', zIndex: 1,

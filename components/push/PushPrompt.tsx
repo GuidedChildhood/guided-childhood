@@ -338,6 +338,7 @@ export default function PushPrompt({ userId, stage }: Props) {
     return (
       <div style={{
         background: 'var(--stage-2)',
+        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         borderRadius: '14px',
         padding: '14px 18px',
         fontSize: '.82rem',
@@ -350,7 +351,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           <button
             onClick={() => sendTest()}
             style={{
-              background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: '10px', boxShadow: '0 3px 0 var(--ink)',
               padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)',
             }}
@@ -422,7 +423,7 @@ export default function PushPrompt({ userId, stage }: Props) {
     return (
       <div style={{
         background: 'var(--stage-4)', borderRadius: '14px', padding: '14px 16px',
-        border: '1.5px solid var(--terracotta)',
+        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         fontSize: '.82rem', color: 'var(--ink-soft)', fontWeight: 600,
       }}>
         <p style={{ margin: '0 0 10px', lineHeight: 1.55 }}>
@@ -433,10 +434,10 @@ export default function PushPrompt({ userId, stage }: Props) {
             onClick={enable}
             disabled={status === 'asking'}
             style={{
-              background: 'var(--stage-4-bold)', color: 'var(--stage-4-text)', border: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
               borderRadius: '10px', padding: '9px 16px', cursor: status === 'asking' ? 'wait' : 'pointer',
-              fontFamily: 'var(--font-display)', fontSize: '.78rem', fontWeight: 700,
-              boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
+              fontFamily: 'var(--font-display)', fontSize: '.78rem', fontWeight: 900,
+              boxShadow: '0 4px 0 var(--ink)',
             }}
           >
             {status === 'asking' ? 'Turning on...' : 'Turn them on here too'}
@@ -462,7 +463,7 @@ export default function PushPrompt({ userId, stage }: Props) {
     return (
       <div style={{
         background: 'var(--stage-4)', borderRadius: '16px', padding: '16px 20px',
-        border: '1px solid var(--border)',
+        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       }}>
         <p style={{ margin: 0, fontSize: '.8rem', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
           {enableError}
@@ -476,8 +477,8 @@ export default function PushPrompt({ userId, stage }: Props) {
       background: 'var(--stage-4)',
       borderRadius: '16px',
       padding: '20px 22px',
-      border: '2px solid var(--terracotta)',
-      boxShadow: '0 6px 20px rgba(224,122,63,0.16)',
+      border: '2px solid var(--ink)',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
@@ -492,7 +493,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           title="Not now, hide this"
           style={{
             flexShrink: 0, width: 28, height: 28, borderRadius: 9,
-            border: '1px solid var(--border)', background: 'transparent',
+            border: '2px solid var(--ink)', background: 'transparent',
             color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1,
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           }}
@@ -530,16 +531,16 @@ export default function PushPrompt({ userId, stage }: Props) {
         onClick={enable}
         disabled={status === 'asking'}
         style={{
-          background: 'var(--stage-4-bold)',
-          color: 'var(--stage-4-text)',
-          border: 'none',
+          background: 'var(--terracotta)',
+          color: 'var(--ink)',
+          border: '2px solid var(--ink)',
           borderRadius: '10px',
           padding: '10px 20px',
           fontSize: '.78rem',
-          fontWeight: 700,
+          fontWeight: 900,
           fontFamily: 'var(--font-display)',
           cursor: status === 'asking' ? 'wait' : 'pointer',
-          boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
+          boxShadow: '0 4px 0 var(--ink)',
         }}
       >
         {status === 'asking' ? 'Turning on...' : 'Turn on check ins'}
@@ -601,7 +602,7 @@ function NudgeSlots() {
               cursor: 'pointer', transition: 'all 0.12s',
               background: on ? 'var(--terracotta)' : '#fff',
               color: on ? 'var(--ink)' : 'var(--ink-muted)',
-              border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
             }}
           >
             {on ? '\u2713 ' : ''}{o.label}

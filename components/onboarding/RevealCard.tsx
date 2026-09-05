@@ -31,9 +31,9 @@ export default function RevealCard({ reveals }: { reveals: Reveal[] }) {
   }
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '20px', padding: '18px 20px', marginBottom: '20px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 12px 30px -14px rgba(26,26,46,0.16)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px 20px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood="happy" size={30} once />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>

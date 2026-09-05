@@ -81,7 +81,8 @@ export default function DeleteAccount() {
               onClick={go}
               disabled={!ready || busy}
               style={{
-                background: ready ? 'var(--terracotta)' : 'var(--border)', border: 'none',
+                background: ready ? 'var(--terracotta)' : 'var(--cream)', border: '2px solid var(--ink)',
+                boxShadow: ready ? '0 4px 0 var(--ink)' : 'none',
                 borderRadius: '12px', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
                 fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
               }}
@@ -91,7 +92,7 @@ export default function DeleteAccount() {
             <button
               onClick={() => { setOpen(false); setTyped(''); setError(null) }}
               style={{
-                background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
+                background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}

@@ -71,7 +71,7 @@ export default async function StrandsPage({
           the page would be a heading over empty space. This says so plainly
           rather than leaving a parent wondering whether it failed to load. */}
       <div style={{
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', boxShadow: '0 4px 0 var(--ink)',
         padding: '18px 20px', marginTop: '16px',
       }}>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>

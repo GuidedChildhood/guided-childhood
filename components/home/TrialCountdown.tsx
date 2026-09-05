@@ -99,7 +99,7 @@ export default function TrialCountdown({
 
   if (ended) {
     return (
-      <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
+      <div style={{ background: 'var(--deep-teal)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: '#fff', marginBottom: '4px' }}>
           {/* Justin, 8 August 2026: "should it be has?"
               No, and the reason his ear snagged is worth keeping. The subject
@@ -130,7 +130,7 @@ export default function TrialCountdown({
     const h = Math.floor(msLeft / 3_600_000)
     const m = Math.floor((msLeft % 3_600_000) / 60_000)
     return (
-      <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
+      <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             ⏳ Free days end in{' '}
@@ -157,7 +157,7 @@ export default function TrialCountdown({
     ? Math.max(1, Math.ceil((new Date(trialEndsAt).getTime() - Date.now()) / 86_400_000))
     : trialDays
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
+    <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           ✨ Free {daysLeft === 1 ? 'day' : 'days'} · {daysLeft} left

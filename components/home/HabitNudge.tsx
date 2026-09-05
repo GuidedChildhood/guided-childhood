@@ -86,7 +86,7 @@ export default function HabitNudge({ facts }: { facts: NudgeFacts }) {
   return (
     <div
       style={{
-        background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+        background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         borderRadius: 18, padding: '15px 17px', marginBottom: 16,
         opacity: entered ? 1 : 0,
         transform: entered ? 'translateY(0)' : 'translateY(8px)',

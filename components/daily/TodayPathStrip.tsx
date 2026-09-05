@@ -193,7 +193,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
   return (
     <div style={{
       background: '#fff',
-      border: '1.5px solid var(--border)',
+      border: '2px solid var(--ink)',
       borderRadius: '20px',
       padding: '18px 16px 16px',
       marginBottom: '20px',
@@ -260,7 +260,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
               style={{
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 padding: '4px 11px', borderRadius: '100px', cursor: 'pointer',
-                border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                border: on ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
                 background: on ? 'var(--terracotta-lt)' : '#fff',
                 color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
                 transition: 'all 0.15s',

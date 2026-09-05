@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import WriteIn from '@/components/ui/WriteIn'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { weekBalance, expertWeekTip } from '@/lib/quests/screen-balance'
 import { readinessForAgeBand } from '@/lib/content/readiness'
@@ -70,11 +71,11 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
   const guidePct = bal.guideMins > 0 ? Math.min(160, Math.round((bal.screenMins / bal.guideMins) * 100)) : 0
 
   // The week's wins, gathered from the family's own numbers, best first.
-  const wins: { icon: string; text: string }[] = []
-  if (starsEarned > 0) wins.push({ icon: '⭐', text: `${starsEarned} stars earned, worth ${earnedMins} minutes worked for, not just given` })
-  if (s.topQuest) wins.push({ icon: '🏆', text: `${firstName} leaned into “${s.topQuest}” the most` })
-  if (activeDays >= 3) wins.push({ icon: '📅', text: `Showed up ${activeDays} of 7 days this week` })
-  if (momentsDone > 0) wins.push({ icon: '💛', text: `${momentsDone} calm moment${momentsDone === 1 ? '' : 's'} handled well` })
+  const wins: { icon: HappyIconName; text: string }[] = []
+  if (starsEarned > 0) wins.push({ icon: 'cheer', text: `${starsEarned} stars earned, worth ${earnedMins} minutes worked for, not just given` })
+  if (s.topQuest) wins.push({ icon: 'wins', text: `${firstName} leaned into “${s.topQuest}” the most` })
+  if (activeDays >= 3) wins.push({ icon: 'calendar', text: `Showed up ${activeDays} of 7 days this week` })
+  if (momentsDone > 0) wins.push({ icon: 'heart', text: `${momentsDone} calm moment${momentsDone === 1 ? '' : 's'} handled well` })
   const topWins = wins.slice(0, 3)
 
   // Worth a glance, each linking to the thing it is about.
@@ -91,9 +92,9 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
   const readiness = readinessForAgeBand((s.ageBands?.[0] as AgeBand | null) ?? null)
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '24px 24px 22px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 14px 36px -12px rgba(26,26,46,0.13)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '24px', padding: '24px 24px 22px', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '18px' }}>
-        <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '16px', background: 'var(--terracotta)', boxShadow: '0 5px 0 var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '16px', background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box', boxShadow: '0 4px 0 var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood="happy" size={34} once />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -106,14 +107,14 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
 
       {/* The balance score, front and centre: their screen time against the
           evidence based healthy guide, as one clear number and a moving level. */}
-      <div style={{ background: 'var(--cream)', border: `1.5px solid var(--border)`, borderLeft: `6px solid ${balAccent}`, borderRadius: '18px', padding: '16px 18px', marginBottom: '16px' }}>
+      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderLeft: `6px solid ${balAccent}`, borderRadius: '18px', padding: '16px 18px', marginBottom: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '10px' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', lineHeight: 1, color: balAccent }}>{bal.balancePct}<span style={{ fontSize: 'var(--text-xl)' }}>%</span></span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{balLabel}</span>
         </div>
         {/* The level: how the week's screen time sits against the healthy guide.
             Full and green when comfortably inside it, amber and over when not. */}
-        <div style={{ height: 14, borderRadius: '100px', background: '#fff', border: '1.5px solid var(--border)', overflow: 'hidden', marginBottom: '8px' }}>
+        <div style={{ height: 14, borderRadius: '100px', background: '#fff', border: '2px solid var(--ink)', overflow: 'hidden', marginBottom: '8px' }}>
           <span style={{ display: 'block', height: '100%', width: `${Math.min(100, guidePct)}%`, background: balAccent, borderRadius: '100px', transition: 'width 0.6s ease' }} />
         </div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '8px' }}>
@@ -125,13 +126,13 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
       {/* Glanceable stats */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '15px' }}>
         {[
-          ['⭐', `${starsEarned} earned`],
-          ['✅', `${s.questsApproved ?? 0} quests`],
-          ['📅', `${activeDays}/7 days`],
-          ['📱', `${s.deviceMinutes ?? 0} min screen`],
+          ['cheer', `${starsEarned} earned`],
+          ['jobs', `${s.questsApproved ?? 0} quests`],
+          ['calendar', `${activeDays}/7 days`],
+          ['phonebed', `${s.deviceMinutes ?? 0} min screen`],
         ].map(([icon, label]) => (
-          <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '6px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)' }}>
-            <span>{icon}</span>{label}
+          <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '6px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)' }}>
+            <HappyIcon name={icon as HappyIconName} size={20} />{label}
           </span>
         ))}
       </div>
@@ -146,8 +147,8 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--retro-green-dark, var(--deep-teal))' }}>This week’s wins</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
             {topWins.map((w, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--tint-sage)', borderRadius: '12px', padding: '10px 13px' }}>
-                <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{w.icon}</span>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 13px' }}>
+                <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name={w.icon} size={24} /></span>
                 <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>{w.text}</span>
               </div>
             ))}
@@ -170,7 +171,7 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
                 : dir === 'down' ? `Down from ${m.from} to ${m.to}. Worth a look together.`
                 : `Holding at ${m.to}. Steady counts.`
               return (
-                <div key={i} style={{ background: bg, borderRadius: '12px', padding: '10px 13px' }}>
+                <div key={i} style={{ background: bg, border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 13px' }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>{m.label}</span>
                   <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '1px' }}>{line}</span>
                 </div>
@@ -181,8 +182,8 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
       )}
 
       {/* One line of guidance from the experts we stand on, chosen for this week */}
-      <div style={{ display: 'flex', gap: '11px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px', marginBottom: '15px' }}>
-        <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>💡</span>
+      <div style={{ display: 'flex', gap: '11px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '13px 15px', marginBottom: '15px' }}>
+        <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="ask" size={26} /></span>
         <div style={{ minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>The evidence · {tip.expert}</div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>{tip.tip}</p>
@@ -195,7 +196,7 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
             {topGlances.map((g, i) => (
-              <Link key={i} href={g.href} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', padding: '11px 14px', textDecoration: 'none' }}>
+              <Link key={i} href={g.href} style={{ display: 'block', background: '#fff', border: '2px solid var(--ink)', borderRadius: '13px', padding: '11px 14px', textDecoration: 'none' }}>
                 {/* The pill sits under the sentence, not beside it: a fixed
                     nowrap pill squeezed these words one a line at larger
                     text sizes. */}
@@ -208,8 +209,8 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
       )}
 
       {/* The week on the pathway: this stamp, one step nearer ready at 16. */}
-      <Link href="/dashboard/pathway" style={{ display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 14px', marginBottom: '16px', textDecoration: 'none' }}>
-        <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🪪</span>
+      <Link href="/dashboard/pathway" style={{ display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '11px 14px', marginBottom: '16px', textDecoration: 'none' }}>
+        <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="passport" size={26} /></span>
         <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
           On the pathway this is <strong style={{ color: 'var(--ink)' }}>Stage {readiness.id}, {readiness.stamp}</strong>. A good week here is one step nearer ready at 16.
         </span>

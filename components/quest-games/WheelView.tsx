@@ -159,7 +159,7 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer',
             color: i === tierIndex ? '#fff' : 'var(--ink)',
             background: i === tierIndex ? 'var(--terracotta)' : '#fff',
-            border: i === tierIndex ? 'none' : '2px solid var(--border)',
+            border: '2px solid var(--ink)',
             borderRadius: '100px', padding: '9px 16px',
             boxShadow: i === tierIndex ? '0 4px 0 var(--terracotta-dark)' : 'none',
           }}>
@@ -210,8 +210,8 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
       </div>
       <div style={{
         maxWidth: '440px', margin: '0 auto 16px', background: '#fff',
-        border: '2px solid var(--border)', borderRadius: '18px', padding: '16px 20px',
-        boxShadow: '0 5px 0 var(--border)',
+        border: '2px solid var(--ink)', borderRadius: '18px', padding: '16px 20px',
+        boxShadow: '0 4px 0 var(--ink)',
       }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           The letter is {item.letter}.
@@ -227,9 +227,9 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
           const answered = picked !== null
           const isAnswer = i === item.answer
           const isPicked = i === picked
-          let bg = '#fff', fg = 'var(--ink)', shadow = '0 4px 0 var(--border)', border = '2px solid var(--border)'
-          if (answered && isAnswer) { bg = 'var(--tint-sage)'; fg = 'var(--ink)'; shadow = '0 4px 0 rgba(0,0,0,0.12)'; border = '2px solid var(--sage-ink, #2D5016)' }
-          else if (answered && isPicked) { bg = '#FBEAEA'; fg = 'var(--ink)'; shadow = '0 4px 0 rgba(0,0,0,0.12)'; border = '2px solid #c0392b' }
+          let bg = '#fff', fg = 'var(--ink)', shadow = '0 4px 0 var(--ink)', border = '2px solid var(--ink)'
+          if (answered && isAnswer) { bg = 'var(--tint-sage)'; fg = 'var(--ink)'; shadow = '0 4px 0 var(--ink)'; border = '2px solid var(--sage-ink, #2D5016)' }
+          else if (answered && isPicked) { bg = '#FBEAEA'; fg = 'var(--ink)'; shadow = '0 4px 0 var(--ink)'; border = '2px solid #c0392b' }
           return (
             <button key={opt} ref={el => { optionRefs.current[i] = el }} onClick={() => pick(i)} disabled={answered} style={{
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',

@@ -27,8 +27,8 @@ type Health = {
 type Report = { days: number; suggestions: Suggestion[]; heldBack: number; health: Health }
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
-  padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+  padding: '20px 22px', marginBottom: 22, boxShadow: '0 4px 0 var(--ink)',
 }
 
 const label: React.CSSProperties = {
@@ -94,7 +94,7 @@ export default function LaneMissesPanel() {
               onClick={() => setDays(d)}
               style={{
                 ...label, cursor: 'pointer', padding: '4px 10px', borderRadius: 100,
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 background: days === d ? 'var(--gold, #F2C94C)' : '#fff',
                 color: 'var(--ink)',
               }}
@@ -111,13 +111,13 @@ export default function LaneMissesPanel() {
       </p>
 
       {error && (
-        <div style={{ padding: '10px 14px', background: '#FDECEC', borderRadius: 10, marginBottom: 14, fontSize: 'var(--text-sm)' }}>
+        <div style={{ padding: '10px 14px', background: '#FDECEC', border: '2px solid var(--ink)', borderRadius: 10, marginBottom: 14, fontSize: 'var(--text-sm)' }}>
           {error}
         </div>
       )}
 
       {h && (
-        <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', marginBottom: 16, paddingBottom: 16, borderBottom: '1.5px solid var(--border)' }}>
+        <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', marginBottom: 16, paddingBottom: 16, borderBottom: '2px solid var(--ink)' }}>
           <Stat label="Messages" value={String(h.messages)} />
           <Stat label="Answered" value={String(h.answered)} />
           <Stat label="Failed" value={String(h.failed)} alert={h.failed > 0} />
@@ -141,7 +141,7 @@ export default function LaneMissesPanel() {
             style={{
               display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer',
               padding: '8px 12px', borderRadius: 12, background: '#fff',
-              border: '1.5px solid var(--border)', boxShadow: '0 3px 0 var(--border)',
+              border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)',
               color: 'var(--ink)', opacity: adding === s.word ? 0.5 : 1,
             }}

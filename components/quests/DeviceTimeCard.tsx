@@ -11,6 +11,7 @@ import { planTieredSpend } from '@/lib/quests/time-tiers'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Celebration from '@/components/ui/Celebration'
 import { HAPPY } from '@/components/kid/HappyNewsBits'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The child's own device time timer. They have earned stars; here they turn
 // some into minutes on an agreed device, on their own screen. The countdown
@@ -35,8 +36,8 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
   }
   const idea: CSSProperties = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-    flex: '1 1 auto', padding: '11px 12px', borderRadius: '14px', border: 'none',
-    background: '#fff', cursor: 'pointer', boxShadow: '0 3px 0 rgba(0,0,0,0.14)',
+    flex: '1 1 auto', padding: '11px 12px', borderRadius: '14px', border: `2px solid ${HAPPY.ink}`,
+    background: '#fff', cursor: 'pointer', boxShadow: `0 3px 0 ${HAPPY.ink}`,
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
     lineHeight: 1.2, whiteSpace: 'nowrap',
   }
@@ -504,7 +505,7 @@ export default function DeviceTimeCard({
     // gets a warm terracotta and a friendly line comes up, never a red warning.
     const countingDown = remaining <= 10 && remaining > 0
     return (
-      <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
+      <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <span style={{ fontSize: 'var(--text-2xl)', display: 'inline-block', animation: countingDown ? 'gcAlarmBounce 0.7s ease-in-out infinite' : 'none' }}>{countingDown ? '🎉' : deviceEmoji(session.device)}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -543,8 +544,8 @@ export default function DeviceTimeCard({
           )
         })()}
         {countingDown && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
-            <span style={{ fontSize: 'var(--text-lg)' }}>🌟</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: `2px solid ${HAPPY.ink}`, borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
+            <span aria-hidden style={{ lineHeight: 0, flexShrink: 0 }}><HappyIcon name="cheer" size={26} /></span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.35 }}>
               Nearly there. Time to find some offline fun.
             </span>
@@ -553,7 +554,7 @@ export default function DeviceTimeCard({
         <button
           onClick={stop}
           disabled={busy}
-          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)' }}
+          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '2px solid var(--ink)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)' }}
         >
           I&apos;m done, hand it back
         </button>
@@ -851,7 +852,7 @@ export default function DeviceTimeCard({
           start below still works, it just goes to the grown up as an ask,
           because the pathway is ask, never a flat no. */}
       {protectedLine && (
-        <div style={{ background: 'var(--tint-sage)', borderRadius: '14px', padding: '12px 15px', marginBottom: '10px', boxShadow: '0 3px 0 rgba(0,0,0,0.10)' }}>
+        <div style={{ background: 'var(--tint-sage)', border: `2px solid ${HAPPY.ink}`, borderRadius: '14px', padding: '12px 15px', marginBottom: '10px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
             🌙 {protectedLine}
           </p>
@@ -865,9 +866,9 @@ export default function DeviceTimeCard({
           gentle heads up so a child can see their own balance. */}
       {recToday > 0 && (
         <div style={{
-          background: reachedGuide ? 'var(--tint-sage)' : '#fff',
+          background: reachedGuide ? 'var(--tint-sage)' : '#fff', border: `2px solid ${HAPPY.ink}`,
           borderRadius: '14px', padding: '11px 15px', marginBottom: '10px',
-          boxShadow: '0 3px 0 rgba(0,0,0,0.10)',
+          boxShadow: `0 4px 0 ${HAPPY.ink}`,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '6px' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
@@ -901,7 +902,7 @@ export default function DeviceTimeCard({
               that is theirs to spread, practice for managing it themselves.
               A quiet second line under the daily bar, never a second lock. */}
           {showWeekBudget && (
-            <div style={{ marginTop: '9px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.08)' }}>
+            <div style={{ marginTop: '9px', paddingTop: '9px', borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '5px' }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
                   Your week
@@ -935,7 +936,7 @@ export default function DeviceTimeCard({
           boxShadow: `0 5px 0 ${HAPPY.ink}`,
         }}
       >
-        <span aria-hidden style={{ flexShrink: 0, width: 48, height: 48, borderRadius: '50%', background: '#fff', border: `2px solid ${HAPPY.ink}`, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{canSpend ? '⏱️' : '🙋'}</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 48, height: 48, borderRadius: '50%', background: '#fff', border: `2px solid ${HAPPY.ink}`, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name={canSpend ? 'time' : 'hand'} size={34} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em', color: 'var(--ink)', lineHeight: 1.15 }}>
             {canSpend

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // Spot something good, give a star on the spot. The reinforcement parents
 // asked for: kindness, a job done without being asked, a sibling looked
@@ -51,20 +52,22 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
 
   const chip = (on: boolean): React.CSSProperties => ({
     padding: '8px 13px', borderRadius: '100px', cursor: 'pointer',
-    border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
     background: on ? 'var(--terracotta-lt)' : '#fff',
     color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
     fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, whiteSpace: 'nowrap',
   })
 
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginTop: '18px' }}>
+    <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginTop: '18px' }}>
       {!open ? (
         <button
           onClick={() => setOpen(true)}
           style={{ display: 'flex', alignItems: 'center', gap: '13px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
         >
-          <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>⭐</span>
+          <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <HappyIcon name="kind" size={34} />
+          </span>
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
               Spot something good? Give a star
@@ -72,7 +75,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
             <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.45 }}>
               Kindness, a job done without being asked. Reward it on the spot, it pings their app.
             </span>
-            <span style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+            <span style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 var(--ink)' }}>
               Give
             </span>
           </span>
@@ -108,7 +111,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
             onChange={e => setCustom(e.target.value)}
             placeholder="Or say it in your words"
             maxLength={140}
-            style={{ width: '100%', padding: '11px 14px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', marginBottom: '10px' }}
+            style={{ width: '100%', padding: '11px 14px', borderRadius: '12px', border: '2px solid var(--ink)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', marginBottom: '10px' }}
           />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
@@ -123,10 +126,10 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
               onClick={send}
               disabled={state === 'sending' || !note}
               style={{
-                flex: 1, minWidth: '150px', background: note ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)',
-                border: 'none', borderRadius: '12px', padding: '12px 16px', cursor: note && state !== 'sending' ? 'pointer' : 'default',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                boxShadow: note ? '0 4px 0 var(--terracotta-dark)' : 'none',
+                flex: 1, minWidth: '150px', background: note ? 'var(--terracotta)' : '#fff', color: 'var(--ink)', opacity: note ? 1 : 0.5,
+                border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 16px', cursor: note && state !== 'sending' ? 'pointer' : 'default',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+                boxShadow: note ? '0 4px 0 var(--ink)' : 'none',
               }}
             >
               {state === 'sending' ? 'Sending...'

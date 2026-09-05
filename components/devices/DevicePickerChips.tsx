@@ -32,7 +32,7 @@ export default function DevicePickerChips({
   const chip = (on: boolean): React.CSSProperties => ({
     display: 'flex', alignItems: 'center', gap: 7,
     padding: '10px 14px', borderRadius: 100,
-    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+    border: '2px solid var(--ink)',
     background: on ? 'var(--terracotta-lt)' : '#fff',
     color: on ? 'var(--terracotta)' : 'var(--ink)',
     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',

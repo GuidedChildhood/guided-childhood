@@ -123,14 +123,14 @@ export default async function DevicesPage({
       </div>
 
       {stageNote && (
-        <div style={{ background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px' }}>
+        <div style={{ background: 'var(--stage-3)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
             {stage.label}
           </div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
             {stageNote.desc_text}
           </p>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '10px', padding: '12px 14px', borderLeft: '3px solid var(--terracotta)' }}>
+          <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '10px', padding: '12px 14px', borderLeft: '3px solid var(--terracotta)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
               What the research says at this age
             </div>

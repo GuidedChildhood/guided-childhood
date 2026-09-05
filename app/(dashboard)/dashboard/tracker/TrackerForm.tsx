@@ -126,7 +126,7 @@ export default function TrackerForm({
 
       {/* Daily streak, ties completed cards back to this page */}
       {streakWeeks > 0 && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '18px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '14px 18px', marginBottom: '18px' }}>
           <span style={{ fontSize: 'var(--text-xl)' }}>🔥</span>
           <div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
@@ -162,7 +162,7 @@ export default function TrackerForm({
       )}
 
       {currentWeekCheck && (
-        <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '12px 16px', marginBottom: '20px', fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+        <div style={{ background: 'var(--stage-2)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 16px', marginBottom: '20px', fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
           You already checked in this week. Answers below are pre filled, update and save to change them.
         </div>
       )}
@@ -183,7 +183,7 @@ export default function TrackerForm({
                     flex: 1,
                     padding: '14px 4px',
                     borderRadius: '12px',
-                    border: `2px solid ${scores[q.id] === n ? 'var(--terracotta)' : 'var(--border)'}`,
+                    border: `2px solid ${scores[q.id] === n ? 'var(--terracotta)' : 'var(--ink)'}`,
                     background: scores[q.id] === n ? 'var(--stage-2)' : 'var(--cream)',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 700,

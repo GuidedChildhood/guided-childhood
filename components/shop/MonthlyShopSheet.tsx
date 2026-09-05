@@ -112,9 +112,9 @@ export default function MonthlyShopSheet({ childName, devForce = false }: {
             onClick={dismiss}
             aria-label="Close"
             style={{
-              width: 34, height: 34, borderRadius: '50%', border: 'none',
-              background: 'var(--cream)', cursor: 'pointer',
-              fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', lineHeight: 1,
+              width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--ink)',
+              background: '#fff', cursor: 'pointer',
+              fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1,
             }}
           >
             ✕

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { MiniRoad, StrandPills, type Strand } from '@/components/pathway/StageRoad'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The check on the child, after the day's path is cleared.
 //
@@ -49,8 +50,8 @@ export default function DayCheckup({
       // The anchor the fix pages come back to, so a parent lands on the list
       // again rather than at the top of Home. See BackTo's home-check origin.
       scrollMarginTop: 16,
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 22,
-      padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 14px rgba(26,26,46,0.05)',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 22,
+      padding: '20px 22px', marginBottom: 22, boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -82,11 +83,14 @@ export default function DayCheckup({
           href="/dashboard/lessons"
           style={{
             display: 'flex', alignItems: 'center', gap: 13, marginTop: 14,
-            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
             borderRadius: 16, padding: '14px 16px', textDecoration: 'none',
           }}
         >
-          <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-xl)' }}>🎬</span>
+          <span aria-hidden style={{
+            flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)',
+            boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}><HappyIcon name="lessons" size={28} /></span>
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               Lessons that move this

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { starWeekStart, previousStarWeekStart, formatWeekBeginning } from '@/lib/quests/star-week'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The paper chart, folded into the app in one go. A family who ran the week on
 // the fridge star chart taps in the stars earned offline, and they land in the
@@ -57,14 +58,16 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
   }
 
   const box: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px',
+    background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px',
   }
 
   if (status === 'done') {
     return (
       <div style={box}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span aria-hidden style={{ fontSize: 'var(--text-xl)' }}>⭐</span>
+          <span aria-hidden style={PLATE}>
+            <HappyIcon name="wins" size={28} />
+          </span>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
             {updated
               ? <>Updated {childName}&apos;s week beginning {weekLabel} to {stars} star{stars === 1 ? '' : 's'}. The bank shows the new total.</>
@@ -87,7 +90,7 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
         onClick={() => setOpen(o => !o)}
         style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>🧲</span>
+        <span aria-hidden style={{ ...PLATE, fontSize: 'var(--text-lg)' }}>🧲</span>
         <span style={{ flex: 1 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             Ran the star chart on paper this week?
@@ -111,7 +114,7 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
                     padding: '7px 14px', borderRadius: 100, cursor: 'pointer',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                     background: k.id === childId ? 'var(--terracotta)' : '#fff',
-                    border: k.id === childId ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                    border: k.id === childId ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
                   }}
                 >
                   {k.name}
@@ -134,7 +137,7 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                   color: w.start === weekStart ? '#fff' : 'var(--ink)',
                   background: w.start === weekStart ? 'var(--deep-teal)' : '#fff',
-                  border: w.start === weekStart ? 'none' : '1.5px solid var(--border)',
+                  border: '2px solid var(--ink)',
                 }}
               >
                 {w.label}
@@ -171,9 +174,15 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
   )
 }
 
+const PLATE: React.CSSProperties = {
+  width: 40, height: 40, borderRadius: 12, flexShrink: 0, boxSizing: 'border-box',
+  background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+}
+
 const stepBtn: React.CSSProperties = {
   width: 46, height: 46, borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
-  border: '1.5px solid var(--border)', background: '#fff', color: 'var(--ink)',
+  border: '2px solid var(--ink)', background: '#fff', color: 'var(--ink)',
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1,
   display: 'flex', alignItems: 'center', justifyContent: 'center',
 }

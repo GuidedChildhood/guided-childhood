@@ -71,7 +71,7 @@ export default async function AiModulePage() {
       )}
 
       {groups.length === 0 && (
-        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
           The AI lessons are being prepared. Check back soon.
         </div>
       )}
@@ -97,7 +97,7 @@ export default async function AiModulePage() {
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
                   textDecoration: 'none',
-                  background: 'var(--cream)', border: '1px solid var(--border)',
+                  background: 'var(--cream)', border: '2px solid var(--ink)',
                   borderRadius: '14px', padding: '14px 16px',
                 }}
               >

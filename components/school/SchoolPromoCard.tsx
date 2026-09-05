@@ -21,7 +21,7 @@ export default function SchoolPromoCard() {
 
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '1.5px solid var(--tint-sage)',
+      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
@@ -38,10 +38,10 @@ export default function SchoolPromoCard() {
           href="/dashboard/school"
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            background: 'var(--terracotta)', color: 'var(--ink)',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
             borderRadius: '16px', padding: '11px 20px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            boxShadow: '0 4px 0 var(--terracotta-dark)',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           Set it up in one minute

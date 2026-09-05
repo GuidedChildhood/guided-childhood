@@ -95,13 +95,13 @@ export default function ScreenBalanceInsight({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderLeft: `6px solid ${accent}`,
+      background: '#fff', border: '2px solid var(--ink)', borderLeft: `6px solid ${accent}`, boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '18px', padding: '18px 20px', marginBottom: '18px',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
         <span style={{
           flexShrink: 0, width: 50, height: 50, borderRadius: '15px', background: 'var(--terracotta-lt)',
-          border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <DigiCharacter mood="speak" size={34} once />
         </span>
@@ -165,7 +165,7 @@ export default function ScreenBalanceInsight({
           ].map(o => (
             <Link key={o.label} href={o.href} style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
-              background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '11px',
+              background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '11px',
               padding: '8px 12px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
             }}>

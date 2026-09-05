@@ -65,7 +65,7 @@ export default async function FriendsPosterPage({
 
   if (!child) {
     return shell(
-      <div className="fp-noprint" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+      <div className="fp-noprint" style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: 6 }}>
           Add your child first
         </div>
@@ -95,7 +95,7 @@ export default async function FriendsPosterPage({
               href={`/dashboard/printables/friends?child=${c.id}`}
               style={{
                 textDecoration: 'none', borderRadius: 100, padding: '7px 14px',
-                border: `1.5px solid ${c.id === child.id ? 'var(--terracotta)' : 'var(--border)'}`,
+                border: `2px solid ${c.id === child.id ? 'var(--terracotta)' : 'var(--ink)'}`,
                 background: c.id === child.id ? 'var(--terracotta-lt)' : '#fff',
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}

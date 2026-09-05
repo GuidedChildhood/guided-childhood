@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { stickerArt, type Sticker } from '@/lib/stickers/catalog'
 import type { StickerState, StickerBook as Book } from '@/lib/stickers/book'
 import StickerBadge from './StickerBadge'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The sticker book on the Passport. Earned stickers show in full colour, the
 // Planet Friend art or a badge on its own coloured ring; locked ones are a soft
@@ -67,8 +68,8 @@ export default function StickerBook({ book, childName }: { book: Book; childName
   return (
     <section
       style={{
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
-        padding: '18px 18px 20px', boxShadow: '0 4px 24px rgba(28,28,42,0.06)',
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
+        padding: '18px 18px 20px', boxShadow: '0 4px 0 var(--ink)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
@@ -79,12 +80,12 @@ export default function StickerBook({ book, childName }: { book: Book; childName
           {earnedCount} of {total}
         </span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 12px' }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 12px' }}>
         {childName ? `${childName}'s stickers` : 'Your stickers'}
       </h2>
 
       {/* The collection so far */}
-      <div style={{ height: 8, borderRadius: 100, background: 'var(--cream)', overflow: 'hidden', marginBottom: '16px' }}>
+      <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '2px solid var(--ink)', boxSizing: 'border-box', overflow: 'hidden', marginBottom: '16px' }}>
         <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
       </div>
 
@@ -106,11 +107,11 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         href="/dashboard/printables/star-chart"
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px',
-          background: 'var(--cream)', border: '1.5px solid var(--border)',
+          background: 'var(--cream)', border: '2px solid var(--ink)',
           borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
         }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>🖨️</span>
+        <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="print" size={26} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             Print stars at home tonight
@@ -125,11 +126,11 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         href="/dashboard/keepsakes#p-sticker_sheet"
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px',
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
           borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
         }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>✨</span>
+        <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="wins" size={26} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             Get these as real stickers

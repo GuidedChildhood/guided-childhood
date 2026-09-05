@@ -247,11 +247,11 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
             <div ref={pebbleRef} style={{ flexShrink: 0 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={PEBBLE_IMG} alt="Pebble" width={72} height={72}
-                style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fff', boxShadow: '0 4px 0 var(--border)' }} />
+                style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fff', boxShadow: '0 4px 0 var(--ink)' }} />
             </div>
             <div style={{
-              flex: 1, background: '#fff', border: '1.5px solid var(--border)',
-              borderRadius: '18px', padding: '12px 15px', boxShadow: '0 5px 0 var(--border)',
+              flex: 1, background: '#fff', border: '2px solid var(--ink)',
+              borderRadius: '18px', padding: '12px 15px', boxShadow: '0 4px 0 var(--ink)',
             }}>
               <p style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
                 A {order.item} please! That is{' '}
@@ -263,7 +263,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
 
           {/* Running total and the coins placed so far */}
           <div style={{
-            background: 'var(--stage-1, #FFFBEE)', border: '1.5px solid var(--border)',
+            background: 'var(--stage-1, #FFFBEE)', border: '2px solid var(--ink)',
             borderRadius: '16px', padding: '12px 14px', marginBottom: '12px',
           }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', marginBottom: paid.length ? '10px' : 0 }}>

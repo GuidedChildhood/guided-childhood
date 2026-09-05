@@ -25,7 +25,7 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
 
       <div className="no-print" style={{
         position: 'sticky', top: 0, zIndex: 2, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-        padding: '12px 16px', background: '#fff', borderBottom: '1.5px solid var(--border)',
+        padding: '12px 16px', background: '#fff', borderBottom: '2px solid var(--ink)',
       }}>
         <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'none' }}>
           ← Printables
@@ -41,7 +41,7 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
                 href={`/dashboard/printables/sheet/${sheetKey}?child=${k.id}`}
                 style={{
                   padding: '7px 12px', borderRadius: 100, textDecoration: 'none',
-                  border: '1.5px solid var(--border)', background: k.id === currentChildId ? 'var(--butter)' : '#fff',
+                  border: '2px solid var(--ink)', background: k.id === currentChildId ? 'var(--butter)' : '#fff',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                 }}
               >
@@ -66,7 +66,7 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
         <div className="no-print" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
           One side of A4, with {spec.childName ? `${spec.childName}'s` : 'your child\'s'} name and your family's own deal already written on it. Print it, put the pens out, and it goes on the fridge.
         </div>
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)' }}>
           <DrawnPaper spec={spec} />
         </div>
       </div>

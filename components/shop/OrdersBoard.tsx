@@ -89,7 +89,7 @@ function Card({ row, fulfilled, busy, onToggle }: { row: OrderRow; fulfilled: bo
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
       padding: 20, marginBottom: 14, opacity: fulfilled ? 0.62 : 1,
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'baseline', marginBottom: 12 }}>
@@ -115,14 +115,14 @@ function Card({ row, fulfilled, busy, onToggle }: { row: OrderRow; fulfilled: bo
         </p>
       )}
 
-      <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 15px', marginBottom: 14 }}>
+      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 15px', marginBottom: 14 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginBottom: 6 }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             Post to
           </span>
           {row.address.length > 0 && (
             <button onClick={copyAddress} style={{
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: 10,
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: 10,
               padding: '5px 11px', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
             }}>
@@ -150,10 +150,10 @@ function Card({ row, fulfilled, busy, onToggle }: { row: OrderRow; fulfilled: bo
         style={{
           background: fulfilled ? '#fff' : 'var(--terracotta)',
           color: 'var(--ink)',
-          border: fulfilled ? '1.5px solid var(--border)' : 'none',
+          border: '2px solid var(--ink)',
           borderRadius: 16, padding: '13px 22px', cursor: busy ? 'wait' : 'pointer',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-          boxShadow: fulfilled ? 'none' : '0 5px 0 var(--terracotta-dark)',
+          boxShadow: '0 4px 0 var(--ink)',
           opacity: busy ? 0.7 : 1,
         }}
       >

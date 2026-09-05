@@ -78,7 +78,7 @@ export default function DeviceList({
               flexShrink: 0,
               padding: '8px 16px',
               borderRadius: '100px',
-              border: `1.5px solid ${activeCategory === cat ? 'var(--terracotta)' : 'var(--border)'}`,
+              border: `2px solid ${activeCategory === cat ? 'var(--terracotta)' : 'var(--ink)'}`,
               background: activeCategory === cat ? 'var(--terracotta)' : '#fff',
               color: activeCategory === cat ? '#fff' : 'var(--ink)',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600,
@@ -109,7 +109,7 @@ export default function DeviceList({
               key={d.device_key}
               id={`device-${d.device_key}`}
               style={{
-                background: '#fff', border: `1.5px solid ${isOpen ? 'var(--terracotta)' : 'var(--border)'}`,
+                background: '#fff', border: `2px solid ${isOpen ? 'var(--terracotta)' : 'var(--ink)'}`,
                 borderRadius: '16px', overflow: 'hidden',
                 boxShadow: isOpen ? '0 8px 32px rgba(26,26,46,0.08)' : 'none',
                 transition: 'border-color 0.15s', scrollMarginTop: '90px',
@@ -130,7 +130,7 @@ export default function DeviceList({
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{d.name}</span>
                     {isDone && <span style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta)' }}>✓</span>}
                     {isNotOwned && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '2px 8px' }}>
                         Not in our home
                       </span>
                     )}

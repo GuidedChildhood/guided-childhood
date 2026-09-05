@@ -10,6 +10,7 @@ import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
 import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewards'
 import QuestStatusBoard from '@/components/quests/QuestStatusBoard'
+import HappyIcon from '@/components/kid/HappyIcon'
 import AgreementOffer from '@/components/quests/AgreementOffer'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
@@ -220,13 +221,13 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
       {handoverName && handoverId && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '16px',
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: '16px', padding: '14px 16px',
         }}>
           <span aria-hidden style={{
-            width: 46, height: 46, borderRadius: '13px', background: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0,
-          }}>📲</span>
+            width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          }}><HappyIcon name="phonebed" size={30} /></span>
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
               {handoverName} can tick their own jobs now

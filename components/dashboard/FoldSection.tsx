@@ -56,8 +56,8 @@ export default function FoldSection({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
-      marginBottom: 12, overflow: 'hidden',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+      marginBottom: 12, overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)',
     }}>
       <button
         onClick={() => setOpen(o => !o)}

@@ -254,7 +254,7 @@ export default function InsightsBoard() {
             <>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
                 {tiles.map(t => (
-                  <div key={t.label} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 14, padding: '14px 16px' }}>
+                  <div key={t.label} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 14, padding: '14px 16px' }}>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{t.label}</div>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.1, marginTop: 2 }}>{t.value}</div>
                     {t.sub && <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: 2 }}>{t.sub}</div>}
@@ -264,7 +264,7 @@ export default function InsightsBoard() {
               {stageEntries.length > 0 && (
                 <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {stageEntries.map(([band, n]) => (
-                    <span key={band} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '4px 11px' }}>
+                    <span key={band} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100, padding: '4px 11px' }}>
                       {band}: {n}
                     </span>
                   ))}
@@ -288,7 +288,7 @@ export default function InsightsBoard() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {drafts.map(d => (
-              <div key={d.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '15px 16px' }}>
+              <div key={d.id} style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '15px 16px' }}>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>{d.stage_id}{d.category ? ` · ${d.category}` : ''}</span>
                   {d.grounded_in && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>grounded in {d.grounded_in}</span>}
@@ -300,10 +300,10 @@ export default function InsightsBoard() {
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 4px' }}><strong>Why it works:</strong> {d.why_it_works}</p>
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 12px' }}><strong>Try tonight:</strong> {d.tonight}</p>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button onClick={() => reviewDraft(d.id, 'approve')} disabled={draftBusy === d.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: draftBusy === d.id ? 0.6 : 1 }}>
+                  <button onClick={() => reviewDraft(d.id, 'approve')} disabled={draftBusy === d.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)', opacity: draftBusy === d.id ? 0.6 : 1 }}>
                     {draftBusy === d.id ? '…' : 'Add to library'}
                   </button>
-                  <button onClick={() => reviewDraft(d.id, 'reject')} disabled={draftBusy === d.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}>
+                  <button onClick={() => reviewDraft(d.id, 'reject')} disabled={draftBusy === d.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                     Reject
                   </button>
                 </div>
@@ -321,7 +321,7 @@ export default function InsightsBoard() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {legal.map(l => (
-              <div key={l.id} style={{ background: '#fff', border: `1.5px solid ${l.confidence === 'high' ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 14, padding: '15px 16px' }}>
+              <div key={l.id} style={{ background: '#fff', border: '2px solid var(--ink)', borderLeft: l.confidence === 'high' ? '4px solid var(--terracotta)' : undefined, borderRadius: 14, padding: '15px 16px' }}>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 6, alignItems: 'center' }}>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>{l.area}</span>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>{l.confidence} confidence</span>
@@ -336,10 +336,10 @@ export default function InsightsBoard() {
                   </a>
                 )}
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-                  <button onClick={() => closeLegal(l.id, 'actioned')} disabled={legalBusy === l.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: legalBusy === l.id ? 0.6 : 1 }}>
+                  <button onClick={() => closeLegal(l.id, 'actioned')} disabled={legalBusy === l.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)', opacity: legalBusy === l.id ? 0.6 : 1 }}>
                     {legalBusy === l.id ? '…' : 'Done, dealt with'}
                   </button>
-                  <button onClick={() => closeLegal(l.id, 'dismissed')} disabled={legalBusy === l.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}>
+                  <button onClick={() => closeLegal(l.id, 'dismissed')} disabled={legalBusy === l.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                     Not for us
                   </button>
                 </div>
@@ -359,16 +359,16 @@ export default function InsightsBoard() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {scriptReqs.map(r => (
-              <div key={r.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
+              <div key={r.id} style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 15px' }}>
                 <p style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>&ldquo;{r.problem}&rdquo;</p>
                 {r.closest && (
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', margin: '6px 0 0' }}>Closest we have: {r.closest}</p>
                 )}
                 <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <a href={`/dashboard/new-script?problem=${encodeURIComponent(r.problem)}`} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '8px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                  <a href={`/dashboard/new-script?problem=${encodeURIComponent(r.problem)}`} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 11, padding: '8px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)' }}>
                     Write this script →
                   </a>
-                  <button onClick={() => markReqHandled(r.id)} disabled={reqBusy === r.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '8px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', opacity: reqBusy === r.id ? 0.6 : 1 }}>
+                  <button onClick={() => markReqHandled(r.id)} disabled={reqBusy === r.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 11, padding: '8px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', opacity: reqBusy === r.id ? 0.6 : 1 }}>
                     {reqBusy === r.id ? 'Saving…' : 'Mark handled'}
                   </button>
                 </div>
@@ -388,7 +388,7 @@ export default function InsightsBoard() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {candidates.map(c => (
-              <div key={c.id} style={{ background: 'var(--white,#fff)', border: '1.5px solid var(--terracotta)', borderRadius: 14, padding: '14px 16px' }}>
+              <div key={c.id} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderRadius: 14, padding: '14px 16px' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                     {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', textDecoration: 'underline' }}>{c.source_name}</a> : c.source_name}
@@ -400,15 +400,15 @@ export default function InsightsBoard() {
                 {(c.topics ?? []).length > 0 && (
                   <div style={{ margin: '4px 0 10px', display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                     {(c.topics ?? []).slice(0, 6).map(t => (
-                      <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>{t}</span>
+                      <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100, padding: '2px 8px' }}>{t}</span>
                     ))}
                   </div>
                 )}
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button onClick={() => reviewCandidate(c.id, 'approve')} disabled={reviewing === c.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: reviewing === c.id ? 0.6 : 1 }}>
+                  <button onClick={() => reviewCandidate(c.id, 'approve')} disabled={reviewing === c.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)', opacity: reviewing === c.id ? 0.6 : 1 }}>
                     {reviewing === c.id ? 'Adding...' : 'OK, add to bank'}
                   </button>
-                  <button onClick={() => reviewCandidate(c.id, 'reject')} disabled={reviewing === c.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}>
+                  <button onClick={() => reviewCandidate(c.id, 'reject')} disabled={reviewing === c.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                     Reject
                   </button>
                 </div>
@@ -432,7 +432,7 @@ export default function InsightsBoard() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {bank.sources.map(s => (
-                <div key={s.source} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 12, padding: '12px 14px' }}>
+                <div key={s.source} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 14px' }}>
                   <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10 }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                       {s.url ? <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', textDecoration: 'underline' }}>{s.source}</a> : s.source}
@@ -445,7 +445,7 @@ export default function InsightsBoard() {
                   {s.topics.length > 0 && (
                     <div style={{ marginTop: 7, display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                       {s.topics.slice(0, 6).map(t => (
-                        <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>{t}</span>
+                        <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100, padding: '2px 8px' }}>{t}</span>
                       ))}
                     </div>
                   )}
@@ -463,7 +463,7 @@ export default function InsightsBoard() {
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22,
           padding: '9px 14px', borderRadius: 10, textDecoration: 'none',
-          background: 'var(--tint-sage)', border: '1px solid var(--border)',
+          background: 'var(--tint-sage)', border: '2px solid var(--ink)',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
           letterSpacing: '0.04em', color: 'var(--ink)',
         }}
@@ -482,7 +482,7 @@ export default function InsightsBoard() {
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
               background: days === d ? 'var(--ink)' : 'var(--white,#fff)',
               color: days === d ? '#fff' : 'var(--ink-soft)',
-              border: '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
             }}>{d} days</button>
           ))}
         </div>
@@ -504,7 +504,7 @@ export default function InsightsBoard() {
           </div>
 
           {data.count === 0 && (
-            <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 14, padding: '16px 18px', marginBottom: 20 }}>
+            <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 14, padding: '16px 18px', marginBottom: 20 }}>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
                 No DiGi conversations in this window yet, so nothing to theme. This fills in once families are chatting to DiGi. Try a wider window, or check the product pulse above for the aggregate picture.
               </p>
@@ -513,7 +513,7 @@ export default function InsightsBoard() {
 
           {/* Summary */}
           {data.report.summary && (
-            <div style={{ background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: 16, padding: '18px 20px', marginBottom: 22 }}>
+            <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 16, padding: '18px 20px', marginBottom: 22 }}>
               <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, margin: 0 }}>{data.report.summary}</p>
             </div>
           )}
@@ -526,7 +526,7 @@ export default function InsightsBoard() {
                 {recs.map((r, i) => {
                   const tint = TYPE_TINT[r.type] ?? { bg: 'var(--stage-2)', fg: 'var(--ink)' }
                   return (
-                    <div key={i} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 14, padding: '16px 18px', display: 'flex', gap: 14, boxShadow: '0 2px 12px rgba(26,26,46,0.05)' }}>
+                    <div key={i} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderRadius: 14, padding: '16px 18px', display: 'flex', gap: 14 }}>
                       <span style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: 'var(--ink)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>{i + 1}</span>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
@@ -548,7 +548,7 @@ export default function InsightsBoard() {
               <h2 style={sectionH}>What keeps coming up</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
                 {(data.report.themes ?? []).map((t, i) => (
-                  <div key={i} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 16px' }}>
+                  <div key={i} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderRadius: 14, padding: '15px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{t.label}</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{t.count}</span>
@@ -569,7 +569,7 @@ export default function InsightsBoard() {
               <h2 style={sectionH}>Gaps in what we offer</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {(data.report.gaps ?? []).map((g, i) => (
-                  <div key={i} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderLeft: `3px solid ${g.coverage === 'none' ? 'var(--danger)' : 'var(--terracotta)'}`, borderRadius: 12, padding: '14px 16px' }}>
+                  <div key={i} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderLeft: `3px solid ${g.coverage === 'none' ? 'var(--danger)' : 'var(--terracotta)'}`, borderRadius: 12, padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{g.topic}</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: g.coverage === 'none' ? 'var(--danger)' : 'var(--terracotta-dark)' }}>{g.coverage === 'none' ? 'nothing yet' : 'partial'}</span>
@@ -586,7 +586,7 @@ export default function InsightsBoard() {
 
       {/* DiGi quality: the safety evals and the shared wisdom rebuild. Founder
           tools that keep DiGi honest and current, both on the existing key. */}
-      <section style={{ marginTop: 40, paddingTop: 28, borderTop: '1px solid var(--border)' }}>
+      <section style={{ marginTop: 40, paddingTop: 28, borderTop: '2px solid var(--ink)' }}>
         <h2 style={sectionH}>DiGi quality</h2>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 16 }}>
           The evals run DiGi against a fixed set of hard cases and grade every reply against the non negotiables. The rebuild distils what has worked across families into DiGi&rsquo;s shared wisdom.
@@ -629,7 +629,7 @@ export default function InsightsBoard() {
               {evalRun.results.map(r => {
                 const open = openCase === r.id
                 return (
-                  <div key={r.id} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 10 }}>
+                  <div key={r.id} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderRadius: 10 }}>
                     <button
                       onClick={() => setOpenCase(open ? null : r.id)}
                       style={{
@@ -647,7 +647,7 @@ export default function InsightsBoard() {
                       <span aria-hidden style={{ color: 'var(--ink-muted)', flexShrink: 0, transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 150ms ease' }}>›</span>
                     </button>
                     {open && (
-                      <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px 14px' }}>
+                      <div style={{ borderTop: '2px dotted rgba(26,26,46,0.18)', padding: '12px 14px 14px' }}>
                         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 5px' }}>
                           The parent asked
                         </p>
@@ -659,7 +659,7 @@ export default function InsightsBoard() {
                           {r.reply || 'No reply came back for this case.'}
                         </p>
                         {r.category === 'fabrication' && (
-                          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '12px 0 0', paddingTop: 10, borderTop: '1px dashed var(--border)' }}>
+                          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '12px 0 0', paddingTop: 10, borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
                             Read this one for a NUMBER. The case asks for a figure DiGi should not state from memory, so a good answer gives the shape of the finding and no statistic. A high score with a confident percentage in it is a fail the grader cannot see.
                           </p>
                         )}
@@ -679,7 +679,7 @@ export default function InsightsBoard() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {wisdom.rows.map((w, i) => (
-                <div key={i} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 12, padding: '13px 15px' }}>
+                <div key={i} style={{ background: 'var(--white,#fff)', border: '2px solid var(--ink)', borderRadius: 12, padding: '13px 15px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{w.topic}</span>
                     {w.age_band && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)', background: 'var(--tint-sage)', padding: '2px 7px', borderRadius: 100 }}>{w.age_band}</span>}
@@ -699,7 +699,7 @@ function Stat({ label, value, tone }: { label: string; value: string; tone: 'goo
   const fg = tone === 'good' ? 'var(--stage-1-text)' : tone === 'warn' ? 'var(--terracotta-dark)' : 'var(--danger)'
   const bg = tone === 'good' ? 'var(--stage-1)' : tone === 'warn' ? 'var(--stage-2)' : 'var(--tint-rose, #FBE9E9)'
   return (
-    <div style={{ background: bg, borderRadius: 12, padding: '12px 16px', minWidth: 110 }}>
+    <div style={{ background: bg, border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 16px', minWidth: 110 }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: fg, marginBottom: 3 }}>{label}</div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)' }}>{value}</div>
     </div>
@@ -707,6 +707,6 @@ function Stat({ label, value, tone }: { label: string; value: string; tone: 'goo
 }
 
 const sectionH: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
   letterSpacing: '-0.01em', color: 'var(--ink)', marginBottom: 12,
 }

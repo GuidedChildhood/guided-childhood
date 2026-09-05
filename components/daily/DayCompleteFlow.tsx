@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Celebration from '@/components/ui/Celebration'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { openPopup, closePopup } from '@/lib/ui/popupQueue'
 
 // The close of the day, as a proper moment rather than a folded card.
@@ -70,7 +71,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
 
   const beats = [
     {
-      emoji: '🎉',
+      icon: 'cheer' as HappyIconName,
       title: 'Today is made',
       body: streakCount >= 2
         ? `The one thing that matters today is done, and that is ${streakCount} days in a row now. Small and daily beats big and rarely, every time.`
@@ -79,7 +80,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
       next: 'Keep going',
     },
     {
-      emoji: '⚖️',
+      icon: 'balance' as HappyIconName,
       title: 'The balance, kept simple',
       body: facts?.guide_mins
         ? `For ages ${facts.band_label}, around ${facts.guide_mins} minutes of fun screen a day is a healthy guide. ${kid}'s app checks this balance with them, so the settings do the holding, not you. The best trade is always the offline one: a kickabout, a board game, anything together.`
@@ -90,7 +91,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
       next: 'Next',
     },
     {
-      emoji: '⭐',
+      icon: 'wins' as HappyIconName,
       title: quests
         ? quests.label === 'Approve'
           ? `${kid} is waiting on a yes`
@@ -109,7 +110,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
       next: 'Next',
     },
     {
-      emoji: '🌙',
+      icon: 'phonebed' as HappyIconName,
       title: 'See you tomorrow',
       body: facts?.next_line
         ? `${facts.next_line}. That is the whole of tomorrow: one tick, a few minutes, and the road waits if life gets in the way.`
@@ -152,7 +153,10 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
         border: '2px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)',
         padding: '28px 24px 22px', textAlign: 'center',
       }}>
-        <div aria-hidden style={{ fontSize: 46, lineHeight: 1, marginBottom: 12 }}>{b.emoji}</div>
+        <div aria-hidden style={{
+          width: 64, height: 64, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px',
+        }}><HappyIcon name={b.icon} size={40} /></div>
         <h2 style={{ margin: '0 0 10px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.15 }}>
           {b.title}
         </h2>

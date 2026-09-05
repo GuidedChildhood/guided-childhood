@@ -21,7 +21,7 @@ function surface(variant: Variant): { bg: string; color: string; border: string;
     case 'primary': return { bg: 'var(--terracotta)', color: 'var(--ink)', border: 'none', shadowColor: 'var(--terracotta-dark)' }
     case 'teal':    return { bg: 'var(--deep-teal)', color: '#fff', border: 'none', shadowColor: 'rgba(0,0,0,0.28)' }
     case 'danger':  return { bg: '#E5484D', color: '#fff', border: 'none', shadowColor: '#B93B3F' }
-    case 'secondary': return { bg: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', shadowColor: null }
+    case 'secondary': return { bg: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', shadowColor: null }
     case 'quiet':   return { bg: 'transparent', color: 'var(--ink-soft)', border: 'none', shadowColor: null }
   }
 }

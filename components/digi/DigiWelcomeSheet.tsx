@@ -168,7 +168,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           width: '100%', maxWidth: 560,
           background: 'var(--cream)',
           borderTopLeftRadius: 26, borderTopRightRadius: 26,
-          boxShadow: '0 -18px 50px -16px rgba(26,26,46,0.35)',
+          border: '2px solid var(--ink)', borderBottom: 'none',
           padding: '14px 24px calc(26px + env(safe-area-inset-bottom))',
           transform: entered ? `translateY(${dragY}px)` : 'translateY(102%)',
           transition: dragging ? 'none' : 'transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)',
@@ -177,13 +177,13 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         }}
       >
         {/* Drag handle */}
-        <div style={{ width: 44, height: 5, borderRadius: 100, background: 'var(--border)', margin: '0 auto 22px' }} />
+        <div style={{ width: 44, height: 5, borderRadius: 100, background: 'var(--ink)', opacity: 0.35, margin: '0 auto 22px' }} />
 
         {/* DiGi mark, in the gold speech square, echoing the reference */}
         <div style={{
-          width: 60, height: 60, borderRadius: 18, background: 'var(--terracotta)',
+          width: 60, height: 60, borderRadius: 18, background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: 22,
+          boxShadow: '0 4px 0 var(--ink)', marginBottom: 22,
         }}>
           <DigiCharacter mood="speak" size={40} />
         </div>
@@ -215,7 +215,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         )}
 
         {step === 0 && insight && (
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
+          <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
               A quiet thought on {insight.childName}
             </div>
@@ -268,7 +268,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             aria-label="Tell DiGi what is going on"
             style={{
               flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 16,
-              background: '#fff', border: '1.5px solid var(--border)',
+              background: '#fff', border: '2px solid var(--ink)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', outline: 'none',
             }}
           />

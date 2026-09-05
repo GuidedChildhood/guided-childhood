@@ -184,8 +184,8 @@ export default function SetupNextBar() {
           shoulder. --retro-green is in the tokens for exactly this, described
           there as the friendlier dark panel. */}
       <div style={{
-        background: 'var(--retro-green)', borderRadius: '18px',
-        boxShadow: '0 10px 26px rgba(35,111,82,0.28)', padding: '12px 12px 12px 18px',
+        background: 'var(--retro-green)', borderRadius: '18px', border: '2px solid var(--ink)',
+        boxShadow: '0 4px 0 var(--ink)', padding: '12px 12px 12px 18px',
         display: 'flex', alignItems: 'center', gap: '12px',
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>

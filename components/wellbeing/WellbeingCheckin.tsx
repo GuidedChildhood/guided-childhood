@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { currentChildId } from '@/lib/children/current'
 import { CHALLENGE_OPTIONS, type ChallengeId } from '@/lib/content/stages'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The monthly wellbeing check in. Once a month we ask how the parent is doing,
 // what has got better, and anything new, in the same concern language as the
@@ -55,8 +56,12 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
 
   if (done) {
     return (
-      <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '36px 28px', textAlign: 'center', color: '#fff' }}>
-        <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 12 }}>💛</div>
+      <div style={{ background: 'var(--deep-teal)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '36px 28px', textAlign: 'center', color: '#fff' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+          <span aria-hidden style={{ width: 54, height: 54, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+            <HappyIcon name="heart" size={38} />
+          </span>
+        </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', marginBottom: 10 }}>
           Thank you for checking in
         </h2>
@@ -82,7 +87,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
         display: 'flex', alignItems: 'center', gap: '8px',
         background: active ? 'var(--terracotta)' : 'var(--cream)',
         color: active ? '#fff' : 'var(--ink)',
-        border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
+        border: `2px solid ${active ? 'var(--terracotta)' : 'var(--ink)'}`,
         borderRadius: '100px', padding: '9px 15px', cursor: 'pointer',
         fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
         transition: 'all 0.12s',
@@ -110,7 +115,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
               style={{
                 flex: '1 1 90px', minWidth: 90,
                 background: mood === m.value ? 'var(--stage-4)' : 'var(--cream)',
-                border: `2px solid ${mood === m.value ? 'var(--terracotta)' : 'var(--border)'}`,
+                border: `2px solid ${mood === m.value ? 'var(--terracotta)' : 'var(--ink)'}`,
                 borderRadius: '16px', padding: '14px 8px', cursor: 'pointer',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
               }}
@@ -165,7 +170,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
           maxLength={1000}
           placeholder="This month has been..."
           style={{
-            width: '100%', borderRadius: '14px', border: '1.5px solid var(--border)',
+            width: '100%', borderRadius: '14px', border: '2px solid var(--ink)',
             padding: '14px 16px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)',
             color: 'var(--ink)', resize: 'vertical', background: 'var(--cream)',
           }}

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { DEVICES, type DeviceKey } from '@/lib/quests/device-time'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { PendingAskBox } from '@/components/quests/ParentDeviceTime'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The screens gate, made visible to the parent on the quests page. The
 // pending ask always comes first: device and minutes with Yes, start it and
@@ -99,7 +100,7 @@ export default function ScreenGateBanner({
   }
   const startChip = (active: boolean): React.CSSProperties => ({
     padding: '6px 11px', borderRadius: 100, cursor: 'pointer',
-    border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
+    border: `2px solid ${active ? 'var(--terracotta)' : 'var(--ink)'}`,
     background: active ? '#fff' : 'rgba(255,255,255,0.55)',
     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', flexShrink: 0,
   })
@@ -136,11 +137,13 @@ export default function ScreenGateBanner({
 
       <div style={{
         background: locked ? 'var(--danger-bg)' : 'var(--stage-4)',
-        border: `1.5px solid ${locked ? 'var(--danger)' : 'var(--pastel-pink-deep)'}`,
+        border: `2px solid ${locked ? 'var(--danger)' : 'var(--ink)'}`, boxShadow: '0 4px 0 var(--ink)',
         borderRadius: '14px', padding: '13px 15px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: locked ? '10px' : 0 }}>
-          <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '🎉'}</span>
+          <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 'var(--text-lg)' }}>
+            {locked ? '🔒' : <HappyIcon name="cheer" size={28} />}
+          </span>
           <div style={{ minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: locked ? 'var(--ink)' : 'var(--stage-4-text)' }}>
               {locked ? 'Screen time is locked' : `Screen time unlocked for ${childName}`}
@@ -156,7 +159,7 @@ export default function ScreenGateBanner({
         {/* Co-view: no child device to press Start, so the parent starts the
             timer here and the minutes are recorded to the week. */}
         {!locked && coView && (
-          <div style={{ marginTop: 12, borderTop: '1px solid var(--pastel-pink-deep)', paddingTop: 12 }}>
+          <div style={{ marginTop: 12, borderTop: '2px solid var(--ink)', paddingTop: 12 }}>
             <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', fontWeight: 600, marginBottom: 9, lineHeight: 1.45 }}>
               Watching together on a shared screen? Start the timer here so it still counts in {childName}&apos;s week.
             </div>
@@ -192,7 +195,7 @@ export default function ScreenGateBanner({
             {blocking.map(job => (
               <div key={job.questId} style={{
                 display: 'flex', alignItems: 'center', gap: '9px',
-                background: '#fff', border: '1.5px solid var(--border)',
+                background: '#fff', border: '2px solid var(--ink)',
                 borderRadius: '12px', padding: '9px 12px',
               }}>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

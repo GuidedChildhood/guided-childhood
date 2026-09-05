@@ -129,7 +129,7 @@ export default async function CheckInPage({
           // link they tapped a minute ago, so it says so and offers the next
           // real thing rather than an empty page.
           <div style={{
-            background: '#fff', border: '1.5px solid var(--border)',
+            background: '#fff', border: '2px solid var(--ink)',
             borderRadius: 20, padding: '26px 22px', textAlign: 'center',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>

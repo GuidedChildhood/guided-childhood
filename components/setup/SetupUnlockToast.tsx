@@ -75,16 +75,16 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
       <div
         style={{
           position: 'relative', background: '#fff', color: 'var(--ink)',
-          border: '1.5px solid var(--border)', borderRadius: '22px',
+          border: '2px solid var(--ink)', borderRadius: '22px',
           padding: '17px 46px 17px 17px',
-          boxShadow: '0 2px 4px rgba(26,26,46,0.04), 0 18px 42px -12px rgba(26,26,46,0.26)',
+          boxShadow: '0 4px 0 var(--ink)',
           display: 'flex', gap: '13px', alignItems: 'flex-start', cursor: 'pointer',
         }}
         onClick={dismiss}
       >
         <span style={{
           flexShrink: 0, width: 44, height: 44, borderRadius: '14px',
-          background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)',
+          background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box', 
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <DigiCharacter mood="happy" size={30} once />
@@ -103,7 +103,7 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
           style={{
             position: 'absolute', top: '11px', right: '11px',
             width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
-            background: 'var(--cream)', border: '1px solid var(--border)',
+            background: 'var(--cream)', border: '2px solid var(--ink)',
             color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}

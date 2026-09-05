@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Journey } from '@/lib/pathway/journey'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The pathway as one spine, three strands. Devices first, then the moments
 // this family is working through, then the lessons. One node is clearly
@@ -10,7 +11,7 @@ import type { Journey } from '@/lib/pathway/journey'
 type StrandKey = 'devices' | 'moments' | 'lessons'
 interface Strand {
   key: StrandKey
-  icon: string
+  icon: HappyIconName
   title: string
   subtitle: string
   cta: string
@@ -26,7 +27,7 @@ function buildStrands(j: Journey, childName: string): Strand[] {
   return [
     {
       key: 'devices',
-      icon: '🛡️',
+      icon: 'phonebed',
       title: 'Set up every device',
       subtitle: j.devices.total === 0
         ? 'No devices to set for this stage yet.'
@@ -39,7 +40,7 @@ function buildStrands(j: Journey, childName: string): Strand[] {
     },
     {
       key: 'moments',
-      icon: '🌱',
+      icon: 'sprout',
       title: `Work through what comes up`,
       subtitle: momentsDone
         ? 'Nothing open right now. Flag a hard moment and it lands here.'
@@ -50,7 +51,7 @@ function buildStrands(j: Journey, childName: string): Strand[] {
     },
     {
       key: 'lessons',
-      icon: '✦',
+      icon: 'lessons',
       title: `${childName}'s lessons`,
       subtitle: j.lessons.total === 0
         ? 'Lessons for this stage are coming.'
@@ -81,8 +82,8 @@ export default function PathwayJourney({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '22px',
-      padding: '22px 22px 24px', boxShadow: '0 6px 26px rgba(26,26,46,0.07)',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px',
+      padding: '22px 22px 24px', boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
@@ -117,17 +118,17 @@ export default function PathwayJourney({
                   position: 'relative', zIndex: 1, flexShrink: 0,
                   width: 44, height: 44, borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
-                  background: isDone ? 'var(--tint-sage)' : isCurrent ? 'var(--terracotta-lt)' : '#fff',
-                  border: isDone ? '2.5px solid var(--tint-sage)' : isCurrent ? '3px solid var(--terracotta)' : '2.5px solid var(--border)',
+                  background: isDone ? 'var(--retro-green)' : isCurrent ? 'var(--terracotta-lt)' : '#fff',
+                  border: '2px solid var(--ink)',
                   boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
                   filter: ahead ? 'grayscale(1) opacity(0.6)' : 'none',
                 }}>
                   {isDone ? (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M5 12.5l4.5 4.5L19 7.5" stroke="var(--sage-ink, #2D5016)" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   ) : (
-                    <span aria-hidden="true">{s.icon}</span>
+                    <HappyIcon name={s.icon} size={26} />
                   )}
                 </div>
 
@@ -135,7 +136,7 @@ export default function PathwayJourney({
                 <div style={{
                   flex: 1, minWidth: 0,
                   background: isCurrent ? 'var(--terracotta-lt)' : 'var(--cream)',
-                  border: `1.5px solid ${isCurrent ? 'var(--terracotta)' : 'var(--border)'}`,
+                  border: '2px solid var(--ink)',
                   borderRadius: '16px', padding: '14px 16px',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
@@ -143,7 +144,7 @@ export default function PathwayJourney({
                       {s.title}
                     </span>
                     {isCurrent && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px', padding: '2px 8px' }}>
                         Do this next
                       </span>
                     )}
@@ -153,12 +154,12 @@ export default function PathwayJourney({
                   </p>
                   <Link href={s.href} style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                    fontFamily: 'var(--font-display)', fontWeight: isCurrent ? 900 : 800, fontSize: 'var(--text-base)',
                     padding: isCurrent ? '10px 18px' : '8px 14px', borderRadius: '12px',
                     background: isCurrent ? 'var(--terracotta)' : '#fff',
                     color: 'var(--ink)',
-                    border: isCurrent ? 'none' : '1.5px solid var(--border)',
-                    boxShadow: isCurrent ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                    border: '2px solid var(--ink)',
+                    boxShadow: '0 4px 0 var(--ink)',
                   }}>
                     {s.cta} <span aria-hidden="true">→</span>
                   </Link>

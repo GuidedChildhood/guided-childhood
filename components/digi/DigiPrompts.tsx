@@ -74,12 +74,12 @@ export default function DigiPrompts() {
   return (
     <div style={{ marginBottom: '20px' }}>
       <div style={{
-        background: '#fff', border: '1.5px solid var(--border)',
+        background: '#fff', border: '2px solid var(--ink)',
         borderRadius: '20px', padding: '18px 20px 16px',
-        boxShadow: '0 4px 18px rgba(26,26,46,0.05)',
+        boxShadow: '0 4px 0 var(--ink)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-          <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter mood={p.kind === 'celebration' ? 'happy' : 'speak'} size={30} />
           </span>
           <span style={{ flex: 1, minWidth: 0 }}>
@@ -247,7 +247,7 @@ function FollowUpAnswer({
         rows={2}
         style={{
           width: '100%', marginTop: 10, padding: '10px 12px', resize: 'vertical',
-          border: '1.5px solid var(--border)', borderRadius: 12, background: 'var(--cream)',
+          border: '2px solid var(--ink)', borderRadius: 12, background: 'var(--cream)',
           fontFamily: 'inherit', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5,
         }}
       />

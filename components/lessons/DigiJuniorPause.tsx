@@ -17,7 +17,8 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
   return (
     <div style={{
       background: 'var(--stage-3)',
-      border: '2px solid var(--terracotta)',
+      border: '2px solid var(--ink)',
+      boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '20px',
       padding: '28px',
       textAlign: 'center',
@@ -30,13 +31,13 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         height: '72px',
         borderRadius: '50%',
         background: 'var(--terracotta)',
-        border: '3px solid rgba(255,255,255,.4)',
+        border: '2px solid var(--ink)',
+        boxSizing: 'border-box',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: 'var(--text-3xl)',
         margin: '0 auto 12px',
-        boxShadow: '0 0 24px rgba(90,138,106,.3)',
         animation: breathing ? 'breathe 4s ease-in-out' : 'bobble 2s ease-in-out infinite',
       }}>
         🤖
@@ -49,10 +50,10 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
       {/* Speech bubble */}
       <div style={{
         background: '#fff',
+        border: '2px solid var(--ink)',
         borderRadius: '16px',
         padding: '16px 20px',
         marginBottom: '20px',
-        boxShadow: '0 4px 16px rgba(90,138,106,.1)',
       }}>
         <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.6, color: 'var(--ink)', margin: 0, fontWeight: 500 }}>
           {message}
@@ -65,12 +66,13 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
           style={{
             background: 'var(--terracotta)',
             color: 'var(--ink)',
-            border: 'none',
+            border: '2px solid var(--ink)',
+            boxShadow: '0 4px 0 var(--ink)',
             borderRadius: '100px',
             padding: '10px 20px',
             fontFamily: 'var(--font-mono)',
             fontSize: '.78rem',
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: '.05em',
             cursor: 'pointer',
             opacity: breathing ? 0.6 : 1,

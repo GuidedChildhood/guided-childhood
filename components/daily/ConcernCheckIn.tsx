@@ -438,7 +438,7 @@ export default function ConcernCheckIn({
   return (
     <div style={{
       background: '#fff',
-      border: '1.5px solid var(--border)',
+      border: '2px solid var(--ink)',
       borderRadius: '20px',
       padding: '20px',
       marginBottom: '16px',
@@ -571,7 +571,7 @@ export default function ConcernCheckIn({
               return (
                 <div className="ci-collapsed" style={{
                   padding: '9px 0',
-                  borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
+                  borderTop: idx === 0 || newChild ? 'none' : '2px dotted rgba(26,26,46,0.18)',
                   color: 'var(--ink-muted)',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -609,7 +609,7 @@ export default function ConcernCheckIn({
               ref={el => { rows.current[c.id] = el }}
               style={{
                 padding: '12px 0',
-                borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
+                borderTop: idx === 0 || newChild ? 'none' : '2px dotted rgba(26,26,46,0.18)',
                 scrollMarginTop: 'calc(env(safe-area-inset-top, 0px) + 76px)',
                 opacity: c.id === activeId || isTouched || isSaved ? 1 : 0.55,
                 transition: 'opacity .3s ease',
@@ -750,7 +750,7 @@ export default function ConcernCheckIn({
 
       {allSaved && (
         <div style={{
-          marginTop: '10px', paddingTop: '14px', borderTop: '1px solid var(--border)',
+          marginTop: '10px', paddingTop: '14px', borderTop: '2px solid var(--ink)',
         }}>
           <div style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',

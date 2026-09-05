@@ -370,7 +370,7 @@ export default function QuestStatusBoard() {
         {/* Nothing waiting on YOU is not the same as nothing to do, and this is
             the one thing a parent can actually do about the other half. */}
         {toRemind.length > 0 && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 11, paddingTop: 11, borderTop: '1px solid var(--border)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 11, paddingTop: 11, borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
             <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
               {toRemind.every(([id]) => reminded.has(id)) ? 'Nudged.' : 'Give them a nudge?'}
             </span>

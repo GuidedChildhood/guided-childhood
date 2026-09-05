@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { useRouter } from 'next/navigation'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 
@@ -27,7 +28,7 @@ import ShareQrButton from '@/components/quests/ShareQrButton'
 
 const FOLD_KEY = 'gc-child-app-nudge-folded'
 
-type Point = { title: string; body: string; emoji: string }
+type Point = { title: string; body: string; icon: HappyIconName }
 
 export default function ChildAppNudge({ childName, childId }: { childName?: string | null; childId?: string | null }) {
   const name = childName && childName !== 'Your child' ? childName : null
@@ -47,17 +48,17 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
 
   const points: Point[] = [
     {
-      emoji: '⭐',
+      icon: 'wins',
       title: 'They earn their screen time',
       body: 'Real world jobs, done away from a screen and ticked off in their app, are what buy device time. That is the whole balance, and it needs their side to work.',
     },
     {
-      emoji: '⚖️',
+      icon: 'balance',
       title: 'You see the balance as it happens',
       body: `Time on, time off screen, and whether it is sitting at a healthy level for ${name ? `${name}'s` : 'their'} age.`,
     },
     {
-      emoji: '🖍️',
+      icon: 'print',
       title: 'Printables for the younger ones',
       body: 'Too young to tick jobs on a phone. They ask for a sheet, you say yes, and they colour it at the table. It still counts.',
     },
@@ -114,11 +115,15 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
           onClick={() => fold(false)}
           style={{
             width: '100%', display: 'flex', alignItems: 'center', gap: 12,
-            background: '#fff', border: '1.5px solid var(--terracotta)',
+            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
             borderRadius: 16, padding: '12px 14px', cursor: 'pointer', textAlign: 'left',
           }}
         >
-          <span aria-hidden style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>📲</span>
+          <span aria-hidden style={{
+            flexShrink: 0, width: 36, height: 36, borderRadius: 11, background: 'var(--terracotta-lt)',
+            border: '2px solid var(--ink)', boxSizing: 'border-box',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}><HappyIcon name="phonebed" size={26} /></span>
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{
               display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -148,17 +153,18 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
   return (
     <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 16px' }}>
       <div style={{
-        background: '#fff', border: '1.5px solid var(--terracotta)',
+        background: '#fff', border: '2px solid var(--ink)',
         borderRadius: 20, padding: '18px 0 20px',
-        boxShadow: '0 4px 22px rgba(26,26,46,0.06)',
+        boxShadow: '0 4px 0 var(--ink)',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '0 18px', marginBottom: 12 }}>
           <span aria-hidden style={{
             flexShrink: 0, width: 44, height: 44, borderRadius: 14, background: 'var(--terracotta-lt)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
-          }}>📲</span>
+            border: '2px solid var(--ink)', boxSizing: 'border-box',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}><HappyIcon name="phonebed" size={32} /></span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               One thing left to set up
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
@@ -174,7 +180,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             title="Fold this down to one line"
             style={{
               flexShrink: 0, width: 32, height: 32, borderRadius: 10,
-              border: '1px solid var(--border)', background: 'transparent',
+              border: '2px solid var(--ink)', background: 'transparent',
               color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
             }}
@@ -198,10 +204,13 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
           {points.map(p => (
             <div key={p.title} style={{ flex: '0 0 100%', scrollSnapAlign: 'start', padding: '0 18px', boxSizing: 'border-box' }}>
               <div style={{
-                background: 'var(--terracotta-lt)', borderRadius: 16,
+                background: 'var(--terracotta-lt)', borderRadius: 16, border: '2px solid var(--ink)',
                 padding: '13px 15px 15px', minHeight: 118, boxSizing: 'border-box',
               }}>
-                <div aria-hidden style={{ fontSize: 'var(--text-lg)', marginBottom: 4 }}>{p.emoji}</div>
+                <div aria-hidden style={{
+                  width: 36, height: 36, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)',
+                  boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8,
+                }}><HappyIcon name={p.icon} size={26} /></div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {p.title}
                 </div>
@@ -274,8 +283,8 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             disabled={saving}
             style={{
               display: 'block', width: '100%', marginTop: 12, cursor: saving ? 'default' : 'pointer',
-              background: 'transparent', border: '1.5px solid var(--border)', borderRadius: 16,
-              padding: '13px 16px', textAlign: 'center',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+              boxShadow: '0 4px 0 var(--ink)', padding: '13px 16px', textAlign: 'center',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               color: 'var(--ink)', opacity: saving ? 0.6 : 1,
             }}

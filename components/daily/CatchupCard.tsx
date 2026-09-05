@@ -37,7 +37,7 @@ export default function CatchupCard({ catchup, childName }: {
     <section
       aria-label="What happened while you were away"
       style={{
-        background: 'var(--cream)', border: '1.5px solid var(--border)',
+        background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         borderRadius: 20, padding: '18px 17px', marginBottom: 16,
       }}
     >
@@ -81,7 +81,7 @@ export default function CatchupCard({ catchup, childName }: {
         <div style={{
           marginTop: lines.length > 0 ? 14 : 8,
           paddingTop: lines.length > 0 ? 12 : 0,
-          borderTop: lines.length > 0 ? '1.5px solid var(--border)' : 'none',
+          borderTop: lines.length > 0 ? '2px solid var(--ink)' : 'none',
         }}>
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,

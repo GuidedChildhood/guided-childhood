@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import QRCode from 'qrcode'
 import { SITE_URL } from '@/lib/config/site'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // THE HAND OVER, IN ONE SHEET.
 //
@@ -97,7 +98,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
       key: 'email',
       label: 'Email',
       href: `mailto:?subject=${encodeURIComponent(`${childName}'s quests`)}&body=${encodeURIComponent(invite)}`,
-      bg: '#fff', fg: 'var(--ink)', shadow: '0 4px 0 var(--border)',
+      bg: '#fff', fg: 'var(--ink)', shadow: '0 4px 0 var(--ink)',
       icon: (
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <rect x="2" y="4" width="20" height="16" rx="2.5" />
@@ -116,7 +117,8 @@ export default function QrHandoverModal({ token, childName, onClose }: {
     whiteSpace: 'nowrap',
     color: door === key ? 'var(--ink)' : 'var(--ink-soft)',
     background: door === key ? '#fff' : 'transparent',
-    boxShadow: door === key ? '0 2px 6px -2px rgba(26,26,46,0.25)' : 'none',
+    boxShadow: 'none',
+    outline: door === key ? '2px solid var(--ink)' : 'none', outlineOffset: -2,
   })
 
   return (
@@ -129,13 +131,13 @@ export default function QrHandoverModal({ token, childName, onClose }: {
     >
       <div
         onClick={e => e.stopPropagation()}
-        style={{ width: '100%', maxWidth: 420, background: 'var(--cream)', borderRadius: '26px', padding: '20px 20px 22px', boxShadow: '0 24px 60px -18px rgba(26,26,46,0.45)', textAlign: 'center', margin: 'auto' }}
+        style={{ width: '100%', maxWidth: 420, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '26px', padding: '20px 20px 22px', boxShadow: '0 4px 0 var(--ink)', textAlign: 'center', margin: 'auto' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             Hand it to {childName}
           </span>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--ink)', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink)', flexShrink: 0 }}>✕</button>
         </div>
 
         {/* Two doors, equal weight. A family with no child device is not taking
@@ -157,7 +159,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
 
             {/* The hero. Big enough to scan from across a table, which is the
                 whole point of a code rather than a link. */}
-            <div style={{ background: '#fff', borderRadius: '22px', padding: '16px', display: 'inline-block', boxShadow: '0 5px 0 rgba(26,26,46,0.08)', marginBottom: '14px' }}>
+            <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px', padding: '16px', display: 'inline-block', marginBottom: '14px' }}>
               {qr ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -194,11 +196,13 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                 happens, phrased as the second half of the same action rather
                 than as a warning. */}
             <div style={{
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
               padding: '12px 14px', margin: '0 0 18px', textAlign: 'left',
               display: 'flex', alignItems: 'flex-start', gap: '10px',
             }}>
-              <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.3, flexShrink: 0 }}>⭐</span>
+              <span aria-hidden style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+                <HappyIcon name="phonebed" size={24} />
+              </span>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
                 <strong style={{ color: 'var(--ink)' }}>Then add it to their home screen.</strong> Tap share, then Add to Home Screen, and it sits there like any other app. On an iPhone this is also what lets their reminders come through.
               </p>
@@ -219,7 +223,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                     flex: 1, display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
                     background: c.bg, color: c.fg, borderRadius: '15px', padding: '13px 6px', textDecoration: 'none',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                    boxShadow: c.shadow, border: c.key === 'email' ? '1.5px solid var(--border)' : 'none',
+                    boxShadow: c.shadow, border: c.key === 'email' ? '2px solid var(--ink)' : 'none',
                   }}
                 >
                   {c.icon}
@@ -231,9 +235,9 @@ export default function QrHandoverModal({ token, childName, onClose }: {
             <button
               onClick={copy}
               style={{
-                width: '100%', background: 'transparent', border: '1.5px solid var(--border)', borderRadius: '14px',
+                width: '100%', background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px', boxShadow: '0 4px 0 var(--ink)',
                 padding: '11px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
-                fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
+                fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}
             >
               {copied ? 'Copied ✓' : 'Copy the link'}
@@ -248,7 +252,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
             {/* The chart shown at the same size the code gets, because it is
                 the same offer. A family who prints this is fully set up: the
                 child ticks the paper, the parent taps the stars. */}
-            <div style={{ background: '#fff', borderRadius: '22px', padding: '16px 14px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)', marginBottom: '14px' }}>
+            <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px', padding: '16px 14px', marginBottom: '14px' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '10px' }}>
                 {childName}&apos;s week
               </div>
@@ -258,7 +262,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                 ))}
                 {Array.from({ length: 21 }).map((_, i) => (
                   <div key={i} aria-hidden style={{
-                    aspectRatio: '1', borderRadius: '7px', border: '2px solid var(--border)',
+                    aspectRatio: '1', borderRadius: '7px', border: '2px solid var(--ink)',
                     background: i === 0 || i === 8 || i === 15 ? 'var(--terracotta-lt)' : '#fff',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)',
@@ -305,7 +309,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
           onClick={onClose}
           style={{
             width: '100%', marginTop: '14px', background: '#fff',
-            border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px',
+            border: '2px solid var(--ink)', borderRadius: '16px', padding: '13px', boxShadow: '0 4px 0 var(--ink)',
             cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
             fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}

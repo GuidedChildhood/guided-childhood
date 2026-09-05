@@ -15,7 +15,7 @@ const STAGES: [string, string][] = [
 ]
 
 const label: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }
-const field: React.CSSProperties = { width: '100%', padding: '11px 13px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', boxSizing: 'border-box', marginBottom: 16 }
+const field: React.CSSProperties = { width: '100%', padding: '11px 13px', borderRadius: 12, border: '2px solid var(--ink)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', boxSizing: 'border-box', marginBottom: 16 }
 
 export default function NewScriptForm({ prefillSituation }: { prefillSituation?: string }) {
   const router = useRouter()
@@ -72,7 +72,7 @@ export default function NewScriptForm({ prefillSituation }: { prefillSituation?:
       <label style={label}>Try tonight</label>
       {ta('tonight', 2)}
 
-      <div style={{ borderTop: '1px solid var(--border)', margin: '4px 0 16px', paddingTop: 16 }}>
+      <div style={{ borderTop: '2px solid var(--ink)', margin: '4px 0 16px', paddingTop: 16 }}>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: 14 }}>The deeper three (optional).</p>
         <label style={label}>If they push back</label>
         {ta('if_they_push_back', 2)}

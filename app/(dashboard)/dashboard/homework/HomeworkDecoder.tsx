@@ -69,7 +69,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                 padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
                 background: k.id === childId ? 'var(--deep-teal)' : 'var(--cream)',
                 color: k.id === childId ? '#fff' : 'var(--ink-soft)',
-                border: `1px solid ${k.id === childId ? 'var(--deep-teal)' : 'var(--border)'}`,
+                border: `2px solid ${k.id === childId ? 'var(--deep-teal)' : 'var(--ink)'}`,
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
               }}
             >
@@ -80,7 +80,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
       )}
 
       {child && !child.hasBirthday ? (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
             We need {child.name}&apos;s birthday first
           </div>
@@ -93,7 +93,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
         </div>
       ) : (
         <>
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '16px 18px' }}>
+          <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '16px 18px' }}>
             <div style={{ ...label, marginBottom: 8 }}>What does the homework say</div>
             <textarea
               value={text}
@@ -102,7 +102,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
               placeholder="Type it or paste it in. Even a photo caption or one confusing line is enough."
               style={{
                 width: '100%', resize: 'vertical', padding: '12px 13px',
-                border: '1.5px solid var(--border)', borderRadius: 13,
+                border: '2px solid var(--ink)', borderRadius: 13,
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
                 lineHeight: 1.5, background: 'var(--cream)',
               }}
@@ -127,7 +127,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
           )}
 
           {result && !result.ok && (
-            <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px', marginTop: 14 }}>
+            <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px', marginTop: 14 }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
                 {result.reason === 'no_match' ? 'Not one we can place' : 'Nothing to match it against yet'}
               </div>
@@ -143,13 +143,13 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
 
           {result && result.ok && (
             <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 20, padding: '18px 20px' }}>
+              <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
                 <div style={{ ...label, color: 'var(--retro-green-dark)', marginBottom: 6 }}>What it is asking for</div>
                 <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.plain}</p>
               </div>
 
               {result.help && (
-                <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 20, padding: '18px 20px' }}>
+                <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
                   <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: 6 }}>One thing to do tonight</div>
                   <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.help}</p>
                 </div>
@@ -173,7 +173,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
               )}
 
               {result.watch && (
-                <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '16px 18px' }}>
+                <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '16px 18px' }}>
                   <div style={{ ...label, marginBottom: 6 }}>Where parents usually trip up</div>
                   <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{result.watch}</p>
                 </div>
@@ -183,7 +183,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                   than the answer: a parent wants to know what to do, and the
                   statutory line is what lets them check we did not make it up. */}
               {result.matches.length > 0 && (
-                <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '16px 18px' }}>
+                <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '16px 18px' }}>
                   <div style={{ ...label, marginBottom: 8 }}>
                     Year {result.yearGroup}, the curriculum wording
                   </div>
@@ -207,7 +207,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                 href={`/dashboard/digi?q=${encodeURIComponent(`We are stuck on this homework: ${text.slice(0, 300)}`)}`}
                 style={{
                   display: 'inline-flex', justifyContent: 'center', padding: '13px 18px', textDecoration: 'none',
-                  background: '#fff', color: 'var(--ink)', borderRadius: 16, border: '1.5px solid var(--border)',
+                  background: '#fff', color: 'var(--ink)', borderRadius: 16, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 }}
               >

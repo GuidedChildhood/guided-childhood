@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { WHY_IT_WORKS, OUR_STANCE } from '@/lib/content/readiness'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The evidence and the stance, folded into one calm card that opens on demand.
 // They matter, but they do not need to shout on every visit, so the pathway stays
@@ -10,13 +11,13 @@ import { WHY_IT_WORKS, OUR_STANCE } from '@/lib/content/readiness'
 export default function PathwayEvidence() {
   const [open, setOpen] = useState(false)
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px' }}>
       <button
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
         style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '11px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
       >
-        <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🔬</span>
+        <span aria-hidden style={{ width: 38, height: 38, borderRadius: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="quiz" size={26} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Why this works, and our stance</span>
           <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '1px' }}>The measured evidence, and where we stand on kids and phones</span>
@@ -31,7 +32,7 @@ export default function PathwayEvidence() {
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{WHY_IT_WORKS.body}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {WHY_IT_WORKS.points.map(p => (
-              <div key={p.title} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '12px 14px' }}>
+              <div key={p.title} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '12px 14px' }}>
                 <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0, lineHeight: 1.2 }}>{p.icon}</span>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{p.title}</div>

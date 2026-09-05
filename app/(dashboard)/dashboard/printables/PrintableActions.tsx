@@ -104,7 +104,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
   // wrong way round, and it also meant nobody could open it to check it.
   if (!isPaid && !printable.free) {
     return (
-      <a href="/dashboard/upgrade" style={{ ...downloadStyle, background: '#fff', border: '1.5px solid var(--border)', boxShadow: 'none', color: 'var(--ink)' }}>
+      <a href="/dashboard/upgrade" style={{ ...downloadStyle, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', color: 'var(--ink)' }}>
         🔒 Members download and print
       </a>
     )
@@ -128,7 +128,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
           <a href={printable.pdfColour} {...OPEN_AWAY} style={downloadStyle}>
             ⬇ Colour
           </a>
-          <a href={printable.pdfColourIn} {...OPEN_AWAY} style={{ ...downloadStyle, background: '#fff', border: '1.5px solid var(--border)', boxShadow: 'none' }}>
+          <a href={printable.pdfColourIn} {...OPEN_AWAY} style={{ ...downloadStyle, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
             ⬇ Colour in
           </a>
         </>
@@ -148,10 +148,10 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         onClick={addToQuests}
         disabled={added}
         style={{
-          background: added ? 'var(--tint-sage)' : '#fff',
-          border: '1.5px solid var(--border)', borderRadius: '12px',
+          background: added ? 'var(--retro-green)' : '#fff',
+          border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
           padding: '10px 16px', cursor: added ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: added ? '#fff' : 'var(--ink)',
         }}
       >
         {added ? 'On the quest list ✓' : `Add to quests · ⭐ ${printable.stars}`}
@@ -160,10 +160,10 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         onClick={sendToChild}
         disabled={sent}
         style={{
-          background: sent ? 'var(--tint-sage)' : 'var(--stage-1)',
-          border: '1.5px solid var(--border)', borderRadius: '12px',
+          background: sent ? 'var(--retro-green)' : 'var(--stage-1)',
+          border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
           padding: '10px 16px', cursor: sent ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: sent ? '#fff' : 'var(--ink)',
         }}
       >
         {sent ? 'Sent to their app ✓' : '📲 Send to my child'}
@@ -173,10 +173,10 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         disabled={done}
         title="Record it done and land the stars, for a sheet finished away from the app"
         style={{
-          background: done ? 'var(--tint-sage)' : '#fff',
-          border: '1.5px solid var(--border)', borderRadius: '12px',
+          background: done ? 'var(--retro-green)' : '#fff',
+          border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
           padding: '10px 16px', cursor: done ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: done ? '#fff' : 'var(--ink)',
         }}
       >
         {done ? `Done, ⭐ ${printable.stars} landed ✓` : `✅ They did it · ⭐ ${printable.stars}`}

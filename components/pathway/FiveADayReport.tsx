@@ -63,8 +63,8 @@ export default function FiveADayReport({
 
   return (
     <section style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
-      padding: '20px 18px', marginTop: '18px', boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
+      padding: '20px 18px', marginTop: '18px', boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
         Their five a day
@@ -79,7 +79,7 @@ export default function FiveADayReport({
       {/* Today, in full. The only day worth the room, because it is the one a
           parent can still say something about over tea. */}
       {todayRow && (
-        <div style={{ background: 'var(--cream)', borderRadius: '16px', padding: '14px 15px', marginBottom: '16px' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '16px', padding: '14px 15px', marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 10 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
               Today
@@ -133,7 +133,7 @@ export default function FiveADayReport({
           <div key={d.day} style={{
             flex: '1 1 44px', minWidth: 44, textAlign: 'center',
             background: d.complete ? 'var(--tint-sage)' : 'var(--cream)',
-            border: `1.5px solid ${d.complete ? '#2F8F6B' : 'var(--border)'}`,
+            border: `2px solid ${d.complete ? '#2F8F6B' : 'var(--ink)'}`,
             borderRadius: 13, padding: '9px 4px',
           }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1 }}>
