@@ -9,6 +9,8 @@ import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
 import type { FriendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import DayCompleteFlow, { type DayCloseFacts } from '@/components/daily/DayCompleteFlow'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
+import { chunky } from '@/components/scripts/card-system'
 
 // ── THE THING IS CALLED TODAY ───────────────────────────────────────────────
 //
@@ -43,8 +45,11 @@ const GAP_H = 46
 const GREEN = '#2F8F6B'
 const GREEN_DARK = '#236F52'
 
-const NODE_ICON: Record<TodayLoopTask['key'], string> = {
-  checkin: '✦', setup: '🧰', moment: '☀️', agreement: '🤝', script: '💬', quests: '⭐', passport: '🛂', digi: '✦', lesson: '📚', done: '🏁',
+// The drawn icon on each stone (the happy news finish, plans/
+// week-of-2026-08-31-parent-happy-news-plan.md): a picture of the thing
+// rather than a phone emoji, so the road reads the same on every device.
+const NODE_ICON: Record<TodayLoopTask['key'], HappyIconName> = {
+  checkin: 'cheer', setup: 'jobs', moment: 'time', agreement: 'deal', script: 'tell', quests: 'jobs', passport: 'passport', digi: 'friends', lesson: 'lessons', done: 'wins',
 }
 
 function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked: boolean }) {
@@ -250,14 +255,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         onClick={() => setOpenAnyway(true)}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
           padding: '14px 16px', marginBottom: '20px', cursor: 'pointer', textAlign: 'left',
-          font: 'inherit',
+          font: 'inherit', boxShadow: '0 4px 0 var(--ink)',
         }}
       >
         <span aria-hidden style={{
-          flexShrink: 0, width: 38, height: 38, borderRadius: '12px',
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          flexShrink: 0, width: 40, height: 40, borderRadius: '50%',
+          background: GREEN, border: '2px solid var(--ink)', color: '#fff', fontWeight: 900,
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
         }}>✓</span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -281,10 +286,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     {closeFlow}
     <div style={{
       background: '#fff',
-      border: '1.5px solid var(--border)',
-      borderRadius: '20px',
+      border: '2px solid var(--ink)',
+      borderRadius: '22px',
       padding: '18px 16px 18px',
       marginBottom: '20px',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       <style>{`
         @keyframes todaypathbig-pulse {
@@ -354,7 +360,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           the same promise (a five minute day still keeps the streak), just a
           proper thumb sized tap. */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '6px' }}>
-        {([[5, '⚡', 'A quick day'], [10, '☀️', 'The usual'], [15, '🌙', 'Room to go deep']] as const).map(([m, icon, hint]) => {
+        {([[5, 'flame', 'A quick day'], [10, 'time', 'The usual'], [15, 'lessons', 'Room to go deep']] as const).map(([m, icon, hint]) => {
           const on = m === minutes
           return (
             <button
@@ -364,14 +370,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
               style={{
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
                 padding: '10px 6px 9px', borderRadius: '14px', cursor: 'pointer',
-                border: on ? '2px solid var(--terracotta)' : '2px solid var(--border)',
-                background: on ? 'var(--terracotta-lt)' : '#fff',
-                boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : '0 3px 0 var(--border)',
+                border: '2px solid var(--ink)',
+                background: on ? 'var(--terracotta)' : '#fff',
+                boxShadow: on ? '0 3px 0 var(--ink)' : '0 3px 0 var(--ink)',
                 transition: 'all 0.15s',
               }}
             >
-              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, filter: on ? 'none' : 'grayscale(1) opacity(0.6)' }}>{icon}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+              <span aria-hidden style={{ lineHeight: 1, opacity: on ? 1 : 0.55 }}><HappyIcon name={icon} size={26} /></span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: on ? 'var(--ink)' : 'var(--ink-muted)' }}>
                 {m} min
               </span>
               <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.1 }}>{hint}</span>
@@ -400,9 +406,9 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                       this line and the words have to sit on something. */}
                   <span style={{
                     display: 'inline-block', padding: '4px 12px', borderRadius: '100px',
-                    background: 'var(--cream)', border: '1.5px solid var(--border)',
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
-                    letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+                    background: '#fff', border: '2px solid var(--ink)',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800,
+                    color: 'var(--ink-soft)',
                   }}>
                     Also today, if you fancy it
                   </span>
@@ -521,22 +527,20 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     {isCurrent && (
                       <div
                         className="todaypathbig-pulse-ring"
-                        style={{ position: 'absolute', inset: '-6px', borderRadius: '50%', border: '4px solid var(--terracotta)' }}
+                        style={{ position: 'absolute', inset: '-6px', borderRadius: '50%', border: '4px solid var(--ink)' }}
                       />
                     )}
                     <div
                       style={{
                         width: '100%', height: '100%', borderRadius: '50%',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: isDoneNode ? GREEN : isCurrent ? '#fff' : 'var(--cream)',
-                        border: isDoneNode ? 'none' : isCurrent ? '3px solid var(--terracotta)' : '2.5px solid var(--border)',
-                        boxShadow: isDoneNode
-                          ? `0 5px 0 ${GREEN_DARK}`
-                          : isCurrent
-                            ? '0 5px 0 var(--terracotta-dark), 0 0 0 6px var(--terracotta-lt)'
-                            : '0 5px 0 var(--border)',
+                        background: isDoneNode ? GREEN : isCurrent ? 'var(--terracotta)' : '#fff',
+                        border: '2.5px solid var(--ink)',
+                        boxShadow: isCurrent
+                          ? '0 5px 0 var(--ink), 0 0 0 6px var(--terracotta-lt)'
+                          : '0 5px 0 var(--ink)',
                         fontSize: 'var(--text-2xl)',
-                        filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.5)' : 'none',
+                        opacity: !isDoneNode && !isCurrent ? 0.55 : 1,
                       }}
                     >
                       {isDoneNode ? (
@@ -544,9 +548,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                           <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth="3.8" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       ) : (
-                        <span aria-hidden="true" style={task.key === 'digi' ? { color: 'var(--terracotta)', fontWeight: 800 } : undefined}>
-                          {NODE_ICON[task.key]}
-                        </span>
+                        <HappyIcon name={NODE_ICON[task.key]} size={38} />
                       )}
                     </div>
 
@@ -569,8 +571,8 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     )}
                   </div>
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
-                    fontWeight: isCurrent ? 700 : 600, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)',
+                    fontWeight: isCurrent ? 900 : 700,
                     color: isCurrent ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
                     textAlign: 'center', lineHeight: 1.3,
                   }}>
@@ -586,7 +588,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     background: 'var(--terracotta)', color: 'var(--ink)',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                     padding: '5px 11px', borderRadius: '100px', whiteSpace: 'nowrap',
-                    boxShadow: '0 3px 10px rgba(237,195,95,0.4)', zIndex: 3,
+                    border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', zIndex: 3,
                   }}>
                     {celebrating} done, lovely 🎉
                   </span>
@@ -601,11 +603,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     position: 'absolute', top: -9, left: '50%',
                     transform: `translateX(calc(-50% + ${x}px)) rotate(45deg)`,
                     width: 16, height: 16, background: '#fff',
-                    borderTop: '2px solid var(--terracotta)', borderLeft: '2px solid var(--terracotta)',
+                    borderTop: '2px solid var(--ink)', borderLeft: '2px solid var(--ink)',
                   }} />
                   <div style={{
-                    background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 16,
-                    padding: '14px 14px 14px', boxShadow: '0 5px 0 rgba(201,154,40,0.25)',
+                    background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+                    padding: '14px 14px 14px', boxShadow: '0 4px 0 var(--ink)',
                   }}>
                     <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
                       Next: {tasks[currentIndex].label}
@@ -618,13 +620,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     </p>
                     <Link
                       href={tasks[currentIndex].href}
-                      style={{
-                        display: 'block', textAlign: 'center', textDecoration: 'none',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-                        color: 'var(--ink)', background: 'var(--terracotta)',
-                        border: 'none', borderRadius: 16, padding: '14px 0',
-                        boxShadow: '0 5px 0 var(--terracotta-dark)',
-                      }}
+                      style={{ ...chunky('butter', 'lg'), display: 'block', textAlign: 'center', textDecoration: 'none', width: '100%', boxSizing: 'border-box' }}
                     >
                       Go
                     </Link>
@@ -642,7 +638,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       {!pressure && !allDone ? (
         <div style={{
           marginTop: '16px', padding: '13px 15px',
-          background: 'var(--tint-sage)', borderRadius: '14px',
+          background: 'var(--tint-sage)', borderRadius: '14px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             {lead ? 'Today’s one thing, done 🎉' : `That is your ${minutes} minutes, day done 🎉`}

@@ -10138,3 +10138,16 @@ schools.invoice_requests with band "draw" and PO "DRAW", so the hourly cron
 emails Justin every entry and no migration was needed. The one not built is
 the product in a hand photo on printable listings: it needs real photographs
 from Justin, and a render in a fake hand would break the evidence rule.
+
+## 2 September 2026: the parent app in the happy news finish, styling only
+
+Justin: apply the top UX look to the parent's setup, start up and dashboard,
+happy news icons, a Duolingo style day path, buttons like the child's app,
+without changing the code behind it. The finish (ink edge, hard ledge,
+Nunito 900, butter for the thing to tap, drawn icons in crayon colours)
+now sits on the daily path (drawn icon on every stone, the Go button in the
+child's style), the Setup Quest, the first welcome walkthrough, DiGi's
+greeting, the four home rows, the Everything else door, the day close
+sheet and the bottom tab bar. Every handler and every decision about what
+shows is untouched. The parent side keeps its calmer register: no stickers
+or dot scatter. Fixture: /dev/today-path.

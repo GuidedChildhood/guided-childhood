@@ -53,8 +53,9 @@
      bar's height. The bar was the one declaring otherwise. */
   height: calc(72px + env(safe-area-inset-bottom, 0px));
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: rgba(255,255,255,.96);
-  border-top: 1px solid var(--border);
+  background: rgba(255,255,255,.98);
+  /* The happy news finish: an ink edge on top, the way the child's bar wears one. */
+  border-top: 2px solid var(--ink);
   display: flex;
   align-items: center;
   justify-content: space-around;
