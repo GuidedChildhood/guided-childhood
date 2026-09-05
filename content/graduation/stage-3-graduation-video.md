@@ -12,7 +12,7 @@ Pilot note: the produced 30 August cut predates Orbit's addition and the red
 pen; blocks regenerate individually from this script once it is approved.
 
 Runtime target: 75 seconds. Tone: proud, warm, a little ceremonial, never
-saccharine. DiGi's voice throughout, no other characters in the video.
+saccharine. One narrator (DiGi's voice); Orbit appears on screen but never speaks.
 House style art via the lesson-video pipeline (Higgsfield scenes in the
 digi world palette, captions burned in, assembler stitch).
 

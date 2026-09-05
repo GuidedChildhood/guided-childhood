@@ -10241,3 +10241,23 @@ plans/week-of-2026-09-07-planet-friends-slice-3a-den-plan.md. Nothing built
 yet; waiting on Justin's go. Found on the way and fixed in PR 967: the "Do a
 lesson" mission read only kid_lesson_missions, so a Learn tab pass never
 landed it; it now reads lesson_completions too.
+## 5 September 2026: The contrarian sweep briefing, and the lines it fixed
+
+Justin's ask: review all the services and find the most recent contrarian
+studies on social media and how we solve the problems for kids. Delivered as
+briefings/2026-09-05-contrarian-studies-and-services-v2.html, six lenses,
+36 sources adversarially verified (14 confirmed, 6 with caveats, 16 corrected,
+none demoted). Decisions and discipline lines that came out of it: the
+schools pitch leads with the RSHE mandate (compulsory in England from
+1 September 2026, promised training grants undelivered), not the ban; the
+cliff edge is the passport's best evidenced argument (BMJ: daily use 80% to
+89% at 16 in Australia; Queensland graduated licensing 13.9% a year with an
+unmoved age line); we never say the Australian ban "failed", only that there
+is no evidence it delivered what parents were promised and the first thing it
+measurably changed was how much parents know (eSafety: parents unaware up ten
+points); and five numbers are banned from our copy alongside the old
+folklore: the Norwegian 60% clinic figure (magnitude untraceable, direction
+only), the 1 in 5 surveilled figure (not in its source), the Florida
+happiness study, the Sapien data, and any measurement artefact story (the
+big Norwegian test rejected it). The missing seventh lens is the Teacher,
+recommended as a V3 before the autumn school pitch cycle.
