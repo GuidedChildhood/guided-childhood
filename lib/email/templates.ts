@@ -469,17 +469,22 @@ export function founderPrechargeEmail(params: {
   /** When the free days end, already formatted for a UK reader. */
   chargeDate: string
   unsubscribe: string
+  /** The Stripe tier on the subscription. A card trial after the fifty is standard, not founder. */
+  tier?: string | null
 }): EmailContent {
   const { childName, chargeDate, unsubscribe } = params
+  const standard = params.tier === 'standard'
   return {
     subject: `Your first payment is on ${chargeDate}`,
     html: wrapper(
       heading('Before anything is charged.') +
-      p(`Your free days end on <strong>${chargeDate}</strong>, and that is when your founder rate starts: <strong>£7.99 a month</strong>, on the card you added when you joined. Nothing has been taken yet.`) +
-      p(`You do not need to do anything. It carries on, and £7.99 is your price for life, whatever the platform grows into and whatever it costs anybody joining later.`) +
+      p(`Your free days end on <strong>${chargeDate}</strong>, and that is when your ${standard ? 'membership' : 'founder rate'} starts: <strong>${standard ? '£12.99' : '£7.99'} a month</strong>, on the card you added when you joined. Nothing has been taken yet.`) +
+      p(standard
+        ? `You do not need to do anything. It carries on month by month, and you can cancel in one tap whenever you like.`
+        : `You do not need to do anything. It carries on, and £7.99 is your price for life, whatever the platform grows into and whatever it costs anybody joining later.`) +
       p(`If it is not right for ${childName}, cancel before ${chargeDate} and you pay nothing at all. It is one tap in Settings, no forms and no phone call.`) +
       button('See my plan', `${APP}/dashboard/settings`) +
-      p(`Either way, thank you for being one of the first fifty families. That genuinely matters at this end.`),
+      p(standard ? `Either way, thank you for giving it a proper go. That genuinely matters at this end.` : `Either way, thank you for being one of the first fifty families. That genuinely matters at this end.`),
       unsubscribe
     ),
   }

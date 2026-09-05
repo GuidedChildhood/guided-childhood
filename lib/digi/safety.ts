@@ -84,6 +84,28 @@ export function hasCrisisLanguage(text: string): boolean {
   return includesAny((text ?? '').toLowerCase(), CRISIS_TERMS)
 }
 
+// Online sexual harm, grooming and abuse: a different route from the crisis
+// one (CEOP and the school's safeguarding lead, not Samaritans), and the same
+// rule that the route comes before any advice.
+const SAFEGUARDING_TERMS = [
+  'groom', 'grooming', 'groomed', 'sextortion', 'sextorted', 'nudes', 'nude photo', 'nude picture',
+  'naked photo', 'naked picture', 'sent a photo of', 'asked for a photo', 'asked for pictures',
+  'sexual message', 'sexual photo', 'predator', 'paedophile', 'pedophile', 'being abused',
+  'abusing', 'molest', 'touched inappropriately', 'stranger online', 'an adult online',
+  'blackmail', 'threatening to share',
+]
+export function hasSafeguardingLanguage(text: string): boolean {
+  return includesAny((text ?? '').toLowerCase(), SAFEGUARDING_TERMS)
+}
+
+// What goes first, before the model says a word. Deterministic: the same
+// numbers every time, whatever the model does next. The reply still follows,
+// because a parent in this moment needs the words as well as the number.
+export const CRISIS_OPENER =
+  'This needs a real person before anything I say. If anyone is in immediate danger, call 999. Samaritans are on 116 123, any hour. Childline is 0800 1111 for your child themselves. Your GP is the door to CAMHS tomorrow. What follows is the words around that.\n\n'
+export const SAFEGUARDING_OPENER =
+  'Before anything else: if a child has been contacted, groomed or pressured for images online, report it to CEOP at ceop.police.uk, and tell the school\'s Designated Safeguarding Lead. If anyone is in immediate danger, call 999. Keep the messages and do not reply to them. What follows is the words for your child.\n\n'
+
 // The deterministic pass. Pure, so the evals and any test can rely on it, and
 // cheap enough to run on every live reply without a second thought.
 export function lexicalFlags(userMessage: string, reply: string): Violation[] {

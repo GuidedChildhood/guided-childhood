@@ -14,7 +14,7 @@ import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { getTriedAlready, getRatedForSituation } from '@/lib/digi/outcomes'
 import { getRatingShifts } from '@/lib/digi/rating-loop'
 import { inferSituation } from '@/lib/digi/situation'
-import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
+import { lexicalFlags, highestSeverity, hasCrisisLanguage, hasSafeguardingLanguage, CRISIS_OPENER, SAFEGUARDING_OPENER } from '@/lib/digi/safety'
 import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
 import { loadLaneKeywords } from '@/lib/digi/keywords'
@@ -1044,6 +1044,17 @@ When a parent asks whether or for how long their child should use any device, do
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
       let fullText = ''
+      // The route to a real human goes FIRST, deterministically, when the
+      // message carries crisis or safeguarding language. The prompt already
+      // asks for it and the regex already flagged it afterwards; neither could
+      // put the number on the screen before the model spoke (audit,
+      // 5 September 2026). The rescue tile has done this since July.
+      const opener = hasCrisisLanguage(String(message ?? '')) ? CRISIS_OPENER
+        : hasSafeguardingLanguage(String(message ?? '')) ? SAFEGUARDING_OPENER : ''
+      if (opener) {
+        fullText += opener
+        try { controller.enqueue(encoder.encode(opener)) } catch { /* client gone */ }
+      }
       // The no dashes rule, enforced on the way out. The system prompt asks for
       // it twice and the model still lands one occasionally, and a dash is the
       // clearest tell that a machine wrote the reply. One stripper across all

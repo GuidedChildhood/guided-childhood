@@ -16,6 +16,17 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
+
+  // The wellbeing check in is health information about a named child and is
+  // only written once the parent has said yes to that specifically (privacy
+  // notice: "nothing is written down until you have"). The gate lived only in
+  // the check in screen; this is the promise kept on the server (audit,
+  // 5 September 2026).
+  const { data: consentRow } = await supabase.from('profiles').select('wellbeing_consent_at').eq('id', user.id).maybeSingle()
+  if (!consentRow?.wellbeing_consent_at) {
+    return NextResponse.json({ error: 'consent_required' }, { status: 403 })
+  }
+
   const { rating, label, child_id } = await request.json() as { rating: number; label: string; child_id?: string }
 
   // The child off the wire (validated), primary as the fallback: the quick

@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPush } from '@/lib/push/send'
 import { trialDaysLeft, lifecycleState } from '@/lib/email/lifecycle'
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { FOUNDER_CAP } from '@/lib/stripe'
 
 // The four day funnel's push side, approved by Justin on 8 August: three
 // pushes riding the trial clock, each honest, each once, none to payers.
@@ -62,8 +63,8 @@ async function handler(request: Request) {
       .select('id', { count: 'exact', head: true })
       .eq('is_founder', true)
       .eq('subscription_status', 'active')
-    if (typeof count === 'number' && count >= 0 && count < 50) {
-      seatsLine = `The founder rate holds everything open. ${50 - count} of 50 seats left.`
+    if (typeof count === 'number' && count >= 0 && count < FOUNDER_CAP) {
+      seatsLine = `The founder rate holds everything open. ${FOUNDER_CAP - count} of ${FOUNDER_CAP} seats left.`
     }
   } catch { /* honest fallback line already set */ }
 
