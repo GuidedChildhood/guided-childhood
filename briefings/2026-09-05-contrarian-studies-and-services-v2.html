@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Contrarian Sweep · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The Contrarian Sweep: the newest studies, and how we answer them</h1>
+    <p style="color:var(--ink-soft);max-width:640px">Every contrarian study from late 2025 to September 2026 worth knowing, run through six adversarial lenses, then mapped service by service onto what Guided Childhood has already built. All 36 sources adversarially verified; the ledger records every verdict.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">5 September 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The first real evaluations of Australia's under 16 ban are in, and the model the UK is copying moved platform use from 85.9% of under 16s to 81.5% in three months, left daily use statistically unchanged, and pushed it out of parents' sight: the share of parents who did not know their child was on social media rose ten points. Among 16 year olds, daily use jumped from 80% to 89%, the cliff edge our passport exists to remove. Meanwhile the strongest new science keeps moving our way: risk lives in feeds, patterns and vulnerable children, not average hours, and a child's own social media effect flips within six months for half of adolescents, which is the research case for tracking patterns over time rather than delivering one verdict. Two discipline notes from the Skeptic: nobody can yet say the ban failed any more than it worked, because the headline numbers on both sides are weak, and several famous statistics in this debate are folklore. The single most important fact for the business is quieter than any of it: statutory RSHE online safety teaching became compulsory in every English school on 1 September 2026, with the promised training support still undelivered, in the same window that the Meta settlement earmarked US state money for digital literacy. A mandated buyer and a funding precedent arrived in our launch window. Every finding in this briefing lands on a service we have already built.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Australia's ban barely moved use, and its first measurable effect was less parental visibility</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The regulator's own three month evaluation (803 children aged 10 to 15) found platform use fell from 85.9% to 81.5% and daily use from about 60% to about 58%, while the share of parents unaware their child used social media rose ten percentage points, concentrated among girls and 10 to 12 year olds. 37% of children simply changed their profile birthdate. The independent BMJ evaluation (408 adolescents, no control group) found over 85% of under 16s still using restricted platforms at follow up, with daily use down among 14 to 15 year olds but up from 80% to 89% among 16 year olds. Use did not stop, it relocated and went quiet.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Academic, Historian, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (early, no control group; do not say "failed")</span>
+      </div>
+      <div class="cite">Sources: S1, S2, S4</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Statutory RSHE online safety teaching became compulsory in England on 1 September 2026, with the promised support still undelivered</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The revised RSHE statutory guidance (published July 2025) is mandatory in English schools from the start of this term, with expanded online safety content covering deepfakes, AI generated imagery and misogynistic content. The DfE promised training grants from early 2026, and Schools Week reports schools were still in the dark on them as term began. In the same window, the multistate Meta settlement of 26 August 2026 (up to $17.1bn, roughly $12bn guaranteed to states over ten years) earmarked funds for youth mental health and digital literacy: Texas takes over $1bn including digital literacy initiatives, Massachusetts up to $516m including digital wellness and literacy. A legally mandated buyer with undelivered support, plus the first funded precedent for our category, both landed inside our launch window.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: S24, S25</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Risk lives in the pathway, the feed and the vulnerable child, not in average hours</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>OxWell (32,102 pupils aged 11 to 18 in England, Nature Mental Health, August 2026): 34.5% saw self harm content in the past month, and 66.2% of those met it through algorithmic feed suggestions rather than searching, so exposure is a delivery pathway problem, not an hours problem. Fassi and colleagues (Nature Human Behaviour, 3,340 UK adolescents): teens with diagnosed internalising conditions report social comparison at 48% against 24% of their peers, so how a child uses is the signal. The biggest deactivation trial ever run (over 35,000 adults) found tiny average gains whose largest effects sat in specific subgroups, though the subgroup results are exploratory. Averages hide the story every time.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (cross sectional, direction unproven)</span>
+      </div>
+      <div class="cite">Sources: S8, S9, S10</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The cliff edge is real: prohibition until a birthday produces a worse arrival</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Three lenses converged on this from different literatures. The BMJ evaluation found daily use rising from 80% to 89% among 16 year olds after Australia's ban. In driving, Queensland's enhanced graduated licensing cut novice crash casualties 13.9% a year in a state where the solo licensing age was already 17 and never moved: the graduation mechanism does the work, not the age line. In the US, 18 to 19 year old first year drivers, who mostly skipped graduated licensing, show the highest injury and fatal crash rates among young drivers (observational, and most delay is about cost rather than deliberate avoidance). And the forbidden fruit literature found restrictive age labels increased attraction across Dutch children aged 7 to 17, though one pictogram study found no effect, so the label effect is contested. Children denied practice arrive at the legal age with more appetite and no skills. This is the passport argument stated by the evidence itself.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Historian, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (16+ rise is one survey wave; forbidden fruit contested)</span>
+      </div>
+      <div class="cite">Sources: S2, S26, S27, S28</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Ban compliance is a coordination problem: only 27% comply, and 52% stay because their friends stayed</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Bursztyn, Duckworth, Sunstein and colleagues (NBER, 2026) surveyed around 746 Australian teens across a main and a mechanism sample: about 27% of banned 14 to 15 year olds complied, over half of non compliers cited friends still being there, and the teens who did comply reported more boredom and difficulty keeping up with friendships. An individual family's rule fails for the same reason: the cost of leaving is personal while the group remains. The strongest answer is cohort level change, a class or a year group moving through stages together.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (working paper, not yet peer reviewed)</span>
+      </div>
+      <div class="cite">Sources: S3</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Surveillance style monitoring backfires; open, joint, conversational approaches are what hold</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Meta's own unsealed research (Project MYST, run with the University of Chicago on around 1,000 teens and parents) found parental and household factors have little association with compulsive use, while stressful life events predict it. MIT Technology Review argued in August 2026 that monitoring apps might need a reboot, with controlling covert monitoring predicting hiding, one in eight adults recalling lasting harm from being monitored, and a third of LGBTQ+ students knowing someone outed by school monitoring. The foundational analysis of 75 parental control apps (CSCW 2017, Wisniewski's group) found most overly restrictive and privacy invasive, and the field has moved to autonomy based approaches. ICO research (August 2026, over 4,000 children) finds 41% have tried to bypass parental controls and half of those found it easy. The market keeps selling watching; the evidence keeps rewarding talking.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Child, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (MYST via litigation; app efficacy figures vendor grade)</span>
+      </div>
+      <div class="cite">Sources: S11, S12, S13, S23</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>A child's social media effect is not stable: it flips within six months for half of adolescents</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The strongest within person design available (Pouwels, Beyens, Keijsers and Valkenburg: 297 Dutch adolescents around age 14, 126 momentary surveys per wave, two waves six months apart, Child Development 2025) found individual effects of social media on wellbeing, self esteem and friendship closeness stayed stable for only 32 to 51% of adolescents. A one off reading of whether social media is good or bad for a particular child expires. Separately, a small preprint from Odgers' group (40 participants aged 15 to 20, 90 days of daily reports) found morning low mood predicts same day passive phone use rather than the reverse, so mood often leads and phones follow, though that study is small and not yet peer reviewed.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (mood finding is a small preprint; core finding is mid teens only)</span>
+      </div>
+      <div class="cite">Sources: S14, S15</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Enforced, bounded friction delivers where platform bans and paper policies do not</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Norway's enforced school day phone restrictions (477 middle schools, now peer reviewed in the Journal of Human Resources) cut bullying by around 46% for girls and 43% for boys, reduced girls' psychological healthcare visits significantly (the widely quoted 60% magnitude did not survive verification, so we cite direction only) and lifted low SES girls' grades, with stricter hand in rules driving larger effects. A two week trial blocking mobile internet on the device (calls and texts kept) improved attention, mental health and wellbeing: 91% of participants improved on at least one outcome, and the attention gain was comparable to being ten years younger, both figures confirmed in the paper. Yet England's SMART Schools study found restrictive school policies changed nothing, because they did not reduce total daily use, and managing phones costs an average school over 100 staff hours a week under restrictive and permissive policies alike. The pattern: friction that is enforced, bounded and environmental works; rules on paper and platform level bans do not.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (Norwegian timing recalled by principals; internet block was adults; 2010 to 2018 classrooms are not 2026 TikTok)</span>
+      </div>
+      <div class="cite">Sources: S16, S17, S18, S19</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children asked for feature level fixes and feared exclusion; they got a ban anyway</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>In the UK Government's own consultation (116,211 responses, about 14,000 from children), 62% of responding children said restricting high risk features would make them safer, and 72% worried about feeling left out if restrictions came in. The ban was announced three weeks after it closed. ReachOut's body of research (separate surveys, 2022 to 2025) found parents rank social media their top concern while young people ranked it 24th among their own, below cost of living, study stress and loneliness, and 57% of 12 to 15 year olds say they use platforms to cope with worries. The gap between what adults fear and what children report is itself a finding, and removal is also removal of a coping tool.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (consultation self selected; ReachOut figures span several surveys)</span>
+      </div>
+      <div class="cite">Sources: S5, S6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The ban misses the cohort where use is growing fastest: preschool and primary</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Ofcom's 2026 children's media report: 40% of UK under 13s have a social media profile, 37% of parents of 3 to 5 year olds say their child uses at least one social media app (up from 29% in 2023), and 19% of 3 to 5s use it independently. The Centre for Social Justice extrapolates that to as many as 814,000 UK 3 to 5 year olds, an upper bound estimate built on the Ofcom parental report figure, not a measured count. A Spring 2027 teen ban does not touch any of this. The only instrument that reaches a four year old is a parent, which is exactly where Stages 1 and 2 sit, and where almost nobody else's product or policy does.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none material (regulator data, though parent report)</span>
+      </div>
+      <div class="cite">Sources: S7, S20</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>One in five US adolescents now takes mental health advice from AI chatbots, and most tell nobody</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>RAND in JAMA Pediatrics (June 2026, nationally representative, 1,009 young people aged 12 to 21): 19.2% use AI chatbots for mental health advice, 63.3% of those tell no one, and 91.7% of users rated the advice helpful, which is precisely the worry. Problematic chatbot use has begun appearing as a named presentation in child psychiatry, so far documented in a single clinic sample with no prevalence figure possible. While the ban debate looks backwards at social media, the next pathway is already open, unsupervised and invisible to parents. Our child app's zero AI rule, with every model call on the parent's side, is no longer a quiet engineering choice, it is a safety position with evidence behind it.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (US sample; UK prevalence unmeasured)</span>
+      </div>
+      <div class="cite">Sources: S21, S22</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Both camps' flagship numbers are contested, and several famous statistics are folklore</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Ferguson's null experimental meta analysis (Psychology of Popular Media 2024: 27 experiments, d of 0.088, confidence interval crossing zero) is peer reviewed and under formal audit; the audit lives on an advocacy blog, so neither side of that fight is settled. The specification curve behind the famous potatoes comparison was criticised in a Royal Statistical Society journal for averaging away real subgroup effects. Prevalence inflation (rising awareness inflating reported distress) remains a published hypothesis, and the one large direct test, on 560,000 Norwegian adolescents, found the symptom scales largely stable in meaning over time, so the rise there looks real rather than artefactual. And three widely repeated numbers will get any post killed: teens do not spend 9 hours a day on social media (that was 2015 total entertainment media; Gallup puts social media at 4.8 hours), the Instagram 1 in 3 body image figure is an internal Meta slide about girls already struggling, not a prevalence estimate, and UK teen suicide base rates (41 deaths among girls 15 to 19 in England in 2020) are far too small to carry any trend claim in either direction.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Academic, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none (this is the discipline layer)</span>
+      </div>
+      <div class="cite">Sources: S29, S30, S31, S32</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The scientific mainstream and the regulatory mainstream are both drifting toward graduation</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>A May 2026 Frontiers position paper by Lind, Schueller and Odgers argues bans lack causal evidence and may backfire, echoing the predominantly sceptical (though not unanimous) expert reaction to the UK announcement from the Science Media Centre and Cambridge, where van der Linden argued for digital literacy investment over blanket bans. The EU has gone further: von der Leyen backed phased, gradual access for minors in July 2026, with a Commission proposal promised for after the summer. CAMHS pressure keeps rising (1,048,965 active referrals, 128 day typical waits, spending up 2% against referrals up 10%) while untreated waiting lists cost public services around £75m a year, over 90% of it falling on schools. The centre of gravity in both science and policy is moving from the age line to the staircase. We built the staircase first.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Historian, Economist, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (position papers are argument, not data; EU proposal not yet law)</span>
+      </div>
+      <div class="cite">Sources: S33, S34, S35, S36</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Did Australia's ban fail?</td>
+          <td>Child and Academic: use barely moved, went underground, rose at 16. The regulator, an NBER team and a pro regulation charity converge.</td>
+          <td>Skeptic: the success metric (4.7m accounts) is unaudited platform self report and the failure metrics are advocacy surveys and vendor data. Neither verdict is defensible yet.</td>
+          <td class="leans coral">Skeptic on wording</td>
+        </tr>
+        <tr>
+          <td>Do phone restrictions work at all?</td>
+          <td>Norway: enforced school day restrictions cut bullying sharply and reduced girls' clinical contact.</td>
+          <td>England: SMART Schools found restrictive policies changed nothing.</td>
+          <td class="leans green">Both true: enforcement and boundedness are the variable</td>
+        </tr>
+        <tr>
+          <td>Are the effects meaningful at all?</td>
+          <td>Nulls on average: Ferguson's experimental meta, tiny deactivation effects.</td>
+          <td>Real concentrated harms: algorithmic self harm exposure, vulnerable teens' doubled social comparison, subgroup gains in every big trial.</td>
+          <td class="leans green">Heterogeneity: the average is not the story</td>
+        </tr>
+        <tr>
+          <td>Is the ban improving family life?</td>
+          <td>YouGov: 61% of parents observed positive effects in January.</td>
+          <td>eSafety: children's reported use barely changed and parental unawareness rose ten points in the same window.</td>
+          <td class="leans green">Child report: behaviour beats perception</td>
+        </tr>
+        <tr>
+          <td>Are kids fleeing to VPNs?</td>
+          <td>Headlines: VPN downloads surged around every age gate, and a quarter of UK 11 to 17s have used one.</td>
+          <td>Ofcom: among children who actually bypassed age checks, only 7% used a VPN; 45% entered a false birthdate. Internet Matters found no rise in child VPN use after age checks began.</td>
+          <td class="leans green">The workaround is mundane: lying, not tunnelling</td>
+        </tr>
+        <tr>
+          <td>Do age limits ever work?</td>
+          <td>Yes: minimum legal drinking age laws measurably reduced harm.</td>
+          <td>For substances, not skills: driving improved through graduated licensing, not a higher age line.</td>
+          <td class="leans green">Domain distinction: toxicity gets an age line, skill gets a staircase</td>
+        </tr>
+        <tr>
+          <td>Is the teen distress rise partly a measurement artefact?</td>
+          <td>Skeptic: prevalence inflation says awareness campaigns inflate reported symptoms.</td>
+          <td>The one large direct test (560,000 Norwegian adolescents) found the scales stable in meaning; the rise there looks real.</td>
+          <td class="leans coral">The artefact reading lost its best test</td>
+        </tr>
+        <tr>
+          <td>Is parental monitoring protective?</td>
+          <td>The market says yes: a growing industry sells it.</td>
+          <td>The evidence: covert surveillance predicts hiding; only open, joint, conversational mediation holds through the teens.</td>
+          <td class="leans green">Open and joint only</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>The clinic and the headlines have swapped places</h3>
+        <p>Referrals passed a million with 128 day waits, yet the newest clinical evidence says mood often leads and phones follow, exposure arrives by algorithm rather than by hours, and device removal appears nowhere in the self harm evidence base. What families need is a pattern reader and a calibrated pathway, which is what we built. The next presenting problem is already AI chatbots, not feeds.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>The best designs keep answering: it depends on the child, and the month</h3>
+        <p>Within person methods now exist, and they return heterogeneity, instability and subgroups: effects flip for half of adolescents in six months, vulnerable teens use differently, and the banned model's own evaluation shows daily use rising from 80% to 89% at the cliff edge of 16. Preparation and repeated reading of one child beat any single verdict.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Nobody can yet say the ban worked or failed, and that protects us</h3>
+        <p>The 4.7 million account figure has no denominator; the 70% circumvention figure is a survivorship biased advocacy survey; the VPN surges are vendor marketing confounded by adult age checks. Say "there is no evidence it delivered what parents were promised" and nothing stronger. Our own favourite numbers get the same treatment: never quote the Florida happiness study, the Sapien smartphone age data, or a measurement artefact story the best test rejected.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>The mandate arrived before the budget, and that gap is the business</h3>
+        <p>England made online safety teaching compulsory this term with the promised training support undelivered, schools already burn 100 staff hours a week managing phones under any policy, CAMHS demand outruns spending five to one, and settlement money has started funding digital literacy in the US. Every force pushes schools toward a cheap, ready made, evidence honest provider. That is the schools product's moment.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>After every panic, the winner is the trusted certifier</h3>
+        <p>Comics got a code, games got ESRB ratings that parents still check, driving got graduation, and each hollow credential died while the behaviour anchored ones survived. Queensland cut novice crash casualties 13.9% a year without moving the licence age. The durable artefact of this panic will be a verifiable, behaviour anchored credential worded as aspiration, never as restriction. That is the passport, provided the stage checks measure practice.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>The ban's first effect was hiding, and nobody asked us anyway</h3>
+        <p>More than four in five are still on, they got there by lying about a birthday rather than using a VPN, the group chats moved to less regulated places, and parents know less than before. Children asked for safer features and feared exclusion; they rank social media 24th among their own worries and most say they use it to cope. The real choice is prepared and visible versus unprepared and hidden.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>Lead every school conversation with the mandate, not the ban.</strong> RSHE online safety teaching is compulsory in England from this term with the promised training grants still undelivered, phones already cost a school 100 staff hours a week whichever policy it runs, and the packs are zero prep with no pupil data. The pitch writes itself: the law now requires what we hand you finished.
+        </li>
+        <li>
+          <span class="tag">Passport</span>
+          <strong>The cliff edge is now our best evidenced argument.</strong> Daily use jumps from 80% to 89% at 16 in the banned model, first year drivers who skipped graduation crash worst, and restrictive labels can make the fruit sweeter from age seven. Keep every certificate and passport line aspiration forward ("has completed the preparation"), never restriction shaped, and let the graduation mechanism carry the story.
+        </li>
+        <li>
+          <span class="tag">Wellbeing tracker</span>
+          <strong>Sell the re read, not the verdict.</strong> Individual effects flip within six months for half of adolescents. The pattern tracker's job is exactly this: repeated, gentle readings of one child over time. That is now a peer reviewed product justification.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>Never allow or deny is what the evidence orders, not just our taste.</strong> Surveillance monitoring predicts hiding, open joint mediation holds, and children endorsed feature level, conversational fixes in the government's own consultation. DiGi's calibrated pathway is the built form of the approach the literature keeps rewarding.
+        </li>
+        <li>
+          <span class="tag">Stages 1 and 2</span>
+          <strong>Own the cohort no policy reaches.</strong> 40% of under 13s have profiles, 19% of 3 to 5s use social media independently, and the ban touches none of it. Early years content and the co watching adventures are the only instrument in the market aimed where the growth actually is. Say so in marketing.
+        </li>
+        <li>
+          <span class="tag">Family agreement</span>
+          <strong>Answer the coordination problem at cohort level.</strong> Bans fail because friends stay; 52% of non compliers say so. A class or year group moving through stages together (the school to home bridge, the shared home codes) beats any individual family's rule. Build school cohort framing into the parent night materials.
+        </li>
+        <li>
+          <span class="tag">Child app</span>
+          <strong>Make zero AI on the child's side a named safety promise.</strong> One in five US adolescents takes mental health advice from chatbots, most tell nobody, and nine in ten of them think the advice was good. "No AI ever talks to your child; every model call happens on the parent's side, once, stored" is a proof path claim no big platform can copy.
+        </li>
+        <li>
+          <span class="tag">Sleep and screen balance</span>
+          <strong>Keep friction environmental and bounded.</strong> What works in trials is enforced, bounded friction: protected windows, the device night rules, patterns not hours. What fails is policy on paper and platform bans. Our sleep protections and protected windows sit on the working side of that line; keep them there and cite it.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>Write the concern gap into the scripts library.</strong> Parents rank social media first; children rank it 24th and most say they use it to cope. Scripts that open with the child's actual worry (friends, school stress, boredom) before the platform will land where lectures cannot. Commission a small set on "when the ban comes up at the dinner table".
+        </li>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Hold the Skeptic's line in every post.</strong> Never say the ban failed, never quote the 9 hours figure, the Instagram 1 in 3 slide, the Florida happiness study, the Sapien data, the Norwegian 60% clinic figure, or a teen suicide trend. The defensible sentence is: there is no evidence the ban delivered what parents were promised, and the first thing it measurably changed was how much parents know. Bans alone are not enough, and preparation does not have to wait for the verdict.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Early evaluations: the Australian evidence is three months of a multi year policy, without control groups, and could yet turn. Verification was done under an egress proxy that blocked nearly every primary domain, so verdicts rest on exact figure matches against indexed primary pages plus at least two independent secondaries each; the ledger states this per source, and any figure destined for public copy should have its primary read by a human first. Working papers (Bursztyn, Allcott) are not yet peer reviewed. The heterogeneity thesis, risk lives in patterns and vulnerable children, is our own thesis, and we have weighted evidence consistent with it; the Skeptic lens was instructed to attack that bias, and verification cut three numbers that flattered us (the Norwegian 60%, the 1 in 5 surveilled figure, the measurement artefact reading). Adult samples (deactivation, internet blocking trials) are generalised to adolescents by inference, not data.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The Teacher. England's mandate makes classroom teachers the delivery workforce for online safety education, with promised training still undelivered, and the 100 staff hours figure suggests they are already the shock absorber. A teacher lens would tell us what is actually deliverable in a Tuesday afternoon PSHE slot, what a non specialist can teach with confidence, and what makes a pack get used twice rather than once. It would directly shape the schools product and is worth running as a V3 before the autumn school pitch cycle.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.esafety.gov.au/research/social-media-age-restrictions-evaluation/early-days-early-insights-three-months-report">S1 · eSafety Commissioner, Early days, early insights (three month report)</a> · 2026, n 803 aged 10 to 15
+          <span class="note">Corrected: 85.9% to 81.5% (not 81); baseline Nov to Dec 2025; 4.7m accounts figure covers the first month and is platform reported compliance data, not a survey finding. Parents unaware +10 points, 37% birthdate changes, 18.2% wrongly age estimated all confirmed. Primary blocked; exact figures cross confirmed.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://bmjgroup.com/little-evidence-that-australias-under-16-social-media-restrictions-have-curbed-use-among-adolescents/">S2 · Barnes et al., early effects of Australia's Social Media Minimum Age Act</a> · The BMJ, 24 June 2026, doi 10.1136/bmj-2026-363695
+          <span class="note">Corrected: n 408 aged 12 to 17; over 85% of under 16s still using at follow up; daily use 78% to 69% in 14 to 15s and 80% to 89% in 16+. The 85.9%/81% pair belongs to the eSafety report, not this paper.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.nber.org/papers/w35162">S3 · Bursztyn et al., Tipping Points and Australia's Social Media Ban</a> · NBER Working Paper 35162, 2026
+          <span class="note">27% compliance and 52% friends figures confirmed. Corrected: sample is ~746 teens (main sample 507 aged 14 to 18 plus a 239 person mechanism survey), not 239 alone. Working paper.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://mollyrosefoundation.org/wp-content/uploads/2026/04/MRF_Australia-Social-Media-Ban-Research_Briefing-April-26.pdf">S4 · Molly Rose Foundation with YouthInsight, Australia briefing</a> · April 2026, n 1,050 aged 12 to 15
+          <span class="note">With caveat: 61% retained access confirmed; "no action" figures are per platform among continuing users (60 to 64%); the 70% ease figure is real but its base is children still using restricted platforms. Advocacy survey.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://commonslibrary.parliament.uk/research-briefings/cbp-10468/">S5 · UK consultation, Growing up in the online world; Commons Library CBP-10468</a> · 2026
+          <span class="note">With caveat: 116,211 responses, ~14,000 children, 62% and 72% figures cross confirmed; ban announced 15 June 2026. Primary text unread (gov.uk and parliament.uk blocked).</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://about.au.reachout.com/our-research/our-publications">S6 · ReachOut, parent and teen concern research</a> · separate surveys, 2022 to 2025
+          <span class="note">With caveat: all four figures trace to ReachOut but to different surveys (24th ranking is Sept 2022 n 667; 59% is 2024; 35% is Apr 2023 n 631; 72% and 57% are the age restrictions research). Present as a body of work, never one study.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-children/childrens">S7 · Ofcom Children and Parents: Media Use and Attitudes 2026</a> · 21 May 2026
+          <span class="note">With caveat: all three figures exact (40% under 13 profiles; 37% of 3 to 5s, up from 29%; 19% independent). Primary PDF blocked; cross confirmed.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s44220-026-00682-w">S8 · OxWell study, self harm content exposure</a> · Nature Mental Health, August 2026
+          <span class="note">n 32,102 aged 11 to 18 in England (not UK wide); 34.5% exposure, 66.2% via algorithmic feed suggestions. Exact figures verified.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41562-025-02134-4">S9 · Fassi, Ferguson, Przybylski, Ford, Orben</a> · Nature Human Behaviour, 2025
+          <span class="note">n 3,340 UK aged 11 to 19 with clinical diagnostic ratings; social comparison 48% with internalising conditions versus 24% without. Exact figures verified.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nber.org/papers/w33697">S10 · Allcott, Gentzkow et al., deactivating Facebook and Instagram</a> · NBER Working Paper 33697, April 2025
+          <span class="note">N over 35,000; +0.060 and +0.041 SD confirmed; Instagram women 18 to 24 +0.111 SD. Subgroup results exploratory and marginal; say so when using them.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.technologyreview.com/2026/08/19/1141623/child-monitoring-apps-need-reboot/">S11 · MIT Technology Review, child monitoring apps might need a reboot</a> · 19 August 2026
+          <span class="note">Corrected: the "1 in 5 teens feel surveilled" figure is not in the article and is dropped. Real figures: 1 in 8 adult retrospective reviews describe lasting harm; ~1 in 3 LGBTQ+ students knew someone outed by school monitoring.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://arxiv.org/abs/2503.22995">S12 · Parental control app analyses and autonomy based approaches</a> · Wisniewski group, CSCW 2017 and arXiv 2025
+          <span class="note">Corrected provenance: the 75 app analysis is Wisniewski, Ghosh et al., CSCW 2017; the 2025 preprints summarise it and carry the field's shift to autonomy based approaches.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://techcrunch.com/2026/02/17/metas-own-research-found-parental-supervision-doesnt-really-help-curb-teens-compulsive-social-media-use/">S13 · Meta Project MYST internal research, unsealed February 2026</a> · via California social media litigation filings
+          <span class="note">With caveat: Meta and Youth Social Emotional Trends, ~1,000 teens and parents with University of Chicago; parental and household factors little association, stressful life events predict compulsive use. Verified via coverage of the unsealed filings, not the filings themselves.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/39660973/">S14 · Pouwels, Beyens, Keijsers, Valkenburg, changing or stable effects</a> · Child Development 96(2), 2025, doi 10.1111/cdev.14207
+          <span class="note">Corrected: Odgers is not an author. All figures confirmed: n 297 Dutch adolescents around age 14; stable for only 32 to 51%. Do not stretch to younger children.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://osf.io/preprints/psyarxiv/5d67p_v1">S15 · Chen, Lind, Ram, Odgers, daily affect predicts phone use</a> · PsyArXiv preprint, 4 February 2026
+          <span class="note">Morning negative affect predicts same day passive use; use did not predict next day affect or sleep. Caveat: N 40, ages 15 to 20, 90 days, not peer reviewed. Use as a signal, never a headline.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://jhr.uwpress.org/content/early/2026/03/04/jhr.0224-13403R2">S16 · Abrahamsson, smartphone bans, student outcomes and mental health</a> · Journal of Human Resources, online March 2026
+          <span class="note">Corrected: bullying down ~46% (girls) and ~43% (boys), GPA gains for girls, all confirmed. The circulating "nearly 60%" specialist visit figure could not be traced to the paper and is demoted: cite direction only until read against the JHR text.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://academic.oup.com/pnasnexus/article/4/2/pgaf017/8016017">S17 · Castelo et al., blocking mobile internet on smartphones</a> · PNAS Nexus 4(2), February 2025
+          <span class="note">Both contested figures are in the paper: 91% improved on at least one outcome; attention gain comparable to being ten years younger. Adult sample; two week block with calls and texts kept.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.thelancet.com/journals/lanepe/article/PIIS2666-7762(25)00003-1/fulltext">S18 · Goodyear et al., SMART Schools</a> · Lancet Regional Health Europe, February 2025
+          <span class="note">n 1,227 aged 12 to 15, 30 English schools from a 1,341 school frame; about 40 minutes less phone and 30 minutes less social media in school, no difference in total daily use or any wellbeing outcome. The "10% response rate" detail was dropped as untraceable.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.birmingham.ac.uk/news/2026/managing-phone-use-takes-average-uk-school-more-than-100-hours-each-week">S19 · University of Birmingham, phone policies place a 100 hour weekly burden on school staff</a> · February 2026
+          <span class="note">SMART Schools team, BMJ Mental Health paper, 815 students and staff: ~102 staff hours a week under restrictive policies, ~108 under permissive. Over 100 hours holds under either policy.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.centreforsocialjustice.org.uk/newsroom/under-5s-using-social-media">S20 · Centre for Social Justice, under 5s on social media</a> · December 2025
+          <span class="note">With caveat: "up to 814,000" 3 to 5 year olds, an extrapolation applying Ofcom's 37% parental report figure to ONS population. Cite as an upper bound estimate, never a measured count.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/2849307">S21 · RAND, adolescents' use of AI chatbots for mental health advice</a> · JAMA Pediatrics, June 2026
+          <span class="note">Nationally representative, n 1,009 aged 12 to 21 (median 17), fielded November 2025: 19.2% use, 63.3% tell no one, 91.7% of users rated the advice helpful. Exact figures verified.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://link.springer.com/article/10.1186/s43045-026-00637-y">S22 · Problematic AI chatbot use in adolescent psychiatric outpatients</a> · Middle East Current Psychiatry, 2026
+          <span class="note">Corrected: open access (not paywalled); single Tunisian clinic, July to December 2025, sample conditioned on chatbot users, so no prevalence figure is possible by design. Cite only as a presentation observed in one clinic sample.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/online-safety/protecting-children/experiences-of-age-assurance-use-of-vpns-and-attitudes-to-the-protection-of-children-measures">S23 · Ofcom age assurance and VPN research; Internet Matters; ICO controls research</a> · 2025 to 2026
+          <span class="note">Corrected on two counts: about 25% of UK 11 to 17s used a VPN in the six months to March 2026 (the 5% figure was a narrower band); the 41% controls bypass figure is ICO research (August 2026, 4,000+ children aged 8 to 17; 49% of those found it easy), not Ofcom. Bypass method split confirmed: 7% VPN versus 45% false birthdate. Internet Matters no rise finding confirmed.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://schoolsweek.co.uk/schools-left-in-the-dark-on-rshe-training-grants/">S24 · RSHE statutory guidance, mandatory from 1 September 2026; Schools Week on training grants</a> · DfE, 2025 to 2026
+          <span class="note">Commencement and online safety content confirmed. Corrected: funding claim softened to "training grants promised from early 2026, schools report being left in the dark". The Lords March 2026 funding debate could not be verified and is dropped.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.texasattorneygeneral.gov/news/releases/attorney-general-ken-paxton-secures-over-1-billion-meta-historic-settlement-protects-texas-kids">S25 · Multistate Meta settlement with digital literacy earmarks</a> · 26 August 2026
+          <span class="note">Up to $17.1bn total, roughly $12bn guaranteed over ten years; Texas over $1bn including digital literacy initiatives and school grants; Massachusetts up to $516m including digital wellness and literacy. Exact amounts cross confirmed.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0204107">S26 · Senserrick, Boufous, Olivier, Hatfield, Queensland graduated licensing</a> · PLOS One 13(9), 2018
+          <span class="note">Corrected: 13.9% per year reduction in novice crash casualties (not 13.1%). The unchanged licensing age point stands and is in the paper's own title.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.ghsa.org/resource-hub/causal-factors-associated-higher-crash-rates-among-young-drivers-delay-licensure-bts">S27 · GHSA and AAA Foundation, delayed licensure and crash rates</a>
+          <span class="note">Corrected shape: 18 to 19 year old first year drivers show the highest injury and fatal crash rates (observational); but AAA found delay is mostly about cost and time, not deliberate avoidance of graduated licensing. State the pattern, not the motive.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://publications.aap.org/pediatrics/article-abstract/123/3/870/71714/">S28 · Nije Bijvank, Konijn, Bushman, Roelofsma, forbidden fruit labels</a> · Pediatrics 123(3), 2009
+          <span class="note">Corrected: 310 Dutch youth in age groups 7 to 8, 12 to 13 and 16 to 17 (not ages 9 to 22). Contested: Gosselt, van Hoof and de Jong (Journal of Communication, 2012, n 657) found no pictogram effect. Cite as contested evidence, ages 7 to 17.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://christopherjferguson.com/Social%20Media%20Experiments%20Meta.pdf">S29 · Ferguson, do social media experiments prove a link with mental health?</a> · Psychology of Popular Media, 2024; After Babel audit, 2025
+          <span class="note">Corrected attribution: the 27 experiments, d 0.088 figures belong to this 2024 paper (the restriction meta title in V1 was a different paper, Burnell et al. 2025). After Babel three part audit confirmed real, Substack not peer reviewed. Cite only as live dispute.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://academic.oup.com/jrsssc/article/71/5/1330/7073288">S30 · Semken and Rossell, specification analysis for technology use and teenager wellbeing</a> · JRSS Series C 71(5), 2022
+          <span class="note">"Severely misleading" critique of pooled specification curves confirmed; their re analysis finds relevant associations by device, gender and reporter. Corrected: no Orben and Przybylski reply to this paper exists; that leg is dropped.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.sciencedirect.com/science/article/pii/S0732118X2300003X">S31 · Foulkes and Andrews, prevalence inflation; Norwegian measurement test</a> · New Ideas in Psychology 2023; Psychological Medicine 2024
+          <span class="note">Corrected direction: Foulkes and Andrews is a call to test a hypothesis, and the large Norwegian test (Ungdata, N 560,712) found the scales largely measurement invariant, NOT supporting the artefact reading. The distress rise there looks real.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx">S32 · Folklore audit: Gallup 4.8 hours; Meta 2021 statement on the internal slide; England suicide counts</a>
+          <span class="note">All three legs confirmed: 9 hours was 2015 total entertainment media; the 1 in 3 slide sampled girls already reporting body image issues (11 of 12 issues rated better or neutral); England girls 15 to 19 recorded 41 suicide deaths in 2020, so annual trend claims are noise either way.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.frontiersin.org/journals/developmental-psychology/articles/10.3389/fdpys.2026.1805989/full">S33 · Lind, Schueller, Odgers, we don't know how social media bans will affect youth</a> · Frontiers in Developmental Psychology, May 2026
+          <span class="note">Authors and UC Irvine affiliation confirmed; press release headline confirmed. Position paper: no solid causal evidence for bans, enforcement and equity risks.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.cam.ac.uk/research/news/social-media-ban-for-under-16s-in-the-uk-cambridge-expert-reaction">S34 · Science Media Centre and Cambridge expert reaction; WhatsApp and Signal exemption</a> · June 2026
+          <span class="note">Confirmed, with the tenor stated precisely: predominantly sceptical with some supportive voices. Van der Linden argued digital literacy over blanket bans; messaging app exemption confirmed.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.courthousenews.com/eu-to-limit-childrens-access-to-social-media-gradually/">S35 · EU phased, gradual access direction</a> · von der Leyen, 13 July 2026
+          <span class="note">Confirmed: expert panel report backing gradual access; Commission proposal promised for after summer 2026, still pending as of 5 September. The European Parliament separately voted for a 16 minimum in November 2025.</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.childrenscommissioner.gov.uk/">S36 · Children's Commissioner CAMHS briefing 2024 to 25; Pro Bono Economics waiting cost analysis</a> · June 2026; PBE for stem4
+          <span class="note">All confirmed: 1,048,965 active referrals, 128 day typical wait, 60,000+ waiting over two years; spend up 2% to £1.1bn against referrals up almost 10% (same briefing); PBE ~£75m a year, over 90% on schools (built on 2018 to 19 data, so an understatement).</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 5 September 2026
+  </footer>
+
+</div>
+</body>
+</html>
