@@ -72,8 +72,8 @@ export default function WeekPage() {
       {!loaded ? null : review ? (
         <WeeklyRoundup review={review} scoreMoves={scoreMoves} />
       ) : (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '28px 24px', textAlign: 'center' }}>
-          <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: '18px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '24px', padding: '28px 24px', textAlign: 'center' }}>
+          <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: '18px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
             <DigiCharacter mood={busy ? 'thinking' : 'idle'} size={40} />
           </span>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', color: 'var(--ink)', letterSpacing: '-0.03em', margin: '0 0 8px' }}>

@@ -45,7 +45,7 @@ export default function AddChildName() {
   return (
     <div style={{
       position: 'relative',
-      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '16px', padding: '16px 18px', marginBottom: '16px',
     }}>
       <button
@@ -77,7 +77,7 @@ export default function AddChildName() {
           placeholder="Their first name"
           style={{
             flex: 1, minWidth: 0, padding: '11px 14px', borderRadius: 12,
-            border: '1.5px solid var(--border)', background: '#fff',
+            border: '2px solid var(--ink)', background: '#fff',
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
           }}
         />

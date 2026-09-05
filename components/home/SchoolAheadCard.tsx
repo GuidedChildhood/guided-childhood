@@ -49,16 +49,16 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
       padding: '18px 20px', marginBottom: 18, position: 'relative',
-      boxShadow: '0 2px 10px rgba(26,26,46,0.04)',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       <button
         onClick={dismiss}
         aria-label="Not now"
         style={{
           position: 'absolute', top: 12, right: 12, width: 30, height: 30,
-          borderRadius: '50%', border: '1px solid var(--border)', background: 'var(--cream)',
+          borderRadius: '50%', border: '2px solid var(--ink)', background: 'var(--cream)',
           color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
@@ -78,7 +78,7 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
       {/* One thing, and only one. The card earns its place by being actionable
           rather than informative, and a second suggestion halves the odds of
           the first one happening. */}
-      <div style={{ background: 'var(--tint-sage)', borderRadius: 14, padding: '11px 13px', marginBottom: 12 }}>
+      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 14, padding: '11px 13px', marginBottom: 12 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
           Worth doing
         </div>

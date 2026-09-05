@@ -61,7 +61,7 @@ export default function WaitingOnYou() {
     <Link href="/dashboard/notifications" style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '15px',
-        background: '#fff', border: `1.5px solid ${urgent > 0 ? '#E5484D' : 'var(--border)'}`,
+        background: '#fff', border: `2px solid ${urgent > 0 ? '#E5484D' : 'var(--ink)'}`,
         borderRadius: '22px', padding: '17px 20px',
         boxShadow: urgent > 0 ? '0 6px 22px -6px rgba(229,72,77,0.22)' : '0 2px 4px rgba(26,26,46,0.03), 0 14px 34px -12px rgba(26,26,46,0.12)',
       }}>

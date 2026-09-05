@@ -67,15 +67,15 @@ function MomentTile({
         height: '64px',
         borderRadius: '16px',
         background: tint,
-        border: '1.5px solid var(--border)',
+        border: '2px solid var(--ink)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'visible',
         transform: selected ? 'translateY(-4px)' : 'translateY(0)',
         boxShadow: selected
-          ? '0 0 0 2.5px var(--terracotta), 0 8px 16px rgba(26,26,46,0.14)'
-          : '0 1px 2px rgba(26,26,46,0.04)',
+          ? '0 0 0 2.5px var(--terracotta), 0 4px 0 var(--ink)'
+          : '0 3px 0 var(--ink)',
         transition: `transform 0.5s ${EASE}, box-shadow 0.5s ${EASE}`,
       }}>
         {imageSrc ? (
@@ -230,7 +230,7 @@ export default function MomentTimeline({
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginTop: '4px', marginLeft: '64px', padding: '12px 16px',
-          background: 'var(--cream)', border: '1.5px solid var(--border)',
+          background: 'var(--cream)', border: '2px solid var(--ink)',
           borderRadius: '14px', textDecoration: 'none',
         }}
       >

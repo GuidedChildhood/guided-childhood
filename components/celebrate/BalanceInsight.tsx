@@ -72,9 +72,9 @@ export default function BalanceInsight({
 
   return (
     <div style={{
-      background: THEME_BG[cur.theme], border: '1.5px solid rgba(26,26,46,0.08)',
+      background: THEME_BG[cur.theme], border: '2px solid var(--ink)',
       borderRadius: '20px', padding: '18px 18px 15px', marginBottom: '16px',
-      boxShadow: '0 4px 16px rgba(26,26,46,0.06)',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       <style>{`@keyframes gcInsightIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }`}</style>
 
@@ -126,7 +126,7 @@ export default function BalanceInsight({
         <button
           onClick={() => setI(v => (v + 1) % list.length)}
           style={{
-            background: '#fff', border: '1.5px solid rgba(26,26,46,0.12)', borderRadius: '100px',
+            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '100px',
             padding: '8px 15px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
           }}

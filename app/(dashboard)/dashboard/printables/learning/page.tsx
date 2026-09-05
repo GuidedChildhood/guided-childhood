@@ -61,7 +61,7 @@ export default async function LearningSheetPage({
   )
 
   const note = (title: string, line: string) => (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>{title}</div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{line}</p>
     </div>
@@ -118,7 +118,7 @@ export default async function LearningSheetPage({
           style={{
             padding: '10px 16px', borderRadius: 13, textDecoration: 'none',
             background: s === subject ? 'var(--terracotta)' : '#fff',
-            border: `1.5px solid ${s === subject ? 'var(--terracotta)' : 'var(--border)'}`,
+            border: `2px solid ${s === subject ? 'var(--terracotta)' : 'var(--ink)'}`,
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
             textTransform: 'capitalize',
           }}
@@ -145,13 +145,13 @@ export default async function LearningSheetPage({
     <>
       {tabs}
       {wholeYear ? (
-        <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
+        <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             Reading and writing are set out for the whole school year rather than term by term, so this is everything Year {target.yearGroup} covers, not just this term.
           </p>
         </div>
       ) : target.lookingBack && (
-        <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
+        <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             School is out, so this looks back over the year {child.name} has just finished rather than the one starting in September.
           </p>

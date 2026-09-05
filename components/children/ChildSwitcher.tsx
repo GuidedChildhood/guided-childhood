@@ -84,8 +84,8 @@ export default function ChildSwitcher({
               gap: '8px',
               color: active ? c.text : 'var(--ink)',
               background: active ? c.bold : '#fff',
-              border: active ? `1.5px solid ${c.bold}` : '1.5px solid var(--border)',
-              boxShadow: active ? '0 3px 0 rgba(26,26,46,0.14)' : '0 3px 0 rgba(26,26,46,0.06)',
+              border: '2px solid var(--ink)',
+              boxShadow: '0 3px 0 var(--ink)',
             }}
           >
             {/* ── AN INITIAL, NOT A DOT (19 August 2026) ──────────────────

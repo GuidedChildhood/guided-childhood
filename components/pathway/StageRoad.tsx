@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { withOrigin } from '@/components/nav/BackTo'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import HappyIcon from '@/components/kid/HappyIcon'
 import { STAGES } from '@/lib/content/stages'
 import { READINESS } from '@/lib/content/readiness'
 import { characterForStage } from '@/lib/content/stage-characters'
@@ -33,7 +34,7 @@ export function StageDot({ n, state, size = 44 }: { n: number; state: StageDotSt
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: Math.round(size * 0.36),
         background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
-        border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--border)',
+        border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--ink)',
         color: here || behind ? 'var(--terracotta-dark)' : 'var(--ink-light)',
         boxShadow: here ? '0 4px 0 var(--terracotta-dark)' : 'none',
         position: 'relative', zIndex: 1,
@@ -197,7 +198,7 @@ export function StrandPills({ strands, onNavigate, from }: {
           const shell: React.CSSProperties = {
             display: 'flex', alignItems: 'flex-start', gap: 10,
             background: red ? '#FDF0EE' : 'var(--cream)',
-            border: `1.5px solid ${red ? '#E8C4BC' : 'var(--border)'}`,
+            border: `2px solid ${red ? '#E8C4BC' : 'var(--ink)'}`,
             borderRadius: 14, padding: '11px 13px',
             opacity: s.tone === 'grey' ? 0.55 : 1,
           }
@@ -443,17 +444,15 @@ export default function StageRoad({
                       width: '100%', height: '100%', borderRadius: '50%',
                       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                       background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
-                      border: here ? '4px solid var(--terracotta)' : behind ? '3px dashed var(--terracotta)' : '3px solid var(--border)',
+                      border: here ? '4px solid var(--terracotta)' : behind ? '3px dashed var(--terracotta)' : '3px solid var(--ink)',
                       boxShadow: here
                         ? '0 6px 0 var(--terracotta-dark)'
-                        : behind
-                          ? '0 6px 0 rgba(201,154,40,0.45)'
-                          : '0 6px 0 var(--border)',
+                        : '0 6px 0 var(--ink)',
                     }}>
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', lineHeight: 1, color: here || behind ? 'var(--terracotta-dark)' : 'var(--ink-light)' }}>
                         {stage.id}
                       </span>
-                      <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1, marginTop: 2, filter: here || behind ? 'none' : 'grayscale(1) opacity(0.5)' }}>🪪</span>
+                      <span aria-hidden style={{ display: 'inline-flex', lineHeight: 1, marginTop: 2, filter: here || behind ? 'none' : 'grayscale(1) opacity(0.5)' }}><HappyIcon name="passport" size={20} /></span>
                     </div>
                     {behind && isComplete(stage.id) && (
                       <span aria-hidden style={{
@@ -480,13 +479,13 @@ export default function StageRoad({
                       {r.ages}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1.5px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '4px 13px 4px 5px' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100, padding: '4px 13px 4px 5px' }}>
                         {(() => {
                           const ch = characterForStage(stage.id)
                           return ch ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={ch.img} alt="" width={22} height={22} style={{ borderRadius: '50%', objectFit: 'cover', filter: here || (behind && isComplete(stage.id)) ? 'none' : 'grayscale(1) opacity(0.55)' }} />
-                          ) : <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>{behind && isComplete(stage.id) ? '✅' : '🪪'}</span>
+                          ) : <span aria-hidden style={{ display: 'inline-flex', fontSize: 'var(--text-base)' }}>{behind && isComplete(stage.id) ? '✅' : <HappyIcon name="passport" size={22} />}</span>
                         })()}
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
                           Stamp: {r.stamp}
@@ -539,14 +538,14 @@ export default function StageRoad({
 
               {/* The current stage opens out below its node, full width */}
               {here ? (
-                <div style={{ marginTop: 14, background: '#fff', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: 16, padding: '16px 16px 14px', position: 'relative', zIndex: 2 }}>
+                <div style={{ marginTop: 14, background: '#fff', border: '2px solid var(--ink)', borderLeft: '6px solid var(--terracotta)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '16px 16px 14px', position: 'relative', zIndex: 2 }}>
                   {progressPct !== null && (
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>This stage</span>
                         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>{progressPct}%</span>
                       </div>
-                      <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '1px solid var(--border)', overflow: 'hidden' }}>
+                      <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '2px solid var(--ink)', overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
                       </div>
                     </div>
@@ -565,7 +564,7 @@ export default function StageRoad({
                       every pass ticks the progress above and the passport. */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
                     {STAGE_CONCEPTS[stage.id].map(c => (
-                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100, textDecoration: 'none' }}>
+                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', padding: '4px 10px', borderRadius: 100, textDecoration: 'none' }}>
                         {c} →
                       </Link>
                     ))}
@@ -590,7 +589,8 @@ export default function StageRoad({
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       background: '#fff', color: 'var(--ink)', textDecoration: 'none',
-                      borderRadius: 16, padding: '12px 20px', border: '1.5px solid var(--border)',
+                      borderRadius: 16, padding: '12px 20px', border: '2px solid var(--ink)',
+                      boxShadow: '0 4px 0 var(--ink)',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                       whiteSpace: 'nowrap',
                     }}
@@ -603,10 +603,10 @@ export default function StageRoad({
                   <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
                     {behind ? 'Revisit this stage ▾' : 'What this stage holds ▾'}
                   </summary>
-                  <div style={{ marginTop: 10, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 14px', transform: `translateX(${-x / 2}px)`, width: 'min(340px, calc(100vw - 40px))' }}>
+                  <div style={{ marginTop: 10, background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 14px', transform: `translateX(${-x / 2}px)`, width: 'min(340px, calc(100vw - 40px))' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                       {STAGE_CONCEPTS[stage.id].map(c => (
-                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
+                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', padding: '4px 10px', borderRadius: 100 }}>
                           {c}
                         </span>
                       ))}
@@ -633,12 +633,12 @@ export default function StageRoad({
           <div style={{
             width: 76, height: 76, borderRadius: 22,
             background: allStagesDone ? 'var(--terracotta)' : 'var(--cream)',
-            border: allStagesDone ? 'none' : '3px solid var(--border)',
-            boxShadow: allStagesDone ? '0 6px 0 var(--terracotta-dark)' : '0 6px 0 var(--border)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-3xl)',
+            border: '3px solid var(--ink)',
+            boxShadow: allStagesDone ? '0 6px 0 var(--terracotta-dark)' : '0 6px 0 var(--ink)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
             filter: allStagesDone ? 'none' : 'grayscale(1) opacity(0.6)',
           }}>
-            🏆
+            <HappyIcon name="wins" size={46} />
           </div>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.01em', color: allStagesDone ? 'var(--ink)' : 'var(--ink-soft)' }}>

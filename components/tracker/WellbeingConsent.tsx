@@ -44,7 +44,7 @@ export default function WellbeingConsent({ onAgreed }: { onAgreed: () => void })
         One thing to agree first
       </h1>
 
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '18px 18px 20px' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '18px 18px 20px' }}>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
           The weekly check in asks how your child seems. Their mood, their sleep, how they are with friends, how they are after screens, and whether they are talking to you.
         </p>
@@ -58,7 +58,7 @@ export default function WellbeingConsent({ onAgreed }: { onAgreed: () => void })
           You can stop any time in Settings, and when you do, what we hold is deleted. The rest of Guided Childhood works fine without this.
         </p>
 
-        <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer', padding: '12px 14px', borderRadius: 14, background: 'var(--cream)', border: `1.5px solid ${ticked ? 'var(--terracotta)' : 'var(--border)'}` }}>
+        <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer', padding: '12px 14px', borderRadius: 14, background: 'var(--cream)', border: `2px solid ${ticked ? 'var(--terracotta)' : 'var(--ink)'}` }}>
           <input
             type="checkbox"
             checked={ticked}

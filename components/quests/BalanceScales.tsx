@@ -50,7 +50,7 @@ export default function BalanceScales({
         background: '#fff', border: `2.5px solid ${fill}`,
         borderRadius: '10px 10px 46px 46px',
         padding: compact ? '6px 6px 12px' : '8px 6px 15px',
-        boxShadow: heavier ? `0 6px 0 ${fill}` : `0 3px 0 var(--border)`,
+        boxShadow: heavier ? `0 6px 0 ${fill}` : `0 3px 0 var(--ink)`,
       }}>
         <span style={{ fontSize: compact ? '15px' : '17px', lineHeight: 1 }} aria-hidden>{icon}</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: compact ? '15px' : '18px', color: 'var(--ink)', lineHeight: 1.05 }}>{big}</span>

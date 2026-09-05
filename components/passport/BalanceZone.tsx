@@ -98,7 +98,7 @@ export default function BalanceZone({
         {/* The zone band. The healthy middle is a real drawn region, so the
             marker has somewhere to BE rather than a percentage to reach. */}
         <div aria-hidden style={{ position: 'relative', height: 14, borderRadius: 100, background: '#EDE9DF', margin: '14px 2px 6px' }}>
-          <span style={{ position: 'absolute', left: '38%', width: '24%', top: 0, bottom: 0, background: 'var(--tint-sage)', border: '1.5px solid #C9DDD5', borderRadius: 100 }} />
+          <span style={{ position: 'absolute', left: '38%', width: '24%', top: 0, bottom: 0, background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 100 }} />
           <span style={{
             position: 'absolute', left: `${pct}%`, top: -5, width: 24, height: 24, marginLeft: -12,
             borderRadius: 100, background: 'var(--terracotta)', border: '2.5px solid var(--terracotta-dark)',

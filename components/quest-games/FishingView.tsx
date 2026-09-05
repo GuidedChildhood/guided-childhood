@@ -258,7 +258,7 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
     position: 'relative', width: '100%', maxWidth: '440px', margin: '0 auto',
     height: 'clamp(292px, 72vw, 322px)', borderRadius: '24px', overflow: 'hidden',
     background: 'linear-gradient(180deg, #E6F1FB 0%, #D3E6F7 100%)',
-    border: '2.5px solid var(--ink, #1A1A2E)', boxShadow: '0 5px 0 var(--border)',
+    border: '2px solid var(--ink, #1A1A2E)', boxShadow: '0 4px 0 var(--ink)',
   }
 
   return (
@@ -269,8 +269,8 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginBottom: '12px' }}>
         <DigiCharacter mood="speak" size={62} />
         <div style={{
-          flex: 1, maxWidth: '280px', background: '#fff', border: '1.5px solid var(--border)',
-          borderRadius: '18px', boxShadow: '0 4px 0 var(--border)', padding: '10px 14px', textAlign: 'left',
+          flex: 1, maxWidth: '280px', background: '#fff', border: '2px solid var(--ink)',
+          borderRadius: '18px', boxShadow: '0 4px 0 var(--ink)', padding: '10px 14px', textAlign: 'left',
         }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>
             {isLetters ? 'Catch this sound' : 'Catch this word'}
@@ -332,9 +332,9 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer',
               color: active ? 'var(--ink)' : 'var(--ink-soft)',
               background: active ? 'var(--terracotta)' : '#fff',
-              border: active ? '1.5px solid var(--terracotta-dark)' : '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
               borderRadius: '100px', padding: '8px 15px',
-              boxShadow: active ? '0 3px 0 var(--terracotta-dark)' : 'none',
+              boxShadow: active ? '0 3px 0 var(--ink)' : 'none',
             }}>
               {pillLabel(p)}
             </button>

@@ -39,7 +39,7 @@ export default function JobBalance({
   return (
     <div style={{
       background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-      boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16,
+      boxShadow: '0 4px 0 var(--ink)', padding: 18, marginBottom: 16,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
         <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: '50%', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 2px 0 rgba(26,26,46,0.10)' }}>
@@ -75,7 +75,7 @@ export default function JobBalance({
       {/* The real time each job asks, so the day is never longer than it looks.
           Only when there are jobs, capped so the card stays calm. */}
       {a.count > 0 && (
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 10, marginBottom: a.suggestSpread ? 12 : 0 }}>
+        <div style={{ borderTop: '2px solid var(--ink)', paddingTop: 10, marginBottom: a.suggestSpread ? 12 : 0 }}>
           {jobsDueToday.slice(0, 8).map((j, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, padding: '3px 0' }}>
               <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{j.title}</span>

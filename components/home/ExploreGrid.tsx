@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // See everything we do: the whole platform as big friendly icons, grouped the
 // Strava way (mono eyebrow sections) with Moonly's three column grid of one
@@ -11,16 +11,16 @@ type Tile = {
   href: string
   label: string
   sub: string
-  icon?: KidIconName
+  /** The drawn icon, from the happy news set the child app uses. */
+  icon?: HappyIconName
+  /** Kept only where none of the 28 drawn icons says the thing. */
   emoji?: string
 }
 
 type Group = {
   eyebrow: string
   tiles: Tile[]
-  /** The drawn icon's colour for this section. */
-  ink: string
-  /** The plate behind it, a pale relative of ink. */
+  /** The plate behind the icon, the section's pale tint. */
   plate: string
 }
 
@@ -28,20 +28,20 @@ function groups(scriptHref: string): Group[] {
   return [
     {
       eyebrow: 'Every day',
-      ink: '#C0603A', plate: '#FBEEDF',
+      plate: '#FBEEDF',
       tiles: [
-        { href: '/dashboard/moments', label: 'Moments', sub: 'The words for any battle', emoji: '⚡' },
-        { href: scriptHref, label: 'Tonight’s script', sub: 'Picked for you today', emoji: '💬' },
-        { href: '/dashboard/scripts', label: 'Rehearsals', sub: 'Practise the words with DiGi', emoji: '🎭' },
-        { href: '/dashboard/checkin', label: 'Check in', sub: 'Thirty seconds on the worry', emoji: '✦' },
+        { href: '/dashboard/moments', label: 'Moments', sub: 'The words for any battle', icon: 'tell' },
+        { href: scriptHref, label: 'Tonight’s script', sub: 'Picked for you today', icon: 'read' },
+        { href: '/dashboard/scripts', label: 'Rehearsals', sub: 'Practise the words with DiGi', icon: 'quiz' },
+        { href: '/dashboard/checkin', label: 'Check in', sub: 'Thirty seconds on the worry', icon: 'heart' },
       ],
     },
     {
       eyebrow: 'Learn',
-      ink: '#A8475C', plate: '#FBE7EC',
+      plate: '#FBE7EC',
       tiles: [
         { href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, five minutes', icon: 'lessons' },
-        { href: '/dashboard/printables', label: 'Printables', sub: 'The offline pathway', icon: 'printables' },
+        { href: '/dashboard/printables', label: 'Printables', sub: 'The offline pathway', icon: 'print' },
         { href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars', icon: 'games' },
         // The watch together films had one inbound link and a 1 in 12 rotation
         // slot, which is a page that exists only for families who get lucky.
@@ -49,16 +49,16 @@ function groups(scriptHref: string): Group[] {
         // The decoder needs a door or it does not exist. It sits under Learn
         // rather than Family because a parent looking for it is looking for
         // help with the work, not with the week.
-        { href: '/dashboard/homework', label: 'Homework', sub: 'What is it actually asking for', emoji: '📐' },
+        { href: '/dashboard/homework', label: 'Homework', sub: 'What is it actually asking for', icon: 'homework' },
         // The front door for the curriculum data. Everything else built on
         // those 448 objectives was reachable only if you already knew it
         // existed, which is why the data looked like it did nothing.
-        { href: '/dashboard/learning', label: 'At school', sub: 'What their class is learning now', emoji: '🎒' },
+        { href: '/dashboard/learning', label: 'At school', sub: 'What their class is learning now', icon: 'maths' },
       ],
     },
     {
       eyebrow: 'Family',
-      ink: '#2F8F6B', plate: 'var(--tint-green)',
+      plate: 'var(--tint-green)',
       tiles: [
         { href: '/dashboard/quests', label: 'Family quests', sub: 'Jobs earn stars', icon: 'jobs' },
         { href: '/dashboard/quests/timer', label: 'Screen timer', sub: 'Stars buy the minutes', icon: 'time' },
@@ -66,10 +66,10 @@ function groups(scriptHref: string): Group[] {
         // Named for what a parent goes looking for. School tasks is our word
         // for it, school reminders is theirs, and this tile was unfindable
         // because it answered a question nobody asks in those words.
-        { href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips', emoji: '🎒' },
+        { href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips', icon: 'bag' },
         // Devices had three rotation slots and no tile anywhere, so between
         // rotation days the whole setup guide layer was unreachable by intent.
-        { href: '/dashboard/devices', label: 'Devices', sub: 'Every screen, set up right', emoji: '📱' },
+        { href: '/dashboard/devices', label: 'Devices', sub: 'Every screen, set up right', icon: 'phonebed' },
         // Vetted outside tools, evidence graded. One inbound link before this,
         // from a report block most families never open.
         { href: '/dashboard/toolbox', label: 'The toolbox', sub: 'Outside tools, graded honestly', emoji: '🧰' },
@@ -77,20 +77,20 @@ function groups(scriptHref: string): Group[] {
     },
     {
       eyebrow: 'DiGi and reports',
-      ink: '#2E6F8E', plate: 'var(--tint-blue)',
+      plate: 'var(--tint-blue)',
       tiles: [
-        { href: '/dashboard/digi', label: 'Ask DiGi', sub: 'Knows your whole setup', emoji: '⭐' },
+        { href: '/dashboard/digi', label: 'Ask DiGi', sub: 'Knows your whole setup', icon: 'ask' },
         // The payoff page of the whole measurement spine, which until now had
         // no door of its own: only a conditional link on the pathway and the
         // Sunday email. The one page that shows the numbers moving should not
         // depend on luck to be found.
-        { href: '/dashboard/what-is-working', label: 'What is working', sub: 'Each worry, and how it has moved', emoji: '📈' },
-        { href: '/dashboard/stats', label: 'Screen balance', sub: 'Hours, and the weekly swing', emoji: '⚖️' },
+        { href: '/dashboard/what-is-working', label: 'What is working', sub: 'Each worry, and how it has moved', icon: 'sprout' },
+        { href: '/dashboard/stats', label: 'Screen balance', sub: 'Hours, and the weekly swing', icon: 'balance' },
         // Sub reworded from "What is actually working" so the new tile above
         // and this one stop describing themselves in the same sentence.
         { href: '/dashboard/insights', label: 'DiGi insights', sub: 'Patterns DiGi has noticed', emoji: '🔍' },
-        { href: '/dashboard/week', label: 'Weekly round up', sub: 'Your week, read back', emoji: '🗞️' },
-        { href: '/dashboard#turn-on-check-ins', label: 'Reminders', sub: 'Gentle nudges for you both', emoji: '🔔' },
+        { href: '/dashboard/week', label: 'Weekly round up', sub: 'Your week, read back', icon: 'calendar' },
+        { href: '/dashboard#turn-on-check-ins', label: 'Reminders', sub: 'Gentle nudges for you both', icon: 'hand' },
       ],
     },
     {
@@ -105,10 +105,10 @@ function groups(scriptHref: string): Group[] {
       // Justin asked where it was twice, which is the whole answer: if the
       // person who built it cannot find it on his own phone, nobody can.
       eyebrow: 'Your account',
-      ink: '#7A5CC0', plate: '#F1ECFB',
+      plate: '#F1ECFB',
       tiles: [
         { href: '/dashboard/settings', label: 'Settings', sub: 'Your account and your plan', emoji: '⚙️' },
-        { href: '/dashboard/settings#children', label: 'Your children', sub: 'Names, ages and birthdays', emoji: '👧' },
+        { href: '/dashboard/settings#children', label: 'Your children', sub: 'Names, ages and birthdays', icon: 'friends' },
         { href: '/dashboard/settings#sign-out', label: 'Sign out', sub: 'On this device', emoji: '🚪' },
       ],
     },
@@ -144,16 +144,17 @@ export default function ExploreGrid({ scriptHref = '/dashboard/scripts' }: { scr
                   // match, and because it is a minimum it can only ever grow a
                   // tile, never clip one.
                   minHeight: 180,
-                  border: '1.5px solid var(--border)', borderRadius: '16px',
-                  padding: '13px 6px 11px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+                  border: '2px solid var(--ink)', borderRadius: '16px',
+                  padding: '13px 6px 11px', boxShadow: '0 4px 0 var(--ink)',
                 }}
               >
                 <span style={{
                   width: 58, height: 58, borderRadius: '13px', background: g.plate,
+                  border: '2px solid var(--ink)', boxSizing: 'border-box',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)', flexShrink: 0,
                 }}>
                   {t.icon
-                    ? <KidIcon name={t.icon} size={30} color={g.ink} />
+                    ? <HappyIcon name={t.icon} size={38} />
                     : <span aria-hidden>{t.emoji}</span>}
                 </span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.2 }}>

@@ -550,7 +550,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
           </button>
         </header>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: theme.panel, border: `1px solid ${theme.panelBorder}`, borderRadius: 18, padding: '8px 12px', marginBottom: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: theme.panel, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '8px 12px', marginBottom: 10 }}>
           <img src={friendArt(lead).img} alt={leadName} width={40} height={40} style={{ width: 40, height: 40, objectFit: 'contain', flexShrink: 0 }} />
           <p aria-live="polite" style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3, color: theme.ink }}>{line}</p>
         </div>

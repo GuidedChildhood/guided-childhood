@@ -73,7 +73,7 @@ export default function PassportToDo({
 
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '18px', padding: '13px 15px', marginBottom: '14px',
     }}>
       <button
@@ -88,7 +88,7 @@ export default function PassportToDo({
         <span style={{
           flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)',
-          background: '#fff', border: '1.5px solid #D6E5DF', borderRadius: '9px', padding: '4px 9px',
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: '9px', padding: '4px 9px',
         }}>
           To do
         </span>
@@ -116,7 +116,7 @@ export default function PassportToDo({
               href={it.href}
               style={{
                 display: 'block', textDecoration: 'none',
-                background: '#fff', border: '1px solid #D6E5DF', borderRadius: '12px',
+                background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px',
                 padding: '10px 12px', marginBottom: '7px',
               }}
             >
@@ -153,7 +153,7 @@ export default function PassportToDo({
               ever offered the ones they can actually move. See
               lib/pathway/passport-todo.ts for what is filtered out and why. */}
           {childItems.length > 0 && onApp && (
-            <div style={{ marginTop: '11px', paddingTop: '11px', borderTop: '1px solid #D6E5DF' }}>
+            <div style={{ marginTop: '11px', paddingTop: '11px', borderTop: '2px solid var(--ink)' }}>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 9px' }}>
                 <strong style={{ fontWeight: 800 }}>{childName ? `${childName} can do` : 'They can do'} {childItems.length === 1 ? 'one of these' : `${childItems.length} of these`}.</strong>{' '}
                 We put it on {theirs} app on the first of every month. Send it now if you would rather not wait.
@@ -172,12 +172,12 @@ export default function PassportToDo({
                 disabled={sending || !!sentAt}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 7,
-                  background: sentAt ? '#fff' : 'var(--terracotta)', color: 'var(--ink)',
-                  border: sentAt ? '1.5px solid var(--terracotta)' : 'none',
+                  background: sentAt ? 'var(--retro-green)' : 'var(--terracotta)', color: sentAt ? '#fff' : 'var(--ink)',
+                  border: '2px solid var(--ink)',
                   borderRadius: 14, padding: '10px 15px',
-                  boxShadow: sentAt ? 'none' : '0 4px 0 var(--terracotta-dark)',
+                  boxShadow: sentAt ? 'none' : '0 4px 0 var(--ink)',
                   cursor: sending || sentAt ? 'default' : 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                 }}
               >
                 {sentAt ? `Sent at ${sentAt} ✓` : sending ? 'Sending' : `Send it to ${theirs} app`}

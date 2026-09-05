@@ -34,7 +34,7 @@ const REASSURANCES: { title: string; body: string }[] = [
 ]
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)',
+  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
   borderRadius: '16px', padding: '22px', marginBottom: '16px',
 }
 
@@ -46,17 +46,17 @@ const eyebrow: React.CSSProperties = {
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '13px 16px', borderRadius: '12px',
-  border: '1.5px solid var(--border)', background: 'var(--cream)',
+  border: '2px solid var(--ink)', background: 'var(--cream)',
   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
   outline: 'none',
 }
 
 const primaryBtn: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+  background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
   borderRadius: '16px', padding: '14px 26px', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-  boxShadow: '0 5px 0 var(--terracotta-dark)', textDecoration: 'none',
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+  boxShadow: '0 4px 0 var(--ink)', textDecoration: 'none',
 }
 
 const quietBtn: React.CSSProperties = {
@@ -79,7 +79,7 @@ function CopyButton({ value, label = 'Copy' }: { value: string; label?: string }
       style={{
         background: copied ? 'var(--tint-green)' : 'var(--deep-teal)',
         color: copied ? 'var(--ink)' : '#fff',
-        border: 'none', borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
+        border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, flexShrink: 0,
       }}
     >
@@ -258,7 +258,7 @@ export default function SchoolSetup() {
         </p>
 
         <div style={{
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: '16px', padding: '18px 20px', marginBottom: '20px',
         }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
@@ -403,7 +403,7 @@ export default function SchoolSetup() {
             onClick={testLetterbox}
             disabled={testing}
             style={{
-              background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '12px',
+              background: 'var(--deep-teal)', color: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '12px',
               padding: '11px 18px', cursor: testing ? 'wait' : 'pointer', flexShrink: 0,
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             }}
@@ -414,7 +414,7 @@ export default function SchoolSetup() {
             <div style={{
               width: '100%',
               background: testResult.ok ? 'var(--tint-green)' : 'var(--stage-1)',
-              border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 14px',
+              border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 14px',
               fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55,
             }}>
               <strong>{testResult.ok ? '✓ Platform ready. ' : 'Heads up. '}</strong>
@@ -461,7 +461,7 @@ export default function SchoolSetup() {
               onClick={() => setProvider(key)}
               style={{
                 flex: 1, padding: '10px 14px', borderRadius: '100px', cursor: 'pointer',
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 background: provider === key ? 'var(--deep-teal)' : '#fff',
                 color: provider === key ? '#fff' : 'var(--ink-soft)',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
@@ -483,7 +483,7 @@ export default function SchoolSetup() {
                 <div style={{
                   marginTop: '10px', padding: '14px 16px', borderRadius: '12px',
                   background: hasVerification ? 'var(--tint-green)' : 'var(--cream)',
-                  border: `1.5px solid ${hasVerification ? 'var(--tint-green)' : 'var(--border)'}`,
+                  border: '2px solid var(--ink)',
                 }}>
                   {connection.verification_code ? (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -521,7 +521,7 @@ export default function SchoolSetup() {
                 Paste this into the search box at the top of Gmail, press Enter, then click <strong>Create filter</strong> just under the search box:
                 <div style={{
                   marginTop: '10px', padding: '12px 14px', borderRadius: '12px',
-                  background: 'var(--cream)', border: '1.5px solid var(--border)',
+                  background: 'var(--cream)', border: '2px solid var(--ink)',
                   display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap',
                 }}>
                   <code style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
@@ -546,7 +546,7 @@ export default function SchoolSetup() {
               <StepRow n={4}>Save the rule. If your provider sends a confirmation email to the new address, the code or link will appear on this page within a minute.</StepRow>
             </div>
             {hasVerification && (
-              <div style={{ marginTop: '14px', padding: '14px 16px', borderRadius: '12px', background: 'var(--tint-green)' }}>
+              <div style={{ marginTop: '14px', padding: '14px 16px', borderRadius: '12px', background: 'var(--tint-green)', border: '2px solid var(--ink)' }}>
                 {connection.verification_code && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: connection.verification_link ? '8px' : 0 }}>
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)' }}>{connection.verification_code}</span>
@@ -565,7 +565,7 @@ export default function SchoolSetup() {
           </>
         )}
 
-        <div style={{ ...card, background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)' }}>
+        <div style={{ ...card, background: 'var(--stage-2)' }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
             The next time {connection.school_name} emails you, the actions appear on your dashboard under <strong>Things you need to know</strong> and your phone buzzes if notifications are on.
           </p>
@@ -608,15 +608,15 @@ export default function SchoolSetup() {
               onClick={toggleActive}
               aria-label={connection.active ? 'Pause this connection' : 'Resume this connection'}
               style={{
-                width: '48px', height: '28px', borderRadius: '100px', border: 'none', cursor: 'pointer',
-                background: connection.active ? 'var(--terracotta)' : 'var(--border)',
-                position: 'relative', transition: 'background .15s ease', flexShrink: 0,
+                width: '48px', height: '28px', borderRadius: '100px', border: '2px solid var(--ink)', cursor: 'pointer',
+                background: connection.active ? 'var(--terracotta)' : 'var(--cream)',
+                position: 'relative', transition: 'background .15s ease', flexShrink: 0, padding: 0, boxSizing: 'border-box',
               }}
             >
               <span style={{
-                position: 'absolute', top: '3px', left: connection.active ? '23px' : '3px',
-                width: '22px', height: '22px', borderRadius: '50%', background: '#fff',
-                boxShadow: '0 1px 3px rgba(26,26,46,.25)', transition: 'left .15s ease',
+                position: 'absolute', top: '2px', left: connection.active ? '22px' : '2px',
+                width: '20px', height: '20px', borderRadius: '50%', background: '#fff',
+                border: '2px solid var(--ink)', boxSizing: 'border-box', transition: 'left .15s ease',
               }} />
             </button>
           </div>
@@ -627,7 +627,7 @@ export default function SchoolSetup() {
           <div style={{
             display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
             padding: '12px 14px', borderRadius: '12px', background: 'var(--cream)',
-            border: '1.5px solid var(--border)', marginBottom: '16px',
+            border: '2px solid var(--ink)', marginBottom: '16px',
           }}>
             <code style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
               {connection.forward_address}
@@ -642,7 +642,7 @@ export default function SchoolSetup() {
             {connection.sender_addresses.map(s => (
               <div key={s} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
-                padding: '9px 12px', borderRadius: '10px', background: 'var(--cream)', border: '1px solid var(--border)',
+                padding: '9px 12px', borderRadius: '10px', background: 'var(--cream)', border: '2px solid var(--ink)',
               }}>
                 <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', wordBreak: 'break-all' }}>{s}</span>
                 {connection.sender_addresses.length > 1 && (
@@ -665,7 +665,7 @@ export default function SchoolSetup() {
               onClick={addSender}
               disabled={saving}
               style={{
-                background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '12px',
+                background: 'var(--deep-teal)', color: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '12px',
                 padding: '10px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)',
                 fontSize: 'var(--text-sm)', fontWeight: 700, flexShrink: 0,
               }}

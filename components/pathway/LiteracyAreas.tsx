@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { READINESS } from '@/lib/content/readiness'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The whole promise in four things a parent can hold in their head, read
 // like a good school report: clear, never shaming. Each area gets a quiet
@@ -14,27 +15,27 @@ const STAGE_LABELS = ['Foundation', 'Builder', 'Explorer', 'Shaper', 'Independen
 
 // Each area owns a warm brand tint for its icon square, so the report
 // reads friendly and alive without a single alarm colour.
-type Area = { key: string; icon: string; tint: string; name: string; startStage: number; blurb: string; comesWhy: string; comesAge: string }
+type Area = { key: string; icon: HappyIconName; tint: string; name: string; startStage: number; blurb: string; comesWhy: string; comesAge: string }
 
 const AREAS: Area[] = [
   {
-    key: 'safe', icon: '🛡️', tint: 'var(--terracotta-lt)', name: 'Safe online', startStage: 1,
+    key: 'safe', icon: 'tell', tint: 'var(--terracotta-lt)', name: 'Safe online', startStage: 1,
     blurb: 'Device settings set, worries worked through, and DiGi asking gently along the way.',
     comesWhy: '', comesAge: '4',
   },
   {
-    key: 'balance', icon: '⚖️', tint: 'var(--tint-sage)', name: 'Healthy balance', startStage: 1,
+    key: 'balance', icon: 'balance', tint: 'var(--tint-sage)', name: 'Healthy balance', startStage: 1,
     blurb: 'Real world jobs against screen time, held in a good balance.',
     comesWhy: '', comesAge: '4',
   },
   {
-    key: 'ai', icon: '🤖', tint: 'var(--stage-3)', name: 'AI and chatbots', startStage: 3,
+    key: 'ai', icon: 'quiz', tint: 'var(--stage-3)', name: 'AI and chatbots', startStage: 3,
     blurb: 'What AI is, how chatbots work, and how to tell what is real.',
     comesWhy: 'Orben and Odgers place the algorithm conversation in the 11 to 13 window, when abstract thinking can hold it.',
     comesAge: '11',
   },
   {
-    key: 'social', icon: '💬', tint: 'var(--stage-4)', name: 'Social media ready', startStage: 3,
+    key: 'social', icon: 'friends', tint: 'var(--stage-4)', name: 'Social media ready', startStage: 3,
     blurb: 'The judgement for the platforms, built in good time before 16.',
     comesWhy: 'Built before any account exists, so the skills are there first. From 13, DiGi asks what they are actually seeing.',
     comesAge: '11',
@@ -52,7 +53,7 @@ type ChipTone = 'green' | 'amber' | 'grey'
 const CHIP_LOOKS: Record<ChipTone, { bg: string; color: string; border: string }> = {
   green: { bg: 'var(--tint-green)', color: 'var(--retro-green-dark)', border: 'var(--retro-green)' },
   amber: { bg: 'var(--terracotta-lt)', color: 'var(--stage-1-text)', border: 'var(--terracotta)' },
-  grey: { bg: 'var(--cream)', color: 'var(--ink-muted)', border: 'var(--border)' },
+  grey: { bg: 'var(--cream)', color: 'var(--ink-muted)', border: 'var(--ink)' },
 }
 
 function StatusChip({ tone, children }: { tone: ChipTone; children: React.ReactNode }) {
@@ -144,7 +145,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
 
   return (
     <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '22px 20px 8px', boxShadow: '0 4px 0 rgba(26,26,46,0.05)' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '22px 20px 8px', boxShadow: '0 4px 0 var(--ink)' }}>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
           The four things we build
         </p>
@@ -152,8 +153,8 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           Everything {kid} does adds up to these four, ready by 16. Green means on track. Amber comes with the one next step, never a mark against anyone.
         </p>
         {stampChip && (
-          <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
-            <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>🪪</span>
+          <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 100, padding: '5px 12px 5px 8px', textDecoration: 'none' }}>
+            <HappyIcon name="passport" size={18} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
               These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →
             </span>
@@ -173,10 +174,10 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
             <div style={{
               borderRadius: 16, padding: '16px 18px', marginBottom: 6,
               background: allGreen ? 'var(--tint-green)' : 'var(--terracotta-lt)',
-              border: `1.5px solid ${allGreen ? 'var(--retro-green)' : 'var(--terracotta)'}`,
+              border: '2px solid var(--ink)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>{allGreen ? '🌱' : '🎯'}</span>
+                <span aria-hidden style={{ width: 44, height: 44, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name={allGreen ? 'sprout' : 'jobs'} size={30} /></span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.01em', color: allGreen ? 'var(--retro-green-dark)' : 'var(--ink)', lineHeight: 1.15 }}>
                   {allGreen
                     ? 'All green for this stage'
@@ -193,9 +194,9 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                   {ambers.map(a => (
                     <Link key={a.key} href={statuses[a.key]?.href ?? '/dashboard/lessons'} style={{
                       display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-                      background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '11px 14px',
+                      background: '#fff', border: '2px solid var(--ink)', borderRadius: 12, padding: '11px 14px',
                     }}>
-                      <span aria-hidden style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{a.icon}</span>
+                      <HappyIcon name={a.icon} size={26} />
                       <span style={{ flex: 1, minWidth: 0 }}>
                         <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
                         <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>{statuses[a.key]?.improve ?? 'Do the next step'}</span>
@@ -216,8 +217,8 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           // Not this age yet: say when it comes and why, never a fake bar.
           if (!active) {
             return (
-              <div key={area.key} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '18px 0', borderTop: '1px solid var(--border)' }}>
-                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', filter: 'grayscale(0.6) opacity(0.7)' }}>{area.icon}</span>
+              <div key={area.key} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '18px 0', borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
+                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--cream)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'grayscale(0.6) opacity(0.7)' }}><HappyIcon name={area.icon} size={28} /></span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.25 }}>
@@ -239,7 +240,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
 
           const inner = (
             <>
-              <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: area.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{area.icon}</span>
+              <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: area.tint, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name={area.icon} size={28} /></span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25 }}>
@@ -267,10 +268,10 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                 {!onTrack && live?.improve && (
                   <Link href={live.href ?? '/dashboard/lessons'} style={{
                     display: 'inline-flex', alignItems: 'flex-start', gap: 8, marginTop: 12,
-                    background: 'var(--terracotta)', color: 'var(--ink)',
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
                     borderRadius: '12px', padding: '11px 16px', textDecoration: 'none',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                    lineHeight: 1.4, boxShadow: '0 3px 0 var(--terracotta-dark)',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+                    lineHeight: 1.4, boxShadow: '0 4px 0 var(--ink)',
                   }}>
                     <span>{live.improve}</span>
                     <span aria-hidden style={{ flexShrink: 0 }}>→</span>
@@ -286,14 +287,14 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
             <Link
               key={area.key}
               href={live?.href ?? '/dashboard/lessons'}
-              style={{ display: 'flex', alignItems: 'flex-start', gap: 14, textDecoration: 'none', padding: '18px 0', borderTop: '1px solid var(--border)' }}
+              style={{ display: 'flex', alignItems: 'flex-start', gap: 14, textDecoration: 'none', padding: '18px 0', borderTop: '2px dotted rgba(26,26,46,0.18)' }}
             >
               {inner}
             </Link>
           ) : (
             <div
               key={area.key}
-              style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '18px 0', borderTop: '1px solid var(--border)' }}
+              style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '18px 0', borderTop: '2px dotted rgba(26,26,46,0.18)' }}
             >
               {inner}
             </div>

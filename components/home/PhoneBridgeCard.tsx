@@ -41,7 +41,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
 
   return (
     <div style={{
-      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: 20, padding: '18px 20px', marginBottom: 18, position: 'relative',
     }}>
       <button
@@ -49,7 +49,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
         aria-label="Not now"
         style={{
           position: 'absolute', top: 12, right: 12, width: 30, height: 30,
-          borderRadius: '50%', border: '1px solid var(--terracotta)', background: '#fff',
+          borderRadius: '50%', border: '2px solid var(--ink)', background: '#fff',
           color: 'var(--terracotta-dark)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
@@ -57,7 +57,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
       </button>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 10, paddingRight: 34 }}>
-        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 13, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood="speak" />
         </span>
         <div style={{ minWidth: 0 }}>
@@ -97,7 +97,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
           style={{
             display: 'inline-flex', padding: '12px 18px', textDecoration: 'none',
             background: '#fff', color: 'var(--ink)', borderRadius: 14,
-            border: '1.5px solid var(--border)',
+            border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           }}
         >

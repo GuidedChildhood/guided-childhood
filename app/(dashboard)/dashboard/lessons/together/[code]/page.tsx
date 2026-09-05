@@ -75,7 +75,7 @@ export default async function WatchTogetherLessonPage({
 
       {/* The parent note: the misconception this lesson breaks and any
           promise the grown up must keep. Parent eyes, worth reading first. */}
-      <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px' }}>
+      <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           Before you press play
         </div>
@@ -101,7 +101,7 @@ export default async function WatchTogetherLessonPage({
           timesCompleted={completion?.times_completed ?? 0}
         />
       ) : (
-        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
           Add your child first so their stars and passport have somewhere to land.{' '}
           <Link href="/dashboard/settings" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Add them in settings</Link>
         </div>

@@ -48,8 +48,8 @@ type Props = {
 }
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
-  padding: '18px 18px 20px', marginBottom: 20,
+  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+  padding: '18px 18px 20px', marginBottom: 20, boxShadow: '0 4px 0 var(--ink)',
 }
 
 const LINK_BTN: React.CSSProperties = {
@@ -198,10 +198,10 @@ export default function YourScreens({
 
             return (
               <div key={d.id} style={{
-                border: `1.5px solid ${open ? 'var(--terracotta)' : 'var(--border)'}`,
+                border: '2px solid var(--ink)',
                 borderRadius: 14, overflow: 'hidden',
-                boxShadow: open ? '0 8px 32px rgba(26,26,46,0.08)' : 'none',
-                transition: 'border-color 0.15s',
+                background: open ? 'var(--cream)' : '#fff',
+                transition: 'background 0.15s',
               }}>
                 {editing === d.id ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '11px 13px' }}>
@@ -303,7 +303,7 @@ export default function YourScreens({
               return (
                 <div key={s.label} style={{
                   display: 'flex', alignItems: 'center', gap: 4,
-                  border: '1.5px dashed var(--border)', borderRadius: 14,
+                  border: '2px dashed var(--ink)', borderRadius: 14,
                   background: 'var(--cream)', paddingRight: 6,
                 }}>
                   <button
@@ -364,7 +364,7 @@ export default function YourScreens({
       {/* One way to add anything else, with the search that used to sit over
           the whole catalogue. */}
       {picking ? (
-        <div style={{ border: '1.5px dashed var(--border)', borderRadius: 14, padding: '13px 13px 10px' }}>
+        <div style={{ border: '2px dashed var(--ink)', borderRadius: 14, padding: '13px 13px 10px' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 10px' }}>
             What arrived?
           </p>
@@ -384,7 +384,7 @@ export default function YourScreens({
                 onClick={() => { add(s.label, s.kind, s.guideKey); setPicking(false); setQuery('') }}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 6,
-                  border: '1.5px solid var(--border)', borderRadius: 100,
+                  border: '2px solid var(--ink)', borderRadius: 100,
                   background: '#fff', padding: '8px 13px', cursor: busy ? 'default' : 'pointer',
                   fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)',
                   opacity: busy ? 0.5 : 1,
@@ -410,8 +410,8 @@ export default function YourScreens({
           onClick={() => setPicking(true)}
           style={{
             width: '100%', padding: '13px 16px', borderRadius: 16,
-            border: '2px solid var(--terracotta)', background: '#fff',
-            color: 'var(--terracotta)', cursor: 'pointer',
+            border: '2px solid var(--ink)', background: '#fff', boxShadow: '0 4px 0 var(--ink)',
+            color: 'var(--ink)', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           }}
         >
@@ -432,7 +432,7 @@ export default function YourScreens({
                   type="button"
                   onClick={() => patch(d.id, { retired: false })}
                   style={{
-                    border: '1.5px solid var(--border)', borderRadius: 100, background: 'var(--cream)',
+                    border: '2px solid var(--ink)', borderRadius: 100, background: 'var(--cream)',
                     padding: '7px 12px', cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                   }}
                 >

@@ -65,7 +65,7 @@ export default async function TimerPage() {
 
       {child && !alreadyLinked && (
         <div style={{
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: 16, padding: '14px 16px', marginBottom: 18,
         }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 10px', fontWeight: 600 }}>

@@ -143,16 +143,16 @@ export default async function ContractPage() {
               <tbody>
                 {[...first, ...rest].map(q => (
                   <tr key={q.id}>
-                    <td style={{ padding: '9px 6px', borderBottom: '1px solid var(--border)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)' }}>
+                    <td style={{ padding: '9px 6px', borderBottom: '2px dotted rgba(26,26,46,0.18)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)' }}>
                       {q.emoji} {q.title}{q.blocks_screens ? ' 📵' : ''}
                     </td>
-                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                    <td style={{ padding: '9px 4px', borderBottom: '2px dotted rgba(26,26,46,0.18)', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
                       {SCHEDULE_LABELS[q.schedule] ?? q.schedule}
                     </td>
-                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: 'var(--text-base)', fontWeight: 700 }}>
+                    <td style={{ padding: '9px 4px', borderBottom: '2px dotted rgba(26,26,46,0.18)', textAlign: 'center', fontSize: 'var(--text-base)', fontWeight: 700 }}>
                       ⭐ {q.stars}
                     </td>
-                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                    <td style={{ padding: '9px 4px', borderBottom: '2px dotted rgba(26,26,46,0.18)', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
                       {q.stars * STAR_MINUTES} min
                     </td>
                   </tr>
@@ -167,7 +167,7 @@ export default async function ContractPage() {
                 { n: String(weekStars), label: 'earned this week', sub: 'approved quests' },
                 { n: String(weekMinutes), label: 'minutes used', sub: 'this week' },
               ].map(stat => (
-                <div key={stat.label} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+                <div key={stat.label} style={{ border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1 }}>{stat.n}</div>
                   <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '5px' }}>{stat.label}</div>
                   <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '1px' }}>{stat.sub}</div>
@@ -179,7 +179,7 @@ export default async function ContractPage() {
             </p>
 
             {/* Signatures */}
-            <div style={{ display: 'flex', gap: '20px', paddingTop: '14px', borderTop: '1.5px solid var(--border)', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '20px', paddingTop: '14px', borderTop: '2px solid var(--ink)', flexWrap: 'wrap' }}>
               {['Parent', child.name].map(name => (
                 <div key={name} style={{ flex: 1, minWidth: '160px' }}>
                   <div style={{ borderBottom: '2px solid var(--ink)', minHeight: '34px' }} />

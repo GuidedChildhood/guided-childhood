@@ -62,7 +62,7 @@ export default async function SocialSettingsPage({ searchParams }: { searchParam
         The safety settings that do the quiet protecting on each app {childName} might meet, in the order they usually arrive. Walk them together when the time is right. DiGi keeps these current as the apps change.
       </p>
 
-      <div style={{ background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)', borderRadius: '14px', padding: '13px 16px', marginBottom: '26px' }}>
+      <div style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '13px 16px', marginBottom: '26px' }}>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
           <strong>One thing to hold onto.</strong> The minimum age on each app is the company's own account rule, not a sign a child is ready. Readiness is the child, the settings you lock, and the conversations you have.
         </p>
@@ -87,7 +87,7 @@ export default async function SocialSettingsPage({ searchParams }: { searchParam
       )}
 
       <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginTop: '28px' }}>
-        <div style={{ background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)', borderRadius: '16px', padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
+        <div style={{ background: 'var(--stage-3)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
               The lessons behind the settings
@@ -112,9 +112,9 @@ export default async function SocialSettingsPage({ searchParams }: { searchParam
 
 function GuideCard({ g, dim }: { g: Guide; dim: boolean }) {
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px', opacity: dim ? 0.82 : 1 }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '16px 18px', opacity: dim ? 0.82 : 1 }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-        <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--cream)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{g.emoji}</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--cream)', border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{g.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{g.name}</span>
@@ -155,7 +155,7 @@ function GuideCard({ g, dim }: { g: Guide; dim: boolean }) {
             ))}
           </ul>
 
-          <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', padding: '11px 13px', marginTop: '14px' }}>
+          <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '11px 13px', marginTop: '14px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
               Parental tool
             </div>

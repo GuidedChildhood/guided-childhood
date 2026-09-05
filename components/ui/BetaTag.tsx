@@ -23,7 +23,7 @@ export default function BetaTag({ title }: { title?: string }) {
         fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 700,
         letterSpacing: '0.12em', textTransform: 'uppercase',
         color: 'var(--ink-soft)', background: 'var(--cream)',
-        border: '1px solid var(--border)', borderRadius: 100,
+        border: '2px solid var(--ink)', borderRadius: 100,
         padding: '2px 7px', lineHeight: 1.4, whiteSpace: 'nowrap',
         verticalAlign: 'middle',
       }}

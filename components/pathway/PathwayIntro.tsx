@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The explanation above the passport, said once and then folded away.
 //
@@ -29,11 +30,11 @@ import Link from 'next/link'
 
 const SEEN_KEY = 'gc_pathway_intro_seen'
 
-const PROVES: [string, string, string][] = [
-  ['🛡️', 'Safe online', 'Spotting what is not right, and always telling someone.'],
-  ['⚖️', 'A healthy balance', 'Screen time earned from real world jobs, never just handed over.'],
-  ['🤖', 'AI and what is real', 'Knowing when something is made up, sold to them, or a bot.'],
-  ['💬', 'Ready for social media', 'Judgement built years before the account, not the week they ask.'],
+const PROVES: [HappyIconName, string, string][] = [
+  ['tell', 'Safe online', 'Spotting what is not right, and always telling someone.'],
+  ['balance', 'A healthy balance', 'Screen time earned from real world jobs, never just handed over.'],
+  ['quiz', 'AI and what is real', 'Knowing when something is made up, sold to them, or a bot.'],
+  ['friends', 'Ready for social media', 'Judgement built years before the account, not the week they ask.'],
 ]
 
 /**
@@ -108,7 +109,8 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
           marginTop: 10, padding: '8px 14px',
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12,
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: 12,
+          boxShadow: '0 4px 0 var(--ink)',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)',
           cursor: 'pointer',
@@ -123,9 +125,9 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
       {open && (
         <div style={{ animation: 'gcIntroIn 0.28s ease both' }}>
           <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', maxWidth: '580px' }}>
-            {PROVES.map(([em, t, b]) => (
+            {PROVES.map(([icon, t, b]) => (
               <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
-                <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
+                <span aria-hidden style={{ width: 38, height: 38, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name={icon} size={26} /></span>
                 <span>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{t}</span>
                   <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>

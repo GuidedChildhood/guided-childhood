@@ -57,7 +57,7 @@ import type { WeekBrief } from '@/lib/learning/this-week'
 // hide the best thing on the page behind a choice.
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)',
   padding: '18px', marginBottom: 14,
 }
 
@@ -120,7 +120,7 @@ export default function LearningYear({
               aria-pressed={i === active}
               style={{
                 padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
-                border: `1.5px solid ${i === active ? 'var(--terracotta)' : 'var(--border)'}`,
+                border: `2px solid ${i === active ? 'var(--terracotta)' : 'var(--ink)'}`,
                 background: i === active ? 'var(--terracotta-lt)' : '#fff',
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
               }}
@@ -201,7 +201,7 @@ export default function LearningYear({
               href="/dashboard/homework"
               style={{
                 display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
-                background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
+                background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
                 borderRadius: 12, padding: '11px 15px', fontFamily: 'var(--font-display)',
                 fontWeight: 800, fontSize: 'var(--text-base)',
               }}
@@ -249,7 +249,7 @@ export default function LearningYear({
                 onClick={() => setTab(t.key)}
                 style={{
                   flexShrink: 0, cursor: 'pointer', borderRadius: 100, padding: '10px 14px',
-                  border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                  border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                   background: on ? 'var(--terracotta-lt)' : '#fff',
                   fontFamily: 'var(--font-display)', fontWeight: 800,
                   fontSize: 'var(--text-base)', color: 'var(--ink)',
@@ -317,7 +317,7 @@ export default function LearningYear({
               const key = `${sub.subject}:${st.strand}`
               const isOpen = Boolean(open[key])
               return (
-                <div key={key} style={{ border: '1.5px solid var(--border)', borderRadius: 13, overflow: 'hidden' }}>
+                <div key={key} style={{ border: '2px solid var(--ink)', borderRadius: 13, overflow: 'hidden' }}>
                   <button
                     onClick={() => toggle(key)}
                     aria-expanded={isOpen}
@@ -351,7 +351,7 @@ export default function LearningYear({
                                   obvious glyph for a sub point is a dash and
                                   this product does not put dashes in front of
                                   a parent. */}
-                              <span style={{ display: 'grid', gap: 6, marginTop: 7, paddingLeft: 11, borderLeft: '2px solid var(--border)' }}>
+                              <span style={{ display: 'grid', gap: 6, marginTop: 7, paddingLeft: 11, borderLeft: '2px dotted rgba(26,26,46,0.18)' }}>
                                 {o.parts.map((part, i) => (
                                   <span key={i} style={{ display: 'block' }}>{part}</span>
                                 ))}

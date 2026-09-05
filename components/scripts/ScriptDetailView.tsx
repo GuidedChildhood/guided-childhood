@@ -7,6 +7,7 @@ import ScriptStatusButtons from '@/components/scripts/ScriptStatusButtons'
 import MarkReadOnEnd from '@/components/scripts/MarkReadOnEnd'
 import TakeoverReader from '@/components/ui/TakeoverReader'
 import { card, cardPad, eyebrow, chunky, INK_EDGE } from '@/components/scripts/card-system'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The whole script detail page as one presentational view: the page route
 // fetches the data, this file owns how it looks. One card system, one spacing
@@ -236,7 +237,9 @@ export default function ScriptDetailView({
           href="/dashboard/agreement"
           style={{ ...card, display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none', padding: cardPad }}
         >
-          <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>🤝</span>
+          <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--terracotta-lt)', border: INK_EDGE, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <HappyIcon name="deal" size={32} />
+          </span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', fontFamily: 'var(--font-display)', marginBottom: '3px' }}>
               Make it a family agreement

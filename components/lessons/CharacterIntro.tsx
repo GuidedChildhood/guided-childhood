@@ -109,7 +109,8 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
           padding: '24px 28px',
           marginBottom: '8px',
           position: 'relative',
-          boxShadow: '0 20px 60px rgba(0,0,0,.3)',
+          border: '2px solid var(--ink)',
+          boxShadow: '0 4px 0 var(--ink)',
         }}>
           <p style={{
             fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',

@@ -32,7 +32,7 @@ export default function FamilyDealSheet({
     letterSpacing: '0.12em', textTransform: 'uppercase',
   }
   const card: React.CSSProperties = {
-    border: '2px solid var(--border)', borderRadius: 16,
+    border: '2px solid var(--ink)', borderRadius: 16,
     padding: '16px 18px', background: '#fff', breakInside: 'avoid',
   }
 
@@ -61,7 +61,7 @@ export default function FamilyDealSheet({
           <div key={r.n} style={{ ...card, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
             <span style={{
               flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: 'var(--terracotta-lt)',
-              border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta-dark)',
             }}>{r.n}</span>
             <span style={{ minWidth: 0 }}>
@@ -97,7 +97,7 @@ export default function FamilyDealSheet({
             {quests.map((q, i) => (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-                padding: '11px 0', borderTop: i === 0 ? 'none' : '1px solid var(--border)',
+                padding: '11px 0', borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)',
               }}>
                 <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>
                   {q.emoji ? `${q.emoji} ` : ''}{q.title}
@@ -128,7 +128,7 @@ export default function FamilyDealSheet({
 
       {/* What they are saving for */}
       {goal && (
-        <div style={{ ...card, background: 'var(--tint-sage)', borderColor: '#D6E5DF', marginBottom: 20 }}>
+        <div style={{ ...card, background: 'var(--tint-sage)', marginBottom: 20 }}>
           <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: 5 }}>Saving up for</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1.2 }}>{goal.title}</div>
           <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', marginTop: 3 }}>{goal.starsNeeded} stars to get there.</div>

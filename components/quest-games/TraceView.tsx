@@ -89,7 +89,7 @@ export default function TraceView({ game, onDone }: { game: TraceGame; onDone: (
           viewBox={`0 0 ${BOX_W} ${BOX_H}`}
           onPointerDown={onPointer}
           onPointerMove={onPointer}
-          style={{ width: 'min(100%, 280px)', touchAction: 'none', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', cursor: 'crosshair' }}
+          style={{ width: 'min(100%, 280px)', touchAction: 'none', background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', cursor: 'crosshair' }}
         >
           {/* Exercise book lines, so the letter has a home like it does at school */}
           <line x1="6" y1="55" x2="94" y2="55" stroke="var(--border)" strokeWidth="1" strokeDasharray="3 3" />

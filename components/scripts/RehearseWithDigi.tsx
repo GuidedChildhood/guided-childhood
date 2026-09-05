@@ -9,6 +9,7 @@ import { card, cardPad, eyebrow, chunky } from '@/components/scripts/card-system
 import { characterByKey } from '@/lib/content/stage-characters'
 import { ladderStep, STEP_NOTE, BOUNDARY_LINES, CLOSE_LINES, AFTER_THE_STANDOFF } from '@/lib/content/refusal-ladder'
 import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The child is played by Pebble, the youngest Planet Friend, so a parent is
 // rehearsing with what feels like a real little person rather than a chat
@@ -281,7 +282,9 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
     if (doneOnce) {
       return (
         <div style={{ ...card, padding: cardPad, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>✅</span>
+          <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <HappyIcon name="cheer" size={28} />
+          </span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Rehearsed and ready</div>
             <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>The words are warmed up for the real moment.</div>
@@ -309,7 +312,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
     <div style={{ ...card, padding: 0, overflow: 'hidden' }}>
 
       {/* Header: who is speaking, and the quiet controls */}
-      <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+      <div style={{ padding: '14px 18px', borderBottom: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {coached ? (
             <DigiCharacter size={32} mood="idle" once />
@@ -318,7 +321,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
               className={busy ? 'rd-kid-talk' : undefined}
               style={{
                 width: 38, height: 38, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
-                background: 'var(--cream)', border: '2px solid var(--terracotta)', display: 'block',
+                background: 'var(--cream)', border: '2px solid var(--ink)', display: 'block',
               }}
             >
               <Image src={kidFace} alt="" width={38} height={38} style={{ objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
@@ -398,7 +401,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
                 maxWidth: '86%', padding: '12px 15px', fontSize: 'var(--text-md)', lineHeight: 1.55,
                 whiteSpace: 'pre-wrap', fontWeight: 500, borderRadius: 16,
                 background: 'linear-gradient(180deg,#FFF9EC,#FCEFD2)', color: 'var(--ink)',
-                border: '1.5px solid rgba(201,154,40,0.3)',
+                border: '2px solid var(--ink)',
               }}>
                 {m.content}
               </div>
@@ -436,7 +439,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
         {error && <p style={{ fontSize: 'var(--text-md)', color: 'var(--danger)', padding: '4px 2px', margin: 0 }}>{error}</p>}
       </div>
 
-      <div style={{ padding: '12px 16px 14px', borderTop: '1px solid var(--border)', background: 'var(--white,#fff)' }}>
+      <div style={{ padding: '12px 16px 14px', borderTop: '2px solid var(--ink)', background: 'var(--white,#fff)' }}>
         {!coached ? (
           <>
             {/* Ready made replies, Cleo style: tap one and it is said. The
@@ -473,7 +476,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
                     onClick={() => sendText(s)}
                     disabled={busy}
                     style={{
-                      textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid rgba(201,154,40,0.45)',
+                      textAlign: 'left', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
                       borderRadius: 14, padding: '10px 14px', cursor: busy ? 'default' : 'pointer',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45,
                       opacity: busy ? 0.55 : 1,
@@ -496,12 +499,12 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
                 placeholder="Try your own words..."
                 rows={1}
                 style={{
-                  flex: 1, padding: '11px 16px', borderRadius: 100, border: '1.5px solid var(--border)',
+                  flex: 1, padding: '11px 16px', borderRadius: 100, border: '2px solid var(--ink)',
                   background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)',
                   resize: 'none', outline: 'none', lineHeight: 1.5, maxHeight: 120,
                 }}
                 onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
-                onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
+                onBlur={e => { e.currentTarget.style.borderColor = 'var(--ink)' }}
               />
               <button type="submit" disabled={busy || !input.trim()} className="btn" style={{ padding: '11px 16px', fontSize: 'var(--text-base)', flexShrink: 0 }}>
                 Say it
@@ -523,7 +526,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
             {/* The rehearsal ends with something to DO, not just a well done.
                 A parent who has just practised a standoff and been told they
                 did fine still has the standoff waiting for them at six. */}
-            <div style={{ background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: 16, padding: '14px 16px', marginBottom: 10 }}>
+            <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px', marginBottom: 10 }}>
               <div style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginBottom: 8 }}>
                 {AFTER_THE_STANDOFF.heading}
               </div>
@@ -560,7 +563,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
 const heading: React.CSSProperties = { fontSize: 'clamp(1.15rem,3.4vw,1.35rem)', letterSpacing: '-0.01em', margin: '6px 0 8px', color: 'var(--ink)' }
 const sub: React.CSSProperties = { fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }
 const ghostBtn: React.CSSProperties = {
-  background: 'none', border: '1px solid var(--border)', borderRadius: 10, cursor: 'pointer',
+  background: 'none', border: '2px solid var(--ink)', borderRadius: 10, cursor: 'pointer',
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
   color: 'var(--ink-muted)', padding: '7px 12px',
 }

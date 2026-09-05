@@ -682,7 +682,7 @@ export default function DigiChat({
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 80px)', maxWidth: '700px', margin: '0 auto' }}>
 
       {/* Header */}
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', background: 'var(--white)', flexShrink: 0 }}>
+      <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--ink)', background: 'var(--white)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -763,6 +763,7 @@ export default function DigiChat({
               <div style={{
                 background: 'var(--stage-2)',
                 border: '2px solid var(--ink)',
+                boxShadow: '0 4px 0 var(--ink)',
                 borderRadius: '16px',
                 padding: '16px 18px',
                 marginBottom: '20px',
@@ -772,11 +773,10 @@ export default function DigiChat({
               }}>
                 <div style={{
                   width: '32px', height: '32px', borderRadius: '8px',
-                  background: 'var(--terracotta)', flexShrink: 0,
+                  background: 'var(--terracotta)', flexShrink: 0, border: '2px solid var(--ink)', boxSizing: 'border-box',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 2px 0 var(--terracotta-dark)',
                 }}>
-                  <span style={{ fontSize: 'var(--text-md)', color: '#fff' }}>⚙</span>
+                  <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)' }}>⚙</span>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
@@ -838,7 +838,7 @@ export default function DigiChat({
                   style={{
                     padding: '12px 16px',
                     background: 'var(--white)',
-                    border: '1px solid var(--border)',
+                    border: '2px solid var(--ink)',
                     borderRadius: '12px',
                     fontSize: 'var(--text-md)',
                     color: 'var(--ink-soft)',
@@ -849,7 +849,7 @@ export default function DigiChat({
                     fontFamily: 'var(--font-body)',
                   }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--ink)')}
                 >
                   {prompt}
                 </button>
@@ -903,7 +903,7 @@ export default function DigiChat({
                     <div style={{
                       maxWidth: '88%',
                       background: m.role === 'user' ? 'var(--stage-2)' : 'transparent',
-                      border: m.role === 'user' ? '1px solid var(--border)' : 'none',
+                      border: m.role === 'user' ? '2px solid var(--ink)' : 'none',
                       borderRadius: 16, padding: m.role === 'user' ? '9px 13px' : '0 2px',
                       // Dimmer than the live thread on purpose. This is a
                       // record, not the conversation a parent is in.
@@ -915,11 +915,11 @@ export default function DigiChat({
                   </div>
                 ))}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '18px 0 4px' }}>
-                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                  <span style={{ flex: 1, borderTop: '2px dotted rgba(26,26,46,0.18)' }} />
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     New chat below
                   </span>
-                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                  <span style={{ flex: 1, borderTop: '2px dotted rgba(26,26,46,0.18)' }} />
                 </div>
               </div>
             )}
@@ -983,7 +983,7 @@ export default function DigiChat({
                     <button
                       onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
                       style={{
-                        background: '#fff', border: '1.5px solid var(--terracotta)',
+                        background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
                         color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                       }}
@@ -999,9 +999,9 @@ export default function DigiChat({
                       onClick={() => sendToChildPhone(i, msg.content)}
                       disabled={sentToChild[i] === 'sending' || sentToChild[i] === 'sent'}
                       style={{
-                        background: sentToChild[i] === 'sent' ? 'var(--tint-sage)' : '#fff',
-                        border: '2px solid var(--ink)',
-                        color: 'var(--ink)', borderRadius: 12, padding: '9px 14px',
+                        background: sentToChild[i] === 'sent' ? 'var(--retro-green)' : '#fff',
+                        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+                        color: sentToChild[i] === 'sent' ? '#fff' : 'var(--ink)', borderRadius: 12, padding: '9px 14px',
                         cursor: sentToChild[i] === 'sent' ? 'default' : 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                       }}
@@ -1024,11 +1024,11 @@ export default function DigiChat({
           i === historyCount && historyCount > 0
             ? [
                 <div key="gc-fresh-start" ref={freshRef} style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 26px' }}>
-                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                  <span style={{ flex: 1, borderTop: '2px dotted rgba(26,26,46,0.18)' }} />
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     Earlier chat above
                   </span>
-                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                  <span style={{ flex: 1, borderTop: '2px dotted rgba(26,26,46,0.18)' }} />
                 </div>,
                 el,
               ]
@@ -1036,11 +1036,11 @@ export default function DigiChat({
         ))}
         {historyCount > 0 && messages.length === historyCount && (
           <div ref={freshRef} style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 20px' }}>
-            <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+            <span style={{ flex: 1, borderTop: '2px dotted rgba(26,26,46,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
               Earlier chat above
             </span>
-            <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+            <span style={{ flex: 1, borderTop: '2px dotted rgba(26,26,46,0.18)' }} />
           </div>
         )}
 
@@ -1071,7 +1071,7 @@ export default function DigiChat({
               ].map(r => (
                 <Link key={r.href} href={r.href} style={{
                   display: 'inline-flex', alignItems: 'center', gap: '7px',
-                  background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px',
+                  background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px',
                   padding: '9px 13px', textDecoration: 'none',
                   fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
                 }}>
@@ -1101,7 +1101,7 @@ export default function DigiChat({
                       resize: 'none', outline: 'none', lineHeight: 1.5, marginBottom: '8px',
                     }}
                     onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--ink)'; document.body.classList.remove('gc-input-focused') }}
                   />
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button
@@ -1178,8 +1178,8 @@ export default function DigiChat({
         {reflectionQuestion && !reflectionDone && (
           <div style={{
             background: 'var(--white)',
-            border: '1.5px solid var(--terracotta-lt)',
-            borderLeft: '3px solid var(--terracotta)',
+            border: '2px solid var(--ink)',
+            boxShadow: '0 4px 0 var(--ink)',
             borderRadius: '16px',
             padding: '18px 18px 16px',
             marginBottom: '16px',
@@ -1215,7 +1215,7 @@ export default function DigiChat({
                 boxSizing: 'border-box',
               }}
               onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
-              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'var(--ink)'; document.body.classList.remove('gc-input-focused') }}
             />
             <div style={{ display: 'flex', gap: 8 }}>
               <button
@@ -1242,7 +1242,7 @@ export default function DigiChat({
                 style={{
                   padding: '10px 14px',
                   background: 'none',
-                  border: '1px solid var(--border)',
+                  border: '2px solid var(--ink)',
                   borderRadius: '10px',
                   fontFamily: 'var(--font-body)',
                   fontSize: 'var(--text-base)',
@@ -1262,7 +1262,7 @@ export default function DigiChat({
                before this rendered, and used to be thrown away in favour of a
                receipt. It reads as a reply because that is what it is. */
             <div style={{
-              background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+              background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
               borderRadius: '16px', padding: '15px 17px', margin: '4px 0 12px',
             }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
@@ -1289,7 +1289,7 @@ export default function DigiChat({
       </div>
 
       {/* Input */}
-      <div style={{ padding: '14px 20px', borderTop: '1px solid var(--border)', background: 'var(--white)', flexShrink: 0 }}>
+      <div style={{ padding: '14px 20px', borderTop: '2px solid var(--ink)', background: 'var(--white)', flexShrink: 0 }}>
         {/* A quiet strip of example questions that stays under the chat once it
             is under way, so a parent always sees the kind of thing they can ask,
             like how long a child their age should be on a screen. Hidden while
@@ -1310,12 +1310,12 @@ export default function DigiChat({
                 onClick={() => sendMessage(q)}
                 style={{
                   flexShrink: 0, whiteSpace: 'nowrap', cursor: 'pointer',
-                  background: 'var(--cream)', border: '1px solid var(--border)',
+                  background: 'var(--cream)', border: '2px solid var(--ink)',
                   borderRadius: '100px', padding: '8px 14px',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--ink)')}
               >
                 {q}
               </button>
@@ -1337,7 +1337,7 @@ export default function DigiChat({
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: 'var(--stage-2)', border: '1px solid var(--border)',
+                  background: 'var(--stage-2)', border: '2px solid var(--ink)',
                   borderRadius: '100px', padding: '5px 12px',
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   color: 'var(--ink-soft)', maxWidth: '100%',
@@ -1386,7 +1386,7 @@ export default function DigiChat({
                 overflowY: 'auto',
               }}
               onFocus={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
-              onBlur={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+              onBlur={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--ink)'; document.body.classList.remove('gc-input-focused') }}
             />
             <button
               type="submit"

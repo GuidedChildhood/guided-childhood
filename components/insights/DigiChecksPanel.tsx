@@ -26,8 +26,8 @@ type Checks = {
 }
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
-  padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+  padding: '20px 22px', marginBottom: 22, boxShadow: '0 4px 0 var(--ink)',
 }
 
 function when(iso: string | null): string {
@@ -94,7 +94,7 @@ export default function DigiChecksPanel() {
       {/* The one that fails silently, so it leads. */}
       <div style={{
         background: bankState === 'on' ? 'var(--stage-2)' : bankState === 'partial' ? '#FFF6E5' : '#FDECEC',
-        borderRadius: 14, padding: '14px 16px', marginBottom: 16,
+        border: '2px solid var(--ink)', borderRadius: 14, padding: '14px 16px', marginBottom: 16,
       }}>
         <p style={{ margin: '0 0 4px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           {bankState === 'on' && 'Meaning search is on'}
@@ -125,14 +125,14 @@ export default function DigiChecksPanel() {
           "overdue" are called out rather than left as an old timestamp
           somebody has to do arithmetic on. */}
       <p className="eyebrow" style={{ margin: '0 0 8px' }}>Scheduled jobs</p>
-      <div style={{ background: 'var(--cream)', borderRadius: 14, padding: '4px 14px', marginBottom: 18 }}>
+      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 14, padding: '4px 14px', marginBottom: 18 }}>
         {checks.jobs.map((j, i) => (
           <div
             key={j.label}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               gap: 12, padding: '11px 0',
-              borderTop: i === 0 ? 'none' : '1px solid var(--border)',
+              borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)',
             }}
           >
             <span style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
@@ -161,7 +161,7 @@ export default function DigiChecksPanel() {
 
       {/* The monthly critique of how DiGi answers. Proposals only. */}
       {checks.answerReview ? (
-        <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
+        <div style={{ border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 15px' }}>
           <p className="eyebrow" style={{ margin: '0 0 6px' }}>
             How DiGi answered, {checks.answerReview.period}
           </p>
@@ -192,7 +192,7 @@ export default function DigiChecksPanel() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ background: 'var(--cream)', borderRadius: 12, padding: '10px 12px' }}>
+    <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: '10px 12px' }}>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1 }}>{value}</div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 2 }}>{label}</div>
     </div>

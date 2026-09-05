@@ -238,7 +238,7 @@ export default function PassportBook({
             transformOrigin: 'left center',
             transform: flipping === 'next' ? 'rotateY(-88deg)' : flipping === 'prev' ? 'rotateY(88deg)' : 'rotateY(0deg)',
             transition: 'transform 0.28s ease-in',
-            boxShadow: '0 14px 40px rgba(26,26,46,0.18)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           {page === 0 ? (
@@ -346,7 +346,7 @@ export default function PassportBook({
                 // the card to the bottom edge and the mark sits on top of the
                 // button, which is a collision rather than a corner.
                 padding: '20px 22px 46px', minHeight: '420px', position: 'relative', overflow: 'hidden',
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 display: 'flex', flexDirection: 'column',
               }}
             >
@@ -572,7 +572,7 @@ export default function PassportBook({
                         {/* Green count first, percentage second. "3 of 5 green"
                             is the number a parent can act on; the percentage is
                             the one they compare against last week. */}
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: '10px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.12)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: '10px', paddingTop: '9px', borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
                             This stage
                           </span>
@@ -644,9 +644,10 @@ export default function PassportBook({
                   href={`/dashboard/lessons?stage=${stamp.id}`}
                   style={{
                     display: 'block', textAlign: 'center', marginTop: '11px',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                     color: 'var(--ink)', textDecoration: 'none',
-                    background: theme.bold, borderRadius: '12px', padding: '10px 14px',
+                    background: theme.bold, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+                    borderRadius: '12px', padding: '10px 14px',
                   }}
                 >
                   {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
@@ -672,7 +673,7 @@ export default function PassportBook({
           aria-label="Previous page"
           disabled={page === 0}
           style={{
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: '10px', boxShadow: '0 3px 0 var(--ink)',
             width: 34, height: 34, cursor: page === 0 ? 'default' : 'pointer',
             opacity: page === 0 ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
@@ -707,7 +708,7 @@ export default function PassportBook({
           aria-label="Next page"
           disabled={page === lastPage}
           style={{
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: '10px', boxShadow: '0 3px 0 var(--ink)',
             width: 34, height: 34, cursor: page === lastPage ? 'default' : 'pointer',
             opacity: page === lastPage ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
@@ -748,8 +749,8 @@ export default function PassportBook({
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             width: '100%', marginTop: 14, padding: '14px 18px',
             background: 'var(--terracotta)', color: 'var(--ink)',
-            border: 'none', borderRadius: 16, boxShadow: '0 5px 0 var(--terracotta-dark)',
-            cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
+            border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
+            cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900,
             fontSize: 'var(--text-md)', lineHeight: 1.3,
           }}
         >
@@ -778,7 +779,7 @@ export default function PassportBook({
       {catchUps.length > 0 && (
         <div style={{
           marginTop: 16, background: 'var(--terracotta-lt)',
-          border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '14px 16px',
+          border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '14px 16px',
         }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
             {catchUps.length === 1 ? 'One page behind you' : `${catchUps.length} pages behind you`}
@@ -798,7 +799,7 @@ export default function PassportBook({
                 onClick={() => openFromBelow(s.id)}
                 style={{
                   display: 'inline-flex', alignItems: 'baseline', gap: 7, flexWrap: 'wrap',
-                  background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12,
+                  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 12,
                   padding: '8px 13px', cursor: 'pointer', textAlign: 'left',
                 }}
               >
@@ -841,8 +842,8 @@ export default function PassportBook({
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           marginTop: 16, padding: '15px 20px',
           background: '#fff', color: 'var(--ink)',
-          border: '1.5px solid var(--terracotta)', borderRadius: 16,
-          boxShadow: '0 5px 0 var(--terracotta)',
+          border: '2px solid var(--ink)', borderRadius: 16,
+          boxShadow: '0 4px 0 var(--ink)',
           textDecoration: 'none', textAlign: 'center',
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
           lineHeight: 1.3,

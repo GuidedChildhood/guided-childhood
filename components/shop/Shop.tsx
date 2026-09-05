@@ -6,6 +6,7 @@ import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { canBuy, characterForKey, formatPence, lockedReason, MAX_QTY, type Product } from '@/lib/shop/catalogue'
 import { shopArt } from '@/lib/shop/art'
 import { currentChildId } from '@/lib/children/current'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The keepsake shop. The physical end of the same pathway: a passport printed
 // from the stamps a child actually earned, and the Planet Friends as things you
@@ -141,8 +142,7 @@ export default function Shop({
           shop is not covered by a bar saying nothing. */}
       {count > 0 && (
         <div className="above-tab-bar" style={{
-          background: '#fff', borderTop: '1.5px solid var(--border)',
-          boxShadow: '0 -6px 24px rgba(26,26,46,0.09)',
+          background: '#fff', borderTop: '2px solid var(--ink)',
           padding: '14px 20px 16px',
         }}>
           <div style={{ maxWidth: 600, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -223,9 +223,9 @@ function Card({
   return (
     <div id={`p-${product.key}`} style={{
       background: '#fff',
-      border: `1.5px solid ${flash ? 'var(--terracotta)' : 'var(--border)'}`,
+      border: `2px solid ${flash ? 'var(--terracotta)' : 'var(--ink)'}`,
       borderRadius: 20,
-      boxShadow: flash ? '0 0 0 4px var(--terracotta-lt)' : '0 4px 22px rgba(26,26,46,0.06)',
+      boxShadow: flash ? '0 0 0 4px var(--terracotta-lt), 0 4px 0 var(--ink)' : '0 4px 0 var(--ink)',
       padding: 20, marginBottom: 14, scrollMarginTop: 84,
       transition: 'border-color 0.5s ease, box-shadow 0.5s ease',
       opacity: buyable ? 1 : 0.72,
@@ -236,7 +236,7 @@ function Card({
           background: 'var(--cream)',
           // A photo carries its own edge, so it takes the quiet border. Only
           // character art gets the Friend's colour ring.
-          border: shownPhoto ? '1.5px solid var(--border)' : `2px solid ${character?.colour ?? 'var(--border)'}`,
+          border: shownPhoto ? '2px solid var(--ink)' : `2px solid ${character?.colour ?? 'var(--ink)'}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
           fontSize: 'var(--text-2xl)', lineHeight: 1,
           // A charm nobody has earned is shown in grey, so the colour arriving
@@ -325,7 +325,7 @@ function Card({
           )
         ) : (
           <div style={{
-            display: 'inline-block', background: 'var(--cream)', border: '1.5px solid var(--border)',
+            display: 'inline-block', background: 'var(--cream)', border: '2px solid var(--ink)',
             borderRadius: 12, padding: '10px 16px',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)',
           }}>
@@ -343,7 +343,7 @@ function Step({ children, onClick, label, disabled }: { children: React.ReactNod
       onClick={onClick} aria-label={label} disabled={disabled}
       style={{
         width: 42, height: 42, borderRadius: 14, background: '#fff',
-        border: '1.5px solid var(--border)', cursor: disabled ? 'default' : 'pointer',
+        border: '2px solid var(--ink)', cursor: disabled ? 'default' : 'pointer',
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)',
         opacity: disabled ? 0.4 : 1,
       }}
@@ -358,7 +358,7 @@ function Banner({ tone, title, children }: { tone: 'good' | 'quiet'; title: stri
   return (
     <div style={{
       background: good ? 'var(--tint-sage)' : 'var(--cream)',
-      border: `1.5px solid ${good ? '#D6E5DF' : 'var(--border)'}`,
+      border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: 18, padding: '16px 18px', marginBottom: 18,
     }}>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{title}</div>
@@ -407,10 +407,14 @@ function Interest({ email, childName }: { email: string; childName: string | nul
   }
 
   return (
-    <div style={{ background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: 20, padding: 20, marginTop: 4 }}>
+    <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: 20, marginTop: 4 }}>
       {state === 'done' ? (
         <div style={{ textAlign: 'center', padding: '8px 4px' }}>
-          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 6 }}>💛</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
+            <span aria-hidden style={{ width: 50, height: 50, borderRadius: 14, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              <HappyIcon name="heart" size={36} />
+            </span>
+          </div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>You are on the list</div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px auto 0', maxWidth: 380 }}>
             We will let you know the moment these are ready to order. Thank you for building the journey with us.
@@ -427,7 +431,7 @@ function Interest({ email, childName }: { email: string; childName: string | nul
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <input
               type="email" value={value} onChange={e => setValue(e.target.value)} placeholder="Your email"
-              style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
+              style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '2px solid var(--ink)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
             />
             <button
               onClick={register} disabled={state === 'sending'}

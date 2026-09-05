@@ -58,9 +58,9 @@ export default function DealReviewNudge({
 
   return (
     <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 16px' }}>
-      <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 20, padding: '17px 18px 18px' }}>
+      <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '17px 18px 18px' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-          <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter size={27} mood="thinking" />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -77,14 +77,14 @@ export default function DealReviewNudge({
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 14 }}>
-          <Link href="/dashboard/quests#quest-manager" style={{ ...action, background: 'var(--terracotta)', color: 'var(--ink)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <Link href="/dashboard/quests#quest-manager" style={{ ...action, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', fontWeight: 900, boxShadow: '0 4px 0 var(--ink)' }}>
             Review and update
           </Link>
-          <Link href="/dashboard/quests/deal" style={{ ...action, background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)' }}>
+          <Link href="/dashboard/quests/deal" style={{ ...action, background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
             🖨️ Print for the fridge
           </Link>
           {childToken && (
-            <a href={`/k/${childToken}`} target="_blank" rel="noreferrer" style={{ ...action, background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)' }}>
+            <a href={`/k/${childToken}`} target="_blank" rel="noreferrer" style={{ ...action, background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
               See their app
             </a>
           )}

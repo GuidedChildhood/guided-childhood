@@ -30,7 +30,7 @@ export default function ToolCard({ tool }: { tool: Tool }) {
   const grade = GRADE[tool.evidence_grade] ?? GRADE.emerging
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '18px 20px', marginBottom: '14px', boxShadow: '0 4px 16px rgba(26,26,46,0.05)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px 20px', marginBottom: '14px', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           {tool.category}

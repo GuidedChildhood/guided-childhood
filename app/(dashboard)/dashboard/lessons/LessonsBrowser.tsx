@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
 import { sceneCoverForStage } from '@/lib/content/lesson-scene-covers'
@@ -169,9 +170,9 @@ export default function LessonsBrowser({
   // stage, not the size of the whole library. A stage with nothing at it
   // shows the total, which is what the list falls back to.
   const countFor = (n: number, total: number) => (n > 0 ? n : total)
-  const TABS: { key: View; icon: string; label: string; count: number }[] = [
-    { key: 'together', icon: '🎬', label: 'Watch together', count: countFor(watchItems.filter(w => w.stageNum === childStageNum).length, watchItems.length) },
-    { key: 'library', icon: '📚', label: 'Lessons', count: countFor(libraryItems.filter(l => l.stageNum === childStageNum).length, libraryItems.length) },
+  const TABS: { key: View; icon: HappyIconName; label: string; count: number }[] = [
+    { key: 'together', icon: 'lessons', label: 'Watch together', count: countFor(watchItems.filter(w => w.stageNum === childStageNum).length, watchItems.length) },
+    { key: 'library', icon: 'read', label: 'Lessons', count: countFor(libraryItems.filter(l => l.stageNum === childStageNum).length, libraryItems.length) },
   ]
 
   return (
@@ -182,9 +183,9 @@ export default function LessonsBrowser({
       <div style={{
         position: 'sticky', top: 0, zIndex: 5, margin: '0 -20px', padding: '10px 20px 12px',
         background: 'rgba(249,248,246,0.86)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid var(--border)',
+        borderBottom: '2px solid var(--ink)',
       }}>
-        <div style={{ display: 'flex', gap: '6px', background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', boxShadow: '0 2px 10px rgba(26,26,46,0.05)' }}>
+        <div style={{ display: 'flex', gap: '6px', background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px' }}>
           {TABS.map(t => {
             const on = view === t.key
             return (
@@ -197,11 +198,10 @@ export default function LessonsBrowser({
                   background: on ? 'var(--deep-teal)' : 'transparent',
                   color: on ? '#fff' : 'var(--ink-soft)',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
-                  boxShadow: on ? '0 2px 8px -1px rgba(46,40,24,0.45)' : 'none',
-                  transition: 'background 0.2s ease, color 0.2s ease',
+                                    transition: 'background 0.2s ease, color 0.2s ease',
                 }}
               >
-                <span style={{ fontSize: 'var(--text-lg)' }}>{t.icon}</span>
+                <span style={{ display: 'inline-flex', width: 24, height: 24, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box', flexShrink: 0 }}><HappyIcon name={t.icon} size={20} /></span>
                 <span>{t.label}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, opacity: on ? 0.85 : 0.5 }}>{t.count}</span>
               </button>
@@ -225,7 +225,7 @@ export default function LessonsBrowser({
               data-chip-active={stage === 'all' ? '1' : '0'}
               style={{
                 flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
-                border: `1.5px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--border)'}`,
+                border: `2px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--ink)'}`,
                 background: stage === 'all' ? 'var(--terracotta-lt)' : '#fff',
                 color: stage === 'all' ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, whiteSpace: 'nowrap',
@@ -242,7 +242,7 @@ export default function LessonsBrowser({
                   data-chip-active={on ? '1' : '0'}
                   style={{
                     flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
-                    border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                     background: on ? 'var(--terracotta-lt)' : '#fff',
                     color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, whiteSpace: 'nowrap',
@@ -290,7 +290,7 @@ export default function LessonsBrowser({
                 {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
                 {g.items.map(w => (
-                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
+                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)' }}>
                     <Link href={`/dashboard/lessons/together/${w.code}${childId ? `?child=${childId}` : ''}`} style={{ position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '16 / 10', overflow: 'hidden', background: `linear-gradient(150deg, var(--stage-${w.stageNum}-bold) 0%, var(--stage-${w.stageNum}) 100%)` }}>
                       {w.posterUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -306,7 +306,7 @@ export default function LessonsBrowser({
                           frame lands on the character's face (the blocked out
                           by text report, 1 September 2026). Corner chips leave
                           the character clear, same as the duration pill. */}
-                      <span style={{ position: 'absolute', bottom: '8px', right: '10px', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.15)' }}>
+                      <span style={{ position: 'absolute', bottom: '8px', right: '10px', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--ink)', boxSizing: 'border-box' }}>
                         <span style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
                       </span>
                       <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>
@@ -431,7 +431,7 @@ export default function LessonsBrowser({
                 Rosenshine deep lessons that pass the stamp always lead and the
                 extra is a bonus below, never ahead of the ones that count. */}
             <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginTop: '8px' }}>
-              <div style={{ background: '#DEF0E7', border: '1.5px solid #2F8F6B', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
+              <div style={{ background: '#DEF0E7', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
                 <div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>Bonus · new · 15 min together · ages 11 to 15</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Is That Real?</div>
@@ -476,7 +476,7 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
 function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; count: number; childName: string }) {
   const scene = sceneCoverForStage(s.num)
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', overflow: 'hidden', marginBottom: '13px' }}>
+    <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', overflow: 'hidden', marginBottom: '13px' }}>
       {scene && (
         <div style={{ position: 'relative', aspectRatio: '5 / 2', background: `var(--stage-${s.num})` }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -484,7 +484,7 @@ function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; co
         </div>
       )}
       <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'flex-start', gap: '11px' }}>
-        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🪪</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="passport" size={28} /></span>
         <div style={{ minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
             Pass this stage · {count} lesson{count === 1 ? '' : 's'}
@@ -565,7 +565,7 @@ function ProgressLessonsBanner({
     : `📲 Send to ${childName}`
 
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '14px' }}>
+    <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '14px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
         These move {childName}&apos;s progress
       </div>
@@ -617,12 +617,12 @@ function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
     <button
       onClick={onOpen}
       style={{
-        width: '100%', textAlign: 'left', cursor: 'pointer', border: '1.5px solid var(--stage-4-bold, var(--terracotta))',
+        width: '100%', textAlign: 'left', cursor: 'pointer', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', borderRadius: '18px',
         padding: '16px 18px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '13px',
       }}
     >
-      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>📱</span>
+      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="phonebed" size={34} /></span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
           Special module · the big one
@@ -656,7 +656,7 @@ function SocialMediaModule({ items, childId, childName, onBack }: { items: Libra
         ← All lessons
       </button>
 
-      <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
+      <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
           Special module · {items.length} lessons
         </div>
@@ -723,7 +723,7 @@ function SocialMediaModule({ items, childId, childName, onBack }: { items: Libra
 
 function Empty({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-lg)' }}>
+    <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-lg)' }}>
       {children}
     </div>
   )

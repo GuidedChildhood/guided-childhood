@@ -166,7 +166,7 @@ export default function SchoolWeek({
               aria-label={String(aria)}
               style={{
                 width: 36, height: 36, borderRadius: '10px', cursor: 'pointer',
-                background: '#fff', border: '1.5px solid var(--border)',
+                background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
                 fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1,
               }}
             >
@@ -179,7 +179,7 @@ export default function SchoolWeek({
               onClick={() => onWeek(0)}
               style={{
                 padding: '0 12px', height: 36, borderRadius: '10px', cursor: 'pointer',
-                background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
               }}
             >
@@ -190,13 +190,13 @@ export default function SchoolWeek({
       </div>
 
       {/* The week */}
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', overflow: 'hidden' }}>
         {days.map((d, i) => (
           <div
             key={d.short}
             style={{
               display: 'flex', gap: '10px', padding: '9px 11px', alignItems: 'flex-start',
-              borderTop: i === 0 ? 'none' : '1px solid var(--border)',
+              borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)',
               background: d.isToday ? 'var(--terracotta-lt)' : d.isPast ? 'var(--cream)' : '#fff',
             }}
           >
@@ -237,7 +237,7 @@ export default function SchoolWeek({
                   style={{
                     display: 'flex', flexDirection: 'column', gap: '5px',
                     background: cleared ? 'transparent' : missed ? '#FDECEC' : 'var(--cream)',
-                    border: `1.5px solid ${cleared ? 'var(--border)' : missed ? '#F3C9C9' : 'var(--border)'}`,
+                    border: `2px solid ${missed && !cleared ? '#F3C9C9' : 'var(--ink)'}`,
                     borderRadius: '11px', padding: '7px 9px',
                     opacity: cleared ? 0.6 : 1,
                   }}
@@ -273,7 +273,7 @@ export default function SchoolWeek({
                       flexShrink: 0, width: 28, height: 28, borderRadius: '9px',
                       cursor: cleared || !canClear ? 'default' : 'pointer',
                       background: cleared ? 'var(--retro-green)' : '#fff',
-                      border: cleared ? 'none' : '1.5px solid var(--border)',
+                      border: cleared ? 'none' : '2px solid var(--ink)',
                       color: cleared ? '#fff' : 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1,
                       opacity: !cleared && !canClear ? 0.4 : 1,
                     }}
@@ -287,7 +287,7 @@ export default function SchoolWeek({
                     title={weekly ? 'Delete this routine for good' : 'Delete'}
                     style={{
                       flexShrink: 0, width: 28, height: 28, borderRadius: '9px', cursor: 'pointer',
-                      background: '#fff', border: '1.5px solid var(--border)',
+                      background: '#fff', border: '2px solid var(--ink)',
                       color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1,
                     }}
                   >
@@ -303,7 +303,7 @@ export default function SchoolWeek({
                       {a.due_time && (
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                          color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)',
+                          color: 'var(--ink-soft)', background: '#fff', border: '2px solid var(--ink)',
                           borderRadius: '100px', padding: '2px 7px',
                         }}>
                           {a.due_time.slice(0, 5)}
@@ -328,7 +328,7 @@ export default function SchoolWeek({
                           title="Also reminds them on their app"
                           style={{
                             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                            color: 'var(--ink-muted)', background: '#fff', border: '1px solid var(--border)',
+                            color: 'var(--ink-muted)', background: '#fff', border: '2px solid var(--ink)',
                             borderRadius: '100px', padding: '2px 7px',
                           }}
                         >

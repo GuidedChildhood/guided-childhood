@@ -33,7 +33,7 @@ const LINKS = [
 
 export default function SettingsLinks() {
   return (
-    <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+    <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
       <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '14px', color: 'var(--ink)' }}>Everything else</h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

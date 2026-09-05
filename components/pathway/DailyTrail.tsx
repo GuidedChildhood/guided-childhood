@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import type { DailyTask } from '@/lib/pathway/daily-tasks'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The day at a glance, Duolingo style: five real tasks on a winding trail.
 // DiGi walks to the first one that is not done, hops, and tells the parent
@@ -22,12 +23,12 @@ const NODE_POS = [
   { x: 180, y: 420 },
 ]
 
-const TASK_ICON: Record<DailyTask['key'], string> = {
-  moment: '☀️',
-  script: '💬',
-  lesson: '📖',
-  device: '📱',
-  checkin: '✦',
+const TASK_ICON: Record<DailyTask['key'], HappyIconName> = {
+  moment: 'heart',
+  script: 'tell',
+  lesson: 'lessons',
+  device: 'phonebed',
+  checkin: 'calendar',
 }
 
 function segmentD(a: { x: number; y: number }, b: { x: number; y: number }) {
@@ -134,13 +135,15 @@ export default function DailyTrail({ tasks }: { tasks: DailyTask[] }) {
               <circle
                 cx={n.x} cy={n.y} r={20}
                 fill={task.done ? 'var(--terracotta)' : '#fff'}
-                stroke={task.done || isActive ? 'var(--terracotta)' : 'var(--border)'}
+                stroke={task.done || isActive ? 'var(--terracotta)' : 'var(--ink)'}
                 strokeWidth={isActive ? 3.5 : 2.5}
               />
               {task.done ? (
                 <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" fill="#fff" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>✓</text>
               ) : (
-                <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" style={{ fontSize: 'var(--text-md)' }}>{TASK_ICON[task.key]}</text>
+                <g transform={`translate(${n.x - 12} ${n.y - 12})`}>
+                  <HappyIcon name={TASK_ICON[task.key]} size={24} />
+                </g>
               )}
               <text
                 x={labelLeft ? n.x - 32 : n.x + 32} y={n.y + 4}
@@ -181,9 +184,9 @@ export default function DailyTrail({ tasks }: { tasks: DailyTask[] }) {
               : { right: `calc(${((VIEW_W - digiPos.x) / VIEW_W) * 100}% + 40px)` }),
             transform: 'translateY(-110%)',
             background: '#fff',
-            border: '1.5px solid var(--border)',
+            border: '2px solid var(--ink)',
             borderRadius: bubbleLeft ? '16px 16px 16px 4px' : '16px 16px 4px 16px',
-            boxShadow: '0 8px 28px rgba(26,26,46,0.12)',
+            boxShadow: '0 4px 0 var(--ink)',
             padding: '14px 16px',
             width: 'min(220px, 56vw)',
             opacity: 0,

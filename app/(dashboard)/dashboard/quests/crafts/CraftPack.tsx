@@ -92,9 +92,9 @@ function Sheet({ children, band, title, worth, lesson, plays, slug }: {
           </h2>
         </div>
         <div style={{
-          background: 'var(--butter, #EDC35F)', borderRadius: '14px', padding: '8px 14px',
+          background: 'var(--butter, #EDC35F)', borderRadius: '14px', padding: '8px 14px', border: '2px solid var(--ink)',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)',
-          boxShadow: '0 3px 0 rgba(0,0,0,0.2)', flexShrink: 0,
+          boxShadow: '0 4px 0 var(--ink)', flexShrink: 0,
         }}>
           Worth {'⭐'.repeat(worth)}
         </div>
@@ -102,7 +102,7 @@ function Sheet({ children, band, title, worth, lesson, plays, slug }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', margin: '0 0 18px' }}>
         <span style={{
           ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink)',
-          background: 'var(--cream)', border: '1px solid var(--border)',
+          background: 'var(--cream)', border: '2px solid var(--ink)',
           borderRadius: '100px', padding: '4px 10px',
         }}>
           Plays like {plays}
@@ -154,9 +154,9 @@ function StarChartSheet() {
       {/* The conversion ladder */}
       <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden', marginBottom: '16px' }}>
         {ladder.map((s, i) => (
-          <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '11px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
+          <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '11px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', minWidth: 62 }}>{s} {'⭐'.repeat(Math.min(s, 3))}{s > 3 ? '…' : ''}</span>
-            <span style={{ flex: 1, borderBottom: '1px dashed var(--border)' }} />
+            <span style={{ flex: 1, borderBottom: '2px dotted rgba(26,26,46,0.18)' }} />
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>{s * STAR_MINUTES} minutes</span>
           </div>
         ))}
@@ -165,7 +165,7 @@ function StarChartSheet() {
       {/* Which screens it covers */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginBottom: '18px' }}>
         {rows.map(r => (
-          <div key={r.label} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 12px', textAlign: 'center', background: 'var(--cream)' }}>
+          <div key={r.label} style={{ border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 12px', textAlign: 'center', background: 'var(--cream)' }}>
             <div style={{ fontSize: 'var(--text-xl)' }}>{r.icon}</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: '2px' }}>{r.label}</div>
           </div>
@@ -282,7 +282,7 @@ function StarCalendarSheet({ childName }: { childName: string | null }) {
       </div>
       <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden' }}>
         {days.map((d, i) => (
-          <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
+          <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', width: 86, flexShrink: 0 }}>{d}</span>
             <span style={{ flex: 1, fontSize: 'var(--text-xl)', letterSpacing: '4px', color: 'var(--ink-light)' }}>{'☆'.repeat(5)}</span>
           </div>
@@ -508,7 +508,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           <button onClick={printPack} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
             Print this pack
           </button>
-          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
+          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
             ⭐ Print the whole offline pack
           </button>
         </div>
@@ -517,7 +517,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* When the whole pack is on, a line so the parent knows the print will
           be long: every game, the fridge chart and the star calendar at once. */}
       {showAll && (
-        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
+        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
           The whole offline star pack is ready below: every game for every age, the fridge star chart and {childName ? `${childName}'s` : 'the'} weekly star calendar. Print the lot, or use Print this pack for one age at a time.
         </div>
       )}
@@ -545,7 +545,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               background: band === b.key ? 'var(--terracotta)' : '#fff',
               color: 'var(--ink)',
-              border: band === b.key ? 'none' : '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
               boxShadow: band === b.key ? '0 3px 0 var(--terracotta-dark)' : 'none',
             }}
           >
@@ -655,7 +655,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 <div key={sq.n} style={{
                   aspectRatio: '1', borderRadius: '10px', padding: '5px',
                   background: sq.special ? (sq.special.kind === 'ladder' ? 'var(--tint-sage, #DCE8DC)' : '#F6DBD3') : 'var(--cream)',
-                  border: '1.5px solid var(--border)',
+                  border: '2px solid var(--ink)',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
                 }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{sq.n}</span>
@@ -685,7 +685,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 <div key={i} style={{
                   aspectRatio: '1', borderRadius: '10px', padding: '7px',
                   background: i % 2 === 0 ? 'var(--cream)' : '#fff',
-                  border: '1.5px solid var(--border)',
+                  border: '2px solid var(--ink)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
                 }}>
                   <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.35 }}>{sq}</span>

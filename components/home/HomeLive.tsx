@@ -122,9 +122,9 @@ export default function HomeLive({
         <Link href={now.href} style={{ textDecoration: 'none', display: 'block', marginBottom: 14 }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 12,
-            background: 'var(--terracotta)', color: 'var(--ink)',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
             borderRadius: 16, padding: '14px 16px',
-            boxShadow: '0 4px 0 var(--terracotta-dark)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}>
             <span aria-hidden className="now-pulse" style={{ flexShrink: 0, width: 10, height: 10, borderRadius: '50%', background: 'var(--ink)' }} />
             <span style={{ flex: 1, minWidth: 0 }}>
@@ -143,8 +143,8 @@ export default function HomeLive({
       ) : (
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
-          padding: '13px 16px', marginBottom: 14,
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+          padding: '13px 16px', marginBottom: 14, boxShadow: '0 4px 0 var(--ink)',
         }}>
           <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: '#2F8F6B' }}>✓</span>
           <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>

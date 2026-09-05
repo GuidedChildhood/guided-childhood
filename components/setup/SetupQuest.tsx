@@ -615,7 +615,7 @@ function OtherChildren() {
 
   const field: React.CSSProperties = {
     width: '100%', boxSizing: 'border-box', padding: '12px 14px',
-    border: '1.5px solid var(--border)', borderRadius: '12px',
+    border: '2px solid var(--ink)', borderRadius: '12px',
     fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
     background: '#fff',
   }
@@ -758,7 +758,7 @@ function HomeScreenHow() {
 
   const row: React.CSSProperties = {
     display: 'flex', gap: '10px', alignItems: 'flex-start',
-    background: 'var(--cream)', borderRadius: '14px', padding: '12px 14px',
+    background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px 14px',
   }
   const marker: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',

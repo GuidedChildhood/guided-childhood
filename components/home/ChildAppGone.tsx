@@ -55,8 +55,8 @@ export default function ChildAppGone({
             href="/dashboard/quests/manage#hand-it-over"
             style={{
               display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
-              background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
-              borderRadius: 12, padding: '11px 15px',
+              background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
+              boxShadow: '0 4px 0 var(--ink)', borderRadius: 12, padding: '11px 15px',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             }}
           >

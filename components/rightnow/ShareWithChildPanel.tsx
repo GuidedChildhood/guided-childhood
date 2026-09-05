@@ -5,6 +5,15 @@
 // a script row or a meltdown to trigger it. Purely presentational: every fetch,
 // every gate and every piece of state still lives in RightNowButton.
 
+import HappyIcon from '@/components/kid/HappyIcon'
+
+// The ink edged plate at the lead of a row, the child app's tile shape.
+const PLATE: React.CSSProperties = {
+  width: 36, height: 36, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
+  background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+}
+
 export type ShareChild = {
   id: string
   name: string
@@ -40,13 +49,13 @@ export default function ShareWithChildPanel({
   return (
 
           <div style={{
-            background: 'var(--white)', border: '1.5px solid var(--border)',
+            background: 'var(--white)', border: '2px solid var(--ink)',
             borderRadius: '16px', padding: '16px', marginBottom: '2px',
-            boxShadow: '0 3px 0 var(--border)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}>
             {sent ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span aria-hidden style={{ fontSize: 'var(--text-xl)' }}>💛</span>
+                <span aria-hidden style={PLATE}><HappyIcon name="heart" size={26} /></span>
                 <p style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4 }}>
                   Sent to {sent}. It is waiting on their screen.
                 </p>
@@ -54,7 +63,7 @@ export default function ShareWithChildPanel({
             ) : blocked || (!busy && !note) ? (
               <>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '12px' }}>
-                  <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>📖</span>
+                  <span aria-hidden style={PLATE}><HappyIcon name="read" size={26} /></span>
                   <p style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
                     {blocked
                       ?? (kids.some(k => k.onApp)
@@ -66,10 +75,10 @@ export default function ShareWithChildPanel({
                   type="button"
                   onClick={onCopy}
                   style={{
-                    width: '100%', background: 'var(--cream)', border: '1.5px solid var(--border)',
+                    width: '100%', background: 'var(--cream)', border: '2px solid var(--ink)',
                     color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
                     fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px',
-                    cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
+                    cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
                   }}
                 >
                   Copy the words
@@ -93,7 +102,7 @@ export default function ShareWithChildPanel({
                         onClick={() => onPick(k.id)}
                         style={{
                           background: k.id === kidId ? 'var(--terracotta)' : 'var(--white)',
-                          border: '1.5px solid var(--border)', borderRadius: '999px',
+                          border: '2px solid var(--ink)', borderRadius: '999px',
                           padding: '7px 14px', cursor: 'pointer',
                           fontFamily: 'var(--font-display)', fontWeight: 700,
                           fontSize: 'var(--text-sm)', color: 'var(--ink)',
@@ -113,7 +122,7 @@ export default function ShareWithChildPanel({
                   aria-label="The note your child will read"
                   style={{
                     width: '100%', boxSizing: 'border-box', resize: 'vertical',
-                    background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+                    background: 'var(--tint-sage)', border: '2px solid var(--ink)',
                     borderRadius: '14px', padding: '13px 14px', marginBottom: '10px',
                     fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)',
                     color: 'var(--ink)', lineHeight: 1.5,
@@ -132,10 +141,10 @@ export default function ShareWithChildPanel({
                     type="button"
                     onClick={() => onCancel()}
                     style={{
-                      background: 'var(--white)', border: '1.5px solid var(--border)',
+                      background: 'var(--white)', border: '2px solid var(--ink)',
                       color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 700,
                       fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px 16px',
-                      cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
+                      cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
                     }}
                   >
                     Not now
@@ -145,12 +154,12 @@ export default function ShareWithChildPanel({
                     onClick={onSend}
                     disabled={busy || !note.trim()}
                     style={{
-                      flex: 1, background: 'var(--terracotta)', border: 'none',
-                      color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800,
+                      flex: 1, background: 'var(--terracotta)', border: '2px solid var(--ink)',
+                      color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900,
                       fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px 16px',
                       cursor: busy || !note.trim() ? 'default' : 'pointer',
                       opacity: busy || !note.trim() ? 0.55 : 1,
-                      boxShadow: '0 4px 0 var(--terracotta-dark)',
+                      boxShadow: '0 4px 0 var(--ink)',
                     }}
                   >
                     {busy && !note ? 'Writing' : busy ? 'Sending' : `Send to ${possessive()} screen`}

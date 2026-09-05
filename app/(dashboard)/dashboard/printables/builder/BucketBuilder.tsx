@@ -167,7 +167,7 @@ export default function BucketBuilder({
 
   const pickedKeys = new Set(picked.map(p => p.text))
   const inputStyle: React.CSSProperties = {
-    padding: '12px 15px', borderRadius: 12, border: `${kid ? 2 : 1.5}px solid ${kid ? HAPPY.ink : 'var(--border)'}`,
+    padding: '12px 15px', borderRadius: 12, border: '2px solid var(--ink)',
     background: '#fff', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
   }
 
@@ -266,7 +266,7 @@ export default function BucketBuilder({
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: HAPPY.ink,
                     } : {
                       padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
-                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
                     }}
@@ -313,9 +313,9 @@ export default function BucketBuilder({
               onClick={addToQuests}
               disabled={added || picked.length === 0}
               style={{
-                background: added ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
+                background: added ? 'var(--retro-green)' : '#fff', border: '2px solid var(--ink)', borderRadius: '16px', boxShadow: '0 4px 0 var(--ink)',
                 padding: '13px 22px', cursor: added || picked.length === 0 ? 'default' : 'pointer',
-                fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: added ? '#fff' : 'var(--ink)',
               }}
             >
               {added ? 'On the quest list ✓' : 'Add to quests · ⭐ 5'}
@@ -326,7 +326,7 @@ export default function BucketBuilder({
         {askNote && (
           <p style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'var(--ink)', background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+            color: 'var(--ink)', background: 'var(--tint-sage)', border: '2px solid var(--ink)',
             borderRadius: 14, padding: '11px 14px', margin: '0 0 20px',
           }}>
             {askNote}

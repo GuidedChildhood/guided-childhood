@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Review } from '@/components/digi/WeeklyRoundup'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The Today card: volume two of the "this needs you" pattern from phase 3 of
 // the type plan. Chunky rows that tick and fold, the Finch pattern the daily
@@ -52,7 +53,7 @@ function mondayOf(d: Date): string {
 
 type Row = {
   key: string
-  emoji: string
+  icon: HappyIconName
   title: string
   line: string
   href: string
@@ -135,7 +136,7 @@ export default function TodayCard({
   if (weekBrief && !weekHidden) {
     const name = weekBrief.childName
     rows.push({
-      key: 'week', emoji: '📘',
+      key: 'week', icon: 'lessons',
       title: weekBrief.preview
         ? (name ? `What ${name}'s class does when they go back` : 'What their class does when they go back')
         : (name ? `What ${name}'s class is on this week` : 'What their class is on this week'),
@@ -150,7 +151,7 @@ export default function TodayCard({
 
   if (review && review.status !== 'read' && review.status !== 'dismissed') {
     rows.push({
-      key: 'roundup', emoji: '📖',
+      key: 'roundup', icon: 'read',
       title: 'Your weekly round up is ready',
       line: 'The balance, the wins, one thing to try',
       href: '/dashboard/week',
@@ -166,7 +167,7 @@ export default function TodayCard({
 
   if (ideas > 0) {
     rows.push({
-      key: 'ideas', emoji: '💡',
+      key: 'ideas', icon: 'ask',
       title: `${ideas} ${ideas === 1 ? 'new idea' : 'new ideas'} waiting`,
       line: 'From your child and DiGi, nothing urgent',
       href: '/dashboard/notifications',
@@ -176,7 +177,7 @@ export default function TodayCard({
   if (childApp) {
     const name = childApp.childName && childApp.childName !== 'Your child' ? childApp.childName : null
     rows.push({
-      key: 'childapp', emoji: '📲',
+      key: 'childapp', icon: 'phonebed',
       title: name ? `${name} has a side of this too` : 'Your child has a side of this too',
       line: 'Share the code, or choose the paper chart',
       href: '/dashboard/quests?tab=share',
@@ -188,7 +189,7 @@ export default function TodayCard({
   if (dealReview && !dealSnoozed) {
     const weeks = Math.floor(dealReview.daysSinceChange / 7)
     rows.push({
-      key: 'deal', emoji: '🤝',
+      key: 'deal', icon: 'deal',
       title: 'Does the deal still fit?',
       line: `Nothing has changed for ${weeks === 1 ? 'a week' : `${weeks} weeks`}`,
       href: '/dashboard/quests#quest-manager',
@@ -201,7 +202,7 @@ export default function TodayCard({
 
   if (deviceSetup && !deviceConfirmed) {
     rows.push({
-      key: 'device', emoji: '🛡️',
+      key: 'device', icon: 'hand',
       title: `Check the ${deviceSetup.stageName} device settings`,
       line: 'Three settings, about two minutes',
       href: '/dashboard/devices',
@@ -217,8 +218,8 @@ export default function TodayCard({
 
   return (
     <div style={{
-      background: 'var(--cream)', border: '1.5px solid var(--border)',
-      borderRadius: 20, padding: 16, marginBottom: 20,
+      background: 'var(--cream)', border: '2px solid var(--ink)',
+      borderRadius: 20, padding: 16, marginBottom: 20, boxShadow: '0 4px 0 var(--ink)',
     }}>
       <h3 style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -239,17 +240,17 @@ export default function TodayCard({
             }}
           >
             <div style={{ overflow: 'hidden' }}>
-              {/* The emoji tile sits left, the tick sits on the RIGHT edge:
+              {/* The icon plate sits left, the tick sits on the RIGHT edge:
                   the thumb side, the way every Finch row ticks one handed
                   (Mobbin capture, 8 Aug). Rows with no away state carry the
                   quiet chevron there instead. */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 12,
-                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
+                background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
                 padding: '12px 13px', marginBottom: 8,
               }}>
-                <span aria-hidden style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 8, background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)' }}>
-                  {row.emoji}
+                <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 11, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <HappyIcon name={row.icon} size={26} />
                 </span>
                 <button
                   onClick={() => router.push(row.href)}

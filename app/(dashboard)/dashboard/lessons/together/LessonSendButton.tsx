@@ -60,10 +60,10 @@ export default function LessonSendButton({
       disabled={!childId || state === 'sending'}
       title={childId ? `Ping ${childName} to play this on their quests` : 'Add your child first'}
       style={{
-        background: state === 'sent' ? 'var(--tint-sage)' : '#fff',
-        border: '1.5px solid var(--border)', borderRadius: '11px',
+        background: state === 'sent' ? 'var(--retro-green)' : '#fff',
+        border: '2px solid var(--ink)', borderRadius: '11px', boxShadow: '0 4px 0 var(--ink)',
         padding: '8px 12px', cursor: childId && state !== 'sending' ? 'pointer' : 'default',
-        fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
+        fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: state === 'sent' ? '#fff' : 'var(--ink)',
         whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,
       }}
     >

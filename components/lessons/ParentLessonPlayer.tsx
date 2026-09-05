@@ -45,7 +45,7 @@ type CompleteResult = {
 function AskCard({ card }: { card: ParentLessonCard }) {
   const [showOlder, setShowOlder] = useState(false)
   return (
-    <div style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '1.5px solid var(--stage-1-bold)' }}>
+    <div style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ ...eyebrowStyle, color: 'var(--stage-1-text)', marginBottom: '12px' }}>
         Pause and ask · Grown up, this one is yours
       </div>
@@ -82,7 +82,7 @@ function AskCard({ card }: { card: ParentLessonCard }) {
 function SayCard({ card }: { card: ParentLessonCard }) {
   const [showOlder, setShowOlder] = useState(false)
   return (
-    <div style={{ background: 'var(--stage-2)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', borderLeft: '3px solid var(--terracotta)' }}>
+    <div style={{ background: 'var(--stage-2)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '2px solid var(--ink)', borderLeft: '4px solid var(--terracotta)', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
         Pause and say · Say it like you mean it
       </div>
@@ -137,7 +137,7 @@ function QuizCard({ card, onAnswered }: { card: ParentLessonCard; onAnswered: (c
           const revealed = picked !== null
           const border = isPicked
             ? opt.correct ? '2px solid var(--terracotta)' : '2px solid var(--stage-3-bold)'
-            : revealed && opt.correct ? '2px solid var(--terracotta)' : '1.5px solid var(--border)'
+            : revealed && opt.correct ? '2px solid var(--terracotta)' : '2px solid var(--ink)'
           const bg = isPicked
             ? opt.correct ? 'var(--terracotta-lt)' : 'var(--stage-3)'
             : '#fff'
@@ -391,7 +391,7 @@ export default function ParentLessonPlayer({
 
   if (steps.length === 0) {
     return (
-      <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
+      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
         This lesson&rsquo;s video is still on its way. Check back soon.
       </div>
     )

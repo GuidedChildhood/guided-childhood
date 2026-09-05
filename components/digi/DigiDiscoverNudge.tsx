@@ -26,13 +26,13 @@ export default function DigiDiscoverNudge({ card }: { card: CoverageCard }) {
 
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '18px', padding: '16px 18px', marginBottom: '20px',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '10px' }}>
         <div style={{
           width: 36, height: 36, borderRadius: '10px', flexShrink: 0,
-          background: '#fff', border: '1.5px solid var(--border)',
+          background: '#fff', border: '2px solid var(--ink)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
         }}>
           {card.emoji}

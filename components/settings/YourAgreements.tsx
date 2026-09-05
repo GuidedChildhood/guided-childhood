@@ -25,7 +25,7 @@ function ukDate(iso: string | null) {
 }
 
 const ROW: React.CSSProperties = {
-  paddingTop: 14, marginTop: 14, borderTop: '1px solid var(--border)',
+  paddingTop: 14, marginTop: 14, borderTop: '2px dotted rgba(26,26,46,0.18)',
 }
 
 export default function YourAgreements({
@@ -63,7 +63,7 @@ export default function YourAgreements({
   }
 
   return (
-    <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+    <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
       <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '14px', color: 'var(--ink)' }}>What you have agreed to</h2>
 
       <div>
@@ -93,7 +93,7 @@ export default function YourAgreements({
           <button
             onClick={() => setAsking(true)}
             style={{
-              marginTop: 12, background: 'none', border: '2px solid var(--ink)',
+              marginTop: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
               borderRadius: '14px', padding: '10px 18px', cursor: 'pointer',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
               color: 'var(--terracotta-dark)',
@@ -113,7 +113,7 @@ export default function YourAgreements({
                 onClick={withdraw}
                 disabled={busy}
                 style={{
-                  background: 'var(--terracotta)', border: 'none', borderRadius: '12px',
+                  background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '12px',
                   padding: '11px 18px', cursor: busy ? 'default' : 'pointer',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
                 }}
@@ -123,7 +123,7 @@ export default function YourAgreements({
               <button
                 onClick={() => { setAsking(false); setFailed(false) }}
                 style={{
-                  background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
+                  background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
                   padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                   fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
                 }}

@@ -77,9 +77,9 @@ export default function DigiDeviceCheckin({ fixture }: { fixture?: Checkin }) {
   if (!checkin) return null
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', boxShadow: '0 4px 0 rgba(26,26,46,0.05)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: dismissed ? 0 : '12px' }}>
-        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood={dismissed ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -99,7 +99,7 @@ export default function DigiDeviceCheckin({ fixture }: { fixture?: Checkin }) {
           </button>
           <button
             onClick={() => answer('not_really')}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: '1.5px solid var(--border)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}
+            style={{ padding: '11px 17px', borderRadius: '12px', border: '2px solid var(--ink)', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--ink)' }}
           >
             Not really
           </button>

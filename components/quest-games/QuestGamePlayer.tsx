@@ -54,7 +54,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
           </span>
         </div>
 
-        <div style={{ flex: 1, minHeight: 0, background: 'var(--cream)', borderRadius: '24px', padding: '20px', overflowY: 'auto', boxShadow: '0 12px 40px rgba(0,0,0,0.3)', position: 'relative' }}>
+        <div style={{ flex: 1, minHeight: 0, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '24px', padding: '20px', overflowY: 'auto', boxShadow: '0 4px 0 var(--ink)', position: 'relative' }}>
           {finished ? (
             <Finish game={game} onClose={onClose} />
           ) : game.mechanic === 'pairs' ? (
@@ -82,7 +82,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
 
 const closeStyle = {
   width: 34, height: 34, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-  border: '1.5px solid rgba(26,26,46,0.2)', background: 'transparent', color: 'var(--ink)', fontSize: 'var(--text-md)', textDecoration: 'none', cursor: 'pointer',
+  border: '2px solid var(--ink)', background: '#fff', color: 'var(--ink)', fontSize: 'var(--text-md)', textDecoration: 'none', cursor: 'pointer',
 } as const
 
 function CloseControl({ onClose }: { onClose?: () => void }) {
@@ -155,7 +155,7 @@ function PairsView({ game, onDone }: { game: PairsGame; onDone: () => void }) {
           return (
             <button key={idx} onClick={() => tap(idx)} style={{
               aspectRatio: '1', borderRadius: '16px', cursor: isDone ? 'default' : 'pointer',
-              border: `2px solid ${isDone ? 'var(--sage-ink, #2D5016)' : isBad ? '#c0392b' : isSel ? 'var(--terracotta)' : 'var(--border)'}`,
+              border: `2px solid ${isDone ? 'var(--sage-ink, #2D5016)' : isBad ? '#c0392b' : isSel ? 'var(--terracotta)' : 'var(--ink)'}`,
               background: isDone ? 'var(--tint-sage)' : isSel ? 'var(--terracotta-lt)' : '#fff',
               fontSize: game.pictorial ? '30px' : (c.w ? '15px' : '26px'), fontWeight: 800, color: 'var(--ink)',
               transition: 'transform .12s', transform: isSel ? 'scale(0.96)' : 'none',
@@ -232,7 +232,7 @@ function SumsView({ game, onDone }: { game: SumsGame; onDone: () => void }) {
                 padding: '18px 6px', borderRadius: '16px', cursor: answered === null ? 'pointer' : 'default',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)',
                 background: showAsAnswer ? 'var(--tint-sage)' : chosen ? '#FBEAEA' : '#fff',
-                border: `2px solid ${showAsAnswer ? 'var(--sage-ink, #2D5016)' : chosen ? '#c0392b' : 'var(--border)'}`,
+                border: `2px solid ${showAsAnswer ? 'var(--sage-ink, #2D5016)' : chosen ? '#c0392b' : 'var(--ink)'}`,
               }}
             >
               {opt}
@@ -281,14 +281,14 @@ function JudgeView({ game, onDone }: { game: JudgeGame; onDone: () => void }) {
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.2rem, 4.5vw, 1.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 14px' }}>
         {game.title}
       </h2>
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '20px', boxShadow: '0 8px 24px rgba(46,40,24,0.1)', marginBottom: '16px' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '20px', marginBottom: '16px' }}>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>Post {i + 1}</p>
         <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.5, fontWeight: 600, margin: 0, color: 'var(--ink)' }}>{item.text}</p>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
         <button onClick={() => answer('left')} disabled={answered !== null} style={{
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '15px', borderRadius: '15px',
-          cursor: answered === null ? 'pointer' : 'default', background: '#fff', border: '2px solid var(--border)', color: 'var(--ink)',
+          cursor: answered === null ? 'pointer' : 'default', background: '#fff', border: '2px solid var(--ink)', color: 'var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         }}>{game.leftLabel}</button>
         <button onClick={() => answer('right')} disabled={answered !== null} style={{
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '15px', borderRadius: '15px',

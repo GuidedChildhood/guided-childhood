@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import MomentCard, { type Moment } from '@/components/cards/MomentCard'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 const CATEGORIES = ['All', 'Morning', 'Digital', 'School', 'Food', 'Evening', 'Transitions', 'Emotions']
 
@@ -67,7 +68,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
                 onClick={() => setActiveCategory(on ? 'All' : b.category)}
                 style={{ position: 'relative', zIndex: 1, flex: 1, minWidth: 0, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, padding: 0 }}
               >
-                <span style={{ width: 46, height: 46, borderRadius: '50%', background: on ? 'var(--terracotta)' : 'var(--cream)', border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none' }}>{b.icon}</span>
+                <span style={{ width: 46, height: 46, borderRadius: '50%', background: on ? 'var(--terracotta)' : 'var(--cream)', border: `2px solid ${on ? 'var(--terracotta-dark)' : 'var(--ink)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none' }}>{b.icon}</span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.1, textAlign: 'center' }}>{b.label}</span>
                 <span style={{ display: 'flex', gap: 1, fontSize: 'var(--text-sm)', lineHeight: 1 }}>
                   {b.items.slice(0, 4).map(m => <span key={m.id}>{m.icon}</span>)}
@@ -82,10 +83,10 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
       {suggestedMoment && suggestReason && activeCategory === 'All' && (
         <div style={{
           display: 'flex', gap: 12, alignItems: 'flex-start',
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 16,
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16,
           padding: '14px 16px', marginBottom: 14,
         }}>
-          <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }} aria-hidden>✨</span>
+          <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}><HappyIcon name="cheer" size={32} /></span>
           <p style={{ margin: 0, fontSize: 'var(--text-lg)', lineHeight: 1.5, color: 'var(--ink)' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', display: 'block', marginBottom: 3 }}>
               DiGi&apos;s pick
@@ -108,7 +109,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
               style={{
                 padding: '7px 14px',
                 borderRadius: '100px',
-                border: scope === key ? '1.5px solid var(--terracotta-dark)' : '1.5px solid var(--border)',
+                border: scope === key ? '1.5px solid var(--terracotta-dark)' : '2px solid var(--ink)',
                 background: scope === key ? 'var(--terracotta)' : 'var(--white)',
                 color: 'var(--ink)',
                 fontFamily: 'var(--font-mono)',
@@ -142,7 +143,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
             style={{
               padding: '7px 14px',
               borderRadius: '100px',
-              border: activeCategory === cat ? 'none' : '1px solid var(--border)',
+              border: '2px solid var(--ink)',
               background: activeCategory === cat ? 'var(--terracotta)' : 'var(--white)',
               color: activeCategory === cat ? '#fff' : 'var(--ink-soft)',
               fontFamily: 'var(--font-body)',

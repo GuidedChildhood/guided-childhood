@@ -71,7 +71,7 @@ export default function CheckoutError({ reason }: { reason: string }) {
       style={{
         display: 'flex', alignItems: 'flex-start', gap: '12px',
         background: r.ours ? 'var(--danger-bg)' : 'var(--cream)',
-        border: `1.5px solid ${r.ours ? 'var(--danger-border)' : 'var(--border)'}`,
+        border: `2px solid ${r.ours ? 'var(--danger-border)' : 'var(--ink)'}`,
         borderRadius: 16, padding: '15px 17px', marginBottom: '22px',
       }}
     >

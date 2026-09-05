@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import HappyIcon from '@/components/kid/HappyIcon'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
 import CheckoutError from '@/components/upgrade/CheckoutError'
@@ -101,7 +102,7 @@ export default async function UpgradePage(
             style={{
               display: 'inline-flex', alignItems: 'center', padding: '14px 24px',
               background: '#fff', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
-              border: '1.5px solid var(--border)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              border: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             }}
           >
             Manage my plan
@@ -165,10 +166,12 @@ export default async function UpgradePage(
       {inTrial(profile) ? (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px',
-          background: 'var(--stage-1)', border: '1.5px solid var(--border)',
+          background: 'var(--stage-1)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: '16px', padding: '13px 16px', marginBottom: '22px',
         }}>
-          <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>⏳</span>
+          <span aria-hidden="true" style={{ width: 44, height: 44, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+            <HappyIcon name="time" size={32} />
+          </span>
           <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.4 }}>
             {trialDaysLeft(profile) === 1
               ? 'Last free day. Everything stays open if you join today.'
@@ -178,7 +181,7 @@ export default async function UpgradePage(
       ) : (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px',
-          background: 'var(--cream)', border: '1.5px solid var(--border)',
+          background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: '16px', padding: '13px 16px', marginBottom: '22px',
         }}>
           <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🔒</span>
@@ -220,7 +223,7 @@ export default async function UpgradePage(
 
       {/* One subscription, every child: the family framing the best family
           apps lead with. */}
-      <div style={{ background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', textAlign: 'center' }}>
+      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', textAlign: 'center' }}>
         <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)' }}>
           One subscription covers every child, at every stage from 4 to 16.
         </span>
@@ -239,7 +242,8 @@ export default async function UpgradePage(
             padding: '28px 24px',
             position: 'relative',
             overflow: 'hidden',
-            boxShadow: '0 12px 34px rgba(46,40,24,0.28)',
+            border: '2px solid var(--ink)',
+            boxShadow: '0 4px 0 var(--ink)',
           }}>
             <div style={{
               position: 'absolute', top: 0, right: 0,
@@ -294,7 +298,7 @@ export default async function UpgradePage(
       {/* Fear remover: full access now, cancel any time, money back. The
           same job the trial timeline does on the best paywalls, in our
           money back model. */}
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px 22px', marginBottom: '32px', boxShadow: '0 4px 22px rgba(26,26,46,0.05)' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '20px 22px', marginBottom: '32px', boxShadow: '0 4px 0 var(--ink)' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           No risk, here is exactly how it works
         </div>
@@ -319,7 +323,7 @@ export default async function UpgradePage(
       </div>
 
       {/* FAQ */}
-      <div style={{ borderTop: '1px solid var(--border)', paddingTop: '32px' }}>
+      <div style={{ borderTop: '2px solid var(--ink)', paddingTop: '32px' }}>
         <h2 style={{ fontSize: 'var(--text-lg)', marginBottom: '20px', textAlign: 'center' }}>Common questions</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {[
@@ -340,7 +344,7 @@ export default async function UpgradePage(
               a: 'No. The algorithm conversation is just as important after the phone as before it. Stage 3 and 4 parents are often the ones who see the fastest change.',
             },
           ].map((faq, i) => (
-            <div key={i} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '18px 20px' }}>
+            <div key={i} style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '18px 20px' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', marginBottom: '8px' }}>{faq.q}</div>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1.6 }}>{faq.a}</p>
             </div>

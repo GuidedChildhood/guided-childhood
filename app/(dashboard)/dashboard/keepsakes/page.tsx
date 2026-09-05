@@ -63,7 +63,7 @@ export default async function KeepsakesPage({
         <div style={{ maxWidth: 640, margin: '0 auto', padding: '18px 20px 0' }}>
           <Link href="/dashboard/orders" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12,
+            background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12,
             padding: '9px 14px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
           }}>

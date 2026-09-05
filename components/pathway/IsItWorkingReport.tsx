@@ -198,7 +198,7 @@ export default async function IsItWorkingReport(
       {/* The report in one warm sentence, sat on green so the message shows
           itself: what green means, and that amber is a next step, never a mark
           against anyone. Bigger and ink dark so it reads at a glance. */}
-      <div style={{ background: 'var(--tint-green)', border: '1.5px solid #BADFC9', borderRadius: '16px', padding: '16px 18px', margin: '0 0 22px', maxWidth: '620px' }}>
+      <div style={{ background: 'var(--tint-green)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '16px 18px', margin: '0 0 22px', maxWidth: '620px' }}>
         <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
           <span style={{ color: '#2F8F6B', fontWeight: 800 }}>Green</span> means that part of the plan is doing its job. Anything <span style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>amber</span> comes with one clear next step, like a good school report.
         </p>
@@ -241,7 +241,7 @@ export default async function IsItWorkingReport(
       {dailyDoneToday && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
-          background: 'var(--tint-green)', border: '1.5px solid var(--border)',
+          background: 'var(--tint-green)', border: '2px solid var(--ink)',
           borderRadius: '14px', padding: '12px 16px', marginBottom: '16px',
         }}>
           <span aria-hidden style={{
@@ -274,7 +274,8 @@ export default async function IsItWorkingReport(
 
       {/* The honest sentence */}
       <div style={{
-        background: 'var(--tint-sage)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px',
+        background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+        borderRadius: '18px', padding: '18px 20px', marginBottom: '20px',
       }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
           {headline.charAt(0).toUpperCase() + headline.slice(1)}
@@ -290,7 +291,7 @@ export default async function IsItWorkingReport(
         <div style={{
           display: 'flex', alignItems: 'center', gap: '14px',
           background: streak.aliveToday ? 'var(--terracotta-lt)' : 'var(--cream)',
-          border: `1.5px solid ${streak.aliveToday ? 'var(--terracotta)' : 'var(--border)'}`,
+          border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: '18px', padding: '18px 20px', marginBottom: '20px',
         }}>
           <svg width="30" height="38" viewBox="0 0 24 24" aria-hidden="true" style={{ flexShrink: 0 }}>
@@ -364,7 +365,7 @@ export default async function IsItWorkingReport(
           { n: String(weekStars), label: 'stars earned', sub: 'this week' },
           { n: String(checks.length), label: 'check ins', sub: 'so far' },
         ].map(stat => (
-          <div key={stat.label} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 12px', textAlign: 'center' }}>
+          <div key={stat.label} style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '14px 12px', textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1 }}>{stat.n}</div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '6px' }}>{stat.label}</div>
             <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '2px' }}>{stat.sub}</div>
@@ -376,7 +377,7 @@ export default async function IsItWorkingReport(
           the working on list above, in words the parent trusts. */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap',
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 20px', marginBottom: '20px',
+        background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 20px', marginBottom: '20px',
       }}>
         <span style={{ flex: 1, minWidth: '180px' }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
@@ -390,12 +391,12 @@ export default async function IsItWorkingReport(
         </span>
         <Link href="/dashboard/tracker/checkin" style={{
           flexShrink: 0,
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-          background: checkedThisWeek ? 'var(--cream)' : 'var(--terracotta)',
-          color: checkedThisWeek ? 'var(--ink-muted)' : 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontWeight: checkedThisWeek ? 800 : 900, fontSize: 'var(--text-base)',
+          background: checkedThisWeek ? '#fff' : 'var(--terracotta)',
+          color: 'var(--ink)',
           borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
-          boxShadow: checkedThisWeek ? 'none' : '0 3px 0 var(--terracotta-dark)',
-          border: checkedThisWeek ? '1.5px solid var(--border)' : 'none',
+          boxShadow: '0 4px 0 var(--ink)',
+          border: '2px solid var(--ink)',
         }}>
           {checkedThisWeek ? 'Update' : 'Start, 5 minutes'}
         </Link>
