@@ -103,7 +103,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
       </p>
 
       {withMovement.length > 0 && (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '6px 18px 14px', marginBottom: '18px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '6px 18px 14px', marginBottom: '18px' }}>
           {withMovement.map((m, i) => {
             const start = m.startScore as number
             const end = m.endScore as number
@@ -114,7 +114,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
                 style={{
                   display: 'flex', alignItems: 'center', gap: '14px',
                   padding: '14px 0',
-                  borderTop: i === 0 ? 'none' : '1px solid var(--border)',
+                  borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)',
                 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -151,7 +151,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
           difficult, and the answer to that is a next move rather than a red
           number. They are already in the list above; this is the offer. */}
       {slipped.length > 0 && (
-        <div style={{ background: 'var(--stage-1)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px 17px', marginBottom: '18px' }}>
+        <div style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '15px 17px', marginBottom: '18px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '4px' }}>
             {slipped.length === 1 ? `${withChild(slipped[0])} has gone the other way` : `${slipped.length} of these have gone the other way`}
           </div>
@@ -176,7 +176,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
       )}
 
       {waiting.length > 0 && (
-        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginBottom: '18px' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '15px 17px', marginBottom: '18px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Waiting on a second check in
           </div>
@@ -187,7 +187,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
       )}
 
       {movements.length === 0 && (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '18px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '18px 20px', marginBottom: '18px' }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
             Nothing to read yet. The check in on Home is where these numbers come from, and the first one is the line everything after it is measured against.
           </p>

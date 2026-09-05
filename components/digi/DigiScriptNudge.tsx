@@ -20,12 +20,12 @@ export default function DigiScriptNudge({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)',
+      background: '#fff', border: '2px solid var(--ink)',
       borderRadius: '18px', padding: '16px 18px', marginBottom: '20px',
-      boxShadow: '0 4px 0 rgba(26,26,46,0.05)',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '10px' }}>
-        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood="idle" />
         </span>
         <div style={{ minWidth: 0 }}>

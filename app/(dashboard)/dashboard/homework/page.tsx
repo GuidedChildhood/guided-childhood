@@ -50,7 +50,7 @@ export default async function HomeworkPage() {
       </p>
 
       {children.length === 0 ? (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: 6 }}>Add your child first</div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
             This works off their school year, so we need to know who it is for.

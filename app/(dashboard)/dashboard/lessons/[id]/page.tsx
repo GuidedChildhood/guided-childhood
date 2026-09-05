@@ -238,7 +238,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
       <MarkLessonDone lessonId={lesson.id} lessonSource="lesson" initialDone={!!completion} />
 
       {/* DiGi CTA */}
-      <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div style={{ background: 'var(--stage-5)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
@@ -259,7 +259,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
       {/* Back to all */}
       <Link
         href={lessonsBackHref}
-        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
+        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
       >
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Lessons</span>
         <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta)' }}>Back to lessons</span>

@@ -14,6 +14,7 @@ import ChildPing from '@/components/quests/ChildPing'
 import SaveChip, { type SaveState } from '@/components/quests/SaveChip'
 import SentToast from '@/components/ui/SentToast'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
 import ScreenGateBanner from '@/components/quests/ScreenGateBanner'
@@ -40,11 +41,11 @@ function printableForAsk(title: string) {
 }
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
-const TABS: { key: QuestTab; label: string; icon: string; hint: string }[] = [
-  { key: 'manage', label: 'Quests', icon: '⭐', hint: 'Set the tasks' },
-  { key: 'rewards', label: 'Rewards', icon: '🎁', hint: 'Prizes to save for' },
-  { key: 'games', label: 'Games', icon: '🎲', hint: 'Play to learn' },
-  { key: 'share', label: 'Share', icon: '📲', hint: 'Phone or QR code' },
+const TABS: { key: QuestTab; label: string; icon: HappyIconName; hint: string }[] = [
+  { key: 'manage', label: 'Quests', icon: 'jobs', hint: 'Set the tasks' },
+  { key: 'rewards', label: 'Rewards', icon: 'wins', hint: 'Prizes to save for' },
+  { key: 'games', label: 'Games', icon: 'games', hint: 'Play to learn' },
+  { key: 'share', label: 'Share', icon: 'tell', hint: 'Phone or QR code' },
 ]
 
 // The parent's quest manager. Pick from templates or write your own,
@@ -71,6 +72,24 @@ const SCHEDULE_LABELS: Record<string, string> = {
 const card: React.CSSProperties = {
   background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
   borderRadius: '18px', padding: '20px', marginBottom: '18px',
+}
+
+// The happy news icon plate: a white or tinted rounded square with the ink
+// edge, holding a drawn HappyIcon or, where no drawn icon fits, an emoji
+// that comes from data (a quest's own icon field). Same plate as the child
+// app and the Tonight card, so every tile lead on this page matches.
+function Plate({ name, emoji, size = 44, icon, tint = '#fff', radius = 12 }: {
+  name?: HappyIconName; emoji?: string; size?: number; icon?: number; tint?: string; radius?: number
+}) {
+  return (
+    <span aria-hidden style={{
+      width: size, height: size, borderRadius: radius, background: tint, border: '2px solid var(--ink)',
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box',
+      fontSize: Math.round(size * 0.5), lineHeight: 1,
+    }}>
+      {name ? <HappyIcon name={name} size={icon ?? Math.round(size * 0.72)} /> : emoji}
+    </span>
+  )
 }
 
 export default function QuestManager() {
@@ -898,7 +917,7 @@ export default function QuestManager() {
               duplicate id with the real timer card. They all point at
               /dashboard/quests/timer now. */}
           <Link href="/dashboard/stats" style={{ ...card, display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
-            <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0 }} aria-hidden>📊</span>
+            <Plate name="balance" size={48} icon={36} tint="var(--terracotta-lt)" radius={14} />
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>Balance and stats</span>
               <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, the healthy level, and the off screen wins.</span>
@@ -913,18 +932,18 @@ export default function QuestManager() {
               Hand it to {child.name}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
-              {([['phone', '📱', 'To their phone', 'A private page, sent by you'], ['paper', '🖨️', 'The offline pack', 'Print it, tick it off here']] as const).map(([mode, icon, title, sub]) => (
+              {([['phone', 'tell', 'To their phone', 'A private page, sent by you'], ['paper', 'print', 'The offline pack', 'Print it, tick it off here']] as const).map(([mode, icon, title, sub]) => (
                 <button
                   key={mode}
                   onClick={() => setHandMode(mode)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
                     background: handMode === mode ? 'var(--terracotta-lt)' : '#fff',
-                    border: `2px solid ${handMode === mode ? 'var(--terracotta)' : 'var(--border)'}`,
+                    border: `2px solid ${handMode === mode ? 'var(--terracotta)' : 'var(--ink)'}`,
                     borderRadius: '16px', padding: '14px 16px', cursor: 'pointer',
                   }}
                 >
-                  <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>{icon}</span>
+                  <Plate name={icon} size={44} icon={32} />
                   <span>
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{title}</span>
                     <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '2px' }}>{sub}</span>
@@ -993,7 +1012,7 @@ export default function QuestManager() {
                 </div>
                 {/* What they see: the real child page */}
                 <div style={{ flex: '0 0 118px', textAlign: 'center' }}>
-                  <div style={{ borderRadius: '16px', overflow: 'hidden', border: '4px solid var(--ink)', boxShadow: '0 10px 26px rgba(26,26,46,0.18)' }}>
+                  <div style={{ borderRadius: '16px', overflow: 'hidden', border: '4px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/marketing/kid-page.png" alt="The child's quest page" style={{ width: '100%', display: 'block' }} />
                   </div>
@@ -1011,17 +1030,17 @@ export default function QuestManager() {
                   Four things to print, tap any one to open it ready for the printer.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginBottom: '10px' }}>
-                  {[
-                    ['🖨️', 'Quest sheet', '/dashboard/quests/print'],
-                    ['📜', 'Device contract', '/dashboard/quests/contract'],
-                    ['🎲', 'Game pack', '/dashboard/quests/crafts'],
-                    ['✂️', 'Printables', '/dashboard/printables'],
-                  ].map(([icon, label, href]) => (
+                  {([
+                    ['print', 'Quest sheet', '/dashboard/quests/print'],
+                    ['deal', 'Device contract', '/dashboard/quests/contract'],
+                    ['games', 'Game pack', '/dashboard/quests/crafts'],
+                    ['make', 'Printables', '/dashboard/printables'],
+                  ] as const).map(([icon, label, href]) => (
                     <a key={href} href={href} style={{
                       display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
-                      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px',
+                      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '13px 15px',
                     }}>
-                      <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1 }}>{icon}</span>
+                      <Plate name={icon} size={38} icon={28} radius={10} />
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{label}</span>
                     </a>
                   ))}
@@ -1045,11 +1064,11 @@ export default function QuestManager() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left', cursor: 'pointer',
                     background: on ? 'var(--terracotta-lt)' : '#fff',
-                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                     borderRadius: '16px', padding: '12px 14px',
                   }}
                 >
-                  <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{t.icon}</span>
+                  <Plate name={t.icon} size={42} icon={30} tint={on ? '#fff' : 'var(--cream)'} />
                   <span style={{ minWidth: 0 }}>
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{t.label}</span>
                     <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.hint}</span>
@@ -1083,7 +1102,7 @@ export default function QuestManager() {
                 boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
             >
-              <span style={{ width: 42, height: 42, borderRadius: '12px', background: '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: '0 3px 0 rgba(0,0,0,0.15)' }}>{youngChild ? '🖨️' : '📲'}</span>
+              <Plate name={youngChild ? 'print' : 'tell'} size={44} icon={32} />
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                   {youngChild ? `Print ${child.name}'s quest sheet` : `Put ${child.name}'s quests on their phone`}
@@ -1101,11 +1120,11 @@ export default function QuestManager() {
           {allDoneToday && (
             <div style={{
               display: 'flex', alignItems: 'center', gap: '12px',
-              background: 'var(--stage-1-bold)', border: '1.5px solid var(--terracotta)',
+              background: 'var(--stage-1-bold)', border: '2px solid var(--ink)',
               borderRadius: '16px', padding: '16px 18px', marginBottom: '16px',
-              boxShadow: '0 6px 20px rgba(237,195,95,0.35)',
+              boxShadow: '0 4px 0 var(--ink)',
             }}>
-              <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>🌟</span>
+              <Plate name="cheer" size={48} icon={36} radius={14} />
               <span>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--stage-1-text)' }}>
                   Every quest done today
@@ -1196,7 +1215,7 @@ export default function QuestManager() {
                           <button
                             onClick={() => decideAsk(a, 'declined')}
                             style={{
-                              background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                              background: 'none', border: '2px solid var(--ink)', borderRadius: '10px',
                               padding: '8px 12px', cursor: 'pointer',
                               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)',
                             }}
@@ -1275,7 +1294,7 @@ export default function QuestManager() {
             </a>
           </div>
 
-          <div id="my-todo" style={{ ...card, scrollMarginTop: '80px', ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
+          <div id="my-todo" style={{ ...card, scrollMarginTop: '80px', ...(allDoneToday ? { borderColor: 'var(--terracotta)' } : {}) }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
                 {child.name}&apos;s quests
@@ -1358,7 +1377,7 @@ export default function QuestManager() {
             })()}
 
             {addOpen && (
-              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px', marginBottom: '12px' }}>
+              <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px', marginBottom: '12px' }}>
                 {/* Add a job means add a job, not only write one from scratch.
                     Most parents want a ready made one, and asking them to type
                     out "one hour of outside play" when we already have it is
@@ -1530,10 +1549,10 @@ export default function QuestManager() {
                           disabled={doneToday}
                           title={doneToday ? 'Done and stars landed' : 'Check they did it, then tap to land the stars'}
                           style={{
-                            background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-                            border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                            background: doneToday ? 'var(--retro-green)' : 'var(--terracotta)',
+                            border: '2px solid var(--ink)', borderRadius: '10px', boxShadow: doneToday ? 'none' : '0 4px 0 var(--ink)',
                             padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
-                            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap',
+                            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: doneToday ? '#fff' : 'var(--ink)', whiteSpace: 'nowrap',
                           }}
                         >
                           {doneToday ? 'Done ✓' : 'Done?'}
@@ -1541,7 +1560,7 @@ export default function QuestManager() {
                         <button
                           onClick={() => setEditingId(editing ? null : q.id)}
                           style={{
-                            background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                            background: 'none', border: '2px solid var(--ink)', borderRadius: '10px',
                             padding: '7px 10px', cursor: 'pointer', flexShrink: 0,
                             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap',
                           }}
@@ -1552,7 +1571,7 @@ export default function QuestManager() {
                     </div>
 
                     {editing && (
-                      <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                      <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '2px solid var(--ink)' }}>
                         {/* Rename. The API has always accepted a title patch, the
                             panel simply never offered one, so a parent who typed
                             a job wrong had to delete it and add it again, losing
@@ -1637,7 +1656,7 @@ export default function QuestManager() {
                           title="Screens wait until this one is done and approved"
                           style={{
                             padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
-                            border: `1.5px solid ${q.blocks_screens ? 'var(--terracotta)' : 'var(--border)'}`,
+                            border: `2px solid ${q.blocks_screens ? 'var(--terracotta)' : 'var(--ink)'}`,
                             background: q.blocks_screens ? 'var(--terracotta-lt)' : '#fff',
                             color: q.blocks_screens ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
                             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -1729,7 +1748,7 @@ export default function QuestManager() {
                     )}
 
                     {!allIn && open && (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderTop: '1px solid var(--border)', paddingTop: '8px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderTop: '2px dotted rgba(26,26,46,0.18)', paddingTop: '8px' }}>
                         {pack.tasks.map(t => {
                           const onBoard = childQuests.some(q => q.title === t.title)
                           const ticked = onBoard || picked.includes(t.title)
@@ -1820,14 +1839,10 @@ export default function QuestManager() {
                     style={{
                       display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
                       padding: '12px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
-                      border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)',
-                      boxShadow: '0 4px 14px rgba(201,154,40,0.14)',
+                      border: '2px solid var(--ink)', background: 'var(--terracotta-lt)',
                     }}
                   >
-                    <span style={{
-                      width: 38, height: 38, borderRadius: '11px', flexShrink: 0,
-                      background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
-                    }}>{t.emoji}</span>
+                    <Plate emoji={t.emoji} size={38} radius={11} />
                     <span style={{ flex: 1, minWidth: 0 }}>
                       <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
                         {t.title}
@@ -1858,13 +1873,9 @@ export default function QuestManager() {
                       display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
                       padding: '11px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
                       border: '2px solid var(--ink)', background: '#fff',
-                      boxShadow: '0 3px 12px rgba(26,26,46,0.05)',
                     }}
                   >
-                    <span style={{
-                      width: 34, height: 34, borderRadius: '10px', flexShrink: 0,
-                      background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
-                    }}>{t.emoji}</span>
+                    <Plate emoji={t.emoji} size={34} radius={10} tint="var(--cream)" />
                     <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {t.title}
                     </span>
@@ -1908,12 +1919,9 @@ export default function QuestManager() {
                     <div key={`${t.quest_id}-${t.tick_date}-${i}`} style={{
                       display: 'flex', alignItems: 'center', gap: '11px',
                       padding: '10px 13px', borderRadius: '13px',
-                      background: 'var(--tint-green)', border: '1px solid var(--border)',
+                      background: 'var(--tint-green)', border: '2px solid var(--ink)',
                     }}>
-                      <span style={{
-                        width: 30, height: 30, borderRadius: '9px', flexShrink: 0, background: '#fff',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-md)',
-                      }}>{q?.emoji ?? '⭐'}</span>
+                      <Plate emoji={q?.emoji ?? '⭐'} size={30} radius={9} />
                       <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                         {q?.title ?? 'Completed quest'}
                       </span>
@@ -2007,7 +2015,7 @@ export default function QuestManager() {
                                   style={{
                                     display: 'flex', alignItems: 'center', gap: '7px',
                                     padding: '10px 14px', borderRadius: '100px',
-                                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                                     background: on ? 'var(--terracotta-lt)' : '#fff',
                                     color: on ? 'var(--terracotta)' : 'var(--ink)',
                                     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
@@ -2058,7 +2066,7 @@ export default function QuestManager() {
                   </p>
                 )}
                 {childSpends.length > 0 && (
-                  <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '2px solid var(--ink)' }}>
                     {childSpends.map(s => (
                       <p key={s.id} style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: '0 0 4px', lineHeight: 1.5 }}>
                         {s.minutes > 0 ? `${s.minutes} min used` : (s.note ?? 'Reward')} · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
@@ -2207,6 +2215,7 @@ export default function QuestManager() {
                   background: '#fff', color: 'var(--ink)', borderRadius: '14px',
                   padding: '12px 20px', textDecoration: 'none', border: '2px solid var(--ink)',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
+                  boxShadow: '0 4px 0 var(--ink)',
                 }}
               >
                 Print the sheet
@@ -2215,10 +2224,10 @@ export default function QuestManager() {
                 href="/dashboard/quests/crafts"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: 'var(--butter, #EDC35F)', color: 'var(--ink)', borderRadius: '14px',
-                  padding: '12px 20px', textDecoration: 'none',
-                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
-                  boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+                  background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px',
+                  padding: '12px 20px', textDecoration: 'none', border: '2px solid var(--ink)',
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900,
+                  boxShadow: '0 4px 0 var(--ink)',
                 }}
               >
                 🎲 The Game Pack
@@ -2228,7 +2237,7 @@ export default function QuestManager() {
             {/* Their phone number: quests, agreements and sheets go straight
                 to their Messages thread, sent from YOUR phone, nothing sent
                 by us directly */}
-            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
+            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '2px solid var(--ink)' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                 {child.name}&apos;s phone (optional)
               </div>
@@ -2290,7 +2299,7 @@ export default function QuestManager() {
               const current = child.daily_limit_minutes ?? null
               const draftVal = limitDraft !== '' ? limitDraft : (current != null ? String(current) : '')
               return (
-                <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
+                <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '2px solid var(--ink)' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                     {child.name}&apos;s daily screen time limit
                   </div>
@@ -2367,10 +2376,10 @@ function ParentTimePill({ session, childName }: { session: Session; childName: s
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px',
-      background: '#fff', border: `1.5px solid ${low ? '#C0533E' : 'var(--terracotta)'}`,
-      borderRadius: '16px', padding: '14px 16px', boxShadow: '0 4px 14px rgba(201,154,40,0.12)',
+      background: '#fff', border: `2px solid ${low ? '#C0533E' : 'var(--ink)'}`,
+      borderRadius: '16px', padding: '14px 16px', boxShadow: '0 4px 0 var(--ink)',
     }}>
-      <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{deviceEmoji(session.device)}</span>
+      <Plate emoji={deviceEmoji(session.device)} size={44} tint="var(--cream)" />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           {childName} is on the {deviceLabel(session.device)}
@@ -2426,10 +2435,10 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
             <div key={g.key} style={{
               display: 'flex', flexDirection: 'column', height: '100%',
               background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px',
-              padding: '16px', boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
+              padding: '16px', boxShadow: '0 4px 0 var(--ink)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{g.emoji}</span>
+                <Plate emoji={g.emoji} size={44} tint="var(--cream)" />
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {g.title}
                 </span>

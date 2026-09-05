@@ -113,7 +113,7 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
     return (
       <div style={{
         background: 'var(--stage-2)',
-        border: '1.5px solid var(--border)',
+        border: '2px solid var(--ink)',
         borderRadius: '16px',
         padding: '20px',
         marginBottom: '28px',
@@ -155,7 +155,7 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
     return (
       <div style={{
         background: 'var(--cream)',
-        border: '1.5px solid var(--border)',
+        border: '2px solid var(--ink)',
         borderRadius: '16px',
         padding: '20px',
         marginBottom: '28px',
@@ -176,7 +176,8 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
             style={{
               display: 'block',
               background: '#fff',
-              border: '1.5px solid var(--terracotta)',
+              border: '2px solid var(--ink)',
+              boxShadow: '0 4px 0 var(--ink)',
               borderRadius: '14px',
               padding: '16px',
               textDecoration: 'none',
@@ -216,7 +217,7 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
   return (
     <div style={{
       background: '#fff',
-      border: '1.5px solid var(--border)',
+      border: '2px solid var(--ink)',
       borderRadius: '16px',
       padding: '24px',
       marginBottom: '28px',

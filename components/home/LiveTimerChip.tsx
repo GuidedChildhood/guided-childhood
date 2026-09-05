@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import HappyIcon from '@/components/kid/HappyIcon'
 import { deviceEmoji, deviceLabel, type DeviceKey } from '@/lib/quests/device-time'
 
 // The device timer surfacing on Home only when it matters: a child's time
@@ -117,7 +118,7 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
             background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
             borderRadius: '14px', padding: '9px 11px 9px 14px',
           }}>
-            <span aria-hidden style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🙋</span>
+            <span aria-hidden style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="hand" size={24} /></span>
             <Link href="/dashboard/quests" style={{ flex: 1, minWidth: 0, textDecoration: 'none' }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {k.name} is asking for {k.request!.minutes} min on the {deviceLabel(k.request!.device)}

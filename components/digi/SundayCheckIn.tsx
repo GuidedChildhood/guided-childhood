@@ -99,9 +99,9 @@ export default function SundayCheckIn() {
   // The agreed plan, sitting on Home all week.
   if (plan.length > 0 && !open) {
     return (
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '18px 20px', marginBottom: '20px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 10px 28px -14px rgba(26,26,46,0.12)' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px 20px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '13px' }}>
-          <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter mood="happy" size={30} once />
           </span>
           <div style={{ minWidth: 0 }}>
@@ -113,7 +113,7 @@ export default function SundayCheckIn() {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
           {plan.map((p, i) => (
-            <div key={i} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 13px' }}>
+            <div key={i} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '11px 13px' }}>
               <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--retro-green)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{p.title}</div>
@@ -137,12 +137,12 @@ export default function SundayCheckIn() {
       <button onClick={() => { setOpen(true); setStepIdx(0) }} style={{
         width: '100%', textAlign: 'left', cursor: 'pointer',
         background: 'var(--terracotta-lt)',
-        border: '1.5px solid var(--terracotta)',
+        border: '2px solid var(--ink)',
         borderRadius: '20px', padding: '16px 18px', marginBottom: '20px',
         display: 'flex', alignItems: 'center', gap: '13px',
-        boxShadow: '0 6px 20px -8px rgba(201,154,40,0.3)',
+        boxShadow: '0 4px 0 var(--ink)',
       }}>
-        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood="wave" size={30} once />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -168,9 +168,9 @@ export default function SundayCheckIn() {
     : true
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '22px', padding: '20px 20px 18px', marginBottom: '20px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 16px 40px -14px rgba(26,26,46,0.16)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px', padding: '20px 20px 18px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '16px' }}>
-        <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood={busy ? 'thinking' : 'speak'} size={28} once />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -245,7 +245,7 @@ export default function SundayCheckIn() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
               {draftPlan.map((p, i) => (
-                <div key={i} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '12px 13px' }}>
+                <div key={i} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '12px 13px' }}>
                   <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{p.title}</div>
@@ -262,19 +262,19 @@ export default function SundayCheckIn() {
       {/* Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '18px' }}>
         {stepIdx > 0 && stepIdx < 4 && (
-          <button onClick={() => setStepIdx(i => i - 1)} style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '11px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>Back</button>
+          <button onClick={() => setStepIdx(i => i - 1)} style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '12px', padding: '11px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>Back</button>
         )}
         {stepIdx < 3 && (
-          <button onClick={() => setStepIdx(i => i + 1)} disabled={!canNext} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: '13px', padding: '13px', cursor: canNext ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: canNext ? '0 4px 0 var(--terracotta-dark)' : 'none' }}>Next</button>
+          <button onClick={() => setStepIdx(i => i + 1)} disabled={!canNext} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--cream)', color: canNext ? 'var(--ink)' : 'var(--ink-muted)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '13px', cursor: canNext ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: canNext ? '0 4px 0 var(--ink)' : 'none' }}>Next</button>
         )}
         {stepIdx === 3 && (
-          <button onClick={suggest} disabled={!canNext || busy} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: '13px', padding: '13px', cursor: canNext && !busy ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: canNext ? '0 4px 0 var(--terracotta-dark)' : 'none' }}>
+          <button onClick={suggest} disabled={!canNext || busy} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--cream)', color: canNext ? 'var(--ink)' : 'var(--ink-muted)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '13px', cursor: canNext && !busy ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: canNext ? '0 4px 0 var(--ink)' : 'none' }}>
             {busy ? 'Shaping your plan…' : 'See my plan'}
           </button>
         )}
         {stepIdx === 4 && (
           <button onClick={agree} disabled={busy || draftPlan.length === 0} className="btn btn-green" style={{ flex: 1, borderRadius: '13px', padding: '13px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
-            {busy ? 'Saving…' : 'Agree this plan ✓'}
+            {busy ? 'Saving…' : 'Agree this plan'}
           </button>
         )}
       </div>

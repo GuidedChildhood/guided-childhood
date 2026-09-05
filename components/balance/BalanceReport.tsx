@@ -12,6 +12,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { fmtMins, BUCKET_META, type ParentReport, type TypeGuide, type BucketSummary, type TopState } from '@/lib/balance/parent-report'
 import { SCREEN_GUIDE_SOURCES, type BucketStatus } from '@/lib/quests/screen-balance'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 const GOOD = '#4C9F6B'
 const OVER = '#D98B45'
@@ -23,7 +24,7 @@ const GROW = '#B67A2E'
 // flag a parent should actually act on.
 const TOP_TONE: Record<TopState['tone'], { bg: string; border: string; fg: string; emoji: string }> = {
   good:  { bg: '#EAF3EC', border: '#CFE6D6', fg: GOOD, emoji: '⭐' },
-  quiet: { bg: 'var(--cream)', border: 'var(--border)', fg: 'var(--ink-soft)', emoji: '🌱' },
+  quiet: { bg: 'var(--cream)', border: 'var(--ink)', fg: 'var(--ink-soft)', emoji: '🌱' },
   grow:  { bg: '#FBF3E3', border: '#F1E4BE', fg: GROW, emoji: '✏️' },
   watch: { bg: '#FBEEDF', border: '#F1E0C6', fg: OVER, emoji: '👀' },
   flag:  { bg: '#F9E1DB', border: '#EFC9BF', fg: FLAG, emoji: '📱' },
@@ -95,8 +96,8 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   }, [good])
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
-    boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16,
+    background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
+    boxShadow: '0 4px 0 var(--ink)', padding: 18, marginBottom: 16,
   }
   const cardTitle: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em',
@@ -172,8 +173,8 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   return (
     <div>
       {/* One glanceable state for the whole child, read before any bars. */}
-      <div style={{ ...card, background: top.bg, border: `1.5px solid ${top.border}`, display: 'flex', gap: 13, alignItems: 'flex-start' }}>
-        <span ref={starRef} style={{ width: 44, height: 44, flexShrink: 0, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: '0 2px 0 rgba(26,26,46,0.06)' }}>{top.emoji}</span>
+      <div style={{ ...card, background: top.bg, border: '2px solid var(--ink)', display: 'flex', gap: 13, alignItems: 'flex-start' }}>
+        <span ref={starRef} style={{ width: 44, height: 44, flexShrink: 0, borderRadius: 14, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{top.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25 }}>{topState.label}</div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0' }}>{topState.sub}</p>
@@ -206,7 +207,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             screens quoting different totals for "this week" is survivable
             when each says which week it means, and invisible when neither
             does. */}
-        <div style={{ marginTop: 6, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
+        <div style={{ marginTop: 6, paddingTop: 14, borderTop: '2px solid var(--ink)' }}>
           <div style={cardTitle}>Screen time so far</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, margin: '7px 0 0', flexWrap: 'wrap' }}>
             <span style={{
@@ -252,7 +253,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
       {/* Guide the child onward: one tap to a real world activity, shown only
           when the week actually needs a nudge. */}
       {showAction && (
-        <div style={{ ...card, background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE' }}>
+        <div style={{ ...card, background: 'var(--terracotta-lt)' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: 4 }}>
             {topState.tone === 'grow' ? `A quick way to top up ${name}'s making time` : `Bring the week back into balance`}
           </div>
@@ -260,17 +261,19 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             The steadiest fix is not less screen, it is more of the other thing. Point {name} at one real world win and the balance follows.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <a href="/dashboard/quests" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Set a quest</a>
-            <a href="/dashboard/quests/crafts" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Print something to make</a>
+            <a href="/dashboard/quests" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 4px 0 var(--ink)' }}>Set a quest</a>
+            <a href="/dashboard/quests/crafts" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 4px 0 var(--ink)' }}>Print something to make</a>
           </div>
         </div>
       )}
 
       {/* Off screen against on screen: the real world total for the week set
           beside the screen total, so the balance reads at a glance. */}
-      <div style={{ ...card, marginBottom: 0, background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF' }}>
+      <div style={{ ...card, marginBottom: 0, background: 'var(--tint-sage)' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-          <span style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: 'var(--stage-1, #FFFBEE)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🌟</span>
+          <span aria-hidden style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <HappyIcon name="wins" size={30} />
+          </span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
               {name} put in <b>{fmtMins(offscreen.minutes)} on jobs, printables and getting outside</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, earning <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> across <b>{offscreen.activities}</b> real world {offscreen.activities === 1 ? 'win' : 'wins'}.

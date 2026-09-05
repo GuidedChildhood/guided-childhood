@@ -74,7 +74,7 @@ export default function SocialRoadNova({
 
   return (
     <div style={{
-      background: 'var(--stage-4)', border: '1.5px solid var(--stage-4-bold)',
+      background: 'var(--stage-4)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '20px', padding: '17px 18px', marginBottom: '16px',
     }}>
       {/* Nova, and where the road has got to */}
@@ -129,7 +129,7 @@ export default function SocialRoadNova({
       {leg ? (
         <>
           <div style={{
-            background: 'rgba(255,255,255,0.72)', border: '1px solid var(--border)',
+            background: 'rgba(255,255,255,0.72)', border: '2px solid var(--ink)',
             borderRadius: '14px', padding: '13px 14px',
           }}>
             <div style={{
@@ -185,10 +185,10 @@ export default function SocialRoadNova({
                 href={`/dashboard/lessons/${leg.lessonId}`}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 7,
-                  background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                  background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
                   borderRadius: 14, padding: '11px 17px', textDecoration: 'none',
-                  boxShadow: '0 4px 0 var(--terracotta-dark)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                  boxShadow: '0 4px 0 var(--ink)',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                 }}
               >
                 Watch it
@@ -203,7 +203,7 @@ export default function SocialRoadNova({
             {!childTicked && onApp && (
               <span style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: '#fff', color: 'var(--ink-soft)', border: '1px solid var(--border)',
+                background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)',
                 borderRadius: 100, padding: '8px 13px',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.04em',

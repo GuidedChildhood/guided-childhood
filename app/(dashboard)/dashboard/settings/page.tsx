@@ -299,7 +299,7 @@ export default function SettingsPage() {
       </div>
 
       {error && (
-        <div style={{ background: 'var(--stage-1)', border: '1px solid var(--stage-1)', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+        <div style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           {error}
         </div>
       )}
@@ -308,14 +308,14 @@ export default function SettingsPage() {
       {/* The first welcome, again. The walkthrough runs once at the end of
           setup; a parent who skipped it, or wants to show a co parent what
           the app does, gets the same cards back from here. */}
-      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 22px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+      <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '18px 22px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '14px' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '2px', color: 'var(--ink)' }}>How it works</h2>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: 0 }}>The day, step by step, and how DiGi works. One minute.</p>
         </div>
         <Link href="/dashboard/how-it-works" className="btn" style={{ padding: '10px 18px', fontSize: 'var(--text-sm)', textDecoration: 'none', flexShrink: 0 }}>Show me</Link>
       </section>
-      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+      <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>Your profile</h2>
         <form onSubmit={saveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div>
@@ -367,7 +367,7 @@ export default function SettingsPage() {
                     aria-pressed={region === r}
                     style={{
                       padding: '10px 16px', borderRadius: 100, cursor: 'pointer',
-                      border: `1.5px solid ${region === r ? 'var(--terracotta)' : 'var(--border)'}`,
+                      border: `2px solid ${region === r ? 'var(--terracotta)' : 'var(--ink)'}`,
                       background: region === r ? 'var(--terracotta-lt)' : '#fff',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)',
                     }}
@@ -413,7 +413,7 @@ export default function SettingsPage() {
         const hasDob = dobSupported && !!form.dob
         const derivedBand = hasDob ? bandForAge(form.dob) : null
         return (
-        <section key={kid.id} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+        <section key={kid.id} style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>
             {kids.length > 1 ? (kid.name && kid.name !== 'Your child' ? kid.name : 'Your child') : 'Your child'}
           </h2>
@@ -491,7 +491,7 @@ export default function SettingsPage() {
                       alignItems: 'center',
                       gap: '12px',
                       padding: '12px 14px',
-                      border: `2px solid ${form.ageBand === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
+                      border: `2px solid ${form.ageBand === opt.value ? 'var(--terracotta)' : 'var(--ink)'}`,
                       borderRadius: '10px',
                       cursor: 'pointer',
                       background: form.ageBand === opt.value ? 'var(--terracotta-lt)' : 'var(--cream)',
@@ -567,7 +567,7 @@ export default function SettingsPage() {
           nothing to cancel, and telling that parent to go and cancel something
           would invent an anxiety rather than settle one. */}
       {inTrialNow && (
-        <section style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+        <section style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your free days</h2>
           {profile?.plan_choice === 'founder' ? (
             <>
@@ -599,7 +599,7 @@ export default function SettingsPage() {
       )}
 
       {/* Billing section */}
-      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+      <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Membership</h2>
 
         {isPaid ? (
@@ -661,7 +661,7 @@ export default function SettingsPage() {
           only to people who actually pay, because there is nothing here to
           manage otherwise. */}
       {isPaid && (
-        <section id="billing" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px' }}>
+        <section id="billing" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '24px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your plan</h2>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             Change your card, see your invoices, or cancel. One tap to Stripe's own page and there is no
@@ -671,8 +671,9 @@ export default function SettingsPage() {
             onClick={openBilling}
             disabled={portalBusy}
             style={{
-              background: 'none',
+              background: '#fff',
               border: '2px solid var(--ink)',
+              boxShadow: '0 4px 0 var(--ink)',
               borderRadius: '16px',
               padding: '10px 24px',
               fontSize: 'var(--text-md)',
@@ -692,7 +693,7 @@ export default function SettingsPage() {
       )}
 
       {/* Sign out */}
-      <section id="sign-out" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
+      <section id="sign-out" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px' }}>
         <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Sign out</h2>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
           You will be signed out on this device.
@@ -700,8 +701,9 @@ export default function SettingsPage() {
         <button
           onClick={signOut}
           style={{
-            background: 'none',
+            background: '#fff',
             border: '2px solid var(--ink)',
+            boxShadow: '0 4px 0 var(--ink)',
             borderRadius: '16px',
             padding: '10px 24px',
             fontSize: 'var(--text-md)',

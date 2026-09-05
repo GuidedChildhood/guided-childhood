@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The one time ask: shall we put their side of this on their own phone?
 //
@@ -73,9 +74,12 @@ export default function HandoverPrompt({
     return <QrHandoverModal token={token} childName={name} onClose={() => onDone('linked')} />
   }
 
-  const reason = (emoji: string, title: string, body: string) => (
+  const reason = (icon: HappyIconName, title: string, body: string) => (
     <li style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 9 }}>
-      <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', lineHeight: 1.3 }}>{emoji}</span>
+      <span aria-hidden style={{
+        flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--cream)', border: '2px solid var(--ink)',
+        boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}><HappyIcon name={icon} size={26} /></span>
       <span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{title}</span>
         <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 1 }}>{body}</span>
@@ -99,16 +103,16 @@ export default function HandoverPrompt({
         onClick={e => e.stopPropagation()}
         style={{
           width: '100%', maxWidth: 440, margin: 'auto',
-          background: '#fff', border: '1.5px solid var(--border)',
+          background: '#fff', border: '2px solid var(--ink)',
           borderRadius: 24, overflow: 'hidden',
-          boxShadow: '0 24px 60px -18px rgba(26,26,46,0.5)',
+          boxShadow: '0 4px 0 var(--ink)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)', borderBottom: '2px solid var(--ink)' }}>
           <span aria-hidden style={{
-            flexShrink: 0, width: 42, height: 42, borderRadius: 13, background: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
-          }}>📲</span>
+            flexShrink: 0, width: 42, height: 42, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}><HappyIcon name="phonebed" size={30} /></span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               One thing worth doing
@@ -124,12 +128,12 @@ export default function HandoverPrompt({
             Jobs, quests, printables and their star bank, on their own device. Nothing to install and nothing for them to sign up for.
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {reason('✅', 'They tick their own jobs', 'You stop being the one chasing and checking. They do their side, you just approve.')}
-            {reason('⏳', 'They ask for screen time', 'Instead of arguing for it. The stars they have earned decide the answer, not the mood in the room.')}
+            {reason('jobs', 'They tick their own jobs', 'You stop being the one chasing and checking. They do their side, you just approve.')}
+            {reason('time', 'They ask for screen time', 'Instead of arguing for it. The stars they have earned decide the answer, not the mood in the room.')}
           </ul>
         </div>
 
-        <div style={{ margin: '13px 18px 0', background: 'var(--tint-sage)', borderRadius: 14, padding: '11px 13px' }}>
+        <div style={{ margin: '13px 18px 0', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 14, padding: '11px 13px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
             What they get, and what they do not
           </div>
@@ -164,8 +168,9 @@ export default function HandoverPrompt({
             onClick={onPaper}
             style={{
               width: '100%', marginTop: 8, padding: '13px', cursor: 'pointer',
-              background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
+              background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
               borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              boxShadow: '0 4px 0 var(--ink)',
             }}
           >
             We do it on paper

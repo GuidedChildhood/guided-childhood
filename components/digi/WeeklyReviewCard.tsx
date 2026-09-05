@@ -74,7 +74,7 @@ export default function WeeklyReviewCard() {
   // text claims a readable minimum and the button drops to its own line
   // underneath when the two cannot share.
   return (
-    <div style={{ position: 'relative', background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '13px', boxShadow: '0 4px 16px rgba(201,154,40,0.12)' }}>
+    <div style={{ position: 'relative', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '13px', boxShadow: '0 4px 0 var(--ink)' }}>
       <button
         onClick={close}
         aria-label="Close"
@@ -82,7 +82,7 @@ export default function WeeklyReviewCard() {
       >
         ×
       </button>
-      <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <DigiCharacter mood="happy" size={30} once />
       </span>
       <div style={{ flex: '1 1 200px', minWidth: 0, paddingRight: 14 }}>

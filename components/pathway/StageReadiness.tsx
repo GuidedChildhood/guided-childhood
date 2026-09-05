@@ -42,11 +42,11 @@ export default function StageReadiness({
   const allGreen = ambers.length === 0 && lessonsLeft === 0
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
-    padding: '20px 20px 22px', boxShadow: '0 4px 0 rgba(26,26,46,0.05)',
+    background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
+    padding: '20px 20px 22px', boxShadow: '0 4px 0 var(--ink)',
   }
   const digiHead = (mood: 'wave' | 'happy' | 'speak' | 'thinking') => (
-    <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <DigiCharacter size={30} mood={mood} />
     </span>
   )
@@ -55,7 +55,7 @@ export default function StageReadiness({
   if (alreadyPassed) {
     return (
       <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
-        <div style={{ ...card, background: 'var(--tint-green)', border: '1.5px solid var(--retro-green)' }}>
+        <div style={{ ...card, background: 'var(--tint-green)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
             {digiHead('happy')}
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -75,7 +75,7 @@ export default function StageReadiness({
 
   return (
     <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
-      <div style={{ ...card, background: allGreen ? 'var(--tint-green)' : '#fff', border: `1.5px solid ${allGreen ? 'var(--retro-green)' : 'var(--border)'}` }}>
+      <div style={{ ...card, background: allGreen ? 'var(--tint-green)' : '#fff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
           {digiHead(allGreen ? 'happy' : 'speak')}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -101,7 +101,7 @@ export default function StageReadiness({
             {ambers.map(a => (
               <Link key={a.name} href={a.href} style={{
                 display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-                background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px',
+                background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 14px',
               }}>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
@@ -113,7 +113,7 @@ export default function StageReadiness({
             {lessonsLeft > 0 && (
               <Link href="/dashboard/lessons" style={{
                 display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-                background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px',
+                background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 14px',
               }}>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
@@ -135,9 +135,9 @@ export default function StageReadiness({
                 style={{
                   display: 'block', textAlign: 'center', textDecoration: 'none',
                   marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                  borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-                  boxShadow: '0 4px 0 var(--terracotta-dark)',
+                  border: '2px solid var(--ink)', borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
+                  boxShadow: '0 4px 0 var(--ink)',
                 }}
               >
                 Open the check on {kid}&rsquo;s link
@@ -172,9 +172,9 @@ export default function StageReadiness({
                 style={{
                   display: 'block', textAlign: 'center', textDecoration: 'none',
                   marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                  borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-                  boxShadow: '0 4px 0 var(--terracotta-dark)',
+                  border: '2px solid var(--ink)', borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
+                  boxShadow: '0 4px 0 var(--ink)',
                 }}
               >
                 Sit the check together

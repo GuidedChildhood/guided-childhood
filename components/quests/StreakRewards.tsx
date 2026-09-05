@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The reward moment. A child kept every job on time for five days running, so
 // here is the parent's one warm tap to mark it: a bit of device time straight
@@ -15,11 +16,11 @@ export interface StreakReward {
   streakDays: number
 }
 
-const REWARDS = [
-  { kind: 'device_time', emoji: '⏱️', label: 'Device time', sub: 'Bonus stars to spend', go: null },
-  { kind: 'printable', emoji: '🖨️', label: 'A printable', sub: 'Choose one to send', go: '/dashboard/printables' },
-  { kind: 'lesson', emoji: '📚', label: 'A lesson', sub: 'Pick one together', go: '/dashboard/lessons' },
-] as const
+const REWARDS: { kind: string; icon: HappyIconName; label: string; sub: string; go: string | null }[] = [
+  { kind: 'device_time', icon: 'time', label: 'Device time', sub: 'Bonus stars to spend', go: null },
+  { kind: 'printable', icon: 'print', label: 'A printable', sub: 'Choose one to send', go: '/dashboard/printables' },
+  { kind: 'lesson', icon: 'lessons', label: 'A lesson', sub: 'Pick one together', go: '/dashboard/lessons' },
+]
 
 export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) {
   const router = useRouter()
@@ -48,11 +49,13 @@ export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) 
     <div style={{ marginBottom: '18px' }}>
       {queue.map(streak => (
         <div key={streak.id} style={{
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
           borderRadius: '18px', padding: '17px 18px', marginBottom: '12px',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '12px' }}>
-            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>🌟</span>
+            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <HappyIcon name="flame" size={34} />
+            </span>
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
                 Streak complete
@@ -73,13 +76,13 @@ export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) 
                 disabled={busy === streak.id}
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                  background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+                  background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
                   padding: '12px 8px', cursor: busy === streak.id ? 'default' : 'pointer',
-                  boxShadow: '0 3px 0 rgba(26,26,46,0.10)', opacity: busy === streak.id ? 0.6 : 1,
+                  boxShadow: '0 4px 0 var(--ink)', opacity: busy === streak.id ? 0.6 : 1,
                   textAlign: 'center',
                 }}
               >
-                <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1 }}>{r.emoji}</span>
+                <span aria-hidden style={{ lineHeight: 0 }}><HappyIcon name={r.icon} size={34} /></span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.15 }}>{r.label}</span>
                 <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.3 }}>{r.sub}</span>
               </button>

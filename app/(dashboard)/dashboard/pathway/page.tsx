@@ -521,7 +521,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
         {/* Tailored by what this family flagged for this child. */}
         {tailoredAction && (
-          <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px', margin: '18px 0 0' }}>
+          <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', margin: '18px 0 0' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
               For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
             </div>
@@ -540,7 +540,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           report) still lands. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '18px auto 0' }}>
         <details className="passport-record" style={{
-          background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16,
+          background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
         }}>
           <summary style={{
             cursor: 'pointer', listStyle: 'none', padding: '13px 16px',
@@ -584,7 +584,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                 return (
                   <Link key={child.id} href={child.is_primary ? '/dashboard/pathway' : `/dashboard/pathway?child=${child.id}`} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'var(--cream)', border: '1px solid var(--border)',
+                    background: 'var(--cream)', border: '2px solid var(--ink)',
                     borderRadius: '12px', padding: '12px 16px', gap: '12px',
                     textDecoration: 'none',
                   }}>
@@ -623,7 +623,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {!isPaid && (
           <div style={{
             marginTop: '24px',
-            border: '2px solid var(--stage-5)', borderRadius: '16px',
+            border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px',
             padding: '20px 22px', background: 'var(--stage-5)',
           }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate</p>

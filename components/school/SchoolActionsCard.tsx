@@ -76,7 +76,7 @@ function AddedByChild({ name }: { name?: string | null }) {
       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
       letterSpacing: '0.06em', textTransform: 'uppercase',
       background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
-      border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px', flexShrink: 0,
+      border: '2px solid var(--ink)', borderRadius: '100px', padding: '2px 8px', flexShrink: 0,
     }}>
       ⭐ {name ? `${name} added this` : 'added by your child'}
     </span>
@@ -382,7 +382,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)',
+      background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',
     }}>
       {/* A calm pulse, only ever on the last hour and overdue cards, so the
@@ -439,7 +439,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
             disabled={testing}
             style={{
               marginTop: '12px',
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px',
               padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
               fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
             }}
@@ -464,9 +464,9 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
         <button
           onClick={() => setAddDay({ dateIso: todayIso(), dow: new Date().getDay() })}
           style={{
-            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
             borderRadius: '100px', padding: '8px 16px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--terracotta-dark)',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: 'var(--ink)',
           }}
         >
           + Add reminder
@@ -563,7 +563,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           onClick={() => setShowList(v => !v)}
           style={{
             width: '100%', marginBottom: showList ? '14px' : '2px', padding: '11px 14px',
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', cursor: 'pointer',
+            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '12px', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
           }}
@@ -604,12 +604,12 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
               <div key={a.id} style={{
                 display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
                 flexWrap: 'wrap',
-                borderRadius: '12px', background: held ? 'var(--cream)' : 'var(--tint-sage)', border: '1px solid var(--border)',
+                borderRadius: '12px', background: held ? 'var(--cream)' : 'var(--tint-sage)', border: '2px solid var(--ink)',
                 opacity: held ? 0.75 : 1,
               }}>
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-                  background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                  background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
                 }}>
                   {WEEKDAY_NAME[a.recurs_weekday ?? 0]}
                 </span>
@@ -625,7 +625,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                     of routine can be told apart at a glance. */}
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                  color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)',
+                  color: 'var(--ink-soft)', background: '#fff', border: '2px solid var(--ink)',
                   borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
                 }}>
                   {a.runs_in_holidays ? '🏖️ holidays too' : '🏫 school time'}
@@ -634,7 +634,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                 {held ? (
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                    color: 'var(--ink-muted)', background: '#fff', border: '1px solid var(--border)',
+                    color: 'var(--ink-muted)', background: '#fff', border: '2px solid var(--ink)',
                     borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
                   }}>
                     ⛱️ on hold until school is back
@@ -642,7 +642,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                 ) : a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', border: '1px solid var(--terracotta)',
+                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', border: '2px solid var(--ink)',
                     borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
                   }}>
                     Tomorrow
@@ -662,7 +662,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                 ) : (
                   <button
                     onClick={() => clearForToday(a.id)}
-                    style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
+                    style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '100px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
                   >
                     Clear for today ✓
                   </button>
@@ -706,7 +706,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
               <div key={a.id} style={{
                 padding: '12px 14px', borderRadius: '12px',
                 background: hot ? 'var(--danger-bg)' : 'var(--cream)',
-                border: hot ? '1.5px solid var(--danger)' : '1px solid var(--border)',
+                border: hot ? '2px solid var(--danger)' : '2px solid var(--ink)',
                 animation: hot ? 'gcSchoolPulse 1.6s ease-in-out infinite' : undefined,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '5px' }}>
@@ -775,7 +775,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                       onClick={() => sendToChild(a.id)}
                       disabled={sendingId === a.id}
                       style={{
-                        marginLeft: 'auto', background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)',
+                        marginLeft: 'auto', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
                         borderRadius: '100px', padding: '5px 12px', cursor: 'pointer',
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)',
                       }}

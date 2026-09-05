@@ -80,7 +80,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
       <div style={{
         position: 'relative', maxWidth: 420, width: '100%',
         background: '#fff', borderRadius: '22px', padding: '16px 18px',
-        boxShadow: '0 12px 40px rgba(26,26,46,0.28)', border: '2px solid var(--terracotta)',
+        boxShadow: '0 4px 0 var(--ink)', border: '2px solid var(--ink)',
         display: 'flex', alignItems: 'center', gap: '14px',
         animation: 'gcHappyUp 0.55s cubic-bezier(0.22,1.2,0.36,1) both',
       }}>

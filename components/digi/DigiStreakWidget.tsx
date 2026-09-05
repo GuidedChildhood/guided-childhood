@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
+import HappyIcon from '@/components/kid/HappyIcon'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 
@@ -93,9 +94,9 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
       style={{
         position: 'relative', overflow: 'hidden',
         background: surface,
-        border: `1.5px solid ${s.warm ? 'rgba(237,195,95,0.5)' : 'var(--border)'}`,
+        border: '2px solid var(--ink)',
         borderRadius: '20px', padding: '18px 20px', marginBottom: '20px',
-        boxShadow: '0 4px 20px rgba(26,26,46,0.06)',
+        boxShadow: '0 4px 0 var(--ink)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -115,7 +116,7 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
               {s.headline}
             </span>
             {count > 0 && (
-              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, filter: aliveToday ? 'none' : 'grayscale(0.7) opacity(0.6)' }}>🔥</span>
+              <span aria-hidden style={{ display: 'inline-flex', lineHeight: 1, filter: aliveToday ? 'none' : 'grayscale(0.7) opacity(0.6)' }}><HappyIcon name="flame" size={24} /></span>
             )}
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{s.body}</p>

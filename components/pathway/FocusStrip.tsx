@@ -51,7 +51,7 @@ export default function FocusStrip({
     <Link href={scriptHref} style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '10px',
-        background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+        background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
         borderRadius: '14px', padding: '11px 14px',
       }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>

@@ -4,6 +4,7 @@ import { currentChildId } from '@/lib/children/current'
 import { londonNow } from '@/lib/time/london'
 import Link from 'next/link'
 import { AGREEMENT_TYPES, CLAUSES_BY_TYPE, recommendedType, type Clause } from '@/lib/content/agreement-clauses'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The agreement wizard: choose the TYPE for where your child is (their
 // age is recommended, never forced), tap the clauses to include, pick
@@ -54,6 +55,13 @@ function defaultReviewDate(): string {
 }
 
 const CUSTOM = '__custom__'
+
+// The ink edged plate at the lead of the "on their app" rows.
+const PHONE_PLATE: React.CSSProperties = {
+  width: 36, height: 36, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
+  background: '#fff', border: '2px solid var(--ink)',
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+}
 
 export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone, isPaid, childAppLive = false, lastCheck = null, setupComplete = true }: Props) {
   const recommended = recommendedType(stageId)
@@ -283,9 +291,9 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                   style={{
                     display: 'flex', gap: '16px', alignItems: 'flex-start', textAlign: 'left',
                     background: active ? 'var(--terracotta-lt)' : '#fff',
-                    border: active ? '2.5px solid var(--terracotta)' : '2px solid var(--border)',
+                    border: active ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
                     borderRadius: '18px', padding: '18px 20px', cursor: 'pointer',
-                    boxShadow: active ? '0 4px 0 var(--terracotta-dark)' : '0 3px 0 var(--border)',
+                    boxShadow: '0 4px 0 var(--ink)',
                   }}
                 >
                   <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
@@ -330,7 +338,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               return (
                 <div key={c.key} style={{
                   background: included ? '#fff' : 'var(--cream)',
-                  border: included ? '2.5px solid var(--terracotta)' : '2px solid var(--border)',
+                  border: included ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
                   borderRadius: '18px', overflow: 'hidden',
                 }}>
                   <button
@@ -344,7 +352,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                     <span style={{
                       width: 30, height: 30, borderRadius: '10px', flexShrink: 0, marginTop: '1px',
                       background: included ? 'var(--terracotta)' : '#fff',
-                      border: included ? 'none' : '2px solid var(--border)',
+                      border: '2px solid var(--ink)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: 'var(--ink)', fontSize: 'var(--text-lg)', fontWeight: 800,
                     }}>
@@ -372,7 +380,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                               padding: '12px 14px', borderRadius: '12px', textAlign: 'left', cursor: 'pointer',
                               fontSize: 'var(--text-md)', fontWeight: 600, lineHeight: 1.45, color: 'var(--ink)',
                               background: picked ? 'var(--terracotta-lt)' : 'var(--cream)',
-                              border: picked ? '2px solid var(--terracotta)' : '1.5px solid var(--border)',
+                              border: picked ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
                             }}
                           >
                             {picked ? '● ' : '○ '}{opt}
@@ -388,7 +396,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                         placeholder="Or write it in your own words"
                         style={{
                           padding: '12px 14px', borderRadius: '12px', fontSize: 'var(--text-md)',
-                          border: isCustom ? '2px solid var(--terracotta)' : '1.5px dashed var(--border)',
+                          border: isCustom ? '2px solid var(--terracotta)' : '2px dashed var(--ink)',
                           background: '#fff', fontFamily: 'var(--font-body)', color: 'var(--ink)', outline: 'none',
                         }}
                         maxLength={200}
@@ -400,7 +408,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
             })}
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button onClick={() => setStep('type')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>
+            <button onClick={() => setStep('type')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
               ← Back
             </button>
             <button
@@ -416,12 +424,12 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
       {/* ── STEP 3: review and sign ── */}
       {step === 'sign' && (
         <>
-          <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '24px 22px', marginBottom: '20px' }}>
+          <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '24px 22px', marginBottom: '20px' }}>
             <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
               {type.emoji} {type.label} · with {childName}
             </div>
             {clauses.filter(c => chosen[c.key]).map(c => (
-              <div key={c.key} style={{ padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+              <div key={c.key} style={{ padding: '12px 0', borderBottom: '2px dotted rgba(26,26,46,0.18)' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '3px' }}>
                   {c.title}
                 </div>
@@ -436,7 +444,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                 type="date"
                 value={reviewDate}
                 onChange={e => setReviewDate(e.target.value)}
-                style={{ padding: '12px 16px', border: '1.5px solid var(--border)', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', background: 'var(--cream)' }}
+                style={{ padding: '12px 16px', border: '2px solid var(--ink)', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', background: 'var(--cream)' }}
               />
             </div>
           </div>
@@ -451,15 +459,15 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               onClick={sig.toggle}
               style={{
                 display: 'flex', alignItems: 'center', gap: '14px', width: '100%',
-                background: '#fff', border: sig.checked ? '2.5px solid var(--terracotta)' : '2px solid var(--border)',
+                background: '#fff', border: sig.checked ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
                 borderRadius: '16px', padding: '17px 18px', marginBottom: '10px',
-                cursor: 'pointer', textAlign: 'left',
+                cursor: 'pointer', textAlign: 'left', boxShadow: '0 4px 0 var(--ink)',
               }}
             >
               <span style={{
                 width: '28px', height: '28px', borderRadius: '9px', flexShrink: 0,
                 background: sig.checked ? 'var(--terracotta)' : '#fff',
-                border: sig.checked ? 'none' : '2px solid var(--border)',
+                border: '2px solid var(--ink)',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 color: 'var(--ink)', fontSize: 'var(--text-md)', fontWeight: 800,
               }}>
@@ -476,15 +484,15 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               their mind, not once it has already happened. */}
           <p style={{
             display: 'flex', alignItems: 'center', gap: '9px', marginTop: '16px',
-            background: 'var(--tint-blue)', borderRadius: '14px', padding: '12px 14px',
+            background: 'var(--tint-blue)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px 14px',
             fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600,
           }}>
-            <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>📲</span>
+            <span aria-hidden style={PHONE_PLATE}><HappyIcon name="tell" size={24} /></span>
             <span>Saving this shares it on {childName}&apos;s app, under Our family deal. They will see it exactly as written here.</span>
           </p>
 
           <div style={{ display: 'flex', gap: '10px', marginTop: '14px' }}>
-            <button onClick={() => setStep('clauses')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>
+            <button onClick={() => setStep('clauses')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
               ← Back
             </button>
             {isPaid ? (
@@ -522,10 +530,10 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
             )}
           </div>
 
-          <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '24px 22px', marginBottom: '16px' }}>
+          <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '24px 22px', marginBottom: '16px' }}>
             {Object.keys(chosen).length > 0 ? (
               clauses.filter(c => chosen[c.key]).map(c => (
-                <div key={c.key} style={{ padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+                <div key={c.key} style={{ padding: '12px 0', borderBottom: '2px dotted rgba(26,26,46,0.18)' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '3px' }}>
                     {c.title}
                   </div>
@@ -539,7 +547,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               [saved?.family_values, saved?.bedroom_rule_time, saved?.bedroom_rule_location, saved?.social_media_terms, saved?.when_things_go_wrong, saved?.extra_agreements]
                 .filter(Boolean)
                 .map((text, i) => (
-                  <p key={i} style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, padding: '8px 0', margin: 0, borderBottom: '1px solid var(--border)' }}>
+                  <p key={i} style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, padding: '8px 0', margin: 0, borderBottom: '2px dotted rgba(26,26,46,0.18)' }}>
                     {text}
                   </p>
                 ))
@@ -613,7 +621,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                 Print the fridge copy
               </Link>
             )}
-            <button onClick={() => setStep('type')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>
+            <button onClick={() => setStep('type')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
               Change it
             </button>
           </div>
@@ -630,10 +638,10 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
           {childAppLive ? (
             <div style={{
               display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px',
-              background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+              background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
               borderRadius: '16px', padding: '14px 16px',
             }}>
-              <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>📲</span>
+              <span aria-hidden style={PHONE_PLATE}><HappyIcon name="tell" size={24} /></span>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
                 This is already on {childName}&apos;s app, under Our family deal. Every change you make here lands there straight away, so there is nothing to send.
               </p>
@@ -641,10 +649,10 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
           ) : (
             <Link href="/dashboard/quests?tab=share" style={{
               display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px',
-              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
               borderRadius: '16px', padding: '14px 16px', textDecoration: 'none',
             }}>
-              <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>📲</span>
+              <span aria-hidden style={PHONE_PLATE}><HappyIcon name="tell" size={24} /></span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                   {childName} cannot see this yet
@@ -663,7 +671,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               combination on the page, and this is the block asking a parent to
               make a judgement. Ink on a soft blue instead, and every size up. */}
           {showWeekCheck && (
-          <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--tint-blue)', borderRadius: '20px', padding: '22px' }}>
+          <div style={{ background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '22px' }}>
             <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginBottom: '8px' }}>
               End of week check
             </div>
@@ -677,7 +685,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                     href={`sms:${childPhone.replace(/\s/g, '')}?&body=${encodeURIComponent(`End of week check! How did our family agreement go this week, marks out of 10? And one thing we should change?`)}`}
                     style={{
                       display: 'block', textAlign: 'center', marginBottom: '10px',
-                      background: '#fff', border: '1.5px solid var(--border)',
+                      background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
                       borderRadius: '14px', padding: '14px', textDecoration: 'none',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)',
                     }}

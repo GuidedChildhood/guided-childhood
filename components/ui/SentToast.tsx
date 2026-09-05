@@ -82,7 +82,8 @@ export default function SentToast({
         color: '#fff',
         borderRadius: 16,
         padding: '13px 17px',
-        boxShadow: '0 6px 22px rgba(26,26,46,0.28)',
+        border: '2px solid var(--ink)',
+        boxShadow: '0 4px 0 var(--ink)',
         // The page underneath stays usable. A toast that swallows taps means a
         // parent adding three jobs in a row loses the second one.
         pointerEvents: 'none',

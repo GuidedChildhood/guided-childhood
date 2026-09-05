@@ -44,14 +44,14 @@ export default function PrintablesToConfirm() {
     // Anchored so the notification for a finished printable lands on this card
     // rather than at the top of the board. The confirm button lives here and
     // nowhere else, so this is the only place that tap can honestly point.
-    <div id="printables-to-confirm" style={{ scrollMarginTop: 84, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginTop: '18px' }}>
+    <div id="printables-to-confirm" style={{ scrollMarginTop: 84, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginTop: '18px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
         Printables to confirm
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {items.map(it => (
-          <div key={it.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
-            <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{it.emoji ?? '🖍️'}</span>
+          <div key={it.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px 14px' }}>
+            <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-lg)' }}>{it.emoji ?? '🖍️'}</span>
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
                 {it.childName} finished {it.title}
@@ -72,7 +72,7 @@ export default function PrintablesToConfirm() {
                 onClick={() => decide(it.id, 'decline')}
                 disabled={busy === it.id}
                 title="Not done yet"
-                style={{ background: '#fff', color: 'var(--ink-muted)', border: '1.5px solid var(--border)', borderRadius: '11px', padding: '9px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, whiteSpace: 'nowrap' }}
+                style={{ background: '#fff', color: 'var(--ink-muted)', border: '2px solid var(--ink)', borderRadius: '11px', padding: '9px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, whiteSpace: 'nowrap' }}
               >
                 Not yet
               </button>

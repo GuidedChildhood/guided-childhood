@@ -29,7 +29,7 @@ export default async function NotificationsPage() {
       </div>
 
       {items.length === 0 ? (
-        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px', padding: '40px 24px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '40px 24px', textAlign: 'center' }}>
           <div style={{ fontSize: 'var(--text-3xl)', marginBottom: '10px' }}>🎉</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '6px' }}>
             You are all caught up

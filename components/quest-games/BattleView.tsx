@@ -47,7 +47,7 @@ export default function BattleView({ game, onDone }: { game: BattleGame; onDone:
           <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>VS</span>
           <span style={{ fontSize: 'min(18vw, 80px)', lineHeight: 1 }}>{game.opponent.emoji}</span>
         </div>
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '16px 18px', marginBottom: '16px' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '16px 18px', marginBottom: '16px' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
             {game.opponent.name} says
           </p>
@@ -118,7 +118,7 @@ export default function BattleView({ game, onDone }: { game: BattleGame; onDone:
                 padding: longOptions ? '14px 16px' : '18px 6px', borderRadius: '16px', cursor: answered === null ? 'pointer' : 'default',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: longOptions ? 'var(--text-md)' : 'var(--text-xl)', color: 'var(--ink)',
                 background: showAsAnswer ? 'var(--tint-sage)' : chosen ? '#FBEAEA' : '#fff',
-                border: `2px solid ${showAsAnswer ? 'var(--sage-ink, #2D5016)' : chosen ? '#c0392b' : 'var(--border)'}`,
+                border: `2px solid ${showAsAnswer ? 'var(--sage-ink, #2D5016)' : chosen ? '#c0392b' : 'var(--ink)'}`,
                 textAlign: longOptions ? 'left' : 'center',
               }}
             >

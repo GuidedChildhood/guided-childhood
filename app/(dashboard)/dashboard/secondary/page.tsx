@@ -55,7 +55,7 @@ export default async function SecondaryPage() {
       {/* The one thing this page refuses to do, said out loud rather than
           implied, because a parent arriving here is often hoping we will make
           the decision and it is kinder to be straight about it. */}
-      <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 16, padding: '14px 16px', margin: '18px 0 24px' }}>
+      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '14px 16px', margin: '18px 0 24px' }}>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
           We will not tell you whether to get {name} a phone. Nobody who has not met your child should. What we can give you is the order, and the order is the part you cannot go back and redo.
         </p>
@@ -63,7 +63,7 @@ export default async function SecondaryPage() {
 
       <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
         {TRANSITION_STEPS.map((step, i) => (
-          <li key={step.key} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+          <li key={step.key} style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 8 }}>
               <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                 {i + 1}
@@ -77,7 +77,7 @@ export default async function SecondaryPage() {
             </p>
             {/* Why it sits at this point in the order, in the quieter voice, so
                 a parent skimming the titles can still find the reasoning. */}
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, paddingLeft: 12, borderLeft: '2px solid var(--border)' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, paddingLeft: 12, borderLeft: '2px dotted rgba(26,26,46,0.18)' }}>
               {step.why}
             </p>
             {step.href && (
@@ -97,7 +97,7 @@ export default async function SecondaryPage() {
         ))}
       </ol>
 
-      <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 20, padding: '18px 20px', marginTop: 20 }}>
+      <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px', marginTop: 20 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
           Every family lands this differently
         </div>

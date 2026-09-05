@@ -102,7 +102,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
-        borderBottom: '1px solid var(--border)',
+        borderBottom: '2px solid var(--ink)',
         background: 'rgba(255,255,255,.96)',
         backdropFilter: 'blur(20px)',
         position: 'sticky',

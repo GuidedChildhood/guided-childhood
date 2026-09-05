@@ -32,13 +32,14 @@ export default async function WhatIsWorkingLink() {
       href="/dashboard/what-is-working?from=pathway"
       style={{
         display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none',
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
-        padding: '16px 18px', marginBottom: '20px',
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px',
+        padding: '16px 18px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)',
       }}
     >
       <span aria-hidden style={{
         width: 46, height: 46, borderRadius: '13px', flexShrink: 0,
-        background: 'var(--tint-green)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'var(--tint-green)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--retro-green)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 17.5l5.5-6 4 3.5L21 6" />

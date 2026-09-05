@@ -43,7 +43,7 @@ export default function GuideBody({
   const ageReady = childAge >= guide.min_age
 
   return (
-    <div style={{ padding: '16px 18px 20px 18px', borderTop: '1px solid var(--border)' }}>
+    <div style={{ padding: '16px 18px 20px 18px', borderTop: '2px solid var(--ink)' }}>
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: '6px',
         background: ageReady ? 'var(--stage-2)' : 'var(--stage-5)',
@@ -59,7 +59,7 @@ export default function GuideBody({
 
       <ol style={{ listStyle: 'none', margin: 0, padding: 0, marginBottom: '16px' }}>
         {guide.steps.map((step, i) => (
-          <li key={i} style={{ display: 'flex', gap: '12px', padding: '11px 0', borderBottom: i < guide.steps.length - 1 ? '1px solid var(--border)' : 'none' }}>
+          <li key={i} style={{ display: 'flex', gap: '12px', padding: '11px 0', borderBottom: i < guide.steps.length - 1 ? '2px dotted rgba(26,26,46,0.18)' : 'none' }}>
             <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--ink)', color: 'var(--terracotta-lt)', fontSize: 'var(--text-sm)', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
               {i + 1}
             </div>
@@ -70,7 +70,7 @@ export default function GuideBody({
         ))}
       </ol>
 
-      <div style={{ background: 'var(--stage-5)', borderLeft: '2.5px solid var(--terracotta)', borderRadius: '10px', padding: '12px 14px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '14px' }}>
+      <div style={{ background: 'var(--stage-5)', border: '2px solid var(--ink)', borderLeft: '4px solid var(--terracotta)', borderRadius: '10px', padding: '12px 14px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '14px' }}>
         <strong style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Pathway note: </strong>
         {guide.note}
       </div>

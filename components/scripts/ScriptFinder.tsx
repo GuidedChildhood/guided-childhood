@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { matchScripts } from '@/lib/digi/script-match'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // Find my script. A parent types the problem in their own words and we surface
 // the closest scripts as they type. If nothing fits, DiGi takes the ask and it
@@ -86,7 +87,7 @@ export default function ScriptFinder({
           fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
         }}
         onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
-        onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
+        onBlur={e => { e.currentTarget.style.borderColor = 'var(--ink)' }}
       />
 
       {results.length > 0 && (
@@ -97,9 +98,11 @@ export default function ScriptFinder({
               <Link
                 key={s.sort_order}
                 href={locked ? '/dashboard/upgrade' : `/dashboard/scripts/${s.sort_order}${childId ? `?child=${childId}` : ''}`}
-                style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', padding: '11px 13px', textDecoration: 'none' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '11px 13px', textDecoration: 'none' }}
               >
-                <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>💬</span>
+                <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <HappyIcon name="tell" size={26} />
+                </span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>{s.title}</span>
                   <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '1px' }}>{s.situation}</span>
@@ -115,8 +118,10 @@ export default function ScriptFinder({
           lands in the founder insights to be written. */}
       {query.length >= 4 && (
         asked ? (
-          <div style={{ marginTop: '12px', background: 'var(--tint-sage)', borderRadius: '12px', padding: '12px 14px', display: 'flex', gap: '9px', alignItems: 'center' }}>
-            <span style={{ fontSize: 'var(--text-lg)' }}>💛</span>
+          <div style={{ marginTop: '12px', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 14px', display: 'flex', gap: '9px', alignItems: 'center' }}>
+            <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <HappyIcon name="heart" size={26} />
+            </span>
             <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.45 }}>
               DiGi has it. We write scripts from what parents actually ask for, so this helps shape what comes next.
             </span>

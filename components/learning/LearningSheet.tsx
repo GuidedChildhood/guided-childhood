@@ -92,7 +92,7 @@ export default function LearningSheet({
   if (done) {
     const flaggedNames = objectives.filter(o => tricky.has(o.id))
     return (
-      <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 20, padding: '20px 22px' }}>
+      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '20px 22px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, marginBottom: 6 }}>
           All done, and {done.stars} stars in the bank
         </div>
@@ -119,9 +119,9 @@ export default function LearningSheet({
                 nowhere, so DiGi turns it into one small job on their own phone,
                 worth stars like any other. Offered, never automatic: a family
                 who has had enough for one afternoon closes the page. */}
-            <div style={{ borderTop: '1.5px solid rgba(47,143,107,0.28)', marginTop: 16, paddingTop: 14 }}>
+            <div style={{ borderTop: '2px solid var(--ink)', marginTop: 16, paddingTop: 14 }}>
               {quest ? (
-                <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
+                <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 15px' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--retro-green-dark)', marginBottom: 5 }}>
                     On {childName}&apos;s phone now
                   </div>
@@ -142,9 +142,9 @@ export default function LearningSheet({
                     disabled={questState === 'busy'}
                     style={{
                       width: '100%', padding: '13px', cursor: questState === 'busy' ? 'default' : 'pointer',
-                      background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14,
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                      boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: questState === 'busy' ? 0.7 : 1,
+                      background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 14,
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+                      boxShadow: '0 4px 0 var(--ink)', opacity: questState === 'busy' ? 0.7 : 1,
                     }}
                   >
                     {questState === 'busy' ? 'Writing it' : 'Make it a quest'}
@@ -165,7 +165,7 @@ export default function LearningSheet({
 
   return (
     <div>
-      <div style={{ background: '#fff', border: '1.5px solid rgba(201,154,40,0.32)', borderRadius: 22, overflow: 'hidden', boxShadow: '0 4px 0 rgba(201,154,40,0.16)' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 22, overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)' }}>
         <div style={{ background: 'var(--terracotta)', padding: '14px 20px 20px', borderRadius: '0 0 50% 50% / 0 0 30px 30px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: '#4A3410', opacity: 0.75 }}>
             {label}
@@ -195,13 +195,13 @@ export default function LearningSheet({
                     style={{
                       display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%', textAlign: 'left',
                       background: on ? 'var(--terracotta-lt)' : '#fff',
-                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      border: '2px solid var(--ink)',
                       borderRadius: 14, padding: '12px 13px', marginBottom: 8, cursor: 'pointer',
                     }}
                   >
                     <span aria-hidden style={{
                       flexShrink: 0, width: 26, height: 26, borderRadius: 9,
-                      border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
+                      border: '2px solid var(--ink)',
                       background: on ? 'var(--terracotta)' : '#fff',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: 'var(--text-base)', lineHeight: 1,
@@ -231,9 +231,9 @@ export default function LearningSheet({
         disabled={saving}
         style={{
           width: '100%', marginTop: 16, padding: '15px', cursor: saving ? 'default' : 'pointer',
-          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
+          background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 16,
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-          boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: saving ? 0.7 : 1,
+          boxShadow: '0 4px 0 var(--ink)', opacity: saving ? 0.7 : 1,
         }}
       >
         {saving ? 'Saving' : `We have finished this one · ⭐ 5`}

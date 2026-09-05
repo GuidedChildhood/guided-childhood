@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // The way back from a welcome card.
 //
@@ -30,10 +31,13 @@ export default function BackToToday() {
     <div style={{ padding: '16px 20px 0', maxWidth: 720, margin: '0 auto' }}>
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12,
-      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: 16, padding: '11px 14px', margin: '0 0 16px',
     }}>
-      <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>🧭</span>
+      <span aria-hidden style={{
+        flexShrink: 0, width: 36, height: 36, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)',
+        boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}><HappyIcon name="calendar" size={26} /></span>
       {/* Sentence and link share the flexible column so the words never get
           squeezed one a line beside a fixed pill at larger text sizes. */}
       <span style={{ flex: 1, minWidth: 0 }}>

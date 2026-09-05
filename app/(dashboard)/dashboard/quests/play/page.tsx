@@ -19,11 +19,11 @@ export default function QuestGamesIndex() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '14px' }}>
         {QUEST_GAMES.map(g => (
           <div key={g.key} style={{
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '18px',
-            boxShadow: '0 6px 22px rgba(46,40,24,0.06)', display: 'flex', flexDirection: 'column', gap: '10px',
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px',
+            boxShadow: '0 4px 0 var(--ink)', display: 'flex', flexDirection: 'column', gap: '10px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 'var(--text-2xl)' }}>{g.emoji}</span>
+              <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--cream)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)', lineHeight: 1 }}>{g.emoji}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: '100px' }}>
                 {g.stage}
               </span>

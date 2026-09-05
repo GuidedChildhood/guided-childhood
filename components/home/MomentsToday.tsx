@@ -66,7 +66,7 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
     return (
       <div style={{
         display: 'flex', alignItems: 'center', gap: '10px',
-        background: 'var(--stage-2)', border: '1.5px solid var(--border)',
+        background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         borderRadius: '16px', padding: '13px 16px', marginBottom: '16px',
       }}>
         <span aria-hidden="true">✓</span>
@@ -91,8 +91,8 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)',
-      borderRadius: '20px', padding: '20px', marginBottom: '16px',
+      background: '#fff', border: '2px solid var(--ink)',
+      borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
         What came up today?
@@ -111,12 +111,12 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
         style={{
           width: '100%', padding: '13px',
           background: selected.length > 0 ? 'var(--terracotta)' : 'var(--cream)',
-          border: selected.length > 0 ? 'none' : '1.5px solid var(--border)',
+          border: '2px solid var(--ink)',
           borderRadius: '14px',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
           letterSpacing: '.08em', textTransform: 'uppercase',
           color: 'var(--ink)',
-          boxShadow: selected.length > 0 ? '0 4px 0 var(--terracotta-dark)' : 'none',
+          boxShadow: '0 4px 0 var(--ink)',
           cursor: 'pointer',
         }}
       >

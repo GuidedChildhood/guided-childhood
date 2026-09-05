@@ -55,7 +55,7 @@ export default function BalanceDial({
   return (
     <div style={{
       background: '#fff', borderRadius: '16px', padding: '12px 10px 12px',
-      marginBottom: '14px', border: '1.5px solid rgba(26,26,46,0.06)',
+      marginBottom: '14px', border: '2px solid var(--ink)',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>

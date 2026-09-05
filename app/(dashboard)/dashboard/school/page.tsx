@@ -107,7 +107,7 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
       {/* Email forwarding is coming soon: the automatic pull from school emails
           is being finished alongside the app wrap for Apple. The manual weekly
           routines above are live and do the everyday job now. */}
-      <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '20px' }}>
+      <div style={{ background: '#fff', border: '2px dashed var(--ink)', borderRadius: '18px', padding: '20px' }}>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
           Forward your school emails · coming soon
         </p>

@@ -30,9 +30,9 @@ import FreeDoor from './FreeDoor'
 // checked.
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)',
+  background: '#fff', border: '2px solid var(--ink)',
   borderRadius: 20, padding: '22px 20px',
-  boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+  boxShadow: '0 4px 0 var(--ink)',
   // Equal height whatever the copy does, and the button pinned to the bottom of
   // each, so the two are read as a pair rather than as one card and a follow up.
   display: 'flex', flexDirection: 'column',
@@ -92,7 +92,7 @@ const EYEBROW: React.CSSProperties = {
 // parent who is surprised by a charge on day five is a chargeback and a
 // complaint, and they would be right to make it.
 const CHARGE_NOTE: React.CSSProperties = {
-  background: 'var(--cream)', border: '1.5px solid var(--border)',
+  background: 'var(--cream)', border: '2px solid var(--ink)',
   borderRadius: 14, padding: '13px 16px', marginBottom: '18px',
   fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5,
 }
@@ -190,7 +190,7 @@ export default function TwoDoors({
                   Stripe count, and only a card can hold one. */}
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
-                border: '1.5px solid var(--border)',
+                border: '2px solid var(--ink)',
                 borderRadius: '100px', padding: '7px 16px', marginBottom: '24px',
               }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />

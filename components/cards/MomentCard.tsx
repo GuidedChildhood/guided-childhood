@@ -141,8 +141,8 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           outline: 'none',
           borderRadius: '20px',
           background: 'var(--white)',
-          border: '1px solid var(--border)',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+          border: '2px solid var(--ink)',
+          boxShadow: '0 4px 0 var(--ink)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -192,7 +192,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
 
         {/* Hint */}
         <div style={{
-          padding: '9px 12px', borderTop: '1px solid var(--border)',
+          padding: '9px 12px', borderTop: '2px solid var(--ink)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
           background: 'var(--cream)', marginTop: 'auto',
         }}>
@@ -426,9 +426,9 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'Enter') next(); if (e.key === 'ArrowLeft') prev() }}
               style={{
                 width: 'min(100%, 520px)', flex: 1, minHeight: 0,
-                background: look.tint, borderRadius: '26px',
+                background: look.tint, borderRadius: '26px', border: '2px solid var(--ink)',
                 display: 'flex', flexDirection: 'column', overflow: 'hidden',
-                boxShadow: '0 12px 48px rgba(0,0,0,0.35)',
+                boxShadow: '0 4px 0 var(--ink)',
                 cursor: isLast ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent',
               }}
             >

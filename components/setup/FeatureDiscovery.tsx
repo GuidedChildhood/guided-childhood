@@ -88,7 +88,7 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
 
   return (
     <div style={{
-      background: 'var(--deep-teal)', borderRadius: '18px',
+      background: 'var(--deep-teal)', borderRadius: '18px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       padding: '18px 20px', marginBottom: '20px', position: 'relative', color: '#fff',
     }}>
       <button

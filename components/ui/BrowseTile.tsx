@@ -92,7 +92,7 @@ export default function BrowseTile({
           position: 'absolute', right: '-10px', bottom: '-14px', width: '76px', height: '76px',
           borderRadius: '50%', backgroundImage: `url(${coverUrl})`,
           backgroundSize: 'cover', backgroundPosition: 'center',
-          boxShadow: '0 2px 8px rgba(26,26,46,0.16)', border: '2px solid rgba(255,255,255,0.7)',
+          border: '2px solid var(--ink)',
         }} />
       ) : (
         <span aria-hidden style={{
@@ -109,9 +109,9 @@ export default function BrowseTile({
           width: 22, height: 22, borderRadius: '50%',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
-          background: done ? '#2F8F6B' : 'rgba(255,255,255,0.9)',
+          background: done ? 'var(--retro-green)' : '#fff',
           color: done ? '#fff' : text,
-          boxShadow: '0 2px 0 rgba(26,26,46,0.14)',
+          border: '2px solid var(--ink)', boxSizing: 'border-box',
         }}>
           {number}
         </span>
@@ -126,7 +126,7 @@ export default function BrowseTile({
           color: done ? '#1F7A54' : attempted ? '#9A6A16' : 'var(--ink)',
           borderRadius: '100px', padding: '3px 9px',
         }}>
-          {done ? doneLabel ?? '✓ Done' : attempted ? '↻ Attempted' : '🔒 Members'}
+          {done ? doneLabel ?? 'Done' : attempted ? 'Attempted' : 'Members'}
         </span>
       )}
     </Link>

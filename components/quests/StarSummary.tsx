@@ -12,6 +12,7 @@
 import { useEffect, useState } from 'react'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Celebration from '@/components/ui/Celebration'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 type Goal = { title: string; stars_needed: number } | null
 
@@ -81,7 +82,7 @@ export default function StarSummary({
   // sits in the corner of an interactive tile, and the static one (this week)
   // stays visibly calmer, so a parent knows at a glance which ones act.
   const tile = (
-    icon: string, big: string, label: string, onClick?: () => void, hot?: boolean,
+    icon: HappyIconName, big: string, label: string, onClick?: () => void, hot?: boolean,
   ): React.ReactNode => (
     <button
       onClick={onClick}
@@ -90,42 +91,42 @@ export default function StarSummary({
         position: 'relative', flex: 1, minWidth: 82, textAlign: 'center',
         cursor: onClick ? 'pointer' : 'default',
         background: hot ? 'var(--danger-bg)' : onClick ? '#fff' : 'var(--cream)',
-        border: `1.5px solid ${hot ? 'var(--danger)' : 'var(--border)'}`,
+        border: `2px solid ${hot ? 'var(--danger)' : 'var(--ink)'}`,
         borderRadius: '14px', padding: '11px 8px',
-        boxShadow: onClick ? '0 2px 0 var(--border)' : 'none',
+        boxShadow: onClick ? '0 4px 0 var(--ink)' : 'none',
         opacity: onClick || hot ? 1 : 0.82,
       }}
     >
       {onClick && (
         <span aria-hidden style={{ position: 'absolute', top: 6, right: 9, fontSize: 'var(--text-base)', fontWeight: 800, color: hot ? 'var(--danger)' : 'var(--ink-light)' }}>›</span>
       )}
-      <div style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>{icon}</div>
+      <div style={{ lineHeight: 0 }}><HappyIcon name={icon} size={30} /></div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: hot ? 'var(--danger)' : 'var(--ink)', marginTop: '3px' }}>{big}</div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{label}</div>
     </button>
   )
 
-  const bigBtn = (icon: string, label: string, onClick: () => void, primary?: boolean): React.ReactNode => (
+  const bigBtn = (icon: HappyIconName, label: string, onClick: () => void, primary?: boolean): React.ReactNode => (
     <button onClick={onClick} style={{
       flex: 1, minWidth: 96, padding: '12px 8px', borderRadius: '14px', cursor: 'pointer',
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
-      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-      background: primary ? 'var(--terracotta)' : 'var(--cream)', color: 'var(--ink)',
-      boxShadow: primary ? '0 4px 0 var(--terracotta-dark)' : '0 3px 0 rgba(26,26,46,0.14)',
-      border: primary ? 'none' : '1.5px solid rgba(26,26,46,0.1)',
+      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+      background: primary ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
+      boxShadow: '0 4px 0 var(--ink)',
+      border: '2px solid var(--ink)',
     }}>
-      <span style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>{icon}</span>
+      <span style={{ lineHeight: 0 }}><HappyIcon name={icon} size={30} /></span>
       <span>{label}</span>
     </button>
   )
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           {childName}&apos;s stars
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px 11px' }}>
           1 ⭐ = {rate} min
         </span>
       </div>
@@ -143,10 +144,12 @@ export default function StarSummary({
       {timerRunning && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '13px',
-          background: 'var(--tint-sage)', border: '1.5px solid var(--deep-teal)',
+          background: 'var(--tint-sage)', border: '2px solid var(--ink)',
           borderRadius: '13px', padding: '11px 14px',
         }}>
-          <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1 }}>⏱️</span>
+          <span aria-hidden style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+            <HappyIcon name="time" size={26} />
+          </span>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
               {childName} is on screen time now
@@ -164,15 +167,15 @@ export default function StarSummary({
       )}
 
       <div style={{ display: 'flex', gap: '7px', marginBottom: goal ? '13px' : '14px' }}>
-        {tile('🙋', String(pending), 'waiting your yes', pending > 0 ? onApprove : undefined, pending > 0)}
-        {tile('📋', String(todo), 'to do today', todo > 0 ? onTodo : undefined)}
-        {tile('⭐', String(weekStars), 'this week')}
+        {tile('hand', String(pending), 'waiting your yes', pending > 0 ? onApprove : undefined, pending > 0)}
+        {tile('jobs', String(todo), 'to do today', todo > 0 ? onTodo : undefined)}
+        {tile('wins', String(weekStars), 'this week')}
       </div>
 
       {/* The goal, in one of three states: quietly saving, saved and ready to
           hand over, or done and asking for the next one. */}
       {goal && goalAchieved && (
-        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--tint-sage)', border: '1.5px solid var(--deep-teal)', borderRadius: '13px', padding: '13px 14px', marginBottom: '14px' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '13px 14px', marginBottom: '14px' }}>
           <Celebration fire />
           {onDismissGoalDone && (
             <button
@@ -201,7 +204,7 @@ export default function StarSummary({
       )}
 
       {goal && !goalAchieved && (
-        <div style={{ background: goalReached ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1px solid ${goalReached ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: '13px', padding: '10px 12px', marginBottom: '14px' }}>
+        <div style={{ background: goalReached ? 'var(--terracotta-lt)' : 'var(--cream)', border: `2px solid ${goalReached ? 'var(--terracotta)' : 'var(--ink)'}`, borderRadius: '13px', padding: '10px 12px', marginBottom: '14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>🎯 Saving for: {goal.title}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)' }}>{Math.min(balanceStars, goal.stars_needed)}/{goal.stars_needed}</span>
@@ -226,7 +229,7 @@ export default function StarSummary({
                   <button
                     onClick={() => setConfirmDone(false)}
                     disabled={redeeming}
-                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}
+                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}
                   >
                     Not yet
                   </button>
@@ -245,9 +248,9 @@ export default function StarSummary({
       )}
 
       <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
-        {bigBtn(pending > 0 ? '⭐' : '📋', pending > 0 ? `Approve ${pending}` : 'Set tasks', onApprove, pending > 0)}
-        {bigBtn('⏱️', 'Screen time', onScreenTime)}
-        {bigBtn('📲', `Share to ${childName}`, onShare)}
+        {bigBtn(pending > 0 ? 'wins' : 'jobs', pending > 0 ? `Approve ${pending}` : 'Set tasks', onApprove, pending > 0)}
+        {bigBtn('time', 'Screen time', onScreenTime)}
+        {bigBtn('tell', `Share to ${childName}`, onShare)}
       </div>
     </div>
   )

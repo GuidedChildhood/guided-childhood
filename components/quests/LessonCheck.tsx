@@ -58,7 +58,7 @@ export default function LessonCheck({ lesson, childName }: {
 
       {open && (
         <div style={{
-          marginTop: 8, background: 'var(--cream)', border: '1.5px solid var(--border)',
+          marginTop: 8, background: 'var(--cream)', border: '2px solid var(--ink)',
           borderRadius: 14, padding: '12px 13px',
         }}>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>
@@ -92,7 +92,7 @@ export default function LessonCheck({ lesson, childName }: {
                       onClick={() => setShown(prev => new Set(prev).add(i))}
                       style={{
                         marginTop: 6, cursor: 'pointer',
-                        background: '#fff', border: '1.5px solid var(--border)', borderRadius: 100,
+                        background: '#fff', border: '2px solid var(--ink)', borderRadius: 100,
                         padding: '5px 12px',
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         color: 'var(--ink-soft)',

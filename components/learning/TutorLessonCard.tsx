@@ -98,7 +98,7 @@ export default function TutorLessonCard({
 
   if (sent && lesson) {
     return (
-      <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 20, padding: '18px 20px' }}>
+      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
           Sent to {name} {lesson.emoji ?? '📘'}
         </div>
@@ -111,7 +111,7 @@ export default function TutorLessonCard({
 
   if (lesson && slides) {
     return (
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '16px 18px' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '16px 18px' }}>
         <div style={{ ...label, marginBottom: 6 }}>Read it before they do</div>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 12 }}>
           {lesson.emoji ?? '📘'} {lesson.title}
@@ -120,7 +120,7 @@ export default function TutorLessonCard({
         {/* completeEndpoint null: this is the same player the child gets, with
             nothing written at the end of it. A parent tapping through a preview
             must not mint stars or mark anything done. */}
-        <div style={{ background: 'var(--cream)', borderRadius: 18, padding: '14px 12px' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 18, padding: '14px 12px' }}>
           <LessonPlayer
             lessonId={lesson.id}
             lessonSource="lesson"
@@ -136,7 +136,7 @@ export default function TutorLessonCard({
             disabled={busy}
             style={{
               padding: '13px', cursor: busy ? 'default' : 'pointer', background: '#fff',
-              color: 'var(--ink)', borderRadius: 16, border: '1.5px solid var(--border)',
+              color: 'var(--ink)', borderRadius: 16, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             }}
           >
@@ -147,9 +147,9 @@ export default function TutorLessonCard({
             disabled={busy}
             style={{
               padding: '13px', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)',
-              color: 'var(--ink)', borderRadius: 16, border: 'none',
+              color: 'var(--ink)', borderRadius: 16, border: '2px solid var(--ink)',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-              boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy ? 0.6 : 1,
+              boxShadow: '0 4px 0 var(--ink)', opacity: busy ? 0.6 : 1,
             }}
           >
             Send it to {name}
@@ -175,7 +175,7 @@ export default function TutorLessonCard({
   }
 
   return (
-    <div style={{ background: 'var(--tint-blue)', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+    <div style={{ background: 'var(--tint-blue)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
       <div style={{ ...label, marginBottom: 6 }}>The private tutor</div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
         Want {name} taught this properly?
@@ -188,9 +188,9 @@ export default function TutorLessonCard({
         disabled={busy}
         style={{
           width: '100%', padding: '14px', cursor: busy ? 'default' : 'pointer',
-          background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: 16,
+          background: 'var(--deep-teal)', color: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-          boxShadow: '0 4px 0 rgba(0,0,0,0.28)', opacity: busy ? 0.6 : 1,
+          boxShadow: '0 4px 0 var(--ink)', opacity: busy ? 0.6 : 1,
         }}
       >
         {busy ? 'Writing the lesson' : 'Make a lesson from this'}

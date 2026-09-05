@@ -143,7 +143,7 @@ export default async function CategoryPage({
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--terracotta)', background: 'var(--stage-2)',
-                    padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--stage-2)',
+                    padding: '3px 8px', borderRadius: '100px', border: '2px solid var(--ink)',
                   }}>
                     Done
                   </span>
@@ -153,7 +153,7 @@ export default async function CategoryPage({
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--ink-light)', background: 'var(--cream)',
-                    padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--border)',
+                    padding: '3px 8px', borderRadius: '100px', border: '2px solid var(--ink)',
                   }}>
                     Locked
                   </span>

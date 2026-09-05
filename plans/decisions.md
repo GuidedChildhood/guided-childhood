@@ -10410,3 +10410,22 @@ rest; food is eaten in one tap and the fridge restocks each new day; a part
 from the box can come indoors (never the ring) and is then not on the
 planet. Forty seven Playwright checks and six new logic checks. Next on
 Justin's go: 3b, the star system map and lessons unlocking planets.
+## 5 September 2026: the happy news finish across every parent surface
+
+Justin: "make sure all icons and new look is across the parent platform so
+all consistent." The finish that reached Home, the daily path, Quests,
+Lessons, Passport, Printables and Settings that morning now covers every
+parent surface: about two hundred files across app/(dashboard) and
+components. The rules, so the next page is built the same way: every card,
+tile, row, chip, button and input edge is 2px solid ink; every card shell
+carries the hard ledge (0 4px 0 ink) and nothing inside a card carries one;
+the thing to tap is butter with ink text and the ledge, the rest are white
+with the ledge, done is retro green; blur shadows are gone; section dividers
+are ink and row dividers dotted; an emoji doing an icon's job sits in an
+ink edged plate, as a HappyIcon story icon where one of the 28 names fits,
+as itself where none does; emoji from data (a moment, a concern, a lesson
+strand, a Planet Friend's face) stay. Semantic edges stay: terracotta on a
+selected state, retro green on done, red on danger, white rings on dark
+stages and photos. Untouched on purpose: the child app, marketing, the
+printed paper inside print sheets, admin, and the setup ladder's grey
+future steps. Kid app, marketing and print sheets keep their own finish.

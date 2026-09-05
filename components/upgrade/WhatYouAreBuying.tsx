@@ -20,10 +20,12 @@
 // ships unread. Pulled out here, app/ref-upgrade-block renders it at the real
 // column width with no auth, so it can actually be checked on a phone.
 
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
+
 export default function WhatYouAreBuying() {
   return (
     <div style={{
-      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '18px', padding: '18px 20px', marginBottom: '24px',
     }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
@@ -82,26 +84,26 @@ export default function WhatYouAreBuying() {
 
           Plain rows rather than cards, because this is a list being checked
           against a price and eleven cards would bury the button underneath. */}
-      <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--terracotta)' }}>
+      <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '2px solid var(--ink)' }}>
         <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
           Everything inside
         </p>
         <div style={{ display: 'grid', gap: '7px' }}>
-          {[
-            ['⭐', 'Quests', 'Jobs and chores earn stars, stars become device minutes, at the rate you set'],
-            ['⏱️', 'The screen timer', 'Time earned is time on the clock, so the argument ends before it starts'],
-            ['🌙', 'Daily moments', 'The morning, the handover, homework, bedtime, with the exact words for each'],
-            ['💬', 'DiGi, answering', 'A real answer at 11pm, calibrated to your child, never a flat yes or no'],
-            ['📚', 'Lessons', 'Age banded, on screens, AI and social media, sent to their phone or done together'],
-            ['🔍', 'The homework decoder', 'Photograph the sheet, get what it is really asking and how to help'],
-            ['🎓', 'Curriculum help', 'What their school year actually covers, and a lesson built to match it'],
-            ['🏫', 'The school coach', 'Kit days, trips and payments, remembered for you and for them'],
-            ['📊', 'The wellbeing tracker', 'One tap a day, so you can see what is genuinely working'],
-            ['🛂', 'The passport to sixteen', 'Filled in together, a stamp each stage'],
-            ['🖨️', 'Printables', 'Star charts, planners and craft sheets, made for your child by name'],
-          ].map(([icon, name, what]) => (
+          {([
+            ['wins', 'Quests', 'Jobs and chores earn stars, stars become device minutes, at the rate you set'],
+            ['time', 'The screen timer', 'Time earned is time on the clock, so the argument ends before it starts'],
+            ['phonebed', 'Daily moments', 'The morning, the handover, homework, bedtime, with the exact words for each'],
+            ['ask', 'DiGi, answering', 'A real answer at 11pm, calibrated to your child, never a flat yes or no'],
+            ['lessons', 'Lessons', 'Age banded, on screens, AI and social media, sent to their phone or done together'],
+            ['homework', 'The homework decoder', 'Photograph the sheet, get what it is really asking and how to help'],
+            ['maths', 'Curriculum help', 'What their school year actually covers, and a lesson built to match it'],
+            ['bag', 'The school coach', 'Kit days, trips and payments, remembered for you and for them'],
+            ['sprout', 'The wellbeing tracker', 'One tap a day, so you can see what is genuinely working'],
+            ['passport', 'The passport to sixteen', 'Filled in together, a stamp each stage'],
+            ['print', 'Printables', 'Star charts, planners and craft sheets, made for your child by name'],
+          ] as [HappyIconName, string, string][]).map(([icon, name, what]) => (
             <div key={name} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start' }}>
-              <span aria-hidden="true" style={{ flexShrink: 0, lineHeight: 1.35 }}>{icon}</span>
+              <span aria-hidden="true" style={{ flexShrink: 0, display: 'inline-flex', marginTop: -1 }}><HappyIcon name={icon} size={24} /></span>
               <span style={{ fontSize: 'var(--text-base)', lineHeight: 1.4, color: 'var(--ink-soft)' }}>
                 <strong style={{ color: 'var(--ink)' }}>{name}.</strong> {what}
               </span>

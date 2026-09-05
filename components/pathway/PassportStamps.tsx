@@ -93,8 +93,8 @@ export default function PassportStamps({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
-      padding: '20px', marginBottom: '20px',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
+      padding: '20px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>

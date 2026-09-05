@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import BetaTag from '@/components/ui/BetaTag'
 import ChestSpark from './ChestSpark'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // School, sitting beside the road rather than on it.
 //
@@ -68,9 +69,9 @@ export default function SchoolChest({
     <div style={{
       position: 'relative',
       background: opened ? '#fff' : 'var(--stage-1)',
-      border: `1.5px solid ${opened ? 'var(--border)' : 'var(--terracotta)'}`,
+      border: '2px solid var(--ink)',
       borderRadius: 20, padding: '17px 18px',
-      boxShadow: opened ? 'none' : '0 4px 0 rgba(26,26,46,0.06)',
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
       {/* Justin: "I want it sparking next to the pathway, like a shooting star."
           The chest is drawn small and quiet on purpose, and the cost of that
@@ -91,8 +92,8 @@ export default function SchoolChest({
       </div>
 
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 13 }}>
-        <span aria-hidden style={{ flexShrink: 0, fontSize: '30px', lineHeight: 1.1 }}>
-          {opened ? '🎒' : '🧰'}
+        <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <HappyIcon name={opened ? 'bag' : 'homework'} size={32} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <h3 style={{
@@ -116,9 +117,9 @@ export default function SchoolChest({
               onClick={markOpened}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 12,
-                padding: '11px 15px', fontFamily: 'var(--font-display)', fontWeight: 800,
-                fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)',
+                background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 12,
+                padding: '11px 15px', fontFamily: 'var(--font-display)', fontWeight: 900,
+                fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)',
               }}
             >
               {opened ? 'Open it again' : 'Open it'}
@@ -131,9 +132,9 @@ export default function SchoolChest({
               onClick={markOpened}
               style={{
                 display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
-                background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
+                background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
                 borderRadius: 12, padding: '11px 15px', fontFamily: 'var(--font-display)',
-                fontWeight: 800, fontSize: 'var(--text-base)',
+                fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)',
               }}
             >
               Homework help

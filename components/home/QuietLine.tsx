@@ -39,7 +39,7 @@ export default function QuietLine({
     <Link href={href} style={{ textDecoration: 'none', display: 'block', marginBottom: '10px' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '10px',
-        background: '#fff', border: '1.5px solid var(--border)',
+        background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         borderRadius: '14px', padding: '11px 14px',
       }}>
         {icon && (

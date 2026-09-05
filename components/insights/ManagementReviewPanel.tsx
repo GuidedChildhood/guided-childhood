@@ -40,7 +40,7 @@ const HEADLINE: { key: string; label: string }[] = [
 export default function ManagementReviewPanel({ row }: { row: ManagementReviewRowOrNull }) {
   if (!row) {
     return (
-      <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 16, padding: '18px 20px', marginBottom: 20 }}>
+      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '18px 20px', marginBottom: 20 }}>
         <p className="eyebrow" style={{ marginBottom: 6 }}>Weekly review</p>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
           No review yet. It runs at half past midnight every Monday, on the week just gone. Until the first one lands there is nothing here, which is the honest state rather than an empty chart.
@@ -58,7 +58,7 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
   }
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 0 rgba(26,26,46,0.05)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, padding: '20px 22px', marginBottom: 22, boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
         <p className="eyebrow" style={{ margin: 0 }}>Week of {row.week_start}</p>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
@@ -76,7 +76,7 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
         {HEADLINE.map(h => {
           const v = val(h.key)
           return (
-            <div key={h.key} style={{ background: 'var(--cream)', borderRadius: 12, padding: '10px 12px' }}>
+            <div key={h.key} style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: '10px 12px' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1 }}>
                 {v ?? '—'}
               </div>
@@ -97,7 +97,7 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
           {row.findings.map((f, i) => {
             const tint = AREA_TINT[f.area] ?? { bg: 'var(--cream)', fg: 'var(--ink-soft)' }
             return (
-              <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
+              <div key={i} style={{ border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 15px' }}>
                 <span style={{ display: 'inline-block', background: tint.bg, color: tint.fg, borderRadius: 100, padding: '3px 10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 7 }}>
                   {f.area}
                 </span>

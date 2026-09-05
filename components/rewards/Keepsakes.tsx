@@ -2,6 +2,15 @@
 
 import { useState } from 'react'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import HappyIcon from '@/components/kid/HappyIcon'
+
+// The icon plate at the head of each keepsake card: white, ink edged, the
+// same shape the child app's tiles use.
+const PLATE: React.CSSProperties = {
+  width: 50, height: 50, borderRadius: 14, flexShrink: 0, boxSizing: 'border-box',
+  background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
+}
 
 // Keepsakes: the real world reward at the end of the digital journey. When a
 // child earns the whole family, celebrate it for real with a professionally
@@ -49,15 +58,15 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
   }
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
-    boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 20, marginBottom: 16,
+    background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
+    boxShadow: '0 4px 0 var(--ink)', padding: 20, marginBottom: 16,
   }
   const chip = (on: boolean): React.CSSProperties => ({
     flex: 1, textAlign: 'center', padding: '11px 10px', borderRadius: 12, cursor: 'pointer',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
     background: on ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
-    border: on ? '1.5px solid var(--terracotta-dark)' : '1.5px solid var(--border)',
-    boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
+    border: '2px solid var(--ink)',
+    boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
   })
 
   return (
@@ -73,7 +82,7 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
       {/* Printed passport */}
       <div style={card}>
         <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-          <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }} aria-hidden>🛂</span>
+          <span aria-hidden style={PLATE}><HappyIcon name="passport" size={36} /></span>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
               The printed passport
@@ -88,7 +97,7 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
       {/* Charm set */}
       <div style={card}>
         <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 12 }}>
-          <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }} aria-hidden>🧷</span>
+          <span aria-hidden style={{ ...PLATE, fontSize: 'var(--text-xl)' }}>🧷</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
               The Planet Friend charm set
@@ -109,10 +118,10 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
       </div>
 
       {/* Register interest */}
-      <div style={{ ...card, background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', marginBottom: 0 }}>
+      <div style={{ ...card, background: 'var(--tint-sage)', marginBottom: 0 }}>
         {state === 'done' ? (
           <div style={{ textAlign: 'center', padding: '8px 4px' }}>
-            <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 6 }}>💛</div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}><span aria-hidden style={PLATE}><HappyIcon name="heart" size={36} /></span></div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>You are on the list</div>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px auto 0', maxWidth: 380 }}>
               We will let you know the moment keepsakes are ready to order. Thank you for building the journey with us.
@@ -134,7 +143,7 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <input
                 type="email" value={value} onChange={e => setValue(e.target.value)} placeholder="Your email"
-                style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
+                style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '2px solid var(--ink)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
               />
               <button
                 onClick={register} disabled={state === 'sending'}

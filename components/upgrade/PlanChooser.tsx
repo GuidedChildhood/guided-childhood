@@ -19,13 +19,13 @@ export default function PlanChooser({ heading }: { heading: string }) {
   const p = PLANS[plan]
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '22px', boxShadow: '0 4px 22px rgba(26,26,46,0.06)' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '22px', boxShadow: '0 4px 0 var(--ink)' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
         {heading}
       </div>
 
       {/* Segmented toggle */}
-      <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px', marginBottom: '20px' }}>
         {([['annual', 'Yearly'], ['standard', 'Monthly']] as [Plan, string][]).map(([key, label]) => {
           const on = plan === key
           return (

@@ -53,7 +53,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
   const bedtimeOff = s.bedtimeStart !== null && s.bedtimeStart === s.bedtimeEnd
 
   return (
-    <details style={{ marginBottom: '11px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
+    <details style={{ marginBottom: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '9px 12px' }}>
       <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>
         Their time, three kinds{' '}
         <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>
@@ -81,7 +81,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 background: s.coreMinutesDaily === m ? 'var(--terracotta-lt)' : '#fff',
                 color: s.coreMinutesDaily === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
-                border: s.coreMinutesDaily === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                border: s.coreMinutesDaily === m ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
               }}>{m === 0 ? 'Off' : `${m}m`}</button>
           ))}
         </div>
@@ -98,7 +98,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 background: s.starMinutes === m ? 'var(--terracotta-lt)' : '#fff',
                 color: s.starMinutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
-                border: s.starMinutes === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                border: s.starMinutes === m ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
               }}>{m} min</button>
           ))}
         </div>
@@ -110,15 +110,15 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '7px' }}>
           <input type="time" value={bedtimeOff ? '' : (s.bedtimeStart ?? '')} disabled={busy}
             onChange={e => e.target.value && save({ ...s, bedtimeStart: e.target.value, bedtimeEnd: bedtimeOff || !s.bedtimeEnd ? '07:00' : s.bedtimeEnd })}
-            style={{ flex: 1, padding: '7px 9px', borderRadius: '11px', border: '1.5px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
+            style={{ flex: 1, padding: '7px 9px', borderRadius: '11px', border: '2px solid var(--ink)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
           <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', fontWeight: 600 }}>to</span>
           <input type="time" value={bedtimeOff ? '' : (s.bedtimeEnd ?? '')} disabled={busy}
             onChange={e => e.target.value && save({ ...s, bedtimeEnd: e.target.value })}
-            style={{ flex: 1, padding: '7px 9px', borderRadius: '11px', border: '1.5px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
+            style={{ flex: 1, padding: '7px 9px', borderRadius: '11px', border: '2px solid var(--ink)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
         </div>
         <button disabled={busy}
           onClick={() => save(bedtimeOff ? { ...s, bedtimeStart: '19:00', bedtimeEnd: '07:00' } : { ...s, bedtimeStart: '00:00', bedtimeEnd: '00:00' })}
-          style={{ padding: '6px 11px', borderRadius: '11px', cursor: 'pointer', fontSize: 'var(--text-sm)', fontWeight: 700, background: '#fff', color: 'var(--ink-muted)', border: '1.5px solid var(--border)', marginBottom: '11px' }}>
+          style={{ padding: '6px 11px', borderRadius: '11px', cursor: 'pointer', fontSize: 'var(--text-sm)', fontWeight: 700, background: '#fff', color: 'var(--ink-muted)', border: '2px solid var(--ink)', marginBottom: '11px' }}>
           {bedtimeOff ? 'Turn the bedtime window on' : 'No bedtime window'}
         </button>
 
@@ -131,7 +131,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
             aria-pressed={s[t.key]} style={{
               display: 'block', width: '100%', textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer', marginBottom: '6px',
               background: s[t.key] ? 'var(--terracotta-lt)' : '#fff',
-              border: s[t.key] ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+              border: s[t.key] ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
             }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{t.label}{s[t.key] ? ' ✓' : ''}</span>
             <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.hint}</span>

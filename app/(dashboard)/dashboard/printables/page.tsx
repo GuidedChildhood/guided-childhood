@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import HappyIcon from '@/components/kid/HappyIcon'
 import { LIBRARY_PRINTABLES, printablesForStage } from '@/lib/printables/registry'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
@@ -85,7 +86,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.06em', textTransform: 'uppercase',
                         background: 'var(--cream)', color: 'var(--ink-soft)',
-                        border: '1px solid var(--border)', borderRadius: '100px', padding: '3px 9px',
+                        border: '2px solid var(--ink)', borderRadius: '100px', padding: '3px 9px',
                       }}>{chip}</span>
                     ))}
                   </div>
@@ -119,11 +120,11 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         href="/dashboard/printables/star-chart"
         style={{
           display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '20px',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
           padding: '18px 22px', marginBottom: '12px',
         }}
       >
-        <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }} aria-hidden>⭐</span>
+        <span aria-hidden style={{ width: 48, height: 48, borderRadius: 14, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}><HappyIcon name="wins" size={36} /></span>
         <span style={{ flex: 1 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             Build your star chart

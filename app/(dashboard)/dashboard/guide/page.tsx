@@ -62,9 +62,9 @@ export default function GuidePage() {
       {/* How it works, the parts and what they are for */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
         {HOW_IT_WORKS.map((step, i) => (
-          <div key={step.title} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', boxShadow: '0 5px 20px rgba(46,40,24,0.06)' }}>
+          <div key={step.title} style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '18px 20px', boxShadow: '0 4px 0 var(--ink)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-              <span style={{ width: 40, height: 40, borderRadius: '11px', flexShrink: 0, background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{step.emoji}</span>
+              <span aria-hidden style={{ width: 40, height: 40, borderRadius: 11, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)' }}>{step.emoji}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--ink-muted)' }}>Step {i + 1}</span>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>{step.title}</span>
             </div>
@@ -91,7 +91,7 @@ export default function GuidePage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '30px' }}>
         {LESSON_MAP.map(band => (
-          <div key={band.stage} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
+          <div key={band.stage} style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>{band.stage}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{band.ages}</span>

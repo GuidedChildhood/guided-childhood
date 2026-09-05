@@ -48,7 +48,7 @@ export default async function PhoneSetupPage() {
       </p>
 
       {/* Our belief, stated plainly */}
-      <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--tint-sage)', borderRadius: '16px', padding: '16px 18px', marginBottom: '26px' }}>
+      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '16px 18px', marginBottom: '26px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
           Our belief
         </div>
@@ -61,7 +61,7 @@ export default async function PhoneSetupPage() {
       <SectionLabel eyebrow="The ladder" title="What phone, at what age" />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
         {PHONE_LADDER.map((rung, i) => (
-          <div key={i} style={{ display: 'flex', gap: '13px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
+          <div key={i} style={{ display: 'flex', gap: '13px', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '13px 15px' }}>
             <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)', borderRadius: '100px', padding: '3px 9px', height: 'fit-content' }}>{rung.ages}</span>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '2px' }}>{rung.device}</div>
@@ -83,8 +83,8 @@ export default async function PhoneSetupPage() {
           <SectionLabel eyebrow="The good first apps" title="Make the phone a tutor" note="The apps worth allowing first: easy to manage, no feeds, and they give back." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px', marginBottom: '10px' }}>
             {apps.map(a => (
-              <a key={a.app_key} href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 15px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1 }}>{a.emoji}</span>
+              <a key={a.app_key} href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '14px 15px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <span aria-hidden style={{ width: 40, height: 40, borderRadius: 11, background: 'var(--cream)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', lineHeight: 1, boxSizing: 'border-box' }}>{a.emoji}</span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{a.teaches} · {a.from_age}</span>
                 <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{a.why_good}</span>
@@ -95,7 +95,7 @@ export default async function PhoneSetupPage() {
       )}
 
       <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginTop: '20px' }}>
-        <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', borderRadius: '16px', padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
+        <div style={{ background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
               Teach it, do not just set it
@@ -116,9 +116,9 @@ export default async function PhoneSetupPage() {
 
 function PhoneCard({ g }: { g: PhoneGuide }) {
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
+    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-        <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--cream)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{g.emoji}</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--cream)', border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{g.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{g.name}</span>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '4px 0 0' }}>{g.blurb}</p>
@@ -134,7 +134,7 @@ function PhoneCard({ g }: { g: PhoneGuide }) {
           <div style={{ height: '14px' }} />
           <StepList label="Then release, one step at a time" steps={g.release} tint="var(--tint-sage)" />
 
-          <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', padding: '11px 13px', marginTop: '14px' }}>
+          <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '11px 13px', marginTop: '14px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
               Time and earn back
             </div>

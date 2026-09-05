@@ -7,6 +7,7 @@ import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Button from '@/components/ui/Button'
 import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
+import HappyIcon from '@/components/kid/HappyIcon'
 import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
 import { DEVICES, ACTIVITIES, asksActivity, type ActivityKey } from '@/lib/quests/device-time'
 import type { FamilyDevice } from '@/lib/devices/family'
@@ -71,7 +72,7 @@ const ASK_ACTIONS: React.CSSProperties = {
 }
 
 const ASK_DISMISS: React.CSSProperties = {
-  background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+  background: 'none', border: '2px solid var(--ink)', borderRadius: '10px',
   padding: '8px 10px', cursor: 'pointer', fontSize: 'var(--text-base)',
   color: 'var(--ink-muted)', flexShrink: 0,
 }
@@ -237,7 +238,7 @@ export default function QuestBoard() {
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)',
+      background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       borderRadius: '20px', padding: '20px 22px', marginBottom: '20px',
     }}>
       <div style={{ marginBottom: '14px' }}>
@@ -403,7 +404,7 @@ export default function QuestBoard() {
                         fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
                         color: dayGoalHit ? 'var(--ink)' : 'var(--ink-muted)',
                         background: dayGoalHit ? 'var(--terracotta)' : 'var(--cream)',
-                        border: dayGoalHit ? 'none' : '1px solid var(--border)',
+                        border: '2px solid var(--ink)',
                         borderRadius: '100px', padding: '3px 8px',
                       }}>
                         {dayGoalHit ? 'Day goal hit 🎉' : `Day goal ⭐ ${Math.min(todayStars, goal.daily_stars)}/${goal.daily_stars}`}
@@ -441,7 +442,7 @@ export default function QuestBoard() {
                     return (
                       <div style={{
                         display: 'flex', flexDirection: 'column', gap: '9px',
-                        background: '#fff', border: '1px solid var(--border)', borderRadius: '11px',
+                        background: '#fff', border: '2px solid var(--ink)', borderRadius: '11px',
                         padding: '10px 12px',
                       }}>
                         <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
@@ -482,7 +483,7 @@ export default function QuestBoard() {
                                     style={{
                                       display: 'flex', alignItems: 'center', gap: '6px',
                                       padding: '8px 12px', borderRadius: '100px',
-                                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                                       background: on ? 'var(--terracotta-lt)' : '#fff',
                                       color: on ? 'var(--terracotta)' : 'var(--ink)',
                                       fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
@@ -545,9 +546,9 @@ export default function QuestBoard() {
                       style={{
                         flex: 1, minWidth: 150, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         gap: '6px', padding: '11px 14px', borderRadius: '12px', textDecoration: 'none',
-                        background: 'var(--terracotta)', color: 'var(--ink)',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                        boxShadow: '0 3px 0 var(--terracotta-dark)',
+                        background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
+                        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+                        boxShadow: '0 4px 0 var(--ink)',
                       }}
                     >
                       + Add a job for {c.name}
@@ -574,9 +575,11 @@ export default function QuestBoard() {
                           <div style={{
                             display: 'flex', alignItems: 'center', gap: '8px',
                             padding: '11px 13px', borderRadius: '11px',
-                            background: 'var(--tint-sage)', border: '1px solid var(--border)',
+                            background: 'var(--tint-sage)', border: '2px solid var(--ink)',
                           }}>
-                            <span style={{ fontSize: 'var(--text-md)' }}>🎉</span>
+                            <span aria-hidden style={{ width: 34, height: 34, borderRadius: 10, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+                              <HappyIcon name="cheer" size={24} />
+                            </span>
                             <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>
                               All done for today
                             </span>
@@ -589,7 +592,7 @@ export default function QuestBoard() {
                             style={{
                               display: 'flex', alignItems: 'center', gap: '10px',
                               padding: '10px 12px', borderRadius: '11px',
-                              background: '#fff', border: '1px solid var(--border)', cursor: 'pointer',
+                              background: '#fff', border: '2px solid var(--ink)', cursor: 'pointer',
                               textAlign: 'left',
                             }}
                           >
@@ -611,7 +614,7 @@ export default function QuestBoard() {
                               style={{
                                 width: '100%', display: 'flex', alignItems: 'center', gap: '8px',
                                 padding: '9px 12px', borderRadius: '11px', background: 'none',
-                                border: '1px dashed var(--border)', cursor: 'pointer', textAlign: 'left',
+                                border: '2px dotted rgba(26,26,46,0.35)', cursor: 'pointer', textAlign: 'left',
                               }}
                             >
                               <span style={{ fontSize: 'var(--text-base)' }}>✓</span>
@@ -628,7 +631,7 @@ export default function QuestBoard() {
                                   <div key={q.id} style={{
                                     display: 'flex', alignItems: 'center', gap: '10px',
                                     padding: '9px 12px', borderRadius: '11px',
-                                    background: 'var(--tint-sage)', border: '1px solid var(--border)',
+                                    background: 'var(--tint-sage)', border: '2px solid var(--ink)',
                                   }}>
                                     <span style={{ fontSize: 'var(--text-md)', opacity: 0.7 }}>{q.emoji}</span>
                                     <span style={{ flex: 1, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', textDecoration: 'line-through', opacity: 0.6 }}>

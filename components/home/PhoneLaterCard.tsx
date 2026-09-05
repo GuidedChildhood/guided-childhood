@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import ShareQrButton from '@/components/quests/ShareQrButton'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // THE ONE TIME WE COME BACK, AND ONLY ONCE.
 //
@@ -56,15 +57,15 @@ export default function PhoneLaterCard({ childId, childName }: {
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
-      padding: '16px 18px', marginBottom: '16px',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px',
+      padding: '16px 18px', marginBottom: '16px', boxShadow: '0 4px 0 var(--ink)',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '13px' }}>
         <span aria-hidden style={{
           width: 44, height: 44, borderRadius: '13px', flexShrink: 0,
-          background: 'var(--tint-blue)', display: 'flex', alignItems: 'center',
-          justifyContent: 'center', fontSize: 'var(--text-lg)',
-        }}>📲</span>
+          background: 'var(--tint-blue)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}><HappyIcon name="phonebed" size={32} /></span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '3px' }}>
             Only if things have changed
@@ -89,8 +90,8 @@ export default function PhoneLaterCard({ childId, childName }: {
           onClick={stillNo}
           disabled={saving}
           style={{
-            background: 'transparent', border: '1.5px solid var(--border)', borderRadius: '14px',
-            padding: '11px 17px', cursor: saving ? 'default' : 'pointer',
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
+            boxShadow: '0 4px 0 var(--ink)', padding: '11px 17px', cursor: saving ? 'default' : 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             color: 'var(--ink-soft)',
           }}

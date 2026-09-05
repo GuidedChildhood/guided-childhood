@@ -34,7 +34,7 @@ export default async function ToolboxPage() {
       </p>
 
       {tools.length === 0 ? (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '22px', textAlign: 'center' }}>
+        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '22px', textAlign: 'center' }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
             The toolbox is being stocked. In the meantime, DiGi can point you to the right kind of tool for whatever you are facing.
           </p>
