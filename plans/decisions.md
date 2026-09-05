@@ -10366,3 +10366,27 @@ is below the fold after mount, so the hero is never blank without JavaScript.
 The trial push cron counts against FOUNDER_CAP rather than a literal 50. Not
 built, a question for Justin: a single prices config, since every pound
 figure is still copy in about twenty files.
+
+## 5 September 2026: the daily loop, changes one to three (migration 255)
+
+Justin, after the loop review: "Let's build 1 to 3, and roughly ten minutes
+for both children, or do you suggest a change that additional children maybe
+a little longer?" Built as three. One: on connect days the road gains a
+Tonight rung, right after the check in, that names the live mechanism for the
+child's top worry from what the family already has (bedtime screens becomes
+Phones to bed with the bedtime window, will not put it down becomes The timer
+with ask first, mood after screens becomes Tonight's words, morning TV becomes
+Tomorrow morning, controller fights becomes The end of the game); one tap on
+/dashboard/tonight says it is on, one row per child per day in
+tonight_confirmations. No live worry, no rung. Two: the check in opens with
+"Last night's words: {title}. Did you use them?" when a script was opened in
+the last day and a half for that child with no rating yet; yes, sort of, not
+yet writes script_completions.worked through the route the scripts already
+use. Three: the moment and the script tick for every child once one child has
+done them, and the road says who under the label ("with Jonny"), so a green
+tick is never a mystery; the check in and the jobs stay per child, and the
+rows stay keyed per child so the passport keeps knowing whose conversation it
+was. On the time question: ten minutes a day stays the family promise, since
+the only per child steps are now the check in and the jobs, about two minutes
+for a second child; no copy change. Migration 255 goes to production on
+Justin's word.

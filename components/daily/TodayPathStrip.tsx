@@ -43,6 +43,11 @@ export function nextHint(key: TodayLoopTask['key']): string {
     },
     // Whichever is live. The label on the node says which, so the hint covers
     // both without promising the wrong one.
+    tonight: {
+      morning: 'What is on tonight for the worry you named',
+      afternoon: 'What is on tonight, one tap to say it is',
+      evening: 'Tonight: the mechanism for the worry you named, on',
+    },
     quests: {
       morning: 'Jobs and stars: set them, or say yes to what is waiting',
       afternoon: 'Anything your child has done or asked for',
@@ -84,6 +89,7 @@ export function nextHint(key: TodayLoopTask['key']): string {
 
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
   checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '✦' },
+  tonight: { fill: 'var(--terracotta)',   tick: 'var(--ink)',          icon: '🌙' },
   setup:   { fill: 'var(--stage-4-bold)', tick: 'var(--stage-4-text)', icon: '🧰' },
   quests:  { fill: 'var(--gold)',         tick: 'var(--ink)',          icon: '⭐' },
   moment:  { fill: 'var(--stage-1-bold)', tick: 'var(--stage-1-text)', icon: '☀️' },

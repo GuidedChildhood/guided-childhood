@@ -168,8 +168,11 @@ export default function ConcernCheckIn({
   childName = null,
   childId = null,
   nextChild = null,
+  lastNight = null,
 }: {
   concerns: ConcernCheckItem[]
+  /** The words opened in the last day and a half with no rating yet. One tap here rates them. */
+  lastNight?: { sortOrder: number; title: string } | null
   /** Whose list this is, so finishing it can say their name. */
   childName?: string | null
   /** Their id, so a dip's Ask DiGi button lands on the right child's chat. */
@@ -197,6 +200,19 @@ export default function ConcernCheckIn({
   /** The save came back an error. The row is answerable again and says so. */
   const [failed, setFailed] = useState<Record<string, boolean>>({})
   const router = useRouter()
+  // Did you use last night's words: idle, saving, or the answer given.
+  const [words, setWords] = useState<'idle' | 'busy' | 'yes' | 'somewhat' | 'no'>('idle')
+  async function rateWords(worked: 'yes' | 'somewhat' | 'no') {
+    if (!lastNight || words === 'busy') return
+    setWords('busy')
+    try {
+      await fetch('/api/completions', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sort_order: lastNight.sortOrder, worked, child_id: childId }),
+      })
+      setWords(worked)
+    } catch { setWords('idle') }
+  }
 
   const posted = useRef<Record<string, boolean>>({})
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
@@ -427,6 +443,41 @@ export default function ConcernCheckIn({
       padding: '20px',
       marginBottom: '16px',
     }}>
+      {lastNight && words !== 'yes' && words !== 'somewhat' && words !== 'no' && (
+        <div style={{
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 16,
+          padding: '14px 14px 12px', marginBottom: 16,
+        }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 4px' }}>
+            Last night's words
+          </p>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 10px', lineHeight: 1.3 }}>
+            {lastNight.title}. Did you use them?
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {([['yes', 'Yes'], ['somewhat', 'Sort of'], ['no', 'Not yet']] as const).map(([k, label]) => (
+              <button
+                key={k}
+                onClick={() => rateWords(k)}
+                disabled={words === 'busy'}
+                style={{
+                  flex: 1, minWidth: 80, padding: '10px 12px', borderRadius: 100, cursor: 'pointer',
+                  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                  opacity: words === 'busy' ? 0.6 : 1,
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {lastNight && (words === 'yes' || words === 'somewhat' || words === 'no') && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
+          {words === 'yes' ? 'Noted. That is the loop closing.' : words === 'somewhat' ? 'Noted. Sort of counts.' : 'Noted. They are there when you need them.'}
+        </p>
+      )}
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,

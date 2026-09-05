@@ -47,6 +47,26 @@ export default async function CheckInPage({
 
   const { rows, baseline, queue, childId, childName } = await getTodayCheckIn(supabase, user.id, childParam)
 
+  // Last night's words, unrated. Justin, 5 September 2026, from the loop
+  // review: close the loop from words to outcome. A script opened in the last
+  // day and a half for this child (or the household) with no worked rating
+  // yet is asked about here, one tap, and the answer lands on the row the
+  // scripts already keep (script_completions.worked), so this script, this
+  // worry and this movement can be read together later.
+  let lastNight: { sortOrder: number; title: string } | null = null
+  try {
+    const since = new Date(Date.now() - 36 * 3600000).toISOString()
+    const { data: recent } = await supabase
+      .from('script_completions').select('script_sort_order, child_id, worked, completed_at')
+      .eq('user_id', user.id).gte('completed_at', since).is('worked', null)
+      .order('completed_at', { ascending: false }).limit(8)
+    const mine = (recent ?? []).find(r => r.child_id === childId || r.child_id === null)
+    if (mine) {
+      const { data: s } = await supabase.from('scripts').select('title').eq('sort_order', mine.script_sort_order).maybeSingle()
+      lastNight = { sortOrder: mine.script_sort_order as number, title: (s?.title as string | null) ?? 'the words you opened' }
+    }
+  } catch { /* no question rather than a broken check in */ }
+
   // ── THE URL SAYS WHOSE CHECK IN THIS IS ───────────────────────────────────
   //
   // Justin: "when it finishes it goes to the next child, which is right, but
@@ -102,7 +122,7 @@ export default async function CheckInPage({
             whole instance away at the border: fresh child, fresh card, nothing
             carried, whichever bundle the phone cached. */}
         {rows.length > 0 ? (
-          <ConcernCheckIn key={childId ?? 'none'} baseline={baseline} concerns={rows} childName={childName} childId={childId} nextChild={nextChild} />
+          <ConcernCheckIn key={childId ?? 'none'} baseline={baseline} concerns={rows} childName={childName} childId={childId} nextChild={nextChild} lastNight={lastNight} />
         ) : (
           // NOTHING TO CHECK IN ON IS NOT A FAILURE, and it must not read as
           // one. A family who has answered everything today lands here from a
