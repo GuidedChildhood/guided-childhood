@@ -5,7 +5,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { DIGI_MODEL } from '@/lib/config/digi'
 import { sendEmail, emailConfigured } from '@/lib/email'
 
-// The script writer. Every two weeks (see vercel.json) DiGi drafts new scripts
+// The script writer. Every Sunday (see vercel.json; it was twice a month until
+// 6 September 2026) DiGi drafts new scripts
 // for the library from what parents actually asked for and could not find,
 // grounded in the research bank (Dr Becky, Knibbs, the rest). Each draft lands
 // in the review queue as PENDING. Nothing reaches the live library until the
@@ -60,7 +61,7 @@ async function handler(req: NextRequest) {
       admin.from('script_requests').select('problem').eq('status', 'new').gte('created_at', since).limit(120),
       admin.from('scripts').select('title, stage_id'),
       admin.from('expert_knowledge').select('source_name, finding').limit(400),
-      admin.from('digi_questions').select('question').gte('created_at', since).limit(400),
+      admin.from('digi_questions').select('question, user_id').gte('created_at', since).limit(400),
       admin.from('digi_answer_flags').select('question, note').gte('created_at', since).limit(60),
     ])
     const requests = [...new Set((reqRes.data ?? []).map(r => String(r.problem).trim()).filter(Boolean))].slice(0, 40)
@@ -68,17 +69,30 @@ async function handler(req: NextRequest) {
     // Real questions, in parents' own words. Deduplicated loosely on the first
     // few words so twenty near identical bedtime questions count once, and
     // trimmed, since the phrasing matters more than the length.
-    const seenStart = new Set<string>()
-    const asked: string[] = []
-    for (const row of askedRes.data ?? []) {
+    //
+    // COUNTED, NOT JUST LISTED (6 September 2026). Justin: "good popular
+    // questions can get added as scripts." A question asked once and a
+    // question asked nine times by five families used to reach the model as
+    // two equal lines. Now each key keeps its count and its family count, the
+    // list goes to the model ranked by how often it came up, and the number
+    // is on the line, so the most asked question is the first script drafted
+    // and its rationale can say how many families wanted it.
+    const groups = new Map<string, { text: string; times: number; families: Set<string> }>()
+    for (const row of (askedRes.data ?? []) as { question?: string | null; user_id?: string | null }[]) {
       const q = String(row.question ?? '').trim()
       if (q.length < 12) continue
       const key = q.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).slice(0, 5).join(' ')
-      if (seenStart.has(key)) continue
-      seenStart.add(key)
-      asked.push(q.slice(0, 180))
-      if (asked.length >= 60) break
+      const g = groups.get(key) ?? { text: q.slice(0, 180), times: 0, families: new Set<string>() }
+      g.times += 1
+      if (row.user_id) g.families.add(String(row.user_id))
+      groups.set(key, g)
     }
+    const asked = [...groups.values()]
+      .sort((a, b) => b.times - a.times || b.families.size - a.families.size)
+      .slice(0, 60)
+      .map(g => g.times > 1
+        ? `${g.text} (asked ${g.times} times by ${Math.max(1, g.families.size)} ${g.families.size === 1 ? 'family' : 'families'})`
+        : g.text)
 
     const misses = (flagRes.data ?? [])
       .map(f => `asked: ${String(f.question ?? '').slice(0, 140)} | what was wrong: ${String(f.note ?? '').slice(0, 200)}`)
@@ -90,7 +104,7 @@ async function handler(req: NextRequest) {
     const userMsg = [
       `Parents asked for scripts and could not find them (the demand to serve first)${requests.length ? ':\n' + requests.map(r => `- ${r}`).join('\n') : ' (none logged, so fill obvious gaps in the pathway instead)'}`,
       asked.length
-        ? `\nWhat parents actually asked DiGi in the last month, in their own words. This is the real demand. Where a question comes up and no script answers it, that is the script to write, and the situation should read the way they said it rather than the way we would tidy it up:\n${asked.map(q => `- ${q}`).join('\n')}`
+        ? `\nWhat parents actually asked DiGi in the last month, in their own words, most asked first, with how many times and how many families where it came up more than once. This is the real demand. Where a question comes up and no script answers it, that is the script to write, the most asked first, and the situation should read the way they said it rather than the way we would tidy it up. Put the count in the rationale when there is one:\n${asked.map(q => `- ${q}`).join('\n')}`
         : '',
       misses.length
         ? `\nAnswers parents told us were wrong, with what they said was off. Do not repeat these mistakes, and where one of these is really a missing script, write it:\n${misses.map(m => `- ${m}`).join('\n')}`

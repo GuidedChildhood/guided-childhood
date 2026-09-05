@@ -139,7 +139,7 @@
     },
     {
       "path": "/api/cron/script-refresh",
-      "schedule": "0 7 1,15 * *"
+      "schedule": "0 7 * * 0"
     },
     {
       "path": "/api/cron/lesson-drip",

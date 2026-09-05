@@ -10446,3 +10446,27 @@ the loop ends silent as well as when it throws, the latency row records
 "recovered: silent tool loop", and the tool rules say a tool call is never
 the whole reply. The chat header also wraps on a phone, so the eyebrow no
 longer breaks one word per line beside the star.
+
+## 6 September 2026: DiGi's answer, neat on the screen and never cut short; the popular questions become scripts weekly
+
+Justin, 00:43, after the second go answered: "can we improve the display of
+the answer on DiGi with the best known way of displaying it neatly and easy
+to read, and that good popular questions can get added as scripts, and DiGi
+learns from all of this." The stored reply ended mid word ("**Watch when it
+sh") and the latency row called it a success, so two fixes in the route: a
+turn that ends on max_tokens gets one continuation with tools off (and the
+budget goes from 1000 to 1600 tokens), and the latency row keeps the reason
+on a partial reply (cut, partial, recovered) instead of clearing it the
+moment one character arrived. On the screen, Mobbin first (Meta AI, Grok,
+Recime: no bubble, bold lead in on its own line, real bullets, air between
+points): each lead in paragraph is a numbered point on a butter plate with
+the ink edge, list lines get an ink dot, and an unclosed ** while the reply
+streams renders as bold in progress, never as asterisks. Fixture at
+/dev/digi-answer. The script writer already turned parent requests, DiGi
+questions and flagged answers into drafts for Justin's approval on Insights;
+it now counts how many times and how many families asked each question,
+hands the model the list ranked by count with the numbers on the line, asks
+for the most asked first, and runs every Sunday at 07:00 instead of twice a
+month. DiGi's learning loops already run (per family memory, the gated
+weekly wisdom rebuild, check in learning, the knowledge refresh, flagged
+answers steering the next drafts); nothing new was needed there.

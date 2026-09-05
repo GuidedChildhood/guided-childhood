@@ -43,8 +43,116 @@ function renderInline(text: string): ReactNode[] {
     }
     last = m.index + m[0].length
   }
-  if (last < text.length) nodes.push(text.slice(last))
+  if (last < text.length) {
+    const rest = text.slice(last)
+    // Justin's screenshot, 6 September 2026: "**Watch when it sh" sat on the
+    // screen with its asterisks showing, because the pair had not closed yet.
+    // An opener with no closer is bold that is still arriving, so it renders
+    // bold, and the marker itself never reaches the parent.
+    const open = rest.indexOf('**')
+    if (open === -1) {
+      nodes.push(rest)
+    } else {
+      if (open > 0) nodes.push(rest.slice(0, open))
+      const lead = rest.slice(open + 2)
+      if (lead) nodes.push(<strong key={key++} style={{ fontWeight: 800, color: 'var(--ink)' }}>{lead}</strong>)
+    }
+  }
   return nodes
+}
+
+// ── THE SHAPE OF AN ANSWER ────────────────────────────────────────────────
+//
+// Justin, 6 September 2026: "improve the display of the answer on DiGi with
+// the best known way of displaying it neatly and easy to read." Mobbin that
+// night (Meta AI, Grok, Recime): the assistant has no bubble, a bold lead in
+// sits on its own line with the explanation under it, bullets are real
+// bullets, and there is air between the points. Translated into our finish:
+// each **lead in** paragraph is a numbered point on a butter plate with the
+// ink edge, list lines get an ink dot, and everything else is a plain
+// paragraph. The prompt already asks for this shape, so nothing about the
+// words changes, only how they land.
+type AnswerBlock =
+  | { kind: 'para'; text: string }
+  | { kind: 'point'; lead: string; body: string }
+  | { kind: 'list'; items: string[]; ordered: boolean }
+
+const LIST_LINE = /^(?:[-•*]\s+|\d+[.)]\s+)/
+
+function parseAnswer(text: string): AnswerBlock[] {
+  const blocks: AnswerBlock[] = []
+  for (const raw of text.split(/\n{2,}/)) {
+    const para = raw.trim()
+    if (!para) continue
+    const lines = para.split('\n').map(l => l.trim()).filter(Boolean)
+    if (lines.length > 1 && lines.every(l => LIST_LINE.test(l))) {
+      blocks.push({ kind: 'list', ordered: /^\d/.test(lines[0]), items: lines.map(l => l.replace(LIST_LINE, '')) })
+      continue
+    }
+    if (para.startsWith('**')) {
+      const close = para.indexOf('**', 2)
+      // No closer yet: the lead in is still streaming, so the whole line is it.
+      const lead = close === -1 ? para.slice(2) : para.slice(2, close)
+      const body = close === -1 ? '' : para.slice(close + 2).trim()
+      // A lead in that runs on for a whole sentence or more is not a lead in,
+      // it is a bolded paragraph, and it reads better as plain inline bold.
+      if (lead.length <= 90) { blocks.push({ kind: 'point', lead, body }); continue }
+    }
+    blocks.push({ kind: 'para', text: para })
+  }
+  return blocks
+}
+
+export function AnswerBody({ text }: { text: string }) {
+  const blocks = parseAnswer(text)
+  let n = 0
+  const body: React.CSSProperties = {
+    margin: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)',
+    lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
+  }
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      {blocks.map((b, i) => {
+        if (b.kind === 'point') {
+          n += 1
+          return (
+            <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span aria-hidden style={{
+                width: 30, height: 30, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', marginTop: 1,
+                background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+              }}>{n}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ margin: '0 0 4px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1.3, color: 'var(--ink)' }}>
+                  {b.lead.replace(/[.:]\s*$/, '')}
+                </p>
+                {b.body && <p style={body}>{renderInline(b.body)}</p>}
+              </div>
+            </div>
+          )
+        }
+        if (b.kind === 'list') {
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingLeft: 4 }}>
+              {b.items.map((item, j) => (
+                <div key={j} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  <span aria-hidden style={{
+                    flexShrink: 0, marginTop: b.ordered ? 3 : 11,
+                    ...(b.ordered
+                      ? { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', minWidth: 18 }
+                      : { width: 8, height: 8, borderRadius: '50%', background: 'var(--ink)' }),
+                  }}>{b.ordered ? `${j + 1}.` : ''}</span>
+                  <p style={body}>{renderInline(item)}</p>
+                </div>
+              ))}
+            </div>
+          )
+        }
+        return <p key={i} style={body}>{renderInline(b.text)}</p>
+      })}
+    </div>
+  )
 }
 
 
@@ -912,7 +1020,7 @@ export default function DigiChat({
                       fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--ink-soft)',
                       whiteSpace: 'pre-wrap',
                     }}>
-                      {m.content}
+                      {m.role === 'assistant' ? <AnswerBody text={m.content} /> : m.content}
                     </div>
                   </div>
                 ))}
@@ -972,14 +1080,7 @@ export default function DigiChat({
               {/* The answer flows as plain text on white, its separate points set
                   apart by space, each bold lead in carrying the move. */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                {paras.map((text, b) => (
-                  <p key={b} style={{
-                    margin: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)',
-                    lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
-                  }}>
-                    {renderInline(text)}
-                  </p>
-                ))}
+                <AnswerBody text={msg.content} />
                 {offerChildVersion && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 3 }}>
                     <button
