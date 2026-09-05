@@ -10220,3 +10220,24 @@ replaces the nine prompt rows 253 seeded. Numbered 2c, not 3, because the
 design document's slice 3 is still the Digital Playground. PR 964 (slice 2b)
 was merged on 3 September without migration 253 being applied; the code fails
 soft without it, and both 253 and 254 wait on Justin's go.
+
+## 5 September 2026: Planet Friends, the world (Justin's Toca note), proposed
+
+Justin, on seeing slice 2c: "this should have planets they can move around,
+like Toca Boca works, and to progress they get devices and put them in a
+charging port in the kitchen for example, and add in the lessons to unlock
+planets. This must have as many ideas and possibilities as the Toca Boca
+game." Read as: a star system map of planets the child travels between and
+can drag about; every planet a row of rooms full of things that all do
+something; the Friends carry devices that run down and charge on a shelf in
+the kitchen, by themselves at wind down, so the family rule is acted out
+every night; every lesson passed on the Learn tab lights the next planet;
+and breadth by drops, as data. Designed as section 7 of
+plans/planet-friends-architecture.md with four slices (3a the Den and the
+charging shelf, 3b the star system and lesson unlocks, 3c the device ladder
+and the Star Cafe, 3d breadth drops); the old slice 3 sub scenes become
+planets on the map. First slice planned in
+plans/week-of-2026-09-07-planet-friends-slice-3a-den-plan.md. Nothing built
+yet; waiting on Justin's go. Found on the way and fixed in PR 967: the "Do a
+lesson" mission read only kid_lesson_missions, so a Learn tab pass never
+landed it; it now reads lesson_completions too.
