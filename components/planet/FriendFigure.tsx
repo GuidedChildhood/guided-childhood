@@ -1,6 +1,6 @@
 'use client'
 
-import type { FriendKey, Mood } from '@/lib/planet/logic'
+import type { FriendKey, Mood, Outfit } from '@/lib/planet/logic'
 import { BLANKETS, friendArt } from '@/lib/planet/registry'
 
 // One Planet Friend, drawn from the real cast art (lib/content/stage-
@@ -11,8 +11,10 @@ import { BLANKETS, friendArt } from '@/lib/planet/registry'
 // change and does not need to. Origin is the centre of the feet, so a figure
 // is placed with one translate and grows upward in negative y.
 
-export default function FriendFigure({ friend, mood, baby = false, pyjamas = false, blanket = false, phone = 'none', size = 120, clock = false, className }: {
+export default function FriendFigure({ friend, mood, baby = false, pyjamas = false, blanket = false, phone = 'none', size = 120, clock = false, outfit = null, className }: {
   friend: FriendKey
+  /** What this Friend is wearing (slice 3): dragged on from the box. */
+  outfit?: Outfit | null
   mood: Mood
   baby?: boolean
   pyjamas?: boolean
@@ -36,7 +38,34 @@ export default function FriendFigure({ friend, mood, baby = false, pyjamas = fal
     <g className={className}>
       <ellipse cx={0} cy={2} rx={s * 0.34} ry={s * 0.07} fill="#1A1A2E" opacity={0.18} />
       <g transform={posture}>
+        {outfit === 'cape' && (
+          <path d={`M${-s * 0.3} ${-s * 0.62} q ${-s * 0.14} ${s * 0.3} ${-s * 0.06} ${s * 0.6} h ${s * 0.72} q ${s * 0.08} ${-s * 0.3} ${-s * 0.06} ${-s * 0.6} z`} fill={art.colour} stroke="#1A1A2E" strokeWidth={1.6} strokeLinejoin="round" opacity={0.95} />
+        )}
         <image href={art.img} x={-s / 2} y={-s} width={s} height={s} preserveAspectRatio="xMidYMax meet" />
+        {outfit === 'party_hat' && (
+          <g>
+            <path d={`M${-s * 0.2} ${-s * 0.92} L${s * 0.2} ${-s * 0.92} L${0} ${-s * 1.26} Z`} fill="#F2957A" stroke="#1A1A2E" strokeWidth={1.4} strokeLinejoin="round" />
+            <path d={`M${-s * 0.13} ${-s * 1.03} h ${s * 0.26} M${-s * 0.07} ${-s * 1.13} h ${s * 0.14}`} stroke="#FFF6DD" strokeWidth={2} />
+            <circle cx={0} cy={-s * 1.27} r={s * 0.04} fill="#F4C542" stroke="#1A1A2E" strokeWidth={1} />
+          </g>
+        )}
+        {outfit === 'glasses' && (
+          <g fill="none" stroke="#1A1A2E" strokeWidth={1.8}>
+            <path d={`M${-s * 0.28} ${-s * 0.62} l${s * 0.05} ${-s * 0.09} l${s * 0.05} ${s * 0.09} l${-s * 0.05} ${s * 0.09} z`} fill="rgba(142,195,240,0.55)" />
+            <path d={`M${s * 0.08} ${-s * 0.62} l${s * 0.05} ${-s * 0.09} l${s * 0.05} ${s * 0.09} l${-s * 0.05} ${s * 0.09} z`} fill="rgba(142,195,240,0.55)" />
+            <path d={`M${-s * 0.18} ${-s * 0.62} h${s * 0.26}`} />
+          </g>
+        )}
+        {outfit === 'helmet' && (
+          <g>
+            <circle cx={0} cy={-s * 0.68} r={s * 0.38} fill="rgba(200,230,255,0.28)" stroke="#1A1A2E" strokeWidth={1.8} />
+            <path d={`M${-s * 0.3} ${-s * 0.74} q ${s * 0.1} ${-s * 0.24} ${s * 0.3} ${-s * 0.2}`} fill="none" stroke="#FFFFFF" strokeWidth={2.2} strokeLinecap="round" opacity={0.8} />
+            <path d={`M0 ${-s * 1.06} V${-s * 1.16}`} stroke="#1A1A2E" strokeWidth={1.6} /><circle cx={0} cy={-s * 1.18} r={s * 0.03} fill="#F4C542" stroke="#1A1A2E" strokeWidth={1} />
+          </g>
+        )}
+        {outfit === 'crown' && (
+          <path d={`M${-s * 0.2} ${-s * 0.92} h${s * 0.4} v${-s * 0.14} l${-s * 0.1} ${s * 0.07} l${-s * 0.1} ${-s * 0.14} l${-s * 0.1} ${s * 0.14} l${-s * 0.1} ${-s * 0.07} z`} fill="#F4C542" stroke="#1A1A2E" strokeWidth={1.4} strokeLinejoin="round" />
+        )}
 
         {baby && (
           <g>

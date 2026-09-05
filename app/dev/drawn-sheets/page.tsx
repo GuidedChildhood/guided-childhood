@@ -23,7 +23,7 @@ import { MISSIONS_FOR_PRINT, missionSheetFor, planetPrintableKey } from '@/lib/p
 //                                     the crop each tile shows
 //   /dev/drawn-sheets?key=mission-sheet&mission=plant_seed   one Planet Friends
 //                                     mission sheet (add &card=pictures or
-//                                     &card=letters for the Moonflower card
+//                                     &card=letters for the Comet card
 //                                     with a pretend code on it)
 //
 // Never reachable in production.

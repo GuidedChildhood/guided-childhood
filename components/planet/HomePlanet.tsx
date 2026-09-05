@@ -1,10 +1,12 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import type { Friend, FriendKey, Mood, RewardKey, Tier } from '@/lib/planet/logic'
-import { FRIEND_KEYS, isGrownUp } from '@/lib/planet/logic'
+import type { Friend, FriendKey, Mood, Outfit, PartKey, Placed, Tier } from '@/lib/planet/logic'
+import { FRIEND_KEYS, PART_ZONE, SLOTS, isGrownUp } from '@/lib/planet/logic'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
+import PartArt from './PartArt'
+import { PLANET, SCENE_H, SCENE_W, SLOT_POS, sceneFromClient, surfaceY } from './scene'
 
 // The HomePlanetNode (design section 2.1): the sandbox, drawn in one SVG so
 // it is one screen at phone width and simply scales up on a tablet or
@@ -23,23 +25,33 @@ import FriendFigure from './FriendFigure'
 // the outer one. Folding them together makes a Friend jump to the origin
 // the moment it breathes.
 
-export const SCENE_W = 390
-export const SCENE_H = 560
-const PLANET = { cx: 195, cy: 700, r: 400 }
+export { SCENE_W, SCENE_H, surfaceY } from './scene'
 const POD = { x: 288, y: 236, w: 94, h: 104 }
 const CATCHER = { x: 10, y: 222, w: 100, h: 116 }
 const SHAKER_HOME = { x: 44, y: 420 }
 const NURSERY = { x: 62, y: 84 }
 const CHARGER = { x: 195, y: 470 }
 
-export type DropZone = 'pod' | 'catcher'
+/** What a Friend landed on: the pod, the sun catcher, or a part the child built with (slice 3). */
+export type DropZone = 'pod' | 'catcher' | { part: PartKey }
+/** Something carried from the parts box over the planet. */
+export type Carry = { kind: 'part'; part: PartKey } | { kind: 'outfit'; outfit: Outfit }
 export type Sky = 'day' | 'evening' | 'night'
 
-type Drag = { kind: 'friend' | 'shaker'; id: string; x: number; y: number; startX: number; startY: number; moved: boolean }
+type Drag = { kind: 'friend' | 'shaker' | 'part'; id: string; x: number; y: number; startX: number; startY: number; moved: boolean }
 
-/** The planet's surface height at x, so things stand on the curve. */
-export function surfaceY(x: number): number {
-  return PLANET.cy - Math.sqrt(PLANET.r * PLANET.r - (x - PLANET.cx) * (x - PLANET.cx))
+/** The free slot a part can go in, nearest to a point, within reach. */
+export function nearestFreeSlot(part: PartKey, placed: Placed[], p: { x: number; y: number }, reach = 90): string | null {
+  let best: string | null = null
+  let bestD = reach
+  for (const s of SLOTS) {
+    if (s.zone !== PART_ZONE[part]) continue
+    if (placed.some(x => x.slot === s.id && x.part !== part)) continue
+    const pos = SLOT_POS[s.id]
+    const d = s.zone === 'ring' ? Math.abs(p.y - pos.y) : Math.hypot(p.x - pos.x, p.y - (pos.y - (s.zone === 'sky' ? 0 : 24)))
+    if (d < bestD) { bestD = d; best = s.id }
+  }
+  return best
 }
 
 function inRect(p: { x: number; y: number }, r: { x: number; y: number; w: number; h: number }): boolean {
@@ -60,12 +72,20 @@ export function standingX(count: number): number[] {
 }
 
 export default function HomePlanet({
-  friends, moods, tier, childAge, sky, starEnergy, growthStage, rewards = [], accent, pyjamas, wiggle, sparkle, boopCrater,
-  onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onInteract,
+  friends, moods, tier, childAge, sky, starEnergy, growthStage, placed = [], plots = 0, wearing = {}, carrying = null, using = null, accent, pyjamas, wiggle, sparkle, boopCrater,
+  onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onInteract, onMovePart, onPartTap, onSvg,
 }: {
   friends: Friend[]
-  /** What the missions brought home (design 3.2), drawn on the planet. */
-  rewards?: RewardKey[]
+  /** The parts on the planet, by slot (slice 3). */
+  placed?: Placed[]
+  /** How many parts the planet has room for right now. */
+  plots?: number
+  /** Who wears what. */
+  wearing?: Partial<Record<FriendKey, Outfit>>
+  /** Something being carried from the box: the places it can go light up. */
+  carrying?: Carry | null
+  /** A part a Friend is playing on right now. */
+  using?: PartKey | null
   moods: Record<string, Mood>
   tier: Tier
   childAge: number
@@ -86,6 +106,11 @@ export default function HomePlanet({
   onCloud: (friend: FriendKey, on: boolean) => void
   onNursery: () => void
   onInteract: () => void
+  /** A placed part dragged to another slot, or off the bottom (null) back to the box. */
+  onMovePart?: (part: PartKey, slot: string | null) => void
+  onPartTap?: (part: PartKey) => void
+  /** The scene's own svg, so the root can drop things from the box onto it. */
+  onSvg?: (el: SVGSVGElement | null) => void
 }) {
   const svgRef = useRef<SVGSVGElement>(null)
   const [drag, setDrag] = useState<Drag | null>(null)
@@ -93,20 +118,14 @@ export default function HomePlanet({
   const colours = SKY[sky]
   const xs = standingX(friends.length)
   const babies = FRIEND_KEYS.filter(k => !friends.some(f => f.key === k))
+  void plots
 
   function toSvg(e: React.PointerEvent): { x: number; y: number } {
     const svg = svgRef.current
-    if (!svg) return { x: 0, y: 0 }
-    const pt = svg.createSVGPoint()
-    pt.x = e.clientX
-    pt.y = e.clientY
-    const ctm = svg.getScreenCTM()
-    if (!ctm) return { x: 0, y: 0 }
-    const p = pt.matrixTransform(ctm.inverse())
-    return { x: p.x, y: p.y }
+    return svg ? sceneFromClient(svg, e.clientX, e.clientY) : { x: 0, y: 0 }
   }
 
-  function begin(e: React.PointerEvent, kind: 'friend' | 'shaker', id: string) {
+  function begin(e: React.PointerEvent, kind: 'friend' | 'shaker' | 'part', id: string) {
     onInteract()
     const p = toSvg(e)
     try { svgRef.current?.setPointerCapture(e.pointerId) } catch { /* not all browsers */ }
@@ -130,7 +149,16 @@ export default function HomePlanet({
     if (drag.kind === 'friend') {
       const key = drag.id as FriendKey
       if (!drag.moved) onTickle(key)
-      else onDropFriend(key, inRect(p, POD) ? 'pod' : inRect(p, CATCHER) ? 'catcher' : null)
+      else {
+        // A part first (a Friend on the trampoline), then the pod and the catcher.
+        const onPart = placed.find(x => { const z = PART_ZONE[x.part]; if (z === 'sky' || z === 'ring') return false; const pos = SLOT_POS[x.slot]; return pos && Math.hypot(p.x - pos.x, p.y - (pos.y - 24)) < 46 })
+        onDropFriend(key, onPart ? { part: onPart.part } : inRect(p, POD) ? 'pod' : inRect(p, CATCHER) ? 'catcher' : null)
+      }
+    } else if (drag.kind === 'part') {
+      const part = drag.id as PartKey
+      if (!drag.moved) onPartTap?.(part)
+      else if (p.y > SCENE_H + 6 || p.y < -6 || p.x < -6 || p.x > SCENE_W + 6) onMovePart?.(part, null)
+      else { const slot = nearestFreeSlot(part, placed, p); if (slot && slot !== placed.find(x => x.part === part)?.slot) onMovePart?.(part, slot) }
     } else if (sprinklingOn) {
       onSprinkle(sprinklingOn)
     }
@@ -139,6 +167,24 @@ export default function HomePlanet({
   }
 
   const draggingFriend = drag?.kind === 'friend'
+  const night = sky !== 'day'
+  const bySlot = (zone: 'sky' | 'horizon' | 'ground') => placed.filter(x => PART_ZONE[x.part] === zone && SLOT_POS[x.slot])
+  /** A part in its slot: draggable, animated when a Friend is on it. */
+  const partAt = (x: Placed) => {
+    const pos = SLOT_POS[x.slot]
+    const dragging = drag?.kind === 'part' && drag.id === x.part
+    const at = dragging && drag ? { x: drag.x, y: drag.y + (PART_ZONE[x.part] === 'sky' ? 0 : 24) } : pos
+    return (
+      <g key={x.part} data-part={x.part} data-slot={x.slot} transform={`translate(${at.x} ${at.y})${dragging ? ' scale(1.08)' : ''}`}
+        onPointerDown={e => { e.stopPropagation(); begin(e, 'part', x.part) }} style={{ cursor: 'grab', filter: dragging ? 'drop-shadow(0 8px 0 rgba(26,26,46,0.25))' : undefined }}>
+        {/* a hit area, so a small finger grabs the whole part and not just its lines */}
+        <circle cx={0} cy={PART_ZONE[x.part] === 'sky' ? 0 : -26} r={32} fill="transparent" />
+        <PartArt part={x.part} accent={accent} night={night} using={using === x.part} />
+      </g>
+    )
+  }
+  /** The places a carried part can go, lit up. */
+  const targets = carrying?.kind === 'part' ? SLOTS.filter(s => s.zone === PART_ZONE[carrying.part] && !placed.some(x => x.slot === s.id)) : []
   const starX = 80 + (1 - starEnergy) * 230
   const starY = 150 - Math.sin(Math.PI * (0.2 + 0.6 * (1 - starEnergy))) * 90
   const podY = surfaceY(POD.x + POD.w / 2)
@@ -146,7 +192,7 @@ export default function HomePlanet({
 
   return (
     <svg
-      ref={svgRef}
+      ref={el => { svgRef.current = el; onSvg?.(el) }}
       viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}
       width="100%"
       style={{ display: 'block', touchAction: 'none', userSelect: 'none', borderRadius: 24 }}
@@ -191,6 +237,9 @@ export default function HomePlanet({
           <circle cx={335} cy={70} r={2.2} fill="#C9C5D8" />
         </g>
       )}
+
+      {/* what the child hung in the sky (slice 3) */}
+      {bySlot('sky').map(partAt)}
 
       {/* the nursery, in orbit: the babies who have not grown up yet */}
       <g transform={`translate(${NURSERY.x} ${NURSERY.y})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onNursery() }} style={{ cursor: 'pointer' }}>
@@ -240,72 +289,20 @@ export default function HomePlanet({
         </g>
       )}
 
-      {/* what the missions brought home, in the sky and on the ground */}
-      {rewards.includes('star') && (
-        <path data-reward="star" d="M250 28 l5 12 l13 1 l-10 8 l3 13 l-11 -7 l-11 7 l3 -13 l-10 -8 l13 -1 z" fill="#FFF3B0" stroke="#1A1A2E" strokeWidth={1.8} strokeLinejoin="round" className="pl-float" />
-      )}
-      {rewards.includes('moon') && (
-        <g data-reward="moon">
-          <circle cx={355} cy={140} r={13} fill="#EDE9F5" stroke="#1A1A2E" strokeWidth={1.8} />
-          <circle cx={350} cy={136} r={2.5} fill="#CFC9DE" />
-          <circle cx={359} cy={144} r={1.8} fill="#CFC9DE" />
-        </g>
-      )}
-      {rewards.includes('ring') && (
-        <g data-reward="ring" clipPath="url(#pl-body)">
+      {/* the ring, when the child has put it on */}
+      {placed.some(x => x.part === 'ring') && (
+        <g data-part="ring" data-slot="ring" clipPath="url(#pl-body)" onPointerDown={e => { e.stopPropagation(); begin(e, 'part', 'ring') }} style={{ cursor: 'grab' }}>
           <ellipse cx={PLANET.cx} cy={445} rx={235} ry={26} fill="none" stroke="#F4C542" strokeWidth={10} opacity={0.85} />
           <ellipse cx={PLANET.cx} cy={445} rx={235} ry={26} fill="none" stroke="#1A1A2E" strokeWidth={1.5} opacity={0.5} />
         </g>
       )}
-      {rewards.includes('pool') && (
-        <ellipse data-reward="pool" cx={150} cy={400} rx={13} ry={7} fill="#5FA8E8" stroke="#1A1A2E" strokeWidth={1.2} />
-      )}
-      {rewards.includes('flag') && (
-        <g data-reward="flag" transform={`translate(24 ${surfaceY(24)})`}>
-          <path d="M0 2 V-40" stroke="#1A1A2E" strokeWidth={2.5} strokeLinecap="round" />
-          <path d="M1 -40 h22 l-5 7 l5 7 h-22 z" fill="#4E9A5B" stroke="#1A1A2E" strokeWidth={1.8} strokeLinejoin="round" />
-        </g>
-      )}
-      {rewards.includes('dome') && (
-        <g data-reward="dome" transform="translate(330 424)">
-          <ellipse cx={0} cy={4} rx={24} ry={6} fill="#1A1A2E" opacity={0.15} />
-          <path d="M-22 2 a22 22 0 0 1 44 0 z" fill="rgba(255,255,255,0.6)" stroke="#1A1A2E" strokeWidth={2} />
-          <path d="M0 0 V-12 M0 -8 q-6 -2 -8 -8 M0 -10 q6 -2 8 -8" stroke="#4E9A5B" strokeWidth={2.5} fill="none" strokeLinecap="round" />
-        </g>
-      )}
-      {rewards.includes('lamp') && (
-        <g data-reward="lamp" transform="translate(120 528)">
-          <path d="M0 2 V-40" stroke="#1A1A2E" strokeWidth={3} strokeLinecap="round" />
-          <path d="M-9 -40 h18 l-3 -12 h-12 z" fill="#FFF3B0" stroke="#1A1A2E" strokeWidth={2} strokeLinejoin="round" />
-          {sky === 'night' && <circle cx={0} cy={-46} r={22} fill="url(#pl-glow)" />}
-        </g>
-      )}
-      {/* A moonflower opens as the star goes down: from the wind down on,
-          because the night side is an overlay and a flower that only opened
-          behind it would never be seen. */}
-      {rewards.includes('moonflower') && (
-        <g data-reward="moonflower" transform="translate(70 468)">
-          <path d="M0 4 V-30" stroke="#4E9A5B" strokeWidth={2.5} strokeLinecap="round" />
-          <path d="M0 -10 q-9 -2 -11 -10 q9 -1 11 10 M0 -18 q9 -2 11 -10 q-9 -1 -11 10" fill="#93CFA8" stroke="#1A1A2E" strokeWidth={1.2} />
-          {sky !== 'day' ? (
-            <g>
-              <circle cx={0} cy={-36} r={20} fill="url(#pl-glow)" />
-              {[0, 60, 120, 180, 240, 300].map(a => (
-                <ellipse key={a} cx={0} cy={-36} rx={4} ry={9} fill="#F3EEFF" stroke="#1A1A2E" strokeWidth={1} transform={`rotate(${a} 0 -36) translate(0 -6)`} />
-              ))}
-              <circle cx={0} cy={-36} r={3.5} fill="#F4C542" stroke="#1A1A2E" strokeWidth={1} />
-            </g>
-          ) : (
-            <path d="M0 -44 q7 6 5 14 q-5 6 -10 0 q-2 -8 5 -14 z" fill="#E9E2F7" stroke="#1A1A2E" strokeWidth={1.4} strokeLinejoin="round" />
-          )}
-        </g>
-      )}
-      {rewards.includes('blanket') && (
-        <g data-reward="blanket" transform="translate(280 520)">
-          <rect x={-30} y={-12} width={60} height={24} rx={4} fill="#FBE0CC" stroke="#1A1A2E" strokeWidth={1.8} transform="skewX(-12)" />
-          <path d="M-20 -12 V12 M-8 -12 V12 M4 -12 V12 M16 -12 V12 M-30 -4 H30 M-30 4 H30" stroke="#E8873C" strokeWidth={1.2} opacity={0.6} transform="skewX(-12)" />
-        </g>
-      )}
+      {targets.map(t => {
+        const pos = SLOT_POS[t.id]
+        if (t.zone === 'ring') return <ellipse key={t.id} data-target={t.id} cx={PLANET.cx} cy={pos.y} rx={235} ry={26} fill="none" stroke="#F4C542" strokeWidth={6} strokeDasharray="10 8" clipPath="url(#pl-body)" className="pl-target" />
+        return <circle key={t.id} data-target={t.id} cx={pos.x} cy={pos.y - (t.zone === 'sky' ? 0 : 24)} r={28} fill="rgba(255,255,255,0.35)" stroke="#F4C542" strokeWidth={4} strokeDasharray="8 7" className="pl-target" />
+      })}
+      {/* what the child built on the ground (slice 3) */}
+      {bySlot('ground').map(partAt)}
 
       {/* the MoonPhone charger pad, where phones go when the star goes down */}
       <g transform={`translate(${CHARGER.x} ${CHARGER.y})`}>
@@ -343,6 +340,9 @@ export default function HomePlanet({
         </g>
       ))}
 
+      {/* what stands on the horizon, behind the Friends (slice 3) */}
+      {bySlot('horizon').map(partAt)}
+
       {/* the Friends */}
       {friends.map((f, i) => {
         const mood = moods[f.key] ?? 'happy'
@@ -351,7 +351,7 @@ export default function HomePlanet({
         if (dragging && drag) {
           return (
             <g key={f.key} transform={`translate(${drag.x} ${drag.y + 30}) scale(1.06)`} style={{ filter: 'drop-shadow(0 8px 0 rgba(26,26,46,0.25))' }}>
-              <FriendFigure friend={f.key} mood={mood} baby={baby} pyjamas={pyjamas} />
+              <FriendFigure friend={f.key} mood={mood} baby={baby} pyjamas={pyjamas} outfit={wearing[f.key] ?? null} />
             </g>
           )
         }
@@ -377,8 +377,9 @@ export default function HomePlanet({
             onPointerDown={e => { if (f.cooldown) { onInteract(); return } e.stopPropagation(); begin(e, 'friend', f.key) }}
             style={{ cursor: f.cooldown ? 'default' : 'grab' }}
           >
+            {carrying?.kind === 'outfit' && !f.cooldown && <circle cx={0} cy={-70} r={70} fill="rgba(255,255,255,0.25)" stroke="#F4C542" strokeWidth={4} strokeDasharray="8 7" className="pl-target" data-target={`friend-${f.key}`} />}
             <g className={wiggle === f.key ? 'pl-wiggle' : undefined}>
-              <FriendFigure friend={f.key} mood={mood} baby={baby} pyjamas={pyjamas} phone={mood === 'happy' && !baby ? 'hand' : 'none'} clock={f.cooldown?.reason === 'ambient'} />
+              <FriendFigure friend={f.key} mood={mood} baby={baby} pyjamas={pyjamas} phone={mood === 'happy' && !baby ? 'hand' : 'none'} clock={f.cooldown?.reason === 'ambient'} outfit={wearing[f.key] ?? null} />
             </g>
             {sparkle === f.key && (
               <g className="pl-sparkle">

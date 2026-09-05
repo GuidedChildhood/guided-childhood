@@ -7,15 +7,17 @@ import type { ClientEvent, HomeView } from '@/lib/planet/view'
 import {
   GROWTH, TIERS, TICK_CAP_SECONDS, AMBIENT_AFTER_SECONDS,
   applyEvent, drainPerMinute, isGrownUp, minutesLeft, moodOf, reconcile, restOverlay,
-  type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef } from '@/lib/planet/logic'
+  type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef, boxParts, boxOutfits, plotsFor, PART_ZONE, type Outfit, type PartKey } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
 import { playFx, startTune } from '@/lib/planet/sounds'
 import { soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import KidBackLink from '@/components/kid/KidBackLink'
-import HomePlanet, { type DropZone, type Sky } from './HomePlanet'
+import HomePlanet, { nearestFreeSlot, standingX, type Carry, type DropZone, type Sky } from './HomePlanet'
+import PartArt from './PartArt'
+import { SCENE_H, SCENE_W, sceneFromClient, surfaceY } from './scene'
 import FriendFigure from './FriendFigure'
 import MissionBoard, { type ClaimResult } from './MissionBoard'
-import { MISSION_DEFS, MISSION_LINES, missionByKey } from '@/lib/planet/missions'
+import { MISSION_DEFS, MISSION_LINES, missionByKey, OUTFIT_LABELS, PART_LABELS, PART_LINES } from '@/lib/planet/missions'
 import { boardFor } from '@/lib/planet/logic'
 
 // Planet Friends: Growing Up Digital, the toy, on the child link.
@@ -68,6 +70,9 @@ function fixtureApply(v: HomeView, ev: ClientEvent, defs: Record<string, Mission
   return { ...v, home, ask, serverNow: nowIso }
 }
 
+/** The outfits in the box, as a glyph a child can spot. */
+const OUTFIT_ICON: Record<Outfit, string> = { party_hat: '🎉', glasses: '🕶️', helmet: '🪖', cape: '🦸', crown: '👑' }
+
 const reduceMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 export default function PlanetFriends({ token, initial, theme, childName, fixture = false, fixtureAnswers }: {
@@ -100,6 +105,12 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const [nightAsked, setNightAsked] = useState(false)
   const [busy, setBusy] = useState(false)
   const [boardOpen, setBoardOpen] = useState(false)
+  // The build (slice 3): the parts box, a part or outfit being carried
+  // from it, and a part a Friend is playing on.
+  const [boxOpen, setBoxOpen] = useState(false)
+  const [carry, setCarry] = useState<(Carry & { x: number; y: number }) | null>(null)
+  const [using, setUsing] = useState<PartKey | null>(null)
+  const sceneRef = useRef<SVGSVGElement | null>(null)
   // One ask column, two kinds. The pods and the orbit only care about a wake
   // ask; a mission ask belongs to the board. A save from before the kinds
   // existed reads as a wake ask.
@@ -133,6 +144,10 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   overlayRef.current = overlay
   const sky: Sky = bedtimeLocked ? 'night' : view.bedtime.phase === 'winddown' ? 'evening' : 'day'
   const awake = live.friends.filter(f => !f.cooldown)
+  const box = boxParts(live)
+  const boxWear = boxOutfits(live)
+  const plots = plotsFor(live.growthStage)
+  const spacesLeft = Math.max(0, plots - live.build.placed.length)
   const starEnergy = awake.length ? awake.reduce((s, f) => s + f.energy, 0) / (awake.length * 100) : 0
   const grewTotal = live.grewWhileAway
 
@@ -275,6 +290,11 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
 
   const onDropFriend = (friend: FriendKey, zone: DropZone | null) => {
     interact()
+    if (zone && typeof zone === 'object') {
+      // A Friend on a part the child built with: one line, one wiggle, back to standing.
+      playFx('giggle'); say(PART_LINES[zone.part]); flash(setWiggle, friend, 700); flash(setUsing, zone.part, 1400)
+      return
+    }
     if (zone === 'pod') { playFx('yawn'); say(LINES.napStart); void send({ kind: 'nap_start', friend }) }
     else if (zone === 'catcher') { playFx('tap'); setSunlight({ friend, stage: 'prompt', sparks: 0 }) }
     else playFx('boop')
@@ -288,6 +308,57 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const onBoop = (crater: number) => { interact(); playFx('boop'); say(LINES.boop); flash(setBoopCrater, crater, 600) }
   const onCloud = (friend: FriendKey, on: boolean) => { interact(); playFx('tap'); say(on ? LINES.cloudOn : LINES.cloudOff); void send({ kind: 'cloud', friend, on }) }
   const onNursery = () => { interact(); playFx('giggle'); say(LINES.babies) }
+
+  // ── The build ────────────────────────────────────────────────────────
+  const placeHint = (part: PartKey) => {
+    const z = PART_ZONE[part]
+    return z === 'sky' ? 'That one goes up in the sky.' : z === 'horizon' ? 'That one stands on the horizon, behind the Friends.' : z === 'ring' ? 'The ring goes around the middle.' : 'That one goes on the ground.'
+  }
+  const onMovePart = (part: PartKey, slot: string | null) => {
+    interact(); playFx('tap')
+    if (slot === null) { say(`${PART_LABELS[part]} is back in your box.`); void send({ kind: 'part_remove', part }); return }
+    void send({ kind: 'part_move', part, slot })
+  }
+  const onPartTap = (part: PartKey) => { interact(); playFx('boop'); say(PART_LINES[part]); flash(setUsing, part, 1400) }
+  function startCarry(e: React.PointerEvent, item: Carry) {
+    interact(); playFx('tap')
+    try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId) } catch { /* not all browsers */ }
+    setCarry({ ...item, x: e.clientX, y: e.clientY })
+  }
+  function moveCarry(e: React.PointerEvent) { if (carry) setCarry({ ...carry, x: e.clientX, y: e.clientY }) }
+  function endCarry(e: React.PointerEvent) {
+    const item = carry
+    setCarry(null)
+    const svg = sceneRef.current
+    if (!item || !svg) return
+    const p = sceneFromClient(svg, e.clientX, e.clientY)
+    if (p.x < 0 || p.x > SCENE_W || p.y < 0 || p.y > SCENE_H) return
+    if (item.kind === 'part') {
+      if (live.build.placed.length >= plots) { playFx('boop'); say(MISSION_LINES.noRoom); return }
+      const slot = nearestFreeSlot(item.part, live.build.placed, p, 110)
+      if (!slot) { say(placeHint(item.part)); return }
+      playFx('chime'); say(`${PART_LABELS[item.part]}. Nice spot.`)
+      void send({ kind: 'part_place', part: item.part, slot })
+    } else {
+      const xs = standingX(live.friends.length)
+      let best: FriendKey | null = null
+      let bestD = 95
+      live.friends.forEach((f, i) => {
+        if (f.cooldown) return
+        const d = Math.hypot(p.x - xs[i], p.y - (surfaceY(xs[i]) - 60))
+        if (d < bestD) { bestD = d; best = f.key }
+      })
+      if (!best) { say(MISSION_LINES.wear); return }
+      playFx('giggle'); say(`${friendArt(best).name} loves it.`)
+      void send({ kind: 'outfit_set', friend: best, outfit: item.outfit })
+    }
+  }
+  const takeOff = (friend: FriendKey) => { interact(); playFx('tap'); void send({ kind: 'outfit_set', friend, outfit: null }) }
+  /** The box is a sheet along the bottom of the screen; opening it brings the planet up above it. */
+  function openBox(open: boolean) {
+    setBoxOpen(open)
+    if (open) requestAnimationFrame(() => { try { sceneRef.current?.scrollIntoView({ block: 'start', behavior: reduceMotion() ? 'auto' : 'smooth' }) } catch { /* fine */ } })
+  }
 
   async function everyoneToBed() {
     interact()
@@ -450,6 +521,11 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         @keyframes pl-puff { 0% { transform: scale(0.4); opacity: 0.7 } 100% { transform: scale(2); opacity: 0 } }
         @keyframes pl-star { 0%, 100% { transform: rotate(0) } 50% { transform: rotate(6deg) } }
         @keyframes pl-float { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+        @keyframes pl-target { 0%, 100% { opacity: 0.7 } 50% { opacity: 1 } }
+        @keyframes pl-bounce { 0%, 100% { transform: scaleY(1) } 50% { transform: scaleY(0.6) } }
+        @keyframes pl-swing { 0%, 100% { transform: rotate(0) } 25% { transform: rotate(18deg) } 75% { transform: rotate(-18deg) } }
+        @keyframes pl-launch { 0% { transform: translateY(0) } 60% { transform: translateY(-40px) } 100% { transform: translateY(0) } }
+        @keyframes pl-flicker { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.08, 0.94) } }
         .pl-breathe { animation: pl-breathe 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-wiggle { animation: pl-wiggle 0.7s ease-in-out; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-sparkle { animation: pl-sparkle 1.2s ease-out }
@@ -457,10 +533,15 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         .pl-puff { animation: pl-puff 0.6s ease-out forwards; transform-box: fill-box; transform-origin: center }
         .pl-star { animation: pl-star 6s ease-in-out infinite }
         .pl-float { animation: pl-float 5s ease-in-out infinite; transform-box: fill-box; transform-origin: center }
-        @media (prefers-reduced-motion: reduce) { .pl-breathe, .pl-wiggle, .pl-sparkle, .pl-dust, .pl-puff, .pl-star, .pl-float { animation: none } }
+        .pl-target { animation: pl-target 1s ease-in-out infinite }
+        .pl-bounce { animation: pl-bounce 0.5s ease-in-out 2; transform-box: fill-box; transform-origin: 50% 100% }
+        .pl-swing { animation: pl-swing 1.2s ease-in-out; transform-box: fill-box; transform-origin: 50% 0% }
+        .pl-launch { animation: pl-launch 1.2s ease-in-out; transform-box: fill-box; transform-origin: 50% 100% }
+        .pl-flicker { animation: pl-flicker 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
+        @media (prefers-reduced-motion: reduce) { .pl-breathe, .pl-wiggle, .pl-sparkle, .pl-dust, .pl-puff, .pl-star, .pl-float, .pl-target, .pl-bounce, .pl-swing, .pl-launch, .pl-flicker { animation: none } }
       `}</style>
 
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '10px 12px calc(env(safe-area-inset-bottom, 0px) + 24px)' }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: `10px 12px calc(env(safe-area-inset-bottom, 0px) + ${boxOpen ? 300 : 24}px)` }}>
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '6px 4px 10px' }}>
           {token ? <KidBackLink href={`/k/${token}`} color={theme.ink} /> : <span />}
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>My planet 🪐</span>
@@ -483,7 +564,11 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             sky={sky}
             starEnergy={starEnergy}
             growthStage={live.growthStage}
-            rewards={live.rewards}
+            placed={live.build.placed}
+            plots={plots}
+            wearing={live.build.wearing}
+            carrying={carry ? (carry.kind === 'part' ? { kind: 'part', part: carry.part } : { kind: 'outfit', outfit: carry.outfit }) : null}
+            using={using}
             accent={theme.hex}
             pyjamas={bedtimeLocked}
             wiggle={wiggle}
@@ -496,6 +581,9 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             onCloud={onCloud}
             onNursery={onNursery}
             onInteract={interact}
+            onMovePart={onMovePart}
+            onPartTap={onPartTap}
+            onSvg={el => { sceneRef.current = el }}
           />
 
           {landed && landedCard && !boardOpen && overlay !== 'night' && (
@@ -504,7 +592,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>
                 {landedCard.rewardLabel}. {MISSION_LINES.landed}
               </p>
-              <button onClick={() => seenMission(landed.key)} style={{ ...chunky('accent'), padding: '10px 14px' }}>Yay!</button>
+              <button onClick={() => { void seenMission(landed.key); openBox(true) }} style={{ ...chunky('accent'), padding: '10px 14px' }}>Yay!</button>
             </div>
           )}
 
@@ -631,9 +719,71 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             <button onClick={() => { interact(); playFx('tap'); setBoardOpen(o => !o) }} style={chunky(boardOpen ? 'white' : 'accent')}>
               🎯 {live.tier === 1 ? MISSION_LINES.boardTier1 : MISSION_LINES.board}{inProgress > 0 ? ` (${inProgress})` : ''}
             </button>
+            {overlay === 'none' && (
+              <button onClick={() => { interact(); playFx('tap'); openBox(!boxOpen) }} style={chunky(boxOpen ? 'white' : 'accent')} aria-expanded={boxOpen}>
+                🧰 {MISSION_LINES.box}{box.length + boxWear.length > 0 ? ` (${box.length + boxWear.length})` : ''}
+              </button>
+            )}
             {overlay === 'none' && live.tier >= 2 && awake.length > 1 && (
               <button onClick={everyoneToBed} style={chunky('white')}>🌙 {LINES.everyoneToBed}</button>
             )}
+          </div>
+        )}
+
+        {/* The parts box (slice 3): what the missions and the growth brought,
+            waiting to be put somewhere. Drag a part onto the planet, an outfit
+            onto a Friend. Drag a placed part off the bottom to put it back. */}
+        {boxOpen && overlay === 'none' && (
+          <div role="region" aria-label={MISSION_LINES.box} style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 30, background: '#fff', color: 'var(--ink)', borderTop: '2px solid var(--ink)', boxShadow: '0 -4px 0 rgba(26,26,46,0.12)', padding: '10px 12px calc(env(safe-area-inset-bottom, 0px) + 10px)', maxHeight: '42vh', overflowY: 'auto' }}>
+           <div style={{ maxWidth: 480, margin: '0 auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+              <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)' }}>🧰 {MISSION_LINES.box}</p>
+              <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{MISSION_LINES.spaces(spacesLeft)}</p>
+              <button onClick={() => { playFx('tap'); setBoxOpen(false) }} aria-label={MISSION_LINES.close} style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 2px 0 var(--ink)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900 }}>✕</button>
+            </div>
+            <p style={{ margin: '2px 0 8px', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.3 }}>
+              {box.length + boxWear.length === 0 ? MISSION_LINES.boxEmpty : MISSION_LINES.boxHint}
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {box.map(part => (
+                <div key={part} role="button" tabIndex={0} aria-label={`Carry ${PART_LABELS[part]}`} data-box-part={part}
+                  onPointerDown={e => startCarry(e, { kind: 'part', part })} onPointerMove={moveCarry} onPointerUp={endCarry} onPointerCancel={() => setCarry(null)}
+                  style={{ width: 66, touchAction: 'none', cursor: 'grab', userSelect: 'none', background: 'var(--butter-lt)', border: '2px solid var(--ink)', borderRadius: 14, boxShadow: '0 3px 0 var(--ink)', padding: '4px 2px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, opacity: carry?.kind === 'part' && carry.part === part ? 0.4 : 1 }}>
+                  <svg viewBox={PART_ZONE[part] === 'sky' ? '-40 -40 80 80' : '-40 -70 80 80'} width={46} height={46} aria-hidden style={{ pointerEvents: 'none' }}>
+                    <PartArt part={part} accent={theme.hex} night={false} />
+                  </svg>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xs)', textAlign: 'center', lineHeight: 1.15 }}>{PART_LABELS[part]}</span>
+                </div>
+              ))}
+              {boxWear.map(outfit => (
+                <div key={outfit} role="button" tabIndex={0} aria-label={`Carry ${OUTFIT_LABELS[outfit]}`} data-box-outfit={outfit}
+                  onPointerDown={e => startCarry(e, { kind: 'outfit', outfit })} onPointerMove={moveCarry} onPointerUp={endCarry} onPointerCancel={() => setCarry(null)}
+                  style={{ width: 66, touchAction: 'none', cursor: 'grab', userSelect: 'none', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, boxShadow: '0 3px 0 var(--ink)', padding: '4px 2px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, opacity: carry?.kind === 'outfit' && carry.outfit === outfit ? 0.4 : 1 }}>
+                  <span aria-hidden style={{ fontSize: 32, lineHeight: '46px' }}>{OUTFIT_ICON[outfit]}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xs)', textAlign: 'center', lineHeight: 1.15 }}>{OUTFIT_LABELS[outfit]}</span>
+                </div>
+              ))}
+            </div>
+            {Object.keys(live.build.wearing).length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
+                {(Object.entries(live.build.wearing) as [FriendKey, Outfit][]).map(([friend, outfit]) => (
+                  <button key={friend} onClick={() => takeOff(friend)} aria-label={`Take the ${OUTFIT_LABELS[outfit].replace(/^(A|An) /, '').toLowerCase()} off ${friendArt(friend).name}`}
+                    style={{ border: '1.5px solid var(--ink)', borderRadius: 999, background: '#fff', padding: '4px 10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xs)', cursor: 'pointer', color: 'var(--ink)' }}>
+                    {OUTFIT_ICON[outfit]} {friendArt(friend).name} ✕
+                  </button>
+                ))}
+              </div>
+            )}
+           </div>
+          </div>
+        )}
+        {carry && (
+          <div aria-hidden style={{ position: 'fixed', left: carry.x, top: carry.y, transform: 'translate(-50%, -60%)', pointerEvents: 'none', zIndex: 50 }}>
+            {carry.kind === 'part' ? (
+              <svg viewBox={PART_ZONE[carry.part] === 'sky' ? '-40 -40 80 80' : '-40 -70 80 80'} width={90} height={90} style={{ filter: 'drop-shadow(0 8px 0 rgba(26,26,46,0.25))' }}>
+                <PartArt part={carry.part} accent={theme.hex} night={false} />
+              </svg>
+            ) : <span style={{ fontSize: 54 }}>{OUTFIT_ICON[carry.outfit]}</span>}
           </div>
         )}
 

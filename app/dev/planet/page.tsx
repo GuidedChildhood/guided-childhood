@@ -1,12 +1,10 @@
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
-import { applyEvent, newHome, type CodeMode, type RewardKey, type Tier } from '@/lib/planet/logic'
+import { applyEvent, isOutfit, isPartKey, newHome, type CodeMode, type FriendKey, type Tier } from '@/lib/planet/logic'
 import { MISSION_DEFS } from '@/lib/planet/missions'
 
-const REWARD_KEYS: RewardKey[] = ['dome', 'flag', 'ring', 'pool', 'lamp', 'star', 'blanket', 'moon', 'moonflower']
 // The pretend code on the pretend card, one per shape, so the pad can be driven.
 export const FIXTURE_CODES: Record<CodeMode, string[]> = { pictures: ['star', 'moon', 'rocket'], letters: ['m', 'o', 'o', 'n'] }
-const isRewardKey = (k: string): k is RewardKey => (REWARD_KEYS as string[]).includes(k)
 import type { HomeView } from '@/lib/planet/view'
 
 // Dev fixture for Planet Friends: the home planet with a pretend save and no
@@ -20,10 +18,12 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?phase=day|winddown|bedtime
 //   ?rest=nap          every Friend already in the pod
 //   ?grew=1            a while you were away card waiting
-//   ?rewards=dome,flag what the missions have already brought home
+//   ?parts=rocket,tent  parts in the box, on top of the starters
+//   ?placed=rocket@g1,moon@sky1  parts already on the planet
+//   ?wearing=pebble:helmet  who wears what (the outfit is given if missing)
 //   ?doing=spider_legs  missions already under way, the first on the board
 //   ?landed=plant_seed a mission just approved, the reveal waiting
-//   ?card=pictures|letters  the Moonflower card printed, in that shape (the code is FIXTURE_CODES)
+//   ?card=pictures|letters  the Comet card printed, in that shape (the code is FIXTURE_CODES)
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
 
@@ -39,7 +39,19 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
   home = { ...home, growthStage: stage, friends: home.friends.map(f => ({ ...f, energy })) }
   if (sp.rest === 'nap') for (const f of home.friends) home = applyEvent(home, { kind: 'nap_start', friend: f.key }, now)
   if (sp.grew === '1') home = { ...home, grewWhileAway: 25 }
-  if (sp.rewards) home = { ...home, rewards: sp.rewards.split(',').filter(isRewardKey) }
+  if (sp.parts) home = { ...home, rewards: [...home.rewards, ...sp.parts.split(',').filter(isPartKey).filter(p => !home.rewards.includes(p))] }
+  if (sp.placed) for (const pair of sp.placed.split(',')) {
+    const [part, slot] = pair.split('@')
+    if (!isPartKey(part) || !slot) continue
+    if (!home.rewards.includes(part)) home = { ...home, rewards: [...home.rewards, part] }
+    home = applyEvent(home, { kind: 'part_place', part, slot }, now)
+  }
+  if (sp.wearing) for (const pair of sp.wearing.split(',')) {
+    const [friend, outfit] = pair.split(':')
+    if (!isOutfit(outfit) || !home.friends.some(f => f.key === friend)) continue
+    if (!home.build.outfits.includes(outfit)) home = { ...home, build: { ...home.build, outfits: [...home.build.outfits, outfit] } }
+    home = applyEvent(home, { kind: 'outfit_set', friend: friend as FriendKey, outfit }, now)
+  }
   if (sp.doing) for (const key of sp.doing.split(',')) if (MISSION_DEFS[key]) home = applyEvent(home, { kind: 'mission_start', key }, now, MISSION_DEFS)
   if (sp.landed && MISSION_DEFS[sp.landed]) {
     home = applyEvent(home, { kind: 'mission_start', key: sp.landed }, now, MISSION_DEFS)
@@ -51,7 +63,7 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
     childAge: sp.age !== undefined ? Math.max(0, Math.min(16, Number(sp.age))) : 4,
     bedtime: { phase, startMin: 19 * 60, endMin: 7 * 60, minutesNow: phase === 'bedtime' ? 20 * 60 : phase === 'winddown' ? 18 * 60 + 40 : 15 * 60, windowUntil: null },
     ask: null, screenAsk: null, starMinutes: 5,
-    cards: sp.card === 'pictures' || sp.card === 'letters' ? [{ key: 'moonflower_card', mode: sp.card, printed: true }] : [],
+    cards: sp.card === 'pictures' || sp.card === 'letters' ? [{ key: 'comet_card', mode: sp.card, printed: true }] : [],
   }
   return (
     <PlanetFriends
@@ -60,7 +72,7 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
       initial={view}
       theme={resolveTheme(sp.accent ?? null)}
       childName="Teo"
-      fixtureAnswers={sp.card === 'pictures' || sp.card === 'letters' ? { moonflower_card: FIXTURE_CODES[sp.card] } : undefined}
+      fixtureAnswers={sp.card === 'pictures' || sp.card === 'letters' ? { comet_card: FIXTURE_CODES[sp.card] } : undefined}
     />
   )
 }

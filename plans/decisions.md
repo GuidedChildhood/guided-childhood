@@ -10199,6 +10199,48 @@ that only opened behind it would never be seen; a lost card prints again with
 the same code; the card mission shows no pad until the card is printed. The
 Tier 3 schedule and trust stay slice 4.
 
+## 5 September 2026: Planet Friends slice 2c, the build, and the missions go to space
+
+Justin, 2 September, on seeing slice 2b: "Seems to be plant missions still?
+How is this like toca boca? Surely they build rooms and stuff." Then "Yes to
+that direction." Decided and built: the child builds their planet. Every
+mission pays a part into a parts box (a rocket, a trampoline, a moon rover, a
+swing, a robot helper, a telescope, a story tent, a pale moon, a campfire, a
+satellite dish, a night light, a comet), named on the card before they start,
+and the child puts it on any free plot, moves it, takes it back. Twelve plots
+(sky, horizon, ground, the ring); how many may be filled opens with growth (3,
+5, 7, 9, 11, 12), so growth is more room to build. The box starts with a flag,
+a bench, a lamp post, a party hat and star glasses, and each stage drops one
+named gift in it (helmet, star, ring, cape, crown). Outfits go on a Friend, one
+wearer each. A Friend dropped on a part uses it. The rules are pure and server
+checked; the layout is a jsonb column on planet_homes, so no table changed.
+The garden catalogue never reached a child: the Moonflower card became the
+Comet card, the twelve missions are space and adventure, and migration 254
+replaces the nine prompt rows 253 seeded. Numbered 2c, not 3, because the
+design document's slice 3 is still the Digital Playground. PR 964 (slice 2b)
+was merged on 3 September without migration 253 being applied; the code fails
+soft without it, and both 253 and 254 wait on Justin's go.
+
+## 5 September 2026: Planet Friends, the world (Justin's Toca note), proposed
+
+Justin, on seeing slice 2c: "this should have planets they can move around,
+like Toca Boca works, and to progress they get devices and put them in a
+charging port in the kitchen for example, and add in the lessons to unlock
+planets. This must have as many ideas and possibilities as the Toca Boca
+game." Read as: a star system map of planets the child travels between and
+can drag about; every planet a row of rooms full of things that all do
+something; the Friends carry devices that run down and charge on a shelf in
+the kitchen, by themselves at wind down, so the family rule is acted out
+every night; every lesson passed on the Learn tab lights the next planet;
+and breadth by drops, as data. Designed as section 7 of
+plans/planet-friends-architecture.md with four slices (3a the Den and the
+charging shelf, 3b the star system and lesson unlocks, 3c the device ladder
+and the Star Cafe, 3d breadth drops); the old slice 3 sub scenes become
+planets on the map. First slice planned in
+plans/week-of-2026-09-07-planet-friends-slice-3a-den-plan.md. Nothing built
+yet; waiting on Justin's go. Found on the way and fixed in PR 967: the "Do a
+lesson" mission read only kid_lesson_missions, so a Learn tab pass never
+landed it; it now reads lesson_completions too.
 ## 5 September 2026: The contrarian sweep briefing, and the lines it fixed
 
 Justin's ask: review all the services and find the most recent contrarian

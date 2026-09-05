@@ -10,7 +10,7 @@ import { PICTURE_ART } from '@/lib/planet/missions'
 // the foot. A family with no phone in the child's hand at all can run the
 // whole engine from paper and the parent's yes on their own board.
 //
-// The Moonflower card is the same sheet with a cut out card on it: the code
+// The Comet card is the same sheet with a cut out card on it: the code
 // the server made for this child, as pictures or letters. The code is on the
 // parent's print only. The child's own copy of the sheet says the card is
 // printed by a grown up, and never carries the code.
@@ -50,7 +50,7 @@ export default function MissionSheet({ childName, mission }: { childName: string
       title={mission.title}
       kicker={`${who} Planet Friends mission · do it together · colour the circle when it is done`}
       stars={0}
-      deal={`When it is done, ${mission.rewardLabel.toLowerCase()} lands on the planet. Missions pay on the planet, never in stars.`}
+      deal={`When it is done, ${mission.rewardLabel.toLowerCase()} goes in the parts box, to build with. Missions pay on the planet, never in stars.`}
     >
       {/* The three steps, as pictures first and words second. */}
       <ol style={{ listStyle: 'none', margin: '6px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0 }}>
@@ -65,13 +65,13 @@ export default function MissionSheet({ childName, mission }: { childName: string
         ))}
       </ol>
 
-      {/* The Moonflower card: cut it out, hide it, the code is the child's own. */}
+      {/* The Comet card: cut it out, hide it, the code is the child's own. */}
       {mission.perChild && (
         <div style={{ margin: '14px 0 0', border: `3px dashed ${INK}`, borderRadius: 22, padding: '14px 18px 16px', position: 'relative', background: ex ? CRAYON.paper : '#fff', flexShrink: 0 }}>
           <span aria-hidden style={{ position: 'absolute', top: -16, left: 22, background: '#fff', padding: '0 6px', fontSize: 22 }}>✂️</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_MUTED }}>The Moonflower card · cut me out · hide me</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_MUTED }}>The Comet card · cut me out · hide me</div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, lineHeight: 1.1, color: INK, marginTop: 4 }}>
                 {card ? (card.mode === 'pictures' ? 'Tap these, in this order' : 'Tap these letters') : 'A grown up prints this card'}
               </div>
@@ -100,7 +100,7 @@ export default function MissionSheet({ childName, mission }: { childName: string
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26, lineHeight: 1.15, color: INK }}>Colour me in when you did it.</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, lineHeight: 1.35, color: INK, marginTop: 4 }}>
-            Then tap <span style={{ fontWeight: 900 }}>We did it</span> on your planet, and {mission.rewardLabel.toLowerCase()} lands there. {mission.emoji}
+            Then tap <span style={{ fontWeight: 900 }}>We did it</span> on your planet, and {mission.rewardLabel.toLowerCase()} is yours to build with. {mission.emoji}
           </div>
         </div>
       </div>

@@ -202,18 +202,27 @@ export async function loadHomeView(admin: Admin, userId: string, childId: string
 const LOGGED: Set<string> = new Set(['nap_start', 'sunlight_start', 'ambient_start', 'mission_start', 'mission_claim', 'mission_approve', 'mission_notnow'])
 
 /**
- * A Star Lesson passed on the child's own link since the mission started.
- * The lesson's own pass is the proof (design 3.2), read from the same table
- * the lessons hub writes, never trusted from the client.
+ * A lesson passed on the child's own link since the mission started. The
+ * lesson's own pass is the proof (design 3.2), read from the tables the
+ * lessons write, never trusted from the client. Two tables, because the
+ * child has two kinds of lesson: the stage lessons on the Learn tab, which
+ * /api/kid/lesson-complete records in lesson_completions (the card says
+ * "pass a lesson on the Learn tab", so this one is the main road), and the
+ * Star Lessons a parent sends, which land in kid_lesson_missions. Until
+ * 5 September 2026 only the second was read, so a Learn tab pass never
+ * counted and the mission could not land for a child with no Star Lesson.
+ * lesson_completions keeps the first completed_at, so only a lesson passed
+ * for the first time after the mission started counts, which is the point.
  */
 async function lessonPassedSince(admin: Admin, childId: string, sinceIso: string): Promise<boolean> {
-  try {
-    const { count } = await admin
-      .from('kid_lesson_missions')
-      .select('id', { count: 'exact', head: true })
-      .eq('child_id', childId).eq('status', 'done').gte('completed_at', sinceIso)
-    return (count ?? 0) > 0
-  } catch { return false }
+  const count = async (q: PromiseLike<{ count: number | null }>) => { try { return (await q).count ?? 0 } catch { return 0 } }
+  const [learnTab, starLessons] = await Promise.all([
+    count(admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true })
+      .eq('child_id', childId).eq('passed', true).gte('completed_at', sinceIso)),
+    count(admin.from('kid_lesson_missions').select('id', { count: 'exact', head: true })
+      .eq('child_id', childId).eq('status', 'done').gte('completed_at', sinceIso)),
+  ])
+  return learnTab + starLessons > 0
 }
 
 /**

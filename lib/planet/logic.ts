@@ -35,7 +35,16 @@ export type Friend = {
 }
 
 export type MissionProof = 'grownup_tap' | 'timer' | 'code' | 'lesson'
-export type RewardKey = 'dome' | 'flag' | 'ring' | 'pool' | 'lamp' | 'star' | 'blanket' | 'moon' | 'moonflower'
+/**
+ * A part the child can build with (slice 3). Missions and growth put parts in
+ * the box; the child puts them on the planet. RewardKey is the old name.
+ */
+export type PartKey =
+  | 'flag' | 'bench' | 'lamp' | 'rocket' | 'telescope' | 'trampoline' | 'rover' | 'swing' | 'tent'
+  | 'campfire' | 'dish' | 'night_light' | 'moon' | 'comet' | 'star' | 'robot' | 'ring'
+export type RewardKey = PartKey
+export type Outfit = 'party_hat' | 'glasses' | 'helmet' | 'cape' | 'crown'
+export type Zone = 'sky' | 'horizon' | 'ground' | 'ring'
 
 /** The mechanics of a mission. The words live in lib/planet/missions.ts. */
 export type MissionDef = {
@@ -70,8 +79,10 @@ export type Home = {
   friends: Friend[]
   /** Missions started, claimed or landed. A mission not listed here is simply on the board. */
   missions: MissionState[]
-  /** What the missions brought home, in the order they landed. */
-  rewards: RewardKey[]
+  /** The parts the child owns, in the box or on the planet, in the order they arrived. */
+  rewards: PartKey[]
+  /** Where the parts are and who wears what (slice 3). */
+  build: Build
   /** 0 bare rock, 1 first grass, 2 a flag, 3 a little house, 4 rings, 5 a moon. */
   growthStage: number
   /** 0 to 100 toward the next stage. Moves only when a rest closes. */
@@ -209,7 +220,8 @@ export function newHome(tier: Tier, nowIso: string, nightKey: string | null): Ho
     tier,
     friends: ACTIVE_BY_TIER[tier].map(newFriend),
     missions: [],
-    rewards: [],
+    rewards: [...STARTER_PARTS],
+    build: newBuild(),
     growthStage: 1,
     growthProgress: 0,
     grewWhileAway: 0,
@@ -230,7 +242,15 @@ export function grow(home: Home, points: number): Home {
   let progress = home.growthProgress + points
   while (progress >= 100 && stage < MAX_STAGE) { progress -= 100; stage += 1 }
   if (stage >= MAX_STAGE) progress = 0
-  return { ...home, growthStage: stage, growthProgress: progress, grewWhileAway: home.grewWhileAway + points }
+  // Every stage reached while the child was away brings a gift into the box.
+  let rewards = home.rewards
+  let build = home.build
+  for (let s = home.growthStage + 1; s <= stage; s++) {
+    const gift = STAGE_GIFTS[s]
+    if (gift?.part && !rewards.includes(gift.part)) rewards = [...rewards, gift.part]
+    if (gift?.outfit && !build.outfits.includes(gift.outfit)) build = { ...build, outfits: [...build.outfits, gift.outfit] }
+  }
+  return { ...home, growthStage: stage, growthProgress: progress, grewWhileAway: home.grewWhileAway + points, rewards, build }
 }
 
 export function startCooldown(friend: Friend, reason: CooldownReason, minutes: number, nowIso: string): Friend {
@@ -265,6 +285,12 @@ export function reconcile(home: Home, nowIso: string, nightKey: string | null): 
   // nothing downstream has to ask.
   if (!Array.isArray(home.missions) || !Array.isArray(home.rewards)) {
     home = { ...home, missions: Array.isArray(home.missions) ? home.missions : [], rewards: Array.isArray(home.rewards) ? home.rewards : [] }
+  }
+  // A planet saved before the build (slice 3) gets a box with the starters in
+  // it, and anything the garden left behind is let go.
+  if (!home.build || !Array.isArray(home.build.placed)) {
+    const kept = home.rewards.filter(isPartKey)
+    home = { ...home, rewards: [...STARTER_PARTS.filter(p => !kept.includes(p)), ...kept], build: newBuild() }
   }
   let points = 0
   let friends = home.friends.map(f => {
@@ -302,6 +328,10 @@ export type HomeEvent =
   | { kind: 'mission_approve'; key: string }
   | { kind: 'mission_notnow'; key: string }
   | { kind: 'mission_seen'; key: string }
+  | { kind: 'part_place'; part: PartKey; slot: string }
+  | { kind: 'part_move'; part: PartKey; slot: string }
+  | { kind: 'part_remove'; part: PartKey }
+  | { kind: 'outfit_set'; friend: FriendKey; outfit: Outfit | null }
 
 /** Starlight lost per minute of play for this tier and cloud. */
 export function drainPerMinute(cfg: TierConfig, cloud: boolean): number {
@@ -328,6 +358,36 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Reco
   }
 
   switch (ev.kind) {
+    // ── The build: the client asks, these rules decide ──────────────────
+    case 'part_place': {
+      const b = home.build
+      if (!home.rewards.includes(ev.part) || b.placed.some(p => p.part === ev.part)) return home
+      if (!slotTakes(ev.slot, ev.part) || b.placed.some(p => p.slot === ev.slot)) return home
+      if (b.placed.length >= plotsFor(home.growthStage)) return home
+      return { ...home, build: { ...b, placed: [...b.placed, { part: ev.part, slot: ev.slot }] } }
+    }
+    case 'part_move': {
+      const b = home.build
+      const cur = b.placed.find(p => p.part === ev.part)
+      if (!cur || cur.slot === ev.slot) return home
+      if (!slotTakes(ev.slot, ev.part) || b.placed.some(p => p.slot === ev.slot)) return home
+      return { ...home, build: { ...b, placed: b.placed.map(p => (p.part === ev.part ? { ...p, slot: ev.slot } : p)) } }
+    }
+    case 'part_remove': {
+      const b = home.build
+      if (!b.placed.some(p => p.part === ev.part)) return home
+      return { ...home, build: { ...b, placed: b.placed.filter(p => p.part !== ev.part) } }
+    }
+    case 'outfit_set': {
+      const b = home.build
+      if (!home.friends.some(f => f.key === ev.friend)) return home
+      if (ev.outfit && !b.outfits.includes(ev.outfit)) return home
+      // One wearer per outfit: it moves from whoever had it.
+      const wearing: Build['wearing'] = {}
+      for (const [k, o] of Object.entries(b.wearing)) if (o && o !== ev.outfit && k !== ev.friend) wearing[k as FriendKey] = o
+      if (ev.outfit) wearing[ev.friend] = ev.outfit
+      return { ...home, build: { ...b, wearing } }
+    }
     case 'mission_start': {
       // From the board, or back from a not now. A mission already under way
       // or already landed stays as it is.
@@ -520,4 +580,77 @@ export function withChildAnswers(defs: Record<string, MissionDef>, answers: Reco
     if (out[key]?.perChild) out[key] = { ...out[key], answer: code }
   }
   return out
+}
+
+// ── The build (slice 3): parts, plots, slots, gifts, outfits ─────────────────
+// Justin, 2 September 2026: "How is this like Toca Boca? Surely they build
+// rooms and stuff." So the child builds their planet. A mission's reward is
+// a part in the box; the child puts it anywhere it fits, moves it, takes it
+// back. The planet has fixed places a part can go, and how many the child
+// may fill grows while they are away: growth is more room to build.
+
+export type Placed = { part: PartKey; slot: string }
+export type Build = {
+  placed: Placed[]
+  /** The outfits the child owns. */
+  outfits: Outfit[]
+  /** Who wears what. One outfit per Friend, one wearer per outfit. */
+  wearing: Partial<Record<FriendKey, Outfit>>
+}
+
+export const PART_KEYS: PartKey[] = ['flag', 'bench', 'lamp', 'rocket', 'telescope', 'trampoline', 'rover', 'swing', 'tent', 'campfire', 'dish', 'night_light', 'moon', 'comet', 'star', 'robot', 'ring']
+export const OUTFIT_KEYS: Outfit[] = ['party_hat', 'glasses', 'helmet', 'cape', 'crown']
+export const isPartKey = (k: unknown): k is PartKey => typeof k === 'string' && (PART_KEYS as string[]).includes(k)
+export const isOutfit = (k: unknown): k is Outfit => typeof k === 'string' && (OUTFIT_KEYS as string[]).includes(k)
+
+/** Where each part can go. */
+export const PART_ZONE: Record<PartKey, Zone> = {
+  flag: 'ground', bench: 'ground', lamp: 'ground', rocket: 'ground', trampoline: 'ground', rover: 'ground',
+  tent: 'ground', campfire: 'ground', night_light: 'ground', robot: 'ground',
+  telescope: 'horizon', swing: 'horizon', dish: 'horizon',
+  moon: 'sky', comet: 'sky', star: 'sky',
+  ring: 'ring',
+}
+
+/** The places on the planet, by id and zone. Where they are drawn lives in HomePlanet. */
+export const SLOTS: { id: string; zone: Zone }[] = [
+  { id: 'sky1', zone: 'sky' }, { id: 'sky2', zone: 'sky' }, { id: 'sky3', zone: 'sky' },
+  { id: 'hz1', zone: 'horizon' }, { id: 'hz2', zone: 'horizon' },
+  { id: 'g1', zone: 'ground' }, { id: 'g2', zone: 'ground' }, { id: 'g3', zone: 'ground' },
+  { id: 'g4', zone: 'ground' }, { id: 'g5', zone: 'ground' }, { id: 'g6', zone: 'ground' },
+  { id: 'ring', zone: 'ring' },
+]
+export const slotZone = (id: string): Zone | null => SLOTS.find(s => s.id === id)?.zone ?? null
+export const slotTakes = (id: string, part: PartKey): boolean => slotZone(id) === PART_ZONE[part]
+
+/** How many parts may be on the planet at each growth stage: growth is room to build. */
+export const PLOTS_BY_STAGE = [3, 5, 7, 9, 11, 12] as const
+export const plotsFor = (stage: number): number => PLOTS_BY_STAGE[Math.max(0, Math.min(PLOTS_BY_STAGE.length - 1, Math.floor(stage)))]
+
+/** In the box from the first day, so building starts at once. */
+export const STARTER_PARTS: PartKey[] = ['flag', 'bench', 'lamp']
+export const STARTER_OUTFITS: Outfit[] = ['party_hat', 'glasses']
+
+/** What each stage reached while the child was away brings into the box. Fixed, named, no rolls. */
+export const STAGE_GIFTS: Record<number, { part?: PartKey; outfit?: Outfit }> = {
+  1: { outfit: 'helmet' },
+  2: { part: 'star' },
+  3: { part: 'ring' },
+  4: { outfit: 'cape' },
+  5: { outfit: 'crown' },
+}
+
+export function newBuild(): Build {
+  return { placed: [], outfits: [...STARTER_OUTFITS], wearing: {} }
+}
+
+/** The parts in the box: owned and not on the planet. */
+export function boxParts(home: Home): PartKey[] {
+  return home.rewards.filter(p => isPartKey(p) && !home.build.placed.some(x => x.part === p))
+}
+
+/** The outfits in the box: owned and not being worn. */
+export function boxOutfits(home: Home): Outfit[] {
+  const worn = new Set(Object.values(home.build.wearing))
+  return home.build.outfits.filter(o => !worn.has(o))
 }
