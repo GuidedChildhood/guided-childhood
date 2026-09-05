@@ -36,10 +36,11 @@ between the brief and decisions already locked in this repo.
 
 ## The fourteen reports
 
-Delivered as one document: research/2026-08-31-master-audit.md plus an
+Delivered as one document: research/2026-09-05-master-audit.md plus an
 artifact for reading on a phone. Sources: the existing verified research
 files, the shipped code, three fresh audit passes (product surfaces,
-lesson database completeness, statutory register delta check).
+lesson database completeness, statutory register delta check), all three
+completed 5 September 2026.
 
 ## Lane claim
 
