@@ -45,7 +45,7 @@ export default function SchoolCodeCard({ childId, childName }: {
 
   return (
     <div style={{
-      marginTop: 28, background: '#fff', border: '1.5px solid var(--border)',
+      marginTop: 28, background: '#fff', border: '2px solid var(--ink)',
       borderRadius: 18, padding: '18px 20px',
     }}>
       <p className="eyebrow" style={{ marginBottom: 4 }}>Brought home from school</p>
@@ -71,7 +71,7 @@ export default function SchoolCodeCard({ childId, childName }: {
             flex: '1 1 140px', minWidth: 0, padding: '12px 14px',
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-md)', fontWeight: 700,
             letterSpacing: '0.08em', textTransform: 'uppercase',
-            border: '1.5px solid var(--border)', borderRadius: 12, color: 'var(--ink)',
+            border: '2px solid var(--ink)', borderRadius: 12, color: 'var(--ink)',
             background: 'var(--cream)',
           }}
         />

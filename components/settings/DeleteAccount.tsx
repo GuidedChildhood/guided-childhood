@@ -41,7 +41,7 @@ export default function DeleteAccount() {
   }
 
   return (
-    <section style={{ marginTop: '32px', paddingTop: '20px', borderTop: '1.5px solid var(--border)' }}>
+    <section style={{ marginTop: '32px', paddingTop: '20px', borderTop: '2px solid var(--ink)' }}>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
         Delete my account
       </h2>
@@ -53,7 +53,7 @@ export default function DeleteAccount() {
         <button
           onClick={() => setOpen(true)}
           style={{
-            background: 'none', border: '1.5px solid var(--border)', borderRadius: '14px',
+            background: 'none', border: '2px solid var(--ink)', borderRadius: '14px',
             padding: '10px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
             fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)',
           }}
@@ -72,7 +72,7 @@ export default function DeleteAccount() {
             autoComplete="off"
             style={{
               width: '100%', padding: '12px 14px', borderRadius: '12px',
-              border: '1.5px solid var(--border)', background: 'var(--cream)',
+              border: '2px solid var(--ink)', background: 'var(--cream)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
           />
@@ -91,7 +91,7 @@ export default function DeleteAccount() {
             <button
               onClick={() => { setOpen(false); setTyped(''); setError(null) }}
               style={{
-                background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
+                background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}

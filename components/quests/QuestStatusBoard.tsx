@@ -337,7 +337,7 @@ export default function QuestStatusBoard() {
     )
     return (
       <div style={{
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
         padding: '13px 16px', marginBottom: 18,
       }}>
         {/* The row is no longer one big button, because it now holds a second
@@ -384,7 +384,7 @@ export default function QuestStatusBoard() {
                 onClick={() => remind(id, name)}
                 disabled={reminding !== null}
                 style={{
-                  background: 'var(--cream)', border: '1.5px solid var(--border)',
+                  background: 'var(--cream)', border: '2px solid var(--ink)',
                   borderRadius: 999, padding: '6px 13px', cursor: reminding ? 'wait' : 'pointer',
                   fontFamily: 'var(--font-display)', fontWeight: 700,
                   fontSize: 'var(--text-sm)', color: 'var(--ink)',
@@ -404,7 +404,7 @@ export default function QuestStatusBoard() {
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
       padding: '18px 18px 20px', marginBottom: 18,
     }}>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 3px', letterSpacing: '-0.02em' }}>
@@ -491,7 +491,7 @@ export default function QuestStatusBoard() {
             const craft = craftForQuestTitle(r.title)
             return (
             <div key={r.key} style={{
-              border: '1.5px solid var(--border)', borderRadius: 13, padding: '10px 12px',
+              border: '2px solid var(--ink)', borderRadius: 13, padding: '10px 12px',
             }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
               <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1.3, flexShrink: 0 }}>{r.emoji}</span>

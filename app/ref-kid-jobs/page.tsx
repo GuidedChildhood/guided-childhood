@@ -17,6 +17,9 @@ const QUESTS = [
   { id: 'b', title: 'Feed the dog before school', emoji: '🐕', stars: 3, blocks_screens: true },
   { id: 'c', title: 'One hour of outside play', emoji: '⚽', stars: 5 },
   { id: 'd', title: 'Shoes on and by the door', emoji: '👟', stars: 1 },
+  { id: 'e', title: 'Twenty minutes lost in a book', emoji: '📚', stars: 3 },
+  { id: 'f', title: 'Empty the dishwasher', emoji: '🫧', stars: 1 },
+  { id: 'g', title: 'Water the plants', emoji: '🪴', stars: 1 },
 ]
 
 export default function RefKidJobs() {
@@ -26,6 +29,7 @@ export default function RefKidJobs() {
       childName="Teo"
       buddy="digi"
       stageId={2}
+      ageBand="8-10"
       quests={QUESTS}
       todayTicks={[{ quest_id: 'a', status: 'pending' }]}
       giftStarsOwed={6}

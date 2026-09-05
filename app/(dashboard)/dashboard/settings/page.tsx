@@ -567,7 +567,7 @@ export default function SettingsPage() {
           nothing to cancel, and telling that parent to go and cancel something
           would invent an anxiety rather than settle one. */}
       {inTrialNow && (
-        <section style={{ background: 'var(--stage-1)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+        <section style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your free days</h2>
           {profile?.plan_choice === 'founder' ? (
             <>
@@ -672,7 +672,7 @@ export default function SettingsPage() {
             disabled={portalBusy}
             style={{
               background: 'none',
-              border: '2px solid var(--border)',
+              border: '2px solid var(--ink)',
               borderRadius: '16px',
               padding: '10px 24px',
               fontSize: 'var(--text-md)',
@@ -701,7 +701,7 @@ export default function SettingsPage() {
           onClick={signOut}
           style={{
             background: 'none',
-            border: '2px solid var(--border)',
+            border: '2px solid var(--ink)',
             borderRadius: '16px',
             padding: '10px 24px',
             fontSize: 'var(--text-md)',

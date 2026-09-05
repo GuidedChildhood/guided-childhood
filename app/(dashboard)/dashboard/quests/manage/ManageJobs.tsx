@@ -62,8 +62,8 @@ type Ask = { id: string; child_id: string | null; title: string; status: string;
 type TabKey = 'add' | 'agree' | 'theirs'
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
-  padding: '18px 18px 20px', marginBottom: 16,
+  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)',
+  padding: '18px 18px 20px', marginBottom: 18,
 }
 const H2: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
@@ -445,7 +445,7 @@ export default function ManageJobs({
         style={{
           scrollMarginTop: 12,
           display: 'flex', gap: 6, marginBottom: 18, padding: 4,
-          background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 100,
+          background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100,
         }}
       >
         {TABS.map(t => {
@@ -617,7 +617,7 @@ export default function ManageJobs({
               onClick={() => goTab('theirs')}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: 10,
-                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
+                background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
                 padding: '13px 15px', cursor: 'pointer', textAlign: 'left',
               }}
             >
@@ -655,7 +655,7 @@ export default function ManageJobs({
                 {waiting.map(t => {
                   const q = questById.get(t.quest_id)
                   return (
-                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
+                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
                       <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q?.emoji ?? '⭐'}</span>
                       {/* minWidth 140 so a long job title wraps the button to
                           the next line instead of being squeezed one word a
@@ -691,7 +691,7 @@ export default function ManageJobs({
                   // whole family job stays for the siblings.
                   const swapOld = a.swap_quest_id ? quests.find(q => q.id === a.swap_quest_id) : undefined
                   return (
-                  <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
+                  <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
                     <span style={{ flex: 1, minWidth: 140, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {a.title}
                       {swapOld && (
@@ -731,7 +731,7 @@ export default function ManageJobs({
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {mine.map(q => (
-                <div key={q.id} style={{ border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px' }}>
+                <div key={q.id} style={{ border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 12px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
                   <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
@@ -789,7 +789,7 @@ export default function ManageJobs({
                       onChange={e => setStepsDraft(e.target.value)}
                       rows={4}
                       placeholder={'One step per line, up to five.\nClothes in the basket\nBooks on the shelf\nFloor clear'}
-                      style={{ width: '100%', borderRadius: 11, border: '1.5px solid var(--border)', padding: '8px 10px', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-body)', color: 'var(--ink)', resize: 'vertical' }}
+                      style={{ width: '100%', borderRadius: 11, border: '2px solid var(--ink)', padding: '8px 10px', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-body)', color: 'var(--ink)', resize: 'vertical' }}
                     />
                     <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '4px 0 6px' }}>
                       Little ticks that chunk the job on their card. The stars stay on the whole job, never per step.
@@ -858,7 +858,7 @@ export default function ManageJobs({
               // separate boxes with real edges, and the accent stays reserved
               // for the thing a parent has actually chosen.
               background: 'var(--cream)', color: 'var(--ink)',
-              border: '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
               borderRadius: 14,
               boxShadow: '0 3px 0 var(--border)',
               padding: '10px 8px', textDecoration: 'none',

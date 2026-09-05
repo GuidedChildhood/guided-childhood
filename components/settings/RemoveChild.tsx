@@ -83,7 +83,7 @@ export default function RemoveChild({
   }
 
   return (
-    <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '1.5px solid var(--border)' }}>
+    <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '2px solid var(--ink)' }}>
       {!open ? (
         <>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 10px' }}>
@@ -93,7 +93,7 @@ export default function RemoveChild({
             type="button"
             onClick={() => setOpen(true)}
             style={{
-              background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
+              background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
               padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-body)',
               fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)',
             }}
@@ -116,7 +116,7 @@ export default function RemoveChild({
             autoComplete="off"
             style={{
               width: '100%', padding: '12px 14px', borderRadius: '12px',
-              border: '1.5px solid var(--border)', background: 'var(--cream)',
+              border: '2px solid var(--ink)', background: 'var(--cream)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
           />
@@ -137,7 +137,7 @@ export default function RemoveChild({
               type="button"
               onClick={() => { setOpen(false); setTyped(''); setError(null) }}
               style={{
-                background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
+                background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}

@@ -38,7 +38,7 @@ export default function JobBalance({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
       boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
@@ -102,7 +102,7 @@ export default function JobBalance({
           {onReview && (
             <button
               onClick={onReview}
-              style={{ display: 'inline-block', marginTop: 9, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
+              style={{ display: 'inline-block', marginTop: 9, background: '#fff', border: '2px solid var(--ink)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
             >
               Review jobs
             </button>

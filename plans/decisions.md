@@ -10273,3 +10273,23 @@ only), the 1 in 5 surveilled figure (not in its source), the Florida
 happiness study, the Sapien data, and any measurement artefact story (the
 big Norwegian test rejected it). The missing seventh lens is the Teacher,
 recommended as a V3 before the autumn school pitch cycle.
+
+## 5 September 2026: the tab bar loop fix, the child's jobs guided by age, the finish on the other parent pages
+
+Justin, late, with three screenshots: "New look looks great, apply to all other
+pages, and check the loop: added a job for Jonny and it has not updated in jobs
+for today on the parent side. They need to be able to add several jobs, guided
+on the kid, too many, then ask them to pick today's tasks." Found: the job had
+landed (daily, after school, 23:19), and the Home tab was a copy up to five
+minutes old because every mobile tab bar link carried `prefetch`, which on a
+dynamic page keeps a full copy in the router cache. Decided: no full prefetch on
+the tab bar, the page renders as it is now on every tap. Adding several jobs
+already worked, so the guide moved to the child's side: the jobs page reads the
+age sweet spot from lib/quests/job-load.ts, keeps that many under Today (a
+ticked job and a screen gating job always stay), and folds the rest under "If
+you fancy more", a tap each to join Today. No migration: the fold is how the
+list is read, the jobs and stars are untouched. The happy news finish went to
+the shared section tiles (with the child's story icons), the Quests page and
+its cards, Add a job, the picks, the child code card, DiGi, Lessons, Passport,
+Printables and Settings, by swapping the soft border for the ink edge and giving
+the card shells the hard ledge. PR 969.

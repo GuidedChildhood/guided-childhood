@@ -69,8 +69,8 @@ const SCHEDULE_LABELS: Record<string, string> = {
 }
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)',
-  borderRadius: '16px', padding: '20px', marginBottom: '16px',
+  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+  borderRadius: '18px', padding: '20px', marginBottom: '18px',
 }
 
 export default function QuestManager() {
@@ -704,7 +704,7 @@ export default function QuestManager() {
             onClick={() => setActiveChild(c.id)}
             style={{
               padding: '9px 18px', borderRadius: '100px', cursor: 'pointer',
-              border: '1.5px solid var(--border)',
+              border: '2px solid var(--ink)',
               background: activeChild === c.id ? 'var(--terracotta)' : '#fff',
               color: activeChild === c.id ? 'var(--ink)' : 'var(--ink-soft)',
               fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700,
@@ -736,7 +736,7 @@ export default function QuestManager() {
             placeholder="Their first name"
             style={{
               width: '100%', padding: '12px 15px', borderRadius: '12px', marginBottom: '12px',
-              border: '1.5px solid var(--border)', background: 'var(--cream)',
+              border: '2px solid var(--ink)', background: 'var(--cream)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
             maxLength={60}
@@ -748,7 +748,7 @@ export default function QuestManager() {
                 onClick={() => { setNewChildAge(band); setNewChildMode(['4-7', '8-10'].includes(band) ? 'coview' : 'own') }}
                 style={{
                   padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
-                  border: '1.5px solid var(--border)',
+                  border: '2px solid var(--ink)',
                   background: newChildAge === band ? 'var(--terracotta)' : '#fff',
                   color: newChildAge === band ? 'var(--ink)' : 'var(--ink-soft)',
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
@@ -773,7 +773,7 @@ export default function QuestManager() {
                   <button key={m} onClick={() => setNewChildMode(m)} aria-pressed={newChildMode === m} style={{
                     textAlign: 'left', padding: '10px 13px', borderRadius: '12px', cursor: 'pointer',
                     background: newChildMode === m ? 'var(--terracotta-lt)' : '#fff',
-                    border: newChildMode === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                    border: newChildMode === m ? '1.5px solid var(--terracotta)' : '2px solid var(--ink)',
                   }}>
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{label}</span>
                     <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '1px' }}>{hint}</span>
@@ -947,7 +947,7 @@ export default function QuestManager() {
                           {copied ? 'Link copied ✓' : `📤 Send ${child.name} the link`}
                         </button>
                         <button onClick={() => sendPing('Quest check! Come and see your stars ⭐')} style={{
-                          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
+                          background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
                           fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
                         }}>
                           🔔 Ping their phone
@@ -1132,7 +1132,7 @@ export default function QuestManager() {
                   const schedule = askSchedule[a.id] ?? 'once'
                   const sheet = printableForAsk(a.title)
                   return (
-                    <div key={a.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
+                    <div key={a.id} style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px 14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                         <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{a.emoji}</span>
                         <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
@@ -1160,9 +1160,9 @@ export default function QuestManager() {
                       )}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '2px solid var(--ink)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
-                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '2px solid var(--ink)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
                           {(['once', 'daily', 'weekdays', 'weekend'] as const).map(s => (
@@ -1171,7 +1171,7 @@ export default function QuestManager() {
                               onClick={() => setAskSchedule(prev => ({ ...prev, [a.id]: s }))}
                               style={{
                                 padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
-                                border: '1.5px solid var(--border)',
+                                border: '2px solid var(--ink)',
                                 background: schedule === s ? 'var(--terracotta)' : '#fff',
                                 color: schedule === s ? 'var(--ink)' : 'var(--ink-soft)',
                                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -1226,7 +1226,7 @@ export default function QuestManager() {
                   key={chip}
                   onClick={() => addBeforeScreens(chip.slice(chip.indexOf(' ') + 1))}
                   style={{
-                    background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+                    background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px',
                     padding: '8px 14px', cursor: 'pointer',
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
                   }}
@@ -1242,7 +1242,7 @@ export default function QuestManager() {
                 onKeyDown={e => { if (e.key === 'Enter') addBeforeScreens(firstTask) }}
                 placeholder="Or type it: feed the dog, violin practice..."
                 style={{
-                  flex: 1, minWidth: '200px', border: '1.5px solid var(--border)', borderRadius: '12px',
+                  flex: 1, minWidth: '200px', border: '2px solid var(--ink)', borderRadius: '12px',
                   padding: '10px 14px', fontSize: 'var(--text-base)', fontFamily: 'inherit', color: 'var(--ink)',
                 }}
               />
@@ -1287,7 +1287,7 @@ export default function QuestManager() {
                 onClick={() => setAddOpen(o => { if (!o) setAddOpenedByParent(true); return !o })}
                 style={{
                   background: addOpen ? '#fff' : 'var(--terracotta)', color: 'var(--ink)',
-                  border: addOpen ? '1.5px solid var(--border)' : 'none', borderRadius: '13px',
+                  border: addOpen ? '2px solid var(--ink)' : 'none', borderRadius: '13px',
                   padding: '10px 16px', cursor: 'pointer',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                   boxShadow: addOpen ? 'none' : '0 3px 0 var(--terracotta-dark)',
@@ -1318,7 +1318,7 @@ export default function QuestManager() {
               const outstanding = ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length
               const pill: CSSProperties = {
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
-                background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+                background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px',
                 padding: '8px 14px', cursor: 'pointer', textDecoration: 'none',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 color: 'var(--ink)', whiteSpace: 'nowrap',
@@ -1400,7 +1400,7 @@ export default function QuestManager() {
                             onClick={() => addQuest({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule })}
                             style={{
                               display: 'flex', alignItems: 'center', gap: '7px',
-                              border: '1.5px solid var(--border)', borderRadius: 100, background: '#fff',
+                              border: '2px solid var(--ink)', borderRadius: 100, background: '#fff',
                               padding: '8px 13px', cursor: 'pointer',
                               fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)',
                             }}
@@ -1428,7 +1428,7 @@ export default function QuestManager() {
                           style={{
                             display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left',
                             padding: '10px 11px', borderRadius: '13px', cursor: 'pointer',
-                            background: '#fff', border: '1.5px solid var(--border)',
+                            background: '#fff', border: '2px solid var(--ink)',
                           }}
                         >
                           <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
@@ -1486,7 +1486,7 @@ export default function QuestManager() {
                 const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
                 return (
                   <div key={q.id} style={{
-                    borderRadius: '14px', background: doneToday ? 'var(--cream)' : '#fff', border: '1.5px solid var(--border)',
+                    borderRadius: '14px', background: doneToday ? 'var(--cream)' : '#fff', border: '2px solid var(--ink)',
                     padding: '12px 14px', opacity: doneToday ? 0.72 : 1, transition: 'opacity 0.3s',
                   }}>
                     {/* The row wraps rather than crushes. Three buttons and an
@@ -1569,7 +1569,7 @@ export default function QuestManager() {
                             aria-label="Job name"
                             style={{
                               flex: 1, minWidth: 0, padding: '11px 13px', borderRadius: '12px',
-                              border: '1.5px solid var(--border)', background: '#fff',
+                              border: '2px solid var(--ink)', background: '#fff',
                               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
                             }}
                             maxLength={120}
@@ -1581,9 +1581,9 @@ export default function QuestManager() {
                     {editing && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                          <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 30, height: 30, borderRadius: '9px', border: '2px solid var(--ink)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
-                          <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                          <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: '2px solid var(--ink)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
                           {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => {
@@ -1594,7 +1594,7 @@ export default function QuestManager() {
                                 onClick={() => editQuest(q.id, { schedule: s, schedule_days: null })}
                                 style={{
                                   padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
-                                  border: '1.5px solid var(--border)',
+                                  border: '2px solid var(--ink)',
                                   background: (!activeDays && q.schedule === s) ? 'var(--terracotta)' : '#fff',
                                   color: (!activeDays && q.schedule === s) ? 'var(--ink)' : 'var(--ink-soft)',
                                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -1620,7 +1620,7 @@ export default function QuestManager() {
                                 title="Pick the exact days"
                                 style={{
                                   width: 26, height: 26, borderRadius: '8px', cursor: 'pointer',
-                                  border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                                  border: on ? '1.5px solid var(--terracotta)' : '2px solid var(--ink)',
                                   background: on ? 'var(--terracotta)' : '#fff',
                                   color: on ? 'var(--ink)' : 'var(--ink-muted)',
                                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -1667,7 +1667,7 @@ export default function QuestManager() {
                           style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
                             width: '100%', cursor: 'pointer', textAlign: 'left',
-                            background: 'var(--cream)', border: '1.5px solid var(--border)',
+                            background: 'var(--cream)', border: '2px solid var(--ink)',
                             borderRadius: '12px', padding: '11px 14px',
                             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
                           }}
@@ -1702,7 +1702,7 @@ export default function QuestManager() {
                 const picked = pickedTitles(pack)
                 const toAdd = pack.tasks.filter(t => picked.includes(t.title) && !childQuests.some(q => q.title === t.title)).length
                 return (
-                  <div key={pack.key} style={{ border: '1.5px solid var(--border)', borderRadius: '15px', padding: '13px 14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div key={pack.key} style={{ border: '2px solid var(--ink)', borderRadius: '15px', padding: '13px 14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
                       <span style={{ fontSize: 'var(--text-xl)' }}>{pack.emoji}</span>
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{pack.name}</span>
@@ -1769,7 +1769,7 @@ export default function QuestManager() {
                         disabled={removingRoutine === pack.key}
                         style={{
                           width: '100%', padding: '10px', borderRadius: '12px',
-                          border: '1.5px solid var(--border)', background: '#fff',
+                          border: '2px solid var(--ink)', background: '#fff',
                           cursor: removingRoutine === pack.key ? 'default' : 'pointer',
                           color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                         }}
@@ -1857,7 +1857,7 @@ export default function QuestManager() {
                     style={{
                       display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
                       padding: '11px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
-                      border: '1.5px solid var(--border)', background: '#fff',
+                      border: '2px solid var(--ink)', background: '#fff',
                       boxShadow: '0 3px 12px rgba(26,26,46,0.05)',
                     }}
                   >
@@ -1870,7 +1870,7 @@ export default function QuestManager() {
                     </span>
                     <span style={{
                       width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
-                      background: 'var(--cream)', color: 'var(--terracotta-dark)', border: '1.5px solid var(--border)',
+                      background: 'var(--cream)', color: 'var(--terracotta-dark)', border: '2px solid var(--ink)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1,
                     }}>+</span>
@@ -2092,7 +2092,7 @@ export default function QuestManager() {
                 placeholder="Saturday film night"
                 style={{
                   flex: 2, minWidth: '160px', padding: '11px 14px', borderRadius: '12px',
-                  border: '1.5px solid var(--border)', background: 'var(--cream)',
+                  border: '2px solid var(--ink)', background: 'var(--cream)',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
                 }}
                 maxLength={120}
@@ -2103,7 +2103,7 @@ export default function QuestManager() {
                 inputMode="numeric"
                 style={{
                   width: '76px', padding: '11px 14px', borderRadius: '12px',
-                  border: '1.5px solid var(--border)', background: 'var(--cream)',
+                  border: '2px solid var(--ink)', background: 'var(--cream)',
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', outline: 'none', textAlign: 'center',
                 }}
               />
@@ -2131,7 +2131,7 @@ export default function QuestManager() {
                 placeholder="5"
                 style={{
                   width: '64px', padding: '9px 12px', borderRadius: '12px',
-                  border: '1.5px solid var(--border)', background: 'var(--cream)',
+                  border: '2px solid var(--ink)', background: 'var(--cream)',
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', outline: 'none', textAlign: 'center',
                 }}
               />
@@ -2151,7 +2151,7 @@ export default function QuestManager() {
           {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} useMode={child.use_mode} onSetMode={setUseMode} />}
 
           {/* Hand it over */}
-          <div style={{ ...card, background: 'var(--tint-blue)', border: '1.5px solid var(--border)' }}>
+          <div style={{ ...card, background: 'var(--tint-blue)', border: '2px solid var(--ink)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
               Hand the quests over
             </div>
@@ -2205,7 +2205,7 @@ export default function QuestManager() {
                 style={{
                   display: 'inline-flex', alignItems: 'center',
                   background: '#fff', color: 'var(--ink)', borderRadius: '14px',
-                  padding: '12px 20px', textDecoration: 'none', border: '1.5px solid var(--border)',
+                  padding: '12px 20px', textDecoration: 'none', border: '2px solid var(--ink)',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
                 }}
               >
@@ -2240,7 +2240,7 @@ export default function QuestManager() {
                   inputMode="tel"
                   style={{
                     flex: 1, minWidth: '150px', padding: '10px 14px', borderRadius: '12px',
-                    border: '1.5px solid var(--border)', background: '#fff',
+                    border: '2px solid var(--ink)', background: '#fff',
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', outline: 'none',
                   }}
                   maxLength={20}
@@ -2249,7 +2249,7 @@ export default function QuestManager() {
                   <button
                     onClick={pickContact}
                     style={{
-                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                      background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px',
                       padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)',
                     }}
                   >
@@ -2259,7 +2259,7 @@ export default function QuestManager() {
                 <button
                   onClick={savePhone}
                   style={{
-                    background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                    background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px',
                     padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)',
                   }}
                 >
@@ -2305,7 +2305,7 @@ export default function QuestManager() {
                       inputMode="numeric"
                       style={{
                         width: '90px', padding: '10px 14px', borderRadius: '12px',
-                        border: '1.5px solid var(--border)', background: '#fff',
+                        border: '2px solid var(--ink)', background: '#fff',
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', outline: 'none',
                       }}
                       maxLength={3}
@@ -2314,7 +2314,7 @@ export default function QuestManager() {
                     <button
                       onClick={() => { const n = parseInt(draftVal, 10); saveDailyLimit(Number.isFinite(n) && n > 0 ? n : null); setLimitDraft('') }}
                       style={{
-                        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                        background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px',
                         padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)',
                       }}
                     >
@@ -2425,7 +2425,7 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
           {games.map(g => (
             <div key={g.key} style={{
               display: 'flex', flexDirection: 'column', height: '100%',
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px',
               padding: '16px', boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>

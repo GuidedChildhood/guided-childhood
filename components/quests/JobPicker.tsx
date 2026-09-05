@@ -166,9 +166,9 @@ export default function JobPicker({
         key={`${job.source}:${key}`}
         style={{
           background: done ? 'var(--tint-sage)' : '#fff',
-          border: `1.5px solid ${done ? '#CFE0D8' : 'var(--border)'}`,
+          border: '2px solid var(--ink)',
           borderRadius: 18, padding: '10px 11px',
-          boxShadow: done ? 'none' : '0 3px 0 var(--border)',
+          boxShadow: done ? 'none' : '0 4px 0 var(--ink)',
           transition: 'background 0.25s ease, box-shadow 0.25s ease',
         }}
       >
@@ -242,10 +242,10 @@ export default function JobPicker({
               aria-label={done ? `${job.title} added` : st === 'failed' ? `Try adding ${job.title} again` : `Add ${job.title}`}
               style={{
                 width: 44, height: 44, borderRadius: '50%',
-                border: 'none', cursor: done ? 'default' : 'pointer',
+                border: '2px solid var(--ink)', cursor: done ? 'default' : 'pointer',
                 background: done ? 'var(--retro-green)' : st === 'failed' ? 'var(--danger-bg)' : 'var(--terracotta)',
                 color: done ? '#fff' : st === 'failed' ? 'var(--danger)' : 'var(--ink)',
-                boxShadow: done ? 'none' : st === 'failed' ? '0 3px 0 var(--danger-border)' : '0 3px 0 var(--terracotta-dark)',
+                boxShadow: done ? 'none' : st === 'failed' ? '0 3px 0 var(--danger-border)' : '0 4px 0 var(--ink)',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: st === 'adding' ? 'var(--text-sm)' : 'var(--text-xl)',
                 lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'background 0.2s ease, transform 0.12s ease',
@@ -322,7 +322,7 @@ export default function JobPicker({
   )
 
   return (
-    <section style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '18px 14px 16px', marginBottom: 16 }}>
+    <section style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '18px 14px 16px', marginBottom: 18 }}>
       <style>{`
         @keyframes gcJobTilePop { 0% { transform: scale(1) } 45% { transform: scale(1.14) rotate(-3deg) } 100% { transform: scale(1) } }
         @media (prefers-reduced-motion: reduce) { .gc-job-picker * { animation: none !important; transition: none !important } }
@@ -395,7 +395,7 @@ export default function JobPicker({
               aria-expanded={moreOpen}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 14,
+                background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 14,
                 padding: '12px 14px', cursor: 'pointer', textAlign: 'left',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}

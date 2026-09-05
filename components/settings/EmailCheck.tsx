@@ -42,7 +42,7 @@ export default function EmailCheck() {
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
       padding: '20px 22px', maxWidth: 640, margin: '0 auto',
     }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '0 0 6px' }}>Email check</p>

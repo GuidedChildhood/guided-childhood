@@ -54,7 +54,7 @@ type HolidayBank = { childId: string; remaining: number; spendableNow: boolean; 
 // rather than shove the card off the phone.
 const ASK_ROW: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
-  background: 'var(--tint-blue)', border: '1.5px solid var(--border)',
+  background: 'var(--tint-blue)', border: '2px solid var(--ink)',
   borderRadius: '14px', padding: '11px 14px',
 }
 
@@ -237,7 +237,7 @@ export default function QuestBoard() {
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid var(--border)',
+      background: '#fff', border: '2px solid var(--ink)',
       borderRadius: '20px', padding: '20px 22px', marginBottom: '20px',
     }}>
       <div style={{ marginBottom: '14px' }}>
@@ -342,7 +342,7 @@ export default function QuestBoard() {
           const isOpen = openChild === c.id
           return (
             <div key={c.id} style={{
-              borderRadius: '16px', background: 'var(--cream)', border: '1.5px solid var(--border)',
+              borderRadius: '16px', background: 'var(--cream)', border: '2px solid var(--ink)',
               overflow: 'hidden',
             }}>
               <button
@@ -507,7 +507,7 @@ export default function QuestBoard() {
                               onClick={() => spend(c.id, m)}
                               disabled={!ready}
                               style={{
-                                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                                background: 'var(--cream)', border: '2px solid var(--ink)',
                                 borderRadius: '100px', padding: '6px 12px',
                                 cursor: ready ? 'pointer' : 'default',
                                 opacity: ready ? 1 : 0.5,
@@ -557,7 +557,7 @@ export default function QuestBoard() {
                       style={{
                         flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         padding: '11px 14px', borderRadius: '12px', textDecoration: 'none',
-                        background: '#fff', border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
+                        background: '#fff', border: '2px solid var(--ink)', color: 'var(--ink-soft)',
                         fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                       }}
                     >

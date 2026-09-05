@@ -282,7 +282,7 @@ export default function LessonsBrowser({
                 {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
                 {g.items.map(w => (
-                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
+                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
                     <Link href={`/dashboard/lessons/together/${w.code}${childId ? `?child=${childId}` : ''}`} style={{ position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '16 / 10', overflow: 'hidden', background: `linear-gradient(150deg, var(--stage-${w.stageNum}-bold) 0%, var(--stage-${w.stageNum}) 100%)` }}>
                       {w.posterUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -588,7 +588,7 @@ function ProgressLessonsBanner({
           title={childId ? `Ping ${childName} to open My lessons on their page` : 'Add your child first'}
           style={{
             background: sendState === 'sent' ? 'var(--tint-sage)' : '#fff',
-            border: '1.5px solid var(--border)', borderRadius: '11px', padding: '8px 12px',
+            border: '2px solid var(--ink)', borderRadius: '11px', padding: '8px 12px',
             cursor: childId && sendState !== 'sending' ? 'pointer' : 'default',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
             whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,

@@ -87,7 +87,7 @@ export default function BalanceZone({
   return (
     <div id="balance-zone" style={{ scrollMarginTop: '84px', margin: '18px 0 0' }}>
       <div style={{
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
         boxShadow: '0 3px 0 rgba(26,26,46,0.05)', padding: '15px 16px 14px',
       }}>
         <p className="eyebrow" style={{ marginBottom: 3 }}>{kid}&rsquo;s balance</p>
@@ -112,14 +112,14 @@ export default function BalanceZone({
         {/* The two contributors, straight from the readings the product
             already makes: what moves the marker, one status word each. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12, padding: '9px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: '9px 12px' }}>
             <span aria-hidden>⭐</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Jobs</span>
             <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: jobsOk ? 'var(--retro-green)' : 'var(--terracotta-dark)' }}>
               {jobsLine}
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12, padding: '9px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: '9px 12px' }}>
             <span aria-hidden>📱</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Screens</span>
             <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: screensOk ? 'var(--retro-green)' : 'var(--terracotta-dark)' }}>

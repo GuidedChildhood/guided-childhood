@@ -135,10 +135,14 @@ export default function SectionTiles({
             // A wall of pastel blocks makes six places read as one soft mass;
             // a white card with one saturated mark reads as six distinct doors,
             // and it matches what our own Explore grid was already doing.
+            // The happy news finish (5 September): an ink edge and a hard
+            // ledge, the same card language as the child's home tiles and the
+            // daily path, so the parent app reads as one product with the
+            // child's. The colour still lives in the icon plate.
             background: '#fff',
-            border: '1.5px solid var(--border)',
+            border: '2px solid var(--ink)',
             borderRadius: 18,
-            boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+            boxShadow: '0 4px 0 var(--ink)',
             padding: '15px 16px 16px',
             // Every tile the same height, whatever its copy does. Grid stretches
             // a ROW to its tallest card, but rows are sized independently, so a
@@ -161,7 +165,8 @@ export default function SectionTiles({
             {/* The pastel moved here off the tile. It is the plate behind the
                 icon now, which is where every app that does this well puts it. */}
             <span aria-hidden style={{
-              width: 46, height: 46, borderRadius: 13, background: t.bg,
+              width: 48, height: 48, borderRadius: 14, background: t.bg,
+              border: '2px solid var(--ink)', boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0, fontSize: 'var(--text-xl)', lineHeight: 1,
               // KidIcon draws in currentColor, so setting it here colours the
@@ -188,7 +193,7 @@ export default function SectionTiles({
                   background: '#E5484D', border: '1.5px solid #B93B3F',
                   color: '#fff',
                 } : {
-                  background: t.bg, border: `1.5px solid ${t.accent}`,
+                  background: t.bg, border: '2px solid var(--ink)',
                   color: 'var(--ink)',
                 }),
                 borderRadius: 100, padding: '3px 10px',
@@ -208,7 +213,7 @@ export default function SectionTiles({
               </span>
             )}
           </span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {t.label}
           </span>
           <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3, flex: 1 }}>

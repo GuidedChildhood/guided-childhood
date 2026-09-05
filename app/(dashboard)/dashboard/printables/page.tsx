@@ -47,9 +47,8 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
   const childName = child?.name && child.name !== 'Your child' ? child.name : null
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+    background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
     overflow: 'hidden', display: 'flex', flexDirection: 'column',
-    boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
   }
 
   function Section({ title, sub, items }: { title: string; sub: string; items: typeof LIBRARY_PRINTABLES }) {
@@ -176,7 +175,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         className="pr-builder"
         style={{
           textDecoration: 'none',
-          background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '20px',
+          background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
           padding: '18px 22px', marginBottom: '34px',
         }}
       >
@@ -203,7 +202,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         className="pr-builder"
         style={{
           textDecoration: 'none',
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--border)', borderRadius: '20px',
+          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
           padding: '18px 22px', marginBottom: '34px',
         }}
       >
