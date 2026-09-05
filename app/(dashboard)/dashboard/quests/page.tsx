@@ -343,7 +343,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           {/* Planet Friends missions pay on the planet, never in stars, and
               every one has a printed twin (slice 2b). One line, one door. */}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
-            🪐 Their Planet Friends missions pay on the planet, not in stars. Every mission has a sheet to print, and the Moonflower card hides a code made for your child:{' '}
+            🪐 Their Planet Friends missions pay on the planet, not in stars. Every mission has a sheet to print, and the Comet card hides a code made for your child:{' '}
             <Link href="/dashboard/printables" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>print the missions</Link>
           </p>
         </div>

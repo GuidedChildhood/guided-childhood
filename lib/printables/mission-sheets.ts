@@ -26,15 +26,18 @@ export function stagesForTiers(tiers: Tier[]): number[] {
 }
 
 const BLURB: Record<string, string> = {
-  plant_seed: 'A pot, some soil, one seed and a little water. The planet grows a garden dome the moment it is done; the seed takes its own sweet time.',
-  leaf_walk: 'Ten minutes outside for three different leaves. A leaf flag goes up on the planet for it.',
-  stretch: 'Five real minutes of reaching for the sky. The ring on the planet fills as they go.',
-  water_plant: 'A drink for a real plant, not a flood. A crater on the planet fills with water.',
-  read_book: 'Ten minutes with a paper book, no notifications inside it. A story lamp lights on the planet.',
-  spider_legs: 'Find a spider, count its legs, tap the number. A pale moon rises when it is right.',
-  screens_off_dinner: 'Every screen on the charger, grown ups too, and one good thing each. A picnic blanket lands under the stars.',
-  do_lesson: 'Pass a lesson you sent them on their own link. A bright new star appears in their sky.',
-  moonflower_card: 'Print the card, hide it, and let them hunt. The code on it is made for your child only. A moonflower opens on the planet, and glows at night.',
+  rocket_launch: 'A rocket from a box or a bottle, a countdown out loud, and a blast off with arms up. A rocket for the planet.',
+  moon_jumps: 'Twenty moon jumps outside, as high as they go, a grown up counting. A trampoline for the planet.',
+  explorer_walk: 'A walk somewhere they have never been, and one thing worth remembering. A moon rover for the planet.',
+  stretch: 'Five real minutes of reaching for the sky while the ring fills. A swing for the planet.',
+  helping_hands: 'One job at home nobody asked for, done properly. A robot helper for the planet.',
+  star_hunt: 'After dark, at a window or outside, count the real stars. A telescope for the planet.',
+  read_book: 'Ten minutes with a paper book, no notifications inside it. A story tent for the planet.',
+  spider_legs: 'Find a spider, count its legs, tap the number. A pale moon for the sky.',
+  screens_off_dinner: 'Every screen on the charger, grown ups too, and one good thing each. A campfire for the planet.',
+  do_lesson: 'Pass a lesson you sent them on their own link. A satellite dish for the planet.',
+  phone_to_bed: 'The device on the charger at bedtime, before anyone asks. A night light for the planet.',
+  comet_card: 'Print the card, hide it, and let them hunt. The code on it is made for your child only. A comet for their sky.',
 }
 
 export const blurbFor = (missionKey: string) => BLURB[missionKey] ?? 'A real world mission for the planet.'

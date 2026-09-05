@@ -2,7 +2,7 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2 and 2b built. When the code
+own typo was found. Status: design plus slices 1, 2, 2b and 2c built. When the code
 and this file disagree, the code is right and this file gets updated, the
 same rule THE-STORY.md runs on.
 
@@ -417,6 +417,30 @@ be at least as much fun as the thing it replaces.
 | SunCatcher | Drag a Friend onto the dish | Starts the sunshine mission (section 3.1) |
 | SleepPod | Drag a Friend into the pod | Starts a nap for that Friend. When every active Friend is asleep the planet locks |
 | MissionBoard | Tap, Tier 2 and 3 | Opens the offline missions (section 3.2, slice 2) |
+| PartsBox | Tap, every tier | Opens the parts box (slice 2c): drag a part onto a plot, move it, take it back, dress a Friend |
+
+**The build, as built in slice 2c (5 September 2026).** Justin, 2 September:
+"seems to be plant missions still? How is this like Toca Boca? Surely they
+build rooms and stuff." So the planet is a build. Twelve plots a part can go
+on: three in the sky, two on the horizon behind the Friends, six on the
+ground, and the ring. How many the child may fill opens while they are away,
+3 on bare rock, then 5, 7, 9, 11, 12 (`PLOTS_BY_STAGE`), so growth is more
+room to build rather than grass appearing by itself. The parts box starts
+with a flag, a bench and a lamp post, plus a party hat and star glasses, and
+each stage the planet reaches drops one named gift in it (a helmet, a star,
+the ring, a cape, a crown, `STAGE_GIFTS`). Every mission pays a part
+(section 3.2). The child places a part on any free plot of the right zone,
+moves it, drags it off the bottom to take it back, and drags an outfit onto a
+Friend (one wearer per outfit). Nothing lands where we say. The rules are
+pure in `lib/planet/logic.ts` (`part_place`, `part_move`, `part_remove`,
+`outfit_set`, checked in `applyEvent`: the zone must match, the plot must be
+free, the count stays within the plots) and the layout lives in
+`home.build`, a jsonb column that needed no migration. Slot positions are in
+`components/planet/scene.ts`, one drawing per part in `PartArt.tsx`, and the
+box is a bottom sheet in `PlanetFriends.tsx`. A Friend dropped on a part uses
+it: the trampoline bounces, the rocket launches, the swing swings, and the
+campfire flickers. The starters and the gifts mean a planet is never empty
+and a child who does no missions still has something to build.
 
 **The SleepPod, in detail.** This is the physical "put it to bed" of the
 brief, and it is the most important slot in the toy.
@@ -582,7 +606,7 @@ No buttons except the AskDoor and Back to my quests. The intent is a screen
 that is boring in the most beautiful way, so the child puts the device down
 and plays with something real while the Friends recharge.
 
-### 3.2 The Real World Copycat Engine (slice 2 and 2b, built)
+### 3.2 The Real World Copycat Engine (slices 2, 2b and 2c, built)
 
 **As built, 2 September 2026.** The engine below shipped as the MissionBoard
 in `components/planet/MissionBoard.tsx`, the catalogue in
@@ -590,24 +614,29 @@ in `components/planet/MissionBoard.tsx`, the catalogue in
 with the proofs decided in `lib/planet/server.ts`. Where the build differs
 from the design that follows: the proof names are `grownup_tap`, `timer`,
 `code` and `lesson` (the `self` proof waits for Tier 3 trust in slice 4);
-the eight starter missions for Tiers 1 and 2 are in, the two Tier 3
+the twelve missions for Tiers 1 and 2 are in, the two Tier 3
 missions wait for slice 4; a grown up's tap reaches the parent as a mission
 ask in the same AskPopup the time asks use, and their not now puts the
-mission back on the board with no language of failure; the reward lands on
-the planet as fixed decor (`RewardKey`) drawn by HomePlanet; the paper twin, the per child code card and the grown up prompts as
+mission back on the board with no language of failure; the reward is a part in
+the child's parts box (`PartKey`), placed by the child on any free plot and
+never by us (slice 2c, section 2.1); the paper twin, the per child code card and the grown up prompts as
 `scripts` rows followed as slice 2b the same day (migration 253): every
 mission is a printable `planet-<key>` drawn by
-`components/printables/drawn/MissionSheet.tsx`, the Moonflower card's code
+`components/printables/drawn/MissionSheet.tsx`, the Comet card's code
 lives in `planet_codes` and is made by `ensureMissionCode` on the parent's
 first print (three pictures before 8, a four letter word from 8, the same
 code on every reprint), the pad on the board takes the shape the server
-printed, and the nine prompts are scripts rows 9630 to 9638 linked from the
-mission ask. The timer and the code are checked against the server's clock
+printed, and the twelve prompts are scripts rows 9630 to 9641 linked from
+the mission ask (migration 254 replaced the nine garden rows 253 seeded,
+which never reached a child). The timer and the code are checked against the server's clock
 and the server's answer, never the phone's.
 
 The engine that turns a real world activity into a change on the planet.
-Rare moons and custom flags come only from here, so "rare" has a precise
-meaning in this toy: found offline, never found by chance.
+The catalogue went from gardens to space and adventure on 2 September, when
+Justin asked how the garden missions were like Toca Boca: every mission now
+pays a part to build with, and the table below is the one that shipped. Rare
+parts come only from here, so "rare" has a precise meaning in this toy: found
+offline, never found by chance.
 
 **The catalogue.** Content as data. Each mission is a registry entry, and the
 grown up prompt that rides it is a `scripts` row.
@@ -619,33 +648,38 @@ type Mission = {
   tiers: (1 | 2 | 3)[]
   steps: string[]                  // three lines at most, child reading level by tier
   together: 'required' | 'invited' | 'optional'
-  proof: 'grownup_tap' | 'timer' | 'hidden_code' | 'self'
+  proof: 'grownup_tap' | 'timer' | 'code' | 'lesson'   // 'self' waits for Tier 3 trust
   timerMinutes?: number
-  reward: { kind: 'moon' | 'flag' | 'ring' | 'decoration'; key: string }   // fixed, shown up front
-  transform: TransformKey          // what changes on the planet when it lands
+  reward: PartKey                  // fixed, named on the card, lands in the parts box
   paper: DrawnKey | null           // the printable twin in the drawn sheets registry
   scriptKey: string                // the grown up conversation prompt, scripts table
 }
 ```
 
-Starter catalogue, one line each:
+The catalogue as shipped (slice 2c), one line each:
 
-| Mission | Tiers | Proof | Reward | Transform |
-| --- | --- | --- | --- | --- |
-| Plant a real seed | 1, 2, 3 | grown up tap | Green moon | A little garden dome appears on the planet |
-| Go for a walk and collect three leaves | 1, 2, 3 | grown up tap | Leaf flag | A flag in leaf colours goes up |
-| Five minute stretch with your grown up | 1, 2, 3 | timer, 5 min | Stretchy ring | The planet gets its first ring |
-| Water a real plant in your house | 1, 2 | grown up tap | Blue crater pool | A crater fills with water |
-| Count ten steps outside, find the card | 2 | hidden code | Moonflower moon | A pale moon rises |
-| Read a real book for ten minutes | 2, 3 | timer, 10 min | Story lamp | The reading corner gets a lamp |
-| Do a lesson on the Learn tab | 2, 3 | the lesson's own pass | Bright star | A new star appears in the sky |
-| Screens off dinner, whole family | 2, 3 | grown up tap | Picnic blanket | A blanket appears under the stars |
-| Study block with your Friend | 3 | timer, from the schedule | Study lamp, then rungs | The desk fills with books |
-| Teach your grown up one thing about a game you love | 3 | grown up tap | Two seat rocket | A second seat appears in the rocket |
+| Mission | Tiers | Proof | You get |
+| --- | --- | --- | --- |
+| Rocket launch | 1, 2, 3 | grown up tap | A rocket |
+| Twenty moon jumps | 1, 2, 3 | grown up tap | A trampoline |
+| Explorer walk | 1, 2, 3 | grown up tap | A moon rover |
+| Five minute stretch | 1, 2, 3 | timer, 5 min | A swing |
+| Helping hands | 1, 2, 3 | grown up tap | A robot helper |
+| Star hunt | 2, 3 | grown up tap | A telescope |
+| Read a real book | 2, 3 | timer, 10 min | A story tent |
+| The counting hunt | 2, 3 | code, the answer on the sheet | A pale moon |
+| Screens off dinner | 2, 3 | grown up tap | A campfire |
+| Do a lesson | 2, 3 | the lesson's own pass | A satellite dish |
+| Phone to bed, unasked | 2, 3 | grown up tap | A night light |
+| The Comet card | 2, 3 | hidden code, made for one child | A comet across your sky |
 
-Every reward is named on the card before the mission starts. There are no
-mystery moons, no rolls, no bonus drops. A child at Tier 2 who wants the
-Moonflower moon knows exactly which walk to take. And the lesson mission is
+Still waiting for slice 4, with Tier 3: a study block with your Friend
+(timer, from the schedule) and teaching your grown up one thing about a game
+you love (grown up tap).
+
+Every part is named on the card before the mission starts. There are no
+mystery parts, no rolls, no bonus drops. A child at Tier 2 who wants the pale
+moon knows exactly which hunt to do. And the lesson mission is
 the online education thread, made visible on the planet.
 
 **The flow (FsmNode).**
@@ -663,7 +697,7 @@ MissionFsm
 | Doing | `weDidItTapped` | Claimed | The Mission Accomplished button, in child words: We did it. Proof `grownup_tap`: an ask lands in AskPopup. Proof `timer`: the server checks its clock. Proof `hidden_code`: the child enters the code from the card, the server checks it. Proof `self`: Tier 3 with trust `self`, the server approves |
 | Claimed | `grownupYes` | Approved | Written to `planet_events` with who approved |
 | Claimed | `grownupNotNow` | NotNow | "Not this time, and that is fine. It is still on your board." The mission stays Chosen. No language of failure |
-| Approved | `returnToPlanet` | Transformed | The GSAP moment: the reward drops onto the planet, the transform plays once. Then calm |
+| Approved | `returnToPlanet` | Transformed | The reveal says the part is in the parts box, Yay opens the box, and the child puts it where they like. Nothing lands where we say. Then calm |
 
 **The proof types, and who taps.** The child is the participant, the grown
 up is the witness, the server is the clock. `grownup_tap` is the default at
@@ -1014,7 +1048,9 @@ cast keep their own names at every tier.
 - `lib/planet/` (logic, registry, view, server, sounds) and
   `components/planet/` (the scene, the Friend figure, the root with its
   overlays).
-- Migration 252 (two tables; 251's garden tables retired, both empty).
+- Migration 252 (two tables; 251's garden tables retired, both empty), 253
+  (`planet_codes` and the prompts) and 254 (the twelve prompts of the build,
+  replacing the nine garden rows).
 - Three token scoped routes under `app/api/kid/planet/` (`state`, `event`)
   plus the parent side answer route `app/api/quests/planet/ask`.
 - Six music box rounds and a small sound set, all Web Audio, no files.
@@ -1026,8 +1062,11 @@ cast keep their own names at every tier.
    charger, and the Learn door on the growth reveal. Built.
 2. The Copycat Engine with the starter catalogue including the lesson
    mission, the ask in AskPopup, the codes. Built. The paper twins, the
-   Moonflower card with its per child code, and the grown up prompts as
-   scripts rows: slice 2b, built (migration 253).
+   Comet card with its per child code, and the grown up prompts as
+   scripts rows: slice 2b, built (migration 253). The build, slice 2c: the
+   child builds the planet from the parts the missions pay, twelve plots that
+   open with growth, the parts box, the outfits, the missions gone to space
+   and adventure. Built, 5 September 2026 (migration 254).
 3. The Digital Playground, the Screen Time Cafe and the malware loop.
 4. StarNet with the dome tool, and the Tier 3 schedule and GrowAndRest.
 
@@ -1049,6 +1088,9 @@ family's bedtime on a real phone.
    gardens. The first build was a garden and was rebuilt in full.
 5. The younger child meets the cast as babies until they reach each
    Friend's age.
+6. The toy is a build, like Toca Boca (2 September: "seems to be plant
+   missions still? How is this like Toca Boca? Surely they build rooms and
+   stuff"). Missions pay parts, the child places them, growth opens plots.
 
 ---
 

@@ -13,18 +13,19 @@ import {
   TIERS, GROWTH, SLEEPY_AT, TICK_CAP_SECONDS, ACTIVE_BY_TIER, FRIEND_MIN_AGE, BOARD_SIZE,
   tierFor, childAgeFor, isGrownUp, newHome, applyEvent, reconcile, moodOf, restOverlay, bedtimePhase, nightKeyFor, minutesLeft, addMinutes, boardFor,
   PICTURE_TOKENS, CODE_WORDS, codeModeFor, makeCode, withChildAnswers,
+  STARTER_PARTS, STARTER_OUTFITS, PLOTS_BY_STAGE, plotsFor, boxParts, boxOutfits, grow,
 } from '../lib/planet/logic.ts'
 
 // The mission mechanics, stated here rather than imported from the registry
 // so this file stays free of app imports.
 const DEFS = {
-  plant_seed: { key: 'plant_seed', tiers: [1, 2], proof: 'grownup_tap', reward: 'dome' },
-  leaf_walk: { key: 'leaf_walk', tiers: [1, 2], proof: 'grownup_tap', reward: 'flag' },
-  stretch: { key: 'stretch', tiers: [1, 2], proof: 'timer', timerMinutes: 5, reward: 'ring' },
-  water_plant: { key: 'water_plant', tiers: [1, 2], proof: 'grownup_tap', reward: 'pool' },
+  plant_seed: { key: 'plant_seed', tiers: [1, 2], proof: 'grownup_tap', reward: 'rocket' },
+  leaf_walk: { key: 'leaf_walk', tiers: [1, 2], proof: 'grownup_tap', reward: 'rover' },
+  stretch: { key: 'stretch', tiers: [1, 2], proof: 'timer', timerMinutes: 5, reward: 'swing' },
+  water_plant: { key: 'water_plant', tiers: [1, 2], proof: 'grownup_tap', reward: 'trampoline' },
   spider_legs: { key: 'spider_legs', tiers: [2], proof: 'code', answer: ['8'], reward: 'moon' },
-  do_lesson: { key: 'do_lesson', tiers: [2], proof: 'lesson', reward: 'star' },
-  moonflower_card: { key: 'moonflower_card', tiers: [2, 3], proof: 'code', perChild: true, reward: 'moonflower' },
+  do_lesson: { key: 'do_lesson', tiers: [2], proof: 'lesson', reward: 'dish' },
+  comet_card: { key: 'comet_card', tiers: [2, 3], proof: 'code', perChild: true, reward: 'comet' },
 }
 
 const T0 = '2026-09-02T15:00:00.000Z'
@@ -213,10 +214,10 @@ check('a timer mission lands only when the real minutes are up, and pays its rew
   assert.equal(h.missions[0].status, 'doing')
   h = applyEvent(h, { kind: 'mission_claim', key: 'stretch' }, at(5), DEFS)
   assert.equal(h.missions[0].status, 'approved')
-  assert.deepEqual(h.rewards, ['ring'])
+  assert.deepEqual(h.rewards.filter(r => !STARTER_PARTS.includes(r)), ['swing'])
   h = applyEvent(h, { kind: 'mission_seen', key: 'stretch' }, at(6), DEFS)
   assert.equal(h.missions[0].status, 'done')
-  assert.deepEqual(h.rewards, ['ring'])
+  assert.deepEqual(h.rewards.filter(r => !STARTER_PARTS.includes(r)), ['swing'])
 })
 
 check('a code mission lands on the right answer and stays put on a wrong one, with no count of tries', () => {
@@ -226,7 +227,7 @@ check('a code mission lands on the right answer and stays put on a wrong one, wi
   assert.equal(h.missions[0].status, 'doing')
   h = applyEvent(h, { kind: 'mission_claim', key: 'spider_legs', code: ['8'] }, at(2), DEFS)
   assert.equal(h.missions[0].status, 'approved')
-  assert.deepEqual(h.rewards, ['moon'])
+  assert.deepEqual(h.rewards.filter(r => !STARTER_PARTS.includes(r)), ['moon'])
 })
 
 check('a grown up mission waits as claimed, a yes lands it, a not now puts it back on the board', () => {
@@ -236,12 +237,12 @@ check('a grown up mission waits as claimed, a yes lands it, a not now puts it ba
   assert.equal(h.missions[0].status, 'claimed')
   const no = applyEvent(h, { kind: 'mission_notnow', key: 'leaf_walk' }, at(2), DEFS)
   assert.equal(no.missions[0].status, 'notnow')
-  assert.deepEqual(no.rewards, [])
+  assert.deepEqual(no.rewards.filter(r => !STARTER_PARTS.includes(r)), [])
   const again = applyEvent(no, { kind: 'mission_start', key: 'leaf_walk' }, at(3), DEFS)
   assert.equal(again.missions[0].status, 'doing')
   const yes = applyEvent(h, { kind: 'mission_approve', key: 'leaf_walk' }, at(2), DEFS)
   assert.equal(yes.missions[0].status, 'approved')
-  assert.deepEqual(yes.rewards, ['flag'])
+  assert.deepEqual(yes.rewards.filter(r => !STARTER_PARTS.includes(r)), ['rover'])
 })
 
 check('a planet saved before the missions existed is filled in, not broken', () => {
@@ -250,7 +251,7 @@ check('a planet saved before the missions existed is filled in, not broken', () 
   delete old.rewards
   const fixed = reconcile(old, T0, null)
   assert.deepEqual(fixed.missions, [])
-  assert.deepEqual(fixed.rewards, [])
+  assert.deepEqual(fixed.rewards.filter(r => !STARTER_PARTS.includes(r)), [])
 })
 
 check('a code card: pictures before 8 and letters from 8, three different pictures or one real word', () => {
@@ -268,17 +269,72 @@ check('a code card: pictures before 8 and letters from 8, three different pictur
 
 check('a card mission lands only with the answer the server made for this child, and stays put without one', () => {
   let h = newHome(2, T0, null)
-  h = applyEvent(h, { kind: 'mission_start', key: 'moonflower_card' }, T0, DEFS)
+  h = applyEvent(h, { kind: 'mission_start', key: 'comet_card' }, T0, DEFS)
   // No card printed yet: nothing to check against, so nothing lands.
-  const none = applyEvent(h, { kind: 'mission_claim', key: 'moonflower_card', code: ['star', 'moon', 'rocket'] }, at(1), DEFS)
-  assert.equal(none.missions.find(m => m.key === 'moonflower_card').status, 'doing')
-  const defs = withChildAnswers(DEFS, { moonflower_card: ['star', 'moon', 'rocket'], stretch: ['x'] })
+  const none = applyEvent(h, { kind: 'mission_claim', key: 'comet_card', code: ['star', 'moon', 'rocket'] }, at(1), DEFS)
+  assert.equal(none.missions.find(m => m.key === 'comet_card').status, 'doing')
+  const defs = withChildAnswers(DEFS, { comet_card: ['star', 'moon', 'rocket'], stretch: ['x'] })
   assert.equal(defs.stretch.answer, undefined, 'only a card mission takes a child answer')
-  const wrong = applyEvent(h, { kind: 'mission_claim', key: 'moonflower_card', code: ['moon', 'star', 'rocket'] }, at(1), defs)
-  assert.equal(wrong.missions.find(m => m.key === 'moonflower_card').status, 'doing')
-  const right = applyEvent(h, { kind: 'mission_claim', key: 'moonflower_card', code: ['star', 'moon', 'rocket'] }, at(1), defs)
-  assert.equal(right.missions.find(m => m.key === 'moonflower_card').status, 'approved')
-  assert.ok(right.rewards.includes('moonflower'))
+  const wrong = applyEvent(h, { kind: 'mission_claim', key: 'comet_card', code: ['moon', 'star', 'rocket'] }, at(1), defs)
+  assert.equal(wrong.missions.find(m => m.key === 'comet_card').status, 'doing')
+  const right = applyEvent(h, { kind: 'mission_claim', key: 'comet_card', code: ['star', 'moon', 'rocket'] }, at(1), defs)
+  assert.equal(right.missions.find(m => m.key === 'comet_card').status, 'approved')
+  assert.ok(right.rewards.includes('comet'))
+})
+
+check('a new planet has the starters in its box, and a saved one from before the build gets them too', () => {
+  const h = newHome(1, T0, null)
+  assert.deepEqual(boxParts(h), STARTER_PARTS)
+  assert.deepEqual(boxOutfits(h), STARTER_OUTFITS)
+  const old = { ...newHome(2, T0, null), rewards: ['dome', 'flag', 'moon'] }
+  delete old.build
+  const fixed = reconcile(old, T0, null)
+  assert.deepEqual(fixed.rewards, ['bench', 'lamp', 'flag', 'moon'], 'the garden is let go, the starters arrive, what was earned stays')
+  assert.deepEqual(fixed.build.placed, [])
+})
+
+check('a part goes only where it belongs, once, on a free slot, inside the plots', () => {
+  let h = { ...newHome(1, T0, null), growthStage: 0 }
+  assert.equal(plotsFor(0), 3)
+  assert.equal(plotsFor(9), PLOTS_BY_STAGE[5])
+  const same = applyEvent(h, { kind: 'part_place', part: 'flag', slot: 'sky1' }, T0)
+  assert.equal(same.build.placed.length, 0, 'a flag does not go in the sky')
+  const notOwned = applyEvent(h, { kind: 'part_place', part: 'rocket', slot: 'g1' }, T0)
+  assert.equal(notOwned.build.placed.length, 0, 'a part not in the box cannot be placed')
+  h = applyEvent(h, { kind: 'part_place', part: 'flag', slot: 'g1' }, T0)
+  assert.deepEqual(h.build.placed, [{ part: 'flag', slot: 'g1' }])
+  const twice = applyEvent(h, { kind: 'part_place', part: 'flag', slot: 'g2' }, T0)
+  assert.equal(twice.build.placed.length, 1, 'a part is on the planet once')
+  const taken = applyEvent(h, { kind: 'part_place', part: 'bench', slot: 'g1' }, T0)
+  assert.equal(taken.build.placed.length, 1, 'a slot holds one part')
+  h = applyEvent(h, { kind: 'part_place', part: 'bench', slot: 'g2' }, T0)
+  h = applyEvent(h, { kind: 'part_place', part: 'lamp', slot: 'g3' }, T0)
+  h = { ...h, rewards: [...h.rewards, 'rocket'] }
+  const full = applyEvent(h, { kind: 'part_place', part: 'rocket', slot: 'g4' }, T0)
+  assert.equal(full.build.placed.length, 3, 'bare rock has room for three')
+  const moved = applyEvent(h, { kind: 'part_move', part: 'flag', slot: 'g5' }, T0)
+  assert.equal(moved.build.placed.find(p => p.part === 'flag').slot, 'g5')
+  const back = applyEvent(moved, { kind: 'part_remove', part: 'flag' }, T0)
+  assert.equal(back.build.placed.length, 2)
+  assert.ok(boxParts(back).includes('flag'), 'a part taken off is back in the box')
+})
+
+check('an outfit has one wearer, a Friend wears one, and growth drops its gifts in the box', () => {
+  let h = newHome(2, T0, null)
+  h = applyEvent(h, { kind: 'outfit_set', friend: 'pebble', outfit: 'party_hat' }, T0)
+  assert.equal(h.build.wearing.pebble, 'party_hat')
+  const notOwned = applyEvent(h, { kind: 'outfit_set', friend: 'bloop', outfit: 'crown' }, T0)
+  assert.equal(notOwned.build.wearing.bloop, undefined, 'a crown not yet earned cannot be worn')
+  h = applyEvent(h, { kind: 'outfit_set', friend: 'bloop', outfit: 'party_hat' }, T0)
+  assert.equal(h.build.wearing.bloop, 'party_hat')
+  assert.equal(h.build.wearing.pebble, undefined, 'the hat moved to Bloop')
+  h = applyEvent(h, { kind: 'outfit_set', friend: 'bloop', outfit: null }, T0)
+  assert.equal(h.build.wearing.bloop, undefined)
+  const grown = grow({ ...h, growthStage: 1, growthProgress: 90 }, 220)
+  assert.equal(grown.growthStage, 4)
+  assert.ok(grown.rewards.includes('star') && grown.rewards.includes('ring'), 'stages 2 and 3 gave the star and the ring')
+  assert.ok(grown.build.outfits.includes('cape'), 'stage 4 gave the cape')
+  assert.ok(!grown.build.outfits.includes('crown'), 'the crown waits for the moon')
 })
 
 console.log(`\nPASS  ${passed} checks. The loop ends itself, the planet grows while the child is away, the cast grows up with them, and the night lands once.`)

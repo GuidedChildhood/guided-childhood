@@ -538,7 +538,7 @@ PRINTABLES.push(...MISSIONS_FOR_PRINT.map((m): Printable => ({
   key: planetPrintableKey(m.key), title: m.title, emoji: m.emoji, kind: 'challenge',
   stages: stagesForTiers(m.tiers),
   minutes: m.timerMinutes ? `${m.timerMinutes} minutes` : m.perChild ? 'One hunt' : 'One go',
-  setting: m.key === 'leaf_walk' || m.key === 'spider_legs' ? 'outdoors' : m.key === 'moonflower_card' ? 'anywhere' : 'indoors',
+  setting: m.key === 'explorer_walk' || m.key === 'moon_jumps' || m.key === 'star_hunt' ? 'outdoors' : m.key === 'comet_card' || m.key === 'spider_legs' ? 'anywhere' : 'indoors',
   skill: 'Planet Friends', stars: 0, blurb: blurbFor(m.key),
   sheetUrl: '', previewUrl: '', drawn: 'mission-sheet', free: true,
 })))

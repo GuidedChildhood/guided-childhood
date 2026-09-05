@@ -10198,3 +10198,25 @@ rather than only at night, because the night side is an overlay and a flower
 that only opened behind it would never be seen; a lost card prints again with
 the same code; the card mission shows no pad until the card is printed. The
 Tier 3 schedule and trust stay slice 4.
+
+## 5 September 2026: Planet Friends slice 2c, the build, and the missions go to space
+
+Justin, 2 September, on seeing slice 2b: "Seems to be plant missions still?
+How is this like toca boca? Surely they build rooms and stuff." Then "Yes to
+that direction." Decided and built: the child builds their planet. Every
+mission pays a part into a parts box (a rocket, a trampoline, a moon rover, a
+swing, a robot helper, a telescope, a story tent, a pale moon, a campfire, a
+satellite dish, a night light, a comet), named on the card before they start,
+and the child puts it on any free plot, moves it, takes it back. Twelve plots
+(sky, horizon, ground, the ring); how many may be filled opens with growth (3,
+5, 7, 9, 11, 12), so growth is more room to build. The box starts with a flag,
+a bench, a lamp post, a party hat and star glasses, and each stage drops one
+named gift in it (helmet, star, ring, cape, crown). Outfits go on a Friend, one
+wearer each. A Friend dropped on a part uses it. The rules are pure and server
+checked; the layout is a jsonb column on planet_homes, so no table changed.
+The garden catalogue never reached a child: the Moonflower card became the
+Comet card, the twelve missions are space and adventure, and migration 254
+replaces the nine prompt rows 253 seeded. Numbered 2c, not 3, because the
+design document's slice 3 is still the Digital Playground. PR 964 (slice 2b)
+was merged on 3 September without migration 253 being applied; the code fails
+soft without it, and both 253 and 254 wait on Justin's go.
