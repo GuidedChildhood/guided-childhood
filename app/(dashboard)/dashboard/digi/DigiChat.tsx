@@ -681,15 +681,17 @@ export default function DigiChat({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 80px)', maxWidth: '700px', margin: '0 auto' }}>
 
-      {/* Header */}
-      <div style={{ padding: '16px 20px', borderBottom: '2px solid var(--ink)', background: 'var(--white)', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      {/* Header. Wraps on a phone: the eyebrow, the avatar and the way back
+          do not fit one row at 390, and the eyebrow was breaking one word per
+          line beside the star (Justin's screenshot, 6 September 2026). */}
+      <div style={{ padding: '14px 20px', borderBottom: '2px solid var(--ink)', background: 'var(--white)', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px 12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <DigiAvatar size={36} mood="wave" />
             </div>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)' }}>Your evidence led guide</p>
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)', whiteSpace: 'nowrap' }}>Your evidence led guide</p>
               <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
             </div>
           </div>
