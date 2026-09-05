@@ -48,7 +48,7 @@ export default function PlanChooser({ heading }: { heading: string }) {
                   background: on ? 'var(--terracotta)' : 'var(--terracotta-lt)',
                   color: 'var(--ink)', padding: '2px 7px', borderRadius: '100px',
                 }}>
-                  Save £57
+                  Save £56.88
                 </span>
               )}
             </button>

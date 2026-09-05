@@ -8,7 +8,7 @@ const FAQS = [
   },
   {
     q: 'Does this prepare my child for the under 16 social media ban?',
-    a: 'Yes, that is the core of it. The ban delays the apps until 16 but teaches nothing. We build the judgement in the years before: lessons in misinformation, algorithms and AI literacy, and a passport earned stage by stage, so 16 arrives as a step, not a cliff edge. Arriving with habits beats arriving with rules.',
+    a: 'Yes, that is the core of it. The ban, planned for spring 2027, delays the apps until 16 but teaches nothing. We build the judgement in the years before: lessons in misinformation, algorithms and AI literacy, and a passport earned stage by stage, so 16 arrives as a step, not a cliff edge. Arriving with habits beats arriving with rules.',
   },
   {
     q: 'Is this just about social media?',

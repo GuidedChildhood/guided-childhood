@@ -102,7 +102,7 @@ export default function TrialCountdown({
               kind you reread wondering if it is broken. "Are over" is plain,
               it is what anybody would say out loud, and it matches "Full
               access ends in" on the card this one replaces. */}
-          Your {trialDays} days of full access are over
+          Your {trialDays} free days are over
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
           {evidence

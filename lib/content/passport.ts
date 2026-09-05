@@ -38,8 +38,8 @@ export const PASSPORT_EVIDENCE: EvidencePoint[] = [
   {
     headline: 'A wall is not a plan',
     detail:
-      'In Australia around 60 percent of children found a way around the ban within weeks, and the most influential stayed on, so the social norm never shifted. Workarounds leave a child alone with whatever they meet next. Guidance travels with them, a ban does not.',
-    source: 'Reported outcomes of the Australian under 16 ban',
+      'In Australia only about a quarter of 14 and 15 year olds complied with the ban in its first months, and the ones who stayed on were the ones their friends followed, so the social norm never shifted. Workarounds leave a child alone with whatever they meet next. Guidance travels with them, a ban does not.',
+    source: 'Bursztyn, Duckworth, Sunstein and colleagues, NBER working paper 2026, about 746 Australian teenagers',
   },
   {
     headline: 'The harms are real, and so are the benefits',

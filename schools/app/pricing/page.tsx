@@ -91,7 +91,7 @@ export default function PricingPage() {
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }}>
                 <strong>Not sure yet?</strong> You do not need a licence to try it. The whole{' '}
                 <Link href="/curriculum" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>curriculum catalogue</Link>{' '}
-                is open: pick a module and teach it this week, then decide.
+                is open to read. Ask for a pilot code and teach any module this week, then decide.
               </p>
             </div>
           </div>

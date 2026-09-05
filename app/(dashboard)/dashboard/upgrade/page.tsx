@@ -172,7 +172,7 @@ export default async function UpgradePage(
           <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.4 }}>
             {trialDaysLeft(profile) === 1
               ? 'Last free day. Everything stays open if you join today.'
-              : `${trialDaysLeft(profile)} free days left. Everything is open until then.`}
+              : `${trialDaysLeft(profile)} free days left. The starter set is open until then, and a membership opens everything.`}
           </span>
         </div>
       ) : (

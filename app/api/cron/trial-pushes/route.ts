@@ -92,15 +92,15 @@ async function handler(request: Request) {
           .eq('status', 'approved')
         ticks = count ?? 0
       } catch { /* zero reads as the generic line */ }
-      title = 'Two days of full access left'
+      title = 'Three free days left'
       body = ticks > 0
-        ? `${ticks} job${ticks === 1 ? '' : 's'} ticked and approved already. Everything stays unlocked for two more days.`
-        : 'Everything is unlocked for two more days. Tonight is a good night to try a script or ask DiGi anything.'
+        ? `${ticks} job${ticks === 1 ? '' : 's'} ticked and approved already. Three more days to try it.`
+        : 'Three more free days. Tonight is a good night to try a script or ask DiGi anything.'
     } else if (key === 'push-trial-warn') {
-      title = 'Full access ends tomorrow'
-      body = 'After tomorrow the free tier returns: fewer scripts and DiGi limits. The founder rate keeps everything, capped at 50 families.'
+      title = 'Two free days left'
+      body = 'After that the app waits for you until you join. The founder rate opens everything, capped at 50 families.'
     } else {
-      title = 'Your trial ends today'
+      title = 'Your free days end tomorrow'
       body = seatsLine
     }
 

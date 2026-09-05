@@ -479,7 +479,7 @@ export default async function JoinPage() {
               <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>not panic</em>
             </h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: '.98rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.82 }}>
-              DiGi is trained on the same evidence base as the UK Surgeon General Advisory and Ofcom's media literacy framework. No opinions. Just the science.
+              DiGi is built on the same research base as Ofcom's media literacy work and the leading UK and US researchers in children and screens. No opinions. Just the evidence, named.
             </p>
           </div>
 
@@ -739,7 +739,7 @@ export default async function JoinPage() {
             {/* Annual */}
             <div style={{ background: 'var(--stage-2)', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '28px', position: 'relative' }}>
               <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: '100px', whiteSpace: 'nowrap' }}>
-                Save £57
+                Save £56.88
               </div>
               <p className="eyebrow" style={{ marginBottom: '12px', marginTop: '8px', color: 'var(--terracotta)' }}>Annual</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', marginBottom: '4px' }}>
@@ -747,7 +747,7 @@ export default async function JoinPage() {
                 <span style={{ color: 'var(--ink-muted)', fontSize: '.82rem' }}> / year</span>
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--terracotta)', fontWeight: 700, marginBottom: '20px' }}>
-                £8.25 / month · Two months free
+                £8.25 / month, paid once a year
               </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px' }}>
                 {['Everything in Standard', 'One payment, full year', 'Best value'].map((f, i) => (
@@ -817,7 +817,7 @@ export default async function JoinPage() {
               >{label}</Link>
             ))}
           </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-light)' }}>© 2026 Guided Childhood</div>
         </div>
       </footer>
 

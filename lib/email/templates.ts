@@ -244,7 +244,7 @@ export function day7FounderEmail(params: {
       p(`The first 50 families lock in £7.99 a month for life. The price never rises for you, whatever the platform grows into. Right now <strong>${remaining} of the 50 places are left</strong>, and the counter is real, it is enforced in the code.`) +
       p(`That unlocks every stage as your child grows, unlimited DiGi, all 100 plus scripts, the wellbeing tracker and the family agreement builder.`) +
       button('Claim a founding place', `${APP}/dashboard/upgrade`) +
-      p(`And if now is not the moment, the free tier is not going anywhere.`),
+      p(`And if now is not the moment, the app waits for you. Nothing you set up is lost.`),
       unsubscribe
     ),
   }
@@ -496,7 +496,7 @@ export function winBackEmail(params: {
     subject: 'The door is still open',
     html: wrapper(
       heading('No rush, just a hello.') +
-      p(`Your trial wrapped up and you are on the free tier now, which is a perfectly good place to be. No guilt here.`) +
+      p(`Your free days wrapped up and the app is waiting for you, which is a perfectly good place to be. No guilt here.`) +
       p(`When things with ${childName} feel like they need a steadier hand again, everything is one tap from being back on: the scripts, the daily moments, DiGi at 11pm.`) +
       button('Pick up where you left off', `${APP}/dashboard/upgrade`) +
       p(`One small thing this week is the whole idea. That is all it ever asks.`),
@@ -1421,7 +1421,7 @@ export function winBackUnusedEmail(params: {
     subject: `What is still sitting there for ${childName}`,
     html: wrapper(
       heading('Still yours, still free.') +
-      p(`Nothing was taken away when the trial ended. The free tier keeps a real amount of it, and most of it is the part parents tell me they miss without realising they had it.`) +
+      p(`Nothing was deleted when the free days ended. Every check in, job and stamp is saved for the day you come back, and most of it is the part parents tell me they miss without realising they had it.`) +
       bullets([
         `The <strong>${stageName}</strong> stage scripts, the exact words for the moment you are actually in`,
         `The printables, star charts and the offline pack, still free to print tonight`,
@@ -1453,7 +1453,7 @@ export function winBackLastEmail(params: {
     subject: 'The bit that actually runs out',
     html: wrapper(
       heading('One thing here has a limit.') +
-      p(`Almost nothing about this is urgent. The free tier is not going anywhere, ${childName}'s passport keeps every stamp, and there is no countdown on any of it.`) +
+      p(`Almost nothing about this is urgent. Everything you set up is saved, ${childName}'s passport keeps every stamp, and there is no countdown on any of it.`) +
       founder +
       p(`That is the whole pitch and I am not going to dress it up. If the timing is wrong, the timing is wrong.`) +
       button('Take a look', `${APP}/dashboard/upgrade`) +
@@ -1485,7 +1485,7 @@ export function paidUnlockedEmail(params: {
       p(`That is true of nearly everyone and it is my problem rather than yours, so here are the four things members most often have not touched.`) +
       bullets([
         `<strong>Every stage, not just this one.</strong> You can read ahead. What is coming at 11, at 13, at 16, is all unlocked, and reading it early is how the hard conversations stop being ambushes.`,
-        `<strong>DiGi without a limit.</strong> The free tier stops at three questions a day. Yours does not stop. Ask it the same thing three different ways at midnight if that is what it takes.`,
+        `<strong>DiGi without a limit.</strong> The free days stop at three questions a day. Yours does not stop. Ask it the same thing three different ways at midnight if that is what it takes.`,
         `<strong>The full script library.</strong> Over a hundred, searchable by the moment you are in rather than by topic.`,
         `<strong>The family agreement builder.</strong> The rules decided together and signed by both of you, which is the single thing parents tell me changed the most in their house.`,
       ]) +
@@ -1560,7 +1560,7 @@ export function pastDueEmail(params: {
       p(`${parentName}, your last payment did not go through. Almost always that is an expired card or a bank being cautious, rather than anything you did.`) +
       p(`Everything is still switched on. Updating the card takes about thirty seconds in settings, and nothing else changes.`) +
       button('Update your card', `${APP}/dashboard/settings#billing`) +
-      p(`And if you meant to stop, that is genuinely fine and you do not owe me an explanation. Cancelling is on the same screen, two taps, and the free tier keeps everything you have earned.`) +
+      p(`And if you meant to stop, that is genuinely fine and you do not owe me an explanation. Cancelling is on the same screen, two taps, and everything you have earned stays saved.`) +
       p(`If anything about it is awkward, reply to this and I will sort it out with you directly.`),
       unsubscribe
     ),

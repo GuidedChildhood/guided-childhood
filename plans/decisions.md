@@ -10321,3 +10321,26 @@ saw the same ten films and the same 141 on the tabs under a heading that named
 one of them. Decided: both views open on the child's stage, the tab counts are
 the child's counts, the chips still step to any age, and a stage with no films
 falls back to all of them. LessonsBrowser only; the data is unchanged.
+
+## 5 September 2026: the audit's stage one, copy only, with the old HTML, the starter pack and the legal pages held back
+
+Justin on the audit: "let's go your suggestions, but ignore the old HTML and
+the starter pack, ask a question in each change so we can clarify, and the
+legal stuff after 50 sign ups." Decided and shipped as copy only: the six
+homepage claims are rewritten to what the evidence supports (screens push
+sleep later, a flat mood has several causes, one routine takes the negotiation
+out and you watch your own number, the ban is planned for spring 2027,
+children learn the workarounds, most parents argue); "science backed" becomes
+"evidence informed"; the two "reviewed weekly" lines now say what is reviewed
+(DiGi tested every Monday, the library refreshed twice a month with a human
+gate); the annual saving is £56.88 at £8.25 a month, not "two months free";
+the UK Surgeon General line is gone; the Australia figure is one source on
+both surfaces (Bursztyn and colleagues, NBER 2026, about a quarter of banned
+14 and 15 year olds complied); the trial lines in the app, the pushes and the
+emails stop saying "everything open" and "free tier", because after the four
+days the app waits for a membership; three Social Billboard footers on Next
+pages read Guided Childhood; the schools site says "the coverage record a
+school can show", "Built on the statutory guidance" and "mapped topic by
+topic", the 21 of 21 line drops its second half once every module is live, the
+pricing page says ask for a pilot code, and the unlock placeholder is "your
+school code". Terms, Privacy and the legal entity wait for 50 sign ups.
