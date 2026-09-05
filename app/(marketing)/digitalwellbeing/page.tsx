@@ -114,7 +114,7 @@ export default function DigitalWellbeingPage() {
       <footer style={{ background: '#FDFBF8', borderTop: '1px solid var(--border)', padding: '28px 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
           <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.86rem', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Guided Childhood</Link>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)' }}>© 2026 Guided Childhood · Justin Phillips</p>
         </div>
       </footer>
     </div>

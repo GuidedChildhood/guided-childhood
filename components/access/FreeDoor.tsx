@@ -84,7 +84,7 @@ export default function FreeDoor({
       <p style={CARD_SUB}>No card, nothing taken</p>
 
       <Tick>Nothing to enter and nothing charged</Tick>
-      <Tick>The same {trialDays} days, all of it open</Tick>
+      <Tick>The same {trialDays} days: the starter scripts, three DiGi questions a day, the check in and the child's app</Tick>
       <Tick>£12.99 a month or £99 a year after, if you stay</Tick>
 
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 16px' }}>

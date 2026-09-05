@@ -51,7 +51,7 @@ export default async function CurriculumMapPage() {
           Pick a module and teach it today. No download wall, no prep, nothing to book.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '22px' }}>
-          {liveCount} of {CURRICULUM.length} modules live in the pilot · the rest are in production
+          {liveCount} of {CURRICULUM.length} modules live in the pilot{liveCount < CURRICULUM.length ? ' · the rest are in production' : ''}
         </p>
 
         {/* How to use the map: three moves, so a first time visitor is never

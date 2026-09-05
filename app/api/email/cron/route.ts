@@ -34,6 +34,7 @@ interface ProfileRow {
   trial_ends_at: string | null
   trial_started_at: string | null
   plan_choice: string | null
+  subscription_tier: string | null
   email_opt_out: boolean
   onboarding_complete: boolean | null
 }
@@ -78,7 +79,7 @@ async function handler(req: NextRequest) {
   const [{ data: profiles }, { data: log }, { data: children }, { data: firstQuests }, { data: firstSessions }, { data: firstLinks }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, trial_started_at, plan_choice, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, trial_started_at, plan_choice, subscription_tier, email_opt_out, onboarding_complete')
       .eq('onboarding_complete', true),
     supabase.from('email_log').select('user_id, email_key, sent_at'),
     // EVERY child, not the primary one. Justin, 18 August 2026: "emails need
@@ -271,6 +272,7 @@ async function handler(req: NextRequest) {
       profile.email,
       'founder-precharge',
       founderPrechargeEmail({
+        tier: profile.subscription_tier,
         childName: namesFor(profile.id),
         // Their own date, in their own words. "3 days left" in an email read
         // four days later is worse than no email at all.

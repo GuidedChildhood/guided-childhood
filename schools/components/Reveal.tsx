@@ -20,15 +20,19 @@ export default function Reveal({
   style?: React.CSSProperties
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [shown, setShown] = useState(false)
+  // Visible first. The server used to send opacity 0 and the hero stayed
+  // invisible until the observer ran, so a slow or failed script left the
+  // headline and the pilot button blank (audit, 5 September 2026). Now the
+  // page paints in full, and only something below the fold is hidden, after
+  // mount, to rise in as it arrives.
+  const [shown, setShown] = useState(true)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      setShown(true)
-      return
-    }
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return
+    setShown(false)
     const io = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) { setShown(true); io.disconnect() } }),
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }

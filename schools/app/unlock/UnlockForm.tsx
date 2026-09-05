@@ -57,7 +57,7 @@ export default function UnlockForm({ next }: { next: string }) {
         autoCapitalize="off"
         spellCheck={false}
         maxLength={64}
-        placeholder="oakfield-2026"
+        placeholder="your school code"
         style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
       />
 

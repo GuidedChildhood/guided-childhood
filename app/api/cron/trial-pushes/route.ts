@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPush } from '@/lib/push/send'
 import { trialDaysLeft, lifecycleState } from '@/lib/email/lifecycle'
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { FOUNDER_CAP } from '@/lib/stripe'
 
 // The four day funnel's push side, approved by Justin on 8 August: three
 // pushes riding the trial clock, each honest, each once, none to payers.
@@ -62,8 +63,8 @@ async function handler(request: Request) {
       .select('id', { count: 'exact', head: true })
       .eq('is_founder', true)
       .eq('subscription_status', 'active')
-    if (typeof count === 'number' && count >= 0 && count < 50) {
-      seatsLine = `The founder rate holds everything open. ${50 - count} of 50 seats left.`
+    if (typeof count === 'number' && count >= 0 && count < FOUNDER_CAP) {
+      seatsLine = `The founder rate holds everything open. ${FOUNDER_CAP - count} of ${FOUNDER_CAP} seats left.`
     }
   } catch { /* honest fallback line already set */ }
 
@@ -92,15 +93,15 @@ async function handler(request: Request) {
           .eq('status', 'approved')
         ticks = count ?? 0
       } catch { /* zero reads as the generic line */ }
-      title = 'Two days of full access left'
+      title = 'Three free days left'
       body = ticks > 0
-        ? `${ticks} job${ticks === 1 ? '' : 's'} ticked and approved already. Everything stays unlocked for two more days.`
-        : 'Everything is unlocked for two more days. Tonight is a good night to try a script or ask DiGi anything.'
+        ? `${ticks} job${ticks === 1 ? '' : 's'} ticked and approved already. Three more days to try it.`
+        : 'Three more free days. Tonight is a good night to try a script or ask DiGi anything.'
     } else if (key === 'push-trial-warn') {
-      title = 'Full access ends tomorrow'
-      body = 'After tomorrow the free tier returns: fewer scripts and DiGi limits. The founder rate keeps everything, capped at 50 families.'
+      title = 'Two free days left'
+      body = 'After that the app waits for you until you join. The founder rate opens everything, capped at 50 families.'
     } else {
-      title = 'Your trial ends today'
+      title = 'Your free days end tomorrow'
       body = seatsLine
     }
 

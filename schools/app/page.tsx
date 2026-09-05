@@ -21,7 +21,7 @@ import HomeReveals from '@/components/HomeReveals'
 export const metadata: Metadata = {
   title: 'The Digital Literacy Curriculum for UK Schools, Reception to Year 13',
   description:
-    'A complete digital literacy scheme of work for UK schools. 21 modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the coverage evidence Ofsted asks for. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.',
+    'A complete digital literacy scheme of work for UK schools. 21 modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the coverage record a school can show. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.',
   alternates: { canonical: 'https://schools.guidedchildhood.com/' },
   openGraph: {
     title: 'Guided Childhood Schools: the digital literacy curriculum, Reception to Year 13',
@@ -231,8 +231,8 @@ const STAGE_WHY = KEY_STAGE_WHY
 const EVIDENCE = [
   {
     label: 'The regulators',
-    title: 'Statutory by construction',
-    body: 'The RSHE guidance becomes compulsory on 1 September 2026 and every module maps to it line by line. KCSIE 2026 names generative AI, deepfakes, misinformation and conspiracy theories, and the public matrix shows which module teaches each. All eight Education for a Connected World strands are covered, Reception to Year 13.',
+    title: 'Built on the statutory guidance',
+    body: 'The RSHE guidance becomes compulsory on 1 September 2026 and every module is mapped to it, topic by topic, on the public matrix. KCSIE 2026 names generative AI, deepfakes, misinformation and conspiracy theories, and the public matrix shows which module teaches each. All eight Education for a Connected World strands are covered, Reception to Year 13.',
     link: { href: '/hub/rshe-mapping', label: 'Read the full mapping matrix' },
   },
   {
@@ -333,7 +333,7 @@ export default function SchoolsPage() {
               ready for <span style={{ color: GOLD }}>September 2026.</span>
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.22rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '32px' }}>
-              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026. Every lesson taught from an interactive script, with printable packs and the coverage evidence Ofsted asks for. Ready in your classroom tomorrow.
+              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026. Every lesson taught from an interactive script, with printable packs and the coverage record a school can show. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
               <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
@@ -744,7 +744,7 @@ export default function SchoolsPage() {
             </div>
           </div>
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>© 2026 Guided Childhood · Justin Phillips</p>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>RSHE statutory 2026 · KCSIE 2026 · Education for a Connected World · No pupil data</p>
           </div>
         </div>

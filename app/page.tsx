@@ -23,7 +23,7 @@ import { SITE_URL } from '@/lib/config/site'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood · A clear digital pathway from first screen to 16',
-  description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests for UK families, all science backed, finished with your child\'s Digital Passport. Ask DiGi anything at any hour.',
+  description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests for UK families, evidence informed, finished with your child\'s Digital Passport. Ask DiGi anything at any hour.',
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'A clear digital pathway from first screen to 16.',
-    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, all science backed, finished with their Digital Passport. Free to start.',
+    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Digital Passport. Free to start.',
     url: SITE_URL,
     type: 'website',
     locale: 'en_GB',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'A clear digital pathway from first screen to 16.',
-    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, all science backed, finished with their Digital Passport.',
+    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Digital Passport.',
   },
   alternates: {
     canonical: SITE_URL,
@@ -98,7 +98,7 @@ const MOMENTS = [
     frontLabel: 'Bedtime every night',
     front: '"He will not hand over his phone at bedtime. Every single night the same argument. I dread it."',
     backLabel: 'What actually fixes this',
-    back: 'You are not overreacting. Blue light delays sleep onset by 90 minutes and teenagers need 9 hours. The argument is not about the phone. It is about the bedroom. Say: "The phone charges in the hallway overnight. Not as punishment. This is the rule for the whole house including me." Make it structural tonight. There is no argument when there is no decision to make.',
+    back: 'You are not overreacting. Screens in the evening, and especially in bed, push sleep later, and teenagers need their sleep more than most. The argument is not about the phone. It is about the bedroom. Say: "The phone charges in the hallway overnight. Not as punishment. This is the rule for the whole house including me." Make it structural tonight. There is no argument when there is no decision to make.',
     bg: 'var(--stage-1)',
     stage: 'Stage 2 to 4 · Ages 8 to 15',
   },
@@ -106,7 +106,7 @@ const MOMENTS = [
     frontLabel: 'Mood crash',
     front: '"Her mood after she comes off her phone is awful. Flat, snappy, impossible to reach. I do not know if the phone is causing this or if it is just her."',
     backLabel: 'What actually fixes this',
-    back: 'The research says yes, it is the phone. A mood drop after screens is a tracked signal, particularly for girls aged 11 to 13. The phone creates a contrast effect: real life feels flat after the stimulation. Say: "I notice you seem low after your phone time. I am not upset, I want to understand it with you." Track it for two weeks. The pattern becomes the conversation.',
+    back: 'A flat mood after screens can have a few causes: a rewarding thing stopping, tiredness, hunger, what they were watching, who they were talking to. It is a pattern worth tracking, especially at 11 to 13, not a verdict. Say: "I notice you seem low after your phone time. I am not upset, I want to understand it with you." Track it for two weeks. The pattern becomes the conversation.',
     bg: 'var(--stage-5)',
     stage: 'Stage 3 · Critical window · Ages 11 to 13',
   },
@@ -153,7 +153,7 @@ const FAQS = [
   { q: 'At what age should my child get their first phone?',
     a: "There is no single right age. Guided Childhood uses a five stage pathway from ages 4 to 16. The right time depends on your child's stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how." },
   { q: 'How do I deal with screen time arguments every day?',
-    a: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine replaces most daily arguments within two weeks.' },
+    a: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine takes most of the daily negotiation out of it, and you rate the worry each day and watch your own number move.' },
   { q: 'When should children be allowed on social media?',
     a: 'The UK minimum age for most platforms is 13. Research by Dr Amy Orben at Cambridge identifies ages 11 to 13 as the highest sensitivity window, particularly for girls. Guided Childhood Stage 3 covers exactly this: the conversation to have before access, what to watch for during access, and the boundaries that protect without destroying trust.' },
   { q: 'Is screen time really harmful for children?',
@@ -161,7 +161,7 @@ const FAQS = [
   { q: 'What is Guided Childhood and how does it work?',
     a: 'Guided Childhood is a clear digital pathway from first screen to 16 for UK families. You identify your child\'s stage, then the pathway tells you what to do, when to do it and how to do it: daily moments with the exact words, 160 scripts for the hard conversations, 100 lessons you can teach at home, a Digital Passport your child earns stage by stage, family quests where real jobs earn stars and stars buy agreed screen time, a child app for checking and requesting jobs, printables in English and Spanish, 24 age gated learning games, device setting checklists, a wellbeing tracker, a family agreement builder, and DiGi, your evidence led guide, whenever you need the specific words. It takes around ten minutes a day, and if you miss a few days the pathway catches you up.' },
   { q: 'Does Guided Childhood prepare my child for the UK under 16 social media ban?',
-    a: 'Yes, that is the core of it. The UK ban delays social media access until 16 but does not teach children anything. Guided Childhood builds the judgement in the years before: a five stage pathway from age 4, lessons in misinformation, algorithms and AI literacy, and a Digital Passport earned stage by stage, so 16 arrives as a step rather than a cliff edge. Arriving with habits beats arriving with rules.' },
+    a: 'Yes, that is the core of it. The UK plans to restrict under 16 access to some social media from spring 2027. A deadline delays the apps. It does not teach children anything. Guided Childhood builds the judgement in the years before: a five stage pathway from age 4, lessons in misinformation, algorithms and AI literacy, and a Digital Passport earned stage by stage, so 16 arrives as a step rather than a cliff edge. Arriving with habits beats arriving with rules.' },
   { q: 'How do children earn screen time on Guided Childhood?',
     a: 'Children tick off real jobs and chores in their own app, and outside play pays the most. Stars land in their star bank, and stars buy agreed screen time on the star timer. Because the deal is theirs, the daily argument ends. Families without a child device run the whole thing from the parent app.' },
   { q: 'How do I teach my child about AI and chatbots?',
@@ -187,7 +187,7 @@ export default function HomePage() {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'Guided Childhood',
-            description: 'A clear digital pathway from first screen to 16. Age by age lessons, habits and quests for UK families, all science backed, finished with their Digital Passport.',
+            description: 'A clear digital pathway from first screen to 16. Age by age lessons, habits and quests for UK families, evidence informed, finished with their Digital Passport.',
             url: SITE_URL,
             foundingDate: '2024',
             founder: { '@type': 'Person', name: 'Justin Phillips' },
@@ -294,7 +294,7 @@ export default function HomePage() {
               A clear digital pathway from first screen to 16.
             </h1>
             <p className="fu" style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '26px' }}>
-              What to do, when to do it, how to do it. Age by age lessons, habits and quests, all science backed, finished with their Digital Passport.
+              What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Digital Passport.
             </p>
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-lg)', padding: '17px 42px' }}>
@@ -319,7 +319,7 @@ export default function HomePage() {
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
               <p style={{ fontSize: 'clamp(.86rem, .7rem + .35vw, 1rem)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
-                Built on five of the world's leading researchers in children, social media and mental health, and live data from more than ten national bodies. Reviewed weekly, because the landscape never sits still.
+                Built on the leading researchers in children, social media and mental health, and live data from national bodies including the NHS, NSPCC and Ofcom. DiGi is tested every Monday against a fixed set of hard cases, and the research library is refreshed twice a month with a human deciding what goes in.
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Parent quote</div>
@@ -588,7 +588,7 @@ export default function HomePage() {
               You are not the strategist.<br />You are the parent. <span style={{ color: 'var(--terracotta)' }}>We drive.</span>
             </h2>
             <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto' }}>
-              Nine in ten parents argue with their kids over screens, and policing without a plan is exactly what every parent has been left to do. So we do the planning. Every week the pathway hands you the next step: this week&rsquo;s lesson, tonight&rsquo;s script, the one habit to set. Start at 4 or start at 13, it meets your child where they are.
+              Most parents argue with their kids over screens, and policing without a plan is exactly what every parent has been left to do. So we do the planning. Every week the pathway hands you the next step: this week&rsquo;s lesson, tonight&rsquo;s script, the one habit to set. Start at 4 or start at 13, it meets your child where they are.
             </p>
           </div>
 
@@ -705,7 +705,7 @@ export default function HomePage() {
               We will never ask you to <span style={{ color: 'var(--terracotta)' }}>spy on your child.</span>
             </h2>
             <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto' }}>
-              Control apps sell certainty and deliver an arms race. Kids disable them in days, and every fight gets worse. We teach the settings worth setting, show you what to look for, and build the one thing no app can: a child who comes to you first.
+              Control apps sell certainty and deliver an arms race. Children learn the workarounds, and every fight gets worse. We teach the settings worth setting, show you what to look for, and build the one thing no app can: a child who comes to you first.
             </p>
           </div>
 
@@ -900,7 +900,7 @@ export default function HomePage() {
               The science moves. So do we.
             </p>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 0 }}>
-              Five leading researchers in children, social media and mental health. Live data from more than ten national associations, NHS and NSPCC among them. Every lesson and every DiGi answer reviewed weekly against the newest findings, so tonight's guidance matches the world your child is actually in. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
+              The leading researchers in children, social media and mental health, and live data from national bodies, NHS and NSPCC among them. DiGi is tested every Monday against a fixed set of hard cases and the research library is refreshed twice a month with a human deciding what goes in, so tonight's guidance matches the world your child is actually in. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
             </p>
           </div>
         </div>
@@ -975,7 +975,7 @@ export default function HomePage() {
               },
               {
                 tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
-                save: 'Save £57. Two months free.',
+                save: '£8.25 a month. Save £56.88 against paying monthly.',
                 // The full product, star quest first, per THE-STORY §10: the
                 // star quest leads every list of what is inside. This list was
                 // five stages, a stale "weekly three action plan" and DiGi,

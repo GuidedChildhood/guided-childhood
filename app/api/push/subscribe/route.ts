@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient as createSessionClient } from '@/lib/supabase/server'
 import { isMissingColumn } from '@/lib/push/devices'
 
 // Build the client lazily, inside the handler, so a missing env var at
@@ -15,10 +16,19 @@ function getSupabase(): SupabaseClient | null {
 
 export async function POST(req: NextRequest) {
   try {
+    // Whose subscription: the signed in parent, never a user id off the wire.
+    // This route used the service role with a body userId and no session, so
+    // anyone who knew an id could attach their own push endpoint to that
+    // account or clear a family's devices (audit, 5 September 2026).
+    const session = await createSessionClient()
+    const { data: { user } } = await session.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+    const userId = user.id
+
     const supabase = getSupabase()
     if (!supabase) return NextResponse.json({ error: 'Push not configured' }, { status: 503 })
 
-    const { subscription, userId, stage, deviceId } = await req.json()
+    const { subscription, stage, deviceId } = await req.json()
 
     if (!subscription?.endpoint || !subscription?.keys?.p256dh || !subscription?.keys?.auth) {
       return NextResponse.json({ error: 'Invalid subscription' }, { status: 400 })
@@ -76,11 +86,13 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const session = await createSessionClient()
+    const { data: { user } } = await session.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
     const supabase = getSupabase()
     if (!supabase) return NextResponse.json({ error: 'Push not configured' }, { status: 503 })
-
     const { endpoint } = await req.json()
-    await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint)
+    await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint).eq('user_id', user.id)
     return NextResponse.json({ ok: true })
   } catch {
     return NextResponse.json({ error: 'Failed' }, { status: 500 })

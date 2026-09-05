@@ -572,7 +572,7 @@ export default function SettingsPage() {
           {profile?.plan_choice === 'founder' ? (
             <>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '16px', lineHeight: 1.55 }}>
-                {trialDaysLeftNow === 1 ? 'Your last free day.' : `${trialDaysLeftNow} free days left.`} Your founder rate of £7.99 a month starts on {trialEndLabel}. Cancel before then and you pay nothing at all.
+                {trialDaysLeftNow === 1 ? 'Your last free day.' : `${trialDaysLeftNow} free days left.`} {profile?.subscription_tier === 'standard' ? 'Your membership at £12.99 a month starts on' : 'Your founder rate of £7.99 a month starts on'} {trialEndLabel}. Cancel before then and you pay nothing at all.
               </p>
               <button
                 onClick={openBilling}

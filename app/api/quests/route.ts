@@ -219,6 +219,11 @@ export async function POST(req: NextRequest) {
 
   // Create the kid link for a child on demand
   if (body.action === 'link' && body.child_id) {
+    // The child has to be this parent's. The policy on kid_links checks only
+    // user_id, so without this a link could be minted for any child id
+    // (audit, 5 September 2026).
+    const { data: owned } = await supabase.from('children').select('id').eq('id', body.child_id).eq('parent_id', user.id).maybeSingle()
+    if (!owned) return NextResponse.json({ error: 'not your child' }, { status: 403 })
     const { data: existing } = await supabase
       .from('kid_links').select('token').eq('child_id', body.child_id).maybeSingle()
     if (existing) return NextResponse.json({ token: existing.token })

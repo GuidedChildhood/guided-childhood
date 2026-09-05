@@ -41,6 +41,7 @@ export default function TrialCountdown({
   ended,
   trialDays,
   planChoice = null,
+  tier = null,
   jobsTicked = 0,
   streakCount = 0,
 }: {
@@ -56,6 +57,8 @@ export default function TrialCountdown({
    * mentioned at all, because on the no card path there is no place to hold.
    */
   planChoice?: string | null
+  /** profiles.subscription_tier, so a standard card trial is not told it is on the founder rate. */
+  tier?: string | null
   /** Their own numbers, for the honest close. Zero hides the line. */
   jobsTicked?: number
   streakCount?: number
@@ -81,6 +84,11 @@ export default function TrialCountdown({
   // already bought, and nothing offers a founder place to the parent who
   // declined one at sign up.
   const isFounderPath = planChoice === 'founder'
+  // A card trial on the standard tier (the founder door once the 50 are gone)
+  // is still a card trial, but it is not £7.99. The webhook writes the door
+  // as plan_choice and the price as subscription_tier; the copy reads both.
+  const rate = tier === 'standard' ? '£12.99 a month' : '£7.99 a month, held for life'
+  const rateShort = tier === 'standard' ? '£12.99 a month' : '£7.99 a month'
 
   const evidence = jobsTicked > 0 || streakCount > 1
     ? [
@@ -102,13 +110,13 @@ export default function TrialCountdown({
               kind you reread wondering if it is broken. "Are over" is plain,
               it is what anybody would say out loud, and it matches "Full
               access ends in" on the card this one replaces. */}
-          Your {trialDays} days of full access are over
+          Your {trialDays} free days are over
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
           {evidence
             ? `Your family has built ${evidence} since you joined. `
             : ''}
-          Nothing is deleted. Everything your family has done is saved and comes straight back the moment you join{isFounderPath ? ', at your founder rate of £7.99 a month, held for life' : ': £12.99 a month or £99 a year'}.
+          Nothing is deleted. Everything your family has done is saved and comes straight back the moment you join{isFounderPath ? `, at your rate of ${rate}` : ': £12.99 a month or £99 a year'}.
         </p>
         <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
           {isFounderPath ? 'See the founder rate' : 'See the plans'}
@@ -137,7 +145,7 @@ export default function TrialCountdown({
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
           {evidence ? `${evidence[0].toUpperCase()}${evidence.slice(1)} so far. ` : ''}
           {isFounderPath
-            ? 'After today your founder rate of £7.99 a month starts and everything opens up: unlimited DiGi and every script. Nothing to do, and cancelling before then still costs nothing.'
+            ? `After today your membership at ${rateShort} starts and everything opens up: unlimited DiGi and every script. Nothing to do, and cancelling before then still costs nothing.`
             : 'After today the app waits until you join. £12.99 a month or £99 a year, and everything you have done is saved.'}
         </p>
       </div>
@@ -177,7 +185,7 @@ export default function TrialCountdown({
           it: fifty families, enforced in checkout, gone for ever after that. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
         {isFounderPath
-          ? `Your founder place is held. DiGi has a daily limit and a starter set of scripts for these ${trialDays} days, then £7.99 a month starts and everything opens up. Cancel any time before and pay nothing.`
+          ? `Your place is held. DiGi has a daily limit and a starter set of scripts for these ${trialDays} days, then ${rateShort} starts and everything opens up. Cancel any time before and pay nothing.`
           : `DiGi has a daily limit and a starter set of scripts for these ${trialDays} days. When they end the app waits until you join, at £12.99 a month or £99 a year.`}
       </p>
     </div>
