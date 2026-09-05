@@ -13,7 +13,8 @@ import HomeMain from '@/components/home/HomeMain'
 const tasks: TodayLoopTask[] = [
   { key: 'moment', label: 'A moment', href: '#', done: true },
   { key: 'checkin', label: 'Check in', href: '#', done: false, lead: true },
-  { key: 'script', label: 'The words', href: '#', done: false },
+  { key: 'tonight', label: 'Phones to bed', href: '#', done: false },
+  { key: 'script', label: 'The words', href: '#', done: true, note: 'with Jonny' },
   { key: 'quests', label: "Ava's jobs", href: '#', done: false },
   { key: 'lesson', label: 'A lesson', href: '#', done: false },
 ]

@@ -49,7 +49,7 @@ const GREEN_DARK = '#236F52'
 // week-of-2026-08-31-parent-happy-news-plan.md): a picture of the thing
 // rather than a phone emoji, so the road reads the same on every device.
 const NODE_ICON: Record<TodayLoopTask['key'], HappyIconName> = {
-  checkin: 'cheer', setup: 'jobs', moment: 'time', agreement: 'deal', script: 'tell', quests: 'jobs', passport: 'passport', digi: 'friends', lesson: 'lessons', done: 'wins',
+  checkin: 'cheer', setup: 'jobs', tonight: 'phonebed', moment: 'time', agreement: 'deal', script: 'tell', quests: 'jobs', passport: 'passport', digi: 'friends', lesson: 'lessons', done: 'wins',
 }
 
 function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked: boolean }) {
@@ -578,6 +578,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                   }}>
                     {task.label}
                   </span>
+                  {task.note && (
+                    <span style={{
+                      display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                      letterSpacing: '0.04em', color: 'var(--ink-muted)', textAlign: 'center', marginTop: 2,
+                    }}>
+                      {task.note}
+                    </span>
+                  )}
                 </Link>
 
                 {/* The celebration bubble, when a win just landed */}

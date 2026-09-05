@@ -15,7 +15,7 @@ export default function ConcernScaleFixture() {
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh', padding: '30px 20px' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-        <ConcernCheckIn concerns={[
+        <ConcernCheckIn lastNight={{ sortOrder: 107, title: 'The bedtime handover' }} concerns={[
           // One low, so the ring sits at the bottom of the five. One with no
           // history at all, so nothing is ringed. And one carrying an ODD legacy
           // score from the ten point scale, which must still ring the right word

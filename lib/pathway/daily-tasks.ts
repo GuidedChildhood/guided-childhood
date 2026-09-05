@@ -6,6 +6,7 @@ import type { ChallengeId } from '@/lib/content/stages'
 import { londonToday, londonDayStart } from '@/lib/pathway/today'
 import { currentStagePassportSections, type CurrentStageChild } from '@/lib/pathway/passport-sections'
 import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
+import { readTonight } from '@/lib/pathway/tonight'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -18,10 +19,17 @@ export interface DailyTask {
 }
 
 export interface TodayLoopTask {
-  key: 'checkin' | 'setup' | 'moment' | 'agreement' | 'script' | 'quests' | 'passport' | 'digi' | 'lesson' | 'done'
+  key: 'checkin' | 'setup' | 'tonight' | 'moment' | 'agreement' | 'script' | 'quests' | 'passport' | 'digi' | 'lesson' | 'done'
   label: string
   href: string
   done: boolean
+  /**
+   * A small line under the label, when the tick needs a word of explanation.
+   * The household rungs (moment, script) tick for every child once one child
+   * has done them, and the note says who: "with Jonny" on Todd's road, so a
+   * green tick is never a mystery (Justin, 5 September 2026).
+   */
+  note?: string
   /**
    * The day's ONE tick. Justin, 1 September 2026: "only have to click one
    * tick per day but have other recommended." Exactly one task carries this
@@ -133,6 +141,8 @@ export async function getTodayLoop(
     { data: digiToday },
     { data: momentCompletionsToday },
     { data: anyConcerns },
+    { data: tonightRows },
+    { data: familyKids },
     { count: questCount },
     { count: ticksWaiting },
     { count: asksWaiting },
@@ -174,6 +184,11 @@ export async function getTodayLoop(
     // August 2026 so the rung can tell a family who have finished from a family
     // who have finished ONE child. See the comment where the step is built.
     supabase.from('concerns').select('child_id').eq('user_id', userId).in('status', ['open', 'improving']).limit(200),
+    // The Tonight rung's tick for today (migration 255), and every child's
+    // name so a household tick can say who did it. Both fail soft: a missing
+    // table or an empty list reads as nothing done and no name.
+    supabase.from('tonight_confirmations').select('child_id').eq('user_id', userId).eq('day', today),
+    supabase.from('children').select('id, name').eq('parent_id', userId),
     // The quests step decides between "set the first job" and "approve what is
     // waiting", so it needs both. Head counts, in the wave that was already
     // going, so this costs no extra round trip. The same two tables the nav
@@ -338,11 +353,36 @@ export async function getTodayLoop(
   // Doing a moment counts whether it came from the daily deck (a session) or
   // from reading a card in the library (a completion), so the step ticks either
   // way and never looks stuck.
+  // HOUSEHOLD RUNGS. Justin, 5 September 2026, from the loop review: ten
+  // minutes a day is a promise per family, so the moment and the script tick
+  // for every child once one child has done them, and the note names who.
+  // The check in and the jobs stay per child, because those are about one
+  // child each. A sibling's tick is never silent: see `note` on the task.
+  const kidName = (id: string | null | undefined): string | null => {
+    if (!id) return null
+    const k = ((familyKids ?? []) as { id: string; name: string | null }[]).find(x => x.id === id)
+    return k?.name && k.name !== 'Your child' ? k.name : null
+  }
+  const withNote = (rows: { child_id: string | null }[]): string | undefined => {
+    const mine = rows.some(r => r.child_id === (child?.id ?? null) || r.child_id === null)
+    if (mine) return undefined
+    const other = rows.find(r => r.child_id && r.child_id !== child?.id)
+    const name = kidName(other?.child_id)
+    return name ? `with ${name}` : 'done today'
+  }
+  const momentRows = ((momentCompletionsToday ?? []) as { child_id: string | null }[])
   const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
-    // THIS child's moment. A row with no child counts for everybody, which is
-    // what the rows written before migration 211 mean.
-    || ((momentCompletionsToday ?? []) as { child_id: string | null }[])
-         .some(r => r.child_id === (child?.id ?? null) || r.child_id === null)
+    || momentRows.length > 0
+  const momentNote = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0)) ? undefined : withNote(momentRows)
+  const scriptRows = ((scriptToday ?? []) as { child_id?: string | null }[]).map(r => ({ child_id: r.child_id ?? null }))
+  const scriptDone = scriptRows.length > 0
+  const scriptNote = withNote(scriptRows)
+
+  // The Tonight rung (lib/pathway/tonight.ts): the live mechanism for this
+  // child's top worry, confirmed with one tap. Off the road when there is no
+  // live worry, or on any day that is not a connect day.
+  const tonightPlan = child ? await readTonight(supabase, userId, { id: child.id, name: kidName(child.id), age_band: child.age_band ?? null }, scriptHref).catch(() => null) : null
+  const tonightDone = ((tonightRows ?? []) as { child_id: string | null }[]).some(r => r.child_id === (child?.id ?? null))
 
   // The check in only belongs on today's loop when there is something to check
   // in ON. It used to be done whenever no concern was waiting, which is true
@@ -474,9 +514,22 @@ export async function getTodayLoop(
     // everything else on Home and setup is the thing that decides whether any
     // of the rest works. It disappears for good the moment the last step goes
     // green, so it can never become furniture.
+    // ── TONIGHT: ONE ACTION, ON CONNECT DAYS ────────────────────────────────
+    //
+    // Justin, 5 September 2026, from the loop review: the fight is at 8pm and
+    // the road opened with three reflections before anything touched it. This
+    // rung names the live mechanism for the child's top worry (phones to bed
+    // at 8, the timer with ask first, tonight's words) and asks for one tap.
+    ...(focus === 'connect' && child && tonightPlan ? [{
+      key: 'tonight' as const,
+      label: tonightPlan.label,
+      href: withChild('/dashboard/tonight'),
+      done: tonightDone,
+    }] : []),
     {
       key: 'moment',
       label: 'Moment',
+      note: momentNote,
       href: withChild('/dashboard/daily'),
       done: momentDone,
     },
@@ -520,9 +573,12 @@ export async function getTodayLoop(
       key: 'script',
       label: 'Script',
       href: withChild(scriptHref),
-      // This child's row or the household's. A sibling's script must not tick
-      // this child's rung. See migration 219.
-      done: (scriptToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
+      // The household's script: one read ticks every child's road, and the
+      // note says who read it (5 September 2026). Migration 219 still keys
+      // the row per child, so the passport keeps knowing whose conversation
+      // it was; only the road reads it as the family's.
+      done: scriptDone,
+      note: scriptNote,
     },
     // ── QUESTS: WHICHEVER IS LIVE, IN THIS ORDER ───────────────────────────
     //
