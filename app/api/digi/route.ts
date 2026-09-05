@@ -1060,6 +1060,37 @@ When a parent asks whether or for how long their child should use any device, do
       // clearest tell that a machine wrote the reply. One stripper across all
       // rounds, so a dash split over a tool pause is still caught.
       const dashes = makeDashStripper()
+
+      // The plain answer, no tools, from the original messages. Shared by the
+      // two ways a reply comes out empty: the loop threw, or the loop ended
+      // without a word. Deliberately not a retry of the same call: repeating
+      // whatever just failed would most likely fail again, and the parent has
+      // already waited through one round trip.
+      const rescuePlain = async () => {
+        try {
+          const rescue = await callDigiStream({
+            model: DIGI_MODEL,
+            max_tokens: 1000,
+            system: [
+              { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+              { type: 'text', text: familyContext },
+            ],
+            // The ORIGINAL messages, not the conversation the loop was
+            // building. Whatever it had accumulated is what failed, and a
+            // half built tool exchange is exactly the shape the API rejects.
+            messages,
+          })
+          const saved = await consumeStream(rescue, controller, encoder, dashes)
+          fullText += saved.clean
+          const rest = dashes.flush()
+          if (rest) {
+            fullText += rest
+            controller.enqueue(encoder.encode(rest))
+          }
+          if (fullText !== opener) failReason = `recovered: ${failReason}`
+        } catch { /* falls through to the warm apology below */ }
+      }
+
       try {
         // The tool loop.
         //
@@ -1153,6 +1184,29 @@ When a parent asks whether or for how long their child should use any device, do
           fullText += tail
           controller.enqueue(encoder.encode(tail))
         }
+
+        // ── THE LOOP THAT ENDED WITHOUT A WORD (6 September 2026) ─────────
+        //
+        // Justin: "Asked DiGi this and unable to answer, we need to make sure
+        // DiGi can quickly answer this and all questions." Two rows in
+        // digi_latency thirty seconds apart, "Alma becoming cheeky": lane
+        // family, tool_fired true, replied false, failure 'empty', and no
+        // error recorded, because nothing threw. The model spent its turns on
+        // tools (the history, then keeping the concern) and either ran out of
+        // rounds still asking for tools or stopped after a tool result with
+        // nothing to say. The rescue only lived in the catch below, so a
+        // silent loop went out as an empty stream, the client's one retry did
+        // the same, and the parent got the fallback card and typed it again.
+        // Third time, no tool, a good answer in four seconds. Same rescue,
+        // now for silence too.
+        if (fullText === opener) {
+          failReason = 'silent tool loop'
+          await rescuePlain()
+          if (fullText === opener) {
+            try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }
+            fullText = ''
+          }
+        }
       } catch (err) {
         failReason = (err instanceof Error ? err.message : String(err)).slice(0, 300)
 
@@ -1178,27 +1232,9 @@ When a parent asks whether or for how long their child should use any device, do
         // Deliberately not a retry of the same call: repeating whatever just
         // threw would most likely throw again, and the parent has already
         // waited through one round trip.
-        if (!fullText) {
-          try {
-            const rescue = await callDigiStream({
-              model: DIGI_MODEL,
-              max_tokens: 1000,
-              system: [
-                { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
-                { type: 'text', text: familyContext },
-              ],
-              // The ORIGINAL messages, not the conversation the loop was
-              // building. Whatever it had accumulated is what threw, and a
-              // half built tool exchange is exactly the shape the API rejects.
-              messages,
-            })
-            const saved = await consumeStream(rescue, controller, encoder, dashes)
-            fullText += saved.clean
-            if (fullText) failReason = `recovered: ${failReason}`
-          } catch { /* falls through to the warm apology below */ }
-        }
+        if (fullText === opener) await rescuePlain()
 
-        if (!fullText) {
+        if (fullText === opener) {
           try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }
           fullText = ''
         }

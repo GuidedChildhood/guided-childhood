@@ -10410,3 +10410,20 @@ selected state, retro green on done, red on danger, white rings on dark
 stages and photos. Untouched on purpose: the child app, marketing, the
 printed paper inside print sheets, admin, and the setup ladder's grey
 future steps. Kid app, marketing and print sheets keep their own finish.
+
+## 6 September 2026: DiGi answers even when its tool loop goes quiet
+
+Justin, just after midnight, with a screenshot of the fallback card: "Asked
+DiGi this and unable to answer, we need to make sure DiGi can quickly answer
+this and all questions." The question was "Alma becoming cheeky". digi_latency
+had the whole story: two rows thirty seconds apart, tool_fired true, replied
+false, failure 'empty', no error text. DiGi reached for a tool (the family
+history, then keeping the concern), the loop ended without a word and without
+throwing, and the rescue call only lived in the catch, so an empty stream went
+out, the client's one retry did the same, and the parent got the fallback and
+typed it again. The third try, no tool, answered in four seconds. Now the
+rescue (the same plain answer from the original messages, no tools) runs when
+the loop ends silent as well as when it throws, the latency row records
+"recovered: silent tool loop", and the tool rules say a tool call is never
+the whole reply. The chat header also wraps on a phone, so the eyebrow no
+longer breaks one word per line beside the star.
