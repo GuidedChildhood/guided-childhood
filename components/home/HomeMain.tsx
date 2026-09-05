@@ -2,7 +2,7 @@ import Link from 'next/link'
 import KidIcon from '@/components/kid/KidIcon'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import HappyIcon from '@/components/kid/HappyIcon'
-import { CRAYON } from '@/components/printables/drawn/HappyPaper'
+import { CRAYON } from '@/components/printables/drawn/crayon'
 
 // The five places a parent actually goes, and one door to everything else.
 //
