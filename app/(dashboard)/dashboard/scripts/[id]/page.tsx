@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { getChildren } from '@/lib/children/server'
-import { recordSurfaceEvents } from '@/lib/events/record'
+import RecordScriptOpen from '@/components/scripts/RecordScriptOpen'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
@@ -98,13 +98,13 @@ export default async function ScriptDetailPage({
   const { child } = await getChildren<{ id: string; name: string | null; phone: string | null; is_primary: boolean | null }>(
     supabase, user.id, childParam, 'name, phone')
   const readChild = child?.id ?? null
-  await supabase
-    .from('script_completions')
-    .upsert({ user_id: user.id, child_id: readChild, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,child_id,script_sort_order' })
-  // The learning stream (migration 238): the open, alongside the tick it
-  // already earns, so the recommender can tell a script this family opens
-  // from one it only ever scrolls past.
-  await recordSurfaceEvents(supabase, user.id, [{ surface: 'script', item: sortOrder, event: 'opened', childId: readChild }])
+  // The opened row and its learning stream event are NOT written here any
+  // more. A server render is not a read: the child switcher pills fully
+  // prefetched this page for the other child and wrote their row (Justin,
+  // 5 September 2026, Todd's road ticked a script only Jonny had read).
+  // RecordScriptOpen below posts to /api/completions from the browser once the
+  // page is really open, with the child the address names, and that route
+  // writes the row and the event. See components/scripts/RecordScriptOpen.tsx.
 
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
@@ -134,7 +134,8 @@ export default async function ScriptDetailPage({
     : { data: null }
   const childHasApp = Boolean((kidLink as { token?: string } | null)?.token)
 
-  return (
+  return (<>
+    <RecordScriptOpen sortOrder={sortOrder} />
     <ScriptDetailView
       script={script}
       sortOrder={sortOrder}
@@ -160,5 +161,5 @@ export default async function ScriptDetailPage({
         forYourChild: script.for_your_child ?? undefined,
       }}
     />
-  )
+  </>)
 }

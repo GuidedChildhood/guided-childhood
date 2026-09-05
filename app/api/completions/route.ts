@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { recordSurfaceEvents } from '@/lib/events/record'
 
 export async function POST(req: NextRequest) {
   const { sort_order, worked, worked_line, child_id } = await req.json()
@@ -39,6 +40,13 @@ export async function POST(req: NextRequest) {
   // A script is a conversation with ONE child (migration 213), and the key is
   // per child since 219, so reading it with Jody ticks Jody's day and leaves
   // Tray's untouched.
+  // A bare call, no rating and no line, is an OPEN: the reader or the deck
+  // saying this script is on the screen. It refreshes completed_at so the
+  // daily path can tick today on a re-read, and it never sends a status, so a
+  // script already marked used or not needed keeps that (Postgres leaves an
+  // unlisted column alone on conflict). This used to happen in the script
+  // page's server render, which recorded prefetches as reads.
+  const isOpen = worked === undefined && !line
   const { error } = await supabase
     .from('script_completions')
     .upsert(
@@ -46,6 +54,7 @@ export async function POST(req: NextRequest) {
         user_id: user.id,
         child_id: forChild,
         script_sort_order: sort_order,
+        ...(isOpen ? { completed_at: new Date().toISOString() } : {}),
         ...(worked ? { worked } : {}),
         ...(line ? { worked_line: line } : {}),
       },
@@ -53,6 +62,9 @@ export async function POST(req: NextRequest) {
     )
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  // The learning stream (migration 238): the open, so the recommender can tell
+  // a script this family opens from one it only ever scrolls past.
+  if (isOpen) await recordSurfaceEvents(supabase, user.id, [{ surface: 'script', item: sort_order, event: 'opened', childId: forChild }])
   return NextResponse.json({ ok: true })
 }
 

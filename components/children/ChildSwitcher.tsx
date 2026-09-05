@@ -57,7 +57,12 @@ export default function ChildSwitcher({
           <Link
             key={kid.id}
             href={href}
-            prefetch
+            // No full prefetch. These pills sit on every dashboard page and
+            // link to the SAME page for the other child, so a full prefetch
+            // rendered every page for every child on every visit. On the
+            // script page that render wrote an opened row for the other child
+            // (Justin, 5 September 2026: Todd's road ticked a script only
+            // Jonny had read). The default prefetches the loading state only.
             onClick={() => setPending(kid.id)}
             aria-current={active ? 'page' : undefined}
             aria-label={kid.done ? `${label}, checked in today` : undefined}
