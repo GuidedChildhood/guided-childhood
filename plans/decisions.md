@@ -10311,3 +10311,13 @@ prefetch, for the same reason the tab bar stopped: a full prefetch of a dynamic
 page is a copy, or a side effect, nobody asked for. Todd's phantom row for
 tonight was deleted by hand. Todd's check in tick was real: both children's
 worries were scored at 22:17.
+
+## 5 September 2026: lessons open on the child's own stage, on both views
+
+Justin, on Lessons for Todd: "Lessons still showing same list for both
+children even if different ages." The library was handed to every child whole
+and Watch together opened on all ages, so Jonny (11 to 13) and Todd (13 to 15)
+saw the same ten films and the same 141 on the tabs under a heading that named
+one of them. Decided: both views open on the child's stage, the tab counts are
+the child's counts, the chips still step to any age, and a stage with no films
+falls back to all of them. LessonsBrowser only; the data is unchanged.
