@@ -31,7 +31,8 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?things=apple@k_t1,teddy@b_f1  things already on room spots
 //   ?battery=pebble:20  a phone's battery; ?charging=pebble puts it on the shelf mid charge
 //   ?lessons=2         lessons passed, which opens the planets (slice 3b); ?room=map opens the star system
-//   ?visited=school    planets already landed on; ?orbits=school:120 where the child dragged a planet
+//   ?visited=school    planets already landed on; ?places=school:100,200;ice:600,700 where the child dragged planets to (slice 3c)
+//   ?keys=rocket_launch,star_hunt  missions landed and seen, which turn a planet's mission key
 //   ?self=2,0,3,1      the child's explorer: skin, hair, hair colour, suit (slice 3b)
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
@@ -70,9 +71,15 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
     if (isSelf(me)) home = { ...home, self: me }
   }
   if (sp.visited) home = { ...home, world: { ...home.world, visited: sp.visited.split(',').filter(isPlanetKey) } }
-  if (sp.orbits) for (const pair of sp.orbits.split(',')) {
-    const [planet, angle] = pair.split(':')
-    if (isPlanetKey(planet)) home = applyEvent(home, { kind: 'orbit_move', planet, angle: Number(angle) }, now)
+  if (sp.places) for (const pair of sp.places.split(';')) {
+    const [planet, xy] = pair.split(':')
+    const [x, y] = (xy ?? '').split(',').map(Number)
+    if (isPlanetKey(planet)) home = applyEvent(home, { kind: 'planet_move', planet, x, y }, now)
+  }
+  // The keys (slice 3c): ?keys=rocket_launch,star_hunt marks those missions landed and seen, so a planet opened by a mission can be lit with no database and no card in the way.
+  if (sp.keys) {
+    const keys = sp.keys.split(',').filter(k => !!MISSION_DEFS[k])
+    home = { ...home, missions: [...home.missions.filter(m => !keys.includes(m.key)), ...keys.map(key => ({ key, status: 'done' as const, startedAt: now, timerEndsAt: null, claimedAt: now, approvedAt: now }))] }
   }
   // The Den (slice 3a).
   if (sp.in) for (const pair of sp.in.split(',')) {

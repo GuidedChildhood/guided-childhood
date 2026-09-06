@@ -4,7 +4,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { markStepQuietly } from '@/lib/kid/day-store'
 import { sendPush } from '@/lib/push/send'
 import { lessonsPassedCount } from '@/lib/planet/server'
-import { PLANETS, PLANET_ORDER } from '@/lib/planet/logic'
+import { PLANETS, PLANET_ORDER, tierFor } from '@/lib/planet/logic'
 import { PLANET_WORDS } from '@/lib/planet/universe'
 import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   // forward only age gate the pages apply, enforced server side too.
   const [{ data: lesson }, { data: child }] = await Promise.all([
     supabase.from('lessons').select('id, stage_id, audience, status, title').eq('id', lesson_id).maybeSingle(),
-    supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, date_of_birth').eq('id', link.child_id).maybeSingle(),
   ])
   if (!lesson || lesson.audience !== 'parent' || lesson.status === 'stub') {
     return NextResponse.json({ error: 'not found' }, { status: 404 })
@@ -163,7 +163,8 @@ export async function POST(req: NextRequest) {
       const n = await lessonsPassedCount(supabase, link.child_id)
       if (n !== null) {
         // The planet whose lesson key this very pass turned, if it has rooms to land in.
-        const opened = PLANET_ORDER.find(p => PLANETS[p].rooms.length > 0 && PLANETS[p].opens.some(o => o.kind === 'lesson' && o.count === n))
+        const tier = tierFor((child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null, child?.age_band ?? null)
+        const opened = PLANET_ORDER.find(p => PLANETS[p].tiers.includes(tier) && PLANETS[p].rooms.length > 0 && PLANETS[p].opens.some(o => o.kind === 'lesson' && o.count === n))
         planetOpened = opened ? PLANET_WORDS[opened].title : null
       }
     } catch { /* the map says it on the next open */ }
