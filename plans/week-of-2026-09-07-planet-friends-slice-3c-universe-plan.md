@@ -55,6 +55,11 @@ collected about the child.
 
 ## What Justin decides
 
+Decided 6 September 2026, after the build: the Space Port opens at growth
+stage 2 (or the rocket launch), not from the first day; Moonbase School keeps
+its growth key (stage 2, or the first lesson). The Playground stays as
+designed (stage 3, or the second lesson).
+
 - The go.
 - Whether the Star Cafe and StarNet Studio stay Tier 2 and 3 only (the
   design says so; a Tier 1 child would see them floating, pale, always).

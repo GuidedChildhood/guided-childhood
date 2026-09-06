@@ -10756,3 +10756,16 @@ a copy of another company's art. The canvas is the picture the next slices
 draw towards: full screen landscape rooms, a big explorer maker with skin,
 hair and suit tiles, the universe as a night sky with every planet whole and
 its key drawn on it. Nothing in the product changed for this.
+
+## 6 September 2026: the Space Port opens at stage 2, Moonbase School keeps its growth key
+
+Justin, on the two calls in PR 988: "port open from stage 2 and moon base
+school with growth keys." So the Space Port's growth key moves from stage 1
+to stage 2: a child's first day shows the home planet bright and every other
+planet pale with its key drawn on it, and the first reveal comes either by
+the rocket launch mission or by growing the planet to stage 2, when Moonbase
+School lights up beside it. Moonbase School keeps its growth key (stage 2,
+or the first lesson). The Playground stays as designed (stage 3, or the
+second lesson); Justin did not name it, so nothing moved. The rule is one
+number in PLANETS.port in lib/planet/logic.ts; the checks and the universe
+drive follow it.

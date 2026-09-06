@@ -1100,7 +1100,8 @@ export const PLANETS: Record<PlanetKey, { rooms: Where[]; opens: PlanetOpens[]; 
   home: { rooms: ['outdoors', 'kitchen', 'living', 'bedroom'], opens: [{ kind: 'free' }], tiers: [1, 2, 3], at: { x: 270, y: 530 } },
   school: { rooms: ['classroom'], opens: [{ kind: 'lesson', count: 1 }, { kind: 'stage', stage: 2 }], tiers: [1, 2, 3], at: { x: 520, y: 380 } },
   playground: { rooms: ['playground'], opens: [{ kind: 'lesson', count: 2 }, { kind: 'stage', stage: 3 }], tiers: [1, 2, 3], at: { x: 480, y: 590 } },
-  port: { rooms: ['launchpad'], opens: [{ kind: 'mission', key: 'rocket_launch' }, { kind: 'stage', stage: 1 }], tiers: [1, 2, 3], at: { x: 150, y: 420 } },
+  // The Space Port waits on the rocket launch or growth stage 2, so a first day shows the home planet alone (Justin, 6 September 2026).
+  port: { rooms: ['launchpad'], opens: [{ kind: 'mission', key: 'rocket_launch' }, { kind: 'stage', stage: 2 }], tiers: [1, 2, 3], at: { x: 150, y: 420 } },
   wild: { rooms: ['forest'], opens: [{ kind: 'mission', key: 'explorer_walk' }, { kind: 'lesson', count: 4 }], tiers: [1, 2, 3], at: { x: 230, y: 720 } },
   observatory: { rooms: ['dome'], opens: [{ kind: 'mission', key: 'star_hunt' }, { kind: 'stage', stage: 4 }], tiers: [1, 2, 3], at: { x: 620, y: 230 } },
   cafe: { rooms: ['cafe'], opens: [{ kind: 'lesson', count: 3 }], tiers: [2, 3], at: { x: 330, y: 300 } },

@@ -490,8 +490,8 @@ check('the whole catalogue floats: every planet of design 7.5 has a first room n
   assert.deepEqual(PLANET_ORDER, ['home', 'school', 'playground', 'port', 'wild', 'observatory', 'cafe', 'starnet', 'ice', 'volcano', 'rainbow'])
   assert.equal(shownPlanets(h).length, 11, 'Tier 2 sees the whole catalogue')
   assert.equal(shownPlanets(newHome(1, T0, null)).length, 9, 'Tier 1 has no Star Cafe and no StarNet')
-  assert.deepEqual(openPlanets(h), ['home', 'port'], 'a new planet has the home planet and the Space Port, whose growth key is turned from the start')
-  assert.ok(keyTurned(h, { kind: 'stage', stage: 1 }))
+  assert.deepEqual(openPlanets(h), ['home'], 'a new planet has the home planet alone: the Space Port waits on the rocket launch or growth stage 2 (Justin, 6 September 2026)')
+  assert.ok(keyTurned(h, { kind: 'stage', stage: 1 }) && !keyTurned(h, { kind: 'stage', stage: 2 }), 'a new planet is at growth stage 1')
   assert.equal(planetSign('port'), 'mission', 'the Space Port waits on a mission for a child who has not grown')
   assert.equal(planetSign('school'), 'lesson')
   assert.equal(planetSign('observatory'), 'mission')
@@ -517,16 +517,17 @@ check('the planets open by lessons passed, any one of a planet\'s keys, and the 
   assert.deepEqual(lessonsToNextPlanet(h), { planet: 'school', lessons: 1 })
   assert.equal(lessonsToOpen(h, 'playground'), 2)
   h = { ...h, lessonsPassed: 1 }
-  assert.deepEqual(openPlanets(h), ['home', 'school', 'port'], 'the first lesson opens Moonbase School')
+  assert.deepEqual(openPlanets(h), ['home', 'school'], 'the first lesson opens Moonbase School')
   assert.deepEqual(lessonsToNextPlanet(h), { planet: 'playground', lessons: 1 })
   h = { ...h, lessonsPassed: 2 }
-  assert.deepEqual(openPlanets(h), ['home', 'school', 'playground', 'port'], 'the second opens the Playground')
+  assert.deepEqual(openPlanets(h), ['home', 'school', 'playground'], 'the second opens the Playground')
   assert.deepEqual(lessonsToNextPlanet(h), { planet: 'cafe', lessons: 1 }, 'the Star Cafe is the next a lesson opens')
   assert.deepEqual(lessonsToNextPlanet({ ...newHome(1, T0, null), lessonsPassed: 2 }), { planet: 'wild', lessons: 2 }, 'at Tier 1 the Wild planet is next, two lessons away')
   assert.equal(lessonsToOpen(h, 'school'), null, 'an open planet needs no more lessons')
   assert.equal(planetOpen({ ...h, lessonsPassed: undefined }, 'school'), false, 'an older save reads as no lessons passed')
   const grown = { ...newHome(2, T0, null), growthStage: 3 }
-  assert.deepEqual(openPlanets(grown), ['home', 'school', 'playground', 'port'], 'growing the planet is the other key to both')
+  assert.deepEqual(openPlanets(grown), ['home', 'school', 'playground', 'port'], 'growing the planet is the other key to all three')
+  assert.deepEqual(openPlanets({ ...newHome(2, T0, null), growthStage: 2 }), ['home', 'school', 'port'], 'growth stage 2 lights Moonbase School and the Space Port together')
   const rocket = { ...newHome(2, T0, null), growthStage: 0, missions: [{ key: 'rocket_launch', status: 'done', startedAt: T0, timerEndsAt: null, claimedAt: T0, approvedAt: T0 }] }
   assert.ok(planetOpen(rocket, 'port') && !planetOpen({ ...rocket, missions: [] }, 'port'), 'on bare rock the Space Port opens by the rocket launch mission')
   const landed = { ...newHome(2, T0, null), missions: [{ key: 'rocket_launch', status: 'approved', startedAt: T0, timerEndsAt: null, claimedAt: T0, approvedAt: T0 }] }
@@ -539,7 +540,7 @@ check('the planets open by lessons passed, any one of a planet\'s keys, and the 
 
 check('the rocket lands only on an open planet, and a landing makes it visited, not new', () => {
   let h = { ...newHome(2, T0, null), lessonsPassed: 1 }
-  assert.deepEqual(newPlanets(h), ['school', 'port'], 'two new planets on this child\'s first day with a lesson passed')
+  assert.deepEqual(newPlanets(h), ['school'], 'one new planet on this child\'s first day with a lesson passed: Moonbase School')
   h = { ...h, world: { ...h.world, visited: ['port'] } }
   const shut = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'playground' }, T0)
   assert.equal(whereIs(shut, 'pebble'), 'outdoors', 'the Playground is not open yet')
