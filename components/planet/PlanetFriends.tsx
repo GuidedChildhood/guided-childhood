@@ -8,7 +8,7 @@ import {
   GROWTH, TIERS, TICK_CAP_SECONDS, AMBIENT_AFTER_SECONDS,
   applyEvent, drainPerMinute, isGrownUp, minutesLeft, moodOf, reconcile, restOverlay,
   type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef, boxParts, boxOutfits, plotsFor, PART_ZONE, type Outfit, type PartKey,
-  type Where, type RoomKey, type Movable, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, CHARGE_MINUTES, PHOTOS_MAX } from '@/lib/planet/logic'
+  type Where, type RoomKey, type Movable, type Self, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isAwayRoomKey, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, CHARGE_MINUTES, PHOTOS_MAX } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
 import { HOUSE_LINES, ROOM_EMOJI, ROOM_TITLES, THING_LABELS, THING_LINES, ZONE_HINTS } from '@/lib/planet/world'
 import RoomScene, { DOORS, nearestFreeRoomSpot, roomStandingX, type FriendTarget, type RoomFurniture, type ThingTarget } from './RoomScene'
@@ -21,6 +21,10 @@ import PartArt from './PartArt'
 import { SCENE_H, SCENE_W, sceneFromClient, surfaceY } from './scene'
 import FriendFigure from './FriendFigure'
 import MissionBoard, { type ClaimResult } from './MissionBoard'
+import StarSystem from './StarSystem'
+import AwayRoom from './AwayRoom'
+import SelfBuilder from './SelfBuilder'
+import { AWAY_PROP_LINES, SELF_LINES, UNIVERSE_LINES } from '@/lib/planet/universe'
 import { MISSION_DEFS, MISSION_LINES, missionByKey, OUTFIT_LABELS, PART_LABELS, PART_LINES } from '@/lib/planet/missions'
 import { boardFor } from '@/lib/planet/logic'
 
@@ -128,6 +132,10 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   // and the one piece being used right now.
   const [where, setWhere] = useState<Where>(initialWhere)
   const [open, setOpen] = useState<'fridge' | 'toybox' | 'wardrobe' | null>(null)
+  // The star system and the self (slice 3b): the map over the stage, and
+  // the builder for the child's own explorer.
+  const [universeOpen, setUniverseOpen] = useState(false)
+  const [builderOpen, setBuilderOpen] = useState(false)
   const [lampOn, setLampOn] = useState(false)
   const [roomUsing, setRoomUsing] = useState<string | null>(null)
   // One ask column, two kinds. The pods and the orbit only care about a wake
@@ -166,6 +174,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const here = live.friends.filter(f => whereIs(live, f.key) === where)
   const outdoorFriends = live.friends.filter(f => whereIs(live, f.key) === 'outdoors')
   const room: RoomKey | null = isRoomKey(where) ? where : null
+  const awayRoom = isAwayRoomKey(where) ? where : null
   const freeSpotsHere = room ? ROOM_SPOTS[room].filter(sp => !live.world.placed.some(x => x.room === room && x.spot === sp.id)).length : 0
   const box = boxParts(live)
   const boxWear = boxOutfits(live)
@@ -424,18 +433,23 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   }
   const takeOff = (friend: FriendKey) => { interact(); playFx('tap'); void send({ kind: 'outfit_set', friend, outfit: null }) }
 
-  // ── The Den (slice 3a) ───────────────────────────────────────────────
-  /** The view moves to a scene: the planet or a room. */
+  // ── The Den (slice 3a) and the away rooms (slice 3b) ─────────────────
+  /** What arriving somewhere sounds like, when the caller has no better line. */
+  const arrivalLine = (next: Where): string =>
+    next === 'outdoors' ? HOUSE_LINES.outdoors :
+    isRoomKey(next) ? HOUSE_LINES[next] :
+    next === 'school' ? UNIVERSE_LINES.schoolEnter : UNIVERSE_LINES.playgroundEnter
+  /** The view moves to a scene: the planet, a room, or an away planet. */
   function goTo(next: Where, line?: string) {
     interact(); playFx('tap')
     setOpen(null); setWhere(next)
-    say(line ?? (next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
+    say(line ?? arrivalLine(next))
   }
-  /** A Friend walks through a door, and the view follows it. */
+  /** A Friend walks through a door or flies the rocket, and the view follows it. */
   async function moveFriend(friend: FriendKey, next: Where, line?: string) {
     interact(); playFx('tap')
     setOpen(null); setWhere(next)
-    say(line ?? (next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
+    say(line ?? arrivalLine(next))
     await send({ kind: 'room_move', friend, where: next })
   }
   const onRoomDropFriend = (friend: FriendKey, target: FriendTarget | null) => {
@@ -716,7 +730,21 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         </div>
 
         <div ref={stageRef} style={{ position: 'relative', borderRadius: 24, border: '2.5px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)', overflow: 'hidden', background: '#fff' }}>
-          {room ? (
+          {awayRoom ? (
+            <AwayRoom
+              away={awayRoom}
+              friends={here}
+              moods={moods}
+              childAge={view.childAge}
+              wearing={live.build.wearing}
+              self={live.self}
+              wiggle={wiggle}
+              lines={AWAY_PROP_LINES[awayRoom]}
+              onTapFriend={onTapFriend}
+              onTapProp={(_id, propLine) => { interact(); playFx('boop'); say(propLine) }}
+              onRocket={() => { interact(); playFx('tap'); setUniverseOpen(true); say(UNIVERSE_LINES.map) }}
+            />
+          ) : room ? (
             <RoomScene
               room={room}
               friends={here}
@@ -781,7 +809,63 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             onMovePart={onMovePart}
             onPartTap={onPartTap}
             onSvg={el => { sceneRef.current = el }}
+            self={live.self}
+            onSelfTap={() => { playFx('giggle'); setBuilderOpen(true) }}
           />
+          )}
+
+          {/* The map into the star system, and the first Make me (slice 3b) */}
+          {!room && !awayRoom && !universeOpen && !builderOpen && overlay === 'none' && !boardOpen && (
+            <>
+              <button
+                onClick={() => { interact(); playFx('tap'); setUniverseOpen(true); say(UNIVERSE_LINES.map) }}
+                aria-label={UNIVERSE_LINES.mapButton}
+                style={{ position: 'absolute', left: 12, top: 12, zIndex: 4, width: 46, height: 46, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', cursor: 'pointer', fontSize: 20 }}
+              >
+                🪐
+              </button>
+              {!live.self && (
+                <button
+                  onClick={() => { interact(); playFx('tap'); setBuilderOpen(true) }}
+                  style={{ position: 'absolute', left: 12, top: 66, zIndex: 4, padding: '10px 14px', borderRadius: 16, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
+                >
+                  🧑‍🚀 {SELF_LINES.makeMe}
+                </button>
+              )}
+            </>
+          )}
+
+          {universeOpen && overlay !== 'night' && (
+            <StarSystem
+              home={live}
+              planets={view.planets ?? []}
+              self={live.self}
+              travellerKey={awake[0]?.key ?? null}
+              onLand={(dest, landLine) => {
+                setUniverseOpen(false)
+                if (dest === 'outdoors') { goTo('outdoors', landLine); return }
+                const t = awake[0]?.key
+                if (t) { void moveFriend(t, dest, landLine) } else { say(UNIVERSE_LINES.needFriend) }
+              }}
+              onSay={say}
+              onClose={() => { interact(); playFx('tap'); setUniverseOpen(false) }}
+              onTap={() => { interact(); playFx('tap') }}
+            />
+          )}
+
+          {builderOpen && (
+            <SelfBuilder
+              initial={live.self}
+              theme={theme}
+              words={words}
+              onTap={() => { interact(); playFx('tap') }}
+              onDone={selfDraft => {
+                setBuilderOpen(false)
+                playFx('chime')
+                say(live.self ? SELF_LINES.changed : SELF_LINES.hello)
+                void send({ kind: 'self_set', self: selfDraft })
+              }}
+            />
           )}
 
           {landed && landedCard && !boardOpen && overlay !== 'night' && (

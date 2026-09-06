@@ -2,6 +2,7 @@ import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
 import { applyEvent, addMinutes, dockAllDevices, isMovable, isOutfit, isPartKey, isRoomKey, isWhere, newHome, type CodeMode, type DeviceKey, type FriendKey, type Tier, type Where } from '@/lib/planet/logic'
 import { MISSION_DEFS } from '@/lib/planet/missions'
+import { planetLights } from '@/lib/planet/universe'
 
 // The pretend code on the pretend card, one per shape, so the pad can be driven.
 export const FIXTURE_CODES: Record<CodeMode, string[]> = { pictures: ['star', 'moon', 'rocket'], letters: ['m', 'o', 'o', 'n'] }
@@ -98,6 +99,9 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
     bedtime: { phase, startMin: 19 * 60, endMin: 7 * 60, minutesNow: phase === 'bedtime' ? 20 * 60 : phase === 'winddown' ? 18 * 60 + 40 : 15 * 60, windowUntil: null },
     ask: null, screenAsk: null, starMinutes: 5,
     cards: sp.card === 'pictures' || sp.card === 'letters' ? [{ key: 'comet_card', mode: sp.card, printed: true }] : [],
+    // The star system (slice 3b): ?lessons=N stands in for lessons passed, so
+    // Playwright can light Moonbase School and the Playground with no database.
+    planets: planetLights(home, Math.max(0, Math.min(21, Number(sp.lessons) || 0))),
   }
   return (
     <PlanetFriends

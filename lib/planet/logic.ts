@@ -72,10 +72,46 @@ export type MissionState = {
   approvedAt: string | null
 }
 
+// ── The self (slice 3b): the child's own explorer figure ─────────────────────
+// Justin, 6 September 2026: "build the self, like skin colour, hair, put on
+// a space suit and more." The cast stay the cast (design 7.6); this is the
+// child's OWN figure, an explorer in a space suit, standing with the Friends
+// and riding the rocket on the map. Choices are indices into the option
+// tables so the save stays tiny and a bad index from a stale client is
+// rejected, never drawn wrong. Play state, changed any time.
+
+export type Self = {
+  /** Index into SELF_SKINS. */
+  skin: number
+  /** Index into SELF_HAIRS. */
+  hair: number
+  /** Index into SELF_HAIR_COLOURS. */
+  hairColour: number
+  /** Index into SELF_SUITS. */
+  suit: number
+}
+
+/** Six skin tones, dark to light, drawn from the drawn paper palette family. */
+export const SELF_SKINS = ['#5C3A21', '#7A4A2B', '#9C6644', '#C68642', '#E0AC69', '#F1C9A5'] as const
+/** Hair shapes, each drawn in SelfFigure. */
+export const SELF_HAIRS = ['curls', 'afro', 'braids', 'bun', 'swoop', 'spikes'] as const
+export const SELF_HAIR_COLOURS = ['#1A1A2E', '#3B2A20', '#6B4423', '#A0522D', '#C97B54', '#E6B93E', '#B0B7C4', '#D95970'] as const
+/** Space suit colours, one per Friend's family plus two of the child's own. */
+export const SELF_SUITS = ['#E6B93E', '#7CB342', '#4C9FD6', '#9B72CF', '#E8873C', '#F2957A'] as const
+
+export const isSelf = (v: unknown): v is Self => {
+  if (!v || typeof v !== 'object') return false
+  const s = v as Record<string, unknown>
+  const idx = (n: unknown, max: number) => typeof n === 'number' && Number.isInteger(n) && n >= 0 && n < max
+  return idx(s.skin, SELF_SKINS.length) && idx(s.hair, SELF_HAIRS.length) && idx(s.hairColour, SELF_HAIR_COLOURS.length) && idx(s.suit, SELF_SUITS.length)
+}
+
 /** The child's home planet: the Friends on it and how far it has grown. */
 export type Home = {
   version: 1
   tier: Tier
+  /** The child's own explorer figure, or null before they build one. */
+  self: Self | null
   friends: Friend[]
   /** Missions started, claimed or landed. A mission not listed here is simply on the board. */
   missions: MissionState[]
@@ -220,6 +256,7 @@ export function newHome(tier: Tier, nowIso: string, nightKey: string | null): Ho
   return {
     version: 1,
     tier,
+    self: null,
     friends: ACTIVE_BY_TIER[tier].map(newFriend),
     missions: [],
     rewards: [...STARTER_PARTS],
@@ -303,6 +340,10 @@ export function reconcile(home: Home, nowIso: string, nightKey: string | null): 
     const kept = home.rewards.filter(isPartKey)
     home = { ...home, rewards: [...STARTER_PARTS.filter(p => !kept.includes(p)), ...kept], build: newBuild() }
   }
+  // The self (slice 3b): a save from before it simply has none yet.
+  if (home.self === undefined || (home.self !== null && !isSelf(home.self))) {
+    home = { ...home, self: isSelf(home.self) ? home.self : null }
+  }
   // The Den (slice 3a): a save from before it gets a world, and a Friend who
   // joined at a tier change gets a MoonPhone.
   home = ensureWorld(home)
@@ -347,6 +388,7 @@ export type HomeEvent =
   | { kind: 'part_move'; part: PartKey; slot: string }
   | { kind: 'part_remove'; part: PartKey }
   | { kind: 'outfit_set'; friend: FriendKey; outfit: Outfit | null }
+  | { kind: 'self_set'; self: Self }
   | { kind: 'room_move'; friend: FriendKey; where: Where }
   | { kind: 'thing_place'; thing: Movable; room: RoomKey; spot: string }
   | { kind: 'thing_home'; thing: Movable }
@@ -411,6 +453,13 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Reco
       for (const [k, o] of Object.entries(b.wearing)) if (o && o !== ev.outfit && k !== ev.friend) wearing[k as FriendKey] = o
       if (ev.outfit) wearing[ev.friend] = ev.outfit
       return { ...home, build: { ...b, wearing } }
+    }
+    case 'self_set': {
+      // The child built or changed their own figure. Bad indices from a
+      // stale client leave the save untouched, the same manner as every
+      // other impossible transition here.
+      if (!isSelf(ev.self)) return home
+      return { ...home, self: { skin: ev.self.skin, hair: ev.self.hair, hairColour: ev.self.hairColour, suit: ev.self.suit } }
     }
     case 'mission_start': {
       // From the board, or back from a not now. A mission already under way
@@ -765,7 +814,9 @@ export function boxOutfits(home: Home): Outfit[] {
 // of it: a thing is in exactly one place, a spot, a hand, or where it lives.
 
 export type RoomKey = 'kitchen' | 'living' | 'bedroom'
-export type Where = 'outdoors' | RoomKey
+/** The rooms away from home a Friend can visit (slice 3b): the classroom and the playground. Whether they are OPEN is the server's call, never this file's. */
+export type AwayRoomKey = 'school' | 'playground'
+export type Where = 'outdoors' | RoomKey | AwayRoomKey
 export type RoomZone = 'wall' | 'floor' | 'table'
 export type FoodKey = 'apple' | 'toast' | 'juice' | 'cake'
 export type ToyKey = 'teddy' | 'ball' | 'book'
@@ -829,7 +880,9 @@ export const CHARGE_MINUTES = 5
 export const PHOTOS_MAX = 6
 
 export const isRoomKey = (k: unknown): k is RoomKey => typeof k === 'string' && (ROOM_KEYS as string[]).includes(k)
-export const isWhere = (k: unknown): k is Where => k === 'outdoors' || isRoomKey(k)
+export const AWAY_ROOM_KEYS: AwayRoomKey[] = ['school', 'playground']
+export const isAwayRoomKey = (k: unknown): k is AwayRoomKey => k === 'school' || k === 'playground'
+export const isWhere = (k: unknown): k is Where => k === 'outdoors' || isRoomKey(k) || isAwayRoomKey(k)
 export const isFoodKey = (k: unknown): k is FoodKey => typeof k === 'string' && (FOOD_KEYS as string[]).includes(k)
 export const isThingKey = (k: unknown): k is ThingKey => typeof k === 'string' && (THING_KEYS as string[]).includes(k)
 export const isDeviceKey = (k: unknown): k is DeviceKey => typeof k === 'string' && k.startsWith('phone_') && (FRIEND_KEYS as string[]).includes(k.slice(6))

@@ -15,6 +15,7 @@ import {
   PICTURE_TOKENS, CODE_WORDS, codeModeFor, makeCode, withChildAnswers,
   STARTER_PARTS, STARTER_OUTFITS, PLOTS_BY_STAGE, plotsFor, boxParts, boxOutfits, grow,
   PHOTOS_MAX, whereIs, atHome, drainMultiplier, charging, batteryNow, dockAllDevices,
+  isSelf, isWhere, SELF_SKINS, SELF_HAIRS, SELF_HAIR_COLOURS, SELF_SUITS,
 } from '../lib/planet/logic.ts'
 
 // The mission mechanics, stated here rather than imported from the registry
@@ -478,6 +479,41 @@ check('a sleepy Friend, a rest, and the wind down all put the phone on the shelf
   const docked = applyEvent(table, { kind: 'device_dock', device: 'phone_pebble' }, T0)
   assert.equal(docked.world.placed.length, 0)
   assert.equal(docked.world.devices.phone_pebble.at, 'shelf')
+})
+
+
+check('the self (slice 3b): built by the child, guarded against a stale client, kept through reconcile', () => {
+  let h = newHome(2, T0, null)
+  assert.equal(h.self, null, 'nobody starts with a figure')
+  const me = { skin: 3, hair: 1, hairColour: 5, suit: 2 }
+  assert.ok(isSelf(me))
+  h = applyEvent(h, { kind: 'self_set', self: me }, T0)
+  assert.deepEqual(h.self, me)
+  const bad = applyEvent(h, { kind: 'self_set', self: { skin: SELF_SKINS.length, hair: 0, hairColour: 0, suit: 0 } }, T0)
+  assert.deepEqual(bad.self, me, 'an index off the end changes nothing')
+  const junk = applyEvent(h, { kind: 'self_set', self: { skin: 'brown', hair: 0, hairColour: 0, suit: 0 } }, T0)
+  assert.deepEqual(junk.self, me, 'junk changes nothing')
+  const changed = applyEvent(h, { kind: 'self_set', self: { ...me, suit: SELF_SUITS.length - 1 } }, T0)
+  assert.equal(changed.self.suit, SELF_SUITS.length - 1, 'changed any time')
+  const old = reconcile({ ...h, self: undefined }, T0, null)
+  assert.equal(old.self, null, 'a save from before the self reads as none')
+  const mangled = reconcile({ ...h, self: { skin: 99 } }, T0, null)
+  assert.equal(mangled.self, null, 'a mangled self reads as none, never drawn wrong')
+  assert.ok(SELF_SKINS.length >= 6 && SELF_HAIRS.length >= 6 && SELF_HAIR_COLOURS.length >= 6, 'real choice at every tab')
+})
+
+check('travel (slice 3b): the away rooms are places, a resting Friend stays put, and whereIs holds', () => {
+  let h = newHome(2, T0, null)
+  assert.ok(isWhere('school') && isWhere('playground'), 'the away rooms are places')
+  assert.ok(!isWhere('moonbase'), 'an unknown place is not')
+  h = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'school' }, T0)
+  assert.equal(whereIs(h, 'pebble'), 'school')
+  assert.equal(whereIs(h, 'bloop'), 'outdoors', 'only the traveller moved')
+  const napping = applyEvent(h, { kind: 'nap_start', friend: 'bloop' }, T0)
+  const stuck = applyEvent(napping, { kind: 'room_move', friend: 'bloop', where: 'playground' }, T0)
+  assert.equal(whereIs(stuck, 'bloop'), 'outdoors', 'a resting Friend does not travel')
+  const home = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'outdoors' }, T0)
+  assert.equal(whereIs(home, 'pebble'), 'outdoors', 'and back again')
 })
 
 console.log(`\nPASS  ${passed} checks. The loop ends itself, the planet grows while the child is away, the cast grows up with them, and the night lands once.`)
