@@ -38,6 +38,33 @@ const WORD_TO_TOPIC: Record<string, string> = {
   sleep: 'sleep', bedtime: 'sleep', tired: 'sleep', 'wont sleep': 'sleep',
   'school run': 'routines', homework: 'routines', morning: 'routines',
   routine: 'routines',
+  // The situations, added 6 September 2026 with the situations and forecasts
+  // bank. A parent names the moment ("after school", "the holidays", "his new
+  // phone") far more often than the topic, so each moment maps to the rows
+  // tagged for it. 'morning' stays on routines above and gains its own tag here
+  // through the second entry so both sets of rows surface.
+  'after school': 'after_school', 'gets home': 'after_school', 'gets in': 'after_school',
+  'coming off': 'after_school', 'turn it off': 'after_school', 'stop playing': 'after_school',
+  'before school': 'morning', 'getting ready': 'morning', 'get ready': 'morning',
+  holiday: 'holidays', holidays: 'holidays', 'summer': 'holidays', 'half term': 'holidays',
+  'rainy day': 'holidays', bored: 'holidays',
+  stressed: 'parent_stress', exhausted: 'parent_stress', 'my phone': 'parent_stress',
+  guilty: 'parent_stress', guilt: 'parent_stress', 'wits end': 'parent_stress',
+  'calm down': 'device_as_helper', 'calm him': 'device_as_helper', 'calm her': 'device_as_helper',
+  'keep them quiet': 'device_as_helper', 'get dinner': 'device_as_helper', 'get things done': 'device_as_helper',
+  babysitter: 'device_as_helper', restaurant: 'device_as_helper', 'car journey': 'device_as_helper',
+  balance: 'balanced_use', 'how much': 'balanced_use', 'too much': 'balanced_use', limit: 'balanced_use',
+  addicted: 'pull_and_design', addiction: 'pull_and_design', autoplay: 'pull_and_design',
+  streak: 'pull_and_design', 'cant stop': 'pull_and_design', "can't stop": 'pull_and_design',
+  'new phone': 'new_phone', 'first phone': 'new_phone', 'own phone': 'new_phone',
+  'her phone': 'new_phone', 'his phone': 'new_phone', 'get a phone': 'new_phone', 'smartphone': 'new_phone',
+  'new game': 'new_game', obsessed: 'new_game', 'loves the game': 'new_game', 'wont come off': 'new_game',
+  chatgpt: 'ai_use', 'chat gpt': 'ai_use', chatbot: 'ai_use', ' ai ': 'ai_use', 'the ai': 'ai_use',
+  'character.ai': 'ai_use', 'snapchat ai': 'ai_use', 'my ai': 'ai_use',
+  adhd: 'adhd', hyperactive: 'adhd', 'cant sit still': 'adhd', impulsive: 'adhd',
+  autism: 'autism', autistic: 'autism', 'on the spectrum': 'autism', asd: 'autism', 'sensory': 'autism',
+  'big feelings': 'temperament', 'strong willed': 'temperament', temper: 'temperament',
+  'sensitive': 'temperament', 'explosive': 'temperament',
   // Safety, and the ones that must never be missed
   'self harm': 'crisis', suicide: 'crisis', 'hurt themselves': 'crisis',
   bullying: 'safety', bullied: 'safety', stranger: 'safety', grooming: 'safety',

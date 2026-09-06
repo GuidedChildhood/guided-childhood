@@ -21,6 +21,8 @@ import { loadLaneKeywords } from '@/lib/digi/keywords'
 import { matchScripts, type MatchableScript } from '@/lib/digi/script-match'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
+import { renderHorizons } from '@/lib/digi/horizons'
+import type { AgeBand as HorizonBand } from '@/lib/content/stages'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
 import { asksAboutNextTerm, buildTermPreview, previewRules } from '@/lib/learning/term-preview'
@@ -695,6 +697,15 @@ When a parent asks whether or for how long their child should use any device, do
     }
   } catch { /* school context is a bonus, never blocks the reply */ }
 
+  // What is coming for this child (6 September 2026): the milestones that
+  // typically arrive at this age and the next, so DiGi forecasts rather than
+  // waits to be asked. The rows come from the verified situations and
+  // forecasts briefing (briefings/2026-09-06), each with its source and country.
+  const horizonsKnowledge = renderHorizons(
+    (child?.age_band as HorizonBand | undefined) ?? null,
+    child?.name && child.name !== 'Your child' ? child.name : 'your child',
+  )
+
   const familyContext = buildSystemPrompt(
     stage,
     child,
@@ -716,7 +727,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

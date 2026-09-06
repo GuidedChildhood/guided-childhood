@@ -10498,3 +10498,50 @@ next insight both read it. One unread insight at a time; the prompts route
 no longer lists the kind so it never shows twice. Migration 256 goes to
 production on Justin's word; the cron accepts ?user=<id> with the secret so
 a real one can be written for one family before the first Tuesday.
+
+## 6 September 2026: DiGi's situations and forecasts bank (migration 257)
+
+Justin: "DiGi needs to be clever enough to know all the exact problems
+parents have with devices: after school, in the morning, holidays, whether
+they use devices more to help with parenting, and helping the parents deal
+with the stress ... how in the past we have dealt with addictive media, our
+pathway and philosophy, the researchers we believe in, the latest research,
+how different types of children react, forecasting what happens when a
+child gets a new phone or starts to love a game on the Switch, how children
+can learn AI in a safe way, and the US picture from Pew Research Center."
+The kids research pipeline ran on that brief: six lenses, a contradiction
+map, the briefing from the template, six citation verifier passes (31
+confirmed, 23 corrected, 2 demoted: the Drummond 2020 effect sizes and the
+Ophir 2023 autism figures could not be traced, so the bank states only their
+direction), and the distribution review. The verified briefing is
+briefings/2026-09-06-digi-situations-and-forecasts-v2.html. The spine:
+hours are a poor thermometer (Orben and Przybylski, 355,358 teenagers), the
+bedroom rule is the strongest house rule there is (Carter, 125,198
+children), the parent's own phone is inside the loop (McDaniel and Radesky;
+Pew 46% of teens), the ending is the fight and the content should end
+itself (Hiniker), the money and the first account arrive at 8 to 10 before
+the phone at 11 (Ofcom 2026: 97% play, 53% spend; 56% at ten to 83% at
+eleven), the first phone shows up in sleep first (ABCD, 10,588 children), AI
+is already in most homes (Ofcom 56% of 8 to 17s; Pew 64% of US teens) and
+the lonely or SEND child leans hardest on it (Internet Matters), and every
+panic before this one ended with the same move surviving: a shared room, a
+routine, a grown up beside the child.
+
+Decided: the bank is tagged by MOMENT as well as topic. Migration 257 adds
+one row per confirmed finding (49 rows) tagged with a situation
+(after_school, morning, holidays, parent_stress, device_as_helper,
+balanced_use, pull_and_design, history, temperament, adhd, autism, anxiety,
+new_phone, new_game, ai_use, ai_readiness, forecast), the existing topics it
+also belongs to, its age bands and its URL; every figure names its country.
+lib/digi/horizons.ts holds the milestone table by age band (what arrives
+next, the move to make before it lands, source, country) and renders into
+every chat prompt and every DiGi's word brief for this band and the next,
+so DiGi says it a term early. The keyword map in lib/digi/brain.ts learns
+the words parents use for each moment ("after school", "the holidays", "his
+new phone", "chatgpt", "calm him down", "stressed") and the situation reader
+gains a holidays time band and the new phone, new game, parent stress, ADHD
+and autism topics. Demoted findings never entered the bank. Migration 257
+goes to production on Justin's word; the embed sweep vectors the rows the
+same day. The missing seventh lens is the SEND parent; the ADHD, autism and
+anxiety rows are the thinnest and a V3 with that lens would change them
+most.

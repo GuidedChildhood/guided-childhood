@@ -144,11 +144,11 @@ export const SCHEDULE_FOLLOWUP_TOOL: Anthropic.Tool = {
       },
       topic: {
         type: 'string',
-        description: 'The area this sits in, as a short lowercase slug so it can be counted with other families. Use one of: screen_time, gaming, social_media, sleep, mood, anxiety, safety, school, siblings, routines, devices, friendship, content, ai.',
+        description: 'The area this sits in, as a short lowercase slug so it can be counted with other families. Use one of: screen_time, gaming, social_media, sleep, mood, anxiety, safety, school, siblings, routines, devices, friendship, content, ai, new_phone, new_game, parent_stress, adhd, autism.',
       },
       time_band: {
         type: 'string',
-        description: 'When in the day this actually happens, which is often the whole shape of the problem. One of: morning, after_school, evening, bedtime, weekend, any.',
+        description: 'When in the day this actually happens, which is often the whole shape of the problem. One of: morning, after_school, evening, bedtime, weekend, holidays, any.',
       },
       trigger: {
         type: 'string',

@@ -54,7 +54,10 @@ export type Situation = {
  * mornings land in the same bucket. Free text would give us "before school",
  * "the school run" and "mornings" as three separate patterns with one row each.
  */
-export const TIME_BANDS = ['morning', 'after_school', 'evening', 'bedtime', 'weekend', 'any'] as const
+// 'holidays' joined on 6 September 2026: the situations bank found holiday
+// days are a different shape (the structure goes) and a weekend row cannot
+// hold them.
+export const TIME_BANDS = ['morning', 'after_school', 'evening', 'bedtime', 'weekend', 'holidays', 'any'] as const
 export type TimeBand = (typeof TIME_BANDS)[number]
 
 export function isTimeBand(v: unknown): v is TimeBand {

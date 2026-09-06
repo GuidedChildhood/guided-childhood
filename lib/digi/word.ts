@@ -6,6 +6,7 @@ import { firstText, stripDashes } from '@/lib/digi/text'
 import { getProvenSolutions } from '@/lib/digi/wisdom'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { sendPush } from '@/lib/push/send'
+import { renderHorizons, horizonsFor } from '@/lib/digi/horizons'
 
 // DiGi's word: the proactive insight, twice a week.
 //
@@ -212,6 +213,9 @@ export async function buildWordFor(userId: string, opts?: { admin?: SupabaseClie
   ]
   const allowed = new Set(links.map(l => l.href))
   const sourceNames = new Set(research.map(r => r.source_name))
+  // The horizons carry their own named sources, and a forecast that leans on
+  // one must be allowed to name it, or the check below would blank it.
+  for (const h of horizonsFor(band)) sourceNames.add(h.source)
 
   const mine = <T extends { child_id: string | null }>(rows: T[]) => rows.filter(r => r.child_id === child.id || r.child_id === null)
   const brief = [
@@ -236,6 +240,7 @@ export async function buildWordFor(userId: string, opts?: { admin?: SupabaseClie
     `THE RESEARCH BANK FOR THIS AGE (name a source exactly as written, or none):`,
     ...research.map(r => `- ${r.source_name}: ${r.finding.slice(0, 220)}`),
     proven ? `\n${proven.slice(0, 900)}` : '',
+    renderHorizons(band, kidName),
     '',
     'LINKS YOU MAY USE (copy one href exactly):',
     ...links.slice(0, 70).map(l => `- ${l.href}  ${l.label}`),
