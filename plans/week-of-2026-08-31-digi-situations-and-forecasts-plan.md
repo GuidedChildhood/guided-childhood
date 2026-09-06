@@ -67,7 +67,7 @@ plans/2026-09-06-situations-platform-map.md.
 ## Out of scope
 
 No new screens. DiGi's chat and DiGi's word are the surfaces; the bank and
-the horizons change what they know. Migrations 256 and 260 apply to
+the horizons change what they know. Migrations 256 and 263 apply to
 production only on Justin's word.
 
 ## Follow up, same day: the six scripts (migration 261)
