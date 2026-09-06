@@ -2,8 +2,8 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b, 2c and 3a built; the rest of section 7,
-the world, waits on Justin's go slice by slice. When the code
+own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a and 3b built; 3c and 3d of
+section 7, the world, wait on Justin's go. When the code
 and this file disagree, the code is right and this file gets updated, the
 same rule THE-STORY.md runs on.
 
@@ -1120,6 +1120,20 @@ its own sessions, because the Friends get sleepy.
 
 ### 7.1 The star system, the map the child moves around
 
+**As built, 6 September 2026 (slice 3b).** `components/planet/StarMap.tsx`:
+DiGi in the middle, three dashed orbits, the home planet, Moonbase School and
+the Playground planet, and a tray along the bottom of the awake Friends with
+a dot in the colour of the planet each one is on. Tap a planet to look; drag
+a Friend from the tray onto a lit planet and a rocket carries them there
+(GSAP, 1.3 seconds, none under reduced motion) and the view lands in the
+planet's first room; drag a planet along its orbit and the angle is saved
+(`orbit_move`). A planet not yet open is a dashed outline with a book on it
+and, from Tier 2, the words "pass a lesson"; Tier 1 gets no words, and a tap
+on an open planet flies Pebble by itself. A Friend dragged onto a room's
+launch pad becomes the pilot: the map opens and the next planet tapped is
+where they fly. Flying to a planet that is not open says, kindly, how many
+lessons open it; nothing on the map counts down or nags.
+
 DiGi is the star in the middle. The planets orbit. The home planet is the
 first and it is what slices 1 to 2c built. Tap a planet to land on it. Pinch
 and pan the sky. Drag a planet to move its orbit, which changes nothing but
@@ -1205,6 +1219,21 @@ this section exists. The shelf reads the family's bedtime window the way
 section 3.3 does and sets nothing.
 
 ### 7.4 Lessons unlock planets
+
+**As built, 6 September 2026 (slice 3b).** The server counts the lessons the
+child has passed (`lesson_completions` per child with `passed`, plus
+`kid_lesson_missions` done) on every read of the planet and carries the
+count in the save as `lessonsPassed`; the pure rules open the planets from
+it (`PLANETS`, `planetOpen`, `openPlanets`) and `room_move` refuses a planet
+that is not open. Moonbase School opens at one lesson, the Playground at two.
+A landing marks the planet visited, and an open planet not yet visited is
+new: a card on the planet ("A new planet! Moonbase School is open. Fly
+there."), a sparkle on the map button, "New!" over the planet on the map, a
+banner on the Learn tab, and a line on the lesson's own pass screen the
+moment the pass that opened it lands (the complete route answers
+`planetOpened`). The missions' "Do a lesson" proof and the planet unlocks
+read the same tables. A database hiccup returns null rather than 0, so a
+planet open yesterday never shuts.
 
 **The count rule.** Every lesson the child passes on the Learn tab, and every
 Star Lesson a parent sends that they finish, lights the next planet in the
@@ -1313,10 +1342,12 @@ type World = {
   Friend with its battery and its gallery, the shelf and its five real
   minutes, the wind down and the night, the parts box working indoors.
   Justin's own example, and the modelling beat.
-- **3b The star system and travel.** The map, the rocket, Friends and the
-  pocket travelling, Moonbase School and the Playground planet, the lesson
-  count unlock read on the server, the reveal on the map and on the Learn
-  tab's pass screen.
+- **3b The star system and travel.** Built, 6 September 2026: the map, the
+  rocket, the tray, the orbits, Moonbase School (the board, two desks, the
+  globe, the books, DiGi's desk, a porthole) and the Playground planet (the
+  swings, the slide, the sandpit, a bench, a tree, the sign), the lesson
+  count on the server, the reveals on the planet, the map, the Learn tab and
+  the pass screen. The parts box and the pocket work on every planet.
 - **3c The device ladder and the Star Cafe.** The StarPad and the tiny game,
   the SpaceCam and photos, the cafe with the bench, the treble drain and the
   no fail rule from section 2.3.

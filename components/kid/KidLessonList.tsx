@@ -20,9 +20,11 @@ export type KidLessonItem = {
 }
 
 export default function KidLessonList({
-  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed, theme,
+  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed, theme, planetLine,
 }: {
   backHref: string
+  /** A lesson opened a planet on the star system and the child has not flown there yet (Planet Friends slice 3b). */
+  planetLine?: { text: string; href: string } | null
   childName: string
   stageName: string
   ages: string
@@ -74,6 +76,13 @@ export default function KidLessonList({
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {planetLine && (
+          <Link href={planetLine.href} data-planet-line style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#FFF6DD', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)', padding: '12px 14px', marginBottom: 14, textDecoration: 'none', color: 'var(--ink)' }}>
+            <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
+            <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3 }}>{planetLine.text}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', whiteSpace: 'nowrap' }}>Fly there →</span>
+          </Link>
+        )}
             {items.map((item, idx) => {
               // The one obvious next thing: the first lesson not yet passed and
               // not locked gets the big Next up treatment, everything else waits

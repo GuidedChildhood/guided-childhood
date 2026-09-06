@@ -626,6 +626,9 @@ export default function LessonPlayer({
   const [answered, setAnswered] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
   const [finished, setFinished] = useState(false)
+  // A pass on the child link can open a planet on their star system (Planet
+  // Friends slice 3b). The complete route says so; the pass screen shows it.
+  const [planetOpened, setPlanetOpened] = useState<{ title: string; href: string } | null>(null)
   const [scriptOpen, setScriptOpen] = useState(false)
   // The run salt behind the option shuffle. It lands after mount rather than
   // in the initial state so the server and the first client render agree.
@@ -737,7 +740,7 @@ export default function LessonPlayer({
       // A failed run still writes the completion, with passed false, so the
       // record is honest and the retake can upgrade it to a pass.
       try {
-        await fetch(completeEndpoint ?? '/api/lessons/complete', {
+        const r = await fetch(completeEndpoint ?? '/api/lessons/complete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -749,6 +752,8 @@ export default function LessonPlayer({
             ...completeBody,
           }),
         })
+        const d = await r.json().catch(() => null) as { planetOpened?: string | null; planetHref?: string | null } | null
+        if (d?.planetOpened && d?.planetHref) setPlanetOpened({ title: d.planetOpened, href: d.planetHref })
       } catch { /* non-blocking */ }
       return
     }
@@ -922,6 +927,15 @@ export default function LessonPlayer({
             ? 'That is a pass, and your grown up just got the good news. One more step down your road to 16.'
             : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
+        {planetOpened && (
+          <div data-planet-opened style={{ maxWidth: '340px', margin: '0 auto 16px', background: '#FFF6DD', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)', padding: '12px 14px', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
+            <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
+              A new planet is waiting on your map. {planetOpened.title} is open.
+            </span>
+            <Link href={planetOpened.href} className="btn btn-outline" style={{ fontSize: 'var(--text-sm)', padding: '8px 12px', whiteSpace: 'nowrap' }}>Fly there</Link>
+          </div>
+        )}
         <div style={{ maxWidth: '300px', margin: '0 auto' }}>
           {/* Back to the five a day, not to the shelf of lessons.
               A child who came from the lesson row has four other steps waiting

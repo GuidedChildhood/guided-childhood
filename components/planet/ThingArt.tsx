@@ -98,7 +98,7 @@ export function PhoneArt({ colour, battery, charging = false, glow = false, tilt
   )
 }
 
-export type FurnitureKind = 'fridge' | 'cooker' | 'table' | 'shelf' | 'window' | 'sofa' | 'bookshelf' | 'picture' | 'music_box' | 'bed' | 'wardrobe' | 'lamp' | 'toybox' | 'rug' | 'mobile' | 'door' | 'jars'
+export type FurnitureKind = 'fridge' | 'cooker' | 'table' | 'shelf' | 'window' | 'sofa' | 'bookshelf' | 'picture' | 'music_box' | 'bed' | 'wardrobe' | 'lamp' | 'toybox' | 'rug' | 'mobile' | 'door' | 'jars' | 'board' | 'desk' | 'digi_desk' | 'globe' | 'books' | 'slide' | 'swing' | 'sandpit' | 'bench' | 'tree' | 'sign' | 'launchpad' | 'porthole'
 
 /**
  * A piece of furniture, drawn with its feet at (0, 0) (floor pieces) or
@@ -333,6 +333,149 @@ export function Furniture({ kind, open = false, on = false, using = false, glow 
         </g>
       )
     }
+    // ── Moonbase School and the Playground planet (slice 3b) ──────────────
+    case 'board':
+      return (
+        <g>
+          <rect x={-70} y={-46} width={140} height={92} rx={6} fill="#2F5D50" stroke={INK} strokeWidth={2.5} />
+          <rect x={-74} y={44} width={148} height={7} rx={3} fill="#D9A066" stroke={INK} strokeWidth={1.4} />
+          <path d="M-52 -22 q10 -10 20 0 t20 0 t20 0" stroke="#FFF6DD" strokeWidth={2.5} fill="none" strokeLinecap="round" opacity={0.9} />
+          <circle cx={-40} cy={10} r={9} fill="none" stroke="#FFF6DD" strokeWidth={2.2} />
+          <ellipse cx={-40} cy={10} rx={14} ry={4} fill="none" stroke="#F4C542" strokeWidth={2} />
+          <path d="M-10 4 h44 M-10 16 h30" stroke="#FFF6DD" strokeWidth={2.2} strokeLinecap="round" opacity={0.8} />
+          {using && <path className="pl-sparkle" d="M20 -30 l4 -8 l4 8 l-8 -5 h8 z" fill="#FFF6DD" />}
+        </g>
+      )
+    case 'desk':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={40} ry={5} fill={INK} opacity={0.15} />
+          <path d="M-30 -52 V0 M30 -52 V0" stroke={INK} strokeWidth={3.5} strokeLinecap="round" />
+          <rect x={-40} y={-58} width={80} height={9} rx={4} fill="#D9A066" stroke={INK} strokeWidth={2} />
+          <rect x={-34} y={-49} width={68} height={12} rx={3} fill="#B8763F" stroke={INK} strokeWidth={1.4} />
+          <rect x={-14} y={-34} width={28} height={8} rx={3} fill="#F2957A" stroke={INK} strokeWidth={1.4} />
+          <path d="M-14 -22 h28 v22 h-28 z" fill="none" stroke={INK} strokeWidth={1.6} opacity={0.4} />
+        </g>
+      )
+    case 'digi_desk':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={48} ry={6} fill={INK} opacity={0.15} />
+          <rect x={-46} y={-60} width={92} height={60} rx={8} fill="#FFF6DD" stroke={INK} strokeWidth={2} />
+          <rect x={-40} y={-54} width={80} height={16} rx={4} fill={accent} stroke={INK} strokeWidth={1.4} opacity={0.9} />
+          <text x={0} y={-42} textAnchor="middle" fontSize={10} fontFamily="var(--font-mono)" fontWeight={600} fill={INK} letterSpacing={1.5}>DIGI</text>
+          <g className={using ? 'pl-wiggle' : 'pl-float'}>
+            <image href="/digi-squad/DiGi-star.svg" x={-30} y={-124} width={60} height={60} />
+          </g>
+        </g>
+      )
+    case 'globe':
+      return (
+        <g className={using ? 'pl-swing' : undefined}>
+          <path d="M0 0 v-8" stroke={INK} strokeWidth={2.5} />
+          <ellipse cx={0} cy={0} rx={12} ry={4} fill="#D9A066" stroke={INK} strokeWidth={1.6} />
+          <circle cx={0} cy={-26} r={18} fill="#8EC3F0" stroke={INK} strokeWidth={2} />
+          <path d="M-12 -32 q8 -8 14 0 q4 6 -2 10 q-8 2 -12 -4 z" fill="#3E8F5A" />
+          <path d="M4 -14 q6 -6 10 0 q-2 6 -8 4 z" fill="#3E8F5A" />
+          <path d="M-18 -26 h36" stroke={INK} strokeWidth={1} opacity={0.4} />
+          <path d="M-8 -46 l-6 -6" stroke={INK} strokeWidth={2} strokeLinecap="round" />
+        </g>
+      )
+    case 'books':
+      return (
+        <g>
+          <ellipse cx={0} cy={2} rx={18} ry={3} fill={INK} opacity={0.15} />
+          <rect x={-16} y={-8} width={32} height={8} rx={2} fill="#E85D4A" stroke={INK} strokeWidth={1.4} />
+          <rect x={-13} y={-16} width={30} height={8} rx={2} fill="#F4C542" stroke={INK} strokeWidth={1.4} />
+          <rect x={-15} y={-24} width={28} height={8} rx={2} fill="#3E8F5A" stroke={INK} strokeWidth={1.4} />
+          {using && <text className="pl-sparkle" x={16} y={-28} fontSize={10} fill={INK} fontFamily="var(--font-display)" fontWeight={900}>A</text>}
+        </g>
+      )
+    case 'slide':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={70} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-54 0 V-96 M-38 0 V-96" stroke={INK} strokeWidth={3.5} strokeLinecap="round" />
+          {[-80, -64, -48, -32, -16].map(y => <path key={y} d={`M-54 ${y} h16`} stroke={INK} strokeWidth={2.5} strokeLinecap="round" />)}
+          <path d="M-48 -100 h22 q10 0 16 10 L60 -8 q6 6 -2 8 H30 L-16 -84 h-32 z" fill={lit ? '#FFE9A8' : '#F4C542'} stroke={edge} strokeWidth={edgeW} strokeLinejoin="round" />
+          <path d="M-36 -92 L40 -12" stroke="#FFF6DD" strokeWidth={3} strokeLinecap="round" opacity={0.7} />
+          <path d="M-10 0 V-40 M30 0 V-20" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+        </g>
+      )
+    case 'swing':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={56} ry={6} fill={INK} opacity={0.15} />
+          <path d="M-56 0 L-40 -120 M-24 0 L-40 -120 M56 0 L40 -120 M24 0 L40 -120" stroke={INK} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M-44 -120 h88" stroke={INK} strokeWidth={5} strokeLinecap="round" />
+          <g className={using ? 'pl-swing' : undefined} style={{ transformOrigin: '0px -120px' }}>
+            <path d="M-14 -118 V-34 M14 -118 V-34" stroke={INK} strokeWidth={2} />
+            <rect x={-20} y={-36} width={40} height={8} rx={3} fill={lit ? '#FFE9A8' : accent} stroke={edge} strokeWidth={edgeW} />
+          </g>
+        </g>
+      )
+    case 'sandpit':
+      return (
+        <g>
+          <ellipse cx={0} cy={-4} rx={62} ry={20} fill="#D9A066" stroke={edge} strokeWidth={edgeW} />
+          <ellipse cx={0} cy={-6} rx={52} ry={14} fill="#F4D9A6" />
+          <path d="M-30 -10 q6 -6 12 0 M10 -4 q6 -6 12 0" stroke="#D9A066" strokeWidth={2} fill="none" strokeLinecap="round" />
+          <path d="M30 -14 l4 -12 l4 12 z" fill="#E85D4A" stroke={INK} strokeWidth={1.2} />
+          <rect x={-40} y={-20} width={10} height={10} rx={2} fill="#8EC3F0" stroke={INK} strokeWidth={1.2} />
+          {using && [-16, 0, 16].map((dx, i) => <circle key={dx} className="pl-sparkle" cx={dx} cy={-26 - (i % 2) * 6} r={2.5} fill="#D9A066" />)}
+        </g>
+      )
+    case 'bench':
+      return (
+        <g>
+          <ellipse cx={0} cy={2} rx={30} ry={4} fill={INK} opacity={0.15} />
+          <path d="M-20 0 V-20 M20 0 V-20" stroke={INK} strokeWidth={2.5} strokeLinecap="round" />
+          <rect x={-30} y={-24} width={60} height={7} rx={3} fill="#D9A066" stroke={edge} strokeWidth={edgeW} />
+          <rect x={-28} y={-40} width={56} height={6} rx={3} fill="#D9A066" stroke={INK} strokeWidth={1.8} />
+          <path d="M-24 -34 V-24 M24 -34 V-24" stroke={INK} strokeWidth={2} />
+        </g>
+      )
+    case 'tree':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={30} ry={6} fill={INK} opacity={0.15} />
+          <path d="M-8 0 V-60 M8 0 V-60" stroke="#B8763F" strokeWidth={0} />
+          <path d="M-9 0 q2 -30 0 -60 h18 q-2 30 0 60 z" fill="#B8763F" stroke={INK} strokeWidth={2} strokeLinejoin="round" />
+          <circle cx={-26} cy={-78} r={26} fill="#3E8F5A" stroke={INK} strokeWidth={2} />
+          <circle cx={26} cy={-82} r={28} fill="#3E8F5A" stroke={INK} strokeWidth={2} />
+          <circle cx={0} cy={-106} r={30} fill="#4FA96C" stroke={INK} strokeWidth={2} className={using ? 'pl-wiggle' : undefined} />
+          <circle cx={-10} cy={-96} r={3.5} fill="#E85D4A" stroke={INK} strokeWidth={1} />
+          <circle cx={14} cy={-84} r={3.5} fill="#E85D4A" stroke={INK} strokeWidth={1} />
+        </g>
+      )
+    case 'sign':
+      return (
+        <g>
+          <path d="M0 0 V-56" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+          <path d="M-4 -58 h40 l8 8 l-8 8 h-40 z" fill="#FFF6DD" stroke={INK} strokeWidth={1.8} strokeLinejoin="round" />
+          <text x={16} y={-46} textAnchor="middle" fontSize={9} fontFamily="var(--font-mono)" fontWeight={600} fill={INK} letterSpacing={1}>HOME</text>
+        </g>
+      )
+    case 'launchpad':
+      return (
+        <g>
+          <ellipse cx={0} cy={0} rx={44} ry={12} fill="#D8D2E8" stroke={edge} strokeWidth={edgeW} />
+          <ellipse cx={0} cy={-2} rx={30} ry={7} fill="none" stroke={INK} strokeWidth={1.5} strokeDasharray="4 4" opacity={0.6} />
+          <path d="M-40 -10 v-40 M40 -10 v-40" stroke={INK} strokeWidth={2.5} strokeLinecap="round" />
+          <circle cx={-40} cy={-54} r={4} fill={lit ? '#F4C542' : '#E85D4A'} stroke={INK} strokeWidth={1.2} className={lit ? 'pl-target' : undefined} />
+          <circle cx={40} cy={-54} r={4} fill={lit ? '#F4C542' : '#E85D4A'} stroke={INK} strokeWidth={1.2} className={lit ? 'pl-target' : undefined} />
+        </g>
+      )
+    case 'porthole':
+      return (
+        <g>
+          <circle cx={0} cy={0} r={42} fill={sky} stroke={INK} strokeWidth={3} />
+          <circle cx={0} cy={0} r={36} fill="none" stroke="#FFFFFF" strokeWidth={2} opacity={0.6} />
+          <circle cx={-14} cy={-10} r={7} fill="#F4C542" opacity={0.9} />
+          <circle cx={16} cy={12} r={9} fill="#8FD1B4" stroke={INK} strokeWidth={1} />
+          {[-28, 0, 28].map(a => <circle key={a} cx={Math.cos((a * Math.PI) / 180) * 39} cy={Math.sin((a * Math.PI) / 180) * 39} r={2} fill={INK} opacity={0.6} />)}
+        </g>
+      )
     default:
       return null
   }

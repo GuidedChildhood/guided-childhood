@@ -21,8 +21,11 @@ export const metadata = {
   appleWebApp: { capable: true, title: 'My planet', statusBarStyle: 'black-translucent' as const },
 }
 
-export default async function KidPlanetPage({ params }: { params: Promise<{ token: string }> }) {
+export default async function KidPlanetPage({ params, searchParams }: { params: Promise<{ token: string }>; searchParams?: Promise<{ go?: string }> }) {
   const { token } = await params
+  // The pass screen and the Learn tab send the child straight to the star
+  // system when a lesson opened a planet (slice 3b).
+  const go = (await searchParams)?.go === 'map' ? 'map' : 'outdoors'
   if (!/^[0-9a-f]{18}$/.test(token)) notFound()
 
   const supabase = createAdminClient()
@@ -42,6 +45,7 @@ export default async function KidPlanetPage({ params }: { params: Promise<{ toke
       initial={view}
       theme={theme}
       childName={(child?.name as string | null) ?? 'Superstar'}
+      initialWhere={go}
     />
   )
 }

@@ -152,6 +152,11 @@ async function loadReconciled(admin: Admin, userId: string, childId: string, chi
   // shelf in the kitchen and every hand is empty, and the Friends do it
   // themselves, before the child is asked to do anything.
   if (bedtimePhase(c.minutesNow, c.startMin, c.endMin) !== 'day') home = dockAllDevices(home, c.nowIso)
+  // The lessons passed open the planets (slice 3b): counted here from the
+  // lessons tables, carried in the save so the pure rules and the screen
+  // can read it, never taken from the client.
+  const lessonsPassed = await lessonsPassedCount(admin, childId)
+  if (lessonsPassed !== null && lessonsPassed !== (home.lessonsPassed ?? 0)) home = { ...home, lessonsPassed }
   const nightLanded = home.lastNightAppliedOn !== row.state.lastNightAppliedOn && !created
   if (JSON.stringify(home) !== before) {
     await saveState(admin, childId, home)
@@ -227,6 +232,24 @@ async function lessonPassedSince(admin: Admin, childId: string, sinceIso: string
       .eq('child_id', childId).eq('status', 'done').gte('completed_at', sinceIso)),
   ])
   return learnTab + starLessons > 0
+}
+
+/**
+ * How many lessons this child has passed, all time: the stage lessons on the
+ * Learn tab (lesson_completions, per child, passed) plus the Star Lessons a
+ * parent sent that they finished (kid_lesson_missions done). Null when the
+ * tables cannot be read, so a database hiccup never shuts a planet that was
+ * open yesterday.
+ */
+export async function lessonsPassedCount(admin: Admin, childId: string): Promise<number | null> {
+  try {
+    const [a, b] = await Promise.all([
+      admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true }).eq('child_id', childId).eq('passed', true),
+      admin.from('kid_lesson_missions').select('id', { count: 'exact', head: true }).eq('child_id', childId).eq('status', 'done'),
+    ])
+    if (a.error && b.error) return null
+    return (a.count ?? 0) + (b.count ?? 0)
+  } catch { return null }
 }
 
 /**

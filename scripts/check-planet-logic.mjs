@@ -15,6 +15,7 @@ import {
   PICTURE_TOKENS, CODE_WORDS, codeModeFor, makeCode, withChildAnswers,
   STARTER_PARTS, STARTER_OUTFITS, PLOTS_BY_STAGE, plotsFor, boxParts, boxOutfits, grow,
   PHOTOS_MAX, whereIs, atHome, drainMultiplier, charging, batteryNow, dockAllDevices,
+  PLANET_ORDER, planetOf, landingRoom, planetOpen, openPlanets, newPlanets, lessonsToNextPlanet, orbitAngle,
 } from '../lib/planet/logic.ts'
 
 // The mission mechanics, stated here rather than imported from the registry
@@ -478,6 +479,55 @@ check('a sleepy Friend, a rest, and the wind down all put the phone on the shelf
   const docked = applyEvent(table, { kind: 'device_dock', device: 'phone_pebble' }, T0)
   assert.equal(docked.world.placed.length, 0)
   assert.equal(docked.world.devices.phone_pebble.at, 'shelf')
+})
+
+
+// ── The star system (slice 3b) ───────────────────────────────────────────────
+
+check('the planets open by lessons passed, in catalogue order, and the count is the server\'s', () => {
+  let h = newHome(2, T0, null)
+  assert.deepEqual(PLANET_ORDER, ['home', 'school', 'park'])
+  assert.deepEqual(openPlanets(h), ['home'], 'a new planet has the home planet only')
+  assert.deepEqual(lessonsToNextPlanet(h), { planet: 'school', lessons: 1 })
+  assert.equal(planetOf('kitchen'), 'home')
+  assert.equal(planetOf('classroom'), 'school')
+  assert.equal(planetOf('playground'), 'park')
+  assert.equal(landingRoom('school'), 'classroom')
+  h = { ...h, lessonsPassed: 1 }
+  assert.deepEqual(openPlanets(h), ['home', 'school'], 'the first lesson opens Moonbase School')
+  assert.deepEqual(lessonsToNextPlanet(h), { planet: 'park', lessons: 1 })
+  h = { ...h, lessonsPassed: 2 }
+  assert.deepEqual(openPlanets(h), ['home', 'school', 'park'], 'the second opens the Playground')
+  assert.equal(lessonsToNextPlanet(h), null)
+  assert.equal(planetOpen({ ...h, lessonsPassed: undefined }, 'school'), false, 'an older save reads as no lessons passed')
+})
+
+check('the rocket lands only on an open planet, and a landing makes it visited, not new', () => {
+  let h = { ...newHome(2, T0, null), lessonsPassed: 1 }
+  const shut = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'playground' }, T0)
+  assert.equal(whereIs(shut, 'pebble'), 'outdoors', 'the Playground is not open yet')
+  assert.deepEqual(newPlanets(h), ['school'], 'Moonbase School is open and new')
+  h = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'classroom' }, T0)
+  assert.equal(whereIs(h, 'pebble'), 'classroom')
+  assert.deepEqual(h.world.visited, ['school'])
+  assert.deepEqual(newPlanets(h), [], 'landed, so not new any more')
+  h = { ...h, lessonsPassed: 2 }
+  assert.deepEqual(newPlanets(h), ['park'])
+  const home = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'outdoors' }, T0)
+  assert.equal(whereIs(home, 'pebble'), 'outdoors', 'flying home is always open')
+})
+
+check('a planet dragged along its orbit stays where the child left it', () => {
+  let h = newHome(2, T0, null)
+  assert.equal(orbitAngle(h, 'school'), 330, 'the catalogue place until it is moved')
+  h = applyEvent(h, { kind: 'orbit_move', planet: 'school', angle: 45.7 }, T0)
+  assert.equal(orbitAngle(h, 'school'), 46)
+  h = applyEvent(h, { kind: 'orbit_move', planet: 'school', angle: -30 }, T0)
+  assert.equal(orbitAngle(h, 'school'), 330, 'angles wrap')
+  const nowhere = applyEvent(h, { kind: 'orbit_move', planet: 'pluto', angle: 10 }, T0)
+  assert.deepEqual(nowhere.world.orbits, h.world.orbits)
+  const nan = applyEvent(h, { kind: 'orbit_move', planet: 'park', angle: Number.NaN }, T0)
+  assert.equal(orbitAngle(nan, 'park'), 60)
 })
 
 console.log(`\nPASS  ${passed} checks. The loop ends itself, the planet grows while the child is away, the cast grows up with them, and the night lands once.`)

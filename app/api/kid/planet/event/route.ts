@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { applyHomeEvent, type ClientEvent } from '@/lib/planet/server'
-import { FRIEND_KEYS, isDeviceKey, isMovable, isRoomKey, isWhere, type FriendKey } from '@/lib/planet/logic'
+import { FRIEND_KEYS, isDeviceKey, isMovable, isPlanetKey, isRoomKey, isWhere, type FriendKey } from '@/lib/planet/logic'
 
 // One event from the child's planet. The client reports what the child did
 // (a drag to the pod, a tap at the sun catcher, a minute of play); the server
@@ -10,7 +10,7 @@ import { FRIEND_KEYS, isDeviceKey, isMovable, isRoomKey, isWhere, type FriendKey
 
 export const dynamic = 'force-dynamic'
 
-const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen', 'part_place', 'part_move', 'part_remove', 'outfit_set', 'room_move', 'thing_place', 'thing_home', 'thing_give', 'eat', 'snap', 'device_dock'])
+const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen', 'part_place', 'part_move', 'part_remove', 'outfit_set', 'room_move', 'thing_place', 'thing_home', 'thing_give', 'eat', 'snap', 'device_dock', 'orbit_move'])
 
 function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   const kind = String(body.kind ?? '')
@@ -48,6 +48,11 @@ function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   if (kind === 'device_dock') {
     if (!isDeviceKey(body.device)) return null
     return { kind, device: body.device }
+  }
+  if (kind === 'orbit_move') {
+    const angle = Number(body.angle)
+    if (!isPlanetKey(body.planet) || !Number.isFinite(angle)) return null
+    return { kind, planet: body.planet, angle }
   }
   if (kind === 'mission_start' || kind === 'mission_claim' || kind === 'mission_seen') {
     const key = typeof body.key === 'string' && /^[a-z_]{2,32}$/.test(body.key) ? body.key : null

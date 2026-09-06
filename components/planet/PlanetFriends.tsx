@@ -8,10 +8,12 @@ import {
   GROWTH, TIERS, TICK_CAP_SECONDS, AMBIENT_AFTER_SECONDS,
   applyEvent, drainPerMinute, isGrownUp, minutesLeft, moodOf, reconcile, restOverlay,
   type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef, boxParts, boxOutfits, plotsFor, PART_ZONE, type Outfit, type PartKey,
-  type Where, type RoomKey, type Movable, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, CHARGE_MINUTES, PHOTOS_MAX } from '@/lib/planet/logic'
+  type Where, type RoomKey, type Movable, type PlanetKey, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, PHOTOS_MAX,
+  landingRoom, lessonsToNextPlanet, newPlanets, planetOf, planetOpen } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
-import { HOUSE_LINES, ROOM_EMOJI, ROOM_TITLES, THING_LABELS, THING_LINES, ZONE_HINTS } from '@/lib/planet/world'
+import { HOUSE_LINES, MAP_LINES, PARK_LINES, PLANET_WORDS, ROOM_EMOJI, ROOM_TITLES, SCHOOL_LINES, THING_LABELS, THING_LINES, ZONE_HINTS, type SceneKey } from '@/lib/planet/world'
 import RoomScene, { DOORS, nearestFreeRoomSpot, roomStandingX, type FriendTarget, type RoomFurniture, type ThingTarget } from './RoomScene'
+import StarMap, { type Flight } from './StarMap'
 import { Furniture, PhoneArt } from './ThingArt'
 import { playFx, startTune } from '@/lib/planet/sounds'
 import { soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
@@ -92,8 +94,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   theme: KidTheme
   childName: string
   fixture?: boolean
-  /** Which scene opens first: the planet, or a room of the Den (the fixture uses it). */
-  initialWhere?: Where
+  /** Which scene opens first: the planet, a room, or the star system map (the fixture and the Learn tab use it). */
+  initialWhere?: SceneKey
   /** Fixture only: the pretend codes on pretend cards, so the pad can be driven with no database. */
   fixtureAnswers?: Record<string, string[]>
 }) {
@@ -126,7 +128,12 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const sceneRef = useRef<SVGSVGElement | null>(null)
   // The Den (slice 3a): which scene the child is looking at, what is open,
   // and the one piece being used right now.
-  const [where, setWhere] = useState<Where>(initialWhere)
+  const [where, setWhere] = useState<SceneKey>(initialWhere)
+  // The star system (slice 3b): a rocket in the air, the Friend who stepped
+  // onto a launch pad, and whether the new planet card has been seen.
+  const [flight, setFlight] = useState<Flight | null>(null)
+  const [pilot, setPilot] = useState<FriendKey | null>(null)
+  const [newSeen, setNewSeen] = useState(false)
   const [open, setOpen] = useState<'fridge' | 'toybox' | 'wardrobe' | null>(null)
   const [lampOn, setLampOn] = useState(false)
   const [roomUsing, setRoomUsing] = useState<string | null>(null)
@@ -166,6 +173,9 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const here = live.friends.filter(f => whereIs(live, f.key) === where)
   const outdoorFriends = live.friends.filter(f => whereIs(live, f.key) === 'outdoors')
   const room: RoomKey | null = isRoomKey(where) ? where : null
+  const onMap = where === 'map'
+  const fresh = newPlanets(live)
+  const nextPlanet = lessonsToNextPlanet(live)
   const freeSpotsHere = room ? ROOM_SPOTS[room].filter(sp => !live.world.placed.some(x => x.room === room && x.spot === sp.id)).length : 0
   const box = boxParts(live)
   const boxWear = boxOutfits(live)
@@ -425,12 +435,54 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const takeOff = (friend: FriendKey) => { interact(); playFx('tap'); void send({ kind: 'outfit_set', friend, outfit: null }) }
 
   // ── The Den (slice 3a) ───────────────────────────────────────────────
-  /** The view moves to a scene: the planet or a room. */
-  function goTo(next: Where, line?: string) {
+  /** The view moves to a scene: the planet, a room, or the map. */
+  function goTo(next: SceneKey, line?: string) {
     interact(); playFx('tap')
     setOpen(null); setWhere(next)
-    say(line ?? (next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
+    if (next !== 'map') setPilot(null)
+    say(line ?? (next === 'map' ? (live.tier === 1 ? MAP_LINES.welcomeTier1 : MAP_LINES.welcome) : next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
   }
+  // ── The star system (slice 3b) ────────────────────────────────────────
+  /** A Friend flies to a planet: refused kindly when it is not open yet. */
+  function fly(friend: FriendKey, planet: PlanetKey) {
+    interact()
+    const f = live.friends.find(x => x.key === friend)
+    if (!f || f.cooldown) { playFx('boop'); say(MAP_LINES.resting(friendArt(friend).name)); return }
+    if (!planetOpen(live, planet)) {
+      playFx('boop')
+      const w = PLANET_WORDS[planet]
+      say(live.tier === 1 ? MAP_LINES.shutTier1(w.title) : MAP_LINES.shut(w.title, nextPlanet?.planet === planet ? nextPlanet.lessons : 1))
+      return
+    }
+    if (planetOf(whereIs(live, friend)) === planet) { playFx('tap'); goTo(landingRoom(planet)); return }
+    if (flight) return
+    playFx('sparkle'); say(MAP_LINES.flying(friendArt(friend).name, PLANET_WORDS[planet].title))
+    setFlight({ friend, to: planet })
+  }
+  async function touchDown(fl: Flight) {
+    setFlight(null); setPilot(null)
+    playFx('chime')
+    const dest = landingRoom(fl.to)
+    setOpen(null); setWhere(dest)
+    say(MAP_LINES.landed(friendArt(fl.friend).name, PLANET_WORDS[fl.to].title))
+    await send({ kind: 'room_move', friend: fl.friend, where: dest })
+  }
+  const onTapPlanet = (planet: PlanetKey) => {
+    interact()
+    if (flight) return
+    if (!planetOpen(live, planet)) {
+      playFx('boop')
+      const w = PLANET_WORDS[planet]
+      say(live.tier === 1 ? MAP_LINES.shutTier1(w.title) : MAP_LINES.shut(w.title, nextPlanet?.planet === planet ? nextPlanet.lessons : 1))
+      return
+    }
+    // A pilot on the launch pad, or the only awake Friend at Tier 1, flies on a tap. Otherwise a tap just looks.
+    const who = pilot ?? (live.tier === 1 && awake.length === 1 ? awake[0].key : null)
+    if (who && planetOf(whereIs(live, who)) !== planet) { fly(who, planet); return }
+    playFx('tap'); goTo(landingRoom(planet), fresh.includes(planet) ? MAP_LINES.isNew(PLANET_WORDS[planet].title) : undefined)
+  }
+  const onOrbit = (planet: PlanetKey, angle: number) => { interact(); playFx('tap'); say(MAP_LINES.orbit); void send({ kind: 'orbit_move', planet, angle }) }
+  const onTapDigi = () => { interact(); playFx('sparkle'); say(MAP_LINES.digi) }
   /** A Friend walks through a door, and the view follows it. */
   async function moveFriend(friend: FriendKey, next: Where, line?: string) {
     interact(); playFx('tap')
@@ -440,7 +492,16 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   }
   const onRoomDropFriend = (friend: FriendKey, target: FriendTarget | null) => {
     if (!room) return
-    if (target === 'door_left') { void moveFriend(friend, DOORS[room].left); return }
+    if (target === 'door_left') {
+      const left = DOORS[room].left
+      if (left === 'map') { setPilot(friend); goTo('map', MAP_LINES.welcome); return }
+      void moveFriend(friend, left)
+      return
+    }
+    if (target === 'swing') { interact(); playFx('giggle'); say(PARK_LINES.swing); flash(setRoomUsing, `swing:${friend}`, 1800); return }
+    if (target === 'slide') { interact(); playFx('sparkle'); say(PARK_LINES.slide); flash(setRoomUsing, `slide:${friend}`, 1400); return }
+    if (target === 'sandpit') { interact(); playFx('boop'); say(PARK_LINES.sandpit); flash(setRoomUsing, `sandpit:${friend}`, 1800); return }
+    if (target === 'bench') { interact(); playFx('giggle'); say(PARK_LINES.bench); flash(setRoomUsing, `bench:${friend}`, 1600); return }
     if (target === 'door_right' && DOORS[room].right) { void moveFriend(friend, DOORS[room].right!); return }
     if (target === 'bed') { playFx('yawn'); say(HOUSE_LINES.bed(friendArt(friend).name)); void send({ kind: 'nap_start', friend }); return }
     if (target === 'sofa') { interact(); playFx('giggle'); say(HOUSE_LINES.sofa); flash(setRoomUsing, `sofa:${friend}`, 1600); return }
@@ -508,6 +569,13 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     if (kind === 'lamp') { playFx('tap'); setLampOn(v => !v); say(HOUSE_LINES.lamp); return }
     if (kind === 'shelf') { playFx('tap'); say(HOUSE_LINES.shelf); return }
     if (kind === 'mobile') { playFx('sparkle'); say(LINES.sprinkled); return }
+    if (kind === 'board') { playFx('tap'); say(SCHOOL_LINES.board); flash(setRoomUsing, 'board', 900); return }
+    if (kind === 'digi') { playFx('chime'); say(SCHOOL_LINES.digi); flash(setRoomUsing, 'digi', 900); return }
+    if (kind === 'globe') { playFx('boop'); say(SCHOOL_LINES.globe); flash(setRoomUsing, 'globe', 1200); return }
+    if (kind === 'books') { playFx('tap'); say(SCHOOL_LINES.books); flash(setRoomUsing, 'books', 900); return }
+    if (kind === 'tree') { playFx('sparkle'); say(PARK_LINES.tree); flash(setRoomUsing, 'tree', 900); return }
+    if (kind === 'sign') { playFx('tap'); say(PARK_LINES.sign); return }
+    if (kind === 'launchpad') { goTo('map'); return }
     playFx('tap'); say(HOUSE_LINES.window)
   }
   const onOutfitDrop = (outfit: Outfit, friend: FriendKey) => {
@@ -686,6 +754,9 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         @keyframes pl-swing { 0%, 100% { transform: rotate(0) } 25% { transform: rotate(18deg) } 75% { transform: rotate(-18deg) } }
         @keyframes pl-launch { 0% { transform: translateY(0) } 60% { transform: translateY(-40px) } 100% { transform: translateY(0) } }
         @keyframes pl-flicker { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.08, 0.94) } }
+        @keyframes pl-slide { 0% { transform: translate(0, 0) } 100% { transform: translate(76px, 62px) } }
+        @keyframes pl-dig { 0%, 100% { transform: translateY(0) rotate(0) } 50% { transform: translateY(6px) rotate(-8deg) } }
+        @keyframes pl-sparkle-loop { 0%, 100% { opacity: 0.4; transform: translateY(0) } 50% { opacity: 1; transform: translateY(-4px) } }
         .pl-breathe { animation: pl-breathe 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-wiggle { animation: pl-wiggle 0.7s ease-in-out; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-sparkle { animation: pl-sparkle 1.2s ease-out }
@@ -698,7 +769,10 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         .pl-swing { animation: pl-swing 1.2s ease-in-out; transform-box: fill-box; transform-origin: 50% 0% }
         .pl-launch { animation: pl-launch 1.2s ease-in-out; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-flicker { animation: pl-flicker 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
-        @media (prefers-reduced-motion: reduce) { .pl-breathe, .pl-wiggle, .pl-sparkle, .pl-dust, .pl-puff, .pl-star, .pl-float, .pl-target, .pl-bounce, .pl-swing, .pl-launch, .pl-flicker { animation: none } }
+        .pl-slide { animation: pl-slide 1.2s ease-in forwards }
+        .pl-dig { animation: pl-dig 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
+        .pl-sparkle-loop { animation: pl-sparkle-loop 1.4s ease-in-out infinite }
+        @media (prefers-reduced-motion: reduce) { .pl-breathe, .pl-wiggle, .pl-sparkle, .pl-dust, .pl-puff, .pl-star, .pl-float, .pl-target, .pl-bounce, .pl-swing, .pl-launch, .pl-flicker, .pl-slide, .pl-dig, .pl-sparkle-loop { animation: none } }
       `}</style>
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: `10px 12px calc(env(safe-area-inset-bottom, 0px) + ${boxOpen ? 300 : 24}px)` }}>
@@ -716,7 +790,24 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         </div>
 
         <div ref={stageRef} style={{ position: 'relative', borderRadius: 24, border: '2.5px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)', overflow: 'hidden', background: '#fff' }}>
-          {room ? (
+          {onMap ? (
+            <StarMap
+              home={live}
+              friends={awake}
+              tier={live.tier}
+              childAge={view.childAge}
+              wearing={live.build.wearing}
+              accent={theme.hex}
+              flight={flight}
+              onTapPlanet={onTapPlanet}
+              onFly={fly}
+              onOrbit={onOrbit}
+              onTapDigi={onTapDigi}
+              onInteract={interact}
+              onFlightDone={fl => { void touchDown(fl) }}
+              onSvg={el => { sceneRef.current = el }}
+            />
+          ) : room ? (
             <RoomScene
               room={room}
               friends={here}
@@ -812,6 +903,16 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               onSeen={seenMission}
               onClose={() => setBoardOpen(false)}
             />
+          )}
+
+          {fresh.length > 0 && !newSeen && !onMap && overlay === 'none' && !landed && !boardOpen && (
+            <div data-new-planet style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ fontSize: 28 }} aria-hidden>🚀</span>
+              <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>
+                {MAP_LINES.isNew(PLANET_WORDS[fresh[0]].title)}
+              </p>
+              <button onClick={() => { setNewSeen(true); goTo('map', MAP_LINES.isNew(PLANET_WORDS[fresh[0]].title)) }} style={{ ...chunky('accent'), padding: '10px 14px' }}>See it</button>
+            </div>
           )}
 
           {grewTotal > 0 && !grewShown && overlay === 'none' && !landed && (
@@ -928,10 +1029,16 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             <button onClick={() => { interact(); playFx('tap'); setBoardOpen(o => !o) }} style={chunky(boardOpen ? 'white' : 'accent')}>
               🎯 {live.tier === 1 ? MISSION_LINES.boardTier1 : MISSION_LINES.board}{inProgress > 0 ? ` (${inProgress})` : ''}
             </button>
-            {overlay === 'none' && room && (
+            {overlay === 'none' && (room || onMap) && (
               <button onClick={() => goTo('outdoors')} style={chunky('white')}>🪐 {LINES.backToPlanet}</button>
             )}
-            {overlay === 'none' && (
+            {overlay === 'none' && !onMap && (
+              <button onClick={() => goTo('map')} style={chunky('white')}>🚀 {ROOM_TITLES.map}{fresh.length > 0 ? ' ✨' : ''}</button>
+            )}
+            {overlay === 'none' && onMap && nextPlanet && token && live.tier >= 2 && (
+              <a href={`/k/${token}/lessons`} style={chunky('white')}>📚 {MAP_LINES.learnTab}</a>
+            )}
+            {overlay === 'none' && !onMap && (
               <button onClick={() => { interact(); playFx('tap'); openBox(!boxOpen) }} style={chunky(boxOpen ? 'white' : 'accent')} aria-expanded={boxOpen}>
                 🧰 {MISSION_LINES.box}{box.length + boxWear.length > 0 ? ` (${box.length + boxWear.length})` : ''}
               </button>
@@ -945,7 +1052,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         {/* The parts box (slice 3): what the missions and the growth brought,
             waiting to be put somewhere. Drag a part onto the planet, an outfit
             onto a Friend. Drag a placed part off the bottom to put it back. */}
-        {boxOpen && overlay === 'none' && (
+        {boxOpen && overlay === 'none' && !onMap && (
           <div role="region" aria-label={MISSION_LINES.box} style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 30, background: '#fff', color: 'var(--ink)', borderTop: '2px solid var(--ink)', boxShadow: '0 -4px 0 rgba(26,26,46,0.12)', padding: '10px 12px calc(env(safe-area-inset-bottom, 0px) + 10px)', maxHeight: '42vh', overflowY: 'auto' }}>
            <div style={{ maxWidth: 480, margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>

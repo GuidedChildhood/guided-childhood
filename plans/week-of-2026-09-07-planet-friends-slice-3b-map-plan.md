@@ -1,6 +1,7 @@
 # Planet Friends slice 3b: the star system, and lessons unlock planets
 
-Status: in build from 6 September 2026 on Justin's "Go 3b". The design is
+Status: built 6 September 2026 on Justin's "Go 3b" (PR 981, no migration).
+The design is
 section 7 of plans/planet-friends-architecture.md (7.1 the map, 7.4 the
 lessons, 7.5 the catalogue). Slice 3a (the Den and the charging shelf) is
 live. No migration: the world stays in `home.world`, and the count of lessons

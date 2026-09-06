@@ -85,6 +85,12 @@ export type Home = {
   build: Build
   /** The Den, the things in it, the MoonPhones and the shelf (slice 3a). */
   world: World
+  /**
+   * How many lessons this child has passed, counted by the server from the
+   * lessons tables on every read and never from the client (slice 3b). It
+   * decides which planets are open. Missing on an older save reads as 0.
+   */
+  lessonsPassed?: number
   /** 0 bare rock, 1 first grass, 2 a flag, 3 a little house, 4 rings, 5 a moon. */
   growthStage: number
   /** 0 to 100 toward the next stage. Moves only when a rest closes. */
@@ -354,6 +360,7 @@ export type HomeEvent =
   | { kind: 'eat'; friend: FriendKey }
   | { kind: 'snap'; friend: FriendKey }
   | { kind: 'device_dock'; device: DeviceKey }
+  | { kind: 'orbit_move'; planet: PlanetKey; angle: number }
 
 /** Starlight lost per minute of play for this tier and cloud. */
 export function drainPerMinute(cfg: TierConfig, cloud: boolean): number {
@@ -502,7 +509,15 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Reco
     case 'room_move': {
       const f = home.friends.find(x => x.key === ev.friend)
       if (!f || f.cooldown || !isWhere(ev.where)) return home
-      return { ...home, world: { ...home.world, where: { ...home.world.where, [ev.friend]: ev.where } } }
+      const planet = planetOf(ev.where)
+      if (!planetOpen(home, planet)) return home
+      const visited = home.world.visited ?? []
+      return { ...home, world: { ...home.world, where: { ...home.world.where, [ev.friend]: ev.where }, visited: visited.includes(planet) ? visited : [...visited, planet] } }
+    }
+    case 'orbit_move': {
+      if (!isPlanetKey(ev.planet) || !Number.isFinite(ev.angle)) return home
+      const angle = ((Math.round(ev.angle) % 360) + 360) % 360
+      return { ...home, world: { ...home.world, orbits: { ...(home.world.orbits ?? {}), [ev.planet]: angle } } }
     }
     case 'thing_place': {
       const w = home.world
@@ -764,7 +779,7 @@ export function boxOutfits(home: Home): Outfit[] {
 // in the toy box; the parts from the box can come indoors. One rule for all
 // of it: a thing is in exactly one place, a spot, a hand, or where it lives.
 
-export type RoomKey = 'kitchen' | 'living' | 'bedroom'
+export type RoomKey = 'kitchen' | 'living' | 'bedroom' | 'classroom' | 'playground'
 export type Where = 'outdoors' | RoomKey
 export type RoomZone = 'wall' | 'floor' | 'table'
 export type FoodKey = 'apple' | 'toast' | 'juice' | 'cake'
@@ -794,9 +809,13 @@ export type World = {
   /** Food eaten today, by the day it was eaten. The fridge restocks tomorrow. */
   eaten: Partial<Record<ThingKey, string>>
   devices: Partial<Record<DeviceKey, Device>>
+  /** Where the child dragged each planet on its orbit, in degrees (slice 3b). Missing means the catalogue's place. */
+  orbits?: Partial<Record<PlanetKey, number>>
+  /** The planets the child has landed on, so a newly opened one can say it is new until then. */
+  visited?: PlanetKey[]
 }
 
-export const ROOM_KEYS: RoomKey[] = ['kitchen', 'living', 'bedroom']
+export const ROOM_KEYS: RoomKey[] = ['kitchen', 'living', 'bedroom', 'classroom', 'playground']
 /** The walk through the house: the kitchen is the front door, the bedroom the far end. */
 export const ROOM_ORDER: Where[] = ['outdoors', 'kitchen', 'living', 'bedroom']
 export const FOOD_KEYS: FoodKey[] = ['apple', 'toast', 'juice', 'cake']
@@ -822,6 +841,16 @@ export const ROOM_SPOTS: Record<RoomKey, { id: string; zone: RoomZone }[]> = {
     { id: 'b_t1', zone: 'table' },
     { id: 'b_f1', zone: 'floor' }, { id: 'b_f2', zone: 'floor' },
     { id: 'b_w1', zone: 'wall' }, { id: 'b_w2', zone: 'wall' },
+  ],
+  classroom: [
+    { id: 'c_t1', zone: 'table' }, { id: 'c_t2', zone: 'table' },
+    { id: 'c_f1', zone: 'floor' }, { id: 'c_f2', zone: 'floor' },
+    { id: 'c_w1', zone: 'wall' },
+  ],
+  playground: [
+    { id: 'p_t1', zone: 'table' },
+    { id: 'p_f1', zone: 'floor' }, { id: 'p_f2', zone: 'floor' }, { id: 'p_f3', zone: 'floor' },
+    { id: 'p_w1', zone: 'wall' },
   ],
 }
 /** A real five minutes on the shelf, on the server's clock. */
@@ -953,4 +982,65 @@ export function settleWorld(home: Home, nowIso: string): Home {
   for (const [t, day] of Object.entries(w.eaten)) if (day === today) eaten[t as ThingKey] = day
   if (devices === w.devices && Object.keys(eaten).length === Object.keys(w.eaten).length) return home
   return { ...home, world: { ...w, devices, eaten } }
+}
+
+// ── The star system (slice 3b): planets, and the lessons that open them ─────
+// Justin, 5 September 2026: "planets they can move around, like Toca Boca
+// works ... and add in the lessons to unlock planets." DiGi is the star in
+// the middle and the planets orbit. The home planet is the first. Every
+// lesson the child passes lights the next planet in the catalogue; the count
+// is the server's, never the client's. A planet is a set of rooms.
+
+export type PlanetKey = 'home' | 'school' | 'park'
+export type PlanetOpens = { kind: 'free' } | { kind: 'lesson'; count: number }
+
+export const PLANET_ORDER: PlanetKey[] = ['home', 'school', 'park']
+export const PLANETS: Record<PlanetKey, { rooms: Where[]; opens: PlanetOpens; angle: number; orbit: number }> = {
+  home: { rooms: ['outdoors', 'kitchen', 'living', 'bedroom'], opens: { kind: 'free' }, angle: 150, orbit: 0 },
+  school: { rooms: ['classroom'], opens: { kind: 'lesson', count: 1 }, angle: 330, orbit: 1 },
+  park: { rooms: ['playground'], opens: { kind: 'lesson', count: 2 }, angle: 60, orbit: 2 },
+}
+export const isPlanetKey = (k: unknown): k is PlanetKey => typeof k === 'string' && (PLANET_ORDER as string[]).includes(k)
+
+/** Which planet a room is on. */
+export function planetOf(where: Where): PlanetKey {
+  for (const p of PLANET_ORDER) if (PLANETS[p].rooms.includes(where)) return p
+  return 'home'
+}
+
+/** The first room of a planet: where the rocket lands. */
+export const landingRoom = (planet: PlanetKey): Where => PLANETS[planet].rooms[0]
+
+/** How many lessons this child has passed, as the server last counted. */
+export const lessonsPassedOf = (home: Home): number => Math.max(0, Math.floor(home.lessonsPassed ?? 0))
+
+/** A planet is open when its key has been turned: free, or that many lessons passed. */
+export function planetOpen(home: Home, planet: PlanetKey): boolean {
+  const o = PLANETS[planet].opens
+  if (o.kind === 'free') return true
+  return lessonsPassedOf(home) >= o.count
+}
+
+export const openPlanets = (home: Home): PlanetKey[] => PLANET_ORDER.filter(p => planetOpen(home, p))
+
+/** The planets that opened and have not been landed on yet: new on the map. */
+export function newPlanets(home: Home): PlanetKey[] {
+  const visited = home.world?.visited ?? []
+  return openPlanets(home).filter(p => p !== 'home' && !visited.includes(p))
+}
+
+/** How many more lessons open the next planet, or null when every planet is open. */
+export function lessonsToNextPlanet(home: Home): { planet: PlanetKey; lessons: number } | null {
+  const n = lessonsPassedOf(home)
+  for (const p of PLANET_ORDER) {
+    const o = PLANETS[p].opens
+    if (o.kind === 'lesson' && n < o.count) return { planet: p, lessons: o.count - n }
+  }
+  return null
+}
+
+/** Where a planet sits on its orbit: where the child left it, or the catalogue's place. */
+export function orbitAngle(home: Home, planet: PlanetKey): number {
+  const a = home.world?.orbits?.[planet]
+  return typeof a === 'number' && Number.isFinite(a) ? a : PLANETS[planet].angle
 }

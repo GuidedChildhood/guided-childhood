@@ -10545,3 +10545,24 @@ goes to production on Justin's word; the embed sweep vectors the rows the
 same day. The missing seventh lens is the SEND parent; the ADHD, autism and
 anxiety rows are the thinnest and a V3 with that lens would change them
 most.
+
+## 6 September 2026: Planet Friends slice 3b, the star system and lessons unlock planets, built
+
+Justin: "Go 3b". Built the same day (PR 981, no migration). The sky is a map:
+DiGi in the middle, the planets on dashed orbits, a tray of the awake Friends
+along the bottom. Drag a Friend onto a lit planet and a rocket flies them
+there; drag a planet along its orbit and it stays where the child left it;
+tap a planet to look. Two planets to fly to: Moonbase School (opens with the
+first lesson passed) and the Playground planet (the second), each a room
+drawn by the same renderer as the Den. Decided on the way: the server counts
+the lessons passed on every read and carries the count in the save, so the
+rules and the screen read one number and the client never sends it; the
+catalogue order decides which planet opens next, so a curriculum change can
+never strand a planet; a shut planet is a dashed outline with a book on it
+and, from Tier 2, the words "pass a lesson", never a padlock or a countdown;
+Tier 1 gets no words on the map and a tap flies Pebble by itself; a landing
+marks a planet visited, and an open planet not yet visited is announced on
+the planet, the map, the Learn tab and the pass screen, then falls quiet;
+the launch pad on another planet makes the dragged Friend the pilot, so a
+young child never has to find the tray. Thirty nine Playwright checks for the
+map and three new logic checks; every earlier drive unchanged.
