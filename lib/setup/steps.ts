@@ -57,6 +57,7 @@ export type SetupFlags = {
   childLink: boolean
   homeScreen: boolean
   children: boolean
+  coreTime: boolean
 }
 
 export type SetupStep = {
@@ -95,6 +96,21 @@ export const STEPS: SetupStep[] = [
     title: 'Add your other children',
     what: 'The same two questions we asked at signup, so it takes a moment. Each child gets their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',
     href: '/dashboard/setup#children',
+  },
+  {
+    // ── THE ONE QUESTION THE STORY PROMISED AND THE CODE NEVER ASKED ──────
+    //
+    // The story says a core of screen time is the child's unconditionally, so
+    // the screen never becomes the prize. The code shipped it OFF, and the
+    // 5 September audit found that for any family who never opened the time
+    // settings, all recreation was earned, which is the outside report's one
+    // fair criticism of the stars. Justin, 6 September 2026, choosing between
+    // a default and a question: "asked at set up." So it is asked here, once
+    // per child, and "none, earned only" is a real answer that ticks the step.
+    key: 'coreTime',
+    title: 'Decide their free screen time',
+    what: 'How much screen time is simply theirs each day, no stars needed. Stars add on top. None is a real answer, and you can change it any time from Quests.',
+    href: '/dashboard/setup#core-time',
   },
   {
     // Both doors live on the setup page itself rather than behind a link.

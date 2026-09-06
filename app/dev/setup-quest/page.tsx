@@ -20,11 +20,11 @@ import type { SetupFlags } from '@/lib/setup/steps'
 // worth looking at, because they are where the green ticks stack up above the
 // live card, which is the whole point of the 15 August change.
 const STATES: { label: string; flags: SetupFlags }[] = [
-  { label: 'Fresh',      flags: { homeScreen: false, children: false, childLink: false } },
-  { label: 'One done',   flags: { homeScreen: false, children: false, childLink: false } },
-  { label: 'Two done',   flags: { homeScreen: true,  children: false, childLink: false } },
-  { label: 'Three done', flags: { homeScreen: true,  children: true,  childLink: false } },
-  { label: 'All done',   flags: { homeScreen: true,  children: true,  childLink: true } },
+  { label: 'Fresh',      flags: { homeScreen: false, children: false, coreTime: false, childLink: false } },
+  { label: 'One done',   flags: { homeScreen: true, children: false, coreTime: false, childLink: false } },
+  { label: 'Two done',   flags: { homeScreen: true,  children: true, coreTime: false, childLink: false } },
+  { label: 'Three done', flags: { homeScreen: true,  children: true,  coreTime: true, childLink: false } },
+  { label: 'All done',   flags: { homeScreen: true,  children: true,  coreTime: true, childLink: true } },
 ]
 
 export default function SetupQuestDevPage() {
@@ -62,6 +62,10 @@ export default function SetupQuestDevPage() {
         <SetupQuest
           flags={STATES[i].flags}
           child={{ id: 'devfixture-child', name: 'Olga' }}
+          children={[
+            { id: 'devfixture-child', name: 'Olga', age_band: '8-10', linked: false, noPhone: false },
+            { id: 'devfixture-child-2', name: 'Teo', age_band: '11-13', linked: false, noPhone: false },
+          ]}
           userId="devfixture-user"
         />
       </div>

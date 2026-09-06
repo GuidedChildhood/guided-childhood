@@ -57,6 +57,7 @@ const ANCHOR: Partial<Record<keyof SetupFlags, string>> = {
   childLink: 'share',
   homeScreen: 'home-screen',
   children: 'children',
+  coreTime: 'core-time',
 }
 
 type SetupChild = { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean }
@@ -447,6 +448,8 @@ function StepAction({ step, child, childList, userId }: {
 
   if (step.key === 'children') return <OtherChildren />
 
+  if (step.key === 'coreTime') return <CoreTimeStep childList={childList} />
+
   // The home screen and the reminders, in one step, in the order they have to
   // happen on an iPhone: Apple only allows web push once the app is on the home
   // screen, so the instructions come first and the permission card second.
@@ -457,6 +460,132 @@ function StepAction({ step, child, childList, userId }: {
         <PushPrompt userId={userId} />
       </div>
     </>
+  )
+}
+
+// ── THE FREE TIME QUESTION, ONCE PER CHILD ──────────────────────────────────
+//
+// The same chips the Quests page keeps under "Their time, three kinds", asked
+// here on their own so a family decides the core before the first star is
+// spent. Saving goes through the time settings route with the child's other
+// settings carried across unchanged, so a tap here never resets a bedtime
+// window a parent has already set. The step ticks once every child has a row,
+// and "None" writes a row like any other answer.
+
+const CORE_CHOICES = [0, 30, 45, 60, 90]
+
+type TimeSettings = {
+  coreMinutesDaily: number
+  bedtimeStart: string | null
+  bedtimeEnd: string | null
+  protectMealtimes: boolean
+  protectSchoolHours: boolean
+  starMinutes: number
+}
+
+function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
+  const router = useRouter()
+  const [settings, setSettings] = useState<Record<string, TimeSettings | null>>({})
+  const [chosen, setChosen] = useState<Record<string, number>>({})
+  const [busy, setBusy] = useState<string | null>(null)
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    let alive = true
+    Promise.all(childList.map(async c => {
+      try {
+        const r = await fetch(`/api/quests/time/settings?childId=${encodeURIComponent(c.id)}`)
+        if (!r.ok) return [c.id, null] as const
+        return [c.id, (await r.json()) as TimeSettings] as const
+      } catch { return [c.id, null] as const }
+    })).then(rows => {
+      if (!alive) return
+      const next: Record<string, TimeSettings | null> = {}
+      for (const [id, s] of rows) next[id] = s
+      setSettings(next)
+    })
+    return () => { alive = false }
+  }, [childList])
+
+  async function choose(childId: string, minutes: number) {
+    setBusy(childId); setFailed(false)
+    const current = settings[childId]
+    const body = {
+      childId,
+      coreMinutesDaily: minutes,
+      bedtimeStart: current?.bedtimeStart ?? null,
+      bedtimeEnd: current?.bedtimeEnd ?? null,
+      protectMealtimes: current?.protectMealtimes ?? false,
+      protectSchoolHours: current?.protectSchoolHours ?? false,
+      starMinutes: current?.starMinutes ?? 5,
+    }
+    try {
+      const r = await fetch('/api/quests/time/settings', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      })
+      if (!r.ok) throw new Error(String(r.status))
+      const nextChosen = { ...chosen, [childId]: minutes }
+      setChosen(nextChosen)
+      // Every child answered: the flag flips on the server, so refresh to let
+      // the step tick and the next one go live.
+      if (childList.every(c => nextChosen[c.id] !== undefined)) router.refresh()
+    } catch {
+      setFailed(true)
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  if (childList.length === 0) {
+    return (
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: 0 }}>
+        Add your child first and this one takes a tap.
+      </p>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+        Free time is always theirs, no stars needed, so the screen never becomes the prize. Stars buy more on top. Bedtime and mealtimes stay protected whatever you pick.
+      </p>
+      {childList.map(c => {
+        const name = c.name && c.name !== 'Your child' ? c.name : 'Your child'
+        const picked = chosen[c.id]
+        return (
+          <div key={c.id} style={{ border: '2px solid var(--ink)', borderRadius: '14px', padding: '10px 12px', background: '#fff' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <span aria-hidden style={{ width: '26px', height: '26px', borderRadius: '50%', background: childColour(c.age_band).tint, color: childColour(c.age_band).bold, display: 'grid', placeItems: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)' }}>
+                {childInitial(c.name)}
+              </span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{name}</span>
+              {picked !== undefined && (
+                <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--retro-green)' }}>Saved</span>
+              )}
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {CORE_CHOICES.map(m => {
+                const on = picked === m
+                return (
+                  <button key={m} type="button" disabled={busy === c.id} onClick={() => choose(c.id, m)} aria-pressed={on} style={{
+                    flex: 1, padding: '9px 4px', borderRadius: '11px', cursor: busy === c.id ? 'default' : 'pointer',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
+                    background: on ? 'var(--terracotta-lt)' : '#fff',
+                    color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                    border: on ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+                  }}>{m === 0 ? 'None' : `${m}m`}</button>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })}
+      {failed && (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: 0, textAlign: 'center' }}>
+          That did not save. Have another go.
+        </p>
+      )}
+    </div>
   )
 }
 

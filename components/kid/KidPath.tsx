@@ -638,7 +638,7 @@ export default function KidPath({
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
                 <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>🪪</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-                  Digital literacy passport · {stampsEarned} of {stampsTotal} stamps
+                  Digital Childhood Passport · {stampsEarned} of {stampsTotal} stamps
                 </span>
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>

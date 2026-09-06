@@ -45,7 +45,7 @@ const TIPS: Record<number, PathTip[]> = {
   5: [
     { key: 'i_watch', emoji: '📺', tag: 'Watch time', title: 'Your time, your call', body: 'You run your own screen time now. The skill is spotting when it stops serving you and choosing to close it. That is real strength.' },
     { key: 'i_game', emoji: '🎮', tag: 'Game time', title: 'Balance is the win', body: 'Gaming can be social, creative, even a career one day. Keep it next to sleep, people and moving, and it stays a good thing.' },
-    { key: 'i_lesson', emoji: '🧭', tag: 'Try this', title: 'Finish your passport', body: 'You are close to a full digital literacy passport. Each lesson you pass is a stamp, and proof you can handle the online world well.' },
+    { key: 'i_lesson', emoji: '🧭', tag: 'Try this', title: 'Finish your passport', body: 'You are close to a full Guided Digital Childhood Passport. Each lesson you pass is a stamp, and proof you can handle the online world well.' },
     { key: 'i_safe', emoji: '🔐', tag: 'Good habit', title: 'Look after your footprint', body: 'What is online about you follows you into jobs and life. Check your settings, tidy what you can, and post like a future boss might read it.' },
   ],
 }
