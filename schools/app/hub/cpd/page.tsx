@@ -14,12 +14,52 @@ const label: React.CSSProperties = { fontFamily: 'var(--font-body)', fontWeight:
 
 const BRIEFINGS = [
   {
+    module: 'M02 · Kind screens, calm bodies (KS1, Years 1 to 2)',
+    covers: 'Noticing how the body feels after screen time, Pebble&rsquo;s three steps (feel it, name it, tell a grown up), and telling as safety, never telling tales.',
+    register: 'Gentle and playful. The lesson is about feelings, not about screens being bad, and never becomes a lecture about screen time at home: children this age do not control their homes.',
+    watchFor: 'A child who reaches a big feeling very fast, or mentions something yucky appearing on their screen. Say out loud, more than once, that nobody is ever in trouble for what appears or for telling. It is the single most important safeguarding message at this age.',
+    disclosure: 'This age discloses sideways: a drawing, a whisper at the worksheet, a question at the door. Listen calmly, thank them for telling, do not promise secrecy, and log it on your concern form the same day.',
+    line: 'The line that carries the lesson: you are never in trouble for telling.',
+  },
+  {
+    module: 'M07 · Privacy and digital reputation (KS2, Years 3 to 6)',
+    covers: 'The share test, the vault list, why delete does not unshare, and group chats as the friendly place where oversharing actually happens.',
+    register: 'Curious and practical, never scary. Privacy is choosing, not hiding: sharing art, sport and jokes is encouraged when the share test passes, so the lesson must not land as share nothing.',
+    watchFor: 'The group chat scenario landing on a live situation. A pupil may say someone has asked them for photos or personal details, or that they have shared something they regret. Keep the room on the scenario and pick the real thing up privately afterwards.',
+    disclosure: 'Reassure first: you are not in trouble and telling me was right. Do not investigate the chat yourself and do not ask to see more than the pupil volunteers. Follow your safeguarding policy and log the concern the same day.',
+    line: 'The line that carries the lesson: would I shout it in assembly?',
+  },
+  {
     module: 'M08 · Being kind and safe with others online (KS2, Years 3 to 6)',
     covers: 'Recognising online bullying, breaking the bystander pattern, reporting and blocking, telling an adult as strength.',
     register: 'Warm and practical. Some pupils in the room will have been on both sides of unkindness online. No shame anywhere: the lesson is about the three moves, not about who has done what.',
     watchFor: 'A pupil going quiet at the group chat scenario, or naming a live situation in class. Acknowledge, do not investigate in the room, follow up privately afterwards.',
     disclosure: 'Bullying disclosures follow your anti bullying and safeguarding policies. Thank the pupil, tell them they did the right thing, record in your school system.',
     line: 'The line that carries the lesson: telling someone who can help is the strongest move on the board.',
+  },
+  {
+    module: 'M10 · Mood and screens (KS3, Years 7 to 9)',
+    covers: 'The mood audit (close it, then ask: better, worse or nothing), why raw hours barely predict wellbeing, and each pupil reading their own week of honest one word logs instead of trusting an average.',
+    register: 'Honest and unbothered. No moral panic, and no screens are fine either: the audit is theirs and the verdict is theirs. An honest example of your own (an app that leaves you flat) buys more honesty than any warning.',
+    watchFor: 'The honesty doing its job. A pupil whose week reads worse everywhere, or an exit card mentioning persistent low mood, is information for the follow up, never for the class discussion.',
+    disclosure: 'Everyday low mood answers are normal. Persistent low mood, or anything on a worksheet or exit card that concerns you, goes to your DSL through your safeguarding policy. Do not promise confidentiality, and respond warmly: thank you for telling me, you are not in trouble.',
+    line: 'The line that carries the lesson: better, worse, or nothing?',
+  },
+  {
+    module: 'M11 · Social media, group chats and the workarounds (KS3, Years 7 to 9)',
+    covers: 'Behind every rule is a protection, what a VPN, a false age or a borrowed account actually switches off, and deciding with your eyes open. A VPN is named as a normal adult tool, not an evil one.',
+    register: 'Straight and unshocked. Assume workarounds are live in the room and do not ask. The lesson promises that nobody confesses anything: keep that promise, and the room will keep listening.',
+    watchFor: 'A pupil volunteering more than they meant to: a large chat with adults they do not know, unwanted contact, an account already running on a false age. Never follow it up in front of the class.',
+    disclosure: 'Concerning contact or content follows your safeguarding policy, with the DSL the same day, and the pupil hears first that they are not in trouble. Treat any voluntary disclosure with care: the lesson told them nobody has to confess.',
+    line: 'The line that carries the lesson: skip the rule, lose the protection.',
+  },
+  {
+    module: 'M12 · Misinformation, deepfakes and AI content (KS3, Years 7 to 9)',
+    covers: 'The three checks (who made this, what do other places say, how does it want me to feel), the three verdicts (believe, pause, do not share), and why AI made is a method, not a verdict.',
+    register: 'Brisk, even fun: this is detective work, not doom. Guard the calibration: the checks must end in believe verdicts too, or the lesson has taught cynicism instead of checking.',
+    watchFor: 'A pupil distressed by something they have seen or shared, or a live school rumour offered as an example. Stay on the slide&rsquo;s neutral examples: running the checks on a live rumour turns a lesson into an investigation.',
+    disclosure: 'KCSIE names misinformation, disinformation and conspiracy theories as content harms. Distress about something seen or shared follows your safeguarding policy, recorded in your school system: the platform records nothing.',
+    line: 'The line that carries the lesson: pause is a perfectly good verdict.',
   },
   {
     module: 'M14 · Bodies, image and pressure online (KS3, Years 7 to 9)',
@@ -72,8 +112,9 @@ export default async function CpdBriefingsPage() {
         <p style={{ ...body, marginBottom: '22px' }}>
           Every slide in these modules already carries a word for word script, so nobody teaches them
           unsupported. These briefings are the ten minutes before: the register to hold, what to watch
-          for in the room, and exactly what to do with a disclosure. Read the one you need the night
-          before, or run all five as a twenty minute staff meeting before the scheme starts.
+          for in the room, and exactly what to do with a disclosure. All ten safeguarding flagged
+          modules have one. Read the one you need the night before, or run them as a staff meeting
+          before the scheme starts, alongside the induction page in the Hub.
         </p>
 
         {BRIEFINGS.map(b => (
