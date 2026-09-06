@@ -10798,3 +10798,20 @@ fields in lib/content/contact.ts are filled from it, so the Terms and the
 Privacy notice now open with the company sentence and the homepage footer
 carries the name and number under the copyright line. The trading name
 stays Guided Childhood everywhere a family reads it.
+
+## 6 September 2026, evening: the town and the hide and seek, designed and waiting on the go
+
+Justin's note: "When you press a planet it should show a city in the planet
+where there are buildings, when you press a building you go inside, then find
+mini baby Planet Friends hidden in a house and you get a clue, like where you
+put your device at night, and similar device related clues to find them, and
+when you get one it gives you the clue to the next one." Designed the same
+evening as 7.10 (the town: every planet's surface with its buildings, a tap
+goes inside, landing goes to the town, drawn from data by one renderer) and
+7.11 (the little ones: five mini Planet Friends from the nursery who hide
+across the child's open planets; DiGi gives the first clue; every clue is a
+device habit riddle whose answer is a real place in the world, the charging
+shelf for "where does a phone sleep at night"; each one found gives the next
+clue; the fifth says all home and a named part lands). Planned as slice 3g in
+three shippable parts, no migration, the hunt as play state, the server
+deciding every find. Two boards on the canvas show it. Waiting on the go.
