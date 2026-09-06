@@ -10499,7 +10499,7 @@ no longer lists the kind so it never shows twice. Migration 256 goes to
 production on Justin's word; the cron accepts ?user=<id> with the secret so
 a real one can be written for one family before the first Tuesday.
 
-## 6 September 2026: DiGi's situations and forecasts bank (migration 260)
+## 6 September 2026: DiGi's situations and forecasts bank (migration 263)
 
 Justin: "DiGi needs to be clever enough to know all the exact problems
 parents have with devices: after school, in the morning, holidays, whether
@@ -10527,7 +10527,7 @@ the lonely or SEND child leans hardest on it (Internet Matters), and every
 panic before this one ended with the same move surviving: a shared room, a
 routine, a grown up beside the child.
 
-Decided: the bank is tagged by MOMENT as well as topic. Migration 260 adds
+Decided: the bank is tagged by MOMENT as well as topic. Migration 263 adds
 one row per confirmed finding (49 rows) tagged with a situation
 (after_school, morning, holidays, parent_stress, device_as_helper,
 balanced_use, pull_and_design, history, temperament, adhd, autism, anxiety,
@@ -10550,8 +10550,36 @@ most.
 
 The situations bank shipped as 257 in PR 978 while another session applied
 257_ks3_12_worksheet and 258 the same afternoon, and a third claimed 259 in
-its plan. The bank file is now 260_digi_situations_bank.sql. Nothing had
+its plan. The bank file is now 263_digi_situations_bank.sql. Nothing had
 been applied under 257 for the bank, so no production change; the file
 rename is the whole fix. The check before claiming a number now needs to
 read the database migration list as well as origin/main and the open PRs,
 because an applied migration can arrive on main hours after it ran.
+
+## 6 September 2026: the bank file is 263, and PCAST joins the bank (migration 262)
+
+Both sessions renumbered their 257 to 260 within the same hour, and the
+worksheet's merge landed first, so the situations bank file is now
+263_digi_situations_bank.sql. The database record was renamed to match; the
+rows themselves never moved. Lesson written into the rule: after any
+renumber, fetch main again before pushing, because the other side may have
+picked the same number.
+
+Justin cleared up "ocas": PCAST, the President's Council of Advisors on
+Science and Technology. Checked by exact phrase search (the primary sites
+are blocked to fetch from the sandbox): PCAST was reconstituted on 23
+January 2025 with Kratsios and Sacks as co chairs and its members named on
+25 March 2026; its only AI report, Supercharging Research (29 April 2024),
+is about AI for science and has nothing on children. The US moves that do
+touch children come from Executive Order 14277 on AI education for American
+youth (23 April 2025, AI literacy and "early exposure" as national policy, a
+task force chaired by the science director), the first Presidential AI
+Challenge (state champions 16 March 2026, children from elementary age
+building with AI), the Department of Education's five conditions for AI in
+schools (22 July 2025: educator led, ethical, accessible, transparent,
+protective of student data, parents involved) and the OSTP blueprint
+Science: A New Golden Age (21 July 2026, mentors beside children). Migration
+262 adds five rows, each marked US, and the horizons table gains "AI becomes
+a school skill" at 8 to 10. The line DiGi takes from all of it: the
+children a UK child competes with at 18 are being taught to build with AI
+from primary age, so the AI together habit belongs in Stage 2.
