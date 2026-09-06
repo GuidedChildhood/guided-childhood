@@ -33,7 +33,7 @@ new game, the chatbot) and anything that looks AHEAD for a child of this age.
    verifier pass, a v2 with the ledger, and the distribution review note.
    Saved to briefings/2026-09-06-digi-situations-and-forecasts-v2.html and
    content/packs/2026-09-06-digi-situations-and-forecasts/content-potential.md.
-2. Migration 257 seeds the bank from the CONFIRMED and CORRECTED findings
+2. Migration 260 seeds the bank from the CONFIRMED and CORRECTED findings
    only, one row per finding, each tagged with its situation
    (after_school, morning, holidays, parent_stress, device_as_helper,
    balanced_use, pull_and_design, history, temperament, adhd, autism,
@@ -67,5 +67,5 @@ plans/2026-09-06-situations-platform-map.md.
 ## Out of scope
 
 No new screens. DiGi's chat and DiGi's word are the surfaces; the bank and
-the horizons change what they know. Migrations 256 and 257 apply to
+the horizons change what they know. Migrations 256 and 260 apply to
 production only on Justin's word.

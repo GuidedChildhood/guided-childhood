@@ -10499,7 +10499,7 @@ no longer lists the kind so it never shows twice. Migration 256 goes to
 production on Justin's word; the cron accepts ?user=<id> with the secret so
 a real one can be written for one family before the first Tuesday.
 
-## 6 September 2026: DiGi's situations and forecasts bank (migration 257)
+## 6 September 2026: DiGi's situations and forecasts bank (migration 260)
 
 Justin: "DiGi needs to be clever enough to know all the exact problems
 parents have with devices: after school, in the morning, holidays, whether
@@ -10527,7 +10527,7 @@ the lonely or SEND child leans hardest on it (Internet Matters), and every
 panic before this one ended with the same move surviving: a shared room, a
 routine, a grown up beside the child.
 
-Decided: the bank is tagged by MOMENT as well as topic. Migration 257 adds
+Decided: the bank is tagged by MOMENT as well as topic. Migration 260 adds
 one row per confirmed finding (49 rows) tagged with a situation
 (after_school, morning, holidays, parent_stress, device_as_helper,
 balanced_use, pull_and_design, history, temperament, adhd, autism, anxiety,
@@ -10540,8 +10540,18 @@ so DiGi says it a term early. The keyword map in lib/digi/brain.ts learns
 the words parents use for each moment ("after school", "the holidays", "his
 new phone", "chatgpt", "calm him down", "stressed") and the situation reader
 gains a holidays time band and the new phone, new game, parent stress, ADHD
-and autism topics. Demoted findings never entered the bank. Migration 257
+and autism topics. Demoted findings never entered the bank. Migration 260
 goes to production on Justin's word; the embed sweep vectors the rows the
 same day. The missing seventh lens is the SEND parent; the ADHD, autism and
 anxiety rows are the thinnest and a V3 with that lens would change them
 most.
+
+## 6 September 2026: migration 257 renumbered to 260
+
+The situations bank shipped as 257 in PR 978 while another session applied
+257_ks3_12_worksheet and 258 the same afternoon, and a third claimed 259 in
+its plan. The bank file is now 260_digi_situations_bank.sql. Nothing had
+been applied under 257 for the bank, so no production change; the file
+rename is the whole fix. The check before claiming a number now needs to
+read the database migration list as well as origin/main and the open PRs,
+because an applied migration can arrive on main hours after it ran.
