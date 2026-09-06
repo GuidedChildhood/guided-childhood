@@ -10724,3 +10724,24 @@ fields in lib/content/contact.ts are filled from it, so the Terms and the
 Privacy notice now open with the company sentence and the homepage footer
 carries the name and number under the copyright line. The trading name
 stays Guided Childhood everywhere a family reads it.
+
+## 6 September 2026: the perfect lessons wave (migrations 265 to 267)
+
+Justin asked "Do we now have the perfect lessons?" and answered the honest
+no with "All step by step", meaning: close the whole remaining audit queue
+in order. One wave, one PR (#989), four steps. Migration 265 writes the
+i_can ladder into the twenty modules that lacked one, each ladder built
+from its own module's tool, so the learning record promise is now kept by
+all 21. The five missing CPD briefings (M02, M07, M10, M11, M12) join the
+existing five, and the new /hub/induction runs a whole staff room through
+the scheme in a fifteen minute meeting. Migration 266 writes SEND and EAL
+adaptations on four needs into every module from its own activities, the
+passport paragraph into every parent note register scaled by key stage,
+and AI literacy tags ONLY where slides earn them: five new modules tagged,
+nine left honestly untagged because their slides teach no AI. Migration
+267 takes ks3-12 through the fifteen pass QA (record:
+research/2026-09-06-ks3-12-gold-standard-qa.md, score 94, three findings
+fixed: timing arithmetic, commitment stem, KCSIE edition), making it the
+brief's gold standard exemplar and the template for the ENHANCE passes.
+Migration ledger after this wave: 265, 266, 267 claimed and applied by
+this lane; 264 remains the other lane's, unapplied, on Justin's word.
