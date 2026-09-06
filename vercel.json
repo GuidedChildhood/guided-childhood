@@ -142,6 +142,10 @@
       "schedule": "0 7 * * 0"
     },
     {
+      "path": "/api/cron/digi-word",
+      "schedule": "0 6 * * 2,5"
+    },
+    {
       "path": "/api/cron/lesson-drip",
       "schedule": "0 9 1,15 * *"
     },

@@ -9,6 +9,7 @@ import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
+import DigiWordCard from '@/components/home/DigiWordCard'
 import DigiWondering from '@/components/digi/DigiWondering'
 import DigiDeviceCheckin from '@/components/digi/DigiDeviceCheckin'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
@@ -989,6 +990,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       <HomeLive
         childName={child?.name ?? null}
       />
+
+      {/* DiGi's word. The knock on the door while an insight is unread, right
+          under whoever is waiting and above the road, because it is the one
+          thing on Home that was written for this family this week. */}
+      <DigiWordCard />
 
       {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
           Justin, holding up Duolingo's home: "it has pathway only on Home

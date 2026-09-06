@@ -32,7 +32,7 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   const [{ data: pending }, { data: kids }, { data: lastPrompt }] = await Promise.all([
-    supabase.from('digi_prompts').select('id, kind, title, body, href, created_at, outcome_id').eq('user_id', user.id).eq('status', 'pending').order('created_at', { ascending: false }).limit(3),
+    supabase.from('digi_prompts').select('id, kind, title, body, href, created_at, outcome_id').eq('user_id', user.id).eq('status', 'pending').neq('kind', 'insight').order('created_at', { ascending: false }).limit(3),
     // Every child, not only the primary. The prompt needs the full roster so it
     // can say which names are real, and so a second child is not invented from
     // a stale memory row.
@@ -286,7 +286,7 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
 
     const { data: fresh } = await supabase
       .from('digi_prompts').select('id, kind, title, body, href, created_at, outcome_id')
-      .eq('user_id', user.id).eq('status', 'pending')
+      .eq('user_id', user.id).eq('status', 'pending').neq('kind', 'insight')
       .order('created_at', { ascending: false }).limit(3)
     return NextResponse.json({ prompts: fresh ?? [] })
   } catch {

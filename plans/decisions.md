@@ -10470,3 +10470,31 @@ for the most asked first, and runs every Sunday at 07:00 instead of twice a
 month. DiGi's learning loops already run (per family memory, the gated
 weekly wisdom rebuild, check in learning, the knowledge refresh, flagged
 answers steering the next drafts); nothing new was needed there.
+
+## 6 September 2026: DiGi's word, the proactive insight twice a week (migration 256)
+
+Justin: "Would it be possible for DiGi to review what is happening on the
+platform and have a little alert button that says DiGi wants to tell you
+something, and DiGi gives them an insight that really hooks and tells them
+what to do next for the child at that particular age, taking into account
+the information they have received, DiGi chats across parents, and what is
+actually best right now. Once or twice a week." Built as DiGi's word. A cron
+on Tuesday and Friday at 07:00 UK reads, for every family active in the last
+three weeks, the child with the most signal this fortnight (live worries and
+their latest scores, the check in shifts, scripts opened and whether they
+worked, questions asked, DiGi's memory, jobs, minutes, tonight taps,
+moments), the freshest research rows for the child's age, the proven
+solutions for that age, and the last three insights with the parent's
+reaction, then asks the deep model for one hook, two short paragraphs with a
+named source from the bank, one thing to do next, and a link checked against
+a whitelist of the real scripts and lessons for the stage plus the fixed
+routes. It lands as a digi_prompts row of kind insight (migration 256 adds
+the kind and source, cta, reaction, seen_at), a push says "DiGi wants to
+tell you something", Home shows a butter alert under the now slot, the DiGi
+tab wears a butter badge (red stays for a person waiting), and /dashboard/word
+shows it in full with the do next button and Helped or Not really. The
+reaction goes to the row and to digi_feedback so the wisdom rebuild and the
+next insight both read it. One unread insight at a time; the prompts route
+no longer lists the kind so it never shows twice. Migration 256 goes to
+production on Justin's word; the cron accepts ?user=<id> with the secret so
+a real one can be written for one family before the first Tuesday.

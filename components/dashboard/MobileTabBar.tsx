@@ -103,7 +103,7 @@ const NAV_TABS: Tab[] = [
 // Carries the chosen child, same as the desktop tabs. A nav link that drops
 // ?child= sends the parent back to the primary child on the next tap, which
 // would make the switcher a lie: pick Alma, tap Lessons, quietly read Teo.
-function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: number; childId?: string | null }) {
+function MobileTabBarInner({ pendingAsks = 0, digiWord = 0, childId = null }: { pendingAsks?: number; digiWord?: number; childId?: string | null }) {
   const pathname = usePathname()
   // usePathname only updates once a navigation has fully resolved, so on a
   // heavier page the highlight lagged the tap and the bar felt slow. We track
@@ -121,6 +121,7 @@ function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: 
       {NAV_TABS.map(tab => {
         const isActive = tab.href === active
         const showBadge = tab.href === '/dashboard/quests' && pendingAsks > 0
+        const showWord = tab.href === '/dashboard/digi' && digiWord > 0
         return (
           <Link
             key={tab.href}
@@ -168,6 +169,11 @@ function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: 
                   {pendingAsks > 9 ? '9+' : pendingAsks}
                 </span>
               )}
+              {showWord && (
+                <span className="ask-badge" aria-label="DiGi wants to tell you something" style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)' }}>
+                  {digiWord > 9 ? '9+' : digiWord}
+                </span>
+              )}
             </span>
             <span style={{ color: isActive ? 'var(--ink)' : 'var(--ink-soft)' }}>{tab.label}</span>
           </Link>
@@ -190,14 +196,14 @@ function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: 
 // null, because a nav that blinks out and back in on every load would be a real
 // regression for a cosmetic reason. A prerendered page has no query string to
 // read anyway, so the fallback is the correct answer there, not a placeholder.
-function MobileTabBarWithChild({ pendingAsks }: { pendingAsks?: number }) {
-  return <MobileTabBarInner pendingAsks={pendingAsks} childId={useSearchParams().get('child')} />
+function MobileTabBarWithChild({ pendingAsks, digiWord }: { pendingAsks?: number; digiWord?: number }) {
+  return <MobileTabBarInner pendingAsks={pendingAsks} digiWord={digiWord} childId={useSearchParams().get('child')} />
 }
 
-export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {
+export default function MobileTabBar({ pendingAsks = 0, digiWord = 0 }: { pendingAsks?: number; digiWord?: number }) {
   return (
-    <Suspense fallback={<MobileTabBarInner pendingAsks={pendingAsks} childId={null} />}>
-      <MobileTabBarWithChild pendingAsks={pendingAsks} />
+    <Suspense fallback={<MobileTabBarInner pendingAsks={pendingAsks} digiWord={digiWord} childId={null} />}>
+      <MobileTabBarWithChild pendingAsks={pendingAsks} digiWord={digiWord} />
     </Suspense>
   )
 }
