@@ -41,7 +41,12 @@ const DOCS = [
   {
     href: '/hub/cpd', emoji: '🎓', accent: 'var(--coral-dark)',
     title: 'Staff briefings',
-    body: 'Ten minute briefings for the sensitive modules: what the lesson covers, the register to hold, disclosure handling, and what to watch for in the room.',
+    body: 'Ten minute briefings for all ten safeguarding flagged modules: what the lesson covers, the register to hold, disclosure handling, and what to watch for in the room.',
+  },
+  {
+    href: '/hub/induction', emoji: '🧭', accent: 'var(--coral-dark)',
+    title: 'The fifteen minute induction',
+    body: 'One staff meeting that starts the scheme: how a lesson runs, the print room, the flagged modules, disclosures, and the no pupil data ground rule. Run it from the projector.',
   },
   {
     href: '/hub/year-plan', emoji: '🗓️', accent: 'var(--green-dark)',
