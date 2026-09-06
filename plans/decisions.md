@@ -10566,3 +10566,21 @@ the planet, the map, the Learn tab and the pass screen, then falls quiet;
 the launch pad on another planet makes the dragged Friend the pilot, so a
 young child never has to find the tray. Thirty nine Playwright checks for the
 map and three new logic checks; every earlier drive unchanged.
+
+## 6 September 2026: Planet Friends, the universe and the self (Justin's second note), proposed
+
+Justin, on seeing slice 3b: "I would like all the planets floating in a
+universe so the child can explore each one, also build them self, like skin
+colour, hair, put on a space suit and more." Read as two things and designed
+as two slices, waiting on his go. The universe (3c): every planet in the
+catalogue floating on a sky twice the size of the screen from the first day,
+panned by dragging, each with a first room, and keys that open by whichever
+comes first (a lesson, a mission, or growth), so a three year old sees the
+universe light up too. The self (3d): the child's own explorer, made from
+tiles (skin tone, hair, eyes, a space suit in the theme colours, a visor, a
+badge, a backpack), standing with the Friends, walking the rooms, riding the
+rocket, dressed by the outfits box, with no starlight of its own. Decided in
+the design: the cast stay the cast (decision 4) and the child is the new one;
+the choices are palette indices in the save, no free text and no photo, and
+Justin's ask is the yes the data rule needs. The device ladder and the Star
+Cafe's loop move to 3e, the drops to 3f.

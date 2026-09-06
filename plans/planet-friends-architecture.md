@@ -2,8 +2,9 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a and 3b built; 3c and 3d of
-section 7, the world, wait on Justin's go. When the code
+own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a and 3b built. Justin's note of
+6 September (the universe, and the self) is designed in 7.1, 7.5 and 7.9 and
+planned as 3c and 3d, waiting on his go. When the code
 and this file disagree, the code is right and this file gets updated, the
 same rule THE-STORY.md runs on.
 
@@ -1150,6 +1151,21 @@ The rocket's boot is the pocket (7.2), so things travel too. At Tier 1 the
 child taps the planet and Pebble goes by itself. The map is where the lessons
 become visible in the child's own world: every pass lights a planet.
 
+**The universe (Justin, 6 September 2026: "all the planets floating in a
+universe so the child can explore each one").** The map grows into a
+universe from slice 3c. Every planet in the catalogue is there from the first
+day, floating (a slow bob, and a slower drift no faster than a cloud), on a
+sky twice the size of the screen that the child pans by dragging the dark; a
+small star button brings DiGi back to the middle. The child can drag any
+planet anywhere and it stays there (`planet_move` replaces the orbit angle
+with a place). A planet not yet open floats too, pale, with its key drawn on
+it, so the whole universe is visible and nothing is hidden behind a lock: a
+child can look at every one and land on the ones that are open. Every planet
+has a first room the child can explore the day it opens, and the deeper
+rooms come as drops. The keys open by whichever comes first (7.4): a lesson
+passed, a mission landed, or the planet growing while the child is away, so
+a three year old who cannot yet do a lesson still sees the universe light up.
+
 ### 7.2 A planet is rooms, a room is spots and things
 
 One renderer, `RoomScene`, draws any room from data: a backdrop, a floor
@@ -1259,18 +1275,19 @@ Star Lessons table, so a Learn tab pass never landed it. It now reads both.
 
 ### 7.5 The planet catalogue, the launch set
 
-| Planet | Rooms | Some of its things | Device | Opens by | Tier |
+| Planet | Rooms | Some of its things | Device | Opens by, whichever comes first | Tier |
 | --- | --- | --- | --- | --- | --- |
-| Home planet (built) | Outdoors | The plots, the pods, the sun catcher, the nursery | | Free | 1, 2, 3 |
-| The Den | Kitchen, bedroom, bathroom, living room | The charging shelf, fridge, cooker, table, food, beds, wardrobe, bath, toothbrushes, sofa, bookshelf, window | MoonPhone | Free | 1, 2, 3 |
-| Moonbase School | Classroom, library | Desks, the board, books, DiGi's desk | Laptop at Tier 3 | First lesson | 1, 2, 3 |
-| Playground planet | Playground, arcade | Slide, swings, sandpit, the device shelf, catch the shooting star | StarPad | Second lesson | 1, 2, 3 |
-| Star Cafe | Cafe, the bench under the stars, reading corner | Tables, the counter, the menu, cushions, books (section 2.3) | | Third lesson | 2, 3 |
-| Space Port | Launch pad, garage | Rockets, the rover, a fuel pump that pours starlight, tools | PocketGame | The rocket launch mission | 1, 2, 3 |
-| Wild planet | Forest, pond, burrow | Hog, Robin, Fox and Owl from the digi squad as neighbours, trees, a rope swing | StarWatch | The explorer walk mission or the fourth lesson | 1, 2, 3 |
-| Observatory | The dome, the roof | Telescope, star map, the comet, deckchairs | SpaceCam | The star hunt mission | 2, 3 |
-| StarNet Studio | Studio, the feed wall | The dome tool, the pretend feed (section 4.2) | | Fifth lesson | 2, 3 |
-| Ice planet, Volcano planet, Rainbow planet | Two rooms each | Pure fun: igloos, hot springs, a slide made of rainbow | | Later lessons and drops | 1, 2, 3 |
+| Home planet (built) | Outdoors, and the Den: kitchen, living room, bedroom (built), bathroom (a drop) | The plots, the pods, the sun catcher, the nursery, the charging shelf, the fridge, the beds, the wardrobe | MoonPhone (built) | Free | 1, 2, 3 |
+| Moonbase School (built) | Classroom; library as a drop | The board, two desks, the globe, the books, DiGi's desk, a porthole | Laptop at Tier 3 | Lesson 1, or growth stage 2 | 1, 2, 3 |
+| Playground planet (built) | Playground; arcade as a drop | The swings, the slide, the sandpit, a bench, a tree, the sign | StarPad | Lesson 2, or growth stage 3 | 1, 2, 3 |
+| Space Port | Launch pad, garage | Rockets, the rover, a fuel pump that pours starlight, tools | PocketGame | The rocket launch mission, or growth stage 1 | 1, 2, 3 |
+| Wild planet | Forest, pond, burrow | Trees, a pond, a burrow, a rope swing; Hog, Robin and Fox as neighbours in a drop | StarWatch | The explorer walk mission, or lesson 4 | 1, 2, 3 |
+| Observatory | The dome, the roof | Telescope, star map, the comet, deckchairs | SpaceCam | The star hunt mission, or growth stage 4 | 1, 2, 3 |
+| Star Cafe | Cafe, the bench under the stars, reading corner | Tables, the counter, the menu, cushions, books (section 2.3) | | Lesson 3 | 2, 3 |
+| StarNet Studio | Studio, the feed wall | The dome tool, the pretend feed (section 4.2) | | Lesson 5 | 2, 3 |
+| Ice planet | The igloo field | Igloos, an ice slide, a snowman, a warm hut | | Lesson 6, or growth stage 5 | 1, 2, 3 |
+| Volcano planet | The hot springs | Warm pools, a lava lamp rock, stepping stones, steam | | Lesson 7, or the helping hands mission | 1, 2, 3 |
+| Rainbow planet | The colour field | A rainbow slide, a cloud bed, paint pots, a sun shower | | Lesson 8, or the twenty moon jumps mission | 1, 2, 3 |
 
 **Drops.** A planet, a room or ten things a week, as registry rows and art,
 the way Toca ships Friday gifts. Fixed and named in advance on the map, so
@@ -1295,6 +1312,35 @@ there is never a surprise mechanic, only a surprise place.
   (Justin's decision): outfits and hats instead of a character maker.
 - Growth while away stays the engine. The world gets bigger by lessons,
   missions, growth and drops, never by staying on the screen.
+
+### 7.9 The self: the child's own explorer
+
+**Justin, 6 September 2026: "build them self, like skin colour, hair, put on
+a space suit and more."** The child makes their own explorer and it goes
+everywhere the Friends go. Decision 4 stands (the cast are the cast, with
+their names and faces); the child is the new one on the planet, and they are
+the one who gets to choose.
+
+- **What they choose.** Skin tone from a palette of eight, hair from eight
+  shapes and eight colours, eyes from four, a space suit in any of the theme
+  colours with a stripe in a second, and more: a visor, a badge, a backpack,
+  boots. The outfits box dresses the explorer too, so the party hat and the
+  crown fit. Nothing is typed: every choice is a picture on a tile. Tier 1
+  gets skin, hair and suit, one screen each with big tiles; Tier 2 and 3
+  get the lot on one sheet with a live figure that changes as they tap.
+- **Where it lives.** A "Me" button on the planet opens the maker as a
+  sheet, the same way the parts box opens. The explorer stands with the
+  Friends outdoors, walks the rooms, rides in the rocket on the map, and
+  wears the child's name from the family record as its label, because the
+  app already knows it. It has no starlight of its own: it never gets tired
+  and never needs a pod, which keeps the loop about the Friends.
+- **What is stored.** Palette indices in `world.me`, in the same document as
+  the planet. No free text, no photo, nothing that identifies a child to
+  anyone but their own family. Justin's ask on 6 September is the yes the
+  data rule needs; the choices are the same class as the theme colour.
+- **Why it earns its place.** Toca's most played thing is the character
+  maker. A child who has made themself is on the planet, not watching it,
+  and the space suit is the first thing they put on before they explore.
 
 ### 7.7 The data model and the rules
 
@@ -1348,13 +1394,21 @@ type World = {
   swings, the slide, the sandpit, a bench, a tree, the sign), the lesson
   count on the server, the reveals on the planet, the map, the Learn tab and
   the pass screen. The parts box and the pocket work on every planet.
-- **3c The device ladder and the Star Cafe.** The StarPad and the tiny game,
-  the SpaceCam and photos, the cafe with the bench, the treble drain and the
+- **3c The universe.** Every planet in the catalogue floating on a sky twice
+  the size of the screen, panned by dragging, DiGi in the middle, a first
+  room for each: the Space Port, the Wild planet, the Observatory, the Star
+  Cafe, StarNet Studio (Tier 2 and 3), the Ice, Volcano and Rainbow planets.
+  The keys open by whichever comes first: a lesson, a mission or growth.
+  Planned in plans/week-of-2026-09-07-planet-friends-slice-3c-universe-plan.md.
+- **3d The self.** The maker sheet, the explorer figure with skin, hair,
+  eyes, the space suit and more, on the planet, in the rooms, in the rocket.
+  Planned in plans/week-of-2026-09-07-planet-friends-slice-3d-self-plan.md.
+- **3e The device ladder and the Star Cafe's loop.** The StarPad and the tiny
+  game, the SpaceCam and photos, the cafe's bench, the treble drain and the
   no fail rule from section 2.3.
-- **3d Breadth drops.** The Wild planet with the animals, the Observatory,
-  the Space Port, StarNet Studio at Tier 2 with the dome tool, and then a
-  drop a week as data. The space rock of section 4.1 lands on the devices
-  once StarNet exists.
+- **3f Breadth drops.** The animals on the Wild planet, the bathroom, the
+  deeper rooms, StarNet's dome tool, and then a drop a week as data. The
+  space rock of section 4.1 lands on the devices once StarNet exists.
 - Slice 4 stands: the Tier 3 schedule, GrowAndRest and trust.
 
 **Checks, the same as every slice.** Playwright at 390 and 1280 with every
