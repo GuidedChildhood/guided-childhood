@@ -10593,3 +10593,16 @@ been applied under 257 for the bank, so no production change; the file
 rename is the whole fix. The check before claiming a number now needs to
 read the database migration list as well as origin/main and the open PRs,
 because an applied migration can arrive on main hours after it ran.
+
+## 6 September 2026: no more claim only pull requests on the Planet Friends lane
+
+Three times in two days (PRs 972, 981 and their builds 977 and the one that
+follows) Justin merged the claim commit within minutes of the draft opening,
+before the build was pushed, so the build then needed a second pull request.
+Decided: on this lane the claim is the plan file pushed on the branch (other
+sessions see it in the branches pushed in the last 7 days), and the pull
+request opens only once the build is on it and green. The multi session rule
+still holds in spirit: claim early on the branch, one lane per session, small
+PRs merged the same day. Also noted: two sessions both took migration 257 the
+same afternoon and both renumbered to 260; the wiring check baselines it as
+known until whoever owns them decides which moves again.
