@@ -27,6 +27,9 @@ type TeacherNotes = {
   keywords?: Keyword[]
   misconceptions?: string[]
   differentiation?: { support?: string; stretch?: string }
+  // The graduated approach, per module: SEND and EAL adaptations written
+  // from the module's own activities, never a generic checklist.
+  send?: { communication?: string; attention?: string; sensory?: string; eal?: string }
   paper_fallback?: string
   tool?: { heading?: string; lines?: string[]; strapline?: string }
   // The three "I can" statements the child colours on the learning record.
@@ -287,6 +290,26 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             )}
             {notes.differentiation.stretch && (
               <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Stretch. </strong>{notes.differentiation.stretch}</p>
+            )}
+          </div>
+        )}
+
+        {/* SEND and EAL: the graduated approach, one line per need, written
+            from this module's own activities. */}
+        {(notes.send?.communication || notes.send?.attention || notes.send?.sensory || notes.send?.eal) && (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>SEND and EAL adaptations</h2>
+            {notes.send.communication && (
+              <p style={body}><strong style={{ color: 'var(--ink)' }}>Communication and language. </strong>{notes.send.communication}</p>
+            )}
+            {notes.send.attention && (
+              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Attention and executive function. </strong>{notes.send.attention}</p>
+            )}
+            {notes.send.sensory && (
+              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>Sensory and regulation. </strong>{notes.send.sensory}</p>
+            )}
+            {notes.send.eal && (
+              <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>English as an additional language. </strong>{notes.send.eal}</p>
             )}
           </div>
         )}
