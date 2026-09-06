@@ -1,4 +1,4 @@
--- Guided Childhood — Migration 257
+-- Guided Childhood — Migration 260
 -- DiGi's situations and forecasts bank.
 --
 -- Justin, 6 September 2026: "DiGi needs to be clever enough to know all the
