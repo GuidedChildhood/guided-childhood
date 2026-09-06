@@ -10627,3 +10627,13 @@ across both sites, the Guided Digital Childhood Passport (read from "the
 guided digital child passport"; one word to change if he meant otherwise).
 A routine on 6 November 2026 reminds him to commission the DPIA and the
 solicitor review. The audit folder is committed on his go ahead.
+
+## 6 September 2026: the registered company, from the register
+
+Justin sent the Companies House page: Guided Digital Childhood Ltd, company
+number 17299814, a private limited company incorporated 24 June 2026,
+registered office Apple Acre, Star, Winscombe, England, BS25 1QF. The three
+fields in lib/content/contact.ts are filled from it, so the Terms and the
+Privacy notice now open with the company sentence and the homepage footer
+carries the name and number under the copyright line. The trading name
+stays Guided Childhood everywhere a family reads it.

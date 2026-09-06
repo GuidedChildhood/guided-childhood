@@ -54,14 +54,15 @@ export const CONTACT = {
   /**
    * The registered company behind the product.
    *
-   * Justin, 6 September 2026, answering the audit: "limited co". The exact
-   * registered name, the company number and the registered office are not
-   * yet given, so all three are empty and every surface that would print
-   * them prints nothing until they are filled. Never a guess on a legal page.
+   * Justin, 6 September 2026, answering the audit: "limited co", then the
+   * Companies House page: Guided Digital Childhood Ltd, company number
+   * 17299814, incorporated 24 June 2026, registered office Apple Acre, Star,
+   * Winscombe, England, BS25 1QF. Copied from the register, not typed from
+   * memory. Every surface that names the company reads these three fields.
    */
-  companyName: '',
-  companyNumber: '',
-  registeredOffice: [] as string[],
+  companyName: 'Guided Digital Childhood Ltd',
+  companyNumber: '17299814',
+  registeredOffice: ['Apple Acre', 'Star', 'Winscombe', 'England', 'BS25 1QF'] as string[],
 } as const
 
 /** True once the registered company details above have been filled in. */

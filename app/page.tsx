@@ -12,7 +12,7 @@ import HeaderActions from '@/components/marketing/HeaderActions'
 import FounderBadge from '@/components/marketing/FounderBadge'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
-import { CONTACT, hasAddress } from '@/lib/content/contact'
+import { CONTACT, hasAddress, hasCompany } from '@/lib/content/contact'
 // The live origin, from the one place it is written down. This page had five
 // copies of https://www.guidedchildhood.co.uk hardcoded, a domain the business
 // does not own, in the two things that decide which address Google indexes:
@@ -1189,8 +1189,13 @@ export default function HomePage() {
           </div>
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', color: 'rgba(255,255,255,.35)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', color: 'rgba(255,255,255,.35)', lineHeight: 1.7 }}>
               © 2026 {CONTACT.business} · {CONTACT.founder}
+              {hasCompany() && (
+                <span style={{ display: 'block' }}>
+                  {CONTACT.companyName}, company number {CONTACT.companyNumber}, registered in England and Wales
+                </span>
+              )}
             </div>
             <div style={{ display: 'flex', gap: '16px' }}>
               {['Online Safety Act 2023', 'DfE', 'Ofcom', 'Statutory RSE'].map(tag => (
