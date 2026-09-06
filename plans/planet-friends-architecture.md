@@ -2,7 +2,7 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b, 3c and 3d built: the universe with every planet a place, and the child's own explorer. Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. Justin's note of
+own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b, 3c and 3d built: the universe with every planet a place, and the child's own explorer. Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. A design canvas of five boards at Toca quality (the title, the universe, the Space Port, the kitchen, the explorer maker), drawn from the toy's own pieces and cast art in butter and ink, is at https://claude.ai/code/artifact/b1b16e3f-d88d-4966-9bf9-5adc05dc56b6 (6 September); it is the picture the next slices draw towards. Justin's note of
 6 September (the universe, and the self) is designed in 7.1, 7.5 and 7.9 and
 planned as 3c and 3d, waiting on his go. When the code
 and this file disagree, the code is right and this file gets updated, the

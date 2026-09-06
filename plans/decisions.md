@@ -10739,3 +10739,20 @@ from the 7.5 table now open every planet. Two consequences worth knowing:
 Out of scope, still: the rocket pocket and things travelling between planets
 (7.2), the device ladder and the Star Cafe's loop (3e), the drops (3f), the
 explorer's visor, badge, backpack and boots.
+
+## 6 September 2026: the Planet Friends design canvas, Toca quality in our own clothes
+
+Justin sent five Toca Boca World screens and asked for that quality and
+resolution. Built as a Claude Design canvas of five boards at 2000 by 920
+(the title, the universe, the Space Port, the kitchen, the explorer maker),
+drawn from the toy's own SVG pieces and the cast art in butter and ink and
+Nunito, with IBM Plex Mono for the small labels:
+https://claude.ai/code/artifact/b1b16e3f-d88d-4966-9bf9-5adc05dc56b6.
+Static mockups. The patterns are borrowed from the best of the genre (full
+bleed landscape scenes with depth, chunky round buttons in the corners, the
+Friend whose line it is bottom left with the line beside it, the place plate
+bottom right, a tray of who is flying) and the brand is entirely ours, never
+a copy of another company's art. The canvas is the picture the next slices
+draw towards: full screen landscape rooms, a big explorer maker with skin,
+hair and suit tiles, the universe as a night sky with every planet whole and
+its key drawn on it. Nothing in the product changed for this.
