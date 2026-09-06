@@ -5,6 +5,10 @@ import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 import { resolveTheme } from '@/lib/kid/theme'
+import { lessonsPassedCount } from '@/lib/planet/server'
+import { newPlanets, type Home } from '@/lib/planet/logic'
+import { MAP_LINES } from '@/lib/planet/world'
+import { PLANET_WORDS } from '@/lib/planet/universe'
 
 // My lessons: the child's own list of the age right stage lessons from the
 // family library, opened from their quest link. No account, no login; the
@@ -150,8 +154,24 @@ export default async function KidLessonsPage({ params, searchParams }: {
     }
   })
 
+  // A planet that a lesson opened and the child has not flown to yet
+  // (Planet Friends slice 3b). Best effort: a missing planet row or table
+  // means no banner, never a broken list.
+  let planetLine: { text: string; href: string } | null = null
+  try {
+    const [count, { data: planetRow }] = await Promise.all([
+      lessonsPassedCount(supabase, link.child_id as string),
+      supabase.from('planet_homes').select('state').eq('child_id', link.child_id).maybeSingle(),
+    ])
+    if (count !== null && planetRow?.state) {
+      const fresh = newPlanets({ ...(planetRow.state as Home), lessonsPassed: count })
+      if (fresh.length > 0) planetLine = { text: `${MAP_LINES.newWaiting} ${PLANET_WORDS[fresh[0]].title} is open.`, href: `/k/${token}/planet?go=map` }
+    }
+  } catch { /* the map says it on the next open */ }
+
   return (
     <KidLessonList
+      planetLine={planetLine}
       theme={resolveTheme(child?.accent as string | null)}
       backHref={`/k/${token}`}
       childName={child?.name ?? 'Superstar'}

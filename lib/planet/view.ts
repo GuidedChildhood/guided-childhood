@@ -1,5 +1,4 @@
 import type { BedtimePhase, CodeMode, Home, HomeAsk, HomeEvent, Tier } from './logic'
-import type { PlanetLight } from './universe'
 
 // What the child's screen receives, whole, on every read and every event, so
 // it never has to guess what changed. Types only: shared by the server, the
@@ -30,8 +29,6 @@ export type HomeView = {
   starMinutes: number
   /** The hidden code cards made for this child: which missions, in which shape, and whether printed. Never the code itself. */
   cards: { key: string; mode: CodeMode; printed: boolean }[]
-  /** The star system (slice 3b): which planets shine, decided on the server at view time. */
-  planets: PlanetLight[]
 }
 
 export type ClientEvent = HomeEvent | { kind: 'ask_wake' } | { kind: 'ask_seen' }

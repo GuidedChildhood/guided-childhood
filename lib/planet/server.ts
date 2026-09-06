@@ -10,7 +10,6 @@ import {
 } from './logic'
 import { friendArt } from './registry'
 import { MISSION_DEFS, missionByKey } from './missions'
-import { isAwayKey, planetLights } from './universe'
 export type { HomeView, ScreenAsk, ClientEvent } from './view'
 import type { HomeView, ScreenAsk, ClientEvent } from './view'
 
@@ -153,6 +152,11 @@ async function loadReconciled(admin: Admin, userId: string, childId: string, chi
   // shelf in the kitchen and every hand is empty, and the Friends do it
   // themselves, before the child is asked to do anything.
   if (bedtimePhase(c.minutesNow, c.startMin, c.endMin) !== 'day') home = dockAllDevices(home, c.nowIso)
+  // The lessons passed open the planets (slice 3b): counted here from the
+  // lessons tables, carried in the save so the pure rules and the screen
+  // can read it, never taken from the client.
+  const lessonsPassed = await lessonsPassedCount(admin, childId)
+  if (lessonsPassed !== null && lessonsPassed !== (home.lessonsPassed ?? 0)) home = { ...home, lessonsPassed }
   const nightLanded = home.lastNightAppliedOn !== row.state.lastNightAppliedOn && !created
   if (JSON.stringify(home) !== before) {
     await saveState(admin, childId, home)
@@ -196,7 +200,6 @@ async function toView(admin: Admin, childId: string, loaded: Awaited<ReturnType<
     screenAsk,
     starMinutes: loaded.starMinutes,
     cards: cardsOf(await codeRows(admin, childId)),
-    planets: planetLights(loaded.home, await lessonsPassedCount(admin, childId)),
   }
 }
 
@@ -232,19 +235,21 @@ async function lessonPassedSince(admin: Admin, childId: string, sinceIso: string
 }
 
 /**
- * Every lesson this child has ever passed, both kinds (design 7.4): the map
- * reads this at view time and stores no unlock as truth, so a curriculum
- * change can never strand a planet and a stale client can never invent one.
+ * How many lessons this child has passed, all time: the stage lessons on the
+ * Learn tab (lesson_completions, per child, passed) plus the Star Lessons a
+ * parent sent that they finished (kid_lesson_missions done). Null when the
+ * tables cannot be read, so a database hiccup never shuts a planet that was
+ * open yesterday.
  */
-async function lessonsPassedCount(admin: Admin, childId: string): Promise<number> {
-  const count = async (q: PromiseLike<{ count: number | null }>) => { try { return (await q).count ?? 0 } catch { return 0 } }
-  const [learnTab, starLessons] = await Promise.all([
-    count(admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true })
-      .eq('child_id', childId).eq('passed', true)),
-    count(admin.from('kid_lesson_missions').select('id', { count: 'exact', head: true })
-      .eq('child_id', childId).eq('status', 'done')),
-  ])
-  return learnTab + starLessons
+export async function lessonsPassedCount(admin: Admin, childId: string): Promise<number | null> {
+  try {
+    const [a, b] = await Promise.all([
+      admin.from('lesson_completions').select('lesson_id', { count: 'exact', head: true }).eq('child_id', childId).eq('passed', true),
+      admin.from('kid_lesson_missions').select('id', { count: 'exact', head: true }).eq('child_id', childId).eq('status', 'done'),
+    ])
+    if (a.error && b.error) return null
+    return (a.count ?? 0) + (b.count ?? 0)
+  } catch { return null }
 }
 
 /**
@@ -287,16 +292,6 @@ export async function applyHomeEvent(admin: Admin, userId: string, childId: stri
     // Only a grown up (through the ask) or the server itself lands a mission.
     return toView(admin, childId, { ...loaded, home, ask })
   } else {
-    // Travel (slice 3b): a Friend may only land on a planet the map has lit,
-    // and the light is computed here from lessons passed, never trusted from
-    // the client. A move into a dark planet is dropped, the same quiet way
-    // the pure rules drop an impossible transition.
-    if (ev.kind === 'room_move' && isAwayKey(ev.where)) {
-      const lights = planetLights(home, await lessonsPassedCount(admin, childId))
-      if (!lights.some(p => p.key === ev.where && p.landable)) {
-        return toView(admin, childId, { ...loaded, home, ask })
-      }
-    }
     // A claim on a card mission is checked against the code made for this
     // child; the pure rules see it as an ordinary answer.
     const defs = ev.kind === 'mission_claim' ? withChildAnswers(MISSION_DEFS, answersOf(await codeRows(admin, childId))) : MISSION_DEFS

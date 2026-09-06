@@ -3,6 +3,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { markStepQuietly } from '@/lib/kid/day-store'
 import { sendPush } from '@/lib/push/send'
+import { lessonsPassedCount } from '@/lib/planet/server'
+import { PLANETS, PLANET_ORDER } from '@/lib/planet/logic'
+import { PLANET_WORDS } from '@/lib/planet/universe'
 import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
 // A child finished a family stage lesson on their own link. Token is the
@@ -151,5 +154,19 @@ export async function POST(req: NextRequest) {
       })
   } catch { /* push is best effort */ }
 
-  return NextResponse.json({ ok: true, passed })
+  // Did this pass open a planet (Planet Friends slice 3b)? The planet page
+  // counts on its own read; this is the same count, so the pass screen can
+  // say a new planet is waiting the moment it is true. Best effort.
+  let planetOpened: string | null = null
+  if (passedNow) {
+    try {
+      const n = await lessonsPassedCount(supabase, link.child_id)
+      if (n !== null) {
+        // The planet whose lesson key this very pass turned, if it has rooms to land in.
+        const opened = PLANET_ORDER.find(p => PLANETS[p].rooms.length > 0 && PLANETS[p].opens.some(o => o.kind === 'lesson' && o.count === n))
+        planetOpened = opened ? PLANET_WORDS[opened].title : null
+      }
+    } catch { /* the map says it on the next open */ }
+  }
+  return NextResponse.json({ ok: true, passed, planetOpened, planetHref: planetOpened ? `/k/${token}/planet?go=map` : null })
 }

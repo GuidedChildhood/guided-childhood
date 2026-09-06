@@ -1,20 +1,66 @@
 import type { FriendKey, RoomZone, ThingKey, Where } from './logic'
 import { PHOTOS_MAX } from './logic'
 
+/** What the child is looking at: a place, or the star system map (slice 3b). */
+export type SceneKey = Where | 'map'
+
 // The Den, in words (slice 3a). The rules are in ./logic; this is what the
 // child reads and what things are called. No dashes in any line, ever. The
 // drawings live in components/planet/ThingArt.tsx and RoomScene.tsx.
 
-export const ROOM_TITLES: Record<Where, string> = {
+export const ROOM_TITLES: Record<SceneKey, string> = {
   outdoors: 'My planet',
   kitchen: 'The kitchen',
   living: 'The living room',
   bedroom: 'The bedroom',
-  school: 'Moonbase School',
-  playground: 'Playground planet',
+  classroom: 'Moonbase School',
+  playground: 'The Playground planet',
+  map: 'My star system',
 }
 
-export const ROOM_EMOJI: Record<Where, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️', school: '🏫', playground: '🛝' }
+export const ROOM_EMOJI: Record<SceneKey, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️', classroom: '🏫', playground: '🛝', map: '🚀' }
+
+export const MAP_LINES = {
+  welcome: 'The star system. Tap a planet to look, or drag a Friend onto one to fly there.',
+  welcomeTier1: 'The star system. Tap a planet and Pebble flies there.',
+  tray: 'Who is flying?',
+  flying: (name: string, planet: string) => `${name} is flying to ${planet}.`,
+  landed: (name: string, planet: string) => `${name} landed on ${planet}.`,
+  shut: (planet: string, lessons: number) => `${planet} is not open yet. ${lessons === 1 ? 'One more lesson' : `${lessons} more lessons`} on the Learn tab and it lights up.`,
+  shutTier1: (planet: string) => `${planet} is not open yet. A lesson with a grown up opens it.`,
+  shutMission: (planet: string, mission: string) => `${planet} is not open yet. Land the ${mission} mission on the board and it lights up.`,
+  shutStage: (planet: string) => `${planet} is not open yet. Keep your planet growing and it lights up.`,
+  shutTier1Mission: (planet: string) => `${planet} is not open yet. A mission with a grown up opens it.`,
+  farAway: (planet: string) => `${planet} is a far away one, for later. Its rooms are not built yet.`,
+  isNew: (planet: string) => `A new planet! ${planet} is open. Fly there.`,
+  newWaiting: 'A new planet is waiting on your map.',
+  orbit: 'You moved it. It stays there.',
+  digi: 'DiGi, the star in the middle. Everything goes round DiGi.',
+  learnTab: 'Open the Learn tab',
+  resting: (name: string) => `${name} is resting. Nobody flies while they rest.`,
+  nobody: 'Nobody is awake to fly.',
+  home: 'Home. Everyone knows the way.',
+} as const
+
+export const SCHOOL_LINES = {
+  enter: 'Moonbase School. DiGi is at the front.',
+  board: 'Chalk squeak.',
+  desk: 'A desk. Put something on it.',
+  digi: 'Hello! I am DiGi. Learning is how planets open.',
+  globe: 'Round and round.',
+  books: 'So many books.',
+  launch: 'Drag a Friend to the launch pad to fly home.',
+} as const
+
+export const PARK_LINES = {
+  enter: 'The Playground planet. Drag a Friend onto the swings, the slide or the sandpit.',
+  swing: 'Wheee!',
+  slide: 'Whoosh!',
+  sandpit: 'Dig dig dig.',
+  bench: 'A little sit down.',
+  tree: 'Rustle rustle.',
+  sign: 'The sign points home.',
+} as const
 
 export const THING_LABELS: Record<ThingKey, string> = {
   apple: 'An apple',
@@ -48,7 +94,10 @@ export const HOUSE_LINES = {
   kitchen: 'The kitchen. The shelf is where the phones charge.',
   living: 'The living room. Sit anywhere.',
   bedroom: 'The bedroom. No phones in here. They charge downstairs.',
+  classroom: 'Moonbase School. DiGi is at the front.',
+  playground: 'The Playground planet. Drag a Friend onto the swings, the slide or the sandpit.',
   outdoors: 'Back outside.',
+  map: 'The star system.',
   door: 'Drag a Friend to the door to go through.',
   fridge: 'The fridge. Take something out.',
   fridgeEmpty: 'All gone. The fridge fills up again tomorrow.',

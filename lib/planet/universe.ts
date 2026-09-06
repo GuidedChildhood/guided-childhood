@@ -1,125 +1,61 @@
-import type { Home, Tier } from './logic'
+import type { PlanetKey, PlanetSign } from './logic'
 
-// The star system (design 7.1, slice 3b): the catalogue of planets as data,
-// the way the missions and the Den's words already work. The rules stay in
-// ./logic; which planets are OPEN is decided in ./server at view time from
-// lessons passed, missions approved and the growth stage, and arrives on
-// HomeView as PlanetLight[]. Nothing here is a table: a new planet is a row
-// in this file plus art, never new code and never a migration.
-// No dashes in any line, ever.
+// The star system in words and art (design 7.1 and 7.5, slice 3b): one row
+// per planet, the way the missions and the Den's words already work. The
+// RULES for a planet, its rooms and the keys that open it, are PLANETS in
+// ./logic, which stays import free so the checks can run it; this file is
+// everything the child sees. A new planet is a row in both files plus its
+// rooms, never new code and never a migration. No dashes in any line, ever.
+//
+// Two builds of this slice met on 6 September 2026 (PR 984 and PR 986). The
+// catalogue of every planet, its colours and motifs, and the self builder
+// came from PR 984; the map you can drag, the rooms with things in them and
+// the reveals came from PR 986. This file is where the two were folded into one.
 
-/** Every planet on the map. The home planet carries the Den inside it. */
-export type UniverseKey =
-  | 'home' | 'school' | 'playground' | 'cafe' | 'port'
-  | 'wild' | 'observatory' | 'starnet' | 'ice' | 'volcano' | 'rainbow'
+export type PlanetMotif = 'grass' | 'book' | 'slide' | 'mug' | 'rocket' | 'tree' | 'dome' | 'screen' | 'ice' | 'lava' | 'rainbow'
 
-/** The rooms a child can land in away from home, this slice. */
-export type AwayKey = 'school' | 'playground'
-
-export type OpenRule =
-  | { kind: 'free' }
-  | { kind: 'lesson'; count: number; hint: string }
-  | { kind: 'mission'; key: string; hint: string }
-  | { kind: 'stage'; stage: number; hint: string }
-  | { kind: 'later'; hint: string }
-
-export type UniversePlanet = {
-  key: UniverseKey
+export type PlanetWords = {
   title: string
-  tiers: Tier[]
-  opens: OpenRule
-  /** A planet the child can land on this slice. The rest light up and wait for their rooms (3c, 3d). */
-  landable: boolean
-  /** The map drawing: body colour, a darker edge, and one motif. */
+  blurb: string
+  emoji: string
+  /** The map drawing: body colour, a darker edge, one motif, and its radius. */
   colour: string
   edge: string
-  motif: 'grass' | 'book' | 'slide' | 'mug' | 'rocket' | 'tree' | 'dome' | 'screen' | 'ice' | 'lava' | 'rainbow'
-  /** Which ring it sits on (0 nearest DiGi) and where along it, 0 to 1. */
-  ring: 0 | 1 | 2
-  at: number
-  /** Radius on the map, home is the big one. */
+  motif: PlanetMotif
   r: number
 }
 
-/** The little picture on a pale planet: the small honest sign of what opens it. */
-export const OPEN_SIGNS: Record<OpenRule['kind'], string> = {
-  free: '',
+export const PLANET_WORDS: Record<PlanetKey, PlanetWords> = {
+  home: { title: 'Home planet', blurb: 'Where the Friends live.', emoji: '🪐', colour: '#8FD1B4', edge: '#5F8F4A', motif: 'grass', r: 30 },
+  school: { title: 'Moonbase School', blurb: 'A classroom with a board, two desks, a globe, and DiGi at the front.', emoji: '🏫', colour: '#8EC3F0', edge: '#5A93C4', motif: 'book', r: 24 },
+  playground: { title: 'The Playground planet', blurb: 'A slide, the swings, a sandpit and a bench under a tree.', emoji: '🛝', colour: '#F7A23B', edge: '#C99A28', motif: 'slide', r: 24 },
+  port: { title: 'Space Port', blurb: 'Rockets, the rover, and a fuel pump that pours starlight.', emoji: '🚀', colour: '#B9C4D6', edge: '#84919F', motif: 'rocket', r: 22 },
+  wild: { title: 'Wild planet', blurb: 'A forest, a pond, a burrow and a rope swing.', emoji: '🌳', colour: '#7FB069', edge: '#527A42', motif: 'tree', r: 22 },
+  observatory: { title: 'The Observatory', blurb: 'A telescope, a star map, the comet and deckchairs.', emoji: '🔭', colour: '#C8B8E8', edge: '#8F7BB8', motif: 'dome', r: 22 },
+  cafe: { title: 'Star Cafe', blurb: 'Tables, the counter, the menu, cushions and books.', emoji: '☕', colour: '#F2A58F', edge: '#C4765F', motif: 'mug', r: 22 },
+  starnet: { title: 'StarNet Studio', blurb: 'The dome tool and the pretend feed.', emoji: '📺', colour: '#F2957A', edge: '#BF6A52', motif: 'screen', r: 20 },
+  ice: { title: 'Ice planet', blurb: 'Igloos, an ice slide, a snowman and a warm hut.', emoji: '🧊', colour: '#CFE8F5', edge: '#93B9CC', motif: 'ice', r: 20 },
+  volcano: { title: 'Volcano planet', blurb: 'Warm pools, a lava lamp rock, stepping stones and steam.', emoji: '🌋', colour: '#E28B6B', edge: '#A85E3D', motif: 'lava', r: 20 },
+  rainbow: { title: 'Rainbow planet', blurb: 'A rainbow slide, a cloud bed, paint pots and a sun shower.', emoji: '🌈', colour: '#F5D7E8', edge: '#C79BB4', motif: 'rainbow', r: 22 },
+}
+
+/** The little picture on a pale planet: the small honest sign of what opens it. No padlock, ever. */
+export const OPEN_SIGNS: Record<PlanetSign, string> = {
   lesson: '📖',
   mission: '🚩',
   stage: '🌱',
   later: '✨',
 }
 
-export const UNIVERSE: UniversePlanet[] = [
-  { key: 'home', title: 'My planet', tiers: [1, 2, 3], opens: { kind: 'free' }, landable: true, colour: '#8FBF6F', edge: '#5F8F4A', motif: 'grass', ring: 0, at: 0.14, r: 44 },
-  { key: 'school', title: 'Moonbase School', tiers: [1, 2, 3], opens: { kind: 'lesson', count: 1, hint: 'A lesson opens this one' }, landable: true, colour: '#8EC3F0', edge: '#5A93C4', motif: 'book', ring: 0, at: 0.62, r: 34 },
-  { key: 'playground', title: 'Playground planet', tiers: [1, 2, 3], opens: { kind: 'lesson', count: 2, hint: 'Two lessons open this one' }, landable: true, colour: '#F4C542', edge: '#C99A28', motif: 'slide', ring: 1, at: 0.05, r: 34 },
-  { key: 'cafe', title: 'Star Cafe', tiers: [2, 3], opens: { kind: 'lesson', count: 3, hint: 'Three lessons open this one' }, landable: false, colour: '#F2A58F', edge: '#C4765F', motif: 'mug', ring: 1, at: 0.38, r: 28 },
-  { key: 'port', title: 'Space Port', tiers: [1, 2, 3], opens: { kind: 'mission', key: 'rocket_launch', hint: 'The rocket mission opens this one' }, landable: false, colour: '#B9C4D6', edge: '#84919F', motif: 'rocket', ring: 1, at: 0.72, r: 30 },
-  { key: 'wild', title: 'Wild planet', tiers: [1, 2, 3], opens: { kind: 'lesson', count: 4, hint: 'Four lessons open this one' }, landable: false, colour: '#7FB069', edge: '#527A42', motif: 'tree', ring: 2, at: 0.1, r: 30 },
-  { key: 'observatory', title: 'The Observatory', tiers: [2, 3], opens: { kind: 'mission', key: 'star_hunt', hint: 'The star hunt opens this one' }, landable: false, colour: '#C8B8E8', edge: '#8F7BB8', motif: 'dome', ring: 2, at: 0.32, r: 27 },
-  { key: 'starnet', title: 'StarNet Studio', tiers: [2, 3], opens: { kind: 'lesson', count: 5, hint: 'Five lessons open this one' }, landable: false, colour: '#F2957A', edge: '#BF6A52', motif: 'screen', ring: 2, at: 0.55, r: 27 },
-  { key: 'ice', title: 'Ice planet', tiers: [1, 2, 3], opens: { kind: 'later', hint: 'A far away one, for later' }, landable: false, colour: '#CFE8F5', edge: '#93B9CC', motif: 'ice', ring: 2, at: 0.74, r: 24 },
-  { key: 'volcano', title: 'Volcano planet', tiers: [1, 2, 3], opens: { kind: 'later', hint: 'A far away one, for later' }, landable: false, colour: '#E28B6B', edge: '#A85E3D', motif: 'lava', ring: 2, at: 0.88, r: 24 },
-  { key: 'rainbow', title: 'Rainbow planet', tiers: [1, 2, 3], opens: { kind: 'later', hint: 'A far away one, for later' }, landable: false, colour: '#F5D7E8', edge: '#C79BB4', motif: 'rainbow', ring: 1, at: 0.9, r: 24 },
-]
-
-export const universePlanet = (key: UniverseKey): UniversePlanet => UNIVERSE.find(p => p.key === key)!
-
-export const AWAY_KEYS: AwayKey[] = ['school', 'playground']
-export const isAwayKey = (k: unknown): k is AwayKey => k === 'school' || k === 'playground'
-
-/** What the server tells the map: which planets shine, and why the pale ones wait. */
-export type PlanetLight = {
-  key: UniverseKey
-  open: boolean
-  landable: boolean
-  hint: string
+/** The words under a pale planet, from Tier 2. Tier 1 gets the picture only. */
+export const SIGN_WORDS: Record<PlanetSign, string> = {
+  lesson: 'PASS A LESSON',
+  mission: 'LAND A MISSION',
+  stage: 'KEEP GROWING',
+  later: 'FAR AWAY',
 }
 
-/**
- * The lights, pure: lessons passed and the home decide, so the server and
- * the dev fixture agree. Only planets of this tier appear at all.
- */
-export function planetLights(home: Home, lessonsPassed: number): PlanetLight[] {
-  const approved = new Set(home.missions.filter(m => m.status === 'approved' || m.status === 'done').map(m => m.key))
-  return UNIVERSE.filter(p => p.tiers.includes(home.tier)).map(p => {
-    const o = p.opens
-    const open =
-      o.kind === 'free' ? true :
-      o.kind === 'lesson' ? lessonsPassed >= o.count :
-      o.kind === 'mission' ? approved.has(o.key) :
-      o.kind === 'stage' ? home.growthStage >= o.stage :
-      false
-    return { key: p.key, open, landable: p.landable && open, hint: o.kind === 'free' ? '' : o.hint }
-  })
-}
-
-// ── The away rooms, in words (the Den pattern, world.ts) ────────────────────
-
-export const AWAY_TITLES: Record<AwayKey, string> = {
-  school: 'Moonbase School',
-  playground: 'Playground planet',
-}
-
-export const AWAY_EMOJI: Record<AwayKey, string> = { school: '🏫', playground: '🛝' }
-
-/** What the lead Friend says when a piece of an away room is tapped. The renderer carries no string of its own. */
-export const AWAY_PROP_LINES: Record<AwayKey, Record<string, string>> = {
-  school: {
-    board: 'Look at the board. DiGi drew that.',
-    digi_desk: 'DiGi teaches here.',
-    desk: 'A desk just for you.',
-    books: 'So many stories.',
-  },
-  playground: {
-    slide: 'Wheee!',
-    swings: 'Higher, higher!',
-    sandpit: 'Dig dig dig.',
-  },
-}
-
-/** The builder, in words. Tier 1 hears these read by a grown up or not at all; the swatches carry the meaning. */
+/** The self builder, in words. Tier 1 hears these read by a grown up or not at all; the swatches carry the meaning. */
 export const SELF_LINES = {
   makeMe: 'Make me',
   title: 'This is me',
@@ -129,15 +65,5 @@ export const SELF_LINES = {
   done: 'Done',
   hello: 'There you are! Ready to explore.',
   changed: 'Looking good!',
-} as const
-
-export const UNIVERSE_LINES = {
-  map: 'Our star system. Tap a bright planet to fly there.',
-  paler: 'That one is still waking up.',
-  fly: (title: string) => `Off to ${title}!`,
-  schoolEnter: 'Moonbase School. DiGi teaches here.',
-  playgroundEnter: 'The Playground planet. Wheee!',
-  homeAgain: 'Home again.',
-  mapButton: 'The map',
-  needFriend: 'Everyone is resting. The rocket waits.',
+  tapMe: 'That is you. Tap yourself any time to change your look.',
 } as const

@@ -10546,6 +10546,44 @@ same day. The missing seventh lens is the SEND parent; the ADHD, autism and
 anxiety rows are the thinnest and a V3 with that lens would change them
 most.
 
+## 6 September 2026: Planet Friends slice 3b, the star system and lessons unlock planets, built
+
+Justin: "Go 3b". Built the same day (PR 981, no migration). The sky is a map:
+DiGi in the middle, the planets on dashed orbits, a tray of the awake Friends
+along the bottom. Drag a Friend onto a lit planet and a rocket flies them
+there; drag a planet along its orbit and it stays where the child left it;
+tap a planet to look. Two planets to fly to: Moonbase School (opens with the
+first lesson passed) and the Playground planet (the second), each a room
+drawn by the same renderer as the Den. Decided on the way: the server counts
+the lessons passed on every read and carries the count in the save, so the
+rules and the screen read one number and the client never sends it; the
+catalogue order decides which planet opens next, so a curriculum change can
+never strand a planet; a shut planet is a dashed outline with a book on it
+and, from Tier 2, the words "pass a lesson", never a padlock or a countdown;
+Tier 1 gets no words on the map and a tap flies Pebble by itself; a landing
+marks a planet visited, and an open planet not yet visited is announced on
+the planet, the map, the Learn tab and the pass screen, then falls quiet;
+the launch pad on another planet makes the dragged Friend the pilot, so a
+young child never has to find the tray. Thirty nine Playwright checks for the
+map and three new logic checks; every earlier drive unchanged.
+
+## 6 September 2026: Planet Friends, the universe and the self (Justin's second note), proposed
+
+Justin, on seeing slice 3b: "I would like all the planets floating in a
+universe so the child can explore each one, also build them self, like skin
+colour, hair, put on a space suit and more." Read as two things and designed
+as two slices, waiting on his go. The universe (3c): every planet in the
+catalogue floating on a sky twice the size of the screen from the first day,
+panned by dragging, each with a first room, and keys that open by whichever
+comes first (a lesson, a mission, or growth), so a three year old sees the
+universe light up too. The self (3d): the child's own explorer, made from
+tiles (skin tone, hair, eyes, a space suit in the theme colours, a visor, a
+badge, a backpack), standing with the Friends, walking the rooms, riding the
+rocket, dressed by the outfits box, with no starlight of its own. Decided in
+the design: the cast stay the cast (decision 4) and the child is the new one;
+the choices are palette indices in the save, no free text and no photo, and
+Justin's ask is the yes the data rule needs. The device ladder and the Star
+Cafe's loop move to 3e, the drops to 3f.
 ## 6 September 2026: migration 257 renumbered to 260
 
 The situations bank shipped as 257 in PR 978 while another session applied
@@ -10556,6 +10594,18 @@ rename is the whole fix. The check before claiming a number now needs to
 read the database migration list as well as origin/main and the open PRs,
 because an applied migration can arrive on main hours after it ran.
 
+## 6 September 2026: no more claim only pull requests on the Planet Friends lane
+
+Three times in two days (PRs 972, 981 and their builds 977 and the one that
+follows) Justin merged the claim commit within minutes of the draft opening,
+before the build was pushed, so the build then needed a second pull request.
+Decided: on this lane the claim is the plan file pushed on the branch (other
+sessions see it in the branches pushed in the last 7 days), and the pull
+request opens only once the build is on it and green. The multi session rule
+still holds in spirit: claim early on the branch, one lane per session, small
+PRs merged the same day. Also noted: two sessions both took migration 257 the
+same afternoon and both renumbered to 260; the wiring check baselines it as
+known until whoever owns them decides which moves again.
 ## 6 September 2026: the bank file is 263, and PCAST joins the bank (migration 264)
 
 Both sessions renumbered their 257 to 260 within the same hour, and the
@@ -10597,6 +10647,43 @@ cast rule never covered. Stored as play state in planet_homes.state.self,
 changed any time, nothing new collected about the child beyond the play
 choices themselves. Plan: plans/2026-09-06-universe-and-self-plan.md.
 
+## 6 September 2026: two builds of the star system met, and one survived
+
+PR 984 (the other session on the kid toy lane, from Justin's universe and
+self note) and PR 986 (this lane, from "Go 3b") built the star system twice
+in one afternoon and both touched the same seven files. Justin merged 984,
+then said "Conflict 986". Resolved by folding the two into ONE of each
+thing rather than keeping either whole:
+
+- Kept from 986: the map you can drag (a Friend onto a planet flies there,
+  a planet along its orbit stays where the child left it, the tray, the
+  pilot on the launch pad, the New! reveal), the classroom and the
+  Playground as real rooms with spots, the things, the phones and the
+  activities, the reveals on the Learn tab and the pass screen, and the
+  lesson count read on the server with null on error.
+- Kept from 984: the catalogue of every planet as registry rows (colours,
+  motifs, sizes), the honest signs on a pale planet (a book, a flag, a
+  sprout, sparkles), and the self whole: SelfFigure, SelfBuilder, the
+  self_set event, home.self and its guard.
+- Gone: StarSystem.tsx and AwayRoom.tsx (984's tap only map and static
+  away rooms), 984's planets list on the view and its server side travel
+  drop (the pure rules refuse a closed planet from home.lessonsPassed,
+  which the server sets on every read), and the 'school' place name (the
+  classroom is 'classroom'; ensureWorld mends a save written that way).
+- Folded: every planet of design 7.5 now orbits with ALL of its keys, and
+  any one opens it (lesson count, mission landed, growth stage). A planet
+  whose rooms are not drawn yet stays pale with sparkles whatever its keys
+  say, so nothing on the map is ever open with nowhere to land. Moonbase
+  School therefore also opens at growth stage 2 and the Playground at
+  stage 3, as the table says; a child who has grown that far sees the New!
+  card on their next open without a lesson. Say the word and it goes back
+  to lessons only.
+
+Rule reinforced: one session per lane. The other session's plan file named
+the kid toy lane while this lane's draft PR 981 already held it. The lane
+check at session start has to read the open PRs AND the plan files pushed
+that day, and a prompt that lands on two sessions ("build the universe")
+should be answered by one of them and pointed at the other's branch.
 ## 6 September 2026: the PCAST migration is 264, settled at the merge
 
 The number dance's last step: while PR 985 was open, main's own fix for

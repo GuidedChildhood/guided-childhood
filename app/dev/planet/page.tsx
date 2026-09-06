@@ -1,8 +1,8 @@
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
-import { applyEvent, addMinutes, dockAllDevices, isMovable, isOutfit, isPartKey, isRoomKey, isWhere, newHome, type CodeMode, type DeviceKey, type FriendKey, type Tier, type Where } from '@/lib/planet/logic'
+import { applyEvent, addMinutes, dockAllDevices, isMovable, isOutfit, isPartKey, isPlanetKey, isRoomKey, isSelf, isWhere, newHome, type CodeMode, type DeviceKey, type FriendKey, type Tier } from '@/lib/planet/logic'
+import type { SceneKey } from '@/lib/planet/world'
 import { MISSION_DEFS } from '@/lib/planet/missions'
-import { planetLights } from '@/lib/planet/universe'
 
 // The pretend code on the pretend card, one per shape, so the pad can be driven.
 export const FIXTURE_CODES: Record<CodeMode, string[]> = { pictures: ['star', 'moon', 'rocket'], letters: ['m', 'o', 'o', 'n'] }
@@ -30,6 +30,9 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?held=pebble:apple  what a Friend holds (a thing, or its own phone as phone_pebble)
 //   ?things=apple@k_t1,teddy@b_f1  things already on room spots
 //   ?battery=pebble:20  a phone's battery; ?charging=pebble puts it on the shelf mid charge
+//   ?lessons=2         lessons passed, which opens the planets (slice 3b); ?room=map opens the star system
+//   ?visited=school    planets already landed on; ?orbits=school:120 where the child dragged a planet
+//   ?self=2,0,3,1      the child's explorer: skin, hair, hair colour, suit (slice 3b)
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
 
@@ -57,6 +60,19 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
     if (!isOutfit(outfit) || !home.friends.some(f => f.key === friend)) continue
     if (!home.build.outfits.includes(outfit)) home = { ...home, build: { ...home.build, outfits: [...home.build.outfits, outfit] } }
     home = applyEvent(home, { kind: 'outfit_set', friend: friend as FriendKey, outfit }, now)
+  }
+  // The star system (slice 3b): the count is the server's in production; here it is a param.
+  if (sp.lessons !== undefined) home = { ...home, lessonsPassed: Math.max(0, Math.min(99, Number(sp.lessons) || 0)) }
+  // The self (slice 3b): ?self=2,0,3,1 is skin, hair, hair colour, suit, so the explorer can be drawn with no database.
+  if (typeof sp.self === 'string') {
+    const [skin, hair, hairColour, suit] = sp.self.split(',').map(n => Number(n))
+    const me = { skin, hair, hairColour, suit }
+    if (isSelf(me)) home = { ...home, self: me }
+  }
+  if (sp.visited) home = { ...home, world: { ...home.world, visited: sp.visited.split(',').filter(isPlanetKey) } }
+  if (sp.orbits) for (const pair of sp.orbits.split(',')) {
+    const [planet, angle] = pair.split(':')
+    if (isPlanetKey(planet)) home = applyEvent(home, { kind: 'orbit_move', planet, angle: Number(angle) }, now)
   }
   // The Den (slice 3a).
   if (sp.in) for (const pair of sp.in.split(',')) {
@@ -92,16 +108,13 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
   }
   const phase = sp.phase === 'winddown' ? 'winddown' : sp.phase === 'bedtime' ? 'bedtime' : 'day'
   if (phase !== 'day') home = dockAllDevices(home, now)
-  const initialWhere: Where = isWhere(sp.room) ? sp.room : 'outdoors'
+  const initialWhere: SceneKey = sp.room === 'map' ? 'map' : isWhere(sp.room) ? sp.room : 'outdoors'
   const view: HomeView = {
     home, serverNow: now, tier,
     childAge: sp.age !== undefined ? Math.max(0, Math.min(16, Number(sp.age))) : 4,
     bedtime: { phase, startMin: 19 * 60, endMin: 7 * 60, minutesNow: phase === 'bedtime' ? 20 * 60 : phase === 'winddown' ? 18 * 60 + 40 : 15 * 60, windowUntil: null },
     ask: null, screenAsk: null, starMinutes: 5,
     cards: sp.card === 'pictures' || sp.card === 'letters' ? [{ key: 'comet_card', mode: sp.card, printed: true }] : [],
-    // The star system (slice 3b): ?lessons=N stands in for lessons passed, so
-    // Playwright can light Moonbase School and the Playground with no database.
-    planets: planetLights(home, Math.max(0, Math.min(21, Number(sp.lessons) || 0))),
   }
   return (
     <PlanetFriends

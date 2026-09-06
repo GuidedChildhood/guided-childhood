@@ -1,10 +1,11 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import type { Device, DeviceKey, Friend, FriendKey, Mood, Movable, Outfit, RoomKey, RoomPlaced, ThingKey, World } from '@/lib/planet/logic'
+import type { Device, DeviceKey, Friend, FriendKey, Mood, Movable, Outfit, RoomKey, RoomPlaced, ThingKey, World, Self } from '@/lib/planet/logic'
 import { PART_ZONE, ROOM_SPOTS, batteryNow, charging, deviceOf, isDeviceKey, isGrownUp, isPartKey, isThingKey, roomZoneOf } from '@/lib/planet/logic'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
+import SelfFigure from './SelfFigure'
 import PartArt from './PartArt'
 import { Furniture, OUTFIT_ICON, PhoneArt, ThingArt } from './ThingArt'
 import { SCENE_H, SCENE_W, sceneFromClient } from './scene'
@@ -25,6 +26,9 @@ const WALLS: Record<RoomKey, { wall: string; floor: string; skirting: string }> 
   kitchen: { wall: '#FFF1D6', floor: '#EAD9BF', skirting: '#F7E4C4' },
   living: { wall: '#E3EEF7', floor: '#D9C7B0', skirting: '#CFE0EE' },
   bedroom: { wall: '#EDE3F5', floor: '#D7CDE8', skirting: '#DCCBEB' },
+  // Moonbase School: a dome with portholes; the Playground planet: open sky and orange ground (slice 3b).
+  classroom: { wall: '#DCE9F5', floor: '#CFD8E3', skirting: '#C4D6E8' },
+  playground: { wall: '#BFE0F7', floor: '#F2B36B', skirting: '#E59C4E' },
 }
 const SKY_COLOUR: Record<Sky, string> = { day: '#B9DDF5', evening: '#F3B48E', night: '#141A3C' }
 
@@ -33,7 +37,13 @@ export const ROOM_SPOT_POS: Record<string, { x: number; y: number }> = {
   k_t1: { x: 252, y: 356 }, k_t2: { x: 312, y: 356 }, k_f1: { x: 120, y: 528 }, k_f2: { x: 300, y: 532 }, k_w1: { x: 190, y: 112 },
   l_t1: { x: 322, y: 405 }, l_f1: { x: 110, y: 530 }, l_f2: { x: 330, y: 534 }, l_w1: { x: 215, y: 110 },
   b_t1: { x: 110, y: 250 }, b_f1: { x: 230, y: 530 }, b_f2: { x: 330, y: 534 }, b_w1: { x: 110, y: 130 }, b_w2: { x: 245, y: 190 },
+  c_t1: { x: 110, y: 382 }, c_t2: { x: 250, y: 382 }, c_f1: { x: 120, y: 530 }, c_f2: { x: 330, y: 534 }, c_w1: { x: 330, y: 120 },
+  p_t1: { x: 330, y: 416 }, p_f1: { x: 90, y: 530 }, p_f2: { x: 230, y: 534 }, p_f3: { x: 340, y: 530 }, p_w1: { x: 300, y: 110 },
 }
+const SWING = { x: 96, hit: { x: 40, y: 300, w: 112, h: 140 } }
+const SLIDE = { x: 226, hit: { x: 168, y: 330, w: 130, h: 110 } }
+const SANDPIT = { x: 150, y: 520, hit: { x: 84, y: 494, w: 132, h: 44 } }
+const PARK_BENCH = { x: 330, hit: { x: 296, y: 396, w: 68, h: 46 } }
 const SHELF = { x: 285, y: 150, hit: { x: 215, y: 110, w: 140, h: 70 } }
 const FRIDGE = { x: 91, hit: { x: 50, y: 240, w: 84, h: 200 } }
 const FRIDGE_INSIDE = [{ x: 91, y: 296 }, { x: 91, y: 336 }, { x: 91, y: 376 }, { x: 91, y: 416 }]
@@ -46,8 +56,8 @@ const SOFA = { x: 130, hit: { x: 56, y: 366, w: 148, h: 76 } }
 const DOOR_LEFT = { x: 22, hit: { x: -10, y: 300, w: 58, h: 210 } }
 const DOOR_RIGHT = { x: 368, hit: { x: 332, y: 300, w: 68, h: 210 } }
 
-export type RoomFurniture = 'fridge' | 'toybox' | 'wardrobe' | 'cooker' | 'picture' | 'music_box' | 'window' | 'lamp' | 'shelf' | 'mobile' | 'bookshelf'
-export type FriendTarget = 'door_left' | 'door_right' | 'bed' | 'sofa'
+export type RoomFurniture = 'fridge' | 'toybox' | 'wardrobe' | 'cooker' | 'picture' | 'music_box' | 'window' | 'lamp' | 'shelf' | 'mobile' | 'bookshelf' | 'board' | 'digi' | 'globe' | 'books' | 'tree' | 'sign' | 'launchpad'
+export type FriendTarget = 'door_left' | 'door_right' | 'bed' | 'sofa' | 'swing' | 'slide' | 'sandpit' | 'bench'
 export type ThingTarget = { kind: 'friend'; friend: FriendKey } | { kind: 'spot'; spot: string } | { kind: 'shelf' } | { kind: 'home' }
 type Drag = { kind: 'friend' | 'thing' | 'outfit'; id: string; x: number; y: number; startX: number; startY: number; moved: boolean }
 
@@ -55,7 +65,8 @@ type Drag = { kind: 'friend' | 'thing' | 'outfit'; id: string; x: number; y: num
 export function roomStandingX(count: number): number[] {
   if (count <= 1) return [195]
   if (count === 2) return [140, 250]
-  return [100, 195, 290]
+  if (count === 3) return [100, 195, 290]
+  return Array.from({ length: count }, (_, i) => Math.round(70 + (250 * i) / (count - 1)))
 }
 
 function inRect(p: { x: number; y: number }, r: { x: number; y: number; w: number; h: number }): boolean {
@@ -79,18 +90,22 @@ export function nearestFreeRoomSpot(room: RoomKey, thing: Movable, placed: RoomP
   return best
 }
 
-/** Which door leads where. The kitchen is the front door; the bedroom is the far end. */
-export const DOORS: Record<RoomKey, { left: 'outdoors' | RoomKey; right: RoomKey | null }> = {
+/** Which door leads where. The kitchen is the front door; the bedroom is the far end. On another planet the left door is the launch pad: the map. */
+export const DOORS: Record<RoomKey, { left: 'outdoors' | 'map' | RoomKey; right: RoomKey | null }> = {
   kitchen: { left: 'outdoors', right: 'living' },
   living: { left: 'kitchen', right: 'bedroom' },
   bedroom: { left: 'living', right: null },
+  classroom: { left: 'map', right: null },
+  playground: { left: 'map', right: null },
 }
 
 export default function RoomScene({
-  room, friends, allFriends, moods, childAge, wearing, held, devices, nowIso, sky, accent, placed, fridge, toybox, outfits, open, using, wiggle, lampOn, carrying,
+  room, friends, allFriends, moods, childAge, wearing, held, devices, nowIso, sky, accent, placed, fridge, toybox, outfits, open, using, wiggle, lampOn, carrying, self = null,
   onDropFriend, onTapFriend, onThingDrop, onThingTap, onOutfitDrop, onFurnitureTap, onInteract, onSvg,
 }: {
   room: RoomKey
+  /** The child's own explorer (slice 3b), standing with the Friends wherever the view goes. */
+  self?: Self | null
   /** The Friends in this room. */
   friends: Friend[]
   /** Every active Friend, for the phones on the shelf. */
@@ -131,7 +146,8 @@ export default function RoomScene({
   const colours = WALLS[room]
   const skyColour = SKY_COLOUR[sky]
   const night = sky === 'night'
-  const xs = roomStandingX(friends.length)
+  // The explorer takes the last place in the row, so the Friends keep their own hit testing by index.
+  const xs = roomStandingX(friends.length + (self ? 1 : 0))
   const doors = DOORS[room]
 
   function toSvg(e: React.PointerEvent): { x: number; y: number } {
@@ -172,6 +188,10 @@ export default function RoomScene({
       else if (doors.right && inRect(p, DOOR_RIGHT.hit)) onDropFriend(key, 'door_right')
       else if (room === 'bedroom' && BEDS.some(b => inRect(p, b.hit))) onDropFriend(key, 'bed')
       else if (room === 'living' && inRect(p, SOFA.hit)) onDropFriend(key, 'sofa')
+      else if (room === 'playground' && inRect(p, SWING.hit)) onDropFriend(key, 'swing')
+      else if (room === 'playground' && inRect(p, SLIDE.hit)) onDropFriend(key, 'slide')
+      else if (room === 'playground' && inRect(p, SANDPIT.hit)) onDropFriend(key, 'sandpit')
+      else if (room === 'playground' && inRect(p, PARK_BENCH.hit)) onDropFriend(key, 'bench')
       else onDropFriend(key, null)
     } else if (drag.kind === 'thing') {
       const thing = drag.id as Movable
@@ -234,7 +254,7 @@ export default function RoomScene({
       onPointerMove={move}
       onPointerUp={end}
       onPointerCancel={end}
-      aria-label={`The ${room === 'living' ? 'living room' : room}`}
+      aria-label={room === 'classroom' ? 'Moonbase School' : room === 'playground' ? 'The Playground planet' : `The ${room === 'living' ? 'living room' : room}`}
       role="img"
     >
       <defs>
@@ -277,6 +297,24 @@ export default function RoomScene({
           <g transform="translate(110 250)"><rect x={-30} y={-3} width={60} height={6} rx={3} fill="#D9A066" stroke={INK} strokeWidth={1.4} /></g>
         </g>
       )}
+      {room === 'classroom' && (
+        <g>
+          <g transform="translate(330 120)" onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('window') }} style={{ cursor: 'pointer' }}><Furniture kind="porthole" sky={night ? '#141A3C' : '#2B3568'} /></g>
+          <g transform="translate(150 130)" onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('board') }} style={{ cursor: 'pointer' }}><Furniture kind="board" using={using === 'board'} /></g>
+        </g>
+      )}
+      {room === 'playground' && (
+        <g>
+          {/* the open sky: the star, a cloud, and the home planet small in the distance */}
+          <circle cx={70} cy={70} r={26} fill="#F4C542" opacity={0.9} />
+          <path d="M200 80 a14 14 0 0 1 24 -8 a10 10 0 0 1 12 16 h-40 a8 8 0 0 1 4 -8 z" fill="#FFFFFF" opacity={0.9} />
+          <g onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('window') }} style={{ cursor: 'pointer' }}>
+            <circle cx={330} cy={60} r={18} fill="#8FD1B4" stroke={INK} strokeWidth={1.8} />
+            <ellipse cx={330} cy={60} rx={27} ry={7} fill="none" stroke="#F4C542" strokeWidth={2.2} />
+          </g>
+          <path d={`M0 ${FLOOR_Y - 60} q60 -30 120 -10 t140 -20 t130 10 V${FLOOR_Y} H0 z`} fill="#F7C98A" opacity={0.9} />
+        </g>
+      )}
       {/* what hangs on the wall spots */}
       {inRoom.filter(x => roomZoneOf(x.thing) === 'wall').map(x => liftable(x.thing, pos(x.spot)))}
 
@@ -306,6 +344,25 @@ export default function RoomScene({
           <g data-wardrobe transform={`translate(${WARDROBE.x} ${FLOOR_Y})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('wardrobe') }} style={{ cursor: 'pointer' }}>
             <Furniture kind="wardrobe" open={open === 'wardrobe'} />
           </g>
+        </g>
+      )}
+
+      {room === 'classroom' && (
+        <g>
+          <g transform={`translate(110 ${FLOOR_Y})`}><Furniture kind="desk" /></g>
+          <g transform={`translate(250 ${FLOOR_Y})`}><Furniture kind="desk" /></g>
+          <g data-digi transform={`translate(330 ${FLOOR_Y})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('digi') }} style={{ cursor: 'pointer' }}><Furniture kind="digi_desk" accent={accent} using={using === 'digi'} /></g>
+          <g transform="translate(40 300)" onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('globe') }} style={{ cursor: 'pointer' }}><Furniture kind="globe" using={using === 'globe'} /></g>
+          <g transform="translate(330 300)" onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('books') }} style={{ cursor: 'pointer' }}><Furniture kind="books" using={using === 'books'} /></g>
+        </g>
+      )}
+      {room === 'playground' && (
+        <g>
+          <g transform={`translate(330 ${FLOOR_Y - 20})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('tree') }} style={{ cursor: 'pointer' }}><Furniture kind="tree" using={using === 'tree'} /></g>
+          <g data-swing transform={`translate(${SWING.x} ${FLOOR_Y})`}><Furniture kind="swing" accent={accent} using={using?.startsWith('swing:') ?? false} lit={draggingFriend} /></g>
+          <g data-slide transform={`translate(${SLIDE.x} ${FLOOR_Y})`}><Furniture kind="slide" lit={draggingFriend} /></g>
+          <g data-bench transform={`translate(${PARK_BENCH.x} ${FLOOR_Y})`}><Furniture kind="bench" lit={draggingFriend} /></g>
+          <g transform="translate(40 300)" onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('sign') }} style={{ cursor: 'pointer' }}><Furniture kind="sign" /></g>
         </g>
       )}
 
@@ -358,10 +415,16 @@ export default function RoomScene({
         }
         const x = xs[i]
         const seated = using === `sofa:${f.key}` && room === 'living'
-        const at = seated ? { x: SOFA.x, y: FLOOR_Y - 12 } : { x, y: STAND_Y }
+        const onSwing = using === `swing:${f.key}` && room === 'playground'
+        const onSlide = using === `slide:${f.key}` && room === 'playground'
+        const inSand = using === `sandpit:${f.key}` && room === 'playground'
+        const onBench = using === `bench:${f.key}` && room === 'playground'
+        const at = seated ? { x: SOFA.x, y: FLOOR_Y - 12 } : onSwing ? { x: SWING.x, y: FLOOR_Y - 36 } : onSlide ? { x: SLIDE.x - 20, y: FLOOR_Y - 70 } : inSand ? { x: SANDPIT.x, y: SANDPIT.y - 2 } : onBench ? { x: PARK_BENCH.x, y: FLOOR_Y - 20 } : { x, y: STAND_Y }
+        const small = seated || onSwing || onSlide || onBench
         return (
-          <g key={f.key} data-friend={f.key} transform={`translate(${at.x} ${at.y})${seated ? ' scale(0.8)' : ''}`}
+          <g key={f.key} data-friend={f.key} transform={`translate(${at.x} ${at.y})${small ? ' scale(0.8)' : inSand ? ' scale(0.7)' : ''}`}
             onPointerDown={e => { if (f.cooldown) { onInteract(); return } begin(e, 'friend', f.key) }} style={{ cursor: f.cooldown ? 'default' : 'grab' }}>
+            <g className={onSwing ? 'pl-swing' : onSlide ? 'pl-slide' : inSand ? 'pl-dig' : undefined}>
             {(carrying?.kind === 'outfit' || drag?.kind === 'outfit' || (draggingThing && draggingThing !== holding)) && !f.cooldown && (
               <circle cx={0} cy={-70} r={70} fill="rgba(255,255,255,0.25)" stroke="#F4C542" strokeWidth={4} strokeDasharray="8 7" className="pl-target" data-target={`friend-${f.key}`} />
             )}
@@ -374,9 +437,17 @@ export default function RoomScene({
               </g>
             )}
             {using === `snap:${f.key}` && <circle className="pl-puff" cx={42} cy={-60} r={14} fill="#FFFFFF" opacity={0.9} />}
+            </g>
           </g>
         )
       })}
+      {/* the child's own explorer (slice 3b), in the row with the Friends. Decoration
+          here: it is changed by a tap outdoors, and it never takes a drop */}
+      {self && (
+        <g data-self transform={`translate(${xs[friends.length]} ${STAND_Y})`} style={{ pointerEvents: 'none' }} aria-label="Me">
+          <g className="pl-breathe"><SelfFigure self={self} size={100} /></g>
+        </g>
+      )}
       {/* what a Friend holds is its own liftable thing, drawn last so it can be grabbed */}
       {friends.map((f, i) => {
         const holding = held[f.key]
@@ -385,6 +456,9 @@ export default function RoomScene({
         return liftable(holding, { x: x + 42, y: STAND_Y - 36 }, { small: !isDeviceKey(holding), hitY: -14, label: `${friendArt(f.key).name} is holding ${holding.replace('phone_', 'the MoonPhone of ').replace('_', ' ')}` })
       })}
 
+      {room === 'playground' && (
+        <g data-sandpit transform={`translate(${SANDPIT.x} ${SANDPIT.y})`}><Furniture kind="sandpit" lit={draggingFriend} using={using?.startsWith('sandpit:') ?? false} /></g>
+      )}
       {/* things on the floor and the toy box */}
       {inRoom.filter(x => roomZoneOf(x.thing) === 'floor').map(x => liftable(x.thing, pos(x.spot)))}
       {room === 'bedroom' && (
@@ -394,11 +468,18 @@ export default function RoomScene({
       )}
       {room === 'bedroom' && open === 'toybox' && toybox.slice(0, 3).map((t, i) => liftable(t, TOYBOX_INSIDE[i], { small: true, hitY: -10, label: `Take ${t} out of the toy box` }))}
 
-      {/* the doors */}
-      <g data-door="left" transform={`translate(${DOOR_LEFT.x} ${FLOOR_Y})`} style={{ cursor: 'pointer' }}>
-        <rect x={-28} y={-140} width={58} height={150} fill="transparent" />
-        <Furniture kind="door" side="left" lit={draggingFriend} />
-      </g>
+      {/* the doors, or the launch pad on another planet */}
+      {doors.left === 'map' ? (
+        <g data-door="left" data-launchpad transform={`translate(${DOOR_LEFT.x + 26} ${FLOOR_Y + 40})`} style={{ cursor: 'pointer' }} onPointerDown={e => { e.stopPropagation(); onInteract(); onFurnitureTap('launchpad') }}>
+          <rect x={-50} y={-70} width={100} height={90} fill="transparent" />
+          <Furniture kind="launchpad" lit={draggingFriend} />
+        </g>
+      ) : (
+        <g data-door="left" transform={`translate(${DOOR_LEFT.x} ${FLOOR_Y})`} style={{ cursor: 'pointer' }}>
+          <rect x={-28} y={-140} width={58} height={150} fill="transparent" />
+          <Furniture kind="door" side="left" lit={draggingFriend} />
+        </g>
+      )}
       {doors.right && (
         <g data-door="right" transform={`translate(${DOOR_RIGHT.x} ${FLOOR_Y})`} style={{ cursor: 'pointer' }}>
           <rect x={-30} y={-140} width={60} height={150} fill="transparent" />
