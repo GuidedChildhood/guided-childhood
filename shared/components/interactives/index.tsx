@@ -64,7 +64,7 @@ function VerdictSort({ config }: {
     setPicked(v)
     setTallies(t => t.map((n, i) => (i === v ? n + 1 : n)))
     const dir = v === 0 ? -1 : v === verdicts.length - 1 ? 1 : 0
-    if (cardRef.current) {
+    if (cardRef.current && !prefersReducedMotion()) {
       gsap.to(cardRef.current, {
         x: dir * 320, y: -40, rotate: dir * 12, opacity: 0, scale: 0.8,
         duration: 0.5, ease: 'power2.in',
@@ -76,7 +76,7 @@ function VerdictSort({ config }: {
   }
 
   useEffect(() => {
-    if (cardRef.current && !done) gsap.fromTo(cardRef.current, { opacity: 0, y: 20, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.4)' })
+    if (cardRef.current && !done && !prefersReducedMotion()) gsap.fromTo(cardRef.current, { opacity: 0, y: 20, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.4)' })
   }, [index, done])
 
   return (
@@ -287,7 +287,11 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
   return (
     <div style={{ textAlign: 'center' }}>
       <div style={{ ...eyebrow, marginBottom: '10px' }}>The feed loop · watch it close</div>
-      <div style={{ position: 'relative', width: '260px', height: '260px', margin: '10px auto 18px' }}>
+      {/* The node cards hang half outside the circle (translate -50%), so the
+          box needs real margin above and below or the bottom card sits on
+          top of the start button and eats its taps. Found the day feed-loop
+          finally entered a lesson (migration 259). */}
+      <div style={{ position: 'relative', width: '260px', height: '260px', margin: '40px auto 52px' }}>
         {/* Bubble ring, appears at the end */}
         <div ref={ringRef} style={{
           position: 'absolute', inset: '-16px', borderRadius: '50%',
