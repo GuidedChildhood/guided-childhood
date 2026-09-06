@@ -36,24 +36,23 @@ export default async function DataProtectionPage() {
         <div style={block}>
           <h2 style={h2}>1. What pupil data is processed, and why</h2>
           <p style={body}>
-            <strong>First name and initial only</strong> (for example &ldquo;Amara K&rdquo;), entered by
-            the teacher, used for class organisation, printed quiz personalisation and the teacher&rsquo;s
-            per pupil judgement record (working towards, met, exceeded). Lesson delivery records (which
-            class was taught which lesson, when). Anonymous in lesson answer counts. Nothing else: no
-            dates of birth, no photographs, no contact details, no free text about pupils, no special
-            category data. Children in the family product interact through a parent held link token,
-            never an account.
+            <strong>None.</strong> The schools platform processes no pupil data at all. A school signs in
+            with a class code, which identifies the school and nothing else: no pupil names, no dates of
+            birth, no photographs, no contact details, no free text about pupils, no special category
+            data, and no record of which pupil saw which lesson. Where a name appears in the teaching, it
+            is handwritten on a printed worksheet or learning record that never leaves your school.
+            Children in the family product interact through a parent held link token, never an account.
           </p>
         </div>
 
         <div style={block}>
           <h2 style={h2}>2. Lawful basis and roles</h2>
           <p style={body}>
-            The school is the data controller for pupil data and typically relies on public task for
-            delivering its curriculum. Guided Childhood processes pupil data solely on the school&rsquo;s
-            instructions as a processor for the teaching service. A data processing agreement is available
-            for signature with the licence. We never use pupil data for advertising, profiling, product
-            analytics or model training, and we never sell or share it.
+            Because no pupil data is processed, there is no controller and processor relationship to
+            paper over pupils. The only personal data we hold is what the school gives us to run the
+            licence: a contact name and email for invoicing. A short data processing agreement covering
+            that contact data is available for signature with the licence. We never use any data for
+            advertising, profiling, product analytics or model training, and we never sell or share it.
           </p>
         </div>
 
@@ -74,10 +73,10 @@ export default async function DataProtectionPage() {
           <h2 style={h2}>4. Storage, subprocessors and retention</h2>
           <p style={body}>
             Data is stored with Supabase (database, EU hosted project region) behind row level security,
-            and the application is served by Vercel. Transport is encrypted throughout. Pupil rows are
-            deleted when the school deletes a class or pupil, and on licence termination all school data
-            is deleted on request or after the retention window agreed in the data processing agreement.
-            Access within Guided Childhood is limited to what operating the service requires.
+            and the application is served by Vercel. Transport is encrypted throughout. There are no
+            pupil rows to retain or delete. On licence termination the school&rsquo;s account and contact
+            details are deleted on request or after the retention window agreed in the data processing
+            agreement. Access within Guided Childhood is limited to what operating the service requires.
           </p>
         </div>
 

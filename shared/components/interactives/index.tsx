@@ -16,6 +16,14 @@ const eyebrow: React.CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)',
 }
 
+// Checked at animation time so a settings change is honoured immediately.
+// Under reduced motion each interaction jumps to its finished state or
+// paces itself with text instead of movement; the teaching point always
+// still lands, because the words carry it, not the spin.
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 // ── verdict-sort ──────────────────────────────────────────────────────
 // Post cards the class flicks into verdict piles. Tap a card, tap a
 // verdict, it flies to the pile and the tally animates. The core detective
@@ -143,7 +151,10 @@ function SignalMeter({ config }: { config: { actions?: SignalAction[]; caption?:
 
   const tap = (w: number) => setSignal(s => Math.min(max, s + w))
   useEffect(() => {
-    if (barRef.current) gsap.to(barRef.current, { width: `${Math.min(100, (signal / max) * 100)}%`, duration: 0.5, ease: 'power2.out' })
+    if (!barRef.current) return
+    const width = `${Math.min(100, (signal / max) * 100)}%`
+    if (prefersReducedMotion()) { barRef.current.style.width = width; return }
+    gsap.to(barRef.current, { width, duration: 0.5, ease: 'power2.out' })
   }, [signal, max])
 
   return (
@@ -152,7 +163,8 @@ function SignalMeter({ config }: { config: { actions?: SignalAction[]; caption?:
       <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.1rem, 2.6vw, 1.4rem)', color: 'var(--ink)', lineHeight: 1.35, maxWidth: '440px', margin: '0 auto 18px' }}>
         Every tap tells the feed &ldquo;more like this&rdquo;. Watch which taps shout loudest.
       </p>
-      <div style={{ height: '22px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden', maxWidth: '440px', margin: '0 auto 18px' }}>
+      <div role="meter" aria-label="Signal strength" aria-valuemin={0} aria-valuemax={max} aria-valuenow={signal}
+        style={{ height: '22px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden', maxWidth: '440px', margin: '0 auto 18px' }}>
         <div ref={barRef} style={{ height: '100%', width: '0%', borderRadius: '100px', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))' }} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px', maxWidth: '440px', margin: '0 auto' }}>
@@ -183,6 +195,13 @@ function StarBreath({ config }: { config: { seconds?: number } }) {
 
   useEffect(() => {
     if (!starRef.current) return
+    if (prefersReducedMotion()) {
+      // The star holds still and the words keep the class breathing in time.
+      const timer = setInterval(() => {
+        setPhase(p => (p === 'Breathe in' ? 'Breathe out' : 'Breathe in'))
+      }, dur * 1000)
+      return () => { clearInterval(timer) }
+    }
     const tl = gsap.timeline({ repeat: -1 })
     tl.to(starRef.current, { scale: 1.35, duration: dur, ease: 'sine.inOut', onStart: () => setPhase('Breathe in') })
       .to(starRef.current, { scale: 1, duration: dur, ease: 'sine.inOut', onStart: () => setPhase('Breathe out') })
@@ -227,6 +246,14 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
 
   const start = () => {
     if (running || bubbled || !dotRef.current) return
+    if (prefersReducedMotion()) {
+      // No spinning dot: jump straight to the closed bubble, the words
+      // underneath explain the four laps that just happened.
+      setLap(laps)
+      setBubbled(true)
+      if (ringRef.current) gsap.set(ringRef.current, { scale: 1, opacity: 1 })
+      return
+    }
     setRunning(true)
     const R = 110
     const tl = gsap.timeline({
@@ -326,15 +353,23 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
 
   const run = (calm: boolean) => {
     if (!outrageRef.current || !honestRef.current) return
-    setPhase('racing')
-    setShares({ outrage: 0, honest: 0 })
-    gsap.set([outrageRef.current, honestRef.current], { x: 0 })
     const outrageEnd = calm ? 235 : 240
     const honestEnd = calm ? 210 : 110
     const dur = 3
     const counters = { o: 0, h: 0 }
     const oTarget = calm ? 3100 : 9600
     const hTarget = calm ? 2600 : 1400
+    if (prefersReducedMotion()) {
+      // The finish line photograph instead of the race: same gap, no motion.
+      gsap.set(outrageRef.current, { x: outrageEnd })
+      gsap.set(honestRef.current, { x: honestEnd })
+      setShares({ outrage: oTarget, honest: hTarget })
+      setPhase(calm ? 'calmDone' : 'done')
+      return
+    }
+    setPhase('racing')
+    setShares({ outrage: 0, honest: 0 })
+    gsap.set([outrageRef.current, honestRef.current], { x: 0 })
     gsap.to(counters, {
       o: oTarget, h: hTarget, duration: dur, ease: 'power1.in',
       onUpdate: () => setShares({ outrage: Math.round(counters.o), honest: Math.round(counters.h) }),

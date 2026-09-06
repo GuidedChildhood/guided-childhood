@@ -41,12 +41,28 @@ export default async function ParentPackPage() {
         </p>
 
         <div style={{ border: '2px solid var(--gold)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
-          <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>Our transparency promise</p>
+          <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>Your right to see the materials</p>
           <p style={body}>
-            You can see any teaching material used with your child, at any time, just by asking the
-            school. Our licence explicitly permits the school to share every lesson, worksheet and slide
-            with you, and nothing in our terms restricts that. If a topic concerns you, ask to see the
-            lesson first: we would rather you read it than worry about it.
+            The statutory RSHE guidance, in force from September 2026, gives you the right to know what
+            your child is taught and requires the school to set out how you can view curriculum
+            materials. This pack and the open curriculum map are that route for this programme: you can
+            see any teaching material used with your child, at any time, just by asking the school. Our
+            licence explicitly permits the school to share every lesson, worksheet and slide with you,
+            and no confidentiality clause in our terms restricts that. If a topic concerns you, ask to
+            see the lesson first: we would rather you read it than worry about it.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '24px' }}>
+          <p style={{ ...body, fontWeight: 700, marginBottom: '6px' }}>Where the withdrawal rules fit</p>
+          <p style={body}>
+            This programme teaches digital literacy and online safety, which sit within relationships
+            education, health education and computing. There is no parental right of withdrawal from
+            those subjects. The statutory right to request withdrawal applies to sex education only,
+            which this programme does not teach: where a lesson touches an RSHE topic such as consent or
+            image sharing, it does so within relationships education as the guidance directs. Your
+            school&rsquo;s RSHE policy sets out its withdrawal process in full, and the school remains
+            responsible for operating it.
           </p>
         </div>
 
@@ -57,8 +73,8 @@ export default async function ParentPackPage() {
             shown on screen carries its real source. Sensitive topics for older pupils (like online
             pressure, scams and blackmail) are taught calmly, are never graphic, and always end with the
             same message: telling an adult means you are safe, not in trouble. Your child never gets an
-            account or login, and the only detail the school enters is a first name and initial for
-            printed worksheets.
+            account or login, and the platform holds no pupil data at all: where a name appears, it is
+            handwritten on a printed worksheet that stays at school.
           </p>
         </div>
 
