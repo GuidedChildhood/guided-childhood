@@ -99,6 +99,11 @@ export function PhoneArt({ colour, battery, charging = false, glow = false, tilt
 }
 
 export type FurnitureKind = 'fridge' | 'cooker' | 'table' | 'shelf' | 'window' | 'sofa' | 'bookshelf' | 'picture' | 'music_box' | 'bed' | 'wardrobe' | 'lamp' | 'toybox' | 'rug' | 'mobile' | 'door' | 'jars' | 'board' | 'desk' | 'digi_desk' | 'globe' | 'books' | 'slide' | 'swing' | 'sandpit' | 'bench' | 'tree' | 'sign' | 'launchpad' | 'porthole'
+  // The far away planets (slice 3c): the launch pad, the forest, the dome, the cafe, the studio, the igloo field, the hot springs, the colour field.
+  | 'gantry' | 'rover_garage' | 'fuel_pump' | 'tools' | 'big_tree' | 'pond' | 'burrow' | 'telescope' | 'star_map' | 'deckchair'
+  | 'counter' | 'menu' | 'cafe_table' | 'cushions' | 'feed_wall' | 'dome_tool' | 'studio_desk' | 'ring_light'
+  | 'igloo' | 'ice_slide' | 'snowman' | 'warm_hut' | 'volcano' | 'warm_pool' | 'stones' | 'lava_rock' | 'steam_vent'
+  | 'rainbow_slide' | 'cloud_bed' | 'paint_pots' | 'sun_shower'
 
 /**
  * A piece of furniture, drawn with its feet at (0, 0) (floor pieces) or
@@ -474,6 +479,350 @@ export function Furniture({ kind, open = false, on = false, using = false, glow 
           <circle cx={-14} cy={-10} r={7} fill="#F4C542" opacity={0.9} />
           <circle cx={16} cy={12} r={9} fill="#8FD1B4" stroke={INK} strokeWidth={1} />
           {[-28, 0, 28].map(a => <circle key={a} cx={Math.cos((a * Math.PI) / 180) * 39} cy={Math.sin((a * Math.PI) / 180) * 39} r={2} fill={INK} opacity={0.6} />)}
+        </g>
+      )
+
+    // ── The far away planets (slice 3c) ────────────────────────────────────
+    case 'gantry':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={54} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-46 0 V-130 M-22 0 V-130" stroke={INK} strokeWidth={3.5} strokeLinecap="round" />
+          {[-116, -92, -68, -44, -20].map(y => <path key={y} d={`M-46 ${y} h24 M-46 ${y + 12} l24 -12`} stroke={INK} strokeWidth={2} strokeLinecap="round" />)}
+          <path d="M-22 -110 h20" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+          <g className={using ? 'pl-launch' : undefined}>
+            <path d="M18 0 l-8 -14 v-70 q0 -34 18 -48 q18 14 18 48 v70 l-8 14 z" fill="#FFF6DD" stroke={edge} strokeWidth={edgeW} strokeLinejoin="round" />
+            <path d="M10 -30 l-14 22 v10 l14 -6 z M46 -30 l14 22 v10 l-14 -6 z" fill="#E85D4A" stroke={INK} strokeWidth={1.8} strokeLinejoin="round" />
+            <circle cx={28} cy={-78} r={9} fill="#8EC3F0" stroke={INK} strokeWidth={1.8} />
+            <path d="M14 -60 h28" stroke={accent} strokeWidth={4} />
+            {using && <path className="pl-flicker" d="M20 2 q8 22 8 30 q0 -8 8 -30 z" fill="#F4C542" stroke="#E85D4A" strokeWidth={1.5} />}
+          </g>
+        </g>
+      )
+    case 'rover_garage':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={58} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-56 0 V-70 a56 40 0 0 1 112 0 V0 z" fill="#D8D2E8" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+          <path d="M-42 0 V-58 a42 30 0 0 1 84 0 V0 z" fill="#2B3568" stroke={INK} strokeWidth={1.8} />
+          <g className={using ? 'pl-wiggle' : undefined}>
+            <rect x={-30} y={-36} width={60} height={22} rx={7} fill={accent} stroke={INK} strokeWidth={2} />
+            <rect x={-18} y={-50} width={30} height={16} rx={5} fill="#8EC3F0" stroke={INK} strokeWidth={1.8} />
+            <path d="M18 -50 v-16 l8 -4" stroke={INK} strokeWidth={2} strokeLinecap="round" fill="none" />
+            <circle cx={-18} cy={-12} r={9} fill={INK} /><circle cx={-18} cy={-12} r={4} fill="#FFF6DD" />
+            <circle cx={18} cy={-12} r={9} fill={INK} /><circle cx={18} cy={-12} r={4} fill="#FFF6DD" />
+          </g>
+        </g>
+      )
+    case 'fuel_pump':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={26} ry={5} fill={INK} opacity={0.15} />
+          <rect x={-22} y={-78} width={44} height={78} rx={8} fill="#8EC3F0" stroke={edge} strokeWidth={edgeW} />
+          <rect x={-14} y={-68} width={28} height={20} rx={4} fill="#FFF6DD" stroke={INK} strokeWidth={1.5} />
+          <path d="M-8 -58 l3 -6 l3 6 l-6 -4 h7 z" fill="#F4C542" />
+          <path d="M22 -50 q22 0 22 20 v20" stroke={INK} strokeWidth={3} fill="none" strokeLinecap="round" />
+          <rect x={38} y={-12} width={12} height={16} rx={3} fill={INK} />
+          {using && [0, 1, 2].map(i => <circle key={i} className="pl-sparkle" cx={44 + (i - 1) * 6} cy={8 - i * 4} r={2.5} fill="#F4C542" style={{ animationDelay: `${i * 0.15}s` }} />)}
+        </g>
+      )
+    case 'tools':
+      return (
+        <g className={using ? 'pl-wiggle' : undefined}>
+          <rect x={-40} y={-26} width={80} height={52} rx={8} fill="#D9A066" stroke={INK} strokeWidth={2} />
+          <path d="M-26 -14 v28 M-30 -14 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0" stroke={INK} strokeWidth={3} fill="none" strokeLinecap="round" />
+          <path d="M-4 -12 v26 M-12 -14 h16 v6 h-16 z" stroke={INK} strokeWidth={2.5} fill="#8EC3F0" strokeLinejoin="round" />
+          <path d="M20 -12 v26 M16 -16 h8 v8 h-8 z" stroke={INK} strokeWidth={2.5} fill="#E85D4A" strokeLinejoin="round" />
+        </g>
+      )
+    case 'big_tree':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={40} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-12 0 q3 -60 0 -130 h24 q-3 70 0 130 z" fill="#B8763F" stroke={INK} strokeWidth={2} strokeLinejoin="round" />
+          <path d="M8 -100 q40 -10 60 -30" stroke="#B8763F" strokeWidth={9} strokeLinecap="round" />
+          <circle cx={-36} cy={-140} r={34} fill="#3E8F5A" stroke={INK} strokeWidth={2} />
+          <circle cx={38} cy={-146} r={36} fill="#3E8F5A" stroke={INK} strokeWidth={2} />
+          <circle cx={0} cy={-176} r={40} fill="#4FA96C" stroke={INK} strokeWidth={2} />
+          <g className={using ? 'pl-swing' : undefined} style={{ transformOrigin: '60px -126px' }}>
+            <path d="M60 -126 V-40" stroke="#D9A066" strokeWidth={3} />
+            <rect x={48} y={-42} width={24} height={8} rx={3} fill={lit ? '#FFE9A8' : '#D9A066'} stroke={edge} strokeWidth={edgeW} />
+          </g>
+        </g>
+      )
+    case 'pond':
+      return (
+        <g>
+          <ellipse cx={0} cy={-4} rx={66} ry={22} fill="#4C9FD6" stroke={edge} strokeWidth={edgeW} />
+          <ellipse cx={-10} cy={-8} rx={44} ry={12} fill="#8EC3F0" opacity={0.7} />
+          <ellipse cx={30} cy={-6} rx={10} ry={5} fill="#3E8F5A" stroke={INK} strokeWidth={1.2} />
+          <path d="M-60 -20 v-22 M-54 -18 v-28 M-48 -20 v-18" stroke="#3E8F5A" strokeWidth={3} strokeLinecap="round" />
+          {using && <ellipse className="pl-puff" cx={-6} cy={-6} rx={14} ry={6} fill="none" stroke="#FFFFFF" strokeWidth={2} />}
+        </g>
+      )
+    case 'burrow':
+      return (
+        <g>
+          <path d="M-46 0 q10 -36 46 -36 q36 0 46 36 z" fill="#B8763F" stroke={INK} strokeWidth={2} strokeLinejoin="round" />
+          <ellipse cx={0} cy={-4} rx={20} ry={13} fill="#3A2A1E" stroke={INK} strokeWidth={1.5} />
+          {using && (
+            <g className="pl-sparkle">
+              <path d="M-10 -10 l4 -14 l6 12 M10 -10 l-4 -14 l-6 12" stroke="#E0AC69" strokeWidth={4} strokeLinecap="round" fill="none" />
+              <circle cx={-4} cy={-6} r={1.8} fill={INK} /><circle cx={4} cy={-6} r={1.8} fill={INK} />
+            </g>
+          )}
+        </g>
+      )
+    case 'telescope':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={40} ry={6} fill={INK} opacity={0.15} />
+          <path d="M-30 0 L0 -70 L30 0 M0 -70 V-20" stroke={INK} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
+          <g transform="rotate(-35 0 -76)">
+            <rect x={-50} y={-90} width={100} height={26} rx={9} fill="#FFF6DD" stroke={edge} strokeWidth={edgeW} />
+            <rect x={-56} y={-93} width={14} height={32} rx={5} fill={INK} />
+            <rect x={36} y={-86} width={18} height={18} rx={5} fill="#8EC3F0" stroke={INK} strokeWidth={1.5} />
+          </g>
+          {using && <path className="pl-sparkle" d="M70 -170 q-30 20 -60 30" stroke="#F4C542" strokeWidth={3} strokeLinecap="round" fill="none" />}
+          {using && <circle className="pl-sparkle" cx={72} cy={-172} r={6} fill="#FFF6DD" stroke="#F4C542" strokeWidth={2} />}
+        </g>
+      )
+    case 'star_map':
+      return (
+        <g>
+          <rect x={-54} y={-40} width={108} height={80} rx={8} fill="#26305F" stroke={INK} strokeWidth={2} />
+          <path d="M-36 -18 L-10 -26 L12 -8 L34 -20 M-30 14 L-8 6 L20 22" stroke="#FFF6DD" strokeWidth={1.2} fill="none" opacity={0.7} />
+          {[[-36, -18], [-10, -26], [12, -8], [34, -20], [-30, 14], [-8, 6], [20, 22]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={2.2} fill="#FFF6DD" />)}
+          <g className={using ? 'pl-star' : undefined}><path d="M30 6 l3 -8 l3 8 l-8 -5 h10 z" fill="#F4C542" /></g>
+        </g>
+      )
+    case 'deckchair':
+      return (
+        <g>
+          <ellipse cx={0} cy={2} rx={30} ry={4} fill={INK} opacity={0.15} />
+          <path d="M-28 0 L-10 -44 M28 0 L4 -30" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+          <path d="M-14 -46 L26 -32 L34 -8 L-2 -18 z" fill={lit ? '#FFE9A8' : '#FFF6DD'} stroke={edge} strokeWidth={edgeW} strokeLinejoin="round" />
+          <path d="M-8 -40 L22 -28 M-4 -30 L28 -18" stroke={accent} strokeWidth={4} strokeLinecap="round" />
+        </g>
+      )
+    case 'counter':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={64} ry={7} fill={INK} opacity={0.15} />
+          <rect x={-62} y={-54} width={124} height={54} rx={6} fill="#D9A066" stroke={INK} strokeWidth={2.2} />
+          <rect x={-66} y={-62} width={132} height={12} rx={4} fill="#FFF6DD" stroke={INK} strokeWidth={2} />
+          <rect x={-46} y={-100} width={40} height={40} rx={6} fill="#8EC3F0" stroke={INK} strokeWidth={2} />
+          <rect x={-40} y={-94} width={12} height={8} rx={2} fill="#FFF6DD" />
+          <path d="M14 -64 v-14 h20 v14 z M34 -74 q10 0 0 8" fill="#FFF6DD" stroke={INK} strokeWidth={1.8} />
+          {using && [0, 1].map(i => <circle key={i} className="pl-sparkle" cx={24 + i * 6} cy={-84 - i * 6} r={3} fill="#FFFFFF" opacity={0.9} style={{ animationDelay: `${i * 0.2}s` }} />)}
+        </g>
+      )
+    case 'menu':
+      return (
+        <g className={using ? 'pl-wiggle' : undefined}>
+          <rect x={-40} y={-30} width={80} height={60} rx={6} fill="#2E2818" stroke={INK} strokeWidth={2} />
+          <path d="M-26 -14 h36 M-26 -2 h44 M-26 10 h30" stroke="#FFF6DD" strokeWidth={2.5} strokeLinecap="round" />
+          <path d="M18 8 h10 v9 h-10 z M28 10 q6 0 0 5" fill="#FFF6DD" stroke="#FFF6DD" strokeWidth={1} />
+        </g>
+      )
+    case 'cafe_table':
+      return (
+        <g>
+          <ellipse cx={0} cy={2} rx={34} ry={4} fill={INK} opacity={0.15} />
+          <path d="M0 0 V-40 M-14 0 h28" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+          <ellipse cx={0} cy={-44} rx={38} ry={10} fill={lit ? '#FFE9A8' : '#FFF6DD'} stroke={edge} strokeWidth={edgeW} />
+          <path d="M-8 -52 h14 v8 h-14 z M6 -50 q6 0 0 5" fill="#E85D4A" stroke={INK} strokeWidth={1.4} />
+        </g>
+      )
+    case 'cushions':
+      return (
+        <g>
+          <ellipse cx={0} cy={2} rx={36} ry={5} fill={INK} opacity={0.15} />
+          <rect x={-34} y={-14} width={68} height={16} rx={7} fill="#F2A58F" stroke={edge} strokeWidth={edgeW} />
+          <rect x={-28} y={-28} width={56} height={16} rx={7} fill={accent} stroke={INK} strokeWidth={2} />
+          <rect x={-22} y={-40} width={44} height={14} rx={7} fill="#8EC3F0" stroke={INK} strokeWidth={2} />
+        </g>
+      )
+    case 'feed_wall':
+      return (
+        <g>
+          <rect x={-90} y={-60} width={180} height={120} rx={12} fill="#FFF6DD" stroke={INK} strokeWidth={2.2} />
+          {[-58, 0, 58].map((x, i) => (
+            <g key={x} transform={`translate(${x} 0)`}>
+              <rect x={-24} y={-44} width={48} height={70} rx={6} fill="#FFFFFF" stroke={INK} strokeWidth={1.5} />
+              <circle cx={0} cy={-18} r={13} fill={['#8FD1B4', '#8EC3F0', '#F7A23B'][i]} stroke={INK} strokeWidth={1.2} />
+              <path d="M-14 8 h28 M-14 16 h18" stroke={INK} strokeWidth={1.4} strokeLinecap="round" opacity={0.5} />
+              <path d="M-6 26 l6 -6 l6 6" stroke="#E85D4A" strokeWidth={2} fill="none" strokeLinecap="round" className={using && i === 1 ? 'pl-sparkle' : undefined} />
+            </g>
+          ))}
+          {using && <path className="pl-sparkle" d="M0 -60 l3 -9 l3 9 l-9 -6 h12 z" fill="#F4C542" />}
+        </g>
+      )
+    case 'dome_tool':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={36} ry={6} fill={INK} opacity={0.15} />
+          <rect x={-30} y={-18} width={60} height={18} rx={5} fill="#D8D2E8" stroke={INK} strokeWidth={2} />
+          <path d="M-32 -18 a32 32 0 0 1 64 0 z" fill="rgba(142,195,240,0.35)" stroke={edge} strokeWidth={edgeW} className={using ? 'pl-target' : undefined} />
+          <path d="M-22 -30 q6 -12 16 -14" stroke="#FFFFFF" strokeWidth={2.5} strokeLinecap="round" fill="none" opacity={0.8} />
+          <circle cx={0} cy={-28} r={6} fill={accent} stroke={INK} strokeWidth={1.4} />
+        </g>
+      )
+    case 'studio_desk':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={48} ry={6} fill={INK} opacity={0.15} />
+          <rect x={-44} y={-40} width={88} height={10} rx={4} fill="#FFF6DD" stroke={edge} strokeWidth={edgeW} />
+          <path d="M-36 -30 V0 M36 -30 V0" stroke={INK} strokeWidth={2.5} strokeLinecap="round" />
+          <rect x={-18} y={-64} width={36} height={24} rx={4} fill="#26305F" stroke={INK} strokeWidth={1.8} />
+          <rect x={-12} y={-58} width={24} height={14} rx={2} fill="#8EC3F0" />
+          <path d="M0 -40 v-4" stroke={INK} strokeWidth={2} />
+        </g>
+      )
+    case 'ring_light':
+      return (
+        <g>
+          <path d="M0 0 V-70 M-12 0 h24" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+          <circle cx={0} cy={-92} r={22} fill="none" stroke={using ? '#F4C542' : '#FFF6DD'} strokeWidth={7} className={using ? 'pl-target' : undefined} />
+          <circle cx={0} cy={-92} r={22} fill="none" stroke={INK} strokeWidth={1.5} />
+          <circle cx={0} cy={-92} r={13} fill="none" stroke={INK} strokeWidth={1.5} />
+        </g>
+      )
+    case 'igloo':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={54} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-52 0 a52 46 0 0 1 104 0 z" fill="#FFFFFF" stroke={edge} strokeWidth={edgeW} />
+          <path d="M-40 -14 h80 M-46 -28 h92 M-30 -40 h60" stroke="#CFE8F5" strokeWidth={2} />
+          <path d="M-18 0 a18 16 0 0 1 36 0 z" fill="#26305F" stroke={INK} strokeWidth={1.8} />
+          {using && [0, 1, 2].map(i => <circle key={i} className="pl-sparkle" cx={-20 + i * 20} cy={-56 - (i % 2) * 8} r={2.5} fill="#FFFFFF" />)}
+        </g>
+      )
+    case 'ice_slide':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={70} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-54 0 V-96 M-38 0 V-96" stroke={INK} strokeWidth={3.5} strokeLinecap="round" />
+          {[-80, -64, -48, -32, -16].map(y => <path key={y} d={`M-54 ${y} h16`} stroke={INK} strokeWidth={2.5} strokeLinecap="round" />)}
+          <path d="M-48 -100 h22 q10 0 16 10 L60 -8 q6 6 -2 8 H30 L-16 -84 h-32 z" fill={lit ? '#FFE9A8' : '#CFE8F5'} stroke={edge} strokeWidth={edgeW} strokeLinejoin="round" />
+          <path d="M-36 -92 L40 -12" stroke="#FFFFFF" strokeWidth={4} strokeLinecap="round" opacity={0.9} />
+          <path d="M-10 0 V-40 M30 0 V-20" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+        </g>
+      )
+    case 'snowman':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={30} ry={5} fill={INK} opacity={0.15} />
+          <circle cx={0} cy={-26} r={28} fill="#FFFFFF" stroke={INK} strokeWidth={2} />
+          <circle cx={0} cy={-64} r={20} fill="#FFFFFF" stroke={INK} strokeWidth={2} />
+          <circle cx={0} cy={-94} r={15} fill="#FFFFFF" stroke={INK} strokeWidth={2} />
+          <path d="M-14 -80 q14 6 28 0" stroke={accent} strokeWidth={5} strokeLinecap="round" fill="none" />
+          <circle cx={-5} cy={-97} r={1.8} fill={INK} /><circle cx={5} cy={-97} r={1.8} fill={INK} />
+          <path d="M0 -93 l12 3 l-12 3 z" fill="#F7A23B" stroke={INK} strokeWidth={1} />
+          <circle cx={0} cy={-66} r={2} fill={INK} /><circle cx={0} cy={-56} r={2} fill={INK} />
+          <g className={using ? 'pl-wiggle' : undefined} style={{ transformOrigin: '0px -104px' }}>
+            <rect x={-18} y={-110} width={36} height={5} rx={2} fill={INK} />
+            <rect x={-11} y={-128} width={22} height={20} rx={3} fill={INK} />
+          </g>
+        </g>
+      )
+    case 'warm_hut':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={44} ry={6} fill={INK} opacity={0.15} />
+          <rect x={-38} y={-52} width={76} height={52} rx={4} fill="#B8763F" stroke={INK} strokeWidth={2} />
+          <path d="M-46 -50 L0 -86 L46 -50 z" fill="#E85D4A" stroke={INK} strokeWidth={2} strokeLinejoin="round" />
+          <rect x={16} y={-84} width={10} height={16} fill={INK} />
+          <rect x={-12} y={-38} width={24} height={20} rx={3} fill="#F4C542" stroke={INK} strokeWidth={1.5} className={using ? 'pl-target' : undefined} />
+          <rect x={-32} y={-26} width={14} height={26} rx={2} fill="#3A2A1E" stroke={INK} strokeWidth={1.4} />
+          {using && [0, 1].map(i => <circle key={i} className="pl-sparkle" cx={22 + i * 5} cy={-92 - i * 7} r={4} fill="#FFFFFF" opacity={0.8} style={{ animationDelay: `${i * 0.2}s` }} />)}
+        </g>
+      )
+    case 'volcano':
+      return (
+        <g>
+          <path d="M-90 0 L-24 -96 h48 L90 0 z" fill="#7A4A2B" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+          <path d="M-24 -96 h48 l-6 12 q-18 8 -36 0 z" fill="#E85D4A" stroke={INK} strokeWidth={1.6} />
+          <path d="M-8 -84 q-14 20 -6 40 M6 -84 q16 24 4 46" stroke="#E85D4A" strokeWidth={4} strokeLinecap="round" fill="none" opacity={0.8} />
+          <circle cx={0} cy={-112} r={9} fill="#D8D2E8" opacity={0.8} className={using ? 'pl-puff' : 'pl-float'} />
+          <circle cx={12} cy={-126} r={6} fill="#D8D2E8" opacity={0.6} className="pl-float" />
+        </g>
+      )
+    case 'warm_pool':
+      return (
+        <g>
+          <ellipse cx={0} cy={-4} rx={58} ry={20} fill="#3A2A1E" stroke={INK} strokeWidth={2} />
+          <ellipse cx={0} cy={-6} rx={48} ry={14} fill={lit ? '#FFE9A8' : '#8EC3F0'} stroke={edge} strokeWidth={edgeW} />
+          <ellipse cx={-10} cy={-9} rx={26} ry={6} fill="#CFE8F5" opacity={0.7} />
+          {[[-52, -14], [50, -10], [-30, 8], [36, 8]].map(([x, y], i) => <ellipse key={i} cx={x} cy={y} rx={8} ry={5} fill="#7A4A2B" stroke={INK} strokeWidth={1.2} />)}
+          {[0, 1, 2].map(i => <circle key={i} className={using ? 'pl-sparkle' : undefined} cx={-16 + i * 16} cy={-26 - (i % 2) * 6} r={4} fill="#FFFFFF" opacity={using ? 0.9 : 0.35} style={{ animationDelay: `${i * 0.2}s` }} />)}
+        </g>
+      )
+    case 'stones':
+      return (
+        <g>
+          {[-66, -22, 22, 66].map((x, i) => (
+            <ellipse key={x} cx={x} cy={-2 + (i % 2) * 4} rx={20} ry={9} fill={lit ? '#FFE9A8' : '#B9C4D6'} stroke={edge} strokeWidth={edgeW} />
+          ))}
+        </g>
+      )
+    case 'lava_rock':
+      return (
+        <g className={using ? 'pl-flicker' : undefined}>
+          <ellipse cx={0} cy={3} rx={34} ry={5} fill={INK} opacity={0.15} />
+          <path d="M-32 0 q-6 -40 20 -52 q34 -4 38 30 q2 22 -26 22 z" fill="#3A2A1E" stroke={INK} strokeWidth={2.2} strokeLinejoin="round" />
+          <path d="M-14 -36 l10 12 l-6 10 l12 8" stroke={using ? '#FFD166' : '#E85D4A'} strokeWidth={4} strokeLinecap="round" fill="none" />
+          <circle cx={6} cy={-22} r={using ? 26 : 0} fill="#F4C542" opacity={0.18} />
+        </g>
+      )
+    case 'steam_vent':
+      return (
+        <g>
+          <path d="M-14 0 q14 -8 28 0" stroke={INK} strokeWidth={2.5} strokeLinecap="round" fill="none" />
+          {[0, 1, 2].map(i => <circle key={i} className={using ? 'pl-puff' : undefined} cx={-6 + i * 6} cy={-10 - i * 9} r={4 + i} fill="#FFFFFF" opacity={using ? 0.85 : 0.3} style={{ animationDelay: `${i * 0.12}s` }} />)}
+        </g>
+      )
+    case 'rainbow_slide':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={70} ry={7} fill={INK} opacity={0.15} />
+          <path d="M-54 0 V-96 M-38 0 V-96" stroke={INK} strokeWidth={3.5} strokeLinecap="round" />
+          {[-80, -64, -48, -32, -16].map(y => <path key={y} d={`M-54 ${y} h16`} stroke={INK} strokeWidth={2.5} strokeLinecap="round" />)}
+          <path d="M-48 -100 h22 q10 0 16 10 L60 -8 q6 6 -2 8 H30 L-16 -84 h-32 z" fill={lit ? '#FFE9A8' : '#FFF6DD'} stroke={edge} strokeWidth={edgeW} strokeLinejoin="round" />
+          {['#E85D4A', '#F7A23B', '#F4C542', '#3E8F5A', '#4C9FD6'].map((c, i) => <path key={c} d={`M${-40 + i * 4} ${-94 + i * 3} L${34 + i * 4} ${-14 + i * 3}`} stroke={c} strokeWidth={3} strokeLinecap="round" />)}
+          <path d="M-10 0 V-40 M30 0 V-20" stroke={INK} strokeWidth={3} strokeLinecap="round" />
+        </g>
+      )
+    case 'cloud_bed':
+      return (
+        <g className={using ? 'pl-breathe' : undefined}>
+          <ellipse cx={0} cy={2} rx={54} ry={6} fill={INK} opacity={0.12} />
+          <path d="M-50 -6 a16 16 0 0 1 22 -20 a20 20 0 0 1 36 -8 a18 18 0 0 1 30 14 a14 14 0 0 1 12 14 z" fill={lit ? '#FFE9A8' : '#FFFFFF'} stroke={edge} strokeWidth={edgeW} strokeLinejoin="round" />
+          <path d="M-30 -14 q8 -6 16 0 M6 -22 q8 -6 16 0" stroke="#CFE8F5" strokeWidth={2} fill="none" strokeLinecap="round" />
+        </g>
+      )
+    case 'paint_pots':
+      return (
+        <g>
+          <ellipse cx={0} cy={3} rx={40} ry={5} fill={INK} opacity={0.15} />
+          {['#E85D4A', '#4C9FD6', '#F4C542'].map((c, i) => (
+            <g key={c} transform={`translate(${(i - 1) * 26} 0)`}>
+              <path d="M-11 0 l2 -24 h18 l2 24 z" fill="#FFF6DD" stroke={INK} strokeWidth={1.8} strokeLinejoin="round" />
+              <rect x={-10} y={-28} width={20} height={6} rx={2} fill={c} stroke={INK} strokeWidth={1.4} />
+            </g>
+          ))}
+          <path d="M30 -2 l14 -40" stroke="#B8763F" strokeWidth={3} strokeLinecap="round" />
+          <path d="M44 -42 l4 -10 l4 8 z" fill="#4C9FD6" stroke={INK} strokeWidth={1} />
+          {using && <path className="pl-puff" d="M-50 -30 q6 -14 16 -6 q12 -10 16 4 q10 4 0 12 q-8 10 -16 2 q-12 6 -16 -4 q-8 -2 0 -8 z" fill="#4C9FD6" opacity={0.85} />}
+        </g>
+      )
+    case 'sun_shower':
+      return (
+        <g>
+          <circle cx={-28} cy={-10} r={22} fill="#F4C542" opacity={0.95} />
+          {[0, 45, 90, 135, 180, 225, 270, 315].map(a => <path key={a} d={`M${-28 + Math.cos((a * Math.PI) / 180) * 28} ${-10 + Math.sin((a * Math.PI) / 180) * 28} L${-28 + Math.cos((a * Math.PI) / 180) * 36} ${-10 + Math.sin((a * Math.PI) / 180) * 36}`} stroke="#F4C542" strokeWidth={3} strokeLinecap="round" />)}
+          <path d="M6 12 a14 14 0 0 1 24 -8 a10 10 0 0 1 12 16 h-40 a8 8 0 0 1 4 -8 z" fill="#FFFFFF" stroke={INK} strokeWidth={1.5} />
+          {[0, 1, 2].map(i => <path key={i} className={using ? 'pl-dust' : undefined} d={`M${12 + i * 12} 26 v8`} stroke="#4C9FD6" strokeWidth={2.5} strokeLinecap="round" opacity={using ? 0.9 : 0.35} style={{ animationDelay: `${i * 0.15}s` }} />)}
         </g>
       )
     default:

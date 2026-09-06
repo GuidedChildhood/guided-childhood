@@ -2,7 +2,7 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b and 3d built, and the first part of 3c (every planet on the map). Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. Justin's note of
+own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b, 3c and 3d built: the universe with every planet a place, and the child's own explorer. Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. A design canvas of seven boards at Toca quality (the title, the universe, the Space Port, the kitchen, the explorer maker, the Wild planet, the mission board), drawn from the toy's own pieces and cast art in butter and ink, is at https://claude.ai/code/artifact/b1b16e3f-d88d-4966-9bf9-5adc05dc56b6 (6 September); it is the picture the next slices draw towards. Justin's note of
 6 September (the universe, and the self) is designed in 7.1, 7.5 and 7.9 and
 planned as 3c and 3d, waiting on his go. When the code
 and this file disagree, the code is right and this file gets updated, the
@@ -1121,7 +1121,7 @@ its own sessions, because the Friends get sleepy.
 
 ### 7.1 The star system, the map the child moves around
 
-**As built, 6 September 2026 (slice 3b).** `components/planet/StarMap.tsx`:
+**As built, 6 September 2026 (slices 3b and 3c).** `components/planet/StarMap.tsx` is the universe now: a sky twice the screen each way (`SKY` in the rules, 780 by 900), DiGi in the middle, the dark dragged to look around, a small star that brings DiGi back, every planet of the catalogue drifting with a place of its own that a drag changes and the save keeps (`planet_move`, `home.world.places`, clamped inside the sky), and the window opening on the newest planet when there is one. Each of the eleven planets has a first room. Before that, as built for 3b:
 DiGi in the middle, three dashed orbits, the home planet, Moonbase School and
 the Playground planet, and a tray along the bottom of the awake Friends with
 a dot in the colour of the planet each one is on. Tap a planet to look; drag
@@ -1280,14 +1280,14 @@ Star Lessons table, so a Learn tab pass never landed it. It now reads both.
 | Home planet (built) | Outdoors, and the Den: kitchen, living room, bedroom (built), bathroom (a drop) | The plots, the pods, the sun catcher, the nursery, the charging shelf, the fridge, the beds, the wardrobe | MoonPhone (built) | Free | 1, 2, 3 |
 | Moonbase School (built) | Classroom; library as a drop | The board, two desks, the globe, the books, DiGi's desk, a porthole | Laptop at Tier 3 | Lesson 1, or growth stage 2 | 1, 2, 3 |
 | Playground planet (built) | Playground; arcade as a drop | The swings, the slide, the sandpit, a bench, a tree, the sign | StarPad | Lesson 2, or growth stage 3 | 1, 2, 3 |
-| Space Port | Launch pad, garage | Rockets, the rover, a fuel pump that pours starlight, tools | PocketGame | The rocket launch mission, or growth stage 1 | 1, 2, 3 |
-| Wild planet | Forest, pond, burrow | Trees, a pond, a burrow, a rope swing; Hog, Robin and Fox as neighbours in a drop | StarWatch | The explorer walk mission, or lesson 4 | 1, 2, 3 |
-| Observatory | The dome, the roof | Telescope, star map, the comet, deckchairs | SpaceCam | The star hunt mission, or growth stage 4 | 1, 2, 3 |
-| Star Cafe | Cafe, the bench under the stars, reading corner | Tables, the counter, the menu, cushions, books (section 2.3) | | Lesson 3 | 2, 3 |
-| StarNet Studio | Studio, the feed wall | The dome tool, the pretend feed (section 4.2) | | Lesson 5 | 2, 3 |
-| Ice planet | The igloo field | Igloos, an ice slide, a snowman, a warm hut | | Lesson 6, or growth stage 5 | 1, 2, 3 |
-| Volcano planet | The hot springs | Warm pools, a lava lamp rock, stepping stones, steam | | Lesson 7, or the helping hands mission | 1, 2, 3 |
-| Rainbow planet | The colour field | A rainbow slide, a cloud bed, paint pots, a sun shower | | Lesson 8, or the twenty moon jumps mission | 1, 2, 3 |
+| Space Port (built) | Launch pad, garage | Rockets, the rover, a fuel pump that pours starlight, tools | PocketGame | The rocket launch mission, or growth stage 2 | 1, 2, 3 |
+| Wild planet (built) | Forest, pond, burrow | Trees, a pond, a burrow, a rope swing; Hog, Robin and Fox as neighbours in a drop | StarWatch | The explorer walk mission, or lesson 4 | 1, 2, 3 |
+| Observatory (built) | The dome, the roof | Telescope, star map, the comet, deckchairs | SpaceCam | The star hunt mission, or growth stage 4 | 1, 2, 3 |
+| Star Cafe (built) | Cafe, the bench under the stars, reading corner | Tables, the counter, the menu, cushions, books (section 2.3) | | Lesson 3 | 2, 3 |
+| StarNet Studio (built) | Studio, the feed wall | The dome tool, the pretend feed (section 4.2) | | Lesson 5 | 2, 3 |
+| Ice planet (built) | The igloo field | Igloos, an ice slide, a snowman, a warm hut | | Lesson 6, or growth stage 5 | 1, 2, 3 |
+| Volcano planet (built) | The hot springs | Warm pools, a lava lamp rock, stepping stones, steam | | Lesson 7, or the helping hands mission | 1, 2, 3 |
+| Rainbow planet (built) | The colour field | A rainbow slide, a cloud bed, paint pots, a sun shower | | Lesson 8, or the twenty moon jumps mission | 1, 2, 3 |
 
 **Drops.** A planet, a room or ten things a week, as registry rows and art,
 the way Toca ships Friday gifts. Fixed and named in advance on the map, so
@@ -1394,13 +1394,13 @@ type World = {
   swings, the slide, the sandpit, a bench, a tree, the sign), the lesson
   count on the server, the reveals on the planet, the map, the Learn tab and
   the pass screen. The parts box and the pocket work on every planet.
-- **3c The universe.** Every planet in the catalogue floating on a sky twice
+- **3c The universe.** Built, 6 September 2026: the sky twice the screen, panned by dragging the dark, DiGi recentred by the small star, every planet drifting with a place of its own (`planet_move`), and a first room for each of the eight far away planets with its spots, its launch pad, its tap pieces and its drop pieces. The keys open by whichever comes first: a lesson, a mission or growth. The rocket pocket waits with the drops. Plan: plans/week-of-2026-09-07-planet-friends-slice-3c-universe-plan.md.
   the size of the screen, panned by dragging, DiGi in the middle, a first
   room for each: the Space Port, the Wild planet, the Observatory, the Star
   Cafe, StarNet Studio (Tier 2 and 3), the Ice, Volcano and Rainbow planets.
   The keys open by whichever comes first: a lesson, a mission or growth.
   Planned in plans/week-of-2026-09-07-planet-friends-slice-3c-universe-plan.md.
-- **3d The self.** The maker sheet, the explorer figure with skin, hair,
+- **3d The self.** Built, 6 September 2026 (PR 984, kept whole in the PR 986 merge): the builder with skin, hair, hair colour and suit colour, and the explorer standing with the cast outdoors, in every room, on every planet and in the rocket. The visor, the badge, the backpack and the boots wait for a drop. Plan: plans/week-of-2026-09-07-planet-friends-slice-3d-self-plan.md.
   eyes, the space suit and more, on the planet, in the rooms, in the rocket.
   Planned in plans/week-of-2026-09-07-planet-friends-slice-3d-self-plan.md.
 - **3e The device ladder and the Star Cafe's loop.** The StarPad and the tiny

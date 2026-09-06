@@ -10695,6 +10695,80 @@ applied). Resolved by the schools session inside the merge commit on
 PR 985, both lanes' decisions entries kept, nothing else touched.
 
 
+## 6 September 2026: migrations 253 and 254 were already on production
+
+Justin: "Apply migrations and go 3c." Before applying, the ledger was read:
+both migrations went to production on 5 September at 23:17 UTC, in the same
+minute as 255, by whichever session applied that one. Verified on the live
+database before touching anything: the planet_codes table exists with its
+"Own planet codes" policy, and scripts 9630 to 9641 carry the twelve space
+mission titles from 254 (the nine garden rows from 253 are gone). Nothing
+was applied. The standing note in this lane that said "253 and 254 not yet
+applied" was stale from the moment 255 went in, which is the same lesson as
+the migration numbers: read the database's own list, not the lane's memory.
+
+## 6 September 2026: slice 3c built, the universe with every planet a place
+
+Justin: "Apply migrations and go 3c." Built the same evening on the Planet
+Friends lane, no migration: the sky is twice the screen each way with DiGi
+in the middle, the child drags the dark to look around and a small star
+brings DiGi back; every planet floats with a slow drift and a planet dragged
+anywhere stays there (planet_move, a place per planet in home.world.places,
+clamped inside the sky). The eight far away planets each got their first
+room drawn by RoomScene from data, with spots for things and parts, a
+launch pad, pieces that answer a tap, and pieces a Friend can be dropped on:
+the Space Port (the gantry, the rover, the fuel pump, the tools), the Wild
+planet (the rope swing, the pond, the burrow), the Observatory (the
+telescope, the star map, the deckchairs), the Star Cafe (the counter, the
+menu, the tables, the cushions), StarNet Studio (the feed wall, the dome
+tool, the desk, the ring light), the Ice planet (the igloos, the ice slide,
+the snowman, the warm hut), the Volcano planet (the pools, the stepping
+stones, the lava rock, the steam), the Rainbow planet (the rainbow slide,
+the cloud bed, the paint pots, the sun shower). With rooms drawn, the keys
+from the 7.5 table now open every planet. Two consequences worth knowing:
+
+- The Space Port's growth key is stage 1, which is where every new planet
+  starts, so the Space Port is open and new from a child's first day. That
+  matches design 7.1 ("a sky with two bright planets and some faint ones")
+  and it is the child's first reveal. Say the word and its growth key moves
+  to stage 2.
+- The new planet card waits its turn behind the grew card, so two cards never
+  sit on each other, and a tap piece never stands where a Friend stands, so
+  a finger reaches it.
+
+Out of scope, still: the rocket pocket and things travelling between planets
+(7.2), the device ladder and the Star Cafe's loop (3e), the drops (3f), the
+explorer's visor, badge, backpack and boots.
+
+## 6 September 2026: the Planet Friends design canvas, Toca quality in our own clothes
+
+Justin sent five Toca Boca World screens and asked for that quality and
+resolution. Built as a Claude Design canvas of five boards at 2000 by 920
+(the title, the universe, the Space Port, the kitchen, the explorer maker),
+drawn from the toy's own SVG pieces and the cast art in butter and ink and
+Nunito, with IBM Plex Mono for the small labels:
+https://claude.ai/code/artifact/b1b16e3f-d88d-4966-9bf9-5adc05dc56b6.
+Static mockups. The patterns are borrowed from the best of the genre (full
+bleed landscape scenes with depth, chunky round buttons in the corners, the
+Friend whose line it is bottom left with the line beside it, the place plate
+bottom right, a tray of who is flying) and the brand is entirely ours, never
+a copy of another company's art. The canvas is the picture the next slices
+draw towards: full screen landscape rooms, a big explorer maker with skin,
+hair and suit tiles, the universe as a night sky with every planet whole and
+its key drawn on it. Nothing in the product changed for this.
+
+## 6 September 2026: the Space Port opens at stage 2, Moonbase School keeps its growth key
+
+Justin, on the two calls in PR 988: "port open from stage 2 and moon base
+school with growth keys." So the Space Port's growth key moves from stage 1
+to stage 2: a child's first day shows the home planet bright and every other
+planet pale with its key drawn on it, and the first reveal comes either by
+the rocket launch mission or by growing the planet to stage 2, when Moonbase
+School lights up beside it. Moonbase School keeps its growth key (stage 2,
+or the first lesson). The Playground stays as designed (stage 3, or the
+second lesson); Justin did not name it, so nothing moved. The rule is one
+number in PLANETS.port in lib/planet/logic.ts; the checks and the universe
+drive follow it.
 ## 6 September 2026: the audit's stage three, Justin's eight answers
 
 Justin on the audit's decisions list: "1 limited co 2 asked at set up 3

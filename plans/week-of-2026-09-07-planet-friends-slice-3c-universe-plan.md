@@ -1,6 +1,6 @@
 # Planet Friends slice 3c: the universe, every planet floating
 
-Status: part one landed 6 September 2026 in the PR 986 merge with PR 984: every planet of the 7.5 catalogue now orbits on the map with its keys and its honest sign, and a pale planet can be dragged like an open one. Still to build: the pannable sky (planet_move with free positions and drift), and the first rooms of Space Port, the Wild planet, the Observatory, the Star Cafe, StarNet Studio, Ice, Volcano and Rainbow, which is what turns each from a far away one into a place. Proposed 6 September 2026 from Justin's note the same day ("I would like all the planets floating in a universe so the child can explore each one").
+Status: built 6 September 2026 on Justin's "Apply migrations and go 3c", in PR 986 on the Planet Friends lane, no migration. The sky is twice the screen, panned by dragging the dark, DiGi recentred by the small star; every planet drifts and a planet dragged anywhere stays there (planet_move, home.world.places); the eight far away planets each have their first room with spots, a launch pad, tap pieces and drop pieces, and the keys of the 7.5 table open them. Not in this slice: the rocket pocket and things travelling between planets (7.2), which waits with the drops. Proposed 6 September 2026 from Justin's note the same day ("I would like all the planets floating in a universe so the child can explore each one").
 
 ## The one line
 
@@ -54,6 +54,11 @@ collected about the child.
    guard, no dashes.
 
 ## What Justin decides
+
+Decided 6 September 2026, after the build: the Space Port opens at growth
+stage 2 (or the rocket launch), not from the first day; Moonbase School keeps
+its growth key (stage 2, or the first lesson). The Playground stays as
+designed (stage 3, or the second lesson).
 
 - The go.
 - Whether the Star Cafe and StarNet Studio stay Tier 2 and 3 only (the
