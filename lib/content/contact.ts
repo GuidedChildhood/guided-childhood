@@ -50,7 +50,31 @@ export const CONTACT = {
    * One line per row, in the order it would be written on an envelope.
    */
   address: ['Apple Acre', 'Star', 'Winscombe', 'BS25 1QF'] as string[],
+
+  /**
+   * The registered company behind the product.
+   *
+   * Justin, 6 September 2026, answering the audit: "limited co". The exact
+   * registered name, the company number and the registered office are not
+   * yet given, so all three are empty and every surface that would print
+   * them prints nothing until they are filled. Never a guess on a legal page.
+   */
+  companyName: '',
+  companyNumber: '',
+  registeredOffice: [] as string[],
 } as const
+
+/** True once the registered company details above have been filled in. */
+export function hasCompany(): boolean {
+  return CONTACT.companyName.length > 0 && CONTACT.companyNumber.length > 0
+}
+
+/** One plain sentence naming the company, or an empty string until it is known. */
+export function companyLine(): string {
+  if (!hasCompany()) return ''
+  const office = CONTACT.registeredOffice.length > 0 ? `, registered office ${CONTACT.registeredOffice.join(', ')}` : ''
+  return `Guided Childhood is operated by ${CONTACT.companyName}, a company registered in England and Wales (company number ${CONTACT.companyNumber})${office}.`
+}
 
 /** True once a real address has been filled in above. */
 export function hasAddress(): boolean {

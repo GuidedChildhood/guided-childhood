@@ -10607,3 +10607,23 @@ situations bank (applied as 260, record renamed), 264 PCAST (not yet
 applied). Resolved by the schools session inside the merge commit on
 PR 985, both lanes' decisions entries kept, nothing else touched.
 
+
+## 6 September 2026: the audit's stage three, Justin's eight answers
+
+Justin on the audit's decisions list: "1 limited co 2 asked at set up 3
+ignore 4 yea 5 should be 6 its demo 7 agreed name of the guided digital child
+passport 8 remind for 2 months go ahead." Decided: the business is a limited
+company, so lib/content/contact.ts carries the registered name, number and
+office as empty fields that Terms and Privacy print only once filled (the
+details are still to come from Justin). Core time is asked at setup: a fourth
+Setup Quest step, one tap per child, with None as a real answer, saved through
+the time settings route and ticked when every child has a row. The old HTML
+pages are left alone. The 30 day refund is real and now in the Terms, which
+also describe the four free days, both doors and what the free days include,
+and say the app waits for you rather than moving you to a free tier that never
+existed. The Stripe billing portal should be on; only Justin can check that
+in Stripe. oakfield-2026 is a demo code and stays. The passport has one name
+across both sites, the Guided Digital Childhood Passport (read from "the
+guided digital child passport"; one word to change if he meant otherwise).
+A routine on 6 November 2026 reminds him to commission the DPIA and the
+solicitor review. The audit folder is committed on his go ahead.

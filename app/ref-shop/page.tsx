@@ -18,7 +18,7 @@ const P = (p: Partial<Product> & { key: string; name: string; price_pence: numbe
 
 const PRODUCTS: Product[] = [
   P({ key: 'passport_printed', name: 'The printed passport', price_pence: 1400, kind: 'passport', personalised: true, sort: 10,
-      blurb: 'A keepsake quality A6 booklet of their real digital passport. Their name on the cover, every stage they have actually stamped printed inside. Made to order, so no two are the same.' }),
+      blurb: 'A keepsake quality A6 booklet of their real Guided Digital Childhood Passport. Their name on the cover, every stage they have actually stamped printed inside. Made to order, so no two are the same.' }),
   P({ key: 'sticker_sheet', name: 'Planet Friends sticker sheet', price_pence: 400, kind: 'stickers', sort: 20,
       blurb: 'DiGi and all five Planet Friends, plus the five stage stamps, on one glossy sheet. For the fridge, the folder, the back of the bedroom door.' }),
   P({ key: 'charm_pebble', name: 'Pebble charm', price_pence: 500, kind: 'charm', character_key: 'pebble', min_earned: 1, sort: 30, active: false,

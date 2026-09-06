@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
+import { companyLine } from '@/lib/content/contact'
 
 export const metadata = {
   title: 'Privacy Policy · Guided Childhood',
@@ -31,7 +32,7 @@ export default function PrivacyPage() {
 
       <h2 style={H2}>Who we are</h2>
       <p style={P}>
-        Guided Childhood is the data controller for the information described here. You can reach us any time at <a href="mailto:hello@guidedchildhood.com" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>hello@guidedchildhood.com</a>.
+        {companyLine() ? `${companyLine()} It` : 'Guided Childhood'} is the data controller for the information described here. You can reach us any time at <a href="mailto:hello@guidedchildhood.com" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>hello@guidedchildhood.com</a>.
       </p>
 
       <h2 style={H2}>What we collect</h2>

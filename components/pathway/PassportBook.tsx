@@ -212,7 +212,7 @@ export default function PassportBook({
     <div style={{ marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          {childName === 'your child' ? 'The' : `${childName}'s`} digital passport
+          {childName === 'your child' ? 'The' : `${childName}'s`} Guided Digital Childhood Passport
         </span>
         {/* nowrap. "1/5 pages stamped" was breaking after "pages", which took
             the label opposite it to two lines as well, so the book started two
@@ -259,7 +259,7 @@ export default function PassportBook({
             >
               <div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-                  Digital Passport
+                  Digital Childhood Passport
                 </div>
                 <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '10px auto 0' }} />
               </div>

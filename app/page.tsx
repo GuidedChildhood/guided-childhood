@@ -27,13 +27,13 @@ export const metadata: Metadata = {
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
-    'digital passport for children', 'screen time arguments', 'under 16 social media ban',
+    'digital passport for children', 'Guided Digital Childhood Passport', 'screen time arguments', 'under 16 social media ban',
     'online safety for children UK', 'AI literacy for kids', 'screen time rewards',
     'chores for screen time', 'safe device settings by age',
   ],
   openGraph: {
     title: 'A clear digital pathway from first screen to 16.',
-    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Digital Passport. Free to start.',
+    description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Guided Digital Childhood Passport. Free to start.',
     url: SITE_URL,
     type: 'website',
     locale: 'en_GB',
@@ -674,7 +674,7 @@ export default function HomePage() {
               ['Balance, watched together', 'Safe device settings by age, matched with the reward star system. Outside play pays the most stars, and the wellbeing tracker shows the balance shifting.'],
               ['Lessons in social media, gaming and AI', 'Age by age lessons so they can spot an algorithm, a fake and an AI chatbot long before 16. Social media and AI literate, not just supervised.'],
               ['School calendar reminders', 'Term dates, homework rhythms and school activity messages home, so the plan fits real weeks, not perfect ones.'],
-              ['The Digital Passport', 'Every stage stamped, every page earned. Tap each page open above, done by 16.'],
+              ['The Guided Digital Childhood Passport', 'Every stage stamped, every page earned. Tap each page open above, done by 16.'],
             ].map(([title, body]) => (
               <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 18px 16px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em', marginBottom: '6px' }}>{title}</div>

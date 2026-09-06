@@ -98,7 +98,7 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
           padding: '18px 22px 22px',
         }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 4 }}>
-            Guided Childhood passport check
+            Guided Digital Childhood Passport check
           </p>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: '#fff', lineHeight: 1.15, margin: 0 }}>
             This passport is real

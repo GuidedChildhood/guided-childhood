@@ -52,7 +52,7 @@ export type SetupState = {
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
-  const [child, push, kidLinks, profile, childCount] = await Promise.all([
+  const [child, push, kidLinks, profile, childCount, timeRows] = await Promise.all([
     // ── NOT maybeSingle ON is_primary, AND THE LIVE DATA IS WHY ──────────────
     //
     // The obvious read here is .eq('is_primary', true).maybeSingle(), and it is
@@ -77,6 +77,9 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
     supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at, setup_completed_at').eq('id', userId).maybeSingle(),
     supabase.from('children').select('id', { count: 'exact', head: true }).eq('parent_id', userId),
+    // A row here means the parent answered the free time question for that
+    // child (0 is an answer). The table has no row until they do.
+    supabase.from('child_time_settings').select('child_id').eq('user_id', userId),
   ])
 
   // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE?
@@ -133,7 +136,14 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     noPhone: r.no_phone === true,
   }))
 
+  const answeredTime = new Set(((timeRows.data ?? []) as { child_id: string }[]).map(r => r.child_id))
+
   const flags: SetupFlags = {
+    // DONE WHEN: every child has a time settings row. Saving the chips writes
+    // one whatever the value, so "none" counts and a family is never nagged
+    // for choosing earned only. A new child added later reopens it, which is
+    // right: the question is per child.
+    coreTime: childRows.length > 0 && childRows.every(c => answeredTime.has(c.id)),
     // DONE WHEN: a link was created for a child, OR this family answered the
     // question the other way.
     //
