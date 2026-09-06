@@ -1,4 +1,6 @@
--- Guided Childhood — Migration 262
+-- Guided Childhood — Migration 264 (claimed as 262; renumbered at the PR 985
+-- merge because main took 262 for the ks3-12 worksheet first; never applied
+-- under the old number)
 -- PCAST and the US direction of travel on children and AI.
 --
 -- Justin, 6 September 2026, clearing up "ocas" from his research brief: "It's

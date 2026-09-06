@@ -10556,7 +10556,7 @@ rename is the whole fix. The check before claiming a number now needs to
 read the database migration list as well as origin/main and the open PRs,
 because an applied migration can arrive on main hours after it ran.
 
-## 6 September 2026: the bank file is 263, and PCAST joins the bank (migration 262)
+## 6 September 2026: the bank file is 263, and PCAST joins the bank (migration 264)
 
 Both sessions renumbered their 257 to 260 within the same hour, and the
 worksheet's merge landed first, so the situations bank file is now
@@ -10596,3 +10596,14 @@ suit with the child's chosen skin tone, hair and suit colour, which the
 cast rule never covered. Stored as play state in planet_homes.state.self,
 changed any time, nothing new collected about the child beyond the play
 choices themselves. Plan: plans/2026-09-06-universe-and-self-plan.md.
+
+## 6 September 2026: the PCAST migration is 264, settled at the merge
+
+The number dance's last step: while PR 985 was open, main's own fix for
+the first clash landed the ks3-12 worksheet at 262, so the PCAST file
+that claimed 262 here takes 264 (unapplied, so the rename is free). Final
+ledger for the day: 262 the ks3-12 worksheet (applied as 257), 263 the
+situations bank (applied as 260, record renamed), 264 PCAST (not yet
+applied). Resolved by the schools session inside the merge commit on
+PR 985, both lanes' decisions entries kept, nothing else touched.
+
