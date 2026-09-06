@@ -2,25 +2,28 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import type { Friend, FriendKey, Home, Outfit, PlanetKey, Tier } from '@/lib/planet/logic'
-import { PLANETS, PLANET_ORDER, isGrownUp, newPlanets, orbitAngle, planetOpen, whereIs, planetOf } from '@/lib/planet/logic'
-import { PLANET_WORDS } from '@/lib/planet/world'
+import type { Friend, FriendKey, Home, Outfit, PlanetKey, Self, Tier } from '@/lib/planet/logic'
+import { PLANETS, isGrownUp, newPlanets, orbitAngle, planetOpen, planetSign, shownPlanets, whereIs, planetOf } from '@/lib/planet/logic'
+import { OPEN_SIGNS, PLANET_WORDS, SIGN_WORDS, type PlanetMotif } from '@/lib/planet/universe'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
+import SelfFigure from './SelfFigure'
 import PartArt from './PartArt'
 import { SCENE_H, SCENE_W, sceneFromClient } from './scene'
 
-// The star system map (slice 3b): DiGi is the star in the middle and the
-// planets orbit. Tap a planet to look, drag a Friend from the tray onto a lit
-// planet and the rocket flies them there, drag a planet along its orbit and
-// it stays where the child left it. A planet not yet open is a pale outline
-// with a book on it: a lesson opens it. No padlock, no countdown, no nag.
+// The star system map (slice 3b): DiGi is the star in the middle and every
+// planet of the catalogue orbits. Tap a planet to look, drag a Friend from
+// the tray onto a lit planet and the rocket flies them there, drag a planet
+// along its orbit and it stays where the child left it. A planet not yet
+// open is a pale outline with the small honest sign of what opens it: a
+// book for a lesson, a flag for a mission, a sprout for growing, sparkles
+// for a far away one whose rooms are not built yet. No padlock, no
+// countdown, no nag. The child's own explorer rides the rocket.
 
 const INK = '#1A1A2E'
 const CENTRE = { x: 195, y: 236 }
-const ORBITS = [{ rx: 92, ry: 50 }, { rx: 140, ry: 82 }, { rx: 178, ry: 118 }]
+const ORBITS = [{ rx: 92, ry: 50 }, { rx: 140, ry: 84 }, { rx: 176, ry: 122 }]
 const TRAY_Y = 468
-const PLANET_R: Record<PlanetKey, number> = { home: 30, school: 24, park: 26 }
 
 type Drag = { kind: 'friend' | 'planet'; id: string; x: number; y: number; startX: number; startY: number; moved: boolean }
 
@@ -40,9 +43,88 @@ function trayX(count: number): number[] {
   return [100, 195, 290]
 }
 
+/** One motif per planet, a few primitives each, so even a small one reads. */
+function Motif({ motif, r, edge, accent }: { motif: PlanetMotif; r: number; edge: string; accent: string }) {
+  const sw = Math.max(1.2, r * 0.06)
+  switch (motif) {
+    case 'grass':
+      return (
+        <g>
+          <ellipse cx={-8} cy={6} rx={7} ry={3.5} fill="#6FB998" />
+          <ellipse cx={10} cy={-6} rx={5} ry={2.5} fill="#6FB998" />
+          <path d="M4 -24 V-8 M5 -24 h10 l-3 4 l3 4 h-10 z" stroke={INK} strokeWidth={1.4} fill={accent} strokeLinejoin="round" />
+        </g>
+      )
+    case 'book':
+      return (
+        <g>
+          <path d="M-14 6 a14 14 0 0 1 28 0 z" fill="#FFFFFF" stroke={INK} strokeWidth={1.4} />
+          <rect x={-16} y={6} width={32} height={5} rx={2} fill="#D8D2E8" stroke={INK} strokeWidth={1.2} />
+          <circle cx={0} cy={0} r={3} fill="#8EC3F0" stroke={INK} strokeWidth={1} />
+        </g>
+      )
+    case 'slide':
+      return (
+        <g>
+          <path d="M-16 8 h10 l-2 -16 h-6 z" fill="#F4C542" stroke={INK} strokeWidth={1.2} strokeLinejoin="round" />
+          <path d="M-6 -8 L16 8" stroke="#F4C542" strokeWidth={4} strokeLinecap="round" />
+          <circle cx={6} cy={-14} r={7} fill="#3E8F5A" stroke={INK} strokeWidth={1.2} />
+        </g>
+      )
+    case 'mug':
+      return (
+        <g>
+          <rect x={-r * 0.3} y={-r * 0.25} width={r * 0.5} height={r * 0.5} rx={r * 0.1} fill="#FFF6DD" stroke={INK} strokeWidth={sw} />
+          <path d={`M${r * 0.2} ${-r * 0.1} q ${r * 0.3} 0 0 ${r * 0.25}`} fill="none" stroke={INK} strokeWidth={sw} />
+          <path d={`M${-r * 0.15} ${-r * 0.4} q ${r * 0.08} ${-r * 0.12} 0 ${-r * 0.2}`} fill="none" stroke={INK} strokeWidth={sw * 0.8} opacity={0.7} />
+        </g>
+      )
+    case 'rocket':
+      return (
+        <g>
+          <path d={`M0 ${-r * 0.45} q ${r * 0.28} ${r * 0.3} 0 ${r * 0.8} q ${-r * 0.28} ${-r * 0.5} 0 ${-r * 0.8} z`} fill="#FFF6DD" stroke={INK} strokeWidth={sw} />
+          <circle cx={0} cy={-r * 0.1} r={r * 0.09} fill="#8EC3F0" stroke={INK} strokeWidth={sw * 0.7} />
+        </g>
+      )
+    case 'tree':
+      return (
+        <g>
+          <circle cx={0} cy={-r * 0.2} r={r * 0.28} fill={edge} stroke={INK} strokeWidth={sw * 0.8} />
+          <rect x={-r * 0.05} y={0} width={r * 0.1} height={r * 0.3} fill={INK} />
+        </g>
+      )
+    case 'dome':
+      return (
+        <g>
+          <path d={`M${-r * 0.4} ${r * 0.15} a ${r * 0.4} ${r * 0.4} 0 0 1 ${r * 0.8} 0 z`} fill="#FFF6DD" stroke={INK} strokeWidth={sw} />
+          <path d={`M${r * 0.05} ${-r * 0.2} l ${r * 0.3} ${-r * 0.3}`} stroke={INK} strokeWidth={sw} />
+        </g>
+      )
+    case 'screen':
+      return (
+        <g>
+          <rect x={-r * 0.35} y={-r * 0.28} width={r * 0.7} height={r * 0.5} rx={r * 0.08} fill="#FFF6DD" stroke={INK} strokeWidth={sw} />
+          <path d={`M${-r * 0.18} ${r * 0.02} l ${r * 0.14} ${-r * 0.14} l ${r * 0.1} ${r * 0.08} l ${r * 0.12} ${-r * 0.12}`} fill="none" stroke={edge} strokeWidth={sw} strokeLinecap="round" />
+        </g>
+      )
+    case 'ice':
+      return <path d={`M${-r * 0.5} ${r * 0.1} l ${r * 0.25} ${-r * 0.4} l ${r * 0.25} ${r * 0.4} z M0 ${r * 0.1} l ${r * 0.22} ${-r * 0.55} l ${r * 0.24} ${r * 0.55} z`} fill="#FFFFFF" stroke={INK} strokeWidth={sw * 0.8} strokeLinejoin="round" opacity={0.9} />
+    case 'lava':
+      return <path d={`M${-r * 0.45} ${r * 0.2} l ${r * 0.3} ${-r * 0.55} l ${r * 0.3} ${r * 0.55} z M${-r * 0.08} ${-r * 0.32} q ${r * 0.08} ${-r * 0.18} ${r * 0.16} 0`} fill={edge} stroke={INK} strokeWidth={sw * 0.8} strokeLinejoin="round" />
+    case 'rainbow':
+      return (
+        <g fill="none" strokeLinecap="round">
+          {['#D95970', '#F4C542', '#7CB342'].map((c, i) => (
+            <path key={c} d={`M${-r * (0.45 - i * 0.1)} ${r * 0.2} a ${r * (0.45 - i * 0.1)} ${r * (0.45 - i * 0.1)} 0 0 1 ${r * (0.9 - i * 0.2)} 0`} stroke={c} strokeWidth={sw * 1.2} />
+          ))}
+        </g>
+      )
+  }
+}
+
 export type Flight = { friend: FriendKey; to: PlanetKey }
 
-export default function StarMap({ home, friends, tier, childAge, wearing, accent, flight, onTapPlanet, onFly, onOrbit, onTapDigi, onInteract, onFlightDone, onSvg }: {
+export default function StarMap({ home, friends, tier, childAge, wearing, accent, self = null, flight, onTapPlanet, onFly, onOrbit, onTapDigi, onInteract, onFlightDone, onSvg }: {
   home: Home
   /** The awake Friends, who can fly. */
   friends: Friend[]
@@ -50,6 +132,8 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
   childAge: number
   wearing: Partial<Record<FriendKey, Outfit>>
   accent: string
+  /** The child's own explorer, who rides the rocket. */
+  self?: Self | null
   /** A rocket in the air right now. */
   flight: Flight | null
   onTapPlanet: (planet: PlanetKey) => void
@@ -66,6 +150,7 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
   const [drag, setDrag] = useState<Drag | null>(null)
   const [orbitLive, setOrbitLive] = useState<{ planet: PlanetKey; angle: number } | null>(null)
   const fresh = newPlanets(home)
+  const shown = shownPlanets(home)
   const words = tier >= 2
 
   function toSvg(e: React.PointerEvent): { x: number; y: number } {
@@ -88,11 +173,11 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
   }
   function planetAt(p: { x: number; y: number }): PlanetKey | null {
     let best: PlanetKey | null = null
-    let bestD = 58
-    for (const k of PLANET_ORDER) {
+    let bestD = Infinity
+    for (const k of shown) {
       const pos = livePos(k)
       const d = Math.hypot(p.x - pos.x, p.y - pos.y)
-      if (d < bestD) { bestD = d; best = k }
+      if (d < PLANET_WORDS[k].r + 26 && d < bestD) { bestD = d; best = k }
     }
     return best
   }
@@ -157,7 +242,7 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
         </linearGradient>
       </defs>
       <rect x={0} y={0} width={SCENE_W} height={SCENE_H} fill="url(#pl-space)" />
-      {[[24, 40], [80, 120], [150, 30], [250, 60], [330, 100], [370, 200], [20, 300], [360, 330], [60, 420], [300, 440], [200, 400], [120, 380]].map(([x, y], i) => (
+      {[[24, 40], [80, 120], [150, 30], [250, 60], [330, 100], [370, 200], [20, 300], [360, 330], [60, 420], [300, 440], [200, 400], [120, 380], [40, 200], [240, 200], [180, 90], [340, 400]].map(([x, y], i) => (
         <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.8 : 1.2} fill="#FFFFFF" opacity={0.85} />
       ))}
 
@@ -170,44 +255,25 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
         <g className="pl-float"><image href="/digi-squad/DiGi-star.svg" x={-28} y={-28} width={56} height={56} /></g>
       </g>
 
-      {/* the planets, far ones first so a near one draws over them */}
-      {[...PLANET_ORDER].sort((a, b) => livePos(a).y - livePos(b).y).map(k => {
+      {/* the planets of this tier, far ones first so a near one draws over them */}
+      {[...shown].sort((a, b) => livePos(a).y - livePos(b).y).map(k => {
         const pos = livePos(k)
         const open = planetOpen(home, k)
         const isNew = fresh.includes(k)
-        const r = PLANET_R[k]
         const w = PLANET_WORDS[k]
+        const r = w.r
+        const sign = planetSign(k)
         const dragging = drag?.kind === 'planet' && drag.id === k
         const lit = draggingFriend && open
         return (
-          <g key={k} data-planet={k} data-open={open ? '1' : '0'} transform={`translate(${pos.x} ${pos.y})${dragging ? ' scale(1.08)' : ''}`}
+          <g key={k} data-planet={k} data-open={open ? '1' : '0'} data-sign={open ? undefined : sign} transform={`translate(${pos.x} ${pos.y})${dragging ? ' scale(1.08)' : ''}`}
             onPointerDown={e => begin(e, 'planet', k)} style={{ cursor: 'grab' }} aria-label={open ? w.title : `${w.title}, not open yet`}>
-            <circle cx={0} cy={0} r={r + 24} fill="transparent" />
+            <circle cx={0} cy={0} r={r + 20} fill="transparent" />
             {lit && <circle cx={0} cy={0} r={r + 14} fill="rgba(255,255,255,0.2)" stroke="#F4C542" strokeWidth={4} strokeDasharray="8 7" className="pl-target" />}
             {open ? (
               <g>
                 <circle cx={0} cy={0} r={r} fill={w.colour} stroke={INK} strokeWidth={2.5} />
-                {k === 'home' && (
-                  <g>
-                    <ellipse cx={-8} cy={6} rx={7} ry={3.5} fill="#6FB998" />
-                    <ellipse cx={10} cy={-6} rx={5} ry={2.5} fill="#6FB998" />
-                    <path d="M4 -24 V-8 M5 -24 h10 l-3 4 l3 4 h-10 z" stroke={INK} strokeWidth={1.4} fill={accent} strokeLinejoin="round" />
-                  </g>
-                )}
-                {k === 'school' && (
-                  <g>
-                    <path d="M-14 6 a14 14 0 0 1 28 0 z" fill="#FFFFFF" stroke={INK} strokeWidth={1.4} />
-                    <rect x={-16} y={6} width={32} height={5} rx={2} fill="#D8D2E8" stroke={INK} strokeWidth={1.2} />
-                    <circle cx={0} cy={0} r={3} fill="#8EC3F0" stroke={INK} strokeWidth={1} />
-                  </g>
-                )}
-                {k === 'park' && (
-                  <g>
-                    <path d="M-16 8 h10 l-2 -16 h-6 z" fill="#F4C542" stroke={INK} strokeWidth={1.2} strokeLinejoin="round" />
-                    <path d="M-6 -8 L16 8" stroke="#F4C542" strokeWidth={4} strokeLinecap="round" />
-                    <circle cx={6} cy={-14} r={7} fill="#3E8F5A" stroke={INK} strokeWidth={1.2} />
-                  </g>
-                )}
+                <Motif motif={w.motif} r={r} edge={w.edge} accent={accent} />
                 {isNew && (
                   <g className="pl-sparkle-loop">
                     {[-1, 0, 1].map(i => <path key={i} d={`M${i * 18} ${-r - 16 - (i % 2) * 6} l3 -7 l3 7 l-7 -4 h8 z`} fill="#F4C542" />)}
@@ -215,16 +281,16 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
                 )}
               </g>
             ) : (
-              <g opacity={0.75}>
-                <circle cx={0} cy={0} r={r} fill="rgba(255,255,255,0.06)" stroke="#FFFFFF" strokeWidth={2} strokeDasharray="5 5" />
-                <text x={0} y={7} textAnchor="middle" fontSize={20}>📚</text>
+              <g opacity={sign === 'later' ? 0.55 : 0.8}>
+                <circle cx={0} cy={0} r={r} fill={sign === 'later' ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)'} stroke="#FFFFFF" strokeWidth={sign === 'later' ? 1.4 : 2} strokeDasharray="5 5" />
+                <text x={0} y={r >= 24 ? 7 : 6} textAnchor="middle" fontSize={r >= 24 ? 20 : 16}>{OPEN_SIGNS[sign]}</text>
               </g>
             )}
             {words && (
-              <text x={0} y={r + 18} textAnchor="middle" fontSize={11} fontFamily="var(--font-display)" fontWeight={800} fill="#FFFFFF" opacity={open ? 1 : 0.7}>{w.title}</text>
+              <text x={0} y={r + 16} textAnchor="middle" fontSize={open || sign !== 'later' ? 10.5 : 9} fontFamily="var(--font-display)" fontWeight={800} fill="#FFFFFF" opacity={open ? 1 : sign === 'later' ? 0.55 : 0.75}>{w.title}</text>
             )}
-            {words && !open && (
-              <text x={0} y={r + 32} textAnchor="middle" fontSize={9} fontFamily="var(--font-mono)" fill="#FFFFFF" opacity={0.7} letterSpacing={0.5}>PASS A LESSON</text>
+            {words && !open && sign !== 'later' && (
+              <text x={0} y={r + 29} textAnchor="middle" fontSize={8.5} fontFamily="var(--font-mono)" fill="#FFFFFF" opacity={0.7} letterSpacing={0.5}>{SIGN_WORDS[sign]}</text>
             )}
             {words && isNew && (
               <text x={0} y={-r - 24} textAnchor="middle" fontSize={11} fontFamily="var(--font-display)" fontWeight={900} fill="#F4C542">New!</text>
@@ -233,10 +299,11 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
         )
       })}
 
-      {/* the rocket in the air */}
+      {/* the rocket in the air, the Friend and the child's explorer aboard */}
       {flight && (
         <g ref={rocketRef} data-flight={flight.friend} style={{ pointerEvents: 'none' }}>
           <g transform="rotate(30) scale(0.7)"><PartArt part="rocket" accent={accent} night={false} using /></g>
+          {self && <g transform="translate(-22 -36) scale(0.3)"><SelfFigure self={self} size={100} /></g>}
           <g transform="translate(0 -46) scale(0.3)"><FriendFigure friend={flight.friend} mood="happy" baby={!isGrownUp(flight.friend, childAge)} outfit={wearing[flight.friend] ?? null} /></g>
         </g>
       )}

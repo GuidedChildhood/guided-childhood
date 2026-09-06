@@ -15,7 +15,8 @@ import {
   PICTURE_TOKENS, CODE_WORDS, codeModeFor, makeCode, withChildAnswers,
   STARTER_PARTS, STARTER_OUTFITS, PLOTS_BY_STAGE, plotsFor, boxParts, boxOutfits, grow,
   PHOTOS_MAX, whereIs, atHome, drainMultiplier, charging, batteryNow, dockAllDevices,
-  PLANET_ORDER, planetOf, landingRoom, planetOpen, openPlanets, newPlanets, lessonsToNextPlanet, orbitAngle,
+  PLANET_ORDER, PLANETS, planetOf, landingRoom, planetOpen, openPlanets, newPlanets, lessonsToNextPlanet, lessonsToOpen, orbitAngle, planetSign, shownPlanets, keyTurned,
+  isSelf, isWhere, SELF_SKINS, SELF_HAIRS, SELF_HAIR_COLOURS, SELF_SUITS,
 } from '../lib/planet/logic.ts'
 
 // The mission mechanics, stated here rather than imported from the registry
@@ -484,22 +485,43 @@ check('a sleepy Friend, a rest, and the wind down all put the phone on the shelf
 
 // ── The star system (slice 3b) ───────────────────────────────────────────────
 
-check('the planets open by lessons passed, in catalogue order, and the count is the server\'s', () => {
+check('the whole catalogue orbits: every planet of design 7.5, and only a planet with rooms can open', () => {
   let h = newHome(2, T0, null)
-  assert.deepEqual(PLANET_ORDER, ['home', 'school', 'park'])
+  assert.deepEqual(PLANET_ORDER, ['home', 'school', 'playground', 'port', 'wild', 'observatory', 'cafe', 'starnet', 'ice', 'volcano', 'rainbow'])
+  assert.equal(shownPlanets(h).length, 11, 'Tier 2 sees the whole catalogue')
+  assert.equal(shownPlanets(newHome(1, T0, null)).length, 9, 'Tier 1 has no Star Cafe and no StarNet')
   assert.deepEqual(openPlanets(h), ['home'], 'a new planet has the home planet only')
-  assert.deepEqual(lessonsToNextPlanet(h), { planet: 'school', lessons: 1 })
+  assert.ok(keyTurned(h, { kind: 'stage', stage: 1 }), 'the Space Port key is turned from the start')
+  assert.equal(planetOpen(h, 'port'), false, 'but with no rooms drawn it stays a far away one')
+  assert.equal(planetSign('port'), 'later')
+  assert.equal(landingRoom('port'), null)
+  assert.equal(planetSign('school'), 'lesson')
+  assert.equal(planetSign('playground'), 'lesson')
   assert.equal(planetOf('kitchen'), 'home')
   assert.equal(planetOf('classroom'), 'school')
-  assert.equal(planetOf('playground'), 'park')
+  assert.equal(planetOf('playground'), 'playground')
   assert.equal(landingRoom('school'), 'classroom')
+  for (const p of PLANET_ORDER) assert.ok(PLANETS[p].opens.length >= 1 && PLANETS[p].tiers.length >= 2, `${p} has a key and a tier`)
+})
+
+check('the planets open by lessons passed, any one of a planet\'s keys, and the count is the server\'s', () => {
+  let h = newHome(2, T0, null)
+  assert.deepEqual(lessonsToNextPlanet(h), { planet: 'school', lessons: 1 })
+  assert.equal(lessonsToOpen(h, 'playground'), 2)
   h = { ...h, lessonsPassed: 1 }
   assert.deepEqual(openPlanets(h), ['home', 'school'], 'the first lesson opens Moonbase School')
-  assert.deepEqual(lessonsToNextPlanet(h), { planet: 'park', lessons: 1 })
+  assert.deepEqual(lessonsToNextPlanet(h), { planet: 'playground', lessons: 1 })
   h = { ...h, lessonsPassed: 2 }
-  assert.deepEqual(openPlanets(h), ['home', 'school', 'park'], 'the second opens the Playground')
-  assert.equal(lessonsToNextPlanet(h), null)
+  assert.deepEqual(openPlanets(h), ['home', 'school', 'playground'], 'the second opens the Playground')
+  assert.equal(lessonsToNextPlanet(h), null, 'nothing with rooms is waiting on a lesson')
+  assert.equal(lessonsToOpen(h, 'school'), null, 'an open planet needs no more lessons')
   assert.equal(planetOpen({ ...h, lessonsPassed: undefined }, 'school'), false, 'an older save reads as no lessons passed')
+  const grown = { ...newHome(2, T0, null), growthStage: 3 }
+  assert.deepEqual(openPlanets(grown), ['home', 'school', 'playground'], 'growing the planet is the other key to both')
+  const landed = { ...newHome(2, T0, null), missions: [{ key: 'rocket_launch', status: 'approved', startedAt: T0, timerEndsAt: null, claimedAt: T0, approvedAt: T0 }] }
+  assert.ok(keyTurned(landed, { kind: 'mission', key: 'rocket_launch' }), 'a landed mission turns a mission key')
+  assert.ok(!keyTurned(newHome(2, T0, null), { kind: 'mission', key: 'rocket_launch' }))
+  assert.equal(planetOpen({ ...newHome(1, T0, null), lessonsPassed: 9 }, 'cafe'), false, 'the Star Cafe is never open at Tier 1')
 })
 
 check('the rocket lands only on an open planet, and a landing makes it visited, not new', () => {
@@ -512,22 +534,64 @@ check('the rocket lands only on an open planet, and a landing makes it visited, 
   assert.deepEqual(h.world.visited, ['school'])
   assert.deepEqual(newPlanets(h), [], 'landed, so not new any more')
   h = { ...h, lessonsPassed: 2 }
-  assert.deepEqual(newPlanets(h), ['park'])
+  assert.deepEqual(newPlanets(h), ['playground'])
   const home = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'outdoors' }, T0)
   assert.equal(whereIs(home, 'pebble'), 'outdoors', 'flying home is always open')
 })
 
 check('a planet dragged along its orbit stays where the child left it', () => {
   let h = newHome(2, T0, null)
-  assert.equal(orbitAngle(h, 'school'), 330, 'the catalogue place until it is moved')
+  assert.equal(orbitAngle(h, 'school'), 325, 'the catalogue place until it is moved')
   h = applyEvent(h, { kind: 'orbit_move', planet: 'school', angle: 45.7 }, T0)
   assert.equal(orbitAngle(h, 'school'), 46)
   h = applyEvent(h, { kind: 'orbit_move', planet: 'school', angle: -30 }, T0)
   assert.equal(orbitAngle(h, 'school'), 330, 'angles wrap')
+  h = applyEvent(h, { kind: 'orbit_move', planet: 'ice', angle: 200 }, T0)
+  assert.equal(orbitAngle(h, 'ice'), 200, 'a far away planet can be moved too')
   const nowhere = applyEvent(h, { kind: 'orbit_move', planet: 'pluto', angle: 10 }, T0)
   assert.deepEqual(nowhere.world.orbits, h.world.orbits)
-  const nan = applyEvent(h, { kind: 'orbit_move', planet: 'park', angle: Number.NaN }, T0)
-  assert.equal(orbitAngle(nan, 'park'), 60)
+  const nan = applyEvent(h, { kind: 'orbit_move', planet: 'playground', angle: Number.NaN }, T0)
+  assert.equal(orbitAngle(nan, 'playground'), 80)
+})
+
+check('travel (slice 3b): the away rooms are places, a resting Friend stays put, and the other build\'s places are mended', () => {
+  let h = newHome(2, T0, null)
+  assert.ok(isWhere('classroom') && isWhere('playground'), 'the away rooms are places')
+  assert.ok(!isWhere('moonbase') && !isWhere('school'), 'a planet is not a place, and an unknown word is not')
+  h = { ...h, lessonsPassed: 1 }
+  h = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'classroom' }, T0)
+  assert.equal(whereIs(h, 'pebble'), 'classroom')
+  assert.equal(whereIs(h, 'bloop'), 'outdoors', 'only the traveller moved')
+  const napping = applyEvent(h, { kind: 'nap_start', friend: 'bloop' }, T0)
+  const stuck = applyEvent(napping, { kind: 'room_move', friend: 'bloop', where: 'classroom' }, T0)
+  assert.equal(whereIs(stuck, 'bloop'), 'outdoors', 'a resting Friend does not travel')
+  const home = applyEvent(h, { kind: 'room_move', friend: 'pebble', where: 'outdoors' }, T0)
+  assert.equal(whereIs(home, 'pebble'), 'outdoors', 'and back again')
+  // A save written by PR 984 for one afternoon put a Friend at 'school' and had no visited list.
+  const old = reconcile({ ...h, world: { ...h.world, where: { pebble: 'school', bloop: 'attic' }, visited: ['school', 'park'] } }, T0, null)
+  assert.equal(whereIs(old, 'pebble'), 'classroom', 'the classroom by its old name is the classroom')
+  assert.equal(whereIs(old, 'bloop'), 'outdoors', 'an unknown place comes home')
+  assert.deepEqual(old.world.visited, ['school'], 'a planet the catalogue does not have is forgotten')
+})
+
+check('the self (slice 3b): built by the child, guarded against a stale client, kept through reconcile', () => {
+  let h = newHome(2, T0, null)
+  assert.equal(h.self, null, 'nobody starts with a figure')
+  const me = { skin: 3, hair: 1, hairColour: 5, suit: 2 }
+  assert.ok(isSelf(me))
+  h = applyEvent(h, { kind: 'self_set', self: me }, T0)
+  assert.deepEqual(h.self, me)
+  const bad = applyEvent(h, { kind: 'self_set', self: { skin: SELF_SKINS.length, hair: 0, hairColour: 0, suit: 0 } }, T0)
+  assert.deepEqual(bad.self, me, 'an index off the end changes nothing')
+  const junk = applyEvent(h, { kind: 'self_set', self: { skin: 'brown', hair: 0, hairColour: 0, suit: 0 } }, T0)
+  assert.deepEqual(junk.self, me, 'junk changes nothing')
+  const changed = applyEvent(h, { kind: 'self_set', self: { ...me, suit: SELF_SUITS.length - 1 } }, T0)
+  assert.equal(changed.self.suit, SELF_SUITS.length - 1, 'changed any time')
+  const old = reconcile({ ...h, self: undefined }, T0, null)
+  assert.equal(old.self, null, 'a save from before the self reads as none')
+  const mangled = reconcile({ ...h, self: { skin: 99 } }, T0, null)
+  assert.equal(mangled.self, null, 'a mangled self reads as none, never drawn wrong')
+  assert.ok(SELF_SKINS.length >= 6 && SELF_HAIRS.length >= 6 && SELF_HAIR_COLOURS.length >= 6, 'real choice at every tab')
 })
 
 console.log(`\nPASS  ${passed} checks. The loop ends itself, the planet grows while the child is away, the cast grows up with them, and the night lands once.`)

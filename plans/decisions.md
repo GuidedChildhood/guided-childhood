@@ -10606,3 +10606,54 @@ still holds in spirit: claim early on the branch, one lane per session, small
 PRs merged the same day. Also noted: two sessions both took migration 257 the
 same afternoon and both renumbered to 260; the wiring check baselines it as
 known until whoever owns them decides which moves again.
+## 6 September 2026: the child gets their own explorer figure
+
+Justin: "I would like all the planets floating in a universe so the child
+can explore each one, also build the self, like skin colour, hair, put on
+a space suit and more." The universe is slice 3b of the planet friends
+architecture, already designed. The self figure is new, and it sits
+BESIDE the locked rule from section 7.6 rather than against it: the cast
+stay the cast, outfits and hats and never a character maker for the
+Friends, and the child now gets their OWN figure, an explorer in a space
+suit with the child's chosen skin tone, hair and suit colour, which the
+cast rule never covered. Stored as play state in planet_homes.state.self,
+changed any time, nothing new collected about the child beyond the play
+choices themselves. Plan: plans/2026-09-06-universe-and-self-plan.md.
+
+## 6 September 2026: two builds of the star system met, and one survived
+
+PR 984 (the other session on the kid toy lane, from Justin's universe and
+self note) and PR 986 (this lane, from "Go 3b") built the star system twice
+in one afternoon and both touched the same seven files. Justin merged 984,
+then said "Conflict 986". Resolved by folding the two into ONE of each
+thing rather than keeping either whole:
+
+- Kept from 986: the map you can drag (a Friend onto a planet flies there,
+  a planet along its orbit stays where the child left it, the tray, the
+  pilot on the launch pad, the New! reveal), the classroom and the
+  Playground as real rooms with spots, the things, the phones and the
+  activities, the reveals on the Learn tab and the pass screen, and the
+  lesson count read on the server with null on error.
+- Kept from 984: the catalogue of every planet as registry rows (colours,
+  motifs, sizes), the honest signs on a pale planet (a book, a flag, a
+  sprout, sparkles), and the self whole: SelfFigure, SelfBuilder, the
+  self_set event, home.self and its guard.
+- Gone: StarSystem.tsx and AwayRoom.tsx (984's tap only map and static
+  away rooms), 984's planets list on the view and its server side travel
+  drop (the pure rules refuse a closed planet from home.lessonsPassed,
+  which the server sets on every read), and the 'school' place name (the
+  classroom is 'classroom'; ensureWorld mends a save written that way).
+- Folded: every planet of design 7.5 now orbits with ALL of its keys, and
+  any one opens it (lesson count, mission landed, growth stage). A planet
+  whose rooms are not drawn yet stays pale with sparkles whatever its keys
+  say, so nothing on the map is ever open with nowhere to land. Moonbase
+  School therefore also opens at growth stage 2 and the Playground at
+  stage 3, as the table says; a child who has grown that far sees the New!
+  card on their next open without a lesson. Say the word and it goes back
+  to lessons only.
+
+Rule reinforced: one session per lane. The other session's plan file named
+the kid toy lane while this lane's draft PR 981 already held it. The lane
+check at session start has to read the open PRs AND the plan files pushed
+that day, and a prompt that lands on two sessions ("build the universe")
+should be answered by one of them and pointed at the other's branch.

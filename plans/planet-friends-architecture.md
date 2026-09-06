@@ -2,7 +2,7 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a and 3b built. Justin's note of
+own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b and 3d built, and the first part of 3c (every planet on the map). Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. Justin's note of
 6 September (the universe, and the self) is designed in 7.1, 7.5 and 7.9 and
 planned as 3c and 3d, waiting on his go. When the code
 and this file disagree, the code is right and this file gets updated, the

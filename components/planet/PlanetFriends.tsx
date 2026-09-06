@@ -8,10 +8,12 @@ import {
   GROWTH, TIERS, TICK_CAP_SECONDS, AMBIENT_AFTER_SECONDS,
   applyEvent, drainPerMinute, isGrownUp, minutesLeft, moodOf, reconcile, restOverlay,
   type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef, boxParts, boxOutfits, plotsFor, PART_ZONE, type Outfit, type PartKey,
-  type Where, type RoomKey, type Movable, type PlanetKey, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, PHOTOS_MAX,
-  landingRoom, lessonsToNextPlanet, newPlanets, planetOf, planetOpen } from '@/lib/planet/logic'
+  type Where, type RoomKey, type Movable, type PlanetKey, type Self, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, PHOTOS_MAX,
+  landingRoom, lessonsToNextPlanet, lessonsToOpen, missionKeyFor, newPlanets, planetOf, planetOpen, planetSign } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
-import { HOUSE_LINES, MAP_LINES, PARK_LINES, PLANET_WORDS, ROOM_EMOJI, ROOM_TITLES, SCHOOL_LINES, THING_LABELS, THING_LINES, ZONE_HINTS, type SceneKey } from '@/lib/planet/world'
+import { HOUSE_LINES, MAP_LINES, PARK_LINES, ROOM_EMOJI, ROOM_TITLES, SCHOOL_LINES, THING_LABELS, THING_LINES, ZONE_HINTS, type SceneKey } from '@/lib/planet/world'
+import { PLANET_WORDS, SELF_LINES } from '@/lib/planet/universe'
+import SelfBuilder from './SelfBuilder'
 import RoomScene, { DOORS, nearestFreeRoomSpot, roomStandingX, type FriendTarget, type RoomFurniture, type ThingTarget } from './RoomScene'
 import StarMap, { type Flight } from './StarMap'
 import { Furniture, PhoneArt } from './ThingArt'
@@ -134,6 +136,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const [flight, setFlight] = useState<Flight | null>(null)
   const [pilot, setPilot] = useState<FriendKey | null>(null)
   const [newSeen, setNewSeen] = useState(false)
+  // The self (slice 3b): the builder for the child's own explorer, open or not.
+  const [builderOpen, setBuilderOpen] = useState(false)
   const [open, setOpen] = useState<'fridge' | 'toybox' | 'wardrobe' | null>(null)
   const [lampOn, setLampOn] = useState(false)
   const [roomUsing, setRoomUsing] = useState<string | null>(null)
@@ -443,26 +447,36 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     say(line ?? (next === 'map' ? (live.tier === 1 ? MAP_LINES.welcomeTier1 : MAP_LINES.welcome) : next === 'outdoors' ? HOUSE_LINES.outdoors : HOUSE_LINES[next]))
   }
   // ── The star system (slice 3b) ────────────────────────────────────────
+  /** Why a pale planet is pale, said kindly: the kind of key it waits for. */
+  const shutLine = (planet: PlanetKey): string => {
+    const w = PLANET_WORDS[planet]
+    const sign = planetSign(planet)
+    if (sign === 'later') return MAP_LINES.farAway(w.title)
+    if (sign === 'lesson') return live.tier === 1 ? MAP_LINES.shutTier1(w.title) : MAP_LINES.shut(w.title, lessonsToOpen(live, planet) ?? 1)
+    if (sign === 'mission') {
+      const m = missionKeyFor(planet)
+      const title = m ? missionByKey(m)?.title : undefined
+      return live.tier === 1 || !title ? MAP_LINES.shutTier1Mission(w.title) : MAP_LINES.shutMission(w.title, title.toLowerCase())
+    }
+    return MAP_LINES.shutStage(w.title)
+  }
   /** A Friend flies to a planet: refused kindly when it is not open yet. */
   function fly(friend: FriendKey, planet: PlanetKey) {
     interact()
     const f = live.friends.find(x => x.key === friend)
     if (!f || f.cooldown) { playFx('boop'); say(MAP_LINES.resting(friendArt(friend).name)); return }
-    if (!planetOpen(live, planet)) {
-      playFx('boop')
-      const w = PLANET_WORDS[planet]
-      say(live.tier === 1 ? MAP_LINES.shutTier1(w.title) : MAP_LINES.shut(w.title, nextPlanet?.planet === planet ? nextPlanet.lessons : 1))
-      return
-    }
-    if (planetOf(whereIs(live, friend)) === planet) { playFx('tap'); goTo(landingRoom(planet)); return }
+    const dest = landingRoom(planet)
+    if (!planetOpen(live, planet) || !dest) { playFx('boop'); say(shutLine(planet)); return }
+    if (planetOf(whereIs(live, friend)) === planet) { playFx('tap'); goTo(dest); return }
     if (flight) return
     playFx('sparkle'); say(MAP_LINES.flying(friendArt(friend).name, PLANET_WORDS[planet].title))
     setFlight({ friend, to: planet })
   }
   async function touchDown(fl: Flight) {
     setFlight(null); setPilot(null)
-    playFx('chime')
     const dest = landingRoom(fl.to)
+    if (!dest) return
+    playFx('chime')
     setOpen(null); setWhere(dest)
     say(MAP_LINES.landed(friendArt(fl.friend).name, PLANET_WORDS[fl.to].title))
     await send({ kind: 'room_move', friend: fl.friend, where: dest })
@@ -470,16 +484,20 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const onTapPlanet = (planet: PlanetKey) => {
     interact()
     if (flight) return
-    if (!planetOpen(live, planet)) {
-      playFx('boop')
-      const w = PLANET_WORDS[planet]
-      say(live.tier === 1 ? MAP_LINES.shutTier1(w.title) : MAP_LINES.shut(w.title, nextPlanet?.planet === planet ? nextPlanet.lessons : 1))
-      return
-    }
+    const dest = landingRoom(planet)
+    if (!planetOpen(live, planet) || !dest) { playFx('boop'); say(shutLine(planet)); return }
     // A pilot on the launch pad, or the only awake Friend at Tier 1, flies on a tap. Otherwise a tap just looks.
     const who = pilot ?? (live.tier === 1 && awake.length === 1 ? awake[0].key : null)
     if (who && planetOf(whereIs(live, who)) !== planet) { fly(who, planet); return }
-    playFx('tap'); goTo(landingRoom(planet), fresh.includes(planet) ? MAP_LINES.isNew(PLANET_WORDS[planet].title) : undefined)
+    playFx('tap'); goTo(dest, fresh.includes(planet) ? MAP_LINES.isNew(PLANET_WORDS[planet].title) : undefined)
+  }
+  // ── The self (slice 3b) ───────────────────────────────────────────────
+  const openBuilder = () => { interact(); playFx('tap'); setBuilderOpen(true) }
+  const doneBuilding = (me: Self) => {
+    setBuilderOpen(false)
+    playFx('chime')
+    say(live.self ? SELF_LINES.changed : SELF_LINES.hello)
+    void send({ kind: 'self_set', self: me })
   }
   const onOrbit = (planet: PlanetKey, angle: number) => { interact(); playFx('tap'); say(MAP_LINES.orbit); void send({ kind: 'orbit_move', planet, angle }) }
   const onTapDigi = () => { interact(); playFx('sparkle'); say(MAP_LINES.digi) }
@@ -798,6 +816,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               childAge={view.childAge}
               wearing={live.build.wearing}
               accent={theme.hex}
+              self={live.self}
               flight={flight}
               onTapPlanet={onTapPlanet}
               onFly={fly}
@@ -829,6 +848,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               wiggle={wiggle}
               lampOn={lampOn}
               carrying={carry ? (carry.kind === 'part' ? { kind: 'part', part: carry.part } : { kind: 'outfit', outfit: carry.outfit }) : null}
+              self={live.self}
               onDropFriend={onRoomDropFriend}
               onTapFriend={onTapFriend}
               onThingDrop={onThingDrop}
@@ -872,7 +892,14 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             onMovePart={onMovePart}
             onPartTap={onPartTap}
             onSvg={el => { sceneRef.current = el }}
+            self={live.self}
+            onSelfTap={() => { playFx('giggle'); say(SELF_LINES.tapMe); setBuilderOpen(true) }}
           />
+          )}
+
+          {/* The self builder (slice 3b), over the stage. Done is the only way out, so a half built explorer is never saved. */}
+          {builderOpen && overlay !== 'night' && (
+            <SelfBuilder initial={live.self} theme={theme} words={words} onTap={() => { interact(); playFx('tap') }} onDone={doneBuilding} />
           )}
 
           {landed && landedCard && !boardOpen && overlay !== 'night' && (
@@ -1026,6 +1053,9 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
 
         {overlay !== 'night' && overlay !== 'sunlight' && (
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+            {overlay === 'none' && !onMap && !live.self && !builderOpen && (
+              <button onClick={openBuilder} data-make-me style={chunky('accent')}>🧑‍🚀 {SELF_LINES.makeMe}</button>
+            )}
             <button onClick={() => { interact(); playFx('tap'); setBoardOpen(o => !o) }} style={chunky(boardOpen ? 'white' : 'accent')}>
               🎯 {live.tier === 1 ? MISSION_LINES.boardTier1 : MISSION_LINES.board}{inProgress > 0 ? ` (${inProgress})` : ''}
             </button>

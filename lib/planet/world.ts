@@ -1,4 +1,4 @@
-import type { FriendKey, PlanetKey, RoomZone, ThingKey, Where } from './logic'
+import type { FriendKey, RoomZone, ThingKey, Where } from './logic'
 import { PHOTOS_MAX } from './logic'
 
 /** What the child is looking at: a place, or the star system map (slice 3b). */
@@ -20,13 +20,6 @@ export const ROOM_TITLES: Record<SceneKey, string> = {
 
 export const ROOM_EMOJI: Record<SceneKey, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️', classroom: '🏫', playground: '🛝', map: '🚀' }
 
-/** The planets in words (slice 3b). The rules for what opens them are PLANETS in ./logic. */
-export const PLANET_WORDS: Record<PlanetKey, { title: string; blurb: string; opensBy: string; emoji: string; colour: string }> = {
-  home: { title: 'Home planet', blurb: 'Where the Friends live.', opensBy: '', emoji: '🪐', colour: '#8FD1B4' },
-  school: { title: 'Moonbase School', blurb: 'A classroom with a board, two desks, a globe, and DiGi at the front.', opensBy: 'Pass a lesson on the Learn tab to open it.', emoji: '🏫', colour: '#8EC3F0' },
-  park: { title: 'The Playground planet', blurb: 'A slide, the swings, a sandpit and a bench under a tree.', opensBy: 'Pass another lesson on the Learn tab to open it.', emoji: '🛝', colour: '#F7A23B' },
-}
-
 export const MAP_LINES = {
   welcome: 'The star system. Tap a planet to look, or drag a Friend onto one to fly there.',
   welcomeTier1: 'The star system. Tap a planet and Pebble flies there.',
@@ -35,6 +28,10 @@ export const MAP_LINES = {
   landed: (name: string, planet: string) => `${name} landed on ${planet}.`,
   shut: (planet: string, lessons: number) => `${planet} is not open yet. ${lessons === 1 ? 'One more lesson' : `${lessons} more lessons`} on the Learn tab and it lights up.`,
   shutTier1: (planet: string) => `${planet} is not open yet. A lesson with a grown up opens it.`,
+  shutMission: (planet: string, mission: string) => `${planet} is not open yet. Land the ${mission} mission on the board and it lights up.`,
+  shutStage: (planet: string) => `${planet} is not open yet. Keep your planet growing and it lights up.`,
+  shutTier1Mission: (planet: string) => `${planet} is not open yet. A mission with a grown up opens it.`,
+  farAway: (planet: string) => `${planet} is a far away one, for later. Its rooms are not built yet.`,
   isNew: (planet: string) => `A new planet! ${planet} is open. Fly there.`,
   newWaiting: 'A new planet is waiting on your map.',
   orbit: 'You moved it. It stays there.',

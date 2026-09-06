@@ -1,10 +1,6 @@
 # Planet Friends slice 3c: the universe, every planet floating
 
-Status: proposed 6 September 2026 from Justin's note the same day ("I would
-like all the planets floating in a universe so the child can explore each
-one"), waiting on his go. The design is section 7.1, 7.4 and 7.5 of
-plans/planet-friends-architecture.md. No migration: the world stays in
-`home.world`.
+Status: part one landed 6 September 2026 in the PR 986 merge with PR 984: every planet of the 7.5 catalogue now orbits on the map with its keys and its honest sign, and a pale planet can be dragged like an open one. Still to build: the pannable sky (planet_move with free positions and drift), and the first rooms of Space Port, the Wild planet, the Observatory, the Star Cafe, StarNet Studio, Ice, Volcano and Rainbow, which is what turns each from a far away one into a place. Proposed 6 September 2026 from Justin's note the same day ("I would like all the planets floating in a universe so the child can explore each one").
 
 ## The one line
 

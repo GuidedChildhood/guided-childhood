@@ -1,6 +1,6 @@
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
-import { applyEvent, addMinutes, dockAllDevices, isMovable, isOutfit, isPartKey, isPlanetKey, isRoomKey, isWhere, newHome, type CodeMode, type DeviceKey, type FriendKey, type Tier } from '@/lib/planet/logic'
+import { applyEvent, addMinutes, dockAllDevices, isMovable, isOutfit, isPartKey, isPlanetKey, isRoomKey, isSelf, isWhere, newHome, type CodeMode, type DeviceKey, type FriendKey, type Tier } from '@/lib/planet/logic'
 import type { SceneKey } from '@/lib/planet/world'
 import { MISSION_DEFS } from '@/lib/planet/missions'
 
@@ -32,6 +32,7 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?battery=pebble:20  a phone's battery; ?charging=pebble puts it on the shelf mid charge
 //   ?lessons=2         lessons passed, which opens the planets (slice 3b); ?room=map opens the star system
 //   ?visited=school    planets already landed on; ?orbits=school:120 where the child dragged a planet
+//   ?self=2,0,3,1      the child's explorer: skin, hair, hair colour, suit (slice 3b)
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
 
@@ -62,6 +63,12 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
   }
   // The star system (slice 3b): the count is the server's in production; here it is a param.
   if (sp.lessons !== undefined) home = { ...home, lessonsPassed: Math.max(0, Math.min(99, Number(sp.lessons) || 0)) }
+  // The self (slice 3b): ?self=2,0,3,1 is skin, hair, hair colour, suit, so the explorer can be drawn with no database.
+  if (typeof sp.self === 'string') {
+    const [skin, hair, hairColour, suit] = sp.self.split(',').map(n => Number(n))
+    const me = { skin, hair, hairColour, suit }
+    if (isSelf(me)) home = { ...home, self: me }
+  }
   if (sp.visited) home = { ...home, world: { ...home.world, visited: sp.visited.split(',').filter(isPlanetKey) } }
   if (sp.orbits) for (const pair of sp.orbits.split(',')) {
     const [planet, angle] = pair.split(':')

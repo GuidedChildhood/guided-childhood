@@ -344,7 +344,6 @@ const BASELINE = [
   // The one that prompted the check. Two sessions, same day, 2 August.
   { match: 'migration 147', since: '2 Aug 2026, the collision that prompted this check' },
   // Two sessions both took 257 on 6 September, then both renumbered to 260 the same afternoon. Waiting on a decision about which moves again.
-  { match: 'migration 260', since: '6 Sep 2026, two sessions renumbered 257 to 260 together' },
 ]
 
 // ── 6. Small print ───────────────────────────────────────────────────

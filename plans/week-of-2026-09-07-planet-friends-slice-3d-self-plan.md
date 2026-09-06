@@ -1,9 +1,6 @@
 # Planet Friends slice 3d: the self, the child's own explorer
 
-Status: proposed 6 September 2026 from Justin's note the same day ("build
-them self, like skin colour, hair, put on a space suit and more"), waiting
-on his go. The design is section 7.9 of plans/planet-friends-architecture.md.
-No migration: the choices live in `world.me`.
+Status: built 6 September 2026 by the other session on this lane (PR 984: SelfFigure, SelfBuilder, home.self, self_set) and kept whole in the PR 986 merge, where the explorer also stands in every room of the Den and on the away planets. Its four choices are skin tone, hair shape, hair colour and suit colour, palette indices only, no free text, no photo. The visor, badge, backpack and boots of this plan, and the child's first name as a label, remain open for a later drop. Proposed 6 September 2026 from Justin's note the same day ("build the self, like skin colour, hair, put on a space suit and more").
 
 ## The one line
 

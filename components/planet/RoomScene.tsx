@@ -1,10 +1,11 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import type { Device, DeviceKey, Friend, FriendKey, Mood, Movable, Outfit, RoomKey, RoomPlaced, ThingKey, World } from '@/lib/planet/logic'
+import type { Device, DeviceKey, Friend, FriendKey, Mood, Movable, Outfit, RoomKey, RoomPlaced, ThingKey, World, Self } from '@/lib/planet/logic'
 import { PART_ZONE, ROOM_SPOTS, batteryNow, charging, deviceOf, isDeviceKey, isGrownUp, isPartKey, isThingKey, roomZoneOf } from '@/lib/planet/logic'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
+import SelfFigure from './SelfFigure'
 import PartArt from './PartArt'
 import { Furniture, OUTFIT_ICON, PhoneArt, ThingArt } from './ThingArt'
 import { SCENE_H, SCENE_W, sceneFromClient } from './scene'
@@ -64,7 +65,8 @@ type Drag = { kind: 'friend' | 'thing' | 'outfit'; id: string; x: number; y: num
 export function roomStandingX(count: number): number[] {
   if (count <= 1) return [195]
   if (count === 2) return [140, 250]
-  return [100, 195, 290]
+  if (count === 3) return [100, 195, 290]
+  return Array.from({ length: count }, (_, i) => Math.round(70 + (250 * i) / (count - 1)))
 }
 
 function inRect(p: { x: number; y: number }, r: { x: number; y: number; w: number; h: number }): boolean {
@@ -98,10 +100,12 @@ export const DOORS: Record<RoomKey, { left: 'outdoors' | 'map' | RoomKey; right:
 }
 
 export default function RoomScene({
-  room, friends, allFriends, moods, childAge, wearing, held, devices, nowIso, sky, accent, placed, fridge, toybox, outfits, open, using, wiggle, lampOn, carrying,
+  room, friends, allFriends, moods, childAge, wearing, held, devices, nowIso, sky, accent, placed, fridge, toybox, outfits, open, using, wiggle, lampOn, carrying, self = null,
   onDropFriend, onTapFriend, onThingDrop, onThingTap, onOutfitDrop, onFurnitureTap, onInteract, onSvg,
 }: {
   room: RoomKey
+  /** The child's own explorer (slice 3b), standing with the Friends wherever the view goes. */
+  self?: Self | null
   /** The Friends in this room. */
   friends: Friend[]
   /** Every active Friend, for the phones on the shelf. */
@@ -142,7 +146,8 @@ export default function RoomScene({
   const colours = WALLS[room]
   const skyColour = SKY_COLOUR[sky]
   const night = sky === 'night'
-  const xs = roomStandingX(friends.length)
+  // The explorer takes the last place in the row, so the Friends keep their own hit testing by index.
+  const xs = roomStandingX(friends.length + (self ? 1 : 0))
   const doors = DOORS[room]
 
   function toSvg(e: React.PointerEvent): { x: number; y: number } {
@@ -436,6 +441,13 @@ export default function RoomScene({
           </g>
         )
       })}
+      {/* the child's own explorer (slice 3b), in the row with the Friends. Decoration
+          here: it is changed by a tap outdoors, and it never takes a drop */}
+      {self && (
+        <g data-self transform={`translate(${xs[friends.length]} ${STAND_Y})`} style={{ pointerEvents: 'none' }} aria-label="Me">
+          <g className="pl-breathe"><SelfFigure self={self} size={100} /></g>
+        </g>
+      )}
       {/* what a Friend holds is its own liftable thing, drawn last so it can be grabbed */}
       {friends.map((f, i) => {
         const holding = held[f.key]

@@ -7,7 +7,8 @@ import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonLis
 import { resolveTheme } from '@/lib/kid/theme'
 import { lessonsPassedCount } from '@/lib/planet/server'
 import { newPlanets, type Home } from '@/lib/planet/logic'
-import { MAP_LINES, PLANET_WORDS } from '@/lib/planet/world'
+import { MAP_LINES } from '@/lib/planet/world'
+import { PLANET_WORDS } from '@/lib/planet/universe'
 
 // My lessons: the child's own list of the age right stage lessons from the
 // family library, opened from their quest link. No account, no login; the
