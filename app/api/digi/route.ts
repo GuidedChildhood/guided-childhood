@@ -21,6 +21,8 @@ import { loadLaneKeywords } from '@/lib/digi/keywords'
 import { matchScripts, type MatchableScript } from '@/lib/digi/script-match'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
+import { renderHorizons } from '@/lib/digi/horizons'
+import type { AgeBand as HorizonBand } from '@/lib/content/stages'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
 import { asksAboutNextTerm, buildTermPreview, previewRules } from '@/lib/learning/term-preview'
@@ -695,6 +697,15 @@ When a parent asks whether or for how long their child should use any device, do
     }
   } catch { /* school context is a bonus, never blocks the reply */ }
 
+  // What is coming for this child (6 September 2026): the milestones that
+  // typically arrive at this age and the next, so DiGi forecasts rather than
+  // waits to be asked. The rows come from the verified situations and
+  // forecasts briefing (briefings/2026-09-06), each with its source and country.
+  const horizonsKnowledge = renderHorizons(
+    (child?.age_band as HorizonBand | undefined) ?? null,
+    child?.name && child.name !== 'Your child' ? child.name : 'your child',
+  )
+
   const familyContext = buildSystemPrompt(
     stage,
     child,
@@ -716,7 +727,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -751,7 +762,7 @@ When a parent asks whether or for how long their child should use any device, do
       // Headroom for the main reply AND the reflective question that follows the
       // --- marker. At 700 a long lesson ate the whole budget and the reflection
       // came through chopped mid word, so it gets its own room here.
-      max_tokens: 1000,
+      max_tokens: 1600,
       system: [
         { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: familyContext },
@@ -808,7 +819,11 @@ When a parent asks whether or for how long their child should use any device, do
         // forgotten. This is that gap closed.
         replied,
         reply_chars: responseText.trim().length,
-        failure: replied ? (failReason && failReason.startsWith('recovered') ? failReason : null) : (failReason ?? 'empty'),
+        // A reply that got some words out and then was cut, threw, or was
+        // rescued keeps its reason too (6 September 2026). Before this the
+        // column was cleared whenever a single character had arrived, so a
+        // sentence that stopped mid word was filed as a clean success.
+        failure: replied ? (failReason ?? null) : (failReason ?? 'empty'),
       })
 
       // The words we did not know, from a message the keyword pass could not
@@ -1070,7 +1085,7 @@ When a parent asks whether or for how long their child should use any device, do
         try {
           const rescue = await callDigiStream({
             model: DIGI_MODEL,
-            max_tokens: 1000,
+            max_tokens: 1600,
             system: [
               { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
               { type: 'text', text: familyContext },
@@ -1116,6 +1131,37 @@ When a parent asks whether or for how long their child should use any device, do
           // model inventing a tool cannot spin us.
           turn.toolUses = turn.toolUses.filter(t => CLIENT_TOOL_NAMES.has(t.name))
           const wantsTool = turn.stopReason === 'tool_use' && turn.toolUses.length > 0
+
+          // ── A REPLY CUT MID WORD (6 September 2026) ─────────────────────
+          //
+          // "Alma becoming cheeky" came back 1108 characters long and ended
+          // on "**Watch when it sh". The stream hit max_tokens, the row said
+          // replied, and the parent read a sentence with no end. One more
+          // call, tools off, picks up exactly where it stopped, and the
+          // latency row keeps the reason either way.
+          if (turn.stopReason === 'max_tokens' && !wantsTool) {
+            failReason = 'cut: max_tokens'
+            try {
+              const more = await callDigiStream({
+                model: DIGI_MODEL,
+                max_tokens: 1600,
+                system: [
+                  { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+                  { type: 'text', text: familyContext },
+                ],
+                messages: [
+                  ...conversation,
+                  { role: 'assistant', content: turn.blocks.length ? turn.blocks : [{ type: 'text', text: turn.clean || ' ' }] },
+                  { role: 'user', content: 'Carry on exactly where you stopped, mid sentence if that is where it was. Do not repeat anything, do not start again, no preamble.' },
+                ],
+              })
+              const rest = await consumeStream(more, controller, encoder, dashes)
+              fullText += rest.clean
+              if (rest.clean.trim()) failReason = 'recovered: cut: max_tokens'
+            } catch { /* the parent keeps what arrived, and the row says it was cut */ }
+            break
+          }
+
           if (!wantsTool || round === 2) break
           toolFired = true
 
@@ -1168,7 +1214,7 @@ When a parent asks whether or for how long their child should use any device, do
 
           stream = await callDigiStream({
             model: DIGI_MODEL,
-            max_tokens: 1000,
+            max_tokens: 1600,
             system: [
               { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
               { type: 'text', text: familyContext },
@@ -1208,7 +1254,8 @@ When a parent asks whether or for how long their child should use any device, do
           }
         }
       } catch (err) {
-        failReason = (err instanceof Error ? err.message : String(err)).slice(0, 300)
+        const why = (err instanceof Error ? err.message : String(err)).slice(0, 280)
+        failReason = fullText !== opener ? `partial: ${why}` : why
 
         // ── ONE LAST ANSWER, WITHOUT TOOLS ────────────────────────────────
         //

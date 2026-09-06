@@ -18,12 +18,20 @@
 // and TimeBand in lib/digi/outcomes.ts, and scripts/check-checkin-shifts.mjs
 // asserts the two vocabularies still agree on every run.
 
-export type InferredTimeBand = 'morning' | 'after_school' | 'evening' | 'bedtime' | 'weekend' | 'any'
+export type InferredTimeBand = 'morning' | 'after_school' | 'evening' | 'bedtime' | 'weekend' | 'holidays' | 'any'
 export type InferredSituation = { topic: string | null; time_band: InferredTimeBand | null; trigger: string | null }
 
 // Ordered: first hit wins, so the more specific topics sit above the broad
 // ones (social_media before devices, gaming before screen_time).
 const TOPIC_KEYWORDS: [string, string[]][] = [
+  // The situations the bank gained on 6 September 2026 (the situations and
+  // forecasts briefing): the first phone, the new game, AI, the parent's own
+  // stress, and the children who find transitions hardest. Specific first.
+  ['new_phone', ['first phone', 'new phone', 'getting a phone', 'ready for a phone', 'when should', 'old enough']],
+  ['new_game', ['new game', 'switch', 'obsessed with', 'loves the game', 'wont stop playing', 'battle pass', 'robux', 'v bucks']],
+  ['parent_stress', ['i am exhausted', 'i feel guilty', 'guilty', 'burnt out', 'burnout', 'at my wits', 'cannot cope', 'just need a break', 'babysitter', 'keep them quiet']],
+  ['adhd', ['adhd', 'hyperactive', 'cannot focus', 'impulsive']],
+  ['autism', ['autism', 'autistic', 'asd', 'sensory', 'meltdown after', 'special interest']],
   ['social_media', ['tiktok', 'instagram', 'snapchat', 'social media', 'whatsapp', 'youtube', 'influencer', 'followers', 'group chat']],
   ['gaming', ['fortnite', 'roblox', 'minecraft', 'gaming', 'video game', 'console', 'xbox', 'playstation', 'switch']],
   ['sleep', ['sleep', 'bedtime', 'tired', 'wake', 'night', 'melatonin']],
@@ -45,15 +53,32 @@ const TIME_KEYWORDS: [InferredTimeBand, string[]][] = [
   ['after_school', ['after school', 'home from school', 'afternoon']],
   ['bedtime', ['bedtime', 'before bed', 'lights out', 'night']],
   ['evening', ['evening', 'dinner', 'tea time', 'tonight']],
-  ['weekend', ['weekend', 'saturday', 'sunday', 'holidays']],
+  ['holidays', ['holidays', 'half term', 'summer holiday', 'school holiday', 'christmas holiday', 'easter holiday', 'six weeks']],
+  ['weekend', ['weekend', 'saturday', 'sunday']],
 ]
+
+// A keyword matches on a word boundary, so "night" is a night and not the
+// front half of "nightmare" ("the summer holidays are a nightmare" used to
+// read as a sleep question at bedtime). Plurals still match because the
+// boundary check only guards the start of the word.
+function hasWord(m: string, w: string): boolean {
+  const i = m.indexOf(w)
+  if (i === -1) return false
+  const before = i === 0 ? ' ' : m[i - 1]
+  if (/[a-z0-9]/.test(before)) return false
+  if (w === 'night' || w === 'wake') {
+    const after = m[i + w.length] ?? ' '
+    return !/[a-z]/.test(after) || after === 's'
+  }
+  return true
+}
 
 export function inferSituation(message: string): InferredSituation {
   const m = ` ${message.toLowerCase()} `
 
   let topic: string | null = null
   for (const [slug, words] of TOPIC_KEYWORDS) {
-    if (words.some(w => m.includes(w))) {
+    if (words.some(w => hasWord(m, w))) {
       topic = slug
       break
     }
@@ -61,7 +86,7 @@ export function inferSituation(message: string): InferredSituation {
 
   let timeBand: InferredTimeBand | null = null
   for (const [band, words] of TIME_KEYWORDS) {
-    if (words.some(w => m.includes(w))) {
+    if (words.some(w => hasWord(m, w))) {
       timeBand = band
       break
     }

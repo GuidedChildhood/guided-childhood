@@ -73,18 +73,20 @@ check('fortnite lands on gaming, not screen_time', inferSituation('He will not c
 check('a bedtime battle carries its time band', inferSituation('every bedtime is a battle over the tablet').time_band === 'bedtime')
 check('mornings before school read as morning', inferSituation('the school run is chaos, he is on the TV before school').time_band === 'morning')
 check('a phone question lands on devices', inferSituation('should she have her own phone').topic === 'devices')
+check('a first phone question lands on new_phone', inferSituation('she is getting her first phone in september').topic === 'new_phone')
+check('a nightmare is not a night', inferSituation('the summer holidays are a nightmare').time_band === 'holidays')
 check('no signal means no topic, never a guess', inferSituation('thank you, that helped a lot').topic === null)
 // The slugs must stay inside the closed list the schedule_followup tool uses,
 // or the eq('topic') match in getRatedForSituation returns nothing forever.
-const TOOL_TOPICS = new Set(['screen_time', 'gaming', 'social_media', 'sleep', 'mood', 'anxiety', 'safety', 'school', 'siblings', 'routines', 'devices', 'friendship', 'content', 'ai'])
-const probes = ['tiktok', 'fortnite', 'sleep', 'anxious', 'meltdown', 'groomed', 'homework', 'sister', 'friend', 'chatgpt', 'inappropriate videos', 'morning routine', 'screen time', 'phone']
+const TOOL_TOPICS = new Set(['screen_time', 'gaming', 'social_media', 'sleep', 'mood', 'anxiety', 'safety', 'school', 'siblings', 'routines', 'devices', 'friendship', 'content', 'ai', 'new_phone', 'new_game', 'parent_stress', 'adhd', 'autism'])
+const probes = ['tiktok', 'fortnite', 'sleep', 'anxious', 'meltdown', 'groomed', 'homework', 'sister', 'friend', 'chatgpt', 'inappropriate videos', 'morning routine', 'screen time', 'phone', 'first phone', 'obsessed with the switch', 'i feel guilty', 'adhd', 'autistic']
 for (const p of probes) {
   const t = inferSituation(p).topic
   if (t !== null) check(`"${p}" maps into the tool's own topic list`, TOOL_TOPICS.has(t), t)
 }
 // And every band the guesser can emit is a band the table knows.
 const bands = new Set(TIME_BANDS)
-for (const p of ['morning', 'after school', 'bedtime', 'this evening', 'at the weekend']) {
+for (const p of ['morning', 'after school', 'bedtime', 'this evening', 'at the weekend', 'the summer holidays']) {
   const b = inferSituation(p).time_band
   if (b !== null) check(`"${p}" maps into TIME_BANDS`, bands.has(b), b)
 }

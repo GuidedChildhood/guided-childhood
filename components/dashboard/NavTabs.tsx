@@ -35,7 +35,7 @@ const NAV_TABS = [
 //
 // So every tab appends the current child when there is one. Nothing changes for
 // a family with one child, because the param is never there to carry.
-function NavTabsInner({ pendingAsks = 0, childId = null }: { pendingAsks?: number; childId?: string | null }) {
+function NavTabsInner({ pendingAsks = 0, digiWord = 0, childId = null }: { pendingAsks?: number; digiWord?: number; childId?: string | null }) {
   const pathname = usePathname()
   const active = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
@@ -45,6 +45,7 @@ function NavTabsInner({ pendingAsks = 0, childId = null }: { pendingAsks?: numbe
     <nav style={{ display: 'flex', gap: '3px', flex: 1, background: 'rgba(247,244,238,0.7)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px', width: 'fit-content', flexGrow: 0, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: 'inset 0 1px 2px rgba(26,26,46,0.03)' }}>
       {NAV_TABS.map(tab => {
         const showBadge = tab.href === '/dashboard/quests' && pendingAsks > 0
+        const showWord = tab.href === '/dashboard/digi' && digiWord > 0
         return (
           <Link
             key={tab.href}
@@ -56,6 +57,11 @@ function NavTabsInner({ pendingAsks = 0, childId = null }: { pendingAsks?: numbe
             {showBadge && (
               <span className="ask-badge" aria-label={`${pendingAsks} waiting`}>
                 {pendingAsks > 9 ? '9+' : pendingAsks}
+              </span>
+            )}
+            {showWord && (
+              <span className="ask-badge" aria-label="DiGi wants to tell you something" style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)' }}>
+                {digiWord > 9 ? '9+' : digiWord}
               </span>
             )}
           </Link>
@@ -78,14 +84,14 @@ function NavTabsInner({ pendingAsks = 0, childId = null }: { pendingAsks?: numbe
 // null, because a nav that blinks out and back in on every load would be a real
 // regression for a cosmetic reason. A prerendered page has no query string to
 // read anyway, so the fallback is the correct answer there, not a placeholder.
-function NavTabsWithChild({ pendingAsks }: { pendingAsks?: number }) {
-  return <NavTabsInner pendingAsks={pendingAsks} childId={useSearchParams().get('child')} />
+function NavTabsWithChild({ pendingAsks, digiWord }: { pendingAsks?: number; digiWord?: number }) {
+  return <NavTabsInner pendingAsks={pendingAsks} digiWord={digiWord} childId={useSearchParams().get('child')} />
 }
 
-export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
+export default function NavTabs({ pendingAsks = 0, digiWord = 0 }: { pendingAsks?: number; digiWord?: number }) {
   return (
-    <Suspense fallback={<NavTabsInner pendingAsks={pendingAsks} childId={null} />}>
-      <NavTabsWithChild pendingAsks={pendingAsks} />
+    <Suspense fallback={<NavTabsInner pendingAsks={pendingAsks} digiWord={digiWord} childId={null} />}>
+      <NavTabsWithChild pendingAsks={pendingAsks} digiWord={digiWord} />
     </Suspense>
   )
 }

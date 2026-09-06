@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiGi's situations and forecasts · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The moments parents actually live in, and what arrives next</h1>
+    <p style="color:var(--ink-soft);max-width:640px">What the evidence says about after school, the morning, the holidays, the calming screen, the parent’s own stress, the new phone, the new game and the chatbot, for children aged 4 to 16, so DiGi can say the right thing at the right moment and a term early.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">6 September 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The hours on the clock tell you almost nothing. Across 355,000 teenagers, screen time explained under half a percent of how they felt, so the thermometer DiGi should read is sleep, mood, friends and what the screen is replacing.</p><p>The two rules with the strongest evidence are about place and people, not minutes: a device out of the bedroom overnight, even switched off, and a parent whose own phone is away for one protected slot a day.</p><p>The moment parents struggle with is the ending. Endings go best when the content stops itself, at the end of the episode or the match, agreed before play starts. A spoken countdown mid game is the weakest tool in the box.</p><p>The forecast starts earlier than the phone. The money and the first account arrive at 8 to 10, the phone lands at 11 in the UK, and the first phone shows up in sleep before it shows up anywhere else.</p><p>AI is already in most homes: over half of UK 8 to 17s and two thirds of US teens use it. The child to watch is the lonely or SEND child who says the chatbot feels like a friend.</p><p>Every panic before this one ended the same way. The parenting move that survived radio, comics, television and games was a shared room, a routine, and a grown up beside the child asking what they are watching.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>A device in the bedroom overnight costs sleep even when it is switched off. The charging spot outside the bedroom is the single best house rule at every age.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Across 20 studies and 125,198 children with a mean age of 14.5, using a device at bedtime roughly doubled the odds of too little sleep (OR 2.17) and nearly tripled the odds of daytime sleepiness (OR 2.72). A device merely present in the room, unused, still raised the odds of short sleep (OR 1.79). In the US ABCD cohort of 10,280 ten to fourteen year olds, a screen in the bedroom raised the risk of trouble falling or staying asleep by 27%, and leaving the ringer on overnight by 23%. The morning is mostly lost the night before.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Skeptic, Academic, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: None</span>
+      </div>
+      <div class="cite">Sources: Carter 2016; Nagata 2023; Livingstone and Bovill 2001</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Hours are a poor thermometer. Ask what they are doing, with whom, and what it replaces, not how long.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Across three datasets and 355,358 adolescents, digital technology use explained at most 0.4% of the variation in wellbeing, an association the authors compared to eating potatoes. In 120,115 English fifteen year olds the curve was a hill, with both very heavy use and no use at all sitting below moderate use. Sampled six times a day, 46% of teenagers felt better after scrolling, 44% felt no different and 10% felt worse, so the same hour lands differently on different children.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Skeptic, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician (the 10% are the ones in clinic)</span>
+      </div>
+      <div class="cite">Sources: Orben and Przybylski 2019; Przybylski and Weinstein 2017; Beyens 2020</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The parent’s own phone is inside the loop. A hard day pushes parents onto their phones, and phones during play predict harder behaviour later.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In 183 couples with a child under five followed for six months, a child’s hard behaviour predicted more parent phone use during time together, with parenting stress sitting in the middle of the loop, and that phone use went with more acting out and withdrawal in the child. The loop runs both ways. Teenagers notice too: 46% of US teens say a parent is at least sometimes distracted by their phone when they are trying to talk, while only 31% of parents say it happens regularly. A rule lands when the parent visibly keeps it.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic, Skeptic, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: None</span>
+      </div>
+      <div class="cite">Sources: McDaniel and Radesky 2018; Pew 2024 screen time</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Using a screen to get dinner made is fine and always was. Using it as the routine answer to a child who is upset is the pattern to watch, most of all in boys and big feelers under six.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Two thirds of US parents of under eights use screens to occupy a child so they can get things done or take a break, and that is not the pattern the research worries about. In 422 three to five year olds, using a device to calm predicted more emotional reactivity six months later in boys (r 0.20) and in high energy children (r 0.11), and the reactivity then drove more calming use. The doctors’ own rule book has moved with this: the American Academy of Pediatrics dropped its no screens under two line in 2016 and asked who is in the room instead. Keep “occupy” and “calm” as separate jobs in your head.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic, Skeptic, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (convenience sample, parent report, small effect)</span>
+      </div>
+      <div class="cite">Sources: Radesky 2023; Common Sense Zero to Eight 2025; Radesky 2016; AAP 2016</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The first phone lands at 11 in the UK and shows up in sleep first. Plan it in Year 6, before the box is opened.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>UK smartphone ownership jumps from 56% of ten year olds to 83% of eleven year olds, and Ofcom calls starting senior school the tipping point. In 10,588 US children, twelve year olds with a phone had 1.6 times the odds of too little sleep, 1.4 times the odds of obesity and 1.3 times the odds of depression compared with those without, and among the 3,486 who had no phone at 12, getting one in the following year raised the odds of clinical level problems by 57% and of too little sleep by 50%. Association, not proof, but the direction is consistent, and the girls’ sensitivity window for social media sits at 11 to 13.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic, Economist, Historian, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (families who give phones early differ in other ways)</span>
+      </div>
+      <div class="cite">Sources: Ofcom Children and Parents 2026; Barzilay 2025; Orben 2022</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The money arrives before the phone. Nearly every UK child plays online games by 8 and half of them spend real money inside, and the games do not ask a parent.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>97% of UK 8 to 17s play games online and 53% of those spend money in them; among children who spent in the last month, 32% say they often regret it. Of the 100 highest grossing iPhone games, not one of those with loot boxes asked a parent’s consent before letting an under 18 buy them, despite the industry’s own rule, and only 23.5% said the loot boxes were there. Fortnite’s maker paid $245 million for a button layout that charged children with one accidental press. Under 14s mostly pay with gift cards, so the gift card is the lever: a fixed amount agreed in advance, never topped up mid month.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: None</span>
+      </div>
+      <div class="cite">Sources: Ofcom Children’s Online Experiences 2026; Ofcom Children’s Online Spending 2025; Xiao and Lund 2025; FTC 2023; Gambling Commission 2025</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Loving a game is not a disorder. The clinical line is three things together for months, and the rare child who crosses it has an NHS door.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The WHO diagnoses gaming disorder only when control is lost, gaming crowds out everything else, and it carries on despite real harm, normally for a year. The best pooled estimate is 3 to 4 in 100 gamers, lower in the most careful national surveys. Followed for six years, about one in ten teenagers drifted into rising problem symptoms while the rest held steady or faded. Forty years of violent game research ended with an effect indistinguishable from zero. The NHS National Centre for Gaming Disorders takes self referrals from 13.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Skeptic, Academic, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: None</span>
+      </div>
+      <div class="cite">Sources: WHO ICD 11; Stevens 2021; Coyne 2020; Drummond 2020; NHS NCGD</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Rules aimed only at the child barely move problem use. Rules about place and time that the whole family keeps do.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Across 57 studies the link between any parental mediation style and children’s outcomes is small (restrictive r 0.06, co viewing r 0.09), a meta analysis of adolescent problem internet use found active and restrictive mediation both sitting at zero, and in teens over 14 strict rules tracked slightly more problem use, not less. A rapid review of 40 studies on parental control tools found they rarely do what families hope on their own. The one randomised trial that improved children’s mental health (89 families, 181 children, Cohen d 0.53) cut leisure screens for the whole household for two weeks. Use the control as a fence around an agreed plan, never instead of one.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Economist, Skeptic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician (the bedroom rule is a rule and it works)</span>
+      </div>
+      <div class="cite">Sources: Collier 2016; Stoilova 2023; Schmidt-Persson 2024</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children go quiet when telling costs them the phone. Say the no confiscation promise out loud before the phone is handed over.</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>The Children’s Commissioner for England found many children would not turn to their family first when something goes wrong online, and urged parents to let children talk about what they saw without simply confiscating the device. In the government’s national consultation of 116,211 people, two thirds of responding children backed some under 16 restrictions while 90% of parents did, and children asked for feature fixes: explicit images (63%), stranger contact (49%), livestreaming (45%). In a poll of nearly 2,000 UK 10 to 16 year olds, 62% said a ban would feel like punishment and only 15% felt it would make them safer.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Economist (the law is coming regardless)</span>
+      </div>
+      <div class="cite">Sources: Children’s Commissioner 2025; DSIT 2026; Girlguiding poll 2025</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>AI is already here, mostly for homework, and the child who leans on it as a friend is the lonely or SEND child.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Over half of UK 8 to 17s (56%) have used AI, rising to two thirds of 16 to 17s, and 11% have used it as someone to talk to. In the US 64% of teens use a chatbot, about three in ten daily and mostly for schoolwork, 81% of 9 to 12 year olds already use some form of AI, and 72% of teens have tried an AI companion; a third of companion users have taken a serious conversation to it instead of a person. Among UK 9 to 17s, 64% use chatbots, 71% of vulnerable children against 62% of the rest, and 35% of users say it feels like talking to a friend, rising to half among vulnerable children. In a randomised trial with nearly 1,000 Turkish high school pupils, a chatbot that gave answers lifted practice scores and left pupils 17% worse on the unassisted exam; a version that gave only hints lifted practice by 127% and largely avoided the harm.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: All six</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Economist quoting Common Sense (no companions under 18)</span>
+      </div>
+      <div class="cite">Sources: Ofcom Children and Parents 2026; Pew 2025 chatbots; Pew 2026 AI; Common Sense companions 2025; Common Sense AI census 2026; Internet Matters 2025; Bastani 2025</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Different children, different transitions: the ADHD link is small and runs both ways, screens do not cause autism, and the anxious teen hides in the phone.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Across 45 studies the link between media use and ADHD behaviours is r 0.12, and in 2,587 tenth graders each extra high frequency activity raised the odds of new ADHD like symptoms by about a tenth; small, real, never cause. A 2023 meta analysis in JAMA Network Open found the screens and autism link not sufficiently supported, and autistic children play more than their siblings (boys 2.4 hours a day against 1.6, girls 1.8 against 0.8), often because the game is the predictable place. In 17,174 Canadian teenagers, heavier screen use predicted more anxiety and depression symptoms a year on. Build the exit for each child: a visible schedule for the autistic child, the same stop cue for the ADHD child, one protected offline thing a day for the anxious one.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (demote any cause claim)</span>
+      </div>
+      <div class="cite">Sources: Nikkelen 2014; Ra 2018; Ophir 2023; Mazurek and Wenstrup 2013; Mazurek and Engelhardt 2013; Mougharbel 2023</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The ending is the fight. Let the content stop itself, at the end of the episode or the match, agreed before it starts.</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>In 27 interviews and a 28 family diary study of preschoolers, endings set by the technology (the show finished, the device timed out) went far better than endings called by a parent, and the spoken two minute warning made transitions worse on every analysis. For older children the same lab watched 17 eight to thirteen year olds tour Roblox and Minecraft and found that pauses the game starts, and travel the child paces, are when they can hear a parent; an online match cannot be paused, so a clock time that lands mid match is what turns a stop into a fight.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (small samples, US)</span>
+      </div>
+      <div class="cite">Sources: Hiniker 2016; Baughan 2024</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The game is a room full of friends, not a solo screen. Ask who they were playing with before asking how long.</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>Ofcom’s filmed panel of 21 children aged 8 to 18 found gaming working as a social activity, with children running Discord, FaceTime or Snapchat alongside Fortnite and Roblox so they can hear the game and their friends at once. Stopping feels like leaving a room. The parent who knows who was in the room can set the stop at the end of the match instead of the middle.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: None</span>
+      </div>
+      <div class="cite">Sources: Ofcom Children’s Media Lives 2025</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Holidays are hard because the structure goes, not because children get worse.</h3>
+        <span class="reliability medium">Reliability 5/10</span>
+      </div>
+      <p>Across 190 studies of primary aged children, about 80% found sleep, activity and screen habits slide on unstructured days compared with school days. This is weekday versus weekend data about weight, not a holiday screen study, so it stands as a principle only: give each holiday day two or three fixed anchors, a morning outing and a set screen window, and let the rest stay loose.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic (a hypothesis paper, not a holiday study)</span>
+      </div>
+      <div class="cite">Sources: Brazendale 2017</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The ban will move the pull, not remove it. Games, group chats and AI sit outside it.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>From spring 2027 the UK ban is set to cover Snapchat, TikTok, YouTube, Instagram, Facebook and X, with messaging apps like WhatsApp outside it and games not named. Australia’s platforms restricted 4.7 million under 16 accounts within a fortnight of its ban, and four months later the regulator found more than eight in ten 10 to 15 year olds still using social media. Britain has been here before: the 9pm watershed from the 1964 Act, PEGI ratings made law in 2012 and the 2007 junk food advert rules all lowered the odds of the worst and none changed what a parent has to do at 8pm. The 2008 Byron Review’s swimming pool still holds: gates and lifeguards, but you also teach the child to swim.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist, Child, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: None</span>
+      </div>
+      <div class="cite">Sources: GOV.UK 15 June 2026; eSafety Australia; Byron 2008; Ofcom watershed</div>
+    </article>
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Every panic before this one ended with the same parenting move surviving: a shared room, a routine, and a grown up beside the child.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>In 1958 the first big British television study followed over 4,000 children in five cities, including Norwich before and after its transmitter switched on, and asked what television displaced rather than how long it was on. Twenty three preschoolers who watched Sesame Street with an adult naming the letters and numbers remembered more three days later, and 570 adolescents followed from preschool did better if their early viewing was educational, more consistently for boys, with content mattering more than the medium. Children with a bedroom television scored lower at school while children with a family computer scored higher. The research restarts for every new medium, and the answer has not changed.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Skeptic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician (no past panic had the parent’s own phone in the loop)</span>
+      </div>
+      <div class="cite">Sources: Himmelweit 1958; Reiser 1984; Anderson 2001; Borzekowski 2005; Orben 2020</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Is it an addiction?</td>
+          <td>Historian and Child: every medium has been called an addiction, and “I can’t pause it, it’s online” is design, not pathology.</td>
+          <td>Skeptic and Academic: no child study measures dopamine; gaming disorder pools at 3 to 4%; habit is the only mechanism with support. Clinician: the WHO three part test exists for the few.</td>
+          <td class="leans green">Habit and design, with the three part test for the rare case</td>
+        </tr>
+        <tr>
+          <td>Do rules work?</td>
+          <td>Academic, Economist, Skeptic: mediation styles sit near zero, controls adoption is falling and strict use breeds conflict; only a family wide trial worked.</td>
+          <td>Clinician: the bedroom rule has 125,198 children behind it.</td>
+          <td class="leans green">Rules about place and time kept by the whole family</td>
+        </tr>
+        <tr>
+          <td>The warning or the stopping point?</td>
+          <td>Clinician: a visible timer and the same stop cue, especially for ADHD.</td>
+          <td>Clinician’s own data and the Child: the two minute warning made preschool endings worse; the content ending itself, or the end of the match, wins.</td>
+          <td class="leans green">An ending set by the content, agreed before the start</td>
+        </tr>
+        <tr>
+          <td>Are holidays a screen problem?</td>
+          <td>Clinician: structured days protect sleep, activity and screens.</td>
+          <td>Skeptic: weekend obesity data in US primary children, a principle not a holiday study.</td>
+          <td class="leans coral">Skeptic; keep it as a principle, reliability capped at 5</td>
+        </tr>
+        <tr>
+          <td>Do screens cause ADHD?</td>
+          <td>Academic: each extra high frequency activity raised the odds of new symptoms by a tenth.</td>
+          <td>Skeptic: OR 1.10, self report, no way to rule out reverse causation. Clinician: r 0.12 both ways.</td>
+          <td class="leans green">Small and bidirectional; watch, never blame</td>
+        </tr>
+        <tr>
+          <td>Which milestone comes first?</td>
+          <td>Clinician, Academic, Historian: the phone at 11.</td>
+          <td>Economist: the money at 8 to 10. Child: the account at 8 to 12 and the Year 6 leavers chat.</td>
+          <td class="leans green">The forecast starts at 8 to 10 with money and the account</td>
+        </tr>
+        <tr>
+          <td>AI companions: ban or sit beside?</td>
+          <td>Economist quoting Common Sense: no one under 18 should use companions.</td>
+          <td>Historian and Child: use tools together with a checking habit; the lonely child needs more human contact, not a ban. Skeptic: hints help, answers hurt.</td>
+          <td class="leans green">Tools together; companions watched, with the lonely child first</td>
+        </tr>
+        <tr>
+          <td>Who is harmed?</td>
+          <td>Skeptic and Academic: about one in ten feel worse after scrolling.</td>
+          <td>Clinician: the ten percent are the clinic. Child: teens say it harms others (48%) far more than themselves (14%).</td>
+          <td class="leans green">Person specific; ask how they felt after, not how long</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>The bedroom is the whole ballgame</h3>
+        <p>A device present overnight, even unused, costs sleep in 125,000 children, and sleep is the road every other harm travels. In clinic the screen is nearly always the symptom: an unmet sensory need, an avoidance, an exhausted parent. The surgent three year old, the autistic ten year old and the anxious fifteen year old need three different exits, and pooled effect sizes hide all of them.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>The harm lives in three places, none of them the clock</h3>
+        <p>The best within person evidence points at sleep displacement, the calming shortcut in under sixes, and a susceptible minority of about one in ten. The imaging effects are small and no child study measures dopamine; habitual checking is the only mechanism with longitudinal support. And the parent is inside the effect, because technoference runs both ways.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Only the boring findings survive</h3>
+        <p>Devices in the bedroom cost sleep and total hours predict almost nothing; that is the list. Gaming disorder is 3 in 100 and the diagnosis itself was contested by 26 scholars. The one trial that improved mental health cut screens for the whole family. Drop “dopamine”, drop “cause”, and never build a claim on a survey of what teenagers say about other teenagers.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>The money arrives before the phone</h3>
+        <p>97% of UK 8 to 17s play online games and 53% spend inside them, while none of the top 100 games with loot boxes honours the industry’s own consent rule. Parental control adoption is falling and strict use raises conflict, so the defensible product is the agreed pathway with the control as its fence. The ban does not touch games, chats or AI, and Australia shows the pull relocates.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>The word changed every twenty years; the move never did</h3>
+        <p>Radio crime, comics, the television sets of 1958, arcade games, the bedroom internet: each panic produced a gate, and each gate lowered the odds of the worst without changing what a parent does at 8pm. Sesame Street proved that an adult beside the child naming the letters beats a time limit. Co viewing is also the template for AI: sit beside, ask it something together, check the answer against a person.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>Tell me the phone stays mine and I will tell you what happened</h3>
+        <p>Children hide bad experiences because telling costs them the phone. They rank social media far below money, exams and loneliness among their own worries, and 44% of US teens have already cut back without being told. The game is a room full of friends and the match cannot be paused. For the SEND or lonely child, the bot feels like a friend because the human alternative is a waiting list.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>The bank learns the moments.</strong> Migration 257 adds one row per confirmed finding tagged by situation (after school, morning, holidays, parent stress, the calming screen, balanced use, pull and design, history, temperament, ADHD, autism, anxiety, new phone, new game, AI use, AI readiness, forecast) and by age band, so a parent who types “he won’t come off after school” gets the ending research and not a screen time lecture.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>DiGi says it a term early.</strong> A horizons table by age band (what arrives next, the move to make before it lands, the source and the country the figure is from) goes into every chat and every DiGi’s word brief for this band and the next. The first entries: money and the first account at 8 to 10, the phone and sleep at 11, AI as a friend at 11 to 13, the ban and companions at 13 to 15.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>Three questions before any advice.</strong> Who were they playing with. How did they feel afterwards. Where does it charge at night. Findings 1, 2 and 13 say those three answers carry more signal than the number of hours, and none of them is a judgement of the parent.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>Six new scripts fall straight out of the evidence.</strong> The no confiscation promise (finding 9). The end of the match rule (finding 12). The Year 6 phone plan (finding 5). The gift card rule (finding 6). The AI together habit, hints not answers (finding 10). The parent’s protected phone free slot (finding 3).
+        </li>
+        <li>
+          <span class="tag">Stages</span>
+          <strong>Stage 2 gets the money and the account, Stage 3 gets the phone and sleep, Stage 4 gets companions and the ban.</strong> The evidence dates the first spend loop and the first profile to 8 to 12, a full stage before the phone. Stage 3 content leads with the bedroom charging rule because the ABCD cohort says sleep is where the phone shows first. Stage 4 carries the AI companion conversation and what the spring 2027 ban does and does not cover.
+        </li>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>Year 6 summer is the pitch.</strong> Ownership jumps 27 points across the Year 6 to Year 7 boundary and the leavers chat forms in the summer term. A school that runs the phone plan and the no confiscation promise in the summer term reaches every family before the box is opened.
+        </li>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Safe claims and unsafe claims.</strong> Safe: a device out of the bedroom is the best house rule (125,198 children); hours are a poor thermometer (355,358 teenagers); the parent’s phone is part of the picture (46% of teens). Unsafe, never post: “addiction”, “dopamine like drugs”, “screens cause ADHD or autism”, and any teen survey about what harms other teens.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Build for the relocation.</strong> Games, group chats and AI sit outside the under 16 law, Australia’s regulator found eight in ten 10 to 15 year olds still on social media four months after the ban, and 62% of 10 to 16 year olds say a ban feels like punishment. The Stage 4 content under the social_media_law flag should lead with what moves (the group chat, the game, the companion) rather than with what is banned.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>The UK picture rests on Ofcom’s May 2026 Children and Parents report and the forward view on three US bodies: the ABCD cohort, Pew Research Center and Common Sense Media, whose adoption figures are American and are marked as such wherever they appear. Almost every effect in this briefing is an association, and the honest reading of each is a direction to watch rather than a cause. The sandbox blocked direct fetches of most journal, regulator and survey domains during the lens pass, so the verifier pass leaned on exact phrase searches against the primary pages; the ledger says where. The Child lens is mostly survey voice rather than sat down qualitative work, which flatters the articulate teenager and misses the eight year old.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The SEND parent. Justin asked how different children react, and the evidence here on ADHD, autism and anxiety is thin, adult sized and mostly about hours. A lens sat in the home of a child with ADHD or autism would know which transitions work, what a visual schedule looks like at 7pm, and what the game does that nothing else in the day does. The Skeptic named autism and anxiety specific evidence as the gap it could not fill. That is the V3 to run, and it would change the temperament rows in the bank more than anything else would.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/2571467">Association Between Portable Screen Based Media Device Access or Use and Sleep Outcomes</a> · JAMA Pediatrics, 2016
+          <span class="note">Carter 2016 · 20 studies, 125,198 children, mean age 14.5; every OR and CI matches the abstract</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.sciencedirect.com/science/article/pii/S2352721823000347">Bedroom screen media and sleep disturbance in early adolescents (ABCD)</a> · Sleep Health, 2023
+          <span class="note">Nagata 2023 · n 10,280 aged 10 to 14; ARR 1.27 bedroom device, 1.23 ringer on; the 2024 prospective paper (n 9,398) and the Dunedin filmed study (83 children, 90% of nights) also confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://eprints.lse.ac.uk/672/">Bedroom culture and the privatization of media use</a> · Children and Their Changing Media Environment, Erlbaum, 2001
+          <span class="note">Livingstone and Bovill 2001 · the 63% own television figure is from the 1999 LSE Young People, New Media survey, reported in the 2001 chapter; cite 1999 as the data source</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41562-018-0506-1">The association between adolescent well being and digital technology use</a> · Nature Human Behaviour, 2019
+          <span class="note">Orben and Przybylski 2019 · n 355,358; at most 0.4%; the potatoes comparison is in the Oxford release for the paper</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://journals.sagepub.com/doi/10.1177/0956797616678438">A Large Scale Test of the Goldilocks Hypothesis</a> · Psychological Science, 2017
+          <span class="note">Przybylski and Weinstein 2017 · preregistered; 120,115 English 15 year olds only, so it cannot speak to younger children</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41598-020-67727-7">The effect of social media on well being differs from adolescent to adolescent</a> · Scientific Reports, 2020
+          <span class="note">Beyens 2020 · 63 adolescents, 2,155 assessments; 44% no change, 46% better, 10% worse</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41390-018-0052-6">Technoference: longitudinal associations between parent technology use, parenting stress, and child behavior problems</a> · Pediatric Research, 2018
+          <span class="note">McDaniel and Radesky 2018 · 183 couples, child 0 to 5, four survey waves; the headline path is child behaviour to parent phone use via stress; the 90% and 48% daily interference figures belong to the companion Child Development paper and were removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.pewresearch.org/internet/2024/03/11/how-teens-and-parents-approach-screen-time/">How Teens and Parents Approach Screen Time</a> · Pew Research Center, 11 March 2024
+          <span class="note">Pew 2024 screen time · 1,453 US teens 13 to 17 and parents, autumn 2023; 46% and 31% as stated</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/2799042">Longitudinal Associations Between Use of Mobile Devices for Calming and Emotional Reactivity and Executive Functioning in Children Aged 3 to 5 Years</a> · JAMA Pediatrics, 2023
+          <span class="note">Radesky 2023 · 422 children aged 3 to 5, convenience sample; boys r 0.20; high surgency r 0.11 and reverse r 0.13</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.commonsensemedia.org/research/the-2025-common-sense-census-media-use-by-kids-zero-to-eight">The 2025 Common Sense Census: Media Use by Kids Zero to Eight</a> · Common Sense Media, 2025
+          <span class="note">Common Sense Zero to Eight 2025 · 66% occupy to get things done or take a break confirmed; the 25% calming and 44% out and about figures could not be traced and were removed; 40% tablet by 2 and nearly 1 in 4 own phone by 8 confirmed (US)</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/2498404">Use of Mobile Technology to Calm Upset Children: Associations With Social Emotional Development</a> · JAMA Pediatrics, 2016
+          <span class="note">Radesky 2016 · research letter; 144 parents of 15 to 36 month olds</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://publications.aap.org/pediatrics/article/138/5/e20162591/60503/Media-and-Young-Minds">Media and Young Minds</a> · Pediatrics, 2016
+          <span class="note">AAP 2016 · Media and Young Minds lifted the 1999 blanket line; still discourages media other than video chat under 18 months</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/2026-children-and-parents-report/children-and-parents-media-use-and-attitudes-report-2025-6.pdf">Children and Parents: Media Use and Attitudes Report</a> · Ofcom, 21 May 2026
+          <span class="note">Ofcom Children and Parents 2026 · 56% to 83%, 32% hard to control, 88% of 3 to 7s online, 41% of 5 to 7s gaming, 56% and 66% AI use, 11% AI as a friend, 33% pressure to be popular, 65% consume, 81% safe all confirmed; the 55% too high, six in ten own profile and three quarters on a large platform figures could not be traced and were removed; 93% with a rule is the 2025 report; 40% trusting AI news is among teenage AI users</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://publications.aap.org/pediatrics/article/157/1/e2025072941/205716/Smartphone-Ownership-Age-of-Smartphone-Acquisition">Smartphone Ownership, Age of Smartphone Acquisition, and Health Outcomes in Early Adolescence</a> · Pediatrics, online December 2025
+          <span class="note">Barzilay 2025 · ABCD n 10,588; the journal reports 1.3, 1.4 and 1.6 times, not the decimals first quoted; acquisition between 12 and 13 OR 1.57 clinical level problems and OR 1.50 insufficient sleep confirmed among 3,486 non owners</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41467-022-29296-3">Windows of developmental sensitivity to social media</a> · Nature Communications, 2022
+          <span class="note">Orben 2022 · n 17,409 aged 10 to 21; windows 11 to 13 and 19 for girls, 14 to 15 and 19 for boys</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/siteassets/resources/documents/online-safety/research-statistics-and-data/protecting-children/childrens-online-experiences-research-report.pdf">Children’s Online Experiences research report</a> · Ofcom, 21 May 2026
+          <span class="note">Ofcom Children’s Online Experiences 2026 · 3,387 interviews with 8 to 17s, fieldwork November to December 2025; 97% play and 53% spend confirmed; the regret figures belong to a separate Ofcom spending report, now listed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://royalsocietypublishing.org/rsos/article/12/5/250704/235838/Non-compliance-with-and-non-enforcement-of-UK-loot">Non compliance with and non enforcement of UK loot box industry self regulation on the Apple App Store</a> · Royal Society Open Science, 2025
+          <span class="note">Xiao and Lund 2025 · denominator is the top 100 games that contain loot boxes: 0% sought parental consent, 23.5% disclosed; wording adjusted</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.ftc.gov/news-events/news/press-releases/2023/03/ftc-finalizes-order-requiring-fortnite-maker-epic-games-pay-245-million-tricking-users-making">FTC Finalizes Order Requiring Fortnite maker Epic Games to Pay $245 Million</a> · US Federal Trade Commission, March 2023
+          <span class="note">FTC 2023 · 14 March 2023 order, $245 million; button configuration quote confirmed; refunds of $72 million (December 2024) and $126 million (June 2025)</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.gamblingcommission.gov.uk/report/young-people-and-gambling-2025-official-statistics/ypg-2025-gambling-activities-and-gaming-gaming">Young People and Gambling 2025: gaming</a> · Gambling Commission, 2025
+          <span class="note">Gambling Commission 2025 · gift card 63% for 11 to 13s and own bank account 62% for 14 to 17s; denominator is young people engaging with in game items</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.who.int/news-room/questions-and-answers/item/addictive-behaviours-gaming-disorder">Addictive behaviours: Gaming disorder (ICD 11 6C51)</a> · World Health Organization
+          <span class="note">WHO ICD 11 · three features and the 12 month line confirmed; NHS clinic takes 13 and over with self referral</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://journals.sagepub.com/doi/10.1177/0004867420962851">Global prevalence of gaming disorder: a systematic review and meta analysis</a> · Australian and New Zealand Journal of Psychiatry, 2021
+          <span class="note">Stevens 2021 · 3.05% pooled and the 2023 corrigendum confirmed; the Kim 2022 4.06% figure could not be traced and is not used; Aarseth 2017 has 26 authors</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/32352827/">Pathological video game symptoms from adolescence to emerging adulthood: a six year longitudinal study</a> · Developmental Psychology, 2020
+          <span class="note">Coyne 2020 · 385 adolescents, mean age 15, six annual waves; 10% increasing, 18% moderate, 72% low</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict demoted">Demoted</span>
+        <div class="src">
+          <a href="https://royalsocietypublishing.org/doi/10.1098/rsos.200373">Do longitudinal studies support long term relationships between aggressive game play and youth aggressive behaviour?</a> · Royal Society Open Science, 2020
+          <span class="note">Drummond 2020 · the paper exists and is a meta analysis of longitudinal studies, but the r 0.059 and best practice figures could not be traced this session; the briefing uses only its direction. Przybylski and Weinstein 2019 (1,004 British 14 and 15 year olds, no association) confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.cnwl.nhs.uk/national-centre-gaming-disorders">The National Centre for Gaming Disorders</a> · NHS Central and North West London
+          <span class="note">NHS NCGD · England, aged 13 and over, self referrals accepted, supports parents of 13 to 16s</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://psycnet.apa.org/record/2016-19012-001">Does parental mediation of media influence child outcomes? A meta analysis</a> · Developmental Psychology, 2016
+          <span class="note">Collier 2016 · 57 studies; restrictive r+ is minus 0.06, co viewing 0.09, active nonsignificant overall; the Lukavska 2022 meta analysis (active and restrictive both at zero, restrictive worse over 14) and the 2024 Dutch within family study (n 1,928) confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.tandfonline.com/doi/full/10.1080/17482798.2023.2265512">Do parental control tools fulfil family expectations for child protection? A rapid evidence review</a> · Journal of Children and Media, 2023
+          <span class="note">Stoilova 2023 · authors are Stoilova, Bulger and Livingstone; 1,656 articles and 40 studies confirmed; the 28% to 22% adoption decline could not be traced and was removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2820832">Screen Media Use and Mental Health of Children and Adolescents: A Secondary Analysis of a Randomized Clinical Trial</a> · JAMA Network Open, 2024
+          <span class="note">Schmidt-Persson 2024 · 89 families, 181 children, Southern Denmark, two weeks; SDQ difference minus 1.67, Cohen d 0.53</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.childrenscommissioner.gov.uk/news-and-blogs/press-notice-children-say-parents-in-the-dark-about-online-experiences-as-childrens-commissioner-launches-new-guide-on-online-safety/">Children say parents in the dark about online experiences</a> · Children’s Commissioner for England, December 2025
+          <span class="note">Children’s Commissioner 2025 · press notice 18 December 2025; verified wording is that many children would not turn to family first and the Commissioner urged parents not to simply confiscate; the “fear of losing the phone” line was softened to match</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.gov.uk/government/consultations/growing-up-in-the-online-world-a-national-consultation/outcome/growing-up-in-the-online-world-government-response-july-2026">Growing up in the online world: government response</a> · Department for Science, Innovation and Technology, July 2026
+          <span class="note">DSIT 2026 · 116,211 responses and the 63%, 49% and 45% feature figures confirmed; the 19% of children backing 16 was wrong (the response says two thirds of children support some under 16 restrictions); 72% left out and 14,000 children could not be traced and were removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.pewresearch.org/internet/2025/12/09/teens-social-media-and-ai-chatbots-2025/">Teens, Social Media and AI Chatbots 2025</a> · Pew Research Center, 9 December 2025
+          <span class="note">Pew 2025 chatbots · 1,458 US teens, 25 September to 9 October 2025; 64%, about three in ten daily, ChatGPT 59% confirmed; the 4% almost constantly figure could not be traced and is not used</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.pewresearch.org/internet/2026/02/24/how-teens-use-and-view-ai/">How Teens Use and View AI</a> · Pew Research Center, 24 February 2026
+          <span class="note">Pew 2026 AI · 57% information, 54% schoolwork, 12% emotional support, 10% all or most schoolwork; parents 51% and about three in ten unsure</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.commonsensemedia.org/research/talk-trust-and-trade-offs-how-and-why-teens-use-ai-companions">Talk, Trust, and Trade Offs: How and Why Teens Use AI Companions</a> · Common Sense Media, 16 July 2025
+          <span class="note">Common Sense companions 2025 · 1,060 US teens, NORC, April to May 2025; 72%, 52%, one third for serious conversations, 80% real friends confirmed; personal information is 24% of companion users; the “no one under 18” line is from Common Sense’s separate April 2025 risk assessment</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.commonsensemedia.org/sites/default/files/research/report/2026-ai-use-by-tweens-and-teens-1.pdf">The Common Sense Media Census: AI Use by Tweens and Teens</a> · Common Sense Media, 2026
+          <span class="note">Common Sense AI census 2026 · released 8 June 2026; 1,204 children 9 to 17; 86%, 24% daily, 81% of 9 to 12s; the advice and feelings figures are among AI users</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.internetmatters.org/hub/research/me-myself-and-ai-chatbot-research/">Me, Myself and AI: Understanding and safeguarding children’s use of AI chatbots</a> · Internet Matters, July 2025
+          <span class="note">Internet Matters 2025 · 64% of 9 to 17s and 71% of vulnerable children confirmed; 35% of users say it feels like a friend, 50% among vulnerable users; the 12% “no one else” and 47% schoolwork figures could not be traced and were removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.pnas.org/doi/10.1073/pnas.2422633122">Generative AI without guardrails can harm learning: Evidence from high school mathematics</a> · PNAS, 2025
+          <span class="note">Bastani 2025 · nearly 1,000 Turkish high school pupils; GPT Tutor 127% on practice and GPT Base 17% worse on the exam confirmed; the tutor version “largely mitigated” the harm rather than removed it; a PNAS correction exists and was unreadable here</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/24999762/">Media use and ADHD related behaviors in children and adolescents: A meta analysis</a> · Developmental Psychology, 2014
+          <span class="note">Nikkelen 2014 · 45 studies, r 0.12</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jama/fullarticle/2687861">Association of Digital Media Use With Subsequent Symptoms of ADHD Among Adolescents</a> · JAMA, 2018
+          <span class="note">Ra 2018 · sample is 2,587 tenth graders, mean age 15.5, 10 Los Angeles County schools; OR 1.11 and adjusted 1.10 confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict demoted">Demoted</span>
+        <div class="src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/38064216/">Screen Time and Autism Spectrum Disorder: A Systematic Review and Meta Analysis</a> · JAMA Network Open, 2023
+          <span class="note">Ophir 2023 · the meta analysis exists (JAMA Network Open, December 2023) but the 46 studies, 562,131 and the bias correction wording could not be traced this session; the briefing states only its conclusion</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2023.1101594/full">Longitudinal associations between different types of screen use and depression and anxiety symptoms in adolescents</a> · Frontiers in Public Health, 2023
+          <span class="note">Mougharbel 2023 · 17,174 Canadian high school pupils; the mean age figure could not be traced and is not used; cannot speak to under 14s</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://dl.acm.org/doi/10.1145/2858036.2858278">Screen Time Tantrums: How Families Manage Screen Media Experiences for Toddlers and Preschoolers</a> · CHI 2016, ACM
+          <span class="note">Hiniker 2016 · 27 interviews and a separate 28 family diary study, children aged 1 to 5; technology mediated transitions significantly more successful; the two minute warning result is in the paper, the “every way we sliced it” line is from the UW press release</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/childrens-media-lives-2025/childrens-media-lives-2025-summary-report.pdf">Children’s Media Lives 2025 summary report</a> · Ofcom, 2025
+          <span class="note">Ofcom Children’s Media Lives 2025 · 21 children aged 8 to 18 (not 8 to 17), fieldwork September to December 2024; the Discord and FaceTime line and the social gaming finding confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://ijbnpa.biomedcentral.com/articles/10.1186/s12966-017-0555-2">Understanding differences between summer vs. school obesogenic behaviors of children: the structured days hypothesis</a> · International Journal of Behavioral Nutrition and Physical Activity, 2017
+          <span class="note">Brazendale 2017 · 155 of 190 studies, weekend versus weekday, US elementary children, framed around summer weight gain; anything about half term is an extrapolation and the briefing says so</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.gov.uk/government/news/social-media-to-be-banned-for-under-16s-in-landmark-government-move-to-givekids-their-childhood-back">Social media to be banned for under 16s in landmark government move to give kids their childhood back</a> · GOV.UK, 15 June 2026
+          <span class="note">GOV.UK 15 June 2026 · 15 June 2026; platforms that “could include” the six named; messaging not intended to be covered; spring 2027 and the Ofcom October 2026 study confirmed; the YouTube Kids exemption and any explicit gaming extension could not be verified and were removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.esafety.gov.au/about-us/industry-regulation/social-media-age-restrictions">Social media age restrictions</a> · eSafety Commissioner, Australia, 2026
+          <span class="note">eSafety Australia · the 4.7 million accounts were restricted in the first half of December 2025 (release 16 January 2026); the eight in ten figure is from eSafety’s July 2026 report of 803 children aged 10 to 15; the 750,000 Meta figure is Meta’s own and is not used</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://dera.ioe.ac.uk/id/eprint/7332/7/Final%20Report%20Bookmarked_Redacted.pdf">Safer Children in a Digital World: The Report of the Byron Review</a> · Department for Children, Schools and Families, 27 March 2008
+          <span class="note">Byron 2008 · 27 March 2008; the swimming pool sentence confirmed verbatim</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.wired-gov.net/wg/news.nsf/articles/TV+watershed+has+been+protecting+viewers+for+50+years+03072014160500?open=">TV watershed has been protecting viewers for 50 years</a> · Ofcom, July 2014
+          <span class="note">Ofcom watershed · 3 July 2014 release; 1964 Television Act, Himmelweit 1958, 9pm to 5.30am</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.worldradiohistory.com/BOOKSHELF-ARH/Commentary/Television-and-the-Child-Himmelweit-et-al-1958.pdf">Television and the Child: An Empirical Study of the Effect of Television on the Young</a> · Nuffield Foundation and Oxford University Press, 1958
+          <span class="note">Himmelweit 1958 · over 4,000 children in five cities with Norwich as the before and after site confirmed; the two hours a day and displacement lines could not be verified and were removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://link.springer.com/article/10.1007/BF02768893">Adult child interaction in children’s learning from Sesame Street</a> · ECTJ, 1984
+          <span class="note">Reiser 1984 · 23 three and four year olds randomised; letters and numbers; p under .01</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/11326591/">Early childhood television viewing and adolescent behavior: the recontact study</a> · Monographs of the Society for Research in Child Development, 2001
+          <span class="note">Anderson 2001 · 570 adolescents; effects more consistent for boys; content more important than the medium</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/486132">The remote, the mouse, and the No. 2 pencil: the household media environment and academic achievement among third grade students</a> · Archives of Pediatrics and Adolescent Medicine, 2005
+          <span class="note">Borzekowski 2005 · about 8 points lower in maths and language arts and 7 in reading with a bedroom television; the sample size could not be traced and is not used</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://journals.sagepub.com/doi/10.1177/1745691620919372">The Sisyphean Cycle of Technology Panics</a> · Perspectives on Psychological Science, 2020
+          <span class="note">Orben 2020 · the Sisyphean cycle; Vuorre 2021 and Odgers and Jensen 2020 also confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://link.springer.com/article/10.1007/s10803-012-1659-9">Television, video game and social media use among children with ASD and typically developing siblings</a> · Journal of Autism and Developmental Disorders, 2013
+          <span class="note">Mazurek and Wenstrup 2013 · the hours figures (2.4 vs 1.6 boys, 1.8 vs 0.8 girls) are from this Journal of Autism and Developmental Disorders paper, 202 children with ASD and 179 siblings aged 8 to 18, not from the RASD paper first cited</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.sciencedirect.com/science/article/pii/S175094671200116X">Video game use and problem behaviors in boys with autism spectrum disorders</a> · Research in Autism Spectrum Disorders, 2013
+          <span class="note">Mazurek and Engelhardt 2013 · 169 boys with ASD aged 8 to 18; problematic use correlated with inattention and oppositional behaviour</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://dl.acm.org/doi/10.1145/3628516.3655808">Investigating Attention and Normative Dissociation in Children’s Social Video Games</a> · IDC 2024, ACM
+          <span class="note">Baughan 2024 · the real paper is Baughan et al, Investigating Attention and Normative Dissociation in Children’s Social Video Games, IDC 2024: 17 children aged 8 to 13 touring Roblox or Minecraft; the “I can’t pause it” quote could not be traced and was removed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.girlguiding.org.uk/about-us/press-releases/social-media-companies-need-to-do-more-to-protect-young-people/">Social media companies need to do more to protect young people</a> · Girlguiding press release, 2025
+          <span class="note">Girlguiding poll 2025 · the figures come from a 2025 Girlguiding poll of nearly 2,000 boys and girls aged 10 to 16, not the Girls’ Attitudes Survey; 15%, 69% and 62% confirmed</span>
+        </div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/siteassets/resources/documents/online-safety/research-statistics-and-data/online-services-research/childrens-online-spending-and-potential-financial-harm-quantitative-research.pdf">Children’s online spending and potential financial harm: quantitative research</a> · Ofcom, 2025
+          <span class="note">Ofcom Children’s Online Spending 2025 · 32% of recent in game spenders and 43% of social media spenders say they often regret it; 41% often spend more than they meant to</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 6 September 2026
+  </footer>
+
+</div>
+</body>
+</html>
