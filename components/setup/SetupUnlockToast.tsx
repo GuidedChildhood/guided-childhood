@@ -19,6 +19,7 @@ import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQue
 const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
   childLink: 'That is their side sorted. Whether it is the code on their phone or the chart on the fridge, they can see what they have earned.',
   homeScreen: 'We are one tap away now, and the check ins can reach you at the hours screens turn up in your house.',
+  coreTime: 'Their free time is decided, so the screen is never the prize. Stars add on top, and you can change it any time from Quests.',
   children: 'That is everybody in. Each child carries their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',
 }
 

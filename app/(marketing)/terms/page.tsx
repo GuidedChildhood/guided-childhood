@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
+import { companyLine } from '@/lib/content/contact'
 
 export const metadata = {
   title: 'Terms of Service · Guided Childhood',
   description: 'The terms for using Guided Childhood, including your subscription, the founder rate, cancellation, and important limits.',
 }
 
-const EFFECTIVE = '15 July 2026'
+const EFFECTIVE = '6 September 2026'
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }
@@ -24,6 +25,7 @@ export default function TermsPage() {
       <p style={P}>
         These terms are the agreement between you and Guided Childhood when you use our website and app. By creating an account you accept them. Please read them, they are written to be plain.
       </p>
+      {companyLine() && <p style={P}>{companyLine()}</p>}
 
       <h2 style={H2}>Who can use Guided Childhood</h2>
       <p style={P}>
@@ -37,11 +39,11 @@ export default function TermsPage() {
 
       <h2 style={H2}>Your subscription</h2>
       <ul>
-        <li style={LI}><strong>Free trial:</strong> new members get a 7 day free trial with everything unlocked. A card is collected at signup and your plan begins when the trial ends unless you cancel before then.</li>
+        <li style={LI}><strong>Free days:</strong> every new member gets four free days. If you take the founder or standard door we ask for a card and nothing is charged until the four days end; cancel before then and you pay nothing. If you take the free door no card is taken. During the free days you get the starter set of scripts and three DiGi questions a day, and everything else opens when you join.</li>
         <li style={LI}><strong>Plans:</strong> the Founder rate is £7.99 a month, held for life while your subscription stays active, and limited to the first 50 members. After that, membership is £12.99 a month or £99 a year.</li>
         <li style={LI}><strong>Billing:</strong> payments are taken by Stripe and renew automatically each period until you cancel.</li>
-        <li style={LI}><strong>Cancelling:</strong> you can cancel any time from your account. You keep access until the end of the period you have paid for, and we do not lock you out afterwards, you simply move to the free tier.</li>
-        <li style={LI}><strong>Refunds:</strong> if something has gone wrong, email us and we will always try to put it right fairly.</li>
+        <li style={LI}><strong>Cancelling:</strong> you can cancel any time from your account. You keep access to the end of the period you have paid for. After that the app waits for you, your family’s data stays safe, and you can come back and join again whenever you like.</li>
+        <li style={LI}><strong>Refunds:</strong> in your first 30 days as a paying member, if it is not for you, email us and we refund every penny, no questions asked. After that, if something has gone wrong, email us and we will always try to put it right fairly. None of this limits your rights under UK consumer law.</li>
       </ul>
 
       <h2 style={H2}>The founder rate</h2>

@@ -10769,3 +10769,32 @@ or the first lesson). The Playground stays as designed (stage 3, or the
 second lesson); Justin did not name it, so nothing moved. The rule is one
 number in PLANETS.port in lib/planet/logic.ts; the checks and the universe
 drive follow it.
+## 6 September 2026: the audit's stage three, Justin's eight answers
+
+Justin on the audit's decisions list: "1 limited co 2 asked at set up 3
+ignore 4 yea 5 should be 6 its demo 7 agreed name of the guided digital child
+passport 8 remind for 2 months go ahead." Decided: the business is a limited
+company, so lib/content/contact.ts carries the registered name, number and
+office as empty fields that Terms and Privacy print only once filled (the
+details are still to come from Justin). Core time is asked at setup: a fourth
+Setup Quest step, one tap per child, with None as a real answer, saved through
+the time settings route and ticked when every child has a row. The old HTML
+pages are left alone. The 30 day refund is real and now in the Terms, which
+also describe the four free days, both doors and what the free days include,
+and say the app waits for you rather than moving you to a free tier that never
+existed. The Stripe billing portal should be on; only Justin can check that
+in Stripe. oakfield-2026 is a demo code and stays. The passport has one name
+across both sites, the Guided Digital Childhood Passport (read from "the
+guided digital child passport"; one word to change if he meant otherwise).
+A routine on 6 November 2026 reminds him to commission the DPIA and the
+solicitor review. The audit folder is committed on his go ahead.
+
+## 6 September 2026: the registered company, from the register
+
+Justin sent the Companies House page: Guided Digital Childhood Ltd, company
+number 17299814, a private limited company incorporated 24 June 2026,
+registered office Apple Acre, Star, Winscombe, England, BS25 1QF. The three
+fields in lib/content/contact.ts are filled from it, so the Terms and the
+Privacy notice now open with the company sentence and the homepage footer
+carries the name and number under the copyright line. The trading name
+stays Guided Childhood everywhere a family reads it.

@@ -88,7 +88,7 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
               The printed passport
             </div>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '5px 0 0' }}>
-              A professionally printed, keepsake quality copy of {childName ? `${childName}'s` : 'your child’s'} digital passport: every stage stamped, every Planet Friend earned, ready for the shelf.
+              A professionally printed, keepsake quality copy of {childName ? `${childName}'s` : 'your child’s'} Guided Digital Childhood Passport: every stage stamped, every Planet Friend earned, ready for the shelf.
             </p>
           </div>
         </div>

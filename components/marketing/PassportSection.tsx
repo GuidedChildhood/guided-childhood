@@ -45,7 +45,7 @@ export default function PassportSection() {
                 Guided Childhood
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '0.02em', lineHeight: 1.05 }}>
-                Digital Passport
+                Digital Childhood Passport
               </div>
               <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '12px auto 0' }} />
             </div>

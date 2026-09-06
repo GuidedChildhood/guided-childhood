@@ -437,6 +437,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // childLink counts "no phone, keep it on the fridge" as DONE rather than as a
   // step to hide, which is why this sits below the handover read rather than
   // above it. See lib/setup/flags.ts for the reasoning on each of the three.
+  const { data: timeRows } = await supabase.from('child_time_settings').select('child_id').eq('user_id', user.id)
+  const answeredTime = new Set(((timeRows ?? []) as { child_id: string }[]).map(r => r.child_id))
   const setupFlags = {
     // Both signatures, not the row's existence. The row is a draft the builder
     // saves as it goes; only a signature makes it an agreement. See the note in
@@ -451,6 +453,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // See lib/setup/flags.ts, which is where this rule is explained.
     children: (childResult.data ?? []).length > 1
       || !!(profile as { only_one_child_at?: string | null } | null)?.only_one_child_at,
+    // The free time question, answered per child (6 September 2026). A
+    // child_time_settings row exists once the parent has picked, and "none"
+    // writes one too. Same rule as lib/setup/flags.ts.
+    coreTime: allKids.length > 0 && allKids.every(k => answeredTime.has(k.id as string)),
   }
 
   // DiGi brings a lesson to Home: one age relevant film the child has not
