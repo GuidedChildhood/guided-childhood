@@ -77,11 +77,12 @@ export default async function PolicyTextPage() {
         <div style={block}>
           <h2 style={h2}>Pupil data (for your data protection section)</h2>
           <p style={body}>
-            The programme is designed for data minimisation. Pupils do not have accounts, logins or
-            passwords. The only pupil data processed is a first name and initial, entered by the teacher
-            for class organisation and printed quiz personalisation, and lesson participation records.
-            No behavioural profiling, no advertising, no data sharing with third parties beyond the
-            infrastructure providers named in the programme&rsquo;s data protection pack, which is
+            The programme is designed for data minimisation taken to its end point. Pupils do not have
+            accounts, logins or passwords, and the platform processes no pupil data at all: the school
+            signs in with a class code that identifies the school and nothing else. Where a pupil name
+            appears, it is handwritten on printed worksheets and learning records that never leave the
+            school. No behavioural profiling, no advertising, no data sharing with third parties beyond
+            the infrastructure providers named in the programme&rsquo;s data protection pack, which is
             available to our Data Protection Officer.
           </p>
         </div>
@@ -95,6 +96,24 @@ export default async function PolicyTextPage() {
             withdrawal in line with statutory guidance, and the school will consider such requests as
             set out in this policy. In practice this programme teaches digital literacy and online
             safety and does not deliver sex education.
+          </p>
+        </div>
+
+        <div style={block}>
+          <h2 style={h2}>What the programme provides, and what stays with the school</h2>
+          <p style={body}>
+            <strong>The programme provides:</strong> the taught curriculum mapped to the statutory RSHE
+            guidance, KCSIE and the Education for a Connected World strands; word for word lesson
+            scripts; printable packs, worksheets and answer keys; the learning record; the parent pack
+            and this policy text; DSL notes on every safeguarding flagged module; and staff briefings.
+          </p>
+          <p style={body}>
+            <strong>The school remains responsible for:</strong> adopting and publishing its own
+            policies; consulting parents and operating the materials viewing route and any withdrawal
+            requests; its safeguarding systems and disclosure recording; filtering and monitoring and
+            their annual review; recording delivery and assessment in its own systems; and its own
+            judgement of the quality of provision. No subscription makes a school compliant, and this
+            programme does not claim to.
           </p>
         </div>
 

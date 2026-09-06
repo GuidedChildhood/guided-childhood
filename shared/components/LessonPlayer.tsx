@@ -24,6 +24,15 @@ const eyebrowStyle: React.CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase',
 }
 
+// Checked at animation time, not render time, so a mid session settings
+// change is honoured on the next slide. Every GSAP moment in this file runs
+// through this gate: the reveals all animate FROM hidden TO the element's
+// natural state, so skipping the tween simply leaves the slide readable,
+// which is exactly what reduced motion asks for.
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 // The two curriculum chips: Key Stage and the Education for a Connected
 // World strand. Small, mono, honest. Shown on the intro slide.
 function BadgeChips({ badges }: { badges: CurriculumBadges }) {
@@ -85,7 +94,7 @@ function ChoiceBlock({
     onAnswered(opt.correct, opt.text)
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
-    if (el) {
+    if (el && !prefersReducedMotion()) {
       gsap.fromTo(el, { scale: 0.97 }, {
         scale: 1, duration: 0.45,
         ease: opt.correct ? 'back.out(3)' : 'power2.out',
@@ -293,7 +302,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!ref.current) return
+    if (!ref.current || prefersReducedMotion()) return
     const steps = ref.current.querySelectorAll('[data-diagram-step]')
     const chips = ref.current.querySelectorAll('[data-diagram-chip]')
     const tl = gsap.timeline()
@@ -358,6 +367,7 @@ function DigiClosingBlock({ slide }: { slide: DigiSlide }) {
 
   useEffect(() => {
     if (!ref.current) return
+    if (prefersReducedMotion()) { setMood('happy'); return }
     const avatar = ref.current.querySelector('[data-digi-avatar]')
     const bubbles = ref.current.querySelectorAll('[data-digi-line]')
     const tl = gsap.timeline()
@@ -652,6 +662,8 @@ export default function LessonPlayer({
   // travel, then its pieces build one by one via the data-reveal marks.
   useEffect(() => {
     if (!slideRef.current) return
+    stageRef.current?.scrollTo({ top: 0 })
+    if (prefersReducedMotion()) return
     const el = slideRef.current
     const reveals = el.querySelectorAll('[data-reveal]')
     const tl = gsap.timeline()
@@ -659,7 +671,6 @@ export default function LessonPlayer({
     if (reveals.length) {
       tl.fromTo(reveals, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.14, ease: 'power2.out' }, '-=0.2')
     }
-    stageRef.current?.scrollTo({ top: 0 })
     return () => { tl.kill() }
   }, [index, finished])
 
@@ -667,6 +678,7 @@ export default function LessonPlayer({
   useEffect(() => {
     if (!barRef.current) return
     const pct = finished ? 100 : ((index + 1) / Math.max(slides.length, 1)) * 100
+    if (prefersReducedMotion()) { barRef.current.style.width = `${pct}%`; return }
     gsap.to(barRef.current, { width: `${pct}%`, duration: 0.5, ease: 'power2.out' })
   }, [index, finished, slides.length])
 
@@ -838,7 +850,7 @@ export default function LessonPlayer({
           This is the family version.
         </h2>
         <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 28px' }}>
-          The full school curriculum goes deeper: complete schemes of work by key stage, teacher scripts, assessment and progress evidence for every child.
+          The full school curriculum goes deeper: complete schemes of work by key stage, word for word teacher scripts, worksheets with answer keys and a printed learning record for every child.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '340px', margin: '0 auto' }}>
           {classCtaHref && (
@@ -974,7 +986,7 @@ export default function LessonPlayer({
         )}
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
           {isSchool
-            ? 'Now the worksheet verdicts and the named exit quizzes. Then one tap on the register records the delivery.'
+            ? 'Now the worksheet verdicts and the exit cards from the printed pack. The answer key is page four, and the learning record goes in their books.'
             : 'Counted towards your stage progress. The best next step is trying it at home tonight, and you can run it again any time.'}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
@@ -1089,7 +1101,29 @@ export default function LessonPlayer({
       // competing with six other destinations.
       position: 'fixed', inset: 0, zIndex: 110, background: 'var(--cream)',
       display: 'flex', flexDirection: 'column',
-    }}>
+    }} className="gc-lesson-player">
+      {/* Authored focus ring: every control in the deck is keyboard reachable,
+          and a reachable control with no visible focus is reachable in name
+          only. Scoped to the player so neither app's chrome changes. */}
+      <style>{`
+        .gc-lesson-player a:focus-visible,
+        .gc-lesson-player button:focus-visible {
+          outline: 3px solid var(--terracotta);
+          outline-offset: 2px;
+          border-radius: 10px;
+        }
+      `}</style>
+      {/* The screen reader's phase label: announces each slide change
+          politely, mirroring the visual header line. Visually hidden with
+          the clip pattern rather than display none, which silences it. */}
+      <div aria-live="polite" style={{
+        position: 'absolute', width: '1px', height: '1px', overflow: 'hidden',
+        clipPath: 'inset(50%)', whiteSpace: 'nowrap',
+      }}>
+        {finished
+          ? 'Lesson finished'
+          : `Slide ${index + 1} of ${slides.length}${phaseLabel ? `, ${phaseLabel}` : ''}`}
+      </div>
       {/* The thin butter progress bar, edge to edge */}
       <div style={{ height: '5px', background: 'var(--border)', flexShrink: 0 }}>
         <div ref={barRef} style={{ height: '100%', width: 0, background: 'var(--terracotta)', borderRadius: '0 100px 100px 0' }} />

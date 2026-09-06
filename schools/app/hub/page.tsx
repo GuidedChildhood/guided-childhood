@@ -58,6 +58,11 @@ const DOCS = [
     title: 'Common questions',
     body: 'The answers heads, governors and parents ask for most, in plain words.',
   },
+  {
+    href: '/hub/accessibility', emoji: '♿', accent: 'var(--deep-teal, #173C46)',
+    title: 'Accessibility statement',
+    body: 'How the player and the printed materials reach every learner, what we support today, and what we are still improving. Honest, dated, and updated as the product moves.',
+  },
 ]
 
 export default async function HubPage() {

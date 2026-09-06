@@ -21,7 +21,7 @@ import HomeReveals from '@/components/HomeReveals'
 export const metadata: Metadata = {
   title: 'The Digital Literacy Curriculum for UK Schools, Reception to Year 13',
   description:
-    'A complete digital literacy scheme of work for UK schools. 21 modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the coverage record a school can show. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.',
+    'A complete digital literacy scheme of work for UK schools. 21 modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the statutory mapping a school can show. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.',
   alternates: { canonical: 'https://schools.guidedchildhood.com/' },
   openGraph: {
     title: 'Guided Childhood Schools: the digital literacy curriculum, Reception to Year 13',
@@ -333,7 +333,7 @@ export default function SchoolsPage() {
               ready for <span style={{ color: GOLD }}>September 2026.</span>
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.22rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '32px' }}>
-              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026. Every lesson taught from an interactive script, with printable packs and the coverage record a school can show. Ready in your classroom tomorrow.
+              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026. Every lesson taught from an interactive script, with printable packs and the statutory mapping a school can show. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
               <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
