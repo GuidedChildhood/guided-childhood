@@ -10,9 +10,11 @@ export const ROOM_TITLES: Record<Where, string> = {
   kitchen: 'The kitchen',
   living: 'The living room',
   bedroom: 'The bedroom',
+  school: 'Moonbase School',
+  playground: 'Playground planet',
 }
 
-export const ROOM_EMOJI: Record<Where, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️' }
+export const ROOM_EMOJI: Record<Where, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️', school: '🏫', playground: '🛝' }
 
 export const THING_LABELS: Record<ThingKey, string> = {
   apple: 'An apple',

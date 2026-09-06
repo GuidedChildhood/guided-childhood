@@ -1,10 +1,11 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import type { Friend, FriendKey, Mood, Outfit, PartKey, Placed, Tier, World } from '@/lib/planet/logic'
+import type { Friend, FriendKey, Mood, Outfit, PartKey, Placed, Self, Tier, World } from '@/lib/planet/logic'
 import { FRIEND_KEYS, PART_ZONE, SLOTS, batteryNow, isDeviceKey, isGrownUp, isThingKey } from '@/lib/planet/logic'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
+import SelfFigure from './SelfFigure'
 import PartArt from './PartArt'
 import { PhoneArt, ThingArt } from './ThingArt'
 import { PLANET, SCENE_H, SCENE_W, SLOT_POS, sceneFromClient, surfaceY } from './scene'
@@ -74,8 +75,8 @@ export function standingX(count: number): number[] {
 }
 
 export default function HomePlanet({
-  friends, activeKeys, moods, tier, childAge, sky, starEnergy, growthStage, placed = [], plots = 0, wearing = {}, held = {}, devices = {}, nowIso = '', carrying = null, using = null, accent, pyjamas, wiggle, sparkle, boopCrater,
-  onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onDen, onInteract, onMovePart, onPartTap, onSvg,
+  friends, activeKeys, moods, tier, childAge, sky, starEnergy, growthStage, placed = [], plots = 0, wearing = {}, held = {}, devices = {}, nowIso = '', carrying = null, using = null, accent, pyjamas, wiggle, sparkle, boopCrater, self = null,
+  onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onDen, onInteract, onMovePart, onPartTap, onSvg, onSelfTap,
 }: {
   /** The Friends outdoors right now. */
   friends: Friend[]
@@ -122,6 +123,10 @@ export default function HomePlanet({
   onPartTap?: (part: PartKey) => void
   /** The scene's own svg, so the root can drop things from the box onto it. */
   onSvg?: (el: SVGSVGElement | null) => void
+  /** The child's own explorer (slice 3b), standing with the cast when built. */
+  self?: Self | null
+  /** A tap on the explorer: the builder opens to change them. */
+  onSelfTap?: () => void
 }) {
   const svgRef = useRef<SVGSVGElement>(null)
   const [drag, setDrag] = useState<Drag | null>(null)
@@ -354,6 +359,14 @@ export default function HomePlanet({
 
       {/* what stands on the horizon, behind the Friends (slice 3) */}
       {bySlot('horizon').map(partAt)}
+
+      {/* the child's own explorer (slice 3b), standing with the cast; a tap
+          opens the builder to change them any time */}
+      {self && (
+        <g transform={`translate(340 ${surfaceY(340)})`} onPointerDown={e => { e.stopPropagation(); onInteract(); onSelfTap?.() }} style={{ cursor: 'pointer' }} aria-label="Me">
+          <g className="pl-breathe"><SelfFigure self={self} size={92} /></g>
+        </g>
+      )}
 
       {/* the Friends */}
       {friends.map((f, i) => {

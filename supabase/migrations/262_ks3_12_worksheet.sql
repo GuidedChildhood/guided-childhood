@@ -1,12 +1,15 @@
--- 260 (born 257): ks3-12 gets its worksheet and its tool block.
+-- 262 (born 257): ks3-12 gets its worksheet and its tool block.
 --
--- RENUMBERED 6 September 2026. Two lanes claimed 257 on the same day:
--- this file (PR 979) and 257_digi_situations_bank.sql (the DiGi lane),
--- and the wiring check rightly broke on the collision. The DiGi file
--- reached main first, so this one, the newer, takes the new number. It
--- was APPLIED to production under the name 257_ks3_12_worksheet on 6
--- September before the rename; it is idempotent, so tooling that replays
--- it under the new name changes nothing.
+-- RENUMBERED 6 September 2026, twice, and here is the ledger so nobody
+-- has to reconstruct it. Two lanes claimed 257 on the same day: this file
+-- (PR 979) and the DiGi situations bank (PR 978), and the wiring check
+-- rightly broke on the collision. This file first moved to 260, but the
+-- DiGi lane's own fix (PR 983) takes 260 for the bank, matching the name
+-- it was applied to production under, and claims 261 for its scripts. So
+-- this file takes 262, which collides with nothing whichever PR merges
+-- first. It was APPLIED to production under the name 257_ks3_12_worksheet
+-- on 6 September; it is idempotent, so tooling that replays it under the
+-- new name changes nothing.
 --
 -- The master audit (research/2026-09-05-master-audit.md, Report 14 P0 item
 -- 2) found ks3-12-misinfo-deepfakes to be the only module with no worksheet

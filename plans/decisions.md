@@ -10583,3 +10583,16 @@ Science: A New Golden Age (21 July 2026, mentors beside children). Migration
 a school skill" at 8 to 10. The line DiGi takes from all of it: the
 children a UK child competes with at 18 are being taught to build with AI
 from primary age, so the AI together habit belongs in Stage 2.
+## 6 September 2026: the child gets their own explorer figure
+
+Justin: "I would like all the planets floating in a universe so the child
+can explore each one, also build the self, like skin colour, hair, put on
+a space suit and more." The universe is slice 3b of the planet friends
+architecture, already designed. The self figure is new, and it sits
+BESIDE the locked rule from section 7.6 rather than against it: the cast
+stay the cast, outfits and hats and never a character maker for the
+Friends, and the child now gets their OWN figure, an explorer in a space
+suit with the child's chosen skin tone, hair and suit colour, which the
+cast rule never covered. Stored as play state in planet_homes.state.self,
+changed any time, nothing new collected about the child beyond the play
+choices themselves. Plan: plans/2026-09-06-universe-and-self-plan.md.
