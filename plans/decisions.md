@@ -10959,6 +10959,86 @@ the other twenty in key stage batches. Still open from the source mining and
 NOT in phase 2: transcripts on the lesson videos (a real accessibility gap,
 Oak carries a transcript and a sign language option) and the deck download.
 
+---
+
+## 7 September 2026 — the two reference accounts, torn down (no migration)
+
+Justin named two Instagram accounts and asked what performs on them so we can
+use it on the family account: `dr_catherine_knibbs` and `family_it_guy`. The
+teardown is `content/brand-story/reference-accounts.md` and it joins the
+family-social Phase 0 canon so it is read on every run.
+
+**The finding worth keeping:** they are the two halves of our own thesis, split
+apart, each running as a business, and neither is running the whole thing.
+Gillenwater sells the fix without the pathway, which is the Qustodio critique
+from THE-STORY.md section 2 made likeable and competent. Knibbs sells the
+reframe without the fix, and her published position (bans do not work, unfair
+rules push a child away, connection protects) is our philosophy 2 and 3 doing
+millions of views. Guided Childhood is the join. Service 12, settings scattered
+across five devices, is a direct head to head with Gillenwater's whole business,
+and we only win it by ending on the child's step rather than on a toggle.
+
+**The mechanic we were missing:** the comment gate. Knibbs's caption reads
+"Comment the word 'Book' on this video and I'll send you a personal invite".
+It converts with no link in the caption, which is the Instagram constraint we
+already work under, so it costs us nothing to adopt. Verified destinations
+before writing it down: `/starter-pack` renders at
+`app/(marketing)/starter-pack/page.tsx` at 1172 lines with no coming soon,
+`/join` renders, and the family phone agreement printable exists with a phone
+sized version.
+
+**The line that does not move:** Knibbs is not only a reference account to us,
+she is already inside DiGi's system prompts, the research bank, and the
+LinkedIn cybertrauma series. The 29 July 2026 decision stands unchanged. Cite
+published work, never her name beside our advice, never a tag to borrow reach.
+
+**What was deliberately not done.** Section 6 of the teardown proposes real
+changes to Wednesday and Friday: the honest pivot moves to line one as a
+concession, a share instruction goes above it, and the Friday screen recording
+becomes the default rather than the alternative to a carousel.
+`weekly-rhythm.md` is the canon for the four days and it is untouched. The
+section is marked proposed and it is Justin's call, because changing the shape
+of the days is a brand decision and not a tidy up.
+
+**Honesty note on the research.** Instagram and both of their own sites are
+blocked by this session's egress policy, so no grid was seen and no engagement
+number was measured by us. The follower counts are as reported by third parties.
+The two captions recovered in full are the strongest material in the file and
+the part to trust. Section 10 lists the rest.
+
+---
+
+## 7 September 2026 — section 6 approved, the four days change shape (no migration)
+
+Justin, on the teardown's proposed changes: "sections 6 yes". So they move out
+of `reference-accounts.md` and into `weekly-rhythm.md`, which is the canon for
+the four days. The teardown section is now a record of where they came from and
+the rhythm file wins if they ever disagree.
+
+**Wednesday is six steps instead of five.** A share instruction opens the post,
+naming who to send it to, because that is the signal that travels furthest and
+it belongs above the hook rather than under it as a CTA. Then the honest pivot,
+which used to sit at step three, now runs at step two as a concession: agree
+with the reader before disagreeing with them. It is still an evidence
+obligation and not a rhetorical warm up, so a post whose strongest opposing
+point cannot be conceded honestly is not ready. Then the claim, the finding, the
+tonight line, the question.
+
+**Friday is a screen recording by default.** The carousel was the equal
+alternative and is now the exception, taken when a service is genuinely better
+as cards than as a moving screen. The caption body becomes five numbered lines,
+one each, because that is what gets screenshotted and therefore saved, and it
+closes on a consequence rather than a command. A command in a caption would
+break non negotiable 1 exactly as it would in DiGi.
+
+Monday and Saturday are untouched. Monday is the day nobody can copy, because
+neither reference account has a family willing to be in it.
+
+**Not approved and not applied: the comment gate.** It stays documented in
+section 7 of the teardown, which the skill reads on every run, so drafts can use
+it. It is not in `weekly-rhythm.md` and the ask ratio of roughly one post in
+five is unchanged. Putting a gate into the canon changes what Friday's ask is,
+and that was not the thing Justin said yes to.
 ## 7 September 2026, later: Oak phase 3, and the cycle map bug the QA found
 
 Justin: "phase 3". The exemplar QA ran with three new Oak passes added to the

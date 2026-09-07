@@ -33,6 +33,10 @@ exists rather than a generic content prompt.
 5. **`.claude/skills/content-engine/hidden-thread.md`**, the mission filter and
    the 1 in 10 rule. Internal. Never a public statement.
 6. **`briefings/notes/positive-canon.md`**, the evidence spine for Wednesday.
+7. **`content/brand-story/reference-accounts.md`**, the caption anatomy
+   pulled from the two reference accounts, the comment gate, and the never
+   copy list. Its section 6 was approved on 7 September 2026 and now lives in
+   `weekly-rhythm.md`, which wins if the two ever disagree.
 
 Then check `content/brand-story/posted-log.md` for what has already gone out, so
 Monday takes the next chapter and Friday takes the next service rather than
@@ -77,9 +81,11 @@ no CTA. Close on a question a stranger can answer from their own life. Name the
 real photo it needs.
 
 ### Wednesday · Research Wednesday
-One finding. The claim they have already heard, what the research actually
-found, **the honest pivot**, the tonight line, a question. Every claim traced to
-a named source or cut.
+One finding, in the six step order `weekly-rhythm.md` now carries: **the share
+instruction**, **the concession** (the honest pivot, moved to the front), the
+claim they have already heard, what the research actually found, the tonight
+line, a question. Every claim traced to a named source or cut, and a concession
+that cannot be made honestly means the post is not ready.
 
 Apply the 1 in 10 rule explicitly and **say in the review queue which one this
 is**: a brick, or the one in ten that states the thesis plainly. Count back
@@ -88,8 +94,10 @@ thesis.
 
 ### Friday · Service Friday
 Next service in the rotation. Problem in the parent's words, what we made, **the
-hinge**, the soft ask. Carousel card breakdown or screen recording shot list.
-Proof path at the bottom.
+hinge**, the soft ask. **A screen recording shot list by default**, a carousel
+card breakdown only when the service is better shown as cards. The caption body
+is five numbered lines and it closes on a consequence, never a command. Proof
+path at the bottom.
 
 ### Saturday · Happy News Saturday
 Carousel, five to seven cards. Real things children made or learned. The genuine

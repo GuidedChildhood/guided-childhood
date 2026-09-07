@@ -66,14 +66,25 @@ your house tonight.
 down two levels. A parent scrolling Instagram on the bus does not want an effect
 size. They want to know whether to worry about the thing they read yesterday.
 
-**Structure.**
-1. The claim they have already heard, stated fairly.
-2. What the research actually found.
-3. The honest pivot. **Always.** Concede the strongest opposing point before
-   anyone raises it. "That number is not zero."
-4. **The tonight line.** One thing to do or say this evening. This is the whole
+**Structure.** Changed 7 September 2026, approved by Justin, from the reference
+account teardown at `reference-accounts.md`. The honest pivot used to sit at
+step three. It now opens the post, and a share instruction sits above it.
+
+1. **The share instruction.** One line, before the hook, naming who to send it
+   to. "Send this to the parent who is having the five o'clock fight tonight."
+   Not a CTA at the end. An instruction at the top, aimed at the one signal
+   that travels furthest.
+2. **The concession.** The honest pivot, moved to the front. Agree with the
+   reader before disagreeing with them, and concede the strongest opposing
+   point before anyone raises it. "That number is not zero." Nobody bounces off
+   a post that agrees with them first, and the concession is still an evidence
+   obligation, not a rhetorical warm up. If the strongest opposing point cannot
+   be conceded honestly, the post is not ready.
+3. The claim they have already heard, stated fairly.
+4. What the research actually found.
+5. **The tonight line.** One thing to do or say this evening. This is the whole
    reason the post exists and it is the thing that gets it saved.
-5. Close on a question.
+6. Close on a question.
 
 **Sourcing.** Every claim traces to `briefings/notes/positive-canon.md` or a
 named primary source. The canon: Odgers, Orben, Przybylski, Vuorre, Ferguson,
@@ -108,8 +119,18 @@ eleven year old to stop asking for Snapchat every day for a fortnight.
    is the sentence that turns a feature into a system.
 4. The ask, soft. Bio link on Instagram, real link in the body on Facebook.
 
-**Format.** Carousel or a screen recording. A real screen, real data, a real
-child's name blurred. Never a mockup.
+**The caption.** Changed 7 September 2026 with the Friday format below. The body
+of the caption is a numbered list, five items, one line each, because that is
+what gets screenshotted and therefore saved. It closes on a consequence, never
+a command. "Once a photo is online, you lose control of where it goes" is the
+shape. A command would break non negotiable 1 in a caption exactly as it would
+in DiGi.
+
+**Format.** A screen recording by default. Changed 7 September 2026, approved by
+Justin, from the teardown at `reference-accounts.md`: the carousel used to be
+the equal alternative and it is now the exception, taken when the service is
+better shown as cards than as a moving screen. Either way, a real screen, real
+data, a real child's name blurred. Never a mockup.
 
 **Never ship a claim we cannot point at.** Every Friday post names a service
 that exists at a route today. The map at `service-post-map.md` carries the file
