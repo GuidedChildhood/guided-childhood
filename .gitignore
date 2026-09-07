@@ -27,3 +27,4 @@ tools/social-cards/out/
 # The schools app manages its own modules and build
 schools/node_modules/
 schools/.next/
+undefined/

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { loadHomeView } from '@/lib/planet/server'
+import { planetVisible } from '@/lib/planet/flag'
 
 // The child's planet, brought up to now. Same trust model as every child
 // route: the link token is the auth, there is no account and no login, and
@@ -10,6 +11,9 @@ import { loadHomeView } from '@/lib/planet/server'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  // Hidden until it is good enough: while the toy is off, so are its own two
+  // endpoints, and the preview key opens both together.
+  if (!planetVisible(request.nextUrl.searchParams.get('preview'))) return NextResponse.json({ error: 'not here' }, { status: 404 })
   const token = request.nextUrl.searchParams.get('token') ?? ''
   if (!/^[0-9a-f]{18}$/.test(token)) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
   const admin = createAdminClient()

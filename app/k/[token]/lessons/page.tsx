@@ -8,6 +8,7 @@ import { resolveTheme } from '@/lib/kid/theme'
 import { lessonsPassedCount } from '@/lib/planet/server'
 import { newPlanets, type Home } from '@/lib/planet/logic'
 import { MAP_LINES } from '@/lib/planet/world'
+import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { PLANET_WORDS } from '@/lib/planet/universe'
 
 // My lessons: the child's own list of the age right stage lessons from the
@@ -159,6 +160,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
   // means no banner, never a broken list.
   let planetLine: { text: string; href: string } | null = null
   try {
+    if (!PLANET_FRIENDS_LIVE) throw new Error('hidden')
     const [count, { data: planetRow }] = await Promise.all([
       lessonsPassedCount(supabase, link.child_id as string),
       supabase.from('planet_homes').select('state').eq('child_id', link.child_id).maybeSingle(),

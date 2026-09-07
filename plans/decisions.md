@@ -10836,6 +10836,26 @@ clue; the fifth says all home and a named part lands). Planned as slice 3g in
 three shippable parts, no migration, the hunt as play state, the server
 deciding every find. Two boards on the canvas show it. Waiting on the go.
 
+## 6 September 2026: Planet Friends hidden from the app until it is good
+
+Justin, the same evening: "as this is nowhere near the level of Toca Boca can
+we hide it from the app until we get it good." So the toy is behind a flag
+(`lib/planet/flag.ts`): `PLANET_FRIENDS=live` shows it, anything else or unset
+hides it, and the default is hidden. Hidden means gone, not greyed out: no My
+planet tile on the child's home screen, no card on the games tab, no new
+planet line in the Learn tab, no planet reveal on the lesson pass screen, and
+the route itself answers not found, as do its own two endpoints. Nothing about
+the child's saved planet is touched, so the day it goes live every child opens
+theirs exactly as they left it.
+
+We keep working on it two ways: the dev fixture (`/dev/planet`) drives every
+screen with no database and no flag, and `PLANET_FRIENDS_PREVIEW_KEY` set to a
+secret opens the real thing on a real child link at
+`/k/<token>/planet?preview=<key>`, endpoints and all. A wrong key, or no key
+configured, is not found.
+
+To turn it on: set `PLANET_FRIENDS=live` in Vercel. To turn it off again:
+remove it. Nothing else to do either way.
 ## 7 September 2026: Oak and Common Sense read from the live sites, and the lesson contract lands
 
 Justin sent two links and asked for everything we can use from them: the Oak
