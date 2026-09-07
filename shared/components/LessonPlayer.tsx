@@ -574,6 +574,14 @@ function SlideBody({
   }
 }
 
+// Ignored when matching a cycle title against a slide heading, so "The three
+// checks" still matches a slide headed "The three checks" and is not dragged
+// off by an article both happen to share.
+const STOPWORDS = new Set([
+  'the', 'a', 'an', 'and', 'of', 'is', 'it', 'to', 'in', 'you', 'your',
+  'not', 'that', 'on', 'for',
+])
+
 export default function LessonPlayer({
   lessonId,
   lessonSource,
@@ -859,16 +867,54 @@ export default function LessonPlayer({
   const cycleOfSlide = useMemo(() => {
     const map: (number | null)[] = new Array(slides.length).fill(null)
     if (!cycles?.length) return map
+
+    const teach: number[] = []
+    for (let i = 0; i < slides.length; i++) if (slides[i].phase === 'teach') teach.push(i)
+    if (!teach.length) return map
+
+    // A cycle is named after a slide, so it starts at that slide. Migration
+    // 270 made that true of all 62 cycles in the scheme by retitling the seven
+    // that named nothing in their own deck.
+    //
+    // The earlier rule spent each cycle's stated minutes against the minutes
+    // the slides carry, and moved on when the budget ran out. It read well and
+    // it was wrong: budgets are approximations, so boundaries landed a slide
+    // early or late and a cycle opened on the slide it names only 28 times out
+    // of 61 across the real decks. A pupil on "The three checks" was told they
+    // were in "Content can be manufactured".
+    const norm = (s: string) =>
+      s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/)
+        .filter(w => w && !STOPWORDS.has(w))
+    const anchorFor = (title: string, from: number) => {
+      const tw = norm(title)
+      if (!tw.length) return -1
+      let best = -1, bestScore = 0
+      for (let t = from; t < teach.length; t++) {
+        const h = (slides[teach[t]] as { heading?: string }).heading
+        if (!h) continue
+        const hw = new Set(norm(h))
+        const score = tw.filter(w => hw.has(w)).length / tw.length
+        if (score > bestScore) { bestScore = score; best = t }
+      }
+      return bestScore >= 0.5 ? best : -1
+    }
+
+    // Cycle one always opens the teach phase. Each later cycle starts at its
+    // own slide, and must start after the one before it.
+    const starts = [0]
+    for (let c = 1; c < cycles.length; c++) {
+      const at = anchorFor(cycles[c].title, starts[c - 1] + 1)
+      // A title that anchors nowhere leaves this deck unmapped rather than
+      // guessed at: a wrong cycle name on screen is worse than none, and the
+      // migration's guard exists so this branch stays unreachable in practice.
+      if (at < 0) return map
+      starts.push(at)
+    }
+
     let ci = 0
-    let spent = 0
-    for (let i = 0; i < slides.length; i++) {
-      if (slides[i].phase !== 'teach') continue
-      // Move on once this cycle's minutes are used up, but never past the
-      // last one: a deck that has grown a slide since the timing was written
-      // should still land rather than fall off the end of the map.
-      while (ci < cycles.length - 1 && spent >= cycles[ci].minutes) { ci++; spent = 0 }
-      map[i] = ci
-      spent += slides[i].minutes ?? 0
+    for (let t = 0; t < teach.length; t++) {
+      while (ci + 1 < starts.length && t >= starts[ci + 1]) ci++
+      map[teach[t]] = ci
     }
     return map
   }, [slides, cycles])
