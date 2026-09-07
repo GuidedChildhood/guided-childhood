@@ -10993,3 +10993,51 @@ lane. Still open from the source mining and still not built: transcripts on
 the lesson videos (Oak carries a transcript and a sign language option, we
 carry neither, so a deaf pupil has no route through a video beat) and the
 deck download.
+
+## 7 September 2026, evening: the classroom was never in classroom mode
+
+Justin asked how to make the slide design super high quality. Reading the real
+deck rather than guessing produced a specific answer, and the first item was
+not a design taste question at all.
+
+**The classroom route was running at phone sizes.** `schools/app/teach/[module]`
+said "played full screen for the classroom" in its own comment while passing
+`teacherView` and wrapping the player in a 720px column. Since `projector` was
+just an alias for `classMode`, it was false, and every projector aware size
+fell to the phone branch: concept headings at 2.4rem instead of 3.2rem, choice
+options at 16px instead of 20px, the whole lesson in the middle 40 percent of
+the wall. A child at the back of a classroom could not read it.
+
+**Why it was never a one line fix.** `classMode` carried two unrelated things:
+size everything for a room, AND end the lesson with the family showcase that
+sells the schools tier. The schools teach route wants the first and must never
+have the second, because a school standing inside the tier should not reach
+the end of its own lesson and be sold it. Split into `projector` and
+`classMode`, with `projector` defaulting to `classMode` so every existing
+caller (the parent app, the kid app, the free /class showcase, the dev
+fixture) keeps exactly the behaviour it had.
+
+**Five of the six slide blocks ignored projector mode anyway.** Only
+`ChoiceBlock` took the prop. DiagramBlock, DiscussionBlock, StatBlock,
+ScenarioBlock and DigiClosingBlock rendered identically at every size, so even
+the free showcase at /class had been showing phone sized slides on a wall.
+All five now size through one helper, `room(projector, big, small)`, which
+exists so the next slide type cannot quietly ship at phone size again.
+
+**The diagram was a list wearing a diagram's clothes:** identical white boxes
+with a number and a floating arrow between them. Now a numbered rail, so three
+steps read as three ordered things from the back of a room rather than three
+of the same thing.
+
+**The stage is centred rather than pinned to the top,** which was leaving a
+third of a 1080 wall empty under the content, and the projector cap went from
+980 to 1180.
+
+Checked at 1920, 1280 and 390 with every stagger allowed to finish: no
+horizontal overflow, no page errors, and the three checks diagram now fits
+whole on a projector where before only two of its three steps were above the
+fold on a slide called The three checks.
+
+Not done here and still open: the art layer, a house illustration per concept
+slide, which is where the remaining distance to premium actually sits and is
+the expensive one. Transcripts on the lesson videos are next.
