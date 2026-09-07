@@ -10835,3 +10835,57 @@ shelf for "where does a phone sleep at night"; each one found gives the next
 clue; the fifth says all home and a named part lands). Planned as slice 3g in
 three shippable parts, no migration, the hunt as play state, the server
 deciding every find. Two boards on the canvas show it. Waiting on the go.
+
+## 7 September 2026: Oak and Common Sense read from the live sites, and the lesson contract lands
+
+Justin sent two links and asked for everything we can use from them: the Oak
+National Academy lesson page for KS1 Computing "Painting using computers", and
+the Common Sense Education digital literacy curriculum. Both were read in full
+(research/2026-09-07-oak-and-common-sense-source-mining.md) and they correct
+the Oak plan written that morning from the downloaded pack.
+
+**Two corrections.** The live Oak lesson page publishes no named learning
+cycles: cycles live in their Aila authoring spec and in the deck, never on
+the page a teacher reads, so the cycle map is ours to design rather than ours
+to copy. And Oak publishes no prior knowledge statement, only a prior
+knowledge quiz, which is the better artefact anyway: four questions a teacher
+can run beats a paragraph they have to interpret.
+
+**Four things taken that the pack did not show.** Teacher tip, equipment, and
+a transcript with a sign language option on the lesson video, all from Oak's
+live page; the transcript is a real accessibility gap in our video beats and
+is now named as such. And from Common Sense, the strongest single borrow of
+the two sites: the essential question, a question a pupil would actually ask
+sitting above the outcome a teacher would write, verbatim at Grade K as "How
+do you say goodbye to technology when you don't want to?". Their cycle
+pattern, a verb plus a title plus a runtime, is better than Oak's because the
+verb tells a pupil what they will be doing, and it is what we adopted.
+
+**Where we already beat both, stated so it is not relitigated:** scripts on
+every slide (Oak's deck has no speaker notes at all), a named portable routine
+on all 21 modules rather than one (Notice, Choose, Tell, from migration 220),
+misconceptions on 21 of 21 against their one per lesson, AI taught from age 4
+against their Grade 6 start, and the whole layer neither of them carries at
+all: DSL notes, staff briefings, the induction, SEND and EAL adaptations, the
+parent note and home code, the passport, a paper fallback, statutory mapping.
+Nothing from either site is copied into our lessons. Oak is Open Government
+Licence version 3.0 and Common Sense is its own; the shape is the borrow,
+never the substance.
+
+**Migration 268, applied.** essential_question, cycles, prior_knowledge,
+key_learning_points, teacher_tip and equipment on all 21 modules, plus the one
+missing keywords array (ks3-12, exactly as the plan predicted). Mostly
+promotion rather than invention: the timing string already carried the cycle
+count and minutes, four modules already named their cycles in prose, and
+i_can was already a three statement ladder, one per cycle. All 21 cycle sums
+were checked against the teaching minutes their own timing line states and
+all 21 match. No statistic is claimed, so nothing needs a citation it cannot
+survive. The lesson page renders all six, so the data is not dormant.
+
+**Noted in passing:** `--gold-lt` is an alias onto `--stage-5`, which is
+lavender, not butter. Anything reaching for butter should use
+`--terracotta-lt`. The alias itself is left alone rather than widening this
+PR, but it is a trap waiting for the next person.
+
+Migration ledger after this: 268 claimed and applied by this lane. 269 and
+270 remain claimed by the Oak plan for phases 2 and 3, unbuilt.

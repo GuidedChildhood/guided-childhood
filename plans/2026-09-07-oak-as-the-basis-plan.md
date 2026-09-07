@@ -20,9 +20,14 @@ The pack, not Oak's reputation:
   for understanding", "guided and independent practice".
 
 Note on sources: labs.thenational.academy is blocked by this environment's
-network egress proxy, so the Labs page itself was not read. Everything here
-comes from the downloaded pack, which is the stronger source anyway because
-it is the actual output rather than the marketing of it.
+network egress proxy, so the Labs page itself was not read. Everything above
+comes from the downloaded pack.
+
+**Updated 7 September 2026.** Justin then sent the live lesson page and the
+Common Sense digital literacy curriculum. Both were read in full and written
+up in `research/2026-09-07-oak-and-common-sense-source-mining.md`. The live
+page disagrees with the pack in two places and adds three sections the pack
+did not show. Corrections are folded into the sections below and marked.
 
 ## Oak's ten sections, from their own guide
 
@@ -83,11 +88,21 @@ Said honestly, because the point is to find the gaps, not to feel good:
 
 1. **Named learning cycles.** Ours are implicit: the timing string says
    "cycle one 8, cycle two 10" but nothing in the data or on screen names
-   them, gives each an outcome, or shows pupils the map. Oak's cycle map
-   slide is cheap to build and does real work for cognitive load.
+   them, gives each an outcome, or shows pupils the map.
+   *Corrected 7 September:* the live Oak lesson page publishes no named
+   cycles at all. Cycles live in their Aila authoring spec and in the deck,
+   not on the page a teacher reads. So the cycle map is ours to design, not
+   ours to copy, and **Common Sense publishes the better pattern**: a verb,
+   a title and a runtime per cycle ("Explore: See You Later, Tech! 5 mins",
+   "Reflect: Pause and Think Moment, 10 mins"). The verb tells a pupil what
+   they will be doing, not only what they will know. We take that shape.
 2. **Prior knowledge as data.** We open with a retrieval question but
    never state what a pupil needs to know before the lesson. A teacher
    deciding whether their class is ready cannot see it.
+   *Corrected 7 September:* Oak publishes no prior knowledge statement
+   either, only a prior knowledge **quiz**, which is the better artefact:
+   four questions a teacher can actually run beats a paragraph they have to
+   interpret. Build the quiz first, keep the statement as the summary of it.
 3. **Key learning points as data.** We have recap points at the end and
    objective gains at the start, but no single list a teacher can scan.
 4. **The starter quiz as a real printable.** Oak: four questions, tick
@@ -101,6 +116,27 @@ Said honestly, because the point is to find the gaps, not to feel good:
    quizzes as files. We give a print room, which is better for paper, but
    there is no deck download. The master audit already flagged this as
    P2 item 13, "the Oak expectation".
+
+Three more, found on the live page on 7 September and absent from the pack:
+
+8. **Teacher tip.** One line per lesson: the thing that goes wrong if you
+   skip it. Oak's is about handling the device before the practical. Ours
+   will usually be about handling the room on a sensitive topic.
+9. **Equipment.** One line per lesson on what the room needs. For most of
+   ours the honest answer is nothing beyond the board, and saying that out
+   loud is a selling point to a school whose tablet trolley never charges.
+10. **A transcript on the lesson video.** Oak's video carries a transcript
+    and a sign language option. We honour reduced motion and carry SEND
+    adaptations on all 21, but a deaf pupil has no route through a video
+    beat today. This is a real gap and it is Oak's point, not ours.
+
+And one from Common Sense, which is the strongest single borrow of the two
+sites:
+
+11. **The essential question.** A question a pupil would actually ask,
+    sitting above the outcome. Theirs, verbatim, at Grade K: "How do you
+    say goodbye to technology when you don't want to?" Ours open with an
+    outcome, which is the teacher's framing. The question is the door.
 
 ## The plan
 
@@ -122,6 +158,25 @@ modules:
   which the recap slide already implies.
 - `keywords`: audited to 21 of 21 with pupil facing definitions, filling
   ks3-12 and any others found empty.
+
+Plus the three found on the live page and the one from Common Sense:
+
+- `essential_question`: one question per module, in the pupil's own words.
+- `teacher_tip`: one line, the thing that goes wrong if it is skipped.
+- `equipment`: one line, what the room needs, honestly, including nothing.
+
+**Audit run against the live database, 7 September.** `keywords` present on
+20 of 21, missing only on ks3-12, exactly as this plan predicted.
+`misconceptions` present on 21 of 21. `cycles`, `prior_knowledge`,
+`key_learning_points`, `essential_question`, `teacher_tip`, `equipment`,
+`starter_quiz` and `exit_quiz` present on 0 of 21.
+
+Most of Phase 1 is promotion rather than invention: the `timing` string
+already carries the cycle count and the minutes for every module, four
+modules already name their cycles in prose (ks2-06, ks3-11, ks4-15,
+ks5-21), and `i_can` is already a three statement ladder, which is one
+statement per cycle. Cycle outcomes come from that ladder, so nothing is
+invented and nothing needs a citation it cannot survive.
 
 ### Phase 2: the quizzes and the surfaces (migration 269)
 
