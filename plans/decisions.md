@@ -11256,3 +11256,65 @@ above the column numbers and read as a rendering fault.
 Checked at 1280, 1024 and 390 and in print emulation: no horizontal overflow
 anywhere, 210 cells present, the header pinned and clear of the nav with no
 row bleeding through, sticky off and the print controls hidden on paper.
+
+---
+
+## 7 September 2026 — the lesson animations, and the retired cast that keeps regenerating
+
+Justin: the school lesson animations are the old characters, we need the Planet
+Friends, a consistent series built with Seedance, slides themed by character so
+they pop for kids and get cooler with age, in the Happy News look.
+
+Plan written to plans/2026-09-07-planet-friends-lesson-animation-system.md.
+Nothing generated, no credits spent.
+
+**The problem is bigger than the eight clips.** The whole production chain still
+runs on the retired DiGi Squad children: the five source scripts in
+content/lesson-scripts carry 140 mentions of Sofia, Zara and Oliver and ZERO
+mentions of any Planet Friend, and the lesson-video skill's own "House cast
+only" rule named them (plus Vix and Brock, who were never built). Filming first
+would have made every clip twice. So the order is recast the source, fix the
+skill, then film.
+
+**The age ladder Justin asked for already exists** and is his own agreed design
+of 23 July: Pebble 4 to 7, Bloop 8 to 10, Orbit 11 to 13, Nova 13 to 15, Cosmo
+16 plus. The blush and the open smile drop out as you go up the cast, the eyes
+go from wide to half lidded. So the cast does not change with age, the treatment
+does: Bouncy, Playful, Level, Still, chosen by key stage. The four DSL modules
+are Still, DiGi only, because a bouncy creature beside a sextortion lesson is a
+safeguarding problem rather than a style choice.
+
+**Three modules are cast against that ladder**, checked module by module against
+the year band each teaches: ks1-03 gives Years 1 to 2 the 11 to 13 friend, and
+ks3-11 and ks3-13 give Year 7 the 16 plus friend. Eighteen of twenty one fit.
+Proposed ks1-03 to Pebble (whose verb is already Explore) and both KS3 modules
+to Nova (whose verb is Guide). One line each, free, and it has to land before
+filming or we film the wrong friend three times. Justin's call, it is casting.
+
+**The consistency mechanism is the actual technique change.** The old clips were
+made from long text descriptions of each character, which is why they drift:
+every prompt re described the character and every render read it differently.
+Seedance 2.0 takes image_references and holds identity, so the method becomes
+one reference sheet per friend generated once and committed, then passed on
+every clip forever, with the prompt describing only the ACTION. A prompt that
+contains a physical description of a friend is now wrong by rule.
+
+**Every future clip ships with its accessibility alternative for free**, because
+the Seedance prompt IS the script: spoken line becomes `spoken`, action clause
+becomes `described`, board text becomes `onScreen`, and generate_audio false
+means the player says the clip is silent. That closes this morning's open item,
+where the words had to be recovered from render records after the fact.
+
+**Half of what was asked needs no video at all.** The player can tint every
+slide to its module's friend today using the CHARACTERS tokens that already
+exist, with the Happy News circle plate as the device, stepping down the
+treatment ladder. Free, and probably the bigger half of "make the slides feel
+like the character".
+
+Budget is the binding constraint: 48.24 Higgsfield credits on Plus. So the plan
+is staged, and phase 3 is one pilot module priced for real rather than my
+estimate of twenty one.
+
+Done today at no cost: the lesson-video skill recast to the Planet Friends with
+the image_references rule, and digi-squad/README.md marks Oliver, Zara and Sofia
+RETIRED so nothing generates them again.
