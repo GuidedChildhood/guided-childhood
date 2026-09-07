@@ -4,6 +4,16 @@ import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, type LessonCycle } from '@gc/shared/lesson-slides'
 
 // The teach route: any live module, played full screen for the classroom.
+//
+// PROJECTOR, NOT teacherView ALONE. This route said "full screen for the
+// classroom" in this comment while passing teacherView and wrapping the
+// player in a 720px column, so `projector` was false and every projector
+// aware size fell to the phone branch: concept headings at 2.4rem instead of
+// 3.2rem, choice options at 16px instead of 20px, the whole lesson in the
+// middle 40 percent of the wall. A child at the back of the room could not
+// read it. The `projector` prop exists separately from `classMode` because
+// classMode also swaps the finish for the family showcase that sells the
+// schools tier, which a school standing inside that tier should never see.
 // Behind the school code (proxy.ts). Teacher script panel available on every
 // slide. The player gets completeEndpoint null because this app has no API
 // surface and a code tells us the school, never the teacher, so there is
@@ -59,7 +69,7 @@ export default async function TeachLessonPage({
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)' }}>
-      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '28px 20px 0' }}>
+      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '28px clamp(20px, 4vw, 56px) 0' }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
@@ -75,13 +85,14 @@ export default async function TeachLessonPage({
           {lesson.title}
         </h1>
       </div>
-      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '0 20px 80px' }}>
+      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 clamp(20px, 4vw, 56px) 80px' }}>
         <LessonPlayer
           lessonId={lesson.id}
           lessonSource="school_lesson"
           slides={slides}
           backHref="/curriculum"
           teacherView
+          projector
           completeEndpoint={null}
           initialIndex={initialIndex}
           cycles={lesson.teacher_notes?.cycles}

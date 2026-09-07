@@ -19,6 +19,12 @@ import Interactive from './interactives'
 // retrieval practice. The choice score and the 70 percent pass system are
 // untouched from the v2 pass build.
 
+// The one place the projector step up lives. Every slide block takes
+// `projector` and sizes through this, so a new slide type cannot quietly ship
+// at phone size on a classroom wall the way five of them did.
+const room = (projector: boolean | undefined, big: string, small: string) =>
+  projector ? big : small
+
 const eyebrowStyle: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase',
@@ -168,7 +174,7 @@ function ChoiceBlock({
 
 // A timed talk task. The countdown runs in the player so the teacher never
 // watches a clock: start it, circulate, the chime state shows when time is up.
-function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
+function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; projector?: boolean }) {
   const total = slide.seconds ?? 60
   const [left, setLeft] = useState(total)
   const [running, setRunning] = useState(false)
@@ -187,7 +193,12 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
       <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
         Talk task · {modeLabel}
       </div>
-      <h2 data-reveal style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.45rem, 3.6vw, 2rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1.3, letterSpacing: '-0.02em', maxWidth: '560px', margin: '0 auto 26px' }}>
+      <h2 data-reveal style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
+        fontSize: room(projector, 'clamp(2rem, 4.2vw, 2.9rem)', 'clamp(1.45rem, 3.6vw, 2rem)'),
+        lineHeight: 1.3, letterSpacing: '-0.02em',
+        maxWidth: room(projector, '820px', '560px'), margin: '0 auto 26px',
+      }}>
         {slide.prompt}
       </h2>
       <div data-reveal style={{
@@ -195,7 +206,7 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
         background: done ? 'var(--stage-1)' : '#fff', border: `2px solid ${done ? 'var(--stage-1-bold)' : 'var(--border)'}`,
         borderRadius: '20px', padding: '18px 34px', boxShadow: '0 5px 0 var(--border)',
       }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '42px', color: done ? 'var(--stage-1-text)' : 'var(--ink)', lineHeight: 1 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: room(projector, '72px', '42px'), color: done ? 'var(--stage-1-text)' : 'var(--ink)', lineHeight: 1 }}>
           {done ? 'Time!' : `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`}
         </span>
         {!done && (
@@ -213,7 +224,7 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
         )}
       </div>
       {done && slide.lookFor && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '460px', margin: '18px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, '1.35rem', 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, maxWidth: room(projector, '700px', '460px'), margin: '18px auto 0' }}>
           <strong>A good answer sounds like:</strong> {slide.lookFor}
         </p>
       )}
@@ -222,17 +233,17 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
 }
 
 // One big number, always with its source. Evidence, never a scare tactic.
-function StatBlock({ slide }: { slide: StatSlide }) {
+function StatBlock({ slide, projector }: { slide: StatSlide; projector?: boolean }) {
   return (
     <div style={{ textAlign: 'center', padding: '10px 0' }}>
       <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '18px' }}>The evidence</div>
       <div data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(3.6rem, 11vw, 5.6rem)', color: 'var(--terracotta-dark)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '16px' }}>
         {slide.figure}
       </div>
-      <p data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)', color: 'var(--ink)', lineHeight: 1.4, maxWidth: '480px', margin: '0 auto 14px' }}>
+      <p data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, 'clamp(1.5rem, 3.4vw, 2.1rem)', 'clamp(1.15rem, 2.8vw, 1.5rem)'), color: 'var(--ink)', lineHeight: 1.4, maxWidth: room(projector, '760px', '480px'), margin: '0 auto 14px' }}>
         {slide.claim}
       </p>
-      <p data-reveal style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+      <p data-reveal style={{ fontFamily: 'var(--font-mono)', fontSize: room(projector, 'var(--text-base)', 'var(--text-sm)'), fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
         Source: {slide.source}
       </p>
     </div>
@@ -242,7 +253,7 @@ function StatBlock({ slide }: { slide: StatSlide }) {
 // A realistic feed post, the evidence the class investigates. Phone card
 // register: avatar, handle, meta line, body, a big emoji standing in for
 // the image, engagement counts. Deliberately convincing, that is the point.
-function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
+function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?: boolean }) {
   const isMessage = slide.platform === 'message'
   return (
     <div>
@@ -250,7 +261,7 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
         {slide.label ?? 'Evidence'}
       </div>
       <div data-reveal style={{
-        maxWidth: '440px', margin: '0 auto',
+        maxWidth: room(projector, '680px', '440px'), margin: '0 auto',
         background: isMessage ? 'var(--stage-1)' : '#fff',
         border: '1.5px solid var(--border)', borderRadius: '22px',
         padding: '16px 18px', boxShadow: '0 6px 0 var(--border)',
@@ -258,35 +269,35 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <div style={{
             width: '40px', height: '40px', borderRadius: '50%', background: 'var(--stage-2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, '1.9rem', 'var(--text-xl)'), flexShrink: 0,
           }}>
             {slide.avatar}
           </div>
           <div>
-            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{slide.handle}</div>
-            {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>{slide.meta}</div>}
+            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: room(projector, '1.35rem', 'var(--text-md)'), color: 'var(--ink)' }}>{slide.handle}</div>
+            {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, '1.1rem', 'var(--text-base)'), color: 'var(--ink-muted)' }}>{slide.meta}</div>}
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, '1.4rem', 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
           {slide.text}
         </p>
         {slide.image && (
           <div style={{
             background: 'var(--stage-2)', borderRadius: '14px', padding: '26px 0',
-            textAlign: 'center', fontSize: '52px', marginBottom: slide.stats ? '10px' : 0,
+            textAlign: 'center', fontSize: room(projector, '86px', '52px'), marginBottom: slide.stats ? '10px' : 0,
           }}>
             {slide.image}
           </div>
         )}
         {slide.stats && (
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: room(projector, 'var(--text-base)', 'var(--text-sm)'), fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
             {slide.stats}
           </div>
         )}
       </div>
       {slide.prompt && (
         <p data-reveal style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1rem, 2.4vw, 1.2rem)', color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, 'clamp(1.4rem, 3vw, 1.8rem)', 'clamp(1rem, 2.4vw, 1.2rem)'), color: 'var(--ink)',
           textAlign: 'center', lineHeight: 1.5, maxWidth: '440px', margin: '20px auto 0',
         }}>
           {slide.prompt}
@@ -298,7 +309,7 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
 
 // Animated flow diagram: steps drop in one by one with connectors, verdict
 // chips pop at the end. Built from data, no images, photocopies cleanly.
-function DiagramBlock({ slide }: { slide: DiagramSlide }) {
+function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -313,33 +324,62 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
 
   return (
     <div ref={ref}>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.45rem, 3.6vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '20px', textAlign: 'center' }}>
+      <h2 style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
+        fontSize: room(projector, 'clamp(2rem, 4.2vw, 2.9rem)', 'clamp(1.45rem, 3.6vw, 2rem)'),
+        letterSpacing: '-0.02em', marginBottom: room(projector, '26px', '20px'), textAlign: 'center',
+      }}>
         {slide.heading}
       </h2>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, maxWidth: '460px', margin: '0 auto' }}>
-        {slide.steps.map((step, i) => (
-          <div key={i} data-diagram-step style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{
-              width: '100%', display: 'flex', gap: '14px', alignItems: 'center',
-              background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '18px',
-              padding: '14px 18px', boxShadow: '0 5px 0 var(--terracotta-lt)',
-            }}>
-              <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{step.emoji}</span>
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{step.title}</div>
-                {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{step.text}</div>}
+      {/* A numbered rail, not a stack of identical boxes with an arrow floating
+          between them. Three steps have to READ as three ordered things from
+          the back of a room: the rail carries the eye, the number says where
+          you are in the sequence, and the step that is being talked about is
+          the one with the number beside it. */}
+      <div style={{
+        display: 'flex', flexDirection: 'column', gap: 0,
+        maxWidth: room(projector, '760px', '460px'), margin: '0 auto',
+      }}>
+        {slide.steps.map((step, i) => {
+          const last = i === slide.steps.length - 1
+          const dot = room(projector, '46px', '34px')
+          return (
+            <div key={i} data-diagram-step style={{ display: 'flex', gap: room(projector, '20px', '14px'), alignItems: 'stretch' }}>
+              {/* The rail: number, then the line down to the next step. */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                <span style={{
+                  width: dot, height: dot, borderRadius: '100px', flexShrink: 0,
+                  background: 'var(--terracotta)', color: 'var(--ink)',
+                  border: '2px solid var(--terracotta-dark)',
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'var(--font-display)', fontWeight: 900,
+                  fontSize: room(projector, '22px', '16px'), lineHeight: 1,
+                }}>
+                  {i + 1}
+                </span>
+                {!last && <span aria-hidden style={{ flex: 1, width: '3px', background: 'var(--terracotta-lt)', borderRadius: '100px', marginTop: '4px' }} />}
+              </div>
+              <div style={{
+                flex: 1, display: 'flex', gap: room(projector, '18px', '14px'), alignItems: 'center',
+                background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '18px',
+                padding: room(projector, '20px 26px', '14px 18px'),
+                boxShadow: '0 5px 0 var(--terracotta-lt)',
+                marginBottom: last ? 0 : room(projector, '18px', '12px'),
+              }}>
+                {step.emoji && <span style={{ fontSize: room(projector, '2.4rem', 'var(--text-2xl)'), flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, '1.5rem', 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.25 }}>{step.title}</div>
+                  {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, '1.15rem', 'var(--text-base)'), color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{step.text}</div>}
+                </div>
               </div>
             </div>
-            {i < slide.steps.length - 1 && (
-              <div style={{ fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)', fontWeight: 900, padding: '6px 0' }}>↓</div>
-            )}
-          </div>
-        ))}
+          )
+        })}
         {slide.verdicts && slide.verdicts.length > 0 && (
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '16px' }}>
             {slide.verdicts.map((v, i) => (
               <span key={i} data-diagram-chip style={{
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, '1.2rem', 'var(--text-base)'),
                 background: 'var(--stage-1)', border: '2px solid var(--stage-1-bold)',
                 color: 'var(--stage-1-text)', borderRadius: '100px', padding: '8px 16px',
               }}>
@@ -350,7 +390,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
         )}
       </div>
       {slide.caption && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '16px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, '1.15rem', 'var(--text-base)'), color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: room(projector, '640px', '420px'), margin: '16px auto 0' }}>
           {slide.caption}
         </p>
       )}
@@ -361,7 +401,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
 // DiGi popping in with his bubble: the app greeting treatment. The golden
 // star lands in his butter circle, then speaks the lesson home one white
 // bubble at a time. No render pipeline, always available.
-function DigiClosingBlock({ slide }: { slide: DigiSlide }) {
+function DigiClosingBlock({ slide, projector }: { slide: DigiSlide; projector?: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
   const [mood, setMood] = useState<DigiMood>('wave')
 
@@ -384,21 +424,21 @@ function DigiClosingBlock({ slide }: { slide: DigiSlide }) {
       {slide.heading && (
         <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '18px', textAlign: 'center' }}>{slide.heading}</div>
       )}
-      <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', maxWidth: '460px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', gap: room(projector, '18px', '12px'), alignItems: 'flex-start', maxWidth: room(projector, '720px', '460px'), margin: '0 auto' }}>
         <span data-digi-avatar style={{
           opacity: 0, width: 54, height: 54, borderRadius: '50%', flexShrink: 0,
           background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 4px 0 var(--terracotta-dark)',
         }}>
-          <DigiCharacter mood={mood} size={38} />
+          <DigiCharacter mood={mood} size={projector ? 64 : 38} />
         </span>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, paddingTop: '4px' }}>
           {slide.lines.map((line, i) => (
             <div key={i} data-digi-line style={{
               opacity: 0, background: '#fff', border: '1.5px solid var(--border)',
               borderRadius: i === 0 ? '4px 18px 18px 18px' : '18px', padding: '13px 18px', textAlign: 'left',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: room(projector, '1.5rem', 'var(--text-lg)'),
               color: 'var(--ink)', lineHeight: 1.55, boxShadow: '0 3px 0 rgba(26,26,46,0.06)',
             }}>
               {line}
@@ -485,17 +525,17 @@ function SlideBody({
       // follows, the body settles last. Each piece staggers in.
       return (
         <div style={{ textAlign: 'center' }}>
-          {slide.emoji && <div data-reveal style={{ fontSize: 'clamp(2.6rem, 6vw, 3.4rem)', marginBottom: '16px', lineHeight: 1 }}>{slide.emoji}</div>}
+          {slide.emoji && <div data-reveal style={{ fontSize: room(projector, 'clamp(3.6rem, 7vw, 5rem)', 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, '22px', '16px'), lineHeight: 1 }}>{slide.emoji}</div>}
           <h2 data-reveal style={{
             fontFamily: 'var(--font-display)', fontSize: projector ? 'clamp(2.2rem, 4.5vw, 3.2rem)' : 'clamp(1.7rem, 5.5vw, 2.4rem)',
-            fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: '18px',
-            maxWidth: '640px', marginLeft: 'auto', marginRight: 'auto',
+            fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: room(projector, '24px', '18px'),
+            maxWidth: room(projector, '900px', '640px'), marginLeft: 'auto', marginRight: 'auto',
           }}>
             {slide.heading}
           </h2>
           <p data-reveal style={{
             fontSize: projector ? 'clamp(1.1rem, 2vw, 1.35rem)' : 'clamp(1rem, 2.4vw, 1.1rem)',
-            color: 'var(--ink)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto', textAlign: 'left',
+            color: 'var(--ink)', lineHeight: 1.75, maxWidth: room(projector, '760px', '540px'), margin: '0 auto', textAlign: 'left',
           }}>
             {slide.body}
           </p>
@@ -515,15 +555,15 @@ function SlideBody({
     case 'choice':
       return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} seed={seed} />
     case 'discussion':
-      return <DiscussionBlock slide={slide} />
+      return <DiscussionBlock slide={slide} projector={projector} />
     case 'stat':
-      return <StatBlock slide={slide} />
+      return <StatBlock slide={slide} projector={projector} />
     case 'scenario':
-      return <ScenarioBlock slide={slide} />
+      return <ScenarioBlock slide={slide} projector={projector} />
     case 'diagram':
-      return <DiagramBlock slide={slide} />
+      return <DiagramBlock slide={slide} projector={projector} />
     case 'digi':
-      return <DigiClosingBlock slide={slide} />
+      return <DigiClosingBlock slide={slide} projector={projector} />
     case 'interactive':
       return <Interactive component={slide.component} config={slide.config} caption={slide.caption} />
     case 'video':
@@ -599,6 +639,7 @@ export default function LessonPlayer({
   classCtaHref,
   initialIndex = 0,
   cycles,
+  projector: projectorProp,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -619,8 +660,9 @@ export default function LessonPlayer({
   completeBody?: Record<string, unknown>
   // Key Stage and Education for a Connected World chips on the intro slide.
   badges?: CurriculumBadges
-  // Whole class projector mode: everything bigger, arrow keys advance, and
-  // the finish is the quiet signpost to the school curriculum tier.
+  // The free whole class showcase: everything bigger, AND the finish is the
+  // quiet signpost to the school curriculum tier. Two different things wearing
+  // one flag, which is why `projector` below exists.
   classMode?: boolean
   // Where the classMode finish sends people. The player is shared by both
   // products, so the destination belongs to the caller: the schools showcase
@@ -629,11 +671,17 @@ export default function LessonPlayer({
   classCtaHref?: string
   // Open at a given slide (dev fixtures and deep links).
   initialIndex?: number
+  // Size everything for a room rather than a hand, WITHOUT the showcase
+  // finish. The schools teach route is the case that needs this: a school
+  // that has already paid should not reach the end of its own lesson and be
+  // sold the tier it is standing in. Defaults to classMode so every existing
+  // caller keeps the behaviour it had.
+  projector?: boolean
   // The lesson's named learning cycles, when the caller has them. Omit and
   // the player behaves exactly as it did: no map, no cycle in the chrome.
   cycles?: LessonCycle[]
 }) {
-  const projector = classMode
+  const projector = projectorProp ?? classMode
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
   const [answered, setAnswered] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
@@ -1326,8 +1374,16 @@ export default function LessonPlayer({
       <div ref={stageRef} style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
         <div style={{
           flex: 1, display: 'flex', flexDirection: 'column',
-          width: '100%', maxWidth: projector ? '980px' : '640px',
-          margin: '0 auto', padding: '0 clamp(16px, 4vw, 28px)',
+          // Centred in the room rather than pinned to the top. A slide sat at
+          // the top of a 1080 projector left a third of the wall empty under
+          // it and the content reading as an afterthought. When a slide runs
+          // taller than the stage this collapses to the top and the stage
+          // scrolls, which is the parent it belongs to doing its job.
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: projector ? '1180px' : '640px',
+          margin: '0 auto',
+          padding: projector ? '0 clamp(24px, 4vw, 56px) 12px' : '0 clamp(16px, 4vw, 28px)',
         }}>
           {/* The cycle map, at the boundary. Every cycle listed, the one we
               are entering marked, so a pupil can see the shape of the middle
