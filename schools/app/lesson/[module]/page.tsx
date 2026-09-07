@@ -38,6 +38,11 @@ type TeacherNotes = {
   key_learning_points?: string[]
   teacher_tip?: string
   equipment?: string
+  // The two quiz banks (migration 269). Only their presence is read here;
+  // the sheets themselves render in /print/[module]/starter-quiz and
+  // /print/[module]/exit-quiz, so a module without a bank offers no button.
+  starter_quiz?: unknown[]
+  exit_quiz?: unknown[]
   differentiation?: { support?: string; stretch?: string }
   // The graduated approach, per module: SEND and EAL adaptations written
   // from the module's own activities, never a generic checklist.
@@ -209,6 +214,29 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               boxShadow: '0 5px 0 var(--border)',
             }}>
               Print the learning record
+            </Link>
+          )}
+          {/* Oak's two quizzes. Offered only where the banks exist, and each
+              one opens on its question version with the answer version one
+              tap away (migration 269). */}
+          {(notes.starter_quiz?.length ?? 0) > 0 && (
+            <Link href={`/print/${lesson.module_id}/starter-quiz`} className="btn" style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+              boxShadow: '0 5px 0 var(--border)',
+            }}>
+              Starter quiz
+            </Link>
+          )}
+          {(notes.exit_quiz?.length ?? 0) > 0 && (
+            <Link href={`/print/${lesson.module_id}/exit-quiz`} className="btn" style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+              boxShadow: '0 5px 0 var(--border)',
+            }}>
+              Exit quiz
             </Link>
           )}
         </div>

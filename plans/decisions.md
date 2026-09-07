@@ -10889,3 +10889,52 @@ PR, but it is a trap waiting for the next person.
 
 Migration ledger after this: 268 claimed and applied by this lane. 269 and
 270 remain claimed by the Oak plan for phases 2 and 3, unbuilt.
+
+## 7 September 2026, afternoon: Oak phase 2, the quizzes and the two surfaces
+
+Justin: "yes phase 2". Built the same day, on top of the contract that landed
+in the morning.
+
+**Migration 269, applied in three ledger parts** the way 236 shipped, because
+a 58KB data migration is applied in parts here and always has been. A starter
+quiz of four and an exit quiz of five on all 21 modules: 189 questions, five
+formats mixed on purpose (tick one, true or false, short answer, fill the
+blank, match). The starter checks the prior knowledge written in 268; the exit
+checks the key learning points and aims at each module's own misconceptions.
+
+**The teaching point is ours, not Oak's.** Their answer sheet says what the
+right answer was. Every one of our 189 answers carries a line saying what to
+do about a wrong one, which is the difference between marking and teaching and
+the reason a cover teacher can run one of these cold. Guards in the migration
+refuse a missing quiz, a wrong length, or a quiz that uses only one format,
+because five identical questions is a worksheet rather than a quiz.
+
+**Two routes, four sheets.** /print/[module]/starter-quiz and
+/print/[module]/exit-quiz, each with ?answers=1 for the teacher copy. One
+route per quiz rather than two, because the question version and the answer
+version must never drift apart: a reworded question that lands on only one of
+them is worse than having no sheet at all. A match question scrambles its
+right hand column by a deterministic rotation, so a sheet a class filled in
+last term still marks against the answer sheet printed today.
+
+**The cycle map is derived, never tagged.** The player gets an optional cycles
+prop and works out which cycle a slide belongs to by walking the teach phase
+and spending each cycle's stated minute budget against the minutes every slide
+already carries. So a slide added to a deck lands in the right cycle on its
+own and the map cannot drift from the deck, which is the same principle the
+phase strip has always followed. The map shows at each boundary rather than on
+every slide, and inside a cycle the chrome names the cycle instead of the
+phase, because Teach is true of eight slides in a row and tells a pupil
+nothing about where they are.
+
+**On the redundant answer line:** on a tick one or a true or false, the ticked
+box on the answer sheet already is the answer, so restating it underneath just
+gives a teacher marking twenty sheets more to read past. Dropped for those two
+formats, kept for fill the blank and short answer where there is nothing to
+tick.
+
+Migration ledger after this: 268 and 269 claimed and applied by this lane.
+270 remains claimed by the Oak plan for phase 3, the exemplar pass and then
+the other twenty in key stage batches. Still open from the source mining and
+NOT in phase 2: transcripts on the lesson videos (a real accessibility gap,
+Oak carries a transcript and a sign language option) and the deck download.

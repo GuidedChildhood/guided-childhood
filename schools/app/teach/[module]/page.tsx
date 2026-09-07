@@ -1,7 +1,7 @@
 import { anon as supabase } from '@/lib/supabase/anon'
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides } from '@gc/shared/lesson-slides'
+import { parseSlides, type LessonCycle } from '@gc/shared/lesson-slides'
 
 // The teach route: any live module, played full screen for the classroom.
 // Behind the school code (proxy.ts). Teacher script panel available on every
@@ -21,6 +21,9 @@ type SchoolLesson = {
   single_action_outcome: string
   character_cast: string | null
   slides: unknown
+  // The named cycles (migration 268). The player derives which slide sits in
+  // which cycle from the minutes, so nothing here needs tagging by hand.
+  teacher_notes: { cycles?: LessonCycle[] } | null
 }
 
 export default async function TeachLessonPage({
@@ -35,7 +38,7 @@ export default async function TeachLessonPage({
 
   const { data } = await supabase
     .from('school_lessons')
-    .select('id, module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides')
+    .select('id, module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes')
     .eq('module_id', moduleId)
     .maybeSingle()
 
@@ -81,6 +84,7 @@ export default async function TeachLessonPage({
           teacherView
           completeEndpoint={null}
           initialIndex={initialIndex}
+          cycles={lesson.teacher_notes?.cycles}
         />
       </div>
     </main>

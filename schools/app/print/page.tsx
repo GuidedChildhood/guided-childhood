@@ -64,6 +64,8 @@ export default async function PrintRoomPage() {
                   <Link href={`/print/${l.module_id}/booklet`} style={linkStyle}>Pupil booklet</Link>
                   <Link href={`/print/${l.module_id}/organiser`} style={linkStyle}>Knowledge organiser</Link>
                   <Link href={`/print/${l.module_id}/overview`} style={linkStyle}>Unit overview</Link>
+                  <Link href={`/print/${l.module_id}/starter-quiz`} style={linkStyle}>Starter quiz</Link>
+                  <Link href={`/print/${l.module_id}/exit-quiz`} style={linkStyle}>Exit quiz</Link>
                 </div>
               </div>
             )
