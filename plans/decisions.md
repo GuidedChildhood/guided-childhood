@@ -11019,3 +11019,57 @@ section 7 of the teardown, which the skill reads on every run, so drafts can use
 it. It is not in `weekly-rhythm.md` and the ask ratio of roughly one post in
 five is unchanged. Putting a gate into the canon changes what Friday's ask is,
 and that was not the thing Justin said yes to.
+## 7 September 2026, later: Oak phase 3, and the cycle map bug the QA found
+
+Justin: "phase 3". The exemplar QA ran with three new Oak passes added to the
+fifteen, and pass 18 failed.
+
+**The bug.** Phase 2's cycle map derived which cycle a slide sat in by
+spending each cycle's stated minute budget against the minutes the slides
+already carried. It was verified against a nine slide fixture in which every
+teach slide was its own cycle. That is the easy case, and it is exactly what
+hid the problem. Against the 21 production decks the derivation opened a cycle
+on the slide it is named after **28 times out of 61**. On ks3-12, a pupil
+looking at the slide headed "The three checks" was shown "Notice: Content can
+be manufactured" in the chrome. A map that is confidently wrong on more than
+half the scheme is worse than no map.
+
+**Why it happened, honestly.** Two reasons, both mine. Minute budgets are
+approximations, so boundaries land a slide early or late. And seven cycle
+titles in migration 268 were written from the timing string's prose rather
+than from a slide, so they named nothing in their own deck at all.
+
+**The fix needs both halves.** Migration 270 retitles those seven to the
+deck's own heading, recomputes every cycle's minutes from the slides it
+actually contains (so the number on the map is measured, not a budget nobody
+checked), and corrects two structures the audit surfaced: ks2-04 had five
+taught concepts under three cycles with a third swallowing eight slides and
+nineteen minutes, so it gains a fourth cycle its deck already taught without
+naming; ks4-17 had a second cycle of one slide and two minutes, re anchored
+on a real beat to give 10, 8 and 10. The player now anchors a cycle to the
+slide whose heading it names, and leaves a deck unmapped rather than guessed
+at if a title anchors nowhere, because a wrong cycle name on screen is worse
+than none.
+
+**After: 62 of 62 cycles open on the slide they are named after, and 62 of 62
+print the minutes their own slides run.** Verified three ways: the shipped
+derivation replayed against all 21 production decks, a guard in the migration
+that refuses any module whose cycle minutes do not equal its teach phase, and
+the exemplar stepped slide by slide in a browser at 390 and 1280.
+
+**The score did not move, deliberately.** 94 before, 94 after. Finding and
+fixing a bug we shipped does not earn points back, it returns the lesson to
+the standard it was already claiming. The six points held back are still the
+two things a database cannot claim: not yet taught by a non specialist in
+front of a real class, and four video beats of a planned fuller set.
+
+**The rule that carries into the key stage batches:** verify against the real
+artefact, never a fixture. The whole finding exists because phase 2 proved a
+derivation on a stub that happened to be the easy case. The cycle fix itself
+was scheme wide, so there is no per module cycle work left in the batches.
+
+Migration ledger after this: 268, 269 and 270 claimed and applied by this
+lane. Still open from the source mining and still not built: transcripts on
+the lesson videos (Oak carries a transcript and a sign language option, we
+carry neither, so a deaf pupil has no route through a video beat) and the
+deck download.

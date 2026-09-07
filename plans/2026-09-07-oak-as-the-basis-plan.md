@@ -243,6 +243,42 @@ in key stage batches: EYFS and KS1, then KS2, then KS3, then KS4 and KS5,
 one migration per batch, so no batch is a mass rewrite and each can be
 checked before the next.
 
+**BUILT, 7 September 2026.** Justin said "phase 3". The exemplar QA is in
+`research/2026-09-07-oak-qa-passes-16-to-18.md`, and it found a real bug.
+
+*Passes 16 and 17 pass.* The contract is complete on ks3-12 and every line of
+it is true of the deck rather than merely present, and the two quizzes check
+what the lesson actually did, with answers verified against the slides rather
+than against the writer's memory.
+
+*Pass 18 failed, and the failure was scheme wide.* The phase 2 cycle map
+derived which cycle a slide sat in by spending each cycle's stated minute
+budget. It was verified against a nine slide fixture in which every teach
+slide was its own cycle, which is the easy case and is what hid this. Against
+the 21 production decks it opened a cycle on the slide it is named after only
+28 times out of 61. On the exemplar itself, a pupil looking at the slide
+headed "The three checks" was shown "Notice: Content can be manufactured".
+
+*The fix needs both halves.* Migration 270 retitles the seven cycles that
+named nothing in their own deck, recomputes every cycle's minutes from the
+slides it actually contains, and corrects two structures the audit surfaced
+(ks2-04 gains a fourth cycle its deck already taught; ks4-17's two minute
+second cycle is re anchored). The player now anchors a cycle to the slide
+whose heading it names, and leaves a deck unmapped rather than guessed at if
+a title anchors nowhere.
+
+After: **62 of 62 cycles open on the slide they are named after, and 62 of 62
+print the minutes their own slides run.** Verified three ways: the shipped
+derivation replayed against all 21 decks, a guard in the migration, and the
+exemplar stepped slide by slide in a browser at 390 and 1280.
+
+*What this leaves for the key stage batches.* The cycle fix was scheme wide,
+so there is no per module cycle work left in them. The lesson that carries
+forward is the one that produced the finding: verify against the real
+artefact, never a fixture. Three modules still open a cycle in under four
+minutes (eyfs-01, ks1-02, ks2-04); the two early years ones are honest, and
+ks2-04's two minute opener is named for the KS2 batch.
+
 ### What we deliberately do not copy
 
 - Oak's lessons have no scripts. We keep ours on every slide.
