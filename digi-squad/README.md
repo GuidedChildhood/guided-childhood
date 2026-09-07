@@ -69,7 +69,16 @@ Game card thumbnails built from this art live in `public/games/`.
 
 ---
 
-## Squad Characters
+## RETIRED — the original DiGi Squad children
+
+Superseded on 23 July 2026 by the Planet Friends above. Kept here as history,
+NOT as a brief. Never generate Oliver, Zara or Sofia into anything new. Vix and
+Brock appear in some older skill text and were never built at all.
+
+Eight lesson video beats still play these children and are being remade:
+see plans/2026-09-07-planet-friends-lesson-animation-system.md.
+
+## Squad Characters (retired, see above)
 
 ### Oliver — Screen Time Boss
 - **Age**: 8
