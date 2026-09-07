@@ -91,7 +91,7 @@ const OUTFIT_ICON: Record<Outfit, string> = { party_hat: '🎉', glasses: '🕶�
 
 const reduceMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
-export default function PlanetFriends({ token, initial, theme, childName, fixture = false, fixtureAnswers, initialWhere = 'outdoors' }: {
+export default function PlanetFriends({ token, initial, theme, childName, fixture = false, fixtureAnswers, initialWhere = 'outdoors', preview = null }: {
   token: string | null
   initial: HomeView
   theme: KidTheme
@@ -101,6 +101,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   initialWhere?: SceneKey
   /** Fixture only: the pretend codes on pretend cards, so the pad can be driven with no database. */
   fixtureAnswers?: Record<string, string[]>
+  /** The preview key, while the toy is hidden from the app: carried to its own two endpoints so they can stay shut too. */
+  preview?: string | null
 }) {
   const [view, setView] = useState<HomeView>(initial)
   // The fixture applies the rules in the browser and needs the latest view
@@ -199,10 +201,10 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
       return
     }
     try {
-      const r = await fetch(`/api/kid/planet/state?token=${token}`, { cache: 'no-store' })
+      const r = await fetch(`/api/kid/planet/state?token=${token}${preview ? `&preview=${encodeURIComponent(preview)}` : ''}`, { cache: 'no-store' })
       if (r.ok) setView(await r.json())
     } catch { /* the next poll tries again */ }
-  }, [fixture, token])
+  }, [fixture, token, preview])
 
   const send = useCallback(async (ev: ClientEvent): Promise<HomeView | null> => {
     if (fixture || !token) {
@@ -214,12 +216,12 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     try {
       const r = await fetch('/api/kid/planet/event', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, ...ev }),
+        body: JSON.stringify({ token, preview, ...ev }),
       })
       if (r.ok) { const next = await r.json() as HomeView; setView(next); return next }
     } catch { /* the next poll tries again */ }
     return null
-  }, [fixture, token, fixtureDefs])
+  }, [fixture, token, fixtureDefs, preview])
 
   // Only real play drains: one tick a minute while the planet is open and on
   // screen. Hidden or resting, nothing is sent and nothing drains.

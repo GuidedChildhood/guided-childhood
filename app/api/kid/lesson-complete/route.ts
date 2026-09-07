@@ -6,6 +6,7 @@ import { sendPush } from '@/lib/push/send'
 import { lessonsPassedCount } from '@/lib/planet/server'
 import { PLANETS, PLANET_ORDER, tierFor } from '@/lib/planet/logic'
 import { PLANET_WORDS } from '@/lib/planet/universe'
+import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
 // A child finished a family stage lesson on their own link. Token is the
@@ -158,7 +159,7 @@ export async function POST(req: NextRequest) {
   // counts on its own read; this is the same count, so the pass screen can
   // say a new planet is waiting the moment it is true. Best effort.
   let planetOpened: string | null = null
-  if (passedNow) {
+  if (passedNow && PLANET_FRIENDS_LIVE) {
     try {
       const n = await lessonsPassedCount(supabase, link.child_id)
       if (n !== null) {

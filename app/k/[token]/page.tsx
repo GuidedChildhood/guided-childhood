@@ -21,6 +21,7 @@ import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { starWeekStart } from '@/lib/quests/star-week'
 import KidQuestScreen from './KidQuestScreen'
 import { tierFor } from '@/lib/planet/logic'
+import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 import { getStickerBook } from '@/lib/stickers/book'
 import { stickerArt } from '@/lib/stickers/catalog'
@@ -763,7 +764,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       agreementSigned={agreementSigned}
       childName={childRes.data?.name ?? 'Superstar'}
       passportCode={(childRes.data as { passport_code?: string | null } | null)?.passport_code ?? null}
-      planetTier={tierFor(dob ?? null, ageBand ?? null)}
+      planetTier={PLANET_FRIENDS_LIVE ? tierFor(dob ?? null, ageBand ?? null) : null}
       buddy={(childRes.data?.buddy as string | null) ?? null}
       accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}

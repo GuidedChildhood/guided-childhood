@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { applyHomeEvent, type ClientEvent } from '@/lib/planet/server'
 import { FRIEND_KEYS, isDeviceKey, isMovable, isPlanetKey, isRoomKey, isSelf, isWhere, type FriendKey } from '@/lib/planet/logic'
+import { planetVisible } from '@/lib/planet/flag'
 
 // One event from the child's planet. The client reports what the child did
 // (a drag to the pod, a tap at the sun catcher, a minute of play); the server
@@ -76,6 +77,9 @@ function parseEvent(body: Record<string, unknown>): ClientEvent | null {
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>
   try { body = await request.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
+  // Hidden until it is good enough: while the toy is off, so are its own two
+  // endpoints, and the preview key opens both together.
+  if (!planetVisible(typeof body.preview === 'string' ? body.preview : null)) return NextResponse.json({ error: 'not here' }, { status: 404 })
   const token = typeof body.token === 'string' ? body.token : ''
   if (!/^[0-9a-f]{18}$/.test(token)) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
   const ev = parseEvent(body)
