@@ -15,14 +15,22 @@ export const ROOM_TITLES: Record<SceneKey, string> = {
   bedroom: 'The bedroom',
   classroom: 'Moonbase School',
   playground: 'The Playground planet',
+  launchpad: 'Space Port',
+  forest: 'The Wild planet',
+  dome: 'The Observatory',
+  cafe: 'The Star Cafe',
+  studio: 'StarNet Studio',
+  igloos: 'The Ice planet',
+  springs: 'The Volcano planet',
+  colours: 'The Rainbow planet',
   map: 'My star system',
 }
 
-export const ROOM_EMOJI: Record<SceneKey, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️', classroom: '🏫', playground: '🛝', map: '🚀' }
+export const ROOM_EMOJI: Record<SceneKey, string> = { outdoors: '🪐', kitchen: '🍳', living: '🛋️', bedroom: '🛏️', classroom: '🏫', playground: '🛝', launchpad: '🚀', forest: '🌳', dome: '🔭', cafe: '☕', studio: '📺', igloos: '🧊', springs: '🌋', colours: '🌈', map: '🚀' }
 
 export const MAP_LINES = {
-  welcome: 'The star system. Tap a planet to look, or drag a Friend onto one to fly there.',
-  welcomeTier1: 'The star system. Tap a planet and Pebble flies there.',
+  welcome: 'The universe. Tap a planet to look, drag a Friend onto one to fly there, or drag the dark to look around.',
+  welcomeTier1: 'The universe. Tap a planet and Pebble flies there.',
   tray: 'Who is flying?',
   flying: (name: string, planet: string) => `${name} is flying to ${planet}.`,
   landed: (name: string, planet: string) => `${name} landed on ${planet}.`,
@@ -34,7 +42,9 @@ export const MAP_LINES = {
   farAway: (planet: string) => `${planet} is a far away one, for later. Its rooms are not built yet.`,
   isNew: (planet: string) => `A new planet! ${planet} is open. Fly there.`,
   newWaiting: 'A new planet is waiting on your map.',
-  orbit: 'You moved it. It stays there.',
+  moved: 'You moved it. It stays there.',
+  recentre: 'Back to DiGi, in the middle of everything.',
+  universe: 'The universe. Drag the dark to look around. Every planet is out there.',
   digi: 'DiGi, the star in the middle. Everything goes round DiGi.',
   learnTab: 'Open the Learn tab',
   resting: (name: string) => `${name} is resting. Nobody flies while they rest.`,
@@ -50,6 +60,74 @@ export const SCHOOL_LINES = {
   globe: 'Round and round.',
   books: 'So many books.',
   launch: 'Drag a Friend to the launch pad to fly home.',
+} as const
+
+// The far away planets, in words (slice 3c). One line per piece, none of them from a model.
+
+export const PORT_LINES = {
+  enter: 'Space Port. Rockets, the rover, and starlight in the pump.',
+  gantry: 'Three, two, one. Blast off!',
+  rover: 'Vroom. The rover goes anywhere.',
+  fuelPump: 'Glug glug. Starlight in the tank.',
+  tools: 'Clink. A spanner for every rocket.',
+} as const
+
+export const WILD_LINES = {
+  enter: 'The Wild planet. Trees, a pond and a burrow. Something lives here.',
+  rope: 'Wheee! Higher!',
+  pond: 'Splash!',
+  burrow: 'Something peeped out. It went back in.',
+  tree: 'Rustle rustle.',
+} as const
+
+export const DOME_LINES = {
+  enter: 'The Observatory. The big telescope looks at everything.',
+  telescope: 'Look! A comet.',
+  starMap: 'That bright one is DiGi.',
+  deckchair: 'Stargazing. Look up.',
+} as const
+
+export const CAFE_LINES = {
+  enter: 'The Star Cafe. Cocoa, toast, and a bench under the stars.',
+  counter: 'Steam and a clink. One star cocoa.',
+  menu: 'Cocoa. Toast. Moon pie.',
+  table: 'Slurp. Warm hands.',
+  cushions: 'The comfy corner.',
+  books: 'So many stories.',
+} as const
+
+export const STUDIO_LINES = {
+  enter: 'StarNet Studio. A pretend feed, and only your Friends on it.',
+  feed: (name: string) => `${name} posted a picture of your planet. Everyone sent a sprinkle.`,
+  domeTool: 'The glass dome. Draw it round a Friend and the splats slide off.',
+  desk: 'Snap. Posting to my planet, and only my planet.',
+  ringLight: 'Click. Say cheese.',
+} as const
+
+export const ICE_LINES = {
+  enter: 'The Ice planet. Brr. Igloos, an ice slide and a warm hut.',
+  igloo: 'Cosy in here.',
+  slide: 'Wheee, slippy!',
+  snowman: 'Hello, snowman. Your hat wobbled.',
+  hut: 'Warm inside. Hot chocolate for everyone.',
+} as const
+
+export const VOLCANO_LINES = {
+  enter: 'The Volcano planet. Warm pools and stepping stones. Mind the steam.',
+  pool: 'Ahhh. Warm.',
+  stones: 'Hop, hop, hop.',
+  lavaRock: 'Glow. Warm to touch.',
+  steam: 'Pssst.',
+  volcano: 'Rumble. It is only sleeping.',
+} as const
+
+export const RAINBOW_LINES = {
+  enter: 'The Rainbow planet. Slide down a colour and rest on a cloud.',
+  slide: 'Wheee, all the colours!',
+  cloudBed: 'Fluffy. Just resting my eyes.',
+  paint: (colour: string) => `Splat! ${colour}.`,
+  paintColours: ['Red', 'Yellow', 'Blue', 'Green', 'Purple'],
+  shower: 'Sun and rain together. That is how you get a rainbow.',
 } as const
 
 export const PARK_LINES = {
@@ -96,6 +174,14 @@ export const HOUSE_LINES = {
   bedroom: 'The bedroom. No phones in here. They charge downstairs.',
   classroom: 'Moonbase School. DiGi is at the front.',
   playground: 'The Playground planet. Drag a Friend onto the swings, the slide or the sandpit.',
+  launchpad: PORT_LINES.enter,
+  forest: WILD_LINES.enter,
+  dome: DOME_LINES.enter,
+  cafe: CAFE_LINES.enter,
+  studio: STUDIO_LINES.enter,
+  igloos: ICE_LINES.enter,
+  springs: VOLCANO_LINES.enter,
+  colours: RAINBOW_LINES.enter,
   outdoors: 'Back outside.',
   map: 'The star system.',
   door: 'Drag a Friend to the door to go through.',

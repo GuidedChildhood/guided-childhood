@@ -6,6 +6,7 @@ import { PART_ZONE, ROOM_SPOTS, batteryNow, charging, deviceOf, isDeviceKey, isG
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
 import SelfFigure from './SelfFigure'
+import { ROOM_TITLES } from '@/lib/planet/world'
 import PartArt from './PartArt'
 import { Furniture, OUTFIT_ICON, PhoneArt, ThingArt } from './ThingArt'
 import { SCENE_H, SCENE_W, sceneFromClient } from './scene'
@@ -29,6 +30,15 @@ const WALLS: Record<RoomKey, { wall: string; floor: string; skirting: string }> 
   // Moonbase School: a dome with portholes; the Playground planet: open sky and orange ground (slice 3b).
   classroom: { wall: '#DCE9F5', floor: '#CFD8E3', skirting: '#C4D6E8' },
   playground: { wall: '#BFE0F7', floor: '#F2B36B', skirting: '#E59C4E' },
+  // The far away planets (slice 3c). Outdoors the wall is the sky and the floor is the ground.
+  launchpad: { wall: '#26305F', floor: '#B9C4D6', skirting: '#9AA6B8' },
+  forest: { wall: '#BFE6F5', floor: '#6FAE5E', skirting: '#4F8F44' },
+  dome: { wall: '#26305F', floor: '#3A4780', skirting: '#2B3568' },
+  cafe: { wall: '#FDEBD3', floor: '#B8763F', skirting: '#D9A066' },
+  studio: { wall: '#2B3568', floor: '#4C4C6E', skirting: '#3A3A5A' },
+  igloos: { wall: '#DDEFF9', floor: '#FFFFFF', skirting: '#CFE8F5' },
+  springs: { wall: '#F3B48E', floor: '#4A3A32', skirting: '#3A2A1E' },
+  colours: { wall: '#E8F1FF', floor: '#B9E3A0', skirting: '#8FD1B4' },
 }
 const SKY_COLOUR: Record<Sky, string> = { day: '#B9DDF5', evening: '#F3B48E', night: '#141A3C' }
 
@@ -39,6 +49,14 @@ export const ROOM_SPOT_POS: Record<string, { x: number; y: number }> = {
   b_t1: { x: 110, y: 250 }, b_f1: { x: 230, y: 530 }, b_f2: { x: 330, y: 534 }, b_w1: { x: 110, y: 130 }, b_w2: { x: 245, y: 190 },
   c_t1: { x: 110, y: 382 }, c_t2: { x: 250, y: 382 }, c_f1: { x: 120, y: 530 }, c_f2: { x: 330, y: 534 }, c_w1: { x: 330, y: 120 },
   p_t1: { x: 330, y: 416 }, p_f1: { x: 90, y: 530 }, p_f2: { x: 230, y: 534 }, p_f3: { x: 340, y: 530 }, p_w1: { x: 300, y: 110 },
+  s_f1: { x: 200, y: 530 }, s_f2: { x: 300, y: 532 }, s_w1: { x: 200, y: 110 },
+  w_f1: { x: 70, y: 532 }, w_f2: { x: 350, y: 540 }, w_w1: { x: 300, y: 120 },
+  o_f1: { x: 200, y: 530 }, o_f2: { x: 330, y: 534 }, o_w1: { x: 330, y: 130 },
+  f_t1: { x: 110, y: 396 }, f_t2: { x: 220, y: 396 }, f_f1: { x: 270, y: 536 }, f_w1: { x: 250, y: 110 },
+  n_t1: { x: 250, y: 400 }, n_f1: { x: 150, y: 532 }, n_w1: { x: 340, y: 120 },
+  i_f1: { x: 160, y: 540 }, i_f2: { x: 250, y: 545 }, i_w1: { x: 300, y: 110 },
+  v_f1: { x: 60, y: 535 }, v_f2: { x: 345, y: 540 }, v_w1: { x: 300, y: 110 },
+  r_f1: { x: 200, y: 540 }, r_f2: { x: 300, y: 548 }, r_w1: { x: 60, y: 200 },
 }
 const SWING = { x: 96, hit: { x: 40, y: 300, w: 112, h: 140 } }
 const SLIDE = { x: 226, hit: { x: 168, y: 330, w: 130, h: 110 } }
@@ -54,10 +72,64 @@ const WARDROBE_INSIDE = [{ x: 324, y: 262 }, { x: 356, y: 262 }, { x: 324, y: 30
 const BEDS = [{ x: 111, hit: { x: 52, y: 310, w: 118, h: 130 } }, { x: 235, hit: { x: 176, y: 310, w: 118, h: 130 } }]
 const SOFA = { x: 130, hit: { x: 56, y: 366, w: 148, h: 76 } }
 const DOOR_LEFT = { x: 22, hit: { x: -10, y: 300, w: 58, h: 210 } }
+// The far away planets (slice 3c): the pieces a Friend can be dropped on.
+const GANTRY = { x: 150, hit: { x: 100, y: 300, w: 100, h: 140 } }
+const ROVER = { x: 330, hit: { x: 272, y: 360, w: 116, h: 80 } }
+const ROPE = { x: 150, hit: { x: 120, y: 300, w: 60, h: 140 } }
+const POND = { x: 250, y: 520, hit: { x: 184, y: 494, w: 132, h: 48 } }
+const DECKCHAIRS = [{ x: 120, hit: { x: 86, y: 380, w: 70, h: 60 } }, { x: 210, hit: { x: 176, y: 380, w: 70, h: 60 } }]
+const CAFE_TABLES = [{ x: 110, hit: { x: 76, y: 380, w: 70, h: 64 } }, { x: 220, hit: { x: 186, y: 380, w: 70, h: 64 } }]
+const CUSHIONS = { x: 150, y: 526, hit: { x: 110, y: 486, w: 80, h: 44 } }
+const STUDIO_DESK = { x: 250, hit: { x: 200, y: 370, w: 100, h: 74 } }
+const IGLOOS = [{ x: 100, hit: { x: 48, y: 380, w: 104, h: 64 } }, { x: 340, hit: { x: 288, y: 380, w: 104, h: 64 } }]
+const ICE_SLIDE = { x: 220, hit: { x: 162, y: 330, w: 130, h: 110 } }
+const POOLS = [{ x: 120, y: 500, hit: { x: 62, y: 480, w: 116, h: 40 } }, { x: 270, y: 500, hit: { x: 212, y: 480, w: 116, h: 40 } }]
+const STONES = { x: 195, y: 545, hit: { x: 110, y: 530, w: 170, h: 30 } }
+const RAINBOW_SLIDE = { x: 110, hit: { x: 52, y: 330, w: 130, h: 110 } }
+const CLOUD_BED = { x: 260, hit: { x: 208, y: 390, w: 110, h: 50 } }
 const DOOR_RIGHT = { x: 368, hit: { x: 332, y: 300, w: 68, h: 210 } }
 
 export type RoomFurniture = 'fridge' | 'toybox' | 'wardrobe' | 'cooker' | 'picture' | 'music_box' | 'window' | 'lamp' | 'shelf' | 'mobile' | 'bookshelf' | 'board' | 'digi' | 'globe' | 'books' | 'tree' | 'sign' | 'launchpad'
+  | 'fuel_pump' | 'tools' | 'burrow' | 'telescope' | 'star_map' | 'counter' | 'menu' | 'feed_wall' | 'dome_tool' | 'ring_light' | 'snowman' | 'warm_hut' | 'volcano' | 'lava_rock' | 'steam' | 'paint_pots' | 'sun_shower'
 export type FriendTarget = 'door_left' | 'door_right' | 'bed' | 'sofa' | 'swing' | 'slide' | 'sandpit' | 'bench'
+  | 'gantry' | 'rover' | 'rope' | 'pond' | 'deckchair' | 'cafe_table' | 'cushions' | 'studio_desk' | 'igloo' | 'iceslide' | 'pool' | 'stones' | 'rainbowslide' | 'cloudbed'
+type Rect = { x: number; y: number; w: number; h: number }
+/** Where a dropped Friend lands in each room, tested in order. The doors are tested first, before these. */
+const FRIEND_DROPS: Partial<Record<RoomKey, { target: FriendTarget; hit: Rect }[]>> = {
+  bedroom: BEDS.map(b => ({ target: 'bed' as const, hit: b.hit })),
+  living: [{ target: 'sofa', hit: SOFA.hit }],
+  playground: [{ target: 'swing', hit: SWING.hit }, { target: 'slide', hit: SLIDE.hit }, { target: 'sandpit', hit: SANDPIT.hit }, { target: 'bench', hit: PARK_BENCH.hit }],
+  launchpad: [{ target: 'gantry', hit: GANTRY.hit }, { target: 'rover', hit: ROVER.hit }],
+  forest: [{ target: 'rope', hit: ROPE.hit }, { target: 'pond', hit: POND.hit }],
+  dome: DECKCHAIRS.map(d => ({ target: 'deckchair' as const, hit: d.hit })),
+  cafe: [...CAFE_TABLES.map(t => ({ target: 'cafe_table' as const, hit: t.hit })), { target: 'cushions', hit: CUSHIONS.hit }],
+  studio: [{ target: 'studio_desk', hit: STUDIO_DESK.hit }],
+  igloos: [...IGLOOS.map(g => ({ target: 'igloo' as const, hit: g.hit })), { target: 'iceslide', hit: ICE_SLIDE.hit }],
+  springs: [...POOLS.map(w => ({ target: 'pool' as const, hit: w.hit })), { target: 'stones', hit: STONES.hit }],
+  colours: [{ target: 'rainbowslide', hit: RAINBOW_SLIDE.hit }, { target: 'cloudbed', hit: CLOUD_BED.hit }],
+}
+/** Where a Friend stands, sits or swings on the piece it was dropped on, and the one animation it plays there. */
+const POSES: Record<string, (i: number) => { x: number; y: number; scale: number; anim?: string }> = {
+  sofa: () => ({ x: SOFA.x, y: FLOOR_Y - 12, scale: 0.8 }),
+  swing: () => ({ x: SWING.x, y: FLOOR_Y - 36, scale: 0.8, anim: 'pl-swing' }),
+  slide: () => ({ x: SLIDE.x - 20, y: FLOOR_Y - 70, scale: 0.8, anim: 'pl-slide' }),
+  sandpit: () => ({ x: SANDPIT.x, y: SANDPIT.y - 2, scale: 0.7, anim: 'pl-dig' }),
+  bench: () => ({ x: PARK_BENCH.x, y: FLOOR_Y - 20, scale: 0.8 }),
+  gantry: () => ({ x: GANTRY.x + 28, y: FLOOR_Y - 12, scale: 0.72, anim: 'pl-launch' }),
+  rover: () => ({ x: ROVER.x, y: FLOOR_Y - 34, scale: 0.66, anim: 'pl-wiggle' }),
+  rope: () => ({ x: ROPE.x, y: FLOOR_Y - 40, scale: 0.78, anim: 'pl-swing' }),
+  pond: () => ({ x: POND.x, y: POND.y - 4, scale: 0.68, anim: 'pl-bounce' }),
+  deckchair: i => ({ x: DECKCHAIRS[i % 2].x + 6, y: FLOOR_Y - 16, scale: 0.74 }),
+  cafe_table: i => ({ x: CAFE_TABLES[i % 2].x, y: FLOOR_Y - 6, scale: 0.78 }),
+  cushions: () => ({ x: CUSHIONS.x, y: CUSHIONS.y - 6, scale: 0.72 }),
+  studio_desk: () => ({ x: STUDIO_DESK.x, y: FLOOR_Y - 6, scale: 0.78 }),
+  igloo: i => ({ x: IGLOOS[i % 2].x, y: FLOOR_Y - 2, scale: 0.62 }),
+  iceslide: () => ({ x: ICE_SLIDE.x - 20, y: FLOOR_Y - 70, scale: 0.8, anim: 'pl-slide' }),
+  pool: i => ({ x: POOLS[i % 2].x, y: POOLS[i % 2].y + 2, scale: 0.66 }),
+  stones: () => ({ x: STONES.x, y: STONES.y - 4, scale: 0.62, anim: 'pl-bounce' }),
+  rainbowslide: () => ({ x: RAINBOW_SLIDE.x - 20, y: FLOOR_Y - 70, scale: 0.8, anim: 'pl-slide' }),
+  cloudbed: () => ({ x: CLOUD_BED.x, y: FLOOR_Y - 32, scale: 0.74, anim: 'pl-breathe' }),
+}
 export type ThingTarget = { kind: 'friend'; friend: FriendKey } | { kind: 'spot'; spot: string } | { kind: 'shelf' } | { kind: 'home' }
 type Drag = { kind: 'friend' | 'thing' | 'outfit'; id: string; x: number; y: number; startX: number; startY: number; moved: boolean }
 
@@ -97,6 +169,14 @@ export const DOORS: Record<RoomKey, { left: 'outdoors' | 'map' | RoomKey; right:
   bedroom: { left: 'living', right: null },
   classroom: { left: 'map', right: null },
   playground: { left: 'map', right: null },
+  launchpad: { left: 'map', right: null },
+  forest: { left: 'map', right: null },
+  dome: { left: 'map', right: null },
+  cafe: { left: 'map', right: null },
+  studio: { left: 'map', right: null },
+  igloos: { left: 'map', right: null },
+  springs: { left: 'map', right: null },
+  colours: { left: 'map', right: null },
 }
 
 export default function RoomScene({
@@ -186,13 +266,7 @@ export default function RoomScene({
       if (!drag.moved) onTapFriend(key)
       else if (inRect(p, DOOR_LEFT.hit)) onDropFriend(key, 'door_left')
       else if (doors.right && inRect(p, DOOR_RIGHT.hit)) onDropFriend(key, 'door_right')
-      else if (room === 'bedroom' && BEDS.some(b => inRect(p, b.hit))) onDropFriend(key, 'bed')
-      else if (room === 'living' && inRect(p, SOFA.hit)) onDropFriend(key, 'sofa')
-      else if (room === 'playground' && inRect(p, SWING.hit)) onDropFriend(key, 'swing')
-      else if (room === 'playground' && inRect(p, SLIDE.hit)) onDropFriend(key, 'slide')
-      else if (room === 'playground' && inRect(p, SANDPIT.hit)) onDropFriend(key, 'sandpit')
-      else if (room === 'playground' && inRect(p, PARK_BENCH.hit)) onDropFriend(key, 'bench')
-      else onDropFriend(key, null)
+      else onDropFriend(key, (FRIEND_DROPS[room] ?? []).find(d => inRect(p, d.hit))?.target ?? null)
     } else if (drag.kind === 'thing') {
       const thing = drag.id as Movable
       if (!drag.moved) onThingTap(thing)
@@ -218,6 +292,8 @@ export default function RoomScene({
   const inRoom = placed.filter(x => x.room === room && ROOM_SPOT_POS[x.spot])
   const targets = carrying?.kind === 'part' ? ROOM_SPOTS[room].filter(s => s.zone === roomZoneOf(carrying.part) && !inRoom.some(x => x.spot === s.id)) : []
   const pos = (id: string) => ROOM_SPOT_POS[id]
+  /** A tap on a fixed piece: it answers with its one animation and its line. */
+  const tapPiece = (kind: RoomFurniture) => (e: React.PointerEvent) => { e.stopPropagation(); onInteract(); onFurnitureTap(kind) }
 
   /** One movable thing, drawn by its kind, feet at the origin (wall things centred). */
   const artOf = (thing: Movable, small = false) => {
@@ -254,7 +330,7 @@ export default function RoomScene({
       onPointerMove={move}
       onPointerUp={end}
       onPointerCancel={end}
-      aria-label={room === 'classroom' ? 'Moonbase School' : room === 'playground' ? 'The Playground planet' : `The ${room === 'living' ? 'living room' : room}`}
+      aria-label={ROOM_TITLES[room]}
       role="img"
     >
       <defs>
@@ -315,6 +391,62 @@ export default function RoomScene({
           <path d={`M0 ${FLOOR_Y - 60} q60 -30 120 -10 t140 -20 t130 10 V${FLOOR_Y} H0 z`} fill="#F7C98A" opacity={0.9} />
         </g>
       )}
+      {room === 'launchpad' && (
+        <g>
+          {[[30, 40], [120, 90], [210, 50], [300, 30], [370, 120], [60, 200], [250, 180], [340, 240], [150, 260]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.8 : 1.2} fill="#FFFFFF" opacity={0.8} />)}
+          <g onPointerDown={tapPiece('window')} style={{ cursor: 'pointer' }}>
+            <circle cx={330} cy={70} r={20} fill="#8FD1B4" stroke={INK} strokeWidth={1.8} />
+            <ellipse cx={330} cy={70} rx={30} ry={8} fill="none" stroke="#F4C542" strokeWidth={2.2} />
+          </g>
+          <g data-tools transform="translate(64 290)" onPointerDown={tapPiece('tools')} style={{ cursor: 'pointer' }}><rect x={-40} y={-26} width={80} height={52} fill="transparent" /><Furniture kind="tools" using={using === 'tools'} /></g>
+        </g>
+      )}
+      {room === 'forest' && (
+        <g>
+          <circle cx={70} cy={70} r={26} fill="#F4C542" opacity={0.9} />
+          <path d="M200 80 a14 14 0 0 1 24 -8 a10 10 0 0 1 12 16 h-40 a8 8 0 0 1 4 -8 z" fill="#FFFFFF" opacity={0.9} />
+          <path d={`M0 ${FLOOR_Y - 70} q80 -40 160 -20 t150 -30 t80 20 V${FLOOR_Y} H0 z`} fill="#5C9E4E" opacity={0.55} />
+        </g>
+      )}
+      {room === 'dome' && (
+        <g>
+          <g transform="translate(195 120)" onPointerDown={tapPiece('window')} style={{ cursor: 'pointer' }}><Furniture kind="porthole" sky={night ? '#141A3C' : '#2B3568'} /></g>
+          <g data-star-map transform="translate(80 210)" onPointerDown={tapPiece('star_map')} style={{ cursor: 'pointer' }}><rect x={-54} y={-40} width={108} height={80} fill="transparent" /><Furniture kind="star_map" using={using === 'star_map'} /></g>
+        </g>
+      )}
+      {room === 'cafe' && (
+        <g>
+          <g data-menu transform="translate(330 150)" onPointerDown={tapPiece('menu')} style={{ cursor: 'pointer' }}><rect x={-40} y={-30} width={80} height={60} fill="transparent" /><Furniture kind="menu" using={using === 'menu'} /></g>
+          <g transform="translate(90 110)" onPointerDown={tapPiece('window')} style={{ cursor: 'pointer' }}><Furniture kind="window" sky={skyColour} /></g>
+          <g data-cafe-books transform="translate(60 300)" onPointerDown={tapPiece('books')} style={{ cursor: 'pointer' }}><rect x={-30} y={-70} width={60} height={72} fill="transparent" /><Furniture kind="books" using={using === 'books'} /></g>
+        </g>
+      )}
+      {room === 'studio' && (
+        <g data-feed-wall transform="translate(195 150)" onPointerDown={tapPiece('feed_wall')} style={{ cursor: 'pointer' }}><rect x={-90} y={-60} width={180} height={120} fill="transparent" /><Furniture kind="feed_wall" using={using === 'feed_wall'} /></g>
+      )}
+      {room === 'igloos' && (
+        <g>
+          <circle cx={60} cy={70} r={22} fill="#FFF6DD" opacity={0.95} />
+          {[[140, 60], [220, 100], [300, 50], [360, 150], [40, 160], [190, 200]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={2.4} fill="#FFFFFF" />)}
+          <path d={`M0 ${FLOOR_Y - 60} q70 -50 140 -10 t130 -30 t120 20 V${FLOOR_Y} H0 z`} fill="#EAF5FB" />
+          <g data-warm-hut transform={`translate(70 ${FLOOR_Y - 40}) scale(0.8)`} onPointerDown={tapPiece('warm_hut')} style={{ cursor: 'pointer' }}><rect x={-46} y={-88} width={92} height={90} fill="transparent" /><Furniture kind="warm_hut" using={using === 'warm_hut'} /></g>
+        </g>
+      )}
+      {room === 'springs' && (
+        <g>
+          <circle cx={320} cy={80} r={24} fill="#F4C542" opacity={0.9} />
+          <g data-volcano transform={`translate(110 ${FLOOR_Y - 30})`} onPointerDown={tapPiece('volcano')} style={{ cursor: 'pointer' }}><rect x={-90} y={-130} width={180} height={132} fill="transparent" /><Furniture kind="volcano" using={using === 'volcano'} /></g>
+        </g>
+      )}
+      {room === 'colours' && (
+        <g>
+          {['#E85D4A', '#F7A23B', '#F4C542', '#3E8F5A', '#4C9FD6', '#9B72CF'].map((c, i) => {
+            const r = 230 - i * 13
+            return <path key={c} d={`M${195 - r} 300 A${r} ${r} 0 0 1 ${195 + r} 300`} fill="none" stroke={c} strokeWidth={12} opacity={0.85} />
+          })}
+          <g data-sun-shower transform="translate(330 60)" onPointerDown={tapPiece('sun_shower')} style={{ cursor: 'pointer' }}><rect x={-60} y={-40} width={110} height={76} fill="transparent" /><Furniture kind="sun_shower" using={using === 'sun_shower'} /></g>
+        </g>
+      )}
       {/* what hangs on the wall spots */}
       {inRoom.filter(x => roomZoneOf(x.thing) === 'wall').map(x => liftable(x.thing, pos(x.spot)))}
 
@@ -366,6 +498,64 @@ export default function RoomScene({
         </g>
       )}
 
+      {room === 'launchpad' && (
+        <g>
+          <g data-gantry transform={`translate(${GANTRY.x} ${FLOOR_Y})`}><Furniture kind="gantry" accent={accent} using={using?.startsWith('gantry:') ?? false} lit={draggingFriend} /></g>
+          <g data-fuel-pump transform={`translate(250 ${FLOOR_Y})`} onPointerDown={tapPiece('fuel_pump')} style={{ cursor: 'pointer' }}><rect x={-24} y={-80} width={76} height={82} fill="transparent" /><Furniture kind="fuel_pump" using={using === 'fuel_pump'} /></g>
+          <g data-rover transform={`translate(${ROVER.x} ${FLOOR_Y})`}><Furniture kind="rover_garage" accent={accent} using={using?.startsWith('rover:') ?? false} lit={draggingFriend} /></g>
+        </g>
+      )}
+      {room === 'forest' && (
+        <g>
+          <g data-rope transform={`translate(90 ${FLOOR_Y})`}><Furniture kind="big_tree" using={using?.startsWith('rope:') ?? false} lit={draggingFriend} /></g>
+          <g transform={`translate(300 ${FLOOR_Y - 30}) scale(0.8)`} onPointerDown={tapPiece('tree')} style={{ cursor: 'pointer' }}><rect x={-40} y={-140} width={80} height={142} fill="transparent" /><Furniture kind="tree" using={using === 'tree'} /></g>
+          <g data-burrow transform={`translate(355 ${FLOOR_Y + 30}) scale(0.8)`} onPointerDown={tapPiece('burrow')} style={{ cursor: 'pointer' }}><rect x={-46} y={-36} width={92} height={40} fill="transparent" /><Furniture kind="burrow" using={using === 'burrow'} /></g>
+          <g data-pond transform={`translate(${POND.x} ${POND.y})`}><Furniture kind="pond" using={using?.startsWith('pond:') ?? false} lit={draggingFriend} /></g>
+        </g>
+      )}
+      {room === 'dome' && (
+        <g>
+          <g data-telescope transform={`translate(318 ${FLOOR_Y})`} onPointerDown={tapPiece('telescope')} style={{ cursor: 'pointer' }}><rect x={-50} y={-122} width={100} height={124} fill="transparent" /><Furniture kind="telescope" using={using === 'telescope'} /></g>
+          {DECKCHAIRS.map(d => <g key={d.x} data-deckchair transform={`translate(${d.x} ${FLOOR_Y})`}><Furniture kind="deckchair" accent={accent} lit={draggingFriend} /></g>)}
+        </g>
+      )}
+      {room === 'cafe' && (
+        <g>
+          <g data-counter transform={`translate(330 ${FLOOR_Y})`} onPointerDown={tapPiece('counter')} style={{ cursor: 'pointer' }}><rect x={-66} y={-100} width={132} height={102} fill="transparent" /><Furniture kind="counter" using={using === 'counter'} /></g>
+          {CAFE_TABLES.map(t => <g key={t.x} data-cafe-table transform={`translate(${t.x} ${FLOOR_Y})`}><Furniture kind="cafe_table" lit={draggingFriend} /></g>)}
+          <g data-cushions transform={`translate(${CUSHIONS.x} ${CUSHIONS.y})`}><Furniture kind="cushions" accent={accent} lit={draggingFriend} /></g>
+        </g>
+      )}
+      {room === 'studio' && (
+        <g>
+          <g data-dome-tool transform={`translate(345 ${FLOOR_Y})`} onPointerDown={tapPiece('dome_tool')} style={{ cursor: 'pointer' }}><rect x={-32} y={-52} width={64} height={54} fill="transparent" /><Furniture kind="dome_tool" accent={accent} using={using === 'dome_tool'} /></g>
+          <g data-studio-desk transform={`translate(${STUDIO_DESK.x} ${FLOOR_Y})`}><Furniture kind="studio_desk" lit={draggingFriend} /></g>
+          <g data-ring-light transform={`translate(30 ${FLOOR_Y})`} onPointerDown={tapPiece('ring_light')} style={{ cursor: 'pointer' }}><rect x={-24} y={-116} width={48} height={118} fill="transparent" /><Furniture kind="ring_light" using={using === 'ring_light'} /></g>
+        </g>
+      )}
+      {room === 'igloos' && (
+        <g>
+          {IGLOOS.map(g => <g key={g.x} data-igloo transform={`translate(${g.x} ${FLOOR_Y})`}><Furniture kind="igloo" using={using?.startsWith('igloo:') ?? false} lit={draggingFriend} /></g>)}
+          <g data-iceslide transform={`translate(${ICE_SLIDE.x} ${FLOOR_Y})`}><Furniture kind="ice_slide" lit={draggingFriend} /></g>
+          <g data-snowman transform={`translate(350 ${FLOOR_Y + 90}) scale(0.6)`} onPointerDown={tapPiece('snowman')} style={{ cursor: 'pointer' }}><rect x={-30} y={-130} width={60} height={132} fill="transparent" /><Furniture kind="snowman" accent={accent} using={using === 'snowman'} /></g>
+        </g>
+      )}
+      {room === 'springs' && (
+        <g>
+          <g data-steam transform="translate(60 430)" onPointerDown={tapPiece('steam')} style={{ cursor: 'pointer' }}><rect x={-20} y={-38} width={40} height={42} fill="transparent" /><Furniture kind="steam_vent" using={using === 'steam'} /></g>
+          <g data-lava-rock transform={`translate(340 ${FLOOR_Y})`} onPointerDown={tapPiece('lava_rock')} style={{ cursor: 'pointer' }}><rect x={-36} y={-54} width={72} height={56} fill="transparent" /><Furniture kind="lava_rock" using={using === 'lava_rock'} /></g>
+          {POOLS.map(w => <g key={w.x} data-pool transform={`translate(${w.x} ${w.y})`}><Furniture kind="warm_pool" using={using?.startsWith('pool:') ?? false} lit={draggingFriend} /></g>)}
+          <g data-stones transform={`translate(${STONES.x} ${STONES.y})`}><Furniture kind="stones" lit={draggingFriend} /></g>
+        </g>
+      )}
+      {room === 'colours' && (
+        <g>
+          <g data-rainbowslide transform={`translate(${RAINBOW_SLIDE.x} ${FLOOR_Y})`}><Furniture kind="rainbow_slide" lit={draggingFriend} /></g>
+          <g data-cloudbed transform={`translate(${CLOUD_BED.x} ${FLOOR_Y - 10})`}><Furniture kind="cloud_bed" using={using?.startsWith('cloudbed:') ?? false} lit={draggingFriend} /></g>
+          <g data-paint-pots transform={`translate(345 ${FLOOR_Y + 60}) scale(0.9)`} onPointerDown={tapPiece('paint_pots')} style={{ cursor: 'pointer' }}><rect x={-50} y={-50} width={100} height={52} fill="transparent" /><Furniture kind="paint_pots" using={using === 'paint_pots'} /></g>
+        </g>
+      )}
+
       {/* inside the open fridge and wardrobe */}
       {room === 'kitchen' && open === 'fridge' && fridge.slice(0, 4).map((t, i) => liftable(t, FRIDGE_INSIDE[i], { small: true, hitY: -12, label: `Take ${t} out of the fridge` }))}
       {room === 'bedroom' && open === 'wardrobe' && outfits.slice(0, 4).map((o, i) => {
@@ -414,17 +604,14 @@ export default function RoomScene({
           )
         }
         const x = xs[i]
-        const seated = using === `sofa:${f.key}` && room === 'living'
-        const onSwing = using === `swing:${f.key}` && room === 'playground'
-        const onSlide = using === `slide:${f.key}` && room === 'playground'
-        const inSand = using === `sandpit:${f.key}` && room === 'playground'
-        const onBench = using === `bench:${f.key}` && room === 'playground'
-        const at = seated ? { x: SOFA.x, y: FLOOR_Y - 12 } : onSwing ? { x: SWING.x, y: FLOOR_Y - 36 } : onSlide ? { x: SLIDE.x - 20, y: FLOOR_Y - 70 } : inSand ? { x: SANDPIT.x, y: SANDPIT.y - 2 } : onBench ? { x: PARK_BENCH.x, y: FLOOR_Y - 20 } : { x, y: STAND_Y }
-        const small = seated || onSwing || onSlide || onBench
+        // On a piece, for the moment its line lasts: the pose belongs to this room's pieces only.
+        const poseKey = using && using.endsWith(`:${f.key}`) ? using.slice(0, -f.key.length - 1) : null
+        const pose = poseKey && POSES[poseKey] && (FRIEND_DROPS[room] ?? []).some(d => d.target === poseKey) ? POSES[poseKey](i) : null
+        const at = pose ? { x: pose.x, y: pose.y } : { x, y: STAND_Y }
         return (
-          <g key={f.key} data-friend={f.key} transform={`translate(${at.x} ${at.y})${small ? ' scale(0.8)' : inSand ? ' scale(0.7)' : ''}`}
+          <g key={f.key} data-friend={f.key} transform={`translate(${at.x} ${at.y})${pose ? ` scale(${pose.scale})` : ''}`}
             onPointerDown={e => { if (f.cooldown) { onInteract(); return } begin(e, 'friend', f.key) }} style={{ cursor: f.cooldown ? 'default' : 'grab' }}>
-            <g className={onSwing ? 'pl-swing' : onSlide ? 'pl-slide' : inSand ? 'pl-dig' : undefined}>
+            <g className={pose?.anim}>
             {(carrying?.kind === 'outfit' || drag?.kind === 'outfit' || (draggingThing && draggingThing !== holding)) && !f.cooldown && (
               <circle cx={0} cy={-70} r={70} fill="rgba(255,255,255,0.25)" stroke="#F4C542" strokeWidth={4} strokeDasharray="8 7" className="pl-target" data-target={`friend-${f.key}`} />
             )}

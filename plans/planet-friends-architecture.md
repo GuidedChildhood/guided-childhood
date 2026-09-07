@@ -2,7 +2,7 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b and 3d built, and the first part of 3c (every planet on the map). Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. Justin's note of
+own typo was found. Status: design plus slices 1, 2, 2b, 2c, 3a, 3b, 3c and 3d built: the universe with every planet a place, and the child's own explorer. Two builds of 3b met on 6 September and were folded into one; decisions.md has the ledger. A design canvas of seven boards at Toca quality (the title, the universe, the Space Port, the kitchen, the explorer maker, the Wild planet, the mission board), drawn from the toy's own pieces and cast art in butter and ink, is at https://claude.ai/code/artifact/b1b16e3f-d88d-4966-9bf9-5adc05dc56b6 (6 September); it is the picture the next slices draw towards. Justin's evening note of 6 September (press a planet and see its town of buildings, go inside, find the little ones by device clues) is designed in 7.10 and 7.11, planned as slice 3g, waiting on his go. Justin's note of
 6 September (the universe, and the self) is designed in 7.1, 7.5 and 7.9 and
 planned as 3c and 3d, waiting on his go. When the code
 and this file disagree, the code is right and this file gets updated, the
@@ -1121,7 +1121,7 @@ its own sessions, because the Friends get sleepy.
 
 ### 7.1 The star system, the map the child moves around
 
-**As built, 6 September 2026 (slice 3b).** `components/planet/StarMap.tsx`:
+**As built, 6 September 2026 (slices 3b and 3c).** `components/planet/StarMap.tsx` is the universe now: a sky twice the screen each way (`SKY` in the rules, 780 by 900), DiGi in the middle, the dark dragged to look around, a small star that brings DiGi back, every planet of the catalogue drifting with a place of its own that a drag changes and the save keeps (`planet_move`, `home.world.places`, clamped inside the sky), and the window opening on the newest planet when there is one. Each of the eleven planets has a first room. Before that, as built for 3b:
 DiGi in the middle, three dashed orbits, the home planet, Moonbase School and
 the Playground planet, and a tray along the bottom of the awake Friends with
 a dot in the colour of the planet each one is on. Tap a planet to look; drag
@@ -1280,14 +1280,17 @@ Star Lessons table, so a Learn tab pass never landed it. It now reads both.
 | Home planet (built) | Outdoors, and the Den: kitchen, living room, bedroom (built), bathroom (a drop) | The plots, the pods, the sun catcher, the nursery, the charging shelf, the fridge, the beds, the wardrobe | MoonPhone (built) | Free | 1, 2, 3 |
 | Moonbase School (built) | Classroom; library as a drop | The board, two desks, the globe, the books, DiGi's desk, a porthole | Laptop at Tier 3 | Lesson 1, or growth stage 2 | 1, 2, 3 |
 | Playground planet (built) | Playground; arcade as a drop | The swings, the slide, the sandpit, a bench, a tree, the sign | StarPad | Lesson 2, or growth stage 3 | 1, 2, 3 |
-| Space Port | Launch pad, garage | Rockets, the rover, a fuel pump that pours starlight, tools | PocketGame | The rocket launch mission, or growth stage 1 | 1, 2, 3 |
-| Wild planet | Forest, pond, burrow | Trees, a pond, a burrow, a rope swing; Hog, Robin and Fox as neighbours in a drop | StarWatch | The explorer walk mission, or lesson 4 | 1, 2, 3 |
-| Observatory | The dome, the roof | Telescope, star map, the comet, deckchairs | SpaceCam | The star hunt mission, or growth stage 4 | 1, 2, 3 |
-| Star Cafe | Cafe, the bench under the stars, reading corner | Tables, the counter, the menu, cushions, books (section 2.3) | | Lesson 3 | 2, 3 |
-| StarNet Studio | Studio, the feed wall | The dome tool, the pretend feed (section 4.2) | | Lesson 5 | 2, 3 |
-| Ice planet | The igloo field | Igloos, an ice slide, a snowman, a warm hut | | Lesson 6, or growth stage 5 | 1, 2, 3 |
-| Volcano planet | The hot springs | Warm pools, a lava lamp rock, stepping stones, steam | | Lesson 7, or the helping hands mission | 1, 2, 3 |
-| Rainbow planet | The colour field | A rainbow slide, a cloud bed, paint pots, a sun shower | | Lesson 8, or the twenty moon jumps mission | 1, 2, 3 |
+| Space Port (built) | Launch pad, garage | Rockets, the rover, a fuel pump that pours starlight, tools | PocketGame | The rocket launch mission, or growth stage 2 | 1, 2, 3 |
+| Wild planet (built) | Forest, pond, burrow | Trees, a pond, a burrow, a rope swing; Hog, Robin and Fox as neighbours in a drop | StarWatch | The explorer walk mission, or lesson 4 | 1, 2, 3 |
+| Observatory (built) | The dome, the roof | Telescope, star map, the comet, deckchairs | SpaceCam | The star hunt mission, or growth stage 4 | 1, 2, 3 |
+| Star Cafe (built) | Cafe, the bench under the stars, reading corner | Tables, the counter, the menu, cushions, books (section 2.3) | | Lesson 3 | 2, 3 |
+| StarNet Studio (built) | Studio, the feed wall | The dome tool, the pretend feed (section 4.2) | | Lesson 5 | 2, 3 |
+| Ice planet (built) | The igloo field | Igloos, an ice slide, a snowman, a warm hut | | Lesson 6, or growth stage 5 | 1, 2, 3 |
+| Volcano planet (built) | The hot springs | Warm pools, a lava lamp rock, stepping stones, steam | | Lesson 7, or the helping hands mission | 1, 2, 3 |
+| Rainbow planet (built) | The colour field | A rainbow slide, a cloud bed, paint pots, a sun shower | | Lesson 8, or the twenty moon jumps mission | 1, 2, 3 |
+
+Every room in the Rooms column is a building in the planet's town (7.10); a
+room still to come stands in the town as a signed plot.
 
 **Drops.** A planet, a room or ten things a week, as registry rows and art,
 the way Toca ships Friday gifts. Fixed and named in advance on the map, so
@@ -1342,6 +1345,108 @@ the one who gets to choose.
   maker. A child who has made themself is on the planet, not watching it,
   and the space suit is the first thing they put on before they explore.
 
+### 7.10 The town: press a planet, see its buildings, go inside
+
+Justin, 6 September 2026, evening: "When you press a planet it should show a
+city in the planet where there are buildings. When you press a building you
+go inside." So a planet is no longer a single first room the rocket drops
+into. Every planet has a **town**: its surface drawn big, the way the home
+planet's outdoors is drawn now, with its buildings standing on it, a road, the
+launch pad, and the Friends who are there walking about. Each building is a
+door: tap it and you are inside, in the room. The back button in a room
+returns to the town, and the launch pad in the town returns to the universe.
+The home planet already is a town (the Den's round door, the nursery in
+orbit, the plots, the pods, the sun catcher); this section gives every other
+planet one, and makes the landing go to the town instead of the room.
+
+**A town is data, like a room.** `TOWNS[planet]` names the ground and sky
+colours and the buildings: `{ key, room, x, size }`. A building whose room
+is built opens on a tap; a plot whose room is still a drop stands as a signed
+plot ("Something is being built here"), never a lock, so there is nothing to
+ask a grown up about. One renderer, `TownScene`, draws every town from data,
+the way `RoomScene` draws every room, and the Friends, the self, the parts
+box and the pocket work on the ground exactly as they do outdoors at home.
+The buildings are the rooms of the 7.5 catalogue: Moonbase School has the
+school and, as plots, the library and the sports dome; the Space Port the
+hangar and, as plots, the garage and the tower; the Star Cafe the cafe and
+the bench under the stars; and so on down the table. The buildings carry the
+planet's own shapes (a dome on the moon, a hangar at the port, an igloo
+row on the Ice planet) so a child knows where they are from the skyline.
+
+**Landing.** Flying to a planet lands in its town. Tier 1 taps a planet and
+Pebble lands in the town; a tap on a building goes in. The New! reveal and
+the planet card do not change. A room's door on each side still walks to the
+next room where there is one.
+
+### 7.11 Hide and seek: the little ones and their clues
+
+Justin, the same note: "find mini baby Planet Friends hidden in a house and
+you get a clue, like where you put your device at night, and similar device
+related clues to find them, and when you get one it gives you the clue to
+the next one."
+
+**The little ones.** Five mini Planet Friends, Little Pebble, Little Bloop,
+Little Orbit, Little Nova and Little Cosmo, drawn from the cast's own baby
+art at half size. They live in the nursery dome with the babies and they
+love hide and seek. Every child at every tier has all five from the first
+day; nothing is earned for them to exist. They are not the cast's baby stage
+(1.3), which is about who has grown up; they are the nursery's own little
+ones and they never grow.
+
+**A hunt.** The little ones run off and hide, one each in five hiding places
+across the child's open planets, inside the buildings. DiGi has the first
+clue. Every clue is a riddle about where devices live in a good week, in the
+child's words, and its answer is a real place in the child's world:
+
+| Clue | The place | The habit it teaches |
+| --- | --- | --- |
+| Where does a phone sleep at night? | The charging shelf, the kitchen | Devices charge outside the bedroom (3.3) |
+| Where is a phone never taken, not even under the covers? | The bed, the bedroom | Phones out of the bedroom |
+| Where do we eat with every screen put away? | The table, the kitchen | Screens off dinner |
+| Where do you read a real book, paper and all? | The bookshelf, the living room | Read a real book |
+| Where does a laptop open for a lesson, and close after? | The desk, the classroom | One screen for one job |
+| Where is the best thing to look at not a screen at all? | The telescope, the Observatory | The star hunt |
+| Where does the rover fill up with starlight, then go? | The fuel pump, the Space Port | Charge, then put it down |
+| Where do you go with no phone in your pocket? | The burrow, the Wild planet | The explorer walk |
+| Where do you warm up with everyone's phone in the basket? | The warm hut, the Ice planet | Together, screens away |
+| Where do you sit and talk with a hot chocolate and no phone? | The counter, the Star Cafe | Talking beats scrolling |
+| Where do pictures go up for the family and nobody else? | The feed wall, StarNet Studio | The pretend feed (4.2), Tier 2 and 3 |
+| Where do the paints come out instead of a screen? | The paint pots, the Rainbow planet | Making beats watching |
+
+The child reads the clue (Tier 1 gets a picture card: the little one's face
+and the thing drawn small, in the pattern of the code card's pictures, and
+the building glows on the town), flies there, goes into the building and taps
+the place. If it is the right place, the little one pops out ("Found me!"),
+giggles, and says the next clue. If it is not, the thing does what it always
+does on a tap and nothing else; there is no wrong, no loss, no counter. A
+child who is stuck gets a kinder hint on the second look at the clue card
+("It is somewhere in the kitchen"), never a timer. The fifth little one says
+"All home!" and the hunt ends: the five are back in the nursery, asleep, and
+the child gets one named part, named on the first clue before anything
+starts ("Find all five and you get: a bright star"), which is the fixed and
+named reward rule the missions already keep. A new hunt starts from the
+nursery the next day; nothing reminds the child, the dome simply shows the
+little ones awake again.
+
+**Where they hide.** The hiding places are the fixed list above, filtered
+to the child's open planets and built rooms, so a hunt never points at a
+planet the child cannot reach; as the universe opens, the little ones hide
+further away. The server picks five for each hunt from a seed, in an order
+that walks outward from home, so every device shows the same hunt. Each
+place has exactly one clue, so over the weeks a child comes to know the
+answers, and that is the point: the family's device habits become places
+the child can name.
+
+**The rules it keeps.** The client reports, the server decides:
+`mini_found { mini, room, spot }` is the only event, the server checks it
+against the hunt's own hiding places, and the child's device only ever holds
+the current clue, never the list. The hunt is play state in
+`planet_homes.state.hunt` (the day, the order, the places, the found), so
+nothing new is collected about the child. The clues are fixed lines in the
+registry, in the pattern of the mission lines, so no model comes near the
+child. No timer on screen, no padlock, no loss language, and every little
+one is found in the end.
+
 ### 7.7 The data model and the rules
 
 ```ts
@@ -1394,13 +1499,13 @@ type World = {
   swings, the slide, the sandpit, a bench, a tree, the sign), the lesson
   count on the server, the reveals on the planet, the map, the Learn tab and
   the pass screen. The parts box and the pocket work on every planet.
-- **3c The universe.** Every planet in the catalogue floating on a sky twice
+- **3c The universe.** Built, 6 September 2026: the sky twice the screen, panned by dragging the dark, DiGi recentred by the small star, every planet drifting with a place of its own (`planet_move`), and a first room for each of the eight far away planets with its spots, its launch pad, its tap pieces and its drop pieces. The keys open by whichever comes first: a lesson, a mission or growth. The rocket pocket waits with the drops. Plan: plans/week-of-2026-09-07-planet-friends-slice-3c-universe-plan.md.
   the size of the screen, panned by dragging, DiGi in the middle, a first
   room for each: the Space Port, the Wild planet, the Observatory, the Star
   Cafe, StarNet Studio (Tier 2 and 3), the Ice, Volcano and Rainbow planets.
   The keys open by whichever comes first: a lesson, a mission or growth.
   Planned in plans/week-of-2026-09-07-planet-friends-slice-3c-universe-plan.md.
-- **3d The self.** The maker sheet, the explorer figure with skin, hair,
+- **3d The self.** Built, 6 September 2026 (PR 984, kept whole in the PR 986 merge): the builder with skin, hair, hair colour and suit colour, and the explorer standing with the cast outdoors, in every room, on every planet and in the rocket. The visor, the badge, the backpack and the boots wait for a drop. Plan: plans/week-of-2026-09-07-planet-friends-slice-3d-self-plan.md.
   eyes, the space suit and more, on the planet, in the rooms, in the rocket.
   Planned in plans/week-of-2026-09-07-planet-friends-slice-3d-self-plan.md.
 - **3e The device ladder and the Star Cafe's loop.** The StarPad and the tiny
@@ -1409,6 +1514,16 @@ type World = {
 - **3f Breadth drops.** The animals on the Wild planet, the bathroom, the
   deeper rooms, StarNet's dome tool, and then a drop a week as data. The
   space rock of section 4.1 lands on the devices once StarNet exists.
+- **3g The town and the hide and seek.** Designed 6 September 2026 (7.10
+  and 7.11), waiting on Justin's go, in three shippable parts: **3g.1** the
+  towns from data (`TOWNS`, `TownScene`) with the landing going to the town
+  and a building tap going inside, for the home planet, Moonbase School, the
+  Playground and the Space Port; **3g.2** the little ones and the hunt (the
+  rules and their checks, the nursery start, the clue card with its Tier 1
+  pictures, the hiding places wired to the openables and spots that exist,
+  the `mini_found` event, the named reward); **3g.3** the towns of the seven
+  far planets, art from data. Planned in
+  plans/week-of-2026-09-07-planet-friends-slice-3g-town-and-hide-and-seek-plan.md.
 - Slice 4 stands: the Tier 3 schedule, GrowAndRest and trust.
 
 **Checks, the same as every slice.** Playwright at 390 and 1280 with every

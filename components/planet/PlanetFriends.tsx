@@ -11,7 +11,8 @@ import {
   type Where, type RoomKey, type Movable, type PlanetKey, type Self, ROOM_SPOTS, atHome, batteryNow, charging, deviceOf, drainMultiplier, heldDevice, isDeviceKey, isFoodKey, isRoomKey, isThingKey, roomZoneOf, whereIs, PHOTOS_MAX,
   landingRoom, lessonsToNextPlanet, lessonsToOpen, missionKeyFor, newPlanets, planetOf, planetOpen, planetSign } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
-import { HOUSE_LINES, MAP_LINES, PARK_LINES, ROOM_EMOJI, ROOM_TITLES, SCHOOL_LINES, THING_LABELS, THING_LINES, ZONE_HINTS, type SceneKey } from '@/lib/planet/world'
+import { HOUSE_LINES, MAP_LINES, PARK_LINES, ROOM_EMOJI, ROOM_TITLES, SCHOOL_LINES, THING_LABELS, THING_LINES, ZONE_HINTS, type SceneKey,
+  PORT_LINES, WILD_LINES, DOME_LINES, CAFE_LINES, STUDIO_LINES, ICE_LINES, VOLCANO_LINES, RAINBOW_LINES } from '@/lib/planet/world'
 import { PLANET_WORDS, SELF_LINES } from '@/lib/planet/universe'
 import SelfBuilder from './SelfBuilder'
 import RoomScene, { DOORS, nearestFreeRoomSpot, roomStandingX, type FriendTarget, type RoomFurniture, type ThingTarget } from './RoomScene'
@@ -152,6 +153,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const grewRef = useRef<HTMLDivElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const askSeenRef = useRef<string | null>(null)
+  // The far away planets (slice 3c): the paint pots and the feed wall take turns through their lines.
+  const turnRef = useRef(0)
 
   useEffect(() => { setMuted(!soundEnabled()) }, [])
   useEffect(() => { setOffset(new Date(view.serverNow).getTime() - Date.now()) }, [view.serverNow])
@@ -499,7 +502,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     say(live.self ? SELF_LINES.changed : SELF_LINES.hello)
     void send({ kind: 'self_set', self: me })
   }
-  const onOrbit = (planet: PlanetKey, angle: number) => { interact(); playFx('tap'); say(MAP_LINES.orbit); void send({ kind: 'orbit_move', planet, angle }) }
+  const onMove = (planet: PlanetKey, x: number, y: number) => { interact(); playFx('tap'); say(MAP_LINES.moved); void send({ kind: 'planet_move', planet, x, y }) }
+  const onRecentre = () => { interact(); playFx('tap'); say(MAP_LINES.recentre) }
   const onTapDigi = () => { interact(); playFx('sparkle'); say(MAP_LINES.digi) }
   /** A Friend walks through a door, and the view follows it. */
   async function moveFriend(friend: FriendKey, next: Where, line?: string) {
@@ -520,6 +524,21 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     if (target === 'slide') { interact(); playFx('sparkle'); say(PARK_LINES.slide); flash(setRoomUsing, `slide:${friend}`, 1400); return }
     if (target === 'sandpit') { interact(); playFx('boop'); say(PARK_LINES.sandpit); flash(setRoomUsing, `sandpit:${friend}`, 1800); return }
     if (target === 'bench') { interact(); playFx('giggle'); say(PARK_LINES.bench); flash(setRoomUsing, `bench:${friend}`, 1600); return }
+    // The far away planets (slice 3c).
+    if (target === 'gantry') { interact(); playFx('sparkle'); say(PORT_LINES.gantry); flash(setRoomUsing, `gantry:${friend}`, 1400); return }
+    if (target === 'rover') { interact(); playFx('boop'); say(PORT_LINES.rover); flash(setRoomUsing, `rover:${friend}`, 1200); return }
+    if (target === 'rope') { interact(); playFx('giggle'); say(WILD_LINES.rope); flash(setRoomUsing, `rope:${friend}`, 1800); return }
+    if (target === 'pond') { interact(); playFx('boop'); say(WILD_LINES.pond); flash(setRoomUsing, `pond:${friend}`, 1200); return }
+    if (target === 'deckchair') { interact(); playFx('giggle'); say(DOME_LINES.deckchair); flash(setRoomUsing, `deckchair:${friend}`, 1800); return }
+    if (target === 'cafe_table') { interact(); playFx('giggle'); say(CAFE_LINES.table); flash(setRoomUsing, `cafe_table:${friend}`, 1800); return }
+    if (target === 'cushions') { interact(); playFx('giggle'); say(CAFE_LINES.cushions); flash(setRoomUsing, `cushions:${friend}`, 1800); return }
+    if (target === 'studio_desk') { interact(); playFx('tap'); say(STUDIO_LINES.desk); flash(setRoomUsing, `studio_desk:${friend}`, 1800); return }
+    if (target === 'igloo') { interact(); playFx('giggle'); say(ICE_LINES.igloo); flash(setRoomUsing, `igloo:${friend}`, 1800); return }
+    if (target === 'iceslide') { interact(); playFx('sparkle'); say(ICE_LINES.slide); flash(setRoomUsing, `iceslide:${friend}`, 1400); return }
+    if (target === 'pool') { interact(); playFx('giggle'); say(VOLCANO_LINES.pool); flash(setRoomUsing, `pool:${friend}`, 2000); return }
+    if (target === 'stones') { interact(); playFx('boop'); say(VOLCANO_LINES.stones); flash(setRoomUsing, `stones:${friend}`, 1400); return }
+    if (target === 'rainbowslide') { interact(); playFx('sparkle'); say(RAINBOW_LINES.slide); flash(setRoomUsing, `rainbowslide:${friend}`, 1400); return }
+    if (target === 'cloudbed') { interact(); playFx('yawn'); say(RAINBOW_LINES.cloudBed); flash(setRoomUsing, `cloudbed:${friend}`, 2200); return }
     if (target === 'door_right' && DOORS[room].right) { void moveFriend(friend, DOORS[room].right!); return }
     if (target === 'bed') { playFx('yawn'); say(HOUSE_LINES.bed(friendArt(friend).name)); void send({ kind: 'nap_start', friend }); return }
     if (target === 'sofa') { interact(); playFx('giggle'); say(HOUSE_LINES.sofa); flash(setRoomUsing, `sofa:${friend}`, 1600); return }
@@ -593,6 +612,24 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     if (kind === 'books') { playFx('tap'); say(SCHOOL_LINES.books); flash(setRoomUsing, 'books', 900); return }
     if (kind === 'tree') { playFx('sparkle'); say(PARK_LINES.tree); flash(setRoomUsing, 'tree', 900); return }
     if (kind === 'sign') { playFx('tap'); say(PARK_LINES.sign); return }
+    // The far away planets (slice 3c).
+    if (kind === 'fuel_pump') { playFx('sparkle'); say(PORT_LINES.fuelPump); flash(setRoomUsing, 'fuel_pump', 1200); return }
+    if (kind === 'tools') { playFx('tap'); say(PORT_LINES.tools); flash(setRoomUsing, 'tools', 800); return }
+    if (kind === 'burrow') { playFx('boop'); say(WILD_LINES.burrow); flash(setRoomUsing, 'burrow', 1200); return }
+    if (kind === 'telescope') { playFx('sparkle'); say(DOME_LINES.telescope); flash(setRoomUsing, 'telescope', 1400); return }
+    if (kind === 'star_map') { playFx('chime'); say(DOME_LINES.starMap); flash(setRoomUsing, 'star_map', 1400); return }
+    if (kind === 'counter') { playFx('sparkle'); say(CAFE_LINES.counter); flash(setRoomUsing, 'counter', 1400); return }
+    if (kind === 'menu') { playFx('tap'); say(CAFE_LINES.menu); flash(setRoomUsing, 'menu', 800); return }
+    if (kind === 'feed_wall') { playFx('chime'); say(STUDIO_LINES.feed(friendArt(live.friends[turnRef.current++ % Math.max(1, live.friends.length)]?.key ?? 'pebble').name)); flash(setRoomUsing, 'feed_wall', 1400); return }
+    if (kind === 'dome_tool') { playFx('sparkle'); say(STUDIO_LINES.domeTool); flash(setRoomUsing, 'dome_tool', 1600); return }
+    if (kind === 'ring_light') { playFx('tap'); say(STUDIO_LINES.ringLight); flash(setRoomUsing, 'ring_light', 1000); return }
+    if (kind === 'snowman') { playFx('giggle'); say(ICE_LINES.snowman); flash(setRoomUsing, 'snowman', 800); return }
+    if (kind === 'warm_hut') { playFx('chime'); say(ICE_LINES.hut); flash(setRoomUsing, 'warm_hut', 1600); return }
+    if (kind === 'volcano') { playFx('boop'); say(VOLCANO_LINES.volcano); flash(setRoomUsing, 'volcano', 900); return }
+    if (kind === 'lava_rock') { playFx('sparkle'); say(VOLCANO_LINES.lavaRock); flash(setRoomUsing, 'lava_rock', 1400); return }
+    if (kind === 'steam') { playFx('boop'); say(VOLCANO_LINES.steam); flash(setRoomUsing, 'steam', 900); return }
+    if (kind === 'paint_pots') { playFx('boop'); say(RAINBOW_LINES.paint(RAINBOW_LINES.paintColours[turnRef.current++ % RAINBOW_LINES.paintColours.length])); flash(setRoomUsing, 'paint_pots', 900); return }
+    if (kind === 'sun_shower') { playFx('sparkle'); say(RAINBOW_LINES.shower); flash(setRoomUsing, 'sun_shower', 1400); return }
     if (kind === 'launchpad') { goTo('map'); return }
     playFx('tap'); say(HOUSE_LINES.window)
   }
@@ -775,6 +812,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         @keyframes pl-slide { 0% { transform: translate(0, 0) } 100% { transform: translate(76px, 62px) } }
         @keyframes pl-dig { 0%, 100% { transform: translateY(0) rotate(0) } 50% { transform: translateY(6px) rotate(-8deg) } }
         @keyframes pl-sparkle-loop { 0%, 100% { opacity: 0.4; transform: translateY(0) } 50% { opacity: 1; transform: translateY(-4px) } }
+        @keyframes pl-drift { 0%, 100% { transform: translate(0, 0) } 33% { transform: translate(4px, -6px) } 66% { transform: translate(-4px, 3px) } }
         .pl-breathe { animation: pl-breathe 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-wiggle { animation: pl-wiggle 0.7s ease-in-out; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-sparkle { animation: pl-sparkle 1.2s ease-out }
@@ -790,7 +828,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         .pl-slide { animation: pl-slide 1.2s ease-in forwards }
         .pl-dig { animation: pl-dig 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100% }
         .pl-sparkle-loop { animation: pl-sparkle-loop 1.4s ease-in-out infinite }
-        @media (prefers-reduced-motion: reduce) { .pl-breathe, .pl-wiggle, .pl-sparkle, .pl-dust, .pl-puff, .pl-star, .pl-float, .pl-target, .pl-bounce, .pl-swing, .pl-launch, .pl-flicker, .pl-slide, .pl-dig, .pl-sparkle-loop { animation: none } }
+        .pl-drift { animation: pl-drift 9s ease-in-out infinite; transform-box: fill-box; transform-origin: center }
+        @media (prefers-reduced-motion: reduce) { .pl-breathe, .pl-wiggle, .pl-sparkle, .pl-dust, .pl-puff, .pl-star, .pl-float, .pl-target, .pl-bounce, .pl-swing, .pl-launch, .pl-flicker, .pl-slide, .pl-dig, .pl-sparkle-loop, .pl-drift { animation: none } }
       `}</style>
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: `10px 12px calc(env(safe-area-inset-bottom, 0px) + ${boxOpen ? 300 : 24}px)` }}>
@@ -820,7 +859,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               flight={flight}
               onTapPlanet={onTapPlanet}
               onFly={fly}
-              onOrbit={onOrbit}
+              onMove={onMove}
+              onRecentre={onRecentre}
               onTapDigi={onTapDigi}
               onInteract={interact}
               onFlightDone={fl => { void touchDown(fl) }}
@@ -932,7 +972,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             />
           )}
 
-          {fresh.length > 0 && !newSeen && !onMap && overlay === 'none' && !landed && !boardOpen && (
+          {/* The new planet card waits its turn behind the grew card, so two cards never sit on each other. */}
+          {fresh.length > 0 && !newSeen && !onMap && overlay === 'none' && !landed && !boardOpen && !(grewTotal > 0 && !grewShown) && (
             <div data-new-planet style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 28 }} aria-hidden>🚀</span>
               <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>

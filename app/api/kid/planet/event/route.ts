@@ -10,7 +10,7 @@ import { FRIEND_KEYS, isDeviceKey, isMovable, isPlanetKey, isRoomKey, isSelf, is
 
 export const dynamic = 'force-dynamic'
 
-const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen', 'part_place', 'part_move', 'part_remove', 'outfit_set', 'self_set', 'room_move', 'thing_place', 'thing_home', 'thing_give', 'eat', 'snap', 'device_dock', 'orbit_move'])
+const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen', 'part_place', 'part_move', 'part_remove', 'outfit_set', 'self_set', 'room_move', 'thing_place', 'thing_home', 'thing_give', 'eat', 'snap', 'device_dock', 'planet_move'])
 
 function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   const kind = String(body.kind ?? '')
@@ -53,10 +53,13 @@ function parseEvent(body: Record<string, unknown>): ClientEvent | null {
     if (!isDeviceKey(body.device)) return null
     return { kind, device: body.device }
   }
-  if (kind === 'orbit_move') {
-    const angle = Number(body.angle)
-    if (!isPlanetKey(body.planet) || !Number.isFinite(angle)) return null
-    return { kind, planet: body.planet, angle }
+  if (kind === 'planet_move') {
+    // A planet dragged somewhere in the sky (slice 3c): a key and two numbers, clamped again in the rules.
+    const planet = body.planet
+    const x = Number(body.x)
+    const y = Number(body.y)
+    if (!isPlanetKey(planet) || !Number.isFinite(x) || !Number.isFinite(y)) return null
+    return { kind, planet, x, y }
   }
   if (kind === 'mission_start' || kind === 'mission_claim' || kind === 'mission_seen') {
     const key = typeof body.key === 'string' && /^[a-z_]{2,32}$/.test(body.key) ? body.key : null

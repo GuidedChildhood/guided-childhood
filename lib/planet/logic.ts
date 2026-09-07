@@ -404,7 +404,7 @@ export type HomeEvent =
   | { kind: 'eat'; friend: FriendKey }
   | { kind: 'snap'; friend: FriendKey }
   | { kind: 'device_dock'; device: DeviceKey }
-  | { kind: 'orbit_move'; planet: PlanetKey; angle: number }
+  | { kind: 'planet_move'; planet: PlanetKey; x: number; y: number }
 
 /** Starlight lost per minute of play for this tier and cloud. */
 export function drainPerMinute(cfg: TierConfig, cloud: boolean): number {
@@ -565,10 +565,12 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Reco
       const visited = home.world.visited ?? []
       return { ...home, world: { ...home.world, where: { ...home.world.where, [ev.friend]: ev.where }, visited: visited.includes(planet) ? visited : [...visited, planet] } }
     }
-    case 'orbit_move': {
-      if (!isPlanetKey(ev.planet) || !Number.isFinite(ev.angle)) return home
-      const angle = ((Math.round(ev.angle) % 360) + 360) % 360
-      return { ...home, world: { ...home.world, orbits: { ...(home.world.orbits ?? {}), [ev.planet]: angle } } }
+    case 'planet_move': {
+      // The child dragged a planet somewhere in the sky and it stays there.
+      // Clamped inside the sky so a planet can never be lost off the edge.
+      if (!isPlanetKey(ev.planet) || !Number.isFinite(ev.x) || !Number.isFinite(ev.y)) return home
+      const place = clampPlace({ x: Math.round(ev.x), y: Math.round(ev.y) })
+      return { ...home, world: { ...home.world, places: { ...(home.world.places ?? {}), [ev.planet]: place } } }
     }
     case 'thing_place': {
       const w = home.world
@@ -830,7 +832,10 @@ export function boxOutfits(home: Home): Outfit[] {
 // in the toy box; the parts from the box can come indoors. One rule for all
 // of it: a thing is in exactly one place, a spot, a hand, or where it lives.
 
-export type RoomKey = 'kitchen' | 'living' | 'bedroom' | 'classroom' | 'playground'
+export type RoomKey =
+  | 'kitchen' | 'living' | 'bedroom' | 'classroom' | 'playground'
+  // The first room of each far away planet (slice 3c): the launch pad, the forest, the dome, the cafe, the studio, the igloo field, the hot springs, the colour field.
+  | 'launchpad' | 'forest' | 'dome' | 'cafe' | 'studio' | 'igloos' | 'springs' | 'colours'
 export type Where = 'outdoors' | RoomKey
 export type RoomZone = 'wall' | 'floor' | 'table'
 export type FoodKey = 'apple' | 'toast' | 'juice' | 'cake'
@@ -860,13 +865,13 @@ export type World = {
   /** Food eaten today, by the day it was eaten. The fridge restocks tomorrow. */
   eaten: Partial<Record<ThingKey, string>>
   devices: Partial<Record<DeviceKey, Device>>
-  /** Where the child dragged each planet on its orbit, in degrees (slice 3b). Missing means the catalogue's place. */
-  orbits?: Partial<Record<PlanetKey, number>>
+  /** Where the child dragged each planet in the sky (slice 3c). Missing means the catalogue's place. */
+  places?: Partial<Record<PlanetKey, { x: number; y: number }>>
   /** The planets the child has landed on, so a newly opened one can say it is new until then. */
   visited?: PlanetKey[]
 }
 
-export const ROOM_KEYS: RoomKey[] = ['kitchen', 'living', 'bedroom', 'classroom', 'playground']
+export const ROOM_KEYS: RoomKey[] = ['kitchen', 'living', 'bedroom', 'classroom', 'playground', 'launchpad', 'forest', 'dome', 'cafe', 'studio', 'igloos', 'springs', 'colours']
 /** The walk through the house: the kitchen is the front door, the bedroom the far end. */
 export const ROOM_ORDER: Where[] = ['outdoors', 'kitchen', 'living', 'bedroom']
 export const FOOD_KEYS: FoodKey[] = ['apple', 'toast', 'juice', 'cake']
@@ -903,6 +908,15 @@ export const ROOM_SPOTS: Record<RoomKey, { id: string; zone: RoomZone }[]> = {
     { id: 'p_f1', zone: 'floor' }, { id: 'p_f2', zone: 'floor' }, { id: 'p_f3', zone: 'floor' },
     { id: 'p_w1', zone: 'wall' },
   ],
+  // The far away planets (slice 3c). Outdoors, a wall spot is the sky above the room: a moon or a star hangs there.
+  launchpad: [{ id: 's_f1', zone: 'floor' }, { id: 's_f2', zone: 'floor' }, { id: 's_w1', zone: 'wall' }],
+  forest: [{ id: 'w_f1', zone: 'floor' }, { id: 'w_f2', zone: 'floor' }, { id: 'w_w1', zone: 'wall' }],
+  dome: [{ id: 'o_t1', zone: 'table' }, { id: 'o_f1', zone: 'floor' }, { id: 'o_f2', zone: 'floor' }, { id: 'o_w1', zone: 'wall' }],
+  cafe: [{ id: 'f_t1', zone: 'table' }, { id: 'f_t2', zone: 'table' }, { id: 'f_f1', zone: 'floor' }, { id: 'f_w1', zone: 'wall' }],
+  studio: [{ id: 'n_t1', zone: 'table' }, { id: 'n_f1', zone: 'floor' }, { id: 'n_w1', zone: 'wall' }],
+  igloos: [{ id: 'i_f1', zone: 'floor' }, { id: 'i_f2', zone: 'floor' }, { id: 'i_w1', zone: 'wall' }],
+  springs: [{ id: 'v_f1', zone: 'floor' }, { id: 'v_f2', zone: 'floor' }, { id: 'v_w1', zone: 'wall' }],
+  colours: [{ id: 'r_f1', zone: 'floor' }, { id: 'r_f2', zone: 'floor' }, { id: 'r_w1', zone: 'wall' }],
 }
 /** A real five minutes on the shelf, on the server's clock. */
 export const CHARGE_MINUTES = 5
@@ -951,6 +965,11 @@ export function ensureWorld(home: Home): Home {
   }
   if (mended) world = { ...world, where }
   if (world.visited && world.visited.some(v => !isPlanetKey(v))) world = { ...world, visited: world.visited.filter(isPlanetKey) }
+  if (world.places && Object.keys(world.places).some(k => !isPlanetKey(k))) {
+    const places: World['places'] = {}
+    for (const [k, v] of Object.entries(world.places)) if (isPlanetKey(k) && v) places[k] = v
+    world = { ...world, places }
+  }
   for (const f of home.friends) {
     const key = deviceOf(f.key)
     if (world.devices[key]) continue
@@ -1048,17 +1067,16 @@ export function settleWorld(home: Home, nowIso: string): Home {
   return { ...home, world: { ...w, devices, eaten } }
 }
 
-// ── The star system (slice 3b): the planets, and the keys that open them ─────
+// ── The star system (slices 3b and 3c): the planets, and the keys that open them ──
 // Justin, 5 September 2026: "planets they can move around, like Toca Boca
 // works ... and add in the lessons to unlock planets", and 6 September: "all
 // the planets floating in a universe so the child can explore each one."
-// DiGi is the star in the middle and every planet of the catalogue (design
-// 7.5) orbits it. A planet is a set of rooms. A key is a lesson count, a
-// mission landed or a growth stage, and any one of a planet's keys opens it;
-// the count of lessons is the server's, never the client's. A planet whose
-// rooms are not drawn yet stays a far away one whatever its keys say, so
-// nothing on the map is ever open with nowhere to land. This file holds the
-// rules; the words and the art are rows in ./universe.
+// DiGi is the star in the middle of a sky twice the size of the screen, and
+// every planet of the catalogue (design 7.5) floats in it: each has a place
+// the child can change by dragging, and a first room to land in. A key is a
+// lesson count, a mission landed or a growth stage, and any one of a planet's
+// keys opens it; the count of lessons is the server's, never the client's.
+// This file holds the rules; the words and the art are rows in ./universe.
 
 export type PlanetKey = 'home' | 'school' | 'playground' | 'port' | 'wild' | 'observatory' | 'cafe' | 'starnet' | 'ice' | 'volcano' | 'rainbow'
 export type PlanetOpens =
@@ -1069,19 +1087,28 @@ export type PlanetOpens =
 /** What a pale planet shows: the kind of key that opens it, or later while its rooms are not drawn yet. */
 export type PlanetSign = 'lesson' | 'mission' | 'stage' | 'later'
 
+/** The sky the planets float in, in scene units: twice the screen each way, DiGi in the middle. */
+export const SKY = { w: 780, h: 900, cx: 390, cy: 450 } as const
+const PLACE_MARGIN = 56
+export const clampPlace = (p: { x: number; y: number }): { x: number; y: number } => ({
+  x: Math.max(PLACE_MARGIN, Math.min(SKY.w - PLACE_MARGIN, p.x)),
+  y: Math.max(PLACE_MARGIN, Math.min(SKY.h - PLACE_MARGIN - 24, p.y)),
+})
+
 export const PLANET_ORDER: PlanetKey[] = ['home', 'school', 'playground', 'port', 'wild', 'observatory', 'cafe', 'starnet', 'ice', 'volcano', 'rainbow']
-export const PLANETS: Record<PlanetKey, { rooms: Where[]; opens: PlanetOpens[]; tiers: Tier[]; angle: number; orbit: number }> = {
-  home: { rooms: ['outdoors', 'kitchen', 'living', 'bedroom'], opens: [{ kind: 'free' }], tiers: [1, 2, 3], angle: 150, orbit: 0 },
-  school: { rooms: ['classroom'], opens: [{ kind: 'lesson', count: 1 }, { kind: 'stage', stage: 2 }], tiers: [1, 2, 3], angle: 325, orbit: 0 },
-  playground: { rooms: ['playground'], opens: [{ kind: 'lesson', count: 2 }, { kind: 'stage', stage: 3 }], tiers: [1, 2, 3], angle: 80, orbit: 1 },
-  port: { rooms: [], opens: [{ kind: 'mission', key: 'rocket_launch' }, { kind: 'stage', stage: 1 }], tiers: [1, 2, 3], angle: 180, orbit: 1 },
-  wild: { rooms: [], opens: [{ kind: 'mission', key: 'explorer_walk' }, { kind: 'lesson', count: 4 }], tiers: [1, 2, 3], angle: 120, orbit: 2 },
-  observatory: { rooms: [], opens: [{ kind: 'mission', key: 'star_hunt' }, { kind: 'stage', stage: 4 }], tiers: [1, 2, 3], angle: 325, orbit: 2 },
-  cafe: { rooms: [], opens: [{ kind: 'lesson', count: 3 }], tiers: [2, 3], angle: 250, orbit: 1 },
-  starnet: { rooms: [], opens: [{ kind: 'lesson', count: 5 }], tiers: [2, 3], angle: 225, orbit: 2 },
-  ice: { rooms: [], opens: [{ kind: 'lesson', count: 6 }, { kind: 'stage', stage: 5 }], tiers: [1, 2, 3], angle: 40, orbit: 2 },
-  volcano: { rooms: [], opens: [{ kind: 'lesson', count: 7 }, { kind: 'mission', key: 'helping_hands' }], tiers: [1, 2, 3], angle: 145, orbit: 2 },
-  rainbow: { rooms: [], opens: [{ kind: 'lesson', count: 8 }, { kind: 'mission', key: 'moon_jumps' }], tiers: [1, 2, 3], angle: 5, orbit: 1 },
+export const PLANETS: Record<PlanetKey, { rooms: Where[]; opens: PlanetOpens[]; tiers: Tier[]; at: { x: number; y: number } }> = {
+  home: { rooms: ['outdoors', 'kitchen', 'living', 'bedroom'], opens: [{ kind: 'free' }], tiers: [1, 2, 3], at: { x: 270, y: 530 } },
+  school: { rooms: ['classroom'], opens: [{ kind: 'lesson', count: 1 }, { kind: 'stage', stage: 2 }], tiers: [1, 2, 3], at: { x: 520, y: 380 } },
+  playground: { rooms: ['playground'], opens: [{ kind: 'lesson', count: 2 }, { kind: 'stage', stage: 3 }], tiers: [1, 2, 3], at: { x: 480, y: 590 } },
+  // The Space Port waits on the rocket launch or growth stage 2, so a first day shows the home planet alone (Justin, 6 September 2026).
+  port: { rooms: ['launchpad'], opens: [{ kind: 'mission', key: 'rocket_launch' }, { kind: 'stage', stage: 2 }], tiers: [1, 2, 3], at: { x: 150, y: 420 } },
+  wild: { rooms: ['forest'], opens: [{ kind: 'mission', key: 'explorer_walk' }, { kind: 'lesson', count: 4 }], tiers: [1, 2, 3], at: { x: 230, y: 720 } },
+  observatory: { rooms: ['dome'], opens: [{ kind: 'mission', key: 'star_hunt' }, { kind: 'stage', stage: 4 }], tiers: [1, 2, 3], at: { x: 620, y: 230 } },
+  cafe: { rooms: ['cafe'], opens: [{ kind: 'lesson', count: 3 }], tiers: [2, 3], at: { x: 330, y: 300 } },
+  starnet: { rooms: ['studio'], opens: [{ kind: 'lesson', count: 5 }], tiers: [2, 3], at: { x: 150, y: 260 } },
+  ice: { rooms: ['igloos'], opens: [{ kind: 'lesson', count: 6 }, { kind: 'stage', stage: 5 }], tiers: [1, 2, 3], at: { x: 660, y: 700 } },
+  volcano: { rooms: ['springs'], opens: [{ kind: 'lesson', count: 7 }, { kind: 'mission', key: 'helping_hands' }], tiers: [1, 2, 3], at: { x: 110, y: 610 } },
+  rainbow: { rooms: ['colours'], opens: [{ kind: 'lesson', count: 8 }, { kind: 'mission', key: 'moon_jumps' }], tiers: [1, 2, 3], at: { x: 650, y: 480 } },
 }
 export const isPlanetKey = (k: unknown): k is PlanetKey => typeof k === 'string' && (PLANET_ORDER as string[]).includes(k)
 
@@ -1154,8 +1181,8 @@ export function lessonsToNextPlanet(home: Home): { planet: PlanetKey; lessons: n
   return best
 }
 
-/** Where a planet sits on its orbit: where the child left it, or the catalogue's place. */
-export function orbitAngle(home: Home, planet: PlanetKey): number {
-  const a = home.world?.orbits?.[planet]
-  return typeof a === 'number' && Number.isFinite(a) ? a : PLANETS[planet].angle
+/** Where a planet floats in the sky: where the child left it, or the catalogue's place. */
+export function planetPlace(home: Home, planet: PlanetKey): { x: number; y: number } {
+  const p = home.world?.places?.[planet]
+  return p && Number.isFinite(p.x) && Number.isFinite(p.y) ? clampPlace(p) : PLANETS[planet].at
 }
