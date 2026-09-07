@@ -192,6 +192,47 @@ invented and nothing needs a citation it cannot survive.
   with the current cycle marked, plus the cycle name in the slide chrome
   so a pupil always knows where they are.
 
+**BUILT, 7 September 2026.** Justin said "yes phase 2" and all three parts
+shipped the same day.
+
+*Migration 269, applied in three ledger parts (the same way 236 shipped).*
+`starter_quiz` of 4 and `exit_quiz` of 5 on all 21 modules, 189 questions in
+total, in five mixed formats (tick one 40, true or false 42, short answer 83,
+fill the blank 17, match 7). The starter checks the `prior_knowledge` written
+in 268 and the exit checks the `key_learning_points`, aimed squarely at each
+module's own misconceptions. Every question carries an answer AND a teaching
+point, which is ours rather than Oak's: their answer sheet says what the right
+answer was, ours says what to do about a wrong one, and that is the difference
+between marking and teaching. Guards in the migration refuse a missing quiz, a
+wrong length and a single format quiz, because Oak mixes formats on purpose
+and five identical questions is a worksheet. No statistic is claimed anywhere.
+
+*Two print routes, four sheets.* `/print/[module]/starter-quiz` and
+`/print/[module]/exit-quiz`, each with `?answers=1` for the teacher version.
+One route rather than two per quiz, because the two versions must never drift:
+a reworded question that lands on only one of them is worse than no sheet.
+Linked from the print room and from the lesson page, and offered only where
+the bank exists. A match question scrambles its right hand column by a
+deterministic rotation, so a sheet printed last term still marks against the
+answer sheet printed today.
+
+*The cycle map in the player.* A new optional `cycles` prop, and the mapping
+from slide to cycle is DERIVED rather than tagged: the player walks the teach
+phase spending each cycle's stated minute budget against the minutes every
+slide already carries. So a slide added to a deck lands in the right cycle on
+its own and the map can never drift from the deck, the same principle the
+phase strip already follows. The map shows at each boundary rather than on
+every slide (wallpaper otherwise, and Oak repeats its map slide at exactly
+these points), and inside a cycle the chrome names the cycle instead of the
+phase, because Teach is true of eight slides in a row and tells a pupil
+nothing about where they are.
+
+Verified: 189 questions live and hashing identical to the migration file,
+all 21 modules, both typechecks clean, wiring 0 new, Playwright at 390 and
+1280 across the lesson page, the four quiz sheets, the print room and the
+player stepped slide by slide, with no horizontal overflow, no dashes and no
+page errors.
+
 ### Phase 3: the exemplar, then the twenty (migration 270)
 
 ks3-12 first, because it is already the gold standard exemplar at 94 and

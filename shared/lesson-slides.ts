@@ -46,6 +46,26 @@ export const PHASE_LABELS: Record<LessonPhase, string> = {
 
 export const PHASE_ORDER: LessonPhase[] = ['connect', 'starter', 'teach', 'practise', 'prove', 'close']
 
+// One named learning cycle, from teacher_notes.cycles (migration 268).
+//
+// The shape is Common Sense's, who publish a verb, a title and a runtime for
+// every section of every lesson; Oak specifies learning cycles in its own
+// authoring guide but does not publish them on the lesson page, so this is
+// the half of the idea that was actually visible to copy. The verb matters:
+// it tells a pupil what they will be DOING, where an outcome only tells them
+// what they will know afterwards.
+//
+// `minutes` is the same budget the lesson's timing string already states, and
+// migration 268 checked that a module's cycle minutes sum to its stated
+// teaching minutes. The player uses them to work out which cycle a slide sits
+// in rather than being told, so a deck cannot claim a shape it does not have.
+export type LessonCycle = {
+  verb: string
+  title: string
+  outcome: string
+  minutes: number
+}
+
 // The same phases wearing Rosenshine openly, for the quiet mono label on an
 // individual slide. `starter` says Retrieval here rather than Recall because
 // this is the label aimed at the adult who knows the literature, and
