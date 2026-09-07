@@ -10938,3 +10938,50 @@ Migration ledger after this: 268 and 269 claimed and applied by this lane.
 the other twenty in key stage batches. Still open from the source mining and
 NOT in phase 2: transcripts on the lesson videos (a real accessibility gap,
 Oak carries a transcript and a sign language option) and the deck download.
+
+---
+
+## 7 September 2026 — the two reference accounts, torn down (no migration)
+
+Justin named two Instagram accounts and asked what performs on them so we can
+use it on the family account: `dr_catherine_knibbs` and `family_it_guy`. The
+teardown is `content/brand-story/reference-accounts.md` and it joins the
+family-social Phase 0 canon so it is read on every run.
+
+**The finding worth keeping:** they are the two halves of our own thesis, split
+apart, each running as a business, and neither is running the whole thing.
+Gillenwater sells the fix without the pathway, which is the Qustodio critique
+from THE-STORY.md section 2 made likeable and competent. Knibbs sells the
+reframe without the fix, and her published position (bans do not work, unfair
+rules push a child away, connection protects) is our philosophy 2 and 3 doing
+millions of views. Guided Childhood is the join. Service 12, settings scattered
+across five devices, is a direct head to head with Gillenwater's whole business,
+and we only win it by ending on the child's step rather than on a toggle.
+
+**The mechanic we were missing:** the comment gate. Knibbs's caption reads
+"Comment the word 'Book' on this video and I'll send you a personal invite".
+It converts with no link in the caption, which is the Instagram constraint we
+already work under, so it costs us nothing to adopt. Verified destinations
+before writing it down: `/starter-pack` renders at
+`app/(marketing)/starter-pack/page.tsx` at 1172 lines with no coming soon,
+`/join` renders, and the family phone agreement printable exists with a phone
+sized version.
+
+**The line that does not move:** Knibbs is not only a reference account to us,
+she is already inside DiGi's system prompts, the research bank, and the
+LinkedIn cybertrauma series. The 29 July 2026 decision stands unchanged. Cite
+published work, never her name beside our advice, never a tag to borrow reach.
+
+**What was deliberately not done.** Section 6 of the teardown proposes real
+changes to Wednesday and Friday: the honest pivot moves to line one as a
+concession, a share instruction goes above it, and the Friday screen recording
+becomes the default rather than the alternative to a carousel.
+`weekly-rhythm.md` is the canon for the four days and it is untouched. The
+section is marked proposed and it is Justin's call, because changing the shape
+of the days is a brand decision and not a tidy up.
+
+**Honesty note on the research.** Instagram and both of their own sites are
+blocked by this session's egress policy, so no grid was seen and no engagement
+number was measured by us. The follower counts are as reported by third parties.
+The two captions recovered in full are the strongest material in the file and
+the part to trust. Section 10 lists the rest.

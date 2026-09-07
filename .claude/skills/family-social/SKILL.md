@@ -33,6 +33,10 @@ exists rather than a generic content prompt.
 5. **`.claude/skills/content-engine/hidden-thread.md`**, the mission filter and
    the 1 in 10 rule. Internal. Never a public statement.
 6. **`briefings/notes/positive-canon.md`**, the evidence spine for Wednesday.
+7. **`content/brand-story/reference-accounts.md`**, the caption anatomy
+   pulled from the two reference accounts, the comment gate, and the never
+   copy list. Section 6 of that file is proposed, not canon, so apply it
+   only once `weekly-rhythm.md` carries it.
 
 Then check `content/brand-story/posted-log.md` for what has already gone out, so
 Monday takes the next chapter and Friday takes the next service rather than
