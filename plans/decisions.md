@@ -10985,3 +10985,37 @@ blocked by this session's egress policy, so no grid was seen and no engagement
 number was measured by us. The follower counts are as reported by third parties.
 The two captions recovered in full are the strongest material in the file and
 the part to trust. Section 10 lists the rest.
+
+---
+
+## 7 September 2026 — section 6 approved, the four days change shape (no migration)
+
+Justin, on the teardown's proposed changes: "sections 6 yes". So they move out
+of `reference-accounts.md` and into `weekly-rhythm.md`, which is the canon for
+the four days. The teardown section is now a record of where they came from and
+the rhythm file wins if they ever disagree.
+
+**Wednesday is six steps instead of five.** A share instruction opens the post,
+naming who to send it to, because that is the signal that travels furthest and
+it belongs above the hook rather than under it as a CTA. Then the honest pivot,
+which used to sit at step three, now runs at step two as a concession: agree
+with the reader before disagreeing with them. It is still an evidence
+obligation and not a rhetorical warm up, so a post whose strongest opposing
+point cannot be conceded honestly is not ready. Then the claim, the finding, the
+tonight line, the question.
+
+**Friday is a screen recording by default.** The carousel was the equal
+alternative and is now the exception, taken when a service is genuinely better
+as cards than as a moving screen. The caption body becomes five numbered lines,
+one each, because that is what gets screenshotted and therefore saved, and it
+closes on a consequence rather than a command. A command in a caption would
+break non negotiable 1 exactly as it would in DiGi.
+
+Monday and Saturday are untouched. Monday is the day nobody can copy, because
+neither reference account has a family willing to be in it.
+
+**Not approved and not applied: the comment gate.** It stays documented in
+section 7 of the teardown, which the skill reads on every run, so drafts can use
+it. It is not in `weekly-rhythm.md` and the ask ratio of roughly one post in
+five is unchanged. Putting a gate into the canon changes what Friday's ask is,
+and that was not the thing Justin said yes to.

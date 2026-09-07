@@ -267,10 +267,10 @@ family account's edge is recognition. Authority is Justin's lane, elsewhere.
 
 ## 6. What this changes on each anchor day
 
-**Status: proposed, not yet applied.** `weekly-rhythm.md` is the canon for
-the four days and it is unchanged. Nothing in this section is live until
-Justin says yes, at which point it moves into `weekly-rhythm.md` and this
-section becomes a note about where it came from.
+**Status: approved by Justin on 7 September 2026 and applied.**
+`weekly-rhythm.md` now carries the Wednesday structure and the Friday format,
+and it is the canon. This section is the record of where they came from, not a
+second source of truth. If the two ever disagree, `weekly-rhythm.md` is right.
 
 **Monday, Founder Monday.** Almost nothing changes, and that is the right answer.
 Neither reference account has a founder story, because neither has a family
