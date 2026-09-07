@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@500;700&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Nunito', 'Trebuchet MS', system-ui, sans-serif; color: #1A1A2E; background: #FEF7E0; }
+    a { color: #C99A28; text-decoration: none; }
+    a:hover { color: #1A1A2E; }
+    .eyebrow { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8888A0; margin: 0; }
+    h1, h2, h3 { margin: 0; letter-spacing: -.03em; }
+    p { margin: 0; }
+    .note { background: #fff; border: 2px solid #1A1A2E; border-radius: 16px; box-shadow: 0 4px 0 #1A1A2E; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+    .b { font-size: 15px; color: #52526A; line-height: 1.6; }
+  </style>
+</helmet>
+
+<div style="width: 100%; background: #FEF7E0; padding: 36px 32px 44px; box-sizing: border-box;">
+  <div style="display: flex; flex-direction: column; gap: 18px;">
+
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <p class="eyebrow">Read this first</p>
+      <h1 style="font-size: 32px; font-weight: 900; line-height: 1.1;">What I found, and what I would do</h1>
+    </div>
+
+    <div class="note">
+      <h2 style="font-size: 20px; font-weight: 800;">The page today is good. Three things are missing.</h2>
+      <p class="b"><strong>One.</strong> It says what we are. It never lists what is going wrong in their house and answers each one. A parent has to translate.</p>
+      <p class="b"><strong>Two.</strong> The numbers are stale and they undersell. The page says 160 scripts and 100 lessons. The database holds 335 scripts and 147 lessons. We advertise half of what we built.</p>
+      <p class="b"><strong>Three.</strong> AI chatbots appear once, in a chip. It is the fastest growing question parents have and we have 16 lessons and 33 scripts on it.</p>
+    </div>
+
+    <div class="note" style="background: #FFFBEE;">
+      <h2 style="font-size: 20px; font-weight: 800;">My recommendation: Direction A</h2>
+      <p class="b">Nobody in this category opens with the parent's own worry. Everybody opens with themselves. A worry picker is the little brother of the stage check that already converts, it makes the page feel personal in one tap, and it lets every claim arrive attached to the problem it solves rather than in a feature list.</p>
+      <p class="b">The order is deliberate: their problem, then one worked example in full, then how it works, then the proof, then the price. A parent who reads the worked example already knows what they are buying.</p>
+    </div>
+
+    <div class="note">
+      <h2 style="font-size: 20px; font-weight: 800;">Direction B, and its honest tradeoff</h2>
+      <p class="b">The wall chart makes twelve years understandable in about three seconds and it is the most Happy News thing on the canvas. It is the better page for a parent of a 5 year old thinking ahead.</p>
+      <p class="b">It is the weaker page for the parent who arrives at 11 o'clock with a specific problem, and that parent is the one who pays. It could live as the second half of Direction A instead of a whole page.</p>
+    </div>
+
+    <div class="note">
+      <h2 style="font-size: 20px; font-weight: 800;">What I left as your call</h2>
+      <p class="b">The headline. Direction A leads with "You are not policing a screen. You are raising someone who will own one." The locked line, a clear digital pathway from first screen to 16, is still true and could stay as the sub. Your voice, your call.</p>
+      <p class="b">The founder counter reads 38 places left in both mockups. That is a stand in. The live one counts seats in Stripe.</p>
+      <p class="b">The refund line and the four free days come from the terms we shipped this week, so they are safe to say.</p>
+    </div>
+
+    <div class="note" style="background: #F0F9FF;">
+      <h2 style="font-size: 20px; font-weight: 800;">If you pick one, what happens next</h2>
+      <p class="b">I build it on a branch, read every number off the database on the day, check it at phone and desktop, and put it up as a draft for you to see before anything replaces the live page.</p>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

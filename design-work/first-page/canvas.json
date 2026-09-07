@@ -1,0 +1,16 @@
+{
+  "artboards": [
+    { "file": "Notes.dc.html", "x": -820, "y": 0, "w": 700, "h": 1150, "title": "Read this first", "print": "flow" },
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1200, "h": 6800, "title": "Direction A, your worry answered", "print": "flow" },
+    { "file": "MobileA.dc.html", "x": 1320, "y": 0, "w": 390, "h": 3800, "title": "Direction A on a phone", "print": "flow" },
+    { "file": "DirectionB.dc.html", "x": 1830, "y": 0, "w": 1200, "h": 1700, "title": "Direction B, the wall chart", "print": "flow" },
+    { "file": "ProblemMap.dc.html", "x": 1830, "y": 1880, "w": 1200, "h": 2200, "title": "The words, before the design", "print": "flow" }
+  ],
+  "annotations": [
+    { "id": "start-here", "x": -820, "y": -150, "w": 300, "text": "Start here. What I found and what I would do." },
+    { "id": "rec", "x": 0, "y": -150, "w": 360, "text": "Direction A. My recommendation: the page opens with the parent's own worry, then answers one of them in full." },
+    { "id": "phone", "x": 1320, "y": -150, "w": 300, "text": "The same page on a phone, which is where most of them will see it." },
+    { "id": "wall", "x": 1830, "y": -150, "w": 360, "text": "Direction B. Twelve years on one chart. Faster to grasp, weaker on tonight's problem." }
+  ],
+  "launch": { "view": "canvas" }
+}
