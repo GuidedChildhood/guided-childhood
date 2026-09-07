@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@500;700&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Nunito', 'Trebuchet MS', system-ui, sans-serif; color: #1A1A2E; background: #FFFBEE; }
+    a { color: #C99A28; text-decoration: none; }
+    a:hover { color: #1A1A2E; }
+    .eyebrow { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8888A0; margin: 0; }
+    h1, h2, h3 { margin: 0; letter-spacing: -.03em; }
+    p { margin: 0; }
+    .btn { display: inline-block; border: 2px solid #1A1A2E; border-radius: 16px; font-weight: 800; font-size: 17px; padding: 15px 34px; background: #EDC35F; color: #1A1A2E; box-shadow: 0 5px 0 #C99A28; }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+    .col { background: #fff; border: 2px solid #1A1A2E; border-radius: 18px; box-shadow: 0 4px 0 #1A1A2E; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .rowlabel { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: #8888A0; }
+  </style>
+</helmet>
+
+<div style="width: 100%; background: #FFFBEE;">
+
+  <!-- HERO, deliberately short: the chart is the argument -->
+  <div style="padding: 56px 40px 34px; text-align: center;">
+    <div class="wrap" style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+      <p class="eyebrow">The whole of it, on one page</p>
+      <h1 style="font-size: 56px; font-weight: 900; line-height: 1.02; max-width: 860px;">Twelve years of hard conversations, planned out in advance.</h1>
+      <p style="font-size: 20px; line-height: 1.6; color: #52526A; max-width: 640px;">Find your child's age. Read down the column. That is what is coming, that is what we teach them, and that is what they walk away with.</p>
+    </div>
+  </div>
+
+  <!-- THE WALL CHART -->
+  <div style="padding: 10px 40px 60px;">
+    <div class="wrap">
+
+      <!-- the road -->
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-bottom: 14px; align-items: end;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: #FEF08A; border: 3px solid #1A1A2E; box-shadow: 4px 4px 0 #1A1A2E;"></div>
+          <span style="font-size: 17px; font-weight: 900;">4 to 7</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: #BAE6FD; border: 3px solid #1A1A2E; box-shadow: 4px 4px 0 #1A1A2E;"></div>
+          <span style="font-size: 17px; font-weight: 900;">8 to 10</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: #FECDD3; border: 3px solid #1A1A2E; box-shadow: 4px 4px 0 #1A1A2E;"></div>
+          <span style="font-size: 17px; font-weight: 900;">11 to 12</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: #FBCFE8; border: 3px solid #1A1A2E; box-shadow: 4px 4px 0 #1A1A2E;"></div>
+          <span style="font-size: 17px; font-weight: 900;">13 to 15</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: #DDD6FE; border: 3px solid #1A1A2E; box-shadow: 4px 4px 0 #1A1A2E;"></div>
+          <span style="font-size: 17px; font-weight: 900;">16 plus</span>
+        </div>
+      </div>
+      <div style="border-bottom: 3px dashed #C99A28; margin-bottom: 26px;"></div>
+
+      <!-- ROW 1: what shows up -->
+      <p class="rowlabel" style="margin-bottom: 10px;">WHAT SHOWS UP AT THIS AGE</p>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-bottom: 26px;">
+        <div class="col" style="background: #FFFBEE;"><p style="font-size: 16px; font-weight: 700; line-height: 1.5;">The tablet meltdown when it goes off, and the first pleading for a game everyone else has.</p></div>
+        <div class="col" style="background: #F0F9FF;"><p style="font-size: 16px; font-weight: 700; line-height: 1.5;">Everyone in the class has a phone. Roblox and YouTube take over the weekend.</p></div>
+        <div class="col" style="background: #FFF4F2;"><p style="font-size: 16px; font-weight: 700; line-height: 1.5;">The phone arrives. The group chat starts. The bedroom door shuts.</p></div>
+        <div class="col" style="background: #FFF2F7;"><p style="font-size: 16px; font-weight: 700; line-height: 1.5;">Social media, whatever the law says. Sleep slips. They have seen things you have not.</p></div>
+        <div class="col" style="background: #F5F3FF;"><p style="font-size: 16px; font-weight: 700; line-height: 1.5;">Full access, and the question of whether the last twelve years actually prepared them.</p></div>
+      </div>
+
+      <!-- ROW 2: what we teach -->
+      <p class="rowlabel" style="margin-bottom: 10px;">WHAT WE TEACH, A BIT AT A TIME</p>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-bottom: 26px;">
+        <div class="col"><p style="font-size: 15px; line-height: 1.55; color: #52526A;">Stopping without a storm. What a screen is for. The first idea of a chatbot, in words a 6 year old gets.</p></div>
+        <div class="col"><p style="font-size: 15px; line-height: 1.55; color: #52526A;">Who is on the other side. Kind and unkind online. Why the game wants one more go. Asking AI without believing it.</p></div>
+        <div class="col"><p style="font-size: 15px; line-height: 1.55; color: #52526A;">The phone settings that matter. Group chat pressure. What to do with a photo you should not have. Homework and AI honesty.</p></div>
+        <div class="col"><p style="font-size: 15px; line-height: 1.55; color: #52526A;">The feed and how it is built. Why a chatbot is never a counsellor. Sleep, mood and the honest link. Consent and images.</p></div>
+        <div class="col"><p style="font-size: 15px; line-height: 1.55; color: #52526A;">Their own limits, set by them. AI at work and at university. Being the friend somebody else can come to.</p></div>
+      </div>
+
+      <!-- ROW 3: what they earn -->
+      <p class="rowlabel" style="margin-bottom: 10px;">WHAT THEY EARN</p>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-bottom: 30px;">
+        <div class="col" style="background: #FEF7E0;"><p style="font-size: 15px; font-weight: 800; line-height: 1.45;">Stars for real jobs, and the first passport stamp.</p></div>
+        <div class="col" style="background: #FEF7E0;"><p style="font-size: 15px; font-weight: 800; line-height: 1.45;">Minutes they chose to earn, and a say in the family rules.</p></div>
+        <div class="col" style="background: #FEF7E0;"><p style="font-size: 15px; font-weight: 800; line-height: 1.45;">The phone, on terms you both wrote down.</p></div>
+        <div class="col" style="background: #FEF7E0;"><p style="font-size: 15px; font-weight: 800; line-height: 1.45;">Their own limits, mostly kept without you.</p></div>
+        <div class="col" style="background: #FEF7E0;"><p style="font-size: 15px; font-weight: 800; line-height: 1.45;">A finished passport, and a system they no longer need.</p></div>
+      </div>
+
+      <!-- WHAT DRIVES IT, one line -->
+      <div style="background: #fff; border: 3px solid #1A1A2E; border-radius: 20px; box-shadow: 0 6px 0 #1A1A2E; padding: 24px 26px; display: flex; align-items: center; justify-content: space-between; gap: 26px;">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <h2 style="font-size: 26px; font-weight: 900;">Ten minutes a day drives the whole chart</h2>
+          <p style="font-size: 16px; color: #52526A; line-height: 1.6; max-width: 620px;">You tap what went wrong today. We hand back one thing to do and the exact words. DiGi answers anything at any hour, and your worry gets a number you watch move.</p>
+        </div>
+        <div style="display: flex; gap: 22px; flex-shrink: 0;">
+          <div style="text-align: center;"><div style="font-size: 30px; font-weight: 900;">335</div><div style="font-size: 13px; font-weight: 700; color: #52526A;">scripts</div></div>
+          <div style="text-align: center;"><div style="font-size: 30px; font-weight: 900;">147</div><div style="font-size: 13px; font-weight: 700; color: #52526A;">lessons</div></div>
+          <div style="text-align: center;"><div style="font-size: 30px; font-weight: 900;">130</div><div style="font-size: 13px; font-weight: 700; color: #52526A;">sources</div></div>
+          <div style="text-align: center;"><div style="font-size: 30px; font-weight: 900;">448</div><div style="font-size: 13px; font-weight: 700; color: #52526A;">school objectives</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRICE AND CALL -->
+  <div style="background: #2E2818; padding: 54px 40px; color: #FEF7E0;">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 40px;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <h2 style="font-size: 34px; font-weight: 900; line-height: 1.1; color: #FEF7E0;">£7.99 a month, held for ever, for the whole house.</h2>
+        <p style="font-size: 17px; line-height: 1.6; color: rgba(254,247,224,.8); max-width: 560px;">Four days free with everything open, no card. Fifty founder places, 38 left, and the counter is real. Standard is £12.99, or £99 for the year.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; align-items: center; flex-shrink: 0;">
+        <span class="btn">What stage is your child?</span>
+        <span style="font-size: 14px; font-weight: 700; color: rgba(254,247,224,.65);">Three questions. No sign up.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

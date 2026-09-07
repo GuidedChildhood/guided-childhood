@@ -1,5 +1,33 @@
 # The first page: every worry, answered, with the price at the end
 
+**Correction, 6 September, after Justin.** The page he means is not the
+marketing homepage. It is the last screen of setup: sign up, four questions,
+then this page, then the two doors where we ask for money. The homepage pass
+below still holds as research and is kept on page two of the canvas, but the
+build target is `components/onboarding/WelcomeWalkthrough.tsx`.
+
+## The real page
+
+`app/onboarding/page.tsx` runs welcome, children, devices, challenges,
+loading, tour. The tour is `WelcomeWalkthrough`: a celebration, seven cards on
+how the day works, and the reminder ask. Then the middleware puts
+`/dashboard/choose` in front, which is `TwoDoors`, which is the sale.
+
+Three things to change.
+
+1. **Use their answers.** They pick their challenges one screen earlier and
+   the page never mentions them. Handing those back with tonight, this term
+   and by sixteen turns a product tour into their plan.
+2. **Sixty scripts is wrong.** The walkthrough says sixty. There are 335, and
+   90 are free. It is the worst place in the product to undersell, because
+   the price screen is next.
+3. **The challenge question is too narrow.** Six tiles, and `asking_for_phone`,
+   `online_safety` and `start_conversation` were all folded into
+   `something_else` (the map is still in the file). The biggest questions
+   parents have cannot be answered back because we stopped asking them. Nine
+   tiles, adding the phone, social media and AI chatbots.
+
+
 Justin, 6 September 2026: "We do need to review maybe the most important page
 that comes up before they go into the platform. Let's look to add the common
 problems the user will have and that we will solve... the common questions
