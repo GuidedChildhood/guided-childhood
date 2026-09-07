@@ -21,11 +21,28 @@ import { EFCW_STRANDS } from '@gc/shared/efcw'
 export const revalidate = 3600
 
 type Keyword = { word: string; definition: string }
+// One named cycle. Common Sense publishes this shape on every lesson (a verb,
+// a title and a runtime) and Oak specifies it without publishing it, so the
+// borrow is theirs and the wording is ours. Migration 268.
+type Cycle = { verb: string; title: string; outcome: string; minutes: number }
 type TeacherNotes = {
   learning_objective?: string
   timing?: string
   keywords?: Keyword[]
   misconceptions?: string[]
+  // The Oak and Common Sense contract, added on all 21 modules by migration
+  // 268. See research/2026-09-07-oak-and-common-sense-source-mining.md.
+  essential_question?: string
+  cycles?: Cycle[]
+  prior_knowledge?: string[]
+  key_learning_points?: string[]
+  teacher_tip?: string
+  equipment?: string
+  // The two quiz banks (migration 269). Only their presence is read here;
+  // the sheets themselves render in /print/[module]/starter-quiz and
+  // /print/[module]/exit-quiz, so a module without a bank offers no button.
+  starter_quiz?: unknown[]
+  exit_quiz?: unknown[]
   differentiation?: { support?: string; stretch?: string }
   // The graduated approach, per module: SEND and EAL adaptations written
   // from the module's own activities, never a generic checklist.
@@ -140,6 +157,20 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           {lesson.title}
         </h1>
 
+        {/* The essential question, borrowed from Common Sense, who put a
+            question a pupil would actually ask above the objective a teacher
+            would write. It is the door into the room; the outcome below is
+            what the child carries back out of it. */}
+        {notes.essential_question && (
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 'clamp(1.1rem, 3vw, 1.35rem)', color: 'var(--ink)',
+            lineHeight: 1.35, margin: '0 0 12px',
+          }}>
+            {notes.essential_question}
+          </p>
+        )}
+
         {/* What changes for a child. Oak's "why this, why now", in one line,
             and it is the only thing on this page that decides whether a
             teacher gives up an afternoon for it. */}
@@ -185,6 +216,29 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               Print the learning record
             </Link>
           )}
+          {/* Oak's two quizzes. Offered only where the banks exist, and each
+              one opens on its question version with the answer version one
+              tap away (migration 269). */}
+          {(notes.starter_quiz?.length ?? 0) > 0 && (
+            <Link href={`/print/${lesson.module_id}/starter-quiz`} className="btn" style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+              boxShadow: '0 5px 0 var(--border)',
+            }}>
+              Starter quiz
+            </Link>
+          )}
+          {(notes.exit_quiz?.length ?? 0) > 0 && (
+            <Link href={`/print/${lesson.module_id}/exit-quiz`} className="btn" style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+              boxShadow: '0 5px 0 var(--border)',
+            }}>
+              Exit quiz
+            </Link>
+          )}
         </div>
         <p style={{ ...mono, marginBottom: '30px' }}>
           {totalMinutes} minutes · {slides.length} slides
@@ -213,7 +267,74 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               {notes.learning_objective}
             </p>
           )}
+
+          {/* The cycle map. The minutes here are the same minutes the timing
+              line above already states, so the two can never disagree: the
+              migration that wrote them checked the sum against it. */}
+          {notes.cycles?.length ? (
+            <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {notes.cycles.map((c, i) => (
+                <div key={i} style={{
+                  borderLeft: '3px solid var(--terracotta)', paddingLeft: '12px',
+                }}>
+                  <p style={{
+                    fontFamily: 'var(--font-display)', fontWeight: 800,
+                    fontSize: 'var(--text-md)', color: 'var(--ink)', margin: 0,
+                  }}>
+                    {c.verb}: {c.title}
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                      letterSpacing: '0.1em', color: 'var(--ink-muted)', marginLeft: '8px',
+                    }}>
+                      {c.minutes} MIN
+                    </span>
+                  </p>
+                  <p style={{ ...body, marginTop: '2px' }}>{c.outcome}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {notes.equipment && (
+            <p style={{ ...body, marginTop: '14px' }}>
+              <strong style={{ color: 'var(--ink)' }}>What you need. </strong>
+              {notes.equipment}
+            </p>
+          )}
         </div>
+
+        {/* The teacher tip. Oak carries one per lesson and it earns its place:
+            it is the thing that goes wrong when a lesson is taught cold.
+            Butter, so the one line a teacher must not skip is the one card
+            that is not white. --terracotta-lt is the butter tint; note that
+            --gold-lt is an alias onto --stage-5, which is lavender. */}
+        {notes.teacher_tip && (
+          <div style={{ ...card, marginBottom: '16px', background: 'var(--terracotta-lt)' }}>
+            <h2 style={h2}>If you do one thing first</h2>
+            <p style={body}>{notes.teacher_tip}</p>
+          </div>
+        )}
+
+        {/* What a pupil needs before this lesson, and what they hold after it.
+            Two lists a teacher can scan in ten seconds to decide whether their
+            class is ready and what the class will actually leave knowing. */}
+        {notes.prior_knowledge?.length ? (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>What they need before this</h2>
+            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {notes.prior_knowledge.map((p, i) => <li key={i}>{p}</li>)}
+            </ul>
+          </div>
+        ) : null}
+
+        {notes.key_learning_points?.length ? (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>What they will know by the end</h2>
+            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {notes.key_learning_points.map((k, i) => <li key={i}>{k}</li>)}
+            </ul>
+          </div>
+        ) : null}
 
         {/* What this lesson earns. The passport is the parents app's journey
             to sixteen; the school's part is credit toward the page, said in

@@ -10799,6 +10799,26 @@ Privacy notice now open with the company sentence and the homepage footer
 carries the name and number under the copyright line. The trading name
 stays Guided Childhood everywhere a family reads it.
 
+## 6 September 2026: the perfect lessons wave (migrations 265 to 267)
+
+Justin asked "Do we now have the perfect lessons?" and answered the honest
+no with "All step by step", meaning: close the whole remaining audit queue
+in order. One wave, one PR (#989), four steps. Migration 265 writes the
+i_can ladder into the twenty modules that lacked one, each ladder built
+from its own module's tool, so the learning record promise is now kept by
+all 21. The five missing CPD briefings (M02, M07, M10, M11, M12) join the
+existing five, and the new /hub/induction runs a whole staff room through
+the scheme in a fifteen minute meeting. Migration 266 writes SEND and EAL
+adaptations on four needs into every module from its own activities, the
+passport paragraph into every parent note register scaled by key stage,
+and AI literacy tags ONLY where slides earn them: five new modules tagged,
+nine left honestly untagged because their slides teach no AI. Migration
+267 takes ks3-12 through the fifteen pass QA (record:
+research/2026-09-06-ks3-12-gold-standard-qa.md, score 94, three findings
+fixed: timing arithmetic, commitment stem, KCSIE edition), making it the
+brief's gold standard exemplar and the template for the ENHANCE passes.
+Migration ledger after this wave: 265, 266, 267 claimed and applied by
+this lane; 264 remains the other lane's, unapplied, on Justin's word.
 ## 6 September 2026, evening: the town and the hide and seek, designed and waiting on the go
 
 Justin's note: "When you press a planet it should show a city in the planet
@@ -10836,3 +10856,105 @@ configured, is not found.
 
 To turn it on: set `PLANET_FRIENDS=live` in Vercel. To turn it off again:
 remove it. Nothing else to do either way.
+## 7 September 2026: Oak and Common Sense read from the live sites, and the lesson contract lands
+
+Justin sent two links and asked for everything we can use from them: the Oak
+National Academy lesson page for KS1 Computing "Painting using computers", and
+the Common Sense Education digital literacy curriculum. Both were read in full
+(research/2026-09-07-oak-and-common-sense-source-mining.md) and they correct
+the Oak plan written that morning from the downloaded pack.
+
+**Two corrections.** The live Oak lesson page publishes no named learning
+cycles: cycles live in their Aila authoring spec and in the deck, never on
+the page a teacher reads, so the cycle map is ours to design rather than ours
+to copy. And Oak publishes no prior knowledge statement, only a prior
+knowledge quiz, which is the better artefact anyway: four questions a teacher
+can run beats a paragraph they have to interpret.
+
+**Four things taken that the pack did not show.** Teacher tip, equipment, and
+a transcript with a sign language option on the lesson video, all from Oak's
+live page; the transcript is a real accessibility gap in our video beats and
+is now named as such. And from Common Sense, the strongest single borrow of
+the two sites: the essential question, a question a pupil would actually ask
+sitting above the outcome a teacher would write, verbatim at Grade K as "How
+do you say goodbye to technology when you don't want to?". Their cycle
+pattern, a verb plus a title plus a runtime, is better than Oak's because the
+verb tells a pupil what they will be doing, and it is what we adopted.
+
+**Where we already beat both, stated so it is not relitigated:** scripts on
+every slide (Oak's deck has no speaker notes at all), a named portable routine
+on all 21 modules rather than one (Notice, Choose, Tell, from migration 220),
+misconceptions on 21 of 21 against their one per lesson, AI taught from age 4
+against their Grade 6 start, and the whole layer neither of them carries at
+all: DSL notes, staff briefings, the induction, SEND and EAL adaptations, the
+parent note and home code, the passport, a paper fallback, statutory mapping.
+Nothing from either site is copied into our lessons. Oak is Open Government
+Licence version 3.0 and Common Sense is its own; the shape is the borrow,
+never the substance.
+
+**Migration 268, applied.** essential_question, cycles, prior_knowledge,
+key_learning_points, teacher_tip and equipment on all 21 modules, plus the one
+missing keywords array (ks3-12, exactly as the plan predicted). Mostly
+promotion rather than invention: the timing string already carried the cycle
+count and minutes, four modules already named their cycles in prose, and
+i_can was already a three statement ladder, one per cycle. All 21 cycle sums
+were checked against the teaching minutes their own timing line states and
+all 21 match. No statistic is claimed, so nothing needs a citation it cannot
+survive. The lesson page renders all six, so the data is not dormant.
+
+**Noted in passing:** `--gold-lt` is an alias onto `--stage-5`, which is
+lavender, not butter. Anything reaching for butter should use
+`--terracotta-lt`. The alias itself is left alone rather than widening this
+PR, but it is a trap waiting for the next person.
+
+Migration ledger after this: 268 claimed and applied by this lane. 269 and
+270 remain claimed by the Oak plan for phases 2 and 3, unbuilt.
+
+## 7 September 2026, afternoon: Oak phase 2, the quizzes and the two surfaces
+
+Justin: "yes phase 2". Built the same day, on top of the contract that landed
+in the morning.
+
+**Migration 269, applied in three ledger parts** the way 236 shipped, because
+a 58KB data migration is applied in parts here and always has been. A starter
+quiz of four and an exit quiz of five on all 21 modules: 189 questions, five
+formats mixed on purpose (tick one, true or false, short answer, fill the
+blank, match). The starter checks the prior knowledge written in 268; the exit
+checks the key learning points and aims at each module's own misconceptions.
+
+**The teaching point is ours, not Oak's.** Their answer sheet says what the
+right answer was. Every one of our 189 answers carries a line saying what to
+do about a wrong one, which is the difference between marking and teaching and
+the reason a cover teacher can run one of these cold. Guards in the migration
+refuse a missing quiz, a wrong length, or a quiz that uses only one format,
+because five identical questions is a worksheet rather than a quiz.
+
+**Two routes, four sheets.** /print/[module]/starter-quiz and
+/print/[module]/exit-quiz, each with ?answers=1 for the teacher copy. One
+route per quiz rather than two, because the question version and the answer
+version must never drift apart: a reworded question that lands on only one of
+them is worse than having no sheet at all. A match question scrambles its
+right hand column by a deterministic rotation, so a sheet a class filled in
+last term still marks against the answer sheet printed today.
+
+**The cycle map is derived, never tagged.** The player gets an optional cycles
+prop and works out which cycle a slide belongs to by walking the teach phase
+and spending each cycle's stated minute budget against the minutes every slide
+already carries. So a slide added to a deck lands in the right cycle on its
+own and the map cannot drift from the deck, which is the same principle the
+phase strip has always followed. The map shows at each boundary rather than on
+every slide, and inside a cycle the chrome names the cycle instead of the
+phase, because Teach is true of eight slides in a row and tells a pupil
+nothing about where they are.
+
+**On the redundant answer line:** on a tick one or a true or false, the ticked
+box on the answer sheet already is the answer, so restating it underneath just
+gives a teacher marking twenty sheets more to read past. Dropped for those two
+formats, kept for fill the blank and short answer where there is nothing to
+tick.
+
+Migration ledger after this: 268 and 269 claimed and applied by this lane.
+270 remains claimed by the Oak plan for phase 3, the exemplar pass and then
+the other twenty in key stage batches. Still open from the source mining and
+NOT in phase 2: transcripts on the lesson videos (a real accessibility gap,
+Oak carries a transcript and a sign language option) and the deck download.

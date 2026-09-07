@@ -1,11 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -590,6 +590,7 @@ export default function LessonPlayer({
   classMode = false,
   classCtaHref,
   initialIndex = 0,
+  cycles,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -620,6 +621,9 @@ export default function LessonPlayer({
   classCtaHref?: string
   // Open at a given slide (dev fixtures and deep links).
   initialIndex?: number
+  // The lesson's named learning cycles, when the caller has them. Omit and
+  // the player behaves exactly as it did: no map, no cycle in the chrome.
+  cycles?: LessonCycle[]
 }) {
   const projector = classMode
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
@@ -839,6 +843,42 @@ export default function LessonPlayer({
     for (let i = slides.length - 1; i >= 0; i--) if (slides[i].phase === p) return i
     return -1
   }
+
+  // ── The cycle map ── which named cycle each slide sits in.
+  //
+  // Derived, never authored. The cycles carry the same minute budgets the
+  // lesson's timing string already states, and every teach slide already
+  // carries its own minutes, so walking the teach phase and spending the
+  // budget in order tells us where each slide belongs. Nothing has to be
+  // tagged by hand, which means a slide added to a deck lands in the right
+  // cycle on its own and the map can never drift from the deck.
+  //
+  // Only the teach phase is mapped. The starter, the practice and the close
+  // are the lesson's own arc and they sit outside the cycles by design, which
+  // is how the timing string has always described them.
+  const cycleOfSlide = useMemo(() => {
+    const map: (number | null)[] = new Array(slides.length).fill(null)
+    if (!cycles?.length) return map
+    let ci = 0
+    let spent = 0
+    for (let i = 0; i < slides.length; i++) {
+      if (slides[i].phase !== 'teach') continue
+      // Move on once this cycle's minutes are used up, but never past the
+      // last one: a deck that has grown a slide since the timing was written
+      // should still land rather than fall off the end of the map.
+      while (ci < cycles.length - 1 && spent >= cycles[ci].minutes) { ci++; spent = 0 }
+      map[i] = ci
+      spent += slides[i].minutes ?? 0
+    }
+    return map
+  }, [slides, cycles])
+
+  const cycleIndex = cycleOfSlide[index] ?? null
+  const cycle = cycleIndex === null ? null : cycles?.[cycleIndex] ?? null
+  // The map is shown at each boundary rather than on every slide: it does its
+  // work when a pupil arrives somewhere new, and becomes wallpaper if it never
+  // goes away. Oak's deck repeats its cycle map slide at exactly these points.
+  const atCycleStart = cycleIndex !== null && (index === 0 || cycleOfSlide[index - 1] !== cycleIndex)
 
   let body: React.ReactNode
 
@@ -1178,7 +1218,10 @@ export default function LessonPlayer({
         }}>
           {finished
             ? classMode ? 'The showcase' : 'The finish'
-            : `${phaseLabel ? `${phaseLabel} · ` : ''}${index + 1} of ${slides.length}${!projector && slide?.minutes ? ` · ~${slide.minutes} min` : ''}`}
+            // Inside a cycle the chrome names the cycle instead of the phase.
+            // A pupil who glances up mid lesson wants to know which part of
+            // today they are in, and Teach is true of eight slides in a row.
+            : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${index + 1} of ${slides.length}${!projector && slide?.minutes ? ` · ~${slide.minutes} min` : ''}`}
         </span>
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
           {kidMode && typeof kidStars === 'number' && !finished && (
@@ -1240,6 +1283,62 @@ export default function LessonPlayer({
           width: '100%', maxWidth: projector ? '980px' : '640px',
           margin: '0 auto', padding: '0 clamp(16px, 4vw, 28px)',
         }}>
+          {/* The cycle map, at the boundary. Every cycle listed, the one we
+              are entering marked, so a pupil can see the shape of the middle
+              of the lesson and where in it they have arrived. */}
+          {!finished && atCycleStart && cycles && cycles.length > 1 && (
+            <div aria-label="Learning cycles" style={{
+              display: 'flex', flexDirection: 'column', gap: '6px',
+              margin: '4px 0 18px', padding: '12px 14px',
+              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '16px',
+            }}>
+              {cycles.map((c, i) => {
+                const isNow = i === cycleIndex
+                const isDone = i < (cycleIndex ?? 0)
+                return (
+                  <span
+                    key={i}
+                    aria-current={isNow ? 'step' : undefined}
+                    style={{
+                      display: 'flex', alignItems: 'baseline', gap: '8px',
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: isNow ? 900 : 700,
+                      fontSize: projector ? 'var(--text-lg)' : 'var(--text-base)',
+                      color: isNow ? 'var(--ink)' : 'var(--ink-muted)',
+                      opacity: isDone ? 0.6 : 1,
+                    }}
+                  >
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: projector ? '13px' : '10px',
+                      fontWeight: 700, letterSpacing: '0.12em',
+                      color: isNow ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                    }}>
+                      {isDone ? '✓' : i + 1}
+                    </span>
+                    <span>
+                      {c.verb}: {c.title}
+                      <span style={{
+                        fontFamily: 'var(--font-mono)', fontSize: projector ? '12px' : '10px',
+                        fontWeight: 700, letterSpacing: '0.12em', color: 'var(--ink-muted)',
+                        marginLeft: '8px',
+                      }}>
+                        {c.minutes} MIN
+                      </span>
+                    </span>
+                  </span>
+                )
+              })}
+              {cycle && (
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                  color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0',
+                }}>
+                  {cycle.outcome}
+                </p>
+              )}
+            </div>
+          )}
           {body}
         </div>
       </div>

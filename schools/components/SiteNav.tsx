@@ -26,7 +26,10 @@ export default function SiteNav() {
         borderBottom: '1px solid var(--border)',
       }}
     >
-      <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '14px 20px', display: 'flex', alignItems: 'center', gap: '18px' }}>
+      {/* flexWrap: at 390 the five doors do not fit beside the brand, and
+          without it Pricing hung 25px off the right of every page. The links
+          drop to a second line on phones and stay one line on desktop. */}
+      <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '14px 20px', display: 'flex', alignItems: 'center', gap: '12px 18px', flexWrap: 'wrap' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)', textDecoration: 'none', letterSpacing: '-0.01em', marginRight: 'auto' }}>
           Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
