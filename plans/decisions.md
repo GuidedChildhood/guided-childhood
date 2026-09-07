@@ -11141,3 +11141,118 @@ fold on a slide called The three checks.
 Not done here and still open: the art layer, a house illustration per concept
 slide, which is where the remaining distance to premium actually sits and is
 the expensive one. Transcripts on the lesson videos are next.
+
+---
+
+## 7 September 2026 — the video beats get a way in, and half of them turn out to be silent
+
+Migration 271. Oak's lesson page carries a transcript and a sign language
+option beside its video; ours carried neither, so a deaf pupil sat through a
+video beat with no route into it and a teacher with broken speakers had to
+skip it. This was the next item on the slide quality list and it did not end
+up being the item it was written as.
+
+**Half our beats have no dialogue at all.** Before writing a word, all eight
+video slides in the scheme were looked up in the render records they were
+generated from. The four primary beats (ks1-03, ks2-04, ks2-06, ks2-07) were
+rendered on 1 July with no spoken line authored and no sound setting at all.
+A `transcript` field on its own would have rendered those four empty and let
+us mark the accessibility job done while a pupil still got nothing.
+
+So the shape written is `alternative`, in three parts: what is said (an empty
+array when nothing is), what happens on screen, and the words shown on
+screen. What a video locks away is two separate things and a pupil can be
+shut out of either one: a deaf pupil loses the words, a pupil using a screen
+reader loses the action and the writing on the board behind the character.
+On a silent clip the player says "Nobody speaks in this clip. Nothing is
+missing from your sound." rather than showing a blank panel, because a
+teacher in a quiet room needs to know it is the clip and not their speakers.
+
+**The words were not invented and were not transcribed by ear.** Every spoken
+line is quoted from the clip's own generation record. Kling renders speech
+from that line, so a clip can drift a word from its script; the alternative is
+trustworthy as the beat's authored words, which is the strongest claim
+available without a human watching all eight. That watch is worth doing and
+is named in the pull request as the one open check.
+
+**Four captions named a character who is not in the clip.** The beats still
+play the retired DiGi Squad kids (Oliver, Zara, Sofia); the captions were
+later rewritten to the Planet Friends who replaced them, so ks1-03 said
+"Pebble" over a girl in a detective cape and the two ks3-12 teach beats said
+"Orbit" over the same girl. An honest description of what is on screen cannot
+sit under a caption naming somebody else, so those four stop naming a
+character. The two that are right, DiGi and DiGi Junior, are untouched.
+
+**Open, and Justin's to decide: the video beats show a cast we retired.**
+Re rendering them costs money and is deliberately not attempted here.
+
+The words appear in two places on purpose. In the player, as a native
+`<details>` under the clip, closed by default so it does not cover a wall,
+keyboard operable and announced as a disclosure with none of our own
+JavaScript. And on the teacher's plan page as "The video beats, in words",
+next to the no screen fallback, because a teacher plans for a deaf pupil the
+night before rather than while the class watches them hunt for a transcript.
+
+Guards refuse any future video beat with no alternative, with a `spoken` that
+is not an array (absent is ambiguous between silent and nobody wrote it down),
+with an empty description, or with a blank spoken line.
+
+Checked at 1920, 1280 and 390 on both a spoken beat and a silent one: closed
+by default, opens on tap, the video carries an accessible name where before it
+was announced as bare "video", no horizontal overflow, no page errors.
+
+---
+
+## 7 September 2026 — the RSHE mapping matrix answers the question it is opened with
+
+Justin asked for /hub/rshe-mapping raised to high quality. Mobbin references
+first (Modal, Clockwise, 7shifts, Relevance AI comparison matrices): every good
+one groups its rows under section bands, weights the label column, keeps the
+tick columns narrow and centred, and tints the row you are reading.
+
+**The page answered neither question its readers arrive with.** A PSHE lead
+opens it asking where the gaps are. An inspector opens it asking to be shown
+where topic X is taught. Both were answerable only by reading 210 cells and
+counting. So the page now opens with the answer: "Coverage at a glance" lists
+every named topic with the number of modules that teach it and the key stages
+it lands in. Counted from the manifest, never asserted, so a topic that loses
+its last module stops being claimed on the next deploy.
+
+**The column headings were the worst of it.** Ten headings like "Misogynistic
+online cultures and incel groups" wrapped to five lines, collided with their
+neighbours, and scrolled away entirely by row six, so two thirds of the matrix
+was a field of ticks under no headings at all. Columns are numbered now, the
+coverage list above IS the legend, and the header sticks. The full label rides
+along as the accessible name and the hover title, so numbering costs a sighted
+reader a glance upward and costs a screen reader nothing.
+
+Numbering is also what made sticky possible. `overflow-x: auto` computes
+`overflow-y` to auto as well, and that scroll container was swallowing any
+`position: sticky` on the header. Narrow numeric columns let the grid fit a
+laptop unscrolled, so the wrapper only becomes a scroller below 780 and sticky
+is switched off there rather than left to fail quietly.
+
+**A blank cell meant two things.** Nothing was drawn where a module does not
+teach a topic, which reads as missing data rather than as a claim we
+deliberately did not make. Every cell now carries a mark: a tick on butter for
+taught, a quiet dot for not taught, with the meaning in words for a screen
+reader.
+
+Also: key stage bands inside the table, a rail between the labels and the
+grid plus zebra rows so a row can be traced across ten columns without a
+hover (which leaves out touch and paper), and the two closing walls of run on
+prose turned into cards and chips.
+
+**Two bugs found by measuring rather than by looking.** A chip carrying a full
+module title had `white-space: nowrap` and pushed the phone layout 332px
+sideways. And 210 visually hidden cell labels were absolutely positioned with
+no positioned ancestor, so they resolved against the page and stretched the
+document; the cells are positioned now and there is one shared `srOnly` rule.
+
+The sticky header pins a few pixels UNDER the nav rather than flush against
+it, because flush left a gap in which the row scrolling past showed through
+above the column numbers and read as a rendering fault.
+
+Checked at 1280, 1024 and 390 and in print emulation: no horizontal overflow
+anywhere, 210 cells present, the header pinned and clear of the nav with no
+row bleeding through, sticky off and the print controls hidden on paper.
