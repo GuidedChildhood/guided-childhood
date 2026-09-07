@@ -11141,3 +11141,62 @@ fold on a slide called The three checks.
 Not done here and still open: the art layer, a house illustration per concept
 slide, which is where the remaining distance to premium actually sits and is
 the expensive one. Transcripts on the lesson videos are next.
+
+---
+
+## 7 September 2026 — the video beats get a way in, and half of them turn out to be silent
+
+Migration 271. Oak's lesson page carries a transcript and a sign language
+option beside its video; ours carried neither, so a deaf pupil sat through a
+video beat with no route into it and a teacher with broken speakers had to
+skip it. This was the next item on the slide quality list and it did not end
+up being the item it was written as.
+
+**Half our beats have no dialogue at all.** Before writing a word, all eight
+video slides in the scheme were looked up in the render records they were
+generated from. The four primary beats (ks1-03, ks2-04, ks2-06, ks2-07) were
+rendered on 1 July with no spoken line authored and no sound setting at all.
+A `transcript` field on its own would have rendered those four empty and let
+us mark the accessibility job done while a pupil still got nothing.
+
+So the shape written is `alternative`, in three parts: what is said (an empty
+array when nothing is), what happens on screen, and the words shown on
+screen. What a video locks away is two separate things and a pupil can be
+shut out of either one: a deaf pupil loses the words, a pupil using a screen
+reader loses the action and the writing on the board behind the character.
+On a silent clip the player says "Nobody speaks in this clip. Nothing is
+missing from your sound." rather than showing a blank panel, because a
+teacher in a quiet room needs to know it is the clip and not their speakers.
+
+**The words were not invented and were not transcribed by ear.** Every spoken
+line is quoted from the clip's own generation record. Kling renders speech
+from that line, so a clip can drift a word from its script; the alternative is
+trustworthy as the beat's authored words, which is the strongest claim
+available without a human watching all eight. That watch is worth doing and
+is named in the pull request as the one open check.
+
+**Four captions named a character who is not in the clip.** The beats still
+play the retired DiGi Squad kids (Oliver, Zara, Sofia); the captions were
+later rewritten to the Planet Friends who replaced them, so ks1-03 said
+"Pebble" over a girl in a detective cape and the two ks3-12 teach beats said
+"Orbit" over the same girl. An honest description of what is on screen cannot
+sit under a caption naming somebody else, so those four stop naming a
+character. The two that are right, DiGi and DiGi Junior, are untouched.
+
+**Open, and Justin's to decide: the video beats show a cast we retired.**
+Re rendering them costs money and is deliberately not attempted here.
+
+The words appear in two places on purpose. In the player, as a native
+`<details>` under the clip, closed by default so it does not cover a wall,
+keyboard operable and announced as a disclosure with none of our own
+JavaScript. And on the teacher's plan page as "The video beats, in words",
+next to the no screen fallback, because a teacher plans for a deaf pupil the
+night before rather than while the class watches them hunt for a transcript.
+
+Guards refuse any future video beat with no alternative, with a `spoken` that
+is not an array (absent is ambiguous between silent and nobody wrote it down),
+with an empty description, or with a blank spoken line.
+
+Checked at 1920, 1280 and 390 on both a spoken beat and a silent one: closed
+by default, opens on tap, the video carries an accessible name where before it
+was announced as bare "video", no horizontal overflow, no page errors.

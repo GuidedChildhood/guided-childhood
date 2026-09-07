@@ -194,6 +194,28 @@ export type RecapSlide = SlideBase & {
   points: string[]
 }
 
+// The accessible alternative to a video beat (migration 271).
+//
+// Not called `transcript`, because half of our beats have nothing to
+// transcribe. The four primary clips were authored with no dialogue at all,
+// so a lone transcript field would render them empty and let us call the
+// accessibility job done while a pupil still got nothing. What a video
+// actually locks away is two separate things, and a pupil can be shut out
+// of either one: a deaf pupil loses the words, a blind or low vision pupil
+// loses the action and the writing on the board behind the character.
+export type VideoAlternative = {
+  // What is said, in order, one entry per continuous run of speech. An
+  // empty array is a statement rather than a gap: nothing is said in this
+  // clip, and the player says so out loud instead of showing a blank panel.
+  spoken: string[]
+  // What happens on screen. On a silent clip this is the whole content of
+  // the beat, which is why it is required and not optional.
+  described: string
+  // Words shown on screen. They are pixels: without this field they reach
+  // nobody using a screen reader and survive into no printout.
+  onScreen?: string
+}
+
 // A DiGi Squad video beat: the character explains the idea to a class,
 // produced in Higgsfield, hosted at a plain mp4 URL.
 export type VideoSlide = SlideBase & {
@@ -201,6 +223,9 @@ export type VideoSlide = SlideBase & {
   src: string
   caption?: string
   poster?: string
+  // Present on every wired beat since migration 271. Optional on the type
+  // because a deck written before it, or by hand tomorrow, must still play.
+  alternative?: VideoAlternative
 }
 
 // The animated closing: DiGi (the golden star, always) speaks the lesson

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -450,6 +450,107 @@ function DigiClosingBlock({ slide, projector }: { slide: DigiSlide; projector?: 
   )
 }
 
+// THE VIDEO BEAT AND ITS WAY IN FOR EVERYONE ELSE.
+//
+// Oak puts a transcript and a sign language option beside their lesson
+// video. We had neither, which meant a deaf pupil sat through a beat with
+// no route into it and a teacher with broken speakers had to skip it.
+//
+// The fix is a disclosure under the clip rather than a separate page,
+// because the moment a pupil needs the words is the moment the clip is on
+// screen, not three clicks away in a teacher document they cannot open.
+// It is a native <details>, so it is keyboard operable and announced as a
+// disclosure without a line of our own JavaScript, and it survives a
+// failed hydration: the words are in the HTML either way.
+//
+// Closed by default on purpose. On a projector an open panel would cover
+// the wall with text nobody asked for; the pupil who needs it opens it,
+// and so does the teacher reading it aloud to a silent room.
+function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boolean }) {
+  const alt = slide.alternative
+  const silent = alt !== undefined && alt.spoken.length === 0
+
+  return (
+    <div style={{ maxWidth: room(projector, '1000px', '640px'), margin: '0 auto' }}>
+      <video
+        src={slide.src}
+        poster={slide.poster}
+        controls
+        playsInline
+        // Without this the control is announced as bare "video". The caption
+        // is the only human name the beat has, so it is the one to use.
+        aria-label={slide.caption ?? 'Lesson video'}
+        style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
+      />
+
+      {slide.caption && (
+        <p style={{
+          fontSize: room(projector, 'var(--text-lg)', 'var(--text-base)'),
+          color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center',
+        }}>
+          {slide.caption}
+        </p>
+      )}
+
+      {alt && (
+        <details style={{
+          marginTop: '12px', background: '#fff', border: '1.5px solid var(--border)',
+          borderRadius: '16px', padding: '2px 18px',
+        }}>
+          <summary style={{
+            ...eyebrowStyle, color: 'var(--terracotta-dark)', cursor: 'pointer',
+            padding: '12px 0', fontSize: room(projector, 'var(--text-sm)', 'var(--text-xs)'),
+          }}>
+            {silent ? 'What happens in this clip' : 'The words in this clip'}
+          </summary>
+
+          <div style={{ paddingBottom: '16px' }}>
+            {/* Said before anything else, because a teacher whose room has
+                gone quiet needs to know whether the clip is silent or the
+                speakers are. Four of our eight beats have no dialogue. */}
+            {silent && (
+              <p style={{
+                fontSize: room(projector, 'var(--text-md)', 'var(--text-base)'),
+                color: 'var(--ink-muted)', lineHeight: 1.6, margin: '0 0 12px',
+              }}>
+                Nobody speaks in this clip. Nothing is missing from your sound.
+              </p>
+            )}
+
+            {alt.spoken.map((line, i) => (
+              <p key={i} style={{
+                fontSize: room(projector, 'var(--text-lg)', 'var(--text-md)'),
+                color: 'var(--ink)', lineHeight: 1.65, margin: '0 0 10px',
+              }}>
+                &ldquo;{line}&rdquo;
+              </p>
+            ))}
+
+            <p style={{
+              fontSize: room(projector, 'var(--text-md)', 'var(--text-base)'),
+              color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0,
+            }}>
+              <strong style={{ color: 'var(--ink)' }}>On screen. </strong>
+              {alt.described}
+            </p>
+
+            {/* The board behind the character is content, and it is pixels.
+                Nothing but this line puts it where a screen reader goes. */}
+            {alt.onScreen && (
+              <p style={{
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                letterSpacing: '0.1em', color: 'var(--ink-muted)', marginTop: '10px',
+              }}>
+                THE BOARD READS: {alt.onScreen}
+              </p>
+            )}
+          </div>
+        </details>
+      )}
+    </div>
+  )
+}
+
 function SlideBody({
   slide, onAnswered, projector, seed,
 }: {
@@ -567,22 +668,7 @@ function SlideBody({
     case 'interactive':
       return <Interactive component={slide.component} config={slide.config} caption={slide.caption} />
     case 'video':
-      return (
-        <div>
-          <video
-            src={slide.src}
-            poster={slide.poster}
-            controls
-            playsInline
-            style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
-          />
-          {slide.caption && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
-              {slide.caption}
-            </p>
-          )}
-        </div>
-      )
+      return <VideoBlock slide={slide} projector={projector} />
     case 'tryit':
       return (
         <div data-reveal style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(24px, 4.5vw, 34px)', border: '1.5px solid var(--stage-1-bold)', maxWidth: '560px', margin: '0 auto' }}>

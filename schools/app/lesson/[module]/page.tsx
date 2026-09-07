@@ -1,7 +1,7 @@
 import { anon as supabase } from '@/lib/supabase/anon'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase } from '@gc/shared/lesson-slides'
+import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
 import { EFCW_STRANDS } from '@gc/shared/efcw'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
@@ -136,6 +136,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
     .filter(p => p.count > 0)
   const totalMinutes = slides.reduce((t, s) => t + (s.minutes ?? 0), 0)
   const interactives = slides.filter(s => s.type === 'interactive').length
+
+  // Every video beat in the deck with its words, for the access card below.
+  const videoBeats = slides.filter(s => s.type === 'video') as VideoSlide[]
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '36px 20px 90px' }}>
@@ -432,6 +435,55 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             {notes.send.eal && (
               <p style={{ ...body, marginTop: '8px' }}><strong style={{ color: 'var(--ink)' }}>English as an additional language. </strong>{notes.send.eal}</p>
             )}
+          </div>
+        )}
+
+        {/* The same promise as the no screen card below, about a different
+            medium. A video beat is the one moment in the lesson that reaches
+            a pupil through sound and vision only, so a deaf pupil, a pupil
+            using a screen reader, or a room whose speakers have died all
+            need the beat in words. Here rather than only in the player,
+            because a teacher plans for a deaf pupil the night before, not
+            while the class watches them hunt for a transcript.
+
+            Four of the eight beats have no dialogue at all, so this card
+            says so plainly instead of leaving a teacher to wonder. */}
+        {videoBeats.some(v => v.alternative) && (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>The video beats, in words</h2>
+            <p style={{ ...body, marginBottom: '14px' }}>
+              Read these out if a pupil cannot hear the clip, or if the sound
+              in your room is not working. Nothing in the lesson depends on
+              hearing it.
+            </p>
+            {videoBeats.map((v, i) => {
+              const alt = v.alternative
+              if (!alt) return null
+              return (
+                <div key={i} style={{
+                  borderLeft: '3px solid var(--terracotta)', paddingLeft: '12px',
+                  marginTop: i === 0 ? 0 : '14px',
+                }}>
+                  <p style={{ ...mono, color: 'var(--ink-soft)', marginBottom: '4px' }}>
+                    {v.caption ?? 'Video beat'}
+                  </p>
+                  {alt.spoken.length === 0 ? (
+                    <p style={body}>Nobody speaks in this clip.</p>
+                  ) : (
+                    alt.spoken.map((line, j) => (
+                      <p key={j} style={{ ...body, color: 'var(--ink)', marginBottom: '4px' }}>
+                        &ldquo;{line}&rdquo;
+                      </p>
+                    ))
+                  )}
+                  <p style={{ ...body, marginTop: '4px' }}>
+                    <strong style={{ color: 'var(--ink)' }}>On screen. </strong>
+                    {alt.described}
+                    {alt.onScreen ? ` The board reads ${alt.onScreen}.` : ''}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         )}
 
