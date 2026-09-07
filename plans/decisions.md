@@ -11200,3 +11200,59 @@ with an empty description, or with a blank spoken line.
 Checked at 1920, 1280 and 390 on both a spoken beat and a silent one: closed
 by default, opens on tap, the video carries an accessible name where before it
 was announced as bare "video", no horizontal overflow, no page errors.
+
+---
+
+## 7 September 2026 — the RSHE mapping matrix answers the question it is opened with
+
+Justin asked for /hub/rshe-mapping raised to high quality. Mobbin references
+first (Modal, Clockwise, 7shifts, Relevance AI comparison matrices): every good
+one groups its rows under section bands, weights the label column, keeps the
+tick columns narrow and centred, and tints the row you are reading.
+
+**The page answered neither question its readers arrive with.** A PSHE lead
+opens it asking where the gaps are. An inspector opens it asking to be shown
+where topic X is taught. Both were answerable only by reading 210 cells and
+counting. So the page now opens with the answer: "Coverage at a glance" lists
+every named topic with the number of modules that teach it and the key stages
+it lands in. Counted from the manifest, never asserted, so a topic that loses
+its last module stops being claimed on the next deploy.
+
+**The column headings were the worst of it.** Ten headings like "Misogynistic
+online cultures and incel groups" wrapped to five lines, collided with their
+neighbours, and scrolled away entirely by row six, so two thirds of the matrix
+was a field of ticks under no headings at all. Columns are numbered now, the
+coverage list above IS the legend, and the header sticks. The full label rides
+along as the accessible name and the hover title, so numbering costs a sighted
+reader a glance upward and costs a screen reader nothing.
+
+Numbering is also what made sticky possible. `overflow-x: auto` computes
+`overflow-y` to auto as well, and that scroll container was swallowing any
+`position: sticky` on the header. Narrow numeric columns let the grid fit a
+laptop unscrolled, so the wrapper only becomes a scroller below 780 and sticky
+is switched off there rather than left to fail quietly.
+
+**A blank cell meant two things.** Nothing was drawn where a module does not
+teach a topic, which reads as missing data rather than as a claim we
+deliberately did not make. Every cell now carries a mark: a tick on butter for
+taught, a quiet dot for not taught, with the meaning in words for a screen
+reader.
+
+Also: key stage bands inside the table, a rail between the labels and the
+grid plus zebra rows so a row can be traced across ten columns without a
+hover (which leaves out touch and paper), and the two closing walls of run on
+prose turned into cards and chips.
+
+**Two bugs found by measuring rather than by looking.** A chip carrying a full
+module title had `white-space: nowrap` and pushed the phone layout 332px
+sideways. And 210 visually hidden cell labels were absolutely positioned with
+no positioned ancestor, so they resolved against the page and stretched the
+document; the cells are positioned now and there is one shared `srOnly` rule.
+
+The sticky header pins a few pixels UNDER the nav rather than flush against
+it, because flush left a gap in which the row scrolling past showed through
+above the column numbers and read as a rendering fault.
+
+Checked at 1280, 1024 and 390 and in print emulation: no horizontal overflow
+anywhere, 210 cells present, the header pinned and clear of the nav with no
+row bleeding through, sticky off and the print controls hidden on paper.
