@@ -11461,3 +11461,33 @@ no horizontal overflow, no page errors.
 
 Pilot only. The other twenty modules follow once Justin has seen this one
 working in the product rather than in a document.
+## 8 September 2026 — the setup worries, wired end to end
+
+Justin: "go ahead with changes but make sure wiring all works, for example the
+questions they answer makes the check ins as its issues they have raised... and
+make sure the tick boxes are happy news icons, and that we remember the
+answers, and they know they can add as many or little, and we will return to
+ask more questions as we go."
+
+- **Nine worries, not five.** The phone, social media, AI chatbots and seeing
+  things they should not join the list. Three of them were folded into
+  something_else, which is deliberately unmapped, so a parent who arrived with
+  the question the whole product is built around could not name it.
+- **The worries moved out of the wizard** into `lib/onboarding/worries.ts`, for
+  the same reason `lib/pathway/challenge-labels.ts` lives outside a component:
+  a list behind a login cannot be read by a guard script or drawn by a fixture.
+  `/dev/worries` is that fixture.
+- **The guard now proves the tick reaches the check in.**
+  `scripts/check-focus-labels.mjs` reads `ONBOARDING_TO_SLUG` and `LABEL` and
+  fails when a tile has no slug. That exact gap shipped twice, silently, and
+  both times the symptom was a new family opening their first check in on "All
+  done for today".
+- **`clearProps: 'all'` was stripping the design.** On the reduced motion path
+  the welcome walkthrough cleared every inline style on its animated elements,
+  and every scene in it draws itself with inline styles. So a parent with
+  reduce motion on has been seeing the whole walkthrough unstyled since it
+  shipped. Now clears only transform, opacity and visibility. Found because
+  the Playwright pass runs with reducedMotion set to reduce.
+- **Two stale counts fixed.** The walkthrough told a brand new parent there
+  were sixty scripts, in the body copy and again in the drawn scene. There are
+  335, and 90 are free.
