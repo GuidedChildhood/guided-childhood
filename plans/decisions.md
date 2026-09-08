@@ -11577,17 +11577,83 @@ yes for the pages and no for the content, which is not the same thing.
   which is the anon key plus a cookie. Next job.
 - **And revoking the table grants will not be enough there.** Running the
   Supabase security advisor after this migration turned up something the
-  schools fix did not need but the parents one does: `match_scripts`,
-  `match_moments` and `match_expert_knowledge` are SECURITY DEFINER functions
-  that `anon` may execute over the REST API. A SECURITY DEFINER function runs
-  as its owner, so it walks past the grant and the policy alike. Revoking the
-  read on `scripts` while leaving `match_scripts` callable would move the door,
-  not close it: the same content comes back through
-  `/rest/v1/rpc/match_scripts` with an embedding. Same shape for
-  `prune_cron_runs`, which anon can call to delete the cron heartbeat rows the
-  health checks are built on. The parents app fix has to cover the functions
-  and the tables together or it is theatre.
+  schools fix did not need but the parents one does: `match_scripts` and
+  `match_moments` are SECURITY DEFINER functions that `anon` may execute over
+  the REST API. Such a function runs as its owner, so it walks past the grant
+  and the policy alike. The parents app fix has to cover the functions and the
+  tables together or it is theatre. Same point for `prune_cron_runs`, which
+  anon can call to DELETE the cron heartbeat rows every health check is built
+  on.
+
+  **Corrected the same day, on checking rather than reading the advisor
+  summary.** Two things above were overstated when first written here.
+  `match_expert_knowledge` was named as SECURITY DEFINER and is not
+  (`prosecdef` is false), so it runs as the caller and RLS applies; it was
+  never part of this. And `match_scripts` does not return "the same content":
+  it returns `sort_order`, `title`, `situation` and `category`, never the
+  script body. It also returns nothing at all today, because all 335 scripts
+  have a null embedding and the function filters on `embedding is not null`.
+  That is a fact about the data and not a protection, which is exactly why it
+  was still worth closing: the `script-refresh` cron backfilling embeddings
+  would have switched the leak on with nobody touching a policy.
 - **The advisor is now part of the check, not an afterthought.** It named
   `school_lessons` before today and nobody read it. It no longer names it,
   which is a third independent confirmation alongside the anon test and the
   service role test.
+
+## 8 September 2026 — the parents app content, and the door that was not the table
+
+The other half of the leak closed in migration 274, found the same way and
+closed the same way. Migration 275.
+
+- **Fifteen tables**, all with `USING (true)` and the anon grant: the lessons,
+  the AI modules, the device, phone and social platform guides, the daily
+  moments, the expert knowledge bank, the child scripts, the tell a parent
+  cards, the products. Anyone with the published anon key could read all of
+  them from the REST API without an account.
+- **Content only, checked column by column.** None of the fifteen carries a
+  `user_id`, `child_id`, `family_id`, `parent_id`, `email` or `phone`. The five
+  columns that matched a "name" pattern are the names of devices, apps,
+  platforms and products, plus `expert_knowledge.source_name`, a citation.
+- **One file changed, not thirty five.** Every reader of all fifteen is server
+  side, no client component touches them, and all four `app/k/[token]/*` child
+  routes already use the admin client. The single logged out reader on the
+  anon key was `app/m/[id]/page.tsx`, the public shared moment page. It moved
+  to `lib/supabase/admin`, which widens nothing: the query is pinned to one
+  UUID the visitor was given, restricted to `active`, six named columns.
+- **`anon` only this time, and said plainly rather than implied.** In the
+  schools app revoking `authenticated` was free because nothing read as a
+  logged in user. Here thirty five files read this content through
+  `lib/supabase/server`, the anon key plus the parent's cookie, so a signed in
+  parent reads as `authenticated`. Taking that away means moving roughly
+  seventy call sites in a live app first. So after 275 a free signup can still
+  read this content through the API. That is the next job, and it is a
+  separate pass with its own testing.
+- **The policy was replaced, not dropped, and that was nearly the bug.** RLS is
+  on for all fifteen, and under RLS a grant with no permissive policy reads
+  zero rows. Dropping `USING (true)` outright would have left `authenticated`
+  holding a grant that returns nothing, and the guard I had first written,
+  against `has_table_privilege`, would have passed while every lesson page
+  rendered empty. The blanket policy is now roled to `authenticated`, and the
+  guard reads as each role instead of asking the catalogue.
+- **`FROM PUBLIC`, not just `FROM anon`, and that was nearly the second bug.**
+  Postgres grants EXECUTE to PUBLIC on function creation, and all five
+  functions carried it (`=X/postgres`). Revoking from `anon` by name and
+  stopping there would have left every one wide open while the guards said
+  otherwise. Checked the ACLs first.
+- **Five functions closed:** `match_scripts` and `match_moments` (SECURITY
+  DEFINER, so they bypass grant and policy alike; no caller anywhere in the
+  codebase), `prune_cron_runs` (SECURITY DEFINER and it DELETES, so an
+  anonymous caller could wipe the heartbeat rows that make a dead cron look
+  healthy, the worst of the five and the least obvious), `cron_job_status` and
+  `required_columns_present` (operational and schema disclosure). Every real
+  caller builds its own service role client, so nothing lost anything.
+- **Verified by reading as the roles.** anon: 17 of 17 refused, being the 15
+  tables plus `match_scripts` and `prune_cron_runs`. authenticated: 15 of 15
+  still readable, which is the check that proves the app still works.
+- **Two findings I had called open were already fixed.** The 5 September audit
+  names an unauthenticated push subscribe route and a `kid_links` insert with
+  no ownership check. Both were closed in `b3abf5a`. I repeated them as live
+  from the audit document without opening the files, having annotated that
+  same document earlier the same day for exactly this reason. The audit is a
+  dated snapshot; the code is the source. Annotated now.

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -8,7 +8,20 @@ import { momentLook } from '@/lib/content/moment-look'
 // the app into a WhatsApp group or social feed; this page is what the
 // link opens, in the exact colours of the card they shared. No login,
 // the wisdom in full, one taste of the practical help, and the pathway
-// as the next step. daily_moments is publicly readable by design.
+// as the next step.
+//
+// WHY THE ADMIN CLIENT ON A PUBLIC PAGE. The comment here used to end
+// "daily_moments is publicly readable by design", and that was the whole
+// problem: publicly readable to this page also meant publicly readable to
+// anyone who pointed a request at the database with the published anon key,
+// all 89 moments at once rather than the one that was shared. Migration 275
+// takes that grant away, so this page reads with the service role instead.
+//
+// That is a narrower door than it sounds. The query below is pinned to one
+// UUID that the visitor must already have been given, restricted to active
+// rows, and selects six named columns. Nothing about moving to this client
+// widens what the page can show; it only stops the same rows being reachable
+// without the page.
 
 type MomentRow = {
   id: string
@@ -22,7 +35,7 @@ type MomentRow = {
 
 async function getMoment(id: string): Promise<MomentRow | null> {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return null
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data } = await supabase
     .from('daily_moments')
     .select('id, title, category, science_brief, digi_opener, solutions, expert_note')

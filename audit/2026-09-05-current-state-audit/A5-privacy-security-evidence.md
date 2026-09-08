@@ -46,6 +46,12 @@ Every table created in supabase/migrations has a matching enable row level secur
 > job, see plans/decisions.md, 8 September. This audit is left as it was found
 > on 5 September rather than edited, so the record of what was true then holds.
 
+> **Also closed 8 September 2026: the fifteen parents app content tables.**
+> Migration 275 replaces their blanket policy with one roled to
+> `authenticated` and revokes the anon grant, and shuts five functions anon
+> could call. A signed in account can still read this content; that is the
+> remaining job. See plans/decisions.md, 8 September.
+
 Permissive using (true) policies are all read only content tables (expert_knowledge 019:21, school_lessons 023:160, digi_wisdom 043:46, daily_moments 009:36, lessons and guides in 002, 013, 014, 049, 093, 094, 102, 163).
 
 Anon grants: 177_schools_schema.sql:23, 49 usage and default select on the schools schema; 195_school_invoice_requests.sql:33-36 insert to anon with check (true) on schools.invoice_requests (public form, no select for anon, no rate limit).
@@ -56,11 +62,11 @@ Policy gap: kid_links_own (029:77-78) checks only user_id, not that child_id bel
 
 - Central client lib/supabase/admin.ts:8-12. No client component imports it. The schools app has no admin client (schools/lib/supabase/anon.ts:3-9). [8 Sep: that file is now server-db.ts and does hold the service role key, server side only, enforced by wiring-check section 8a.]
 - Cron routes: all 24 under app/api/cron check Bearer CRON_SECRET (e.g. age-up/route.ts:33-37 with a null guard) or cronAuthorised (lib/email/cron-kit.ts:147). Weakness: cron-kit.ts:147 and script-refresh/route.ts:38 compare against the template string with no null check, so an unset CRON_SECRET would accept the literal "Bearer undefined"; lib/email/index.ts:25, 53, 71 falls back to the HMAC key 'dev' for unsubscribe tokens if CRON_SECRET is unset.
-- Unauthenticated service role route: app/api/push/subscribe/route.ts. getSupabase() (9-14) builds a service role client; POST (21) takes userId from the request body with no getUser() and upserts or deletes push_subscriptions for that id (33-41, 61-65); DELETE (77-86) deletes any subscription by endpoint. An anonymous caller who knows a user id can attach their own push endpoint to that account or remove a family's subscriptions.
+- **[CLOSED 8 September 2026 in b3abf5a: POST and DELETE now take the user from the session and return 401 without one, and the DELETE is scoped to user_id.]** Unauthenticated service role route: app/api/push/subscribe/route.ts. getSupabase() (9-14) builds a service role client; POST (21) takes userId from the request body with no getUser() and upserts or deletes push_subscriptions for that id (33-41, 61-65); DELETE (77-86) deletes any subscription by endpoint. An anonymous caller who knows a user id can attach their own push endpoint to that account or remove a family's subscriptions.
 - app/api/school/[id]/ics/route.ts:26-36: service role read keyed only by UUID, by design.
 - app/verify/[code]/page.tsx:47-51, 73: service role read of children by passport_code, public, shows first name and stamps (comment 17-25 calls it "the DPIA line for this page").
 - app/k/[token]/* (17 pages) and app/api/kid/* use the admin client after resolving an 18 hex token to a kid_links row.
-- Ownership exception: app/api/quests/route.ts:218-228 action link inserts a kid_links row for body.child_id without checking that the child belongs to user.id; the policy only checks user_id. Needs another family's child UUID and no existing link, but would then resolve /k/token to another family's child.
+- **[CLOSED 8 September 2026 in b3abf5a: the handler now checks the child belongs to the caller before minting a link.]** Ownership exception: app/api/quests/route.ts:218-228 action link inserts a kid_links row for body.child_id without checking that the child belongs to user.id; the policy only checks user_id. Needs another family's child UUID and no existing link, but would then resolve /k/token to another family's child.
 - Public inserts with no rate limiting: app/api/starter/lead/route.ts:13-41, schools/app/pricing/actions.ts:39. No rate limiting at middleware or route level for auth, unlock, home codes or verify.
 
 ## 5. School access model
@@ -124,7 +130,7 @@ vercel.json:9-35, app-vercel.json:7-21, schools/vercel.json:7-27: nosniff, X-Fra
 | "No pupil accounts" vs family app, quest link, progress, passport | Reconciled | home codes credit the parent's own record; passport is parent owned; schools app stores no pupil rows |
 
 Top five risks, ranked:
-1. app/api/push/subscribe/route.ts: service role client, no authentication, userId from the body.
+1. app/api/push/subscribe/route.ts: service role client, no authentication, userId from the body. **[CLOSED 8 September 2026 in b3abf5a.]**
 2. Special category writes not consent gated server side; two year retention promise has no purge job; digi_safety_flags retains text after account deletion.
 3. Controller identity, transfers, AI memory and embedding subprocessors missing from the notice; no DPIA, ROPA, DPA or incident process.
 4. Schools access: plain text env allow list, no rate limit, no rotation or audit, and the public form advertises the template's sample code.
