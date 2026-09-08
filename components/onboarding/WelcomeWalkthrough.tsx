@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import gsap from 'gsap'
 import Celebration from '@/components/ui/Celebration'
+import WorryIcon, { type WorryIconName } from '@/components/onboarding/WorryIcon'
 
 // The first welcome: a celebration, then the day, one card at a time.
 //
@@ -56,6 +57,13 @@ type Props = {
   onEnableNotifications?: () => Promise<boolean>
   /** Off for the revisit from Settings, where nothing new has happened. */
   celebrate?: boolean
+  /**
+   * What the parent just ticked at setup, in their own order. Given, the
+   * walkthrough opens by naming them back before it explains anything; omitted
+   * (the How it works revisit, where nothing was just answered) that card is
+   * left out entirely, exactly as the reminder card is.
+   */
+  worries?: { id: string; label: string; icon: WorryIconName; tint: string }[]
 }
 
 // THE SCREEN IS THE SCREEN. The app runs under body { zoom: 1.07 } (the one
@@ -196,7 +204,7 @@ function SceneScripts() {
         <div style={{ ...MONO_LABEL, color: 'var(--danger)', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 4 }}>Not this</div>
         <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, color: INK, textDecoration: 'line-through', textDecorationColor: 'var(--danger)' }}>"Right, that is it, give it here."</div>
       </div>
-      <div data-rise style={{ ...MONO_LABEL, letterSpacing: '0.06em', textTransform: 'none', paddingLeft: 4 }}>Script 4 of 60 · Ages 8 to 10</div>
+      <div data-rise style={{ ...MONO_LABEL, letterSpacing: '0.06em', textTransform: 'none', paddingLeft: 4 }}>Script 4 of 335 · Ages 8 to 10</div>
     </div>
   )
 }
@@ -308,6 +316,44 @@ function SceneRemind({ name }: { name: string }) {
   )
 }
 
+// The worries they just named, drawn as the same tiles they ticked a moment
+// ago, so the screen reads as an answer rather than as a new question. Up to
+// four are shown; a parent who ticked more gets the rest counted, because five
+// tiles at this size is a wall and the point is recognition, not inventory.
+function SceneWorries({ worries }: { worries: NonNullable<Props['worries']> }) {
+  const shown = worries.slice(0, 4)
+  const rest = worries.length - shown.length
+  return (
+    <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+        {shown.map(w => (
+          <div key={w.id} data-rise style={{
+            background: '#fff', border: `2px solid ${INK}`, borderRadius: 16,
+            boxShadow: `0 4px 0 ${INK}`, padding: '11px 11px 13px',
+            display: 'flex', flexDirection: 'column', gap: 8,
+          }}>
+            <span aria-hidden style={{
+              width: 38, height: 38, borderRadius: 12, background: w.tint,
+              border: `2px solid ${INK}`, boxSizing: 'border-box',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', color: INK,
+            }}>
+              <WorryIcon name={w.icon} size={21} />
+            </span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', lineHeight: 1.25, color: INK }}>
+              {w.label}
+            </span>
+          </div>
+        ))}
+      </div>
+      {rest > 0 && (
+        <div style={{ ...MONO_LABEL, letterSpacing: '0.06em', textAlign: 'center' }}>
+          and {rest} more you named
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── The cards, in the order a day happens.
 
 type Card = {
@@ -339,14 +385,14 @@ function cardsFor(name: string): Card[] {
     {
       key: 'moments', eyebrow: 'When something happens',
       headline: 'Tap the moment that went wrong.',
-      body: 'The bedtime battle, the tablet at tea, the meltdown when it went off. Tap it and it becomes a worry the app tracks with you.',
+      body: 'The bedtime battle, the tablet at tea, the meltdown when it went off. Tap it and it joins your worries, so the list grows with your actual week rather than staying whatever you ticked at setup.',
       why: 'The argument you had today is the one worth solving.',
       scene: <SceneMoments />,
     },
     {
       key: 'scripts', eyebrow: 'Before the hard conversation',
       headline: 'The actual words for tonight.',
-      body: 'Every hard conversation has a script: what to say, what not to say, and what to do when it goes sideways. Sixty of them, by age.',
+      body: 'Every hard conversation has a script: what to say, what not to say, and what to do when it goes sideways. 335 of them, by age, and 90 are free.',
       why: 'Knowing what to say is the difference between a fight and a chat.',
       scene: <SceneScripts />,
     },
@@ -374,6 +420,26 @@ function cardsFor(name: string): Card[] {
   ]
 }
 
+// Written out, because "These 3 are what we start on" is a receipt and this
+// card is a sentence. Nine covers the whole list; past that the number stands.
+const COUNT_WORD: Record<number, string> = {
+  2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine',
+}
+
+// Justin, 8 September 2026: "make it super easy clear and knows there
+// problems". This is that card. It comes first, before home and before the
+// check in, because the fastest way to show a product understands you is to
+// repeat what you just said and tell you what happens to it.
+const WORRIES_CARD = (worries: NonNullable<Props['worries']>): Card => ({
+  key: 'worries', eyebrow: 'What you told us',
+  headline: worries.length === 1
+    ? 'This is what we start on.'
+    : `These ${COUNT_WORD[worries.length] ?? worries.length} are what we start on.`,
+  body: 'They are already your first check in, waiting on Home. Rate them tonight and that rating becomes the baseline everything after is measured against.',
+  why: 'You can add another the day it happens. Nothing here has to be right first time.',
+  scene: <SceneWorries worries={worries} />,
+})
+
 const REMIND_CARD = (name: string): Card => ({
   key: 'remind', eyebrow: 'One nudge a day',
   headline: 'Want a nudge before bedtime?',
@@ -382,9 +448,9 @@ const REMIND_CARD = (name: string): Card => ({
   scene: <SceneRemind name={name} />, sceneBg: 'var(--cream)',
 })
 
-export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifications, celebrate = true }: Props) {
+export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifications, celebrate = true, worries }: Props) {
   const name = childName.trim() && childName.trim() !== 'Your child' ? childName.trim() : 'Your child'
-  const cards = cardsFor(name)
+  const cards = worries?.length ? [WORRIES_CARD(worries), ...cardsFor(name)] : cardsFor(name)
   const withRemind = !!onEnableNotifications
   const total = cards.length
   // -1 is the celebration; 0..total-1 the cards; total the reminder ask.
@@ -407,7 +473,23 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
     const pops = Array.from(root.querySelectorAll<HTMLElement>('[data-pop]'))
     const line = root.querySelector<SVGPolylineElement>('[data-line]')
     if (reduced.current) {
-      gsap.set([...parts, ...risers, ...pops], { clearProps: 'all' })
+      // ── clearProps: 'all' WAS WIPING THE DESIGN (8 September 2026) ────────
+      //
+      // 'all' does not mean "the properties this timeline set". It means every
+      // inline style on the element, and every scene in here draws itself with
+      // inline styles: the white fill, the ink edge, the 4px ledge, the pastel
+      // plates. So a parent with reduce motion turned on has been getting the
+      // walkthrough with its cards stripped back to unstyled text, on every
+      // card, since this line was written. Caught by a Playwright pass that
+      // runs with reducedMotion: 'reduce', which is the only reason it was
+      // ever seen at all.
+      //
+      // Naming the three the timeline actually touches undoes the animation
+      // and leaves the design alone. In practice there is nothing to undo,
+      // because go() skips the exit tween on this path too, but clearing them
+      // is still right: it keeps this branch correct if the dial is changed
+      // mid walkthrough.
+      gsap.set([...parts, ...risers, ...pops], { clearProps: 'transform,opacity,visibility' })
       return
     }
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })

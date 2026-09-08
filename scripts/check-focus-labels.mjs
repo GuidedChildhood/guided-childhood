@@ -26,13 +26,23 @@ const onboarding = readFileSync(new URL('../app/onboarding/page.tsx', import.met
 
 // The ids a parent can actually end up with, read from the source of truth
 // rather than restated here, because a second copy is the bug all over again.
-const challengesBlock = onboarding.match(/const CHARLENGES|const CHALLENGES\s*=\s*\[([\s\S]*?)\]/)
+//
+// They moved out of the wizard into lib/onboarding/worries.ts on 8 September
+// 2026, for the same reason the labels below live in their own file: a list
+// inside a page can only be read by a browser with a session. The block is
+// read to the closing bracket in column one rather than to the first ] it
+// meets, because the declaration carries a type annotation containing [].
+const worriesFile = readFileSync(new URL('../lib/onboarding/worries.ts', import.meta.url), 'utf8')
+const challengesBlock = worriesFile.match(/const WORRIES\b[^=]*=\s*\[([\s\S]*?)\n\]/)
 const liveIds = [...(challengesBlock?.[1] ?? '').matchAll(/id:\s*'([a-z_]+)'/g)].map(m => m[1])
 
 const oldBlock = onboarding.match(/const OLD_TO_NEW_CHALLENGE[^{]*\{([\s\S]*?)\}/)
 const legacyIds = [...(oldBlock?.[1] ?? '').matchAll(/^\s*([a-z_]+):/gm)].map(m => m[1])
 
-check('the onboarding challenges were found', liveIds.length === 6, `${liveIds.length}: ${liveIds.join(', ')}`)
+// Nine worries plus something_else since 8 September 2026. Asserted as a floor
+// and not an exact number, so adding a tenth worry does not fail the build for
+// the crime of being a tenth worry; the per id checks below are the real test.
+check('the onboarding challenges were found', liveIds.length >= 6, `${liveIds.length}: ${liveIds.join(', ')}`)
 check('the legacy ids were found', legacyIds.length > 0, legacyIds.join(', '))
 
 // ── EVERY LIVE ID HAS A LABEL ───────────────────────────────────────────────
@@ -72,6 +82,34 @@ for (const id of Object.keys(CHALLENGE_LABELS)) {
 // ── THE HOUSE RULE ──────────────────────────────────────────────────────────
 for (const [id, label] of Object.entries(CHALLENGE_LABELS)) {
   check(`${id}: no dashes`, !/[-–—]/.test(label), label)
+}
+
+// ── THE TICK MUST REACH THE CHECK IN ────────────────────────────────────────
+//
+// The other half of the promise, and the one that has actually broken twice.
+// A worry with a tile but no slug in ONBOARDING_TO_SLUG is a tick that goes
+// nowhere: no concern row, so the family's first check in opens on "All done
+// for today" with nothing on it. Both times, nothing failed and nobody could
+// see it. lib/concerns/baseline is read as text for the same reason the labels
+// are: no imports, no React, no session.
+const baseline = readFileSync(new URL('../lib/concerns/baseline.ts', import.meta.url), 'utf8')
+const slugBlock = baseline.match(/const ONBOARDING_TO_SLUG[^=]*=\s*\{([\s\S]*?)\n\}/)
+const slugMap = Object.fromEntries(
+  [...(slugBlock?.[1] ?? '').matchAll(/^\s*([a-z_]+):\s*'([a-z-]+)'/gm)].map(m => [m[1], m[2]]),
+)
+const labelBlock = baseline.match(/const LABEL[^=]*=\s*\{([\s\S]*?)\n\}/)
+const slugLabels = new Set(
+  [...(labelBlock?.[1] ?? '').matchAll(/^\s*'([a-z-]+)':/gm)].map(m => m[1]),
+)
+
+check('the slug map was found', Object.keys(slugMap).length > 0, `${Object.keys(slugMap).length} keys`)
+
+// something_else is the one deliberate exception, and it is deliberate in
+// lib/concerns/baseline too: a catch all is a picker, not a rateable thing.
+for (const id of liveIds.filter(i => i !== 'something_else')) {
+  const slug = slugMap[id]
+  check(`${id} becomes a concern`, Boolean(slug), slug ?? 'NO SLUG: this tick would go nowhere')
+  if (slug) check(`${id} has a name on the check in row`, slugLabels.has(slug), slug)
 }
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)

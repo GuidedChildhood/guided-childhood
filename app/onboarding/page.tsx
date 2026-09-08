@@ -9,6 +9,8 @@ import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { TRIAL_DAYS } from '@/lib/access'
 import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
+import WorryPicker from '@/components/onboarding/WorryPicker'
+import { WORRIES, WORRIES_KEY, namedWorries } from '@/lib/onboarding/worries'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
 
@@ -24,22 +26,22 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 
-const CHALLENGES = [
-  { id: 'morning_tv', label: 'Morning TV' },
-  { id: 'controller_fights', label: 'Controller fights' },
-  { id: 'wont_put_down', label: "Won't put it down" },
-  { id: 'bedtime_screens', label: 'Bedtime screens' },
-  { id: 'mood_after_screens', label: 'Mood after screens' },
-  { id: 'something_else', label: 'Something else' },
-]
+// The worries themselves live in lib/onboarding/worries.ts, with the rule for
+// adding one written beside them. Out there because a list buried in a page
+// behind a login cannot be read by the guard script or drawn by a fixture, and
+// this one has silently fallen out of step with the slug map twice.
 
+// Two of these used to land on something_else, which is unmapped, so a parent
+// who told the starter quiz their worry was the phone or online safety had it
+// quietly dropped on the way in and got the stock two instead. Both now have a
+// tile of their own to land on.
 const OLD_TO_NEW_CHALLENGE: Record<string, string> = {
   screens_takeover: 'wont_put_down',
   mood_changes: 'mood_after_screens',
   gaming: 'controller_fights',
-  online_safety: 'something_else',
+  online_safety: 'seen_something',
   start_conversation: 'something_else',
-  asking_for_phone: 'something_else',
+  asking_for_phone: 'asking_for_phone',
 }
 
 const BTN: React.CSSProperties = {
@@ -246,6 +248,18 @@ export default function OnboardingPage() {
         }
       } catch {}
 
+      // Ticks from a setup this parent started and did not finish. Read after
+      // the starter quiz block and only when that gave us nothing, so a fresh
+      // quiz answer always wins over a stale half finished one.
+      try {
+        const kept = localStorage.getItem(WORRIES_KEY)
+        if (kept) {
+          const ids = JSON.parse(kept) as string[]
+          const known = Array.isArray(ids) ? ids.filter(id => WORRIES.some(w => w.id === id)) : []
+          if (known.length) setChallenges(prev => (prev.length ? prev : known))
+        }
+      } catch {}
+
       // The founder seat count used to be fetched here for a screen at the end
       // of setup. That screen has moved to /dashboard/choose, which reads the
       // count on the server, so setup no longer calls Stripe at all.
@@ -372,6 +386,7 @@ export default function OnboardingPage() {
     } catch { /* the rest of setup matters more, and Devices can be told later */ }
 
     localStorage.removeItem('gc_starter_answers')
+    try { localStorage.removeItem(WORRIES_KEY) } catch { /* private mode */ }
 
     // No model call here any more. The walkthrough that follows is written,
     // not generated (see components/onboarding/WelcomeWalkthrough), so setup
@@ -381,8 +396,16 @@ export default function OnboardingPage() {
     setScreen('tour')
   }
 
+  // Kept on the device as they are made. Setup is four screens on a phone that
+  // rings, backgrounds the tab and drops it, and a parent who comes back to
+  // find their ticks gone answers the question faster and worse the second
+  // time. Cleared with the rest of the setup keys once the answers are saved.
   function toggleChallenge(id: string) {
-    setChallenges(prev => prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id])
+    setChallenges(prev => {
+      const next = prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+      try { localStorage.setItem(WORRIES_KEY, JSON.stringify(next)) } catch { /* private mode */ }
+      return next
+    })
   }
 
   // ── INIT ──────────────────────────────────────────────────────────────────
@@ -716,46 +739,40 @@ export default function OnboardingPage() {
   // ── CHALLENGES ────────────────────────────────────────────────────────────
 
   if (screen === 'challenges') {
+    // The ticked ones first, so a parent scanning back up the grid sees what
+    // they have said rather than hunting for it. Only on first paint: the
+    // order must not shuffle under a thumb that is still choosing.
     return (
-      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
         <style>{ANIM}</style>
         <ProgressBar step={4} />
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
-          <div style={{ maxWidth: 480, width: '100%' }}>
-            <DigiSpeech text="What's the main challenge right now?" />
-            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginBottom: '18px', fontFamily: 'var(--font-mono)', letterSpacing: '0.03em' }}>
-              Pick as many as apply.
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '28px 20px 32px' }}>
+          <div style={{ maxWidth: 520, width: '100%' }}>
+            <DigiSpeech text="What is hard right now?" />
+            {/* The rules of the question, said before it is asked. Justin,
+                8 September: "they know they can add as many or little". A
+                parent who thinks this is a one from six quiz answers it
+                differently from one who knows it is a list they own. */}
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '16px' }}>
+              Pick as many or as few as you like. These become the worries you rate on your first check in.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
-              {CHALLENGES.map(c => {
-                const selected = challenges.includes(c.id)
-                return (
-                  <button
-                    key={c.id}
-                    onClick={() => toggleChallenge(c.id)}
-                    style={{
-                      padding: '16px 12px',
-                      border: `2px solid ${selected ? 'var(--terracotta)' : 'var(--border)'}`,
-                      borderRadius: 14,
-                      background: selected ? 'var(--terracotta-lt)' : '#fff',
-                      cursor: 'pointer', textAlign: 'center', lineHeight: 1.35,
-                      fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-md)',
-                      color: selected ? 'var(--terracotta)' : 'var(--ink)',
-                      transition: 'border-color 0.12s, background 0.12s, color 0.12s',
-                    }}
-                  >
-                    {c.label}
-                  </button>
-                )
-              })}
+            <div style={{ marginBottom: '16px' }}>
+              <WorryPicker selected={challenges} onToggle={toggleChallenge} />
             </div>
             <button
               style={{ ...BTN, opacity: saving ? 0.7 : 1 }}
               onClick={completePersonalisation}
               disabled={saving}
             >
-              {saving ? 'One moment...' : 'Show me the pathway'}
+              {saving ? 'One moment...' : challenges.length ? `Show me the plan for ${challenges.length === 1 ? 'this' : 'these'}` : 'Show me the pathway'}
             </button>
+            {/* The other half of the promise: this list is not a one time
+                form. Moments, DiGi and Right now all raise a new worry the day
+                it happens (lib/concerns/raise), so nothing here has to be
+                right first time. */}
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '12px', textAlign: 'center' }}>
+              We keep asking as things come up, so this does not have to be right first time.
+            </p>
             <button onClick={() => setScreen('devices')} style={BACK_BTN}>
               ← Back
             </button>
@@ -828,6 +845,12 @@ export default function OnboardingPage() {
         childName={childName}
         onFinish={goNext}
         onEnableNotifications={enableNotifications}
+        // In the order they ticked them, and only the ones that mean
+        // something. something_else is a picker rather than a worry: it has no
+        // slug, so it never becomes a check in row, and naming it back on a
+        // card that promises "this is what we start on" would be a promise we
+        // have not kept.
+        worries={namedWorries(challenges)}
       />
     )
   }

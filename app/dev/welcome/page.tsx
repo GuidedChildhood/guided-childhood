@@ -9,6 +9,7 @@ import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 //   /dev/welcome              the celebration, then the eight cards
 //   /dev/welcome?card=3       straight to card 3 (1 to 8), no celebration
 //   /dev/welcome?noremind=1   the Settings revisit: seven cards, no reminder ask
+//   /dev/welcome?worries=0     drop the worries card, as the revisit does
 //
 // Playwright screenshots every card from here. Never reachable in production.
 
@@ -20,6 +21,13 @@ export default function WelcomeFixture() {
   if (!q) return null
   const card = Number(q.get('card') ?? 0)
   const noRemind = q.get('noremind') === '1'
+  // Three ticks in the order a parent might make them, so the first card can
+  // be looked at. Off with ?worries=0, which is the How it works revisit.
+  const worries = q.get('worries') === '0' ? undefined : [
+    { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens' as const, tint: 'var(--stage-5-bold)' },
+    { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots' as const, tint: 'var(--stage-5-bold)' },
+    { id: 'wont_put_down', label: 'Will not put it down', icon: 'wont_put_down' as const, tint: 'var(--stage-3-bold)' },
+  ]
   return (
     <>
       <WelcomeWalkthrough
@@ -28,6 +36,7 @@ export default function WelcomeFixture() {
         celebrate={card === 0}
         onFinish={dest => setLog(l => [...l, `finish:${dest}`])}
         onEnableNotifications={noRemind ? undefined : async () => { setLog(l => [...l, 'notify']); return true }}
+        worries={worries}
       />
       {card > 0 && <SkipTo card={card} />}
       {log.length > 0 && <pre data-log style={{ position: 'fixed', bottom: 0, left: 0, fontSize: 12, background: '#fff', margin: 0, padding: 4 }}>{log.join('\n')}</pre>}
