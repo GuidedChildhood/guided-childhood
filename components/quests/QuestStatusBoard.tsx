@@ -7,6 +7,7 @@ import { kidLessonForQuestTitle } from '@/lib/quests/kid-lessons'
 import { craftForQuestTitle, craftHref } from '@/lib/quests/craft-links'
 import { pileFor } from '@/lib/quests/job-pile'
 import LessonCheck from './LessonCheck'
+import { questDueToday } from '@/lib/quests/due'
 
 // Where every job actually is.
 //
@@ -71,15 +72,20 @@ const EMPTY: Record<BucketKey, string> = {
   done: 'Nothing agreed yet this week.',
 }
 
-/** Does this quest fall on today? Mirrors the board's own schedule rules. */
+/**
+ * Does this quest fall on today?
+ *
+ * This used to be a copy of the rule, kept in step by hand and described as
+ * mirroring the board. Three copies of one rule is how the chosen days support
+ * came to exist in the database and be honoured in some places and not others.
+ * There is one rule now and it lives in lib/quests/due.
+ */
 function dueToday(q: Quest, dow: number): boolean {
-  if (Array.isArray(q.schedule_days) && q.schedule_days.length > 0) return q.schedule_days.includes(dow)
-  switch (q.schedule) {
-    case 'weekdays': return dow >= 1 && dow <= 5
-    case 'weekend': return dow === 0 || dow === 6
-    case 'once': return true
-    default: return true
-  }
+  // The canonical rule reads the day off a Date, so hand it one that falls on
+  // the day the board is drawing rather than on today.
+  const d = new Date()
+  d.setDate(d.getDate() + ((dow - d.getDay() + 7) % 7))
+  return questDueToday(q.schedule ?? 'daily', q.schedule_days, d)
 }
 
 export default function QuestStatusBoard() {

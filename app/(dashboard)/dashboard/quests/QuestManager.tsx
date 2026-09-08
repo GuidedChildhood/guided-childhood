@@ -421,7 +421,7 @@ export default function QuestManager() {
     setHandMode(youngChild ? 'paper' : 'phone')
   }, [activeChild, youngChild])
 
-  async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string; band?: string | null }) {
+  async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string; band?: string | null; schedule_days?: number[] | null }) {
     const res = await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1478,7 +1478,7 @@ export default function QuestManager() {
                 <JobComposer
                   countToday={childQuests.length}
                   autoFocus={addOpenedByParent}
-                  onAdd={(t, when, band) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band })}
+                  onAdd={(t, when, band, days) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band, schedule_days: days })}
                   help="Worth one star. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
                 />
               </div>
@@ -1893,7 +1893,7 @@ export default function QuestManager() {
                   countToday={childQuests.length}
                   tone="cream"
                   placeholder="Or write your own quest"
-                  onAdd={(t, when, band) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band })}
+                  onAdd={(t, when, band, days) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band, schedule_days: days })}
                 />
               </div>
             </div>

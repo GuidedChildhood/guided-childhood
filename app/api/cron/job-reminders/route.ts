@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { bandForQuest, isBand, bandLabelOn, type JobBand } from '@/lib/quests/job-time'
 import { isRegion, DEFAULT_REGION } from '@/lib/learning/region'
+import { questDueToday } from '@/lib/quests/due'
 
 // A nudge on the child's own phone, at the hour the job can still be done.
 //
@@ -37,14 +38,15 @@ export const dynamic = 'force-dynamic'
 
 type Quest = { id: string; title: string; user_id: string; child_id: string | null; schedule: string | null; schedule_days: number[] | null; band: string | null }
 
-/** Does this quest fall today? Mirrors the board's own rules. */
+/**
+ * Does this quest fall today? One rule, shared with the board and the child's
+ * list, rather than a third copy kept in step by hand. A reminder chasing a job
+ * that is not due today is the worst version of this feature.
+ */
 function dueToday(q: Quest, dow: number): boolean {
-  if (Array.isArray(q.schedule_days) && q.schedule_days.length > 0) return q.schedule_days.includes(dow)
-  switch (q.schedule) {
-    case 'weekdays': return dow >= 1 && dow <= 5
-    case 'weekend': return dow === 0 || dow === 6
-    default: return true
-  }
+  const d = new Date()
+  d.setDate(d.getDate() + ((dow - d.getDay() + 7) % 7))
+  return questDueToday(q.schedule ?? 'daily', q.schedule_days, d)
 }
 
 async function handler(request: Request) {

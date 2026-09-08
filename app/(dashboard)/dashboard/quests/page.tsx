@@ -54,7 +54,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
     const [{ data: kids }, { data: links }, { data: quests }] = await Promise.all([
       supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       supabase.from('kid_links').select('child_id').eq('user_id', user.id),
-      supabase.from('family_quests').select('stars, schedule, child_id').eq('user_id', user.id).eq('active', true),
+      supabase.from('family_quests').select('stars, schedule, schedule_days, child_id').eq('user_id', user.id).eq('active', true),
     ])
     // Both signatures, not the row. A draft agreement is written as clauses
     // are chosen, so a row exists long before anybody has agreed anything, and
@@ -166,7 +166,14 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
     // not achieved balance, and telling a parent otherwise hides the one thing
     // they need to act on. Nothing is the third verdict now, and it is the one
     // that leads to a fix rather than to a green tick.
-    const anyWeekday = (quests ?? []).some(q => q.schedule === 'daily' || q.schedule === 'weekdays')
+    // A job set to certain days counts as a weekday job when any of those days
+    // is one. Asking the schedule word alone read "Monday and Wednesday" as
+    // neither daily nor weekdays, so the verdict quietly switched to scoring
+    // the family's weekend instead of the week they actually named.
+    const anyWeekday = (quests ?? []).some(q =>
+      q.schedule === 'daily'
+      || q.schedule === 'weekdays'
+      || (Array.isArray(q.schedule_days) && q.schedule_days.some(d => d >= 1 && d <= 5)))
     const scope: ('daily' | 'weekdays')[] | ('daily' | 'weekend')[] = anyWeekday
       ? ['daily', 'weekdays']
       : ['daily', 'weekend']

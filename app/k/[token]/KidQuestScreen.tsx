@@ -38,6 +38,7 @@ import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
+import { scheduleLabel } from '@/lib/quests/due'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
 import KidDayDone, { type DayDoneInput } from '@/components/kid/KidDayDone'
 import KidContract from '@/components/kid/KidContract'
@@ -61,7 +62,7 @@ import { STAGE_CHARACTERS, characterForStage, type StageCharacter } from '@/lib/
 // for the grown up", approved ones celebrate. No navigation anywhere
 // else: this screen is the whole world of the link.
 
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; blocks_screens?: boolean; created_at?: string | null }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; blocks_screens?: boolean; created_at?: string | null }
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 export type KidMission = { id: string; title: string; stars: number; status: string }
@@ -153,7 +154,7 @@ export default function KidQuestScreen({
   weekStars: number
   goal: Goal
   streakDays?: number
-  laterQuests?: { title: string; emoji: string; schedule: string }[]
+  laterQuests?: { title: string; emoji: string; schedule: string; schedule_days?: number[] | null }[]
   doneLessonKeys?: string[]
   missions?: KidMission[]
   /** This week's school objective as one calm card, null in the holidays. */
@@ -2201,7 +2202,12 @@ export default function KidQuestScreen({
               <p key={i} style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', margin: '0 0 4px', lineHeight: 1.5 }}>
                 {q.emoji} {q.title}
                 <span style={{ color: 'var(--ink-light)' }}>
-                  {' '}· {q.schedule === 'weekdays' ? 'school days' : q.schedule === 'weekend' ? 'weekends' : q.schedule === 'once' ? 'one time' : 'every day'}
+                  {/* The words the parent chose, not a guess from the
+                      schedule column. Written out longhand this had no case
+                      for chosen days at all, so a job set to Tuesday and
+                      Thursday told the child it happened every day, which is
+                      the app breaking an agreement on the child's behalf. */}
+                  {' '}· {q.schedule === 'once' ? 'one time' : (scheduleLabel(q.schedule, q.schedule_days) || 'every day')}
                 </span>
               </p>
             ))}

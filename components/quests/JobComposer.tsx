@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
+import { scheduleLabel } from '@/lib/quests/due'
+import DayPicker from '@/components/quests/DayPicker'
 
 // Write your own job, one question at a time.
 //
@@ -14,10 +16,16 @@ import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 // always been on family_quests and the composer simply never asked.
 export type Schedule = 'daily' | 'weekdays' | 'weekend' | 'once'
 
-const WHEN: { key: Schedule; label: string }[] = [
+// 'days' is this picker's word for "I will name them", not a database value.
+// What gets sent is the daily schedule plus schedule_days, which every reader
+// prefers over the schedule word. See the same note in JobPicker.
+type WhenKey = Schedule | 'days'
+
+const WHEN: { key: WhenKey; label: string }[] = [
   { key: 'daily',    label: 'Every day' },
   { key: 'weekdays', label: 'School days' },
   { key: 'weekend',  label: 'Weekends' },
+  { key: 'days',     label: 'Certain days' },
   { key: 'once',     label: 'Just once' },
 ]
 
@@ -121,7 +129,7 @@ export default function JobComposer({
    * Given the trimmed title and how often it should repeat. The caller still
    * owns everything else a job becomes, the stars and the emoji.
    */
-  onAdd: (title: string, schedule: Schedule, band: JobBand | null) => void
+  onAdd: (title: string, schedule: Schedule, band: JobBand | null, scheduleDays: number[] | null) => void
   placeholder?: string
   /** The input sits on white cards in the add panel and on cream further down. */
   tone?: 'white' | 'cream'
@@ -165,7 +173,8 @@ export default function JobComposer({
   const [step, setStep] = useState<Step>('what')
   const [title, setTitle] = useState('')
   const [draft, setDraft] = useState('')
-  const [when, setWhen] = useState<Schedule>('daily')
+  const [when, setWhen] = useState<WhenKey>('daily')
+  const [days, setDays] = useState<number[]>([])
   // There is deliberately no band state. The last question is answered by the
   // tap that adds the job, so a stored default would only exist to render one
   // chip pre filled, and a pre filled chip on that step is the exact bug this
@@ -175,7 +184,7 @@ export default function JobComposer({
   // deciding whether to add another.
   // The answers themselves, not a sentence about them, so the confirmation can
   // show them back in the colours they were chosen in.
-  const [last, setLast] = useState<{ title: string; when: Schedule; band: JobBand | 'auto' } | null>(null)
+  const [last, setLast] = useState<{ title: string; when: WhenKey; band: JobBand | 'auto' } | null>(null)
   // True once anything has been added, so the repeat answer can be offered as
   // the same as last time rather than asked from cold.
   const [addedBefore, setAddedBefore] = useState(false)
@@ -213,7 +222,15 @@ export default function JobComposer({
   function finish(chosenBand: JobBand | 'auto') {
     const t = draft.trim()
     if (!t) { setStep('what'); return }
-    onAdd(t, when, chosenBand === 'auto' ? null : chosenBand)
+    // Certain days with nothing ticked falls back to every day, so a parent who
+    // taps the chip and then changes their mind never adds a job that is due
+    // on no day at all and quietly never appears.
+    onAdd(
+      t,
+      when === 'days' ? 'daily' : when,
+      chosenBand === 'auto' ? null : chosenBand,
+      when === 'days' && days.length ? days : null,
+    )
     setLast({ title: t, when, band: chosenBand })
     setAddedBefore(true)
     setDraft('')
@@ -375,13 +392,34 @@ export default function JobComposer({
               key={w.key}
               type="button"
               aria-pressed={w.key === when}
-              onClick={() => { setWhen(w.key); setStep('when') }}
+              // Certain days is the one chip that does NOT move the parent on:
+              // it has a question of its own underneath, and skipping to the
+              // next step would leave the days unticked and the answer lost.
+              onClick={() => { setWhen(w.key); if (w.key !== 'days') setStep('when') }}
               style={chip(w.key === when)}
             >
               {w.label}
             </button>
           ))}
         </div>
+        {when === 'days' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 12 }}>
+            <DayPicker days={days} onChange={setDays} />
+            <button
+              type="button"
+              disabled={days.length === 0}
+              onClick={() => setStep('when')}
+              style={{
+                ...chip(days.length > 0),
+                opacity: days.length ? 1 : 0.55,
+                cursor: days.length ? 'pointer' : 'default',
+                alignSelf: 'flex-start',
+              }}
+            >
+              {days.length ? `Due ${scheduleLabel('daily', days)} · next` : 'Tap the days it happens on'}
+            </button>
+          </div>
+        )}
       </>
     )
   }
