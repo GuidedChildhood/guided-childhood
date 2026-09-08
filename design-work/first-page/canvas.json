@@ -1,0 +1,25 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "The last screen of setup" },
+    { "id": "page-2", "name": "The homepage, first pass" }
+  ],
+  "artboards": [
+    { "file": "Notes.dc.html", "page": "page-1", "x": -840, "y": 0, "w": 720, "h": 1560, "title": "Read this first", "print": "flow" },
+    { "file": "Main.dc.html", "page": "page-1", "x": 0, "y": 0, "w": 390, "h": 3100, "title": "Direction A, your plan from your answers", "print": "flow" },
+    { "file": "DirectionB.dc.html", "page": "page-1", "x": 510, "y": 0, "w": 390, "h": 1240, "title": "Direction B, here is the deal", "print": "flow" },
+    { "file": "MainDesktop.dc.html", "page": "page-1", "x": 1020, "y": 0, "w": 1200, "h": 1900, "title": "Direction A on a laptop", "print": "flow" },
+    { "file": "Flow.dc.html", "page": "page-1", "x": 1020, "y": 2100, "w": 1200, "h": 800, "title": "Where it sits in the flow", "print": "flow" },
+    { "file": "HomepageDirectionA.dc.html", "page": "page-2", "x": 0, "y": 0, "w": 1200, "h": 6800, "title": "Homepage, direction A", "print": "flow" },
+    { "file": "HomepageMobileA.dc.html", "page": "page-2", "x": 1320, "y": 0, "w": 390, "h": 3800, "title": "Homepage A on a phone", "print": "flow" },
+    { "file": "HomepageDirectionB.dc.html", "page": "page-2", "x": 1830, "y": 0, "w": 1200, "h": 1700, "title": "Homepage, direction B", "print": "flow" },
+    { "file": "ProblemMap.dc.html", "page": "page-2", "x": 1830, "y": 1880, "w": 1200, "h": 2400, "title": "The worries and the proof", "print": "flow" }
+  ],
+  "annotations": [
+    { "id": "start-here", "page": "page-1", "x": -840, "y": -150, "w": 320, "text": "Start here. What is on the page today, and what I would change." },
+    { "id": "rec", "page": "page-1", "x": 0, "y": -150, "w": 380, "text": "Direction A. My recommendation: their own three worries handed back as a plan, then the price screen catches them next." },
+    { "id": "quiet", "page": "page-1", "x": 510, "y": -150, "w": 380, "text": "Direction B. One screen, three promises, no scrolling. Calmer, shows less." },
+    { "id": "flowsits", "page": "page-1", "x": 1020, "y": -150, "w": 420, "text": "The laptop view, and underneath it where this page sits between the setup questions and the money ask." },
+    { "id": "homepg", "page": "page-2", "x": 0, "y": -150, "w": 420, "text": "The first pass, before I knew which page you meant. The research holds, and the stale script and lesson counts are live on the homepage right now." }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

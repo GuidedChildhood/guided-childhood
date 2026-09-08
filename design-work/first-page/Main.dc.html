@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@500;700&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Nunito', 'Trebuchet MS', system-ui, sans-serif; color: #1A1A2E; background: #F1EFEA; }
+    a { color: #C99A28; text-decoration: none; }
+    a:hover { color: #1A1A2E; }
+    .eyebrow { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8888A0; margin: 0; }
+    h1, h2, h3 { margin: 0; letter-spacing: -.03em; }
+    p { margin: 0; }
+    .card { background: #fff; border: 2px solid #1A1A2E; border-radius: 20px; box-shadow: 0 4px 0 #1A1A2E; }
+    .plate { width: 46px; height: 46px; border-radius: 13px; border: 2px solid #1A1A2E; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .btn { display: block; text-align: center; border: 2px solid #1A1A2E; border-radius: 16px; font-weight: 800; font-size: 17px; padding: 17px 20px; background: #EDC35F; color: #1A1A2E; box-shadow: 0 5px 0 #C99A28; }
+    .band { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .12em; border: 2px solid #1A1A2E; border-radius: 100px; padding: 3px 10px; }
+    .sec { padding: 22px 18px; }
+  </style>
+</helmet>
+
+<div style="width: 390px; background: #F1EFEA;">
+
+  <!-- 1 · IT IS READY. Small, not a whole screen of confetti. -->
+  <div class="sec" style="background: #FFFBEE; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding-top: 28px;">
+    <div style="width: 96px; height: 96px; border-radius: 50%; background: #BAE6FD; border: 3px solid #1A1A2E; box-shadow: 5px 5px 0 #1A1A2E; display: flex; align-items: center; justify-content: center;">
+      <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8.5" fill="#FEF7E0"></circle>
+        <circle cx="9.4" cy="10.6" r="1" fill="#1A1A2E" stroke="none"></circle>
+        <circle cx="14.6" cy="10.6" r="1" fill="#1A1A2E" stroke="none"></circle>
+        <path d="M9.2 14.4c1.6 1.4 4 1.4 5.6 0"></path>
+      </svg>
+    </div>
+    <p class="eyebrow">Setup done</p>
+    <h1 style="font-size: 30px; font-weight: 900; line-height: 1.08;">Olga's plan is ready.</h1>
+    <p style="font-size: 16px; color: #52526A; line-height: 1.55;">You gave us four answers. Here is what we do with them, starting tonight.</p>
+  </div>
+
+  <!-- 2 · THEIR OWN ANSWERS, HANDED BACK -->
+  <div class="sec" style="border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 14px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p class="eyebrow">You told us</p>
+      <h2 style="font-size: 22px; font-weight: 900; line-height: 1.15;">Three things are going wrong in your house</h2>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <span style="background: #FEF7E0; border: 2px solid #1A1A2E; border-radius: 100px; padding: 7px 14px; font-size: 14px; font-weight: 800;">Won't put it down</span>
+      <span style="background: #FEF7E0; border: 2px solid #1A1A2E; border-radius: 100px; padding: 7px 14px; font-size: 14px; font-weight: 800;">Bedtime screens</span>
+      <span style="background: #FEF7E0; border: 2px solid #1A1A2E; border-radius: 100px; padding: 7px 14px; font-size: 14px; font-weight: 800;">Mood after screens</span>
+    </div>
+
+    <!-- WORRY 1 -->
+    <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 11px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="plate" style="background: #FECDD3;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg>
+        </div>
+        <h3 style="font-size: 18px; font-weight: 900; line-height: 1.2;">Won't put it down</h3>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <span class="band" style="align-self: flex-start; background: #FEF08A;">TONIGHT</span>
+        <p style="font-size: 15px; color: #52526A; line-height: 1.55;">Your first script is waiting on Home. It opens with:</p>
+        <div style="background: #F9F8F6; border: 2px dashed #1A1A2E; border-radius: 14px; padding: 12px;">
+          <p style="font-size: 15px; font-weight: 600; line-height: 1.5;">I know it is a rubbish moment to stop. The timer is not me changing my mind. Save it, and I will sit with you while it loads tomorrow.</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <span class="band" style="align-self: flex-start; background: #BAE6FD;">THIS TERM</span>
+        <p style="font-size: 15px; color: #52526A; line-height: 1.55;">Olga gets a slice of time that is hers, and earns the rest through real jobs at a rate you set. The argument stops being about you.</p>
+      </div>
+    </div>
+
+    <!-- WORRY 2 -->
+    <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 11px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="plate" style="background: #DDD6FE;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 019.5 4a7.5 7.5 0 1010.5 10.5z"></path></svg>
+        </div>
+        <h3 style="font-size: 18px; font-weight: 900; line-height: 1.2;">Bedtime screens</h3>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <span class="band" style="align-self: flex-start; background: #FEF08A;">TONIGHT</span>
+        <p style="font-size: 15px; color: #52526A; line-height: 1.55;">The wind down script, and the one setting on her tablet that does most of the work.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <span class="band" style="align-self: flex-start; background: #BAE6FD;">THIS TERM</span>
+        <p style="font-size: 15px; color: #52526A; line-height: 1.55;">Bedtime becomes a protected window. No amount of earned stars can buy into it, so it stops being a negotiation every night.</p>
+      </div>
+    </div>
+
+    <!-- WORRY 3 -->
+    <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 11px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="plate" style="background: #FEF08A;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10a4.3 4.3 0 017.5-2.8A4.3 4.3 0 0119.5 10.5c0 5.4-7.5 10-7.5 10z"></path></svg>
+        </div>
+        <h3 style="font-size: 18px; font-weight: 900; line-height: 1.2;">Mood after screens</h3>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <span class="band" style="align-self: flex-start; background: #FEF08A;">TONIGHT</span>
+        <p style="font-size: 15px; color: #52526A; line-height: 1.55;">Rate it once, on five stars. That first rating is your baseline and every number after it is measured against tonight.</p>
+        <div style="display: flex; gap: 5px; align-items: center;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"></path></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"></path></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"></path></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"></path></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" stroke="#1A1A2E" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"></path></svg>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <span class="band" style="align-self: flex-start; background: #BAE6FD;">THIS TERM</span>
+        <p style="font-size: 15px; color: #52526A; line-height: 1.55;">You watch it move. We never roll your worries into one family score, because you should always be able to ask where a number came from.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 · THE ONES THAT COME FOR EVERYONE -->
+  <div class="sec" style="background: #fff; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p class="eyebrow">Already written, for when you need it</p>
+      <h2 style="font-size: 22px; font-weight: 900; line-height: 1.15;">The three that come for every family</h2>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px; background: #F0F9FF; border: 2px solid #1A1A2E; border-radius: 16px; padding: 12px 14px;">
+      <div class="plate" style="background: #fff; width: 40px; height: 40px; border-radius: 12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <h3 style="font-size: 16px; font-weight: 800;">The day she asks for a phone</h3>
+        <p style="font-size: 13px; color: #52526A; line-height: 1.4;">A readiness ladder for Olga, not a number off the internet.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px; background: #FFF2F7; border: 2px solid #1A1A2E; border-radius: 16px; padding: 12px 14px;">
+      <div class="plate" style="background: #fff; width: 40px; height: 40px; border-radius: 12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3.5 9h17M3.5 15h17"></path><path d="M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"></path></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <h3 style="font-size: 16px; font-weight: 800;">Social media, and the ban</h3>
+        <p style="font-size: 13px; color: #52526A; line-height: 1.4;">The law lands Spring 2027. A deadline is not a plan, so we built one.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px; background: #F5F3FF; border: 2px solid #1A1A2E; border-radius: 16px; padding: 12px 14px;">
+      <div class="plate" style="background: #fff; width: 40px; height: 40px; border-radius: 12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="3"></rect><path d="M9 12h.01M15 12h.01"></path><path d="M12 4v3"></path><circle cx="12" cy="3" r="1.4"></circle></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <h3 style="font-size: 16px; font-weight: 800;">AI chatbots</h3>
+        <p style="font-size: 13px; color: #52526A; line-height: 1.4;">86 percent of children use them. 16 lessons, from what one is at 6 to why it is never a counsellor at 14.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 · YOUR DAY -->
+  <div class="sec" style="border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p class="eyebrow">Ten minutes, and it catches you up if you miss a week</p>
+      <h2 style="font-size: 22px; font-weight: 900; line-height: 1.15;">Your day, in three steps</h2>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: flex-start;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; color: #C99A28; width: 26px; flex-shrink: 0;">01</span>
+      <p style="font-size: 15px; line-height: 1.55;"><strong>You tap what went wrong.</strong> One second. It is the only thing we ask.</p>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: flex-start;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; color: #C99A28; width: 26px; flex-shrink: 0;">02</span>
+      <p style="font-size: 15px; line-height: 1.55;"><strong>We give one thing and the words.</strong> A script tonight, a five minute lesson this week, a quest for the habit. Never a list of twelve.</p>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: flex-start;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; color: #C99A28; width: 26px; flex-shrink: 0;">03</span>
+      <p style="font-size: 15px; line-height: 1.55;"><strong>The worry moves.</strong> You rate it, you see it, and when one reaches five stars it rests.</p>
+    </div>
+  </div>
+
+  <!-- 5 · WHY YOU CAN TRUST IT -->
+  <div class="sec" style="background: #2E2818; border-bottom: 2px solid #1A1A2E; color: #FEF7E0; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p class="eyebrow" style="color: #EDC35F;">Ask DiGi anything, any hour</p>
+      <h2 style="font-size: 22px; font-weight: 900; line-height: 1.15; color: #FEF7E0;">Advice you can check, and never a flat no</h2>
+    </div>
+    <p style="font-size: 15px; line-height: 1.6; color: rgba(254,247,224,.82);">DiGi reads from a library we keep, not from whatever it remembers. New research goes in twice a month and a human decides what goes in. Every Monday it sits the same hard test and we read the marks.</p>
+    <div style="display: flex; gap: 8px;">
+      <div style="flex: 1; background: rgba(254,247,224,.08); border: 2px solid #EDC35F; border-radius: 14px; padding: 12px; text-align: center;">
+        <div style="font-size: 24px; font-weight: 900; color: #EDC35F;">130</div>
+        <div style="font-size: 12px; font-weight: 700; line-height: 1.3;">named sources</div>
+      </div>
+      <div style="flex: 1; background: rgba(254,247,224,.08); border: 2px solid #EDC35F; border-radius: 14px; padding: 12px; text-align: center;">
+        <div style="font-size: 24px; font-weight: 900; color: #EDC35F;">448</div>
+        <div style="font-size: 12px; font-weight: 700; line-height: 1.3;">school objectives matched</div>
+      </div>
+      <div style="flex: 1; background: rgba(254,247,224,.08); border: 2px solid #EDC35F; border-radius: 14px; padding: 12px; text-align: center;">
+        <div style="font-size: 24px; font-weight: 900; color: #EDC35F;">0</div>
+        <div style="font-size: 12px; font-weight: 700; line-height: 1.3;">made up studies</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 · HER SIDE -->
+  <div class="sec" style="background: #fff; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p class="eyebrow">One link, no login, no account for her</p>
+      <h2 style="font-size: 22px; font-weight: 900; line-height: 1.15;">Olga gets her own side of this</h2>
+    </div>
+    <p style="font-size: 15px; color: #52526A; line-height: 1.6;">Real jobs earn stars, stars become minutes at your rate, and going outside pays the most. She can pitch her own job. There is no AI on her side of the product at all, and nothing buzzes her phone at night.</p>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #F0F9FF; border: 2px solid #1A1A2E; border-radius: 16px; padding: 14px;">
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 13px; font-weight: 700; color: #52526A;">Her passport, stage by stage</span>
+        <span style="font-size: 15px; font-weight: 800;">First stamp waiting</span>
+      </div>
+      <div style="display: flex; gap: 5px;">
+        <div style="width: 26px; height: 26px; border-radius: 50%; background: #FEF08A; border: 2px solid #1A1A2E;"></div>
+        <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px dashed #1A1A2E;"></div>
+        <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px dashed #1A1A2E;"></div>
+        <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px dashed #1A1A2E;"></div>
+        <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px dashed #1A1A2E;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 · WHAT IS OPEN, AND THE BUTTON -->
+  <div class="sec" style="background: #FFFBEE; display: flex; flex-direction: column; gap: 14px; padding-bottom: 28px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+      <span style="background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 6px 12px; font-size: 13px; font-weight: 700;">335 scripts</span>
+      <span style="background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 6px 12px; font-size: 13px; font-weight: 700;">147 lessons</span>
+      <span style="background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 6px 12px; font-size: 13px; font-weight: 700;">DiGi, any hour</span>
+      <span style="background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 6px 12px; font-size: 13px; font-weight: 700;">Printables</span>
+      <span style="background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 6px 12px; font-size: 13px; font-weight: 700;">Homework help</span>
+      <span style="background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 6px 12px; font-size: 13px; font-weight: 700;">The star quest</span>
+    </div>
+    <p style="font-size: 16px; line-height: 1.6; color: #52526A;">All of it is open for the next four days. No card, nothing to install, and you can close the door on the way out.</p>
+    <span class="btn">Start with tonight's script</span>
+    <p style="font-size: 13px; font-weight: 700; color: #8888A0; text-align: center;">Takes about ten minutes a day.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@500;700&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Nunito', 'Trebuchet MS', system-ui, sans-serif; color: #1A1A2E; background: #F9F8F6; }
+    a { color: #C99A28; text-decoration: none; }
+    a:hover { color: #1A1A2E; }
+    .eyebrow { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8888A0; margin: 0; }
+    h1, h2, h3 { margin: 0; letter-spacing: -.03em; }
+    p { margin: 0; }
+    .card { background: #fff; border: 2px solid #1A1A2E; border-radius: 18px; box-shadow: 0 4px 0 #1A1A2E; }
+    .plate { width: 44px; height: 44px; border-radius: 13px; border: 2px solid #1A1A2E; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .btn { display: block; text-align: center; border: 2px solid #1A1A2E; border-radius: 16px; font-weight: 800; font-size: 17px; padding: 16px 20px; background: #EDC35F; color: #1A1A2E; box-shadow: 0 5px 0 #C99A28; }
+    .sec { padding: 34px 20px; }
+  </style>
+</helmet>
+
+<div style="width: 390px; background: #F9F8F6;">
+
+  <!-- NAV -->
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 18px; height: 60px; background: #fff; border-bottom: 2px solid #1A1A2E;">
+    <div style="display: flex; align-items: center; gap: 9px;">
+      <div style="width: 32px; height: 32px; background: #EDC35F; border: 2px solid #1A1A2E; border-radius: 9px; box-shadow: 0 3px 0 #C99A28; display: flex; align-items: flex-end; justify-content: center; gap: 2.5px; padding-bottom: 7px; box-sizing: border-box;">
+        <div style="width: 3px; height: 5px; background: #1A1A2E; border-radius: 1.5px;"></div>
+        <div style="width: 3px; height: 9px; background: #1A1A2E; border-radius: 1.5px;"></div>
+        <div style="width: 3px; height: 13px; background: #1A1A2E; border-radius: 1.5px;"></div>
+      </div>
+      <span style="font-size: 15px; font-weight: 800; letter-spacing: -.03em;">Guided Childhood</span>
+    </div>
+    <div style="width: 44px; height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
+      <div style="width: 22px; height: 2.5px; background: #1A1A2E; border-radius: 2px;"></div>
+      <div style="width: 22px; height: 2.5px; background: #1A1A2E; border-radius: 2px;"></div>
+      <div style="width: 22px; height: 2.5px; background: #1A1A2E; border-radius: 2px;"></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="sec" style="background: #FFFBEE; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center;">
+    <p class="eyebrow">For parents of children aged 4 to 16</p>
+    <h1 style="font-size: 34px; font-weight: 900; line-height: 1.06;">You are not policing a screen. You are raising someone who will own one.</h1>
+    <p style="font-size: 17px; line-height: 1.6; color: #52526A;">The plan nobody gave you. What to do tonight, what to teach this term, and a child who is ready by 16.</p>
+
+    <div style="width: 200px; height: 200px; border-radius: 50%; background: #FBCFE8; border: 3px solid #1A1A2E; box-shadow: 6px 6px 0 #1A1A2E; display: flex; align-items: center; justify-content: center;">
+      <svg width="140" height="122" viewBox="0 0 230 200" fill="none" stroke="#1A1A2E" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="72" cy="52" r="24" fill="#FEF7E0"></circle>
+        <path d="M40 122c0-19 15-32 32-32s32 13 32 32v34H40z" fill="#EDC35F"></path>
+        <circle cx="152" cy="60" r="20" fill="#FEF7E0"></circle>
+        <path d="M124 122c0-16 13-27 28-27s28 11 28 27v34h-56z" fill="#BAE6FD"></path>
+        <circle cx="112" cy="104" r="15" fill="#FEF7E0"></circle>
+        <path d="M92 156c0-12 9-20 20-20s20 8 20 20v10H92z" fill="#FECDD3"></path>
+        <rect x="150" y="166" width="42" height="16" rx="4" fill="#fff"></rect>
+        <path d="M30 178h176"></path>
+      </svg>
+    </div>
+
+    <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+      <span class="btn">What stage is your child?</span>
+      <p style="font-size: 14px; font-weight: 700; color: #8888A0;">Three questions. Two minutes. No sign up.</p>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 9px; background: #fff; border: 2px solid #1A1A2E; border-radius: 100px; padding: 7px 14px 7px 8px; box-shadow: 0 3px 0 #1A1A2E;">
+      <span style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #FEF08A; border: 2px solid #1A1A2E; box-sizing: border-box; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700;">38</span>
+      <span style="font-size: 13px; font-weight: 700;">founder places left at £7.99 a month, for ever</span>
+    </div>
+  </div>
+
+  <!-- WORRY PICKER -->
+  <div class="sec" style="background: #F9F8F6; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; flex-direction: column; gap: 8px; text-align: center;">
+      <p class="eyebrow">Start with what is actually happening</p>
+      <h2 style="font-size: 28px; font-weight: 900; line-height: 1.1;">Which one is your house tonight?</h2>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="card" style="padding: 15px; display: flex; align-items: center; gap: 14px; min-height: 44px;">
+        <div class="plate" style="background: #FECDD3;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4z"></path><path d="M9 20h6"></path><path d="M12 16v4"></path><path d="M8 10l3 3 5-6"></path></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <h3 style="font-size: 17px; font-weight: 800;">The fight every single night</h3>
+          <p style="font-size: 13px; color: #52526A;">Ten more minutes, then a row, then guilt.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 15px; display: flex; align-items: center; gap: 14px; min-height: 44px;">
+        <div class="plate" style="background: #BAE6FD;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <h3 style="font-size: 17px; font-weight: 800;">Are they ready for a phone</h3>
+          <p style="font-size: 13px; color: #52526A;">Every answer online is a different number.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 15px; display: flex; align-items: center; gap: 14px; min-height: 44px;">
+        <div class="plate" style="background: #DDD6FE;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="3"></rect><path d="M9 12h.01M15 12h.01"></path><path d="M12 4v3"></path><circle cx="12" cy="3" r="1.4"></circle></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <h3 style="font-size: 17px; font-weight: 800;">AI chatbots</h3>
+          <p style="font-size: 13px; color: #52526A;">86 percent of children already use them.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 15px; display: flex; align-items: center; gap: 14px; min-height: 44px;">
+        <div class="plate" style="background: #FBCFE8;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3.5 9h17M3.5 15h17"></path><path d="M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"></path></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <h3 style="font-size: 17px; font-weight: 800;">Social media, and the ban</h3>
+          <p style="font-size: 13px; color: #52526A;">The law lands spring 2027.</p>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border: 2px dashed #1A1A2E; border-radius: 16px;">
+        <span style="font-size: 15px; font-weight: 800;">Five more worries</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONE OPENED -->
+  <div class="sec" style="background: #FFF4F2; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 14px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div class="plate" style="background: #FECDD3;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4z"></path><path d="M9 20h6"></path><path d="M12 16v4"></path><path d="M8 10l3 3 5-6"></path></svg>
+      </div>
+      <h2 style="font-size: 22px; font-weight: 900; line-height: 1.15;">The fight every single night</h2>
+    </div>
+
+    <div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+      <span style="align-self: flex-start; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: .12em; background: #FEF08A; border: 2px solid #1A1A2E; border-radius: 100px; padding: 4px 11px;">TONIGHT</span>
+      <h3 style="font-size: 18px; font-weight: 800; line-height: 1.25;">The exact words, before you say the wrong ones</h3>
+      <div style="background: #F9F8F6; border: 2px dashed #1A1A2E; border-radius: 14px; padding: 12px;">
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: .1em; color: #8888A0; margin-bottom: 5px;">SAY THIS</p>
+        <p style="font-size: 14px; line-height: 1.5; font-weight: 600;">I know it is a rubbish moment to stop. The timer is not me changing my mind. Save it, and I will sit with you while it loads tomorrow.</p>
+      </div>
+      <p style="font-size: 13px; font-weight: 700; color: #C99A28;">335 scripts, for the moment you are in</p>
+    </div>
+
+    <div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+      <span style="align-self: flex-start; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: .12em; background: #BAE6FD; border: 2px solid #1A1A2E; border-radius: 100px; padding: 4px 11px;">THIS TERM</span>
+      <h3 style="font-size: 18px; font-weight: 800; line-height: 1.25;">The habit that ends the argument for good</h3>
+      <p style="font-size: 14px; color: #52526A; line-height: 1.55;">Their own slice of time nobody takes away, extra earned through real jobs at a rate you set, and protected windows no stars can buy.</p>
+      <p style="font-size: 13px; font-weight: 700; color: #C99A28;">The star quest, plus 147 lessons</p>
+    </div>
+
+    <div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+      <span style="align-self: flex-start; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: .12em; background: #FBCFE8; border: 2px solid #1A1A2E; border-radius: 100px; padding: 4px 11px;">BY 16</span>
+      <h3 style="font-size: 18px; font-weight: 800; line-height: 1.25;">Someone who stops without being told</h3>
+      <div style="display: flex; gap: 6px;">
+        <div style="width: 30px; height: 30px; border-radius: 50%; background: #FEF08A; border: 2px solid #1A1A2E;"></div>
+        <div style="width: 30px; height: 30px; border-radius: 50%; background: #BAE6FD; border: 2px solid #1A1A2E;"></div>
+        <div style="width: 30px; height: 30px; border-radius: 50%; background: #FECDD3; border: 2px solid #1A1A2E;"></div>
+        <div style="width: 30px; height: 30px; border-radius: 50%; background: #F9F8F6; border: 2px dashed #1A1A2E;"></div>
+        <div style="width: 30px; height: 30px; border-radius: 50%; background: #F9F8F6; border: 2px dashed #1A1A2E;"></div>
+      </div>
+      <p style="font-size: 13px; font-weight: 700; color: #C99A28;">The Guided Digital Childhood Passport</p>
+    </div>
+
+    <span class="btn">Start with this one, free</span>
+    <p style="font-size: 13px; font-weight: 700; color: #52526A; text-align: center;">Four days free. No card. Nothing to install.</p>
+  </div>
+
+  <!-- WHAT YOU GET -->
+  <div class="sec" style="background: #fff; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 14px;">
+    <h2 style="font-size: 26px; font-weight: 900; line-height: 1.1; text-align: center;">What you actually get</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+      <div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 28px; font-weight: 900;">335</span><span style="font-size: 13px; font-weight: 700; color: #52526A;">scripts, 90 free</span></div>
+      <div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 28px; font-weight: 900;">147</span><span style="font-size: 13px; font-weight: 700; color: #52526A;">lessons, 16 on AI</span></div>
+      <div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 28px; font-weight: 900;">24/7</span><span style="font-size: 13px; font-weight: 700; color: #52526A;">DiGi, any hour</span></div>
+      <div class="card" style="padding: 14px; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 28px; font-weight: 900;">448</span><span style="font-size: 13px; font-weight: 700; color: #52526A;">school objectives matched</span></div>
+    </div>
+    <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 6px; background: #F0F9FF;">
+      <h3 style="font-size: 17px; font-weight: 800;">Their own app, and it pays for time off the screen</h3>
+      <p style="font-size: 14px; color: #52526A; line-height: 1.55;">A link, no login. Jobs earn stars, stars become minutes, going outside pays the most. No AI on their side at all.</p>
+    </div>
+  </div>
+
+  <!-- PRICE -->
+  <div class="sec" style="background: #F9F8F6; border-bottom: 2px solid #1A1A2E; display: flex; flex-direction: column; gap: 14px;">
+    <div style="text-align: center; display: flex; flex-direction: column; gap: 6px;">
+      <h2 style="font-size: 26px; font-weight: 900; line-height: 1.1;">Less than a takeaway coffee a week</h2>
+      <p style="font-size: 14px; color: #52526A; line-height: 1.55;">Four days free. Cancel in two taps. Full refund in the first 30 days.</p>
+    </div>
+    <div style="background: #FEF7E0; border: 3px solid #1A1A2E; border-radius: 18px; box-shadow: 0 6px 0 #1A1A2E; padding: 20px; display: flex; flex-direction: column; gap: 10px; position: relative; margin-top: 10px;">
+      <span style="position: absolute; top: -14px; left: 18px; background: #EDC35F; border: 2px solid #1A1A2E; border-radius: 100px; padding: 3px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: .1em;">38 PLACES LEFT</span>
+      <p class="eyebrow" style="color: #C99A28;">Founder</p>
+      <div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-size: 38px; font-weight: 900;">£7.99</span><span style="font-size: 14px; font-weight: 700; color: #52526A;">a month, held for ever</span></div>
+      <p style="font-size: 14px; color: #52526A; line-height: 1.55;">Every child in the house. Only 50 of these exist.</p>
+      <span class="btn">Take a founder place</span>
+    </div>
+    <p style="font-size: 14px; font-weight: 700; color: #52526A; text-align: center;">Standard £12.99 a month, or £99 for the year.</p>
+  </div>
+
+  <!-- FINAL -->
+  <div class="sec" style="background: #EDC35F; text-align: center; display: flex; flex-direction: column; gap: 14px;">
+    <h2 style="font-size: 28px; font-weight: 900; line-height: 1.08;">Find out what stage your child is at.</h2>
+    <p style="font-size: 15px; font-weight: 700; color: #52526A;">Three questions. No sign up.</p>
+    <span class="btn" style="background: #2E2818; color: #FEF7E0; box-shadow: 0 5px 0 #1A1A2E;">Start the stage check</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
