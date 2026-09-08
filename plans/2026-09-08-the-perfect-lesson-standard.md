@@ -16,12 +16,18 @@ This answers the first question with evidence, then plans the rest.
 
 ## 1. Are we sure we cover what the matrix claims? Almost, and here are the three that fail
 
-Checked every one of the 45 topic claims in the RSHE matrix against what the
+Checked every one of the 53 topic claims in the RSHE matrix against what the
 module's own deck and teacher notes actually contain.
 
-**42 of 45 hold up. Three are padding**, and they fail the honesty note the
+**50 of 53 hold up. Three are padding**, and they fail the honesty note the
 matrix itself prints ("a module is marked only where it substantively teaches
 the topic"):
+
+*(Corrected 8 September. This section first said 42 of 45. The three failures
+were right, the denominator was not: counted from the manifest there are 53
+topic claims across the 21 modules, 51 after the two drops below. The wrong
+total was stated in the first version of this plan, in its pull request and in
+the Drive copy, and is corrected in all of them.)*
 
 | Module | Claims | What the deck actually teaches | Its own statutory hook | Verdict |
 | --- | --- | --- | --- | --- |
