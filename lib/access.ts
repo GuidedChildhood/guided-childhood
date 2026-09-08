@@ -13,6 +13,17 @@
 // Changing this number changes the Stripe checkout's trial_period_days too, so
 // the card and the app can never disagree about when it runs out.
 //
+// DO NOT WRITE THE NUMBER INTO A COMMENT ANYWHERE ELSE. Three comments said
+// the trial was seven days and one said fourteen, on 8 September 2026, while
+// it had been four for some time: lib/content/lesson-access.ts,
+// app/(dashboard)/dashboard/lessons/[id]/page.tsx and lib/email/lifecycle.ts.
+// None of them was load bearing, which is exactly why nobody noticed, and a
+// comment that lies is how the next person builds on the wrong number. Say
+// "the trial" and let this constant and platform_config.trial_days be the only
+// places the figure appears. Customer facing copy already does the right
+// thing: every visible surface takes the value from the config rather than
+// spelling it out.
+//
 // IT IS THE FALLBACK NOW, not the only copy. The live number is
 // platform_config.trial_days, read by lib/config/trial.ts, because Justin
 // asked for the trial limits to be configurable rather than hardcoded. This

@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 // Free tier: one lesson per stage is a free taste, the rest unlock with
-// membership (or during the 7 day trial, when everything is open). The free
+// membership (or during the trial, when everything is open). The free
 // lesson in a stage is the one with the lowest sort_order among the parent
 // lessons for that stage. A lesson the family has already completed never
 // locks, nothing free ever degrades.
