@@ -55,6 +55,25 @@ const key =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   'build-placeholder'
 
+// AND IT SAYS SO WHEN THE KEY IS MISSING. Every caller here reads the error
+// off a Supabase response and throws it away: `const { data } = await ...`,
+// twenty five times over. That is why the site launched on 14 August with an
+// empty catalogue and nothing in the logs, and after migration 274 a missing
+// key produces exactly that symptom again, because the anon fallback is now
+// denied at the database rather than merely wrong. So the one place that can
+// still tell the difference says it plainly, once, at startup. It logs rather
+// than throws: a named line in the Vercel logs beats five hundreds on the
+// pricing and contact pages, which do not need the key at all.
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.NODE_ENV === 'production') {
+  console.error(
+    '[schools/server-db] SUPABASE_SERVICE_ROLE_KEY is not set in this environment. ' +
+    'Every lesson, hub and print page will render empty, because migration 274 ' +
+    'revoked the anon read on schools.school_lessons. Add the key to the ' +
+    'guided-childhood-schools Vercel project for THIS environment (production, ' +
+    'preview and development are ticked separately) and redeploy.'
+  )
+}
+
 // DEFAULT SCHEMA. Migration 177 moved school_lessons out of public and into
 // the schools schema at the split cutover, and the old client was never told,
 // so every content page was quietly querying a table that no longer existed
