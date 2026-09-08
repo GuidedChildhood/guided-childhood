@@ -11414,3 +11414,50 @@ the denominator, every time.
 
 After 272 the matrix is true: 51 of 51 remaining claims have evidence in their
 own deck.
+
+---
+
+## 8 September 2026 — the four teacher fields, made real on ks3-14 (migration 273)
+
+Phase 2 of the perfect lesson standard. The coverage audit found the teacher
+pack strong on structure and missing the one thing Justin named: what a teacher
+needs to UNDERSTAND before they teach, as opposed to how to run the lesson.
+
+Four new fields on `teacher_notes`, piloted on ks3-14 bodies, image and
+pressure, which is DSL flagged, carries the pornography topic, and is where a
+non specialist is most out of their depth:
+
+- `subject_knowledge` seven items, heading and body. Retouching is invisible by
+  design, selection does more work than editing, why insecurity has a market,
+  which direction of social comparison hurts, what the evidence actually
+  supports and what it does not, why pornography is named at all, and that
+  disordered eating is not the teacher's to diagnose.
+- `hard_questions` five, each with an answer. Every one that touches a
+  disclosure ends by naming the DSL rather than handling it alone.
+- `parent_questions` four, each with an answer a teacher can send.
+- `evidence_base` five rows of claim, source and status.
+
+**The status field is the point of the evidence base.** `verified` has been
+checked, `verify` still has to pass the citation verifier before it goes
+anywhere public, and `mechanism` needs no figure because the mechanism carries
+it. Three of the five rows deliberately carry no number: the mechanism is
+defensible without one, and a claim with no verified source does not go on a
+slide. The page shows the status rather than hiding it, in butter for the
+unchecked ones, because a table that presented checked and unchecked claims the
+same way would be a worse lie than the single evidence_anchor string it
+replaces.
+
+Pupil and parent questions are rendered as two separate blocks on purpose. A
+pupil asking in the room needs a different answer from a parent emailing that
+evening, and a teacher holding one script for both will get one of them wrong.
+
+Subject knowledge sits high on the page, above the prior knowledge card, and is
+open rather than folded away: a teacher who has to click to find the subject
+knowledge will not click.
+
+Checked at 1280 and 390 against the real field values: all three cards present,
+seven subject knowledge headings, two unchecked chips, three mechanism chips,
+no horizontal overflow, no page errors.
+
+Pilot only. The other twenty modules follow once Justin has seen this one
+working in the product rather than in a document.

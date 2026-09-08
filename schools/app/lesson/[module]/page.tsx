@@ -51,6 +51,21 @@ type TeacherNotes = {
   tool?: { heading?: string; lines?: string[]; strapline?: string }
   // The three "I can" statements the child colours on the learning record.
   i_can?: string[]
+  // The four fields the coverage audit of 8 September found missing, added by
+  // migration 273. Together they are the difference between a lesson plan and
+  // a teacher who understands the subject: what to know BEFORE teaching, what
+  // to say when a pupil or a parent asks the hard one, and where each claim
+  // actually comes from. Optional on the type because 273 is a pilot on
+  // ks3-14 and the other twenty follow once the pattern is proven in use.
+  subject_knowledge?: { heading: string; body: string }[]
+  hard_questions?: { question: string; answer: string }[]
+  parent_questions?: { question: string; answer: string }[]
+  // `status` is the point of this one: `verified` has been checked, `verify`
+  // still has to pass the citation verifier before it goes anywhere public,
+  // and `mechanism` is a claim that needs no figure because the mechanism
+  // carries it. A field that mixed checked and unchecked claims silently
+  // would be worse than the single evidence_anchor string it replaces.
+  evidence_base?: { claim: string; source: string; status: 'verified' | 'verify' | 'mechanism' }[]
 }
 type ParentNote = { taught?: string; try_this?: string; family_question?: string }
 type DslNote = { required?: boolean; note?: string }
@@ -321,6 +336,34 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {/* What a pupil needs before this lesson, and what they hold after it.
             Two lists a teacher can scan in ten seconds to decide whether their
             class is ready and what the class will actually leave knowing. */}
+        {/* SUBJECT KNOWLEDGE, and it sits above everything else on purpose.
+            The rest of this page tells a teacher how to run the lesson. This
+            is the only part that tells them what to UNDERSTAND before they
+            walk in, which is what the coverage audit found we never shipped
+            and Oak does. Open by default rather than folded away: a teacher
+            who has to click to find the subject knowledge will not click. */}
+        {notes.subject_knowledge?.length ? (
+          <div style={{ ...card, marginBottom: '16px', background: 'var(--stage-2)' }}>
+            <div style={{ ...mono, marginBottom: '6px' }}>Read this first</div>
+            <h2 style={h2}>What you need to understand before you teach it</h2>
+            <p style={{ ...body, marginBottom: '16px' }}>
+              This is not the lesson. It is the ground under it, and it is what
+              lets you answer the question that is not on the slides.
+            </p>
+            {notes.subject_knowledge.map((k, i) => (
+              <div key={i} style={{ marginTop: i === 0 ? 0 : '14px' }}>
+                <h3 style={{
+                  fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 4px',
+                }}>
+                  {k.heading}
+                </h3>
+                <p style={body}>{k.body}</p>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
         {notes.prior_knowledge?.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What they need before this</h2>
@@ -495,6 +538,94 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             <p style={body}>{notes.paper_fallback}</p>
           </div>
         )}
+
+        {/* WHAT THEY MIGHT ASK YOU. Two sets, deliberately separate: a pupil
+            asking in the room needs a different answer from a parent emailing
+            that evening, and a teacher holding one script for both will get
+            one of them wrong. Every pupil answer that touches a disclosure
+            ends by naming the DSL rather than handling it alone. */}
+        {(notes.hard_questions?.length || notes.parent_questions?.length) ? (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>What they might ask you</h2>
+
+            {notes.hard_questions?.length ? (
+              <>
+                <div style={{ ...mono, margin: '4px 0 10px' }}>From a pupil, in the room</div>
+                {notes.hard_questions.map((q, i) => (
+                  <div key={i} style={{
+                    borderLeft: '3px solid var(--terracotta)', paddingLeft: '12px',
+                    marginBottom: '12px',
+                  }}>
+                    <p style={{
+                      fontFamily: 'var(--font-display)', fontWeight: 800,
+                      fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 3px',
+                    }}>
+                      &ldquo;{q.question}&rdquo;
+                    </p>
+                    <p style={body}>{q.answer}</p>
+                  </div>
+                ))}
+              </>
+            ) : null}
+
+            {notes.parent_questions?.length ? (
+              <>
+                <div style={{ ...mono, margin: '18px 0 10px' }}>From a parent, afterwards</div>
+                {notes.parent_questions.map((q, i) => (
+                  <div key={i} style={{
+                    borderLeft: '3px solid var(--border)', paddingLeft: '12px',
+                    marginBottom: '12px',
+                  }}>
+                    <p style={{
+                      fontFamily: 'var(--font-display)', fontWeight: 800,
+                      fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 3px',
+                    }}>
+                      &ldquo;{q.question}&rdquo;
+                    </p>
+                    <p style={body}>{q.answer}</p>
+                  </div>
+                ))}
+              </>
+            ) : null}
+          </div>
+        ) : null}
+
+        {/* THE EVIDENCE BASE, with each row's status shown rather than hidden.
+            A teacher challenged by a parent needs to know which claims are
+            checked, which are still waiting on the citation verifier, and
+            which need no figure because the mechanism carries them. Showing
+            the status is the honest move: a table that presented all three the
+            same way would be a worse lie than the single string it replaces. */}
+        {notes.evidence_base?.length ? (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>Where the claims come from</h2>
+            <p style={{ ...body, marginBottom: '14px' }}>
+              A claim with no verified source does not go on a slide. Where we
+              cannot verify a number we teach the mechanism instead, which is
+              stronger anyway.
+            </p>
+            {notes.evidence_base.map((e, i) => (
+              <div key={i} style={{ paddingTop: '11px', borderTop: '1px solid var(--border)' }}>
+                <p style={{ ...body, color: 'var(--ink)', margin: '0 0 3px' }}>{e.claim}</p>
+                <p style={{ ...body, fontSize: 'var(--text-sm)', margin: 0 }}>
+                  {e.source}
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    marginLeft: '8px', padding: '3px 8px', borderRadius: '100px',
+                    border: '1px solid var(--border)', whiteSpace: 'nowrap',
+                    background: e.status === 'verify' ? 'var(--terracotta-lt)' : '#fff',
+                    color: e.status === 'verify' ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                  }}>
+                    {e.status === 'verified' ? 'Checked'
+                      : e.status === 'verify' ? 'Not yet checked'
+                      : 'Mechanism, no figure'}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : null}
 
         {/* Safeguarding, only where the module actually needs it. Printing a
             reassurance on every lesson trains people to stop reading it. */}
