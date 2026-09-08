@@ -11318,3 +11318,55 @@ estimate of twenty one.
 Done today at no cost: the lesson-video skill recast to the Planet Friends with
 the image_references rule, and digi-squad/README.md marks Oliver, Zara and Sofia
 RETIRED so nothing generates them again.
+
+---
+
+## 8 September 2026 — the perfect lesson standard, and three matrix claims that were padding
+
+Justin asked whether we really cover what the RSHE matrix claims, whether we
+give teachers what the best providers give, and for a ten expert panel, an AI
+thread, a changes feed, a hub blog with automated email, a teacher facing DiGi
+and the passport running through the lessons, with one lesson worked through.
+
+Plan: plans/2026-09-08-the-perfect-lesson-standard.md
+Worked example: content/lesson-standard/ks3-14-worked-example.md
+Drive: "The perfect lesson standard, with the ks3-14 worked example", in
+Guided Childhood Curriculum.
+
+**Checked all 45 topic claims against what each deck and its teacher notes
+actually contain. 42 hold up, 3 are padding**, and they fail the honesty note
+the matrix itself prints:
+
+- ks2-04 screen routines claims Online safety and harms. Its deck is routines,
+  the cool down lap and sleep, and its own statutory hook says RSHE health and
+  wellbeing. Drop the claim.
+- ks1-03 real, pretend, computer claims the same. Its deck is three kinds of
+  picture and the detective question, and its own hook says EfCW managing
+  online information. Drop the claim.
+- ks3-13 scams claims Illegal online behaviours and never mentions that fraud
+  is a crime, that there is a law, or that Action Fraud exists. That one is a
+  real hole in a lesson a school buys partly for its legal grounding. Teach it.
+
+Also found: ailit_domains is populated on only 12 of 21 modules, so the answer
+to "do we believe in including the AI future" is currently half.
+
+**The teacher pack is genuinely strong**: all 21 modules carry all 20 teacher
+notes keys plus statutory hooks, EfCW strands, evidence anchor, assessment,
+parent note and DSL note. The hole is the one Justin named, and it is four
+fields: subject knowledge (what the teacher must understand before teaching,
+which Oak ships and we do not), parent questions with answers, hard pupil
+questions with answers, and a real evidence base rather than one anchor string.
+
+**The ten lens panel carries one integrity rule that is not negotiable: no
+agent speaks AS a named living person.** We name the discipline and cite the
+published work that informs it, so lens 1 is Cybertrauma informed by Catherine
+Knibbs's published work rather than an agent pretending to be her. Putting
+words in a real practitioner's mouth, or implying an endorsement nobody gave,
+is not something we do even internally.
+
+The worked example is ks3-14 bodies, image and pressure, chosen because it is
+DSL flagged, carries the pornography topic and is where a non specialist is
+most likely to be out of their depth. Its evidence base deliberately carries no
+figures I have not verified: the table names the anchoring bodies and marks
+each as verify before publishing, because a claim with no verified source does
+not go on a slide.
