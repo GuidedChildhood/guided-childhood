@@ -2,12 +2,25 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import PrintButton from './PrintButton'
 import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import { questDueToday } from '@/lib/quests/due'
 
 // The printable quest sheet: one week per child, big tick boxes, fridge
 // ready. For under phone age children this IS the interface; the parent
 // approves ticks from the dashboard as they happen in real life.
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+/**
+ * A Date that falls on the weekday of column i, so the one shared due rule can
+ * be asked about a column of the chart the same way it is asked about today.
+ * DAYS is Monday first; the rule and the column both count 0 Sunday.
+ */
+function dateForColumn(i: number): Date {
+  const target = (i + 1) % 7
+  const d = new Date()
+  d.setDate(d.getDate() + ((target - d.getDay() + 7) % 7))
+  return d
+}
 
 export default async function QuestPrintPage() {
   const supabase = await createClient()
@@ -16,7 +29,7 @@ export default async function QuestPrintPage() {
 
   const [childrenRes, questsRes, goalsRes] = await Promise.all([
     supabase.from('children').select('id, name').eq('parent_id', user.id).order('created_at'),
-    supabase.from('family_quests').select('id, title, emoji, stars, schedule, child_id').eq('user_id', user.id).eq('active', true).order('created_at'),
+    supabase.from('family_quests').select('id, title, emoji, stars, schedule, schedule_days, child_id').eq('user_id', user.id).eq('active', true).order('created_at'),
     supabase.from('star_goals').select('child_id, title, stars_needed').eq('user_id', user.id),
   ])
 
@@ -117,8 +130,11 @@ export default async function QuestPrintPage() {
                       <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> ⭐{q.stars}</span>
                     </td>
                     {DAYS.map((d, i) => {
-                      const weekend = i >= 5
-                      const off = (q.schedule === 'weekdays' && weekend) || (q.schedule === 'weekend' && !weekend)
+                      // DAYS runs Monday first, so column i is weekday
+                      // (i + 1) % 7 in the 0 Sunday numbering the rule and the
+                      // column both use. Getting that wrong shifts every job
+                      // by a day on a chart that goes on the fridge.
+                      const off = !questDueToday(q.schedule, q.schedule_days, dateForColumn(i))
                       return (
                         <td key={d} style={{ padding: '10px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center' }}>
                           {off ? (

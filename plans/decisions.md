@@ -11491,3 +11491,28 @@ ask more questions as we go."
 - **Two stale counts fixed.** The walkthrough told a brand new parent there
   were sixty scripts, in the body copy and again in the drawn scene. There are
   335, and 90 are free.
+
+## 8 September 2026 — the repeat picker, and the readers that ignored it
+
+Justin: "with jobs and quests we previously had a setting whether a one off day,
+recurring, or one per week etc, like Google calendar entries. Can we get that
+back, super easy for user? And all wired into checks done on time etc, earns
+time etc so nothing breaks, also that reminders for outstanding still all
+works."
+
+- **The capability was never gone, only the way in.** `schedule_days` has been
+  in `family_quests` since migration 060 and is accepted by the create and edit
+  routes. Both add flows offered four fixed words and no way to name a day.
+- **Certain days is back**, as a fifth chip in `JobPicker` and `JobComposer`,
+  opening one shared `DayPicker`. It sends the daily schedule plus the chosen
+  days, because chosen days win over the word in every reader.
+- **Five readers would have broken the day it became reachable**, and are
+  fixed: the child was told a Tuesday job happened every day, the day done
+  bonus was held shut by a job that was not due, the printed chart drew a box
+  on all seven days, the balance verdict misread a weekday job, and two files
+  kept their own copies of the due rule. There is one rule, `lib/quests/due`,
+  and everything asks it now.
+- **The one off keeps its meaning.** "Just once" stays a job that waits until it
+  is done rather than gaining a date. A date needs a column, a migration and a
+  rule for a missed day, and a one off that quietly expires is the worse
+  product.

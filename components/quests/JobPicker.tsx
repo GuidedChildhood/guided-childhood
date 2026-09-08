@@ -6,6 +6,8 @@ import { QUEST_TEMPLATES } from '@/lib/quests/templates'
 import { AGE_BAND_TO_STAGE, STAGE_LABELS, type StageKey } from '@/lib/quests/game-picks'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import type { JobBand } from '@/lib/quests/job-time'
+import { scheduleLabel } from '@/lib/quests/due'
+import DayPicker from '@/components/quests/DayPicker'
 
 // The job picker: the best jobs for this child's age, in order of most
 // useful, one tap to add and send.
@@ -38,24 +40,44 @@ import type { JobBand } from '@/lib/quests/job-time'
 
 type Schedule = BestJob['schedule']
 
+/** "every Tuesday" reads as a sentence; the eyebrow needs it as a label. */
+const capitalise = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s)
+
 export type PickerJob = {
   title: string
   emoji: string
   stars: number
   schedule: Schedule
+  /** Weekday numbers when the parent named them, 0 Sunday through 6 Saturday. */
+  scheduleDays: number[] | null
   band: JobBand | null
 }
 
 type RowState = 'idle' | 'adding' | 'added' | 'failed'
 
-const WHEN: { key: Schedule; label: string }[] = [
+// ── THE FIFTH CHOICE (8 September 2026) ─────────────────────────────────────
+//
+// Justin: "we previously had a setting whether a one off day, recurring, or one
+// per week etc, like Google calendar entries. Can we get that back?"
+//
+// schedule_days has been in the table since migration 060 and is honoured by
+// the due rule, the board, the child's list, the streak and the reminder cron.
+// The only thing missing was the way in. 'days' is not a schedule value in the
+// database: it is this picker's word for "I will name them", and what gets
+// sent is schedule daily plus the chosen schedule_days, which every reader
+// already prefers over the schedule word.
+type WhenKey = Schedule | 'days'
+
+const WHEN: { key: WhenKey; label: string }[] = [
   { key: 'daily',    label: 'Every day' },
   { key: 'weekdays', label: 'School days' },
   { key: 'weekend',  label: 'Weekends' },
+  { key: 'days',     label: 'Certain days' },
   { key: 'once',     label: 'Just once' },
 ]
-const WHEN_LABEL: Record<Schedule, string> = {
-  daily: 'Every day', weekdays: 'School days', weekend: 'Weekends', once: 'Just once',
+const WHEN_LABEL: Record<WhenKey, string> = {
+  daily: 'Every day', weekdays: 'School days', weekend: 'Weekends',
+  days: 'Certain days', once: 'Just once',
 }
 
 const EYEBROW: React.CSSProperties = {
@@ -96,7 +118,10 @@ export default function JobPicker({
 
   const [kind, setKind] = useState<JobKind | 'all'>('all')
   const [state, setState] = useState<Record<string, RowState>>({})
-  const [when, setWhen] = useState<Record<string, Schedule>>({})
+  const [when, setWhen] = useState<Record<string, WhenKey>>({})
+  // Per row, because a parent setting reading to Tuesday and Thursday and then
+  // opening the next job must not find their days already ticked on it.
+  const [days, setDays] = useState<Record<string, number[]>>({})
   const [openRow, setOpenRow] = useState<string | null>(null)
   const [moreOpen, setMoreOpen] = useState(false)
   const [allPrevious, setAllPrevious] = useState(false)
@@ -142,9 +167,16 @@ export default function JobPicker({
     if (busy || state[key] === 'adding' || state[key] === 'added') return
     setState(s => ({ ...s, [key]: 'adding' }))
     setOpenRow(null)
+    // Certain days rides on the daily schedule, because schedule_days wins
+    // over the word everywhere it is read. Days with nothing ticked falls back
+    // to every day rather than adding a job that is never due.
+    const chosenWhen = when[key] ?? job.schedule
+    const chosenDays = chosenWhen === 'days' ? (days[key] ?? []) : []
     const ok = await onAdd({
       title: job.title, emoji: job.emoji, stars: job.stars,
-      schedule: when[key] ?? job.schedule, band: job.band ?? null,
+      schedule: chosenWhen === 'days' ? 'daily' : chosenWhen,
+      scheduleDays: chosenDays.length ? chosenDays : null,
+      band: job.band ?? null,
     })
     setState(s => ({ ...s, [key]: ok ? 'added' : 'failed' }))
   }
@@ -160,6 +192,12 @@ export default function JobPicker({
     const done = st === 'added'
     const tint = KIND_TINT[job.kind]
     const chosen = when[key] ?? job.schedule
+    const rowDays = days[key] ?? []
+    // Named days read back as the days, not as the category. A parent who has
+    // ticked Tuesday should see Tuesday.
+    const whenSummary = chosen === 'days'
+      ? (rowDays.length ? capitalise(scheduleLabel('daily', rowDays)) : 'Pick the days')
+      : WHEN_LABEL[chosen]
     const open = openRow === key && !done
     return (
       <div
@@ -214,7 +252,7 @@ export default function JobPicker({
                     {job.why}
                   </span>
                   <span style={{ ...EYEBROW, display: 'block', letterSpacing: '0.06em', color: open ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 5 }}>
-                    {WHEN_LABEL[chosen]}{open ? '' : ' · change'}
+                    {whenSummary}{open ? '' : ' · change'}
                   </span>
                 </>
               )}
@@ -284,6 +322,18 @@ export default function JobPicker({
                 </button>
               )
             })}
+            {chosen === 'days' && (
+              <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 7, marginTop: 2 }}>
+                <DayPicker
+                  days={rowDays}
+                  onChange={d => setDays(s => ({ ...s, [key]: d }))}
+                  idPrefix={`${key}-`}
+                />
+                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+                  {rowDays.length ? `Due ${scheduleLabel('daily', rowDays)}.` : 'Tap the days it happens on.'}
+                </span>
+              </div>
+            )}
           </div>
         )}
         {st === 'failed' && (

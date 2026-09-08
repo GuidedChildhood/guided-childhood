@@ -34,7 +34,7 @@ export type KidJobsRead = {
   /** Due today and still worth showing: the child's working list. */
   dueQuests: KidQuestRow[]
   /** Active but not due today, for the coming later shelf. */
-  laterQuests: { title: string; emoji: string; schedule: string }[]
+  laterQuests: { title: string; emoji: string; schedule: string; schedule_days: number[] | null }[]
   /** Today's ticks, quest id to status. */
   todayTicks: { quest_id: string; status: string }[]
   /** Once quests that have ever been ticked, for the lesson done check. */
@@ -70,7 +70,10 @@ export async function readKidJobs(
   const due = allQuests.filter(q => questDueToday(q.schedule, q.schedule_days ?? null))
   const laterQuests = allQuests
     .filter(q => !questDueToday(q.schedule, q.schedule_days ?? null))
-    .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
+    // The days come too. Without them the child's list can only guess the
+    // cadence from the schedule word, and for a job set to certain days that
+    // guess is always wrong.
+    .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule, schedule_days: q.schedule_days ?? null }))
 
   // Once quests stay due until ticked, then leave the list on later days
   // (today's tick still shows today, as waiting or done).

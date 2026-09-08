@@ -24,7 +24,8 @@ export default function DevAddJob() {
     await new Promise(r => setTimeout(r, 450))
     if (fail) return false
     setBoard(b => [...b, job.title])
-    setLog(l => [...l, `${job.emoji} ${job.title} · ${job.schedule} · ${job.stars} stars · ${job.band ?? 'auto'}`])
+    const when = job.scheduleDays?.length ? `days ${job.scheduleDays.join(',')}` : job.schedule
+    setLog(l => [...l, `${job.emoji} ${job.title} · ${when} · ${job.stars} stars · ${job.band ?? 'auto'}`])
     return true
   }
 

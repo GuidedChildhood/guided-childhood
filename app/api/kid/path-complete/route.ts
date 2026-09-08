@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPush } from '@/lib/push/send'
+import { questDueToday } from '@/lib/quests/due'
 
 // The whole path done in one day: every due job ticked and the daily chest
 // opened, verified here against the real records, pays three bonus stars
@@ -27,11 +28,12 @@ export async function POST(req: NextRequest) {
   // Every job due today must carry a tick (pending or approved both count,
   // the child has done their part either way).
   const today = new Date().toISOString().slice(0, 10)
-  const dow = new Date().getUTCDay()
-  const isWeekend = dow === 0 || dow === 6
   const [{ data: quests }, { data: ticks }] = await Promise.all([
     supabase.from('family_quests')
-      .select('id, schedule, child_id')
+      // schedule_days as well as schedule: without the column the rule below
+      // sees null for every job and falls back to the schedule word, which is
+      // the bug this was meant to fix.
+      .select('id, schedule, schedule_days, child_id')
       .eq('user_id', link.user_id).eq('active', true),
     supabase.from('quest_ticks')
       .select('quest_id, child_id, status')
@@ -42,10 +44,12 @@ export async function POST(req: NextRequest) {
   )
   const due = (quests ?? [])
     .filter(q => q.child_id === null || q.child_id === link.child_id)
-    .filter(q =>
-      q.schedule === 'daily' || q.schedule === 'once'
-      || (q.schedule === 'weekdays' && !isWeekend)
-      || (q.schedule === 'weekend' && isWeekend))
+    // Chosen days count here too. Written out longhand, this asked only about
+    // the schedule word, so a job set to Tuesday and Thursday counted as due on
+    // a Monday and held the day done bonus shut on a day the child had nothing
+    // left to do. One rule, the same one the board and the child's own list
+    // use, so the three can never disagree about what today asks for.
+    .filter(q => questDueToday(q.schedule ?? 'daily', q.schedule_days ?? null))
     .slice(0, 8)
   if (due.length === 0 || due.some(q => !ticked.has(q.id))) {
     return NextResponse.json({ error: 'jobs not done' }, { status: 400 })

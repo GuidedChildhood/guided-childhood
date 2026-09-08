@@ -231,7 +231,7 @@ export default function ManageJobs({
   // into a tick honestly rather than on hope. A failed add used to look
   // identical to a successful one from here.
   async function add(
-    t: { title: string; emoji: string; stars: number; schedule: string; band?: JobBand | null },
+    t: { title: string; emoji: string; stars: number; schedule: string; band?: JobBand | null; schedule_days?: number[] | null },
     opts: { flash?: boolean } = {},
   ): Promise<boolean> {
     if (busy) return false
@@ -575,14 +575,14 @@ export default function ManageJobs({
                 // already says "write your own", so the placeholder only has
                 // to give the example.
                 placeholder="Feed the dog, violin"
-                onAdd={(t, when, band) => {
+                onAdd={(t, when, band, days) => {
                   // A suggestion keeps its own emoji and stars, because play
                   // jobs are worth four and a bare star would quietly halve
                   // them. Anything typed is the plain one star job the help
                   // text promises.
                   const meta = pending && pending.title === t ? pending : { emoji: '⭐', stars: 1 }
                   setPending(null)
-                  add({ title: t, emoji: meta.emoji, stars: meta.stars, schedule: when, band }, { flash: false })
+                  add({ title: t, emoji: meta.emoji, stars: meta.stars, schedule: when, band, schedule_days: days }, { flash: false })
                 }}
                 help="Worth one star. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
               />
@@ -605,7 +605,10 @@ export default function ManageJobs({
               onBoard={mine.map(q => q.title)}
               previous={myPrevious.map(q => ({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule }))}
               busy={busy}
-              onAdd={job => add(job, { flash: false })}
+              onAdd={job => add(
+                { title: job.title, emoji: job.emoji, stars: job.stars, schedule: job.schedule, band: job.band, schedule_days: job.scheduleDays },
+                { flash: false },
+              )}
             />
           )}
 
