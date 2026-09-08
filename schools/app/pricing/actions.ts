@@ -1,6 +1,6 @@
 'use server'
 
-import { anon } from '@/lib/supabase/anon'
+import { db as anon } from '@/lib/supabase/server-db'
 import { PRICING_BANDS } from '@/lib/pricing'
 
 // The invoice request letterbox. This posts a row through the anon key into

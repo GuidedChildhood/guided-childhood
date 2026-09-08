@@ -11516,3 +11516,62 @@ works."
   is done rather than gaining a date. A date needs a column, a migration and a
   rule for a missed day, and a one off that quietly expires is the worse
   product.
+## 8 September 2026 — the whole curriculum was publicly readable, and is not now
+
+Justin, on the schools site: "one quick thing that if someone goes to school
+website they can not log into lessons without contacting me?" The answer was
+yes for the pages and no for the content, which is not the same thing.
+
+- **What was open.** `schools.school_lessons` had an RLS policy of
+  `USING (true)` roled to PUBLIC and the `anon` role held the table grant. The
+  access gate in `proxy.ts` is real and fails closed, but it protects the
+  PAGES. The table sat behind the same public API as everything else, so a
+  stranger could skip the site and read all 21 modules, 479 slides, every exit
+  quiz answer key, every DSL note and every teacher note in one request. The
+  key needed to do it is `NEXT_PUBLIC_SUPABASE_ANON_KEY`, published by design
+  and already in every parents app browser bundle. Thirty seconds in devtools
+  was the whole attack.
+- **Found by running the query, not by reading the policy.** `set local role
+  anon` is the only check that answers the real question. Reading policy text
+  is how it stayed open for two months.
+- **Two things it was not.** No personal data was reachable: every other table
+  in the schema gates on `auth.uid()` through `is_school_member`,
+  `is_class_member` or `is_delivery_member`, and each was checked one by one
+  rather than assumed. The insert policies on `school_accounts` and
+  `school_educators` both carry `auth.uid()` in their WITH CHECK, so anon
+  cannot enrol itself as an educator either. And nothing suggests it was read,
+  only that it could be.
+- **The fix Justin chose (option 3).** Serve the lessons only through the
+  schools server, never letting a browser or the API reach the table.
+  `schools/lib/supabase/anon.ts` became `server-db.ts`, authenticating with the
+  service role key, with a `typeof window` throw at import time. 25 import
+  sites moved. Migration 274 drops the policy and revokes the grant.
+- **The `authenticated` role went too.** Revoking `anon` alone would have left
+  the curriculum one free parent signup away, which is the same hole with a
+  longer walk. Safe because nothing reads the table as a logged in user: the
+  schools app has no auth capable Supabase client at all, and the one parents
+  app reader, `app/k/[token]/page.tsx`, goes through `lib/supabase/admin`.
+- **The old rule was re-pointed, not dropped.** The wiring check used to
+  forbid any privileged Supabase client under `schools/`. That rule was right
+  about the danger and wrong about its shape: the danger was never "a
+  privileged key exists", it was "a privileged key reaches a browser". Section
+  8a now fails the build if a `'use client'` file imports `server-db`.
+- **Fourteen backup tables** each hold a full copy of the curriculum. They were
+  already locked by RLS with no policies, but that is one switch away from open
+  and not the switch anyone thinks to check. Grants revoked as well, so the
+  protection is two independent things. Kept, not dropped: they are the
+  rollback path for migrations 199 to 273.
+- **Supabase's default grant is the trap that would reopen it.** Any new table
+  in an exposed schema gets `anon` SELECT automatically, so the door reopens
+  without anyone deciding to. `alter default privileges in schema schools
+  revoke select on tables from anon` closes that.
+- **Verified both ways.** As `anon`: permission denied on the lessons and on
+  every backup, with `pupils` still reachable and returning zero rows as the
+  control that proves the role switch was real. As `service_role`: 21 modules.
+- **Still open: the parents app.** Fifteen content tables there are readable by
+  `anon` the same way, 646 rows and about 1.3 MB. Content only, no personal
+  data: none of the fifteen carries a `user_id`, `child_id`, `family_id`,
+  `parent_id`, `email` or `owner` column, and that was checked column by
+  column. It is a harder fix than this one because the parents app has 53
+  content readers split across three clients, 34 of them on `supabase/server`,
+  which is the anon key plus a cookie. Next job.

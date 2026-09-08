@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { anon as supabase } from '@/lib/supabase/anon'
+import { db as supabase } from '@/lib/supabase/server-db'
 import { parseSlides } from '@gc/shared/lesson-slides'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 

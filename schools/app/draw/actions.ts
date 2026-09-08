@@ -1,6 +1,6 @@
 'use server'
 
-import { anon } from '@/lib/supabase/anon'
+import { db as anon } from '@/lib/supabase/server-db'
 
 // The free class pack draw: the letterbox for a school that is not buying
 // yet. From the Happy Newspaper teardown (design-refs/happy-newspaper-notes.md):

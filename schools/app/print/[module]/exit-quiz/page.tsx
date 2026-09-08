@@ -1,4 +1,4 @@
-import { anon as supabase } from '@/lib/supabase/anon'
+import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import QuizSheet, { type QuizQuestion } from '@/components/QuizSheet'
 
