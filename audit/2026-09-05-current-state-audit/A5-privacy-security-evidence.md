@@ -39,6 +39,13 @@ Read only sweep of origin/main 97ef53a on 5 September 2026. Paths relative to re
 
 Every table created in supabase/migrations has a matching enable row level security (130 plus tables, including the two _backup_lesson tables with RLS on and no policy). No table without RLS found. Core family and child tables scoped to the owner: profiles 001_initial.sql:40-46; children 001:107-109; wellbeing_checks 001:245-247; wellbeing_checkins 040:27-30; digi_conversations 001:181-183; digi_memory 019:36-37; digi_questions 001:209-215; family_quests, quest_ticks, kid_links, star_goals 029:71-80; concerns 027:34-38; kid_days 134:57-69; stage_passports 049:123-129; child_shares 064:31; planet_codes 253:40; planet_homes and planet_events 252:39-40, 60-61. School tables scoped to educator membership 023:162-178, 028:59-60.
 
+> **Closed 8 September 2026: school_lessons.** Migration 274 drops that policy
+> and revokes the anon and authenticated grants. The schools app now reads it
+> server side through `schools/lib/supabase/server-db.ts` with the service role
+> key. The other tables named in this paragraph are still open and are the next
+> job, see plans/decisions.md, 8 September. This audit is left as it was found
+> on 5 September rather than edited, so the record of what was true then holds.
+
 Permissive using (true) policies are all read only content tables (expert_knowledge 019:21, school_lessons 023:160, digi_wisdom 043:46, daily_moments 009:36, lessons and guides in 002, 013, 014, 049, 093, 094, 102, 163).
 
 Anon grants: 177_schools_schema.sql:23, 49 usage and default select on the schools schema; 195_school_invoice_requests.sql:33-36 insert to anon with check (true) on schools.invoice_requests (public form, no select for anon, no rate limit).
@@ -47,7 +54,7 @@ Policy gap: kid_links_own (029:77-78) checks only user_id, not that child_id bel
 
 ## 4. Service role
 
-- Central client lib/supabase/admin.ts:8-12. No client component imports it. The schools app has no admin client (schools/lib/supabase/anon.ts:3-9).
+- Central client lib/supabase/admin.ts:8-12. No client component imports it. The schools app has no admin client (schools/lib/supabase/anon.ts:3-9). [8 Sep: that file is now server-db.ts and does hold the service role key, server side only, enforced by wiring-check section 8a.]
 - Cron routes: all 24 under app/api/cron check Bearer CRON_SECRET (e.g. age-up/route.ts:33-37 with a null guard) or cronAuthorised (lib/email/cron-kit.ts:147). Weakness: cron-kit.ts:147 and script-refresh/route.ts:38 compare against the template string with no null check, so an unset CRON_SECRET would accept the literal "Bearer undefined"; lib/email/index.ts:25, 53, 71 falls back to the HMAC key 'dev' for unsubscribe tokens if CRON_SECRET is unset.
 - Unauthenticated service role route: app/api/push/subscribe/route.ts. getSupabase() (9-14) builds a service role client; POST (21) takes userId from the request body with no getUser() and upserts or deletes push_subscriptions for that id (33-41, 61-65); DELETE (77-86) deletes any subscription by endpoint. An anonymous caller who knows a user id can attach their own push endpoint to that account or remove a family's subscriptions.
 - app/api/school/[id]/ics/route.ts:26-36: service role read keyed only by UUID, by design.

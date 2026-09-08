@@ -422,9 +422,10 @@ function checkProductBoundary() {
   const zones = [join(ROOT, 'shared'), join(ROOT, 'schools')]
   for (const zone of zones) {
     for (const f of walk(zone)) {
-      // The schools app owns exactly one Supabase file, the anon read only
-      // client. It may import @supabase/supabase-js (which carries no
-      // cookies and no session) but nothing on the banned list.
+      // The schools app owns exactly one Supabase file, server-db.ts. It
+      // may import @supabase/supabase-js (which carries no cookies and no
+      // session) but nothing on the banned list. Section 8a keeps that one
+      // file out of the browser.
       const src = read(f)
       for (const b of BANNED) {
         const needle = new RegExp(`from ['"][^'"]*${b.replace(/[/@]/g, m => '\\' + m)}['"]`)
@@ -451,12 +452,12 @@ function checkProductBoundary() {
 // being true.
 
 function checkSchoolsSchema() {
-  const clientPath = join(ROOT, 'schools', 'lib', 'supabase', 'anon.ts')
+  const clientPath = join(ROOT, 'schools', 'lib', 'supabase', 'server-db.ts')
   const client = read(clientPath)
   const hasDefault = /db:\s*\{[^}]*schema:\s*['"]schools['"]/.test(client)
   if (!hasDefault) {
     errors.push(
-      `schools/lib/supabase/anon.ts does not set db.schema to "schools", so every ` +
+      `schools/lib/supabase/server-db.ts does not set db.schema to "schools", so every ` +
       `unqualified .from() reads the public schema, where the lesson content no ` +
       `longer lives (migration 177)`,
     )
@@ -469,6 +470,48 @@ function checkSchoolsSchema() {
       if (/\.from\(['"][a-z_]+['"]\)/.test(src) && !/\.schema\(['"]schools['"]\)/.test(src)) {
         errors.push(`${rel(f)} queries a table with no schema, and the client has no default`)
       }
+    }
+  }
+}
+
+// ── 8a. The schools app's one client never reaches a browser ─────────
+//
+// Until 8 September the schools app read its content with the public anon
+// key, and the rule here was "no privileged Supabase client in schools/",
+// enforced by section 7. The rule was right about the danger and wrong about
+// the shape of it: the anon key kept the browser safe and left the DATABASE
+// open, because schools.school_lessons granted SELECT to anon under a policy
+// of USING (true). Anyone could skip the site entirely and read all 21
+// modules, every exit quiz answer key and every DSL note straight from the
+// API. Verified by running the query as the anon role on 8 September.
+//
+// The fix (migration 274) revokes that grant and moves the read behind this
+// server, which authenticates with the service role key. So the old rule is
+// re-pointed rather than dropped: the danger was never "a privileged key
+// exists", it was "a privileged key reaches a browser". server-db.ts throws
+// at import time if window is defined, and this is the static half of that
+// pair, because a throw only fires on the code path that runs and this fires
+// on the file that exists.
+//
+// Next would not inline SUPABASE_SERVICE_ROLE_KEY into a client bundle
+// anyway (no NEXT_PUBLIC_ prefix), so a slip would break the page rather
+// than leak the key. Breaking a page for every teacher is still a bad day,
+// and naming the file at build time costs nothing.
+
+function checkSchoolsServerOnly() {
+  const NEEDLE = /from ['"][^'"]*lib\/supabase\/server-db['"]/
+  for (const f of walk(join(ROOT, 'schools'))) {
+    const src = read(f)
+    if (!NEEDLE.test(src)) continue
+    // 'use client' has to be the first statement in the file for Next to
+    // honour it, so only the top of the file can carry it.
+    const head = src.slice(0, 400)
+    if (/^\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*['"]use client['"]/.test(head)) {
+      errors.push(
+        `${rel(f)} is a client component and imports lib/supabase/server-db, which ` +
+        `holds the service role key. Read the data in a server component and pass ` +
+        `down only the fields this component needs.`,
+      )
     }
   }
 }
@@ -684,6 +727,7 @@ checkMigrationNumbers()
 checkSmallPrint()
 checkProductBoundary()
 checkSchoolsSchema()
+checkSchoolsServerOnly()
 checkColumnNames()
 
 const line = '─'.repeat(64)

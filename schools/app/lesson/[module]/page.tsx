@@ -1,4 +1,4 @@
-import { anon as supabase } from '@/lib/supabase/anon'
+import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'

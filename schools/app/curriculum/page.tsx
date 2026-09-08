@@ -1,4 +1,4 @@
-import { anon as supabase } from '@/lib/supabase/anon'
+import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, SPIRAL_BEHAVIOURS } from '@gc/shared/schools-curriculum'

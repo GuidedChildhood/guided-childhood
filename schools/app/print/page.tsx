@@ -1,4 +1,4 @@
-import { anon as supabase } from '@/lib/supabase/anon'
+import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS } from '@gc/shared/schools-curriculum'
 

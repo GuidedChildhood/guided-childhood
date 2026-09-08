@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { anon as supabase } from '@/lib/supabase/anon'
+import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
