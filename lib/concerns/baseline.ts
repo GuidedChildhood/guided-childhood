@@ -47,6 +47,23 @@ export const ONBOARDING_TO_SLUG: Record<string, string> = {
   // which is the tell that this mapping was always meant to exist.
   asking_for_phone: 'phones-and-messaging',
   start_conversation: 'phones-and-messaging',
+  // ── THE THREE THE WIZARD NEVER ASKED ABOUT (8 September 2026) ────────────
+  //
+  // Justin: "the questions they answer makes the check ins as its issues they
+  // have raised." Three of the questions parents actually arrive with, the
+  // phone, social media and AI chatbots, had no tile at all, so the answer
+  // could never be given, let alone rated. The tiles arrive in the same commit
+  // as these keys, on purpose: this map has fallen behind the wizard twice and
+  // both times the symptom was a family opening their first check in on "All
+  // done for today" with nothing to do.
+  //
+  // seen_something is what online_safety should always have been. A catch all
+  // called "online safety" is a subject, and a parent cannot honestly give a
+  // subject five stars. "Seeing things they should not" is an evening they
+  // recognise, so it can be rated, and it is what they meant.
+  social_media: 'social-media',
+  ai_chatbots: 'ai-chatbots',
+  seen_something: 'seen-something',
   // online_safety and something_else stay deliberately absent. A catch all is a
   // picker, not a rateable thing, and the daily card already filters those out
   // by slug. A baseline row nobody can honestly score is worse than none. They
@@ -63,6 +80,9 @@ export const LABEL: Record<string, string> = {
   'bedtime-screens': 'Bedtime screens',
   'mood-after-screens': 'Mood after screens',
   'phones-and-messaging': 'Phones and messaging',
+  'social-media': 'Social media',
+  'ai-chatbots': 'AI chatbots',
+  'seen-something': 'Seeing things they should not',
 }
 
 // ── THE FOUR COMMON ONES, FOR A CHILD WITH NO HISTORY ───────────────────────

@@ -16,7 +16,7 @@
 // onboarding page, and fail the moment the two drift apart again.
 
 /**
- * The first six MUST match CHALLENGES in app/onboarding/page.tsx exactly. The
+ * The first block MUST match CHALLENGES in app/onboarding/page.tsx exactly. The
  * rest are legacy ids from before OLD_TO_NEW_CHALLENGE, kept because rows
  * written back then still carry them and those families still deserve a strip.
  *
@@ -27,7 +27,9 @@ export const CHALLENGE_LABELS: Record<string, string> = {
   morning_tv: 'Morning TV battles', controller_fights: 'Controller fights',
   wont_put_down: 'Will not put the device down', bedtime_screens: 'Bedtime screens',
   mood_after_screens: 'Mood after screens', something_else: '',
+  asking_for_phone: 'Asking for a phone', social_media: 'Social media',
+  ai_chatbots: 'AI chatbots', seen_something: 'Seeing things they should not',
   screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
   gaming: 'Gaming concerns', online_safety: 'Online safety worries',
-  start_conversation: 'Starting the conversation', asking_for_phone: 'Asking for a phone',
+  start_conversation: 'Starting the conversation',
 }
