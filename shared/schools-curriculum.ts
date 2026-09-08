@@ -132,7 +132,11 @@ export const CURRICULUM: CurriculumModule[] = [
     outcome: 'I can spot that a picture might not be real.',
     blurb: 'Photos and videos can be changed or made up, and AI can make pictures.',
     character: 'orbit', castLine: 'Orbit with DiGi Junior',
-    rshe: ['online_safety', 'deepfakes_ai'],
+    // Dropped online_safety on 8 September. This deck teaches the three kinds
+    // of picture and the detective question, and its own statutory hook says
+    // EfCW managing online information. It is media literacy, not safety, and
+    // the matrix prints an honesty note we have to keep.
+    rshe: ['deepfakes_ai'],
   },
   {
     n: 4, moduleId: 'ks2-04-screen-routines', keyStage: 'KS2', yearBand: 'Years 3 to 6',
@@ -140,7 +144,10 @@ export const CURRICULUM: CurriculumModule[] = [
     outcome: 'One routine the child sets tonight.',
     blurb: 'After school, bedtime, mealtimes and homework, without the daily fight.',
     character: 'bloop', castLine: 'Bloop',
-    rshe: ['mental_wellbeing', 'online_safety'],
+    // Dropped online_safety on 8 September. This deck is routines, the cool
+    // down lap and where screens sleep; its own statutory hook says RSHE
+    // health and wellbeing. Tagging it safety was padding.
+    rshe: ['mental_wellbeing'],
   },
   {
     n: 5, moduleId: 'ks2-05-gaming-time-spend', keyStage: 'KS2', yearBand: 'Years 3 to 6',

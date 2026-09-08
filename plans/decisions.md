@@ -11370,3 +11370,47 @@ most likely to be out of their depth. Its evidence base deliberately carries no
 figures I have not verified: the table names the anchoring bodies and marks
 each as verify before publishing, because a claim with no verified source does
 not go on a slide.
+
+---
+
+## 8 September 2026 — the audit applied, and a correction to my own number
+
+Justin: yes to all five asks on the perfect lesson standard.
+
+**Migration 272 applied.** The one real hole is closed: ks3-13 scams claimed
+Illegal online behaviours and taught a pupil to avoid being a victim without
+ever saying the thing was illegal. It now carries a teach beat at position 18,
+straight after the discussion about a scam arriving from a friend's account,
+which says fraud is a criminal offence, that the person targeted is never the
+one in trouble, and where it goes: an adult, the app, the bank if money moved,
+and Action Fraud, or Police Scotland in Scotland.
+
+Timing stayed true rather than quietly drifting: migration 270's rule that
+cycle minutes equal the teach phase still holds, so the two new minutes went to
+cycle three (6 to 8), the teach phase went 28 to 30, and the timing prose was
+rewritten because it had drifted from the cycles array when 270 recomputed it.
+ks3-13 now carries six key learning points rather than the contract's four to
+five, because it genuinely teaches one more thing and dropping a point to fit
+the contract would be the wrong way round.
+
+**AI literacy is no longer half claimed.** ailit_domains went from 12 of 21 to
+21 of 21, named against the four domains already in use and only where the
+module does that work. A guard now refuses any module with none, and any
+domain outside the four.
+
+**The two padded tags are dropped** in shared/schools-curriculum.ts, with the
+reason in a comment beside each: ks1-03 is media literacy and its own hook says
+so, ks2-04 is wellbeing and its own hook says so.
+
+**A CORRECTION TO MY OWN WORK.** Yesterday's audit was reported as "42 of 45
+claims hold up". The three failures were correct and correctly identified, but
+the denominator was wrong: counted from the manifest there are 53 topic claims
+across the 21 modules, so it was 50 of 53. The wrong total went into the plan,
+into pull request 1003 and into the Drive copy. It is corrected in the plan and
+in Drive, and pull request 1003 is already merged so its body keeps the error
+with this entry as the record. Lesson: I asserted a total I had not counted,
+in a document about a page whose whole point is that claims are checked. Count
+the denominator, every time.
+
+After 272 the matrix is true: 51 of 51 remaining claims have evidence in their
+own deck.
