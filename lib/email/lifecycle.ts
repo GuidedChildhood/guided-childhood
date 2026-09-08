@@ -3,7 +3,8 @@
 // aware funnel: trial nurture stops the moment someone pays, and win back
 // starts the moment a trial lapses unpaid.
 //
-// Card door trials (the Stripe subscription with a 14 day trial) come through
+// Card door trials (the Stripe subscription whose trial_period_days is the
+// same configured trial, set in app/api/stripe/checkout/route.ts) come through
 // the webhook as subscription_status 'active' already (decision 2026-07-10),
 // so 'active' covers both paying members and card holding trialists. The no
 // card trial lives only in trial_ends_at, so a future trial_ends_at with no

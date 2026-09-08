@@ -104,8 +104,8 @@ export default async function LessonDetailPage({ params, searchParams }: {
   const stage = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
 
   // Free tier: one lesson per stage is free, the rest unlock with membership
-  // (everything is open during the 7 day trial). A lesson already opened stays
-  // open. Everything else in this stage sits behind the paywall.
+  // (everything is open during the trial). A lesson already opened stays open.
+  // Everything else in this stage sits behind the paywall.
   const { data: accessProfile } = await supabase
     .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
   const locked = !hasFullAccess(accessProfile, user.email) && !completion

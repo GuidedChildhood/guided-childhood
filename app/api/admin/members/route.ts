@@ -43,10 +43,11 @@ export async function GET() {
 
   const admin = createAdminClient()
 
-  const [{ data: profiles }, { data: convos }, { data: log }] = await Promise.all([
-    admin.from('profiles').select('id, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete, is_founder'),
+  const [{ data: profiles }, { data: convos }, { data: log }, { data: leadRows }] = await Promise.all([
+    admin.from('profiles').select('id, email, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete, is_founder, home_last_at'),
     admin.from('digi_conversations').select('user_id, last_message_date, message_count'),
     admin.from('email_log').select('user_id, email_key, sent_at'),
+    admin.from('starter_leads').select('email, created_at, nurtured_at'),
   ])
 
   // last_sign_in_at lives only in auth.users, which the JS client cannot reach
@@ -81,6 +82,21 @@ export async function GET() {
   // Engagement split by whether they pay, which is the comparison that tells
   // you whether the paywall sits in the right place.
   const asked = { paidWeek: 0, paidTotal: 0, freeWeek: 0, freeTotal: 0 }
+
+  // THE FAIL SAFE. Justin, 8 September 2026: a stat for someone who signed up,
+  // is using it, and is not paying.
+  //
+  // It is two questions at once and that is the point. Read low, it is the win
+  // back list: people getting value who never converted, which is the warmest
+  // audience there is. Read high, or rising when nothing else is, it is the
+  // alarm, because the paywall lives in application code and not in the
+  // database (see plans/decisions.md, 8 September), so a page that forgets to
+  // check hasFullAccess leaks silently and nothing else in this product would
+  // say so. A number nobody watches cannot do either job, so it goes on the
+  // board next to the paying figure rather than into a report.
+  //
+  // Founders are excluded: they are comped on purpose, not slipping through.
+  const usingNotPaying = { week: 0, month: 0 }
 
   // One thread per child since migration 235, so a family can hold several
   // rows. The board thinks per member: counts summed, the newest date wins.
@@ -123,6 +139,17 @@ export async function GET() {
     const convo = convoByUser.get(p.id as string)
     const askedDays = daysAgo(convo?.last_message_date as string | null)
     const paid = state === 'active'
+
+    // home_last_at is the honest "still turning up" signal: it is stamped when
+    // a parent opens Home, so it moves for someone using the product and not
+    // for someone who merely still has an account.
+    if (!paid && !p.is_founder) {
+      const seen = daysAgo(p.home_last_at as string | null)
+      if (seen != null) {
+        if (seen < 7) usingNotPaying.week += 1
+        if (seen < 30) usingNotPaying.month += 1
+      }
+    }
     if (convo && (convo.message_count ?? 0) > 0) {
       if (paid) asked.paidTotal += 1
       else asked.freeTotal += 1
@@ -141,11 +168,40 @@ export async function GET() {
   for (const l of recent) byKey.set(l.email_key as string, (byKey.get(l.email_key as string) ?? 0) + 1)
   const topKeys = [...byKey.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8)
 
+  // Leads: an email captured before an account exists. Two numbers matter,
+  // how many never came back, and how many the nurture email still owes.
+  //
+  // waitingNurture is the one worth watching. It should trend to zero on its
+  // own. If it sits still while the cron reports ok, the programme is not
+  // running even though nothing failed, which is this codebase's most common
+  // shape of bug and the reason this panel exists at all.
+  const emailedProfiles = new Set(
+    rows.map(p => String(p.email ?? '').trim().toLowerCase()).filter(Boolean),
+  )
+  const dayAgo = Date.now() - 86400000
+  let leadsNoAccount = 0
+  let leadsWaitingNurture = 0
+  for (const l of leadRows ?? []) {
+    const address = String(l.email ?? '').trim().toLowerCase()
+    if (!address || emailedProfiles.has(address)) continue
+    leadsNoAccount += 1
+    const captured = Date.parse(String(l.created_at ?? ''))
+    if (!l.nurtured_at && Number.isFinite(captured) && captured <= dayAgo) {
+      leadsWaitingNurture += 1
+    }
+  }
+
   const paying = states.active
   const total = rows.length
 
   return NextResponse.json({
     total,
+    usingNotPaying,
+    leads: {
+      total: (leadRows ?? []).length,
+      noAccount: leadsNoAccount,
+      waitingNurture: leadsWaitingNurture,
+    },
     onboarded,
     optedOut,
     founders,

@@ -20,6 +20,8 @@ type Stats = {
   logins: { day: number; week: number; month: number; older: number; never: number; known: number } | null
   newSignups: { day: number; week: number; month: number }
   asked: { paidWeek: number; paidTotal: number; freeWeek: number; freeTotal: number }
+  usingNotPaying: { week: number; month: number }
+  leads: { total: number; noAccount: number; waitingNurture: number }
   emails: { last7: number; total: number; topKeys: [string, number][] }
   conversion: number
   truncated: boolean
@@ -83,6 +85,34 @@ export default function MembersPanel() {
         <Figure n={notPaying} of={s.total} sub="not paying" />
         <Figure n={s.founders} sub="founder places used" />
       </Row>
+
+      {/* The fail safe. Not a vanity figure: the paywall is enforced in app code
+          and not in the database, so if a page ever forgets to check access,
+          this is the only number in the product that would move. It doubles as
+          the warmest win back list there is, people getting value who never
+          paid, which is why it sits here rather than in a report. */}
+      <p style={{ ...label, marginBottom: 10 }}>Using it, not paying</p>
+      <Row>
+        <Figure n={s.usingNotPaying.week} of={notPaying} sub="opened Home this week" />
+        <Figure n={s.usingNotPaying.month} of={notPaying} sub="opened Home this month" />
+      </Row>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 18px', maxWidth: '52ch' }}>
+        Founders are left out, they are comped on purpose. On the free tier this
+        is normal and it is your win back list. Rising sharply when nothing else
+        has changed is the other reading, that something stopped checking.
+      </p>
+
+      <p style={{ ...label, marginBottom: 10 }}>Before they sign up</p>
+      <Row>
+        <Figure n={s.leads.total} sub="emails captured" />
+        <Figure n={s.leads.noAccount} of={s.leads.total} sub="never made an account" />
+        <Figure n={s.leads.waitingNurture} sub="still owed the nudge" />
+      </Row>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 18px', maxWidth: '52ch' }}>
+        Still owed the nudge should fall to zero on its own. If it sits still
+        while the email cron reports fine, the programme is not running even
+        though nothing failed.
+      </p>
 
       <p style={{ ...label, marginBottom: 10 }}>Signing in</p>
       {s.logins ? (
