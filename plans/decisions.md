@@ -11575,3 +11575,19 @@ yes for the pages and no for the content, which is not the same thing.
   column. It is a harder fix than this one because the parents app has 53
   content readers split across three clients, 34 of them on `supabase/server`,
   which is the anon key plus a cookie. Next job.
+- **And revoking the table grants will not be enough there.** Running the
+  Supabase security advisor after this migration turned up something the
+  schools fix did not need but the parents one does: `match_scripts`,
+  `match_moments` and `match_expert_knowledge` are SECURITY DEFINER functions
+  that `anon` may execute over the REST API. A SECURITY DEFINER function runs
+  as its owner, so it walks past the grant and the policy alike. Revoking the
+  read on `scripts` while leaving `match_scripts` callable would move the door,
+  not close it: the same content comes back through
+  `/rest/v1/rpc/match_scripts` with an embedding. Same shape for
+  `prune_cron_runs`, which anon can call to delete the cron heartbeat rows the
+  health checks are built on. The parents app fix has to cover the functions
+  and the tables together or it is theatre.
+- **The advisor is now part of the check, not an afterthought.** It named
+  `school_lessons` before today and nobody read it. It no longer names it,
+  which is a third independent confirmation alongside the anon test and the
+  service role test.
