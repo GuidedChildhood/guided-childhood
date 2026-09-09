@@ -104,8 +104,8 @@ export const ANSWERS: Record<string, Answer> = {
     methods: ['script','balance','checkin','digi'],
   },
   mood_after_screens: {
-    question: 'Is it the screens, or is it them?',
-    answer: 'Ten seconds a day turns a feeling into a line you can actually read over weeks.',
+    question: 'Is there a pattern here, or was it just a hard week?',
+    answer: 'Ten seconds a day turns a feeling into a line you can read over weeks. It will not tell you the cause. It gives you something real to take to them, or to your GP, instead of a hunch.',
     proof: ['The daily check in', 'Your worry rated over time'],
     methods: ['checkin','moment','digi','passport'],
   },

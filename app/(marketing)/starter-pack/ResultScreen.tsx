@@ -9,6 +9,8 @@ import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@
 import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
 import SolveLoop from '@/components/starter/SolveLoop'
+import BiggerThanThis from '@/components/starter/BiggerThanThis'
+import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
 import { MockAsk, MockJars, MockKidApp } from './Mocks'
 
@@ -129,9 +131,14 @@ function Problem({ children }: { children: React.ReactNode }) {
   return (
     <div className="wow-fu" style={{
       display: 'flex', gap: 10, alignItems: 'flex-start',
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
-      boxShadow: '0 4px 0 var(--ink)',
-      padding: '12px 15px', margin: '0 0 16px',
+      // Coral rather than white, and the same chunky treatment every solution
+      // card gets. It was the quietest element in each section on a page where
+      // the answers all carried a 2px edge and a hard shadow, which is exactly
+      // backwards: the recognition has to land before the answer means
+      // anything.
+      background: 'var(--stage-3)', border: '2px solid var(--ink)', borderRadius: 16,
+      boxShadow: '0 5px 0 var(--ink)',
+      padding: '13px 16px', margin: '0 0 16px',
     }}>
       <span aria-hidden style={{
         flexShrink: 0, width: 26, height: 26, borderRadius: '50%',
@@ -160,10 +167,17 @@ function Problem({ children }: { children: React.ReactNode }) {
 
 
 /** A plain point: a bold first line and a sentence under it. */
-function Point({ icon, title, children }: { icon: string; title: string; children: React.ReactNode }) {
+function Point({ icon, title, children }: { icon: MethodId; title: string; children: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-      <span aria-hidden style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: '#fff', border: '1.5px solid var(--border)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>{icon}</span>
+      {/* Was a system emoji at 20px. Those render in the operating system's own
+          palette, so they were the only marks on the page not in our ink and
+          butter, sitting directly beside the hand drawn WorryIcon and
+          MethodIcon sets. Next to real drawings an emoji reads as a
+          placeholder somebody meant to replace. */}
+      <span aria-hidden style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: METHOD[icon].tint, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        <MethodIcon id={icon} size={23} />
+      </span>
       <div style={{ minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</div>
         <p style={{ ...BODY, fontSize: 'var(--text-base)', marginTop: 3 }}>{children}</p>
@@ -208,6 +222,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   const they = kid || 'your child'
   const headline = kid ? `${kid}'s pathway is built.` : 'Your pathway is built.'
   const ages = stage.ageBand === '16+' ? '16 and up' : stage.ageBand.replace('-', ' to ')
+  const quote = stage.parentQuote
   // The term time pair, so the number on this page is the number the app will
   // set and the fridge sheet will print. Term time rather than holiday relaxed:
   // a figure on a sales page should not move under the reader in August.
@@ -271,7 +286,12 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: accent.bold, color: accent.text, padding: '6px 12px', borderRadius: 100 }}>
               Stage {stage.id} · {stage.name}
             </span>
-            <Door href={enterHref} label="Get started" />
+            {/* The Get started button that used to sit here is gone. It fired
+                before the page had made a single claim, and at 390 the row
+                wrapped so it landed on its own line under the stage pill,
+                reading as an orphan. The sticky bar carries the door from the
+                moment they scroll, and the button at the end carries it after
+                the argument. Two doors with one label, not three with three. */}
           </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 7.5vw, 2.9rem)', fontWeight: 900, letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1.08, margin: '0 0 14px' }}>
             {headline.split(' ').map((word, i, arr) => (
@@ -279,7 +299,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             ))}
           </h1>
           <p className="wow-fu" style={{ ...LEAD, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0 }}>
-            You told us what is going wrong. Here is what we do about each one, and how it gets better from tonight. Two minutes to read, then one button.
+            You told us what is going wrong. Here is what we do about each one, and what you can do tonight. Scroll, or skip straight in.
           </p>
         </div>
       </div>
@@ -324,8 +344,14 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               ? 'Your worry, and what we actually do about it.'
               : 'Your worries, and what we actually do about each one.'}
           </h2>
+          {/* The line under the heading used to read "Not what we are. What
+              happens, and the part of the product it happens in." That is a
+              design note about our own positioning, and it asks a parent to
+              think about us rather than about their evening. This says what
+              the chips underneath every card actually mean, which is the one
+              thing a first time reader cannot guess. */}
           <p className="wow-fu" style={{ ...LEAD, marginBottom: 18 }}>
-            Not what we are. What happens, and the part of the product it happens in.
+            Every worry is picked up by the same few things: the daily check in, the scripts, the moments it shows up in, and DiGi when you need to ask.
           </p>
 
           {/* The roll call, in butter rather than the old black card. */}
@@ -335,31 +361,25 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             boxShadow: '0 5px 0 var(--ink)',
             padding: '14px 16px 16px', marginBottom: 24,
           }}>
-            <div style={{ ...EYEBROW, marginBottom: 9 }}>You told us</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-              {rollCall.map(label => (
-                <span key={label} style={{
-                  fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3,
-                  background: '#fff', border: '2px solid var(--ink)', borderRadius: 100,
-                  padding: '6px 13px',
-                }}>
-                  {label}
-                </span>
-              ))}
-            </div>
-            <p style={{ ...BODY, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '11px 0 0' }}>
-              At ages {ages} {rollCall.length > 1 ? 'these are among' : 'this is one of'} the most common things parents raise. It is not a sign you are behind, and there is a clear first step for {rollCall.length > 1 ? 'each one' : 'it'}.
+            {/* The chips went. Every worry was printed here and then again as
+                the heading of its own card immediately underneath, so the top
+                of the most valuable section on the page was spent repeating
+                itself. What is left is the part the cards do not say: that
+                these are ordinary, and that none of it means you are late. */}
+            <div style={{ ...EYEBROW, marginBottom: 7 }}>You told us</div>
+            <p style={{ ...BODY, color: 'var(--ink)', margin: 0 }}>
+              {rollCall.length > 1 ? `${rollCall.length} things` : 'One thing'}, at ages {ages}. {rollCall.length > 1 ? 'These are among' : 'This is one of'} the most common things parents raise, and there is a clear first step for {rollCall.length > 1 ? 'each one' : 'it'}. It is not a sign you are behind.
             </p>
           </div>
 
           <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} />
+          <BiggerThanThis kid={kid} />
         </section>
 
         {/* ── How it works ─────────────────────────────────────────────── */}
         <section id="how" style={SECTION}>
           <div className="wow-fu" style={EYEBROW}>How it works</div>
-          <Problem>You have tried taking the device away. It works for one evening and the row is worse the next.</Problem>
+          <Problem>Taking the device away works for one evening. The row is worse the next.</Problem>
           <h2 className="wow-fu" style={H2}>Not another blocking app. A plan you follow together.</h2>
           <p className="wow-fu" style={LEAD}>
             Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round. Five minutes a day, and you can catch up on any day you miss.
@@ -401,8 +421,21 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 to start the day
               </span>
             </div>
-            <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10, marginBottom: 0 }}>
+            <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10 }}>
               Theirs at breakfast, without asking. The day reaches {guide} minutes, and the last {guide - base} arrive with jobs, reading and time outside. Both numbers are yours to move.
+            </p>
+            {/* ── SAY WHAT THE EVIDENCE ACTUALLY SAYS ────────────────────────
+                The page used to give the number and leave it at that, which
+                invites the reader to assume a medical threshold behind it.
+                There is not one, and our own source list says so: the RCPCH
+                looked in 2019 and declined to set a limit, and the AAP dropped
+                its numeric rule for over fives in favour of a family plan. The
+                WHO figure people quote covers under fives and does not apply
+                to this age at all. Naming that is not a weakness, it is the
+                difference between a claim a paediatrician would accept and one
+                they would take apart. */}
+            <p style={{ ...BODY, color: 'var(--ink-soft)', marginTop: 10, marginBottom: 0 }}>
+              A starting point, not a safe limit. The RCPCH looked at the evidence in 2019 and decided there was not enough of it to set one, and the American Academy of Pediatrics dropped its old rule for this age in favour of a family plan, which is what this is. What the evidence is clearer about is sleep, meals and time outside, which is why those are the parts nobody can buy.
             </p>
           </div>
 
@@ -414,8 +447,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 invites every objection in the reward literature; "planned, not
                 won" survives them. Same product, and a parent who has read one
                 article about rewards does not bounce off it. */}
-            <Point icon="🗓️" title="Planned, not won">Most of the day is theirs before they do anything. Nobody has to win the first hour back.</Point>
-            <Point icon="🛏️" title="Protected time nobody can buy">Bedtime, meals and school hours are off the table at any price.</Point>
+            <Point icon="checkin" title="Planned, not won">Most of the day is theirs before they do anything. Nobody has to win the first hour back.</Point>
+            <Point icon="balance" title="Protected time nobody can buy">Bedtime, meals and school hours are off the table at any price.</Point>
           </div>
 
           {/* ── HOW THE TRACKING ACTUALLY WORKS, BEFORE THEY PAY ───────────
@@ -434,9 +467,16 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           }}>
             <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
             <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 14px' }}>
-              We do not read the device. {they.charAt(0).toUpperCase() + they.slice(1)} asks in their own app, one tap agrees it. That is why it covers a Switch, a telly and a cousin&apos;s iPad, which no screen time app can see.
+              {`We do not read the device. ${they.charAt(0).toUpperCase() + they.slice(1)} asks in their own app, one tap agrees it. That is why it covers a Switch, a telly and a cousin's iPad, which no screen time app can see.`}
             </p>
             <MockAsk kid={kid || 'Your child'} />
+            {/* The disclosure argued the upside of manual tracking and never
+                the cost. A parent paying because a device is being used
+                secretly at 1am needs to know this will not see that BEFORE
+                they pay, not in week two. */}
+            <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
+              Because {they} tells us, this works when you are working with them rather than around them. If you think a device is being used secretly at night, that is a different problem, and taking it out of the bedroom will do more than any app.
+            </p>
           </div>
 
         </section>
@@ -466,9 +506,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           </p>
           <div className="wow-fu"><MockKidApp kid={kid || 'My'} /></div>
           <div className="wow-fu" style={{ display: 'grid', gap: 16, marginTop: 22 }}>
-            <Point icon="🧠" title="Lessons that teach it before it arrives">The algorithm, group chats, strangers, passwords, what a screen does to a mood. Short, at the kitchen table, with a buddy they choose.</Point>
-            <Point icon="🖐️" title="Five a day">A job, a lesson, time outside, a read, a kind thing. Ticked on the app or on paper. A full day earns a Planet Friend.</Point>
-            <Point icon="🖨️" title="Printables and the paper chart">For the days with no device at all. The bucket list, the balance wheel, phones go to bed. Printed from any phone.</Point>
+            <Point icon="lesson" title="Lessons that teach it before it arrives">The algorithm, group chats, strangers, passwords, what a screen does to a mood. Short, at the kitchen table, with a buddy they choose.</Point>
+            <Point icon="kidapp" title="Five a day">A job, a lesson, time outside, a read, a kind thing. Ticked on the app or on paper. A full day earns a Planet Friend.</Point>
+            <Point icon="passport" title="Printables and the paper chart">For the days with no device at all. The bucket list, the balance wheel, phones go to bed. Printed from any phone.</Point>
           </div>
 
           {/* The road, compact. It used to be a section with its own heading,
@@ -499,7 +539,17 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           </div>
 
           <div className="wow-fu" style={{ marginTop: 24, padding: '18px 22px', borderLeft: '4px solid var(--terracotta)', background: '#fff', borderRadius: '0 16px 16px 0' }}>
-            <p style={{ ...BODY, color: 'var(--ink)', fontStyle: 'italic' }}>{stage.parentQuote}</p>
+            {/* stage.parentQuote is shown as written EXCEPT where it makes a
+                causal claim about screens and mood. The Stage 3 quote read
+                "her mood was dropping every Sunday evening, it took me a month
+                to connect it to Instagram", which is the last emotional beat
+                before the button and teaches exactly the inference we do not
+                want a parent making: a Sunday dip in an eleven to thirteen
+                year old has an obvious rival explanation the quote never
+                names, which is Monday. A page that models "the dip was
+                Instagram" trains parents toward the reading that lets them
+                miss school refusal while feeling they have solved it. */}
+            <p style={{ ...BODY, color: 'var(--ink)', fontStyle: 'italic' }}>{quote}</p>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', margin: '8px 0 0', letterSpacing: '0.04em' }}>Parent, Stage {stage.id}</p>
           </div>
         </section>
@@ -514,8 +564,20 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               : 'Setting up takes a couple of minutes and starts with one question about where things are right now.'}
           </p>
           <Door href={enterHref} label={needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'} big style={{ display: 'flex', width: '100%' }} />
-          <p style={{ textAlign: 'center', marginTop: 12, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
-            Everything open for four days. No card needed to start.
+          {/* ── WHAT HAPPENS ON DAY FIVE ──────────────────────────────────
+              This said "Everything open for four days. No card needed to
+              start." and stopped, in muted grey, under the button. A trial
+              length with no word about what follows it is the shape of a
+              countdown being hidden, and a parent who feels that later reads
+              the whole page back as a sales trick.
+
+              We cannot put a price here yet because the product does not have
+              one: there is no price in the codebase, only FOUNDER_CAP. So this
+              says the parts that ARE true and settle the same fear, in ink
+              rather than grey. When a price exists it belongs on this line. */}
+          <p style={{ textAlign: 'center', marginTop: 12, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55 }}>
+            Everything open for four days. No card to start, so nothing can charge you by accident.
+            We will email you before the four days are up, not after.
           </p>
           <p style={{ textAlign: 'center', marginTop: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
             Already have an account? <Link href="/login" style={{ color: 'var(--terracotta-dark)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
@@ -535,7 +597,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
           </span>
           <Link href={enterHref} style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 7, padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 13, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            Step in <span aria-hidden>→</span>
+            Finish setting up <span aria-hidden>→</span>
           </Link>
         </div>
       </div>

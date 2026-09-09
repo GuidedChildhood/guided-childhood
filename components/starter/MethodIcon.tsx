@@ -41,14 +41,14 @@ const CREAM = '#FFFBEE'
 
 /** What each part of the product is called on this page, and its colour. */
 export const METHOD: Record<MethodId, { label: string; tint: string }> = {
-  script:   { label: 'The words',      tint: BUTTER },
+  script:   { label: 'Scripts',        tint: BUTTER },
   digi:     { label: 'DiGi',           tint: LILAC },
   checkin:  { label: 'Daily check in', tint: MINT },
   moment:   { label: 'Moments',        tint: CORAL },
   balance:  { label: 'Device time',    tint: SKY },
   kidapp:   { label: "Their app",      tint: PINK },
   lesson:   { label: 'Lessons',        tint: SKY },
-  passport: { label: 'The record',     tint: BUTTER },
+  passport: { label: 'Your record',    tint: BUTTER },
 }
 
 export default function MethodIcon({ id, size = 22 }: { id: MethodId; size?: number }) {

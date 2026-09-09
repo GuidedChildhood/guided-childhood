@@ -2,7 +2,7 @@
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
-import { ANSWERS } from '@/lib/content/proof'
+import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
 import { MethodRow, type MethodId } from '@/components/starter/MethodIcon'
 
 // The worries a parent just ticked, each with the answer to it.
@@ -50,8 +50,16 @@ export default function WorryAnswers({ worryIds, own }: {
   const named = worryIds.filter(id => id !== CATCH_ALL_ID && ANSWERS[id])
   // Their own words keep the place they gave them. A parent who put Something
   // else first sees their card first.
+  // ── THEIR OWN WORRY GOES LAST ─────────────────────────────────────────────
+  //
+  // It used to keep the place they gave it, which put it FIRST for anybody who
+  // ticked Something else first, which is most people who tick it at all. So
+  // the first substantive sentence under a hero reading "Alma's pathway is
+  // built" was "we have not written a pathway for this one yet". True, and
+  // exactly the wrong order: read first it says we do not cover you, read
+  // third, after two confident answers, it reads as the honesty it is.
   const withOwn = ownWords && worryIds.includes(CATCH_ALL_ID)
-    ? worryIds.filter(id => id === CATCH_ALL_ID || ANSWERS[id])
+    ? [...worryIds.filter(id => id !== CATCH_ALL_ID && ANSWERS[id]), CATCH_ALL_ID]
     : named
   const chosen = withOwn.length ? withOwn : FALLBACK
   const rest = WORRIES.filter(w => w.id !== CATCH_ALL_ID && !chosen.includes(w.id))
@@ -75,7 +83,7 @@ export default function WorryAnswers({ worryIds, own }: {
         const a = isOwn
           ? {
               question: 'You typed this one yourself. What happens to it?',
-              answer: 'We have not written a pathway for this one yet, so we do the honest thing: DiGi searches everything we hold against your words, and you rate it daily like any other worry.',
+              answer: 'DiGi reads your words against everything we hold and hands you the closest scripts and moments we have, and it joins your check in like any other worry. We have not hand written a pathway for these exact words yet. Yours is now in the queue for the ones we write next.',
               proof: ['Counted for what we build next'],
               methods: ['checkin', 'digi', 'moment', 'script'] as MethodId[],
             }
@@ -137,6 +145,21 @@ export default function WorryAnswers({ worryIds, own }: {
                 and the pathway is a bucket several worries share. Naming the
                 method is both shorter and true of every worry in the bucket. */}
             <MethodRow ids={a.methods} />
+            {/* The counted number, back on the card.
+                The method row replaced the proof chips and took the only
+                figure on the page with it, so a parent could read the whole
+                thing and find nothing countable to weigh a payment against.
+                These counts are real: lib/content/proof.ts carries the SQL and
+                the date they were counted in the database. */}
+            {!isOwn && scriptsForWorry(id) > 0 && (
+              <p style={{
+                margin: '10px 0 0', fontFamily: 'var(--font-mono)',
+                fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em',
+                color: 'var(--ink-soft)',
+              }}>
+                {scriptsForWorry(id)} scripts written for this one
+              </p>
+            )}
           </div>
         )
       })}

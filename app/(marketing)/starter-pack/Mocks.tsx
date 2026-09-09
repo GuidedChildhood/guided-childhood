@@ -213,8 +213,11 @@ export function MockKidApp({ kid }: { kid: string }) {
     { t: 'Lesson: the algorithm', done: true, s: 1 },
     { t: '20 minutes outside', done: false, s: 1 },
   ]
+  // Was #3B3F47, a charcoal slab. On cream at phone size that is the black
+  // Justin asked to be rid of, and it had become the largest dark area left on
+  // the page.
   return (
-    <Stage tint="#3B3F47" pad={14}>
+    <Stage tint="var(--tint-blue)" pad={14}>
       <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, padding: 6, display: 'flex', gap: 4, marginBottom: 10 }}>
         {['Quests', 'Lessons', 'Printables'].map((t, i) => (
           <span key={t} style={{ flex: 1, textAlign: 'center', padding: '8px 0', borderRadius: 12, background: i === 0 ? 'var(--terracotta)' : 'transparent', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK }}>{t}</span>
