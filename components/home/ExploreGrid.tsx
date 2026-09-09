@@ -70,6 +70,23 @@ function groups(scriptHref: string): Group[] {
         // Devices had three rotation slots and no tile anywhere, so between
         // rotation days the whole setup guide layer was unreachable by intent.
         { href: '/dashboard/devices', label: 'Devices', sub: 'Every screen, set up right', icon: 'phonebed' },
+        // ── THE SHOP, PUT BACK (9 September 2026) ──────────────────────────
+        //
+        // Justin: "the shop we had for passport has disappeared from the
+        // parents app." It had.
+        //
+        // Home used to carry five tiles and they were removed on 12 August on
+        // the argument that everything they held was covered elsewhere: quests,
+        // passport and DiGi are three of the six buttons on the tab bar, and
+        // school reminders is four rows above this one.
+        //
+        // That was true of four of the five. The shop has no tab bar button and
+        // was never added here, so it went from one tap on Home to no route at
+        // all except the Keepsakes shortcut buried on the Quests page and a
+        // deep link to one product inside the passport. A page that sells the
+        // printed passport should not be reachable only from a link that
+        // already names the thing you are buying.
+        { href: '/dashboard/keepsakes', label: 'The shop', sub: 'The passport and stickers, printed', icon: 'passport' },
         // Vetted outside tools, evidence graded. One inbound link before this,
         // from a report block most families never open.
         { href: '/dashboard/toolbox', label: 'The toolbox', sub: 'Outside tools, graded honestly', emoji: '🧰' },

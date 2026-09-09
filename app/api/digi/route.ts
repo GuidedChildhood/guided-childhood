@@ -19,6 +19,7 @@ import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
 import { loadLaneKeywords } from '@/lib/digi/keywords'
 import { matchScripts, type MatchableScript } from '@/lib/digi/script-match'
+import { ownWorryKnowledge } from '@/lib/concerns/related'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
 import { renderHorizons } from '@/lib/digi/horizons'
@@ -484,8 +485,25 @@ export async function POST(request: Request) {
   // parent who named one platform ("she wants tiktok") was handed nothing at
   // all, so the newest and most specific scripts were the least reachable.
   let scriptLinkKnowledge = ''
+  // ── AND THE WORRIES THEY WROTE THEMSELVES ─────────────────────────────────
+  //
+  // Justin, 9 September 2026: "DiGi brain and system searches for relating
+  // scripts, moments and advice on this entered... DiGi is clever enough to
+  // look up advice based on our agent and relate it to anything we have."
+  //
+  // The matcher below has searched the library from a parent's message since
+  // 10 August, but only ever from a message typed INTO the chat. A worry typed
+  // at the quiz became a ledger label and was never put through the same
+  // search, so the one worry with no pathway behind it was also the one DiGi
+  // had done no reading for. This gives it the reading, and tells it to be
+  // straight when the library has nothing close.
+  let ownWorryKnowledgeBlock = ''
   try {
     const { data: allScripts } = await supabase.from('scripts').select('sort_order, title, situation, category')
+    ownWorryKnowledgeBlock = ownWorryKnowledge(
+      (concernsResult.data ?? []) as { slug: string; label: string; status?: string | null }[],
+      (allScripts ?? []) as MatchableScript[],
+    )
     const matched = matchScripts((allScripts ?? []) as MatchableScript[], String(message))
     if (matched.length > 0) {
       scriptLinkKnowledge = `\n\nSCRIPTS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If one genuinely fits their situation, name it warmly in your reply and link it so they can open it, exactly in this markdown form [Script title](/dashboard/scripts/SORT_ORDER). Only ever link one of these real scripts, never invent a title or a link, and only when it truly fits:\n` +
@@ -727,7 +745,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

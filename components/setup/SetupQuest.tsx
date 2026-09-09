@@ -68,9 +68,14 @@ type Props = {
   /** Every child, so the share step can offer a code each. See flags.ts. */
   children?: SetupChild[]
   userId: string
+  /** Is today's check in already done for every child?
+   *
+   *  The finished card used to assume it was not, and told a parent to go and
+   *  do a thing they had already done. */
+  checkInDone?: boolean
 }
 
-export default function SetupQuest({ flags, child, children = [], userId }: Props) {
+export default function SetupQuest({ flags, child, children = [], userId, checkInDone = false }: Props) {
   const listRef = useRef<HTMLDivElement>(null)
 
   // Every step is drawn, in list order. `state` is what changes, not presence:
@@ -102,7 +107,7 @@ export default function SetupQuest({ flags, child, children = [], userId }: Prop
     return () => { tween.kill() }
   }, [])
 
-  if (firstUndone === -1) return <AllDone />
+  if (firstUndone === -1) return <AllDone checkInDone={checkInDone} />
 
   return (
     <>
@@ -999,7 +1004,7 @@ function HomeScreenHow() {
 // them. The rung on Today disappears at the same moment, so a parent who taps
 // through lands on a Home with no setup on it at all, which is the reward.
 
-function AllDone() {
+function AllDone({ checkInDone }: { checkInDone: boolean }) {
   return (
     <div style={{
       background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
@@ -1031,9 +1036,20 @@ function AllDone() {
           day a family finishes setup is asking them to rate an agreement signed
           twenty minutes ago. The check in earns its place once there is
           something to report. */}
+      {/* ── IT HAS TO KNOW WHETHER THE CHECK IN IS ACTUALLY WAITING ────────
+          Justin, 9 September 2026, with both screens side by side: "it says
+          done today under one that is to do today."
+
+          This card was static. It told every parent that the first thing today
+          was the check in and offered a button saying Start today's check in,
+          whether or not they had already done it half an hour earlier. Tapping
+          it landed on a page reading "All done for today", which is the same
+          shape of fault as the setup loop: two surfaces reading one truth and
+          only one of them looking it up. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-        That is the one time work behind you. First thing today is the check in,
-        about thirty seconds, and it is what everything else is built on.
+        {checkInDone
+          ? 'That is the one time work behind you, and today\u2019s check in is already done. Nothing else is waiting on you today.'
+          : 'That is the one time work behind you. First thing today is the check in, about thirty seconds, and it is what everything else is built on.'}
       </p>
       {/* STRAIGHT TO THE PROPER CHECK IN. Justin: "takes them to start today and
           leads them through agreed loop ... first today which is check in and
@@ -1044,7 +1060,7 @@ function AllDone() {
           to Home here would rebuild that fault one step further back: Home is
           right, but it is one more tap and one more thing to read first. */}
       <Link
-        href="/dashboard/checkin"
+        href={checkInDone ? '/dashboard' : '/dashboard/checkin'}
         style={{
           display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
           border: '2px solid var(--ink)', borderRadius: 16, padding: '15px 28px', textDecoration: 'none',
@@ -1052,7 +1068,7 @@ function AllDone() {
           boxShadow: '0 4px 0 var(--ink)',
         }}
       >
-        Start today's check in
+        {checkInDone ? 'Back to today' : "Start today's check in"}
       </Link>
     </div>
   )

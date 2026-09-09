@@ -62,6 +62,29 @@ export type Planet = {
   tint: string
   /** Read out in place of the drawing. */
   alt: string
+  /**
+   * How many days this family has to have existed before the bonus beside the
+   * road is allowed to offer this one.
+   *
+   * ── WHY A SERVICE CAN BE TOO EARLY ────────────────────────────────────────
+   *
+   * Justin, 9 September 2026, with the daily path on his phone and Orbit
+   * standing beside it holding "Their week": "this image showing Orbit first
+   * week, it is the rotation bonuses... this week shouldn't be on the first
+   * week as no relevant info."
+   *
+   * He is right, and it is worse than an empty screen. The bonus is a
+   * character stepping out of the road to recommend something, which is a
+   * promise that there is something there. "See their week honestly" on day
+   * two opens on a week that has not happened, so the first thing a new family
+   * is personally recommended is the emptiest page in the product.
+   *
+   * Most services are honest from the first hour: the scripts are written, DiGi
+   * answers, the jobs exist to be set up. Only the ones that REPORT need a
+   * past to report on. Undefined means ready immediately, which is the right
+   * default and keeps this to the one or two entries it applies to.
+   */
+  needsDays?: number
 }
 
 export const PLANETS: Planet[] = [
@@ -116,6 +139,9 @@ export const PLANETS: Planet[] = [
   },
   {
     key: 'balance',
+    // A week of recorded time is the whole content of this page. Seven days,
+    // so it arrives the first time there is genuinely a week to look at.
+    needsDays: 7,
     href: '/dashboard/stats',
     title: 'See their week honestly',
     short: 'Their week',
@@ -147,4 +173,22 @@ export function weekNumber(now: Date = new Date()): number {
 export function planetOfTheWeek(now: Date = new Date()): number {
   const n = PLANETS.length
   return ((weekNumber(now) % n) + n) % n
+}
+
+/**
+ * The services worth offering to a family this old.
+ *
+ * Lives here, beside the data, and takes no imports, for the same reason
+ * lib/pathway/rotation does: it can then be checked by a script without the
+ * app's module aliases, a database or a session. friend-of-the-day is the only
+ * caller; it is separate so the rule can be tested as a rule.
+ *
+ * `familyDays` undefined means do not filter, which is what a dev harness or
+ * any caller that does not know the family should pass.
+ */
+export function readyServices(familyDays?: number): Planet[] {
+  if (familyDays === undefined) return PLANETS
+  const ready = PLANETS.filter(p => (p.needsDays ?? 0) <= familyDays)
+  // Never leave the road with nobody beside it.
+  return ready.length > 0 ? ready : PLANETS
 }

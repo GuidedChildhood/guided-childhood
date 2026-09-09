@@ -132,7 +132,17 @@ export const STAGES: Stage[] = [
       'Sleep disruption, checking the phone after lights out',
       'Withdrawal from family conversations',
     ],
-    parentQuote: '"Her mood was dropping every Sunday evening. It took me a month to connect it to Instagram."',
+    // Was: "Her mood was dropping every Sunday evening. It took me a month to
+    // connect it to Instagram." Changed 9 September 2026 after a clinical
+    // review of the reveal. It sat as the last emotional beat before the
+    // button and taught a causal reading we cannot support: a Sunday evening
+    // dip at eleven to thirteen has an obvious rival explanation the quote
+    // never names, which is Monday. School refusal, an unfinished piece of
+    // homework and a friendship that restarts at the gate are the standard
+    // formulations for Sunday night distress at this age, and they are the
+    // ones a parent must not miss. The quote now shows the record doing its
+    // real job, which is producing a better question rather than a verdict.
+    parentQuote: '"Her mood dropped every Sunday evening. Writing it down for a month is what got us asking her the right question."',
     digiContext: 'Stage 3 parent. Child aged 11 to 12. CRITICAL DEVELOPMENTAL WINDOW. Orben research applies, adolescent girls especially at risk. Focus on the algorithm conversation, bedroom rule, comparison culture. Social media requires readiness conversation, not just age.',
     challengeActions: {
       screens_takeover: 'The bedroom rule is your most powerful tool right now. If it is not in place, start there tonight.',

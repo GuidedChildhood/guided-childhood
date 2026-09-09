@@ -5,7 +5,7 @@ import ResultScreen from './ResultScreen'
 import { createClient } from '@/lib/supabase/client'
 import { bandForAge } from '@/lib/children/age'
 import WorryPicker from '@/components/onboarding/WorryPicker'
-import { WORRIES, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
+import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
 import {
   FEELING_OPTIONS,
   TIME_COMMITMENT_OPTIONS,
@@ -796,7 +796,10 @@ export default function StarterPackPage() {
                 fontSize: 'var(--text-xs)', color: 'var(--ink-muted)',
                 lineHeight: 1.6, letterSpacing: '0.02em',
               }}>
-                We open on {worryLabel(picks[0])} first. Untick it to start somewhere else.
+                {/* Their words, not our label. A parent who has just typed
+                    their worry and watched the tile take it should not read a
+                    sentence underneath calling it "Something else" again. */}
+                We open on {picks[0] === CATCH_ALL_ID && worryOther.trim() ? worryOther.trim() : worryLabel(picks[0])} first. Untick it to start somewhere else.
               </p>
             )}
 

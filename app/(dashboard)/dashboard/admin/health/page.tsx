@@ -167,6 +167,8 @@ export default async function HealthPage() {
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '18px 0 0' }}>
             For what has actually gone out to parents, see{' '}
             <Link href="/dashboard/admin/email" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>email health</Link>.
+            For the worries families raise that no tile covers yet, see{' '}
+            <Link href="/dashboard/admin/asks" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>what parents ask for</Link>.
           </p>
         </>
       )}

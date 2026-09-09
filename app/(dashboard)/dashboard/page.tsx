@@ -891,7 +891,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // day. The lead's key is a rotation id (quests, school, balance and so on)
   // and the services carry the same words, so the collision is checkable
   // rather than guessed at. See lib/pathway/friend-of-the-day.
-  const friendToday = friendOfTheDay(new Date(), nextUp.key)
+  //
+  // How old this family is, so the bonus never recommends a page that reports
+  // on a past they do not have yet. Justin, 9 September 2026, with Orbit
+  // holding "Their week" on a two day old account: "this week shouldn't be on
+  // the first week as no relevant info."
+  const bornAt = (profile as { created_at?: string | null } | null)?.created_at
+  const familyDays = bornAt
+    ? Math.floor((Date.now() - new Date(bornAt).getTime()) / 86400000)
+    : undefined
+  const friendToday = friendOfTheDay(new Date(), nextUp.key, familyDays)
 
   // The greeting only goes quiet about jobs when the card that says it instead
   // is ACTUALLY ON THE PAGE. That card is wrapped in {dayComplete && ...}, so

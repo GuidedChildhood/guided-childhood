@@ -1,5 +1,5 @@
 import { STAGE_CHARACTERS, type StageCharacter } from '@/lib/content/stage-characters'
-import { PLANETS, type Planet } from '@/lib/pathway/planets'
+import { PLANETS, readyServices, type Planet } from '@/lib/pathway/planets'
 import { dayIndex } from '@/lib/home/next-up'
 import { pairFor } from '@/lib/pathway/rotation'
 
@@ -101,19 +101,45 @@ export function friendSlot(now: Date = new Date()): number {
 export function friendOfTheDay(
   now: Date = new Date(),
   avoidServiceKey?: string | null,
+  /**
+   * How many days old this family is, so a service that reports on a past is
+   * not offered before there is one. See `needsDays` in lib/pathway/planets.
+   *
+   * Undefined means "do not filter", which is what the dev harness and any
+   * caller that does not know the family should pass.
+   */
+  familyDays?: number,
 ): FriendOfTheDay {
   const slot = friendSlot(now)
+
+  // ── A SERVICE THAT IS NOT READY IS NOT OFFERED ────────────────────────────
+  //
+  // Justin, 9 September 2026: "this week shouldn't be on the first week as no
+  // relevant info."
+  //
+  // The bonus is a character stepping out of the road to recommend one thing.
+  // That is a promise that the thing is there. Recommending "see their week"
+  // on day two sends a family to a week that has not happened yet, and it is
+  // the FIRST thing the product ever personally recommends to them.
+  //
+  // Filtering the list rather than skipping the slot, so the rotation still
+  // turns over every two days and a new family simply sees the five that are
+  // ready instead of four and a gap.
+  // The rule itself lives in planets.ts, beside the data and free of imports,
+  // so a guard can check it without the app's module aliases.
+  const pool = readyServices(familyDays)
+
   const avoidIndex = avoidServiceKey
-    ? PLANETS.findIndex(p => p.key === avoidServiceKey)
+    ? pool.findIndex(p => p.key === avoidServiceKey)
     : -1
   const { castIndex, serviceIndex } = pairFor(
     slot,
     CAST.length,
-    PLANETS.length,
+    pool.length,
     avoidIndex >= 0 ? avoidIndex : undefined,
   )
   const friend = CAST[castIndex]
-  const service = PLANETS[serviceIndex]
+  const service = pool[serviceIndex]
 
   return { friend, service, reason: service.line }
 }

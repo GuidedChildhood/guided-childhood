@@ -77,9 +77,29 @@ jobs:
       # Home and the Setup Quest are two implementations of one question. This
       # holds them to the same answer, which is what the loop was.
       - run: node scripts/check-setup-agreement.mjs
+      # Four marketing pages quote the price as prose, so there is no constant
+      # to import and drift is a matter of when. On 9 September the reveal was
+      # the only page in the funnel with no price at all.
+      - run: node scripts/check-price-copy.mjs
+      # What day is it? The check in decided in UTC while every family is on UK
+      # time, so for one hour every summer night the product and the house
+      # disagreed. Also holds the Setup Quest's finished card to the real check
+      # in state rather than assuming it is waiting.
+      - run: node scripts/check-day-boundary.mjs
+      # The Friend beside the road recommends ONE thing by name, which promises
+      # the thing is there. "See their week honestly" on day two opens on a week
+      # that has not happened.
+      - run: node --experimental-strip-types scripts/check-bonus-ready.mjs
+      # A page can build, render and take payments while being unreachable. The
+      # shop did, for four weeks, after a Home cleanup removed its only tile.
+      - run: node scripts/check-reachable.mjs
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs
+      # The free text gate on the reveal. It shipped broken and silent: a gate
+      # that decides between selling and handing over a phone number cannot be
+      # allowed to fail without anything going red.
+      - run: node --experimental-strip-types scripts/check-risk-gate.mjs
       # The lesson council's own scoring rules, against fixtures. The live run
       # needs a service role key and so cannot live here, but the rules are the
       # part that has actually been wrong: twice, both times in code that could

@@ -1,3 +1,4 @@
+import { londonNow } from '@/lib/time/london'
 import type { createClient } from '@/lib/supabase/server'
 import { seedBaselineConcerns, seedChildBaseline } from '@/lib/concerns/baseline'
 import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
@@ -89,7 +90,27 @@ export async function getTodayCheckIn(
   /** Which child to ask about. Falls back to the first with anything left. */
   childIdParam?: string | null,
 ): Promise<TodayCheckIn> {
-  const today = new Date().toISOString().split('T')[0]
+  // ── "TODAY" IS THE FAMILY'S TODAY, NOT THE SERVER'S ────────────────────────
+  //
+  // Justin, 9 September 2026: "check that this refreshes each day."
+  //
+  // It did not, quite. This was `new Date().toISOString().split('T')[0]`, which
+  // is the date in UTC, and the server runs in UTC while every family using
+  // this product is in the UK. From late March to late October the two are an
+  // hour apart, and that hour lands in exactly the wrong place:
+  //
+  //   A check in done at 00:30 on Tuesday is stored 23:30 Monday UTC, so it
+  //   counts as MONDAY. The parent is asked the same questions again a few
+  //   hours later.
+  //
+  //   Between midnight and 1am on Tuesday the server still reads Monday, so a
+  //   parent who did Monday's check in and looks after midnight is told they
+  //   are done for a day that has already started.
+  //
+  // lib/time/london was written for this and six other files already use it.
+  // The check in, which is the one thing in the product that has to know what
+  // day it is, was the one that did not.
+  const today = londonNow().dateStr
 
   const [{ data: profile }, { data: live }, { data: kids }] = await Promise.all([
     supabase.from('profiles').select('first_checkin_at, onboarding_answers').eq('id', userId).maybeSingle(),
