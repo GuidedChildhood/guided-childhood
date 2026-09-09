@@ -617,7 +617,7 @@ export default function SchoolsPage() {
                 Simple annual pricing.
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '540px', margin: '0 auto' }}>
-                Every teacher, every year group, all {totalModules} modules, from £1.50 per pupil per year.
+                Every teacher, every year group, all {totalModules} modules, from £495 a year.
                 Paid by invoice with 30 day terms, the way schools actually buy.
               </p>
             </div>

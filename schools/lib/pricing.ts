@@ -1,9 +1,27 @@
 // The five band structure, decided 13 August 2026. The per pupil figure sits
-// next to every price on purpose: £795 sounds like money, £2.65 per child
-// per year does not, and they are the same number. Jigsaw starts around
-// £795 and Kapow prices from £1.80 per child, so these bands sit at the
-// market rate rather than under half of it, and the smallest schools no
-// longer pay the most per pupil.
+// next to every price on purpose: £795 sounds like money, £1.59 per child
+// per year does not, and they are the same number.
+//
+// Corrected 9 September 2026. Three things in the original note were wrong.
+//
+// The headline. Every page led with "from £1.50 per pupil per year", but
+// £1.50 is only reachable in the secondary band at a thousand pupils. A
+// primary, which is the main target, pays £2.48 or £1.59. The pages now
+// lead with "from £495 a year", which is a real number any school can act
+// on and the same money. The per pupil line stays under each band, where
+// it does its job without being a claim a head can check and find wrong.
+//
+// The claim that the smallest schools no longer pay the most per pupil.
+// They still do. Primary small at £2.48 is the highest per pupil rate of
+// the five bands. That is a defensible thing to charge, because a small
+// school costs the same to support, but it should not be described as the
+// opposite of what it is.
+//
+// The competitor benchmark. The note said Jigsaw starts around £795 and
+// Kapow prices from £1.80 per child. Verification found Jigsaw starting at
+// £495 for a whole primary and Kapow at £300 flat with unlimited users, so
+// the bands may have been set against figures that were too high. A fuller
+// competitor check is running; revisit the band levels when it lands.
 
 export type PricingBand = {
   key: string
