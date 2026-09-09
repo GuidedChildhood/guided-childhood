@@ -15,7 +15,8 @@
     "council": "node scripts/council.mjs",
     "council-test": "node scripts/council-checks.test.mjs",
     "price-guard": "node scripts/check-price-copy.mjs",
-    "day-guard": "node scripts/check-day-boundary.mjs"
+    "day-guard": "node scripts/check-day-boundary.mjs",
+    "bonus-guard": "node --experimental-strip-types scripts/check-bonus-ready.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",
