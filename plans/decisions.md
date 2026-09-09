@@ -12051,3 +12051,42 @@ Reintroducing the choice slide bug turns the suite red, which was checked.
 read the same day, and the baseline records `"source": "fixture"` so nobody has
 to infer that from a commit message. This container has no service role key. The
 first live run with the same rules will hold or ratchet up.
+
+## 9 September 2026 — the 77 dense slides above KS1 are a different problem
+
+I was about to rewrite them the way I rewrote the six. Measuring first stopped
+that, and it is worth writing down because the two cases look identical and are
+not.
+
+**For EYFS and KS1 the body was the script printed on the wall.** Cutting it lost
+nothing, because everything in it was already being said out loud.
+
+**Above KS1 the body IS the teaching.** Only about 21 percent of a KS2 to KS5
+body's content words appear anywhere in its script, and 75 of the 77 dense slides
+are under 40 percent. The scripts up there are short, around 70 to 80 words, and
+do a different job: what to ask the class, the line to say slowly, what to watch
+for on their faces. Reading them confirms it. "An algorithm sounds complicated,
+but it is just a list of steps followed in order to get a result" is the lesson;
+the script beside it says "kill the mystery early, ask the class for algorithms
+they already know". They complement. They do not duplicate.
+
+**So the ceiling is wrong, not the slides.** Every concept slide from KS2 up
+fails it, 60 out of 60. When a whole corpus written by people who knew what they
+were doing breaks a rule, suspect the rule. Rewriting 77 good slides to hit a
+number we picked would have been the worst thing this session could have done.
+
+**What the evidence actually points at is size.** ISO 9241-303 puts the legible
+minimum for the back of a classroom at about 50px on a 1920 canvas, and section 4
+of the council research already measured ours: body, options and steps render at
+18 to 24px, roughly half. The teach route also caps the player at 1180px on a
+1920 wall, so it is worse than the raw numbers suggest. A 58 word paragraph is
+not the defect. A 58 word paragraph at half the legible size is.
+
+**Order that follows from this.** Set the projector type to the ISO floor first.
+Then the word ceiling stops being a guess, because it becomes whatever fits at a
+size the back row can read, which is the honest way round. Only then is it worth
+touching slide copy above KS1, and by then most of it may not need touching.
+
+WORD_CEILING now says in code which bands are evidenced and which are asserted,
+and CEILING_EVIDENCED exposes it, so 5.73 is never quoted as a fact about the
+lessons.

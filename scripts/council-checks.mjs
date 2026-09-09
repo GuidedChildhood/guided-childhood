@@ -11,11 +11,44 @@
 // key_stage, module_id, slides and teacher_notes. It returns
 // { name, score, detail, fails }. Nothing here reads the network.
 
-// The words a child can hold on one slide, by age. From the ISO 9241 legibility
-// work and the age banded rules in research/2026-09-09-lesson-quality-council.md.
-// These are OUR thresholds and they should be argued about, which is why they
-// are one visible constant rather than scattered through the checks.
+// The words a child can hold on one slide, by age.
+//
+// TWO OF THESE ARE EVIDENCED AND FOUR ARE ASSERTED, and the difference matters
+// more than the numbers, because a score built on an asserted threshold reads
+// like a fact about the lessons when it is a fact about our guess.
+//
+// EVIDENCED, EYFS and KS1 at 12. A four to seven year old is learning to decode.
+// Seventy words of prose on a wall is not dense for them, it is unreadable, and
+// the six slides fixed in migration 276 proved the case from the other side too:
+// every idea in those paragraphs was already in the teacher's script, so cutting
+// them lost nothing at all.
+//
+// ASSERTED, KS2 to KS5 at 25, 40, 60, 60. We picked these. Two things say they
+// are wrong. First, EVERY concept slide from KS2 up fails them, 60 out of 60,
+// and when a rule is broken by a whole corpus written by people who knew what
+// they were doing, suspect the rule. Second, and unlike the youngest slides,
+// only about 21 percent of a KS2 to KS5 body's content words appear anywhere in
+// its script: the body IS the teaching up there and the script does the
+// questioning around it. Cutting those bodies to 25 words would delete the
+// lesson, not tighten it.
+//
+// WHAT THE EVIDENCE ACTUALLY POINTS AT is size, not word count. ISO 9241-303
+// puts the legible minimum for the back of a classroom at about 50px on a 1920
+// canvas (research/2026-09-09-lesson-quality-council.md, section 4). Our body,
+// options and steps render at 18 to 24px, roughly half. A 58 word paragraph is
+// not the defect; a 58 word paragraph AT HALF THE LEGIBLE SIZE is. Set the type
+// to the floor and the word ceiling stops being a guess, because it becomes
+// whatever fits, which is the honest way round.
+//
+// So: the KS2 to KS5 numbers stay, because measuring with a stated guess beats
+// not measuring, and the prose score is reported and ratcheted like any other.
+// But nobody should read 5.73 as "the lessons are too wordy" until the type is
+// at the floor and the ceiling has been derived rather than chosen.
 export const WORD_CEILING = { EYFS: 12, KS1: 12, KS2: 25, KS3: 40, KS4: 60, KS5: 60 }
+
+// Which ceilings we can defend, for anything that wants to report the score
+// without overclaiming it.
+export const CEILING_EVIDENCED = { EYFS: true, KS1: true, KS2: false, KS3: false, KS4: false, KS5: false }
 
 // A slide the child DOES something on. Everything else, they watch.
 export const ACTION = new Set(['choice', 'discussion', 'tryit', 'interactive', 'scenario'])
