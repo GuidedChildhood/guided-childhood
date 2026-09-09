@@ -12429,3 +12429,57 @@ inside a fixed 64px lane, identically on a phone, so that one predates all of
 this. And the family app still shows about 100 text nodes below AA, mostly the
 same eyebrow colour at 2.43:1: the classroom variant does not touch it, and
 changing the brand accent for parents is Justin's call, not a projector PR's.
+
+## 9 September 2026: the engagement cadence, and an action beat that changed nothing
+
+**"Fourteen modules of curriculum writing" was the wrong shape.** Measuring the
+35 failing stretches first: **twenty of them are the same stretch.** Every module
+except `eyfs-01` opens title, sometimes a video, objective, keywords, and only
+then a choice. Five to seven minutes of a class watching, in the first five to
+seven minutes of the hour. Fifteen are genuine mid lesson gaps.
+
+**The obvious fix does nothing, and the simulation is what said so.** An action
+slide at the top of each lesson leaves the passive run exactly as long: title
+plus objective plus keywords is still five contiguous minutes, the beat just
+moves where the run starts. Simulated against the council's own check it scored
+**6.96 to 6.96**. Had I written twenty slides and shipped them on the strength of
+"twenty lessons now open with something to do", the number would not have moved
+and I would not have known why.
+
+**The insert has to land inside the run.** Trying every position, one slot works
+for all twenty: after the objective, before the keywords. Opening becomes title
+(plus its video where there is one) at one to two minutes, then the class talks,
+then objective and keywords at four. It is also the better lesson: the class
+names its own experience before it is handed the vocabulary, so the keywords
+land on a room that already has something at stake.
+
+**Tagged `starter`, not `connect`, and that is a correction to my own plan.** I
+wrote the plan around "the connect phase was designed and never built", which
+reads well and is half true. `connect` is Jigsaw's Connect us and Calm me and it
+belongs at the TOP of a lesson, which is the one place an added beat does nothing
+for the cadence. A connect slide sitting third would also put Connect after
+Recall on the phase strip and march the marker backwards mid lesson. These are
+starter beats. `eyfs-01` keeps the only genuine connect slide in the scheme.
+
+**Not the starter quiz, though it was the cheaper option.** Every module already
+has a four question `starter_quiz` in `teacher_notes`. Projecting one of its
+questions would have saved writing twenty prompts and spoiled the instrument: it
+is a printed sheet a teacher marks to find out what prior knowledge is missing,
+and it cannot do that with an answer on the wall.
+
+**Safeguarding wording is the part to read.** Every prompt is answerable with no
+prior knowledge and never asks a child to disclose something that happened to
+them. `ks4-17` (sextortion) asks what makes *anybody* in trouble stay silent, not
+you. `ks3-14` (bodies) asks about the *tools* an app has, not about any body in
+the room. `ks4-16` (consent) asks who *should* decide, not what anyone has done.
+
+**This session cannot reach the database.** Both `execute_sql` and
+`apply_migration` return permission denied, so migration 279 is written but NOT
+applied. Rather than ship SQL nobody has run, it was run for real against a local
+Postgres 16 seeded with the live scheme: 20 rows updated, all six guards passed,
+and re-running it fails guard 2 and rolls back with the slide count still 513
+rather than 533. The council was then re-run against the migrated data, not
+against a simulation of it.
+
+**Engagement 6.96 to 8.89**, prose held at 9.78, blocks 9.52 to 9.53. The fifteen
+that remain are the genuine mid lesson gaps and each needs its own answer.
