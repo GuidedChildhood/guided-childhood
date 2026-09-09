@@ -1,5 +1,5 @@
 {
-  "rules": "502a38525643",
+  "rules": "0b23eb60ae00",
   "source": "fixture",
   "scores": {
     "prose": {
@@ -11,11 +11,11 @@
       "at": "2026-09-09"
     },
     "engagement": {
-      "best": 4.35,
+      "best": 6.96,
       "at": "2026-09-09"
     },
     "passport": {
-      "best": 0,
+      "best": 10,
       "at": "2026-09-09"
     }
   }

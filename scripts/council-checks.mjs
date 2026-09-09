@@ -51,7 +51,35 @@ export const WORD_CEILING = { EYFS: 12, KS1: 12, KS2: 25, KS3: 40, KS4: 60, KS5:
 export const CEILING_EVIDENCED = { EYFS: true, KS1: true, KS2: false, KS3: false, KS4: false, KS5: false }
 
 // A slide the child DOES something on. Everything else, they watch.
+//
+// THIS WAS A LIST OF TYPE NAMES AND THAT WAS TOO BLUNT. Every one of the 44
+// diagram slides counted as passive, which put the module's own tool slide,
+// the thing the class chants back and uses, on the wrong side of the line and
+// scored the scheme 4.35.
+//
+// The temptation was to move `diagram` wholesale into the set. Reading the
+// scripts made that look right, and grepping them for "chant", "say it back",
+// "hands up" matched 20 of 44. But a check that greps the teacher's prose for
+// activity words is exactly the soft instrument this file exists to avoid: it
+// scores writing style, and it under detected here anyway (a random five out
+// of five all had choral response, so the pattern was missing more than half).
+//
+// THE DATA MAKES THE DISTINCTION ITSELF. A diagram carries an optional
+// `verdicts` array, the answer chips the class chooses between, and exactly 21
+// of the 44 have one: one per module, the tool slide. A diagram WITH verdicts
+// is an instrument the class operates. A diagram without is a flow they watch.
+// That is a structural fact in the slide, not an inference from prose, and it
+// is per slide rather than per type.
+//
+// A `quote` joins them for the same kind of reason: the player renders it under
+// the label "Say this", so the response is the design of the slide, not a
+// happy accident of how somebody wrote its script.
 export const ACTION = new Set(['choice', 'discussion', 'tryit', 'interactive', 'scenario'])
+
+export const respondsTo = slide =>
+  ACTION.has(slide.type) ||
+  slide.type === 'quote' ||
+  (slide.type === 'diagram' && (slide.verdicts?.length ?? 0) > 0)
 
 // The longest a child should sit without acting. Our judgement, not a standard.
 export const MAX_PASSIVE_MINUTES = 4
@@ -195,7 +223,7 @@ export function checkEngagement(lessons) {
   for (const l of lessons) {
     let run = 0, startedAt = 1
     for (const [i, s] of (l.slides ?? []).entries()) {
-      if (ACTION.has(s.type)) {
+      if (respondsTo(s)) {
         if (run > 0) {
           stretches += 1
           if (run <= MAX_PASSIVE_MINUTES) ok += 1
@@ -223,16 +251,33 @@ export function checkEngagement(lessons) {
   }
 }
 
+// The stages the passport actually has, from lib/stickers/book.ts on the
+// parents side, plus 'after' for the sixth form modules that sit past it.
+// Kept as a literal rather than imported from shared/passport-stages.ts because
+// this file is plain .mjs with no build step, and a drift between the two is
+// caught by migration 277's own guard, which asserts the mapping module by
+// module.
+const PASSPORT_PLACEMENTS = new Set([
+  'foundation', 'builder', 'explorer', 'shaper', 'independent', 'after',
+])
+
 // ── Check 10: the passport reaches the lesson ────────────────────────
 export function checkPassport(lessons) {
   const fails = []
   let pass = 0
   for (const l of lessons) {
-    // A lesson knows its stamp when the notes name one. Nothing can be stamped
-    // until this exists, so it is the first thing the passport work must fix.
-    const has = Boolean(l.teacher_notes?.passport_stage)
-    if (has) pass += 1
-    else fails.push({ module: l.module_id, ks: l.key_stage, missing: 'passport_stage' })
+    // A lesson knows its page when the notes name one the passport actually
+    // has. Any truthy string used to pass, which would have let a typo or an
+    // invented stage score ten out of ten while nothing could ever award it.
+    // Same rule as ON_THE_WALL: a value the check does not recognise fails.
+    //
+    // 'after' counts as knowing. KS5 is past sixteen and the passport is the
+    // journey to sixteen, so those two modules fill nothing on purpose. A check
+    // that demanded a page from all 21 would push somebody into inventing one
+    // for a child who has already finished the book.
+    const stage = l.teacher_notes?.passport_stage
+    if (PASSPORT_PLACEMENTS.has(stage)) pass += 1
+    else fails.push({ module: l.module_id, ks: l.key_stage, passport_stage: stage ?? 'missing' })
   }
   return {
     key: 'passport',
@@ -243,7 +288,7 @@ export function checkPassport(lessons) {
     binary: true,
     name: 'Passport: the lesson knows which stamp it earns',
     score: lessons.length ? (10 * pass) / lessons.length : 0,
-    detail: `${pass} of ${lessons.length} modules name a passport stage`,
+    detail: `${pass} of ${lessons.length} modules know their passport page`,
     fails,
   }
 }

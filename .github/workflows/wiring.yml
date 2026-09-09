@@ -106,3 +106,8 @@ jobs:
       # not run without production credentials, and both times found by reading
       # rather than by failing. This is the file that fails instead.
       - run: node scripts/council-checks.test.mjs
+      # Nothing on a classroom wall renders below the ISO 9241 legibility floor.
+      # Three separate times the projector shipped at phone size and every one
+      # of them passed typecheck, tests and health checks, because a font size
+      # that is too small is legal code. This reads the source.
+      - run: node scripts/check-wall-scale.mjs

@@ -17,7 +17,8 @@
     "price-guard": "node scripts/check-price-copy.mjs",
     "day-guard": "node scripts/check-day-boundary.mjs",
     "bonus-guard": "node --experimental-strip-types scripts/check-bonus-ready.mjs",
-    "reach-guard": "node scripts/check-reachable.mjs"
+    "reach-guard": "node scripts/check-reachable.mjs",
+    "wall-guard": "node scripts/check-wall-scale.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

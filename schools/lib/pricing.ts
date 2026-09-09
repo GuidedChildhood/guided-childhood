@@ -1,9 +1,54 @@
 // The five band structure, decided 13 August 2026. The per pupil figure sits
-// next to every price on purpose: £795 sounds like money, £2.65 per child
-// per year does not, and they are the same number. Jigsaw starts around
-// £795 and Kapow prices from £1.80 per child, so these bands sit at the
-// market rate rather than under half of it, and the smallest schools no
-// longer pay the most per pupil.
+// next to every price on purpose: £795 sounds like money, £1.59 per child
+// per year does not, and they are the same number.
+//
+// Corrected 9 September 2026. Three things in the original note were wrong.
+//
+// The headline. Every page led with "from £1.50 per pupil per year", but
+// £1.50 is only reachable in the secondary band at a thousand pupils. A
+// primary, which is the main target, pays £2.48 or £1.59. The pages now
+// lead with "from £495 a year", which is a real number any school can act
+// on and the same money. The per pupil line stays under each band, where
+// it does its job without being a claim a head can check and find wrong.
+//
+// The claim that the smallest schools no longer pay the most per pupil.
+// They still do. Primary small at £2.48 is the highest per pupil rate of
+// the five bands. That is a defensible thing to charge, because a small
+// school costs the same to support, but it should not be described as the
+// opposite of what it is.
+//
+// The competitor benchmark. The note said Jigsaw starts around £795 and
+// Kapow prices from £1.80 per child. A full check on 9 September 2026 found
+// both untraceable, so the basis for the band levels needs rebuilding.
+//
+// The £795 appears nowhere on any Jigsaw domain. It traces to a comparison
+// blog run by a rival vendor. It is also one digit from Coram SCARF's
+// "worth up to £790", so the two may have been crossed in the original note.
+// The £1.80 per child appears nowhere on Kapow's site, and Kapow does not
+// price per pupil at all.
+//
+// What is confirmed, from the vendors' own domains:
+//   Jigsaw, whole school Reception to Year 6, from £495 a year, banded by
+//     pupil numbers (up to 50, 51 to 100, 101 to 300, 301 plus). The amounts
+//     for each band above the entry point are not published.
+//   Kapow, flat licence banded by school size (0 to 150, 151 to 300, 300
+//     plus) with unlimited users inside a band, sold per subject with a
+//     volume discount. RSE and PSHE is one purchasable subject, not bundled.
+//     Its actual tier amounts are not published.
+//   PSHE Association, £145 a year flat, whole school, unlimited staff. A
+//     membership rather than a scheme of work, so a weak comparator.
+//   Coram SCARF, a year's subscription "worth up to £790" given at no extra
+//     cost to schools booking workshops in their area. Effectively free
+//     alongside a workshop booking rather than a list price.
+//
+// Every one of them leads with a flat annual figure. Not one leads with a
+// per pupil price; pupil numbers only select a band. That is why the pages
+// now lead with £495 a year.
+//
+// The open question for the band levels: our smallest primary band is £495,
+// which is exactly Jigsaw's entry price for a whole primary, and Jigsaw is
+// the established name. Sitting level with them at the entry point is a
+// decision, not an accident, and it should be made deliberately.
 
 export type PricingBand = {
   key: string

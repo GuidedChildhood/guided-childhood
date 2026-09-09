@@ -2,16 +2,26 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, type LessonCycle } from '@gc/shared/lesson-slides'
+import { WALL } from '@gc/shared/wall-scale'
 
 // The teach route: any live module, played full screen for the classroom.
 //
 // PROJECTOR, NOT teacherView ALONE. This route said "full screen for the
 // classroom" in this comment while passing teacherView and wrapping the
 // player in a 720px column, so `projector` was false and every projector
-// aware size fell to the phone branch: concept headings at 2.4rem instead of
-// 3.2rem, choice options at 16px instead of 20px, the whole lesson in the
-// middle 40 percent of the wall. A child at the back of the room could not
-// read it. The `projector` prop exists separately from `classMode` because
+// aware size fell to the phone branch. That was fixed, and it turned out to
+// be half the story: the projector branch itself was sized for a laptop.
+// Body, options and diagram steps rendered at 18 to 24px where ISO 9241-303
+// puts the back of a classroom at about 50px on a 1920 canvas, and three
+// slide types had no projector branch at all. See shared/wall-scale.ts.
+//
+// The column that used to be 1180px went with them. On a 1920 wall that is
+// 61 percent of the width, so 40px text wrapped into a narrow ribbon down
+// the middle. It now tracks the wall scale, which keeps the line length at
+// about seventy characters where it is comfortable rather than where it
+// happens to land.
+//
+// The `projector` prop exists separately from `classMode` because
 // classMode also swaps the finish for the family showcase that sells the
 // schools tier, which a school standing inside that tier should never see.
 // Behind the school code (proxy.ts). Teacher script panel available on every
@@ -69,9 +79,9 @@ export default async function TeachLessonPage({
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)' }}>
-      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '28px clamp(20px, 4vw, 56px) 0' }}>
+      <div style={{ maxWidth: WALL.wide, margin: '0 auto', padding: '28px clamp(20px, 4vw, 56px) 0' }}>
         <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: WALL.aside, fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
           marginBottom: '8px',
         }}>
@@ -79,13 +89,13 @@ export default async function TeachLessonPage({
         </div>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
-          fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', letterSpacing: '-0.01em', lineHeight: 1.2,
+          fontSize: WALL.display, letterSpacing: '-0.01em', lineHeight: 1.2,
           marginBottom: '20px',
         }}>
           {lesson.title}
         </h1>
       </div>
-      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 clamp(20px, 4vw, 56px) 80px' }}>
+      <div style={{ maxWidth: WALL.wide, margin: '0 auto', padding: '0 clamp(20px, 4vw, 56px) 80px' }}>
         <LessonPlayer
           lessonId={lesson.id}
           lessonSource="school_lesson"
