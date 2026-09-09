@@ -12483,3 +12483,51 @@ against a simulation of it.
 
 **Engagement 6.96 to 8.89**, prose held at 9.78, blocks 9.52 to 9.53. The fifteen
 that remain are the genuine mid lesson gaps and each needs its own answer.
+
+## 9 September 2026: the last fifteen gaps, and engagement at ten
+
+**Sixteen beats for fifteen gaps.** `ks4-17` runs eight minutes across three
+slides and no single insert splits that under the ceiling, so it gets two.
+
+**Placement is computed, not chosen.** Walk each stretch accumulating minutes and
+cut as late as the ceiling allows: fewest beats, every one landing on a slide
+boundary the lesson already has.
+
+**The phase is not authored either.** Each beat takes the phase of the slide it
+sits in front of, so a beat can never announce a phase the lesson is not in.
+Fourteen land in teach, one in the `eyfs-01` starter, one in the `ks3-12` close.
+
+**Mostly `choice`**, because a run of teaching is where Rosenshine puts a check
+for understanding, and each question is written to catch the misconception the
+next slide is about to correct rather than to reward listening. `discussion`
+where there is no right answer to check: `ks2-09` asks who made an AI picture,
+which real judges are still arguing about, and the slide straight after says so.
+`ks3-12` closes on a `quote`, which the player renders under Say this.
+
+**Safeguarding.** `ks4-17` asks who has done something wrong when someone is
+blackmailed; the correct answer is the blackmailer and only the blackmailer, and
+the two wrong answers are the two the room is actually thinking, each answered
+rather than dismissed. `ks3-14` asks what follows from content being produced,
+performed and edited, and its script says out loud that nobody will be asked what
+they have seen.
+
+**The cycle check I wrote first proved nothing.** It replayed the player's own
+derivation against the local copy and reported zero unanchored, which was true
+and useless: the extract that seeded the copy had dropped `teacher_notes.cycles`,
+so it was checking twenty one modules with no cycles in them. A green check on
+absent data is worse than no check.
+
+The honest version is structural. Anchoring only ever looks at teach phase slides
+that carry a `heading`, and cycle one always opens on the first teach slide. So a
+beat can unanchor a map in exactly two ways: by carrying a heading, or by
+becoming the first teach slide. Both are now guards in 280 and both hold
+whatever the live cycles turn out to say.
+
+**Engagement 6.96 to 10.00**, 151 of 151 stretches inside four minutes, prose
+held at 9.78, blocks 9.52 to 9.55, passport held at 10.00. `parseSlides` accepts
+all 21 decks. 493 slides to 529.
+
+**Not ratcheted, on purpose.** The council's baseline is a floor, and raising it
+while 279 and 280 are unapplied would set a floor the live database does not
+meet and fail the next run for the right reason at the wrong time. The ratchet
+goes up after the migrations land.
