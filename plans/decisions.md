@@ -11773,3 +11773,46 @@ is written 0 times out of 117 scores, and `IsItWorkingReport` reads no scores
 at all, only `times_flagged`. So the report can say what a family is working on
 and how often it has come up, and can never say "you started at Really tough
 and you are at Getting there". Both changes wait on what silver means.
+
+## 9 September 2026, silver, and the base the report measures from
+
+Justin chose both, on the numbers below.
+
+**Silver is the top band twice in a row.** It was once, and once was too easy:
+on live data eighteen worries were resting and four of them rested on their
+ONLY EVER score. One good day is not a fixed problem, it is a good day. Two in
+a row is deliberately the smallest thing that is still evidence, chosen over
+three days or two weeks for the reason the check in exists at all: a list a
+parent can finish is a list they fill in, and every extra day before the first
+win is a day of answering the same question with nothing to show for it.
+
+**A silver worry comes back weekly, not never.** It leaves the DAILY list and
+returns after seven days, so a family keeps proving it held and the report has
+something to show. Seven rolling days rather than every Sunday: pinning the
+product to one weekday gives every family the same enormous Sunday and six
+quiet days. A dip, or a raise through DiGi, a moment or Right now, brings it
+back to daily at once, through `last_flagged_at` as before.
+
+**What it does to live data.** Of the 18 worries resting under the old rule, 2
+reach silver and 16 return to the daily list. Both silver ones are more than a
+week old, so they are due their weekly check too. Existing families will see
+their check in get longer once, and that is the point.
+
+**The base is the first score, derived, never stored.**
+`concern_events.score_at_start` exists and has been written 0 times out of 117
+scores. It stays unwritten: the first score a parent ever gave a worry IS the
+base, it is already in the table, and a derived value cannot drift from the
+truth the way a denormalised column can. `IsItWorkingReport` read no scores at
+all before today, only `times_flagged`, so a report called Is it working could
+say a worry had come up four times and never whether any of the four went
+better. It now shows "Started Really tough → Getting there" per worry, and
+only once there are two different readings, because one score is a starting
+point rather than a story.
+
+**One reading, six places.** `lib/concerns/scores.ts` is new because the five
+call sites of the resting rule each built the same two maps by hand, and the
+rule now needs the RUN of good scores rather than the last one. Both maps are
+`Map<string, number>`, so every one of those call sites would have gone on
+typechecking perfectly while passing the wrong one. That is why
+`scripts/check-silver-rule.mjs` exists and runs in CI: the rule is tested on
+what it decides, not on its types.

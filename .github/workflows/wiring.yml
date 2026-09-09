@@ -69,3 +69,4 @@ jobs:
           node-version: '22'
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
+      - run: node --experimental-strip-types scripts/check-silver-rule.mjs

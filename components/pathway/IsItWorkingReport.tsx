@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import WorkingOn from '@/components/tracker/WorkingOn'
+import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
+import { TOP_BAND, SILVER_RUN } from '@/lib/concerns/resting'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import StickerBook from '@/components/pathway/StickerBook'
@@ -75,7 +77,7 @@ export default async function IsItWorkingReport(
     supabase.from('children').select('id, name, age_band, streak_weeks, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // What we are working on: only the live ones, most stubborn first so the
     // pattern line has something to point at.
-    supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at, child_id').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(30),
+    supabase.from('concerns').select('id, slug, label, status, times_flagged, last_flagged_at, child_id').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(30),
     // The win count for the report: everything the family has sorted.
     supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'resolved'),
     // The most recently sorted, so a parent can flag one that has come
@@ -108,6 +110,26 @@ export default async function IsItWorkingReport(
     .some(r => !!r.completed_at)
   const concerns = mine(concernsRes.data ?? []).slice(0, 10)
   const solvedCount = resolvedCountRes.count ?? 0
+
+  // ── THE SCORES, WHICH THIS REPORT HAS NEVER READ ─────────────────────────
+  //
+  // Justin, 9 September 2026: "use as base as part of the reporting
+  // improvements." A report called Is it working read `times_flagged` and
+  // nothing else, so it could say a worry had come up four times and never
+  // whether any of those four had gone better than the last.
+  //
+  // One query, after the child filter, so it only ever reads the worries this
+  // page is actually showing.
+  const concernIds = concerns.map(c => String(c.id))
+  const { data: scoreRows } = concernIds.length
+    ? await supabase
+        .from('concern_events')
+        .select('concern_id, score, created_at')
+        .in('concern_id', concernIds)
+        .not('score', 'is', null)
+        .order('created_at', { ascending: false })
+    : { data: [] }
+  const scores = readScores((scoreRows ?? []) as ScoredEvent[], TOP_BAND)
   const recentSolved = mine(recentSolvedRes.data ?? []).slice(0, 6)
   const checks = (checksRes.data ?? []) as Check[]
   const quests = questsRes.data ?? []
@@ -335,7 +357,14 @@ export default async function IsItWorkingReport(
           heading is not left under the sticky header. */}
       <div id="working-on" style={{ scrollMarginTop: '80px' }} />
       <WorkingOn
-        concerns={concerns.map(c => ({ slug: c.slug, label: c.label, status: c.status, times_flagged: c.times_flagged }))}
+        concerns={concerns.map(c => ({
+          slug: c.slug, label: c.label, status: c.status, times_flagged: c.times_flagged,
+          // Where it started and where it is, so the report can finally answer
+          // the question its own title asks.
+          from: scores.first.get(String(c.id)) ?? null,
+          now: scores.last.get(String(c.id)) ?? null,
+          silver: (scores.topRun.get(String(c.id)) ?? 0) >= SILVER_RUN,
+        }))}
         solvedAlready={solvedCount}
         recentSolved={recentSolved.map(c => ({ slug: c.slug, label: c.label, times_flagged: c.times_flagged }))}
         childName={primary?.name ?? 'your child'}

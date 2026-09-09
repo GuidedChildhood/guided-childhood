@@ -1,6 +1,7 @@
 import type { createClient } from '@/lib/supabase/server'
 import { seedBaselineConcerns, seedChildBaseline } from '@/lib/concerns/baseline'
-import { restingConcernIds } from '@/lib/concerns/resting'
+import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
+import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -202,8 +203,7 @@ export async function getTodayCheckIn(
 
   // What they said last time, so the card can show it back and the verdict can
   // name the move. A second wave by necessity: it needs the concern ids.
-  const lastScoreByConcern = new Map<string, number>()
-  const lastScoreAtByConcern = new Map<string, string>()
+  let read = readScores([], TOP_BAND)
   if (rows.length > 0) {
     const { data: scores } = await supabase
       .from('concern_events')
@@ -211,13 +211,9 @@ export async function getTodayCheckIn(
       .in('concern_id', rows.map(c => c.id))
       .not('score', 'is', null)
       .order('created_at', { ascending: false })
-    for (const r of (scores ?? []) as { concern_id: string; score: number | null; created_at: string }[]) {
-      if (typeof r.score === 'number' && !lastScoreByConcern.has(r.concern_id)) {
-        lastScoreByConcern.set(r.concern_id, r.score)
-        lastScoreAtByConcern.set(r.concern_id, r.created_at)
-      }
-    }
+    read = readScores((scores ?? []) as ScoredEvent[], TOP_BAND)
   }
+  const lastScoreByConcern = read.last
 
   // ── GOING GREAT MEANS WE STOP ASKING ────────────────────────────────────────
   //
@@ -236,7 +232,7 @@ export async function getTodayCheckIn(
   // sorted must not still be shaping what today's card coaches them through.
   // Two copies of this would drift, and the day they drifted the check in would
   // be congratulating a family on something the deck was still worrying about.
-  const resting = restingConcernIds(rows, lastScoreByConcern, lastScoreAtByConcern)
+  const resting = restingConcernIds(rows, read.topRun, read.lastAt)
 
   const nameById = new Map((kids ?? []).map(k => [k.id as string, k.name as string]))
   const answerable = rows.filter(c => !resting.has(c.id))

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { restingConcernIds, TOP_BAND } from './resting'
+import { readScores, type ScoredEvent } from './scores'
 
 // A child's worries, as their passport reads them.
 //
@@ -71,21 +72,16 @@ export async function childWorries(
       .not('score', 'is', null)
       .order('created_at', { ascending: false })
 
-    // The latest scored event per worry. The rows arrive newest first, so the
-    // first one seen for each id is the one that counts.
-    const lastScore = new Map<string, number>()
-    const lastAt = new Map<string, string>()
-    for (const e of events ?? []) {
-      const id = String(e.concern_id)
-      if (lastScore.has(id)) continue
-      lastScore.set(id, Number(e.score))
-      lastAt.set(id, String(e.created_at))
-    }
+    // Every reading a rule here needs, from one pass. lib/concerns/scores
+    // exists because six places were building these maps by hand and the rule
+    // that reads them now needs the RUN of good scores, not just the last one.
+    const read = readScores((events ?? []) as ScoredEvent[], TOP_BAND)
+    const lastScore = read.last
 
     const resting = restingConcernIds(
       rows.map(r => ({ id: String(r.id), last_flagged_at: String(r.last_flagged_at ?? r.created_at) })),
-      lastScore,
-      lastAt,
+      read.topRun,
+      read.lastAt,
     )
 
     return rows.map(r => {
@@ -99,7 +95,7 @@ export async function childWorries(
         slug: String(r.slug ?? ''),
         stars: sorted && typeof score !== 'number' ? 5 : starsFor(score),
         sorted,
-        sortedAt: sorted ? (lastAt.get(id) ?? String(r.last_flagged_at ?? r.created_at)) : null,
+        sortedAt: sorted ? (read.lastAt.get(id) ?? String(r.last_flagged_at ?? r.created_at)) : null,
       }
     })
   } catch {

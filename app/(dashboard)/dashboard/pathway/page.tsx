@@ -21,7 +21,8 @@ import { getFiveADayReport } from '@/lib/kid/day-report'
 import WhatIsWorkingLink from '@/components/working/WhatIsWorkingLink'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { isStageStamped } from '@/lib/pathway/stamped'
-import { restingConcernIds } from '@/lib/concerns/resting'
+import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
+import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import PassportToDo from '@/components/pathway/PassportToDo'
 import { parentPassportToDo } from '@/lib/pathway/passport-todo'
@@ -150,16 +151,10 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       .from('concern_events').select('concern_id, score, created_at')
       .in('concern_id', liveRows.map(r => r.id)).not('score', 'is', null)
       .order('created_at', { ascending: false })
-    const lastScore = new Map<string, number>()
-    const lastAt = new Map<string, string>()
-    for (const e of ev ?? []) {
-      const id = String(e.concern_id)
-      if (lastScore.has(id)) continue
-      lastScore.set(id, Number(e.score)); lastAt.set(id, String(e.created_at))
-    }
+    const read = readScores((ev ?? []) as ScoredEvent[], TOP_BAND)
     restingCount = restingConcernIds(
       liveRows.map(r => ({ id: r.id, last_flagged_at: r.last_flagged_at ?? r.created_at })),
-      lastScore, lastAt,
+      read.topRun, read.lastAt,
     ).size
   }
   const stageSections = await buildPassportSections(

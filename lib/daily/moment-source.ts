@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { restingConcernIds } from '@/lib/concerns/resting'
+import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
+import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 import { ONBOARDING_TO_SLUG, LABEL } from '@/lib/concerns/baseline'
 
 // WHAT TODAY'S MOMENT CARD SHOULD BE ABOUT.
@@ -167,21 +168,14 @@ export async function getMomentTopics(
 
     const rows = (live ?? []) as { id: string; slug: string; label: string; last_flagged_at: string }[]
     if (rows.length > 0) {
-      const lastScore = new Map<string, number>()
-      const lastScoreAt = new Map<string, string>()
       const { data: scores } = await supabase
         .from('concern_events')
         .select('concern_id, score, created_at')
         .in('concern_id', rows.map(r => r.id))
         .not('score', 'is', null)
         .order('created_at', { ascending: false })
-      for (const r of (scores ?? []) as { concern_id: string; score: number | null; created_at: string }[]) {
-        if (typeof r.score === 'number' && !lastScore.has(r.concern_id)) {
-          lastScore.set(r.concern_id, r.score)
-          lastScoreAt.set(r.concern_id, r.created_at)
-        }
-      }
-      const resting = restingConcernIds(rows, lastScore, lastScoreAt)
+      const read = readScores((scores ?? []) as ScoredEvent[], TOP_BAND)
+      const resting = restingConcernIds(rows, read.topRun, read.lastAt)
 
       for (const r of rows) {
         if (resting.has(r.id)) continue
