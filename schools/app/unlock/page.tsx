@@ -87,7 +87,7 @@ export default async function UnlockPage({
           <Link href="/pricing" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>
             See what a licence costs
           </Link>
-          . Bands start at £1.50 per pupil per year, invoiced on 30 day terms.
+          . Bands start at £495 a year, invoiced on 30 day terms.
         </p>
 
       </div>
