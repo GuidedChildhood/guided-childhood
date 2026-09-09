@@ -12269,3 +12269,51 @@ more. The content fix is a response beat inside the long stretches across roughl
 fourteen modules, which is curriculum writing, not a threshold change. Named
 here rather than started, because it is a real piece of work and the size should
 be known before it begins.
+
+## 9 September 2026 — the KS2 to KS5 ceiling, measured instead of asserted
+
+Justin said do the outstanding work in the best order. This was first because it
+was cheapest and it decided whether 91 slides were a problem at all.
+
+**The method.** All 78 KS2 to KS5 prose slides rendered through the REAL player
+at 1920x1080 and 1366x768, checked for the two failures a class actually sees:
+text clipped inside the scrolling area, and the Continue control pushed off
+screen so the lesson cannot advance. The dev fixture gained GC_DEV_SLIDES so the
+real database rows go through the real component; a measuring script that
+reimplemented the concept slide's CSS would have drifted within a week and we
+would have been measuring the copy, not the product.
+
+**The first measurement said every slide fits, and it was wrong.** It read page
+level scrollHeight, which never grows here because the player scrolls content
+inside itself. A deliberately absurd 655 word control slide reported the same
+zero overflow as a 131 word one. The screenshot showed the truth: cut off mid
+sentence, Continue button gone. **That control is the only reason this did not
+ship as "measured: the ceiling was wrong".** It is now named in the code as
+mandatory for anyone re-running this.
+
+**The corrected first pass found 13 failures starting at 95 words, and then
+showed why.** The concept emoji cost 108px of a 768px laptop, 15 percent of the
+height, and was sized on viewport WIDTH only. The identical bug the text had
+before this morning. Decoration was eating the space the sentence needed.
+
+**So the layout was fixed before any copy was.** WALL.emoji, emojiSmall and
+figure now take the smaller of a width share and a height share, unchanged on a
+1920x1080 wall and stepping back on a short screen. Laptop went from 65 to 73 of
+78. Line height was deliberately NOT reduced, although it would also have bought
+space: that trades one legibility property for another and legibility is the
+entire point of the scale.
+
+**The re-derived ceiling is 105.** Below 106 words, zero failures on either
+screen. 106 to 113 is an ambiguous band where the heading length decides it. Not
+rounded to 100, because rounding away from a measurement is how we got the
+asserted numbers in the first place.
+
+**One number for four key stages, deliberately.** Above KS1 the binding
+constraint is physical, and a screen has no view on how old the child is. A
+tighter developmental ceiling for KS2 than KS5 is probably right, we have no
+evidence for where it sits, and it is not invented here. CEILING_BASIS records
+which ceilings rest on decoding and which on measurement.
+
+**Prose 5.73 to 9.11, blocks 9.10 to 9.52.** No lesson changed. What remains is
+six slides that genuinely overflow at 106 to 131 words, which is real copy to
+fix and a tractable six rather than the 91 we thought.

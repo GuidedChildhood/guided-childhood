@@ -54,6 +54,22 @@ export const WALL = {
   // the teacher does, and the sceptical adult in the room does.
   aside: 'clamp(0.8rem, min(1.5vw, 2.4vh), 1.6rem)',     // 26px
 
+  // DECORATION, which has to give way before the words do.
+  //
+  // The concept slide's emoji cost 108px of a 768px laptop, 15 percent of the
+  // height, for an illustration. It was sized on viewport WIDTH only, which is
+  // the same bug the text had: a projector is height constrained and a vw only
+  // size cannot know that. On a 1920x1080 wall these are unchanged; on a short
+  // screen they step back and let the sentence fit.
+  //
+  // Ordering matters here. Shrinking the emoji is right because it is
+  // decoration competing with content. Shrinking the line height would also
+  // have bought space and is NOT done, because that trades one legibility
+  // property for another and the whole point of this scale is legibility.
+  emoji: 'clamp(2.4rem, min(7vw, 7.4vh), 5rem)',        // 80px at 1920x1080, 57px at 1366x768
+  emojiSmall: 'clamp(1.6rem, min(3.4vw, 4.4vh), 3.2rem)', // diagram steps, scenario avatars
+  figure: 'clamp(2.6rem, min(11vw, 11.6vh), 5.6rem)',   // the one big number on a stat slide
+
   // Line length still matters at 40px: about 70 characters is the top of the
   // comfortable range, which is what this width gives.
   column: 'min(1400px, 88vw)',

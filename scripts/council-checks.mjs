@@ -11,44 +11,63 @@
 // key_stage, module_id, slides and teacher_notes. It returns
 // { name, score, detail, fails }. Nothing here reads the network.
 
-// The words a child can hold on one slide, by age.
+// The words a child can hold on one slide.
 //
-// TWO OF THESE ARE EVIDENCED AND FOUR ARE ASSERTED, and the difference matters
-// more than the numbers, because a score built on an asserted threshold reads
-// like a fact about the lessons when it is a fact about our guess.
+// EYFS AND KS1 AT 12, ON DECODING. A four to seven year old is learning to
+// read. Seventy words of prose on a wall is not dense for them, it is
+// unreadable, and migration 276 proved it from the other side too: every idea
+// in those paragraphs was already in the teacher's script, so cutting them lost
+// nothing at all.
 //
-// EVIDENCED, EYFS and KS1 at 12. A four to seven year old is learning to decode.
-// Seventy words of prose on a wall is not dense for them, it is unreadable, and
-// the six slides fixed in migration 276 proved the case from the other side too:
-// every idea in those paragraphs was already in the teacher's script, so cutting
-// them lost nothing at all.
+// KS2 TO KS5 AT 105, MEASURED RATHER THAN CHOSEN. These were 25, 40, 60 and 60,
+// numbers we picked, and every single concept slide from KS2 up failed them,
+// 60 out of 60. When a whole corpus written by people who knew what they were
+// doing breaks a rule, suspect the rule.
 //
-// ASSERTED, KS2 to KS5 at 25, 40, 60, 60. We picked these. Two things say they
-// are wrong. First, EVERY concept slide from KS2 up fails them, 60 out of 60,
-// and when a rule is broken by a whole corpus written by people who knew what
-// they were doing, suspect the rule. Second, and unlike the youngest slides,
-// only about 21 percent of a KS2 to KS5 body's content words appear anywhere in
-// its script: the body IS the teaching up there and the script does the
-// questioning around it. Cutting those bodies to 25 words would delete the
-// lesson, not tighten it.
+// So the rule was replaced with a measurement. All 78 KS2 to KS5 prose slides
+// were rendered through the real player (GC_DEV_SLIDES, see
+// app/dev/lesson-player) at 1920x1080 and at 1366x768, and checked for the two
+// failures a class actually sees: text clipped inside the scrolling area, and
+// the Continue control pushed off screen so the lesson cannot advance.
 //
-// WHAT THE EVIDENCE ACTUALLY POINTS AT is size, not word count. ISO 9241-303
-// puts the legible minimum for the back of a classroom at about 50px on a 1920
-// canvas (research/2026-09-09-lesson-quality-council.md, section 4). Our body,
-// options and steps render at 18 to 24px, roughly half. A 58 word paragraph is
-// not the defect; a 58 word paragraph AT HALF THE LEGIBLE SIZE is. Set the type
-// to the floor and the word ceiling stops being a guess, because it becomes
-// whatever fits, which is the honest way round.
+// The first pass measured 13 failures starting at 95 words, and then showed
+// WHY: the concept emoji cost 108px of a 768px laptop, 15 percent of the
+// height, and was sized on viewport width only. Same bug the text had. Once
+// decoration learned to yield (WALL.emoji), the laptop went from 65 to 73 of 78
+// and the binding screen became the 1920x1080 wall:
 //
-// So: the KS2 to KS5 numbers stay, because measuring with a stated guess beats
-// not measuring, and the prose score is reported and ratcheted like any other.
-// But nobody should read 5.73 as "the lessons are too wordy" until the type is
-// at the floor and the ceiling has been derived rather than chosen.
-export const WORD_CEILING = { EYFS: 12, KS1: 12, KS2: 25, KS3: 40, KS4: 60, KS5: 60 }
+//   below 106 words   64 slides on the wall, 73 on the laptop, ZERO failures
+//   106 to 113        the ambiguous band, where the heading length decides it
+//   106 and above     6 slides fail, and those are real copy to fix
+//
+// 105 is therefore the largest count at which nothing was observed to fail. Not
+// a round number, because rounding away from the measurement is how we got the
+// asserted ones. Fixing the layout first mattered: cutting copy to a ceiling
+// that decoration was stealing would have been the wrong repair to the right
+// complaint.
+//
+// THE FIRST ATTEMPT AT THIS MEASUREMENT SAID EVERY SLIDE FITS, and it was
+// wrong. It read page level scrollHeight, which never grows here because the
+// player scrolls content inside itself. A deliberately absurd 655 word control
+// slide reported the same zero overflow as a 131 word one; the screenshot
+// showed it cut off mid sentence with the Continue button gone. The control is
+// the only reason that did not ship as "measured: the ceiling was wrong".
+// Any future change to these numbers should re-run it.
+//
+// ONE NUMBER FOR FOUR KEY STAGES, deliberately. The binding constraint above
+// KS1 is physical, how much 40px text fits on a classroom screen, and a screen
+// does not care how old the child is. A tighter developmental ceiling for KS2
+// than for KS5 is probably right and we have no evidence for where it sits, so
+// it is not invented here.
+export const WORD_CEILING = { EYFS: 12, KS1: 12, KS2: 105, KS3: 105, KS4: 105, KS5: 105 }
 
-// Which ceilings we can defend, for anything that wants to report the score
-// without overclaiming it.
-export const CEILING_EVIDENCED = { EYFS: true, KS1: true, KS2: false, KS3: false, KS4: false, KS5: false }
+// How each ceiling is defended, for anything that wants to report the score
+// without overclaiming it. All six are evidenced now, but not by the same kind
+// of evidence, and that difference is worth carrying.
+export const CEILING_BASIS = {
+  EYFS: 'decoding', KS1: 'decoding',
+  KS2: 'measured', KS3: 'measured', KS4: 'measured', KS5: 'measured',
+}
 
 // A slide the child DOES something on. Everything else, they watch.
 //
