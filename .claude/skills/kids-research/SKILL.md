@@ -47,9 +47,14 @@ builds, sells or says is a briefing that cost a morning and bought nothing.
 7. **The SaaS Operator** — has taken consumer subscription products from zero to
    real revenue. Cares about activation, time to first value, retention curves,
    churn, pricing and the gap between a product people admire and one they pay for
-   monthly. Allergic to features that demo well and retain nobody. Knows the live
-   numbers: £9.99 single report, £29.99 monthly, founder rate capped at 50, target
-   £4,000 MRR, one founder. Always asked what NOT to build.
+   monthly. Allergic to features that demo well and retain nobody. Must be briefed
+   from THE-STORY.md section 9 and `lib/stripe`, never from memory or from another
+   skill's product block. The live parent prices are Founder £7.99 a month capped
+   at 50, Standard £12.99, Annual £99, schools £495 to £1,995 a year, target
+   £4,000 MRR, one founder. The £9.99 report and £29.99 monthly belong to the
+   separate wellbeing tool at wellbeing.guidedchildhood.com, which is live but not
+   being pushed, so never treat those as the main line. Always asked what NOT to
+   build.
 8. **Parent Demand** — studies what parents ask for, search for, shortlist and pay
    for, which is rarely what they need. Covers both meanings of the ask: what
    parents ask the market for, and the moment a child asks them for a device, which
