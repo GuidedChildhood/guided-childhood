@@ -11913,3 +11913,44 @@ stated in the same breath: the number is only as good as what they tell you.
 base on a round five, the gap between three and ten stars, every guide under the
 recorded average, and the cap still present in dayAllowance. All of it is just
 numbers, so nothing else can catch it.
+
+## 9 September 2026, the setup loop, and why Home and the quest disagreed
+
+Justin, with three screenshots: "keeps saying set up all done then loops to one
+more thing then says done." Home said one more step, the Setup Quest one tap
+away said all done, and tapping between them went round for ever.
+
+**There are two implementations of one question.** `getSetupState` in
+lib/setup/flags.ts, which the quest page uses, and a hand rolled copy of the
+same flags inside the dashboard page, which Home, the road and the welcome card
+use. The copy carries an `agreement` key the shared type does not have, which is
+why it exists.
+
+**Only one of them read the stamp.** `getSetupState` opens with
+`current = stamped ? null : ...`, where stamped is `profiles.setup_completed_at`.
+That column is the whole guarantee that a finished setup never reopens, and the
+comment beside it spells out the case it was written for: adding a child in
+November must not put a family who finished in August back into setup over a QR
+code. **Home never selected the column.** So the moment any flag went false
+again, for a new child, a pruned push subscription or a read that failed, Home
+put a stamped account back into setup while the quest page, reading the same
+database, said there was nothing to do.
+
+That is a loop by construction, not by bad luck, and it is the shape of the bug
+whether or not it is the flag that bit today.
+
+**Fixed with one line, on purpose.** Home reads `setup_completed_at` and will
+not reopen a stamped setup. The duplicate flags object is left alone: merging it
+would drag three other surfaces on that page through a refactor to fix a
+disagreement about one line.
+
+**Note on Justin's own account.** Every one of the four flags is true in the
+database and the stamp has been set since 19 August, so on current main his Home
+should already be clean. The screenshots therefore point at production running
+behind main as well as at the missing stamp read. Worth confirming what is
+deployed before calling this closed.
+
+**Guard:** `scripts/check-setup-agreement.mjs`, in CI. Both implementations
+honour the stamp, Home has a flag for every step in STEPS, and SetupFlags types
+every step. A step key missing from Home's object is a step nobody can ever
+tick, because `find` returns it for ever when the flag is undefined.
