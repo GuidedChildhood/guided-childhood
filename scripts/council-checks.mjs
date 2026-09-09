@@ -51,7 +51,35 @@ export const WORD_CEILING = { EYFS: 12, KS1: 12, KS2: 25, KS3: 40, KS4: 60, KS5:
 export const CEILING_EVIDENCED = { EYFS: true, KS1: true, KS2: false, KS3: false, KS4: false, KS5: false }
 
 // A slide the child DOES something on. Everything else, they watch.
+//
+// THIS WAS A LIST OF TYPE NAMES AND THAT WAS TOO BLUNT. Every one of the 44
+// diagram slides counted as passive, which put the module's own tool slide,
+// the thing the class chants back and uses, on the wrong side of the line and
+// scored the scheme 4.35.
+//
+// The temptation was to move `diagram` wholesale into the set. Reading the
+// scripts made that look right, and grepping them for "chant", "say it back",
+// "hands up" matched 20 of 44. But a check that greps the teacher's prose for
+// activity words is exactly the soft instrument this file exists to avoid: it
+// scores writing style, and it under detected here anyway (a random five out
+// of five all had choral response, so the pattern was missing more than half).
+//
+// THE DATA MAKES THE DISTINCTION ITSELF. A diagram carries an optional
+// `verdicts` array, the answer chips the class chooses between, and exactly 21
+// of the 44 have one: one per module, the tool slide. A diagram WITH verdicts
+// is an instrument the class operates. A diagram without is a flow they watch.
+// That is a structural fact in the slide, not an inference from prose, and it
+// is per slide rather than per type.
+//
+// A `quote` joins them for the same kind of reason: the player renders it under
+// the label "Say this", so the response is the design of the slide, not a
+// happy accident of how somebody wrote its script.
 export const ACTION = new Set(['choice', 'discussion', 'tryit', 'interactive', 'scenario'])
+
+export const respondsTo = slide =>
+  ACTION.has(slide.type) ||
+  slide.type === 'quote' ||
+  (slide.type === 'diagram' && (slide.verdicts?.length ?? 0) > 0)
 
 // The longest a child should sit without acting. Our judgement, not a standard.
 export const MAX_PASSIVE_MINUTES = 4
@@ -195,7 +223,7 @@ export function checkEngagement(lessons) {
   for (const l of lessons) {
     let run = 0, startedAt = 1
     for (const [i, s] of (l.slides ?? []).entries()) {
-      if (ACTION.has(s.type)) {
+      if (respondsTo(s)) {
         if (run > 0) {
           stretches += 1
           if (run <= MAX_PASSIVE_MINUTES) ok += 1

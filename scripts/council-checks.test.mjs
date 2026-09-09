@@ -151,4 +151,32 @@ test('a sixth form module that sits after the passport counts as knowing', () =>
   assert.equal(checkPassport(ks5).score, 10)
 })
 
+
+// ── Engagement: what counts as the child doing something ─────────────
+test('a diagram with verdicts is the tool the class uses, so it ends a stretch', () => {
+  const withTool = checkEngagement(lesson('KS2', [
+    { type: 'concept', minutes: 3 },
+    { type: 'diagram', minutes: 3, verdicts: ['Real', 'Fake', 'Ask'] },
+    { type: 'concept', minutes: 3 },
+  ]))
+  assert.equal(withTool.detail, '2 of 2 stretches within 4 minutes')
+})
+
+test('a diagram with no verdicts is a flow they watch, so the stretch runs on', () => {
+  const flowOnly = checkEngagement(lesson('KS2', [
+    { type: 'concept', minutes: 3 },
+    { type: 'diagram', minutes: 3 },
+    { type: 'concept', minutes: 3 },
+  ]))
+  assert.equal(flowOnly.detail, '0 of 1 stretches within 4 minutes')
+  assert.equal(flowOnly.fails[0].minutes, 9)
+})
+
+test('a quote is said aloud, so it counts as responding', () => {
+  const r = checkEngagement(lesson('KS2', [
+    { type: 'concept', minutes: 3 }, { type: 'quote', minutes: 1 }, { type: 'concept', minutes: 3 },
+  ]))
+  assert.equal(r.detail, '2 of 2 stretches within 4 minutes')
+})
+
 console.log(`\n${ran} passed\n`)

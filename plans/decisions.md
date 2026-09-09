@@ -12229,3 +12229,43 @@ now holds it there: any drop is SLIPPED and fails the build.
 **Visible, not just true.** The run sheet names the page and the stamp, so a
 teacher asked about the passport has something better than the generic line to
 read back, and the sixth form modules say plainly that there is no page today.
+
+## 9 September 2026 — engagement was scoring the module's own tool as passive
+
+**4.35 was mostly the instrument.** The engagement check asked whether a slide's
+TYPE was in a list of active types, and `diagram` was not in it. Every one of the
+44 diagram slides counted as a child sitting and watching, including the tool
+slide at the heart of each module, the one the class chants back and then uses.
+
+**The tempting fix was wrong.** Reading the scripts made "move diagram into the
+active set" look obviously right. Grepping them for "chant", "say it back",
+"hands up" matched 20 of 44. But a check that greps the teacher's prose for
+activity words scores writing style, not design, and it under detected badly
+here: a random five of five all had choral response that the pattern missed.
+That is the soft instrument the council exists to avoid.
+
+**The data makes the distinction itself.** A diagram carries an optional
+`verdicts` array, the answer chips the class chooses between, and exactly 21 of
+the 44 have one: one per module, the tool slide. A diagram WITH verdicts is an
+instrument the class operates; without, it is a flow they watch. Structural,
+per slide, and visible in the row rather than inferred from prose. A `quote`
+joins for the same kind of reason: the player renders it under "Say this", so
+the response is the slide's design.
+
+**Engagement: 4.35 to 6.96, all of it the instrument.** No lesson changed. Still
+below the gate, and the 35 stretches that remain are real:
+
+| Passive minutes | Stretches |
+| --- | --- |
+| 5 | 21 |
+| 6 | 8 |
+| 7 | 5 |
+| 8 | 1 |
+
+**The threshold is ours and it is worth arguing about at the margin.** Twenty one
+of the thirty five are one minute over a four minute rule we set. At five minutes
+it is arguable; at seven and eight it is not, and fourteen stretches are six or
+more. The content fix is a response beat inside the long stretches across roughly
+fourteen modules, which is curriculum writing, not a threshold change. Named
+here rather than started, because it is a real piece of work and the size should
+be known before it begins.
