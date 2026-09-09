@@ -12269,3 +12269,96 @@ more. The content fix is a response beat inside the long stretches across roughl
 fourteen modules, which is curriculum writing, not a threshold change. Named
 here rather than started, because it is a real piece of work and the size should
 be known before it begins.
+
+## 9 September 2026 — the KS2 to KS5 ceiling, measured instead of asserted
+
+Justin said do the outstanding work in the best order. This was first because it
+was cheapest and it decided whether 91 slides were a problem at all.
+
+**The method.** All 78 KS2 to KS5 prose slides rendered through the REAL player
+at 1920x1080 and 1366x768, checked for the two failures a class actually sees:
+text clipped inside the scrolling area, and the Continue control pushed off
+screen so the lesson cannot advance. The dev fixture gained GC_DEV_SLIDES so the
+real database rows go through the real component; a measuring script that
+reimplemented the concept slide's CSS would have drifted within a week and we
+would have been measuring the copy, not the product.
+
+**The first measurement said every slide fits, and it was wrong.** It read page
+level scrollHeight, which never grows here because the player scrolls content
+inside itself. A deliberately absurd 655 word control slide reported the same
+zero overflow as a 131 word one. The screenshot showed the truth: cut off mid
+sentence, Continue button gone. **That control is the only reason this did not
+ship as "measured: the ceiling was wrong".** It is now named in the code as
+mandatory for anyone re-running this.
+
+**The corrected first pass found 13 failures starting at 95 words, and then
+showed why.** The concept emoji cost 108px of a 768px laptop, 15 percent of the
+height, and was sized on viewport WIDTH only. The identical bug the text had
+before this morning. Decoration was eating the space the sentence needed.
+
+**So the layout was fixed before any copy was.** WALL.emoji, emojiSmall and
+figure now take the smaller of a width share and a height share, unchanged on a
+1920x1080 wall and stepping back on a short screen. Laptop went from 65 to 73 of
+78. Line height was deliberately NOT reduced, although it would also have bought
+space: that trades one legibility property for another and legibility is the
+entire point of the scale.
+
+**The re-derived ceiling is 105.** Below 106 words, zero failures on either
+screen. 106 to 113 is an ambiguous band where the heading length decides it. Not
+rounded to 100, because rounding away from a measurement is how we got the
+asserted numbers in the first place.
+
+**One number for four key stages, deliberately.** Above KS1 the binding
+constraint is physical, and a screen has no view on how old the child is. A
+tighter developmental ceiling for KS2 than KS5 is probably right, we have no
+evidence for where it sits, and it is not invented here. CEILING_BASIS records
+which ceilings rest on decoding and which on measurement.
+
+**Prose 5.73 to 9.11, blocks 9.10 to 9.52.** No lesson changed. What remains is
+six slides that genuinely overflow at 106 to 131 words, which is real copy to
+fix and a tractable six rather than the 91 we thought.
+
+## 9 September 2026 — migration 278, fourteen slides split so they fit the wall
+
+**Six slides clipped; fourteen were split.** Six actually overflow today. Another
+eight sit between 106 and 113 words, the band where fitting depends on how long
+the heading happens to be, so they fit by luck rather than design. The first
+draft of the migration split only the six and **its own ceiling guard rejected
+it**, which was the guard doing its job: a ceiling that means "stay out of the
+coin flip band" cannot make an exception for the slides that won the toss.
+
+**Split, not cut, and split by marker rather than by retyping.** Three of the
+fourteen are the most safeguarding sensitive slides in the scheme: pornography
+exposure, coercion and threats, and what to do when an image is already out
+there. Their scripts say "read this slide almost word for word" and "slow right
+down, this is the most important slide of the hour". The body IS the script
+there, so a non specialist teacher has exact words for the hardest minutes.
+
+Cutting those words to hit a number would strip the wording a teacher is told to
+read aloud. Leaving them is worse: a teacher reading word for word from a slide
+whose last third is off the bottom of the wall.
+
+So each slide is cut at a marker that already exists in its body, and the halves
+are the text either side of it. **No copy was retyped, so no safeguarding
+sentence can be altered by a transcription slip.** Three second halves needed a
+new opening word and each override is named in the migration.
+
+**Beat order is load bearing on ks4-16 slide 15.** It must land "not your fault"
+and "you will not be in trouble" BEFORE the fix. The split follows that exactly,
+and the third truth, "something can actually be done", becomes the second
+slide's heading so the promise survives rather than being swallowed.
+
+**Guards:** every KS2 to KS5 prose slide under the measured 105; twelve load
+bearing safeguarding phrases still present somewhere in the scheme; every DSL
+instruction still in a script; nine modules at their new slide counts; and every
+module's total minutes unchanged, which is what keeps the cycle map honest since
+the player derives cycles from minutes.
+
+**Verified by re-rendering, not by assertion. 92 of 92 prose slides now fit** at
+both 1920x1080 and 1366x768, with the 525 word control still clipping by 1791px
+so the measurement is known to be live.
+
+**Prose 9.11 to 9.78.** Five prose slides still fail, and they are a different
+question: three EYFS and KS1 title cards at 36 to 43 words plus two diagrams.
+Those are teacher speech printed on a wall for children who cannot read it, the
+same shape as migration 276, and they are small. Named, not started.

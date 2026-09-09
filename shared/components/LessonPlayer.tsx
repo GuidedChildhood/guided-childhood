@@ -248,7 +248,7 @@ function StatBlock({ slide, projector }: { slide: StatSlide; projector?: boolean
   return (
     <div style={{ textAlign: 'center', padding: '10px 0' }}>
       <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '18px' }}>The evidence</div>
-      <div data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(3.6rem, 11vw, 5.6rem)', color: 'var(--terracotta-dark)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '16px' }}>
+      <div data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: room(projector, WALL.figure, 'clamp(3.6rem, 11vw, 5.6rem)'), color: 'var(--terracotta-dark)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '16px' }}>
         {slide.figure}
       </div>
       <p data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.display, 'clamp(1.15rem, 2.8vw, 1.5rem)'), color: 'var(--ink)', lineHeight: 1.4, maxWidth: room(projector, WALL.column, '480px'), margin: '0 auto 14px' }}>
@@ -280,7 +280,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <div style={{
             width: '40px', height: '40px', borderRadius: '50%', background: 'var(--stage-2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, '3rem', 'var(--text-xl)'), flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, WALL.emojiSmall, 'var(--text-xl)'), flexShrink: 0,
           }}>
             {slide.avatar}
           </div>
@@ -295,7 +295,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         {slide.image && (
           <div style={{
             background: 'var(--stage-2)', borderRadius: '14px', padding: '26px 0',
-            textAlign: 'center', fontSize: room(projector, '86px', '52px'), marginBottom: slide.stats ? '10px' : 0,
+            textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
           }}>
             {slide.image}
           </div>
@@ -377,7 +377,7 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
                 boxShadow: '0 5px 0 var(--terracotta-lt)',
                 marginBottom: last ? 0 : room(projector, '18px', '12px'),
               }}>
-                {step.emoji && <span style={{ fontSize: room(projector, '3.2rem', 'var(--text-2xl)'), flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
+                {step.emoji && <span style={{ fontSize: room(projector, WALL.emojiSmall, 'var(--text-2xl)'), flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.25 }}>{step.title}</div>
                   {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{step.text}</div>}
@@ -637,7 +637,7 @@ function SlideBody({
       // follows, the body settles last. Each piece staggers in.
       return (
         <div style={{ textAlign: 'center' }}>
-          {slide.emoji && <div data-reveal style={{ fontSize: room(projector, 'clamp(3.6rem, 7vw, 5rem)', 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, '22px', '16px'), lineHeight: 1 }}>{slide.emoji}</div>}
+          {slide.emoji && <div data-reveal style={{ fontSize: room(projector, WALL.emoji, 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, 'clamp(10px, 2vh, 22px)', '16px'), lineHeight: 1 }}>{slide.emoji}</div>}
           <h2 data-reveal style={{
             fontFamily: 'var(--font-display)', fontSize: room(projector, WALL.display, 'clamp(1.7rem, 5.5vw, 2.4rem)'),
             fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: room(projector, '24px', '18px'),

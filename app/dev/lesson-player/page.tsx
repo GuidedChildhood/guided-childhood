@@ -1,6 +1,7 @@
+import { readFile } from 'node:fs/promises'
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import type { LessonSlide } from '@gc/shared/lesson-slides'
+import { parseSlides, type LessonSlide } from '@gc/shared/lesson-slides'
 
 // Dev only fixture: the cinematic player with a sample Rosenshine deck so
 // the design can be checked without a database or a signed in parent.
@@ -13,6 +14,14 @@ import type { LessonSlide } from '@gc/shared/lesson-slides'
 // likely to be wrong. Class mode implies it, because class mode IS the
 // projector showcase, and the flag stands alone so the teach route's exact
 // combination (projector without the family finish) can be looked at too.
+//
+// GC_DEV_SLIDES points at a JSON file of real slides, which is how we measure
+// what actually FITS on a classroom wall rather than asserting a word ceiling
+// and rewriting good lessons to meet it. The point is to put the real rows
+// through the real player: a reimplementation of the concept slide's CSS in a
+// measuring script would drift from the component within a week and we would
+// be measuring the copy, not the product. Dev only, behind the same
+// production notFound as everything else here.
 
 export const dynamic = 'force-dynamic'
 
@@ -66,9 +75,20 @@ const SLIDES: LessonSlide[] = [
   },
 ]
 
+async function slidesToRender(): Promise<LessonSlide[]> {
+  const from = process.env.GC_DEV_SLIDES
+  if (!from) return SLIDES
+  // parseSlides is the same validator the teach route uses, so a row that
+  // would not render in a classroom does not quietly render here either.
+  const parsed = parseSlides(JSON.parse(await readFile(from, 'utf8')))
+  if (!parsed) throw new Error(`GC_DEV_SLIDES at ${from} did not parse as slides`)
+  return parsed
+}
+
 export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string; projector?: string }> }) {
   if (process.env.NODE_ENV === 'production') notFound()
   const sp = await searchParams
+  const slides = await slidesToRender()
   const slideIndex = Math.max(0, Number(sp.slide) || 0)
   const classMode = sp.class === '1'
   const projector = classMode || sp.projector === '1'
@@ -76,7 +96,7 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
     <LessonPlayer
       lessonId="00000000-0000-0000-0000-000000000000"
       lessonSource="lesson"
-      slides={SLIDES}
+      slides={slides}
       backHref="/dev/lesson-player"
       completeEndpoint={null}
       classMode={classMode}

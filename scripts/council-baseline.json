@@ -1,13 +1,13 @@
 {
-  "rules": "0b23eb60ae00",
+  "rules": "20de4cb8d3a6",
   "source": "fixture",
   "scores": {
     "prose": {
-      "best": 5.73,
+      "best": 9.78,
       "at": "2026-09-09"
     },
     "blocks": {
-      "best": 9.1,
+      "best": 9.52,
       "at": "2026-09-09"
     },
     "engagement": {

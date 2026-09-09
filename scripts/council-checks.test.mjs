@@ -7,7 +7,7 @@
 // failing. This is the file that would have failed instead.
 
 import { strict as assert } from 'node:assert'
-import { checkProse, checkBlocks, checkEngagement, checkPassport, verdict, isRegression } from './council-checks.mjs'
+import { checkProse, checkBlocks, checkEngagement, checkPassport, verdict, isRegression, WORD_CEILING, CEILING_BASIS } from './council-checks.mjs'
 
 let ran = 0
 const test = (name, fn) => { fn(); ran += 1; console.log(`  ok  ${name}`) }
@@ -177,6 +177,32 @@ test('a quote is said aloud, so it counts as responding', () => {
     { type: 'concept', minutes: 3 }, { type: 'quote', minutes: 1 }, { type: 'concept', minutes: 3 },
   ]))
   assert.equal(r.detail, '2 of 2 stretches within 4 minutes')
+})
+
+
+// ── The measured ceiling ─────────────────────────────────────────────
+test('above KS1 the ceiling is one measured number, not a graded guess', () => {
+  // 105 is the largest word count at which no slide was observed to clip or
+  // hide the Continue control, at 1920x1080 or 1366x768. If somebody edits
+  // these, the measurement in the WORD_CEILING comment has to be re-run,
+  // control slide included: the first attempt without one reported that every
+  // slide fits, including a 655 word slide that was cut off mid sentence.
+  assert.equal(WORD_CEILING.KS2, 105)
+  assert.deepEqual(
+    [WORD_CEILING.KS2, WORD_CEILING.KS3, WORD_CEILING.KS4, WORD_CEILING.KS5],
+    [105, 105, 105, 105],
+    'the binding constraint above KS1 is the screen, and a screen has no view on the child’s age',
+  )
+  assert.equal(WORD_CEILING.EYFS, 12)
+  assert.equal(CEILING_BASIS.EYFS, 'decoding')
+  assert.equal(CEILING_BASIS.KS4, 'measured')
+})
+
+test('a slide at the measured boundary passes and one past it fails', () => {
+  const at = { type: 'concept', heading: 'h', body: Array(104).fill('w').join(' ') }   // 105
+  const over = { type: 'concept', heading: 'h', body: Array(105).fill('w').join(' ') } // 106
+  assert.equal(checkProse(lesson('KS4', [at])).score, 10)
+  assert.equal(checkProse(lesson('KS4', [over])).score, 0)
 })
 
 console.log(`\n${ran} passed\n`)
