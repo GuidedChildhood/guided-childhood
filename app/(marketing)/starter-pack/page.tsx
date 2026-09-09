@@ -402,6 +402,7 @@ export default function StarterPackPage() {
         accent={STAGE_ACCENT[stage.id]}
         challenge={challenge}
         worry={picks[0] ?? null}
+        worries={picks}
         feeling={feeling!}
         email={email}
         needsConfirm={needsConfirm}

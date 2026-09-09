@@ -11692,3 +11692,38 @@ Three things follow from it, and they are the rule now:
    Found while fixing a pill that drew as a black blob. NOT fixed here: it
    would change the look of a dozen child screens at once and that is its own
    piece of work. `--terracotta` (#EDC35F) is the butter.
+
+## 9 September 2026, the reveal answers the problem, not just explains the platform
+
+Justin, on the reveal at the end of the starter quiz: "though we redesigned and
+simplify this page with the problems and what we do to fix?"
+
+It never did. The 6 September plan was retargeted, on his own correction, to
+the setup walkthrough after sign up, so the problem map research landed as the
+worries card there and this screen was left as the "how the platform works"
+explainer it became on 31 August. Two screens either side of the same question
+again.
+
+**Decided: the reveal answers the worry.** Every worry they ticked gets a card:
+their words, the question underneath in their voice, the mechanism we built,
+and the proof as chips. The thing to do tonight rides on the first card.
+
+Three rules that come with it:
+
+1. **Say the mechanism, not the benefit.** "A warning that lands and an ending
+   they can predict" is a thing we built. "We help with gaming" is a thing
+   anybody can type. The copy rule for `ANSWERS` in lib/content/proof.
+2. **Every number is counted, never estimated.** `lib/content/proof.ts` carries
+   the SQL that produced it and the date it was run. The marketing page has
+   been wrong here before in the direction that undersells (160 scripts and 100
+   lessons against a real 335 and 147), and being wrong the generous way on the
+   screen before the price is the one thing we cannot risk. The research
+   percentages from the ProblemMap artboard are deliberately NOT on the page:
+   they have not been through the citation pass.
+3. **The "You told us" card names every worry, not one.** It used to name the
+   primary only, so a parent who ticked three saw one named and quietly
+   wondered about the other two.
+
+Also fixed from the same screenshot: the stage pill and Get started sat in a
+nowrap space between row, so on an iPhone the row was wider than the screen and
+the whole page scrolled sideways. It wraps now.
