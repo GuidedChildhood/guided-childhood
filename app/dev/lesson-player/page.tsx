@@ -5,7 +5,14 @@ import type { LessonSlide } from '@gc/shared/lesson-slides'
 // Dev only fixture: the cinematic player with a sample Rosenshine deck so
 // the design can be checked without a database or a signed in parent.
 // ?slide=N opens at that slide, ?class=1 renders the whole class projector
-// mode. Never reachable in production.
+// mode, ?projector=1 the classroom type scale on its own. Never reachable in
+// production.
+//
+// PROJECTOR WAS MISSING HERE, which is its own small joke: the fixture that
+// exists so the design can be checked could not render the surface most
+// likely to be wrong. Class mode implies it, because class mode IS the
+// projector showcase, and the flag stands alone so the teach route's exact
+// combination (projector without the family finish) can be looked at too.
 
 export const dynamic = 'force-dynamic'
 
@@ -59,11 +66,12 @@ const SLIDES: LessonSlide[] = [
   },
 ]
 
-export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string }> }) {
+export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string; projector?: string }> }) {
   if (process.env.NODE_ENV === 'production') notFound()
   const sp = await searchParams
   const slideIndex = Math.max(0, Number(sp.slide) || 0)
   const classMode = sp.class === '1'
+  const projector = classMode || sp.projector === '1'
   return (
     <LessonPlayer
       lessonId="00000000-0000-0000-0000-000000000000"
@@ -72,6 +80,7 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
       backHref="/dev/lesson-player"
       completeEndpoint={null}
       classMode={classMode}
+      projector={projector}
       initialIndex={slideIndex}
       badges={{ keyStage: 'KS2/3', strand: 'Managing online information' }}
     />

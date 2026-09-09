@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { introCharacterFor } from '../intro-characters'
+import { WALL } from '../wall-scale'
 
 // The lesson intro: the real DiGi Squad character (the footballer, the
 // dancer, the celebration leap) plays in a clean framed clip while a
@@ -10,16 +11,23 @@ import { introCharacterFor } from '../intro-characters'
 // busy classroom, just the character and a simple spoken welcome, which is
 // what JP asked for. The clip is muted and loops; a child taps to begin.
 
+// PROJECTOR. This card is the first slide of every lesson and it was built for
+// a phone in a parent's hand: a 200px character frame, a 300px speech bubble
+// and a title capped at 30px. On a classroom wall that is a postage stamp in
+// the middle of a big screen, and the title nobody at the back can read. The
+// projector branch sizes it from the shared wall scale like every other slide.
 export default function AnimatedIntro({
   title,
   eyebrow,
   character,
   onStart,
+  projector = false,
 }: {
   title: string
   eyebrow?: string
   character?: string
   onStart?: () => void
+  projector?: boolean
 }) {
   const root = useRef<HTMLDivElement>(null)
   const c = introCharacterFor(character, title)
@@ -74,7 +82,7 @@ export default function AnimatedIntro({
       }}
     >
       {eyebrow && (
-        <div data-eyebrow style={{ opacity: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
+        <div data-eyebrow style={{ opacity: 0, fontFamily: 'var(--font-mono)', fontSize: projector ? WALL.aside : 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
           {eyebrow}
         </div>
       )}
@@ -88,11 +96,11 @@ export default function AnimatedIntro({
           tail down, character fully visible underneath. */}
       <div data-bubble style={{ opacity: 0 }}>
         <div style={{
-          maxWidth: 300, margin: '0 auto',
+          maxWidth: projector ? 900 : 300, margin: '0 auto',
           background: '#fff', borderRadius: '16px', padding: '11px 14px',
           textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
         }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
             {typed}
             {typed.length < c.line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
           </span>
@@ -109,7 +117,7 @@ export default function AnimatedIntro({
         // 200 rather than the old 280: with the bubble now OUTSIDE the frame
         // the intro runs taller, and the Continue button must stay on a phone
         // screen without scrolling. The clip reads perfectly at this size.
-        opacity: 0, position: 'relative', width: '100%', maxWidth: 200, margin: '0 auto',
+        opacity: 0, position: 'relative', width: '100%', maxWidth: projector ? 440 : 200, margin: '0 auto',
         aspectRatio: '1 / 1', borderRadius: '20px', overflow: 'hidden',
         border: '3px solid rgba(237,195,95,0.5)', boxShadow: '0 12px 34px rgba(0,0,0,0.3)',
         background: '#0F2A32',
@@ -121,7 +129,7 @@ export default function AnimatedIntro({
         />
       </div>
 
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 5vw, 1.9rem)', fontWeight: 900, color: '#fff', lineHeight: 1.14, letterSpacing: '-0.02em', margin: '18px 0 18px' }}>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: projector ? WALL.display : 'clamp(1.4rem, 5vw, 1.9rem)', fontWeight: 900, color: '#fff', lineHeight: 1.14, letterSpacing: '-0.02em', margin: '18px 0 18px' }}>
         {titleWords.map((w, i) => (
           w.trim() === '' ? w : <span key={i} data-word style={{ display: 'inline-block', opacity: 0 }}>{w}</span>
         ))}
@@ -134,7 +142,7 @@ export default function AnimatedIntro({
           style={{
             opacity: 0, background: c.accent, color: 'var(--ink)', border: 'none',
             borderRadius: '16px', padding: '14px 30px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: projector ? WALL.title : 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >

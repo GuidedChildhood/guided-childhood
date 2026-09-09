@@ -12114,3 +12114,63 @@ Not fixed here, deliberately. The obvious replacement compares against the push
 base rather than `HEAD^`, but the right variable depends on Vercel environment
 behaviour this container cannot test, and a wrong guess in an ignoreCommand
 breaks previews outright rather than making them stale.
+
+## 9 September 2026 — the projector was rendering at half the legible size
+
+Justin approved this after the finding that the KS2 to KS5 word ceilings are
+asserted rather than evidenced, and that what the evidence actually points at is
+size (see the entry above).
+
+**The measurement.** ISO 9241-303 puts minimum legible cap height at 16 arc
+minutes, which on a two metre image with the back row at eight metres is about
+50px on a 1920 canvas, 40px absolute floor. We rendered body, options and
+diagram steps at 18 to 24px. Roughly half. A child at the back was not reading
+the lesson, they were watching the teacher read it.
+
+**Three slide types had no projector branch at all:** title, objective and
+keywords rendered at phone size on a classroom wall. So did AnimatedIntro, the
+first slide of every lesson, whose heading capped at 30px inside a 200px
+character frame. And every one of the 22 interactive slides, the ones where a
+child actually does something.
+
+**The fix is one scale, in its own file.** `room()` already stopped slide types
+shipping at phone size, but it never said what the big value should BE, so every
+site picked its own and most picked too small. shared/wall-scale.ts names five
+roles by what the child is doing with the text rather than by size: question,
+display, title, body, aside. Every projector branch reads from it.
+
+**The interactives take a different route on purpose.** 38 of their 41 font
+sizes are `var(--text-*)`, so the projector version is one override of those
+tokens on a wrapper. That fixes all 38 at once and keeps each widget's internal
+type ratios, which 41 hand edits would have flattened.
+
+**Height matters as much as width, and the first version of the scale forgot.**
+At 1366 by 768, the resolution on half the teacher laptops in the country, a
+60px question plus three 40px option cards pushed the Continue button off the
+bottom of the screen. A lesson you have to scroll is a lesson that stops. Each
+role now takes the smaller of a width share and a height share.
+
+**The guard.** scripts/check-wall-scale.mjs, in CI. It evaluates what a 1920 by
+1080 canvas actually renders (clamp and min, not just the upper bound), fails on
+any projector size below the floor, and fails on any slide type that renders
+text without mentioning projector. Reintroducing each of the two historic bugs
+turns it red, which was checked rather than assumed. It also caught a real
+mistake of mine: 3.7vh of 1080 is 39.96px, four hundredths under the floor.
+
+**What only the browser caught.** A blanket regex that made every
+`...eyebrowStyle` spread into `...eyebrowOn(projector)` also rewrote the spread
+INSIDE eyebrowOn, so it called itself. Infinite recursion. Typecheck passed. The
+guard passed. The lesson rendered a crash card. That is the argument for
+non negotiable 5 in one incident: the checks that read source cannot see a
+program that runs forever.
+
+**Parents app untouched, and proved rather than asserted.** Every edit changed
+only the big half of `room(projector, big, small)` or added a projector branch
+where none existed. Diffing every phone side value before and after returns an
+empty set, and a 390px sweep of all seven fixture slides shows no size change
+and no overflow.
+
+**The dev fixture could not render the surface most likely to be wrong.**
+/dev/lesson-player had `?class=1` but no projector flag, so the page that exists
+so the design can be checked without a database could not show the classroom.
+It takes `?projector=1` now, and class mode implies it.
