@@ -1,4 +1,5 @@
 import type { WorryIconName } from '@/components/onboarding/WorryIcon'
+import type { ChallengeId } from '@/lib/content/stages'
 
 // What a parent is asked at the end of setup, and the single place it is said.
 //
@@ -63,4 +64,79 @@ export function namedWorries(ids: string[]): Worry[] {
   return ids
     .map(id => WORRIES.find(w => w.id === id))
     .filter((w): w is Worry => w !== undefined && w.id !== CATCH_ALL_ID)
+}
+
+// ── WHICH PATHWAY CONTENT A WORRY OPENS ─────────────────────────────────────
+//
+// The nine worries above are the PARENT'S words. ChallengeId is a different
+// thing wearing similar clothes: it is the routing key every stage's
+// challengeActions is written against, plus lib/pathway/recommend and
+// daily-tasks. Six of them, authored by hand, one paragraph per stage per id.
+//
+// Widening that type to nine would mean writing forty five new paragraphs
+// before a parent could tick a tile, so the two vocabularies stay separate and
+// this is the join. The parent only ever sees their own words; the pathway
+// only ever sees a key it has content for.
+//
+// Where two worries share a key that is not laziness, it is the truth: bedtime
+// screens, morning TV and will not put it down are three faces of the same
+// pathway work, and the parent's own words are what comes back on the reveal
+// and the check in, so nothing they said is flattened on screen.
+//
+// something_else lands on start_conversation deliberately. A parent who could
+// not find their worry in nine tiles is, more often than not, a parent who
+// does not know how to open the subject, and that is content we have.
+export const WORRY_TO_CHALLENGE: Record<string, ChallengeId> = {
+  wont_put_down: 'screens_takeover',
+  bedtime_screens: 'screens_takeover',
+  morning_tv: 'screens_takeover',
+  mood_after_screens: 'mood_changes',
+  controller_fights: 'gaming',
+  asking_for_phone: 'asking_for_phone',
+  social_media: 'asking_for_phone',
+  ai_chatbots: 'online_safety',
+  seen_something: 'online_safety',
+  something_else: 'start_conversation',
+}
+
+/** The pathway key for the worry a parent said mattered most. */
+export function challengeFor(worryId: string | null | undefined): ChallengeId | null {
+  if (!worryId) return null
+  return WORRY_TO_CHALLENGE[worryId] ?? null
+}
+
+/** The parent's own words for one worry, for reading back to them. */
+export function worryLabel(worryId: string): string {
+  return WORRIES.find(w => w.id === worryId)?.label ?? ''
+}
+
+// ── THE SIX IDS THE QUIZ USED TO ASK IN ─────────────────────────────────────
+//
+// Answers saved before 9 September 2026, in localStorage and in rows already
+// written, carry the old CHALLENGE_OPTIONS ids. This carries them forward onto
+// the tile they would have picked today, so a parent part way through the
+// funnel when this shipped loses nothing.
+//
+// Two of these used to land on something_else, which is unmapped, so a parent
+// who said their worry was the phone or online safety had it quietly dropped
+// on the way in and got the stock two instead. Both have a tile of their own
+// to land on now.
+export const LEGACY_TO_WORRY: Record<string, string> = {
+  screens_takeover: 'wont_put_down',
+  mood_changes: 'mood_after_screens',
+  gaming: 'controller_fights',
+  online_safety: 'seen_something',
+  start_conversation: 'something_else',
+  asking_for_phone: 'asking_for_phone',
+}
+
+/** Ticks from either generation of the question, as live worry ids, deduped. */
+export function toWorryIds(ids: string[]): string[] {
+  const known = new Set(WORRIES.map(w => w.id))
+  const out: string[] = []
+  for (const id of ids) {
+    const worry = known.has(id) ? id : LEGACY_TO_WORRY[id]
+    if (worry && !out.includes(worry)) out.push(worry)
+  }
+  return out
 }

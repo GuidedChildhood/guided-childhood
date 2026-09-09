@@ -22,8 +22,6 @@ const check = (name, ok, detail = '') => {
   console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? '  ' + detail : ''}`)
 }
 
-const onboarding = readFileSync(new URL('../app/onboarding/page.tsx', import.meta.url), 'utf8')
-
 // The ids a parent can actually end up with, read from the source of truth
 // rather than restated here, because a second copy is the bug all over again.
 //
@@ -36,7 +34,7 @@ const worriesFile = readFileSync(new URL('../lib/onboarding/worries.ts', import.
 const challengesBlock = worriesFile.match(/const WORRIES\b[^=]*=\s*\[([\s\S]*?)\n\]/)
 const liveIds = [...(challengesBlock?.[1] ?? '').matchAll(/id:\s*'([a-z_]+)'/g)].map(m => m[1])
 
-const oldBlock = onboarding.match(/const OLD_TO_NEW_CHALLENGE[^{]*\{([\s\S]*?)\}/)
+const oldBlock = worriesFile.match(/const LEGACY_TO_WORRY[^{]*\{([\s\S]*?)\n\}/)
 const legacyIds = [...(oldBlock?.[1] ?? '').matchAll(/^\s*([a-z_]+):/gm)].map(m => m[1])
 
 // Nine worries plus something_else since 8 September 2026. Asserted as a floor
@@ -63,7 +61,7 @@ for (const id of liveIds.filter(i => i !== 'something_else')) {
 
 // ── THE LEGACY IDS STILL RESOLVE ────────────────────────────────────────────
 //
-// Rows written before OLD_TO_NEW_CHALLENGE still carry the old id, and those
+// Rows written before LEGACY_TO_WORRY still carry the old id, and those
 // families should not lose their strip because we renamed something.
 for (const id of legacyIds) {
   check(`legacy ${id} still resolves`, id in CHALLENGE_LABELS)
@@ -110,6 +108,37 @@ for (const id of liveIds.filter(i => i !== 'something_else')) {
   const slug = slugMap[id]
   check(`${id} becomes a concern`, Boolean(slug), slug ?? 'NO SLUG: this tick would go nowhere')
   if (slug) check(`${id} has a name on the check in row`, slugLabels.has(slug), slug)
+}
+
+// ── AND THE TICK MUST REACH THE PATHWAY ─────────────────────────────────────
+//
+// Added 9 September 2026, when the public quiz started asking the worries
+// directly instead of its own six. The reveal a parent sees seconds later
+// reads stage.challengeActions[challenge], so a worry with no key in
+// WORRY_TO_CHALLENGE falls through to the stage's generic action and the
+// promise that we matched their answer quietly stops being true. Same failure
+// shape as the slug map: silent, and only visible to that family.
+const challengeBlock = worriesFile.match(/const WORRY_TO_CHALLENGE[^{]*\{([\s\S]*?)\n\}/)
+const challengeMapIds = new Set(
+  [...(challengeBlock?.[1] ?? '').matchAll(/^\s*([a-z_]+):/gm)].map(m => m[1]),
+)
+check('the pathway map was found', challengeMapIds.size > 0, `${challengeMapIds.size} keys`)
+for (const id of liveIds) {
+  check(`${id} opens a pathway`, challengeMapIds.has(id))
+}
+
+// ── AND THE TICK MUST REACH THE SCRIPTS ─────────────────────────────────────
+//
+// CHALLENGE_TO_CATEGORY filters the recommended scripts. A missing key does
+// not error, it matches zero rows and falls through to plain sort order, which
+// looks exactly like a parent who has read everything. something_else is the
+// deliberate exception: a catch all cannot honestly pick a category.
+const mapFile = readFileSync(new URL('../lib/content/challenge-map.ts', import.meta.url), 'utf8')
+const catBlock = mapFile.match(/const CHALLENGE_TO_CATEGORY[^{]*\{([\s\S]*?)\n\}/)
+const catIds = new Set([...(catBlock?.[1] ?? '').matchAll(/^\s*([a-z_]+):/gm)].map(m => m[1]))
+check('the scripts category map was found', catIds.size > 0, `${catIds.size} keys`)
+for (const id of liveIds.filter(i => i !== 'something_else')) {
+  check(`${id} matches a scripts category`, catIds.has(id))
 }
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)

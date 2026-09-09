@@ -14,17 +14,39 @@ import { WORRIES } from '@/lib/onboarding/worries'
 //
 // Its own component so the wizard and /dev/worries draw the same thing, which
 // is the only way a screen behind a login can be checked at 390 and 1200.
+//
+// ── THE ONE WE OPEN ON ──────────────────────────────────────────────────────
+//
+// Justin, 9 September 2026, on the old quiz: "says start here on several icons
+// which does not make sense." It did not. That screen put a "Start with this"
+// chip on EVERY ticked tile except the first, because it was a button for
+// promoting one, but it read as a label claiming three different tiles were
+// the starting point at once.
+//
+// So the control is gone and the fact stays: the first one ticked is the one
+// tomorrow opens on, one pill says so on that tile alone, and untick and
+// retick is how you change it. Two taps, no chrome, nothing to misread.
+//
+// The pill says "First" and not "We start here" because a 164px tile at 390
+// wraps the longer phrase onto two lines inside the card, which looks like a
+// mistake. The full sentence is under the grid, where it has the width.
+//
+// The pill's row is reserved on EVERY tile whether or not it is filled, so
+// ticking a tile never nudges the grid under a thumb that is still choosing.
 
 export default function WorryPicker({
-  selected, onToggle,
+  selected, onToggle, primary,
 }: {
   selected: string[]
   onToggle: (id: string) => void
+  /** The worry tomorrow opens on. Omit for a plain grid with no marker. */
+  primary?: string | null
 }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
       {WORRIES.map(w => {
         const on = selected.includes(w.id)
+        const first = primary === w.id
         return (
           <button
             key={w.id}
@@ -39,7 +61,7 @@ export default function WorryPicker({
               // one word tile the same height as "Seeing things they should
               // not" so the grid never looks half built.
               padding: '13px 13px 15px',
-              minHeight: 118,
+              minHeight: primary === undefined ? 118 : 132,
               cursor: 'pointer',
               textAlign: 'left',
               display: 'flex', flexDirection: 'column', gap: '9px',
@@ -62,6 +84,26 @@ export default function WorryPicker({
             }}>
               {w.label}
             </span>
+            {primary !== undefined && (
+              <span style={{ marginTop: 'auto', paddingTop: 6, minHeight: 19, display: 'block' }}>
+                {first && (
+                  <span style={{
+                    display: 'inline-block',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    // Gold on ink, the house pairing. NOT var(--butter):
+                    // there is no such token, and a colour that does not
+                    // resolve inherits ink, which drew this pill as a solid
+                    // black blob with invisible words in it. Caught in the
+                    // 390 screenshot, which is the only place it shows.
+                    background: 'var(--ink)', color: 'var(--terracotta)',
+                    borderRadius: 100, padding: '3px 9px',
+                  }}>
+                    First
+                  </span>
+                )}
+              </span>
+            )}
             {on && (
               <span aria-hidden style={{
                 position: 'absolute', top: 9, right: 9,

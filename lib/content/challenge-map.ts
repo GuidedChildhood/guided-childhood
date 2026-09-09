@@ -36,4 +36,14 @@ export const CHALLENGE_TO_CATEGORY: Record<string, string> = {
   wont_put_down: 'screen-time',
   bedtime_screens: 'screen-time',
   mood_after_screens: 'mood-confidence',
+  // The three the nine worry set can name and the old six could not. Added 9
+  // September 2026, when the public quiz started asking the worries directly,
+  // so these became answers a brand new parent can give on day one rather than
+  // ids only the wizard could produce.
+  social_media: 'social-media',
+  ai_chatbots: 'school-and-ai',
+  seen_something: 'staying-safe',
+  // something_else is deliberately absent. A parent who could not find their
+  // worry in nine tiles has not told us a category, and guessing one is worse
+  // than the unfiltered list they get by falling through.
 }

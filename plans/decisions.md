@@ -11657,3 +11657,38 @@ closed the same way. Migration 275.
   from the audit document without opening the files, having annotated that
   same document earlier the same day for exactly this reason. The audit is a
   dated snapshot; the code is the source. Annotated now.
+
+## 9 September 2026, one worry question, asked in the quiz
+
+Justin, on a screenshot of the live `/starter-pack`: "You said we were changing
+to 9 here still only 6? Also not happy new design? Is there a reason this is
+not latest design, also says start here on several icons which does not make
+sense."
+
+The cause: the nine worries shipped to the SETUP screen after sign up (PR 1004,
+PR 1006) while the public quiz kept its own older copy of the same question.
+Two screens, two vocabularies, either side of a card payment.
+
+**Decided: one question, asked in the quiz.** They answer once, before they
+pay, and setup shows it back through the welcome walkthrough rather than asking
+again. The skip already existed (`prefilled`); only the question a parent sees
+changed.
+
+Three things follow from it, and they are the rule now:
+
+1. **`WORRIES` is the parent's vocabulary. `ChallengeId` is the routing key.**
+   Every stage's `challengeActions` is written against the six ChallengeIds by
+   hand, so widening that type to nine means writing forty five new paragraphs.
+   `WORRY_TO_CHALLENGE` in lib/onboarding/worries is the join. Adding a worry
+   needs an entry there, in `ONBOARDING_TO_SLUG`, in `CHALLENGE_LABELS` and in
+   `CHALLENGE_TO_CATEGORY`; `scripts/check-focus-labels.mjs` now fails the
+   build for all four.
+2. **The "Start with this" chip is gone for good.** It was a promote button
+   that read as a label, repeated on every ticked tile. One "First" pill on the
+   primary tile, one sentence under the grid, untick and retick to change it.
+3. **`--butter` is not a token.** It is used in about a dozen places in the
+   child app and printables and resolves to nothing in every one of them
+   (`getComputedStyle` returns ""), so those backgrounds render transparent.
+   Found while fixing a pill that drew as a black blob. NOT fixed here: it
+   would change the look of a dozen child screens at once and that is its own
+   piece of work. `--terracotta` (#EDC35F) is the butter.

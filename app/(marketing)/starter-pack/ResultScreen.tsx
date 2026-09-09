@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Celebration from '@/components/ui/Celebration'
-import { STAGES, CHALLENGE_OPTIONS, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
+import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
+import { WORRIES, CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import { MockCheckIn, MockToday, MockProgress, MockDigi, MockAsk, MockJars, MockKidApp } from './Mocks'
 
 if (typeof window !== 'undefined') {
@@ -40,6 +41,12 @@ type Props = {
   stage: ReturnType<typeof getStageFromAgeBand>
   accent: { bold: string; text: string }
   challenge: ChallengeId
+  /** The worry the parent actually ticked first, in their own words. The
+   *  `challenge` above is the pathway key it maps to, which is what the
+   *  content is filed under; this is what they typed themselves and what we
+   *  read back to them. Optional: answers saved before 9 September 2026 have
+   *  only the key. */
+  worry?: string | null
   feeling: FeelingId
   email?: string
   needsConfirm?: boolean
@@ -111,13 +118,17 @@ function Point({ icon, title, children }: { icon: string; title: string; childre
   )
 }
 
-export default function ResultScreen({ stage, accent, challenge, email, needsConfirm, childName }: Props) {
+export default function ResultScreen({ stage, accent, challenge, worry, email, needsConfirm, childName }: Props) {
   // The account exists from the first screen, so stepping in opens setup,
   // which starts on the check in that becomes the baseline. Only a pending
   // email confirmation goes by the login door first.
   const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard/setup'
   const action = stage.challengeActions[challenge] ?? stage.action
-  const concern = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
+  // Their words back, not ours. A parent who ticked "Bedtime screens" should
+  // not be told we heard "Screens are taking over", even though that is the
+  // pathway the two share. Falls back for answers saved before the quiz asked
+  // in the parent's vocabulary.
+  const concern = (worry ? worryLabel(worry) : '') || 'what you told us'
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
   const headline = kid ? `${kid}'s pathway is built.` : 'Your pathway is built.'
@@ -154,9 +165,11 @@ export default function ResultScreen({ stage, accent, challenge, email, needsCon
     return () => ctx.revert()
   }, [])
 
+  // The things we cover, led by the nine the quiz just asked so a parent sees
+  // their own answer go past first, then the rest of the ground.
   const problems = [
-    ...CHALLENGE_OPTIONS.map(c => c.label),
-    'Group chats', 'The algorithm', 'Strangers online', 'Passwords', 'Bedtime and sleep', 'The first phone', 'Gaming money', 'AI and homework',
+    ...WORRIES.filter(w => w.id !== CATCH_ALL_ID).map(w => w.label),
+    'Group chats', 'The algorithm', 'Strangers online', 'Passwords', 'The first phone', 'Gaming money', 'AI and homework',
   ]
 
   return (

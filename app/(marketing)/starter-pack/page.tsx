@@ -4,8 +4,9 @@ import Link from 'next/link'
 import ResultScreen from './ResultScreen'
 import { createClient } from '@/lib/supabase/client'
 import { bandForAge } from '@/lib/children/age'
+import WorryPicker from '@/components/onboarding/WorryPicker'
+import { WORRIES, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
 import {
-  CHALLENGE_OPTIONS,
   FEELING_OPTIONS,
   TIME_COMMITMENT_OPTIONS,
   getStageFromAgeBand,
@@ -27,101 +28,11 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
 const THIS_YEAR = new Date().getFullYear()
 const BIRTH_YEARS = Array.from({ length: 18 }, (_, i) => THIS_YEAR - i)
 
-// ── THE SIX CONCERNS, DRAWN PROPERLY ────────────────────────────────────────
-//
-// Justin, 13 August 2026, on this grid: better icons, "Happy News or
-// Higgsfield style".
-//
-// What was here was six 1.6 weight outline glyphs, the default of every admin
-// panel on the internet, and at 26px inside a 46px well they read as grey
-// scratches. Worse, three of the six were near enough the same drawing: a
-// rounded rectangle. Screens taking over, asking for a phone, and to a squint
-// mood changes, all resolved to a phone outline, so the row a parent is meant
-// to scan and recognise themselves in offered three identical shapes.
-//
-// These are solid. A filled body at low opacity carries the colour of the
-// tile, a heavier stroke draws the form on top, and each one has a piece of
-// STORY in it rather than a symbol: the screen has a wave breaking over it,
-// the mood has a small cloud, the conversation has two bubbles rather than
-// one, and asking for a phone is a hand holding one up. That is the Happy News
-// trick, and it is why those illustrations read at a glance where an icon set
-// does not: the picture shows the situation, not the object.
-//
-// currentColor throughout, so each one takes the tile's own colour from
-// CHALLENGE_TINT below and the grid reads as six different things.
-const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
-  // A screen filling up. The water is INSIDE the phone rather than crossing
-  // it: waves drawn over the outline read as a scribble at 30px, and the
-  // silhouette has to survive being small more than it has to be clever.
-  screens_takeover: (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <clipPath id="gc-screen-fill">
-        <rect x="7" y="2.6" width="10" height="18.8" rx="2.8" />
-      </clipPath>
-      <g clipPath="url(#gc-screen-fill)">
-        <path d="M5 13.4c1.4 0 1.4 1.7 2.8 1.7s1.4-1.7 2.8-1.7 1.4 1.7 2.8 1.7 1.4-1.7 2.8-1.7 1.4 1.7 2.8 1.7V23H5z" fill="currentColor" fillOpacity=".85" stroke="none" />
-      </g>
-      <rect x="7" y="2.6" width="10" height="18.8" rx="2.8" />
-    </svg>
-  ),
-  // A face gone flat, with its own small weather overhead.
-  mood_changes: (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="13.5" r="7.6" fill="currentColor" fillOpacity=".18" />
-      <circle cx="12" cy="13.5" r="7.6" />
-      <path d="M9.4 16.8c1.7-.7 3.5-.7 5.2 0" />
-      <path d="M9.2 11.6v.02M14.8 11.6v.02" strokeWidth="2.9" />
-      <path d="M4.2 5.4c1.6-2 4.6-1.6 5.3.6" strokeOpacity=".55" strokeWidth="1.7" />
-    </svg>
-  ),
-  // A controller with real buttons, held rather than diagrammed.
-  gaming: (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7.2 7.5h9.6a4.7 4.7 0 0 1 4.6 3.8l.7 4.1a2.6 2.6 0 0 1-4.7 1.9l-1.4-2.1H8l-1.4 2.1a2.6 2.6 0 0 1-4.7-1.9l.7-4.1a4.7 4.7 0 0 1 4.6-3.8z" fill="currentColor" fillOpacity=".18" />
-      <path d="M7.2 7.5h9.6a4.7 4.7 0 0 1 4.6 3.8l.7 4.1a2.6 2.6 0 0 1-4.7 1.9l-1.4-2.1H8l-1.4 2.1a2.6 2.6 0 0 1-4.7-1.9l.7-4.1a4.7 4.7 0 0 1 4.6-3.8z" />
-      <path d="M7.4 11v2.4M6.2 12.2h2.4" />
-      <path d="M16 11.4v.02M17.8 13.1v.02" strokeWidth="2.6" />
-    </svg>
-  ),
-  // A shield that is already holding, not one that might.
-  online_safety: (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2.4l7.4 3.1v5.2c0 5.3-3.7 9.4-7.4 10.6C8.3 20.1 4.6 16 4.6 10.7V5.5L12 2.4z" fill="currentColor" fillOpacity=".18" />
-      <path d="M12 2.4l7.4 3.1v5.2c0 5.3-3.7 9.4-7.4 10.6C8.3 20.1 4.6 16 4.6 10.7V5.5L12 2.4z" />
-      <path d="M8.7 11.9l2.4 2.4 4.3-4.6" strokeWidth="2.3" />
-    </svg>
-  ),
-  // Two bubbles, because a conversation is not one person talking.
-  start_conversation: (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.4 8.2a3 3 0 0 1 3-3h8.4a3 3 0 0 1 3 3v3.4a3 3 0 0 1-3 3H7.6L3.6 18v-3.6a3 3 0 0 1-1.2-2.4z" fill="currentColor" fillOpacity=".18" />
-      <path d="M2.4 8.2a3 3 0 0 1 3-3h8.4a3 3 0 0 1 3 3v3.4a3 3 0 0 1-3 3H7.6L3.6 18v-3.6a3 3 0 0 1-1.2-2.4z" />
-      <path d="M16.8 9.1h1.8a3 3 0 0 1 3 3v3.3a3 3 0 0 1-1.2 2.4V21l-2.8-2.2h-3.2a3 3 0 0 1-2.6-1.5" strokeOpacity=".65" />
-    </svg>
-  ),
-  // A hand holding a phone up. This is the ask, not the object.
-  asking_for_phone: (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="7" y="2.2" width="10" height="13.4" rx="2.6" fill="currentColor" fillOpacity=".18" />
-      <rect x="7" y="2.2" width="10" height="13.4" rx="2.6" />
-      <path d="M10.2 5.6a1.9 1.9 0 1 1 2.6 1.8v1.3" />
-      <path d="M12.8 11.3v.02" strokeWidth="2.6" />
-      <path d="M5.6 16.4c1.9 2.4 3.6 3.6 6.4 3.6s4.5-1.2 6.4-3.6" strokeOpacity=".6" strokeWidth="1.7" />
-    </svg>
-  ),
-}
+// The six drawn concern icons that used to live here went with the six option
+// grid on 9 September 2026. The quiz asks the nine worries now, from
+// lib/onboarding/worries, drawn by components/onboarding/WorryIcon, so there
+// is one hand and one list for the quiz, the setup wizard and the fixture.
 
-// Each concern gets its own soft colour family, so the grid reads as six
-// distinct things rather than six identical pale blue tiles. The tint is
-// the icon well, the fg is the line icon on top of it.
-const CHALLENGE_TINT: Record<string, { bg: string; fg: string }> = {
-  screens_takeover:   { bg: 'var(--stage-2)',       fg: 'var(--stage-2-text)' },
-  mood_changes:       { bg: 'var(--stage-3)',       fg: 'var(--stage-3-text)' },
-  gaming:             { bg: 'var(--stage-5)',       fg: 'var(--stage-5-text)' },
-  online_safety:      { bg: 'var(--tint-green)',    fg: '#2D5016' },
-  start_conversation: { bg: 'var(--stage-4)',       fg: 'var(--stage-4-text)' },
-  asking_for_phone:   { bg: 'var(--terracotta-lt)', fg: 'var(--terracotta-dark)' },
-}
 
 const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
   1: { bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)' },
@@ -158,11 +69,30 @@ export default function StarterPackPage() {
   // It also stops a child silently ageing out of a band nobody updated.
   const [dobMonth, setDobMonth] = useState<number | null>(null)
   const [dobYear, setDobYear] = useState<number | null>(null)
-  // Concerns the parent ticked, most pressing first. picks[0] is the one we
-  // start the pathway on, so a single derived value keeps every downstream
-  // screen working exactly as before while the parent can now name several.
-  const [picks, setPicks] = useState<ChallengeId[]>([])
-  const challenge = picks[0] ?? null
+  // ── THE WORRIES THE PARENT TICKED ─────────────────────────────────────────
+  //
+  // Justin, 9 September 2026, on the live quiz: "You said we were changing to
+  // 9 here still only 6? Also not happy new design?"
+  //
+  // He had seen the nine worries land on the setup screen after sign up and
+  // reasonably expected them here. They had not arrived because this screen
+  // kept its own older copy of the same question, so the same parent was asked
+  // what was hard twice, in two vocabularies, either side of a card payment.
+  // Asked which way he wanted it, he chose: ask once, here, before they pay.
+  //
+  // So `picks` now holds WORRY ids from lib/onboarding/worries, the parent's
+  // own words, and the two values below are DERIVED from them. ChallengeId
+  // stays exactly as it was, because it is not the parent's vocabulary any
+  // more, it is the routing key every stage's challengeActions is written
+  // against. The parent sees their words, the pathway sees a key it has
+  // content for, and neither has to know about the other.
+  const [picks, setPicks] = useState<string[]>([])
+  const challenge = challengeFor(picks[0])
+  // Every worry ticked, as pathway keys, most pressing first and deduped.
+  // Three worries can share one key (bedtime, mornings and will not put it
+  // down are all screens_takeover), so this is shorter than picks and that is
+  // correct: it is what the pathway starts on, not what the parent said.
+  const concerns = Array.from(new Set(picks.map(p => challengeFor(p)).filter((c): c is ChallengeId => c !== null)))
   // The feeling question was dropped (age, concerns and usage are the ones
   // that drive the first fixes). A calm default keeps the reveal copy working
   // without asking for it.
@@ -192,21 +122,25 @@ export default function StarterPackPage() {
     // Dev only: /starter-pack?preview=result renders the reveal with a
     // fixture family, so it can be checked without running the quiz.
     if (process.env.NODE_ENV !== 'production' && new URLSearchParams(window.location.search).get('preview') === 'result') {
-      setAgeBand('11-13'); setPicks(['mood_changes']); setTimeCommitment('5min'); setChildName('Ava'); setStep('result'); setRestored(true)
+      setAgeBand('11-13'); setPicks(['mood_after_screens']); setTimeCommitment('5min'); setChildName('Ava'); setStep('result'); setRestored(true)
       return
     }
     try {
       const saved = localStorage.getItem('gc_starter_progress')
       if (saved) {
-        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: ChallengeId[]; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
         // A parent part way through keeps the birthday they already gave, and
         // an older saved run has no birthday at all, which is why the band is
         // restored on its own line above rather than derived from this.
         if (parsed.dobMonth) setDobMonth(parsed.dobMonth)
         if (parsed.dobYear) setDobYear(parsed.dobYear)
-        if (parsed.picks?.length) setPicks(parsed.picks)
-        else if (parsed.challenge) setPicks([parsed.challenge])
+        // toWorryIds carries a run saved before 9 September 2026 forward: back
+        // then `picks` held the old six ids, so a parent who was mid quiz when
+        // this shipped lands on the tile they would have picked today rather
+        // than on an empty grid.
+        if (parsed.picks?.length) setPicks(toWorryIds(parsed.picks))
+        else if (parsed.challenge) setPicks(toWorryIds([parsed.challenge]))
         if (parsed.feeling) setFeeling(parsed.feeling)
         if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
         if (parsed.step && parsed.step !== 'result' && parsed.step !== 'reassure') setStep(parsed.step)
@@ -226,8 +160,9 @@ export default function StarterPackPage() {
         try {
           const a = JSON.parse(savedAnswers) as StarterAnswers
           if (a.ageBand) setAgeBand(a.ageBand)
-          if (a.concerns?.length) setPicks(a.concerns)
-          else if (a.challenge) setPicks([a.challenge])
+          if (a.worries?.length) setPicks(toWorryIds(a.worries))
+          else if (a.concerns?.length) setPicks(toWorryIds(a.concerns))
+          else if (a.challenge) setPicks(toWorryIds([a.challenge]))
           if (a.feeling) setFeeling(a.feeling)
           if (a.timeCommitment) setTimeCommitment(a.timeCommitment)
           setReturning(true)
@@ -248,13 +183,16 @@ export default function StarterPackPage() {
 
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
-      const answers: StarterAnswers = { ageBand, challenge, concerns: picks, feeling, timeCommitment }
+      // `worries` is what the parent actually said and what setup reads back.
+      // `challenge` and `concerns` are derived and still written, so every
+      // pathway reader that has only ever known ChallengeId keeps working.
+      const answers: StarterAnswers = { ageBand, challenge, concerns, worries: picks, feeling, timeCommitment }
       try {
         localStorage.setItem('gc_starter_answers', JSON.stringify(answers))
         localStorage.removeItem('gc_starter_progress')
       } catch {}
     }
-  }, [step, ageBand, challenge, picks, feeling, timeCommitment])
+  }, [step, ageBand, challenge, concerns, picks, feeling, timeCommitment])
 
   useEffect(() => {
     if (step !== 'reassure') return
@@ -285,14 +223,17 @@ export default function StarterPackPage() {
     setAgeBand(derived)
     setTimeout(() => setStep('q2'), 420)
   }
-  // Tap adds or removes a concern. The first one ticked becomes the most
-  // pressing by default (front of the list), the parent can move that with
-  // the Start here control on any other ticked card.
-  function toggleChallenge(c: ChallengeId) {
+  // Tap adds or removes a worry. The first one ticked is the one tomorrow
+  // opens on, said once on that tile and once under the grid.
+  //
+  // The old "Start with this" control is gone. It sat on every ticked tile
+  // except the first, so a parent who ticked three was looking at three tiles
+  // all appearing to claim they were the starting point. Justin, 9 September
+  // 2026: "says start here on several icons which does not make sense."
+  // Untick and retick changes the order, which is two taps and needs no
+  // chrome on nine tiles to explain.
+  function toggleChallenge(c: string) {
     setPicks(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])
-  }
-  function makePrimary(c: ChallengeId) {
-    setPicks(prev => [c, ...prev.filter(x => x !== c)])
   }
   function selectFeeling(f: FeelingId) {
     setFeeling(f)
@@ -460,6 +401,7 @@ export default function StarterPackPage() {
         stage={stage}
         accent={STAGE_ACCENT[stage.id]}
         challenge={challenge}
+        worry={picks[0] ?? null}
         feeling={feeling!}
         email={email}
         needsConfirm={needsConfirm}
@@ -805,106 +747,37 @@ export default function StarterPackPage() {
             }}>
               What are you dealing with right now?
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.55 }}>
-              Tick everything that is going on. We cover them all, and more as we go. Tap one to say which we open on tomorrow.
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '20px', lineHeight: 1.55 }}>
+              Pick as many or as few as you like. We cover them all, and more as we go.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              {CHALLENGE_OPTIONS.map(opt => {
-                const sel = picks.includes(opt.value)
-                const isPrimary = picks[0] === opt.value
-                const tint = CHALLENGE_TINT[opt.value] ?? { bg: 'var(--stage-2)', fg: 'var(--terracotta-dark)' }
-                return (
-                  <button
-                    key={opt.value}
-                    onClick={() => toggleChallenge(opt.value)}
-                    aria-pressed={sel}
-                    style={{
-                      position: 'relative',
-                      display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
-                      padding: '18px 16px 16px',
-                      background: 'var(--white)',
-                      border: `2px solid ${isPrimary ? 'var(--terracotta-dark)' : sel ? 'var(--terracotta)' : 'var(--border)'}`,
-                      borderRadius: '18px', cursor: 'pointer', textAlign: 'left',
-                      transition: 'transform 0.16s cubic-bezier(0.22,1,0.36,1), box-shadow 0.16s, border-color 0.16s',
-                      transform: sel ? 'translateY(-2px)' : 'none',
-                      boxShadow: sel
-                        ? '0 10px 28px rgba(201,154,40,0.20), 0 2px 6px rgba(26,26,46,0.05)'
-                        : '0 4px 20px rgba(26,26,46,0.06)',
-                    }}
-                  >
-                    {/* Tick, top right, once selected */}
-                    <span aria-hidden style={{
-                      position: 'absolute', top: 12, right: 12,
-                      width: 22, height: 22, borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: sel ? 'var(--terracotta)' : 'transparent',
-                      border: sel ? 'none' : '2px solid var(--border)',
-                      transition: 'background 0.16s',
-                    }}>
-                      {sel && (
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12.5l4.5 4.5L19 7" />
-                        </svg>
-                      )}
-                    </span>
 
-                    <span style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      width: 52, height: 52, borderRadius: '16px',
-                      background: tint.bg, color: tint.fg, marginBottom: '12px',
-                    }}>
-                      {CHALLENGE_ICONS[opt.value] ?? opt.icon}
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>
-                      {opt.label}
-                    </span>
+            {/* ── THE ONE QUESTION, ASKED HERE ──────────────────────────────
+                The same grid the setup wizard draws, from the same list, in
+                the same hand. It used to be a second, older copy of this
+                question with six options and emoji, which is what Justin was
+                looking at on 9 September 2026 when he asked why the nine had
+                not arrived. There is one copy now: answer it here, and setup
+                shows it back rather than asking again. */}
+            <WorryPicker selected={picks} onToggle={toggleChallenge} primary={picks[0] ?? null} />
 
-                    {/* ── WHICH ONE WE OPEN ON, NOT WHICH ONE WE COVER ──────
-                        Justin, 13 August 2026: "when you tick one it says we
-                        start here, but then tick another one it says start
-                        here instead, which does not make sense as they can add
-                        many, we will cover them all and more as we go."
+            {/* What the marker on the first tile means, in words, once. */}
+            {picks.length > 1 && (
+              <p style={{
+                marginTop: '14px', fontFamily: 'var(--font-mono)',
+                fontSize: 'var(--text-xs)', color: 'var(--ink-muted)',
+                lineHeight: 1.6, letterSpacing: '0.02em',
+              }}>
+                We open on {worryLabel(picks[0])} first. Untick it to start somewhere else.
+              </p>
+            )}
 
-                        He is right and the fault is the word INSTEAD. It is
-                        the language of choosing between things, on a screen
-                        built for ticking as many as apply, so a parent ticking
-                        their third worry was told they had just swapped it for
-                        the first two. Nothing was being swapped: every one
-                        ticked goes on the list and the marker only says which
-                        one the first day opens on.
-
-                        "First" says the same thing without implying a trade. */}
-                    {isPrimary ? (
-                      <span style={{
-                        marginTop: '10px',
-                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                        letterSpacing: '0.1em', textTransform: 'uppercase',
-                        color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
-                        borderRadius: '100px', padding: '4px 9px',
-                      }}>
-                        First
-                      </span>
-                    ) : sel ? (
-                      <span
-                        role="button"
-                        tabIndex={0}
-                        onClick={e => { e.stopPropagation(); makePrimary(opt.value) }}
-                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); makePrimary(opt.value) } }}
-                        style={{
-                          marginTop: '10px',
-                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                          letterSpacing: '0.1em', textTransform: 'uppercase',
-                          color: 'var(--ink-muted)', border: '1px solid var(--border)',
-                          borderRadius: '100px', padding: '4px 9px', cursor: 'pointer',
-                        }}
-                      >
-                        Start with this
-                      </span>
-                    ) : null}
-                  </button>
-                )
-              })}
-            </div>
+            {/* The other half of the promise, and the same words setup used to
+                say at this point: this list is not a one time form. Moments,
+                DiGi and Right now all raise a new worry the day it happens, so
+                nothing here has to be right first time. */}
+            <p style={{ marginTop: picks.length > 1 ? '10px' : '14px', color: 'var(--ink-muted)', fontSize: 'var(--text-sm)', lineHeight: 1.55 }}>
+              We keep asking as things come up, so this does not have to be right first time.
+            </p>
 
             {/* Parent wellbeing: the quiet reminder that this is about them too,
                 shown right where they name the hard stuff. Warm, brief, never a
@@ -920,18 +793,12 @@ export default function StarterPackPage() {
               </p>
             </div>
 
-            {/* At the decision point, name plainly that this is only the
-                starting focus, so ticking one never reads as missing the rest */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '9px',
-              marginTop: '20px', padding: '11px 14px',
-              background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: '12px',
-            }}>
-              <span aria-hidden style={{ fontSize: 'var(--text-base)', flexShrink: 0 }}>🎯</span>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                You are choosing where to start. Every other part of your child&apos;s age is still in your plan.
-              </p>
-            </div>
+            {/* The sage "you are choosing where to start" note stood here
+                until 9 September 2026. Its two jobs, that ticking one is not
+                choosing against the rest and that the list stays open, are
+                both said under the grid now, in the same words setup uses, so
+                a third card saying it a third way was one more thing to read
+                on a screen that should take fifteen seconds. */}
 
             <button
               onClick={() => picks.length > 0 && setStep('q4')}

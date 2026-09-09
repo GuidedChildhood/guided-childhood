@@ -10,7 +10,7 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { TRIAL_DAYS } from '@/lib/access'
 import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 import WorryPicker from '@/components/onboarding/WorryPicker'
-import { WORRIES, WORRIES_KEY, namedWorries } from '@/lib/onboarding/worries'
+import { WORRIES, WORRIES_KEY, namedWorries, toWorryIds } from '@/lib/onboarding/worries'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
 
@@ -31,18 +31,10 @@ function urlBase64ToUint8Array(base64String: string) {
 // behind a login cannot be read by the guard script or drawn by a fixture, and
 // this one has silently fallen out of step with the slug map twice.
 
-// Two of these used to land on something_else, which is unmapped, so a parent
-// who told the starter quiz their worry was the phone or online safety had it
-// quietly dropped on the way in and got the stock two instead. Both now have a
-// tile of their own to land on.
-const OLD_TO_NEW_CHALLENGE: Record<string, string> = {
-  screens_takeover: 'wont_put_down',
-  mood_changes: 'mood_after_screens',
-  gaming: 'controller_fights',
-  online_safety: 'seen_something',
-  start_conversation: 'something_else',
-  asking_for_phone: 'asking_for_phone',
-}
+// The map from the ids the quiz used to ask in moved out to
+// lib/onboarding/worries.ts on 9 September 2026, when the quiz started asking
+// the worries directly. It lives beside the list it maps ONTO so there is one
+// copy for the quiz, the wizard and the guard script to read.
 
 const BTN: React.CSSProperties = {
   display: 'block', width: '100%',
@@ -235,11 +227,15 @@ export default function OnboardingPage() {
         if (saved) {
           const answers = JSON.parse(saved) as StarterAnswers
           if (answers.ageBand) setAgeBand(answers.ageBand)
-          // Carry through every concern the parent ticked in the starter
-          // quiz, most pressing first, mapped onto the onboarding ids and
-          // de duped (several starter concerns can map to something_else).
-          const fromStarter = answers.concerns?.length ? answers.concerns : answers.challenge ? [answers.challenge] : []
-          const mappedAll = Array.from(new Set(fromStarter.map(c => OLD_TO_NEW_CHALLENGE[c]).filter(Boolean)))
+          // Carry through every worry the parent ticked in the starter quiz,
+          // most pressing first. Since 9 September 2026 the quiz asks these
+          // directly, so `worries` is the real answer; `concerns` and
+          // `challenge` are the derived pathway keys and are only read here
+          // for a parent who answered before that and has not finished setup.
+          const fromStarter = answers.worries?.length
+            ? answers.worries
+            : answers.concerns?.length ? answers.concerns : answers.challenge ? [answers.challenge] : []
+          const mappedAll = toWorryIds(fromStarter)
           if (mappedAll.length) setChallenges(mappedAll)
           if (answers.timeCommitment) setTimeCommitment(answers.timeCommitment)
           // We already asked age and concern in the starter quiz. If both are
