@@ -6,8 +6,11 @@ import WorryPicker from '@/components/onboarding/WorryPicker'
 
 // Dev only fixture: the last question of setup, without an account.
 //
-//   /dev/worries        nothing ticked
-//   /dev/worries?on=3   three ticked, for the chosen state
+//   /dev/worries          nothing ticked
+//   /dev/worries?on=3     three ticked, for the chosen state
+//   /dev/worries?mark=1   with the "we start here" marker, as the public quiz
+//                         draws it (setup passes no primary, so the marker row
+//                         is not reserved there and the tiles stay shorter)
 //
 // The real screen sits behind sign up, four screens deep, so this is the only
 // way to look at it at 390 and 1200 before it ships. It draws the same
@@ -20,10 +23,11 @@ export default function WorriesFixture() {
   // window in a useState initialiser renders one thing on the server and
   // another in the browser, and React throws the whole tree away and warns.
   const [picked, setPicked] = useState<string[]>([])
+  const [mark, setMark] = useState(false)
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('on') === '3') {
-      setPicked(['bedtime_screens', 'ai_chatbots', 'wont_put_down'])
-    }
+    const q = new URLSearchParams(window.location.search)
+    if (q.get('on') === '3') setPicked(['bedtime_screens', 'ai_chatbots', 'wont_put_down'])
+    if (q.get('mark') === '1') setMark(true)
   }, [])
   const toggle = (id: string) =>
     setPicked(prev => (prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]))
@@ -38,7 +42,7 @@ export default function WorriesFixture() {
           Pick as many or as few as you like. These become the worries you rate on your first check in.
         </p>
         <div style={{ marginBottom: '16px' }}>
-          <WorryPicker selected={picked} onToggle={toggle} />
+          <WorryPicker selected={picked} onToggle={toggle} primary={mark ? (picked[0] ?? null) : undefined} />
         </div>
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, textAlign: 'center', margin: 0 }}>
           We keep asking as things come up, so this does not have to be right first time.

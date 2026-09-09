@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from 'react'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
+import { scoreWord } from '@/components/daily/ConcernCheckIn'
 
 // The heart of Progress: not a graph, but the real list of what this
 // family is working on, and the parent's own verdict on each. Solved
@@ -15,6 +16,13 @@ export type WorkingConcern = {
   label: string
   status: string
   times_flagged: number
+  /** The first score the parent ever gave it. The base progress is measured
+   *  from. Absent when they have never rated it. */
+  from?: number | null
+  /** The most recent score. */
+  now?: number | null
+  /** Two good days in a row, so it has left the daily list. */
+  silver?: boolean
 }
 
 export type SolvedConcern = {
@@ -258,6 +266,54 @@ export default function WorkingOn({
                     </span>
                   )}
                 </div>
+
+                {/* ── WHERE IT STARTED, AND WHERE IT IS ──────────────────
+                    Justin, 9 September 2026: "use as base as part of the
+                    reporting improvements."
+
+                    This report could say what a family was working on and how
+                    often it had come up, and could never say whether any of it
+                    was getting better, because it read no scores at all. The
+                    base is the first number the parent ever gave that worry.
+                    It is not a stored column: concern_events.score_at_start
+                    exists and has been written zero times out of a hundred and
+                    seventeen scores, and a derived first score cannot drift
+                    from the truth the way a denormalised one can.
+
+                    Only shown once there are two readings to compare. One
+                    score is a starting point, not a story, and "Really tough
+                    → Really tough" on day one reads as a failure when it is
+                    just the first day. */}
+                {typeof c.from === 'number' && typeof c.now === 'number' && c.from !== c.now && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap', marginBottom: 10 }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+                      Started
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                      {scoreWord(c.from)}
+                    </span>
+                    <span aria-hidden style={{ color: 'var(--ink-light)' }}>→</span>
+                    <span style={{
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+                      background: c.now > c.from ? 'var(--tint-green)' : 'var(--terracotta-lt)',
+                      border: `1.5px solid ${c.now > c.from ? '#2D5016' : 'var(--terracotta)'}`,
+                      color: c.now > c.from ? '#2D5016' : 'var(--ink)',
+                      borderRadius: 100, padding: '3px 10px',
+                    }}>
+                      {scoreWord(c.now)}
+                    </span>
+                    {c.silver && (
+                      <span style={{
+                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                        letterSpacing: '0.08em', textTransform: 'uppercase',
+                        background: 'var(--ink)', color: 'var(--terracotta)',
+                        borderRadius: 100, padding: '3px 9px',
+                      }}>
+                        Silver
+                      </span>
+                    )}
+                  </div>
+                )}
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <button
                     onClick={() => markSolved(c.slug)}

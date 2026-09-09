@@ -5,7 +5,9 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Celebration from '@/components/ui/Celebration'
-import { STAGES, CHALLENGE_OPTIONS, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
+import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
+import { WORRIES, CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
+import WorryAnswers from '@/components/starter/WorryAnswers'
 import { MockCheckIn, MockToday, MockProgress, MockDigi, MockAsk, MockJars, MockKidApp } from './Mocks'
 
 if (typeof window !== 'undefined') {
@@ -40,6 +42,15 @@ type Props = {
   stage: ReturnType<typeof getStageFromAgeBand>
   accent: { bold: string; text: string }
   challenge: ChallengeId
+  /** The worry the parent actually ticked first, in their own words. The
+   *  `challenge` above is the pathway key it maps to, which is what the
+   *  content is filed under; this is what they typed themselves and what we
+   *  read back to them. Optional: answers saved before 9 September 2026 have
+   *  only the key. */
+  worry?: string | null
+  /** Every worry they ticked, most pressing first. The section that answers
+   *  them needs the whole list, not just the one the pathway opens on. */
+  worries?: string[]
   feeling: FeelingId
   email?: string
   needsConfirm?: boolean
@@ -111,13 +122,22 @@ function Point({ icon, title, children }: { icon: string; title: string; childre
   )
 }
 
-export default function ResultScreen({ stage, accent, challenge, email, needsConfirm, childName }: Props) {
+export default function ResultScreen({ stage, accent, challenge, worry, worries, email, needsConfirm, childName }: Props) {
   // The account exists from the first screen, so stepping in opens setup,
   // which starts on the check in that becomes the baseline. Only a pending
   // email confirmation goes by the login door first.
   const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard/setup'
   const action = stage.challengeActions[challenge] ?? stage.action
-  const concern = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
+  // Their words back, not ours. A parent who ticked "Bedtime screens" should
+  // not be told we heard "Screens are taking over", even though that is the
+  // pathway the two share. Falls back for answers saved before the quiz asked
+  // in the parent's vocabulary.
+  const concern = (worry ? worryLabel(worry) : '') || 'what you told us'
+  // Their own words, every one they ticked, for the roll call card. Falls back
+  // to the single derived label for answers saved before the quiz asked in the
+  // parent's vocabulary.
+  const told = (worries ?? []).filter(w => w !== CATCH_ALL_ID).map(worryLabel).filter(Boolean)
+  const rollCall = told.length ? told : [concern]
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
   const headline = kid ? `${kid}'s pathway is built.` : 'Your pathway is built.'
@@ -154,9 +174,11 @@ export default function ResultScreen({ stage, accent, challenge, email, needsCon
     return () => ctx.revert()
   }, [])
 
+  // The things we cover, led by the nine the quiz just asked so a parent sees
+  // their own answer go past first, then the rest of the ground.
   const problems = [
-    ...CHALLENGE_OPTIONS.map(c => c.label),
-    'Group chats', 'The algorithm', 'Strangers online', 'Passwords', 'Bedtime and sleep', 'The first phone', 'Gaming money', 'AI and homework',
+    ...WORRIES.filter(w => w.id !== CATCH_ALL_ID).map(w => w.label),
+    'Group chats', 'The algorithm', 'Strangers online', 'Passwords', 'The first phone', 'Gaming money', 'AI and homework',
   ]
 
   return (
@@ -172,8 +194,17 @@ export default function ResultScreen({ stage, accent, challenge, email, needsCon
       {/* ── The arrival ─────────────────────────────────────────────────── */}
       <div ref={firstRef} style={{ background: '#fff', borderBottom: '1.5px solid var(--border)', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 22px)', paddingBottom: 30 }}>
         <div style={WRAP}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 26 }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: accent.bold, color: accent.text, padding: '6px 12px', borderRadius: 100, whiteSpace: 'nowrap' }}>
+          {/* ── WHY THIS ROW WRAPS ──────────────────────────────────────
+              Justin's screenshot, 9 September 2026, on an iPhone: the stage
+              pill clipped off the left edge and Get started clipped off the
+              right. A nowrap pill plus a button, held apart by
+              space-between, is wider than a phone once the stage name is
+              long (STAGE 1 · FOUNDATION), and the whole page scrolled
+              sideways to fit it. flexWrap lets the button drop to its own
+              line instead, and minWidth 0 lets the pill shrink rather than
+              force the row. */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 26, flexWrap: 'wrap' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: accent.bold, color: accent.text, padding: '6px 12px', borderRadius: 100 }}>
               Stage {stage.id} · {stage.name}
             </span>
             <Door href={enterHref} label="Get started" />
@@ -190,23 +221,51 @@ export default function ResultScreen({ stage, accent, challenge, email, needsCon
       </div>
 
       <div style={WRAP}>
-        {/* ── What you told us ────────────────────────────────────────── */}
+        {/* ── What you told us ──────────────────────────────────────────
+            It used to name ONE worry, in a dark card, with a paragraph and
+            the tonight action under it, and then the section below repeated
+            the same worry as its first card. Two cards, one worry, back to
+            back on a phone.
+
+            So this is the roll call now and nothing else: every worry they
+            ticked, in their own words, in white on the deep card. Truer as
+            well as shorter, because a parent who ticked three used to see one
+            named and quietly wonder about the other two. The answer to each,
+            and the thing to do tonight, is the section underneath. */}
         <section style={{ ...SECTION, marginTop: 34 }}>
-          <div className="wow-fu" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 22, overflow: 'hidden', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
-            <div style={{ background: 'var(--deep-teal)', padding: '18px 22px 20px' }}>
-              <div style={{ ...EYEBROW, color: 'rgba(255,255,255,0.65)', marginBottom: 6 }}>You told us</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15 }}>{concern}</div>
+          <div className="wow-fu" style={{ background: 'var(--deep-teal)', borderRadius: 22, padding: '18px 22px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
+            <div style={{ ...EYEBROW, color: 'rgba(255,255,255,0.65)', marginBottom: 10 }}>You told us</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {rollCall.map(label => (
+                <div key={label} style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+                  {label}
+                </div>
+              ))}
             </div>
-            <div style={{ padding: '18px 22px 22px' }}>
-              <p style={{ ...BODY, color: 'var(--ink)' }}>
-                At ages {ages} this is one of the most common things parents raise. It is not a sign you are behind. It is the first thing we fix, and there is a clear first step.
-              </p>
-              <div style={{ marginTop: 16, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '14px 16px' }}>
-                <div style={{ ...EYEBROW, marginBottom: 6 }}>Tonight</div>
-                <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45 }}>{action}</p>
-              </div>
-            </div>
+            <p style={{ ...BODY, color: 'rgba(255,255,255,0.78)', marginTop: 12, marginBottom: 0 }}>
+              At ages {ages} {rollCall.length > 1 ? 'these are among' : 'this is one of'} the most common things parents raise. It is not a sign you are behind, and there is a clear first step for {rollCall.length > 1 ? 'each one' : 'it'}.
+            </p>
           </div>
+        </section>
+
+        {/* ── Every worry they named, answered ─────────────────────────
+            Justin, 9 September 2026: "though we redesigned and simplify this
+            page with the problems and what we do to fix?" It never did. The
+            page explained the platform and never once named the thing they
+            walked in with. This is the last screen before the price, and the
+            only question a parent is really asking here is whether this deals
+            with THEIR problem, so it is answered before anything else. */}
+        <section style={SECTION}>
+          <div className="wow-fu" style={EYEBROW}>What we do about it</div>
+          <h2 className="wow-fu" style={H2}>
+            {worries?.filter(w => w !== CATCH_ALL_ID).length === 1
+              ? 'Your worry, and what we actually do about it.'
+              : 'Your worries, and what we actually do about each one.'}
+          </h2>
+          <p className="wow-fu" style={{ ...LEAD, marginBottom: 22 }}>
+            Not what we are. What happens, and the part of the product it happens in.
+          </p>
+          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} tonight={action} />
         </section>
 
         {/* ── How it works ─────────────────────────────────────────────── */}

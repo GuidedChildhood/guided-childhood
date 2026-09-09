@@ -311,6 +311,15 @@ export interface StarterAnswers {
   // Every concern the parent ticked, most pressing first. Optional for back
   // compatibility with answers saved before multi select existed.
   concerns?: ChallengeId[]
+  // The parent's OWN words, as ids from lib/onboarding/worries, most pressing
+  // first. Since 9 September 2026 this is what the quiz actually asks and what
+  // setup reads; `challenge` and `concerns` above are derived from it through
+  // WORRY_TO_CHALLENGE so every pathway reader keeps working unchanged.
+  // Optional because answers saved before that date do not carry it.
+  worries?: string[]
+  /** Their own words, when they ticked Something else. Becomes a concern of
+   *  its own, so it is carried like any other answer. */
+  worryOther?: string
   feeling: FeelingId
   timeCommitment?: TimeCommitmentId
 }

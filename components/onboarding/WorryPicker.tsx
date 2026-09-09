@@ -1,7 +1,7 @@
 'use client'
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
-import { WORRIES } from '@/lib/onboarding/worries'
+import { WORRIES, CATCH_ALL_ID } from '@/lib/onboarding/worries'
 
 // The grid of worries, in the happy news finish.
 //
@@ -14,17 +14,44 @@ import { WORRIES } from '@/lib/onboarding/worries'
 //
 // Its own component so the wizard and /dev/worries draw the same thing, which
 // is the only way a screen behind a login can be checked at 390 and 1200.
+//
+// ── THE ONE WE OPEN ON ──────────────────────────────────────────────────────
+//
+// Justin, 9 September 2026, on the old quiz: "says start here on several icons
+// which does not make sense." It did not. That screen put a "Start with this"
+// chip on EVERY ticked tile except the first, because it was a button for
+// promoting one, but it read as a label claiming three different tiles were
+// the starting point at once.
+//
+// So the control is gone and the fact stays: the first one ticked is the one
+// tomorrow opens on, one pill says so on that tile alone, and untick and
+// retick is how you change it. Two taps, no chrome, nothing to misread.
+//
+// The pill says "First" and not "We start here" because a 164px tile at 390
+// wraps the longer phrase onto two lines inside the card, which looks like a
+// mistake. The full sentence is under the grid, where it has the width.
+//
+// The pill's row is reserved on EVERY tile whether or not it is filled, so
+// ticking a tile never nudges the grid under a thumb that is still choosing.
 
 export default function WorryPicker({
-  selected, onToggle,
+  selected, onToggle, primary, other, onOther,
 }: {
   selected: string[]
   onToggle: (id: string) => void
+  /** The worry tomorrow opens on. Omit for a plain grid with no marker. */
+  primary?: string | null
+  /** Their own words, when Something else is ticked. Omit both to hide it. */
+  other?: string
+  onOther?: (text: string) => void
 }) {
+  const showOther = onOther !== undefined && selected.includes(CATCH_ALL_ID)
   return (
+    <div>
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
       {WORRIES.map(w => {
         const on = selected.includes(w.id)
+        const first = primary === w.id
         return (
           <button
             key={w.id}
@@ -39,7 +66,7 @@ export default function WorryPicker({
               // one word tile the same height as "Seeing things they should
               // not" so the grid never looks half built.
               padding: '13px 13px 15px',
-              minHeight: 118,
+              minHeight: primary === undefined ? 118 : 132,
               cursor: 'pointer',
               textAlign: 'left',
               display: 'flex', flexDirection: 'column', gap: '9px',
@@ -62,6 +89,26 @@ export default function WorryPicker({
             }}>
               {w.label}
             </span>
+            {primary !== undefined && (
+              <span style={{ marginTop: 'auto', paddingTop: 6, minHeight: 19, display: 'block' }}>
+                {first && (
+                  <span style={{
+                    display: 'inline-block',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    // Gold on ink, the house pairing. NOT var(--butter):
+                    // there is no such token, and a colour that does not
+                    // resolve inherits ink, which drew this pill as a solid
+                    // black blob with invisible words in it. Caught in the
+                    // 390 screenshot, which is the only place it shows.
+                    background: 'var(--ink)', color: 'var(--terracotta)',
+                    borderRadius: 100, padding: '3px 9px',
+                  }}>
+                    First
+                  </span>
+                )}
+              </span>
+            )}
             {on && (
               <span aria-hidden style={{
                 position: 'absolute', top: 9, right: 9,
@@ -78,6 +125,54 @@ export default function WorryPicker({
           </button>
         )
       })}
+    </div>
+
+    {/* ── SOMETHING ELSE, IN THEIR OWN WORDS ────────────────────────────────
+        Justin, 9 September 2026: "How do we deal with something else? Note
+        they can add as many as they want and all areas we will cover through
+        the journey."
+
+        It was the one tile that did nothing. No slug, so no concern row, so
+        the parent who could not find themselves in nine tiles told us their
+        worry and we dropped it between the question and the check in. Their
+        words become a real worry now, rated at check in beside the rest.
+
+        The field appears only once the tile is ticked, so nine tiles do not
+        arrive with a text box under them, and it is never required: a parent
+        who ticks it and types nothing has still said "there is something
+        else", which is worth hearing on its own. */}
+    {showOther && (
+      <div style={{ marginTop: 12 }}>
+        <label
+          htmlFor="worry-other"
+          style={{
+            display: 'block', marginBottom: 7,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+          }}
+        >
+          What is it, in your words
+        </label>
+        <input
+          id="worry-other"
+          type="text"
+          value={other ?? ''}
+          onChange={e => onOther?.(e.target.value.slice(0, 80))}
+          placeholder="Getting off the Switch at teatime"
+          maxLength={80}
+          style={{
+            width: '100%', boxSizing: 'border-box',
+            padding: '13px 15px',
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
+            boxShadow: '0 4px 0 var(--ink)',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+          }}
+        />
+        <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+          Whatever you write becomes one of the worries you rate, the same as the tiles.
+        </p>
+      </div>
+    )}
     </div>
   )
 }

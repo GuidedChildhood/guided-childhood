@@ -52,3 +52,21 @@ jobs:
             sleep 2
           done
           npm run checkin-guard
+
+  # The two guards on the join between what a parent answers and what the
+  # daily check in asks about.
+  #
+  # Both existed as scripts anybody could run and nothing did run, which is a
+  # comment rather than a guard, and this join has broken silently three times
+  # (see the header of check-baseline-seed). No database, no build, no
+  # secrets: they read the source and reproduce the mapping.
+  concern-guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --experimental-strip-types scripts/check-focus-labels.mjs
+      - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
+      - run: node --experimental-strip-types scripts/check-silver-rule.mjs

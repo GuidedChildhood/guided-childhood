@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { restingConcernIds } from '@/lib/concerns/resting'
+import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
+import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 
 // Which children have been checked in on today.
 //
@@ -32,8 +33,6 @@ export async function checkedInToday(supabase: SupabaseClient, userId: string): 
       .filter(r => r.child_id)
     if (live.length === 0) return done
 
-    const lastScore = new Map<string, number>()
-    const lastScoreAt = new Map<string, string>()
     const { data: scores } = await supabase
       .from('concern_events')
       .select('concern_id, score, created_at')
@@ -41,13 +40,8 @@ export async function checkedInToday(supabase: SupabaseClient, userId: string): 
       .not('score', 'is', null)
       .order('created_at', { ascending: false })
       .limit(400)
-    for (const s of (scores ?? []) as { concern_id: string; score: number | null; created_at: string }[]) {
-      if (typeof s.score === 'number' && !lastScore.has(s.concern_id)) {
-        lastScore.set(s.concern_id, s.score)
-        lastScoreAt.set(s.concern_id, s.created_at)
-      }
-    }
-    const resting = restingConcernIds(live, lastScore, lastScoreAt)
+    const read = readScores((scores ?? []) as ScoredEvent[], TOP_BAND)
+    const resting = restingConcernIds(live, read.topRun, read.lastAt)
 
     const byChild = new Map<string, { asked: number; checked: number }>()
     for (const r of live) {
