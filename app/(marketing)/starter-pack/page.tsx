@@ -430,6 +430,7 @@ export default function StarterPackPage() {
         challenge={challenge}
         worry={picks[0] ?? null}
         worries={picks}
+        worryOther={worryOther.trim() || undefined}
         feeling={feeling!}
         email={email}
         needsConfirm={needsConfirm}

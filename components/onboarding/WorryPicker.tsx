@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, CATCH_ALL_ID } from '@/lib/onboarding/worries'
 
@@ -45,7 +47,24 @@ export default function WorryPicker({
   other?: string
   onOther?: (text: string) => void
 }) {
+  const savedOther = (other ?? '').trim()
   const showOther = onOther !== undefined && selected.includes(CATCH_ALL_ID)
+  // ── WHY THE FIELD HAS A DRAFT OF ITS OWN ──────────────────────────────────
+  //
+  // Justin, 9 September 2026: "can we make the something else box where they
+  // type in appear in the box and they click to save."
+  //
+  // It used to write every keystroke straight up to the quiz, which meant
+  // there was no such thing as saving and so no way to show it had been. A
+  // parent typed their worry into a bare box and got no answer back at all.
+  //
+  // So the field holds a draft, and Save is what commits it. `other` is the
+  // SAVED value and nothing else, which also means the value that reaches
+  // onboarding_answers is one the parent chose to keep rather than whatever
+  // they happened to have typed when they tapped Continue.
+  const [draft, setDraft] = useState(savedOther)
+  const dirty = draft.trim() !== savedOther
+  const commit = () => { if (draft.trim() !== savedOther) onOther?.(draft.trim()) }
   return (
     <div>
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
@@ -87,7 +106,11 @@ export default function WorryPicker({
               fontFamily: 'var(--font-display)', fontWeight: 800,
               fontSize: 'var(--text-md)', lineHeight: 1.25, color: 'var(--ink)',
             }}>
-              {w.label}
+              {/* Once they have saved their own words, the tile wears them.
+                  A parent who typed "getting off the Switch at teatime" and
+                  then sees a tile still reading "Something else" has been
+                  asked a question and shown our label back. */}
+              {w.id === CATCH_ALL_ID && savedOther ? savedOther : w.label}
             </span>
             {primary !== undefined && (
               <span style={{ marginTop: 'auto', paddingTop: 6, minHeight: 19, display: 'block' }}>
@@ -153,21 +176,70 @@ export default function WorryPicker({
         >
           What is it, in your words
         </label>
-        <input
-          id="worry-other"
-          type="text"
-          value={other ?? ''}
-          onChange={e => onOther?.(e.target.value.slice(0, 80))}
-          placeholder="Getting off the Switch at teatime"
-          maxLength={80}
-          style={{
-            width: '100%', boxSizing: 'border-box',
-            padding: '13px 15px',
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
-            boxShadow: '0 4px 0 var(--ink)',
-            fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
-          }}
-        />
+        <div style={{ display: 'flex', gap: 8, alignItems: 'stretch', flexWrap: 'wrap' }}>
+          <input
+            id="worry-other"
+            type="text"
+            value={draft}
+            onChange={e => setDraft(e.target.value.slice(0, 80))}
+            // Saved on blur and on Enter as well as on the button. The button
+            // is the affordance a parent looks for; the other two stop the
+            // words being lost by someone who simply carried on.
+            onBlur={commit}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commit() } }}
+            placeholder="Getting off the Switch at teatime"
+            maxLength={80}
+            style={{
+              flex: '1 1 190px', minWidth: 0, boxSizing: 'border-box',
+              padding: '13px 15px',
+              background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
+              boxShadow: '0 4px 0 var(--ink)',
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+            }}
+          />
+          <button
+            type="button"
+            onClick={commit}
+            disabled={!dirty || !draft.trim()}
+            style={{
+              flexShrink: 0,
+              padding: '13px 20px',
+              background: dirty && draft.trim() ? 'var(--terracotta)' : 'var(--border)',
+              color: 'var(--ink)',
+              border: '2px solid var(--ink)', borderRadius: 14,
+              boxShadow: dirty && draft.trim() ? '0 4px 0 var(--ink)' : 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              cursor: dirty && draft.trim() ? 'pointer' : 'default',
+              opacity: dirty && draft.trim() ? 1 : 0.55,
+            }}
+          >
+            {dirty || !savedOther ? 'Save' : 'Saved'}
+          </button>
+        </div>
+
+        {/* Their words, read back, so saving is a thing they can SEE having
+            happened rather than something they have to trust. */}
+        {savedOther && !dirty && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 8, marginTop: 10,
+            background: 'var(--tint-sage)', border: '2px solid var(--ink)',
+            borderRadius: 14, padding: '10px 13px',
+          }}>
+            <span aria-hidden style={{
+              flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
+              background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12.5l4.5 4.5L19 7" />
+              </svg>
+            </span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.4 }}>
+              Saved. We will ask you about <strong>{savedOther}</strong> at your check in.
+            </span>
+          </div>
+        )}
+
         <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
           Whatever you write becomes one of the worries you rate, the same as the tiles.
         </p>
