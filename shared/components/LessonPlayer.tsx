@@ -673,7 +673,7 @@ function SlideBody({
       return (
         <div data-reveal style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(24px, 4.5vw, 34px)', border: '1.5px solid var(--stage-1-bold)', maxWidth: '560px', margin: '0 auto' }}>
           <div style={{ ...eyebrowStyle, color: 'var(--stage-1-text)', marginBottom: '12px' }}>
-            Try it tonight
+            {slide.label ?? 'Try it tonight'}
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '12px' }}>
             {slide.heading}

@@ -1,0 +1,22 @@
+{
+  "rules": "502a38525643",
+  "source": "fixture",
+  "scores": {
+    "prose": {
+      "best": 5.73,
+      "at": "2026-09-09"
+    },
+    "blocks": {
+      "best": 9.1,
+      "at": "2026-09-09"
+    },
+    "engagement": {
+      "best": 4.35,
+      "at": "2026-09-09"
+    },
+    "passport": {
+      "best": 0,
+      "at": "2026-09-09"
+    }
+  }
+}

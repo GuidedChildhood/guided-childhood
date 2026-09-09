@@ -80,3 +80,9 @@ jobs:
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs
+      # The lesson council's own scoring rules, against fixtures. The live run
+      # needs a service role key and so cannot live here, but the rules are the
+      # part that has actually been wrong: twice, both times in code that could
+      # not run without production credentials, and both times found by reading
+      # rather than by failing. This is the file that fails instead.
+      - run: node scripts/council-checks.test.mjs

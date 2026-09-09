@@ -11954,3 +11954,163 @@ deployed before calling this closed.
 honour the stamp, Home has a flag for every step in STEPS, and SetupFlags types
 every step. A step key missing from Home's object is a step nobody can ever
 tick, because `find` returns it for ever when the flag is undefined.
+
+## 9 September 2026 — the youngest children's slides, and what the score really moved
+
+**What was wrong.** Six slides for four to seven year olds carried 87, 72, 72,
+55, 47 and 43 words of prose on the wall, against an age ceiling of twelve.
+Reading all six showed the same cause every time: the body was the teacher's
+script printed on the wall. Nearly every idea in those paragraphs was already in
+the word for word script underneath, so the child was being asked to read what
+the teacher was about to say. That is Mayer's redundancy effect, one of the two
+largest in the coherence literature we already cite, and it makes learning
+worse. A Reception child cannot read seventy two words off a wall at all, so the
+paragraph was decoration that squeezed the heading small.
+
+**Migration 276.** Each body cut to what the child needs in front of them while
+they think; anything that lived ONLY in the body moved into the script, where a
+human says it. Three scripts got longer, deliberately. Guards assert the whole
+EYFS and KS1 population is inside the ceiling (not just the six), that the three
+load bearing lines that were body only are findable in a script, that no module
+gained or lost a slide, and that no patched slide changed type.
+
+**The eyebrow that was lying.** The player prints "Try it tonight" over a tryit
+slide. In the parents app that is right, a tryit there IS homework. In school it
+never is: all 21 of them sit in the practise phase, mid lesson, worksheets
+already out. The wall was telling a class to do tonight the thing they were
+doing now. TryItSlide gains an optional label, the same shape quote and scenario
+slides already have, and every school practice slide sets it to "Your turn".
+The parents default is untouched.
+
+**The score, honestly.** Appearance moved 7.81 to 7.93. Six slides out of 479 is
+1.25 percent, and that is exactly what it bought. The number matters less than
+what it exposes: 99 slides are still over their ceiling, 62 of them concept
+slides in KS2 to KS5 carrying up to 131 words. The six were the ones that could
+not wait, because the youngest children cannot read at all, not because they
+were most of the problem.
+
+**Where the container could not run the script.** This session has no
+SUPABASE_SERVICE_ROLE_KEY, so the three counted checks were run as SQL against
+the live scheme rather than through scripts/council.mjs. Same data, same
+formulas: the appearance arithmetic reproduces the previous 7.81 exactly from
+the pre migration rows, which is what makes the 7.93 comparable.
+
+## 9 September 2026 — the gate is a ratchet, and the check that could not see
+
+**The old appearance check was blind to half the scheme.** It counted four
+fields, heading body text caption, on every slide whatever its type. A `choice`
+slide has none of them: its words live in `question` and `options[].text`. So
+all 105 choice slides scored zero words and passed. Same for 37 `discussion`
+(prompt), 21 `objective`, 12 `stat`, and partly for `recap`, `keywords`, `digi`
+and `diagram`, whose content sits in an array the check never opened. 236 of 479
+slides were handed 10 out of 10 for having no fields the check knew the names
+of. The 7.93 was that free pass talking.
+
+**Now an ON_THE_WALL map, and an unmapped type fails loudly.** A check that
+cannot see a slide must never call it good. Scenarios are exempt with the reason
+in code: a fake post has to look like a real post, so cutting one to fit a word
+ceiling teaches children to spot something real posts do not do.
+
+**Two checks, never averaged.** PROSE is read while the teacher is talking,
+where reading and listening compete. BLOCKS are read to decide, one at a time,
+at the child's own pace, so each is measured alone. This distinction is load
+bearing: 213 prose slides against 1164 blocks gives a combined 8.69 that clears
+an 8.5 gate while the prose half sits at 5.73. Averaging them was the available
+cheat and it was not obvious until the numbers came out.
+
+**Honest scores today.** Prose 5.73, blocks 9.10, engagement 4.35, passport 0.00.
+
+**Justin chose the ratchet over a fixed number.** A fixed gate either certifies
+today's work for ever or turns every build red until we arrive, and the second
+teaches everyone to ignore it. The floor is now the best score ever reached, so
+it can never be satisfied by standing still and never failed by standing still.
+Only going backwards is red.
+
+**The trap in a ratchet is the rules,** and it is worth naming because it would
+have bitten us. Loosen a check, every score jumps, the floor rises to meet it,
+and the ratchet certifies a weaker standard while looking like progress. So
+scripts/council-baseline.json stores a fingerprint of council-checks.mjs. Change
+a rule and the ratchet abstains, prints the numbers, compares nothing, and waits
+for a human to run `--rebaseline`. That is meant to be a decision somebody makes
+in a commit with the rule diff beside it.
+
+**Binary checks must be ten, but never started is not going backwards.** The
+passport check is binary: a module either names its stamp or it does not. It
+reads UNMET at 0.00 and does not fail the build; once it has been ten, any drop
+is SLIPPED and does fail. Unbuilt work that is already tracked should not make
+every build red.
+
+**The checks are now testable.** They moved to scripts/council-checks.mjs with
+no database and no credentials, the runner takes `--fixture`, and
+scripts/council-checks.test.mjs runs in CI on the wiring workflow. Both bugs
+found in the scoring rules so far were in code that could not run without
+production credentials, and both were found by reading rather than by failing.
+Reintroducing the choice slide bug turns the suite red, which was checked.
+
+**The known gap.** The floor was set from a fixture, a copy of the live scheme
+read the same day, and the baseline records `"source": "fixture"` so nobody has
+to infer that from a commit message. This container has no service role key. The
+first live run with the same rules will hold or ratchet up.
+
+## 9 September 2026 — the 77 dense slides above KS1 are a different problem
+
+I was about to rewrite them the way I rewrote the six. Measuring first stopped
+that, and it is worth writing down because the two cases look identical and are
+not.
+
+**For EYFS and KS1 the body was the script printed on the wall.** Cutting it lost
+nothing, because everything in it was already being said out loud.
+
+**Above KS1 the body IS the teaching.** Only about 21 percent of a KS2 to KS5
+body's content words appear anywhere in its script, and 75 of the 77 dense slides
+are under 40 percent. The scripts up there are short, around 70 to 80 words, and
+do a different job: what to ask the class, the line to say slowly, what to watch
+for on their faces. Reading them confirms it. "An algorithm sounds complicated,
+but it is just a list of steps followed in order to get a result" is the lesson;
+the script beside it says "kill the mystery early, ask the class for algorithms
+they already know". They complement. They do not duplicate.
+
+**So the ceiling is wrong, not the slides.** Every concept slide from KS2 up
+fails it, 60 out of 60. When a whole corpus written by people who knew what they
+were doing breaks a rule, suspect the rule. Rewriting 77 good slides to hit a
+number we picked would have been the worst thing this session could have done.
+
+**What the evidence actually points at is size.** ISO 9241-303 puts the legible
+minimum for the back of a classroom at about 50px on a 1920 canvas, and section 4
+of the council research already measured ours: body, options and steps render at
+18 to 24px, roughly half. The teach route also caps the player at 1180px on a
+1920 wall, so it is worse than the raw numbers suggest. A 58 word paragraph is
+not the defect. A 58 word paragraph at half the legible size is.
+
+**Order that follows from this.** Set the projector type to the ISO floor first.
+Then the word ceiling stops being a guess, because it becomes whatever fits at a
+size the back row can read, which is the honest way round. Only then is it worth
+touching slide copy above KS1, and by then most of it may not need touching.
+
+WORD_CEILING now says in code which bands are evidenced and which are asserted,
+and CEILING_EVIDENCED exposes it, so 5.73 is never quoted as a fact about the
+lessons.
+
+## 9 September 2026 — the schools preview can be a commit behind, quietly
+
+`schools/vercel.json` skips its build with
+`git diff --quiet HEAD^ HEAD -- . ../shared ...`. That compares only the LAST
+commit, not everything a push brought in. So on a branch where the `shared/`
+change lands in commit one of four, the schools preview is skipped and shows the
+previous code while the branch looks deployed.
+
+It bit this branch: migration 276 put `label: "Your turn"` on all 21 school
+practice slides, the player support for reading that label is in `shared/`, and
+because the final commit only touched `scripts/` and `plans/` the schools preview
+never rebuilt. Anyone opening it would see "Try it tonight" and conclude the fix
+did not work.
+
+**Production is not affected.** A merge commit's `HEAD^` is the previous main, so
+the diff covers every commit the merge brought in. This is a preview only trap,
+and it matters because checking the preview in Chrome DevTools before calling
+something done is one of our non negotiables.
+
+Not fixed here, deliberately. The obvious replacement compares against the push
+base rather than `HEAD^`, but the right variable depends on Vercel environment
+behaviour this container cannot test, and a wrong guess in an ignoreCommand
+breaks previews outright rather than making them stale.
