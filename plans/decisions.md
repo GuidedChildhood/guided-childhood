@@ -12114,3 +12114,158 @@ Not fixed here, deliberately. The obvious replacement compares against the push
 base rather than `HEAD^`, but the right variable depends on Vercel environment
 behaviour this container cannot test, and a wrong guess in an ignoreCommand
 breaks previews outright rather than making them stale.
+
+## 9 September 2026 — the projector was rendering at half the legible size
+
+Justin approved this after the finding that the KS2 to KS5 word ceilings are
+asserted rather than evidenced, and that what the evidence actually points at is
+size (see the entry above).
+
+**The measurement.** ISO 9241-303 puts minimum legible cap height at 16 arc
+minutes, which on a two metre image with the back row at eight metres is about
+50px on a 1920 canvas, 40px absolute floor. We rendered body, options and
+diagram steps at 18 to 24px. Roughly half. A child at the back was not reading
+the lesson, they were watching the teacher read it.
+
+**Three slide types had no projector branch at all:** title, objective and
+keywords rendered at phone size on a classroom wall. So did AnimatedIntro, the
+first slide of every lesson, whose heading capped at 30px inside a 200px
+character frame. And every one of the 22 interactive slides, the ones where a
+child actually does something.
+
+**The fix is one scale, in its own file.** `room()` already stopped slide types
+shipping at phone size, but it never said what the big value should BE, so every
+site picked its own and most picked too small. shared/wall-scale.ts names five
+roles by what the child is doing with the text rather than by size: question,
+display, title, body, aside. Every projector branch reads from it.
+
+**The interactives take a different route on purpose.** 38 of their 41 font
+sizes are `var(--text-*)`, so the projector version is one override of those
+tokens on a wrapper. That fixes all 38 at once and keeps each widget's internal
+type ratios, which 41 hand edits would have flattened.
+
+**Height matters as much as width, and the first version of the scale forgot.**
+At 1366 by 768, the resolution on half the teacher laptops in the country, a
+60px question plus three 40px option cards pushed the Continue button off the
+bottom of the screen. A lesson you have to scroll is a lesson that stops. Each
+role now takes the smaller of a width share and a height share.
+
+**The guard.** scripts/check-wall-scale.mjs, in CI. It evaluates what a 1920 by
+1080 canvas actually renders (clamp and min, not just the upper bound), fails on
+any projector size below the floor, and fails on any slide type that renders
+text without mentioning projector. Reintroducing each of the two historic bugs
+turns it red, which was checked rather than assumed. It also caught a real
+mistake of mine: 3.7vh of 1080 is 39.96px, four hundredths under the floor.
+
+**What only the browser caught.** A blanket regex that made every
+`...eyebrowStyle` spread into `...eyebrowOn(projector)` also rewrote the spread
+INSIDE eyebrowOn, so it called itself. Infinite recursion. Typecheck passed. The
+guard passed. The lesson rendered a crash card. That is the argument for
+non negotiable 5 in one incident: the checks that read source cannot see a
+program that runs forever.
+
+**Parents app untouched, and proved rather than asserted.** Every edit changed
+only the big half of `room(projector, big, small)` or added a projector branch
+where none existed. Diffing every phone side value before and after returns an
+empty set, and a 390px sweep of all seven fixture slides shows no size change
+and no overflow.
+
+**The dev fixture could not render the surface most likely to be wrong.**
+/dev/lesson-player had `?class=1` but no projector flag, so the page that exists
+so the design can be checked without a database could not show the classroom.
+It takes `?projector=1` now, and class mode implies it.
+
+## 9 September 2026 — every lesson now knows its passport page
+
+**The promise was already going home.** All 21 school modules have been telling
+parents, in the parent note, that "today filled a little of your child's
+passport page" and that "each stage ends with a stamp that is earned, never just
+a birthday reached". Nothing recorded which page or which stamp. The council's
+passport check, the one binary check in the set, scored 0 out of 10 on exactly
+that.
+
+**Migration 277 closes the lesson half.** It writes no completion, no stamp and
+no code for any child; public.stage_passports and the codes stay with the
+passport codes lane per the 31 August plan. A lesson knowing its page is the
+prerequisite for stamping one, not the stamping.
+
+**The mapping is derived, not invented.** The only age signal a module carries
+is its key stage, and both the stage vocabulary (lib/stickers/book.ts) and the
+stage to key stage mapping (shared/curriculum-badges.ts) already exist on the
+parents side. Reusing both is the point: one passport, two products.
+
+| Key stage | Page | Stamp |
+| --- | --- | --- |
+| EYFS, KS1 | foundation, First steps | Pebble |
+| KS2 | builder, Good habits | Bloop |
+| KS3 | shaper, Making choices | Orbit |
+| KS4 | independent, Ready at sixteen | Nova |
+| KS5 | after, no page | none |
+
+**Two imprecisions, written down rather than smoothed over.** EYFS takes
+`foundation` although that stage is labelled KS1: Reception sits just under it,
+Pebble carries both, and the alternative is inventing a sixth stage for one
+module and putting a stamp in the passport that the parents app has never heard
+of. All of KS3 takes `shaper`, so `explorer` goes unused: it straddles Years 7
+and 8, but every KS3 module records its band as "Years 7 to 9", and a guess in
+the passport is worse than a stage nobody uses yet.
+
+**KS5 fills nothing, on purpose.** The passport is the journey TO sixteen and
+Years 12 and 13 are past it. Those two modules record `after` rather than being
+left blank, because a blank cannot be told apart from work not done, and a check
+demanding all 21 name a page would push somebody into inventing one for a child
+who has already finished the book.
+
+**The check got stricter, not looser.** It accepted any truthy string, so a typo
+or an invented stage would have scored ten out of ten while nothing could ever
+award it. It now validates against the vocabulary, the same rule as ON_THE_WALL:
+a value the check does not recognise fails. One existing test asserted that
+'Planet Friends 1' should pass and had to be corrected, which is the change
+working.
+
+**Passport: 0.00 to 10.00,** the first check to reach its gate, and the ratchet
+now holds it there: any drop is SLIPPED and fails the build.
+
+**Visible, not just true.** The run sheet names the page and the stamp, so a
+teacher asked about the passport has something better than the generic line to
+read back, and the sixth form modules say plainly that there is no page today.
+
+## 9 September 2026 — engagement was scoring the module's own tool as passive
+
+**4.35 was mostly the instrument.** The engagement check asked whether a slide's
+TYPE was in a list of active types, and `diagram` was not in it. Every one of the
+44 diagram slides counted as a child sitting and watching, including the tool
+slide at the heart of each module, the one the class chants back and then uses.
+
+**The tempting fix was wrong.** Reading the scripts made "move diagram into the
+active set" look obviously right. Grepping them for "chant", "say it back",
+"hands up" matched 20 of 44. But a check that greps the teacher's prose for
+activity words scores writing style, not design, and it under detected badly
+here: a random five of five all had choral response that the pattern missed.
+That is the soft instrument the council exists to avoid.
+
+**The data makes the distinction itself.** A diagram carries an optional
+`verdicts` array, the answer chips the class chooses between, and exactly 21 of
+the 44 have one: one per module, the tool slide. A diagram WITH verdicts is an
+instrument the class operates; without, it is a flow they watch. Structural,
+per slide, and visible in the row rather than inferred from prose. A `quote`
+joins for the same kind of reason: the player renders it under "Say this", so
+the response is the slide's design.
+
+**Engagement: 4.35 to 6.96, all of it the instrument.** No lesson changed. Still
+below the gate, and the 35 stretches that remain are real:
+
+| Passive minutes | Stretches |
+| --- | --- |
+| 5 | 21 |
+| 6 | 8 |
+| 7 | 5 |
+| 8 | 1 |
+
+**The threshold is ours and it is worth arguing about at the margin.** Twenty one
+of the thirty five are one minute over a four minute rule we set. At five minutes
+it is arguable; at seven and eight it is not, and fourteen stretches are six or
+more. The content fix is a response beat inside the long stretches across roughly
+fourteen modules, which is curriculum writing, not a threshold change. Named
+here rather than started, because it is a real piece of work and the size should
+be known before it begins.

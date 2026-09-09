@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import DigiCharacter from '../DigiCharacter'
+import { WALL_TOKENS } from '../../wall-scale'
 
 // The interactive layer: the eighth slide type. A lesson row names a
 // component by key and passes config; the code lives here so a new
@@ -490,16 +491,27 @@ const INTERACTIVES: Record<string, React.ComponentType<{ config: Record<string, 
   'class-tally': ClassTally as React.ComponentType<{ config: Record<string, unknown> }>,
 }
 
-export default function Interactive({ component, config, caption }: { component: string; config?: Record<string, unknown>; caption?: string }) {
+// PROJECTOR. Every widget below sizes from the design tokens, so the wall
+// version is one override of those tokens on the wrapper rather than 41 hand
+// edits: the whole widget scales together and keeps the type ratios its layout
+// depends on. See shared/wall-scale.ts.
+export default function Interactive({ component, config, caption, projector }: { component: string; config?: Record<string, unknown>; caption?: string; projector?: boolean }) {
   const Comp = INTERACTIVES[component]
+  // The token override rides on the wrapper, so it reaches the fallback path
+  // too. A widget key that arrives ahead of a deploy degrades to its caption,
+  // and that caption is on the same wall as everything else.
+  const wall = projector ? (WALL_TOKENS as React.CSSProperties) : undefined
+
   if (!Comp) {
     // Unknown key: degrade to the caption so an ahead of deploy database never breaks a lesson.
-    return caption ? <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', padding: '20px' }}>{caption}</p> : null
+    return caption
+      ? <p style={{ ...wall, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', padding: '20px' }}>{caption}</p>
+      : null
   }
   return (
-    <div>
+    <div style={wall}>
       <Comp config={config ?? {}} />
-      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>{caption}</p>}
+      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: projector ? '900px' : '420px', margin: '18px auto 0' }}>{caption}</p>}
     </div>
   )
 }

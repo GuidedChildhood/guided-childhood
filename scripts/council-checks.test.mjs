@@ -94,7 +94,9 @@ test('a run of zero minute slides is not a stretch', () => {
 // ── Passport ─────────────────────────────────────────────────────────
 test('a module without a passport stage fails', () => {
   assert.equal(checkPassport(lesson('KS2', [], { cycles: [] })).score, 0)
-  assert.equal(checkPassport(lesson('KS2', [], { passport_stage: 'Planet Friends 1' })).score, 10)
+  // 'Planet Friends 1' used to pass here, because the check only asked whether
+  // the field was truthy. It is not a stage the passport has, so it fails now.
+  assert.equal(checkPassport(lesson('KS2', [], { passport_stage: 'builder' })).score, 10)
 })
 
 test('passport is the binary check', () => {
@@ -132,6 +134,49 @@ test('changed rules compare nothing, so a loosened check cannot raise the floor'
 
 test('a check with no history yet is not a failure', () => {
   assert.equal(verdict({ score: 0, best: null, binary: false, rulesChanged: false }), 'FIRST RUN')
+})
+
+
+// ── Passport, after migration 277 ────────────────────────────────────
+test('an invented passport stage fails rather than passing on truthiness', () => {
+  // The first version accepted any truthy string, so a typo would have scored
+  // ten out of ten while nothing could ever award it.
+  const bad = [{ module_id: 'x', key_stage: 'KS2', slides: [], teacher_notes: { passport_stage: 'buidler' } }]
+  assert.equal(checkPassport(bad).score, 0)
+  assert.equal(checkPassport(bad).fails[0].passport_stage, 'buidler')
+})
+
+test('a sixth form module that sits after the passport counts as knowing', () => {
+  const ks5 = [{ module_id: 'x', key_stage: 'KS5', slides: [], teacher_notes: { passport_stage: 'after' } }]
+  assert.equal(checkPassport(ks5).score, 10)
+})
+
+
+// ── Engagement: what counts as the child doing something ─────────────
+test('a diagram with verdicts is the tool the class uses, so it ends a stretch', () => {
+  const withTool = checkEngagement(lesson('KS2', [
+    { type: 'concept', minutes: 3 },
+    { type: 'diagram', minutes: 3, verdicts: ['Real', 'Fake', 'Ask'] },
+    { type: 'concept', minutes: 3 },
+  ]))
+  assert.equal(withTool.detail, '2 of 2 stretches within 4 minutes')
+})
+
+test('a diagram with no verdicts is a flow they watch, so the stretch runs on', () => {
+  const flowOnly = checkEngagement(lesson('KS2', [
+    { type: 'concept', minutes: 3 },
+    { type: 'diagram', minutes: 3 },
+    { type: 'concept', minutes: 3 },
+  ]))
+  assert.equal(flowOnly.detail, '0 of 1 stretches within 4 minutes')
+  assert.equal(flowOnly.fails[0].minutes, 9)
+})
+
+test('a quote is said aloud, so it counts as responding', () => {
+  const r = checkEngagement(lesson('KS2', [
+    { type: 'concept', minutes: 3 }, { type: 'quote', minutes: 1 }, { type: 'concept', minutes: 3 },
+  ]))
+  assert.equal(r.detail, '2 of 2 stretches within 4 minutes')
 })
 
 console.log(`\n${ran} passed\n`)
