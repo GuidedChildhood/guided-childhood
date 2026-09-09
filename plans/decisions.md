@@ -12317,3 +12317,48 @@ which ceilings rest on decoding and which on measurement.
 **Prose 5.73 to 9.11, blocks 9.10 to 9.52.** No lesson changed. What remains is
 six slides that genuinely overflow at 106 to 131 words, which is real copy to
 fix and a tractable six rather than the 91 we thought.
+
+## 9 September 2026 — migration 278, fourteen slides split so they fit the wall
+
+**Six slides clipped; fourteen were split.** Six actually overflow today. Another
+eight sit between 106 and 113 words, the band where fitting depends on how long
+the heading happens to be, so they fit by luck rather than design. The first
+draft of the migration split only the six and **its own ceiling guard rejected
+it**, which was the guard doing its job: a ceiling that means "stay out of the
+coin flip band" cannot make an exception for the slides that won the toss.
+
+**Split, not cut, and split by marker rather than by retyping.** Three of the
+fourteen are the most safeguarding sensitive slides in the scheme: pornography
+exposure, coercion and threats, and what to do when an image is already out
+there. Their scripts say "read this slide almost word for word" and "slow right
+down, this is the most important slide of the hour". The body IS the script
+there, so a non specialist teacher has exact words for the hardest minutes.
+
+Cutting those words to hit a number would strip the wording a teacher is told to
+read aloud. Leaving them is worse: a teacher reading word for word from a slide
+whose last third is off the bottom of the wall.
+
+So each slide is cut at a marker that already exists in its body, and the halves
+are the text either side of it. **No copy was retyped, so no safeguarding
+sentence can be altered by a transcription slip.** Three second halves needed a
+new opening word and each override is named in the migration.
+
+**Beat order is load bearing on ks4-16 slide 15.** It must land "not your fault"
+and "you will not be in trouble" BEFORE the fix. The split follows that exactly,
+and the third truth, "something can actually be done", becomes the second
+slide's heading so the promise survives rather than being swallowed.
+
+**Guards:** every KS2 to KS5 prose slide under the measured 105; twelve load
+bearing safeguarding phrases still present somewhere in the scheme; every DSL
+instruction still in a script; nine modules at their new slide counts; and every
+module's total minutes unchanged, which is what keeps the cycle map honest since
+the player derives cycles from minutes.
+
+**Verified by re-rendering, not by assertion. 92 of 92 prose slides now fit** at
+both 1920x1080 and 1366x768, with the 525 word control still clipping by 1791px
+so the measurement is known to be live.
+
+**Prose 9.11 to 9.78.** Five prose slides still fail, and they are a different
+question: three EYFS and KS1 title cards at 36 to 43 words plus two diagrams.
+Those are teacher speech printed on a wall for children who cannot read it, the
+same shape as migration 276, and they are small. Named, not started.
