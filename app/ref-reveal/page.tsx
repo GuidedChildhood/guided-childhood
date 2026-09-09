@@ -1,5 +1,7 @@
 'use client'
 
+import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import ResultScreen from '@/app/(marketing)/starter-pack/ResultScreen'
 import { getStageFromAgeBand } from '@/lib/content/stages'
 
@@ -21,7 +23,12 @@ import { getStageFromAgeBand } from '@/lib/content/stages'
 // Same as every other ref-* page: real component, fake data, 404 in production
 // via middleware.
 
-export default function RefReveal() {
+// ?risk=1 renders the same screen with a typed worry that trips the gate in
+// lib/concerns/risk, because the path where a parent types something
+// frightening is the one that most needs looking at and the one nobody would
+// ever reach by accident.
+function Reveal() {
+  const risk = useSearchParams().get('risk') === '1'
   const stage = getStageFromAgeBand('11-13')
   return (
     <ResultScreen
@@ -30,9 +37,13 @@ export default function RefReveal() {
       challenge="mood_changes"
       worry="something_else"
       worries={['something_else', 'mood_after_screens', 'social_media']}
-      worryOther="speaking on phone a lot as friend has a new one"
+      worryOther={risk ? 'she said she doesn\u2019t want to be here any more' : 'speaking on phone a lot as friend has a new one'}
       feeling="anxious"
       childName="Alma"
     />
   )
+}
+
+export default function RefReveal() {
+  return <Suspense><Reveal /></Suspense>
 }

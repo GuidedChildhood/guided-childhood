@@ -39,12 +39,24 @@ import { MethodRow, type MethodId } from '@/components/starter/MethodIcon'
 
 const FALLBACK = ['wont_put_down', 'mood_after_screens', 'asking_for_phone']
 
-export default function WorryAnswers({ worryIds, own }: {
+export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false }: {
   worryIds: string[]
   /** What they typed into Something else. Gets a card of its own, in their
    *  words, because the worry a parent cared enough to write out by hand was
    *  the one worry this section used to drop on the floor. */
   own?: string
+  /** The one thing to do this evening, written per stage per pathway key.
+   *
+   *  It was cut with the examples on 9 September, at the same moment the hero
+   *  was sharpened from "how it gets better from tonight" into "what you can
+   *  do tonight". So the promise got MORE specific in the same edit that
+   *  removed the delivery, on the page whose whole job is trust. It is back,
+   *  but only on the first card it genuinely answers: never on the catch all,
+   *  where a stock script is about somebody else's evening. */
+  tonight?: string
+  /** Their words tripped the risk gate in lib/concerns/risk. The card stops
+   *  being an answer and becomes a handover. */
+  helpFirst?: boolean
 }) {
   const ownWords = (own ?? '').trim()
   const named = worryIds.filter(id => id !== CATCH_ALL_ID && ANSWERS[id])
@@ -63,6 +75,7 @@ export default function WorryAnswers({ worryIds, own }: {
     : named
   const chosen = withOwn.length ? withOwn : FALLBACK
   const rest = WORRIES.filter(w => w.id !== CATCH_ALL_ID && !chosen.includes(w.id))
+  const firstAnswerable = chosen.findIndex(id => id !== CATCH_ALL_ID)
   const theirs = named.length > 0 || !!ownWords
 
   return (
@@ -82,10 +95,17 @@ export default function WorryAnswers({ worryIds, own }: {
         // paragraph pretending to be about their evening.
         const a = isOwn
           ? {
-              question: 'You typed this one yourself. What happens to it?',
-              answer: 'DiGi reads your words against everything we hold and hands you the closest scripts and moments we have, and it joins your check in like any other worry. We have not hand written a pathway for these exact words yet. Yours is now in the queue for the ones we write next.',
-              proof: ['Counted for what we build next'],
-              methods: ['checkin', 'digi', 'moment', 'script'] as MethodId[],
+              question: helpFirst
+                ? 'We are not going to answer this one with a product.'
+                : 'You typed this one yourself. What happens to it?',
+              answer: helpFirst
+                ? 'If they have said anything about hurting themselves or about not wanting to be here, please stop reading this page and ring your GP today. If they are not safe right now, 999 or your nearest A and E. Childline is 0800 1111, any time of day or night. We have kept your words and your place here for when you come back.'
+                : 'DiGi reads your words against everything we hold and hands you the closest scripts and moments we have, and it joins your check in like any other worry. We have not hand written a pathway for these exact words yet. Yours is now in the queue for the ones we write next.',
+              proof: [],
+              // No method chips on a handover. A row reading Daily check in and
+              // Moments under a disclosure of self harm is the product
+              // answering the wrong question in public.
+              methods: (helpFirst ? [] : ['checkin', 'digi', 'moment', 'script']) as MethodId[],
             }
           : ANSWERS[id]
         return (
@@ -144,6 +164,23 @@ export default function WorryAnswers({ worryIds, own }: {
                 friend's new phone, because the script is written per pathway
                 and the pathway is a bucket several worries share. Naming the
                 method is both shorter and true of every worry in the bucket. */}
+            {/* One thing they can do this evening, before they have paid a
+                penny. On the first card the stock script actually fits: never
+                on the catch all, and never when the words tripped the gate. */}
+            {!isOwn && !helpFirst && i === firstAnswerable && tonight && (
+              <div style={{ marginTop: 13, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 14, padding: '12px 14px' }}>
+                <div style={{
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+                  marginBottom: 5,
+                }}>
+                  Tonight
+                </div>
+                <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.45, color: 'var(--ink)' }}>
+                  {tonight}
+                </p>
+              </div>
+            )}
             <MethodRow ids={a.methods} />
             {/* The counted number, back on the card.
                 The method row replaced the proof chips and took the only
@@ -157,7 +194,7 @@ export default function WorryAnswers({ worryIds, own }: {
                 fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em',
                 color: 'var(--ink-soft)',
               }}>
-                {scriptsForWorry(id)} scripts written for this one
+                {scriptsForWorry(id)} scripts cover this one
               </p>
             )}
           </div>
@@ -196,6 +233,19 @@ export default function WorryAnswers({ worryIds, own }: {
               </span>
             ))}
           </div>
+          {/* "Seeing things they should not" sits between Morning TV and AI
+              chatbots and quietly covers pornography, pro suicide content and
+              adult contact. Those do not wait for a script, and a chip in a
+              list is the wrong size for them. */}
+          <p style={{
+            margin: '12px 0 0', fontSize: 'var(--text-sm)', lineHeight: 1.55,
+            color: 'var(--ink-soft)',
+          }}>
+            If someone has contacted your child who should not have, report it to CEOP at
+            ceop.police.uk and tell the school the same day. If it is self harm or suicide
+            content in a feed, report it in the app and get the account out of the feed. The
+            scripts are for the conversation afterwards, not instead of it.
+          </p>
         </div>
       )}
     </div>

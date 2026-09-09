@@ -10,6 +10,7 @@ import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
 import SolveLoop from '@/components/starter/SolveLoop'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
+import { needsHelpFirst } from '@/lib/concerns/risk'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
 import { MockAsk, MockJars, MockKidApp } from './Mocks'
@@ -214,13 +215,16 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // out of the roll call entirely, which meant the ONE worry a parent cared
   // enough about to type was the one worry this page never mentioned.
   const own = ownFirst
+  // What they typed decides whether this page sells or helps. See
+  // lib/concerns/risk for why the gate is deliberately crude.
+  const helpFirst = needsHelpFirst(own)
   const told = (worries ?? [])
     .map(w => (w === CATCH_ALL_ID ? own : worryLabel(w)))
     .filter(Boolean)
   const rollCall = told.length ? told : [concern]
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
-  const headline = kid ? `${kid}'s pathway is built.` : 'Your pathway is built.'
+  const headline = kid ? `${kid}'s pathway is ready.` : 'Your pathway is ready.'
   const ages = stage.ageBand === '16+' ? '16 and up' : stage.ageBand.replace('-', ' to ')
   const quote = stage.parentQuote
   // The term time pair, so the number on this page is the number the app will
@@ -235,6 +239,39 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   const progressRef = useRef<HTMLDivElement>(null)
   const [showFloat, setShowFloat] = useState(false)
 
+  // ── THE ONLY DOOR, FOR PEOPLE WHO TURNED THE MOTION OFF ──────────────────
+  //
+  // showFloat used to be set only inside the GSAP effect below, which returns
+  // early on prefers-reduced-motion. That was survivable while the hero
+  // carried a Get started button. Removing that button (it fired before the
+  // page had made a claim) made it a real bug: anybody with reduced motion on
+  // scrolled the whole reveal with NO call to action until the very bottom.
+  //
+  // That cohort skews toward migraine, vestibular conditions and parents of
+  // neurodivergent children, which is to say the people this product is for.
+  // So the door rides a plain IntersectionObserver that runs for everybody,
+  // and GSAP is left to do only the decoration.
+  useEffect(() => {
+    const first = firstRef.current
+    const cta = ctaRef.current
+    if (!first || !cta) return
+    // A parent who typed something frightening gets no floating button at all.
+    // The real one is still at the end of the page. A sticky Finish setting up
+    // riding over a block that names Childline is the product selling over the
+    // top of a crisis, and there is no breakpoint where that is acceptable.
+    if (helpFirst) { setShowFloat(false); return }
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (e.target === first) setShowFloat(!e.isIntersecting && e.boundingClientRect.top < 0)
+        // The real button in view always wins: never float a duplicate over it.
+        if (e.target === cta && e.isIntersecting) setShowFloat(false)
+      }
+    }, { rootMargin: '0px 0px -30% 0px' })
+    io.observe(first)
+    io.observe(cta)
+    return () => io.disconnect()
+  }, [helpFirst])
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const ctx = gsap.context(() => {
@@ -244,12 +281,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
       }
       if (progressRef.current) {
         gsap.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 } })
-      }
-      if (firstRef.current) {
-        ScrollTrigger.create({ trigger: firstRef.current, start: 'bottom 70%', onEnter: () => setShowFloat(true), onLeaveBack: () => setShowFloat(false) })
-      }
-      if (ctaRef.current) {
-        ScrollTrigger.create({ trigger: ctaRef.current, start: 'top 95%', onEnter: () => setShowFloat(false), onLeaveBack: () => setShowFloat(true) })
       }
       const fus = gsap.utils.toArray<HTMLElement>('.wow-fu', rootRef.current)
       if (fus.length) {
@@ -299,7 +330,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             ))}
           </h1>
           <p className="wow-fu" style={{ ...LEAD, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0 }}>
-            You told us what is going wrong. Here is what we do about each one, and what you can do tonight. Scroll, or skip straight in.
+            {helpFirst
+              ? 'You told us what is going wrong. Please read the box below first.'
+              : 'You told us what is going wrong. Here is what we do about each one, and what you can do tonight. Scroll, or skip straight in.'}
           </p>
         </div>
       </div>
@@ -338,6 +371,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             only question a parent is really asking here is whether this deals
             with THEIR problem, so it is answered before anything else. */}
         <section style={SECTION}>
+          {helpFirst && <BiggerThanThis kid={kid} urgent />}
           <div className="wow-fu" style={EYEBROW}>What we do about it</div>
           <h2 className="wow-fu" style={H2}>
             {worries?.filter(w => w !== CATCH_ALL_ID).length === 1
@@ -351,7 +385,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               the chips underneath every card actually mean, which is the one
               thing a first time reader cannot guess. */}
           <p className="wow-fu" style={{ ...LEAD, marginBottom: 18 }}>
-            Every worry is picked up by the same few things: the daily check in, the scripts, the moments it shows up in, and DiGi when you need to ask.
+            Every worry is picked up by the same few things: the daily check in, the scripts, the moments it shows up in, DiGi when you need to ask, the device time, their own app, the lessons, and your record of how it went.
           </p>
 
           {/* The roll call, in butter rather than the old black card. */}
@@ -372,8 +406,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             </p>
           </div>
 
-          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} />
-          <BiggerThanThis kid={kid} />
+          {/* Order matters more than it looks. Default is ticked worries, then
+              help, then the worry they typed: a parent who typed something
+              frightening must not have to scroll PAST a marketing card to
+              reach a phone number. When the gate fires it goes to the very
+              top, above the heading. */}
+          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} tonight={action} helpFirst={helpFirst} />
+          {!helpFirst && <BiggerThanThis kid={kid} />}
         </section>
 
         {/* ── How it works ─────────────────────────────────────────────── */}
@@ -420,6 +459,12 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>
                 to start the day
               </span>
+              {/* On the number, not only in the paragraph below it. A scanning
+                  parent takes away "60 minutes" and nothing else, and the
+                  honest sixty words underneath never get read. */}
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', width: '100%' }}>
+                A starting point, not a safe limit.
+              </span>
             </div>
             <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10 }}>
               Theirs at breakfast, without asking. The day reaches {guide} minutes, and the last {guide - base} arrive with jobs, reading and time outside. Both numbers are yours to move.
@@ -448,6 +493,11 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 won" survives them. Same product, and a parent who has read one
                 article about rewards does not bounce off it. */}
             <Point icon="checkin" title="Planned, not won">Most of the day is theirs before they do anything. Nobody has to win the first hour back.</Point>
+            {/* A child whose mood is already low, put on a system where a good
+                evening is earned and can be lost, is a plausible route to more
+                conflict rather than less. The page sells the mechanic to
+                exactly that parent, so it should say this. */}
+            <Point icon="digi" title="If the mood is the worry, start without the stars">Use the check in and the scripts for a fortnight first. A child who feels they have to earn a good evening will not thank you for a chart.</Point>
             <Point icon="balance" title="Protected time nobody can buy">Bedtime, meals and school hours are off the table at any price.</Point>
           </div>
 
@@ -474,6 +524,16 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 the cost. A parent paying because a device is being used
                 secretly at 1am needs to know this will not see that BEFORE
                 they pay, not in week two. */}
+            {/* The page holds this principle and never applied it to the one
+                feature where it matters most: a daily mood record kept on an
+                11 to 13 year old. A covert log found later is precisely the
+                rupture this product exists to prevent. Written as the part we
+                can guarantee today, which is our position rather than a claim
+                about a screen in the child's app. */}
+            <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
+              The check in is not a secret file kept on {they}, and we would not build one. If you
+              are not willing for {they} to know you are keeping it, this is the wrong tool.
+            </p>
             <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
               Because {they} tells us, this works when you are working with them rather than around them. If you think a device is being used secretly at night, that is a different problem, and taking it out of the bedroom will do more than any app.
             </p>
@@ -571,13 +631,23 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               countdown being hidden, and a parent who feels that later reads
               the whole page back as a sales trick.
 
-              We cannot put a price here yet because the product does not have
-              one: there is no price in the codebase, only FOUNDER_CAP. So this
-              says the parts that ARE true and settle the same fear, in ink
-              rather than grey. When a price exists it belongs on this line. */}
+              I wrote in an earlier pass that there was no price to state. That
+              was wrong: /join, /terms and /pathway have all carried £7.99
+              founder, £12.99 standard and £99 a year for weeks. This reveal
+              was the only page in the funnel hiding a number the rest of the
+              funnel shouts, which is worse than having no price at all,
+              because a parent finishing setup then lands on /join and finds
+              out we chose not to tell them.
+
+              The numbers are duplicated as text rather than imported because
+              the cap counter lives behind an async Stripe read on a server
+              component and this screen is a client one. If they move, the
+              guard in scripts/check-price-copy will fail. */}
           <p style={{ textAlign: 'center', marginTop: 12, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55 }}>
             Everything open for four days. No card to start, so nothing can charge you by accident.
-            We will email you before the four days are up, not after.
+            After that it is <strong>£7.99 a month</strong> at the founder rate, held for life and
+            limited to the first fifty, then £12.99. We will email you before the four days are up,
+            not after.
           </p>
           <p style={{ textAlign: 'center', marginTop: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
             Already have an account? <Link href="/login" style={{ color: 'var(--terracotta-dark)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
