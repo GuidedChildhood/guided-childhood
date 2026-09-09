@@ -223,16 +223,33 @@ export function checkEngagement(lessons) {
   }
 }
 
+// The stages the passport actually has, from lib/stickers/book.ts on the
+// parents side, plus 'after' for the sixth form modules that sit past it.
+// Kept as a literal rather than imported from shared/passport-stages.ts because
+// this file is plain .mjs with no build step, and a drift between the two is
+// caught by migration 277's own guard, which asserts the mapping module by
+// module.
+const PASSPORT_PLACEMENTS = new Set([
+  'foundation', 'builder', 'explorer', 'shaper', 'independent', 'after',
+])
+
 // ── Check 10: the passport reaches the lesson ────────────────────────
 export function checkPassport(lessons) {
   const fails = []
   let pass = 0
   for (const l of lessons) {
-    // A lesson knows its stamp when the notes name one. Nothing can be stamped
-    // until this exists, so it is the first thing the passport work must fix.
-    const has = Boolean(l.teacher_notes?.passport_stage)
-    if (has) pass += 1
-    else fails.push({ module: l.module_id, ks: l.key_stage, missing: 'passport_stage' })
+    // A lesson knows its page when the notes name one the passport actually
+    // has. Any truthy string used to pass, which would have let a typo or an
+    // invented stage score ten out of ten while nothing could ever award it.
+    // Same rule as ON_THE_WALL: a value the check does not recognise fails.
+    //
+    // 'after' counts as knowing. KS5 is past sixteen and the passport is the
+    // journey to sixteen, so those two modules fill nothing on purpose. A check
+    // that demanded a page from all 21 would push somebody into inventing one
+    // for a child who has already finished the book.
+    const stage = l.teacher_notes?.passport_stage
+    if (PASSPORT_PLACEMENTS.has(stage)) pass += 1
+    else fails.push({ module: l.module_id, ks: l.key_stage, passport_stage: stage ?? 'missing' })
   }
   return {
     key: 'passport',
@@ -243,7 +260,7 @@ export function checkPassport(lessons) {
     binary: true,
     name: 'Passport: the lesson knows which stamp it earns',
     score: lessons.length ? (10 * pass) / lessons.length : 0,
-    detail: `${pass} of ${lessons.length} modules name a passport stage`,
+    detail: `${pass} of ${lessons.length} modules know their passport page`,
     fails,
   }
 }

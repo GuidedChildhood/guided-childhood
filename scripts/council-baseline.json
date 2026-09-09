@@ -1,5 +1,5 @@
 {
-  "rules": "502a38525643",
+  "rules": "23de8404b970",
   "source": "fixture",
   "scores": {
     "prose": {
@@ -15,7 +15,7 @@
       "at": "2026-09-09"
     },
     "passport": {
-      "best": 0,
+      "best": 10,
       "at": "2026-09-09"
     }
   }

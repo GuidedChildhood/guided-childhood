@@ -4,6 +4,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { parseSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSlide } from '@gc/shared/lesson-slides'
+import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
 //
@@ -40,6 +41,9 @@ type TeacherNotes = {
   tool?: { heading?: string; lines?: string[]; strapline?: string }
   i_can?: string[]
   worksheet?: { title?: string }
+  // Which passport page this lesson fills (migration 277), or 'after' for the
+  // sixth form modules that sit past sixteen. shared/passport-stages.ts.
+  passport_stage?: PassportPlacement
 }
 type ParentNote = { passport?: string; family_question?: string }
 type DslNote = { required?: boolean; note?: string }
@@ -131,6 +135,10 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
   if (slides.length === 0) notFound()
   const notes = lesson.teacher_notes ?? {}
   const parent = lesson.parent_note ?? {}
+  // 'after' is an answer, not a page, so it deliberately resolves to nothing
+  // here and gets its own line below.
+  const placement = notes.passport_stage
+  const passport = placement && placement !== 'after' ? PASSPORT_STAGES[placement] : null
   const dsl = lesson.dsl_note ?? {}
 
   const totalMinutes = slides.reduce((t, s) => t + (s.minutes ?? 0), 0)
@@ -272,6 +280,23 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             The parent note goes in book bags today. It carries what you taught, the question for the
             dinner table{parent.passport ? ', and the passport line, so home knows the page it is filling' : ''}.
           </TickRow>
+          {/* WHICH PAGE, NAMED. The parent note has always promised that today
+              filled a passport page and that each stage ends with an earned
+              stamp. Until migration 277 nothing said which page, so a teacher
+              asked about it had only the generic line to read back. */}
+          {passport && (
+            <p style={{ ...body, margin: '8px 0' }}>
+              <strong>{passport.page}.</strong> Today fills that page. When the {passport.keyStage} pages
+              are finished the child earns {passport.stamp}&rsquo;s stamp, which is the stage ending, not
+              this lesson ending.
+            </p>
+          )}
+          {notes.passport_stage === 'after' && (
+            <p style={{ ...body, color: 'var(--ink-muted)', margin: '8px 0' }}>
+              No passport page today. The passport is the journey to sixteen and this year group is past
+              it, so nothing here is a stamp waiting to be earned.
+            </p>
+          )}
           {parent.passport && (
             <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', fontStyle: 'italic', margin: '8px 0' }}>
               The passport line on the note: &ldquo;{parent.passport}&rdquo;

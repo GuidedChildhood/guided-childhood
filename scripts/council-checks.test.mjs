@@ -94,7 +94,9 @@ test('a run of zero minute slides is not a stretch', () => {
 // ── Passport ─────────────────────────────────────────────────────────
 test('a module without a passport stage fails', () => {
   assert.equal(checkPassport(lesson('KS2', [], { cycles: [] })).score, 0)
-  assert.equal(checkPassport(lesson('KS2', [], { passport_stage: 'Planet Friends 1' })).score, 10)
+  // 'Planet Friends 1' used to pass here, because the check only asked whether
+  // the field was truthy. It is not a stage the passport has, so it fails now.
+  assert.equal(checkPassport(lesson('KS2', [], { passport_stage: 'builder' })).score, 10)
 })
 
 test('passport is the binary check', () => {
@@ -132,6 +134,21 @@ test('changed rules compare nothing, so a loosened check cannot raise the floor'
 
 test('a check with no history yet is not a failure', () => {
   assert.equal(verdict({ score: 0, best: null, binary: false, rulesChanged: false }), 'FIRST RUN')
+})
+
+
+// ── Passport, after migration 277 ────────────────────────────────────
+test('an invented passport stage fails rather than passing on truthiness', () => {
+  // The first version accepted any truthy string, so a typo would have scored
+  // ten out of ten while nothing could ever award it.
+  const bad = [{ module_id: 'x', key_stage: 'KS2', slides: [], teacher_notes: { passport_stage: 'buidler' } }]
+  assert.equal(checkPassport(bad).score, 0)
+  assert.equal(checkPassport(bad).fails[0].passport_stage, 'buidler')
+})
+
+test('a sixth form module that sits after the passport counts as knowing', () => {
+  const ks5 = [{ module_id: 'x', key_stage: 'KS5', slides: [], teacher_notes: { passport_stage: 'after' } }]
+  assert.equal(checkPassport(ks5).score, 10)
 })
 
 console.log(`\n${ran} passed\n`)

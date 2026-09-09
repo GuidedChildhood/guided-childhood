@@ -12174,3 +12174,58 @@ and no overflow.
 /dev/lesson-player had `?class=1` but no projector flag, so the page that exists
 so the design can be checked without a database could not show the classroom.
 It takes `?projector=1` now, and class mode implies it.
+
+## 9 September 2026 — every lesson now knows its passport page
+
+**The promise was already going home.** All 21 school modules have been telling
+parents, in the parent note, that "today filled a little of your child's
+passport page" and that "each stage ends with a stamp that is earned, never just
+a birthday reached". Nothing recorded which page or which stamp. The council's
+passport check, the one binary check in the set, scored 0 out of 10 on exactly
+that.
+
+**Migration 277 closes the lesson half.** It writes no completion, no stamp and
+no code for any child; public.stage_passports and the codes stay with the
+passport codes lane per the 31 August plan. A lesson knowing its page is the
+prerequisite for stamping one, not the stamping.
+
+**The mapping is derived, not invented.** The only age signal a module carries
+is its key stage, and both the stage vocabulary (lib/stickers/book.ts) and the
+stage to key stage mapping (shared/curriculum-badges.ts) already exist on the
+parents side. Reusing both is the point: one passport, two products.
+
+| Key stage | Page | Stamp |
+| --- | --- | --- |
+| EYFS, KS1 | foundation, First steps | Pebble |
+| KS2 | builder, Good habits | Bloop |
+| KS3 | shaper, Making choices | Orbit |
+| KS4 | independent, Ready at sixteen | Nova |
+| KS5 | after, no page | none |
+
+**Two imprecisions, written down rather than smoothed over.** EYFS takes
+`foundation` although that stage is labelled KS1: Reception sits just under it,
+Pebble carries both, and the alternative is inventing a sixth stage for one
+module and putting a stamp in the passport that the parents app has never heard
+of. All of KS3 takes `shaper`, so `explorer` goes unused: it straddles Years 7
+and 8, but every KS3 module records its band as "Years 7 to 9", and a guess in
+the passport is worse than a stage nobody uses yet.
+
+**KS5 fills nothing, on purpose.** The passport is the journey TO sixteen and
+Years 12 and 13 are past it. Those two modules record `after` rather than being
+left blank, because a blank cannot be told apart from work not done, and a check
+demanding all 21 name a page would push somebody into inventing one for a child
+who has already finished the book.
+
+**The check got stricter, not looser.** It accepted any truthy string, so a typo
+or an invented stage would have scored ten out of ten while nothing could ever
+award it. It now validates against the vocabulary, the same rule as ON_THE_WALL:
+a value the check does not recognise fails. One existing test asserted that
+'Planet Friends 1' should pass and had to be corrected, which is the change
+working.
+
+**Passport: 0.00 to 10.00,** the first check to reach its gate, and the ratchet
+now holds it there: any drop is SLIPPED and fails the build.
+
+**Visible, not just true.** The run sheet names the page and the stamp, so a
+teacher asked about the passport has something better than the generic line to
+read back, and the sixth form modules say plainly that there is no page today.
