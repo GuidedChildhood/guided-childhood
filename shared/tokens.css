@@ -92,6 +92,48 @@
   --lav:               var(--stage-4);
   --lav-deep:          var(--terracotta-dark);
 
+  /* ── THE BUTTER THAT WAS NEVER A COLOUR (9 September 2026) ──────────────
+     --butter is used sixteen times across the child app, the printables and
+     the ref pages, and it was defined in exactly four standalone HTML files
+     under content/ and tools/, none of which this app imports. So it did not
+     resolve, and an unresolved custom property makes the WHOLE declaration
+     invalid at computed value time: `background: var(--butter)` was not a
+     wrong colour, it was no colour, and the child's jobs and week screens
+     rendered on whatever happened to be behind them.
+
+     Nothing errored. Nothing logged. The pages rendered. The only way to know
+     was to be the family looking at a washed out screen, which is why this was
+     found by reading getComputedStyle rather than by reading the code.
+
+     Butter is not a new colour: --terracotta's own comment above reads
+     "butter", and tools/social-cards/template.html has carried this exact set
+     since the brand was drawn. Aliased rather than restated as hex, so the two
+     names for one colour can never drift apart.
+
+     Justin, 9 September 2026: "Butter colour fix make sure all fits happy news
+     design." */
+  --butter:            var(--terracotta);
+  --butter-dark:       var(--terracotta-dark);
+  --butter-lt:         var(--terracotta-lt);
+
+  /* Sage is the PALE one. It is used as the ground of a right answer and of a
+     lesson already passed, sitting beside var(--cream) as the alternative, so
+     it is the tint and never the retro green, which is a panel colour. Its
+     text partner is --sage-ink, whose value comes from the fallback the seven
+     call sites already agreed on. */
+  --sage:              var(--tint-sage);
+  --sage-ink:          #2D5016;
+
+  /* The rest of the family the sweep turned up. Every one was in use with a
+     hardcoded fallback, so these change nothing on screen; they exist so the
+     value lives in one place rather than in seven copies that can disagree. */
+  --coral-dark:        var(--terracotta-dark);
+  --gold-hover:        #E3B53A;
+  --tint-butter:       #FFF6DE;
+  --tint-rose:         #FBE9E9;
+  --warm-bg:           #F7F3EE;
+  --deep-teal-dark:    #1F5D57;
+
   /* ── FONTS ── */
   --font-display: var(--font-nunito), system-ui, sans-serif;
   --font-body:    var(--font-nunito), system-ui, sans-serif;

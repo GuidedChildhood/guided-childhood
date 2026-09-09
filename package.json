@@ -8,7 +8,8 @@
     "start": "next start",
     "wiring": "node scripts/wiring-check.mjs",
     "checkin-guard": "node scripts/check-concern-dots.mjs",
-    "concern-guards": "node --experimental-strip-types scripts/check-focus-labels.mjs && node --experimental-strip-types scripts/check-baseline-seed.mjs && node --experimental-strip-types scripts/check-silver-rule.mjs"
+    "concern-guards": "node --experimental-strip-types scripts/check-focus-labels.mjs && node --experimental-strip-types scripts/check-baseline-seed.mjs && node --experimental-strip-types scripts/check-silver-rule.mjs",
+    "token-guard": "node scripts/check-tokens.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

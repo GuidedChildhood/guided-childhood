@@ -135,7 +135,11 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)',
             fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em',
-            color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 16,
+            // Ink, for the same reason as the jobs screen's back link: on the
+            // butter ground this page has always asked for, ink muted reads
+            // 2.07 to 1. The fixture does not render this link, so it was
+            // fixed from the source rather than from a screenshot.
+            color: 'var(--ink)', textDecoration: 'none', marginBottom: 16,
           }}
         >
           ← Back

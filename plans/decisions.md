@@ -11816,3 +11816,48 @@ rule now needs the RUN of good scores rather than the last one. Both maps are
 typechecking perfectly while passing the wrong one. That is why
 `scripts/check-silver-rule.mjs` exists and runs in CI: the rule is tested on
 what it decides, not on its types.
+
+## 9 September 2026, the butter that was never a colour
+
+Justin: "Butter colour fix make sure all fits happy news design."
+
+`--butter` was used sixteen times and defined in no stylesheet the app imports.
+It lived only in four standalone HTML files under `content/` and `tools/`, which
+are artwork. An unresolved custom property does not fall back to something
+sensible: it makes the WHOLE declaration invalid at computed value time, so
+`background: var(--butter)` was not a wrong colour, it was no colour. The child
+jobs and week screens, the printables sheet and five ref pages painted nothing
+and showed whatever was behind them.
+
+Sweeping for it found five more in the same state: `--butter-dark`,
+`--butter-lt`, `--sage`, `--coral-dark`, `--gold-hover`.
+
+**Three rules came out of it.**
+
+1. **Alias, never invent.** Butter is not a new colour. `--terracotta`'s own
+   comment already reads "butter", and `tools/social-cards/template.html` has
+   carried `#EDC35F / #C99A28 / #FEF7E0` since the brand was drawn. They are
+   defined as `var(--terracotta)` and friends rather than as fresh hex, so two
+   names for one colour can never drift.
+2. **Sage is the pale one.** It grounds a right answer and a passed lesson,
+   sitting beside `var(--cream)`, so it is `--tint-sage` and never the retro
+   green, which is a panel colour.
+3. **A screen that has been rendering wrong was tuned against the broken
+   state.** So every affected screen was measured before AND after, by forcing
+   the tokens back to transparent in the browser and diffing the contrast of
+   every text node. Across ten screens exactly one thing got worse: the child's
+   back link, `--ink-muted` on butter at 2.07 to 1. Fixed to ink on both the
+   jobs and week screens. Nothing else moved, and nothing started scrolling
+   sideways.
+
+**What was deliberately NOT changed.** The audit also found a lot of
+`--ink-muted` on white at 3.46 to 1, which is below AA but is an app wide type
+choice that predates this and is not what butter broke. Changing it would
+restyle most of the product. Named here so it is a decision rather than an
+oversight.
+
+**The guard.** `scripts/check-tokens.mjs` fails when any `var(--x)` has no
+definition and no fallback, allowing the three legitimate ways a token can be
+defined (a global sheet, the same file, or a fallback at the call site) and
+naming next/font's two runtime variables as known good. It was proved by
+deleting `--butter` and watching it name all sixteen sites. It runs in CI.

@@ -183,7 +183,11 @@ export default function KidJobsScreen({
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)',
             fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em',
-            color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 16,
+            // Ink, not ink muted. This link sat on white for as long as
+            // --butter did not resolve, where it was already thin at 3.46 to 1.
+            // On the butter ground it was always meant to have it drops to
+            // 2.07, which is a back button a child cannot see. Ink reads 9.2.
+            color: 'var(--ink)', textDecoration: 'none', marginBottom: 16,
           }}
         >
           ← Back
