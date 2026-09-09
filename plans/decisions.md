@@ -12090,3 +12090,27 @@ touching slide copy above KS1, and by then most of it may not need touching.
 WORD_CEILING now says in code which bands are evidenced and which are asserted,
 and CEILING_EVIDENCED exposes it, so 5.73 is never quoted as a fact about the
 lessons.
+
+## 9 September 2026 — the schools preview can be a commit behind, quietly
+
+`schools/vercel.json` skips its build with
+`git diff --quiet HEAD^ HEAD -- . ../shared ...`. That compares only the LAST
+commit, not everything a push brought in. So on a branch where the `shared/`
+change lands in commit one of four, the schools preview is skipped and shows the
+previous code while the branch looks deployed.
+
+It bit this branch: migration 276 put `label: "Your turn"` on all 21 school
+practice slides, the player support for reading that label is in `shared/`, and
+because the final commit only touched `scripts/` and `plans/` the schools preview
+never rebuilt. Anyone opening it would see "Try it tonight" and conclude the fix
+did not work.
+
+**Production is not affected.** A merge commit's `HEAD^` is the previous main, so
+the diff covers every commit the merge brought in. This is a preview only trap,
+and it matters because checking the preview in Chrome DevTools before calling
+something done is one of our non negotiables.
+
+Not fixed here, deliberately. The obvious replacement compares against the push
+base rather than `HEAD^`, but the right variable depends on Vercel environment
+behaviour this container cannot test, and a wrong guess in an ignoreCommand
+breaks previews outright rather than making them stale.
