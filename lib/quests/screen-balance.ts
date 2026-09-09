@@ -163,9 +163,95 @@ export function recommendedDailyMinutes(
   return holidayAdjustedMinutes(guideFor(ageBand).dailyMins, opts.on ?? new Date(), opts.region ?? 'uk')
 }
 
+// ── THE BASE, AND WHY IT SITS BELOW THE GUIDE ───────────────────────────────
+//
+// Justin, 9 September 2026: "we need to calculate with the star system in mind
+// so we can boost the amount built into our quest system, so we suggest an
+// amount lower than recorded, as when we improve balance habits in the platform
+// we allow more scope."
+//
+// The guide above is a ceiling, and a ceiling handed over at the start of the
+// day is just a limit with extra steps. So the day opens on a BASE, two thirds
+// of the guide, which is theirs without doing anything, and the last third
+// arrives with the jobs, the reading and the time outside. The guide stays the
+// most we ever steer to, so the product never suggests more screen than the
+// evidence behind BAND supports.
+//
+// TWO THIRDS, and not a rounder fraction, because the remaining third has to be
+// a real day's work and not a token. On the live product the average job is
+// worth 1.8 stars and a star buys five minutes, so the gap for an eight year
+// old is 25 minutes, about three jobs. Big enough to mean something by bedtime,
+// small enough that a quiet Tuesday is not a punishment.
+//
+// It is also the honest end of the range. The 2026 Ofcom passive metering panel
+// puts eight to fourteens at three hours thirty six minutes a day of phone,
+// tablet and computer. Our guide is already far below that and the base is
+// lower still, which is the point: we are not describing what happens, we are
+// naming what to aim at.
+export const BASE_SHARE = 2 / 3
+
+/**
+ * The minutes a child starts the day with, before a single star.
+ *
+ * Rounded to the nearest five so it reads as a decision rather than as the
+ * output of a formula, and so the number on the fridge matches the number in
+ * the app.
+ */
+export function baseDailyMinutes(
+  ageBand: string | null,
+  opts: { on?: Date; region?: Region } = {},
+): number {
+  return Math.round((recommendedDailyMinutes(ageBand, opts) * BASE_SHARE) / 5) * 5
+}
+
+export type DayAllowance = {
+  /** Theirs at the start of the day, unearned. */
+  base: number
+  /** What the day's stars have added, never past the guide. */
+  earned: number
+  /** What they can actually use today. */
+  allowed: number
+  /** The ceiling the guide sets, for the bar to draw against. */
+  guide: number
+  /** True once the day has been earned all the way up. */
+  atGuide: boolean
+}
+
+/**
+ * Today's minutes, as base plus what the day has added, capped at the guide.
+ *
+ * The cap is the load bearing part and it is deliberately not negotiable here:
+ * a strong week can make a child rich in stars, and without this the product
+ * would cheerfully recommend four hours because they tidied their room a lot.
+ * Stars beyond the guide are not lost, they stay in the bank for the things
+ * the bank is for.
+ */
+export function dayAllowance(
+  ageBand: string | null,
+  earnedMins: number,
+  opts: { on?: Date; region?: Region } = {},
+): DayAllowance {
+  const guide = recommendedDailyMinutes(ageBand, opts)
+  const base = baseDailyMinutes(ageBand, opts)
+  const earned = Math.max(0, Math.min(earnedMins, guide - base))
+  return { base, earned, allowed: base + earned, guide, atGuide: base + earned >= guide }
+}
+
 /** The term time number, for copy that needs to say what normally applies. */
 export function termTimeDailyMinutes(ageBand: string | null): number {
   return guideFor(ageBand).dailyMins
+}
+
+/**
+ * The term time base, for the same reason: copy that has to name a number.
+ *
+ * Marketing and the fridge sheet want a figure that does not move under the
+ * reader, so they take this rather than baseDailyMinutes, which relaxes through
+ * the holidays. The rounding lives here and not at the call site so the number
+ * on a printed sheet is the number in the app.
+ */
+export function termTimeBaseMinutes(ageBand: string | null): number {
+  return Math.round((termTimeDailyMinutes(ageBand) * BASE_SHARE) / 5) * 5
 }
 
 export function bandLabelFor(ageBand: string | null): string {

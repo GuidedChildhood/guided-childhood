@@ -172,8 +172,16 @@ export function MockAsk({ kid }: { kid: string }) {
 /** Three kinds of time, as the three jars on the child's own deal sheet. */
 export function MockJars() {
   const jars = [
-    { label: 'Theirs', body: 'A small core every day. No strings.', fill: 'var(--tint-blue)' },
-    { label: 'Earned', body: 'Jobs earn stars. Stars buy minutes.', fill: 'var(--terracotta-lt)' },
+    // "Theirs" is the BASE and it is deliberately the biggest of the three in
+    // the words, because it is the biggest in the product: two thirds of the
+    // day, before anybody does anything (lib/quests/screen-balance).
+    { label: 'Theirs', body: 'Two thirds of the day. No strings.', fill: 'var(--tint-blue)' },
+    // Was "Earned: jobs earn stars, stars buy minutes", which is the framing
+    // the 9 September research says to drop: the mechanic is fine, the word
+    // invites every objection in the reward literature. It also sat directly
+    // above a card headed "Planned, not won", which read as a contradiction on
+    // one screen.
+    { label: 'Added', body: 'Jobs and time outside lift the day.', fill: 'var(--terracotta-lt)' },
     { label: "Nobody's", body: 'Bedtime, meals, school. Not for sale.', fill: 'var(--stage-3)' },
   ]
   return (

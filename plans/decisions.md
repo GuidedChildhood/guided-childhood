@@ -11861,3 +11861,55 @@ definition and no fallback, allowing the three legitimate ways a token can be
 defined (a global sheet, the same file, or a fallback at the call site) and
 naming next/font's two runtime variables as known good. It was proved by
 deleting `--butter` and watching it name all sixteen sites. It runs in CI.
+
+## 9 September 2026, the base, the ceiling, and dropping the word earn
+
+Justin, on the reveal at the end of the starter quiz: "make this page a bit more
+concise and simpler, and based on the scientific research we have already done
+add a recommended set time. Note we need to calculate with the star system in
+mind so we can boost the amount built into our quest system, so we suggest an
+amount lower than recorded, as when we improve balance habits in the platform we
+allow more scope. Also suggest the device tracking system we have, and that it
+is manual, not system tracking (child's app). Also take into account the
+research from the other session on changing wording like earn."
+
+**Two numbers, and the gap between them is the product.** The age guide in
+lib/quests/screen-balance stays the ceiling, sourced to WHO, AAP, the Canadian
+24 hour guidelines and RCPCH. The BASE is two thirds of it, given
+unconditionally at the start of the day, and the last third arrives with the
+jobs, the reading and the time outside. `dayAllowance` caps what stars can add
+at the guide, and that cap is load bearing: without it a child rich in stars
+would be recommended four hours because they tidied their room a lot.
+
+Chosen over letting stars run past the guide, which would mean the product
+sometimes recommends more screen than its own citations support, on a page that
+carries those citations.
+
+**Two thirds, and not a rounder number,** because the remaining third has to be
+a real day's work. On live data the average job is 1.8 stars and a star buys
+five minutes, so the gap is four to eight stars depending on age, about two to
+six jobs. Big enough to matter by bedtime, small enough that a quiet Tuesday is
+not a punishment. Bases: 40, 50, 60, 80, 80.
+
+**We name the recorded figure and sit below it.** Ofcom's 2026 passive metering
+panel puts eight to fourteens at three hours thirty six minutes a day. The page
+says so, then says we are naming what to aim at rather than describing what
+happens. Do not quote the superseded 2025 figure of 2 hours 5 minutes.
+
+**The word earn is gone from this page.** The 9 September briefing is blunt: the
+mechanic is fine, the word is not. "Earn your screen time" invites every
+objection in the reward literature, "planned, not won" survives them. The jars
+mock said "Earned: jobs earn stars, stars buy minutes" directly above the new
+card, which read as a contradiction on one screen; it is "Added: jobs and time
+outside lift the day" now.
+
+**The manual tracking is said before the money, not discovered in week two.** We
+do not read the device. The child logs it in their own app and the parent taps
+to agree. Framed as the advantage it genuinely is, because it covers a Switch, a
+telly and a cousin's iPad that no screen time app can see, and the honest cost is
+stated in the same breath: the number is only as good as what they tell you.
+
+**Guard:** `scripts/check-screen-guide.mjs`, in CI. The base below the guide, the
+base on a round five, the gap between three and ten stars, every guide under the
+recorded average, and the cap still present in dayAllowance. All of it is just
+numbers, so nothing else can catch it.

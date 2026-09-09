@@ -8,6 +8,7 @@ import Celebration from '@/components/ui/Celebration'
 import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
 import { WORRIES, CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
+import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
 import { MockCheckIn, MockToday, MockProgress, MockDigi, MockAsk, MockJars, MockKidApp } from './Mocks'
 
 if (typeof window !== 'undefined') {
@@ -142,6 +143,11 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   const they = kid || 'your child'
   const headline = kid ? `${kid}'s pathway is built.` : 'Your pathway is built.'
   const ages = stage.ageBand === '16+' ? '16 and up' : stage.ageBand.replace('-', ' to ')
+  // The term time pair, so the number on this page is the number the app will
+  // set and the fridge sheet will print. Term time rather than holiday relaxed:
+  // a figure on a sales page should not move under the reader in August.
+  const guide = termTimeDailyMinutes(stage.ageBand)
+  const base = termTimeBaseMinutes(stage.ageBand)
 
   const rootRef = useRef<HTMLDivElement>(null)
   const firstRef = useRef<HTMLDivElement>(null)
@@ -315,21 +321,78 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         {/* ── Screen time and balance ──────────────────────────────────── */}
         <section id="time" style={SECTION}>
           <div className="wow-fu" style={EYEBROW}>Devices, time and balance</div>
-          <h2 className="wow-fu" style={H2}>Screen time that stops being a fight.</h2>
-          <p className="wow-fu" style={LEAD}>
-            Three kinds of time, and {they} is part of the deal rather than the subject of it.
-          </p>
-          <div className="wow-fu"><MockJars /></div>
+          <h2 className="wow-fu" style={H2}>A number you agreed this morning, not one you defend at six.</h2>
+
+          {/* ── THE NUMBER, SAID OUT LOUD ──────────────────────────────────
+              Justin, 9 September 2026: "based on scientific data research we
+              have already done add a recommended set time, note we need to
+              calculate with the star system in mind."
+
+              The page talked about how time works and never once said how
+              much. A parent deciding whether to pay wants the number, and we
+              have one, sourced, in lib/quests/screen-balance. Two numbers in
+              fact, and the gap between them IS the product: the base is theirs
+              at breakfast, the rest arrives with the day. */}
+          <div className="wow-fu" style={{
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
+            boxShadow: '0 5px 0 var(--ink)', padding: '18px 18px 20px', marginTop: 20,
+          }}>
+            {/* Short enough not to orphan the second number onto its own line at 390. */}
+            <div style={{ ...EYEBROW, marginBottom: 8 }}>Our steer for ages {ages}</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+                {base} minutes
+              </span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>
+                to start the day
+              </span>
+            </div>
+            <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10 }}>
+              Theirs at breakfast, without asking for it. The day can reach {guide} minutes, and the last {guide - base} arrive with the jobs, the reading and the time outside. You can move both numbers whenever you like.
+            </p>
+            <p style={{ ...BODY, color: 'var(--ink-soft)', marginTop: 10, marginBottom: 0 }}>
+              The measured average for this age is over three hours a day. We are not describing what happens, we are naming what to aim at.
+            </p>
+          </div>
+
+          <div className="wow-fu" style={{ marginTop: 22 }}><MockJars /></div>
           <div className="wow-fu" style={{ display: 'grid', gap: 16, marginTop: 22 }}>
-            <Point icon="⭐" title="Jobs earn stars, stars earn minutes">Real jobs, time outside, a book. You set the rate. The argument stops being a negotiation, because the deal was agreed before it started.</Point>
+            {/* ── NOT "EARN YOUR SCREEN TIME" ───────────────────────────────
+                The 9 September research briefing is blunt about this: the
+                mechanic is fine, the word is not. "Earn your screen time"
+                invites every objection in the reward literature; "planned, not
+                won" survives them. Same product, and a parent who has read one
+                article about rewards does not bounce off it. */}
+            <Point icon="🗓️" title="Planned, not won">Most of the day is theirs before they do anything. Jobs and time outside lift it towards the guide, so a good day goes further. Nobody has to win the first hour back.</Point>
             <Point icon="🛏️" title="Protected time nobody can buy">Bedtime, mealtimes and school hours are off the table at any price. A start inside them comes to you as an ask, never a flat no.</Point>
           </div>
-          <div className="wow-fu" style={{ marginTop: 22 }}><MockAsk kid={kid || 'Your child'} /></div>
-          <p className="wow-fu" style={{ ...BODY, marginTop: 14 }}>
-            {they.charAt(0).toUpperCase() + they.slice(1)} picks the screen and the minutes on their own app. It pops up on yours. One tap and the stars come off. If they are a few short you can still say yes, and it is your treat rather than a loophole.
-          </p>
+
+          {/* ── HOW THE TRACKING ACTUALLY WORKS, BEFORE THEY PAY ───────────
+              Justin: "we suggest the device tracking system we have to manage
+              this and it is manual, not system tracking (child's app)."
+
+              Said here rather than discovered in week two. A parent who thinks
+              they are buying screen time software and finds out later is a
+              refund and a bad review; a parent who is told the honest version
+              up front and buys anyway is the one this product is for. It is
+              also a genuine advantage, and the paragraph says so rather than
+              apologising. */}
+          <div className="wow-fu" style={{
+            background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
+            borderRadius: 18, padding: '16px 18px', marginTop: 22,
+          }}>
+            <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
+            <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 14px' }}>
+              We do not read the device. {they.charAt(0).toUpperCase() + they.slice(1)} picks the screen and the minutes in their own app, it lands on yours, and one tap agrees it.
+            </p>
+            <MockAsk kid={kid || 'Your child'} />
+            <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
+              That is why it covers a Switch, a telly and a cousin&apos;s iPad, which no screen time app can see. It also means the number is only as honest as they are, and that is the point: the habit being built is the telling.
+            </p>
+          </div>
+
           <div className="wow-fu" style={{ marginTop: 22 }}>
-            <Point icon="📱" title="Device settings, one screen at a time">iPhone, iPad, the Switch, the PlayStation, the TV. A guide for {they}&apos;s age of exactly what to set tonight, in plain English, before anything else.</Point>
+            <Point icon="📱" title="Device settings, one screen at a time">iPhone, iPad, the Switch, the PlayStation, the TV. What to set tonight for {they}&apos;s age, in plain English.</Point>
           </div>
         </section>
 
