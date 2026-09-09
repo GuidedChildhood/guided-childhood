@@ -13,6 +13,12 @@ was checked against our code and database before it was written down here. Three
 of those checks came back the other way, and they are marked below. An agent
 guessing about your own codebase is the cheapest kind of wrong to catch.
 
+**And one of my own checks was wrong too.** I recorded the quiz answer keys as
+built but unreachable, because I searched `schools/app` when the component that
+links them lives in `schools/components`. They are linked and always were. A
+grep scoped to the wrong directory produces a confident false negative, which is
+worse than no answer, and it is the same failure mode as trusting the agent.
+
 ---
 
 ## 1. The finding that matters most: we teach recognition, not recovery
@@ -207,7 +213,7 @@ priced above the free incumbents.
 
 | Gap the benchmark named | What we actually found |
 | --- | --- |
-| Separate quiz answer keys | **We have them.** Both quiz routes take an `?answers` parameter that renders the answer version. **But it is linked from nowhere.** A teacher cannot find it without knowing the URL. One line to fix |
+| Separate quiz answer keys | **We have them and they are linked.** `QuizSheet.tsx:177` builds the other version's URL and renders "The answer version →" on every quiz sheet. Nothing to do. *(I first recorded this as built but unreachable. That was wrong: I searched `schools/app` and the component lives in `schools/components`. Corrected on checking.)* |
 | Minutes on each lesson phase, on screen | **We have this.** The prep page shows total minutes, slide count, interactive count and the phase breakdown before the teacher presses play |
 | Teacher version of every pupil handout | **Genuinely missing.** The booklet has no answer or annotation layer |
 | One click bundle of everything | **Genuinely missing.** This is the real one button gap |
