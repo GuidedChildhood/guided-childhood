@@ -42,8 +42,26 @@ const ACTION = new Set(['choice', 'discussion', 'tryit', 'interactive', 'scenari
 // The longest a child should sit without acting. Our judgement, not a standard.
 const MAX_PASSIVE_MINUTES = 4
 
+// WHAT THE CHILD HAS TO DECODE, which is not the same as what is on the slide.
+//
+// The first version of this check counted `prompt` and `question` too, and
+// scored KS1 at 4.52 with twenty four failing slides. Reading them showed the
+// check was wrong, not the lessons: eleven of the twenty four were questions
+// the TEACHER reads aloud, like "Something on a screen makes you feel scared
+// or yucky inside. Who do you tell?" That is fifteen words of speech, not
+// fifteen words a five year old decodes off a wall, and cutting it would have
+// made the lesson worse to hit a number.
+//
+// So the ceiling applies to prose the child reads: the heading, the body, the
+// caption and the standalone text. The question and the prompt are the
+// teacher's, and every slide already carries a separate word for word script.
+//
+// This is the check the plan warned about: "seven counted checks are only as
+// good as their thresholds". A counted check can be confidently, arithmetically
+// wrong, and it is more dangerous than a judged one because the number looks
+// like a fact.
 const words = s => {
-  const t = ['heading', 'body', 'prompt', 'caption', 'text', 'question']
+  const t = ['heading', 'body', 'text', 'caption']
     .map(k => s[k] ?? '').join(' ').trim()
   return t ? t.split(/\s+/).length : 0
 }
@@ -62,7 +80,7 @@ function checkAppearance(lessons) {
     }
   }
   return {
-    name: 'Appearance: words a child reads at once',
+    name: 'Appearance: words a child must decode on screen',
     score: total ? (10 * pass) / total : 0,
     detail: `${pass} of ${total} slides within the age ceiling`,
     fails: fails.sort((a, b) => b.words - a.words),
