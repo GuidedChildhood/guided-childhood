@@ -63,9 +63,14 @@ export const WALL = {
 // THE SAME FLOOR, FOR A SUBTREE THAT IS NOT OURS TO REWRITE LINE BY LINE.
 //
 // The interactive widgets (shared/components/interactives) size from the design
-// tokens: 38 of their 41 font sizes are var(--text-*). They are also the slides
-// where a child DOES something, 22 of them in the school scheme, so they are
-// the last place we want phone sized text on a wall.
+// tokens: 38 of their 41 font sizes come from the text scale below. They are
+// also the slides where a child DOES something, 22 of them in the school
+// scheme, so they are the last place we want phone sized text on a wall.
+//
+// (Written without a literal var() glob on purpose. scripts/check-tokens.mjs
+// reads the repo for token usages and a wildcard inside one parses as a real
+// token with no definition, which is a fair catch: an unresolved var makes the
+// whole declaration invalid. Prose bends around the guard, not the other way.)
 //
 // Overriding the tokens on a wrapper fixes all 38 at once AND keeps each
 // widget's internal proportions, which is what 41 hand edits would quietly
