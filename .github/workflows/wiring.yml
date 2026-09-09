@@ -81,6 +81,11 @@ jobs:
       # to import and drift is a matter of when. On 9 September the reveal was
       # the only page in the funnel with no price at all.
       - run: node scripts/check-price-copy.mjs
+      # What day is it? The check in decided in UTC while every family is on UK
+      # time, so for one hour every summer night the product and the house
+      # disagreed. Also holds the Setup Quest's finished card to the real check
+      # in state rather than assuming it is waiting.
+      - run: node scripts/check-day-boundary.mjs
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs

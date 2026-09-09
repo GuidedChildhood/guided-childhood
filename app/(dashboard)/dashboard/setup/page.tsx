@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { getSetupState } from '@/lib/setup/flags'
+import { getTodayCheckIn } from '@/lib/checkin/today'
 import SetupQuest from '@/components/setup/SetupQuest'
 
 export const dynamic = 'force-dynamic'
@@ -21,6 +22,13 @@ export default async function SetupPage() {
 
   const { flags, child, children, complete } = await getSetupState(supabase, user.id)
 
+  // Is today's check in genuinely still waiting? The finished card says one of
+  // two different things depending on the answer, and getting it wrong is what
+  // sent a parent to a page reading "All done for today" from a button reading
+  // "Start today's check in".
+  const { rows: checkInRows } = await getTodayCheckIn(supabase, user.id)
+  const checkInDone = checkInRows.length === 0
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <div style={{ marginBottom: '18px' }}>
@@ -35,7 +43,7 @@ export default async function SetupPage() {
         )}
       </div>
 
-      <SetupQuest flags={flags} child={child} children={children} userId={user.id} />
+      <SetupQuest flags={flags} child={child} children={children} userId={user.id} checkInDone={checkInDone} />
     </div>
   )
 }
