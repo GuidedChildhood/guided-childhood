@@ -111,7 +111,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
   const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
-    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, created_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice, home_screen_at, subscription_tier').eq('id', user.id).maybeSingle(),
+    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, created_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice, home_screen_at, subscription_tier, setup_completed_at, only_one_child_at').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // moment_feedback rides along so the day timeline on Home knows what has
     // already been flagged today, from here or from the deck. One extra column
@@ -520,7 +520,36 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // It stays on the first child's day, where it is the same one rung it always
   // was for a one child family, and nothing changes for them at all.
   const isFirstChild = !child || child.id === (allKids[0]?.id ?? child.id)
-  const currentSetupStep = isFirstChild
+
+  // ── A FINISHED SETUP STAYS FINISHED, AND HOME HAD NEVER HEARD ────────────
+  //
+  // Justin, 9 September 2026, with three screenshots: "keeps saying set up all
+  // done then loops to one more thing then says done."
+  //
+  // Home said one more step, the Setup Quest said all done, and tapping between
+  // them went round for ever. Two pages, two answers, because there are two
+  // implementations: lib/setup/flags.ts getSetupState, which the quest page
+  // uses, and the copy of the flags twenty lines above, which Home uses.
+  //
+  // getSetupState opens with `const current = stamped ? null : ...`, where
+  // stamped is profiles.setup_completed_at. That stamp exists precisely so a
+  // finished setup can never reopen, and the comment in that file spells out
+  // the case: adding a child in November must not put a family who finished in
+  // August back into setup over a QR code.
+  //
+  // Home never read the column. So the moment any flag went false again, for a
+  // new child, a pruned push subscription, a read that failed, Home put a
+  // stamped account back into setup while the quest page, reading the same
+  // database, said there was nothing to do. That is the loop, and it is a loop
+  // by construction rather than by bad luck.
+  //
+  // The duplicate flags above are left alone deliberately: they carry an
+  // `agreement` key the shared type does not have, and three other surfaces on
+  // this page read them. This is the one line that has to agree, so this is the
+  // one line that is fixed. scripts/check-setup-agreement.mjs holds the two in
+  // step from now on.
+  const setupStamped = !!(profile as { setup_completed_at?: string | null } | null)?.setup_completed_at
+  const currentSetupStep = isFirstChild && !setupStamped
     ? (setupSteps.find(s => !setupFlags[s.key])?.key ?? null)
     : null
   const setupComplete = currentSetupStep === null
@@ -1285,6 +1314,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
           when it is done, this disappears and Home stays clean. */}
+      {/* setupComplete already carries the stamp, so this block cannot render
+          for a finished account. The count inside it is only ever drawn while
+          setup is genuinely unfinished. */}
       {!setupComplete && (() => {
         const doneCount = setupSteps.filter(s => setupFlags[s.key]).length
         const next = setupSteps.find(s => !setupFlags[s.key])
