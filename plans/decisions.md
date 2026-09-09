@@ -12362,3 +12362,70 @@ so the measurement is known to be live.
 question: three EYFS and KS1 title cards at 36 to 43 words plus two diagrams.
 Those are teacher speech printed on a wall for children who cannot read it, the
 same shape as migration 276, and they are small. Named, not started.
+
+## 9 September 2026: the classroom contrast variant, and the widgets that were legible and cut off
+
+**The brief was right that something was washed out and wrong about what.**
+`plans/kids-player-design.md` has asked since the player was designed for "a
+higher contrast variant of the tokens" because "cream washes out under classroom
+lighting". Measured: `--ink` on `--cream` is 16.07:1, far above AAA. The body
+text was never the problem. The accent and the muted ink were, at 2.43:1 and
+3.26:1, and they carry every label on the wall: "Hands up, then tap the class
+answer", "The evidence", "Your turn", the cycle map, the source lines. Those are
+the eyebrows made bigger that same morning. **Size and contrast are different
+properties and only one of them had been fixed.**
+
+**Two existing tokens, not a new palette.** `--stage-1-text` (amber 900, 8.17:1
+on cream) stands in for `--terracotta-dark`, `--ink-soft` (7.13:1) for
+`--ink-muted`, on the player root in projector mode only.
+
+**A static contrast table passed while the wall still had seven failures on it.**
+It was written first, as a list of token pairs, and it was wrong three ways that
+only a browser can see: a `background-image` is invisible to `backgroundColor`
+(the title card sits on a dark teal gradient, so the table read 1.06:1 on the one
+slide never in danger); CSS `opacity` composites a GROUP, fading text and
+background together; and **a token alias resolves where it is DECLARED**, so
+`--coral-dark: var(--terracotta-dark)` on `:root` keeps the root value no matter
+what the player says. `scripts/check-wall-contrast.mjs` renders instead, and it
+is wired into CI. Removing the variant makes it fail with 59 findings, so it is a
+guard rather than a comment.
+
+**What rendering found that reading could not.** A widget eyebrow at 1.57:1
+(butter used as ink, which is a fill colour). The two spread race share counts at
+2.58:1 and 1.67:1, and the palette consolidation had quietly made "outrage" and
+"honest" the same colour anyway. The disabled Continue label at 2.31:1, which is
+an instruction to the whole room. And **DiGi's entire closing block invisible
+under `prefers-reduced-motion`**: the avatar and all three lines are authored at
+`opacity: 0` for the animation to fade up from, and the early return never made
+them visible. That is the last thing every one of the 21 lessons says.
+
+**The bigger find: the widgets were legible and cut off at the same time.** The
+morning's `WALL_TOKENS` re-pointed the `--text-*` scale for the widget subtree,
+which fixed 38 font sizes at once and looked right. The widgets size their type
+from tokens and their BOXES in pixels, because they were drawn for a phone.
+Multiplying the text by 2.5 and leaving a 170px card at 170px gives a card with
+the words falling out of it. On a 1920 wall the signal meter pushed its fourth
+option off the bottom of the screen; all six overflowed a 1366x768 laptop. It
+passed typecheck, the size guard AND the contrast guard, because the colours were
+perfect. **Only a screenshot found it.**
+
+**So the widgets zoom to fit rather than scale their type.** `zoom` scales the
+layout and the space it takes, so every proportion survives exactly. The factor
+is measured per slide, not fixed: probe at the 2.5 ceiling, and if it spills, the
+spill says exactly how much room the widget has. Getting that budget took three
+wrong measurements, all recorded in the code: the stage's `scrollHeight` reads
+`clientHeight` because the column inside it is `flex: 1` with `justifyContent:
+center` and stretches whatever it holds; `offsetHeight` ignores zoom entirely
+(429px at 1.0, 1.5 and 2.5); and the probe left the DOM at the ceiling, so when
+the computed zoom matched state React never re-rendered to correct it.
+
+**Now zero overflow on both screens, all six widgets, Continue always reachable.**
+
+**Named, not fixed.** Three widgets on a wall and all six on a laptop still land
+under the 40px floor, because a tall phone layout cannot be both fully scaled and
+on one screen. The real fix is wall shaped widget layouts, which is a redesign of
+six components. Separately, the spread race racer cards clip their own text
+inside a fixed 64px lane, identically on a phone, so that one predates all of
+this. And the family app still shows about 100 text nodes below AA, mostly the
+same eyebrow colour at 2.43:1: the classroom variant does not touch it, and
+changing the brand accent for parents is Justin's call, not a projector PR's.
