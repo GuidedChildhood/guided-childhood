@@ -11994,3 +11994,60 @@ SUPABASE_SERVICE_ROLE_KEY, so the three counted checks were run as SQL against
 the live scheme rather than through scripts/council.mjs. Same data, same
 formulas: the appearance arithmetic reproduces the previous 7.81 exactly from
 the pre migration rows, which is what makes the 7.93 comparable.
+
+## 9 September 2026 — the gate is a ratchet, and the check that could not see
+
+**The old appearance check was blind to half the scheme.** It counted four
+fields, heading body text caption, on every slide whatever its type. A `choice`
+slide has none of them: its words live in `question` and `options[].text`. So
+all 105 choice slides scored zero words and passed. Same for 37 `discussion`
+(prompt), 21 `objective`, 12 `stat`, and partly for `recap`, `keywords`, `digi`
+and `diagram`, whose content sits in an array the check never opened. 236 of 479
+slides were handed 10 out of 10 for having no fields the check knew the names
+of. The 7.93 was that free pass talking.
+
+**Now an ON_THE_WALL map, and an unmapped type fails loudly.** A check that
+cannot see a slide must never call it good. Scenarios are exempt with the reason
+in code: a fake post has to look like a real post, so cutting one to fit a word
+ceiling teaches children to spot something real posts do not do.
+
+**Two checks, never averaged.** PROSE is read while the teacher is talking,
+where reading and listening compete. BLOCKS are read to decide, one at a time,
+at the child's own pace, so each is measured alone. This distinction is load
+bearing: 213 prose slides against 1164 blocks gives a combined 8.69 that clears
+an 8.5 gate while the prose half sits at 5.73. Averaging them was the available
+cheat and it was not obvious until the numbers came out.
+
+**Honest scores today.** Prose 5.73, blocks 9.10, engagement 4.35, passport 0.00.
+
+**Justin chose the ratchet over a fixed number.** A fixed gate either certifies
+today's work for ever or turns every build red until we arrive, and the second
+teaches everyone to ignore it. The floor is now the best score ever reached, so
+it can never be satisfied by standing still and never failed by standing still.
+Only going backwards is red.
+
+**The trap in a ratchet is the rules,** and it is worth naming because it would
+have bitten us. Loosen a check, every score jumps, the floor rises to meet it,
+and the ratchet certifies a weaker standard while looking like progress. So
+scripts/council-baseline.json stores a fingerprint of council-checks.mjs. Change
+a rule and the ratchet abstains, prints the numbers, compares nothing, and waits
+for a human to run `--rebaseline`. That is meant to be a decision somebody makes
+in a commit with the rule diff beside it.
+
+**Binary checks must be ten, but never started is not going backwards.** The
+passport check is binary: a module either names its stamp or it does not. It
+reads UNMET at 0.00 and does not fail the build; once it has been ten, any drop
+is SLIPPED and does fail. Unbuilt work that is already tracked should not make
+every build red.
+
+**The checks are now testable.** They moved to scripts/council-checks.mjs with
+no database and no credentials, the runner takes `--fixture`, and
+scripts/council-checks.test.mjs runs in CI on the wiring workflow. Both bugs
+found in the scoring rules so far were in code that could not run without
+production credentials, and both were found by reading rather than by failing.
+Reintroducing the choice slide bug turns the suite red, which was checked.
+
+**The known gap.** The floor was set from a fixture, a copy of the live scheme
+read the same day, and the baseline records `"source": "fixture"` so nobody has
+to infer that from a commit message. This container has no service role key. The
+first live run with the same rules will hold or ratchet up.

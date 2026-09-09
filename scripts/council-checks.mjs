@@ -118,6 +118,8 @@ export function checkProse(lessons) {
     }
   }
   return {
+    key: 'prose',
+    binary: false,
     name: 'Prose: words a child reads while the teacher is talking',
     score: total ? (10 * pass) / total : 0,
     detail: `${pass} of ${total} slides within the age ceiling`,
@@ -144,6 +146,8 @@ export function checkBlocks(lessons) {
     }
   }
   return {
+    key: 'blocks',
+    binary: false,
     name: 'Blocks: each thing a child reads to decide',
     score: total ? (10 * pass) / total : 0,
     detail: `${pass} of ${total} blocks within the age ceiling`,
@@ -177,6 +181,8 @@ export function checkEngagement(lessons) {
     }
   }
   return {
+    key: 'engagement',
+    binary: false,
     name: 'Engagement: minutes a child sits without acting',
     score: stretches ? (10 * ok) / stretches : 0,
     detail: `${ok} of ${stretches} stretches within ${MAX_PASSIVE_MINUTES} minutes`,
@@ -196,9 +202,47 @@ export function checkPassport(lessons) {
     else fails.push({ module: l.module_id, ks: l.key_stage, missing: 'passport_stage' })
   }
   return {
+    key: 'passport',
+    // Binary: a module either names its stamp or it does not. There is no craft
+    // judgement in it, so anything under 10 is unfinished work, not a standard
+    // we are working towards. Justin, 9 September 2026: ten out of ten on the
+    // binary checks, the ratchet everywhere else.
+    binary: true,
     name: 'Passport: the lesson knows which stamp it earns',
     score: lessons.length ? (10 * pass) / lessons.length : 0,
     detail: `${pass} of ${lessons.length} modules name a passport stage`,
     fails,
   }
 }
+
+// ── The ratchet ──────────────────────────────────────────────────────
+// The floor is the best score this check has ever reached, so it can never be
+// satisfied by standing still and never failed by standing still. Only going
+// backwards is red. Binary checks ignore the ratchet: they must be ten.
+//
+// Pure on purpose. The runner does the file reading, the fixture guard and the
+// exit code; this decides. A gate whose logic is tangled up with process.exit
+// is a gate nobody tests, and the two bugs already found in this file were both
+// in code that could not be run without production credentials.
+export function verdict({ score, best, binary, rulesChanged }) {
+  if (rulesChanged) return 'NO FLOOR'
+
+  // A binary check is ten or it is not done. But "never started" and "went
+  // backwards" are different facts and only one of them is a regression, so
+  // they get different words and different exit codes. Making unbuilt work red
+  // on every build is how a gate teaches people to ignore it; making a
+  // regression red is the entire point of having one.
+  if (binary) {
+    if (score >= 10) return 'HELD'
+    return best >= 10 ? 'SLIPPED' : 'UNMET'
+  }
+
+  if (best === null || best === undefined) return 'FIRST RUN'
+  if (score < best) return 'SLIPPED'
+  if (score > best) return 'RATCHET UP'
+  return 'HELD'
+}
+
+// Only a regression fails the build. UNMET is outstanding work, and it is
+// already named in the report and in the plan.
+export const isRegression = v => v === 'SLIPPED'
