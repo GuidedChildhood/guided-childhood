@@ -145,6 +145,19 @@ export const COMMON_BASELINE_SLUGS = [
 export const STARTER_SLUGS = ['bedtime-screens', 'wont-put-down'] as const
 const STARTER_COUNT = STARTER_SLUGS.length
 
+/**
+ * Their free text worry as a ledger slug.
+ *
+ * The same shape lib/concerns/raise.ts toSlug produces, deliberately, so a
+ * worry raised at setup and the same worry raised later through DiGi or a
+ * moment land on ONE row rather than two saying the same thing. It is copied
+ * rather than imported because this file is read as plain text by
+ * scripts/check-focus-labels.mjs and must keep its import list to types.
+ */
+function otherSlug(raw: string): string {
+  return raw.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60)
+}
+
 /** The starters, minus any the chosen list already carries, up to the count. */
 function topUp(chosen: string[]): string[] {
   const out = [...chosen]
@@ -189,6 +202,7 @@ export async function seedBaselineConcerns(
   const answers = (onboardingAnswers ?? {}) as {
     challenge?: string | null
     challenges?: string[] | null
+    challenge_other?: string | null
   }
   const named = [
     ...(Array.isArray(answers.challenges) ? answers.challenges : []),
@@ -198,6 +212,26 @@ export async function seedBaselineConcerns(
   const mapped = Array.from(new Set(
     named.map(c => ONBOARDING_TO_SLUG[String(c)]).filter(Boolean)
   ))
+
+  // ── SOMETHING ELSE, IN THEIR OWN WORDS ──────────────────────────────────
+  //
+  // Justin, 9 September 2026: "How do we deal with something else? Note they
+  // can add as many as they want and all areas we will cover through the
+  // journey."
+  //
+  // Something else was the one tile that did nothing. It has no slug on
+  // purpose, because a catch all is a picker rather than a rateable thing, so
+  // ticking it wrote no row and the parent's actual worry was dropped between
+  // the question and the check in.
+  //
+  // It takes their words now, and their words become a concern like any other.
+  // Nothing new is needed to carry it: DiGi, the moments deck and Right now
+  // have written free form slugs since August (teeth, sibling-fights,
+  // football-post-game-upset are all live rows), so the ledger has always been
+  // able to hold a worry we did not think of. This is the same door, opened at
+  // the front instead of only halfway through.
+  const ownWords = (answers.challenge_other ?? '').trim().slice(0, 80)
+  const ownSlug = ownWords ? otherSlug(ownWords) : ''
 
   // ── AN UNMAPPED ANSWER MUST NEVER MEAN NO CHECK IN ────────────────────────
   //
@@ -218,7 +252,9 @@ export async function seedBaselineConcerns(
   // What was chosen at sign up, topped up from the two starters to two. A
   // parent who chose two sees exactly those two; one who chose one sees it
   // plus a starter; one whose answer has no slug sees the two starters.
-  const slugs = topUp(mapped)
+  // Their own words go FIRST, because a parent who typed something rather than
+  // tapping a tile has told us the thing they came here about.
+  const slugs = ownSlug ? [ownSlug, ...mapped.filter(m => m !== ownSlug)] : topUp(mapped)
   if (slugs.length === 0) return []
 
   // ── PER CHILD, NOT PER FAMILY (2 September 2026) ─────────────────────────
@@ -280,7 +316,9 @@ export async function seedBaselineConcerns(
       child_id: child.id,
       source: BASELINE_SOURCE,
       slug,
-      label: LABEL[slug] ?? slug,
+      // Their own words are the label when it is their own row, so the check in
+      // asks about "getting off the Switch at teatime" rather than a slug.
+      label: slug === ownSlug ? ownWords : LABEL[slug] ?? slug,
       status: 'open',
       times_flagged: 1,
       last_flagged_at: now,

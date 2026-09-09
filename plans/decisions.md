@@ -11727,3 +11727,49 @@ Three rules that come with it:
 Also fixed from the same screenshot: the stage pill and Get started sat in a
 nowrap space between row, so on an iPhone the row was wider than the screen and
 the whole page scrolled sideways. It wraps now.
+
+## 9 September 2026, every worry reaches the check in, and Something else takes their words
+
+Justin: "Make sure changes are all wired into platform so we include the issues
+in daily check up until silver and use as base as part of the reporting
+improvements. How do we deal with something else? Note they can add as many as
+they want and all areas we will cover through the journey."
+
+Tracing it found a break nobody could see from the outside.
+
+**The quiz wrote ONE worry to the profile and then marked setup complete.**
+`finishSetup` wrote `onboarding_answers: { ageBand, challenge, ... }`, a single
+id, and set `onboarding_complete: true`. The setup wizard is the only place
+that ever wrote `challenges`, the whole list, and it skips itself entirely when
+onboarding is already complete. So for every parent who came through the quiz,
+two of their three worries were thrown away and replaced with the stock
+starters, `bedtime-screens` and `wont-put-down`. It looked like the app had
+chosen for them, because it had. Fixed: the quiz writes `challenges` and
+`challenge_other`, the keys lib/concerns/baseline already reads.
+
+**Something else now takes their own words**, and those words become a concern
+like any other. The ledger has always been able to hold a worry we did not
+think of (`teeth`, `sibling-fights`, `football-post-game-upset` are live rows
+raised by DiGi and the moments deck through lib/concerns/raise), so this is the
+same door opened at the front instead of only halfway through. Their row goes
+first, because a parent who typed rather than tapped has told us the thing they
+came here about, and their exact words are the label so the check in asks about
+"getting off the Switch at teatime" rather than a slug.
+
+**Both guards now run in CI** (`npm run concern-guards`). This join has broken
+silently three times and every version was well typed, so the new
+`scripts/check-baseline-seed.mjs` asserts on what comes OUT: given a set of
+answers, which rows and which labels.
+
+### Still open, and needs Justin
+
+**"Until silver" does not exist yet.** Today a worry stops being asked the
+moment one score lands in the top band (`TOP_BAND = 9`, lib/concerns/resting).
+On live data that is 18 worries resting, and four of them rested on their only
+ever score. One good day retires a worry.
+
+**And nothing is used as a base.** `concern_events.score_at_start` exists and
+is written 0 times out of 117 scores, and `IsItWorkingReport` reads no scores
+at all, only `times_flagged`. So the report can say what a family is working on
+and how often it has come up, and can never say "you started at Really tough
+and you are at Getting there". Both changes wait on what silver means.

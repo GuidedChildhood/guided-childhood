@@ -87,6 +87,9 @@ export default function StarterPackPage() {
   // against. The parent sees their words, the pathway sees a key it has
   // content for, and neither has to know about the other.
   const [picks, setPicks] = useState<string[]>([])
+  // Their own words, when Something else is ticked. Kept even while the tile is
+  // off, so unticking by accident does not wipe what they typed.
+  const [worryOther, setWorryOther] = useState('')
   const challenge = challengeFor(picks[0])
   // Every worry ticked, as pathway keys, most pressing first and deduped.
   // Three worries can share one key (bedtime, mornings and will not put it
@@ -128,7 +131,7 @@ export default function StarterPackPage() {
     try {
       const saved = localStorage.getItem('gc_starter_progress')
       if (saved) {
-        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; worryOther?: string; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
         // A parent part way through keeps the birthday they already gave, and
         // an older saved run has no birthday at all, which is why the band is
@@ -141,6 +144,7 @@ export default function StarterPackPage() {
         // than on an empty grid.
         if (parsed.picks?.length) setPicks(toWorryIds(parsed.picks))
         else if (parsed.challenge) setPicks(toWorryIds([parsed.challenge]))
+        if (parsed.worryOther) setWorryOther(parsed.worryOther)
         if (parsed.feeling) setFeeling(parsed.feeling)
         if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
         if (parsed.step && parsed.step !== 'result' && parsed.step !== 'reassure') setStep(parsed.step)
@@ -160,6 +164,7 @@ export default function StarterPackPage() {
         try {
           const a = JSON.parse(savedAnswers) as StarterAnswers
           if (a.ageBand) setAgeBand(a.ageBand)
+          if (a.worryOther) setWorryOther(a.worryOther)
           if (a.worries?.length) setPicks(toWorryIds(a.worries))
           else if (a.concerns?.length) setPicks(toWorryIds(a.concerns))
           else if (a.challenge) setPicks(toWorryIds([a.challenge]))
@@ -177,22 +182,22 @@ export default function StarterPackPage() {
   useEffect(() => {
     if (!restored) return
     try {
-      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, dobMonth, dobYear, picks, feeling, timeCommitment }))
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment }))
     } catch {}
-  }, [restored, step, ageBand, dobMonth, dobYear, picks, feeling, timeCommitment])
+  }, [restored, step, ageBand, dobMonth, dobYear, picks, worryOther, feeling, timeCommitment])
 
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
       // `worries` is what the parent actually said and what setup reads back.
       // `challenge` and `concerns` are derived and still written, so every
       // pathway reader that has only ever known ChallengeId keeps working.
-      const answers: StarterAnswers = { ageBand, challenge, concerns, worries: picks, feeling, timeCommitment }
+      const answers: StarterAnswers = { ageBand, challenge, concerns, worries: picks, worryOther: worryOther.trim() || undefined, feeling, timeCommitment }
       try {
         localStorage.setItem('gc_starter_answers', JSON.stringify(answers))
         localStorage.removeItem('gc_starter_progress')
       } catch {}
     }
-  }, [step, ageBand, challenge, concerns, picks, feeling, timeCommitment])
+  }, [step, ageBand, challenge, concerns, picks, worryOther, feeling, timeCommitment])
 
   useEffect(() => {
     if (step !== 'reassure') return
@@ -339,9 +344,31 @@ export default function StarterPackPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       const stg = ageBand ? getStageFromAgeBand(ageBand) : null
+      // ── EVERY WORRY, NOT JUST THE FIRST ────────────────────────────────
+      //
+      // This wrote `challenge` alone, one id, and then set onboarding_complete
+      // true, which makes the setup wizard skip itself for every parent who
+      // came through the quiz. The wizard is the ONLY place that ever wrote
+      // `challenges`, the whole list, so for a quiz parent the list was never
+      // written at all: they ticked three worries, one reached
+      // seedBaselineConcerns, and the other two were topped up with the stock
+      // starters. It looked like the app had chosen for them, because it had.
+      //
+      // Justin, 9 September 2026: "Make sure changes are all wired into
+      // platform so we include the issues in daily check up." This is the
+      // wire. `challenges` carries all of them, `challenge_other` carries the
+      // ones they typed, and both are the keys lib/concerns/baseline already
+      // reads.
       await supabase.from('profiles').update({
         onboarding_complete: true,
-        onboarding_answers: { ageBand, challenge, feeling, timeCommitment },
+        onboarding_answers: {
+          ageBand,
+          challenge,
+          challenges: picks,
+          challenge_other: worryOther.trim() || null,
+          feeling,
+          timeCommitment,
+        },
       }).eq('id', user.id)
       // Best effort, like everything else in here. A trial that fails to start
       // is a parent who sees the upgrade page a little early, which is a far
@@ -759,7 +786,7 @@ export default function StarterPackPage() {
                 looking at on 9 September 2026 when he asked why the nine had
                 not arrived. There is one copy now: answer it here, and setup
                 shows it back rather than asking again. */}
-            <WorryPicker selected={picks} onToggle={toggleChallenge} primary={picks[0] ?? null} />
+            <WorryPicker selected={picks} onToggle={toggleChallenge} primary={picks[0] ?? null} other={worryOther} onOther={setWorryOther} />
 
             {/* What the marker on the first tile means, in words, once. */}
             {picks.length > 1 && (

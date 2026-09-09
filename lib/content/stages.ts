@@ -317,6 +317,9 @@ export interface StarterAnswers {
   // WORRY_TO_CHALLENGE so every pathway reader keeps working unchanged.
   // Optional because answers saved before that date do not carry it.
   worries?: string[]
+  /** Their own words, when they ticked Something else. Becomes a concern of
+   *  its own, so it is carried like any other answer. */
+  worryOther?: string
   feeling: FeelingId
   timeCommitment?: TimeCommitmentId
 }

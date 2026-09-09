@@ -158,6 +158,9 @@ export default function OnboardingPage() {
   // our whole catalogue instead of their home.
   const [homeDevices, setHomeDevices] = useState<string[]>([])
   const [challenges, setChallenges] = useState<string[]>([])
+  // Their own words, when Something else is ticked. Carried from the quiz for
+  // a parent who answered there, typed here for one who signed up directly.
+  const [challengeOther, setChallengeOther] = useState('')
   const [timeCommitment, setTimeCommitment] = useState<StarterAnswers['timeCommitment']>(undefined)
   const [saving, setSaving] = useState(false)
   // True when the starter quiz already gave us age and challenges, so
@@ -237,6 +240,7 @@ export default function OnboardingPage() {
             : answers.concerns?.length ? answers.concerns : answers.challenge ? [answers.challenge] : []
           const mappedAll = toWorryIds(fromStarter)
           if (mappedAll.length) setChallenges(mappedAll)
+          if (answers.worryOther) setChallengeOther(answers.worryOther)
           if (answers.timeCommitment) setTimeCommitment(answers.timeCommitment)
           // We already asked age and concern in the starter quiz. If both are
           // here, do not make the parent answer them a second time.
@@ -304,7 +308,7 @@ export default function OnboardingPage() {
         // challenges, the whole list, alongside the single one everything else
         // reads: a parent who picks two worries at sign up gets both on their
         // first check in (lib/concerns/baseline), not only the first.
-        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, challenges, feeling: null, timeCommitment: timeCommitment ?? null },
+        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, challenges, challenge_other: challengeOther.trim() || null, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
@@ -753,7 +757,7 @@ export default function OnboardingPage() {
               Pick as many or as few as you like. These become the worries you rate on your first check in.
             </p>
             <div style={{ marginBottom: '16px' }}>
-              <WorryPicker selected={challenges} onToggle={toggleChallenge} />
+              <WorryPicker selected={challenges} onToggle={toggleChallenge} other={challengeOther} onOther={setChallengeOther} />
             </div>
             <button
               style={{ ...BTN, opacity: saving ? 0.7 : 1 }}

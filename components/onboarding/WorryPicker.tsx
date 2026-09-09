@@ -1,7 +1,7 @@
 'use client'
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
-import { WORRIES } from '@/lib/onboarding/worries'
+import { WORRIES, CATCH_ALL_ID } from '@/lib/onboarding/worries'
 
 // The grid of worries, in the happy news finish.
 //
@@ -35,14 +35,19 @@ import { WORRIES } from '@/lib/onboarding/worries'
 // ticking a tile never nudges the grid under a thumb that is still choosing.
 
 export default function WorryPicker({
-  selected, onToggle, primary,
+  selected, onToggle, primary, other, onOther,
 }: {
   selected: string[]
   onToggle: (id: string) => void
   /** The worry tomorrow opens on. Omit for a plain grid with no marker. */
   primary?: string | null
+  /** Their own words, when Something else is ticked. Omit both to hide it. */
+  other?: string
+  onOther?: (text: string) => void
 }) {
+  const showOther = onOther !== undefined && selected.includes(CATCH_ALL_ID)
   return (
+    <div>
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
       {WORRIES.map(w => {
         const on = selected.includes(w.id)
@@ -120,6 +125,54 @@ export default function WorryPicker({
           </button>
         )
       })}
+    </div>
+
+    {/* ── SOMETHING ELSE, IN THEIR OWN WORDS ────────────────────────────────
+        Justin, 9 September 2026: "How do we deal with something else? Note
+        they can add as many as they want and all areas we will cover through
+        the journey."
+
+        It was the one tile that did nothing. No slug, so no concern row, so
+        the parent who could not find themselves in nine tiles told us their
+        worry and we dropped it between the question and the check in. Their
+        words become a real worry now, rated at check in beside the rest.
+
+        The field appears only once the tile is ticked, so nine tiles do not
+        arrive with a text box under them, and it is never required: a parent
+        who ticks it and types nothing has still said "there is something
+        else", which is worth hearing on its own. */}
+    {showOther && (
+      <div style={{ marginTop: 12 }}>
+        <label
+          htmlFor="worry-other"
+          style={{
+            display: 'block', marginBottom: 7,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+          }}
+        >
+          What is it, in your words
+        </label>
+        <input
+          id="worry-other"
+          type="text"
+          value={other ?? ''}
+          onChange={e => onOther?.(e.target.value.slice(0, 80))}
+          placeholder="Getting off the Switch at teatime"
+          maxLength={80}
+          style={{
+            width: '100%', boxSizing: 'border-box',
+            padding: '13px 15px',
+            background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
+            boxShadow: '0 4px 0 var(--ink)',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+          }}
+        />
+        <p style={{ margin: '8px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+          Whatever you write becomes one of the worries you rate, the same as the tiles.
+        </p>
+      </div>
+    )}
     </div>
   )
 }
