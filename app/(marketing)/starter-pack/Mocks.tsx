@@ -128,7 +128,12 @@ export function MockDigi({ question, answer, words }: { question: string; answer
   return (
     <Stage tint="#fff">
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
-        <div style={{ maxWidth: '86%', background: 'var(--deep-teal)', color: '#fff', borderRadius: '18px 18px 4px 18px', padding: '11px 14px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', lineHeight: 1.45 }}>
+        {/* The parent's own message. Retro green rather than var(--deep-teal):
+            at #2E2818 the bubble reads as a black slab, and Justin, 9 September
+            2026, on this page: "no black, these needs proper Happy News style".
+            Retro green is the house token for a friendly dark panel, and it
+            keeps white type well clear of AA. */}
+        <div style={{ maxWidth: '86%', background: 'var(--retro-green)', color: '#fff', borderRadius: '18px 18px 4px 18px', padding: '11px 14px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', lineHeight: 1.45 }}>
           {question}
         </div>
       </div>

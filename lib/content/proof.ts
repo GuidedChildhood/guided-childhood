@@ -1,3 +1,4 @@
+import type { MethodId } from '@/components/starter/MethodIcon'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 
 // What we can actually point at, counted rather than claimed.
@@ -58,6 +59,9 @@ export type Answer = {
   answer: string
   /** Named things in the product, not adjectives. The script count is added. */
   proof: string[]
+  /** Which parts of the product pick this worry up. Drawn on the card as the
+   *  method row, and the reason the long mechanism paragraph could go. */
+  methods: MethodId[]
 }
 
 // ── THE ANSWER TO EACH WORRY ────────────────────────────────────────────────
@@ -71,50 +75,74 @@ export type Answer = {
 // The rule for the answer column: say the mechanism, not the benefit. "A
 // warning that lands and an ending they can predict" is a thing we built. "We
 // help with gaming" is a thing anybody can type.
+// ── SAY THE METHOD, NOT AN EXAMPLE ──────────────────────────────────────────
+//
+// Justin, 9 September 2026: "this is still offering examples and becomes long
+// to read. We just need to acknowledge the problem and say how we help solve
+// it via scripts, moments, daily check in etc. The METHOD not examples."
+//
+// So `answer` is now ONE line naming what actually happens, and `methods` is
+// the list of parts that pick the worry up, drawn on the card instead of
+// described. The old answers ran to forty words each; three ticked worries
+// meant a wall of prose on the screen immediately before the price.
+//
+// The rule that survives from before, and is the reason these are not
+// marketing lines: say the mechanism, not the benefit. "A warning that lands
+// and an ending they can predict" is a thing we built. "We help with gaming"
+// is a thing anybody can type.
 export const ANSWERS: Record<string, Answer> = {
   wont_put_down: {
     question: 'How do I stop policing it without giving up?',
-    answer: 'A slice of time that is theirs without asking, more earned through real jobs at a rate you set, and windows no stars can buy. You set the shape once, the app holds it every day.',
+    answer: 'Time that is theirs without asking, more of it earned through real jobs, and windows no stars can buy.',
     proof: ['The star bank and jobs', 'Protected windows'],
+    methods: ['balance','script','kidapp','checkin'],
   },
   bedtime_screens: {
     question: 'How do I get the screens out of the bedroom without a war?',
-    answer: 'The one rule worth having, and the words for the night they push back. Wind down time is built into the day so the ending is expected rather than announced.',
+    answer: 'One rule you set once, a wind down the day expects, and the words for the night they push back.',
     proof: ['The bedroom rule', 'Wind down in the daily path'],
+    methods: ['script','balance','checkin','digi'],
   },
   mood_after_screens: {
     question: 'Is it the screens, or is it them?',
-    answer: 'You rate it in ten seconds a day and we show you the line over weeks, so you are answering that from what happened rather than from last night. DiGi reads the same scores you do.',
+    answer: 'Ten seconds a day turns a feeling into a line you can actually read over weeks.',
     proof: ['The daily check in', 'Your worry rated over time'],
+    methods: ['checkin','moment','digi','passport'],
   },
   controller_fights: {
     question: 'How do I get them off it without a meltdown?',
-    answer: 'Warnings that land, an ending they can see coming, and lessons on why the game wants one more go. Then jobs that pay for the next session honestly.',
+    answer: 'An ending they can see coming, and the next session paid for honestly rather than argued for.',
     proof: ['Timer and warning nudges', 'Jobs that buy game time'],
+    methods: ['balance','script','kidapp','lesson'],
   },
   morning_tv: {
     question: 'How do we get out of the house without the screen?',
-    answer: 'The morning is its own routine in the child app, with the jobs that have to happen first and a reward that is not more screen. The five a day is done before school.',
+    answer: 'The morning gets a shape the night before, so nothing has to be decided at half seven.',
     proof: ['The morning routine', 'Five a day in the child app'],
+    methods: ['checkin','script','balance','moment'],
   },
   asking_for_phone: {
     question: 'What age, and how would I know they are ready?',
-    answer: 'No magic number. A readiness ladder for your own child, the settings for the day it arrives, and the words for the day you say not yet.',
+    answer: 'A readiness answer built from what they can already do, not from what their friends have.',
     proof: ['The readiness ladder', 'Device setting guides'],
+    methods: ['digi','lesson','script','passport'],
   },
   social_media: {
     question: 'When do I let them on, and what do I do until then?',
-    answer: 'A deadline is not a plan. Stage 4 teaches the feed, the pressure and the exit, and a switch in the product moves the content to whatever the law finally does.',
+    answer: 'They learn the feed before they meet it, and you get the words for the day they ask.',
     proof: ['Stage 4 lessons', 'Ready for the 2027 law'],
+    methods: ['lesson','script','kidapp','digi'],
   },
   ai_chatbots: {
     question: 'How do I make their AI use safe, and get them ready for it?',
-    answer: 'Taught before they meet it, and most already have. What a chatbot is at 6, honesty in homework at 11, why it is never a counsellor at 14, and using it well by 16.',
+    answer: 'Lessons on what these things are and are not, and a guide you can ask the moment it comes up.',
     proof: [`${AI_LESSONS} AI lessons`, 'The AI readiness thread'],
+    methods: ['lesson','digi','script','moment'],
   },
   seen_something: {
     question: 'What do I switch on, and is it even enough?',
-    answer: 'The settings worth setting, per age and per device, done together rather than in secret. Then the part settings cannot do: a child who comes to you first.',
+    answer: 'A calm first hour, the words that keep them telling you, and a plan for the week after.',
     proof: ['Setting checklists per screen', 'What to say the night it happens'],
+    methods: ['script','digi','moment','checkin'],
   },
 }

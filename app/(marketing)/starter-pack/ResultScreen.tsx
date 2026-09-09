@@ -8,8 +8,9 @@ import Celebration from '@/components/ui/Celebration'
 import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
 import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
+import SolveLoop from '@/components/starter/SolveLoop'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
-import { MockCheckIn, MockToday, MockProgress, MockDigi, MockAsk, MockJars, MockKidApp } from './Mocks'
+import { MockAsk, MockJars, MockKidApp } from './Mocks'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -80,9 +81,6 @@ const LEAD: React.CSSProperties = {
 const BODY: React.CSSProperties = {
   fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0,
 }
-const STEP_TITLE: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 8px',
-}
 const SECTION: React.CSSProperties = { marginTop: 'clamp(56px, 10vw, 84px)', scrollMarginTop: 18 }
 
 function Door({ href, label, big = false, style }: { href: string; label: string; big?: boolean; style?: React.CSSProperties }) {
@@ -101,21 +99,65 @@ function Door({ href, label, big = false, style }: { href: string; label: string
   )
 }
 
-/** A numbered step: the number, the title, the sentences, then the picture. */
-function Step({ n, title, children, picture }: { n: number; title: string; children: React.ReactNode; picture: React.ReactNode }) {
+/** The problem, in the parent's voice, above the thing we do about it.
+ *
+ *  ── WHY EVERY SECTION OPENS ON A PROBLEM ─────────────────────────────────
+ *
+ *  Justin, 9 September 2026: "remember it's problem and how we will solve it
+ *  and solving it on this page, but we will cover it and how, if you agree
+ *  that's the best hook for processing for user."
+ *
+ *  Agreed, and it is worth saying why rather than just doing it. A parent
+ *  arrives at this page in one particular state: something went wrong in
+ *  their house this week and they have just typed it into a quiz. They are
+ *  not evaluating software. They are scanning for whether their own evening
+ *  appears anywhere on the screen, and everything they read before it does is
+ *  noise they have to push through.
+ *
+ *  Feature framing makes them do that pushing. "Devices, time and balance" is
+ *  a category, so a parent has to translate it into their six o'clock before
+ *  it means anything, and translation is work most people will not do on a
+ *  phone. Problem framing hands them the recognition first: "Every evening is
+ *  a negotiation" costs nothing to understand, and the sentence after it is
+ *  read by someone who has already nodded.
+ *
+ *  So every section on this page is the same two beats in the same order:
+ *  the problem in words a parent would actually use, then what we do about
+ *  it. Four sections, one shape, so by the second one they know how to read
+ *  the page and can skim for their own worry without missing the answer. */
+function Problem({ children }: { children: React.ReactNode }) {
   return (
-    <div className="wow-fu" style={{ marginTop: 28 }}>
-      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 14 }}>
-        <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{n}</span>
-        <div style={{ minWidth: 0, paddingTop: 4 }}>
-          <h3 style={STEP_TITLE}>{title}</h3>
-          <p style={BODY}>{children}</p>
+    <div className="wow-fu" style={{
+      display: 'flex', gap: 10, alignItems: 'flex-start',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+      boxShadow: '0 4px 0 var(--ink)',
+      padding: '12px 15px', margin: '0 0 16px',
+    }}>
+      <span aria-hidden style={{
+        flexShrink: 0, width: 26, height: 26, borderRadius: '50%',
+        background: 'var(--stage-3-bold)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+      }}>?</span>
+      <div style={{ minWidth: 0 }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+          marginBottom: 3,
+        }}>
+          The problem
         </div>
+        <p style={{
+          margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700,
+          fontSize: 'var(--text-md)', lineHeight: 1.4, color: 'var(--ink)',
+        }}>
+          {children}
+        </p>
       </div>
-      {picture}
     </div>
   )
 }
+
 
 /** A plain point: a bold first line and a sentence under it. */
 function Point({ icon, title, children }: { icon: string; title: string; children: React.ReactNode }) {
@@ -140,14 +182,24 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // not be told we heard "Screens are taking over", even though that is the
   // pathway the two share. Falls back for answers saved before the quiz asked
   // in the parent's vocabulary.
-  const concern = (worry ? worryLabel(worry) : '') || 'what you told us'
+  // Their words wherever they gave them. `worry` is the id they put first, so
+  // when that is the catch all the label is our word "Something else", and
+  // this string is what the product mocks show back: the check in row, the
+  // progress bar and the question DiGi is asked. A parent who typed their own
+  // worry and then watched a mock of OUR app call it "Something else" three
+  // times has been shown the product forgetting them, on the screen where they
+  // decide whether to pay.
+  const ownFirst = (worryOther ?? '').trim()
+  const concern = (worry === CATCH_ALL_ID && ownFirst)
+    ? ownFirst
+    : (worry ? worryLabel(worry) : '') || 'what you told us'
   // Their own words, every one they ticked, for the roll call card. Falls back
   // to the single derived label for answers saved before the quiz asked in the
   // parent's vocabulary.
   // Their own words wherever they gave them. The catch all used to be filtered
   // out of the roll call entirely, which meant the ONE worry a parent cared
   // enough about to type was the one worry this page never mentioned.
-  const own = (worryOther ?? '').trim()
+  const own = ownFirst
   const told = (worries ?? [])
     .map(w => (w === CATCH_ALL_ID ? own : worryLabel(w)))
     .filter(Boolean)
@@ -227,7 +279,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             ))}
           </h1>
           <p className="wow-fu" style={{ ...LEAD, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0 }}>
-            Here is how the platform works, what DiGi does, and what the next few weeks look like for {they}. Two minutes to read, then one button.
+            You told us what is going wrong. Here is what we do about each one, and how it gets better from tonight. Two minutes to read, then one button.
           </p>
         </div>
       </div>
@@ -301,41 +353,18 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             </p>
           </div>
 
-          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} tonight={action} own={own} />
+          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} />
         </section>
 
         {/* ── How it works ─────────────────────────────────────────────── */}
         <section id="how" style={SECTION}>
           <div className="wow-fu" style={EYEBROW}>How it works</div>
+          <Problem>You have tried taking the device away. It works for one evening and the row is worse the next.</Problem>
           <h2 className="wow-fu" style={H2}>Not another blocking app. A plan you follow together.</h2>
           <p className="wow-fu" style={LEAD}>
-            Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round. Four steps, five minutes a day.
+            Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round. Five minutes a day, and you can catch up on any day you miss.
           </p>
-          <Step n={1} title="You say what happened" picture={<MockCheckIn concern={concern} />}>
-            One tap a day on how it went. The morning, homework, the gaming handover, bedtime. Tap the moment that went wrong and it becomes a worry the platform works on, with five stars to fill.
-          </Step>
-          <Step n={2} title="You get the one thing to do, and the words" picture={<MockToday action={action} words={stage.script.sayThis} />}>
-            Every day picks one small thing for {they}&apos;s age and what you told us. The exact words are written out, ready before the moment rather than after it.
-          </Step>
-          <Step n={3} title="You watch it move" picture={<MockProgress concern={concern} />}>
-            Once a week you rate each worry again. The stars fill as things settle. When a worry reaches five it is stamped in the passport, and the next one comes up.
-          </Step>
-          {/* ── DIGI IS STEP FOUR, NOT A SECTION ──────────────────────────
-              It had a section of its own, with a heading, a lead, a mock and
-              four Points. But a parent does not weigh up "the platform" and
-              "the assistant" separately: DiGi is what happens on the night the
-              three steps do not cover, which makes it the fourth step and not
-              a second product. Folding it in cuts a heading, a lead and two
-              Points, and it reads truer. */}
-          <Step n={4} title="And when tonight is not in the plan, you ask" picture={
-            <MockDigi
-              question={`${concern}. It happened again tonight. What do I do?`}
-              answer={`This is common at ages ${ages}, and it is fixable. Do not take the phone tonight. Here is the one thing to do, and the words.`}
-              words={stage.script.sayThis}
-            />
-          }>
-            DiGi is our guide. Ask what actually happened, in your own words, at eleven at night, and you get a real answer for {they}. Never a flat yes or no: where you are, the next step, and the words to say. It knows {kid ? `${kid}'s age` : 'your child\u2019s age'}, what you told us and what worked last time, so you never start from nothing.
-          </Step>
+          <SolveLoop />
           <div className="wow-fu" style={{ marginTop: 22, background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '16px 18px' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
             <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
@@ -345,6 +374,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         {/* ── Screen time and balance ──────────────────────────────────── */}
         <section id="time" style={SECTION}>
           <div className="wow-fu" style={EYEBROW}>Devices, time and balance</div>
+          <Problem>Every evening is the same negotiation, and you are guessing at how much is too much.</Problem>
           <h2 className="wow-fu" style={H2}>A number you agreed this morning, not one you defend at six.</h2>
 
           {/* ── THE NUMBER, SAID OUT LOUD ──────────────────────────────────
@@ -371,11 +401,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 to start the day
               </span>
             </div>
-            <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10 }}>
-              Theirs at breakfast, without asking for it. The day can reach {guide} minutes, and the last {guide - base} arrive with the jobs, the reading and the time outside. You can move both numbers whenever you like.
-            </p>
-            <p style={{ ...BODY, color: 'var(--ink-soft)', marginTop: 10, marginBottom: 0 }}>
-              The measured average for this age is over three hours a day. We are not describing what happens, we are naming what to aim at.
+            <p style={{ ...BODY, color: 'var(--ink)', marginTop: 10, marginBottom: 0 }}>
+              Theirs at breakfast, without asking. The day reaches {guide} minutes, and the last {guide - base} arrive with jobs, reading and time outside. Both numbers are yours to move.
             </p>
           </div>
 
@@ -387,8 +414,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 invites every objection in the reward literature; "planned, not
                 won" survives them. Same product, and a parent who has read one
                 article about rewards does not bounce off it. */}
-            <Point icon="🗓️" title="Planned, not won">Most of the day is theirs before they do anything. Jobs and time outside lift it towards the guide, so a good day goes further. Nobody has to win the first hour back.</Point>
-            <Point icon="🛏️" title="Protected time nobody can buy">Bedtime, mealtimes and school hours are off the table at any price. A start inside them comes to you as an ask, never a flat no.</Point>
+            <Point icon="🗓️" title="Planned, not won">Most of the day is theirs before they do anything. Nobody has to win the first hour back.</Point>
+            <Point icon="🛏️" title="Protected time nobody can buy">Bedtime, meals and school hours are off the table at any price.</Point>
           </div>
 
           {/* ── HOW THE TRACKING ACTUALLY WORKS, BEFORE THEY PAY ───────────
@@ -407,17 +434,11 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           }}>
             <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
             <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 14px' }}>
-              We do not read the device. {they.charAt(0).toUpperCase() + they.slice(1)} picks the screen and the minutes in their own app, it lands on yours, and one tap agrees it.
+              We do not read the device. {they.charAt(0).toUpperCase() + they.slice(1)} asks in their own app, one tap agrees it. That is why it covers a Switch, a telly and a cousin&apos;s iPad, which no screen time app can see.
             </p>
             <MockAsk kid={kid || 'Your child'} />
-            <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
-              That is why it covers a Switch, a telly and a cousin&apos;s iPad, which no screen time app can see. It also means the number is only as honest as they are, and that is the point: the habit being built is the telling.
-            </p>
           </div>
 
-          <div className="wow-fu" style={{ marginTop: 22 }}>
-            <Point icon="📱" title="Device settings, one screen at a time">iPhone, iPad, the Switch, the PlayStation, the TV. What to set tonight for {they}&apos;s age, in plain English.</Point>
-          </div>
         </section>
 
         {/* ── What else is included ────────────────────────────────────
@@ -438,6 +459,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             list this page was rebuilt to stop being. */}
         <section id="kid" style={SECTION}>
           <div className="wow-fu" style={EYEBROW}>Also included</div>
+          <Problem>All of this is done TO {they} rather than with them, so nothing sticks once you are not in the room.</Problem>
           <h2 className="wow-fu" style={H2}>{kid ? `${kid} gets their own app, and it grows with them.` : 'Your child gets their own app, and it grows with them.'}</h2>
           <p className="wow-fu" style={LEAD}>
             A link, no login, no account, and nothing buzzes their phone at night. It is where the jobs, the stars and the lessons live, and it teaches social media before social media arrives.

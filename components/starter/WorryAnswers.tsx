@@ -2,7 +2,8 @@
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
-import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
+import { ANSWERS } from '@/lib/content/proof'
+import { MethodRow, type MethodId } from '@/components/starter/MethodIcon'
 
 // The worries a parent just ticked, each with the answer to it.
 //
@@ -38,13 +39,8 @@ import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
 
 const FALLBACK = ['wont_put_down', 'mood_after_screens', 'asking_for_phone']
 
-export default function WorryAnswers({ worryIds, tonight, own }: {
+export default function WorryAnswers({ worryIds, own }: {
   worryIds: string[]
-  /** The one thing to do this evening, for the worry they put first. Written
-   *  per stage per pathway key in lib/content/stages, so it is the sharpest
-   *  thing on the page and it belongs on the card it answers, not in a box of
-   *  its own two sections earlier. */
-  tonight?: string
   /** What they typed into Something else. Gets a card of its own, in their
    *  words, because the worry a parent cared enough to write out by hand was
    *  the one worry this section used to drop on the floor. */
@@ -79,11 +75,11 @@ export default function WorryAnswers({ worryIds, tonight, own }: {
         const a = isOwn
           ? {
               question: 'You typed this one yourself. What happens to it?',
-              answer: `It becomes one of the worries you rate at your check in, in your words, not ours. DiGi reads it and searches every script, moment and lesson we have for the closest match, so the first thing it says about ${ownWords ? '"' + ownWords + '"' : 'it'} is grounded in something real rather than made up. If enough families raise the same thing, it becomes one of the worries we build a full pathway for.`,
-              proof: ['DiGi searches all 335 scripts', 'Rated at your check in', 'Counted for what we build next'],
+              answer: 'We have not written a pathway for this one yet, so we do the honest thing: DiGi searches everything we hold against your words, and you rate it daily like any other worry.',
+              proof: ['Counted for what we build next'],
+              methods: ['checkin', 'digi', 'moment', 'script'] as MethodId[],
             }
           : ANSWERS[id]
-        const scripts = isOwn ? 0 : scriptsForWorry(id)
         return (
           <div
             key={id}
@@ -126,39 +122,21 @@ export default function WorryAnswers({ worryIds, tonight, own }: {
               {a.answer}
             </p>
 
-            {/* The thing to do tonight, on the first card only. A parent who
-                reads nothing else on this page should still leave with one
-                sentence they can use this evening. */}
-            {i === 0 && tonight && (
-              <div style={{ marginTop: 14, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 14, padding: '12px 14px' }}>
-                <div style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
-                  marginBottom: 5,
-                }}>
-                  Tonight
-                </div>
-                <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.45, color: 'var(--ink)' }}>
-                  {tonight}
-                </p>
-              </div>
-            )}
+            {/* ── HOW WE FIX IT, DRAWN ──────────────────────────────────
+                The parts of the product that pick this worry up, as chips with
+                the drawing on them. This replaced a mechanism paragraph and,
+                on the first card, a script quoted in full.
 
-            {/* Named things, not adjectives. Every count is in lib/content/proof
-                and was counted in the database, not estimated. */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 14 }}>
-              {[...(scripts ? [`${scripts} scripts`] : []), ...a.proof].map(p => (
-                <span key={p} style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  background: 'var(--terracotta-lt)', color: 'var(--ink)',
-                  border: '1.5px solid var(--terracotta)', borderRadius: 100,
-                  padding: '5px 10px',
-                }}>
-                  {p}
-                </span>
-              ))}
-            </div>
+                Justin, 9 September 2026: "we just need to acknowledge the
+                problem and say how we help solve it via scripts, moments,
+                daily check in etc, the METHOD not examples."
+
+                The examples were doing real damage rather than just taking up
+                room: a script about algorithms sat under a worry about a
+                friend's new phone, because the script is written per pathway
+                and the pathway is a bucket several worries share. Naming the
+                method is both shorter and true of every worry in the bucket. */}
+            <MethodRow ids={a.methods} />
           </div>
         )
       })}
