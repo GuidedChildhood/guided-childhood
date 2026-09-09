@@ -38,25 +38,52 @@ import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
 
 const FALLBACK = ['wont_put_down', 'mood_after_screens', 'asking_for_phone']
 
-export default function WorryAnswers({ worryIds, tonight }: {
+export default function WorryAnswers({ worryIds, tonight, own }: {
   worryIds: string[]
   /** The one thing to do this evening, for the worry they put first. Written
    *  per stage per pathway key in lib/content/stages, so it is the sharpest
    *  thing on the page and it belongs on the card it answers, not in a box of
    *  its own two sections earlier. */
   tonight?: string
+  /** What they typed into Something else. Gets a card of its own, in their
+   *  words, because the worry a parent cared enough to write out by hand was
+   *  the one worry this section used to drop on the floor. */
+  own?: string
 }) {
+  const ownWords = (own ?? '').trim()
   const named = worryIds.filter(id => id !== CATCH_ALL_ID && ANSWERS[id])
-  const chosen = named.length ? named : FALLBACK
+  // Their own words keep the place they gave them. A parent who put Something
+  // else first sees their card first.
+  const withOwn = ownWords && worryIds.includes(CATCH_ALL_ID)
+    ? worryIds.filter(id => id === CATCH_ALL_ID || ANSWERS[id])
+    : named
+  const chosen = withOwn.length ? withOwn : FALLBACK
   const rest = WORRIES.filter(w => w.id !== CATCH_ALL_ID && !chosen.includes(w.id))
-  const theirs = named.length > 0
+  const theirs = named.length > 0 || !!ownWords
 
   return (
     <div>
       {chosen.map((id, i) => {
         const worry = WORRIES.find(w => w.id === id) as Worry
-        const a = ANSWERS[id]
-        const scripts = scriptsForWorry(id)
+        const isOwn = id === CATCH_ALL_ID
+        // ── THE CARD FOR A WORRY WE DID NOT WRITE ──────────────────────────
+        //
+        // There is no hand written pathway for words a parent invented thirty
+        // seconds ago, and pretending otherwise on the screen before we ask
+        // for money is the fastest way to lose someone. So this card is the
+        // honest one: it says what actually happens to their words, which is
+        // that DiGi searches everything we have against them and they join
+        // the check in like any other worry. That is true, it is checkable
+        // the moment they step in, and it is a better answer than a stock
+        // paragraph pretending to be about their evening.
+        const a = isOwn
+          ? {
+              question: 'You typed this one yourself. What happens to it?',
+              answer: `It becomes one of the worries you rate at your check in, in your words, not ours. DiGi reads it and searches every script, moment and lesson we have for the closest match, so the first thing it says about ${ownWords ? '"' + ownWords + '"' : 'it'} is grounded in something real rather than made up. If enough families raise the same thing, it becomes one of the worries we build a full pathway for.`,
+              proof: ['DiGi searches all 335 scripts', 'Rated at your check in', 'Counted for what we build next'],
+            }
+          : ANSWERS[id]
+        const scripts = isOwn ? 0 : scriptsForWorry(id)
         return (
           <div
             key={id}
@@ -83,7 +110,7 @@ export default function WorryAnswers({ worryIds, tonight }: {
                 fontSize: 'var(--text-lg)', letterSpacing: '-0.02em',
                 lineHeight: 1.2, color: 'var(--ink)',
               }}>
-                {worry.label}
+                {isOwn && ownWords ? ownWords : worry.label}
               </h3>
             </div>
 

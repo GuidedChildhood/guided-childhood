@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Celebration from '@/components/ui/Celebration'
 import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@/lib/content/stages'
-import { WORRIES, CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
+import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
 import { termTimeDailyMinutes, termTimeBaseMinutes } from '@/lib/quests/screen-balance'
 import { MockCheckIn, MockToday, MockProgress, MockDigi, MockAsk, MockJars, MockKidApp } from './Mocks'
@@ -52,6 +52,13 @@ type Props = {
   /** Every worry they ticked, most pressing first. The section that answers
    *  them needs the whole list, not just the one the pathway opens on. */
   worries?: string[]
+  /** What they typed into Something else, in their own words.
+   *
+   *  It was captured in the quiz, written to onboarding_answers.challenge_other
+   *  and then never passed here, so a parent who typed "speaking on phone a lot
+   *  as friend has a new one" was shown a card headed "Something else". We
+   *  asked them to tell us and then read our own label back at them. */
+  worryOther?: string
   feeling: FeelingId
   email?: string
   needsConfirm?: boolean
@@ -123,7 +130,7 @@ function Point({ icon, title, children }: { icon: string; title: string; childre
   )
 }
 
-export default function ResultScreen({ stage, accent, challenge, worry, worries, email, needsConfirm, childName }: Props) {
+export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName }: Props) {
   // The account exists from the first screen, so stepping in opens setup,
   // which starts on the check in that becomes the baseline. Only a pending
   // email confirmation goes by the login door first.
@@ -137,7 +144,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   // Their own words, every one they ticked, for the roll call card. Falls back
   // to the single derived label for answers saved before the quiz asked in the
   // parent's vocabulary.
-  const told = (worries ?? []).filter(w => w !== CATCH_ALL_ID).map(worryLabel).filter(Boolean)
+  // Their own words wherever they gave them. The catch all used to be filtered
+  // out of the roll call entirely, which meant the ONE worry a parent cared
+  // enough about to type was the one worry this page never mentioned.
+  const own = (worryOther ?? '').trim()
+  const told = (worries ?? [])
+    .map(w => (w === CATCH_ALL_ID ? own : worryLabel(w)))
+    .filter(Boolean)
   const rollCall = told.length ? told : [concern]
   const kid = childName && childName.length > 1 ? childName : ''
   const they = kid || 'your child'
@@ -180,13 +193,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
     return () => ctx.revert()
   }, [])
 
-  // The things we cover, led by the nine the quiz just asked so a parent sees
-  // their own answer go past first, then the rest of the ground.
-  const problems = [
-    ...WORRIES.filter(w => w.id !== CATCH_ALL_ID).map(w => w.label),
-    'Group chats', 'The algorithm', 'Strangers online', 'Passwords', 'The first phone', 'Gaming money', 'AI and homework',
-  ]
-
   return (
     <div ref={rootRef} style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 96px', fontFamily: 'var(--font-body)' }}>
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
@@ -228,32 +234,30 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
 
       <div style={WRAP}>
         {/* ── What you told us ──────────────────────────────────────────
-            It used to name ONE worry, in a dark card, with a paragraph and
-            the tonight action under it, and then the section below repeated
-            the same worry as its first card. Two cards, one worry, back to
-            back on a phone.
+            Justin, 9 September 2026, with the reveal on his phone: "no black,
+            these needs proper Happy News style."
 
-            So this is the roll call now and nothing else: every worry they
-            ticked, in their own words, in white on the deep card. Truer as
-            well as shorter, because a parent who ticked three used to see one
-            named and quietly wonder about the other two. The answer to each,
-            and the thing to do tonight, is the section underneath. */}
-        <section style={{ ...SECTION, marginTop: 34 }}>
-          <div className="wow-fu" style={{ background: 'var(--deep-teal)', borderRadius: 22, padding: '18px 22px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
-            <div style={{ ...EYEBROW, color: 'rgba(255,255,255,0.65)', marginBottom: 10 }}>You told us</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {rollCall.map(label => (
-                <div key={label} style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-                  {label}
-                </div>
-              ))}
-            </div>
-            <p style={{ ...BODY, color: 'rgba(255,255,255,0.78)', marginTop: 12, marginBottom: 0 }}>
-              At ages {ages} {rollCall.length > 1 ? 'these are among' : 'this is one of'} the most common things parents raise. It is not a sign you are behind, and there is a clear first step for {rollCall.length > 1 ? 'each one' : 'it'}.
-            </p>
-          </div>
-        </section>
+            It was a deep espresso card (var(--deep-teal), #2E2818) carrying
+            white type, and on a cream page it reads as a black slab. It was
+            also the only dark block in the product and it landed directly
+            under the hero, so the first thing a parent met after "Alma's
+            pathway is built" was a black box.
 
+            It is now a butter strip in the house hand: ink on butter, chunky
+            border, hard shadow, their worries as chips rather than a stacked
+            list. Same words, a third of the height, and it reads as good news
+            rather than a warning.
+
+            It also sits INSIDE the answers section now rather than being a
+            section of its own, because naming the worries and answering them
+            is one thought, and splitting it across two cards was what made a
+            parent scroll past their own words to find the reply. */}
+
+        {/* ── Your worries, and what we do about each ───────────────────
+            This is the last screen before the price and the only question a
+            parent is really asking is whether this deals with THEIR problem.
+            Everything else on the page is secondary to that, so it comes
+            first and it comes with the roll call attached. */}
         {/* ── Every worry they named, answered ─────────────────────────
             Justin, 9 September 2026: "though we redesigned and simplify this
             page with the problems and what we do to fix?" It never did. The
@@ -268,10 +272,36 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               ? 'Your worry, and what we actually do about it.'
               : 'Your worries, and what we actually do about each one.'}
           </h2>
-          <p className="wow-fu" style={{ ...LEAD, marginBottom: 22 }}>
+          <p className="wow-fu" style={{ ...LEAD, marginBottom: 18 }}>
             Not what we are. What happens, and the part of the product it happens in.
           </p>
-          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} tonight={action} />
+
+          {/* The roll call, in butter rather than the old black card. */}
+          <div className="wow-fu" style={{
+            background: 'var(--terracotta-lt)',
+            border: '2px solid var(--ink)', borderRadius: 18,
+            boxShadow: '0 5px 0 var(--ink)',
+            padding: '14px 16px 16px', marginBottom: 24,
+          }}>
+            <div style={{ ...EYEBROW, marginBottom: 9 }}>You told us</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+              {rollCall.map(label => (
+                <span key={label} style={{
+                  fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3,
+                  background: '#fff', border: '2px solid var(--ink)', borderRadius: 100,
+                  padding: '6px 13px',
+                }}>
+                  {label}
+                </span>
+              ))}
+            </div>
+            <p style={{ ...BODY, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '11px 0 0' }}>
+              At ages {ages} {rollCall.length > 1 ? 'these are among' : 'this is one of'} the most common things parents raise. It is not a sign you are behind, and there is a clear first step for {rollCall.length > 1 ? 'each one' : 'it'}.
+            </p>
+          </div>
+
+          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} tonight={action} own={own} />
         </section>
 
         {/* ── How it works ─────────────────────────────────────────────── */}
@@ -279,7 +309,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <div className="wow-fu" style={EYEBROW}>How it works</div>
           <h2 className="wow-fu" style={H2}>Not another blocking app. A plan you follow together.</h2>
           <p className="wow-fu" style={LEAD}>
-            Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round. Three steps, five minutes a day.
+            Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round. Four steps, five minutes a day.
           </p>
           <Step n={1} title="You say what happened" picture={<MockCheckIn concern={concern} />}>
             One tap a day on how it went. The morning, homework, the gaming handover, bedtime. Tap the moment that went wrong and it becomes a worry the platform works on, with five stars to fill.
@@ -290,31 +320,25 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <Step n={3} title="You watch it move" picture={<MockProgress concern={concern} />}>
             Once a week you rate each worry again. The stars fill as things settle. When a worry reaches five it is stamped in the passport, and the next one comes up.
           </Step>
-          <div className="wow-fu" style={{ marginTop: 22, background: 'var(--tint-green)', border: '1.5px solid var(--border)', borderRadius: 18, padding: '16px 18px' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
-            <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
-          </div>
-        </section>
-
-        {/* ── How DiGi works ───────────────────────────────────────────── */}
-        <section id="digi" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>How DiGi works</div>
-          <h2 className="wow-fu" style={H2}>A guide who knows your family, at 11pm.</h2>
-          <p className="wow-fu" style={LEAD}>
-            DiGi is our guide. Ask what actually happened, in your own words, and you get a real answer for {they}, not a lecture and not a list of links.
-          </p>
-          <div className="wow-fu">
+          {/* ── DIGI IS STEP FOUR, NOT A SECTION ──────────────────────────
+              It had a section of its own, with a heading, a lead, a mock and
+              four Points. But a parent does not weigh up "the platform" and
+              "the assistant" separately: DiGi is what happens on the night the
+              three steps do not cover, which makes it the fourth step and not
+              a second product. Folding it in cuts a heading, a lead and two
+              Points, and it reads truer. */}
+          <Step n={4} title="And when tonight is not in the plan, you ask" picture={
             <MockDigi
               question={`${concern}. It happened again tonight. What do I do?`}
               answer={`This is common at ages ${ages}, and it is fixable. Do not take the phone tonight. Here is the one thing to do, and the words.`}
               words={stage.script.sayThis}
             />
-          </div>
-          <div className="wow-fu" style={{ display: 'grid', gap: 16, marginTop: 22 }}>
-            <Point icon="🧭" title="Never a flat yes or no">Every answer is where you are, the next step, and the words to say. Allow or deny is the one thing DiGi will not do.</Point>
-            <Point icon="🏠" title="It remembers your family">{kid ? `${kid}'s age` : 'Your child\'s age'}, what you told us, what worked last time and what did not. You never start from nothing.</Point>
-            <Point icon="📚" title="Built on the research">Trained on the evidence, and it can tell you where a claim comes from. No invented studies, no made up numbers.</Point>
-            <Point icon="🌙" title="There when it happens">Three questions a day are free. The moment anything kicks off, you have somewhere to ask.</Point>
+          }>
+            DiGi is our guide. Ask what actually happened, in your own words, at eleven at night, and you get a real answer for {they}. Never a flat yes or no: where you are, the next step, and the words to say. It knows {kid ? `${kid}'s age` : 'your child\u2019s age'}, what you told us and what worked last time, so you never start from nothing.
+          </Step>
+          <div className="wow-fu" style={{ marginTop: 22, background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '16px 18px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
+            <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
           </div>
         </section>
 
@@ -396,10 +420,25 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           </div>
         </section>
 
-        {/* ── The child's own app ──────────────────────────────────────── */}
+        {/* ── What else is included ────────────────────────────────────
+            Justin, 9 September 2026: "can we simplify this page but keep
+            important parts."
+
+            This was three sections: the child's app, the road to 16, and And
+            for you. Nine headings on one page is a page a parent scrolls
+            rather than reads, and by this point they have already been given
+            the thing they came for (their worry, answered) and the mechanism
+            (four steps). What is left is the answer to "and what else do I
+            get", which is one question and so is one section.
+
+            Cut in the merge: the four Points under And for you, because the
+            scripts, the passport and the weekly check in are already named as
+            proof chips on the cards that answer their actual worries, where
+            they mean something. Naming them again as features is the kind of
+            list this page was rebuilt to stop being. */}
         <section id="kid" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>Included</div>
-          <h2 className="wow-fu" style={H2}>{kid ? `${kid} gets their own app.` : 'Your child gets their own app.'}</h2>
+          <div className="wow-fu" style={EYEBROW}>Also included</div>
+          <h2 className="wow-fu" style={H2}>{kid ? `${kid} gets their own app, and it grows with them.` : 'Your child gets their own app, and it grows with them.'}</h2>
           <p className="wow-fu" style={LEAD}>
             A link, no login, no account, and nothing buzzes their phone at night. It is where the jobs, the stars and the lessons live, and it teaches social media before social media arrives.
           </p>
@@ -409,57 +448,37 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             <Point icon="🖐️" title="Five a day">A job, a lesson, time outside, a read, a kind thing. Ticked on the app or on paper. A full day earns a Planet Friend.</Point>
             <Point icon="🖨️" title="Printables and the paper chart">For the days with no device at all. The bucket list, the balance wheel, phones go to bed. Printed from any phone.</Point>
           </div>
-        </section>
 
-        {/* ── The road to 16 ───────────────────────────────────────────── */}
-        <section id="road" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>Ages 4 to 16</div>
-          <h2 className="wow-fu" style={H2}>One road, and every problem on it.</h2>
-          <p className="wow-fu" style={LEAD}>
-            Stage {stage.id} is where you start, not where it ends. Each stage meets the problems of that age before they arrive, so sixteen is a step and not a cliff edge.
+          {/* The road, compact. It used to be a section with its own heading,
+              lead, five rows, a chip cloud and a closing paragraph. What it
+              has to say is that Stage {stage.id} is a start and not the whole
+              purchase, which the rows say on their own. */}
+          <h3 className="wow-fu" style={{ ...H2, fontSize: 'clamp(1.35rem, 4.4vw, 1.7rem)', marginTop: 34, marginBottom: 10 }}>
+            One road, from 4 to 16.
+          </h3>
+          <p className="wow-fu" style={{ ...BODY, marginBottom: 14 }}>
+            Stage {stage.id} is where you start, not where it ends. Each stage meets the problems of that age before they arrive, so sixteen is a step and not a cliff edge. The under 16 social media law changes the timing, not the plan.
           </p>
-          <div className="wow-fu" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 22, overflow: 'hidden' }}>
+          <div className="wow-fu" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 5px 0 var(--ink)', overflow: 'hidden' }}>
             {STAGES.map((s, i) => {
               const here = s.id === stage.id
               const a = s.ageBand === '16+' ? '16 and up' : s.ageBand.replace('-', ' to ')
               return (
-                <div key={s.id} style={{ display: 'flex', gap: 14, padding: '14px 18px', borderTop: i === 0 ? 'none' : '1.5px solid var(--border)', background: here ? 'var(--terracotta-lt)' : '#fff', alignItems: 'flex-start' }}>
-                  <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: `var(--stage-${s.id}-bold)`, color: `var(--stage-${s.id}-text)`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', marginTop: 2 }}>{s.id}</span>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{s.name}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>{a}</span>
-                      {here && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '2px 8px', borderRadius: 100 }}>You are here</span>}
-                    </div>
-                    <p style={{ ...BODY, fontSize: 'var(--text-base)', marginTop: 3 }}>{s.focus}</p>
+                <div key={s.id} style={{ display: 'flex', gap: 13, padding: '13px 16px', borderTop: i === 0 ? 'none' : '1.5px solid var(--border)', background: here ? 'var(--terracotta-lt)' : '#fff', alignItems: 'center' }}>
+                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: `var(--stage-${s.id}-bold)`, color: `var(--stage-${s.id}-text)`, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>{s.id}</span>
+                  <div style={{ minWidth: 0, flex: 1, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{s.name}</span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{a}</span>
+                    {here && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', border: '1.5px solid var(--ink)', padding: '2px 8px', borderRadius: 100 }}>You are here</span>}
                   </div>
                 </div>
               )
             })}
           </div>
-          <div className="wow-fu" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 18 }}>
-            {problems.map(p => (
-              <span key={p} style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 100, padding: '7px 13px' }}>{p}</span>
-            ))}
-          </div>
-          <p className="wow-fu" style={{ ...BODY, marginTop: 14 }}>
-            Scripts, lessons and a DiGi answer for each of these, at the age it comes up. The under 16 social media law changes the timing, not the plan.
-          </p>
-        </section>
 
-        {/* ── For you ──────────────────────────────────────────────────── */}
-        <section id="you" style={SECTION}>
-          <div className="wow-fu" style={EYEBROW}>And for you</div>
-          <h2 className="wow-fu" style={H2}>The words, the record, and one email a week.</h2>
-          <div className="wow-fu" style={{ display: 'grid', gap: 16, marginTop: 6 }}>
-            <Point icon="💬" title="160 exact scripts">The words for every hard conversation from first tablet to first phone, and a place to rehearse them with DiGi before you need them.</Point>
-            <Point icon="🛂" title="The passport to sixteen">Every worry settled, every stage stamped, in one record you fill in together. Sixteen is a step, not a cliff edge.</Point>
-            <Point icon="📊" title="The weekly check in">Five stars per worry, once a week. You see what is actually working before you decide what to do next.</Point>
-            <Point icon="✉️" title="One email a week, written by a parent">One useful thing, never more than one a week from all of us put together.</Point>
-          </div>
-          <div className="wow-fu" style={{ marginTop: 26, padding: '18px 22px', borderLeft: '3px solid var(--terracotta)', background: '#fff', borderRadius: '0 16px 16px 0' }}>
+          <div className="wow-fu" style={{ marginTop: 24, padding: '18px 22px', borderLeft: '4px solid var(--terracotta)', background: '#fff', borderRadius: '0 16px 16px 0' }}>
             <p style={{ ...BODY, color: 'var(--ink)', fontStyle: 'italic' }}>{stage.parentQuote}</p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', margin: '8px 0 0', letterSpacing: '0.04em' }}>Parent, Stage {stage.id}</p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', margin: '8px 0 0', letterSpacing: '0.04em' }}>Parent, Stage {stage.id}</p>
           </div>
         </section>
 
