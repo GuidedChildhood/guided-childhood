@@ -184,6 +184,11 @@ export type StatSlide = SlideBase & {
 
 export type TryItSlide = SlideBase & {
   type: 'tryit'
+  // Eyebrow, defaults to "Try it tonight". In the parents app a tryit really
+  // is homework, so that default is right there. In school every one of them
+  // sits in the practise phase, mid lesson, and the wall was telling a class
+  // to do tonight the thing they had worksheets out for (migration 276).
+  label?: string
   heading: string
   body: string
 }

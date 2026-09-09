@@ -11954,3 +11954,43 @@ deployed before calling this closed.
 honour the stamp, Home has a flag for every step in STEPS, and SetupFlags types
 every step. A step key missing from Home's object is a step nobody can ever
 tick, because `find` returns it for ever when the flag is undefined.
+
+## 9 September 2026 — the youngest children's slides, and what the score really moved
+
+**What was wrong.** Six slides for four to seven year olds carried 87, 72, 72,
+55, 47 and 43 words of prose on the wall, against an age ceiling of twelve.
+Reading all six showed the same cause every time: the body was the teacher's
+script printed on the wall. Nearly every idea in those paragraphs was already in
+the word for word script underneath, so the child was being asked to read what
+the teacher was about to say. That is Mayer's redundancy effect, one of the two
+largest in the coherence literature we already cite, and it makes learning
+worse. A Reception child cannot read seventy two words off a wall at all, so the
+paragraph was decoration that squeezed the heading small.
+
+**Migration 276.** Each body cut to what the child needs in front of them while
+they think; anything that lived ONLY in the body moved into the script, where a
+human says it. Three scripts got longer, deliberately. Guards assert the whole
+EYFS and KS1 population is inside the ceiling (not just the six), that the three
+load bearing lines that were body only are findable in a script, that no module
+gained or lost a slide, and that no patched slide changed type.
+
+**The eyebrow that was lying.** The player prints "Try it tonight" over a tryit
+slide. In the parents app that is right, a tryit there IS homework. In school it
+never is: all 21 of them sit in the practise phase, mid lesson, worksheets
+already out. The wall was telling a class to do tonight the thing they were
+doing now. TryItSlide gains an optional label, the same shape quote and scenario
+slides already have, and every school practice slide sets it to "Your turn".
+The parents default is untouched.
+
+**The score, honestly.** Appearance moved 7.81 to 7.93. Six slides out of 479 is
+1.25 percent, and that is exactly what it bought. The number matters less than
+what it exposes: 99 slides are still over their ceiling, 62 of them concept
+slides in KS2 to KS5 carrying up to 131 words. The six were the ones that could
+not wait, because the youngest children cannot read at all, not because they
+were most of the problem.
+
+**Where the container could not run the script.** This session has no
+SUPABASE_SERVICE_ROLE_KEY, so the three counted checks were run as SQL against
+the live scheme rather than through scripts/council.mjs. Same data, same
+formulas: the appearance arithmetic reproduces the previous 7.81 exactly from
+the pre migration rows, which is what makes the 7.93 comparable.
