@@ -18,9 +18,9 @@ If the topic is vague, ask up to three questions before spawning anything:
 
 If the topic is already specific, restate it in one line, name the reader context, and start the pipeline without asking.
 
-## Phase 1 — Six lenses in parallel
+## Phase 1 — Nine lenses in parallel, plus the platform sweep
 
-Spawn six subagents in a single message so they run concurrently. Each gets web search access, the topic, the reader context, and its persona below. Each must return raw structured findings, not prose for humans:
+Spawn all nine subagents in a single message so they run concurrently, and the platform mapper alongside them. Each gets web search access, the topic, the reader context, and its persona below. Each must return raw structured findings, not prose for humans:
 
 - 8 to 12 findings, each with: the claim, the source (URL, publication, year), a quality note (peer reviewed, preprint, journalism, industry, anecdote), and any key numbers with their exact figures
 - Its single strongest claim
@@ -37,13 +37,47 @@ Spawn six subagents in a single message so they run concurrently. Each gets web 
 
 The sixth lens exists because every standard research pass sits in the adult's chair. Never drop it.
 
+**The three build lenses. These are standing and run on every sweep, whatever the
+topic.** Justin added them on 9 September 2026 after a sweep that produced excellent
+evidence and left him to translate all of it into a business on his own. The six
+research lenses establish what is true. These three establish what to do about it
+commercially, and they exist because a briefing that changes nothing about what he
+builds, sells or says is a briefing that cost a morning and bought nothing.
+
+7. **The SaaS Operator** — has taken consumer subscription products from zero to
+   real revenue. Cares about activation, time to first value, retention curves,
+   churn, pricing and the gap between a product people admire and one they pay for
+   monthly. Allergic to features that demo well and retain nobody. Knows the live
+   numbers: £9.99 single report, £29.99 monthly, founder rate capped at 50, target
+   £4,000 MRR, one founder. Always asked what NOT to build.
+8. **Parent Demand** — studies what parents ask for, search for, shortlist and pay
+   for, which is rarely what they need. Covers both meanings of the ask: what
+   parents ask the market for, and the moment a child asks them for a device, which
+   is the decision event most purchases cluster around. Owns the competitive set,
+   willingness to pay, the purchase trigger, and which category a parent thinks
+   they are shopping in.
+9. **Schools Digital Learning** — a UK school leader and curriculum expert who has
+   bought, rejected and delivered PSHE and digital learning schemes. Knows budget
+   cycles, who signs, procurement, and the difference between a scheme a school
+   buys and one it teaches twice. Owns the free competitor problem (Project Evolve
+   is free and good), the RSHE statutory window, and the fact that the binding
+   constraint in schools is staff capacity rather than money.
+
+**Plus the platform mapper, every time.** Run the `platform-mapper` agent against
+this codebase in the same message, with the candidate problems or findings. It
+returns each one marked EXISTS, PARTIAL or MISSING against real files, routes,
+tables and migrations, with build sizes and duplication risks. Without it the
+"what this means for Guided Childhood" section drifts into themes, and the worst
+outcome in this repo is marketing that describes a feature which does not render.
+
 ## Phase 2 — Contradiction map
 
-When all six return, do this in the main session. Build a contradiction map:
+When all nine return, do this in the main session. Build a contradiction map:
 
 - Where do lenses directly disagree? State each disagreement as one line with both positions.
 - For each disagreement, which side has stronger evidence and why (study design, sample, recency, independence)?
 - Which findings appear in three or more lenses independently? Those are the spine of the report.
+- Where do the build lenses contradict the research lenses? That tension is usually the most valuable thing in the sweep, because it is where the evidence and the business pull apart, and Justin has to know before he picks a side.
 - Which findings appear in only one lens with weak sourcing? Flag them as fragile.
 
 ## Phase 3 — Synthesize the briefing
@@ -53,8 +87,8 @@ Read `report-template.html` in this skill folder. Fill it with real content. Nev
 1. **60 Second Summary** — five to seven sentences a busy founder can read cold
 2. **Key Findings** — each ranked by reliability out of 10, with which lenses supported it and which challenged it
 3. **Contradiction Map** — the live disagreements and where the evidence leans
-4. **Lens Panels** — each perspective's sharpest take in its own voice
-5. **What This Means for Guided Childhood** — concrete moves: which stage content changes, what DiGi should say differently, script ideas, school pitch angles, marketing claims that are now safe or unsafe to make
+4. **Lens Panels** — each perspective's sharpest take in its own voice, all nine, with the three build lenses visually distinct from the six research ones
+5. **What This Means for Guided Childhood** — concrete moves: which stage content changes, what DiGi should say differently, script ideas, school pitch angles, marketing claims that are now safe or unsafe to make. Every move carries the platform mapper's verdict (built, partial or missing) and a build size, so nothing here is a theme. The three build lenses own this section; the research lenses supply the evidence for it.
 6. **Assumptions and the Missing Lens** — what this briefing rests on, and which seventh perspective would change it
 7. **Source Ledger** — every citation with its verification status
 
@@ -83,7 +117,24 @@ Send the V2 HTML file to Justin. In chat, give him: the one sentence headline fi
 
 ## Lens flexing
 
-The six default lenses fit kids mental health and device topics. When the topic is adjacent (marketing, school sales, content strategy, product formats), keep the STORM structure and swap personas to fit: always six lenses, always including a skeptic whose job is to kill weak claims, and always including the person on the receiving end (the child, the pupil, the parent scrolling, the teacher delivering). Name the lenses honestly in the report chips.
+The **six research lenses** flex. The Clinician, Academic, Skeptic, Economist,
+Historian and Child fit kids mental health and device topics; when the topic is
+adjacent (marketing, school sales, content strategy, product formats), swap the
+personas to fit. Two rules survive every swap: always a skeptic whose job is to
+kill weak claims, including claims that flatter us, and always the person on the
+receiving end (the child, the pupil, the parent scrolling, the teacher delivering).
+
+The **three build lenses do not flex and are never dropped.** The SaaS Operator,
+Parent Demand and Schools Digital Learning run on every sweep regardless of topic,
+because their job is to convert whatever the research found into something Justin
+can act on. Neither does the platform mapper.
+
+Name the lenses honestly in the report chips, including the swapped ones.
+
+**Brief the build lenses with the real numbers**, not a description of the product.
+Pricing, the MRR target, the founder cap, the live surfaces, and any commercially
+relevant finding the research lenses have already produced. A build lens given a
+vague product summary returns generic advice, which is worse than nothing.
 
 **The bench (named optional lenses, swap in when the topic calls for them):**
 
@@ -124,4 +175,6 @@ rebuilt.
 - Justin's voice in the summary and takeaways: warm, plain, direct, no AI isms, no hype.
 - UK context always noted where it matters, especially the under 16 platform ban (confirmed 15 June 2026, live Spring 2027) and Online Safety Act enforcement.
 - Every claim in the report traces to a ledger entry. No orphan statistics.
+- Never describe a feature the platform mapper marked MISSING as though it exists. A parent who goes looking and finds a coming soon card is worse than no marketing at all.
+- The build lenses are held to the same evidence bar as the research ones. An operator's confident opinion is not a finding, and a benchmark without a source does not go in the ledger.
 - The report is self contained: one HTML file, inline CSS, Google Fonts import only. It must open clean from a file:// URL.

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TOPIC}} · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The SEN parent, and the first run of the build lenses</h1>
+    <p style="color:var(--ink-soft);max-width:640px">The seventh lens the last sweep asked for, plus the first outing of the three standing lenses that convert research into decisions. Companion to the ten problems briefing, not a replacement for it.</p>
+    <div class="meta-row">
+      <span class="chip version">V1 · Verification pending</span>
+      <span class="chip">9 September 2026</span>
+      <span class="chip">The SEN Parent</span>
+      <span class="chip">The SaaS Operator</span>
+      <span class="chip">Parent Demand</span>
+      <span class="chip">Schools Digital Learning</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>Three build lenses ran independently on pricing, demand and schools, and all three came back saying the same thing by different routes: the product is not the problem, the packaging is. The SaaS lens found that £29.99 a month buys four reports while £9.99 buys one with a credit that never expires, so the cheap product is a substitute for the expensive one rather than a wedge into it, in the worst retaining price shape there is. The demand lens found the price is on the wrong shelf: against parental controls at £4 to £8 a month it is unbuyable, against tutoring at £140 a month it is the cheapest thing on the page, and six words of positioning decide which. The schools lens found the pricing model reads as a penalty for being big, and something worse underneath it.</p>
+      <p>That worse thing is the most important finding here. Oak National Academy has published a complete, free, statutory aligned RSHE curriculum including online safety. Project Evolve is free and self reports 15,500 schools. Natterhub had a free year for UK primaries that has since expired. A head asking why they would pay for lessons is being correct, and there is no honest answer at the level of lesson content. There are exactly three things a school cannot get for nothing this term, and none of them is a lesson.</p>
+      <p>The SEN lens is the one that touches the code. For a large share of neurodivergent children the screen is not a want, it is the regulation tool, which means an economy that prices screen time as earned has made regulation contingent on compliance. That is one child in five in an English classroom. Its verdict is not to fix it this week but to stop implying we serve that family until we have, and it offers a version of that which costs nothing to ship.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">What the four lenses found</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>1. The pricing packaging makes the cheap product a substitute for the expensive one</h3>
+        <span class="reliability high">Act on this</span>
+      </div>
+      <p>£29.99 a month buys up to four reports. £9.99 buys one, with a credit that never expires. The subscription therefore breaks even at three reports a month and no parent needs three reports a month, so the rational purchase for anyone who does the arithmetic is the one off, forever. The never expiring credit removes the only urgency it had. The external support for this is weaker than first written and the finding does not need it. RevenueCat's 2025 edition does say cheap annual plans retain up to 36 percent of users after a year while high priced monthly retain 6.7 percent, but it publishes no price thresholds: its bands are relative percentiles of the app population recomputed each edition, so there is no way to test whether £29.99 sits in its high priced bucket. Do not price off that inference. What survives without it is the arithmetic above, which needs no source at all, and the plain fact that £4,000 MRR at £29.99 is 134 paying parents to find and keep.</p>
+      <div class="lens-tags"><span class="supported">Supported: SaaS Operator, Parent Demand</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: B1, B2</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>2. The shelf decides whether the price is unbuyable or cheap, and six words choose the shelf</h3>
+        <span class="reliability high">Act on this</span>
+      </div>
+      <p>On the parental controls shelf the anchor is £4 to £8 a month, Qustodio is £39.95 to £69.95 a year and Apple and Google are free, so £29.99 a month loses on comparison before anyone reads the second sentence. On the preparation and tutoring shelf, the Sutton Trust's 2026 report puts 29 percent of secondary pupils in England and Wales as having had private tutoring at some point, rising to 45 percent in London, and £29.99 is the cheapest thing on that shelf. Two numbers we used here did not survive checking. The £35 an hour is not a Sutton Trust figure at all, it is the average listed rate across tutor directories, which are self selected adverts rather than a survey. The £2bn market size could not be traced to the report either, and competing pages assert £2bn and £2.5bn, so it should not carry a Sutton Trust byline. Good Inside, the best funded player in the emotional territory, charges $23.25 to $28 a month with a famous clinician attached, and Fortune reported it passing $34m of revenue in early 2026. Any pound figure for it is our own conversion and should be labelled as such. The shelf argument holds; the specific comparator numbers need re reading before they enter a deck.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Demand, SaaS Operator</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: B2, B3</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>3. The purchase trigger is a dated calendar event, and this year's window has passed</h3>
+        <span class="reliability high">Plan around this</span>
+      </div>
+      <p>Smartphone ownership jumps from 56 percent of ten year olds to 83 percent of eleven year olds, and 46 percent of parents plan to hand over the first phone before the school year starts, with £452 per child already leaving the wallet in that six week window. The ask moment is not a mood, it is a date, and the parent inside it has one question with an answer: he has asked, is he ready, what do I say. That is a one off purchase a parent can make in ninety seconds without consulting a co parent, which matters because the co parent is the most likely veto. Selling season is June and July. It is September.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Demand</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: B3, B4</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>4. The free schools competitor is the government, and it is good</h3>
+        <span class="reliability high">Changes the pitch</span>
+      </div>
+      <p>This is the finding that came through verification best, and it is the one that hurts. Oak National Academy publishes a complete, free, adaptable RSHE curriculum for KS1 to KS4 built with subject specialists, aligned to the guidance that became statutory on 1 September 2026, with downloadable resources and online safety units running from year 1 to year 11. Every part of that was confirmed. One thing needs care in a pitch: Oak was set up as a DfE arm's length body in 2022 and is being taken inside the department, with its status under live legal challenge through 2026, so say it was established by the DfE rather than that it is the DfE's own body today. Project Evolve, free and built on the same Education for a Connected World framework we build on, self reports 15,500 schools and 75,000 educators as of 2024, which are registration counts and not a measure of teaching. Strike the “about a third of UK schools” line we had: it comes from an earlier and different claim, and 15,500 is nearer half of UK schools anyway, so it understates the competitor while being wrong. Twinkl’s free year of Natterhub for UK primaries closed to registrations in April 2025 and has run out, so treat it as expired rather than live. Any pitch that says we map to the guidance and we are ready to teach describes something a head can already get for nothing from the department that wrote the mandate.</p>
+      <div class="lens-tags"><span class="supported">Supported: Schools Digital Learning</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: B5, B6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>5. Three things a school cannot get free this term, and none of them is a lesson</h3>
+        <span class="reliability high">This is the pitch</span>
+      </div>
+      <p>First, a document for the inspector. Ofsted began inspecting under the renewed framework on 10 November 2025, and personal development and wellbeing is one of the graded evaluation areas on a five point scale running from exceptional to urgent improvement. Correct two things we had wrong. The thing graded separately is safeguarding, on a binary met or not met basis, not personal development. And the claim that RSHE has moved out from under personal development into curriculum and teaching comes from the PSHE Association, a subject association, not from Ofsted, so it must never be presented as a regulator statement. Note also that the current document is the September 2026 toolkit, so a deck citing the November 2025 launch is already a version behind. What holds regardless is the plain part: free lesson banks do not produce the sequence, progression, coverage and impact evidence a subject lead hands over. Second, confidence for a teacher who never trained for this. These four figures were the loosest thing in the sweep and all four needed fixing before they go near a sales page. They are two surveys, not four organisations. The Sex Education Forum surveyed 240 teachers and school staff in 2018 and found 29 percent had received no RSE training at all, and that 16 percent spent more than a fifth of their time on RSE, not on PSHE as we wrote. NASUWT and NSPCC ran one joint survey of over 1,000 secondary teachers in 2022, which is where both the 46 percent who do not feel confident teaching relationships and sex and the 86 percent come from, and the 86 percent said they need more resources and training, which is not the same as wanting training. NSPCC is a co publisher of that survey rather than an independent fourth source, and the Youth Select Committee report we credited contains none of these numbers. The 2018 figures are eight years old and both surveys are self selecting. The point stands, teacher confidence is the gap, but quote the two surveys by name and year or do not quote numbers at all. Fidelity research separately finds teacher comfort predicts delivery better than experience does. Third, a purchase with no data protection assessment attached: the ICO's June 2026 edtech audit of 28 providers found over 40 percent had done no DPIA at all, and the DfE added an edtech procurement section to its schools data protection guidance on 9 July 2026. Three corrections before this goes near a school. The audits were consensual, so they are not a representative sample of the market and must not be quoted as market wide prevalence. Our two supporting figures were wrong: the 80 percent describes the DPIAs the ICO reviewed, not 80 percent of providers, which is arithmetically impossible once over 40 percent have none, and the 70 percent is specifically about DPIA oversight, with a second unrelated 70 percent in the same report about processing agreements that we had merged into it. The report also records 596 recommendations with 98 percent accepted, which we should quote whenever we quote the failures. The underlying move survives all of that: a product holding no personal data removes the work from the purchase entirely.</p>
+      <div class="lens-tags"><span class="supported">Supported: Schools Digital Learning</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: B7, B8, B9</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>6. The distribution claim is real but the mechanism is a legal duty, not goodwill</h3>
+        <span class="reliability medium">Build this</span>
+      </div>
+      <p>We have said a school is worth 250 families with the head's endorsement. Schools are institutionally cautious about naming commercial services to parents, and a head who fronts a paid product owns the complaint. But the 2026 RSHE guidance requires schools to engage parents proactively, be transparent about all materials, and share teaching content on request. Every school in England now has that obligation and most will meet it with a PDF nobody opens. If the parent facing pathway is the thing the school links to in order to comply, distribution stops being a favour and becomes the head discharging a statutory duty using our page. That is a far stronger claim, and it currently has no product surface at all.</p>
+      <div class="lens-tags"><span class="supported">Supported: Schools Digital Learning</span><span class="sep">·</span><span class="challenged">Challenged: the 250 families endorsement framing, which does not survive</span></div>
+      <div class="cite">Sources: B10</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>7. For one child in five, our central mechanic makes regulation contingent on compliance</h3>
+        <span class="reliability high">The product finding</span>
+      </div>
+      <p>1.7 million pupils in England have SEN, counting SEN support and EHCPs together, up 5.6 percent on 2024. 482,640 hold an EHCP, 5.3 percent of all pupils, and that group grew 11.1 percent, so the 5.6 percent must never be attached to EHCP growth. Autism is the largest primary need at 33.6 percent of EHCP pupils in schools, not 33.5, and that share is of EHCP holders rather than of all pupils with SEN. Across qualitative work, autistic children's screen use is described as serving regulation: predictability, control, absence of social demand, escape. The most product relevant claim we had is also the one that failed verification hardest, and it needs saying plainly. The sensory curation figures are not Meryl Alper's, they are Kristen Harrison's at the University of North Carolina, and we had the wrong researcher's name on them. All three numbers come from spoken remarks in a Children and Screens webinar in February 2024, not from a peer reviewed paper: conflict up to four times as often among high sensory curators, about 40 percent of neurodivergent children being high sensory curators in one unnamed sample, and reducing use being very difficult without other sensory supports. There is no effect size, no sample size and no sampling frame behind any of them. Harrison's underlying work on sensory curation is real and published in Media Psychology, but these specific figures are webinar remarks and cannot be stated as evidence or put in front of a school. The mechanism is worth designing for. The numbers are not worth quoting. An economy that prices screen time as earned through jobs has, for these families, made the regulation tool contingent on compliance.</p>
+      <div class="lens-tags"><span class="supported">Supported: SEN Parent</span><span class="sep">·</span><span class="challenged">Challenged: see finding 8, which is the honest other half</span></div>
+      <div class="cite">Sources: B11, B12, B13</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>8. And the same children are the highest risk group in the literature, so there is no comfortable answer</h3>
+        <span class="reliability medium">Hold both</span>
+      </div>
+      <p>Raising the free core does not escape the problem, because this is also the population where problematic use screens highest. Verification has since narrowed what that sentence may claim. Two clinical samples from a single Italian centre, with overlapping authorship, put ADHD screen positive rates at 44 percent and 72 percent and autism at 45 percent, against 9.5 percent in a control group that is the same 147 children reused across both papers and is about two years older than the ADHD groups. So this is one research group and one unmatched comparison, not a body of evidence, and it screens by questionnaire cut off rather than diagnosis. It is a signal that the risk runs the other way for this population, and nothing more. The meta analysis holds up: Muris and colleagues, 2025, 46 studies and 42,274 participants, autistic traits and problematic internet use at r = 0.26. Its companion analysis in the same paper found autistic people use social media less than comparisons, which has to be carried alongside it or we are quoting half a result. The Radesky calming study points the same way but more weakly than we first wrote. Its association with emotional reactivity was strongest in boys and in high surgency children, the subgroup neurodivergent children most resemble, but the authors report it as bidirectional and say plainly it cannot indicate a causal direction. More reactive children get handed devices more, and device calming predicts later reactivity. No study we could find has run that paradigm in a diagnosed autistic or ADHD sample. The same behaviour is doing two opposite jobs in the same child and no product can tell a parent which without knowing the child.</p>
+      <div class="lens-tags"><span class="supported">Supported: SEN Parent</span><span class="sep">·</span><span class="challenged">Challenged: none, and this is deliberately the uncomfortable half</span></div>
+      <div class="cite">Sources: B14, B15</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>9. PDA is the direct threat, and two of our design choices already answer it</h3>
+        <span class="reliability medium">Mixed news</span>
+      </div>
+      <p>Practitioner guidance on demand avoidant profiles is consistent that reward charts, token economies and structured behavioural plans are themselves demands, and that compliance is what the nervous system is fighting. A star rate, a job list, an earned balance and a protected window are four demands stacked together. What is recommended instead is declarative language, genuine rather than disguised choices, and collaborative framing. Two things we already do land squarely on that: never allow or deny is structurally the low demand principle, and a request inside a protected window going to the parent as an ask rather than a refusal preserves the negotiation the guidance says to preserve. A third does too: the ladder toward making the system unnecessary is a fading protocol, and we never claim it. Note that we cannot source fading to praise as standard practice from the Matson and Boisjoli review as we did, and that review is itself a 2009 look at a literature that peaked in the 1980s. Note also that practitioner guidance for demand avoidant profiles counsels reducing demands rather than adding contingencies, which cuts against a star mechanic for this group rather than for it. PDA is a contested construct with no place in ICD-11 or DSM-5-TR, and no controlled trial of token economies in a demand avoidant population could be found in either direction.</p>
+      <div class="lens-tags"><span class="supported">Supported: SEN Parent</span><span class="sep">·</span><span class="challenged">Note: no controlled trial exists for rewards in demand avoidant profiles, in either direction</span></div>
+      <div class="cite">Sources: B16, B17</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>10. The transition evidence does not diverge for SEN children, it sharpens into a spec</h3>
+        <span class="reliability medium">Build this</span>
+      </div>
+      <p>The behaviour analytic literature on autism does not contradict the finding that warnings make screen transitions worse. It says something more useful: advance notice is a bet whose payoff depends on what the warning predicts. Where it reliably signals that the good thing is about to be taken, it becomes a cue for loss and makes things worse, which is exactly the screen case. Where it is paired with a visible, predictable, reinforced next step, it helps. Visual schedules alone were ineffective for preferred to non preferred transitions and worked only combined with extinction and differential reinforcement of other behaviour. That finding is Waters and colleagues in 2009, cited by Brewer rather than found by them, and it rests on two autistic children, which is a design hint and not a product claim. That is a design specification: default to natural endpoints rather than clock minutes, let the device deliver the ending rather than the parent, always show what comes next and make it concretely good.</p>
+      <div class="lens-tags"><span class="supported">Supported: SEN Parent, and the six lens sweep independently</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: B18, B19</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the build lenses cut against the research</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>The research view</th><th>The build view</th><th>Where it lands</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>What the 8 to 43 percent completion problem is</td>
+          <td>A content and engagement problem, fixable with better material.</td>
+          <td>SaaS: a cadence and pricing problem. The programmes completing at 85 percent were short, structured and finite. Ours is self directed, open ended and asks for ten minutes a day until sixteen.</td>
+          <td class="leans coral">Build lens. No content fixes a twelve year horizon</td>
+        </tr>
+        <tr>
+          <td>Whether a daily loop is right</td>
+          <td>Daily dosing suits behaviour change, and Duolingo and Finch prove it.</td>
+          <td>SaaS: their daily unit is a tap by a motivated individual. Ours is reflective work by a tired adult on someone else's behalf. Best adhering parent programmes are weekly and arrive without being opened.</td>
+          <td class="leans green">Daily for the child, weekly for the parent</td>
+        </tr>
+        <tr>
+          <td>Whether to write in parents' own words</td>
+          <td>Parent Voice: they say hell, battle, sanity, devils, fried, so write that.</td>
+          <td>Demand: people rant in feelings and search in tasks. At the ask moment they type best phone for an 11 year old, not screen time hell.</td>
+          <td class="leans green">Rant language for the ad, task language for the page</td>
+        </tr>
+        <tr>
+          <td>What the school is worth</td>
+          <td>Distribution: 250 families with the head's endorsement.</td>
+          <td>Schools: endorsement is a weak mechanism schools avoid. The duty to make RSHE materials available to parents is weaker than we wrote, a should rather than a must, but it still needs a product surface.</td>
+          <td class="leans green">Right claim, wrong mechanism</td>
+        </tr>
+        <tr>
+          <td>Whether to sell schools the lessons</td>
+          <td>The lessons are the schools product.</td>
+          <td>Schools: school delivered screen interventions pool near zero, and Oak gives compliant lessons away free. Selling lessons whose own evidence base says they do not work is indefensible in front of an evidence literate head.</td>
+          <td class="leans coral">Give the lessons away, sell the three things that are not free</td>
+        </tr>
+        <tr>
+          <td>Whether pain equals demand</td>
+          <td>Nine in ten parents argue about screens weekly, so the market is enormous.</td>
+          <td>Demand: that has been true for years while the UK paid market stayed around £60m, and 350,000 parents joined a free pact. Misery is not a budget line.</td>
+          <td class="leans coral">Build lens, and it is the hardest one to hear</td>
+        </tr>
+        <tr>
+          <td>Whether the star economy is defensible</td>
+          <td>The August evidence pack calibrated it carefully and it survives.</td>
+          <td>SEN: for one child in five it makes the regulation tool contingent on compliance, and for demand avoidant profiles the mechanic is itself the trigger.</td>
+          <td class="leans coral">Needs a mode where it can be switched off</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Pricing · this month</span>
+          <strong>Make the founder plan annual and turn the report into a deposit rather than a substitute.</strong> An annual founder plan against the 50 seats already enforced in code, monthly still available but no longer the headline, the £9.99 coming off the plan if upgraded within 30 days, and the never expiring credit becoming a 30 day one so the offer has an edge. Stop describing the subscription in units of reports.
+        </li>
+        <li>
+          <span class="tag">Positioning · costs nothing</span>
+          <strong>Rename the report to the question parents actually type.</strong> Digital Health Report shelves it under mental health, a category parents browse and do not buy in. Is my child ready for a phone is the same product answering the question at the moment it gets asked.
+        </li>
+        <li>
+          <span class="tag">SEN · ship this week</span>
+          <strong>Add the branch question at onboarding and let the economy be switched off.</strong> One question: is your child autistic or ADHD, or does the screen do a regulation job here. If yes, route to the paper chart and DiGi's scripts with the star economy off. It needs no new mechanic, it is defensible today, and it buys the right to talk to a segment of 1.7 million pupils while the rest gets built.
+        </li>
+        <li>
+          <span class="tag">SEN · say it out loud</span>
+          <strong>Claim the three things we already do right for this family.</strong> Never allow or deny is the low demand principle. The ask inside a protected window preserves the negotiation. The ladder toward making the system unnecessary is the token fading protocol the literature asks for. All three are genuine strengths we have never once mentioned.
+        </li>
+        <li>
+          <span class="tag">Transitions</span>
+          <strong>Make natural endpoints the default and let the device deliver the ending.</strong> End of episode, end of level, end of round rather than clock minutes, with the next thing visible and concretely good. Two independent literatures now point at the same spec, and nobody else in the market has built it.
+        </li>
+        <li>
+          <span class="tag">Schools · before half term</span>
+          <strong>Give the lessons away and sell the three things that are not free.</strong> The inspector document, the twenty minute confidence track for a non specialist, and a dated one page statement saying no logins, no pupil accounts, no personal data, no DPIA required. Keep the open catalogue permanently free so we sit beside Oak rather than against it.
+        </li>
+        <li>
+          <span class="tag">Schools · pricing</span>
+          <strong>Drop per pupil pricing for flat bands.</strong> Kapow charges from £300 with unlimited users, so a 281 pupil primary at £2 per pupil pays £562 and reads it as a penalty for being big. Jigsaw, which we had at £795, actually starts at £495 for a whole primary and tiers by pupil numbers, so the flat band pattern is even more established than we thought. Drop the delegated limit claim we made: the £7,000 and £10,000 figures are one local authority’s recommendation, not national guidance from the National Governance Association as we said. Delegated limits do vary by authority and by trust, and £10,000 headteacher limits do appear in academy schemes, so the one conversation sale is still the right design. We just cannot quote a national threshold, because there is not one.
+        </li>
+        <li>
+          <span class="tag">Schools · the missing surface</span>
+          <strong>Build the parent materials page schools use to discharge the transparency duty.</strong> Verification softened this and it survives. The guidance does not say schools must hand materials over. It says schools should be transparent about all materials used, that all materials should be available to parents, and the sector reads that as making resources viewable on request, often as supervised viewing or a parent portal rather than free distribution. Copyright does not defeat the duty, but it does shape it into view rather than keep. The guidance became statutory on 1 September 2026, so this is eight days old. A viewable parent page is exactly the shape the duty asks for, and if our parent pathway is what a school links to, distribution is an obligation being discharged with our page rather than a favour we asked for. It still has no product surface.
+        </li>
+        <li>
+          <span class="tag">Timing</span>
+          <strong>Two windows, and one of them is open now.</strong> The schools autumn window closes at half term in late October and the next does not open until January, by which point most schools will have defaulted to free. The parent window is June and July, on the school calendar rather than the content calendar, which means this year's peak has already passed.
+        </li>
+        <li>
+          <span class="tag">Measurement</span>
+          <strong>Instrument one activation event, named now.</strong> Something like a parent opening a script and marking it used within 24 hours of signup, measured against day seven return. Without it every retention conversation for the next six months is opinion.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p><strong>No agent opened a primary source.</strong> Neither did any of the six verifiers run afterwards. The egress proxy blocked every publisher, vendor and regulator domain, so every figure here came through the search index and none was read on the page. That is the single biggest caveat on this briefing and it does not go away by adding verification passes. What verification did achieve was catching what the search index itself contradicts, and it caught a great deal: of the nineteen ledger entries, three are confirmed, fifteen are corrected and one is demoted outright. The demoted one matters most. The sensory curation figures that the whole SEN argument rested on were attributed to the wrong researcher and turn out to be spoken webinar remarks with no sample size behind them. The mechanism may well be real. The numbers cannot be used. Three further things must not travel into a deck without being re read on the page: the RevenueCat price banding, which publishes no thresholds and so cannot support the £29.99 inference; the ICO eighty percent, which is arithmetically impossible in the form we had it; and the Ofsted RSHE claim, which is a subject association's characterisation and not a regulator's. Prices remain accurate to within a tier at best.</p>
+      <p><strong>No UK search volume was verifiable.</strong> Not one. Those figures sit behind Keyword Planner, Ahrefs and Semrush and no reachable published source quotes them. Anyone offering a search volume for this category without a screenshot is guessing, including us.</p>
+      <p><strong>The SEN regulation thesis is well evidenced as a parental account and not as a measured mechanism.</strong> The qualitative work is consistent and the direction is clear, but there is no large UK quantitative study establishing it, and the one strong longitudinal study on devices used for calming was in typically developing children, with its strongest harm signal in the subgroup neurodivergent children most resemble. That gap is the biggest hole in the argument and the briefing states it rather than papering over it.</p>
+      <p><strong>Nobody could establish who holds the purse.</strong> No credible UK figure exists on who decides or vetoes a family purchase of this kind. Every lens will assert it anyway. Fifty of our own customers would answer it properly and it changes the checkout page.</p>
+      <div class="missing">
+        <h3>The missing lens</h3>
+        <p>The churned customer. Every lens here studies people who might buy or people who are suffering. Nobody has studied the parent who bought, used it for three weeks and stopped, which is the population that decides whether any of this becomes a business. That lens cannot be run from a search engine. It needs ten phone calls to real cancellations, and until those exist the retention half of this briefing is inference.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Load bearing sources, verification pending</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.revenuecat.com/state-of-subscription-apps-2025">B1 · RevenueCat, State of Subscription Apps</a> · 2025 and 2026<span class="note">2025 and 2026 editions must not be merged: 115,000 apps and $16bn is the 2026 edition, 75,000 apps and $10bn is 2025. The 6.7 percent against 36 percent retention pair is the 2025 edition and “up to 36 percent” is a ceiling. The 4.6 percent reaching $10k a month is confirmed, 2026 edition. Median monthly churn of about 13 percent traces to a 2024 RevenueCat blog, not to either edition headline. The key failure: RevenueCat publishes no price thresholds, its bands are relative percentiles recomputed each edition, so the inference that £29.99 sits in its high priced bucket cannot be tested and must not carry a pricing decision.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><span>B2 · Guided Childhood’s own pricing page arithmetic</span><span class="note">Read directly from digitalwellbeing/index.html on 9 September 2026. Monthly Access £29.99 a month, “Up to 4 reports per month”, “Minimum 7 days between reports”. Single Report £9.99 one time, “1 report credit”, “Credit never expires”. So the subscription only beats buying credits at three reports a month, and its ceiling of four is worth £39.96 in credits. The page also says “run more than one report and it works out cheaper per report too”, which is only true from three onward. The seven day floor makes it worse than first stated, because reaching four reports means running one almost every week, which is a cadence no parent wants and the product does not need. Verified internally, no external source required, and the strongest finding in the sweep.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.suttontrust.com/our-research/private-tutoring-2026/">B3 · Sutton Trust private tutoring; Qustodio, Bark and Aura pricing; Good Inside</a> · 2026<span class="note">Sutton Trust Private Tutoring 2026, February 2026, Ipsos Young People Omnibus, 3,214 pupils aged 11 to 17: 29 percent have had private tutoring at some point, lifetime not current, and 45 percent in London against 27 percent in the rest of England. Our 30 percent was a different statistic, the best off households subgroup. The £35 an hour is tutor directory listings, not Sutton Trust. The £2bn market size could not be traced to the report and competing pages say £2bn and £2.5bn, so it must not carry a Sutton Trust byline. Good Inside is $23.25 to $28 a month, Fortune reporting $34m revenue in early 2026; any pound figure is our conversion. Qustodio GBP and Aura $32 could not be confirmed from vendor pages. Bark Jr at $5 a month confirmed.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.edtechinnovationhub.com/news/many-uk-parents-set-to-hand-children-a-smartphone-before-school-year-ee-research">B4 · EE research on first phone timing; back to school spend</a> · 2025 and 2026<span class="note">EE newsroom release, 12 August 2025 not 2026, a brand PR survey launching a product with no fieldwork agency named. The 2,000 parents and 2,000 children sample and the 46 percent planning to hand over a phone before term are confirmed. The 63 percent is 63 percent of eleven year olds starting secondary with a hand me down, not 63 percent of all those phones; the all parents figure is 44 percent. The £452.40 is not EE at all, it is Gekko with Opinium, 1,000 parents, fieldwork June 2024, and the 8.9 percent electronics rise could not be traced to any source. Drop both.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.thenational.academy/blog/a-complete-trusted-rshe-pshe-curriculum-designed-to-help-schools-meet-statutory-expectations">B5 · Oak National Academy, free statutory aligned RSHE curriculum</a> · 2026<span class="note">The most important finding in the sweep and it survived intact. Oak publishes RSHE branded programmes across KS1, KS2, KS3 and KS4, free to every school and teacher, built with subject experts, downloadable, with online safety lessons live from year 1 to year 11. One correction: Oak was established as a DfE arm's length body in 2022 and is being absorbed into the department, with a judicial review live through 2026, so do not write that it is the DfE's own body today.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://swgfl.org.uk/magazine/projectevolve-report-2024-how-schools-can-close-the-digital-skills-gap/">B6 · Project Evolve reach; Natterhub free offer; Kapow and Jigsaw pricing</a> · 2024 to 2026<span class="note">Project Evolve's 15,500 schools and 75,000 educators is SWGfL self reported from the 2024 report, registration counts rather than active teaching. The “about a third of UK schools” gloss is struck: it comes from a separate 2023 claim and the arithmetic fails anyway, since 15,500 is nearer half of UK schools. Twinkl's free Natterhub year closed to registrations on 30 April 2025 and has expired, so it is not a live free offer. Kapow from £300 with unlimited users confirmed, “from” being a floor. Jigsaw starts at £495 for a whole primary and tiers by pupil numbers, not £795, which came from a competitor's comparison blog.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.brownejacobson.com/insights/ofsted-confirms-changes-to-inspection-framework">B7 · Renewed Ofsted framework, personal development graded separately</a> · live 10 November 2025<span class="note">Go live 10 November 2025 confirmed, five point scale confirmed, running from exceptional to urgent improvement. Two errors. There are eight evaluation areas, six of which apply to every school, so say six core and up to eight. And personal development and wellbeing is one of the graded areas: the thing graded separately, on a binary met or not met, is safeguarding. The claim that RSHE has moved out from under personal development is the PSHE Association's characterisation, not Ofsted's, and no Ofsted document says it, so it must never be presented as a regulator statement. The current document is the September 2026 toolkit, so the November 2025 framing is a version behind.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.parliament.uk/globalassets/documents/commons-committees/youth-select-committee/202526/youth-committee-pshe-education-online.pdf">B8 · Teacher confidence and training gap</a> · Sex Education Forum, NASUWT and NSPCC, Youth Select Committee March 2026<span class="note">Two surveys, not four organisations. Sex Education Forum 2018, 240 teachers and school staff, self selecting: 29 percent had no RSE training and 16 percent spent more than a fifth of their time on RSE, which is RSE time and not PSHE time as we wrote. NASUWT and NSPCC joint survey, September 2022, over 1,000 secondary teachers: 46 percent do not feel confident teaching relationships and sex, and 86 percent said they need more resources and training, which is not the same as wanting training. NSPCC is a co publisher, not an independent fourth source. The Youth Select Committee report of March 2026 is real but contains none of these four numbers, so do not cite it for them. The exact scale behind the 46 percent could not be recovered.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/06/ico-statement-on-edtech-examined-report/">B9 · ICO Edtech examined audit; DfE procurement guidance update</a> · 24 June and 9 July 2026<span class="note">ICO, “Edtech examined: Key findings from our audits”, 24 June 2026, 28 providers, audits carried out across 2024 and 2025. Over 40 percent had carried out no DPIA at all is confirmed. Two supporting figures were wrong. The 80 percent describes the DPIAs the ICO reviewed and cannot be 80 percent of providers, which is arithmetically impossible once over 40 percent have none. The 70 percent is specifically about oversight and governance of DPIAs, and a second unrelated 70 percent in the same report concerns processing agreements; we had merged them. The audits were consensual, so this is not market wide prevalence. The report also records 596 recommendations with 98 percent accepted, which should be quoted alongside the failures. The DfE change on 9 July 2026 was a new edtech procurement section added to existing schools data protection guidance, not standalone new guidance, and the claim that it cites the ICO report traces only to a vendor blog.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.nga.org.uk/news-views/directory/rshe-2026-statutory-changes-you-need-to-know/">B10 · RSHE 2026 parent transparency duty; head delegated authority limits</a> · 2026<span class="note">Weaker than we wrote, and newer. Schools should proactively engage and consult parents and be transparent about all materials used, and all materials should be available to parents, which the sector reads as viewable on request, often supervised viewing or a parent portal rather than distribution. That is a should, not a must hand over. Copyright does not defeat the duty but shapes it into view rather than keep. The guidance became statutory on 1 September 2026, so it is eight days old. The £7,000 and £10,000 delegated limits are demoted and misattributed: they are one local authority's recommendation, not National Governance Association national guidance, and nothing on the NGA site supports them.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://explore-education-statistics.service.gov.uk/find-statistics/special-educational-needs-in-england/2024-25">B11 · DfE, Special educational needs in England 2024/25</a><span class="note">Over 1.7 million pupils with SEN, SEN support and EHCPs combined, up 93,700 or 5.6 percent since 2024, confirmed. 482,640 EHCPs at 5.3 percent of pupils confirmed, but that group grew 11.1 percent, so the 5.6 percent must never be attached to EHCP growth. Autism as largest primary need is 33.6 percent, not 33.5, and it is a share of EHCP pupils in schools rather than of all pupils with SEN. A separate DfE release gives 31.5 percent across all EHC plans including post 16.</span></div></div>
+      <div class="ledger-row"><span class="verdict demoted">Demoted</span><div class="src"><a href="https://childrenandscreens.org/learn-explore/research/neurodivergent-youth-and-digital-media/">B12 · Harrison on sensory curation and digital media conflict, previously miscredited to Alper</a><span class="note">The worst failure in the sweep, and the SEN argument rested on it. Wrong author: sensory curation is Kristen Harrison's work at the University of North Carolina, published in Media Psychology, not Meryl Alper's. All three figures we used come from spoken remarks in a Children and Screens webinar on 6 February 2024, not from any peer reviewed paper: conflict up to four times as often, about 40 percent of neurodivergent children being high sensory curators in one unnamed sample, and reduction being very difficult without other sensory supports. No effect size, no sample size, no sampling frame for any of them. Cite as Harrison, webinar remarks, or drop. The mechanism is worth designing for. These numbers must not be stated as evidence or shown to a school.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/2026-children-and-parents-report/children-and-parents-media-use-and-attitudes-report-2025-6.pdf">B13 · Ofcom 2026 on children with a limiting or impacting condition</a> · 21 May 2026<span class="note">Two publications, not one, both Ofcom and both 21 May 2026. Phone ownership at 66 percent against 51 percent is from Children and Parents: Media Use and Attitudes and is confirmed verbatim. The self harm figure is from the separate Children's Online Experiences report, drawing on Online Experiences Tracker waves 6 and 7, and reads: among 13 to 17 year olds with a mental health condition, 14 percent had seen content encouraging or assisting serious self harm against 3 percent of children with no limiting or impacting condition. That comparison is asymmetric, a narrow exposed group against a broad comparator. Ofcom's category is parent reported and comes from a checklist of conditions limiting daily activities, with no diagnostic threshold and no link to SEN registers or EHCPs, so the warning against relabelling it as SEND is correct and should appear wherever the figure does.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10887068/">B14 · Gaming disorder screening rates in ASD and ADHD samples</a><span class="note">Not a range across an evidence base. Two papers from one Italian centre with overlapping authorship: Masi and colleagues, Children, 2022, gives 44 percent of an ADHD sample above the IGD cut off; Simonelli and colleagues, Brain Sciences, 2024, gives 72.34 percent ADHD and 45.45 percent ASD. The 9.5 percent control figure is demoted, because both papers report the same 147 control children, who are roughly two years older than the ADHD groups, so the comparison is unmatched and it is not two independent replications. All of it is questionnaire cut off, not diagnosis, in small heavily male clinical outpatient samples. The meta analysis is confirmed exactly: Muris and colleagues, Clinical Child and Family Psychology Review, 2025, 46 studies, 42,274 participants, r = 0.26. Carry its companion result too, that autistic people use social media less than comparisons, or we are quoting half a paper.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/36508199/">B15 · Radesky et al., devices used for calming</a> · JAMA Pediatrics 2023<span class="note">Radesky and colleagues, JAMA Pediatrics 2023, 422 parents of typically developing 3 to 5 year olds, confirmed on journal, year, sample and both moderations: the association was strongest in boys and in high surgency children. The direction is the correction. The authors report it as bidirectional and state it cannot indicate a causal direction, so more reactive children get handed devices more AND device calming predicts later reactivity. Any sentence implying devices cause dysregulation is stronger than the paper. US single site, 74.2 percent non-Hispanic White, 60.2 percent degree educated parents, parent reported. On our own hole: no study could be located running this paradigm in a diagnosed autistic or ADHD sample, so say no study located rather than nobody has run it.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://pdasociety.org.uk/wp-content/uploads/2025/05/BeingMisunderstood.pdf">B16 · PDA Society, Being Misunderstood, and practitioner guidance on demands</a> · 2018 to 2023<span class="note">PDA Society Being Misunderstood, fielded March 2018, published May 2018, 1,445 respondents including parents, professionals and PDA adults, described by the PDA Society itself as the largest survey to date. The 70 percent is of 969 children and young people described within the survey, not of the 1,445, and it bundles home educated children with non attenders, so it is not a school refusal rate. The two rising to pairs are misattributed and must be dropped as stated: they come from a separate 2023 briefing comparing two different surveys five years apart, and the PDA Society explicitly warns that the 2018 survey cannot be used as a baseline because the questions were not identical. Both samples are self selecting, recruited through an advocacy organisation, with no comparison group and parent proxy report throughout. PDA is not recognised in ICD-11 or DSM-5-TR and is contested in the peer reviewed literature.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><span>B17 · Matson and Boisjoli, token economies in autism and intellectual disability</span> · Research in Developmental Disabilities 2009<span class="note">Matson and Boisjoli, Research in Developmental Disabilities 30(2), 2009, 240 to 248, confirmed as a narrative review. The superlative is inflation: the paper says the token economy has been one of the most important technologies of behaviour modifiers over forty years and holds considerable therapeutic promise, which is not among the most effective behavioural procedures. Use the authors' wording or drop it. Fading toward praise as standard practice could not be traced to the paper at all and is demoted. The review is also dated, recording that token economies crested in popularity in the 1980s. On demand avoidant profiles, no controlled trial was located in either direction, so say none located rather than zero evidence, and note that practitioner guidance there counsels reducing demands rather than adding contingencies.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/27540509/">B18 · Brewer et al., advance notice practice guidelines</a> · Behavior Analysis in Practice 2014<span class="note">Brewer, Strickland-Cohen, Dotson and Williams, Behavior Analysis in Practice 7(2), 2014, 117 to 125, confirmed on authors, journal, year and scope: it is about advance notice specifically, in individuals with intellectual and developmental disabilities, and its stated purpose is to specify the conditions under which advance notice is ineffective. The visual schedules finding is not theirs. It belongs to Waters, Lerman and Hovanetz, Journal of Applied Behavior Analysis, 2009, and the correct pairing is extinction plus differential reinforcement of other behaviour, a specific schedule. That study has two participants, which is a design hint and not a product claim. Our own gloss that the evidence base is almost entirely single case designs and mostly not about screens is our reading of the cited studies, not a claim the paper makes.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://dl.acm.org/doi/10.1145/2858036.2858278">B19 · Hiniker et al., Screen Time Tantrums</a> · CHI 2016<span class="note">Verified in the previous sweep. Two minute warnings made things worse; technology mediated transitions beat parent mediated ones. Does not stratify by disability, so the SEN application comes from the behaviour analytic literature rather than from this paper.</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · The SEN parent and the first build lens run · 9 September 2026
+  </footer>
+
+</div>
+</body>
+</html>
