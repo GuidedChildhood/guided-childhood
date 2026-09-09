@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TOPIC}} · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The ten problems parents actually have</h1>
+    <p style="color:var(--ink-soft);max-width:640px">What goes wrong in a family kitchen at seven in the evening, what is causing it, and an honest audit of whether what we built answers it. Six lenses plus a full sweep of this codebase.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">9 September 2026</span>
+      <span class="chip">The Parent Voice</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Child</span>
+      <span class="chip">Intervention Evidence</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>Parents do not describe a screen time problem. They describe a transition problem, and they describe it in the same words over and over: hell, battle, sanity, devils, fried. The behaviour that dominates every forum is not how long a child is on a device, it is what happens in the ninety seconds after you ask them to stop. The mechanism underneath is unglamorous and well evidenced: children get better at staying on a task years before they get better at leaving one, and we ask them to perform that switch at the moment the adult has least patience.</p>
+      <p>The single most useful finding is one we already act on. The only study that has ever tested the two minute warning found it made things worse, and children were calmer when the technology ended the session than when a parent did. Four of six lenses landed on it independently, and migration 261 already carries a script called "The two minute warning is making it worse". Where the sweep hurts is elsewhere. There is no parent side of our screen time economy at all, while our own knowledge bank holds the one trial where cutting screens for the whole household improved children's mental health, and three lenses found parents are the heavier device users at the dinner table. There is no cross child view, so the "it is not fair" argument cannot be settled with data we already store.</p>
+      <p>On the mechanic critics attack hardest, the answer is narrower than either camp expects. What the evidence condemns is screens used as in the moment leverage, reward for good and confiscation for bad, which our design already refuses. What has an actual two year randomised trial behind it is a parent set allowance the child spends with their own code, enforced by a machine rather than a parent. The problem is not the mechanic. It is the word. "Earn your screen time" invites every reward objection in the literature. "Screen time is planned, not won" survives them.</p>
+      <p>And the highest confidence, lowest effort thing we can do for any family is not a conversation. It is a bedroom. Device out of the room overnight, protected window that cannot be bought. It has a 125,198 child meta analysis behind it and costs a parent about thirty seconds a day.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by how often parents actually raise it</span>
+    <h2>The Ten Problems</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>1. The transition off. Rage at the moment time ends</h3>
+        <span class="reliability high">Very high frequency</span>
+      </div>
+      <p><strong>What it is.</strong> The child is fine until the device goes off, then screams, throws, refuses. A cliff at the boundary, not a slow decline. Ages 3 to 9 at the core, persisting into the teens in a physical form. Verbatim thread titles: "4 year old tantruming when iPad taken away", "the tantrums are unreal", "the most horrendous melt downs".</p>
+      <p><strong>The cause.</strong> Not the device. Children's ability to maintain a task matures earlier and faster than their ability to switch out of one, so an automatised activity generates resistance to interruption that requires effortful control the child does not yet have. Task switching reaches adult like performance around age 12. 93 percent of parents of 1 to 5 year olds report their child tantrums, whines or resists at least occasionally when screen time ends, and 37 percent say it almost always ends in a fight, which makes this the modal experience of parenting a preschooler rather than a signal.</p>
+      <p><strong>What we have.</strong> Complete, end to end, and it is the best covered problem in the product. Purpose written scripts including "Refusing to stop when time is up" and "The two minute warning is making it worse", the Right Now keys <code>tv-off</code> and <code>phone-handover</code>, the moment tile "Coming off a device", a parent lesson, and structurally the timer itself, which makes the clock the referee instead of the parent. Hiniker 2016 and Baughan 2024 are both in DiGi's knowledge bank.</p>
+      <div class="lens-tags"><span class="supported">Supported: all six lenses</span><span class="sep">·</span><span class="challenged">Gap: none</span></div>
+      <div class="cite">Sources: S1, S2, S12</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>2. The endless negotiation. Every rule relitigated daily</h3>
+        <span class="reliability high">Very high frequency</span>
+      </div>
+      <p><strong>What it is.</strong> Pestering, bargaining, hour long arguments about fairness. The rule never settles, it is re contested every session. Ages 5 to 13. "So sick of arguing about bloody screens". "Just five more minutes". "All of his friends".</p>
+      <p><strong>The cause.</strong> Two mechanisms. Adolescents file their own media use under personal jurisdiction, so a rule about it reads as an incursion rather than a boundary, and incursions get resisted then concealed. And a negotiable rule invites negotiation: parents themselves report that clear, non negotiable, ideally automated rules stop the arguing after a short period of pushback. That is the strongest unprompted product signal in the whole sweep, written by customers.</p>
+      <p><strong>What we have.</strong> The three tier economy answers this structurally: core, earned and protected time, per child star rate, with the rule that a start inside a protected window becomes an ask to the parent rather than a refusal. Scripts for the negotiation itself exist across stages.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Child, Academic</span><span class="sep">·</span><span class="challenged">Gap: none structural</span></div>
+      <div class="cite">Sources: S1, S13</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>3. Sneaking and lying. The night time second device</h3>
+        <span class="reliability high">Very high frequency</span>
+      </div>
+      <p><strong>What it is.</strong> Handing in a decoy handset, retrieving the phone after lights out, getting up at 5am for the laptop, locking themselves in the bathroom. Ages 8 to 16, peaking 12 to 15. One 15 year old tried the decoy laptop three times in a month.</p>
+      <p><strong>The cause.</strong> Lying here is a jurisdiction finding, not a character finding. What the field long called parental monitoring was mostly measuring what the child chose to disclose, and covert monitoring predicts secrecy through perceived privacy invasion. Children reject hidden and disproportionate oversight specifically, not oversight itself. Asked what they want adults to understand, the top answer from the same children who sneak devices is "I want them to trust me".</p>
+      <p><strong>What we have.</strong> The fair play strand, where a weekly DiGi question asks whether screens mostly went through the agreed timer and a green week pays a bonus star, so honesty literally earns, with the grading note "honesty about a slip still leans green". Per child trust levels that step up visibly. The script "The no confiscation promise, said out loud". We hold no device telemetry and nothing reconciles reported against actual use, by design.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Child, Academic</span><span class="sep">·</span><span class="challenged">Gap: fair play only appears when the weekly rotation lands on it</span></div>
+      <div class="cite">Sources: S1, S3, S14</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>4. The post screen crash. Behaviour is worse after, with no confiscation involved</h3>
+        <span class="reliability medium">High, and under recognised</span>
+      </div>
+      <p><strong>What it is.</strong> Not the removal moment. The hour after. Irritable, snappy, no frustration tolerance. "Appalling behaviour because their brains are fried by screens". Parents cutting access on this basis alone, and reporting by day four "no quick outbursts, calmer".</p>
+      <p><strong>The cause.</strong> Contested and probably bidirectional. Using the device to end distress predicts worse emotional reactivity over time, strongest in boys and in children already showing hyperactivity or strong temperament, because it displaces the occasions on which a child would practise regulating. But the population level screen and emotion effect is small and runs both ways at b = 0.06, so the anxious child is both more affected by screens and more drawn to them. From outside you cannot tell which way the loop is running for one child.</p>
+      <p><strong>What we have.</strong> This is a first class measurable concern: the onboarding key <code>mood_changes</code> maps to a tracked slug rated daily against a baseline. Scripts and moment cards exist. Radesky 2023 and Beyens 2020 are in the knowledge bank.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Clinician, Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic, on parents misattributing ordinary behaviour to the device</span></div>
+      <div class="cite">Sources: S1, S4, S5</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>5. Cannot self occupy. The child off screens is harder work than the child on them</h3>
+        <span class="reliability medium">High frequency</span>
+      </div>
+      <p><strong>What it is.</strong> No independent play, demands all of the parent's attention, whines, fights with siblings. The parent reinstates the screen to get anything done and feels guilty. "When my kids are at home and not on screens they are absolute devils". "No screen time and losing my sanity".</p>
+      <p><strong>The cause.</strong> The arrow runs both ways and the second direction is the surprise. Switching and skipping to escape boredom reliably increases boredom and makes the experience less satisfying, established across seven experiments with 1,223 participants, six preregistered. So the medium degrades tolerance for the state it is used to escape.</p>
+      <p><strong>What we have.</strong> The paper chart as a first class no device route, nine offline printables, game picks weighted to tabletop and outdoor with a together flag, the quest board where a child pitches their own quest, and off screen wins counted in the parent report.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Academic</span><span class="sep">·</span><span class="challenged">Gap: no boredom entry point at the moment it happens</span></div>
+      <div class="cite">Sources: S1, S6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>6. Nights and mornings. Up until 2am, unrousable at 7am</h3>
+        <span class="reliability high">High frequency, strongest evidence base</span>
+      </div>
+      <p><strong>What it is.</strong> Gaming or scrolling until the small hours, then cannot be woken, late for school, concentration gone. Ages 12 to 18. Children describe it not as entertainment but as keeping up with a conversation that carried on without them.</p>
+      <p><strong>The cause.</strong> Mostly displacement and delayed onset rather than physiological arousal: the best objectively measured study, using wearable cameras and accelerometry, found screen use associated with <em>lower</em> heart rate than non screen evening activities, with communication based use the exception. The average daily effect is small, roughly 3 to 8 minutes of sleep per screen hour, but the timing effect is large: bedtime device use roughly doubles the odds of inadequate sleep.</p>
+      <p><strong>What we have.</strong> The strongest structural answer in the product. Protected bedtime windows with per age band defaults, stars cannot buy them, and a child start inside one becomes an ask rather than a refusal. Quiet hours absolute on push. Fifteen scripts. The "Phones Go To Bed" printable. Device guides for the actual settings. Carter 2016 and Nagata 2023 in the bank.</p>
+      <div class="lens-tags"><span class="supported">Supported: all six lenses</span><span class="sep">·</span><span class="challenged">Gap: protection only bites on sessions started through our timer</span></div>
+      <div class="cite">Sources: S7, S8, S9, S15</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>7. Family life shrinks. Will not come out of the room</h3>
+        <span class="reliability medium">High frequency</span>
+      </div>
+      <p><strong>What it is.</strong> Refuses to leave the house, weekends become a standoff, the child lives in the bedroom. Ages 9 to 17. The reply that lands hardest, from another parent: "you're reaching the end of an era of Family Days Out".</p>
+      <p><strong>The cause.</strong> Partly developmental and partly reactance: controlling limit setting produces oppositional behaviour that generalises beyond the rule, while autonomy supportive limits carrying a rationale do not. Restrictive mediation also has a shelf life, working for younger children and losing effectiveness through adolescence.</p>
+      <p><strong>What we have.</strong> Scripts across the band. Protected mealtimes in code, though defaulting off and with fixed windows that will miss a 6:30pm family. The agreement builder with a meals clause. The "My Screen Time Deal" printable that prints the family's real settings.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Academic</span><span class="sep">·</span><span class="challenged">Gap: meal windows are not family editable</span></div>
+      <div class="cite">Sources: S1, S10, S16</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>8. School work displacement</h3>
+        <span class="reliability medium">High frequency</span>
+      </div>
+      <p><strong>What it is.</strong> Homework not done or not submitted, the parent policing homework apps, a backlog building, and a child who accepts detention as the cheaper price than stopping. Ages 11 to 17.</p>
+      <p><strong>The cause.</strong> Displacement is asserted far more often than measured, and where measured well the coefficients are small. The clinically important line here is attendance: emerging school non attendance with anxiety plus retreat to the bedroom is a different pathway entirely and warrants early help rather than a screen rule.</p>
+      <p><strong>What we have.</strong> The homework decoder and the private tutor, both live, with the deck generated once on the parent side and stored, so no model ever runs on the child's device. Protected school hours, holiday aware. Twelve scripts. Right Now key <code>homework</code>.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Clinician</span><span class="sep">·</span><span class="challenged">Gap: no named homework window; the chores gate covers it awkwardly</span></div>
+      <div class="cite">Sources: S1, S11</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>9. Physical escalation when the device is taken</h3>
+        <span class="reliability medium">Medium frequency, highest severity</span>
+      </div>
+      <p><strong>What it is.</strong> The child physically resists confiscation: holding on, hitting the parent, punching walls, running away, threatening to smash the house. Ages 11 to 16. Three separate threads describe a parent who is frightened.</p>
+      <p><strong>The cause.</strong> Confiscation is not a neutral tool for this cohort, it is the trigger. And it is the exact practice the reward literature condemns: screens deployed in the moment as leverage predicted more screen time in a prospective cohort of 7,947, and more problematic use in the 10,048 child cross sectional companion.</p>
+      <p><strong>What we have.</strong> The never allow or deny rail, which is the strongest argument in the sweep for that non negotiable, plus the explicit "no confiscation promise" script. Scripts on aggression and gaming rage.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Academic</span><span class="sep">·</span><span class="challenged">Gap: no de escalation script written for a parent who is physically afraid</span></div>
+      <div class="cite">Sources: S1, S13</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>10. "Everyone else has one". The phone and the group chat</h3>
+        <span class="reliability high">High, and seasonal</span>
+      </div>
+      <p><strong>What it is.</strong> Relentless asking concentrated in Year 6 and at Christmas, tears about exclusion, class WhatsApp fallouts, and Snapchat streak compulsion. Ages 9 to 15.</p>
+      <p><strong>The cause.</strong> In the year the child says it, the line is close to arithmetically true. Smartphone ownership jumps from 56 percent of ten year olds to 83 percent of eleven year olds, the year most UK children start secondary. That same year bundles a new peer group, more independence, puberty, more homework and less sleep, which is why attributing everything that changes at 11 to the phone attributes it to the most visible of a dozen simultaneous changes.</p>
+      <p><strong>What we have.</strong> Stage arrival prompts, migration 218, which make DiGi speak before the problem rather than after it, once per child per stage. The Year 6 into Year 7 bridge. The phone ladder, the readiness printable, agreement types for first phone and social ready. The Ofcom figure is in the knowledge bank as the honest counter to "everyone".</p>
+      <div class="lens-tags"><span class="supported">Supported: all six lenses</span><span class="sep">·</span><span class="challenged">Gap: phone readiness is printable only, not tracked</span></div>
+      <div class="cite">Sources: S1, S17</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The runners up, and the one that should worry us</h3>
+        <span class="reliability low">Watch list</span>
+      </div>
+      <p>Gamer rage, in game spending pressure, accidental content shock, and the parental controls arms race all surfaced strongly and are covered to varying degrees. Sibling conflict surfaced far less than expected and is genuinely under evidenced rather than absent.</p>
+      <p><strong>The one to watch is AI companions.</strong> Internet Matters reported in 2025 that 64 percent of children had used AI chatbots, including for emotional advice and companionship, and separately roughly one in five US adolescents takes mental health advice from a chatbot with most telling nobody. Parents describe a child who once chattered at dinner now retreating with a voice that is always patient and never critical. It is the fastest moving behaviour in the sweep and the stage map addresses it only lightly.</p>
+      <div class="lens-tags"><span class="supported">Supported: Parent Voice, Clinician</span><span class="sep">·</span><span class="challenged">Gap: real, and widening</span></div>
+      <div class="cite">Sources: S18</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Where it lands</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Does earning screen time backfire?</td>
+          <td>Skeptic and Academic: overjustification, instrumental feeding and a prospective cohort of 7,947 all point one way.</td>
+          <td>Intervention: the one RCT of a parent set allowance the child spends worked over two years, and what the cohort condemns is in the moment leverage, which we refuse.</td>
+          <td class="leans green">The mechanic survives, the word does not</td>
+        </tr>
+        <tr>
+          <td>Do rewards inflate the value of the reward item?</td>
+          <td>Skeptic: instrumental feeding says using a thing as the reward raises wanting for it.</td>
+          <td>Direct check: the food reward literature is mixed, with rewards plus repeated exposure shown to increase liking for vegetables in 4 to 6 year olds.</td>
+          <td class="leans coral">Skeptic overreached here</td>
+        </tr>
+        <tr>
+          <td>Is the meltdown about the device?</td>
+          <td>Parent Voice: the device causes it, and removing it fixes behaviour by day four.</td>
+          <td>Academic and Clinician: it is a transition failure reported by almost every parent of an under 5, and parents never run the control condition of ending a Lego build.</td>
+          <td class="leans green">Transition, not device</td>
+        </tr>
+        <tr>
+          <td>Should we warn before time is up?</td>
+          <td>Every parenting resource on earth: give a two or five minute warning.</td>
+          <td>The only study that tested it: warnings made it worse; children were calmer when the technology ended it.</td>
+          <td class="leans green">End on a natural boundary</td>
+        </tr>
+        <tr>
+          <td>Do children want to be left alone with it?</td>
+          <td>Adults assume children resist all oversight.</td>
+          <td>Child lens: children reject covert and disproportionate monitoring specifically, and 76 percent of 736 child written reviews of control apps gave one star, citing the relationship.</td>
+          <td class="leans green">Oversight they can see</td>
+        </tr>
+        <tr>
+          <td>Is "addicted" the right word?</td>
+          <td>Parents use it constantly, and children sometimes use it about themselves.</td>
+          <td>Skeptic: requiring functional impairment cuts identified cases by 17 to 37 percent, and self report tracks logged use at only r = 0.38.</td>
+          <td class="leans coral">Never use it about a child</td>
+        </tr>
+        <tr>
+          <td>Does preparation transfer to later behaviour?</td>
+          <td>Our whole thesis.</td>
+          <td>Skeptic: no study tests whether preparation at 4 to 10 changes behaviour at 13 to 16, and the nearest literature measures learning on a test, not behaviour in the wild.</td>
+          <td class="leans coral">Untested, and we must say so</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel">
+        <span class="eyebrow">The Parent Voice</span>
+        <h3>They do not say digital wellbeing, they say hell</h3>
+        <p>Nobody in this corpus uses the phrase digital wellbeing, screen time management or healthy tech habits. They say battle, sanity, devils, fried, wit's end. The three thread titles that are effectively our positioning were written by customers: "How to not have children who are addicted to screens", "I've screwed up as a parent. How do I change this?", and "Is it actually me not them?"</p>
+      </div>
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>Normalise almost everything, ask relentlessly about sleep</h3>
+        <p>Ninety three percent of parents of under fives report a tantrum, whine or resistance at screen off at least occasionally. Concealment rises normally through adolescence. Boredom intolerance is a skill deficit. None of that is a signal. Sleep is, and functional impairment over twelve months is. With a 128 day CAMHS wait, overcalling is not merely unhelpful, it lengthens the queue for a child in crisis.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Every problem is the same problem</h3>
+        <p>Children are asked to perform the executive function that develops last, switching out of an automatised task under emotional load, with no external stopping cue, at the moment the adult imposing it has least patience. Refusal, meltdown and post use irritability are the switch failing. Night use and lying are the switch being avoided. Homework and sleep loss are the switch never happening.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>The threat is not a citation, it is a word</h3>
+        <p>Every piece of folk neuroscience is fixable by not saying it: no dopamine hits, no digital heroin, no eight second attention span, no seven hours a day. But "earn your screen time" is a mechanic, and it invites three separately replicated literatures at once. Change the framing to planned rather than won, and never publish an outcome claim resting on parent report.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>The fight is about who ends it</h3>
+        <p>A rule the child agreed to, on a clock the child can see, enforced by the system rather than by a parent in the doorway, produces less conflict than the same rule enforced by the same parent in person. The child's account of every conflict is more specific than the parent's: not addiction, but a lost streak, a leaver penalty, a conversation that carried on until one in the morning.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">Intervention Evidence</span>
+        <h3>The best thing we can do is a bedroom, not a conversation</h3>
+        <p>Family media agreements have a null RCT across 1,520 pairs. Filters need 17 to 77 households to prevent one exposure. The realistic effect of any screen intervention is small, around g = 0.16 to 0.26. Against that, getting the device out of the bedroom overnight has a 125,198 child meta analysis, a clean dose response and a compliant experimental pilot, for thirty seconds of parent effort a day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Language · do this first</span>
+          <strong>Retire "earn your screen time" everywhere and replace it with planned, not won.</strong> The mechanic survives scrutiny. The verb does not. This is a copy change across marketing and in app strings, not a rebuild, and it removes the single easiest attack on the product.
+        </li>
+        <li>
+          <span class="tag">Star economy</span>
+          <strong>Stop paying stars for reading.</strong> Reading is the archetypal already interesting task, which is the exact cell where the undermining effect is demonstrated. Chores sit outside it. Celebrate reading verbally instead, where the same meta analysis finds the effect reverses.
+        </li>
+        <li>
+          <span class="tag">The gap that matters</span>
+          <strong>Build a parent side of the mechanic.</strong> There is no parent protected window, no parent core minutes, nothing. Our own knowledge bank holds the trial where cutting leisure screens for the whole household improved children's mental health, three lenses found parents are the heavier device users at mealtimes, and children name the hypocrisy within a week. A single parent phone free slot a day would make the protected window honest.
+        </li>
+        <li>
+          <span class="tag">Fairness</span>
+          <strong>Build the cross child view.</strong> Every number a parent needs to settle "it is not fair, she gets more" already sits in one table, and no surface ever compares two children. Read only, no new data, medium build.
+        </li>
+        <li>
+          <span class="tag">Sleep · the proof point</span>
+          <strong>Instrument sleep and make it the outcome we measure.</strong> It is the one claim we can put in front of a hostile expert without flinching, it has the best evidence in the field, and protected bedtime is already built. If we ever publish an outcome, it should be this one, and it must not rest on parent report alone.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>Write the de escalation script for a frightened parent.</strong> Confiscation triggers the worst incidents in the 11 to 16 band, including parents being hit. No mainstream parenting product acknowledges that a parent may be physically afraid or outmatched. Nothing in the pathway should ever imply take it off them.
+        </li>
+        <li>
+          <span class="tag">Stages</span>
+          <strong>Consider cutting stage boundaries at the discontinuities.</strong> Phone ownership jumps from 56 to 83 percent between ten and eleven, and the developmental sensitivity windows fall at 11 to 13 for girls and 14 to 15 for boys. Round numbers are tidier; these are where the ground actually moves.
+        </li>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Write in their words, not ours.</strong> Hell, battle, sanity, devils, fried, wit's end. Never digital wellbeing. And three customer written thread titles are better headlines than anything we would draft.
+        </li>
+        <li>
+          <span class="tag">Claims discipline</span>
+          <strong>Never claim preparation transfers.</strong> No study tests whether structured preparation at 4 to 10 changes behaviour at 13 to 16. We can say teaching improves what a child can identify and articulate. We cannot say it changes behaviour years later, and a hostile expert will ask.
+        </li>
+        <li>
+          <span class="tag">Roadmap</span>
+          <strong>Open the AI companion lane.</strong> 64 percent of children have used chatbots, one in five US adolescents takes mental health advice from one, most tell nobody. Our zero AI on the child side rule is a genuine differentiator here and is currently unsaid.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p><strong>Reddit was completely unreachable.</strong> Every route failed: direct fetch, old.reddit, the JSON endpoints, archive mirrors, and search with the domain allowlisted, which returned an error stating the crawler is blocked. The corpus is therefore Mumsnet dominated, which skews UK, mothers, and self selecting toward conflict, and the two Reddit fragments present arrived second hand through journalism. Ranks 1 to 8 are solid; the lower ranks could reorder with a real Reddit corpus.</p>
+      <p><strong>What verification found.</strong> Two adversarial passes checked seventeen load bearing claims: fifteen confirmed, two corrected, none demoted. The corrections worth knowing: the Ofcom ownership jump is from the May 2026 report rather than 2025; the UK screen time figure belongs to a different Ofcom series entirely (passive metering, 3 hours 36 minutes for 8 to 14s, excluding TV sets and consoles); the Epstein trial is a parent set allowance the child spends with their own code; the Hiniker 93 percent means at least occasionally rather than every time; and the filtering number needed treated belongs to the 2018 paper, not the 2017 one. One Skeptic attack, that using a thing as a reward inflates its value, did not survive a direct check, because the food reward literature is genuinely mixed.</p>
+      <p><strong>No agent could open a primary source.</strong> The egress proxy blocked every publisher and government domain attempted across all seven agents, and the session search budget was exhausted. Every figure here came through search index summaries of named sources, cross checked where possible. Nothing in this briefing should enter public copy until someone has opened the paper. The highest priority items to verify are named in the ledger.</p>
+      <p><strong>Seven of the eleven named problems have no trial evidence at all.</strong> Lying, sibling conflict, boredom intolerance, post use irritability, homework displacement, peer pressure and mealtime conflict have no RCT, no meta analysis, no controlled trial. Any confident tactic for these is plausible mechanism, not evidence, and the briefing marks them accordingly.</p>
+      <p><strong>We weighted toward our own thesis and asked the Skeptic to attack it.</strong> It did, and two of its attacks survived into the recommendations. One of its attacks, on rewards inflating the reward item, did not survive a direct check.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The SEN parent. For autistic and ADHD children the screen is often the only reliable regulation tool, transitions are genuinely harder rather than merely resisted, and parents carry enormous guilt about a device that is doing real work. The whole category sells one rulebook to everyone. A pathway that says openly that for this child the screen may be a legitimate regulation tool would be both honest and differentiating, and it is the single clearest unserved segment surfaced by this sweep.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Load bearing sources, adversarially verified</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://www.mumsnet.com/talk">S1 · Mumsnet thread corpus, roughly 40 indexed searches</a> · 2024 to 2026<span class="note">Thread titles captured verbatim as link text. Body quotes came through the search summariser and none were read on the page. Reddit unreachable.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://dl.acm.org/doi/10.1145/2858036.2858278">S2 · Hiniker, Suh, Cao and Kientz, Screen Time Tantrums</a> · CHI 2016<span class="note">Confirmed, with wording corrected. 27 family interviews plus a separate 28 family diary study, ages 1 to 5. 93 percent report a tantrum, whine or resistance AT LEAST OCCASIONALLY, not every time; 37 percent say it almost always ends in a fight. The warning direction is confirmed and the authors' own line is that every way they sliced it the warning made it worse. Caveat: observational diary associations, n = 28, not a randomised manipulation.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://www.nature.com/articles/s41598-026-48580-6">S3 · Task switching development, Scientific Reports 2026</a><span class="note">Adult like performance around 12; task inertia grows as execution automatises. Lab based, non screen. The screens application is our inference.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/36508199/">S4 · Radesky et al., devices for calming</a> · JAMA Pediatrics 2023<span class="note">422 pairs aged 3 to 5; device use to calm predicts worse emotional reactivity, strongest in boys. Check whether the Konok 2024 replication attempt succeeded before citing as settled.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/40489178/">S5 · Vasconcellos et al., screen use and socioemotional problems</a> · Psychological Bulletin 2025<span class="note">117 studies in the meta analysis; b = 0.06 in both directions. Participant n reported inconsistently by the index; do not quote it.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.apa.org/pubs/journals/releases/xge-xge0001639.pdf">S6 · Tam and Inzlicht, Fast forward to boredom</a> · J Exp Psych General 2024<span class="note">Confirmed. Seven studies, total N = 1,223, six preregistered, J Exp Psych General 153(10). Switching between and within videos increased boredom and reduced satisfaction, attention and meaning, and held when participants chose their own YouTube videos. The strongest causal evidence in the sweep. Adult samples, so the developmental extension is inference.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/2571467">S7 · Carter et al., bedtime media and sleep</a> · JAMA Pediatrics 2016<span class="note">Confirmed. 20 studies, 125,198 children, mean age 14.5. Bedtime device USE: inadequate sleep OR 2.17 (1.42 to 3.32), poor quality OR 1.46 (1.14 to 1.88), daytime sleepiness OR 2.72 (1.32 to 5.61). Device PRESENCE without use, quote separately: 1.79, 1.53 and 2.27. All pooled studies cross sectional, so association only, and mean age 14.5 means this cannot be claimed for primary age children without saying so.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13357794/">S8 · Meredith Jones et al., Screens, Teens and Sleep</a> · J Sleep Research 2026<span class="note">Wearable camera plus accelerometry, n = 70. Screen use linked to lower heart rate than non screen activities, so arousal is the weakest of the three mechanisms.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://www.jpeds.com/article/S0022-3476(18)31384-2/abstract">S9 · Przybylski, digital screen time and pediatric sleep</a> · J Pediatrics 2019<span class="note">n = 50,212, preregistered; 3 to 8 fewer minutes per screen hour, under 1.9 percent of variance. Cross sectional, parent reported.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://selfdeterminationtheory.org/wp-content/uploads/2019/07/2015_VanPetegemSoenensVansteenkisteBeyers_CD.pdf">S10 · Van Petegem et al., adolescent defiance and reactance</a> · Child Development 2015<span class="note">Controlling limits produce oppositional behaviour that generalises; autonomy supportive limits do not. Cross sectional, shared method variance.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/1077699018754908">S11 · Chen and Shi, parental mediation meta analysis</a> · JMCQ 2019<span class="note">52 studies, 74,159 participants. Restrictive mediation reduces time, works for younger children, and loses effectiveness with age. The empirical footing for a staged ladder.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><span>S12 · Guided Childhood codebase, full platform sweep</span> · 9 September 2026<span class="note">Internally verified against real files. Note: the live script count is unsettled across migrations (233, 292, 312 all appear). Query the table before printing a number.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://onlinelibrary.wiley.com/doi/10.1111/apa.70609">S13 · Nagata et al., media parenting practices, ABCD prospective</a> · Acta Paediatrica 2026<span class="note">Confirmed. n = 7,947, mean age 12.9, Year 3 to Year 4, app measured subsample of 840. Screens used to control behaviour and bedroom screen use predict greater screen time; monitoring predicts lower screen time and lower app measured smartphone time. Scope correction: the link to PROBLEMATIC use is confirmed in the 10,048 child cross sectional companion (Pediatric Research 2024), not in this prospective paper, so do not assert it of the 2026 study. Observational; reverse causation not excluded.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.cs.ucf.edu/~jjl/pubs/pn1838-ghoshA.pdf">S14 · Ghosh et al., what children say about parental control apps</a> · CHI 2018<span class="note">Confirmed. 736 reviews across 37 Google Play online safety apps, written by children aged 8 to 19, 76 percent one star, citing restriction, privacy invasion and damage to the parent relationship. Caveat: ages are self reported in the review text and the band runs to 19, so this cannot carry a claim about under 13s specifically.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11581737/">S15 · Bedtime Boost toddler RCT</a> · JAMA Pediatrics 2024<span class="note">105 London families; screens removed in the hour before bed and substituted with a box of activities. Small to medium gains on objective sleep, none on attention. Explicitly a pilot, and substitution not removal is the active ingredient.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/2775421">S16 · Moreno et al., Family Media Use Plan RCT</a> · JAMA Pediatrics 2021<span class="note">Confirmed. 1,520 parent and adolescent dyads, ages 12 to 17, two month follow up; between group difference minus 0.1, CI minus 1.1 to 0.9, and null on every secondary outcome too. Important for framing: most intervention families DID create the plan, so this is a null effect of the plan itself rather than of non uptake.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-children/childrens">S17 · Ofcom, Children and Parents Media Use and Attitudes</a> · 2025 and 2026<span class="note">Confirmed with two corrections. The 56 to 83 percent ownership jump is from the report published 21 May 2026, not the 2025 one. The UK screen time figure is a DIFFERENT Ofcom series, Children's Passive Online Measurement, a passive metering panel: 8 to 14 year olds average 3 hours 36 minutes a day (2026 wave), rising from 2 hours 53 minutes at 8 to 9 to 4 hours 19 minutes at 13 to 14. It measures smartphone, tablet and computer only, so TV sets, consoles and smart speakers are excluded. Do not quote the superseded 2025 figure of 2 hours 59 minutes.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><span>S18 · Internet Matters on children's AI chatbot use (2025); RAND in JAMA Pediatrics on adolescent chatbot mental health advice (June 2026)</span><span class="note">Both confirmed. Internet Matters "Me, Myself and AI" (2025), UK, 1,000 children aged 9 to 17: 64 percent have used AI chatbots, 35 percent of users say it is like talking to a friend, and 71 percent of vulnerable children use them. RAND in JAMA Pediatrics (June 2026), nationally representative US, N = 1,009 aged 12 to 21: 19.2 percent use chatbots for help when sad, angry, nervous or stressed, up from 13.1 percent a year earlier, and 63.3 percent told nobody, against 19.8 percent who saw a mental health professional.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/379222">S19 · Epstein et al., metered screen budget RCT</a> · Arch Pediatr Adolesc Med 2008<span class="note">Confirmed, with a design nuance that makes it closer to us, not further. n = 70 aged 4 to 7, 24 months, trial NCT00065052. The TV Allowance device is programmed by the PARENT with a weekly allotment and a per child access code; the child enters their own code to spend it down. So it is a parent set allowance the child spends, not a budget the child sets. SES moderated the zBMI effect (P = .01) with the intervention working better in low SES families.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://depts.washington.edu/techdocs/papers/deciExtrinsicRewardsAndIntrinsicMotivation99.pdf">S20 · Deci, Koestner and Ryan, rewards meta analysis</a> · Psychological Bulletin 1999<span class="note">128 experiments. Undermining requires an expected tangible reward for an already interesting task; verbal praise enhances. Contested by Cameron and Pierce. Both camps agree the boundary conditions.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Checked</span><div class="src"><a href="https://www.sciencedirect.com/science/article/pii/S0195666382800056">S21 · Birch et al., instrumental consumption and food preference</a> · Appetite 1982<span class="note">Checked in this session and it partly cuts against the Skeptic. It shows being rewarded FOR consuming something lowers liking for it, n = 12 preschoolers. The claim that using a thing AS a reward raises its value is a separate and mixed literature: rewards plus repeated exposure have been shown to increase liking of vegetables in 4 to 6 year olds.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Pending</span><div class="src"><a href="https://www.nature.com/articles/s41562-021-01117-5">S22 · Parry et al., logged versus self reported media use</a> · Nature Human Behaviour 2021<span class="note">106 effect sizes, r = 0.38, and problematic use measures track logged behaviour worse still. The reason no self reported screen figure should be trusted, including ours.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0022347617301737">S23 · Przybylski and Nash, internet filtering</a> · 2017 and 2018<span class="note">Confirmed with an attribution fix. The 2017 Journal of Pediatrics paper is 1,030 in home interviews with 12 to 15 year olds and found no convincing protective effect. The 17 to 77 households needed to prevent one exposure belongs to the exploratory EU analysis inside the 2018 paper, not the 2017 one, and the preregistered British study (n = 1,004) found no significant protective effect. Age caveat: 12 to 15, so it cannot carry a claim about primary age children.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><span>S24 · Folklore audit</span><span class="note">All four legs confirmed. The eight second attention span traces to Statistic Brain, which never produced a methodology, and appeared in the intro of Microsoft Canada's 2015 report rather than being a Microsoft finding; the BBC traced its listed sources in 2017 and none could produce the research. The 23 minutes 15 seconds is a 2006 Gallup interview remark describing when interrupted work was RESUMED, not focus recovery, and the nearest published figure is 25 minutes 26 seconds in Mark, Gonzalez and Harris, CHI 2005. The 8 hours 39 minutes is US teens 13 to 18, entertainment media only, explicitly excluding schoolwork, and Common Sense's own methodology notes totals in excess of 24 hours because concurrent use is summed; it is the 2021 wave, so check for a later one. NHS England 2023 wave 4 found 20.3 percent of 8 to 16 year olds had a PROBABLE disorder on a screening measure, stable since 2022, so one in four is wrong on both the rate and the diagnosis distinction.</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses plus a full platform sweep · 9 September 2026
+  </footer>
+
+</div>
+</body>
+</html>
