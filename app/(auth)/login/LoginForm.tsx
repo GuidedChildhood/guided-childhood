@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { createClient, isSupabaseConfigured } from '@/lib/supabase/client'
+import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
@@ -33,7 +33,7 @@ export default function LoginForm() {
     // them points at a domain that does not exist and every request fails
     // before it leaves the browser. Nothing anyone types can fix that.
     if (!isSupabaseConfigured()) {
-      setError('This copy of the app is not connected to the database, so no account can sign in here. Your details are fine. Try the main app instead.')
+      setError(NOT_CONFIGURED_MESSAGE)
       setLoading(false)
       return
     }
@@ -53,7 +53,14 @@ export default function LoginForm() {
     } else if (error.code === 'invalid_credentials' || error.status === 400) {
       setError('Email or password not recognised. Please try again.')
     } else {
-      setError(`We could not reach the sign in service, so we do not know whether those details are right. Please try again in a moment. (${error.message})`)
+      // The parenthesised error.message was here so a fault could be reported
+      // accurately, and what it actually did was print "Failed to fetch" on the
+      // end of a good sentence. networkAuthMessage is the same judgement in one
+      // place, so all four ways into an account word it identically.
+      setError(
+        networkAuthMessage(error.message) ??
+        'We could not reach the sign in service, so we do not know whether those details are right. Please try again in a moment.'
+      )
     }
     setLoading(false)
   }

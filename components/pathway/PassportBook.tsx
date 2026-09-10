@@ -4,7 +4,9 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Stamp, StampStatus } from './PassportStamps'
-import { characterForStage } from '@/lib/content/stage-characters'
+import { characterForStage, STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import StageSlots from './StageSlots'
+import StageChildStrip from './StageChildStrip'
 
 // The passport as a little book. A teal cover with the gold crest, then
 // one page per stage in that stage's colour, each carrying a big progress
@@ -39,6 +41,16 @@ const TODO = 'var(--terracotta-dark)'
 const R = 52
 const C = 2 * Math.PI * R
 
+/** How thick the book is, in pixels. The back cover sits this far behind the
+ *  page and the spine is this wide. */
+const SPINE = 13
+
+/** Somebody who has asked their phone to stop moving things gets a flat book. */
+function reduceMotion(): boolean {
+  if (typeof window === 'undefined') return false
+  try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches } catch { return false }
+}
+
 function statusLabel(s: StampStatus): string {
   if (s === 'earned') return 'Earned'
   if (s === 'current') return 'In progress'
@@ -63,6 +75,9 @@ export default function PassportBook({
   currentStage = null,
   childId = null,
   passportCode = null,
+  childRead = null,
+  onApp = false,
+  readOnly = false,
 }: {
   stamps: Stamp[]
   childName: string
@@ -109,6 +124,19 @@ export default function PassportBook({
   /** Whose book, for the per child celebration memory. Null celebrates as one
    *  family, which is only right when there is genuinely one child. */
   childId?: string | null
+  /**
+   * The child's own numbers, for the strip at the foot of THEIR page.
+   *
+   * Optional because four surfaces render this book with no child behind it
+   * (the two ref pages, the dev fixture, the marketing shots), and a passport
+   * with no strip is the book as it has always been rather than a broken one.
+   */
+  childRead?: { daysDone: number; stars: number | null; timerDays: number } | null
+  /** Does this child have the app? Without it there is nowhere to send. */
+  onApp?: boolean
+  /** Read only: no links out, no send, no page turn controls beyond the flip.
+   *  This is the child looking at their parent's book. */
+  readOnly?: boolean
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
@@ -128,6 +156,42 @@ export default function PassportBook({
   const [justStamped, setJustStamped] = useState(false)
   const pending = useRef<number | null>(null)
   const bookRef = useRef<HTMLDivElement>(null)
+
+  // ── PICK THE BOOK UP AND LOOK AT IT ────────────────────────────────────
+  //
+  // Justin asked to "see 3d render and move it around". A free orbit is the
+  // wrong gesture: this is a book on a table, not a model in a viewer, and a
+  // child who spins it upside down has lost the thing they were reading. So it
+  // tilts, up to 34 degrees each way, and springs back when the finger lifts.
+  //
+  // tiltFrom holding a number means a finger is down, which is also what turns
+  // the spring transition OFF so the book tracks the drag exactly and then
+  // eases home on release.
+  const [tilt, setTilt] = useState(0)
+  const tiltFrom = useRef<number | null>(null)
+  // A drag that turned into a tilt must not also count as a tap on the cover,
+  // or looking at the book opens it.
+  const dragged = useRef(false)
+
+  function onTiltStart(e: React.PointerEvent) {
+    if (flipping || reduceMotion()) return
+    tiltFrom.current = e.clientX
+    dragged.current = false
+  }
+  function onTiltMove(e: React.PointerEvent) {
+    if (tiltFrom.current === null) return
+    const dx = e.clientX - tiltFrom.current
+    if (Math.abs(dx) > 7) dragged.current = true
+    setTilt(Math.max(-34, Math.min(34, dx * 0.28)))
+  }
+  function onTiltEnd() {
+    if (tiltFrom.current === null) return
+    tiltFrom.current = null
+    setTilt(0)
+    // Cleared on the next tick so the click that follows this pointerup still
+    // sees that a drag happened.
+    setTimeout(() => { dragged.current = false }, 60)
+  }
 
   const earnedCount = stamps.filter(s => s.status === 'earned').length
   const allEarned = earnedCount === stamps.length && stamps.length > 0
@@ -171,6 +235,9 @@ export default function PassportBook({
 
   function goTo(target: number) {
     if (target === page || flipping) return
+    // A finger that just dragged the book sideways was looking at it, not
+    // asking for the next page.
+    if (dragged.current) return
     // The explanation above this book has done its job the moment somebody
     // opens the book. See PathwayIntro: this is what retires it, rather than a
     // timer taking words off the screen while a parent is still reading them.
@@ -229,7 +296,64 @@ export default function PassportBook({
           which matters: anything inside that div rotates to the spine and back
           on every page turn, and a shop link tumbling through 88 degrees each
           time a parent flips a page is not a quiet affordance. */}
-      <div ref={bookRef} style={{ position: 'relative', perspective: '1400px', maxWidth: '340px', margin: '0 auto', scrollMarginTop: '84px' }}>
+      <div
+        ref={bookRef}
+        onPointerDown={onTiltStart}
+        onPointerMove={onTiltMove}
+        onPointerUp={onTiltEnd}
+        onPointerCancel={onTiltEnd}
+        style={{ position: 'relative', perspective: '1400px', maxWidth: '340px', margin: '0 auto', scrollMarginTop: '84px', touchAction: 'pan-y' }}
+      >
+        {/* ── THE BOOK AS AN OBJECT ────────────────────────────────────────
+            Justin, 10 September 2026: "ability to see 3d render and move it
+            around use higgsfield if necessary".
+
+            CLAUDE.md forbids Three.js, and this book has done real 3D since the
+            day it was built: a 1400px perspective, a preserve-3d page and a
+            rotateY flip. A book you can pick up and tilt is the same technique
+            with two more faces and a pointer handler, so it stays inside the
+            house rule and, unlike a pre rendered turntable, it shows THIS
+            child's real progress. A Higgsfield render is the right tool for the
+            marketing shot and the wrong one for a page that has to be true.
+
+            This layer is the whole book, and it tilts. The layer inside it is
+            the page, and it flips. Keeping them apart is what stops a drag
+            fighting a page turn. */}
+        <div
+          style={{
+            position: 'relative',
+            transformStyle: 'preserve-3d',
+            transform: `rotateY(${tilt}deg) rotateX(${tilt === 0 ? 0 : 2}deg)`,
+            transition: tiltFrom.current === null ? 'transform 0.45s cubic-bezier(0.34,1.3,0.64,1)' : 'none',
+          }}
+        >
+          {/* The back cover, one book thickness behind the page, so a tilt
+              shows a solid object rather than a sheet of paper. */}
+          <div aria-hidden style={{
+            position: 'absolute', inset: 0, borderRadius: '14px 18px 18px 14px',
+            background: 'linear-gradient(160deg, #4A1723 0%, #3E1220 100%)',
+            transform: `translateZ(-${SPINE}px)`,
+            boxShadow: 'inset 0 0 0 2px rgba(237,195,95,0.35)',
+          }} />
+          {/* The spine, standing at the left edge with the stage count printed
+              down it the way a real one carries its title. */}
+          <div aria-hidden style={{
+            position: 'absolute', left: 0, top: 0, bottom: 0, width: `${SPINE}px`,
+            transformOrigin: 'left center', transform: 'rotateY(-90deg)',
+            background: 'linear-gradient(180deg, #5E1E2C 0%, #4A1723 100%)',
+            borderRadius: '3px 0 0 3px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: 'inset -1px 0 0 rgba(237,195,95,0.4), inset 1px 0 0 rgba(0,0,0,0.4)',
+          }}>
+            <span style={{
+              writingMode: 'vertical-rl', transform: 'rotate(180deg)',
+              fontFamily: 'var(--font-mono)', fontSize: 8, fontWeight: 700,
+              letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.7)',
+              whiteSpace: 'nowrap',
+            }}>
+              {earnedCount} of {stamps.length}
+            </span>
+          </div>
         <div
           style={{
             position: 'relative',
@@ -289,8 +413,53 @@ export default function PassportBook({
                   </div>
                 )}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
-                Tap to open
+              {/* ── THE FIVE FRIENDS, IN GOLD ────────────────────────────
+                  Justin, 10 September 2026: the cover "could have images on
+                  corner of planet friends".
+
+                  A corner would have made a grid of five, and the five are a
+                  SEQUENCE: Pebble at four, Cosmo at sixteen. So they run along
+                  the bottom of the cover the way a real passport prints its
+                  emblems, in order, left to right.
+
+                  Each one is ghosted in foil until its stage is stamped, then
+                  it comes up in its own colour. That is Me+'s embossed ghost
+                  again, and it means the OUTSIDE of the book is a progress
+                  reading: how far in are we, answered before it is opened. */}
+              <div style={{ width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginBottom: 12 }}>
+                  {STAGE_CHARACTERS.map(c => {
+                    const won = stamps.find(st => st.id === c.stageId)?.status === 'earned'
+                    return (
+                      <span
+                        key={c.key}
+                        title={won ? `${c.name}, earned` : c.name}
+                        style={{
+                          width: 30, height: 30, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
+                          background: won ? '#FFF7E8' : 'rgba(237,195,95,0.10)',
+                          border: `1.5px solid ${won ? c.colour : 'rgba(237,195,95,0.45)'}`,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={c.cutout}
+                          alt=""
+                          style={{
+                            width: '100%', height: '100%', objectFit: 'contain',
+                            // Foil, not colour, until the page is stamped. A
+                            // grey ghost on burgundy read as a smudge; the gold
+                            // tint keeps it part of the cover's own foil.
+                            filter: won ? 'none' : 'grayscale(1) brightness(1.35) sepia(0.7) hue-rotate(-8deg) opacity(0.42)',
+                          }}
+                        />
+                      </span>
+                    )
+                  })}
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)', textAlign: 'center' }}>
+                  Tap to open
+                </div>
               </div>
             </div>
           ) : page > stamps.length && allEarned ? (
@@ -441,6 +610,20 @@ export default function PassportBook({
                 </div>
               </div>
 
+              {/* The circle says a percentage. A percentage is a summary; the
+                  count is the fact, and a parent asked "how are we doing" wants
+                  the fact. It sits under the ring rather than in the old footer
+                  so the two readings of the same thing are together. */}
+              {stamp.sections && stamp.sections.length > 0 && stamp.status !== 'earned' && (
+                <p style={{
+                  textAlign: 'center', margin: '0 0 12px',
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  letterSpacing: '0.08em', textTransform: 'uppercase', color: theme.text, opacity: 0.75,
+                }}>
+                  {stamp.sections.filter(x => x.pct >= 100).length} of {stamp.sections.length} done at this stage
+                </p>
+              )}
+
               <div style={{ textAlign: 'center', marginBottom: '14px' }}>
                 {friend && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '9px' }}>
@@ -475,130 +658,117 @@ export default function PassportBook({
                   next step. */}
               <div style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
-                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page · tap any one to do it'}
+                  {/* "tap any one to do it" described the five link rows.
+                      There are five slots now and the sentence wrapped to two
+                      lines on a phone saying something the slots already say by
+                      being tappable. */}
+                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page'}
                 </div>
                 {stamp.sections && stamp.sections.length > 0 ? (
                   (() => {
                     const secs = stamp.sections
-                    // One number for the page: the same reading as the big
-                    // circle, so a stage still ahead reads a true zero here too
-                    // instead of averaging today's live rows back in.
-                    const runningPct = stamp.pct
-                    const greenRows = secs.filter(s => s.pct >= 100).length
                     // The one row a parent should do next: the first still open.
                     const nextKey = secs.find(x => x.pct < 100)?.key ?? null
+                    const next = secs.find(x => x.pct < 100) ?? null
                     return (
                       <>
-                        {/* ONE row of help, not five.
-                            Justin: the page "looks massive, way too long, it
-                            needs to look passport size".
-                            Every row carried a two or three line explanation of
-                            how it goes green, which is genuinely useful and,
-                            printed five times, is most of why the page ran to
-                            three screens. A parent only ever acts on one row at
-                            a time, so the help now belongs to the row they
-                            should act on next: the first one still open. The
-                            rest keep their tick, their label and their number,
-                            which is all a scan needs. Tapping any row still
-                            goes straight to the thing that fills it, so nothing
-                            has been hidden, only unstacked. */}
-                        {secs.map(sec => {
-                          const done = sec.pct >= 100
-                          const isNext = sec.key === nextKey
-                          return (
-                            <Link key={sec.key} href={sec.href} style={{ display: 'block', textDecoration: 'none', marginBottom: isNext ? '9px' : '5px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-                                <span style={{
-                                  width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
-                                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  background: done ? DONE : 'transparent',
-                                  border: done ? 'none' : `1.5px solid ${TODO}`,
-                                }}>
-                                  {done && (
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
-                                  )}
-                                </span>
-                                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1, lineHeight: 1.3 }}>
-                                  <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
-                                </span>
-                                <span style={{
-                                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                                  // nowrap and never squeezed. It was taking
-                                  // enough of a 340 wide card to push "Moments
-                                  // to resolve" and "Jobs and routines" onto a
-                                  // second line each.
-                                  whiteSpace: 'nowrap', flexShrink: 0,
-                                  color: done ? DONE : TODO,
-                                }}>
-                                  {sec.detail}{done ? '' : ' ›'}
-                                </span>
-                              </div>
-                              {/* How it actually goes green. This was already
-                                  written on every row and never rendered, which
-                                  is why the page could only ever say WHAT was
-                                  left and never HOW. */}
-                              {isNext && (
-                              <div style={{ marginTop: 3, marginLeft: 26, display: 'flex', alignItems: 'flex-start', gap: 6, flexWrap: 'wrap' }}>
-                                {/* An ongoing row can go back to amber, so its chip
-                                    says which way it is currently running rather
-                                    than only that it never completes. Balance and
-                                    jobs are the two, and they are exactly the two
-                                    a parent otherwise reads as broken. */}
-                                {sec.ongoing && (
-                                  <span style={{
-                                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                                    letterSpacing: '0.06em', textTransform: 'uppercase',
-                                    color: done ? DONE : TODO,
-                                    background: done ? 'var(--tint-green)' : 'var(--terracotta-lt)',
-                                    borderRadius: 100, padding: '2px 8px',
-                                  }}>
-                                    {done ? 'Keeping it up' : 'Kept up, not ticked off'}
-                                  </span>
-                                )}
-                                <span style={{ flex: '1 1 160px', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
-                                  {sec.help}
-                                </span>
-                              </div>
-                              )}
-                              {sec.alert && (
-                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 5, marginLeft: 26, background: '#FDECEC', borderRadius: '9px', padding: '6px 9px' }}>
-                                  <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1.3 }}>⚠️</span>
-                                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{sec.alert}</span>
-                                </div>
-                              )}
-                            </Link>
-                          )
-                        })}
-                        {/* Green count first, percentage second. "3 of 5 green"
-                            is the number a parent can act on; the percentage is
-                            the one they compare against last week. */}
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: '10px', paddingTop: '9px', borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
-                            This stage
-                          </span>
-                          <span style={{ display: 'flex', alignItems: 'baseline', gap: 9, minWidth: 0 }}>
-                            <span style={{
-                              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                              color: greenRows === secs.length ? DONE : TODO, whiteSpace: 'nowrap',
-                            }}>
-                              {greenRows} of {secs.length} green
+                        {/* ── THE FIVE SLOTS ──────────────────────────────
+                            Justin, 10 September 2026, with photos of a real
+                            children's sticker passport: make the stage pages
+                            "very easy to read", "simple", "seeing it fill up on
+                            passport", "super fun for kids view of it".
+
+                            These five were five link rows with a tick box, a
+                            label and a percentage each. Everything a parent
+                            needed was in it and none of it looked like a
+                            passport, because a list gets LONGER as you do it
+                            and a passport gets FULLER.
+
+                            All five are drawn from day one, ghosted, at the
+                            size they will be when they are earned. See
+                            StageSlots for why, and for what the ring on the two
+                            habit rows means. */}
+                        <StageSlots sections={secs} ink={theme.text} tint={theme.bg} />
+
+                        {/* ── THE ONE THING TO DO NEXT ───────────────────
+                            Under the slots, in words, the first row still open:
+                            what it is, how much is left, and how it goes green.
+                            One row of help, not five: a parent only ever acts
+                            on one at a time, and five explanations printed
+                            together was most of why this page used to run to
+                            three screens.
+
+                            The slots above are the whole picture and are all
+                            tappable; this is the sentence. */}
+                        {next ? (
+                          <Link
+                            href={next.href}
+                            style={{
+                              display: 'block', textDecoration: 'none', marginTop: 13,
+                              background: '#fff', border: `1.5px solid ${theme.bold}`, borderRadius: 13,
+                              padding: '10px 11px',
+                            }}
+                          >
+                            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)' }}>{next.emoji}</span>
+                              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                                {next.label}
+                              </span>
+                              <span style={{
+                                flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                                color: TODO, whiteSpace: 'nowrap',
+                              }}>
+                                {next.detail} ›
+                              </span>
                             </span>
-                            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-                              {runningPct}%
+                            <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 5 }}>
+                              {next.help}
                             </span>
-                          </span>
-                        </div>
-                        {/* One line, not five.
-                            This legend was printed in full on every page of the
-                            book. The colours now do their own explaining, since
-                            the one amber row that matters carries its next step
-                            in words directly underneath it, so the standing
-                            paragraph was repeating what the page already shows.
-                            The half that is NOT self evident is that two rows
-                            never tick off, and that part stays. */}
-                        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
-                          Tap any row to go straight there. Jobs and screen balance are kept up across the stage rather than ticked off, so those two move both ways.
-                        </p>
+                            {/* An ongoing row can go back to amber, so it says
+                                which way it is running rather than only that it
+                                never completes. Balance and jobs are the two,
+                                and they are exactly the two a parent otherwise
+                                reads as broken. */}
+                            {next.ongoing && (
+                              <span style={{
+                                display: 'inline-block', marginTop: 6,
+                                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                                letterSpacing: '0.06em', textTransform: 'uppercase', color: TODO,
+                                background: 'var(--terracotta-lt)', borderRadius: 100, padding: '2px 8px',
+                              }}>
+                                Kept up, not ticked off
+                              </span>
+                            )}
+                          </Link>
+                        ) : (
+                          <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: DONE, lineHeight: 1.45, margin: '13px 0 0', textAlign: 'center' }}>
+                            All five, done.
+                          </p>
+                        )}
+
+                        {/* The amber heads up rides with the slots rather than
+                            with one row, because a device set up ahead of age is
+                            about the child and not about a checklist item. */}
+                        {secs.filter(x => x.alert).map(x => (
+                          <div key={`alert-${x.key}`} style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 8, background: '#FDECEC', borderRadius: 10, padding: '7px 10px' }}>
+                            <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1.3 }}>⚠️</span>
+                            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{x.alert}</span>
+                          </div>
+                        ))}
+
+                        {/* WHAT THE FOOTER USED TO BE.
+                            A row reading "This stage · 3 of 5 green · 47%" and
+                            a two line legend explaining the colours and the two
+                            rows that never tick off.
+
+                            The percentage is the big circle at the top of the
+                            page, said twice. The green count moved up under the
+                            circle in plain words, because a count is a fact a
+                            parent can act on and it belongs beside the number it
+                            explains. The legend's first half ("tap any row")
+                            was describing a list that no longer exists, and its
+                            second half is now the ring mark on the two habit
+                            slots plus the chip on the open row. */}
                       </>
                     )
                   })()
@@ -640,6 +810,27 @@ export default function PassportBook({
                     </Link>
                   ))
                 })()}
+
+                {/* ── THE CHILD'S HALF ──────────────────────────────────────
+                    Only on the page that is actually theirs. Days done, stars
+                    and the timer are readings about today, and a stage three
+                    years ahead borrowing them would claim progress that has not
+                    happened, for the same reason moments, jobs and balance all
+                    say Later on every other page. */}
+                {childRead && stamp.id === currentStage && (
+                  <StageChildStrip
+                    childId={childId}
+                    childName={childName === 'your child' ? null : childName}
+                    daysDone={childRead.daysDone}
+                    stars={childRead.stars}
+                    lessonsLeft={Math.max(0, (stamp.lessonsTotal ?? 0) - (stamp.lessonsDone ?? 0))}
+                    timerDays={childRead.timerDays}
+                    onApp={onApp && !readOnly}
+                    ink={theme.text}
+                  />
+                )}
+
+                {!readOnly && (
                 <Link
                   href={`/dashboard/lessons?stage=${stamp.id}`}
                   style={{
@@ -652,9 +843,13 @@ export default function PassportBook({
                 >
                   {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
                 </Link>
+                )}
               </div>
             </div>
           )}
+        </div>
+        {/* closes the tilting book. The page above it flips; this whole thing
+            turns when a finger drags across it. */}
         </div>
 
         {/* The printed booklet, as a mark in the corner of the book.
