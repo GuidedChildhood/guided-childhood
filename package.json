@@ -22,7 +22,8 @@
     "age-guard": "node scripts/check-lesson-age-gate.mjs",
     "rung-guard": "node scripts/check-rung-truth.mjs",
     "wall-contrast-guard": "node scripts/check-wall-contrast.mjs",
-    "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs"
+    "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
+    "picker-guard": "node scripts/check-job-picker.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

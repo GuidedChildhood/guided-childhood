@@ -515,8 +515,8 @@ export default function ManageJobs({
             }}>
               <span style={{ flex: 1, minWidth: 180, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
                 {hasApp
-                  ? <>Anything you add here appears on {name}&apos;s phone straight away.</>
-                  : <><strong>{name} has no app yet.</strong> Scan a code on their phone to set it up, or carry on and mark jobs off yourself here.</>}
+                  ? <>Everything here lands on {name}&apos;s phone.</>
+                  : <><strong>{name} has no app yet.</strong> Scan a code on their phone, or carry on and mark jobs off here.</>}
               </span>
               <ShareQrButton
                 childId={activeChild}
@@ -584,7 +584,13 @@ export default function ManageJobs({
                   setPending(null)
                   add({ title: t, emoji: meta.emoji, stars: meta.stars, schedule: when, band, schedule_days: days }, { flash: false })
                 }}
-                help="Worth one star. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
+                // SHORT, because this is the first thing on the page and it
+                // was thirty one words about steps that have not happened yet.
+                // Justin, 10 September 2026: the page "seems to have too much
+                // text". The composer asks how often and when in the day on
+                // its own next screens, so saying so in advance is narrating
+                // the flow instead of letting it run.
+                help="Worth one star. You pick how often next."
               />
             </div>
 

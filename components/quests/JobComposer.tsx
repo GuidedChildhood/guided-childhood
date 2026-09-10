@@ -280,7 +280,7 @@ export default function JobComposer({
       <>
         <p style={QUESTION}>What is the job?</p>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
-          Type it, or tap one of the ideas below.
+          Type it, or pick one below.
         </p>
         <div style={{ display: 'flex', gap: '8px' }}>
           <input
