@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { pickDay, dayComplete, ukToday, STEPS, type StepKey } from '@/lib/kid/five-a-day'
+import { pickDay, dayComplete, ukToday, STEPS, type StepKey, type StageNum } from '@/lib/kid/five-a-day'
 import { grantDayMinutes, MINUTES_PER_COMPLETED_DAY } from '@/lib/quests/holiday-daily'
 import { sendPush } from '@/lib/push/send'
 
@@ -84,6 +84,13 @@ export async function loadDay(
   userId: string,
   childId: string,
   available?: Partial<Record<StepKey, boolean>>,
+  /**
+   * The child's stage, so the day is their age's shape rather than a Builder's.
+   * Optional and defaulted downstream, which keeps every existing caller and
+   * every already stored day exactly as it was: a row picked before this
+   * existed is read back from the row, never re-picked.
+   */
+  stage?: StageNum,
 ): Promise<{ day: string; row: DayRow }> {
   const day = ukToday()
   const { data: existing } = await admin
@@ -97,7 +104,7 @@ export async function loadDay(
   if (weekly.lesson !== false && await lessonAlreadyThisWeek(admin, childId, day)) {
     weekly.lesson = false
   }
-  const steps = pickDay(childId, day, weekly)
+  const steps = pickDay(childId, day, weekly, stage)
   await admin.from('kid_days')
     .upsert({ user_id: userId, child_id: childId, day, steps, done: [] }, { onConflict: 'child_id,day', ignoreDuplicates: true })
   const { data: row } = await admin

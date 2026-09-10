@@ -4,6 +4,8 @@ import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { loadDay, streakCount, markStep } from '@/lib/kid/day-store'
 import { isSchoolHoliday } from '@/lib/learning/holidays'
 import { getFamilyRegion } from '@/lib/learning/region'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import type { StageNum } from '@/lib/kid/five-a-day'
 
 // The child's five a day: read it, and mark a step done.
 //
@@ -86,7 +88,25 @@ export async function GET(request: NextRequest) {
     lesson: !lessonThisWeek,
   }
 
-  const { day, row } = await loadDay(link.admin, link.userId, link.childId, available)
+  // ── WHOSE DAY, BY AGE ────────────────────────────────────────────────────
+  //
+  // The Passport brief: "DO NOT hard-code the same checklist for every age. Use
+  // the existing age/stage pathway as the source of truth." pickDay took a
+  // child and a date and nothing else, so this is where the age band it already
+  // had on file finally reaches it.
+  //
+  // Fails soft to undefined, which pickDay reads as Builder: a lookup that
+  // cannot answer should cost a child a slightly wrong shaped day, never a day
+  // they cannot load at all.
+  let stage: StageNum | undefined
+  try {
+    const { data: kid } = await link.admin
+      .from('children').select('age_band').eq('id', link.childId).maybeSingle()
+    const band = (kid as { age_band?: string | null } | null)?.age_band
+    if (band) stage = getStageFromAgeBand(band as AgeBand).id as StageNum
+  } catch { stage = undefined }
+
+  const { day, row } = await loadDay(link.admin, link.userId, link.childId, available, stage)
   const streak = await streakCount(link.admin, link.childId)
   return NextResponse.json({
     day,

@@ -450,7 +450,21 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           exactly what it did: non negotiable one is that this product never
           allows or denies, it shows the pathway and the grown up decides. This
           is the fact and a one tap nudge, nothing more. */}
-      {!kid.session && !kid.request && (kid.jobsLeft?.count ?? 0) > 0 && (
+      {/* ── AND AT THE MOMENT THEY ASK (10 September 2026) ──────────────
+          Justin: "check during that if job not done on day set then has alert
+          in child's phone and parents when device time is requested."
+
+          The child's half was already covered: KidAskBanner says it, and the
+          chores first gate names the jobs. The parent's half was here and
+          hidden by !kid.request, so this banner showed on a quiet board and
+          disappeared the instant a request arrived. The one screen where a
+          grown up is deciding about screen time was the one that did not
+          mention the undone job.
+
+          Still never a block, per non negotiable one. While a request is live
+          the Remind button goes: the child is asking right now and the answer
+          below IS the reply, so a nudge would be talking over them. */}
+      {!kid.session && (kid.jobsLeft?.count ?? 0) > 0 && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
           background: 'var(--tint-butter, #FFF6DE)', border: '1.5px solid var(--terracotta)',
@@ -460,7 +474,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
             {kid.name} has {kid.jobsLeft!.count} job{kid.jobsLeft!.count === 1 ? '' : 's'} left today
             {kid.jobsLeft!.first ? `, starting with ${kid.jobsLeft!.first}` : ''}.
           </span>
-          <button
+          {!kid.request && <button
             onClick={async () => {
               if (nudged) return
               setNudged(true)
@@ -480,7 +494,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
             }}
           >
             {nudged ? 'Nudged ✓' : `Remind ${kid.name}`}
-          </button>
+          </button>}
         </div>
       )}
 
