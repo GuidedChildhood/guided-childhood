@@ -12279,24 +12279,45 @@ Justin, on the three questions the audit ended with
 
 > "3. Yes can reach"
 
-**Backfill is agreed.** Historical completed days in `kid_days` count as
-balanced days, reaching back as far as the rows go. They are shown honestly as
-history rather than dressed up: no per day sticker is invented for a day that
-finished before the rule existed, which is the line the brief drew in section
-21 and it stands.
+All three questions are now answered, and the third answer changed.
 
-Nothing is built for this yet. Two of the three questions are still open and
-both change the shape of the build, so Phase 1 waits:
+**1. Streaks: keep as they are for now.** Justin: "Steaks let's keep it for
+now." `kid_days.streak_awarded`, `job_streaks` and Planet Friends unlocking on
+counts of completed days all stay exactly as built. Section 31 of the brief
+still governs the NEW work: no Duolingo style loss language, no "don't lose
+your streak", and total balanced days is the number the Passport leads with.
 
-1. **Streaks.** Section 31 says do not build streak pressure. Some already
-   exists and is load bearing: `kid_days.streak_awarded`, `job_streaks`, and
-   Planet Friends unlocking on counts of completed days via `FRIEND_STREAKS`.
-   Keep and soften the words, or unpick the mechanic?
-2. **Where the daily sticker lives.** Latched on the `kid_days` row, which is
-   already unique per child per day so it cannot double award and needs no new
-   constraint (recommended), or a row per day in `earned_stickers`, whose
-   unique key is `(child_id, sticker_key)` and would need the date inside the
-   key.
+**2. The daily sticker latches on `kid_days`.** Justin: "daily sticker go with
+your idea." That table is already `UNIQUE (child_id, day)`, so one qualifying
+sticker per child per calendar day is guaranteed by the database rather than by
+code, no new constraint is needed, and `earned_stickers` keeps its
+`(child_id, sticker_key)` shape for the one off stickers it was built for.
+
+**3. No backfill. This supersedes the entry written an hour earlier.**
+
+Justin: "No live users so no need to backfill if that what you mean." Checked
+against the live database before acting on it, because dropping backfill would
+be irreversible if any real family had history:
+
+| | |
+| --- | --- |
+| profiles | 20 |
+| children | 31 |
+| `kid_days` rows | 19, across 7 children |
+| **completed days** | **1** |
+| active or trialing profiles | 1 |
+
+One completed day in the entire database. He is right and there is nothing
+worth writing code for.
+
+**No backfill is not a reset, and the difference matters.** Rule 12 of the
+brief is that current users must not lose progress, and that still binds: the
+35 rows in `earned_stickers`, the 270 approved quest ticks, every lesson
+completion and every stamp stay exactly where they are. Nothing is deleted,
+recomputed or reissued. The single decision here is that no daily sticker is
+minted retrospectively for a day that finished before the rule existed.
+
+Phase 1 can start.
 
 ### A correction to the audit, same day
 

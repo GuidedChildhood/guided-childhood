@@ -57,7 +57,14 @@ function secret(): string {
 /** /philosophy joined the open list on 31 August 2026: the evidence spine
  *  is the sales argument, and it cites public sources, so it sells best in
  *  the open. Still nothing teachable outside the code. */
-export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/philosophy']
+// '/hub/data-protection' is open on purpose, added 10 September 2026. It is a
+// procurement document, not teaching content: what pupil data is processed,
+// the lawful basis, retention, and consultation evidence for a DPIA. A school
+// needs it to evaluate us, which happens before it buys, so putting it behind
+// the licence made the reason to buy invisible until after buying. The same
+// logic already applies to '/hub/rshe-mapping', the sheet an inspector reads.
+// The staff briefings stay gated, because those are the product.
+export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/philosophy']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true

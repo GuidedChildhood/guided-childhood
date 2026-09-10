@@ -19,8 +19,15 @@ import QuestManager from '@/app/(dashboard)/dashboard/quests/QuestManager'
 
 const TODAY = new Date().toISOString().slice(0, 10)
 
+// ?paper=1 flips the child to the no phone mode, which swaps the hand it over
+// panel for the offline pack. Added 10 September 2026 with the overflow fix:
+// this fixture only ever rendered the app branch, so the four print tiles
+// underneath, the ones a parent actually screenshotted with the words hanging
+// out of them, had never been rendered outside a signed in session.
+const PAPER = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('paper') === '1'
+
 const QUESTS = {
-  children: [{ id: 'c1', name: 'Teo', use_mode: 'app', stage_id: 'builder', age_band: '8-10' }],
+  children: [{ id: 'c1', name: 'Teo', use_mode: PAPER ? 'paper' : 'app', stage_id: 'builder', age_band: '8-10' }],
   links: [{ child_id: 'c1', token: '000000000000000000' }],
   quests: [
     { id: 'q1', child_id: 'c1', title: 'Tidy your room', emoji: '🧹', stars: 1, schedule: 'daily', schedule_days: null, active: true },
