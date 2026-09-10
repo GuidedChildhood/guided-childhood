@@ -17,7 +17,7 @@ import {
   type StarterAnswers,
 } from '@/lib/content/stages'
 
-type Step = 'intro' | 'details' | 'q1' | 'q2' | 'q3' | 'q4' | 'email' | 'reassure' | 'result'
+type Step = 'intro' | 'details' | 'q1' | 'q2' | 'q4' | 'reassure' | 'result'
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'] as const
@@ -240,10 +240,6 @@ export default function StarterPackPage() {
   function toggleChallenge(c: string) {
     setPicks(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])
   }
-  function selectFeeling(f: FeelingId) {
-    setFeeling(f)
-    setTimeout(() => setStep('q4'), 280)
-  }
   function selectTimeCommitment(t: TimeCommitmentId) {
     setTimeCommitment(t)
     // Email and name are already captured up front, so the last answer goes
@@ -435,7 +431,14 @@ export default function StarterPackPage() {
     setStep('reassure')
   }
 
-  const progress = (step === 'intro' || step === 'details') ? 0 : step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
+  // THREE QUESTIONS, AND THE BUILD BEAT IS NOT ONE OF THEM.
+  //
+  // This read "Question 3 of 4" on the Building your pathway screen, which is
+  // wrong twice over: there are three questions now that the feeling one is
+  // gone, and the build beat is not a question at all. A counter that keeps
+  // counting while nothing is being asked is how a parent starts wondering
+  // what they missed.
+  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q4' ? 3 : 0
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -460,7 +463,7 @@ export default function StarterPackPage() {
           the best onboarding flows show real momentum rather than a vague
           creeping line (Chime, Nextdoor and the like). */}
       <div style={{ display: 'flex', gap: '4px', padding: '8px 10px 0', flexShrink: 0 }} aria-hidden="true">
-        {[1, 2, 3, 4].map(n => (
+        {[1, 2, 3].map(n => (
           <div key={n} style={{ flex: 1, height: '4px', borderRadius: '4px', background: 'var(--border)', overflow: 'hidden' }}>
             <div style={{
               height: '100%', borderRadius: '4px',
@@ -493,7 +496,7 @@ export default function StarterPackPage() {
             color: 'var(--ink-muted)', marginBottom: '36px',
             animation: 'stepIn 0.45s ease both',
           }}>
-            Question {progress} of 4
+            Question {progress} of 3
           </div>
         )}
         <div key={step} style={{ animation: 'stepIn 0.45s ease both' }}>
@@ -667,7 +670,7 @@ export default function StarterPackPage() {
                 { t: 'Writing the exact words for tonight', d: '0.9s' },
                 { t: 'Mapping the pathway to 16', d: '1.7s' },
               ].map(row => (
-                <div key={row.t} style={{
+                <div key={row.t} className="build-row" style={{
                   display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left',
                   background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '13px',
                   padding: '12px 15px', opacity: 0, animation: `buildIn 0.5s ease ${row.d} forwards`,
@@ -685,7 +688,19 @@ export default function StarterPackPage() {
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto' }}>
               You are far from alone. Screens are the hardest daily battle most UK parents name, and there is a calm way through.
             </p>
-            <style>{`@keyframes buildIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+            {/* THE LINES ARE THE CONTENT, NOT THE ANIMATION.
+                They start at opacity 0 and are revealed BY the keyframe, and
+                globals.css turns every animation off under reduced motion, so
+                on a phone with that setting the three ticks never appeared at
+                all: the screen was a heading, a gap, and a sentence. The rule
+                below hands them back, visible and still, which is what reduced
+                motion is asking for rather than nothing to read. */}
+            <style>{`
+              @keyframes buildIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+              @media (prefers-reduced-motion: reduce) {
+                .build-row { opacity: 1 !important; animation: none !important; transform: none !important; }
+              }
+            `}</style>
           </div>
         )}
 
@@ -887,51 +902,14 @@ export default function StarterPackPage() {
           </>
         )}
 
-        {/* Q3 — Feeling */}
-        {step === 'q3' && (
-          <>
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
-              color: 'var(--ink)', marginBottom: '10px',
-            }}>
-              How are you feeling about it?
-            </h1>
-            <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '32px', lineHeight: 1.55 }}>
-              There is no wrong answer. This shapes how we frame what comes next.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {FEELING_OPTIONS.map(opt => (
-                <button
-                  key={opt.value}
-                  onClick={() => selectFeeling(opt.value)}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    background: feeling === opt.value ? 'var(--terracotta)' : 'var(--cream)',
-                    border: `1.5px solid ${feeling === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
-                    borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
-                    boxShadow: feeling === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: feeling === opt.value ? '#fff' : 'var(--ink)' }}>
-                      {opt.label}
-                    </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: feeling === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
-                      {opt.sub}
-                    </div>
-                  </div>
-                  <div style={{ color: feeling === opt.value ? '#fff' : 'var(--ink-light)', fontSize: 'var(--text-md)' }}>→</div>
-                </button>
-              ))}
-            </div>
-            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
-              ← Back
-            </button>
-          </>
-        )}
-
+        {/* Q3, the feeling question, and the second email screen were both
+            deleted on 10 September 2026. Neither had been reachable for
+            some time: the worry tiles go straight to the time question,
+            and the account step at the front made a later email ask
+            redundant. Justin, asked directly, chose to take them out
+            rather than leave two screens in the file that nobody could
+            ever see. The feeling VALUE stays, defaulted to unsure, because
+            the reveal copy reads it and the lead row carries it. */}
         {/* Q4 — Time commitment */}
         {step === 'q4' && (
           <>
@@ -1007,64 +985,6 @@ export default function StarterPackPage() {
               })}
             </div>
             <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
-              ← Back
-            </button>
-          </>
-        )}
-
-        {/* Email — asked last, once the four questions are done and the pack is
-            clearly worth having. This is the key that lands a return visit in
-            the right place, and where tonight's starter pack is sent. */}
-        {step === 'email' && (
-          <>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
-            </div>
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
-              color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
-            }}>
-              Where should we send it?
-            </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '26px', lineHeight: 1.6, textAlign: 'center' }}>
-              Your pathway is ready. Add your email and we save it to your account, so next time you land straight back here, not at the start.
-            </p>
-
-            <input
-              className="input"
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              placeholder="you@email.com"
-              value={email}
-              onChange={e => { setEmail(e.target.value); if (emailError) setEmailError('') }}
-              onKeyDown={e => { if (e.key === 'Enter') submitEmail() }}
-              style={{ fontSize: 'var(--text-md)', textAlign: 'center', marginBottom: emailError ? '10px' : '16px' }}
-            />
-            {emailError && (
-              <p style={{ color: 'var(--terracotta-dark)', fontSize: 'var(--text-sm)', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
-                {emailError}
-              </p>
-            )}
-
-            <button
-              onClick={submitEmail}
-              disabled={savingEmail}
-              style={{
-                width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                cursor: savingEmail ? 'default' : 'pointer', opacity: savingEmail ? 0.7 : 1,
-                boxShadow: '0 5px 0 var(--terracotta-dark)',
-              }}
-            >
-              {savingEmail ? 'Starting your pathway...' : 'Start your digital pathway'}
-            </button>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
-              No card. We email the starter pack and the occasional genuinely useful thing. Unsubscribe any time.
-            </p>
-            <button onClick={() => setStep('q4')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               ← Back
             </button>
           </>
