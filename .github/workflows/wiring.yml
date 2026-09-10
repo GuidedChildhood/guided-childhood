@@ -93,6 +93,11 @@ jobs:
       # A page can build, render and take payments while being unreachable. The
       # shop did, for four weeks, after a Home cleanup removed its only tile.
       - run: node scripts/check-reachable.mjs
+      # A lesson four years above the child was offered as work, done, and
+      # then correctly not counted, with nothing anywhere saying why. None of
+      # that fails a typecheck and none of it is visible without a child of
+      # exactly the wrong age in a signed in session.
+      - run: node scripts/check-lesson-age-gate.mjs
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs

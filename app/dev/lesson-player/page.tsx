@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import ReadingAhead from '@/components/lessons/ReadingAhead'
 import type { LessonSlide } from '@gc/shared/lesson-slides'
 
 // Dev only fixture: the cinematic player with a sample Rosenshine deck so
@@ -66,12 +67,18 @@ const SLIDES: LessonSlide[] = [
   },
 ]
 
-export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string; projector?: string }> }) {
+export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string; projector?: string; ahead?: string }> }) {
   if (process.env.NODE_ENV === 'production') notFound()
   const sp = await searchParams
   const slideIndex = Math.max(0, Number(sp.slide) || 0)
   const classMode = sp.class === '1'
   const projector = classMode || sp.projector === '1'
+  // ?ahead=1 renders the reading ahead notice above the player, the way the
+  // real lesson page does when a parent opens a lesson above their child's
+  // stage. Added 10 September 2026 with the notice itself, so the one thing
+  // standing between a parent and "I did a lesson and nothing happened" can be
+  // looked at without a signed in session and a child of exactly the wrong age.
+  const ahead = sp.ahead === '1'
   return (
     <LessonPlayer
       lessonId="00000000-0000-0000-0000-000000000000"
@@ -83,6 +90,9 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
       projector={projector}
       initialIndex={slideIndex}
       badges={{ keyStage: 'KS2/3', strand: 'Managing online information' }}
+      notice={ahead ? (
+        <ReadingAhead stageLabel="Explorer · Ages 11 to 13" childName="Tester" childStageName="Foundation" />
+      ) : null}
     />
   )
 }

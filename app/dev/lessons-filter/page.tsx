@@ -13,7 +13,10 @@ import LessonsBrowser, { type LibraryItem, type WatchItem } from '@/app/(dashboa
 //
 // Deliberately opens on the Lessons view, because that is where the button is.
 
-export const dynamic = 'force-static'
+// Was force-static. It now takes ?child=<1..5> so both sides of the module age
+// gate can be looked at: a Foundation child must not be offered a module whose
+// earliest lesson is ages 11 to 13, and an Explorer child must be.
+export const dynamic = 'force-dynamic'
 
 const CATEGORIES = ['safety', 'privacy', 'wellbeing', 'misinformation', 'identity', 'bullying']
 
@@ -59,6 +62,33 @@ function lessons(): LibraryItem[] {
   return out
 }
 
+// The Social Media Ready module as it really is on the live database: nine
+// lessons, four at Explorer, three at Shaper, two at Independent, and NOTHING
+// at Foundation or Builder. That shape is the whole bug of 10 September, so
+// the fixture carries it exactly rather than a tidy spread.
+function moduleLessons(): LibraryItem[] {
+  const shape = [[3, 4], [4, 3], [5, 2]] as const
+  const out: LibraryItem[] = []
+  for (const [stageNum, count] of shape) {
+    for (let i = 0; i < count; i++) {
+      out.push({
+        id: `lesson-mod${stageNum}-${i}`,
+        href: '#',
+        stageNum,
+        stageLabel: `Stage ${stageNum}`,
+        stageAges: '',
+        categoryLabel: 'safety',
+        title: `Social media lesson ${stageNum}.${i + 1}`,
+        keyMessage: 'One line so the tile has something to say.',
+        locked: false, done: false, attempted: false, score: null,
+        ks: 'KS3', strand: 'Online relationships', coverUrl: null,
+        deep: true, module: true,
+      })
+    }
+  }
+  return out
+}
+
 function films(): WatchItem[] {
   return [1, 2, 3].map(n => ({
     code: `w${n}`,
@@ -74,7 +104,10 @@ function films(): WatchItem[] {
   }))
 }
 
-export default function LessonsFilterFixture() {
+export default async function LessonsFilterFixture({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  const { child } = await searchParams
+  const n = Number(child)
+  const childStageNum = Number.isInteger(n) && n >= 1 && n <= 5 ? n : 4
   // The same 20px gutters the real page has. Without them this fixture
   // reported a 21px overflow that the product does not have: the sticky filter
   // bar runs full bleed with margin 0 -20px, which needs a 20px padded column
@@ -85,9 +118,9 @@ export default function LessonsFilterFixture() {
       <LessonsBrowser
         childId="fixture-child"
         childName="Teo"
-        childStageNum={4}
+        childStageNum={childStageNum}
         watchItems={films()}
-        libraryItems={lessons()}
+        libraryItems={[...lessons(), ...moduleLessons()]}
         initialView="library"
       />
     </div>

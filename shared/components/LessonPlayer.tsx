@@ -732,6 +732,7 @@ export default function LessonPlayer({
   completeEndpoint,
   completeBody,
   badges,
+  notice,
   classMode = false,
   classCtaHref,
   initialIndex = 0,
@@ -757,6 +758,18 @@ export default function LessonPlayer({
   completeBody?: Record<string, unknown>
   // Key Stage and Education for a Connected World chips on the intro slide.
   badges?: CurriculumBadges
+  // A block shown on the first slide only, under the header, INSIDE the
+  // player. Added 10 September 2026 for the reading ahead notice on the
+  // parent app: a lesson above this child's stage has to say so, and it
+  // cannot say it from the page around the player.
+  //
+  // The player is position fixed inset 0 at zIndex 110 and owns the whole
+  // screen, so anything the page renders above it is in the HTML and invisible.
+  // The first version of that notice was exactly that: present in the markup,
+  // passing any check that reads the DOM, and not on screen for any parent.
+  // Passing it in is the only honest way to put something in front of someone
+  // who is about to play a lesson.
+  notice?: React.ReactNode
   // The free whole class showcase: everything bigger, AND the finish is the
   // quiet signpost to the school curriculum tier. Two different things wearing
   // one flag, which is why `projector` below exists.
@@ -1373,6 +1386,17 @@ export default function LessonPlayer({
       <div style={{ height: '5px', background: 'var(--border)', flexShrink: 0 }}>
         <div ref={barRef} style={{ height: '100%', width: 0, background: 'var(--terracotta)', borderRadius: '0 100px 100px 0' }} />
       </div>
+
+      {/* The reading ahead notice, first slide only. Inside the player because
+          the player owns the screen: see the notice prop above. It sits under
+          the progress bar and above the header so it is the first thing read,
+          and it goes away once the parent is into the deck rather than riding
+          every slide. */}
+      {notice && index === 0 && !finished && (
+        <div style={{ flexShrink: 0, padding: '10px clamp(16px, 4vw, 28px) 0' }}>
+          {notice}
+        </div>
+      )}
 
       {/* Quiet header: exit, the Rosenshine phase label, DiGi keeping watch */}
       <div style={{
