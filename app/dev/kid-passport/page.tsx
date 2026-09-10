@@ -51,7 +51,7 @@ const BASE: KidSticker[] = STICKERS.map(s => ({
 const WORRIES = [
   { id: 'car', label: 'Phones in the car', stars: 5, sorted: true },
   { id: 'bed', label: 'Screens at bedtime', stars: 3, sorted: false },
-  { id: 'off', label: 'Will not put it down', stars: 2, sorted: false },
+  { id: 'off', label: 'Coming off screens', stars: 2, sorted: false },
 ]
 
 const FIXTURE: KidSticker[] = [

@@ -26,7 +26,7 @@ export default function WelcomeFixture() {
   const worries = q.get('worries') === '0' ? undefined : [
     { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens' as const, tint: 'var(--stage-5-bold)' },
     { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots' as const, tint: 'var(--stage-5-bold)' },
-    { id: 'wont_put_down', label: 'Will not put it down', icon: 'wont_put_down' as const, tint: 'var(--stage-3-bold)' },
+    { id: 'wont_put_down', label: 'Coming off screens', icon: 'wont_put_down' as const, tint: 'var(--stage-3-bold)' },
   ]
   return (
     <>

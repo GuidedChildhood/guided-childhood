@@ -30,6 +30,7 @@
     "sticker-guard": "node scripts/check-daily-sticker.mjs",
     "worry-guard": "node scripts/check-new-worry.mjs",
     "muted-guard": "node scripts/check-muted-contrast.mjs",
+    "typed-worry-guard": "node --experimental-strip-types scripts/check-worry-normalise.mjs",
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
     "module-contract": "node scripts/check-module-contract.mjs"
   },

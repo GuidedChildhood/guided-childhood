@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
     steps: row.steps as StepKey[],
     done: row.done as StepKey[],
     complete: !!row.completed_at,
-    // Today's sticker, read from the day's own row. See migration 283.
+    // Today's sticker, read from the day's own row. See migration 284.
     sticker: !!row.sticker_awarded_at,
     streak,
   })

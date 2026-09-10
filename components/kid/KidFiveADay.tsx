@@ -48,7 +48,7 @@ export type DayState = {
   complete: boolean
   streak: number
   /**
-   * Today's sticker, from the day's own row (migration 283). Optional because
+   * Today's sticker, from the day's own row (migration 284). Optional because
    * the printable tick event carries a day without one, and an absent answer
    * must read as "not yet" rather than as an empty slot on a finished day.
    */
@@ -79,7 +79,7 @@ function rememberCelebrated(day?: string) {
 //
 // One a day, for finishing the day, and it is the day's own fact: the row
 // carries it, so a child who refreshes, or who finished on the lesson page and
-// came back, still finds it here. See migration 283 and lib/kid/day-store.
+// came back, still finds it here. See migration 284 and lib/kid/day-store.
 //
 // The empty slot is drawn, not hidden. A prize you cannot see is not something
 // anybody works towards, which is the same lesson the locked sticker tiles

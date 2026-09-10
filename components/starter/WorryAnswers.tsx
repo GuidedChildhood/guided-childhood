@@ -245,7 +245,7 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
               </span>
             ))}
           </div>
-          {/* "Seeing things they should not" sits between Morning TV and AI
+          {/* "What they come across online" sits between Morning TV and AI
               chatbots and quietly covers pornography, pro suicide content and
               adult contact. Those do not wait for a script, and a chip in a
               list is the wrong size for them. */}

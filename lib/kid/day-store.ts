@@ -31,7 +31,7 @@ export interface DayRow {
   done: StepKey[]
   completed_at: string | null
   streak_awarded: boolean
-  /** When the daily sticker landed. Null while unearned. Migration 283. */
+  /** When the daily sticker landed. Null while unearned. Migration 284. */
   sticker_awarded_at?: string | null
   /** Per step, what the child said they did. Empty until one is confirmed. */
   notes?: Record<string, string> | null
@@ -268,7 +268,7 @@ export async function markStep(
   //
   // Justin, 10 September 2026: "daily sticker go with your idea." The idea, from
   // the audit he approved first, is that the sticker is a fact about the DAY and
-  // latches on the day's own row. See migration 283.
+  // latches on the day's own row. See migration 284.
   //
   // Written in the SAME update as completed_at, deliberately. A second write
   // after this one could fail on its own, and then a child would have a day that

@@ -1,4 +1,18 @@
--- Guided Childhood — Migration 283
+-- Guided Childhood — Migration 284
+--
+-- ── WHY IT IS 284 AND NOT 283 ───────────────────────────────────────────────
+--
+-- It was claimed and written as 283. A schools session claimed 283 the same
+-- morning for 283_every_timing_string_tells_the_truth, both merged, and two
+-- files sharing a number means their order is undefined, which is the one
+-- thing the numbering exists to prevent. The newer of the two renumbers, and
+-- this one merged second.
+--
+-- It was already applied to the live database as 283, under the name
+-- daily_sticker. The number in the filename orders a fresh setup; it is not
+-- what a database records, so renaming the file changes nothing that has run.
+-- Nothing here needs applying twice, and everything in it is guarded so it
+-- would be harmless if it were.
 --
 -- The daily sticker: one sticker for a day where everything got done.
 --

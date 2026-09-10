@@ -41,7 +41,7 @@ export type Worry = {
 }
 
 export const WORRIES: Worry[] = [
-  { id: 'wont_put_down', label: 'Will not put it down', icon: 'wont_put_down', tint: 'var(--stage-3-bold)' },
+  { id: 'wont_put_down', label: 'Coming off screens', icon: 'wont_put_down', tint: 'var(--stage-3-bold)' },
   { id: 'bedtime_screens', label: 'Bedtime screens', icon: 'bedtime_screens', tint: 'var(--stage-5-bold)' },
   { id: 'mood_after_screens', label: 'Mood after screens', icon: 'mood_after_screens', tint: 'var(--stage-1-bold)' },
   { id: 'controller_fights', label: 'Controller fights', icon: 'controller_fights', tint: 'var(--stage-2-bold)' },
@@ -49,7 +49,7 @@ export const WORRIES: Worry[] = [
   { id: 'asking_for_phone', label: 'Asking for a phone', icon: 'asking_for_phone', tint: 'var(--stage-2-bold)' },
   { id: 'social_media', label: 'Social media', icon: 'social_media', tint: 'var(--stage-4-bold)' },
   { id: 'ai_chatbots', label: 'AI chatbots', icon: 'ai_chatbots', tint: 'var(--stage-5-bold)' },
-  { id: 'seen_something', label: 'Seeing things they should not', icon: 'seen_something', tint: 'var(--stage-3-bold)' },
+  { id: 'seen_something', label: 'What they come across online', icon: 'seen_something', tint: 'var(--stage-3-bold)' },
   { id: 'something_else', label: 'Something else', icon: 'something_else', tint: 'var(--tint-sage)' },
 ]
 
@@ -79,7 +79,7 @@ export function namedWorries(ids: string[]): Worry[] {
 // only ever sees a key it has content for.
 //
 // Where two worries share a key that is not laziness, it is the truth: bedtime
-// screens, morning TV and will not put it down are three faces of the same
+// screens, morning TV and coming off screens are three faces of the same
 // pathway work, and the parent's own words are what comes back on the reveal
 // and the check in, so nothing they said is flattened on screen.
 //
