@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import ResultScreen from './ResultScreen'
-import { createClient } from '@/lib/supabase/client'
+import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
 import { bandForAge } from '@/lib/children/age'
 import WorryPicker from '@/components/onboarding/WorryPicker'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
@@ -288,6 +288,17 @@ export default function StarterPackPage() {
       return
     }
     setEmailError('')
+
+    // NEXT_PUBLIC values are baked in at build time, so a build made without
+    // them points at placeholder.supabase.co, a domain that does not exist, and
+    // every request dies in the browser. The login form has said so in words
+    // since August. This screen, the first one a new customer meets, said
+    // "Failed to fetch".
+    if (!isSupabaseConfigured()) {
+      setEmailError(NOT_CONFIGURED_MESSAGE)
+      return
+    }
+
     setSavingEmail(true)
     try {
       localStorage.setItem('gc_starter_name', name.trim())
@@ -305,10 +316,14 @@ export default function StarterPackPage() {
     })
     if (error) {
       const msg = error.message.toLowerCase()
+      // A dead fetch is not an answer about this account, so it must never be
+      // shown as one. Everything else Supabase says is a real reply.
+      const offline = networkAuthMessage(error.message)
       setEmailError(
-        msg.includes('already registered') || msg.includes('already been registered')
+        offline ??
+        (msg.includes('already registered') || msg.includes('already been registered')
           ? 'That email already has an account. Sign in and your pathway is waiting.'
-          : error.message
+          : error.message)
       )
       setSavingEmail(false)
       return
