@@ -12827,3 +12827,37 @@ names a lesson that exists, or explains why it cannot.
 stretches inside four minutes, passport 10.00 with 22 of 22 knowing their page.
 The new module contributes zero failures on all four checks. Both ratchets moved
 up, and the fixture run does not touch the floor.
+
+## 10 September 2026 — Migration 283, every timing string tells the truth
+
+Applied to production. PR 1031 (claims migration number 283).
+
+**The last dishonest number in the scheme.** 267 and 270 took the optimistic
+arithmetic out of the decks and 281 finished the cycle budgets, but no original
+module had its teacher facing timing string recomputed after 271, 278, 279 and
+280 added their beats. All 21 under stated their own lesson: two minutes at
+best, six on eyfs-01, which said 33 and ran 39. A teacher planning from the
+string meets the difference mid lesson, which is the exact failure 267 named on
+ks3-12 and fixed for that module alone. ks3-22 was already honest because 282
+required it to be.
+
+**Doing the sums surfaced three more errors.** ks2-04 listed three cycles for a
+four cycle deck. ks4-16 had cycles two and three the wrong way round and still
+used the "pressure" title 281 replaced. eyfs-01 disagreed with its own listed
+components as well as with the deck.
+
+**Guard 1 now covers the whole scheme.** 282 held ks3-22 alone to an honest
+timing string and said it was then the only module that could pass. From 283 no
+module can state a total its slides do not sum to, and that holds for anything
+added later. Guard 4 proves nothing but the timing key moved, comparing
+`teacher_notes - 'timing'` against a backup taken in the same migration.
+
+**Verified live.** All four guards passed on apply. The 21 strings were then
+digest checked against the migration file and matched byte for byte
+(`d08448981c69b31f9d4a83c8198f3577`), so nothing drifted in transcription.
+
+**Left open on purpose, and it is a curriculum call not a code one.** Twenty of
+these lessons now honestly run past an hour. Only ks3-12 carries a plan for a
+shorter period, written by the session that built it. Writing that plan for the
+other twenty is a decision about what a teacher should cut, so it belongs to the
+schools lane rather than being invented in a migration.
