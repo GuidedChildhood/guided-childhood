@@ -57,6 +57,10 @@ export type ConcernCheckItem = {
   lastScore: number | null
   /** Whose worry it is. Null for a family wide one, or a single child family. */
   childName?: string | null
+  /** Where it came from: 'digi', 'moment', 'rightnow', 'checkin', 'onboarding'. */
+  source?: string | null
+  /** First time this one has reached the check in, and not a seeded starter. */
+  isNew?: boolean
 }
 
 /** The five bands, worst to best, which is the direction the scale has always
@@ -80,6 +84,28 @@ export const BANDS = [
  *  in since before this changed. */
 export function bandOf(n: number): number {
   return Math.ceil(Math.min(10, Math.max(1, n)) / 2)
+}
+
+// WHERE A NEW WORRY CAME FROM, SAID BACK.
+//
+// Justin, 14 August 2026: "any issue raised in digi we can add to check in."
+// It was added. It just arrived anonymous, so the row a parent had actually
+// asked DiGi about on Tuesday looked the same on Wednesday as the four the app
+// had guessed at, and the one thing that would have told them the app was
+// listening, that it came from their own conversation, was the thing left out.
+//
+// Null for anything that is not new: an old worry says how many times it has
+// come up instead, which is the more useful sentence by then.
+function newSourceLine(item: ConcernCheckItem): string | null {
+  if (!item.isNew) return null
+  const days = Math.floor((Date.now() - new Date(item.lastFlaggedAt).getTime()) / 86400000)
+  const when = days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`
+  switch (item.source) {
+    case 'digi': return `New. You raised this with DiGi ${when}.`
+    case 'moment': return `New. From a moment you logged ${when}.`
+    case 'rightnow': return `New. You asked about this ${when}.`
+    default: return `New. Added ${when}.`
+  }
 }
 
 function recencyLabel(item: ConcernCheckItem, baseline: boolean): string {
@@ -557,14 +583,42 @@ export default function ConcernCheckIn({
                 move === 'up' ? '#1F7A54'
                 : move === 'dip' ? 'var(--terracotta-dark)'
                 : 'var(--ink-muted)'
-              const scriptCat = move === 'dip' ? categoryForConcern(c.slug, c.label) : null
+              // ── A NEW WORRY ARRIVES WITH SOMEWHERE TO GO ─────────────────
+              //
+              // The next moves used to belong to a dip alone, which needs a
+              // last time to have dipped FROM. A worry raised with DiGi
+              // yesterday has no last time, so the one row on the page the
+              // parent had asked for help about was the only row that offered
+              // none, on the very day they first met it here.
+              //
+              // Not on five stars. That answer already has its own card saying
+              // we will drop the worry off the list, and handing a parent a
+              // script for something they have just called sorted is the app
+              // not listening twice in one screen.
+              // 'first' only, never 'skipped': a parent who skipped a row has
+              // told us they do not want to talk about it right now, and two
+              // buttons is not the answer to that.
+              const nextMove = move === 'dip' || (!!c.isNew && move === 'first' && bandOf(value[c.id]) < 5)
+              const scriptCat = nextMove ? categoryForConcern(c.slug, c.label) : null
               const digiHref = `/dashboard/digi?${childId ? `child=${childId}&` : ''}ask=${encodeURIComponent(
-                `${c.label} dipped at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
+                move === 'dip'
+                  ? `${c.label} dipped at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
+                  : `${c.label} came up at today's check in${c.childName ? ` for ${c.childName}` : ''}. Where do we start?`
               )}`
+              // INK ON WHITE, NOT GOLD ON WHITE.
+              //
+              // These read as --terracotta-dark on #fff, which is 2.6 to 1. The
+              // AA floor for text this size is 4.5. It has been legible enough
+              // to nobody's complaint because there were two of them on a dip
+              // and dips are rare; a new worry now brings them to a row every
+              // family will meet, so the same pairing that was wrong on the
+              // house gold buttons is wrong here. The gold stays as the edge,
+              // which is decoration and has no floor to clear.
               const pill: React.CSSProperties = {
                 display: 'inline-flex', alignItems: 'center', minHeight: 38,
                 padding: '7px 14px', borderRadius: '100px', textDecoration: 'none',
-                border: '1.5px solid var(--terracotta)', color: 'var(--terracotta-dark)',
+                border: '2px solid var(--terracotta)', color: 'var(--ink)',
+                boxShadow: '0 3px 0 var(--terracotta)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                 background: '#fff',
               }
@@ -592,7 +646,7 @@ export default function ConcernCheckIn({
                       the dip already typed, and the script link lands on the
                       matched category. This is the wire behind the promise the
                       old copy made and never kept. */}
-                  {move === 'dip' && (
+                  {nextMove && (
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', padding: '8px 0 4px 28px' }}>
                       <Link href={digiHref} style={pill}>Ask DiGi about this</Link>
                       {scriptCat && (
@@ -737,7 +791,7 @@ export default function ConcernCheckIn({
                   fontSize: 'var(--text-sm)', fontWeight: 600,
                   color: 'var(--ink-muted)', marginTop: '4px',
                 }}>
-                  {recencyLabel(c, baseline)}
+                  {newSourceLine(c) ?? recencyLabel(c, baseline)}
                   {c.lastScore != null ? ` · last time ${scoreWord(c.lastScore).toLowerCase()}` : ''}
                 </div>
               )}

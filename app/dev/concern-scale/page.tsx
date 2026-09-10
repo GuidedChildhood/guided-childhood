@@ -23,6 +23,10 @@ export default function ConcernScaleFixture() {
           { id: 'fixture-online-safety', slug: 'online-safety', label: 'Online safety', timesFlagged: 2, lastFlaggedAt: dayAgo, lastScore: 3, childName: 'Teo' },
           { id: 'fixture-staying-asleep', slug: 'staying-asleep', label: 'Staying asleep', timesFlagged: 1, lastFlaggedAt: dayAgo, lastScore: null, childName: 'Teo' },
           { id: 'fixture-phone-handover', slug: 'rightnow-phone-handover', label: 'Phone handover fight', timesFlagged: 4, lastFlaggedAt: dayAgo, lastScore: 6, childName: 'Olga' },
+          // The one raised with DiGi yesterday. It says so, and once it is
+          // answered its folded line carries the two next moves, which used to
+          // belong to a dip alone and so could never reach a first ever row.
+          { id: 'fixture-from-digi', slug: 'gaming-at-night', label: 'Gaming late at night', timesFlagged: 1, lastFlaggedAt: dayAgo, lastScore: null, childName: 'Olga', source: 'digi', isNew: true },
         ]} />
       </div>
     </div>
