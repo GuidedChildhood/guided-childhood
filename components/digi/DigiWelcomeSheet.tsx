@@ -36,12 +36,32 @@ export type WelcomeGuide = {
   stageName: string
   childName: string
   nextTask: { label: string; href: string } | null
+  /**
+   * The one setup step still to do, while setup is unfinished.
+   *
+   * Justin, 10 September 2026: "the first thing is digi up which I like and
+   * leads then through platform so says let's set up and can this drive then
+   * to the day routines then pop up after and driven reach step?"
+   *
+   * DiGi already came up first and already ended on one thing with a button.
+   * What it never did was know about SETUP, so a brand new family met a
+   * character who greeted them warmly and then pointed at the daily loop while
+   * four unfinished steps sat on another page they had to find. This is the
+   * join: while setup is unfinished DiGi drives it, one step at a time, and
+   * the moment it is done DiGi goes back to the day.
+   */
+  setup?: { label: string; href: string; doneCount: number; total: number } | null
   // key and href travel with the strand now. They were dropped here, which is
   // why "fix this" in the walk went nowhere: the sheet was never given a
   // destination to send anyone to, and the key was filled in from the display
   // name so there was nothing to route on either.
   strands: { key: string; name: string; tone: 'green' | 'red' | 'grey'; href?: string }[]
 }
+
+/** Which setup done count DiGi has already spoken to. Shared with the inline
+ *  hold script on Home, which must test the same key or the sheet arrives
+ *  without its cover and Home flashes underneath it. */
+export const SETUP_SEEN_KEY = 'gc_digi_setup_seen'
 
 export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo: ChildInfo[]; guide?: WelcomeGuide | null }) {
   const [step, setStep] = useState(0)
@@ -67,11 +87,24 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
     if (sessionStorage.getItem(sessionKey)) return
     const today = new Date().toISOString().slice(0, 10)
     const dayKey = `gc_digi_welcome_${today}`
-    if (localStorage.getItem(dayKey)) return
+
+    // ── DiGi COMES BACK WHEN A SETUP STEP LANDS ───────────────────────────
+    //
+    // "pop up after and driven reach step". The once a day rule is what stops
+    // DiGi being a thing you dismiss every morning, and it stays. This is the
+    // one exception, and it is not a nag: the parent has just FINISHED
+    // something, and the reward for finishing is being told what is next
+    // rather than being left to find it. It fires only while setup is
+    // unfinished, and only when the done count has actually moved since the
+    // last time DiGi spoke.
+    const setupCount = guide?.setup ? String(guide.setup.doneCount) : null
+    const setupMoved = setupCount !== null && localStorage.getItem(SETUP_SEEN_KEY) !== setupCount
+
+    if (!setupMoved && localStorage.getItem(dayKey)) return
     // One DiGi prompt a day, never two: if the flash up already claimed today,
     // the welcome sheet stays quiet, and the other way round (claimed below).
     const promptKey = `gc_digi_prompt_${today}`
-    if (localStorage.getItem(promptKey)) return
+    if (!setupMoved && localStorage.getItem(promptKey)) return
 
     const count = Number(localStorage.getItem('gc_welcome_count') || '0')
     const lastShown = localStorage.getItem('gc_welcome_lastshown')
@@ -80,7 +113,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
     // back: weekly while they settle, then monthly, so DiGi returns now and
     // then rather than every login. Never a pop up they have to dismiss daily.
     const cadenceDays = count < 2 ? 0 : count < 5 ? 7 : 30
-    if (count >= 2 && daysSince < cadenceDays) return
+    if (!setupMoved && count >= 2 && daysSince < cadenceDays) return
 
     // Claim the day for DiGi now, before the delay, so the flash up yields to
     // the welcome sheet and only one DiGi prompt ever shows in a day.
@@ -91,6 +124,9 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
       sessionStorage.setItem(sessionKey, '1')
       localStorage.setItem(dayKey, '1')
       localStorage.setItem('gc_welcome_lastshown', today)
+      // Remember which step count this greeting spoke to, so DiGi returns on
+      // the NEXT one landing and not before.
+      if (setupCount !== null) { try { localStorage.setItem(SETUP_SEEN_KEY, setupCount) } catch { /* private mode */ } }
       // Count the greetings, and only after the first few, and only now and
       // then, add one age relevant social media insight for one named child, so
       // it stays a gentle check rather than a lecture every day.
@@ -194,7 +230,9 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           margin: '0 0 16px',
         }}>
           {step === 0 && <>Hey, it&apos;s DiGi.<br />Welcome back.</>}
-          {step === 1 && <>Today, one thing.</>}
+          {step === 1 && (guide?.setup
+            ? <>Let us finish setting you up.</>
+            : <>Today, one thing.</>)}
         </h2>
 
         {step === 0 && (
@@ -208,9 +246,14 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
 
         {step === 1 && (
           <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)', fontSize: 'var(--text-lg)', lineHeight: 1.55, margin: 0 }}>
-            {guide?.nextTask
-              ? <>Just this: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.nextTask.label}</strong>. A few minutes, then everything else can wait its turn.</>
-              : <>Today is already done. Lovely. Everything else is there when you want it.</>}
+            {guide?.setup
+              // ONE STEP, NAMED, WITH ITS PLACE IN THE RUN. The place matters
+              // as much as the step: "step two of four" is a job that ends,
+              // and a job that ends is one a tired parent will start.
+              ? <>Step {guide.setup.doneCount + 1} of {guide.setup.total}: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.setup.label}</strong>. A couple of minutes, then we are into your days.</>
+              : guide?.nextTask
+                ? <>Just this: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.nextTask.label}</strong>. A few minutes, then everything else can wait its turn.</>
+                : <>Today is already done. Lovely. Everything else is there when you want it.</>}
           </p>
         )}
 
@@ -238,12 +281,12 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
-            Next: today →
+            {guide?.setup ? 'Next: setting up →' : 'Next: today →'}
           </button>
         )}
-        {guide && step === 1 && guide.nextTask && (
+        {guide && step === 1 && (guide.setup || guide.nextTask) && (
           <button
-            onClick={() => { close(); router.push(guide.nextTask!.href) }}
+            onClick={() => { close(); router.push((guide.setup ?? guide.nextTask!).href) }}
             style={{
               width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
@@ -251,7 +294,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
-            Take me there →
+            {guide.setup ? 'Do it now →' : 'Take me there →'}
           </button>
         )}
 
@@ -295,7 +338,11 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3,
           }}
         >
-          Nothing happened, skip this today
+          {/* The skip is written for the daily beat, where "nothing happened"
+              is the honest reason to close it. During setup nothing has
+              happened YET, so the same words would be telling a parent their
+              unfinished setup is a non event. */}
+          {guide?.setup ? 'Not now, I will come back to it' : 'Nothing happened, skip this today'}
         </button>
       </div>
     </div>
