@@ -31,6 +31,8 @@ export interface DayRow {
   done: StepKey[]
   completed_at: string | null
   streak_awarded: boolean
+  /** When the daily sticker landed. Null while unearned. Migration 283. */
+  sticker_awarded_at?: string | null
   /** Per step, what the child said they did. Empty until one is confirmed. */
   notes?: Record<string, string> | null
 }
@@ -94,7 +96,7 @@ export async function loadDay(
 ): Promise<{ day: string; row: DayRow }> {
   const day = ukToday()
   const { data: existing } = await admin
-    .from('kid_days').select('steps, done, completed_at, streak_awarded, notes')
+    .from('kid_days').select('steps, done, completed_at, streak_awarded, sticker_awarded_at, notes')
     .eq('child_id', childId).eq('day', day).maybeSingle()
   if (existing) return { day, row: existing as DayRow }
 
@@ -108,9 +110,9 @@ export async function loadDay(
   await admin.from('kid_days')
     .upsert({ user_id: userId, child_id: childId, day, steps, done: [] }, { onConflict: 'child_id,day', ignoreDuplicates: true })
   const { data: row } = await admin
-    .from('kid_days').select('steps, done, completed_at, streak_awarded, notes')
+    .from('kid_days').select('steps, done, completed_at, streak_awarded, sticker_awarded_at, notes')
     .eq('child_id', childId).eq('day', day).maybeSingle()
-  return { day, row: (row as DayRow) ?? { steps, done: [], completed_at: null, streak_awarded: false } }
+  return { day, row: (row as DayRow) ?? { steps, done: [], completed_at: null, streak_awarded: false, sticker_awarded_at: null } }
 }
 
 /**
@@ -256,6 +258,25 @@ export async function markStep(
   // landed even if the pool later changes what today would have been.
   const patch: Record<string, unknown> = { done, updated_at: new Date().toISOString() }
   if (complete && !row.completed_at) patch.completed_at = new Date().toISOString()
+
+  // ── THE DAILY STICKER ──────────────────────────────────────────────────────
+  //
+  // Justin, 10 September 2026: "daily sticker go with your idea." The idea, from
+  // the audit he approved first, is that the sticker is a fact about the DAY and
+  // latches on the day's own row. See migration 283.
+  //
+  // Written in the SAME update as completed_at, deliberately. A second write
+  // after this one could fail on its own, and then a child would have a day that
+  // completed and a sticker that never came, with nothing to reconcile it. One
+  // statement, one outcome.
+  //
+  // `&& !row.sticker_awarded_at` is what makes it idempotent alongside the
+  // unique (child_id, day) index: replaying this call on an already awarded day
+  // sets nothing. The same guard shape streak_awarded has used since 134, and
+  // for the same reason.
+  if (complete && !row.completed_at && !row.sticker_awarded_at) {
+    patch.sticker_awarded_at = new Date().toISOString()
+  }
 
   // What they said they did, merged into whatever is already there rather than
   // replacing it, so confirming a second step does not wipe the first. Trimmed
