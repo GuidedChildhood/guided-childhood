@@ -150,9 +150,22 @@ export default function StageSlots({
           </>
         )
         const common = { flex: '1 1 0', minWidth: 0, textDecoration: 'none' } as const
-        const label = done
-          ? `${sec.label}, ${ongoing ? 'being kept up' : 'done'}`
-          : `${sec.label}, ${sec.detail}`
+        // THE SPOKEN LABEL DROPS THE DETAIL WHEN THIS IS NOT THE PARENT'S BOOK.
+        //
+        // Caught by check-passport-readonly rather than by reading it. The
+        // visible slot has always drawn a mark and one word, and the count sat
+        // in the screen reader label, which on the child's app is read aloud to
+        // the child. "Moments to resolve, 2 to resolve" tells a child their
+        // parent has two open notes about them, which is precisely the line the
+        // read only view exists to hold.
+        //
+        // interactive is false exactly when this is the child's copy, so it is
+        // the honest flag to hang it on rather than a second prop saying the
+        // same thing.
+        const state = done ? (ongoing ? 'being kept up' : 'done') : sec.detail
+        const label = interactive
+          ? `${sec.label}, ${state}`
+          : done ? `${sec.label}, ${ongoing ? 'being kept up' : 'done'}` : `${sec.label}, not yet`
         return interactive ? (
           <Link key={sec.key} href={sec.href} aria-label={label} style={common}>{inner}</Link>
         ) : (

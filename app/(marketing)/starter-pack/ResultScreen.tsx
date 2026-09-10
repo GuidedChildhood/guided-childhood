@@ -9,6 +9,10 @@ import { STAGES, getStageFromAgeBand, type ChallengeId, type FeelingId } from '@
 import { CATCH_ALL_ID, worryLabel } from '@/lib/onboarding/worries'
 import WorryAnswers from '@/components/starter/WorryAnswers'
 import SolveLoop from '@/components/starter/SolveLoop'
+import Fold from '@/components/starter/Fold'
+import StickyJoin from '@/components/starter/StickyJoin'
+import WhatYouGet from '@/components/starter/WhatYouGet'
+import KnownProblems from '@/components/starter/KnownProblems'
 import BiggerThanThis from '@/components/starter/BiggerThanThis'
 import { needsHelpFirst } from '@/lib/concerns/risk'
 import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
@@ -296,6 +300,19 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
         <Celebration />
       </div>
+
+      {/* ── THE DOOR, ALWAYS ON SCREEN ────────────────────────────────────
+          The page was 9899px at 390 wide and the only way in was at the bottom
+          of all of it, so a parent sold on screen three had nowhere to say yes.
+          This is worth more than every word cut elsewhere on the page. It waits
+          until they are past the first section, because a buy button over their
+          own child's name reads as a shop rather than an answer, and it hides
+          again at the foot where the real card is. See StickyJoin. */}
+      <StickyJoin
+        href={enterHref}
+        label={needsConfirm ? 'Check your email' : 'Finish setting up'}
+        note="Free for four days. No card."
+      />
       {/* How far down the page they are, a hairline under the status bar. */}
       <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 3, zIndex: 60, pointerEvents: 'none' }} aria-hidden>
         <div ref={progressRef} style={{ height: '100%', background: 'var(--terracotta)', transform: 'scaleX(0)', transformOrigin: 'left' }} />
@@ -332,7 +349,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <p className="wow-fu" style={{ ...LEAD, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0 }}>
             {helpFirst
               ? 'You told us what is going wrong. Please read the box below first.'
-              : 'You told us what is going wrong. Here is what we do about each one, and what you can do tonight. Scroll, or skip straight in.'}
+              : 'Here is what we do about each one, and what you can do tonight.'}
           </p>
         </div>
       </div>
@@ -385,7 +402,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               the chips underneath every card actually mean, which is the one
               thing a first time reader cannot guess. */}
           <p className="wow-fu" style={{ ...LEAD, marginBottom: 18 }}>
-            Every worry is picked up by the same few things: the daily check in, the scripts, the moments it shows up in, DiGi when you need to ask, the device time, their own app, the lessons, and your record of how it went.
+            {/* Eight things named in prose, when every card below draws the
+                ones that pick up THAT worry as chips a parent can see at a
+                glance. A list you have to hold in your head to use it. */}
+            Every worry below is picked up by the same few things, drawn on each card.
           </p>
 
           {/* The roll call, in butter rather than the old black card. */}
@@ -402,7 +422,10 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 these are ordinary, and that none of it means you are late. */}
             <div style={{ ...EYEBROW, marginBottom: 7 }}>You told us</div>
             <p style={{ ...BODY, color: 'var(--ink)', margin: 0 }}>
-              {rollCall.length > 1 ? `${rollCall.length} things` : 'One thing'}, at ages {ages}. {rollCall.length > 1 ? 'These are among' : 'This is one of'} the most common things parents raise, and there is a clear first step for {rollCall.length > 1 ? 'each one' : 'it'}. It is not a sign you are behind.
+              {/* The card under this one now says the same reassurance with
+                  other parents' numbers behind it, which is worth more than us
+                  saying it. This keeps the count and the age and stops. */}
+              {rollCall.length > 1 ? `${rollCall.length} things` : 'One thing'}, at ages {ages}. Not a sign you are behind.
             </p>
           </div>
 
@@ -412,6 +435,21 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               reach a phone number. When the gate fires it goes to the very
               top, above the heading. */}
           <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} tonight={action} helpFirst={helpFirst} />
+
+          {/* ── THE OTHER PARENTS ──────────────────────────────────────────
+              Justin, 10 September 2026: "I love the problem shown, also add
+              known problem for our known ideal customer."
+
+              Straight after their own worries, and before we say one word about
+              ourselves. Every line is from THE-STORY section 2, mined from
+              Mumsnet, app store reviews and UK surveys. It makes no claim about
+              the product at all: it is the moment a parent stops bracing,
+              because the page has just told them the thing they are ashamed of
+              is the normal thing. */}
+          <div className="wow-fu" style={{ marginTop: 20 }}>
+            <KnownProblems />
+          </div>
+
           {!helpFirst && <BiggerThanThis kid={kid} />}
         </section>
 
@@ -420,13 +458,24 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <div className="wow-fu" style={EYEBROW}>How it works</div>
           <Problem>Taking the device away works for one evening. The row is worse the next.</Problem>
           <h2 className="wow-fu" style={H2}>Not another blocking app. A plan you follow together.</h2>
+          {/* ONE SENTENCE VISIBLE, the rest one tap in. The four beats and the
+              five minutes card are the reasoning a careful parent wants before
+              they hand over a card, and printing all of it here is why a parent
+              sold on screen three still had nine screens to go. See Fold. */}
           <p className="wow-fu" style={LEAD}>
-            Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round. Five minutes a day, and you can catch up on any day you miss.
+            Five minutes a day, and you can catch up on any day you miss.
           </p>
-          <SolveLoop />
-          <div className="wow-fu" style={{ marginTop: 22, background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '16px 18px' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
-            <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
+          <div className="wow-fu">
+            <Fold label="What the five minutes actually is" tone="card">
+              <p style={{ ...BODY, fontSize: 'var(--text-base)', margin: '0 0 14px' }}>
+                Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round.
+              </p>
+              <SolveLoop />
+              <div style={{ marginTop: 18, background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 15px' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
+                <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
+              </div>
+            </Fold>
           </div>
         </section>
 
@@ -479,13 +528,22 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 to this age at all. Naming that is not a weakness, it is the
                 difference between a claim a paediatrician would accept and one
                 they would take apart. */}
-            <p style={{ ...BODY, color: 'var(--ink-soft)', marginTop: 10, marginBottom: 0 }}>
-              A starting point, not a safe limit. The RCPCH looked at the evidence in 2019 and decided there was not enough of it to set one, and the American Academy of Pediatrics dropped its old rule for this age in favour of a family plan, which is what this is. What the evidence is clearer about is sleep, meals and time outside, which is why those are the parts nobody can buy.
-            </p>
+            {/* Folded, never cut. This paragraph is the difference between a
+                claim a paediatrician would accept and one they would take
+                apart, and the parent who wants it is the parent who will press
+                for it. The "starting point, not a safe limit" line stays on the
+                number itself above, where a scanning reader cannot miss it. */}
+            <Fold label="Where that number comes from">
+              <p style={{ ...BODY, color: 'var(--ink-soft)', margin: 0 }}>
+                The RCPCH looked at the evidence in 2019 and decided there was not enough of it to set a limit, and the American Academy of Pediatrics dropped its old rule for this age in favour of a family plan, which is what this is. What the evidence is clearer about is sleep, meals and time outside, which is why those are the parts nobody can buy.
+              </p>
+            </Fold>
           </div>
 
-          <div className="wow-fu" style={{ marginTop: 22 }}><MockJars /></div>
-          <div className="wow-fu" style={{ display: 'grid', gap: 16, marginTop: 22 }}>
+          <div className="wow-fu" style={{ marginTop: 18 }}><MockJars /></div>
+          <div className="wow-fu" style={{ marginTop: 14 }}>
+          <Fold label="How the time works, and what it will not do" tone="card">
+          <div style={{ display: 'grid', gap: 16 }}>
             {/* ── NOT "EARN YOUR SCREEN TIME" ───────────────────────────────
                 The 9 September research briefing is blunt about this: the
                 mechanic is fine, the word is not. "Earn your screen time"
@@ -511,9 +569,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               up front and buys anyway is the one this product is for. It is
               also a genuine advantage, and the paragraph says so rather than
               apologising. */}
-          <div className="wow-fu" style={{
+          <div style={{
             background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
-            borderRadius: 18, padding: '16px 18px', marginTop: 22,
+            borderRadius: 18, padding: '16px 18px', marginTop: 18,
           }}>
             <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
             <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 14px' }}>
@@ -537,6 +595,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             <p style={{ ...BODY, color: 'var(--ink)', margin: '14px 0 0' }}>
               Because {they} tells us, this works when you are working with them rather than around them. If you think a device is being used secretly at night, that is a different problem, and taking it out of the bedroom will do more than any app.
             </p>
+          </div>
+          </Fold>
           </div>
 
         </section>
@@ -562,13 +622,26 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <Problem>All of this is done TO {they} rather than with them, so nothing sticks once you are not in the room.</Problem>
           <h2 className="wow-fu" style={H2}>{kid ? `${kid} gets their own app, and it grows with them.` : 'Your child gets their own app, and it grows with them.'}</h2>
           <p className="wow-fu" style={LEAD}>
-            A link, no login, no account, and nothing buzzes their phone at night. It is where the jobs, the stars and the lessons live, and it teaches social media before social media arrives.
+            A link, no login, and nothing buzzes their phone at night.
           </p>
           <div className="wow-fu"><MockKidApp kid={kid || 'My'} /></div>
-          <div className="wow-fu" style={{ display: 'grid', gap: 16, marginTop: 22 }}>
-            <Point icon="lesson" title="Lessons that teach it before it arrives">The algorithm, group chats, strangers, passwords, what a screen does to a mood. Short, at the kitchen table, with a buddy they choose.</Point>
-            <Point icon="kidapp" title="Five a day">A job, a lesson, time outside, a read, a kind thing. Ticked on the app or on paper. A full day earns a Planet Friend.</Point>
-            <Point icon="passport" title="Printables and the paper chart">For the days with no device at all. The bucket list, the balance wheel, phones go to bed. Printed from any phone.</Point>
+
+          {/* ── EVERYTHING ELSE, AS ICONS ──────────────────────────────────
+              Justin, 10 September 2026: "just make the other information after
+              that a collection of happy news design icons so we can shrink the
+              scroll and too much text ... they can all live under icons ...
+              we've got you, not another blocking app, our philosophy, all in
+              pretty happy news icons."
+
+              This was three long Points here and, further down the page, three
+              more sections doing the same job. Ten headings is ten screens
+              whatever the words say. Stake's plan grid is the shape: two up,
+              an icon, a bold line, one line under it, detail on tap. A parent
+              scanning ten tiles has seen the whole product in two screens,
+              which is the thing ten sections cannot do however well each one is
+              written. See WhatYouGet. */}
+          <div className="wow-fu" style={{ marginTop: 26 }}>
+            <WhatYouGet childName={kid} />
           </div>
 
           {/* The road, compact. It used to be a section with its own heading,
@@ -579,7 +652,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             One road, from 4 to 16.
           </h3>
           <p className="wow-fu" style={{ ...BODY, marginBottom: 14 }}>
-            Stage {stage.id} is where you start, not where it ends. Each stage meets the problems of that age before they arrive, so sixteen is a step and not a cliff edge. The under 16 social media law changes the timing, not the plan.
+            Stage {stage.id} is where you start, not where it ends.
           </p>
           <div className="wow-fu" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 5px 0 var(--ink)', overflow: 'hidden' }}>
             {STAGES.map((s, i) => {

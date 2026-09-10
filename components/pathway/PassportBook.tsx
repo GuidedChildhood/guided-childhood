@@ -1031,6 +1031,11 @@ export default function PassportBook({
           says what is on the other side of it: a bound booklet with its sticker
           sheet, posted. Print it read like a browser command, as though the
           parent were about to send the page to a printer in the next room. */}
+      {/* NEVER TO A CHILD. Everything else below the book is navigation inside
+          their own passport, which is fine for either reader. This is a shop,
+          and a shop link on a child's screen is the one thing on this page that
+          could only ever be a mistake. */}
+      {!readOnly && (
       <Link
         href="/dashboard/keepsakes#p-passport_printed"
         style={{
@@ -1047,6 +1052,7 @@ export default function PassportBook({
         <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🛂</span>
         Order a passport here
       </Link>
+      )}
 
       {allEarned && (
         <div style={{

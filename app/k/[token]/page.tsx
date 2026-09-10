@@ -18,6 +18,16 @@ import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
+import { buildPassportSections } from '@/lib/pathway/passport-sections'
+import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
+import type { Stamp as PassportStamp } from '@/components/pathway/PassportStamps'
+
+// The five stages, in order, so the child's read only book prints the same
+// spine the parent's does. Named here rather than imported because the parent
+// page builds them inline too and there is no shared list yet.
+const STAGE_ORDER: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
+const STAGE_TITLES = ['Foundation', 'Builder', 'Explorer', 'Shaper', 'Independent']
+const STAGE_AGES = ['4 to 7', '8 to 10', '11 to 13', '13 to 15', '16 plus']
 import { starWeekStart } from '@/lib/quests/star-week'
 import KidQuestScreen from './KidQuestScreen'
 import { tierFor } from '@/lib/planet/logic'
@@ -629,6 +639,55 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     jobStreaks = count ?? 0
   } catch { jobStreaks = 0 }
 
+  // ── THE BOOK THE GROWN UPS KEEP, FOR THE CHILD TO LOOK AT ─────────────────
+  //
+  // Justin, 10 September 2026, choosing between now and later for the child's
+  // read only view: "2 now".
+  //
+  // Until today the child had a sticker book and the parent had a passport, two
+  // different objects with the same name on the cover. This is the real one,
+  // read only, so a child can see what their family is actually working on.
+  //
+  // The slots draw a mark and one word each and never the detail, so the child
+  // sees that the moments slot is not filled in and never what an adult wrote in
+  // it. See the book prop on KidPassport for why that line is where it is.
+  //
+  // Fails soft to null throughout. This decorates a screen a child opens every
+  // day, and a passport query that times out must never take that screen down.
+  let kidBook: { stamps: PassportStamp[]; currentStage: number | null } | null = null
+  try {
+    // 0 streak weeks: the streak feeds the parent's daily habit row, and the
+    // child's book only draws the slots, so counting it would cost a query for
+    // a number nothing here renders. childId scopes the lessons to THIS child
+    // rather than the family, which is what a passport with their name on it
+    // has to mean in a house with two children.
+    const allProgress = await getAllStagesProgress(supabase, link.user_id, 0, link.child_id)
+    const built = await buildPassportSections(
+      supabase, link.user_id,
+      { id: link.child_id, age_band: ageBand ?? null },
+      allProgress, stageId,
+      { openMoments: 0, solvedMoments: 0, parentReport: null },
+    )
+    const stamps: PassportStamp[] = STAGE_ORDER.map((slug, i) => {
+      const id = i + 1
+      const prog = allProgress?.[slug]
+      const built1 = built[id]
+      const pct = built1?.blended ?? 0
+      return {
+        id,
+        name: STAGE_TITLES[i],
+        ages: STAGE_AGES[i],
+        pct,
+        status: pct >= 100 ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
+        href: '#',
+        lessonsDone: prog?.lessonsDone ?? 0,
+        lessonsTotal: prog?.lessonsTotal ?? 0,
+        sections: built1?.sections,
+      }
+    })
+    if (stamps.some(st => (st.sections?.length ?? 0) > 0)) kidBook = { stamps, currentStage: stageId }
+  } catch { kidBook = null }
+
   // One completed day, one streak. Fails soft before migration 134.
   let completedDays = 0
   try {
@@ -768,6 +827,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       buddy={(childRes.data?.buddy as string | null) ?? null}
       accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}
+      kidBook={kidBook}
       quests={dueQuests}
       todayTicks={todayTicks}
       weekStars={weekStars}

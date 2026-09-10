@@ -92,6 +92,7 @@ import KidSheetOverlay, { type OverlaySheet } from '@/components/kid/KidSheetOve
 import KidPrintables from '@/components/kid/KidPrintables'
 import { tickPrintableStep } from '@/lib/kid/print-anywhere'
 import { printPack } from '@/lib/kid/print-sheet'
+import type { Stamp as KidBookStamp } from '@/components/pathway/PassportStamps'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
@@ -104,7 +105,7 @@ export default function KidQuestScreen({
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
-  fiveADayInitial = null, passportCode = null, planetTier = null,
+  fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
 }: {
   /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
   planetTier?: 1 | 2 | 3 | null
@@ -113,6 +114,9 @@ export default function KidQuestScreen({
   // The public passport number on the child's own book (migration 227). Not
   // the kid link token, which stays secret and unrendered.
   passportCode?: string | null
+  /** The real book, read only, for the passport takeover. Null when it could
+   *  not be built, and the takeover is the sticker book alone. */
+  kidBook?: { stamps: KidBookStamp[]; currentStage: number | null } | null
   // How many Planet Friends this child has earned, the further of the passport
   // stages and the streak unlock, so the picker only offers earned Friends.
   earnedStages?: number
@@ -1931,6 +1935,7 @@ export default function KidQuestScreen({
             celebrateStickers={celebrateStickers}
             passportCode={passportCode}
             stageId={stageId}
+            book={kidBook}
           />
         )}
 
