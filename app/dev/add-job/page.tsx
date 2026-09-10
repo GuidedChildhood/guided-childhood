@@ -2,11 +2,18 @@
 
 import { useEffect, useState } from 'react'
 import JobPicker, { type PickerJob } from '@/components/quests/JobPicker'
+import JobComposer from '@/components/quests/JobComposer'
 
-// The job picker on its own, with fixture data, so it can be screenshotted
-// and tapped through without a parent session. ?age=4-7 picks the stage,
-// ?app=0 shows the no app wording, ?fail=1 makes every add fail. The query
-// is read after mount so the first client paint matches the server's.
+// The add a job screen, with fixture data, so it can be screenshotted and
+// tapped through without a parent session. ?age=4-7 picks the stage, ?app=0
+// shows the no app wording, ?fail=1 makes every add fail. The query is read
+// after mount so the first client paint matches the server's.
+//
+// The COMPOSER is here too, not just the picker. Justin's complaint on
+// 10 September 2026 was about the page, and the page is the composer and the
+// picker stacked: measuring the picker alone would have missed the thirty one
+// word help sentence sitting above it, which was the single longest block of
+// text on the screen.
 export default function DevAddJob() {
   const [age, setAge] = useState('8-10')
   const [hasApp, setHasApp] = useState(true)
@@ -36,6 +43,15 @@ export default function DevAddJob() {
         <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 14px' }}>
           Alfie&apos;s jobs
         </h1>
+        <section style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '18px 14px 16px', marginBottom: 18 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>Add a job</h2>
+          <JobComposer
+            countToday={board.length}
+            placeholder="Feed the dog, violin"
+            help="Worth one star. You pick how often next."
+            onAdd={t => setLog(l => [...l, `typed: ${t}`])}
+          />
+        </section>
         <JobPicker
           childName="Alfie"
           ageBand={age}

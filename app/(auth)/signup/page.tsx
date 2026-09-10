@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -33,10 +33,15 @@ export default function SignupPage() {
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()
     if (password.length < 8) { setError('Password must be at least 8 characters.'); return }
-    setLoading(true)
     setError('')
     setAlreadyRegistered(false)
 
+    // Same guard as the login form and the starter pack. A build without the
+    // NEXT_PUBLIC variables points at a domain that does not exist, and nothing
+    // anyone types can fix that.
+    if (!isSupabaseConfigured()) { setError(NOT_CONFIGURED_MESSAGE); return }
+
+    setLoading(true)
     const supabase = createClient()
 
     const { error: signupError } = await supabase.auth.signUp({
@@ -54,7 +59,8 @@ export default function SignupPage() {
         setLoading(false)
         return
       }
-      setError(signupError.message)
+      // A fetch that never landed is not an answer about this email address.
+      setError(networkAuthMessage(signupError.message) ?? signupError.message)
       setLoading(false)
       return
     }

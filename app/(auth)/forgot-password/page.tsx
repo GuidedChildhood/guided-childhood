@@ -1,20 +1,42 @@
 'use client'
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   async function handleReset(e: React.FormEvent) {
     e.preventDefault()
+    setError('')
+
+    // THIS ONE SAID "CHECK YOUR INBOX" WHATEVER HAPPENED.
+    //
+    // The result of resetPasswordForEmail was thrown away, so a parent locked
+    // out of a deployment that cannot reach the database was told a mail was on
+    // its way and then waited for it. Not sending is bad; saying you sent it is
+    // worse, because it takes away the one clue that something is wrong.
+    //
+    // A real Supabase reply is still swallowed on purpose: telling a stranger
+    // whether an address has an account is an account enumeration hole, and
+    // "check your inbox" is the right answer to a valid request either way. It
+    // is only a failure to ASK that has to be told the truth.
+    if (!isSupabaseConfigured()) { setError(NOT_CONFIGURED_MESSAGE); return }
+
     setLoading(true)
     const supabase = createClient()
-    await supabase.auth.resetPasswordForEmail(email, {
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/callback?next=/dashboard/settings`,
     })
+    const offline = networkAuthMessage(resetError?.message)
+    if (offline) {
+      setError(offline)
+      setLoading(false)
+      return
+    }
     setSent(true)
     setLoading(false)
   }
@@ -49,6 +71,12 @@ export default function ForgotPasswordPage() {
                   {loading ? 'Sending...' : 'Send reset link'}
                 </button>
               </form>
+
+              {error && (
+                <p style={{ color: 'var(--terracotta-dark)', fontSize: 'var(--text-sm)', lineHeight: 1.5, marginTop: '14px', textAlign: 'center' }}>
+                  {error}
+                </p>
+              )}
 
               <div style={{ marginTop: '20px', textAlign: 'center' }}>
                 <Link href="/login" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>

@@ -160,7 +160,6 @@ export default function JobPicker({
   )
 
   const shown = kind === 'all' ? best : best.filter(j => j.kind === kind)
-  const onBoardCount = best.filter(j => boardSet.has(j.title.toLowerCase())).length
 
   async function add(job: RowJob) {
     const key = job.title
@@ -196,7 +195,7 @@ export default function JobPicker({
     // Named days read back as the days, not as the category. A parent who has
     // ticked Tuesday should see Tuesday.
     const whenSummary = chosen === 'days'
-      ? (rowDays.length ? capitalise(scheduleLabel('daily', rowDays)) : 'Pick the days')
+      ? (rowDays.length ? capitalise(scheduleLabel('daily', rowDays)) : 'Pick days')
       : WHEN_LABEL[chosen]
     const open = openRow === key && !done
     return (
@@ -205,151 +204,158 @@ export default function JobPicker({
         style={{
           background: done ? 'var(--tint-sage)' : '#fff',
           border: '2px solid var(--ink)',
-          borderRadius: 18, padding: '10px 11px',
+          borderRadius: 16, padding: '7px 8px',
           boxShadow: done ? 'none' : '0 4px 0 var(--ink)',
           transition: 'background 0.25s ease, box-shadow 0.25s ease',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
-          {/* The tile: the child app's rounded square, tinted by kind. Tap
-              the tile or the words to open the repeat chips; the plus is the
-              only thing that adds. */}
-          <button
-            type="button"
-            onClick={() => !done && setOpenRow(open ? null : key)}
-            aria-expanded={open}
-            aria-label={done ? job.title : `${job.title}, change how often`}
-            style={{
-              flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 12,
-              background: 'none', border: 'none', padding: 0, textAlign: 'left',
-              cursor: done ? 'default' : 'pointer', fontFamily: 'var(--font-body)',
-            }}
-          >
-            <span aria-hidden style={{
-              flexShrink: 0, width: 50, height: 50, borderRadius: 15,
-              background: done ? '#fff' : tint.bg, border: `1.5px solid ${done ? '#CFE0D8' : tint.border}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 25, lineHeight: 1,
-              animation: justAdded ? 'gcJobTilePop 0.45s cubic-bezier(0.22,1.2,0.36,1)' : undefined,
-            }}>
-              {job.emoji}
-            </span>
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{
-                display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25,
-                overflowWrap: 'anywhere',
-              }}>
-                {job.title}
-              </span>
-              {done ? (
-                <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--retro-green-dark)', lineHeight: 1.4, marginTop: 2 }}>
-                  {already ? 'On the board already' : hasApp ? `Sent to ${name}'s app ✓` : `On ${name}'s board ✓`}
-                </span>
-              ) : (
-                <>
-                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
-                    {job.why}
-                  </span>
-                  {/* ── SAY THAT IT IS SET, AND THAT TAPPING CHANGES IT ──
-                      Justin, 10 September 2026: "here where it says every day
-                      maybe we should be clearer that it's set as every day but
-                      change here."
-
-                      It read "EVERY DAY · CHANGE", and both halves look like
-                      options rather than a state and an action: a parent can
-                      reasonably read it as a choice between every day and
-                      changing. "Set to" makes the first half a fact and "tap to
-                      change" is a verb phrase that cannot be misread as one.
-
-                      The pick the days prompt is already an instruction, so it
-                      takes neither: telling someone to tap to change a thing
-                      they have not set yet is a sentence about nothing. */}
-                  <span style={{ ...EYEBROW, display: 'block', letterSpacing: '0.06em', color: open ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 5 }}>
-                    {whenSummary === 'Pick the days'
-                      ? whenSummary
-                      : <>Set to {whenSummary}{open ? '' : ' · tap to change'}</>}
-                  </span>
-                </>
-              )}
-            </span>
-          </button>
-
-          {/* The value over the plus, GoHenry's column: what it pays, then
-              the button that adds it. Butter with the house shadow while it
-              is a plus, the retro green with a tick once it has landed, so a
-              parent adding four in a row can see each one arrive. */}
-          <span style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-            {!done && (
-              <span style={{
-                ...EYEBROW, letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
-                background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)',
-                borderRadius: 100, padding: '2px 8px', whiteSpace: 'nowrap',
-              }}>
-                ⭐ {job.stars}
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => add(job)}
-              disabled={done || st === 'adding' || busy}
-              aria-label={done ? `${job.title} added` : st === 'failed' ? `Try adding ${job.title} again` : `Add ${job.title}`}
-              style={{
-                width: 44, height: 44, borderRadius: '50%',
-                border: '2px solid var(--ink)', cursor: done ? 'default' : 'pointer',
-                background: done ? 'var(--retro-green)' : st === 'failed' ? 'var(--danger-bg)' : 'var(--terracotta)',
-                color: done ? '#fff' : st === 'failed' ? 'var(--danger)' : 'var(--ink)',
-                boxShadow: done ? 'none' : st === 'failed' ? '0 3px 0 var(--danger-border)' : '0 4px 0 var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: st === 'adding' ? 'var(--text-sm)' : 'var(--text-xl)',
-                lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'background 0.2s ease, transform 0.12s ease',
-                transform: st === 'adding' ? 'translateY(3px)' : 'none',
-                opacity: busy && !done ? 0.7 : 1,
-              }}
-            >
-              {done ? '✓' : st === 'adding' ? '…' : st === 'failed' ? '↻' : '+'}
-            </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {/* The tile: the child app's rounded square, tinted by kind. */}
+          <span aria-hidden style={{
+            flexShrink: 0, width: 40, height: 40, borderRadius: 12,
+            background: done ? '#fff' : tint.bg, border: `1.5px solid ${done ? '#CFE0D8' : tint.border}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 21, lineHeight: 1,
+            animation: justAdded ? 'gcJobTilePop 0.45s cubic-bezier(0.22,1.2,0.36,1)' : undefined,
+          }}>
+            {job.emoji}
           </span>
-        </div>
 
-        {/* The repeat chips, inline, only when asked for. One tap on the plus
-            takes the job's own repeat; this is for the parent who wants it
-            on weekends instead, without a wizard in the way. */}
-        {open && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8, marginTop: 10 }}>
-            {WHEN.map(w => {
-              const on = w.key === chosen
-              return (
+          {/* TWO SHORT LINES, NOT FIVE.
+              Justin, 10 September 2026: the page "seems to have too much text
+              please don't stop redesigning until super focussed on user easy to
+              add".
+
+              Every row carried its title, then a three line reason, then
+              "SET TO SCHOOL DAYS · TAP TO CHANGE" on two more. Fifteen of them
+              made a 3554px page to add one job. Greenlight, Finch, Liven and
+              Me+ all do this same screen and all agree on one line per row with
+              no explanation on it at all: the plus explains itself.
+
+              So the reason moves into the open row, beside the repeat chips it
+              belongs with. Nothing is deleted. It is one tap in rather than
+              printed fifteen times down a phone. */}
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{
+              display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+              fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.2,
+              letterSpacing: '-0.01em', overflowWrap: 'anywhere',
+            }}>
+              {job.title}
+            </span>
+            {done ? (
+              <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--retro-green-dark)', lineHeight: 1.35, marginTop: 2 }}>
+                {already ? 'On the board already' : hasApp ? `Sent to ${name}'s app ✓` : `On ${name}'s board ✓`}
+              </span>
+            ) : (
+              <span style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 4 }}>
+                <span style={{ ...EYEBROW, letterSpacing: '0.04em', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                  ⭐ {job.stars}
+                </span>
+                {/* ── THE REPEAT AS A CONTROL, NOT AS AN INSTRUCTION ──
+                    Justin, earlier the same day: "here where it says every day
+                    maybe we should be clearer that it's set as every day but
+                    change here." It read "EVERY DAY · CHANGE" and both halves
+                    looked like options.
+
+                    The fix was "Set to Every day · tap to change", which is
+                    unambiguous and is also seven words on every row. A pill
+                    carrying the current value with a caret says the same two
+                    things in two: this is what it is set to, and this is the
+                    thing you press. Me+ does exactly this. */}
                 <button
-                  key={w.key}
                   type="button"
-                  aria-pressed={on}
-                  onClick={() => setWhen(s => ({ ...s, [key]: w.key }))}
+                  onClick={() => setOpenRow(open ? null : key)}
+                  aria-expanded={open}
+                  aria-label={`${job.title}, repeats ${whenSummary}. Change how often`}
                   style={{
-                    cursor: 'pointer', borderRadius: 100, padding: '9px 10px',
-                    fontFamily: 'var(--font-display)', fontWeight: on ? 800 : 700, fontSize: 'var(--text-base)',
-                    color: 'var(--ink)', textAlign: 'center',
-                    background: on ? 'var(--terracotta)' : '#fff',
-                    border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
-                    boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : '0 1px 0 var(--border)',
+                    ...EYEBROW, letterSpacing: '0.04em', minWidth: 0,
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    // Ink on butter, never white on butter. The house gold is
+                    // a light colour: white on it measures 2.6 to 1, which is
+                    // below every bar there is. Ink on it is the same pairing
+                    // the chosen chip below uses, so open and chosen match.
+                    color: open ? 'var(--ink)' : 'var(--ink-soft)',
+                    background: open ? 'var(--terracotta)' : '#fff',
+                    border: `1.5px solid ${open ? 'var(--terracotta-dark)' : 'var(--border)'}`,
+                    borderRadius: 100, padding: '3px 8px', cursor: 'pointer',
+                    textAlign: 'left', overflowWrap: 'anywhere',
                   }}
                 >
-                  {w.label}
+                  {whenSummary}
+                  <span aria-hidden style={{ flexShrink: 0, fontSize: 9 }}>{open ? '▴' : '▾'}</span>
                 </button>
-              )
-            })}
-            {chosen === 'days' && (
-              <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 7, marginTop: 2 }}>
-                <DayPicker
-                  days={rowDays}
-                  onChange={d => setDays(s => ({ ...s, [key]: d }))}
-                  idPrefix={`${key}-`}
-                />
-                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
-                  {rowDays.length ? `Due ${scheduleLabel('daily', rowDays)}.` : 'Tap the days it happens on.'}
-                </span>
-              </div>
+              </span>
             )}
+          </span>
+
+          {/* The one thing that adds. Butter with the house shadow while it is
+              a plus, retro green with a tick once it has landed, so a parent
+              adding four in a row can see each one arrive. */}
+          <button
+            type="button"
+            onClick={() => add(job)}
+            disabled={done || st === 'adding' || busy}
+            aria-label={done ? `${job.title} added` : st === 'failed' ? `Try adding ${job.title} again` : `Add ${job.title}`}
+            style={{
+              flexShrink: 0, width: 40, height: 40, borderRadius: '50%',
+              border: '2px solid var(--ink)', cursor: done ? 'default' : 'pointer',
+              background: done ? 'var(--retro-green)' : st === 'failed' ? 'var(--danger-bg)' : 'var(--terracotta)',
+              color: done ? '#fff' : st === 'failed' ? 'var(--danger)' : 'var(--ink)',
+              boxShadow: done ? 'none' : st === 'failed' ? '0 3px 0 var(--danger-border)' : '0 4px 0 var(--ink)',
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: st === 'adding' ? 'var(--text-sm)' : 'var(--text-xl)',
+              lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.2s ease, transform 0.12s ease',
+              transform: st === 'adding' ? 'translateY(3px)' : 'none',
+              opacity: busy && !done ? 0.7 : 1,
+            }}
+          >
+            {done ? '✓' : st === 'adding' ? '…' : st === 'failed' ? '↻' : '+'}
+          </button>
+        </div>
+
+        {/* Open: why this one is worth a star at this age, then the repeat
+            chips. The reason lives here now rather than on every closed row. */}
+        {open && (
+          <div style={{ marginTop: 9 }}>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+              {job.why}
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 7 }}>
+              {WHEN.map(w => {
+                const on = w.key === chosen
+                return (
+                  <button
+                    key={w.key}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setWhen(s => ({ ...s, [key]: w.key }))}
+                    style={{
+                      cursor: 'pointer', borderRadius: 100, padding: '9px 10px',
+                      fontFamily: 'var(--font-display)', fontWeight: on ? 800 : 700, fontSize: 'var(--text-base)',
+                      color: 'var(--ink)', textAlign: 'center',
+                      background: on ? 'var(--terracotta)' : '#fff',
+                      border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
+                      boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : '0 1px 0 var(--border)',
+                    }}
+                  >
+                    {w.label}
+                  </button>
+                )
+              })}
+              {chosen === 'days' && (
+                <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 7, marginTop: 2 }}>
+                  <DayPicker
+                    days={rowDays}
+                    onChange={d => setDays(s => ({ ...s, [key]: d }))}
+                    idPrefix={`${key}-`}
+                  />
+                  <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+                    {rowDays.length ? `Due ${scheduleLabel('daily', rowDays)}.` : 'Tap the days it happens on.'}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         )}
         {st === 'failed' && (
@@ -388,7 +394,7 @@ export default function JobPicker({
   )
 
   return (
-    <section style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '18px 14px 16px', marginBottom: 18 }}>
+    <section style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '15px 10px 13px', marginBottom: 18 }}>
       <style>{`
         @keyframes gcJobTilePop { 0% { transform: scale(1) } 45% { transform: scale(1.14) rotate(-3deg) } 100% { transform: scale(1) } }
         @media (prefers-reduced-motion: reduce) { .gc-job-picker * { animation: none !important; transition: none !important } }
@@ -396,10 +402,10 @@ export default function JobPicker({
       <div className="gc-job-picker">
         {/* The header: the child's Planet Friend in the happy news ring, the
             way the child app delivers good news, saying whose picks these are. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 13, marginBottom: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
           {friend && (
             <span aria-hidden style={{
-              flexShrink: 0, width: 58, height: 58, borderRadius: '50%', overflow: 'hidden',
+              flexShrink: 0, width: 46, height: 46, borderRadius: '50%', overflow: 'hidden',
               background: '#FFF7E8', border: `3px solid ${friend.colour}`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
@@ -414,9 +420,12 @@ export default function JobPicker({
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
               Best jobs for {name}
             </span>
+            {/* ONE SHORT LINE. It was two: the ranking explained, the tap
+                explained, and the already in count. The ranking is visible in
+                the order, the count is on the rows themselves in green, and
+                the only thing a parent cannot see is where the job goes. */}
             <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
-              In order of most useful at this age. Tap + and it is on {hasApp ? 'their app' : 'their board'}.
-              {onBoardCount > 0 && ` ${onBoardCount} of these ${onBoardCount === 1 ? 'is' : 'are'} in already.`}
+              Tap + and it lands on {hasApp ? 'their app' : 'their board'}.
             </span>
           </span>
         </div>
@@ -424,13 +433,25 @@ export default function JobPicker({
         {/* Used before, as the same rows, so nothing on this screen is a chip. */}
         {prev.length > 0 && (
           <div style={{ marginBottom: 16 }}>
-            {sectionLabel('You have used these before')}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {sectionLabel('Used before')}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {(allPrevious ? prev : prev.slice(0, 3)).map(row)}
             </div>
+            {/* A bordered pill, not a bare orange label. Set in the same mono
+                caps as the section heading above it, a plain span of words
+                reads as another heading rather than as the thing you press. */}
             {prev.length > 3 && (
-              <button type="button" onClick={() => setAllPrevious(v => !v)} style={{ ...EYEBROW, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--terracotta)', padding: '8px 4px 0' }}>
+              <button
+                type="button"
+                onClick={() => setAllPrevious(v => !v)}
+                style={{
+                  ...EYEBROW, letterSpacing: '0.06em', display: 'inline-flex', alignItems: 'center', gap: 5,
+                  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 100,
+                  cursor: 'pointer', color: 'var(--ink-soft)', padding: '5px 11px', marginTop: 7,
+                }}
+              >
                 {allPrevious ? 'Show fewer' : `Show all ${prev.length}`}
+                <span aria-hidden style={{ fontSize: 9 }}>{allPrevious ? '▴' : '▾'}</span>
               </button>
             )}
           </div>
@@ -443,11 +464,11 @@ export default function JobPicker({
           {JOB_KINDS.map(k => kindChip(k.key, k.label))}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
           {shown.map(row)}
           {shown.length === 0 && (
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: '4px 0 0', lineHeight: 1.5 }}>
-              Nothing of that kind in the top picks for this age. More ideas below has the rest.
+              None of that kind up here. More ideas has the rest.
             </p>
           )}
         </div>
@@ -466,11 +487,11 @@ export default function JobPicker({
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}
             >
-              <span>{moreOpen ? 'Fewer ideas' : `More ideas, ${more.length} from the library`}</span>
+              <span>{moreOpen ? 'Fewer ideas' : `More ideas · ${more.length}`}</span>
               <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontWeight: 900 }}>{moreOpen ? '▴' : '▾'}</span>
             </button>
             {moreOpen && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 7 }}>
                 {(kind === 'all' ? more : more.filter(j => j.kind === kind)).map(row)}
               </div>
             )}

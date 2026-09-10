@@ -23,7 +23,9 @@
     "rung-guard": "node scripts/check-rung-truth.mjs",
     "wall-contrast-guard": "node scripts/check-wall-contrast.mjs",
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
-    "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs"
+    "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
+    "picker-guard": "node scripts/check-job-picker.mjs",
+    "auth-guard": "node scripts/check-auth-honesty.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

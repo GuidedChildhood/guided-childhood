@@ -113,6 +113,16 @@ jobs:
       # day. pickDay took a child and a date and nothing else for months, and
       # nothing about that fails a typecheck.
       - run: node --experimental-strip-types scripts/check-day-by-age.mjs
+      # Explanation grows back. The add a job screen carried a reason and a
+      # repeat instruction on every one of fifteen closed rows, which is how a
+      # one tap list became a 3554px page. Each of those lines was added by
+      # somebody being helpful, so nothing but a check keeps them off.
+      - run: node scripts/check-job-picker.mjs
+      # Every way into an account tells the truth about why it failed. The
+      # starter pack showed a new customer the words "Failed to fetch", which is
+      # Chrome's name for a request that died in the browser, and the fault it
+      # was reporting has hit this product before.
+      - run: node scripts/check-auth-honesty.mjs
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs
