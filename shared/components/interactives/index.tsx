@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import DigiCharacter from '../DigiCharacter'
-import { WALL_TOKENS } from '../../wall-scale'
+import { WALL } from '../../wall-scale'
 
 // The interactive layer: the eighth slide type. A lesson row names a
 // component by key and passes config; the code lives here so a new
@@ -12,9 +12,15 @@ import { WALL_TOKENS } from '../../wall-scale'
 // based (projector and touch friendly, no drag), GSAP only, and has a
 // described paper twin in the teacher notes for the no device room.
 
+// --terracotta is the butter FILL: it is right behind dark ink on a button and
+// wrong as ink itself. This eyebrow names what the class is about to do
+// ("Signal meter, tap what you would do") and it measured 1.57:1 on cream,
+// which is not a low contrast label, it is a barely visible one. The dark
+// accent is the token meant for text, and it is the one the classroom variant
+// re-points, so this label follows the wall scale up as well.
 const eyebrow: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)',
+  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
 }
 
 // Checked at animation time so a settings change is honoured immediately.
@@ -215,7 +221,9 @@ function StarBreath({ config }: { config: { seconds?: number } }) {
       <div ref={starRef} style={{ display: 'inline-flex', margin: '10px 0 24px', transformOrigin: 'center' }}>
         <DigiCharacter mood="idle" size={110} />
       </div>
-      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 3.4vw, 1.8rem)', color: 'var(--terracotta)', letterSpacing: '-0.01em' }}>
+      {/* "Breathe in" / "Breathe out": the one word the room is following, so
+          it takes the accent meant for text rather than the button fill. */}
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 3.4vw, 1.8rem)', color: 'var(--terracotta-dark)', letterSpacing: '-0.01em' }}>
         {phase}
       </p>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '6px' }}>
@@ -398,7 +406,17 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
             <span style={{ fontSize: 'var(--text-xl)' }}>😡</span>
             <span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>THEY are lying to you!!</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--coral, #D4600A)', fontWeight: 700 }}>↻ {shares.outrage.toLocaleString()}</span>
+              {/* THE SHARE COUNTS, which are the whole point of the race and
+                  were the two least readable things in the deck. The palette
+                  consolidation aliased --coral-dark to the amber accent and
+                  --green-dark to the butter FILL, so the outrage count read
+                  2.58:1 and the honest count 1.67:1 on white, and the two
+                  sides had quietly become the same colour anyway. Amber and
+                  the deep sky ink are both already in the system, both clear
+                  AAA on white, and they give the race back its two sides.
+                  Named directly rather than through the aliases: an alias
+                  resolves at :root, so the classroom variant cannot reach it. */}
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>↻ {shares.outrage.toLocaleString()}</span>
             </span>
           </div>
         </div>
@@ -407,7 +425,7 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
             <span style={{ fontSize: 'var(--text-xl)' }}>📰</span>
             <span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>Careful, sourced report</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--green-dark, #2E7D5A)', fontWeight: 700 }}>↻ {shares.honest.toLocaleString()}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--stage-2-text)', fontWeight: 700 }}>↻ {shares.honest.toLocaleString()}</span>
             </span>
           </div>
         </div>
@@ -491,16 +509,137 @@ const INTERACTIVES: Record<string, React.ComponentType<{ config: Record<string, 
   'class-tally': ClassTally as React.ComponentType<{ config: Record<string, unknown> }>,
 }
 
-// PROJECTOR. Every widget below sizes from the design tokens, so the wall
-// version is one override of those tokens on the wrapper rather than 41 hand
-// edits: the whole widget scales together and keeps the type ratios its layout
-// depends on. See shared/wall-scale.ts.
+// PROJECTOR, THE SECOND ATTEMPT, and the first one is worth recording because
+// it looked right and was not.
+//
+// Every widget sizes its TYPE from the design tokens, so the wall version was
+// one override of those tokens on this wrapper: 41 font sizes fixed at once,
+// no hand edits, and each widget keeping the type ratios its layout depends
+// on. That much was true. What it missed is that the widgets size their BOXES
+// in pixels, because they were drawn for a phone. Multiplying the text by 2.5
+// and leaving a 170px card at 170px does not make a big card, it makes a card
+// with the words falling out of it. On a 1920 wall the signal meter pushed its
+// fourth option off the bottom of the screen and the spread race clipped both
+// posts mid word. Neither could fail a typecheck and neither showed up in a
+// contrast reading, because the colours were perfect. Only a screenshot found
+// them.
+//
+// So the wall version zooms the whole widget instead. zoom scales the layout
+// AND the space it takes, so every proportion the designer chose survives
+// exactly and there is nothing per widget to keep in sync. The factor is the
+// same 2.5 the token override used, chosen so the body text lands on the 40px
+// ISO 9241 floor (shared/wall-scale.ts).
+//
+// The token override is gone rather than kept alongside: with zoom the text
+// would scale twice.
+// 2.5 is the factor that lands the widget's body text on the 40px ISO 9241
+// floor. It is a CEILING, not a setting, because measuring the six widgets at
+// a flat 2.5 showed three of them running past the bottom of a 1920x1080 wall
+// and all six past a 1366x768 laptop, which is half the teacher laptops in the
+// country. A slide the class has to scroll is a slide that stops.
+const WALL_ZOOM_MAX = 2.5
+
+// FIT THE ROOM, then be as large as the room allows.
+//
+// These widgets are drawn as tall phone layouts, so the honest answer on a wall
+// is not one number. It is: measure the space this slide actually has, measure
+// what the widget naturally needs, and take the largest zoom that still fits.
+//
+// GETTING THE BUDGET, which took three wrong attempts to measure.
+//
+//   - The stage's scrollHeight does NOT give the content height. The column
+//     inside it is flex:1 with justifyContent center, so it stretches to the
+//     full stage whatever it holds: scrollHeight reads exactly clientHeight and
+//     the first version of this solved for a zoom of 1.00 every time.
+//   - offsetHeight ignores zoom entirely. It read 429px at 1.0, at 1.5 and at
+//     2.5, so any arithmetic mixing it with a painted height is wrong.
+//   - getBoundingClientRect() is the painted height, and scrollHeight does tell
+//     the truth once the content actually overflows.
+//
+// So: probe at the ceiling. If the widget fits there, take the ceiling. If it
+// overflows, the overflow says exactly how tall the rest of the slide is, and
+// the rest is fixed, so one division gives the zoom that lands flush.
+function useFitZoom(enabled: boolean) {
+  const box = useRef<HTMLDivElement>(null)
+  const [zoom, setZoom] = useState(1)
+
+  useLayoutEffect(() => {
+    if (!enabled) { setZoom(1); return }
+    const el = box.current
+    if (!el) return
+    let measuring = false
+
+    // Measuring means writing zoom, so the DOM is left wherever the last probe
+    // put it. Every exit writes the answer to the element as well as to state:
+    // when the computed zoom matches the state React does not re-render, and
+    // the element would otherwise keep the probe's value. That is exactly how
+    // this first shipped stuck at the ceiling with the widget hanging off the
+    // bottom of the wall.
+    const apply = (z: number) => {
+      el.style.zoom = String(z)
+      setZoom(z)
+    }
+
+    const fit = () => {
+      if (measuring) return
+      measuring = true
+      try {
+        let stage: HTMLElement | null = el.parentElement
+        while (stage && !['auto', 'scroll'].includes(getComputedStyle(stage).overflowY)) {
+          stage = stage.parentElement
+        }
+        if (!stage) { apply(WALL_ZOOM_MAX); return }
+
+        const paintedAt = (z: number) => {
+          el.style.zoom = String(z)
+          return el.getBoundingClientRect().height
+        }
+        const spill = () => stage.scrollHeight - stage.clientHeight
+
+        // Start at the ceiling and come down until it fits. Everything else on
+        // the slide keeps its height whatever the zoom, so a spill of o painted
+        // pixels means the widget has to lose exactly o: that is one division,
+        // and it would be the whole answer if the widgets did not reflow. They
+        // do (a card that fits on one line at 1.7 wraps to two at 2.5), so this
+        // refines instead of trusting the first division, and it lands within a
+        // pixel or two in three passes.
+        let z = WALL_ZOOM_MAX
+        for (let pass = 0; pass < 4; pass++) {
+          const painted = paintedAt(z)
+          const over = spill()
+          if (over <= 0 || painted <= 0) break
+          // 2px of slack so it lands just under rather than just over.
+          const next = z * ((painted - over - 2) / painted)
+          if (!Number.isFinite(next) || next >= z) break
+          z = Math.max(1, next)
+          if (z <= 1) break
+        }
+        apply(Math.max(1, Math.min(WALL_ZOOM_MAX, z)))
+      } finally {
+        measuring = false
+      }
+    }
+
+    fit()
+    // Content can arrive late (a webfont, an emoji, a widget's own state), and
+    // a budget measured before it lands is the wrong budget.
+    const ro = new ResizeObserver(() => { if (!measuring) fit() })
+    ro.observe(el)
+    if (el.parentElement) ro.observe(el.parentElement)
+    window.addEventListener('resize', fit)
+    return () => { ro.disconnect(); window.removeEventListener('resize', fit) }
+  }, [enabled])
+
+  return { box, zoom }
+}
+
 export default function Interactive({ component, config, caption, projector }: { component: string; config?: Record<string, unknown>; caption?: string; projector?: boolean }) {
   const Comp = INTERACTIVES[component]
-  // The token override rides on the wrapper, so it reaches the fallback path
-  // too. A widget key that arrives ahead of a deploy degrades to its caption,
-  // and that caption is on the same wall as everything else.
-  const wall = projector ? (WALL_TOKENS as React.CSSProperties) : undefined
+  const { box, zoom } = useFitZoom(!!projector)
+  // The zoom rides on the wrapper, so it reaches the fallback path too. A
+  // widget key that arrives ahead of a deploy degrades to its caption, and
+  // that caption is on the same wall as everything else.
+  const wall: React.CSSProperties | undefined = projector ? { zoom } : undefined
 
   if (!Comp) {
     // Unknown key: degrade to the caption so an ahead of deploy database never breaks a lesson.
@@ -509,9 +648,12 @@ export default function Interactive({ component, config, caption, projector }: {
       : null
   }
   return (
-    <div style={wall}>
-      <Comp config={config ?? {}} />
-      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: projector ? '900px' : '420px', margin: '18px auto 0' }}>{caption}</p>}
+    <div>
+      <div ref={box} style={wall}><Comp config={config ?? {}} /></div>
+      {/* The caption stays outside the zoom and takes the player's own wall
+          scale: it is the teacher's instruction to the room, not part of the
+          widget, and it should match every other line of prose on the wall. */}
+      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: projector ? WALL.column : '420px', margin: '18px auto 0' }}>{caption}</p>}
     </div>
   )
 }

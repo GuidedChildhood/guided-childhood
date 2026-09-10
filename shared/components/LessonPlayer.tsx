@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
-import { WALL } from '../wall-scale'
+import { WALL, WALL_CONTRAST } from '../wall-scale'
 import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
@@ -248,7 +248,7 @@ function StatBlock({ slide, projector }: { slide: StatSlide; projector?: boolean
   return (
     <div style={{ textAlign: 'center', padding: '10px 0' }}>
       <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '18px' }}>The evidence</div>
-      <div data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(3.6rem, 11vw, 5.6rem)', color: 'var(--terracotta-dark)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '16px' }}>
+      <div data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: room(projector, WALL.figure, 'clamp(3.6rem, 11vw, 5.6rem)'), color: 'var(--terracotta-dark)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '16px' }}>
         {slide.figure}
       </div>
       <p data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.display, 'clamp(1.15rem, 2.8vw, 1.5rem)'), color: 'var(--ink)', lineHeight: 1.4, maxWidth: room(projector, WALL.column, '480px'), margin: '0 auto 14px' }}>
@@ -280,7 +280,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <div style={{
             width: '40px', height: '40px', borderRadius: '50%', background: 'var(--stage-2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, '3rem', 'var(--text-xl)'), flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, WALL.emojiSmall, 'var(--text-xl)'), flexShrink: 0,
           }}>
             {slide.avatar}
           </div>
@@ -295,7 +295,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         {slide.image && (
           <div style={{
             background: 'var(--stage-2)', borderRadius: '14px', padding: '26px 0',
-            textAlign: 'center', fontSize: room(projector, '86px', '52px'), marginBottom: slide.stats ? '10px' : 0,
+            textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
           }}>
             {slide.image}
           </div>
@@ -377,7 +377,7 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
                 boxShadow: '0 5px 0 var(--terracotta-lt)',
                 marginBottom: last ? 0 : room(projector, '18px', '12px'),
               }}>
-                {step.emoji && <span style={{ fontSize: room(projector, '3.2rem', 'var(--text-2xl)'), flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
+                {step.emoji && <span style={{ fontSize: room(projector, WALL.emojiSmall, 'var(--text-2xl)'), flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.25 }}>{step.title}</div>
                   {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{step.text}</div>}
@@ -418,9 +418,18 @@ function DigiClosingBlock({ slide, projector }: { slide: DigiSlide; projector?: 
 
   useEffect(() => {
     if (!ref.current) return
-    if (prefersReducedMotion()) { setMood('happy'); return }
     const avatar = ref.current.querySelector('[data-digi-avatar]')
     const bubbles = ref.current.querySelectorAll('[data-digi-line]')
+    // The avatar and every line are authored at opacity 0 for the animation to
+    // fade up from. Under reduced motion the animation never runs, so the
+    // early return left the whole closing block invisible: DiGi's three lines
+    // are the last thing every lesson says and a child with the setting on saw
+    // an empty slide. Reduced motion means no movement, not no content.
+    if (prefersReducedMotion()) {
+      gsap.set([avatar, ...bubbles].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
+      setMood('happy')
+      return
+    }
     const tl = gsap.timeline()
     if (avatar) tl.fromTo(avatar, { opacity: 0, scale: 0.4, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(2.2)' })
     tl.fromTo(bubbles, { opacity: 0, y: 14, scale: 0.96 }, {
@@ -637,7 +646,7 @@ function SlideBody({
       // follows, the body settles last. Each piece staggers in.
       return (
         <div style={{ textAlign: 'center' }}>
-          {slide.emoji && <div data-reveal style={{ fontSize: room(projector, 'clamp(3.6rem, 7vw, 5rem)', 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, '22px', '16px'), lineHeight: 1 }}>{slide.emoji}</div>}
+          {slide.emoji && <div data-reveal style={{ fontSize: room(projector, WALL.emoji, 'clamp(2.6rem, 6vw, 3.4rem)'), marginBottom: room(projector, 'clamp(10px, 2vh, 22px)', '16px'), lineHeight: 1 }}>{slide.emoji}</div>}
           <h2 data-reveal style={{
             fontFamily: 'var(--font-display)', fontSize: room(projector, WALL.display, 'clamp(1.7rem, 5.5vw, 2.4rem)'),
             fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: room(projector, '24px', '18px'),
@@ -1328,7 +1337,11 @@ export default function LessonPlayer({
             onClick={advance}
             disabled={!canContinue}
             className="btn btn-gold"
-            style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : 0.45 }}
+            // 0.45 fades the text AND the butter together, which on a wall
+            // measured 2.31:1 for "Pick an answer to continue". That is an
+            // instruction to the whole class, not decoration, so on a
+            // projector it fades to 0.75 (5.2:1) and still reads as waiting.
+            style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : projector ? 0.75 : 0.45 }}
           >
             {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
           </button>
@@ -1359,6 +1372,11 @@ export default function LessonPlayer({
       // competing with six other destinations.
       position: 'fixed', inset: 0, zIndex: 110, background: 'var(--cream)',
       display: 'flex', flexDirection: 'column',
+      // The classroom contrast variant re-points two tokens for the whole
+      // player (wall-scale.ts). It goes on the root, not on the slide shell,
+      // because the header phase line, the phase pills and the cycle map all
+      // sit ABOVE the shell and they are the labels the muted ink carries.
+      ...(projector ? (WALL_CONTRAST as React.CSSProperties) : {}),
     }} className="gc-lesson-player">
       {/* Authored focus ring: every control in the deck is keyboard reachable,
           and a reachable control with no visible focus is reachable in name
@@ -1529,7 +1547,10 @@ export default function LessonPlayer({
                       fontWeight: isNow ? 900 : 700,
                       fontSize: projector ? 'var(--text-lg)' : 'var(--text-base)',
                       color: isNow ? 'var(--ink)' : 'var(--ink-muted)',
-                      opacity: isDone ? 0.6 : 1,
+                      // A done cycle recedes, it does not disappear. 0.6 on a
+                      // wall measured 2.80:1; 0.82 is 4.5:1 and still visibly
+                      // behind the cycle we are in.
+                      opacity: isDone ? (projector ? 0.82 : 0.6) : 1,
                     }}
                   >
                     <span style={{

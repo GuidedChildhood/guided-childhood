@@ -54,42 +54,89 @@ export const WALL = {
   // the teacher does, and the sceptical adult in the room does.
   aside: 'clamp(0.8rem, min(1.5vw, 2.4vh), 1.6rem)',     // 26px
 
+  // DECORATION, which has to give way before the words do.
+  //
+  // The concept slide's emoji cost 108px of a 768px laptop, 15 percent of the
+  // height, for an illustration. It was sized on viewport WIDTH only, which is
+  // the same bug the text had: a projector is height constrained and a vw only
+  // size cannot know that. On a 1920x1080 wall these are unchanged; on a short
+  // screen they step back and let the sentence fit.
+  //
+  // Ordering matters here. Shrinking the emoji is right because it is
+  // decoration competing with content. Shrinking the line height would also
+  // have bought space and is NOT done, because that trades one legibility
+  // property for another and the whole point of this scale is legibility.
+  emoji: 'clamp(2.4rem, min(7vw, 7.4vh), 5rem)',        // 80px at 1920x1080, 57px at 1366x768
+  emojiSmall: 'clamp(1.6rem, min(3.4vw, 4.4vh), 3.2rem)', // diagram steps, scenario avatars
+  figure: 'clamp(2.6rem, min(11vw, 11.6vh), 5.6rem)',   // the one big number on a stat slide
+
   // Line length still matters at 40px: about 70 characters is the top of the
   // comfortable range, which is what this width gives.
   column: 'min(1400px, 88vw)',
   wide: 'min(1720px, 94vw)',
 } as const
 
-// THE SAME FLOOR, FOR A SUBTREE THAT IS NOT OURS TO REWRITE LINE BY LINE.
+// THE INTERACTIVE WIDGETS ARE NOT SCALED FROM HERE, and the removed attempt is
+// worth a note because it is a trap anyone reading this file would fall into
+// next.
 //
-// The interactive widgets (shared/components/interactives) size from the design
-// tokens: 38 of their 41 font sizes come from the text scale below. They are
-// also the slides where a child DOES something, 22 of them in the school
-// scheme, so they are the last place we want phone sized text on a wall.
+// The widgets (shared/components/interactives) take 38 of their 41 font sizes
+// from the --text-* scale, so a WALL_TOKENS map that re-pointed those tokens on
+// their wrapper looked like the same trick as the WALL roles above: 38 sizes
+// fixed at once, no hand edits, every widget keeping its own type ratios.
 //
-// (Written without a literal var() glob on purpose. scripts/check-tokens.mjs
-// reads the repo for token usages and a wildcard inside one parses as a real
-// token with no definition, which is a fair catch: an unresolved var makes the
-// whole declaration invalid. Prose bends around the guard, not the other way.)
+// It shipped, and it broke them. The widgets size their TYPE from tokens and
+// their BOXES in pixels, because they were drawn for a phone. Multiplying the
+// text by 2.5 and leaving a 170px card at 170px gives a card with the words
+// falling out of it: on a 1920 wall the signal meter pushed its fourth option
+// off the bottom of the screen and the spread race clipped both posts mid word.
+// It passed typecheck, it passed the size guard, and it passed the contrast
+// guard, because the colours were perfect. A screenshot found it.
 //
-// Overriding the tokens on a wrapper fixes all 38 at once AND keeps each
-// widget's internal proportions, which is what 41 hand edits would quietly
-// destroy: a meter, a tally and a race each depend on their own type ratios,
-// and a blanket 40px would flatten them into unreadable blocks.
+// So the widgets are zoomed to fit instead, in their own wrapper, where the
+// reasoning lives next to the code that does it. The scale here stays what it
+// always was: named roles for the slide content the player itself draws.
+
+// CONTRAST, FOR A ROOM WITH THE BLINDS UP.
 //
-// The factor is 2.5, chosen so --text-base, the body token, lands exactly on
-// the 40px floor. Everything else keeps its place in the scale.
+// plans/kids-player-design.md, move 8: "classroom mode gets a higher contrast
+// variant of the tokens", and move (d): "cream washes out under classroom
+// lighting". That has been in the brief since the player was designed and was
+// never built.
 //
-// Slide content in LessonPlayer uses the named WALL roles above instead,
-// because there the right question is "what is the child doing with this", not
-// "how big was it before".
-export const WALL_TOKENS: Record<string, string> = {
-  '--text-xs': 'clamp(0.75rem, min(1.65vw, 2.8vh), 1.875rem)',    // 30px at 1920x1080
-  '--text-sm': 'clamp(0.875rem, min(1.9vw, 3.25vh), 2.1875rem)',  // 35
-  '--text-base': 'clamp(1rem, min(2.2vw, 3.75vh), 2.5rem)',       // 40, the floor
-  '--text-md': 'clamp(1.0625rem, min(2.35vw, 3.93vh), 2.65rem)',  // 42
-  '--text-lg': 'clamp(1.1875rem, min(2.6vw, 4.35vh), 2.96rem)',   // 47
-  '--text-xl': 'clamp(1.375rem, min(3vw, 5.1vh), 3.4rem)',        // 55
-  '--text-2xl': 'clamp(1.75rem, min(3.85vw, 6.5vh), 4.375rem)',   // 70
-  '--text-3xl': 'clamp(2.125rem, min(4.7vw, 7.85vh), 5.3rem)',    // 85
+// MEASURED FIRST, because "cream washes out" turned out to be the wrong
+// diagnosis. The body text was never the problem: --ink on --cream is 16.07:1,
+// far above AAA. The problem is the accent and the muted ink, which carry every
+// label on the wall: "Hands up, then tap the class answer", "The evidence",
+// "Your turn", the cycle map, the source lines. Those eyebrows were made bigger
+// on 9 September and 26px at 2.43:1 is still a wash, because size and contrast
+// are different properties and only one of them had been fixed.
+//
+// NOT NEW COLOURS, which is what the brief asks for and also the right answer.
+// --stage-1-text is amber-900, already in the system, the same family as the
+// butter accent, and it reads 8.17:1 on cream. --ink-soft is already there at
+// 7.13:1. So the classroom variant is two existing tokens standing in for two
+// others, not a new palette.
+//
+// KNOWN SIDE EFFECT, stated rather than discovered later. --terracotta-dark is
+// used 15 times as a text colour in the player and 4 times as chrome, two
+// borders and two button shadows. Overriding the token darkens those too. On a
+// washed out projector a darker border and a deeper button shadow are an
+// improvement, not a regression, and one override beats fifteen call sites.
+//
+// AN ALIAS DOES NOT FOLLOW. --coral-dark is declared as var(--terracotta-dark)
+// on :root, and a custom property resolves where it is DECLARED, so it keeps
+// the root's value no matter what this override says. Anything that has to
+// follow the classroom variant must name the real token at the call site.
+//
+// AND THE TABLE THAT USED TO BE HERE IS GONE, on purpose. It listed pairs by
+// hand and passed, while the wall still had seven real failures on it: a table
+// cannot see a gradient backdrop, cannot see an opacity group, and cannot see
+// an alias resolving somewhere else. scripts/check-wall-contrast.mjs renders
+// the player and composites every text node the way the browser does, which is
+// the only version of this check that has ever been right. Run it, do not
+// reason about it.
+export const WALL_CONTRAST: Record<string, string> = {
+  '--terracotta-dark': 'var(--stage-1-text)', // 2.43 to 8.17 on cream
+  '--ink-muted': 'var(--ink-soft)',           // 3.26 to 7.13 on cream
 }
