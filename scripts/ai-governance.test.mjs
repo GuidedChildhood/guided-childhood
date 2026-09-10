@@ -11,7 +11,7 @@
 // links a teacher to a 404 is worse than one that links nothing.
 
 import { QUESTIONS, APPLICABLE, BY_SECTION, SECTIONS } from '../shared/ai-governance/questions.ts'
-import { assess, rateCategory, overallStatus, classify, CATEGORIES, priorityOrder } from '../shared/ai-governance/rating.ts'
+import { assess, rateCategory, overallStatus, classify, isPupilFacing, CATEGORIES, priorityOrder } from '../shared/ai-governance/rating.ts'
 import { PASSPORT_LINKS, raisedLinks } from '../shared/ai-governance/passport-links.ts'
 import { PASSPORT_STAGES } from '../shared/passport-stages.ts'
 import { CURRICULUM } from '../shared/schools-curriculum.ts'
@@ -89,6 +89,20 @@ const blank = (over = {}) => ({
   ok('the companion questions are pupil only',
     BY_SECTION('relationship', false).length === 0,
     'relationship questions should not be asked of a staff tool')
+
+  // A review nobody has classified yet must still be asked about children.
+  // The other way round, an untouched review hides every child specific
+  // question and can be worked to a comfortable result without one appearing.
+  ok('a review with nobody named yet is still asked the child questions',
+    isPupilFacing(blank({ facing: null })))
+  ok('only a positive staff answer takes the child questions away',
+    !isPupilFacing(blank({ facing: 'teacher' })) && !isPupilFacing(blank({ facing: 'admin' })))
+
+  const unset = assess(blank({ facing: null }), QUESTIONS)
+  const pupilTotal = assess(blank({ facing: 'pupil' }), QUESTIONS).progress.total
+  ok('an unclassified review is scored against the full question set',
+    unset.progress.total === pupilTotal,
+    `unset asked ${unset.progress.total}, pupil facing asks ${pupilTotal}`)
 }
 
 // ── Rating ──────────────────────────────────────────────────────────

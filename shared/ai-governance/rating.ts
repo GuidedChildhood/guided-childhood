@@ -28,7 +28,15 @@ export const CATEGORIES: { key: CategoryKey; title: string; blurb: string }[] = 
 /** The three a child facing product cannot be left unknown on. */
 const CHILD_CRITICAL: CategoryKey[] = ['data', 'safeguarding', 'relationship']
 
-const isPupilFacing = (r: Review) => r.facing === 'pupil'
+/** Whether the child specific questions apply.
+ *
+ *  A review that has not yet said who it is for counts as pupil facing. The
+ *  other way round, an untouched review hides the thirty seven questions about
+ *  children and can be worked through to a comfortable looking result without
+ *  one of them ever appearing. In an instrument that exists for children, the
+ *  safer default when nobody has said is to ask. Only a positive "this is for
+ *  staff" or "this is administration" takes them away. */
+export const isPupilFacing = (r: Pick<Review, 'facing'>) => r.facing !== 'teacher' && r.facing !== 'admin'
 
 /** The questions that apply to this review. Passed in rather than imported so
  *  this module holds no runtime dependency on the question set: it can be
