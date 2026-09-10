@@ -4,6 +4,7 @@ import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
 import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
 import { MethodRow, type MethodId } from '@/components/starter/MethodIcon'
+import Fold from './Fold'
 
 // The worries a parent just ticked, each with the answer to it.
 //
@@ -138,17 +139,28 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
               </h3>
             </div>
 
-            {/* Their question, in the words they would use asking a friend. */}
-            <p style={{
-              margin: '0 0 10px', fontFamily: 'var(--font-display)', fontWeight: 700,
-              fontSize: 'var(--text-md)', lineHeight: 1.4, color: 'var(--ink-soft)',
-            }}>
-              {a.question}
-            </p>
+            {/* ── THE ANSWER, FOLDED ─────────────────────────────────────
+                Justin, 10 September 2026: "the actual written text with it can
+                be folded away ... so we can shrink the scroll and too much
+                text."
 
-            <p style={{ margin: 0, fontSize: 'var(--text-md)', lineHeight: 1.6, color: 'var(--ink)' }}>
-              {a.answer}
-            </p>
+                Three of these paragraphs was 4017px, nearly half the page, and
+                it is the section he most wants a parent to reach. The question
+                above it is the recognition, the method chips below are the
+                answer in one glance, and the paragraph is the reasoning: right
+                for the parent who presses, in the way for the parent who has
+                already nodded. */}
+            {/* THE QUESTION IS THE HANDLE.
+                It was a separate line above the paragraph, and the fold below
+                it said "How we deal with it", so every card spent two lines
+                asking and offering. The question a parent would put to a friend
+                is exactly the thing they want to press, so it is the label. One
+                line instead of two, on every card, and it reads better. */}
+            <Fold label={a.question}>
+              <p style={{ margin: 0, fontSize: 'var(--text-md)', lineHeight: 1.6, color: 'var(--ink)' }}>
+                {a.answer}
+              </p>
+            </Fold>
 
             {/* ── HOW WE FIX IT, DRAWN ──────────────────────────────────
                 The parts of the product that pick this worry up, as chips with
