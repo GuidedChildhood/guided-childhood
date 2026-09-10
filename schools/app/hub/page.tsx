@@ -34,6 +34,11 @@ const DOCS = [
     body: 'What we hold (almost nothing), why, and for how long. Written for your DPO: data minimisation by design, age differentiated notes per phase, and the DPIA support your records need.',
   },
   {
+    href: '/hub/ai-governance', emoji: '🔍', accent: 'var(--deep-teal, #173C46)',
+    title: 'AI governance',
+    body: 'Check an AI product before pupils or staff are asked to use it. Ten sections, a rating on each of eight things that matter, suggested policy wording, a draft letter to parents, and the lessons that teach whatever the review turns up.',
+  },
+  {
     href: '/hub/dsl', emoji: '🛡️', accent: 'var(--coral-dark)',
     title: 'Safeguarding crosswalk',
     body: 'The DSL view: every safeguarding flagged module, its statutory hook and its disclosure guidance on one page, ready to reference from your safeguarding policy.',

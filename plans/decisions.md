@@ -12600,3 +12600,74 @@ all 21 decks. 493 slides to 529.
 while 279 and 280 are unapplied would set a floor the live database does not
 meet and fail the next run for the right reason at the wrong time. The ratchet
 goes up after the migrations land.
+
+## 10 September 2026: the school AI governance layer, and the audit that reshaped it
+
+**The audit came first and changed the brief.** The ask assumed a school tenancy
+to hang reviews off. There isn't one. `schools/lib/access.ts` gates `/hub/*` on a
+single HMAC signed cookie derived from a shared code in `SCHOOLS_ACCESS_CODES`,
+so the schools app has no session, no user, no school row and no API routes. The
+`schools` schema holds two tables, `school_lessons` and `invoice_requests`, and
+neither identifies who is asking. Storing supplier reviews server side would have
+meant inventing accounts, which is a different and much larger piece of work, and
+doing it without accounts would have put one school's procurement notes where
+every other code holder could read them.
+
+**So reviews live on the school's own device**, behind a `ReviewStore` interface
+with a `BrowserReviewStore` implementation. Export and import are first class,
+because a DPIA belongs in the school's own records anyway. Justin picked this
+over waiting for accounts. The interface is the point: when tenancy exists, a
+`SupabaseReviewStore` replaces one class and the `Review` type is already shaped
+as a row.
+
+**No composite score, ever.** Eight categories rated separately: data,
+safeguarding, relationship design, learning independence, transparency, human
+oversight, readiness, security. The failure mode of every procurement checklist
+is one number that lets a strong data answer pay for a weak safeguarding one. A
+product can be spotless on retention and wrong for children on relationship
+design and a school has to see both.
+
+**Unknown is a real state.** An unanswered question is never green. Most
+checklists treat silence as fine, which is how a review passes on the strength of
+whichever questions somebody got round to. Red anywhere is do not deploy yet,
+unknown anywhere is review required, amber is approve with conditions.
+
+**An unclassified review is asked the child questions.** The first version read
+`facing === 'pupil'`, which meant a review nobody had classified yet silently
+hid thirty seven child specific questions, including the whole relationship
+section, and could be worked to a comfortable looking result without one of them
+appearing. Only a positive "this is for staff" or "this is administration" takes
+them away now. In an instrument that exists for children, the safer default when
+nobody has said is to ask. Two tests hold it.
+
+**The join is the feature.** A procurement answer that raises a real risk names
+the lesson that teaches a child about it, from the scheme that already exists. It
+runs the other way too: the companion link has no module behind it, and rather
+than dressing that up the result page says so in plain words and records it as a
+gap in the scheme. Seven links, and a test asserts every lesson id resolves in
+`CURRICULUM`, because a governance tool that sends a teacher to a 404 is worse
+than one that links nothing.
+
+**Adult problems stay with adults.** Processor agreements, retention schedules
+and subprocessor lists carry no pupil lesson, because they are not a thing a
+child can be taught out of.
+
+**No invented alerts.** The brief asked for warnings like "this product added
+persistent memory since your last review" and was right to add "only when backed
+by actual stored data". We do not watch vendors, so the only alerts are ones the
+school's own record supports: overdue, or never finished.
+
+**Not legal advice, said in the questions rather than a footer.** Every question
+that turns on data protection law carries "Your school may need to confirm this
+with your DPO or data protection lead" next to the question itself, where someone
+answering it will actually read it.
+
+**The rail wraps on a laptop and scrolls on a phone.** Wrapped, twelve section
+labels are two tidy rows on desktop and eight rows on a 390px phone, which is the
+entire first screen every time you move section. One scrolling row on a phone
+with the current chip scrolled into view, wrapped above 760px.
+
+**Nothing about this touches production data, RLS or auth.** No migration, no
+schema change, no new server route, one line added to `/hub`. The access gate
+already covers the new pages because they sit under `/hub` and `OPEN_PATHS` was
+not touched.

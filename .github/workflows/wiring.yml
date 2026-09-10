@@ -141,3 +141,9 @@ jobs:
       # of them passed typecheck, tests and health checks, because a font size
       # that is too small is legal code. This reads the source.
       - run: node scripts/check-wall-scale.mjs
+      # The AI governance framework: the question set, the ratings, and the
+      # join from a procurement answer to a lesson. The last of those is why it
+      # is here. The result page offers a school named lessons to teach before
+      # pupils touch a product, and a link to a lesson that does not exist is
+      # worse than no link at all. Nothing about that fails a typecheck.
+      - run: node --experimental-strip-types scripts/ai-governance.test.mjs
