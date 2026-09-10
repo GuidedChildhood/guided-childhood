@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import ProviderButtons from '@/components/auth/ProviderButtons'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
@@ -127,6 +128,12 @@ export default function SignupPage() {
             </div>
           ) : (
             /* ── Sign up form ── */
+            <>
+            {/* One tap first, the three fields after, per the Mobbin sweep.
+                Setup is where a provider account lands, the same place the
+                password path goes. Draws nothing until one is switched on. */}
+            <ProviderButtons redirectTo="/onboarding" />
+
             <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
                 <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
@@ -167,6 +174,7 @@ export default function SignupPage() {
                 No card required.
               </p>
             </form>
+            </>
           )}
         </div>
 

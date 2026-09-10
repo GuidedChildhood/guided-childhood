@@ -4,6 +4,7 @@ import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuth
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import ProviderButtons from '@/components/auth/ProviderButtons'
 
 // The family door. The School path picker retired at the split cutover:
 // the schools product is an open catalogue on its own domain with no
@@ -83,6 +84,11 @@ export default function LoginForm() {
               Continue your family’s pathway.
             </p>
           </div>
+
+          {/* A parent who made their account with Google has no password to
+              type here, so the way in has to be on the way back too. Draws
+              nothing until a provider is switched on. */}
+          <ProviderButtons redirectTo={destination} />
 
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>

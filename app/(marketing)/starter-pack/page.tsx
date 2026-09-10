@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import ResultScreen from './ResultScreen'
 import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
+import ProviderButtons from '@/components/auth/ProviderButtons'
+import SavingPathway from '@/components/starter/SavingPathway'
+import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetup, type PendingSetup } from '@/lib/starter/finish-setup'
+import { enabledProviders } from '@/lib/auth/providers'
 import { bandForAge } from '@/lib/children/age'
 import WorryPicker from '@/components/onboarding/WorryPicker'
 import { WORRIES, CATCH_ALL_ID, challengeFor, toWorryIds, worryLabel } from '@/lib/onboarding/worries'
@@ -134,14 +138,65 @@ export default function StarterPackPage() {
   // them by name of intent rather than making them start Q1 over again.
   const [returning, setReturning] = useState(false)
   const [restored, setRestored] = useState(false)
+  // True only while we are landing back from Google or Apple. The page draws a
+  // different screen for it, because the alternative is a parent who has just
+  // signed in watching question one flash up at them.
+  const [finishing, setFinishing] = useState(false)
 
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
+  // Is there a faster way in on this deployment? Only the copy needs to know;
+  // ProviderButtons decides for itself whether to draw anything.
+  const oneTap = enabledProviders().length > 0
+
+  // ── COMING BACK FROM A PROVIDER ──────────────────────────────────────────
+  //
+  // ProviderButtons sends the parent to /auth/callback with this page and
+  // ?finish=1 as the destination, so the code lands here with a live session
+  // and no React state whatsoever. Everything the write through needs was put
+  // in one blob the instant before the browser left.
+  //
+  // The session is checked rather than assumed. /auth/callback already sends a
+  // failed exchange to /login, so arriving here without one should not happen,
+  // and "should not happen" is exactly the case that writes a child row against
+  // nobody if it is not looked at.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('finish') !== '1') return
+    setFinishing(true)
+    let cancelled = false
+    ;(async () => {
+      const pending = takePendingSetup()
+      // The round trip cleared React state, so the child's name comes back off
+      // the blob. Without this the screen says "your pathway" to a parent who
+      // has been reading their child's name on every screen up to here.
+      if (pending?.childName) setChildName(pending.childName)
+      const { data: { user } } = await supabase.auth.getUser()
+      if (cancelled) return
+      if (!user) {
+        // No session, so there is nothing to write and nothing to save. Send
+        // them to sign in rather than leave them on a screen that says saving.
+        clearPendingSetup()
+        window.location.replace('/login?error=auth')
+        return
+      }
+      if (pending) await writeStarterSetup(supabase, pending)
+      if (cancelled) return
+      // replace, not href: back from the Setup Quest should reach the site,
+      // never bounce through this screen and run the write again.
+      window.location.replace('/dashboard/setup')
+    })()
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Resume mid-quiz progress on refresh or return visit, instead of losing
   // everything and starting over at Q1.
   useEffect(() => {
     // Dev only: /starter-pack?preview=result renders the reveal with a
     // fixture family, so it can be checked without running the quiz.
+    // Landing back from a provider: the effect above owns this render and is
+    // about to navigate away. Restoring a half finished quiz underneath it only
+    // repaints a screen nobody sees.
+    if (new URLSearchParams(window.location.search).get('finish') === '1') return
     if (process.env.NODE_ENV !== 'production' && new URLSearchParams(window.location.search).get('preview') === 'result') {
       setAgeBand('11-13'); setPicks(['mood_after_screens']); setTimeCommitment('5min'); setChildName('Ava'); setStep('result'); setRestored(true)
       return
@@ -377,76 +432,18 @@ export default function StarterPackPage() {
     window.location.href = '/dashboard/setup'
   }
 
-  // Once the questions are done, write the account through: mark onboarding
-  // complete, start the free trial, and create the child. This is what the old
-  // separate onboarding did, folded into the one flow so the child is never
-  // asked again. Best effort; if the session is not ready yet (email
-  // confirmation pending) the old onboarding remains the fallback.
-  //
-  // THE TRIAL IS NOT WRITTEN HERE ANY MORE, and that is the point rather than a
-  // tidy up. It used to set trial_ends_at straight onto the parent's own
-  // profile row from the browser, which meant two things.
-  //
-  // A client write can be repeated: run the starter pack again, or call the
-  // same update from the console, and the four days start again for ever.
-  //
-  // And granting it here REQUIRED trial_ends_at to be writable by
-  // `authenticated`, which is the same grant that let anyone set
-  // subscription_status to active and take the whole product free. Justin, 8
-  // August 2026: "we must make sure real users can not continue without
-  // subscribing." Migration 175 revokes both columns, and /api/trial/start
-  // grants the trial once, on the server, where the rule can be enforced.
+  // Everything the write through needs, gathered from state in one place, so
+  // the password path and the return from Google hand over exactly the same
+  // thing. See lib/starter/finish-setup.ts for why the birthday has to travel
+  // with it rather than be looked up from the older keys.
+  function pendingNow(): PendingSetup {
+    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, dob }
+  }
+
+  // Write the account through: onboarding complete, the trial, the child. One
+  // copy of it, in lib/starter/finish-setup.ts, called from both ways in.
   async function finishSetup() {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      const stg = ageBand ? getStageFromAgeBand(ageBand) : null
-      // ── EVERY WORRY, NOT JUST THE FIRST ────────────────────────────────
-      //
-      // This wrote `challenge` alone, one id, and then set onboarding_complete
-      // true, which makes the setup wizard skip itself for every parent who
-      // came through the quiz. The wizard is the ONLY place that ever wrote
-      // `challenges`, the whole list, so for a quiz parent the list was never
-      // written at all: they ticked three worries, one reached
-      // seedBaselineConcerns, and the other two were topped up with the stock
-      // starters. It looked like the app had chosen for them, because it had.
-      //
-      // Justin, 9 September 2026: "Make sure changes are all wired into
-      // platform so we include the issues in daily check up." This is the
-      // wire. `challenges` carries all of them, `challenge_other` carries the
-      // ones they typed, and both are the keys lib/concerns/baseline already
-      // reads.
-      await supabase.from('profiles').update({
-        onboarding_complete: true,
-        onboarding_answers: {
-          ageBand,
-          challenge,
-          challenges: picks,
-          challenge_other: worryOther.trim() || null,
-          feeling,
-          timeCommitment,
-        },
-      }).eq('id', user.id)
-      // Best effort, like everything else in here. A trial that fails to start
-      // is a parent who sees the upgrade page a little early, which is a far
-      // better failure than a setup that cannot finish.
-      try { await fetch('/api/trial/start', { method: 'POST' }) } catch { /* onboarding is the fallback */ }
-      const { data: existing } = await supabase.from('children').select('id').eq('parent_id', user.id).limit(1)
-      if (!existing || existing.length === 0) {
-        await supabase.from('children').insert({
-          parent_id: user.id,
-          name: childName.trim() || 'Your child',
-          age_band: ageBand,
-          // The birthday itself, which is the thing the band is derived FROM.
-          // Without it lib/learning/term.ts cannot say which school year they
-          // are in and the birthday setup step has to ask all over again.
-          date_of_birth: dob,
-          stage_id: stg ? stg.name.toLowerCase() : 'explorer',
-          is_primary: true,
-        })
-      }
-      try { localStorage.removeItem('gc_starter_answers') } catch {}
-    } catch { /* onboarding remains the fallback */ }
+    await writeStarterSetup(supabase, pendingNow())
   }
 
   // submitEmail, the end of quiz email screen from the older order, was
@@ -484,6 +481,12 @@ export default function StarterPackPage() {
       />
     )
   }
+
+  // Landing back from Google or Apple. One beat, in the words of the thing they
+  // just did, rather than the quiz reappearing behind them. The screen lives in
+  // its own file because walking the funnel never reaches it: see
+  // components/starter/SavingPathway.tsx and /dev/starter-finishing.
+  if (finishing) return <SavingPathway childName={childName} />
 
   return (
     <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
@@ -630,8 +633,27 @@ export default function StarterPackPage() {
               {childName.trim() ? `Save ${childName.trim()}'s pathway` : 'Save your pathway'}
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
-              Two boxes and it is yours, with four days of everything free. No card.
+              {/* The line has to tell the truth in whichever state ships. With a
+                  provider switched on it is one tap, and "two boxes" is then a
+                  worse promise than the one we are actually making. Found by
+                  walking the screen with the flag on, which is the only way it
+                  could have been found. */}
+              {oneTap ? 'One tap and it is yours, with four days of everything free. No card.'
+                      : 'Two boxes and it is yours, with four days of everything free. No card.'}
             </p>
+
+            {/* Above the email, not below it. The Mobbin sweep of account
+                creation is split: Strava, monday.com and Finimize put the
+                providers first, Zocdoc and Swarm bury them under the form. The
+                whole value of one tap is that it is the fast way, and a fast
+                way printed below the slow way is decoration.
+
+                Draws nothing at all until a provider is switched on, so this
+                screen is byte for byte what merged in PR 1036 until then. */}
+            <ProviderButtons
+              redirectTo="/starter-pack?finish=1"
+              onBeforeRedirect={() => keepPendingSetup(pendingNow())}
+            />
 
             <input
               className="input"
