@@ -274,6 +274,52 @@ export function isMoveJob(title: string): boolean {
 const FIXED_FIRST: StepKey[] = ['jobs']
 const FIXED_LAST: StepKey[] = ['balance', 'ask']
 
+// ── THE DAY IS NOT THE SAME AT FIVE AND AT FOURTEEN ─────────────────────────
+//
+// The Passport brief, twice: "DO NOT hard-code the same checklist for every
+// age" and "Use the existing age/stage pathway as the source of truth."
+//
+// pickDay took a child and a date and nothing else, so a five year old and a
+// fourteen year old drew from one twelve row pool at one length. `available`
+// dropped what could not be done today, which is a different question: it
+// knows there is no printable to do, never that a child is too young for one.
+//
+// Two things vary, and only two, because everything else here is already age
+// scaled inside the step itself: the quiz is "a few questions for your age",
+// the lesson resolves to their stage, and reading minutes come from
+// readingMinutesFor. So the shape of the day is the honest place for stage to
+// bite.
+//
+//   count  Foundation gets a shorter day. Four things is a lot for a five year
+//          old and the streak has to be reachable on an ordinary evening, or
+//          the whole mechanic teaches them they cannot finish.
+//
+//   drop   Only where a step would ask for something the age does not have.
+//          Foundation loses homework, because set homework is not a four to
+//          seven expectation and the row links to a homework helper, and maths,
+//          because its hint is times tables and those start around Year 3.
+//          Shaper and Independent lose the printable, because a colouring and
+//          doing sheet at fourteen is not a step, it is a message about how old
+//          we think they are.
+//
+// Nothing else differs. Tidying, making, kindness, moving and talking are not
+// things a person grows out of, and inventing a separate teenage curriculum
+// here would be exactly the "do not invent new curricula" the brief warns off.
+export type StageNum = 1 | 2 | 3 | 4 | 5
+
+const STAGE_DAY: Record<StageNum, { count: number; drop: StepKey[] }> = {
+  1: { count: 4, drop: ['homework', 'maths'] },
+  2: { count: 5, drop: [] },
+  3: { count: 5, drop: [] },
+  4: { count: 5, drop: ['printable'] },
+  5: { count: 5, drop: ['printable'] },
+}
+
+/** The day's length for a stage, for a caller that needs to say it out loud. */
+export function stepsPerDay(stage: StageNum): number {
+  return STAGE_DAY[stage].count
+}
+
 /**
  * The pool the middle two are drawn from, so the day is not identical.
  *
@@ -314,20 +360,47 @@ function seed(childId: string, day: string): number {
  * one of the five, because a child who cannot finish the day can never earn the
  * streak and has no way of knowing why.
  */
-export function pickDay(childId: string, day: string, available?: Partial<Record<StepKey, boolean>>): StepKey[] {
-  const can = (k: StepKey) => available?.[k] !== false
+export function pickDay(
+  childId: string,
+  day: string,
+  available?: Partial<Record<StepKey, boolean>>,
+  /**
+   * The child's stage, 1 to 5, from their age band. Defaults to Builder, which
+   * is what every caller got before stages were read here and keeps a caller
+   * that cannot work one out behaving exactly as it did.
+   */
+  stage: StageNum = 2,
+): StepKey[] {
+  const { count, drop } = STAGE_DAY[stage] ?? STAGE_DAY[2]
+  const tooYoungOrOld = new Set<StepKey>(drop)
+  const can = (k: StepKey) => available?.[k] !== false && !tooYoungOrOld.has(k)
   const pool = ROTATING.filter(can)
   const n = seed(childId, day)
 
+  const ends = [...FIXED_FIRST.filter(can), ...FIXED_LAST.filter(can)]
+  // What is left for the middle after the fixed ends, never below zero and
+  // never more than the pool can supply without repeating itself.
+  const want = Math.max(0, Math.min(count - ends.length, pool.length))
+
   const middle: StepKey[] = []
-  if (pool.length > 0) {
-    // Two distinct draws, walking the pool from the seeded start so the pair
-    // moves day to day rather than the same two always pairing up.
+  if (pool.length > 0 && want > 0) {
+    // Distinct draws, walking the pool from the seeded start so the set moves
+    // day to day rather than the same rows always pairing up.
     const start = n % pool.length
-    middle.push(pool[start])
-    if (pool.length > 1) {
-      const step = 1 + (Math.floor(n / pool.length) % (pool.length - 1))
-      middle.push(pool[(start + step) % pool.length])
+    const step = pool.length > 1
+      ? 1 + (Math.floor(n / pool.length) % (pool.length - 1))
+      : 1
+    for (let i = 0; i < want; i++) {
+      const pick = pool[(start + i * step) % pool.length]
+      if (!middle.includes(pick)) middle.push(pick)
+    }
+    // A stride that shares a factor with the pool length can revisit a row
+    // before the quota is met. Fill the remainder in order rather than hand
+    // back a short day, because a day that is short for arithmetic reasons is
+    // indistinguishable to a child from a day we could not be bothered with.
+    for (const k of pool) {
+      if (middle.length >= want) break
+      if (!middle.includes(k)) middle.push(k)
     }
   }
 
