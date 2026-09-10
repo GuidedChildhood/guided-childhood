@@ -47,6 +47,12 @@ export type DayState = {
   done: StepKey[]
   complete: boolean
   streak: number
+  /**
+   * Today's sticker, from the day's own row (migration 283). Optional because
+   * the printable tick event carries a day without one, and an absent answer
+   * must read as "not yet" rather than as an empty slot on a finished day.
+   */
+  sticker?: boolean
 }
 
 // Whether the takeover has already played for a given day.
@@ -67,6 +73,37 @@ function rememberCelebrated(day?: string) {
   // One day at a time. Yesterday's value is simply overwritten, so nothing
   // accumulates on the device.
   try { window.localStorage.setItem(CELEBRATED_KEY, day) } catch { /* nothing to remember it with */ }
+}
+
+// TODAY'S STICKER.
+//
+// One a day, for finishing the day, and it is the day's own fact: the row
+// carries it, so a child who refreshes, or who finished on the lesson page and
+// came back, still finds it here. See migration 283 and lib/kid/day-store.
+//
+// The empty slot is drawn, not hidden. A prize you cannot see is not something
+// anybody works towards, which is the same lesson the locked sticker tiles
+// taught on this screen in August: the shape has to be there first. It is
+// quiet, though. No red, no countdown, nothing that says a thing is at risk.
+function DaySticker({ earned, size = 34 }: { earned: boolean; size?: number }) {
+  return (
+    <span
+      role="img"
+      aria-label={earned ? "Today's sticker, earned" : "Today's sticker, not yet"}
+      style={{
+        flexShrink: 0, width: size, height: size, borderRadius: '50%',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: Math.round(size * 0.5), lineHeight: 1,
+        background: earned ? '#fff' : 'rgba(26,26,46,0.05)',
+        border: earned ? '2.5px solid var(--terracotta-dark)' : '2px dashed rgba(26,26,46,0.18)',
+        boxShadow: earned ? '0 3px 0 var(--terracotta-dark)' : 'none',
+        filter: earned ? 'none' : 'grayscale(1)',
+        opacity: earned ? 1 : 0.5,
+      }}
+    >
+      <span aria-hidden>⭐</span>
+    </span>
+  )
 }
 
 export default function KidFiveADay({
@@ -264,7 +301,7 @@ export default function KidFiveADay({
         // step landed when it did not.
         setState(s => (s ? { ...s, done: s.done.filter(k => k !== step) } : s))
       } else {
-        setState(s => (s ? { ...s, done: d.done, complete: d.complete, streak: d.streak } : s))
+        setState(s => (s ? { ...s, done: d.done, complete: d.complete, streak: d.streak, sticker: !!d.sticker } : s))
         if (d.justCompleted) {
           // Remembered here too, so coming back to the list does not replay a
           // takeover the child has just watched.
@@ -298,14 +335,23 @@ export default function KidFiveADay({
           cursor: 'pointer', textAlign: 'left', font: 'inherit', color: 'var(--ink)',
         }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>🎉</span>
+        <DaySticker earned={!!state.sticker} size={34} />
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
             Today is done!
           </span>
+          {/* The count and the run on separate lines. On one line at 390px the
+              run wrapped after "in a", leaving the word "row" alone under a
+              gold sticker, which is the sort of thing a child reads as the app
+              being broken. */}
           <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: 2 }}>
-            {doneCount} of {total}{state.streak > 0 ? ` · 🔥 ${state.streak} day${state.streak === 1 ? '' : 's'} in a row` : ''}
+            {doneCount} of {total}
           </span>
+          {state.streak > 0 && (
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+              🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
+            </span>
+          )}
         </span>
         <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
           Show ›
@@ -325,8 +371,11 @@ export default function KidFiveADay({
         <Ribbon tone={state.complete ? 'green' : 'butter'}>
           {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
         </Ribbon>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
-          {doneCount} of {total}
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+            {doneCount} of {total}
+          </span>
+          <DaySticker earned={!!state.sticker} />
         </span>
       </div>
 

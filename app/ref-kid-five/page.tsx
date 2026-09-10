@@ -19,6 +19,7 @@ import { resolveTheme } from '@/lib/kid/theme'
 // ?accent=coral the child's chosen colour, so the live step's edge, its shadow
 //               and the progress bar can be checked on a pastel wash as well as
 //               the dark default. All three were fixed terracotta before.
+// ?view=sticker a finished day folded to its one line, holding today's sticker
 // ?view=kind    a day whose live step is Something kind, so the confirm sheet
 //               that replaced the instant tick can be opened and driven.
 //
@@ -37,7 +38,7 @@ function Fixture() {
   const steps = view === 'kind'
     ? (['kind', 'reading', 'jobs', 'ask', 'talk'] as ReturnType<typeof pickDay>)
     : pickDay('fixture-child', '2026-08-03')
-  const done = view === 'done' || view === 'streak' ? steps : view === 'fresh' || view === 'kind' ? [] : steps.slice(0, 2)
+  const done = view === 'done' || view === 'streak' || view === 'sticker' ? steps : view === 'fresh' || view === 'kind' ? [] : steps.slice(0, 2)
   const complete = done.length === steps.length
 
   return (
@@ -59,7 +60,7 @@ function Fixture() {
           moveJobs={null}
           theme={theme}
           onOpenJobs={() => {}}
-          initialState={{ day: '2026-08-03', steps, done, complete, streak: complete ? 5 : 4 }}
+          initialState={{ day: '2026-08-03', steps, done, complete, streak: complete ? 5 : 4, sticker: view === 'sticker' }}
         />
       </div>
       {/* streak is the run of days, completedStreaks the cumulative count the
