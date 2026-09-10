@@ -71,8 +71,47 @@ export default function PricingPage() {
         </div>
 
         <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginBottom: '48px' }}>
-          For comparison: the best known PSHE schemes price from £795 a year or £1.80 per child.
+          One licence, every teacher, no seat counting. Invoice with 30 day terms.
         </p>
+
+        {/* Why pay at all. Added 10 September 2026.
+            A head can get a complete statutory RSHE curriculum free from Oak
+            National Academy, and SCARF free alongside a workshop booking. That
+            is true and the page should say so, because a head who finds it out
+            later stops trusting the rest. What free schemes do not hand over is
+            the paperwork around the teaching, which is where the work actually
+            sits. Two of the three are readable here without a code, because a
+            school needs them to evaluate us rather than after it has paid. */}
+        <div style={{ background: 'var(--terracotta-lt)', border: '1px solid var(--border)', borderRadius: '18px', padding: '26px 24px', marginBottom: '48px' }}>
+          <p style={{ ...eyebrow, marginBottom: '12px' }}>The honest question</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '12px' }}>
+            Why pay, when good lessons are free?
+          </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '18px', maxWidth: '640px' }}>
+            They are. Oak National Academy publishes a complete statutory RSHE curriculum
+            for nothing, and it is good. If lessons are all you need, take them. What no free
+            scheme hands you is the paperwork around the teaching, and that is where a subject
+            lead actually loses their term. Three things, and you can read two of them right now
+            without buying anything.
+          </p>
+          <ol style={{ margin: 0, paddingLeft: '20px', display: 'grid', gap: '14px' }}>
+            {[
+              { h: 'The sheet an inspector reads', b: 'One row per statutory outcome, the module that covers it, and the term it is taught. Personal development and wellbeing is graded in its own right, and this is the page you hand over when someone asks to see coverage.', href: '/hub/rshe-mapping', cta: 'Open the mapping matrix' },
+              { h: 'A teacher who never trained for this, made ready in fifteen minutes', b: 'Every slide carries the words to say, so a non specialist is not improvising about consent or self harm at nine on a Monday. Staff briefings sit behind the licence, because that part is the product.', href: null, cta: null },
+              { h: 'A purchase your data protection officer does not have to build a case for', b: 'No pupil logins, no pupil names, no tracking. The pack sets out what is processed, the lawful basis, retention, and consultation evidence for your DPIA. Read it before you decide, not after.', href: '/hub/data-protection', cta: 'Open the data protection pack' },
+            ].map(item => (
+              <li key={item.h} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
+                <strong style={{ color: 'var(--ink)' }}>{item.h}.</strong>{' '}{item.b}
+                {item.href && (
+                  <>
+                    {' '}
+                    <Link href={item.href} style={{ color: 'var(--terracotta-dark)', fontWeight: 700, whiteSpace: 'nowrap' }}>{item.cta}</Link>
+                  </>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
 
         {/* What is in the licence + the form, side by side */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', alignItems: 'start' }}>
