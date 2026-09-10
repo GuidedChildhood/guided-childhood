@@ -46,7 +46,7 @@ import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
 import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import MonthlyShopSheet from '@/components/shop/MonthlyShopSheet'
-import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
+import DigiWelcomeSheet, { SETUP_SEEN_KEY } from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import ChildDayStrip from '@/components/daily/ChildDayStrip'
 import { readTodayState } from '@/lib/kid/today-state'
@@ -560,6 +560,21 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     ? (setupSteps.find(s => !setupFlags[s.key])?.key ?? null)
     : null
   const setupComplete = currentSetupStep === null
+
+  // ── WHAT DiGi DRIVES WHILE SETUP IS UNFINISHED ──────────────────────────
+  //
+  // Justin, 10 September 2026: DiGi should say "let's set up", drive the steps,
+  // and hand over to the day routines once they are done. Everything needed was
+  // already on this page: the steps, which are done, and which is current. It
+  // simply was not handed to DiGi, so a new family met a warm greeting that
+  // pointed at the daily loop while four unfinished steps sat elsewhere.
+  const setupDoneCount = setupSteps.filter(s => setupFlags[s.key]).length
+  const digiSetup = setupComplete
+    ? null
+    : (() => {
+        const next = setupSteps.find(s => !setupFlags[s.key])
+        return next ? { label: next.title, href: next.href, doneCount: setupDoneCount, total: setupSteps.length } : null
+      })()
 
   // Is the child phone handover still an open question for this family? Four
   // gates, all of them server side. Old enough to have a phone at all, no link
@@ -1141,7 +1156,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           safety net. Settled families (count 2 plus) get no hold, because
           their greeting deliberately arrives minutes later. */}
       <script dangerouslySetInnerHTML={{ __html:
-        `(function(){try{if(sessionStorage.getItem('gc_digi_welcome_session'))return;var t=new Date().toISOString().slice(0,10);if(localStorage.getItem('gc_digi_welcome_'+t))return;if(localStorage.getItem('gc_digi_prompt_'+t))return;if(Number(localStorage.getItem('gc_welcome_count')||'0')>=2)return;document.documentElement.setAttribute('data-gc-hold','parent');setTimeout(function(){document.documentElement.removeAttribute('data-gc-hold')},3000)}catch(e){}})();`,
+        `(function(){try{if(sessionStorage.getItem('gc_digi_welcome_session'))return;var t=new Date().toISOString().slice(0,10);` +
+        // The same setup exception the sheet applies. Without it the sheet
+        // arrives after a finished step with no cover and Home flashes
+        // underneath it, which is the one thing the cover exists to stop.
+        `var m=${JSON.stringify(digiSetup ? String(digiSetup.doneCount) : null)};var moved=m!==null&&localStorage.getItem(${JSON.stringify(SETUP_SEEN_KEY)})!==m;` +
+        `if(!moved){if(localStorage.getItem('gc_digi_welcome_'+t))return;if(localStorage.getItem('gc_digi_prompt_'+t))return;if(Number(localStorage.getItem('gc_welcome_count')||'0')>=2)return;}` +
+        `document.documentElement.setAttribute('data-gc-hold','parent');setTimeout(function(){document.documentElement.removeAttribute('data-gc-hold')},3000)}catch(e){}})();`,
       }} />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
@@ -1161,6 +1182,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           // third time. The handover stays out of the one next thing because
           // that row owns it; this is that rule actually applied.
           nextTask: (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
+          // Setup first while there is any of it left, the day after that.
+          setup: digiSetup,
           strands: literacyStrands,
         }}
       />
