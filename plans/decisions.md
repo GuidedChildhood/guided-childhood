@@ -12671,3 +12671,57 @@ with the current chip scrolled into view, wrapped above 760px.
 schema change, no new server route, one line added to `/hub`. The access gate
 already covers the new pages because they sit under `/hub` and `OPEN_PATHS` was
 not touched.
+
+## 10 September 2026: the cycle budgets 280 broke, and a map that had been missing since 270
+
+**279 and 280 are applied.** I reported three times that they were not. They
+are: all 21 modules match the post 280 state exactly, checked slide count by
+slide count against the local run. The claim was wrong and it was repeated,
+including in a pull request body and a written report.
+
+**280 cost something nobody counted.** Fourteen of its engagement beats landed
+in a teach phase, which is where the cycles live, and nothing recomputed the
+budgets. Twelve modules under reported: four minutes on ks2-05 and ks4-17,
+which took two beats each, two minutes on the other ten. A teacher reading
+"cycle two, 14 minutes" was planning against a cycle that runs sixteen. That is
+the arithmetic 267 and 270 existed to remove.
+
+**Which cycle absorbs a beat is not a judgement call.** I recorded it as one
+and that was wrong. Reading the player settles it: a cycle opens on the slide
+whose heading it names and runs to the slide before the next cycle opens, so a
+beat already belongs to whichever cycle it physically sits inside, and the
+chrome above the slide already tells a class so. The only thing wrong was the
+number. 281 recomputes all twelve by replaying the player's own anchoring
+against the live decks. No curriculum decision was needed or taken.
+
+**ks4-16 has had no cycle map at all since 270.** Its cycle three is titled
+"Pressure" and no heading in that deck contains the word. The player scores a
+title against each heading, needs half the words, finds nothing, and drops the
+whole map rather than name a wrong cycle on screen. Silent: the deck renders,
+the lesson runs, the chrome is empty. 270's guard compared cycle minutes to the
+teach phase and ks4-16's minutes were right the whole time, so it stayed green
+for eleven days. Retitled to "Everyone is not sending them", the heading the
+cycle actually opens on, which is what 270 did for the seven titles that named
+nothing. Confirmation it is the right boundary: that anchor reproduces the
+minutes the module already stated, 6, 9, 7 and 6, without changing one.
+
+**The migration nearly destroyed what it was fixing.** The first generated
+draft rebuilt each cycles array from an extract carrying title and minutes
+only, which would have deleted `verb` and `outcome` from every cycle it
+touched. 270's guard would have caught it, loudly. A migration should not need
+its own guard to stop it destroying data, so it writes one `jsonb_set` per
+field that actually changes and touches nothing else.
+
+**`scripts/check-cycle-anchors.mjs`** replicates the player's rule and fails on
+any deck it cannot map, which is the half 270's guard could not see. Proven
+against the unfixed data first: 14 problems across 21 modules, then clean. Not
+in CI, for the same reason the council is not: it needs the live scheme, and a
+pass against no data is the failure it exists to catch.
+
+**Still wrong, and left for its own migration.** Every one of the 21 timing
+strings under states the lesson total, by two to six minutes, because none was
+recomputed after 271, 278, 279 or 280. eyfs-01 says 33 and runs 39. ks2-05 and
+ks4-17 say 64 and run 70. The smallest gap is two minutes and there is no
+module without one. That is prose in several shapes, one of which carries a
+whole alternative plan for a 55 minute period, so it wants writing rather than
+a regular expression.

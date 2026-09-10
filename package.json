@@ -25,7 +25,8 @@
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
     "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
     "picker-guard": "node scripts/check-job-picker.mjs",
-    "auth-guard": "node scripts/check-auth-honesty.mjs"
+    "auth-guard": "node scripts/check-auth-honesty.mjs",
+    "cycle-anchors": "node scripts/check-cycle-anchors.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",
