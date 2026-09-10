@@ -101,11 +101,17 @@ export const PASSPORT_LINKS: PassportLink[] = [
     ],
     risk: 'The product behaves like a friend rather than a tool.',
     competency: 'Can I explain the difference between an AI that talks like a friend and a friend?',
-    stages: ['explorer', 'shaper'],
+    // `builder` joined on 10 September 2026 with the KS2 lesson. The competency
+    // was always written for explorer and shaper, which was the honest reach
+    // while only the KS3 lesson existed. A ten year old meets these inside a
+    // game helper and the speaker in the kitchen, so the stage list follows the
+    // teaching rather than the other way round.
+    stages: ['builder', 'explorer', 'shaper'],
     // Filled 10 September 2026. This link shipped with an empty modules list
     // and a gap note shown to schools in amber, on the argument that naming a
-    // hole honestly beats linking a near miss. The hole is now a lesson.
-    modules: ['ks3-22-when-an-ai-acts-like-a-friend'],
+    // hole honestly beats linking a near miss. The hole is now two lessons, one
+    // either side of the move to secondary.
+    modules: ['ks2-23-when-a-machine-talks-like-a-friend', 'ks3-22-when-an-ai-acts-like-a-friend'],
   },
   {
     id: 'secrecy',

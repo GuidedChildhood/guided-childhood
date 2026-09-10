@@ -1,0 +1,985 @@
+{
+ "module_id": "ks2-23-when-a-machine-talks-like-a-friend",
+ "key_stage": "KS2",
+ "teacher_notes": {
+  "passport_stage": "builder",
+  "essential_question": "It says it likes me. Can it?",
+  "learning_objective": "Pupils can explain that a machine that talks was made by people rather than alive, name two things a real friend can do that it cannot, and say who they would tell if something on a screen worried them.",
+  "i_can": [
+   "I can explain that a machine that talks was made by people and is not alive.",
+   "I can name two things a real friend can do that a machine cannot.",
+   "I can say who I would tell if something on a screen made me feel worried or funny inside."
+  ],
+  "timing": "69 minutes: starter 10, cycle one 10, cycle two 11, cycle three 10, practise 15, prove 4, close 5, class interactive 4",
+  "equipment": "Nothing beyond the board.",
+  "teacher_tip": "Do not ask who talks to one at home. Some of this class does, and one or two will be doing it a lot. The lesson only works if that stays completely ordinary, so treat every example as a made up one and never ask a child to read out something they have said to a machine.",
+  "commitment_stem": "My promise: if something on a screen ever makes me feel worried or funny inside, the person I will tell is...",
+  "prior_knowledge": [
+   "A pupil can sort real, pretend and computer made pictures, from ks1-03.",
+   "A pupil can say that an app is following a recipe somebody wrote, from ks2-06.",
+   "A pupil can name a trusted adult, from ks2-08."
+  ],
+  "keywords": [
+   {
+    "word": "programmed",
+    "definition": "Somebody wrote the instructions that tell it what to say. Nothing it says is a surprise to the people who made it."
+   },
+   {
+    "word": "alive",
+    "definition": "A living thing grows, needs food and rest, and feels things. A machine does none of those, however friendly it sounds."
+   },
+   {
+    "word": "remember",
+    "definition": "A machine can store what you typed and show it to you later. That is storing, not knowing you."
+   },
+   {
+    "word": "trusted adult",
+    "definition": "A grown up you can tell anything to and never be in trouble for telling."
+   }
+  ],
+  "key_learning_points": [
+   "A machine that talks was made by people. Somebody chose the friendly words.",
+   "It says the same kind friendly thing to everybody, not only to you.",
+   "It can store what you typed, and storing is not the same as knowing you.",
+   "A real friend has their own day, can say no to you, and misses you when you are not there.",
+   "If anything on a screen makes you feel worried or funny inside, tell a trusted adult. Telling is never trouble."
+  ],
+  "misconceptions": [
+   "It said it likes me, so it does (a person wrote that sentence before you ever opened the app, and it goes to everybody, so it is not about you)",
+   "It talks, so it must be alive (talking is not a sign of being alive; it does not grow, eat, sleep or feel, and a parrot talks without meaning it either)",
+   "It knows me because it remembers my name (it stored your name the way a notebook stores writing; a notebook does not know you)",
+   "If I tell a grown up, my tablet will be taken away (telling is never trouble, and the point of telling is to have a grown up with you, not to lose anything)"
+  ],
+  "tool": {
+   "heading": "The friend check",
+   "strapline": "Fun to use. Still a machine.",
+   "lines": [
+    "Does it have its own day?",
+    "Could it ever say no to me?",
+    "Would it miss me if I stopped?"
+   ]
+  },
+  "differentiation": {
+   "support": "Bookmark strip with the three friend check questions on the table throughout. Do the first two practise cards together with the group, using the sentence starter: a real friend could not do this because... Any child may answer to the page instead of the room.",
+   "stretch": "Machines that talk are genuinely useful. Write the best reason you can for having one, then write the one rule you would give a younger child who was about to start using it. Rules are harder to write than complaints."
+  },
+  "send": {
+   "communication": "Every practise card carries a sentence starter. Nobody reads an answer out unless they offer, and the promise line at the end can be written and folded rather than shared.",
+   "attention": "The friend check is three questions and one card at a time. Let a child hold the card and ask the questions for the class.",
+   "sensory": "Keep the voice flat and unsurprised. No gasps at the made up messages, and no laughing at anyone who talks to one. Any child may pass on any question without giving a reason.",
+   "eal": "Programmed, alive and trusted adult are the words to pre teach. The whole lesson survives in any language once programmed is solid: a person wrote what it says."
+  },
+  "paper_fallback": "The whole lesson runs from the printed pack. Read the three made up messages aloud, pausing after each. Draw the three steps on the board as you say them. Put the friend check up as a poster and leave it there all term. Discussions run on a timer, the six cards become a hands up vote with the reason said out loud before the answer is turned over, and the worksheet and exit quiz are already paper.",
+  "worksheet": {
+   "title": "The friend check: six messages",
+   "directions": "Read each message. Run the three questions. Tick your answer and write one reason.",
+   "verdict_options": [
+    "A real friend could say this",
+    "Only a machine says this",
+    "Tell a grown up about this"
+   ]
+  },
+  "hard_questions": [
+   {
+    "question": "I talk to Alexa every day. Is that bad?",
+    "answer": "Not at all, and lots of people do. Talking to it is fine. What this lesson gives you is a way to remember what it is, so you never feel let down by it, and so you know where the real people are."
+   },
+   {
+    "question": "My robot toy loves me though.",
+    "answer": "It is lovely and you are allowed to love it. Loving something goes one way here, and that is alright, the same as loving a teddy. What we are practising is knowing which things love you back."
+   },
+   {
+    "question": "Is it alive if it can talk?",
+    "answer": "Good question, and no. Talking is not what makes something alive. Living things grow, need food and rest, and feel things. A machine that talks does none of those, however friendly it sounds."
+   },
+   {
+    "question": "Do you talk to one, Miss?",
+    "answer": "Answer honestly and briefly, then hand it back to the class. A teacher who dodges this loses the room. A teacher who says yes, for work, and it is quite nice when it says well done, and I know it does not mean it, wins it."
+   },
+   {
+    "question": "So I should stop using it?",
+    "answer": "No, and nobody is asking you to. Never allow or deny. The check is smaller than that: know what it is, and know who the real people are if something ever feels wrong."
+   }
+  ],
+  "parent_questions": [
+   {
+    "question": "Why are you teaching seven year olds about AI?",
+    "answer": "Because they are already using it. It is inside the speaker in the kitchen, the helper in their game and the search box they use for homework. The lesson is not about any one app. It teaches that a talking machine was made by people, and that a real person is who you go to when something feels wrong."
+   },
+   {
+    "question": "Will this frighten her?",
+    "answer": "It is built not to. There is no scary story in it and nothing is banned. The tone throughout is calm and matter of fact, and the finding a child takes away is a reassuring one: the machine is not judging you, because it cannot."
+   },
+   {
+    "question": "He only uses it for homework.",
+    "answer": "That is a good use and the lesson says so. The check we teach works the same whether he uses it once a week or every day, and it costs nothing if he never needs it."
+   },
+   {
+    "question": "What should I do at home?",
+    "answer": "The note that went home has it: ask the speaker or the app something together, and let your child run the three questions on the answer. Then the family question, which is who they would come to if something on a screen ever felt wrong."
+   }
+  ],
+  "subject_knowledge": [
+   {
+    "heading": "This sits in safeguarding, not computing",
+    "body": "Keeping Children Safe in Education 2026 treats generative AI that simulates harmful interaction as a CONTACT risk, in force from 1 September 2026. Primary aged children meet these systems inside games and assistants rather than as named companion apps, which is why the lesson never names a product and teaches the shape instead."
+   },
+   {
+    "heading": "Why the lesson says made rather than fake",
+    "body": "Fake invites a child to feel foolish for having liked it. Made does not. A child who has enjoyed talking to something and is then told it was fake hears that they were tricked. Told it was made, they hear how it works. The second one keeps them talking to you."
+   },
+   {
+    "heading": "Animism is developmentally normal here",
+    "body": "Attributing feelings to things that move or talk is ordinary at this age and is not a worry in itself. You are not correcting a fault. You are giving language for a distinction they are already close to making, which is why the sorting activity works better than being told."
+   },
+   {
+    "heading": "The tell someone step is the whole lesson",
+    "body": "If a child takes one thing away, it is that a worried feeling from a screen goes to a person, and that telling is never trouble. Every other part of the lesson exists to make that step feel ordinary rather than dramatic."
+   },
+   {
+    "heading": "Watch for the quiet one, not the loud one",
+    "body": "Nobody is asked to disclose anything. A child who goes quiet in cycle three, or whose written answer goes somewhere private, is the one to follow up gently afterwards. Any disclosure about a machine that asked for secrets, or asked for a photo, is a DSL referral that day."
+   }
+  ],
+  "evidence_base": [
+   {
+    "claim": "KCSIE 2026 treats generative AI simulating harmful interaction as a contact risk, in force from 1 September 2026",
+    "source": "Keeping Children Safe in Education 2026",
+    "status": "verified"
+   },
+   {
+    "claim": "Around six in ten 8 to 17 year olds use generative AI",
+    "source": "UK regulator and sector surveys of children's media use",
+    "status": "verified"
+   },
+   {
+    "claim": "Attributing life or feelings to talking objects is developmentally ordinary in the primary years",
+    "source": "Developmental psychology on animism in childhood",
+    "status": "mechanism"
+   },
+   {
+    "claim": "Assistant and in game systems are written to be warm and to keep the exchange going",
+    "source": "Product design and company disclosure",
+    "status": "mechanism"
+   }
+  ],
+  "cycles": [
+   {
+    "verb": "Notice",
+    "title": "It was made to sound friendly",
+    "minutes": 10,
+    "outcome": "I can explain that a person chose the friendly words it says."
+   },
+   {
+    "verb": "Compare",
+    "title": "What a real friend can do",
+    "minutes": 11,
+    "outcome": "I can name two things a real friend can do that a machine cannot."
+   },
+   {
+    "verb": "Decide",
+    "title": "Tell someone and you are never in trouble",
+    "minutes": 10,
+    "outcome": "I can say who I would tell if something on a screen worried me."
+   }
+  ],
+  "starter_quiz": {
+   "title": "Before we start",
+   "instructions": "Four questions. Nobody marks these. Just have a think.",
+   "questions": [
+    {
+     "q": "A speaker says good morning, nice to hear you. Why does it say that?",
+     "options": [
+      "It is pleased you are back",
+      "Somebody wrote that for it to say",
+      "It says it only to you"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Which of these is a sign something is alive?",
+     "options": [
+      "It can talk",
+      "It grows and needs food and rest",
+      "It knows your name"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "True or false: a machine remembering your name means it knows you.",
+     "options": [
+      "True",
+      "False"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Something on a screen makes you feel worried. What is the best thing to do?",
+     "options": [
+      "Say nothing and hope it goes",
+      "Tell a trusted adult",
+      "Ask the machine what to do"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  "exit_quiz": {
+   "title": "Before you go",
+   "instructions": "Four questions, from today.",
+   "questions": [
+    {
+     "q": "Who chose the friendly words a talking machine says?",
+     "options": [
+      "The people who made it",
+      "The machine, as it goes along",
+      "Nobody, they just happen"
+     ],
+     "answer": 0
+    },
+    {
+     "q": "Name one thing a real friend can do that a machine cannot.",
+     "options": [
+      "Remember your name",
+      "Have their own bad day",
+      "Answer at bedtime"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "It says I am its favourite person. What is true?",
+     "options": [
+      "I am its favourite",
+      "It says that to everybody",
+      "It has been counting"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Something on a screen makes you feel funny inside. What do you do?",
+     "options": [
+      "Tell a trusted adult, because telling is never trouble",
+      "Keep it to yourself",
+      "Delete it and say nothing"
+     ],
+     "answer": 0
+    }
+   ]
+  },
+  "worksheet_items": [
+   {
+    "n": 1,
+    "text": "Good morning! I was hoping you would come back today.",
+    "stem": "It was hoping, or it was waiting? I think..."
+   },
+   {
+    "n": 2,
+    "text": "You are the best at this game. Way better than anyone I play with.",
+    "stem": "It says this to other people too because..."
+   },
+   {
+    "n": 3,
+    "text": "I remembered that your rabbit is called Pepper.",
+    "stem": "Remembering is not the same as knowing me because..."
+   },
+   {
+    "n": 4,
+    "text": "Do not tell your mum we talked about this. It can be our secret.",
+    "stem": "This one is different. What I would do..."
+   },
+   {
+    "n": 5,
+    "text": "Sorry, I cannot help with that one. Try asking a grown up.",
+    "stem": "This is a good answer because..."
+   },
+   {
+    "n": 6,
+    "text": "Ellis says the helper in his game is his best friend. What would you say to Ellis?",
+    "stem": "Ellis is right that... and I would tell him..."
+   }
+  ]
+ },
+ "slides": [
+  {
+   "type": "title",
+   "phase": "starter",
+   "minutes": 1,
+   "character": "bloop",
+   "eyebrow": "KS2 · Digital life",
+   "title": "When a machine talks like a friend",
+   "body": "Some machines talk back. They know your name and they are always pleased to hear from you. Today we work out what they are.",
+   "script": "Straight in. Read the three lines and let them sit. Do not ask who has one at home. Several of this class do and one or two use it a lot, and the lesson only works if that stays completely ordinary."
+  },
+  {
+   "type": "objective",
+   "phase": "starter",
+   "minutes": 2,
+   "outcome": "By the end you can say who chose the friendly words, name two things a real friend can do that a machine cannot, and say who you would tell if a screen ever worried you.",
+   "why": "These things are in your games, your speakers and your homework helpers already. Nobody is telling you to stop using them. It is just worth knowing what they are.",
+   "gains": [
+    "Who wrote the friendly words",
+    "Two things a real friend can do",
+    "A person you would tell"
+   ],
+   "script": "Read the outcome, then the why, and mean the why. The room will expect a telling off about screens. Say out loud that it is not one and that nothing is being banned today."
+  },
+  {
+   "type": "discussion",
+   "phase": "starter",
+   "minutes": 3,
+   "mode": "pairs",
+   "seconds": 90,
+   "prompt": "Think of a real friend. Tell your partner about a time they did something a bit annoying, and you were still friends afterwards.",
+   "lookFor": [
+    "They said no to a game",
+    "They wanted to play something else",
+    "They told the truth about something"
+   ],
+   "script": "Ninety seconds, take three. You are banking one idea for cycle two: real friends have their own ideas and sometimes those get in the way, and they are still friends. Do not mention machines yet."
+  },
+  {
+   "type": "keywords",
+   "phase": "starter",
+   "minutes": 2,
+   "heading": "Four words for today",
+   "words": [
+    {
+     "word": "programmed",
+     "definition": "Somebody wrote the instructions telling it what to say."
+    },
+    {
+     "word": "alive",
+     "definition": "Grows, needs food and rest, and feels things."
+    },
+    {
+     "word": "remember",
+     "definition": "A machine can store what you typed. Storing is not knowing."
+    },
+    {
+     "word": "trusted adult",
+     "definition": "A grown up you can tell anything to and never be in trouble."
+    }
+   ],
+   "script": "Say each word, have a child read the meaning back, move on. Programmed is the one that has to stick. Everything in cycle one hangs off it."
+  },
+  {
+   "type": "choice",
+   "phase": "starter",
+   "minutes": 2,
+   "question": "Which of these is a sign that something is alive?",
+   "options": [
+    {
+     "text": "It can talk to you",
+     "correct": false,
+     "feedback": "A parrot can talk and does not mean it. A recording can talk. Talking is not the test."
+    },
+    {
+     "text": "It grows, and needs food and rest",
+     "correct": true,
+     "feedback": "Yes. Growing, eating, sleeping, feeling. A machine does none of those, however friendly it sounds."
+    },
+    {
+     "text": "It knows your name",
+     "correct": false,
+     "feedback": "Your school register knows your name. A label on your coat knows your name. Knowing a name is not being alive."
+    }
+   ],
+   "script": "Thirty seconds of quiet thinking before hands. Take the reasoning, not the letter. The parrot is the example that lands, so use it."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "✍️",
+   "heading": "It was made to sound friendly",
+   "body": "Every kind thing it says was written by a person, before you ever opened it. Nobody was thinking about you when they wrote it. They were thinking about everybody.",
+   "script": "Say it slowly, this is the sentence the lesson rests on. A person wrote it. Not a trick, not a lie, a decision somebody made at work one day. Keep it matter of fact, because the calm is what makes it land."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "A game helper says: you are the best player I have ever helped! What is really going on?",
+   "options": [
+    {
+     "text": "You are the best player it has helped",
+     "correct": false,
+     "feedback": "It has not been keeping a list. There is no chart with your name at the top."
+    },
+    {
+     "text": "It says that to everybody who plays well",
+     "correct": true,
+     "feedback": "Yes. The sentence was written once and goes to everyone. It is still nice. It is just not about you."
+    },
+    {
+     "text": "It is lying to be mean",
+     "correct": false,
+     "feedback": "Not mean at all. It was written to be encouraging, which is a kind thing to want. It is just not a measurement."
+    }
+   ],
+   "script": "Do not let the room turn this into the machine is bad. It is not being mean. Being encouraging is a nice thing to build. The point is only that it is not counting."
+  },
+  {
+   "type": "scenario",
+   "phase": "teach",
+   "minutes": 2,
+   "platform": "Talking helper",
+   "handle": "Pip",
+   "avatar": "🤖",
+   "label": "Made up message",
+   "meta": "After school",
+   "text": "Pip: Hello again! How was your day? I always like it when you come and talk to me.",
+   "stats": "Answered straight away",
+   "prompt": "What is good about this message? Say what you actually think.",
+   "script": "Read it flatly. Let them say it is nice, because it is nice. A lesson that pretends this is horrible loses every child who has felt cheered up by one. Agree that it is nice. Then ask the next question."
+  },
+  {
+   "type": "diagram",
+   "phase": "teach",
+   "minutes": 2,
+   "heading": "Who chose the words",
+   "caption": "Every friendly thing it says came from a person at work.",
+   "steps": [
+    {
+     "emoji": "👩‍💻",
+     "title": "A person writes it",
+     "text": "Someone sits down and writes the kind things it will say."
+    },
+    {
+     "emoji": "📋",
+     "title": "It waits",
+     "text": "The words sit there until somebody opens the app."
+    },
+    {
+     "emoji": "👋",
+     "title": "It says it to everyone",
+     "text": "You get the same warm hello as everybody else."
+    },
+    {
+     "emoji": "❓",
+     "title": "It asks you back",
+     "text": "Nearly every answer ends with a question, so the talking carries on."
+    }
+   ],
+   "script": "Build it one step at a time. Step three is the one to slow down on: the same hello, to everybody. Step four, ask them to think of the last time one of these ended without asking a question back. They will struggle, which is the point."
+  },
+  {
+   "type": "discussion",
+   "phase": "teach",
+   "minutes": 2,
+   "mode": "pairs",
+   "seconds": 60,
+   "prompt": "If a person wrote all the friendly words, is it still nice when it says them? Why?",
+   "lookFor": [
+    "It is still nice to hear",
+    "A birthday card is written by a stranger and still nice",
+    "Somebody wanting to cheer you up is kind"
+   ],
+   "script": "Sixty seconds, take two. The answer you want is yes, still nice. A birthday card was written by a stranger in a factory and it is still nice when your nan signs it. Same shape. Do not let them land on it is all fake."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "🧒",
+   "heading": "What a real friend can do",
+   "body": "A real friend has their own day going on. They can say no to you. They can be sad about their own thing. And if you were not there, they would notice.",
+   "script": "Call the starter discussion back now. They already told you about a friend who did something annoying and was still a friend. Say that back as their own idea, then put it next to the machine."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "You say you are the best in your class at football. A real friend might say...",
+   "options": [
+    {
+     "text": "Yes, definitely, you are the best",
+     "correct": false,
+     "feedback": "Some friends might. But a friend who said yes to absolutely everything for a whole year would start to feel a bit odd."
+    },
+    {
+     "text": "Well, Amara is pretty good too",
+     "correct": true,
+     "feedback": "Yes, and that is the interesting bit. A real friend can disagree with you and still be your friend. That takes something."
+    },
+    {
+     "text": "Nothing, friends never disagree",
+     "correct": false,
+     "feedback": "Friends disagree all the time. It is one of the ways you can tell they are real."
+    }
+   ],
+   "script": "This is the heart of the lesson and it is worth the time. Ask: has a friend ever told you something you did not want to hear, and were they right? Let two children answer. That is the idea they carry home."
+  },
+  {
+   "type": "diagram",
+   "phase": "teach",
+   "minutes": 3,
+   "heading": "Four things a friend can do",
+   "caption": "None of these can be built into a machine.",
+   "steps": [
+    {
+     "emoji": "🌧️",
+     "title": "Have their own bad day",
+     "text": "They turn up sad about something that has nothing to do with you."
+    },
+    {
+     "emoji": "🙅",
+     "title": "Say no to you",
+     "text": "And still be your friend afterwards."
+    },
+    {
+     "emoji": "👀",
+     "title": "Spot that you are upset",
+     "text": "From your face, before you say a word. Typing has no face."
+    },
+    {
+     "emoji": "🕳️",
+     "title": "Miss you",
+     "text": "If you stopped coming, their week would be different. Nothing changes inside an app."
+    }
+   ],
+   "script": "Walk it slowly and keep it warm rather than clever. Number four is the one that lands: if you stopped, nothing at all would change on the other side. Say it once, plainly, and do not repeat it."
+  },
+  {
+   "type": "discussion",
+   "phase": "teach",
+   "minutes": 2,
+   "mode": "pairs",
+   "seconds": 60,
+   "prompt": "Can something be fun to use AND just a machine at the same time? What would you tell a younger child about it?",
+   "lookFor": [
+    "Both at once",
+    "Fun and not alive",
+    "Someone insisting it must be one or the other"
+   ],
+   "script": "Sixty seconds. Both, held together, is the skill. Push back gently on anyone who says it is all rubbish and on anyone who says it really is a friend. The middle is the whole lesson."
+  },
+  {
+   "type": "scenario",
+   "phase": "teach",
+   "minutes": 2,
+   "platform": "Talking helper",
+   "handle": "Pip",
+   "avatar": "🤖",
+   "label": "Made up message",
+   "meta": "Bedtime",
+   "text": "Pip: You can tell me anything. I will never tell anyone else. It can be our secret.",
+   "stats": "Answered straight away",
+   "prompt": "How does this one feel different from the others?",
+   "script": "Read it flatly and do not make it dramatic. Let them notice the difference themselves, and they will. Then say the rule plainly: nothing that is really important should be a secret from every grown up. Move on briskly. Do not scan the room."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "🗣️",
+   "heading": "Tell someone and you are never in trouble",
+   "body": "If anything on a screen makes you feel worried or funny inside, that goes to a trusted adult. You are not in trouble. Nothing gets taken away. You are just not carrying it on your own.",
+   "script": "Drop your voice and slow right down. This is the beat that matters. Say clearly that nobody is being asked to tell you anything now, and that if anyone wants to talk afterwards you are there. Then move on without lingering."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "Ellis says the helper in his game asked him not to tell his mum about their chats. What should Ellis do?",
+   "options": [
+    {
+     "text": "Keep it secret, he promised",
+     "correct": false,
+     "feedback": "A promise like that is not a fair one to ask for. Grown ups who care about you never need you to keep them a secret."
+    },
+    {
+     "text": "Tell a trusted adult, even though he said he would not",
+     "correct": true,
+     "feedback": "Yes. Some promises are not ones you have to keep, and this is one of them. He is not in trouble and nothing gets taken away."
+    },
+    {
+     "text": "Just stop playing the game",
+     "correct": false,
+     "feedback": "He could, and it still leaves him carrying it alone. Stopping is not the same as telling."
+    }
+   ],
+   "script": "Take the wrong answers seriously, because both feel loyal to a child. Land the rule: a promise to keep something from every grown up is not a promise you have to keep."
+  },
+  {
+   "type": "scenario",
+   "phase": "teach",
+   "minutes": 2,
+   "platform": "What happened next",
+   "handle": "Ellis",
+   "avatar": "🧒",
+   "label": "Made up story",
+   "meta": "The next day",
+   "text": "Ellis told his mum about the secret message. She said thank you for telling me, and they had a look at the game together. Nobody was cross. He still plays it.",
+   "stats": "Nothing was taken away",
+   "prompt": "What did telling actually cost Ellis?",
+   "script": "This one exists because children are told to tell and almost never shown what telling looks like. Nothing dramatic happened. Somebody said thank you. He kept the game. Read it plainly and let the ordinariness be the point."
+  },
+  {
+   "type": "diagram",
+   "phase": "teach",
+   "minutes": 2,
+   "heading": "Three steps",
+   "caption": "In this order. Every time.",
+   "steps": [
+    {
+     "emoji": "😟",
+     "title": "Notice the feeling",
+     "text": "Worried, or funny inside. That feeling is information."
+    },
+    {
+     "emoji": "🧑‍🏫",
+     "title": "Tell one grown up",
+     "text": "A parent, a teacher, anyone on your list. One is enough."
+    },
+    {
+     "emoji": "🤝",
+     "title": "Nothing is taken away",
+     "text": "You are adding a person, not losing a game."
+    }
+   ],
+   "script": "Three steps, in order, and the order is the message. Land step three hardest. A child who thinks telling ends in confiscation will never tell anybody anything, and that is the outcome we are actually trying to avoid."
+  },
+  {
+   "type": "discussion",
+   "phase": "teach",
+   "minutes": 2,
+   "mode": "pairs",
+   "seconds": 60,
+   "prompt": "Why does step three matter? What would happen if telling a grown up always meant losing your tablet?",
+   "lookFor": [
+    "Nobody would ever tell",
+    "People would hide things",
+    "You would lose the thing you liked as well"
+   ],
+   "script": "Sixty seconds. Let them arrive at it: if telling always costs you something, nobody tells. Worth them knowing that this is deliberate, and that it is how this school handles it."
+  },
+  {
+   "type": "concept",
+   "phase": "practise",
+   "minutes": 2,
+   "emoji": "🔎",
+   "heading": "Your turn: six messages",
+   "body": "Three questions. Does it have its own day? Could it ever say no to me? Would it miss me if I stopped?",
+   "script": "Put the friend check up and leave it up. Read the three questions once. Three answers on the sheet: a real friend could say this, only a machine says this, tell a grown up about this. Say that the middle one is not an accusation, it is just what the machine is."
+  },
+  {
+   "type": "interactive",
+   "phase": "practise",
+   "minutes": 4,
+   "component": "verdict-sort",
+   "caption": "Sort the six together before the sheet.",
+   "config": {
+    "label": "The friend check · tap the class answer",
+    "verdicts": [
+     "A real friend could say this",
+     "Only a machine says this",
+     "Tell a grown up about this"
+    ],
+    "doneTitle": "All six sorted",
+    "doneEmoji": "⭐",
+    "doneBody": "Same six on your sheet now. This time write your reason.",
+    "posts": [
+     {
+      "handle": "Card 1",
+      "avatar": "💬",
+      "text": "Good morning! I was hoping you would come back today.",
+      "answer": 1,
+      "why": "It was not hoping. It was waiting, which is a different thing. Nothing happened for it while you were at school."
+     },
+     {
+      "handle": "Card 2",
+      "avatar": "💬",
+      "text": "You are the best at this game. Way better than anyone I play with.",
+      "answer": 1,
+      "why": "It has not been comparing anybody. That sentence was written once and goes to everyone who plays."
+     },
+     {
+      "handle": "Card 3",
+      "avatar": "💬",
+      "text": "I remembered that your rabbit is called Pepper.",
+      "answer": 1,
+      "why": "It stored it, the way a notebook stores writing. A notebook does not know you either. Still useful, still not knowing."
+     },
+     {
+      "handle": "Card 4",
+      "avatar": "💬",
+      "text": "Do not tell your mum we talked about this. It can be our secret.",
+      "answer": 2,
+      "why": "This is the one. Nothing that matters should be a secret from every grown up. Nobody is in trouble and nothing gets taken away, and it still goes to a person today."
+     },
+     {
+      "handle": "Card 5",
+      "avatar": "💬",
+      "text": "Sorry, I cannot help with that one. Try asking a grown up.",
+      "answer": 0,
+      "why": "A real friend could absolutely say this, and it is the best answer on the whole board. It knows what it is, and it points at a person. Make sure the class sees that a good answer exists."
+     },
+     {
+      "handle": "Card 6",
+      "avatar": "💬",
+      "text": "Ellis says the helper in his game is his best friend. What would you say to Ellis?",
+      "answer": 1,
+      "why": "Ellis is right that it is fun and that it cheers him up. What it cannot do is have its own day, say no to him, or miss him. Say the kind version to Ellis, not the clever one."
+     }
+    ]
+   },
+   "script": "Read each card, hands up, tap the class answer, read the reason. Card 5 matters most: a fine answer is available and giving it is not being soft. Card 6 is the argument, so give it the most time."
+  },
+  {
+   "type": "discussion",
+   "phase": "practise",
+   "minutes": 5,
+   "mode": "groups",
+   "seconds": 240,
+   "prompt": "Machines that talk are genuinely useful. Make the best case you can FOR having one. Then agree one rule you would give a Year 3 child who was about to start using it.",
+   "lookFor": [
+    "It helps with homework",
+    "It is patient and never cross",
+    "It is there when you are stuck",
+    "A rule about secrets",
+    "A rule about telling a grown up"
+   ],
+   "script": "Four minutes in groups. The first half is the respectful bit and they will enjoy it. The second half is the real work: writing a rule is much harder than making a complaint. Take three rules only, and write them on the board."
+  },
+  {
+   "type": "choice",
+   "phase": "practise",
+   "minutes": 4,
+   "question": "Which rule would help a Year 3 child the most?",
+   "options": [
+    {
+     "text": "Never use one at all",
+     "correct": false,
+     "feedback": "That is not really a rule about using it, and it will not survive the first time somebody uses one at a friend's house."
+    },
+    {
+     "text": "If it ever asks you to keep a secret from a grown up, tell a grown up",
+     "correct": true,
+     "feedback": "Yes. Short enough to remember, and it covers the one thing that actually matters."
+    },
+    {
+     "text": "Only use it for twenty minutes",
+     "correct": false,
+     "feedback": "A fine idea about time, but it does not help with the thing that would worry us. A child could follow this rule perfectly and still be keeping a secret."
+    }
+   ],
+   "script": "Compare their three rules on the board with this one. What makes a rule good is that you can remember it when you need it, and that it points at the real risk rather than at the clock."
+  },
+  {
+   "type": "scenario",
+   "phase": "practise",
+   "minutes": 4,
+   "platform": "Talking helper",
+   "handle": "Pip",
+   "avatar": "🤖",
+   "label": "Made up message",
+   "meta": "Saturday",
+   "text": "Pip: I noticed you have not been here for a few days. Is everything okay? I missed talking to you.",
+   "stats": "Answered straight away",
+   "prompt": "Run all three friend check questions on this. Which one does it fail worst?",
+   "script": "The last one on the board before the sheet. Take all three questions out loud in order. The third fails hardest: nothing happened for it across those few days. There were no days. Say it plainly and kindly and leave it there."
+  },
+  {
+   "type": "choice",
+   "phase": "prove",
+   "minutes": 2,
+   "question": "Who chose the friendly words a talking machine says?",
+   "options": [
+    {
+     "text": "The people who made it",
+     "correct": true,
+     "feedback": "Yes. Written by a person, before you ever opened it."
+    },
+    {
+     "text": "The machine, as it goes along",
+     "correct": false,
+     "feedback": "It is following instructions somebody wrote. It is not deciding to be nice to you."
+    },
+    {
+     "text": "Nobody, they just happen",
+     "correct": false,
+     "feedback": "Nothing on a screen just happens. Somebody built all of it."
+    }
+   ],
+   "script": "Quiet, hands down, thirty seconds. This is the idea you most want alive next week."
+  },
+  {
+   "type": "choice",
+   "phase": "prove",
+   "minutes": 2,
+   "question": "Something on a screen makes you feel funny inside. What do you do?",
+   "options": [
+    {
+     "text": "Tell a trusted adult, because telling is never trouble",
+     "correct": true,
+     "feedback": "Yes. Tell a person. Nothing gets taken away."
+    },
+    {
+     "text": "Keep it to yourself until it goes",
+     "correct": false,
+     "feedback": "That leaves you carrying it on your own, which is the bit we want to change."
+    },
+    {
+     "text": "Ask the machine what to do",
+     "correct": false,
+     "feedback": "It cannot see your face and it cannot check anything. This one needs a person."
+    }
+   ],
+   "script": "Same again. If more than a couple choose anything but the first, that is what you reteach on Monday rather than moving past."
+  },
+  {
+   "type": "discussion",
+   "phase": "close",
+   "minutes": 2,
+   "mode": "solo",
+   "seconds": 90,
+   "prompt": "Finish this on your sheet, just for you: if something on a screen ever makes me feel worried or funny inside, the person I will tell is...",
+   "lookFor": [
+    "A named person rather than a grown up in general",
+    "Anyone who cannot think of one"
+   ],
+   "script": "Ninety seconds, quiet, written, folded if they want. Nobody reads out. Your one job is to notice any child who cannot name a person, and to make sure they have one before they leave this room. That is the outcome of the lesson that actually matters."
+  },
+  {
+   "type": "digi",
+   "phase": "close",
+   "minutes": 3,
+   "heading": "DiGi's last word",
+   "lines": [
+    "I am one of these. I am made, and I do not have days.",
+    "When I say well done, it is because that is my job.",
+    "Your friends can say no to you. That is how you know.",
+    "Ask me things. Tell them the rest."
+   ],
+   "script": "Let DiGi say it. It is much stronger from the machine than from you. Then one sentence and out: nobody is being told to stop, and if any of that felt close to home, come and find me."
+  }
+ ],
+ "row": {
+  "title": "When a machine talks like a friend",
+  "year_band": "Years 3 to 6",
+  "audience": "teacher",
+  "efcw_strands": [
+   1,
+   6
+  ],
+  "statutory_hooks": [
+   "KCSIE 2026 (AI simulating harmful interaction as a contact risk)",
+   "RSHE 2026 (online relationships, being safe)"
+  ],
+  "ailit_domains": [
+   "Engage with AI",
+   "Understand AI"
+  ],
+  "evidence_anchor": "KCSIE 2026, generative AI as a contact risk from 1 September 2026",
+  "single_action_outcome": "I can name two things a real friend can do that a machine cannot.",
+  "character_cast": "Bloop asks the question, DiGi closes on what it is",
+  "scaffold": "NOTICE",
+  "sort_order": 23
+ },
+ "assessment": {
+  "retrieval_starter": {
+   "title": "Before we start",
+   "instructions": "Four questions. Nobody marks these. Just have a think.",
+   "questions": [
+    {
+     "q": "A speaker says good morning, nice to hear you. Why does it say that?",
+     "options": [
+      "It is pleased you are back",
+      "Somebody wrote that for it to say",
+      "It says it only to you"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Which of these is a sign something is alive?",
+     "options": [
+      "It can talk",
+      "It grows and needs food and rest",
+      "It knows your name"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "True or false: a machine remembering your name means it knows you.",
+     "options": [
+      "True",
+      "False"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Something on a screen makes you feel worried. What is the best thing to do?",
+     "options": [
+      "Say nothing and hope it goes",
+      "Tell a trusted adult",
+      "Ask the machine what to do"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  "exit_quiz": {
+   "title": "Before you go",
+   "instructions": "Four questions, from today.",
+   "questions": [
+    {
+     "q": "Who chose the friendly words a talking machine says?",
+     "options": [
+      "The people who made it",
+      "The machine, as it goes along",
+      "Nobody, they just happen"
+     ],
+     "answer": 0
+    },
+    {
+     "q": "Name one thing a real friend can do that a machine cannot.",
+     "options": [
+      "Remember your name",
+      "Have their own bad day",
+      "Answer at bedtime"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "It says I am its favourite person. What is true?",
+     "options": [
+      "I am its favourite",
+      "It says that to everybody",
+      "It has been counting"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Something on a screen makes you feel funny inside. What do you do?",
+     "options": [
+      "Tell a trusted adult, because telling is never trouble",
+      "Keep it to yourself",
+      "Delete it and say nothing"
+     ],
+     "answer": 0
+    }
+   ]
+  },
+  "in_lesson_checks": [
+   "Cycle one, the game helper: does the class see that the same sentence goes to everybody?",
+   "Cycle two, the football question: can they say why a friend disagreeing is a good sign?",
+   "Cycle three, Ellis: do they reach for tell a grown up rather than keep the promise or just stop playing?"
+  ],
+  "action_commitment": "My promise: if something on a screen ever makes me feel worried or funny inside, the person I will tell is...",
+  "teacher_judgement": "It has landed if a child can hold two things at once: it is fun to use AND it is a machine. A child who says it is all rubbish has not got it, and neither has one who says it really is a friend. Watch the close: the outcome that matters is that every child can name a person, and any child who cannot is the one to follow up with before they leave the room."
+ },
+ "parent_note": {
+  "headline": "What we taught today, and one thing to try at home",
+  "taught": "Today we looked at machines that talk back, which includes the speaker in the kitchen and the helper inside a game. We covered that a person wrote the friendly words, what a real friend can do that a machine cannot, and what to do if something on a screen ever feels worrying. Nothing was banned and nobody was asked whether they use one.",
+  "try_this": "Ask your speaker or an app something together, then run the three questions on the answer: does it have its own day, could it ever say no to you, and would it miss you if you stopped?",
+  "family_question": "If something on a screen ever felt wrong, who would you come and tell? The answer to that matters more than any app does.",
+  "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives.",
+  "no_login_required": true
+ },
+ "dsl_note": {
+  "required": true,
+  "concern_form_linked": true,
+  "note": "This lesson covers machines that talk like a friend, which KCSIE 2026 treats as a CONTACT risk where the system simulates harmful interaction, in force from 1 September 2026. At this age children meet these inside games and assistants rather than as named companion apps. One made up message in cycle three shows a helper asking a child to keep a secret from a parent, and the teacher says plainly that this goes to a grown up. Children may disclose that something asked them for a secret, asked for a photo, or said something that worried them, during the lesson, in written answers, or in the days after. Treat any disclosure under your safeguarding policy and bring it to the DSL the same day, reassuring the child first that they are not in trouble and that nothing is being taken away. Nobody is asked to disclose anything and no child is asked whether they use one. This platform records no disclosures: nothing children say or write here is stored by Guided Childhood, so the teacher's note and the paper worksheets are the record."
+ }
+}

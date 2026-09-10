@@ -94,4 +94,4 @@ slides.forEach((s,i) => {
 })
 
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
-console.log(`ks3-22: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)
+console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

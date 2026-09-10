@@ -190,6 +190,17 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
+    // The KS2 half of the competency ks3-22 covers at KS3, added 10 September
+    // 2026. Numbered 23 for the same reason 22 was: the ids after KS3 carry
+    // their numbers, and the array position is what puts it last in KS2.
+    n: 23, moduleId: 'ks2-23-when-a-machine-talks-like-a-friend', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    title: 'When a machine talks like a friend',
+    outcome: 'I can name two things a real friend can do that a machine cannot.',
+    blurb: 'Talking helpers, who wrote the friendly words, and who to tell.',
+    character: 'bloop', castLine: 'Bloop asks the question', dsl: true,
+    rshe: ['online_safety', 'respectful_relationships'],
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
