@@ -24,7 +24,8 @@
     "wall-contrast-guard": "node scripts/check-wall-contrast.mjs",
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
     "picker-guard": "node scripts/check-job-picker.mjs",
-    "auth-guard": "node scripts/check-auth-honesty.mjs"
+    "auth-guard": "node scripts/check-auth-honesty.mjs",
+    "kidbook-guard": "node scripts/check-passport-readonly.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

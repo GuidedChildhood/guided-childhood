@@ -1,6 +1,8 @@
 'use client'
 
 import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
+import PassportBook from '@/components/pathway/PassportBook'
+import type { Stamp } from '@/components/pathway/PassportStamps'
 
 // The passport, on its own.
 //
@@ -23,6 +25,7 @@ import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 
 export default function KidPassport({
   onClose, token, childName, stickers, celebrateStickers, passportCode = null, stageId = null,
+  book = null,
 }: {
   onClose: () => void
   token: string
@@ -40,6 +43,30 @@ export default function KidPassport({
    * down carries the same numbers; this is the sentence version, first.
    */
   stageId?: number | null
+  /**
+   * The real book, the one the grown ups keep, read only.
+   *
+   * Justin chose this on 10 September 2026 when he said the child's view should
+   * come now. Until today the child had a sticker book and the parent had a
+   * passport, and they were two different objects with the same name.
+   *
+   * ── WHAT A CHILD SEES, AND WHAT THEY DO NOT ────────────────────────────
+   *
+   * The slots draw a mark and one word each: Devices, Moments, Lessons, Jobs,
+   * Balance. They never draw the DETAIL, so a child sees that the moments slot
+   * is not filled in yet and never that their parent has logged two problems
+   * about them, nor what those problems are.
+   *
+   * That line was worth drawing carefully. This product's whole position is
+   * that nothing is kept secretly on a child, and the reveal page says so out
+   * loud, so hiding the book entirely would have been the wrong answer. Showing
+   * them a list of their parent's worries about them would have been a worse
+   * one. The shape of the work, yes. The contents of an adult's notes, no.
+   *
+   * Null everywhere the book cannot be built, and the takeover is the sticker
+   * book on its own, exactly as it was.
+   */
+  book?: { stamps: Stamp[]; currentStage: number | null } | null
 }) {
   const page = stageId ? stickers.find(s => s.rule.kind === 'stamp' && s.rule.n === stageId) : null
   const pageName = page ? page.name.replace(/ Stamp$/, '') : null
@@ -111,6 +138,21 @@ export default function KidPassport({
               )}
             </div>
             <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>🛂</span>
+          </div>
+        )}
+
+        {/* THE BOOK ITSELF, read only. No links out to a grown up's device
+            setup page, no send button, no page controls beyond the flip and the
+            drag. See the readOnly prop on PassportBook. */}
+        {book && book.stamps.length > 0 && (
+          <div style={{ marginBottom: 16 }}>
+            <PassportBook
+              stamps={book.stamps}
+              childName={childName}
+              currentStage={book.currentStage}
+              passportCode={passportCode}
+              readOnly
+            />
           </div>
         )}
 
