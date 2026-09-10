@@ -17,7 +17,7 @@
 //   retention schedules have no child facing competency and do not appear in
 //   the teaching list, exactly as the brief asked.
 
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { QUESTIONS } from '@gc/shared/ai-governance/questions'
 import { assess, priorityOrder, isPupilFacing, CATEGORIES, STATUS_LABEL, RATING_LABEL, classify } from '@gc/shared/ai-governance/rating'
@@ -44,6 +44,28 @@ export default function Result({ review, onUpdate }: {
   const type = useMemo(() => classify(review), [review])
 
   const pupilFacing = isPupilFacing(review)
+
+  // The policy wording and the parent letter are collapsed on screen and have
+  // to be in the printed record anyway: it is the thing that goes to
+  // governors, and what it contains cannot depend on which sections the person
+  // who printed it happened to have open. CSS alone will not do it, because a
+  // closed details hides its content through ::details-content rather than
+  // through display, so the element is opened for real and put back after.
+  useEffect(() => {
+    const root = () => document.querySelectorAll<HTMLDetailsElement>('details[data-record]')
+    let reclose: HTMLDetailsElement[] = []
+    const before = () => {
+      reclose = [...root()].filter(d => !d.open)
+      reclose.forEach(d => { d.open = true })
+    }
+    const after = () => { reclose.forEach(d => { d.open = false }); reclose = [] }
+    window.addEventListener('beforeprint', before)
+    window.addEventListener('afterprint', after)
+    return () => {
+      window.removeEventListener('beforeprint', before)
+      window.removeEventListener('afterprint', after)
+    }
+  }, [])
   const teaching = links.filter(l => l.modules.length > 0)
   const gaps = links.filter(l => l.modules.length === 0)
 
@@ -191,7 +213,7 @@ export default function Result({ review, onUpdate }: {
       )}
 
       {/* Policy wording, shown as a suggestion next to what the school has. */}
-      <details style={panel}>
+      <details data-record style={panel}>
         <summary style={{ ...labelStyle, cursor: 'pointer', fontSize: '16.5px' }}>Suggested policy wording</summary>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '10px 0 14px' }}>
           Paste and adapt. This does not replace anything you already have, and nothing here is legal advice.
@@ -208,7 +230,7 @@ export default function Result({ review, onUpdate }: {
       </details>
 
       {pupilFacing && (
-        <details style={panel}>
+        <details data-record style={panel}>
           <summary style={{ ...labelStyle, cursor: 'pointer', fontSize: '16.5px' }}>Draft letter to parents</summary>
           <pre style={{
             fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7,
@@ -285,8 +307,8 @@ export default function Result({ review, onUpdate }: {
         </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <button onClick={() => window.print()} style={btnGold}>Print this record</button>
+      <div className="no-print" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        <button onClick={() => { document.querySelectorAll<HTMLDetailsElement>('details[data-record]').forEach(d => { d.open = true }); window.print() }} style={btnGold}>Print this record</button>
       </div>
     </div>
   )

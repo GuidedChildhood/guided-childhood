@@ -115,6 +115,11 @@ export default function Review({ id }: { id: string }) {
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '28px 20px 80px' }}>
       <style>{`
         .gc-gov-rail { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        /* The disclosure arrows are interface, not record. What is inside
+           them is opened for print by Result.tsx, which has to do it in
+           JavaScript: a closed details hides its content through
+           ::details-content, which no display rule here can reach. */
+        @media print { details[data-record] > summary { list-style: none; } }
         @media (max-width: 760px) {
           .gc-gov-rail {
             flex-wrap: nowrap;
@@ -130,7 +135,9 @@ export default function Review({ id }: { id: string }) {
           }
           .gc-gov-rail::-webkit-scrollbar { display: none; }
         }
-        @media print { .gc-gov-rail { display: none; } }
+        /* !important because the step row carries an inline display, which a
+           plain stylesheet rule loses to. */
+        @media print { .gc-gov-rail, .gc-gov-steps { display: none !important; } }
       `}</style>
 
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -259,7 +266,7 @@ export default function Review({ id }: { id: string }) {
         {step === 'result' && <Result review={review} onUpdate={update} />}
 
         {/* Move on, without ever implying the section is finished. */}
-        <div style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
+        <div className="gc-gov-steps" style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
           {steps.findIndex(s => s.key === step) > 0 && (
             <button
               onClick={() => setStep(steps[steps.findIndex(s => s.key === step) - 1].key)}
