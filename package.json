@@ -26,7 +26,9 @@
     "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
     "picker-guard": "node scripts/check-job-picker.mjs",
     "auth-guard": "node scripts/check-auth-honesty.mjs",
-    "kidbook-guard": "node scripts/check-passport-readonly.mjs"
+    "kidbook-guard": "node scripts/check-passport-readonly.mjs",
+    "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
+    "module-contract": "node scripts/check-module-contract.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

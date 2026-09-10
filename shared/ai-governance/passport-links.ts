@@ -102,10 +102,10 @@ export const PASSPORT_LINKS: PassportLink[] = [
     risk: 'The product behaves like a friend rather than a tool.',
     competency: 'Can I explain the difference between an AI that talks like a friend and a friend?',
     stages: ['explorer', 'shaper'],
-    modules: [],
-    gap: 'No module covers this yet. The nearest are the persuasion and mood lessons, ' +
-      'and neither is about a machine that acts like a person who cares. This is a ' +
-      'real gap in the scheme and it is written down here so it gets filled.',
+    // Filled 10 September 2026. This link shipped with an empty modules list
+    // and a gap note shown to schools in amber, on the argument that naming a
+    // hole honestly beats linking a near miss. The hole is now a lesson.
+    modules: ['ks3-22-when-an-ai-acts-like-a-friend'],
   },
   {
     id: 'secrecy',

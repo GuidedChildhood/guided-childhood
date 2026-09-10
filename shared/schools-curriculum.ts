@@ -230,6 +230,22 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['pornography', 'mental_wellbeing', 'online_safety'],
   },
   {
+    // The twenty second module, added 10 September 2026, and the only one that
+    // arrived from the other direction: the school AI governance tool named a
+    // risk with no lesson behind it and said so on screen, in amber, to every
+    // school that hit it. Numbered 22 rather than inserted at 15, because the
+    // ids of the seven modules after it already carry their numbers and a
+    // module labelled 16 with an id saying ks4-15 helps nobody. It sits here in
+    // the array, so it reads last in KS3 everywhere the map groups by key
+    // stage, which is where it belongs.
+    n: 22, moduleId: 'ks3-22-when-an-ai-acts-like-a-friend', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    title: 'When an AI acts like a friend',
+    outcome: 'I can explain what a friend does that a machine cannot.',
+    blurb: 'Companion apps, warmth by design, and who to tell if it starts to matter.',
+    character: 'orbit', castLine: 'Orbit asks the bigger question', dsl: true,
+    rshe: ['online_safety', 'mental_wellbeing', 'respectful_relationships'],
+  },
+  {
     n: 15, moduleId: 'ks4-15-manipulation-persuasion', keyStage: 'KS4', yearBand: 'Years 10 to 11',
     title: 'Manipulation and persuasion',
     outcome: 'I can name the technique being used on me.',

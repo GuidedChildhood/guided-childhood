@@ -9,6 +9,7 @@ import ShareQrButton from '@/components/quests/ShareQrButton'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
 import PushPrompt from '@/components/push/PushPrompt'
 import { STEPS, type SetupFlags, type SetupStep } from '@/lib/setup/steps'
+import { recommendedDailyMinutes, baseDailyMinutes, SCREEN_GUIDE_SOURCES } from '@/lib/quests/screen-balance'
 
 // THE SETUP QUEST. Three numbered steps, revealed one at a time.
 //
@@ -477,7 +478,23 @@ function StepAction({ step, child, childList, userId }: {
 // window a parent has already set. The step ticks once every child has a row,
 // and "None" writes a row like any other answer.
 
-const CORE_CHOICES = [0, 30, 45, 60, 90]
+// The choices are built per child rather than fixed, because a fixed row let a
+// parent hand a four year old ninety minutes, which is above the guide for that
+// age and leaves the stars nothing to add. Four options: none, half the base,
+// the base itself, and the guide.
+//
+// The base and the guide are not invented here. lib/quests/screen-balance.ts is
+// the one source of truth for both and sixteen other places already read it, so
+// the number in setup is the number the timer, the child's screen and the
+// balance report all use. Building a second table here was the first version of
+// this change and it was wrong: two tables drift, and the one already in the
+// codebase carries the sourcing.
+const coreChoicesFor = (ageBand: string | null): number[] => {
+  const guide = recommendedDailyMinutes(ageBand)
+  const base = baseDailyMinutes(ageBand)
+  const half = Math.round((base / 2) / 5) * 5
+  return [...new Set([0, half, base, guide])].sort((a, b) => a - b)
+}
 
 type TimeSettings = {
   coreMinutesDaily: number
@@ -552,11 +569,16 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-        Free time is always theirs, no stars needed, so the screen never becomes the prize. Stars buy more on top. Bedtime and mealtimes stay protected whatever you pick.
+        Free time is always theirs, no stars needed, so the screen never becomes the prize. We suggest
+        starting below the daily guide for their age, on purpose, so the quests have somewhere real to add
+        to and the last stretch is earned. Bedtime and mealtimes stay protected whatever you pick.
       </p>
       {childList.map(c => {
         const name = c.name && c.name !== 'Your child' ? c.name : 'Your child'
         const picked = chosen[c.id]
+        const guide = recommendedDailyMinutes(c.age_band)
+        const base = baseDailyMinutes(c.age_band)
+        const choices = coreChoicesFor(c.age_band)
         return (
           <div key={c.id} style={{ border: '2px solid var(--ink)', borderRadius: '14px', padding: '10px 12px', background: '#fff' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
@@ -569,22 +591,59 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
               )}
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
-              {CORE_CHOICES.map(m => {
+              {choices.map(m => {
                 const on = picked === m
+                // The suggested starting point is marked only while nothing is
+                // chosen. Once a parent has answered, their answer is the thing
+                // on the screen, not our opinion of it.
+                const suggest = picked === undefined && m === base
                 return (
                   <button key={m} type="button" disabled={busy === c.id} onClick={() => choose(c.id, m)} aria-pressed={on} style={{
                     flex: 1, padding: '9px 4px', borderRadius: '11px', cursor: busy === c.id ? 'default' : 'pointer',
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                     background: on ? 'var(--terracotta-lt)' : '#fff',
-                    color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
-                    border: on ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+                    color: on ? 'var(--terracotta-dark)' : suggest ? 'var(--ink)' : 'var(--ink-muted)',
+                    // A dashed edge, not a fill. A filled suggestion reads as
+                    // already chosen, and nothing is chosen until they tap.
+                    border: on ? '2px solid var(--terracotta)'
+                      : suggest ? '2px dashed var(--gold-hover)' : '2px solid var(--ink)',
                   }}>{m === 0 ? 'None' : `${m}m`}</button>
                 )
               })}
             </div>
+
+            {/* What we suggest, where the stars take it, and who says so. Never
+                a threshold, because there is not one: the bodies below disagree
+                with each other and the RCPCH declined to set a number at all. */}
+            <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
+              <strong style={{ color: 'var(--ink)' }}>
+                We suggest {base}m to start, with stars earning the rest up to {guide}m.
+              </strong>{' '}
+              {guide}m is the daily guide for their age, not a limit anyone has proved. Stars never take
+              them past it.
+            </p>
+
           </div>
         )
       })}
+      {/* The proof path. Four bodies, named, and the fact that they do not all
+          agree is the honest part rather than something to tidy away. */}
+      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: 0 }}>
+        Where the guides come from: {SCREEN_GUIDE_SOURCES.map(g => `${g.body} ${g.year}`).join(', ')}. They do
+        not all agree, and the RCPCH looked and said there is no single safe limit, so we give you a place to
+        start and the balance to judge it by.
+      </p>
+
+      {/* Point three: encouraged, never required. Nothing is blocked if a
+          family ignores it, because a product built on connection cannot make
+          tracking the price of using it. What it buys them is the only thing
+          we can honestly promise, which is a balance worth looking at. */}
+      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+        When they ask for their time through the app rather than just picking up the tablet, we can show you
+        both halves of the day: what went on a screen and what did not. That is the picture worth having, and
+        it is the one that makes the balance mean something. Nothing stops working if you would rather not.
+      </p>
+
       {failed && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: 0, textAlign: 'center' }}>
           That did not save. Have another go.

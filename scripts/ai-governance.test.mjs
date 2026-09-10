@@ -194,8 +194,18 @@ const blank = (over = {}) => ({
   ok('nothing is raised by an empty review', raisedLinks({}).length === 0)
   ok('a companion answer raises the companion link',
     raisedLinks({ 'r-friendship': { value: 'yes' } }).some(l => l.id === 'companion'))
-  ok('the companion gap is stated rather than mislinked',
-    PASSPORT_LINKS.find(l => l.id === 'companion')?.modules.length === 0)
+  // This assertion used to say the opposite: that the companion link had no
+  // module and said so. That was right while the scheme had no lesson about a
+  // machine that acts like a person who cares, and the gap was shown to schools
+  // in amber rather than papered over with the persuasion or mood lessons. The
+  // lesson exists now (ks3-22, migration 282), so the honest state is a real
+  // link and the test moves with it. What has not changed is the rule the two
+  // checks above enforce: every link either names a lesson that exists, or
+  // explains why it cannot.
+  const companion = PASSPORT_LINKS.find(l => l.id === 'companion')
+  ok('the companion link now names a lesson',
+    companion?.modules.length === 1 && !companion?.gap,
+    `modules: ${companion?.modules.join(', ') || 'none'}, gap: ${companion?.gap ? 'still set' : 'cleared'}`)
 }
 
 console.log(failed

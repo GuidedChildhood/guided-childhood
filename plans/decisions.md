@@ -12671,3 +12671,159 @@ with the current chip scrolled into view, wrapped above 760px.
 schema change, no new server route, one line added to `/hub`. The access gate
 already covers the new pages because they sit under `/hub` and `OPEN_PATHS` was
 not touched.
+
+## 10 September 2026: the cycle budgets 280 broke, and a map that had been missing since 270
+
+**279 and 280 are applied.** I reported three times that they were not. They
+are: all 21 modules match the post 280 state exactly, checked slide count by
+slide count against the local run. The claim was wrong and it was repeated,
+including in a pull request body and a written report.
+
+**280 cost something nobody counted.** Fourteen of its engagement beats landed
+in a teach phase, which is where the cycles live, and nothing recomputed the
+budgets. Twelve modules under reported: four minutes on ks2-05 and ks4-17,
+which took two beats each, two minutes on the other ten. A teacher reading
+"cycle two, 14 minutes" was planning against a cycle that runs sixteen. That is
+the arithmetic 267 and 270 existed to remove.
+
+**Which cycle absorbs a beat is not a judgement call.** I recorded it as one
+and that was wrong. Reading the player settles it: a cycle opens on the slide
+whose heading it names and runs to the slide before the next cycle opens, so a
+beat already belongs to whichever cycle it physically sits inside, and the
+chrome above the slide already tells a class so. The only thing wrong was the
+number. 281 recomputes all twelve by replaying the player's own anchoring
+against the live decks. No curriculum decision was needed or taken.
+
+**ks4-16 has had no cycle map at all since 270.** Its cycle three is titled
+"Pressure" and no heading in that deck contains the word. The player scores a
+title against each heading, needs half the words, finds nothing, and drops the
+whole map rather than name a wrong cycle on screen. Silent: the deck renders,
+the lesson runs, the chrome is empty. 270's guard compared cycle minutes to the
+teach phase and ks4-16's minutes were right the whole time, so it stayed green
+for eleven days. Retitled to "Everyone is not sending them", the heading the
+cycle actually opens on, which is what 270 did for the seven titles that named
+nothing. Confirmation it is the right boundary: that anchor reproduces the
+minutes the module already stated, 6, 9, 7 and 6, without changing one.
+
+**The migration nearly destroyed what it was fixing.** The first generated
+draft rebuilt each cycles array from an extract carrying title and minutes
+only, which would have deleted `verb` and `outcome` from every cycle it
+touched. 270's guard would have caught it, loudly. A migration should not need
+its own guard to stop it destroying data, so it writes one `jsonb_set` per
+field that actually changes and touches nothing else.
+
+**`scripts/check-cycle-anchors.mjs`** replicates the player's rule and fails on
+any deck it cannot map, which is the half 270's guard could not see. Proven
+against the unfixed data first: 14 problems across 21 modules, then clean. Not
+in CI, for the same reason the council is not: it needs the live scheme, and a
+pass against no data is the failure it exists to catch.
+
+**Still wrong, and left for its own migration.** Every one of the 21 timing
+strings under states the lesson total, by two to six minutes, because none was
+recomputed after 271, 278, 279 or 280. eyfs-01 says 33 and runs 39. ks2-05 and
+ks4-17 say 64 and run 70. The smallest gap is two minutes and there is no
+module without one. That is prose in several shapes, one of which carries a
+whole alternative plan for a 55 minute period, so it wants writing rather than
+a regular expression.
+
+## 10 September 2026: the recommended time on setup step three, and the table that already existed
+
+**Justin, 10 September:** the setup step that asks how much free screen time a
+child gets should name the recommended amount, default under it so quests can
+earn the rest up to it, and encourage families to ask for time through the app
+so the balance can be measured against offline.
+
+**The evidence does not support a threshold, and saying it does would be the
+one claim this product cannot make.** `research/2026-08-31-marketing-evidence-research.md`
+has RCPCH 2019 verified as "no safe or harmful threshold", Przybylski's
+Goldilocks finding, and Etchells on what the time displaces rather than how long
+it ran. The UK Chief Medical Officers looked at the same question and declined
+to set a limit. A confident number with no source is the unearned certainty the
+LinkedIn work attacks in other people. Justin picked a sourced age default,
+named as a starting point rather than a limit, over both a bare number and a
+displacement only framing with no total.
+
+**Then it turned out none of it needed inventing.** `lib/quests/screen-balance.ts`
+already holds the whole thing, and it was built from Justin's own words on 9
+September: `BAND` for the age guide, `SCREEN_GUIDE_SOURCES` naming the WHO, the
+AAP, the Canadian 24 hour guidelines and the RCPCH, `BASE_SHARE = 2/3` and
+`baseDailyMinutes` for the starting point that sits under the guide, and a
+`DayAllowance` where earned minutes never pass it. Sixteen places read it. The
+mechanic was already correct everywhere except the one screen that introduces
+it.
+
+**The first version of this change built a second table**, with its own numbers
+and its own sourcing comment, which would have drifted from the real one inside
+a month. Deleted. Step three now reads the same functions as the timer, the
+child's screen and the balance report.
+
+**The choices are per child now, not a fixed row.** `[0, 30, 45, 60, 90]` let a
+parent hand a four year old ninety minutes, which is above the guide for that
+age and leaves the stars nothing to add, so the mechanic silently did nothing.
+Four options built from the band: none, half the base, the base, the guide. An
+eight year old sees none, 25, 50 and 75. The base is marked with a dashed edge
+rather than a fill, because a filled suggestion reads as already chosen and
+nothing is chosen until a parent taps.
+
+**The sources are on the screen**, all four, with the fact that they disagree
+said out loud and the RCPCH's refusal to set a limit named. That is the proof
+path for the only number on the step.
+
+**App requested time is encouraged and never required.** A product built on
+connection cannot make tracking the price of using it, so the line says what it
+buys a family, which is both halves of the day, and that nothing stops working
+if they would rather not.
+
+**Two pre existing copy mismatches in `BAND`, not fixed here.** The 8 to 10 line
+says "up to an hour or so" beside `dailyMins: 75`, and 11 to 13 says "a couple
+of hours" beside `90`. Neither is wrong enough to be worth a change in a commit
+about something else, but the prose and the number should agree.
+
+## 10 September 2026: the twenty second module, demanded by a feature
+
+**Justin: "add missing lesson regarding ai."** The school AI governance tool
+joins a procurement risk to the lesson that teaches a child about it. Six of its
+seven links resolved. The seventh named a competency, "can I explain the
+difference between an AI that talks like a friend and a friend", and had no
+module behind it. Rather than link the persuasion or mood lessons, which are
+close and are not it, the gap was written down and shown to schools in amber.
+`ks3-22-when-an-ai-acts-like-a-friend` closes it, in migration 282.
+
+**It is a safeguarding lesson, not an IT one.** KCSIE 2026 treats generative AI
+simulating harmful interaction as a CONTACT risk, in force from 1 September
+2026. That is the spine of the lesson and the reason `dsl_note.required` is
+true. It is also why the lesson is timely rather than speculative.
+
+**It never says stop.** Non negotiable one. A pupil told to delete it has a
+secret as well as a habit, and has learned that this teacher is not the one to
+tell. Cycle three lands on keep both: nobody is taking the app away, you are
+adding a person. One of the six practise cases is deliberately fine, so the
+class sees that a good verdict exists and giving it is not being soft.
+
+**What it will not claim.** No rewiring, no two sigma tutor, no retracted
+learning gains paper, no 65 percent of future jobs. The single outcome claim is
+Bastani et al., PNAS 2025, used only for what it measured: unguarded chatbot
+access and exam grades, never loneliness or attachment.
+
+**Its arithmetic is honest, which makes it the first one that is.** 27 slides,
+62 minutes, and the timing string says 62. The other 21 all under state their
+totals by two to six minutes. That fix stays a separate migration.
+
+**sort_order 22, not an insert at 15.** The plan said shift everything from 15
+up. Building it showed why not: the seven modules after KS3 carry their numbers
+inside their ids, so shifting the display number gives a module labelled 16 with
+an id saying `ks4-15`. Every surface groups by key stage and keeps array order,
+so putting the entry after `ks3-14` in the manifest reads last in KS3 everywhere
+without renumbering a thing.
+
+**A test had to change, and the direction matters.** `ai-governance.test.mjs`
+asserted the companion gap was stated rather than mislinked. That was the right
+assertion while no lesson existed. Now the honest state is a real link, so the
+assertion says that instead. The rule underneath is untouched: every link either
+names a lesson that exists, or explains why it cannot.
+
+**Measured with 22 modules, against the live scheme plus 281 and 282:** prose
+9.78 to 9.79, blocks 9.52 to 9.57, engagement held at 10.00 with 160 of 160
+stretches inside four minutes, passport 10.00 with 22 of 22 knowing their page.
+The new module contributes zero failures on all four checks. Both ratchets moved
+up, and the fixture run does not touch the floor.
