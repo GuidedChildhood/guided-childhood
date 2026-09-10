@@ -17,7 +17,23 @@ import {
   type StarterAnswers,
 } from '@/lib/content/stages'
 
-type Step = 'intro' | 'details' | 'q1' | 'q2' | 'q4' | 'reassure' | 'result'
+// ── THE ACCOUNT COMES LAST (10 September 2026) ────────────────────────────
+//
+// Every advert we run says "Three questions. No sign up." (app/page.tsx). The
+// second screen of this flow used to be Create your account, with a name, an
+// email and a password, before a single question about the child. That is the
+// funnel's headline claim broken at the first step, and THE-STORY puts the
+// whole route to 4,000 a month through this one page.
+//
+// It was front loaded in July (commit 619150bc) for a good reason: the old
+// flow asked about the child twice, once here and once in a separate
+// onboarding. Asking once is still right. Asking once at the END costs nothing,
+// because the answers are already held in state and in localStorage.
+//
+// Calm Sleep, Brilliant and Life Reset all do it this way: the questions, then
+// the personalised result, then the account framed as the thing that saves it.
+// See plans/2026-09-10-starter-account-last.md for the numbers.
+type Step = 'intro' | 'q1' | 'q2' | 'q4' | 'reassure' | 'result' | 'account'
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'] as const
@@ -107,6 +123,8 @@ export default function StarterPackPage() {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [savingEmail, setSavingEmail] = useState(false)
+  /** True once the account exists, so the reveal stops offering to make one. */
+  const [accountMade, setAccountMade] = useState(false)
   // True once the account exists and needs email confirmation before they can
   // step into the platform (only when Confirm email is switched on in
   // Supabase). With it off, a session is created and this stays false.
@@ -131,7 +149,7 @@ export default function StarterPackPage() {
     try {
       const saved = localStorage.getItem('gc_starter_progress')
       if (saved) {
-        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; worryOther?: string; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        const parsed = JSON.parse(saved) as { step: Step | 'details' | 'q3' | 'email'; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: string[]; worryOther?: string; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
         // A parent part way through keeps the birthday they already gave, and
         // an older saved run has no birthday at all, which is why the band is
@@ -147,7 +165,13 @@ export default function StarterPackPage() {
         if (parsed.worryOther) setWorryOther(parsed.worryOther)
         if (parsed.feeling) setFeeling(parsed.feeling)
         if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
-        if (parsed.step && parsed.step !== 'result' && parsed.step !== 'reassure') setStep(parsed.step)
+        // A saved step from the old order can name a screen that no longer
+        // exists (details, q3, email). Those resume at the first question
+        // rather than at a blank page, and their answers are still restored
+        // above, so nobody who was mid quiz when this shipped loses anything.
+        const LIVE: Step[] = ['intro', 'q1', 'q2', 'q4']
+        if (parsed.step && (LIVE as string[]).includes(parsed.step)) setStep(parsed.step as Step)
+        else if (parsed.step) setStep('q1')
       }
       // A saved email plus a completed answer set means they have finished the
       // quiz here before. Hydrate those answers so See my pathway can render
@@ -242,17 +266,20 @@ export default function StarterPackPage() {
   }
   function selectTimeCommitment(t: TimeCommitmentId) {
     setTimeCommitment(t)
-    // Email and name are already captured up front, so the last answer goes
-    // straight to the pathway. Update the lead, and write the account through
-    // (onboarding complete, trial, child) while the build animation plays.
+    // The lead is saved with whatever we have, which at this point is the
+    // answers and no email. finishSetup does NOT run here any more: there is no
+    // account yet, and there will not be one until the parent has read their
+    // pathway and chosen to save it.
     captureLead({ ageBand, concerns: picks, challenge, feeling, timeCommitment: t })
-    finishSetup()
     setTimeout(() => setStep('reassure'), 280)
   }
 
-  // Save the lead server side, best effort, keyed by email. Called once up
-  // front (so the founder ping fires the moment we have an email) and again
-  // with the full answers at the end. Never blocks the flow.
+  // Save the lead server side, best effort, keyed by email. Never blocks the
+  // flow, and returns immediately when there is no email, which is the normal
+  // case for a new parent now that the account comes last: the first time we
+  // have an email is the moment they save the pathway, and the founder ping
+  // fires then. A returning parent still has theirs in localStorage, so their
+  // answers keep updating the same lead row as they go.
   async function captureLead(extra: Record<string, unknown>) {
     const clean = email.trim().toLowerCase()
     if (!clean) return
@@ -270,10 +297,17 @@ export default function StarterPackPage() {
     } catch { /* lead capture is best effort */ }
   }
 
-  // The first screen now: who you are, before the questions. This front loads
-  // name and email so we never ask twice, and lands a return visit in the
-  // right place. Then straight into the age question.
-  async function submitDetails() {
+  // The LAST screen now: the account, once the pathway has been built and read.
+  //
+  // It used to be the first, which broke the promise in every advert we run
+  // ("Three questions. No sign up.") and spent a parent's patience before they
+  // had been asked anything about their child. The order is the questions, the
+  // build beat, the pathway, and only then this. See
+  // plans/2026-09-10-starter-account-last.md.
+  //
+  // Everything it needs is already in hand: the answers are in state, and
+  // finishSetup writes them through the moment the session exists.
+  async function submitAccount() {
     const clean = email.trim().toLowerCase()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
       setEmailError('Please enter a valid email so we can save your pathway.')
@@ -296,10 +330,7 @@ export default function StarterPackPage() {
     }
 
     setSavingEmail(true)
-    try {
-      localStorage.setItem('gc_starter_name', name.trim())
-      localStorage.setItem('gc_starter_email', clean)
-    } catch {}
+    try { localStorage.setItem('gc_starter_email', clean) } catch {}
 
     // Create the account up front, the one click that sets it all up. With
     // Confirm email off a session is established now and they walk straight in
@@ -308,7 +339,10 @@ export default function StarterPackPage() {
     const { data, error } = await supabase.auth.signUp({
       email: clean,
       password,
-      options: { data: { full_name: name.trim() }, emailRedirectTo: `${window.location.origin}/auth/callback` },
+      // No name is collected any more, so none is set here. The dashboard
+      // recovers a first name from the email when the profile has none, which
+      // it has done since August.
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     })
     if (error) {
       const msg = error.message.toLowerCase()
@@ -324,11 +358,23 @@ export default function StarterPackPage() {
       setSavingEmail(false)
       return
     }
-    if (!data.session) setNeedsConfirm(true)
-
     await captureLead({})
+
+    // With confirmation off a session exists now, so the answers are written
+    // through and they walk into the product. With it on there is no session
+    // yet: the reveal says check your email, and the old onboarding is the
+    // fallback that writes the answers once they are in.
+    if (!data.session) {
+      setNeedsConfirm(true)
+      setAccountMade(true)
+      setSavingEmail(false)
+      setStep('result')
+      return
+    }
+
+    await finishSetup()
     setSavingEmail(false)
-    setStep('q1')
+    window.location.href = '/dashboard/setup'
   }
 
   // Once the questions are done, write the account through: mark onboarding
@@ -403,33 +449,10 @@ export default function StarterPackPage() {
     } catch { /* onboarding remains the fallback */ }
   }
 
-  // The one detail we ask for: where to send the starter pack, and the key
-  // that lands a return visit back in their account. Answers are already in
-  // localStorage; we save the lead server side, best effort, and never block
-  // the pathway on it.
-  async function submitEmail() {
-    const clean = email.trim().toLowerCase()
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
-      setEmailError('Please enter a valid email so we can send your pack.')
-      return
-    }
-    setEmailError('')
-    setSavingEmail(true)
-    try { localStorage.setItem('gc_starter_email', clean) } catch {}
-    try {
-      await fetch('/api/starter/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: clean,
-          answers: { ageBand, concerns: picks, challenge, feeling, timeCommitment },
-          stageId: stage ? String(stage.id) : null,
-        }),
-      })
-    } catch { /* lead capture is best effort, the pathway still builds */ }
-    setSavingEmail(false)
-    setStep('reassure')
-  }
+  // submitEmail, the end of quiz email screen from the older order, was
+  // deleted here on 10 September 2026 along with its screen. The account
+  // step does its job now, at the same point in the flow, and it captures
+  // the lead through the same route (captureLead).
 
   // THREE QUESTIONS, AND THE BUILD BEAT IS NOT ONE OF THEM.
   //
@@ -438,7 +461,11 @@ export default function StarterPackPage() {
   // gone, and the build beat is not a question at all. A counter that keeps
   // counting while nothing is being asked is how a parent starts wondering
   // what they missed.
-  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q4' ? 3 : 0
+  // The bar counts the three questions, and the account step comes AFTER all
+  // of them, so it shows full rather than empty. An empty bar at the moment a
+  // parent has answered everything reads as "you have done nothing yet", which
+  // is the opposite of what has just happened.
+  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q4' ? 3 : step === 'account' ? 3 : 0
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -450,6 +477,7 @@ export default function StarterPackPage() {
         worries={picks}
         worryOther={worryOther.trim() || undefined}
         feeling={feeling!}
+        onJoin={accountMade ? undefined : () => { setStep('account'); window.scrollTo({ top: 0 }) }}
         email={email}
         needsConfirm={needsConfirm}
         childName={childName.trim()}
@@ -530,7 +558,7 @@ export default function StarterPackPage() {
             >
               Sign in to my account
             </Link>
-            <button onClick={() => { setReturning(false); setStep('details') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+            <button onClick={() => { setReturning(false); setStep('q1') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               Start again for another child
             </button>
           </div>
@@ -568,21 +596,28 @@ export default function StarterPackPage() {
               ))}
             </div>
             <button
-              onClick={() => setStep('details')}
+              onClick={() => setStep('q1')}
               className="btn btn-gold"
               style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px' }}
             >
               Start, it is free
             </button>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
               No card. No commitment. Built on the research.
             </p>
           </>
         )}
 
-        {/* Details — name and email first, so we never ask twice and a return
-            visit lands right where it left off. This is the only email ask. */}
-        {step === 'details' && (
+        {/* The account, at the END, framed by what it saves.
+            The parent has just watched their child's pathway being built and
+            read the whole of it. Now it asks for the least that can make an
+            account: an email and a password. The name is gone, and nothing is
+            lost by it, because dashboard/page.tsx already recovers a first name
+            from the email when the profile has none. A form asking only for an
+            email outperforms one asking name and email by 12 to 18 points, and
+            this one is the last thing between a convinced parent and the
+            product. */}
+        {step === 'account' && (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
@@ -592,21 +627,12 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
             }}>
-              Create your account
+              {childName.trim() ? `Save ${childName.trim()}'s pathway` : 'Save your pathway'}
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
-              One step, then straight into your pathway. This is the only setup, your name, email and a password.
+              Two boxes and it is yours, with four days of everything free. No card.
             </p>
 
-            <input
-              className="input"
-              type="text"
-              autoComplete="given-name"
-              placeholder="Your first name"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              style={{ fontSize: 'var(--text-md)', marginBottom: '12px' }}
-            />
             <input
               className="input"
               type="email"
@@ -624,7 +650,7 @@ export default function StarterPackPage() {
               placeholder="Create a password"
               value={password}
               onChange={e => { setPassword(e.target.value); if (emailError) setEmailError('') }}
-              onKeyDown={e => { if (e.key === 'Enter') submitDetails() }}
+              onKeyDown={e => { if (e.key === 'Enter') submitAccount() }}
               style={{ fontSize: 'var(--text-md)', marginBottom: emailError ? '10px' : '16px' }}
             />
             {emailError && (
@@ -634,18 +660,18 @@ export default function StarterPackPage() {
             )}
 
             <button
-              onClick={submitDetails}
+              onClick={submitAccount}
               disabled={savingEmail}
               className="btn btn-gold"
               style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px', opacity: savingEmail ? 0.7 : 1 }}
             >
-              {savingEmail ? 'One moment...' : 'Continue'}
+              {savingEmail ? 'One moment...' : 'Save it and step in'}
             </button>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
               No card. We save your pathway and email the occasional genuinely useful thing. Unsubscribe any time.
             </p>
-            <button onClick={() => setStep('intro')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
-              ← Back
+            <button onClick={() => setStep('result')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+              ← Back to the pathway
             </button>
           </>
         )}

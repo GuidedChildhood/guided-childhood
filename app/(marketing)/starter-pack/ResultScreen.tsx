@@ -70,6 +70,16 @@ type Props = {
   feeling: FeelingId
   email?: string
   needsConfirm?: boolean
+  /**
+   * Open the account step, for a parent who does not have one yet.
+   *
+   * The account moved to the END of this flow on 10 September 2026, so this
+   * page is now the sell rather than a receipt: it is read in full, by anyone,
+   * with no session. When this is given, every door on the page opens the
+   * account step instead of walking into a dashboard that does not exist yet.
+   * See plans/2026-09-10-starter-account-last.md.
+   */
+  onJoin?: () => void
   childName?: string
 }
 
@@ -90,17 +100,29 @@ const BODY: React.CSSProperties = {
 }
 const SECTION: React.CSSProperties = { marginTop: 'clamp(56px, 10vw, 84px)', scrollMarginTop: 18 }
 
-function Door({ href, label, big = false, style }: { href: string; label: string; big?: boolean; style?: React.CSSProperties }) {
+// The doors out of the reveal. They NAVIGATE for a parent who already has an
+// account, and ACT for one who does not, because the account step now lives at
+// the end of this flow rather than in front of it: see
+// plans/2026-09-10-starter-account-last.md.
+function Door({ href, label, big = false, style, onClick }: { href: string; label: string; big?: boolean; style?: React.CSSProperties; onClick?: () => void }) {
+  const look: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    padding: big ? '17px 28px' : '12px 20px', borderRadius: big ? 16 : 100,
+    background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: big ? 'var(--text-md)' : 'var(--text-base)',
+    letterSpacing: '-0.01em', boxShadow: big ? '0 5px 0 var(--terracotta-dark)' : '0 3px 0 var(--terracotta-dark)',
+    whiteSpace: 'nowrap',
+    ...style,
+  }
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} style={{ ...look, border: 'none', cursor: 'pointer' }}>
+        {label} <span aria-hidden>→</span>
+      </button>
+    )
+  }
   return (
-    <Link href={href} style={{
-      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-      padding: big ? '17px 28px' : '12px 20px', borderRadius: big ? 16 : 100,
-      background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: big ? 'var(--text-md)' : 'var(--text-base)',
-      letterSpacing: '-0.01em', boxShadow: big ? '0 5px 0 var(--terracotta-dark)' : '0 3px 0 var(--terracotta-dark)',
-      whiteSpace: 'nowrap',
-      ...style,
-    }}>
+    <Link href={href} style={look}>
       {label} <span aria-hidden>→</span>
     </Link>
   )
@@ -191,7 +213,7 @@ function Point({ icon, title, children }: { icon: MethodId; title: string; child
   )
 }
 
-export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName }: Props) {
+export default function ResultScreen({ stage, accent, challenge, worry, worries, worryOther, email, needsConfirm, childName, onJoin }: Props) {
   // The account exists from the first screen, so stepping in opens setup,
   // which starts on the check in that becomes the baseline. Only a pending
   // email confirmation goes by the login door first.
@@ -310,7 +332,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           again at the foot where the real card is. See StickyJoin. */}
       <StickyJoin
         href={enterHref}
-        label={needsConfirm ? 'Check your email' : 'Finish setting up'}
+        onClick={onJoin}
+        label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
         note="Free for four days. No card."
       />
       {/* How far down the page they are, a hairline under the status bar. */}
@@ -696,7 +719,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               ? 'We sent a link to confirm your email. Tap it, then step straight in. Everything you have just told us is saved.'
               : 'Setting up takes a couple of minutes and starts with one question about where things are right now.'}
           </p>
-          <Door href={enterHref} label={needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'} big style={{ display: 'flex', width: '100%' }} />
+          <Door
+            href={enterHref}
+            onClick={onJoin}
+            label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'}
+            big
+            style={{ display: 'flex', width: '100%' }}
+          />
           {/* ── WHAT HAPPENS ON DAY FIVE ──────────────────────────────────
               This said "Everything open for four days. No card needed to
               start." and stopped, in muted grey, under the button. A trial

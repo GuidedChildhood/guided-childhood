@@ -32,6 +32,7 @@
     "muted-guard": "node scripts/check-muted-contrast.mjs",
     "typed-worry-guard": "node --experimental-strip-types scripts/check-worry-normalise.mjs",
     "digi-setup-guard": "node scripts/check-digi-drives-setup.mjs",
+    "starter-order-guard": "node scripts/check-starter-order.mjs",
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
     "module-contract": "node scripts/check-module-contract.mjs"
   },
