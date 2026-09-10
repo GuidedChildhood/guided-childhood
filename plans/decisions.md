@@ -12269,3 +12269,52 @@ more. The content fix is a response beat inside the long stretches across roughl
 fourteen modules, which is curriculum writing, not a threshold change. Named
 here rather than started, because it is a real piece of work and the size should
 be known before it begins.
+
+---
+
+## 10 September 2026: the Passport daily sticker, decision 3 of 3
+
+Justin, on the three questions the audit ended with
+(`plans/2026-09-10-passport-daily-sticker-audit.md`):
+
+> "3. Yes can reach"
+
+**Backfill is agreed.** Historical completed days in `kid_days` count as
+balanced days, reaching back as far as the rows go. They are shown honestly as
+history rather than dressed up: no per day sticker is invented for a day that
+finished before the rule existed, which is the line the brief drew in section
+21 and it stands.
+
+Nothing is built for this yet. Two of the three questions are still open and
+both change the shape of the build, so Phase 1 waits:
+
+1. **Streaks.** Section 31 says do not build streak pressure. Some already
+   exists and is load bearing: `kid_days.streak_awarded`, `job_streaks`, and
+   Planet Friends unlocking on counts of completed days via `FRIEND_STREAKS`.
+   Keep and soften the words, or unpick the mechanic?
+2. **Where the daily sticker lives.** Latched on the `kid_days` row, which is
+   already unique per child per day so it cannot double award and needs no new
+   constraint (recommended), or a row per day in `earned_stickers`, whose
+   unique key is `(child_id, sticker_key)` and would need the date inside the
+   key.
+
+### A correction to the audit, same day
+
+The audit's first draft named `lib/quests/usage.ts` as the one place still
+reading the day in UTC, and said it was a small independent fix. Checking the
+write side before touching it showed that was wrong.
+
+**The whole quest board is UTC and agrees with itself.** `quests/tick`,
+`quests/approve`, `kid/path-complete`, `kid/chest-claim`, `cron/job-reminders`
+and `agreement/week` all key `tick_date` off
+`new Date().toISOString().slice(0, 10)`, and `usage.ts` says so in its own
+header. The split is between the board (UTC) and the road, the check in and
+five a day (London), not inside the board.
+
+So changing that one file would have made a child's minutes disagree with their
+own ticks for an hour a night: worse than the fault it was aimed at. Moving the
+board to London is six routes, two crons and a question about rows already
+written near midnight under UTC keys. It is real, it should land before any
+daily sticker depends on screen use, and it is its own piece of work.
+
+Nothing was changed. The audit now says this instead of the wrong version.

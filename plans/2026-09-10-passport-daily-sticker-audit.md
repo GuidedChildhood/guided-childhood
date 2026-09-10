@@ -203,11 +203,27 @@ load bearing for awarding anything.
 2. **`earned_stickers` shape.** A daily row under a `(child_id, sticker_key)`
    unique index needs the day in the key, or a separate table. Choosing wrong
    here is a migration later.
-3. **Day boundary.** `lib/quests/usage.ts` still computes "today" as UTC
-   (`new Date().toISOString().slice(0,10)`). `londonToday()` exists and is used
-   by the road, the check in and five a day. Any daily sticker reading usage
-   would inherit the UTC bug and mis-award for an hour every British summer
-   night. Section 25 is not satisfied today.
+3. **Day boundary, corrected 10 September after checking the write side.**
+   My first draft of this audit called `lib/quests/usage.ts` the outlier for
+   reading "today" as UTC. It is not the outlier. **The entire quest board is
+   UTC and is internally consistent**: `app/api/quests/tick`,
+   `app/api/quests/approve`, `app/api/kid/path-complete`,
+   `app/api/kid/chest-claim`, `app/api/cron/job-reminders` and
+   `app/api/agreement/week` all write and read `tick_date` as
+   `new Date().toISOString().slice(0, 10)`, and `usage.ts` says so in its own
+   header comment.
+
+   So the split is not inside the board. It is **between the board (UTC) and
+   the road, the check in and five a day (London)**. Changing `usage.ts` alone
+   would break its agreement with `quest_ticks` and make a child's minutes
+   disagree with their own ticks for an hour a night, which is worse than the
+   thing it set out to fix.
+
+   Moving the board to London is its own piece of work: six routes, two crons,
+   and a question about rows already written under UTC keys near midnight. It
+   is real and it should happen before any daily sticker depends on screen use,
+   but it is **not** a small fix to slip into this one. Section 25 is not
+   satisfied today, and satisfying it is a task in its own right.
 4. **Overclaiming the timer.** See 4. Copy that says a child "stopped" when we
    only know a timer block closed would be a false claim about a child, to
    their parent.
@@ -230,8 +246,9 @@ load bearing for awarding anything.
 | `surface_events` | daily UNIQUE | **KEEP**, but not a progression bus |
 | `earned_stickers` | UNIQUE (child_id, sticker_key) | **EXTEND** for daily |
 
-Day handling: `londonToday()` / `ukToday()` are correct and widely used.
-`lib/quests/usage.ts` is the outlier. **REFACTOR SAFELY.**
+Day handling: `londonToday()` / `ukToday()` are correct and widely used by the
+road, the check in and five a day. The quest board is a consistent UTC island,
+`usage.ts` included. **REFACTOR SAFELY, as one change, not file by file.**
 
 ## 17. Proposed daily sticker rule engine
 
@@ -286,7 +303,9 @@ passport sections, every existing unique index, `kid_days` as the day record.
 · Child Home to show today in passport language · Parent Home to show it at all
 · catch up to the child side.
 
-**REFACTOR SAFELY** `lib/quests/usage.ts` day boundary to London.
+**REFACTOR SAFELY** the quest board's day boundary from UTC to London, as one
+change across all six routes and both crons, never one file at a time. See risk
+3, which corrects an error in the first draft of this audit.
 
 **NEW** one daily evaluator, one canonical state function, one migration.
 
