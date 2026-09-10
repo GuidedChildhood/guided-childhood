@@ -35,13 +35,13 @@ function code(src) {
 
 // ── 1. The column exists and is on kid_days ────────────────────────────────
 const migrations = readdirSync('supabase/migrations')
-const sticker = migrations.find(f => /^283_/.test(f))
+const sticker = migrations.find(f => /^284_/.test(f))
 if (!sticker) {
-  fails.push('Migration 283 is gone. The daily sticker column lives there.')
+  fails.push('Migration 284 is gone. The daily sticker column lives there.')
 } else {
   const sql = readFileSync(`supabase/migrations/${sticker}`, 'utf8')
   if (!/alter table public\.kid_days/.test(sql) || !/sticker_awarded_at/.test(sql)) {
-    fails.push('Migration 283 no longer adds sticker_awarded_at to kid_days. The unique (child_id, day) index on that table is the whole idempotency guarantee.')
+    fails.push('Migration 284 no longer adds sticker_awarded_at to kid_days. The unique (child_id, day) index on that table is the whole idempotency guarantee.')
   } else {
     ok.push('the sticker latches on kid_days, where the unique day index already is')
   }

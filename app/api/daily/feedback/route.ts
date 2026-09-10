@@ -115,7 +115,7 @@ export async function POST(request: Request) {
   // screens" and guessing would file a parent's worry under the wrong name.
   const MOMENT_TO_CONCERN: Record<string, { slug: string; label: string }> = {
     bedtime: { slug: 'bedtime-screens', label: 'Bedtime screens' },
-    come_off: { slug: 'wont-put-down', label: 'Will not put it down' },
+    come_off: { slug: 'wont-put-down', label: 'Coming off screens' },
     tv_morning: { slug: 'morning-tv', label: 'Morning TV' },
   }
   try {

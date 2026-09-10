@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, CATCH_ALL_ID } from '@/lib/onboarding/worries'
+import { resolveWorry } from '@/lib/concerns/normalise'
 
 // The grid of worries, in the happy news finish.
 //
@@ -218,7 +219,19 @@ export default function WorryPicker({
         </div>
 
         {/* Their words, read back, so saving is a thing they can SEE having
-            happened rather than something they have to trust. */}
+            happened rather than something they have to trust.
+            ── AND THE NAME IT WILL BE KEPT UNDER ────────────────────────────
+            Justin, 10 September 2026: "they can free type in Something else and
+            can have spelling mistakes and that carries through every time we
+            reference it."
+            Most typed worries are one of the tiles in the parent's own words,
+            so lib/concerns/normalise files them on that worry's slug, which
+            fixes the typo and puts the row on the scripts and pathway content
+            that already exist for it. This line is the half that must not be
+            skipped: filing "tikok all evening" under Social media is right,
+            doing it silently is how a parent comes to think we lost their
+            answer. When we do not recognise the words we keep them, and this
+            says that too, by saying them back. */}
         {savedOther && !dirty && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8, marginTop: 10,
@@ -235,7 +248,9 @@ export default function WorryPicker({
               </svg>
             </span>
             <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.4 }}>
-              Saved. We will ask you about <strong>{savedOther}</strong> at your check in.
+              {resolveWorry(savedOther).matched
+                ? <>Saved. We keep this one with <strong>{resolveWorry(savedOther).label}</strong>, so you get the scripts we have already written for it.</>
+                : <>Saved. We will ask you about <strong>{resolveWorry(savedOther).label}</strong> at your check in.</>}
             </span>
           </div>
         )}

@@ -135,6 +135,22 @@ jobs:
       # Both Homes read one function, because two screens counting the same
       # table is how they came to disagree twice in one morning.
       - run: node scripts/check-daily-sticker.mjs
+      # A worry raised in a DiGi chat reaches the next check in, says where it
+      # came from, and arrives with somewhere to go. The next moves used to be
+      # a dip's alone, and a first ever row has no last time to dip from, so
+      # the one worry the parent actually asked about was the only one that
+      # could not offer help.
+      - run: node scripts/check-new-worry.mjs
+      # The quiet grey stays readable. --ink-muted carries most of the second
+      # sentence on the product and was 3.46 to 1 on white, under the 4.5 AA
+      # floor, on every surface in the house. Nobody reports grey text. They
+      # stop reading it.
+      - run: node scripts/check-muted-contrast.mjs
+      # What a parent types into Something else becomes a label we print for
+      # years and, until today, a database key with their typo in it. Most
+      # typed worries are one of our own in their words, so they are matched
+      # back to it; the rest keep their words, tidied and never corrected.
+      - run: node --experimental-strip-types scripts/check-worry-normalise.mjs
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs

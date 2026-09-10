@@ -12861,3 +12861,66 @@ these lessons now honestly run past an hour. Only ks3-12 carries a plan for a
 shorter period, written by the session that built it. Writing that plan for the
 other twenty is a decision about what a teacher should cut, so it belongs to the
 schools lane rather than being invented in a migration.
+## 10 September 2026: the daily sticker, the worry that says where it came from, and the grey nobody could read
+
+Three things landed on the same branch, in this order, all of them agreed with
+Justin first. Migration 283 was applied to the live database on his word:
+"apply". No backfill, so the one completed day already on the product keeps
+every reward it earned and does not get a sticker for a day that finished
+before stickers existed.
+
+**The sticker latches on the day, not on a ledger of its own.** kid_days already
+has a unique (child_id, day) index from migration 134, so the day row cannot
+exist twice, so the sticker cannot pay twice. A separate table would mean
+inventing a second key for the same fact and keeping the two in step for ever.
+It is written in the SAME update that sets completed_at, because a second write
+can fail on its own and leave a finished day with no sticker and nothing to
+reconcile it against. And it is deliberately not streak_awarded: 134 separated
+"this day is complete" from "this day's reward is granted" precisely because
+inferring either from the other double counts on a retry.
+
+**Both Homes read one function.** lib/kid/today-state is the only place that
+answers what is left today. Two screens counting the same table is how they come
+to disagree, which is not hypothetical: two rungs on the daily path did exactly
+that and both were fixed the same morning.
+
+**Three states a parent can tell apart.** The child's day strip was tint sage
+while going and tint green when done, #E8F0EE and #E8F4EE, four points apart in
+one channel. On a phone in a kitchen those are the same colour. White before the
+child has opened it, butter while it is going, green when it lands, and never
+amber or red: a day with things left at four in the afternoon is a normal day,
+and the moment this strip looks like an alarm a parent stops reading it.
+
+**A worry raised with DiGi now says so.** concerns.source has been written on
+every raise since August and read by nothing. The row a parent had actually
+asked for help about looked identical to the four the app guessed at. It now
+reads "New. You raised this with DiGi yesterday", and it arrives with the Ask
+DiGi and script buttons, which belonged to a DIP and so could never reach a
+first ever row: a dip needs a last time to have dipped from. Not on five stars,
+which already has its own card saying we will drop the worry off the list.
+
+**isNew is not "has no score".** A row seeded for a new child has no score
+either, and calling that new tells a parent they raised something they have
+never seen. It is a row with no score that we did not seed.
+
+**--ink-muted moved from #8888A0 to #65657C.** 3.46 to 1 on white and 2.98 on
+tint sage, against a 4.5 floor. This token carries most of the second sentence
+on the product, so the line explaining why we are asking was the least readable
+thing on the page. #65657C is the lightest value clearing 4.5 on every surface
+the house owns. Verified in a browser as well as on paper: 174 muted elements
+across twelve pages, none under 4.5.
+
+**Guards, and a rule about guards.** check-daily-sticker, check-new-worry and
+check-muted-contrast are all wired into CI, and all three were mutation tested
+before being trusted. Three of their first checks passed while the code was
+deliberately broken: one matched the comment explaining the thing it tested, one
+matched a call elsewhere in the file, one matched a function's own definition
+after the render had stopped calling it. A guard its own documentation satisfies
+is not a guard, so every one of these strips comments before testing and matches
+the expression rather than the file.
+
+**Still open, and deliberately not decided alone.** Whether "Will not put it
+down" and "Seeing things they should not" should be reworded so they rate
+cleanly on a five star scale, and whether the child's app should show what their
+parent is tracking. Both are voice and privacy calls rather than engineering
+ones, so both are questions for Justin rather than things to change quietly.

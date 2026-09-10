@@ -88,9 +88,9 @@ for (const [id, label] of Object.entries(CHALLENGE_LABELS)) {
 // A worry with a tile but no slug in ONBOARDING_TO_SLUG is a tick that goes
 // nowhere: no concern row, so the family's first check in opens on "All done
 // for today" with nothing on it. Both times, nothing failed and nobody could
-// see it. lib/concerns/baseline is read as text for the same reason the labels
+// see it. lib/concerns/worry-map is read as text for the same reason the labels
 // are: no imports, no React, no session.
-const baseline = readFileSync(new URL('../lib/concerns/baseline.ts', import.meta.url), 'utf8')
+const baseline = readFileSync(new URL('../lib/concerns/worry-map.ts', import.meta.url), 'utf8')
 const slugBlock = baseline.match(/const ONBOARDING_TO_SLUG[^=]*=\s*\{([\s\S]*?)\n\}/)
 const slugMap = Object.fromEntries(
   [...(slugBlock?.[1] ?? '').matchAll(/^\s*([a-z_]+):\s*'([a-z-]+)'/gm)].map(m => [m[1], m[2]]),

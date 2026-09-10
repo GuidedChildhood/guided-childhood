@@ -22,7 +22,7 @@
 //
 // Usage: node --experimental-strip-types scripts/check-baseline-seed.mjs
 
-import { ONBOARDING_TO_SLUG, LABEL, STARTER_SLUGS } from '../lib/concerns/baseline.ts'
+import { ONBOARDING_TO_SLUG, LABEL, STARTER_SLUGS } from '../lib/concerns/worry-map.ts'
 import { WORRIES, CATCH_ALL_ID } from '../lib/onboarding/worries.ts'
 
 const otherSlug = raw => raw.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60)

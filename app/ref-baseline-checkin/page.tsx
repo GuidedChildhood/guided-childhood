@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic'
 // The two the wizard maps onto the ledger. A baseline never has a lastScore,
 // which is the case that matters here.
 const BASELINE = [
-  { id: 'fixture-wont-put-down', slug: 'wont-put-down', label: 'Will not put it down', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
+  { id: 'fixture-wont-put-down', slug: 'wont-put-down', label: 'Coming off screens', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
   { id: 'fixture-bedtime-screens', slug: 'bedtime-screens', label: 'Bedtime screens', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
 ]
 

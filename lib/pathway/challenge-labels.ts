@@ -25,10 +25,10 @@
  */
 export const CHALLENGE_LABELS: Record<string, string> = {
   morning_tv: 'Morning TV battles', controller_fights: 'Controller fights',
-  wont_put_down: 'Will not put the device down', bedtime_screens: 'Bedtime screens',
+  wont_put_down: 'Coming off screens', bedtime_screens: 'Bedtime screens',
   mood_after_screens: 'Mood after screens', something_else: '',
   asking_for_phone: 'Asking for a phone', social_media: 'Social media',
-  ai_chatbots: 'AI chatbots', seen_something: 'Seeing things they should not',
+  ai_chatbots: 'AI chatbots', seen_something: 'What they come across online',
   screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
   gaming: 'Gaming concerns', online_safety: 'Online safety worries',
   start_conversation: 'Starting the conversation',

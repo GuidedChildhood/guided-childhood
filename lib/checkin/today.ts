@@ -31,6 +31,24 @@ export type CheckInRow = {
   /** Whose worry this is. concerns.child_id has always been set; nothing read it. */
   childId: string | null
   childName: string | null
+  /**
+   * Where the worry came from: 'digi', 'moment', 'rightnow', 'checkin' or
+   * 'onboarding'. Written by lib/concerns/raise on every raise since August and
+   * read by nothing until now, which is why a worry a parent raised in a chat
+   * with DiGi on Tuesday arrived in Wednesday's check in as an anonymous row.
+   */
+  source: string | null
+  /**
+   * First time this worry has reached the check in: never rated, and not part
+   * of a starting set the app seeded for them.
+   *
+   * Justin, 14 August 2026: "any issue raised in digi we can add to check in."
+   * It always was added. What it never did was arrive with anything: no note of
+   * where it came from and no next move, so the one row on the page the parent
+   * had actually asked for help about looked exactly like the four the app had
+   * guessed at.
+   */
+  isNew: boolean
 }
 
 export type TodayCheckIn = {
@@ -127,7 +145,7 @@ export async function getTodayCheckIn(
     // The limit is raised because the "going great" filter below removes rows
     // AFTER the query, and a limit of 5 applied first would quietly return two.
     supabase.from('concerns')
-      .select('id, slug, label, times_flagged, last_flagged_at, child_id')
+      .select('id, slug, label, times_flagged, last_flagged_at, child_id, source')
       .eq('user_id', userId)
       .in('status', ['open', 'improving'])
       // NOT filtered to "flagged before today" here any more. See the note by
@@ -144,7 +162,7 @@ export async function getTodayCheckIn(
       .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
   ])
 
-  type Row = { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string; child_id: string | null }
+  type Row = { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string; child_id: string | null; source?: string | null }
   const liveRows = ((live ?? []) as Row[])
     .filter(c => c.slug && !GENERIC.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
 
@@ -306,6 +324,11 @@ export async function getTodayCheckIn(
         lastScore: lastScoreByConcern.get(c.id) ?? null,
         childId: c.child_id ?? null,
         childName: name && name !== 'Your child' ? name : null,
+        source: (c as Row).source ?? null,
+        // Never rated, and not one the app seeded a moment ago. A seeded row is
+        // the app's guess and says so in its own words; this is the parent's
+        // own, carried over from wherever they raised it.
+        isNew: (lastScoreByConcern.get(c.id) ?? null) == null && !freshIds.has(c.id),
       }
     }),
   }
