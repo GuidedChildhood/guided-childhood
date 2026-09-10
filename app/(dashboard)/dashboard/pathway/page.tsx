@@ -455,6 +455,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               items={passportToDo}
               childItems={childToDo}
               onApp={!!kidLink?.token}
+              // Named, so the catch up line can say which page has things left
+              // rather than "this page", which reads as any page.
+              stageName={currentStageNum && passportStamps.length > 0
+                ? `Stage ${currentStageNum}, ${passportStamps.find(st => st.id === currentStageNum)?.name ?? ''}`.trim().replace(/,$/, '')
+                : null}
             />
             <PassportBook
               stamps={passportStamps}

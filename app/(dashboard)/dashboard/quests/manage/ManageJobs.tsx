@@ -75,6 +75,31 @@ const LINK_BTN: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   color: 'var(--terracotta)', letterSpacing: '0.04em', padding: '6px 4px',
 }
+// ── THE TWO SETTINGS ON A JOB, AS BUTTONS ──────────────────────────────────
+//
+// Justin, 10 September 2026, with the jobs board: "steps need to have hover
+// explanation and look better as actual buttons".
+//
+// "Make it a family job" and "Add steps" were LINK_BTN: bare mono text in
+// ink-muted with no border and no background, sitting under the job title. They
+// are the two most interesting things you can do to a job and they read as grey
+// captions, which is why nobody presses them.
+//
+// They are pills now, and each carries a title so hovering says what it does.
+// The words alone cannot: "family job" is our idea, not a phrase a parent
+// arrives knowing, and "steps" says nothing about the child's card.
+//
+// on: this setting is applied, so the pill is filled in its own colour.
+const CHIP_BTN = (on: boolean, tint: string, ink: string): React.CSSProperties => ({
+  display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0,
+  background: on ? tint : '#fff',
+  border: `1.5px solid ${on ? ink : 'var(--border)'}`,
+  borderRadius: 100, padding: '5px 11px', cursor: 'pointer',
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+  letterSpacing: '0.02em', color: on ? ink : 'var(--ink-soft)',
+  lineHeight: 1.3, whiteSpace: 'nowrap',
+})
+
 // A quiet line for a tab with nothing in it. An empty tab has to say so in
 // words, because an empty panel reads as a page that failed to load.
 const EMPTY: React.CSSProperties = {
@@ -771,13 +796,17 @@ export default function ManageJobs({
                     one everyone does because they belong here, no stars. Steps
                     chunk a big job into little ticks on the child's card, and
                     the stars stay on the whole job, never per step. */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
                   <button
                     onClick={() => updateJob(q.id, { is_family_job: !q.is_family_job })}
                     disabled={busy}
-                    style={{ ...LINK_BTN, color: q.is_family_job ? '#2F8F6B' : 'var(--ink-muted)' }}
+                    aria-pressed={!!q.is_family_job}
+                    title={q.is_family_job
+                      ? `A family job. ${name} does it because they live here, and it pays no stars. Tap to put the stars back.`
+                      : 'Some jobs are not for stars. A family job is one everybody does because they belong here, and it pays nothing.'}
+                    style={CHIP_BTN(!!q.is_family_job, 'var(--tint-green)', '#2F8F6B')}
                   >
-                    {q.is_family_job ? 'Family job, no stars ✓' : 'Make it a family job'}
+                    {q.is_family_job ? '❤️ Family job, no stars' : '❤️ Make it a family job'}
                   </button>
                   <button
                     onClick={() => {
@@ -786,9 +815,11 @@ export default function ManageJobs({
                       setStepsOpen(q.id)
                     }}
                     disabled={busy}
-                    style={{ ...LINK_BTN, color: (q.steps?.length ?? 0) > 0 ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}
+                    aria-expanded={stepsOpen === q.id}
+                    title={`Break a big job into little ticks on ${name}'s own card. The stars stay on the whole job, never one per step.`}
+                    style={CHIP_BTN((q.steps?.length ?? 0) > 0, 'var(--terracotta-lt)', 'var(--terracotta-dark)')}
                   >
-                    {(q.steps?.length ?? 0) > 0 ? `Steps (${q.steps?.length}) ✎` : 'Add steps'}
+                    {(q.steps?.length ?? 0) > 0 ? `✎ Steps · ${q.steps?.length}` : '✎ Add steps'}
                   </button>
                 </div>
                 {stepsOpen === q.id && (

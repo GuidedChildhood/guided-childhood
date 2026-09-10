@@ -395,6 +395,11 @@ export default function LessonsBrowser({
               childStageNum={childStageNum}
               libraryItems={libraryItems}
               onSeeStage={seeChildStage}
+              // Which stage the chips are actually showing. The card used to
+              // talk about the child's stage whatever was selected, so a parent
+              // who tapped Stage 1 read "Stage 3 lessons, 0 of 18 passed" over
+              // a list of Stage 1 lessons. Justin caught exactly that.
+              shownStage={stage}
             />
             {/* Where See their lessons lands. Wrapping the list rather than
                 pointing at the first tile, so an empty stage still scrolls
@@ -553,13 +558,15 @@ function SectionLabel({ eyebrow, title, note }: { eyebrow: string; title: string
 // lessons page in one tap. Everything else in the library stays browsable,
 // this just makes the progress moving set unmissable.
 function ProgressLessonsBanner({
-  childId, childName, childStageNum, libraryItems, onSeeStage,
+  childId, childName, childStageNum, libraryItems, onSeeStage, shownStage,
 }: {
   childId: string | null
   childName: string
   childStageNum: number
   libraryItems: LibraryItem[]
   onSeeStage: () => void
+  /** Which stage the chips are showing right now, or 'all'. */
+  shownStage: number | 'all'
 }) {
   const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver' | 'quiet'>('idle')
   // Only the family library lessons count for the progress report ticks, the
@@ -609,11 +616,61 @@ function ProgressLessonsBanner({
           ? <>Stage {childStageNum} lessons, {passed} of {total} passed</>
           : <>All {total} Stage {childStageNum} lessons passed 🌱</>}
       </div>
+      {/* ── PASSED AND STILL TO DO, AS TWO COUNTS ────────────────────────────
+          Justin, 10 September 2026: "from passport to lessons or any other page
+          that needs doing needs to show clearly done and needs to do, easy for
+          them to see lessons passed and ones needed to do for this stage of
+          passport."
+
+          The card said "0 of 18 passed", which is one number a parent has to do
+          arithmetic on to answer the question they actually have, which is how
+          many are left. Two counts, side by side, one green and one amber, and
+          neither of them needs reading twice. */}
+      <div style={{ display: 'flex', gap: 7, marginTop: 9 }}>
+        <span style={{
+          flex: '1 1 0', minWidth: 0, textAlign: 'center', background: '#fff',
+          border: `2px solid ${passed > 0 ? 'var(--retro-green)' : 'var(--border)'}`, borderRadius: 12, padding: '7px 4px',
+        }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: passed > 0 ? 'var(--retro-green-dark)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
+            {passed}
+          </span>
+          <span style={{ display: 'block', marginTop: 1, fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+            Passed
+          </span>
+        </span>
+        <span style={{
+          flex: '1 1 0', minWidth: 0, textAlign: 'center', background: '#fff',
+          border: `2px solid ${left > 0 ? 'var(--ink)' : 'var(--border)'}`, borderRadius: 12, padding: '7px 4px',
+        }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: left > 0 ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
+            {left}
+          </span>
+          <span style={{ display: 'block', marginTop: 1, fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+            Still to do
+          </span>
+        </span>
+      </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
         {left > 0
           ? <>These are the right ones for {childName}&apos;s age{stageMeta ? ` (${stageMeta.ages.toLowerCase()})` : ''}. {childName} sees exactly this set on their own page, in order with the next one marked. One a week is plenty, and each pass ticks the progress report.</>
           : <>The progress report shows the full tick for this stage. New lessons arrive as {childName} ages up.</>}
       </p>
+      {/* ── WHEN THE LIST BELOW IS NOT THIS STAGE ───────────────────────────
+          Everything above counts the CHILD's stage, which is right: it is the
+          only set that moves their passport. The chips underneath filter the
+          library to any stage, so a parent who taps Stage 1 was reading a Stage
+          3 heading over a Stage 1 list with nothing anywhere saying they had
+          come apart. One line, and a way straight back. */}
+      {shownStage !== 'all' && shownStage !== childStageNum && (
+        <p style={{
+          margin: '0 0 12px', background: '#fff', border: '1.5px solid var(--ink)', borderRadius: 12,
+          padding: '9px 11px', fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.45,
+        }}>
+          <strong style={{ fontWeight: 800 }}>You are looking at Stage {shownStage}.</strong>{' '}
+          Those do not move {childName}&apos;s passport. The counts above are {childName}&apos;s own Stage {childStageNum}.
+        </p>
+      )}
+
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <button
           onClick={onSeeStage}
