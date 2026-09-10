@@ -204,7 +204,7 @@ const blank = (over = {}) => ({
   // explains why it cannot.
   const companion = PASSPORT_LINKS.find(l => l.id === 'companion')
   ok('the companion link now names a lesson',
-    companion?.modules.length === 1 && !companion?.gap,
+    companion?.modules.length >= 1 && !companion?.gap,
     `modules: ${companion?.modules.join(', ') || 'none'}, gap: ${companion?.gap ? 'still set' : 'cleared'}`)
 }
 

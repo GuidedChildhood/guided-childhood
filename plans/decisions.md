@@ -12924,3 +12924,57 @@ down" and "Seeing things they should not" should be reworded so they rate
 cleanly on a five star scale, and whether the child's app should show what their
 parent is tracking. Both are voice and privacy calls rather than engineering
 ones, so both are questions for Justin rather than things to change quietly.
+
+## 10 September 2026: the KS2 half, and a job another session had already done
+
+**Justin asked for both outstanding items. One was already finished.** Another
+session shipped `283_every_timing_string_tells_the_truth.sql` while this one was
+working, and it is applied: all 22 modules now state their real total, zero
+discrepancies, checked against live. It also caught three things this session
+had not spotted, which is worth recording because they were real: ks2-04 listed
+three cycles for a four cycle deck, ks4-16 listed cycles two and three in the
+wrong order and still used the "pressure" title 281 had replaced, and eyfs-01
+disagreed with its own component sums as well as with the deck. Checking before
+claiming is the rule in CLAUDE.md and it saved a duplicate migration here.
+
+**So 285 is the KS2 lesson**, `ks2-23-when-a-machine-talks-like-a-friend`. The
+companion competency always covered explorer and shaper, and only the older half
+had a lesson. A ten year old meets these inside a game helper and the speaker in
+the kitchen.
+
+**Made, never fake.** Fake invites a child to feel foolish for having liked it.
+A child told it was fake hears that they were tricked; told it was made, they
+hear how it works, and the second one keeps them talking to you. The word does
+not appear anywhere in the lesson.
+
+**Animism is not a fault to correct.** Attributing feelings to things that talk
+is developmentally ordinary at seven to eleven. The lesson gives language for a
+distinction they are already close to making, which is why it sorts and compares
+rather than tells. The parrot does more work than any argument.
+
+**Telling is shown, not only instructed.** Cycle three carries a slide where a
+child tells a parent and nothing dramatic happens: somebody says thank you, the
+game stays. Children are told to tell constantly and almost never shown what
+telling looks like. That slide is the reason cycle three runs ten minutes rather
+than eight, and the miscount that surfaced it was caught by the contract guard
+rather than by reading.
+
+**The guard was mislabelling.** `check-module-contract.mjs` printed "ks3-22" on
+success whatever it had checked, because the label was hardcoded when it was
+written for one module. It now names the module it read. A guard that reports
+the wrong subject is worse than a quiet one.
+
+**One test moved, in the same direction as before.** The companion assertion
+said the link names exactly one lesson. It now says at least one, because the
+link names two. The rule underneath is untouched: every link either names a
+lesson that exists or explains why it cannot.
+
+**The passport link gained `builder`.** The competency was written for explorer
+and shaper, which was the honest reach while only the KS3 lesson existed. The
+stage list follows the teaching rather than the other way round.
+
+**Measured with 23 modules:** prose 9.79 to 9.80, blocks 9.57 to 9.59,
+engagement held at 10.00, passport 10.00 with 23 of 23 knowing their page.
+ks2-23 contributes zero failures on all four. Tested against a scratch Postgres
+seeded from the live rows, idempotent on a second run, all four migration guards
+green, and all 23 modules map under the player's own anchoring rule.
