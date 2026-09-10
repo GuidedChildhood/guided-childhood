@@ -19,6 +19,8 @@
     "bonus-guard": "node --experimental-strip-types scripts/check-bonus-ready.mjs",
     "reach-guard": "node scripts/check-reachable.mjs",
     "wall-guard": "node scripts/check-wall-scale.mjs",
+    "age-guard": "node scripts/check-lesson-age-gate.mjs",
+    "rung-guard": "node scripts/check-rung-truth.mjs",
     "wall-contrast-guard": "node scripts/check-wall-contrast.mjs"
   },
   "dependencies": {

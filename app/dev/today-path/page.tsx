@@ -16,6 +16,11 @@ const tasks: TodayLoopTask[] = [
   { key: 'tonight', label: 'Phones to bed', href: '#', done: false },
   { key: 'script', label: 'The words', href: '#', done: true, note: 'with Jonny' },
   { key: 'quests', label: "Ava's jobs", href: '#', done: false },
+  // The passport rung wearing the real job's name rather than "Passport"
+  // (10 September 2026). The longest of the five section labels, because a
+  // rung label is a caption under a circle and "Moments to resolve" is three
+  // times the width of the word it replaced.
+  { key: 'passport', label: 'Moments to resolve', href: '#', done: false },
   { key: 'lesson', label: 'A lesson', href: '#', done: false },
 ]
 

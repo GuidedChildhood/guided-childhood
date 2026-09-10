@@ -6,6 +6,7 @@ import Link from 'next/link'
 import LessonSendButton from '../together/LessonSendButton'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import ReadingAhead from '@/components/lessons/ReadingAhead'
 import { parseSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
 import { badgesFor } from '@gc/shared/curriculum-badges'
 import { hasFullAccess } from '@/lib/access'
@@ -82,6 +83,26 @@ export default async function LessonDetailPage({ params, searchParams }: {
   const childStageNum = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
   const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
   const sendable = !!child && !!parseSlides(lesson.slides) && (STAGE_NUM[lesson.stage_id] ?? 99) <= childStageNum
+  // ── READING AHEAD, SAID OUT LOUD (10 September 2026) ──────────────────────
+  //
+  // Justin added a six year old, did "The feed is built to hold you" (Explorer,
+  // ages 11 to 13), and reported the passport as broken because it still read
+  // 0 of 17. It was not broken. The passport counts the child's OWN stage, and
+  // a Stage 3 lesson filling a Stage 1 child's page would be the real bug.
+  //
+  // What was missing is that nothing anywhere said so. A parent passed a
+  // lesson, saw a tick, went to the passport and found nothing had moved, and
+  // the only available conclusion was that the product does not work.
+  //
+  // So any lesson above this child's stage says it here, before it is played
+  // and while it is being played, by whatever route the parent arrived. This
+  // is deliberately not a block: reading ahead is a good thing a parent should
+  // be able to do. It is the difference between reading ahead and being
+  // misled about what counts.
+  const lessonStageNum = STAGE_NUM[lesson.stage_id] ?? 1
+  const aheadOfChild = !!child && lessonStageNum > childStageNum
+  const childStageLabel = Object.entries(STAGE_NUM).find(([, n]) => n === childStageNum)?.[0]
+  const childStageName = (childStageLabel && STAGE_LABEL[childStageLabel]?.label.split(' · ')[0]) ?? 'their'
   // Authored deck wins; otherwise build one from the lesson's own four parts
   // so every parent lesson plays as slides, never a flat wall of text.
   const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label })
@@ -170,6 +191,15 @@ export default async function LessonDetailPage({ params, searchParams }: {
           backHref={lessonsBackHref}
           digiPrompt={lesson.digi_prompt}
           badges={badgesFor(lesson.stage_id, lesson.category)}
+          // Inside the player, not above it: the player is fixed inset 0 and
+          // covers the page, so a notice rendered around it is invisible.
+          notice={aheadOfChild ? (
+            <ReadingAhead
+              stageLabel={stageForEyebrow.label}
+              childName={childName}
+              childStageName={childStageName}
+            />
+          ) : null}
         />
       </div>
     )
@@ -187,6 +217,14 @@ export default async function LessonDetailPage({ params, searchParams }: {
           ← Lessons
         </Link>
       </div>
+
+      {aheadOfChild && (
+        <ReadingAhead
+          stageLabel={stageForEyebrow.label}
+          childName={childName}
+          childStageName={childStageName}
+        />
+      )}
 
       {/* Header */}
       <div style={{ marginBottom: '28px' }}>

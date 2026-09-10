@@ -92,6 +92,34 @@ export default function LessonsBrowser({
   const moduleItems = [...libraryItems]
     .filter(l => l.module)
     .sort((a, b) => a.stageNum - b.stageNum)
+  // ── THE MODULE IS NOT FOR EVERY AGE (10 September 2026) ───────────────────
+  //
+  // Justin added a six year old, opened Lessons, and did "The feed is built to
+  // hold you", which is an Explorer lesson for ages 11 to 13. His passport
+  // then read 0 of 17 and he reported it as broken. The passport was right.
+  // The list was not.
+  //
+  // The library already opens on the child's own stage. This card was the one
+  // thing above it that ignored the child entirely: it rendered whenever the
+  // module had any lessons at all, and opening it ran setStage('all'). Every
+  // lesson in the module is Stage 3, 4 or 5, so a Foundation parent was shown
+  // a pinned ramp of nine lessons their child cannot do, sitting above the
+  // seventeen they can.
+  //
+  // The range is read from the items rather than asserted, because the prose
+  // had already drifted: the card said the ramp starts at 8 while the earliest
+  // lesson in it is ages 11 to 13. Within one stage of the start, so a Builder
+  // parent still meets it as the thing that comes next.
+  const moduleStages = moduleItems.map(l => l.stageNum)
+  const moduleMinStage = moduleStages.length > 0 ? Math.min(...moduleStages) : 1
+  const moduleMaxStage = moduleStages.length > 0 ? Math.max(...moduleStages) : 5
+  const moduleInReach = moduleItems.length > 0 && childStageNum >= moduleMinStage - 1
+  const moduleAges = (() => {
+    const from = STAGE_LIST.find(s => s.num === moduleMinStage)
+    const to = STAGE_LIST.find(s => s.num === moduleMaxStage)
+    if (!from || !to) return null
+    return `${from.ages.split(' to ')[0]} to ${to.ages.replace(' and up', '')}`
+  })()
   // Watch together opens on All ages so a parent can send any illustrated
   // video. Lessons open on the child's own age, the set that moves their
   // progress, in a clear numbered order to work through; the chips still let
@@ -346,13 +374,20 @@ export default function LessonsBrowser({
         {/* ── Lessons ── the interactive library the parent leads, grouped by
             age when showing all. The Social Media Ready module takes over the
             whole view when opened, so the spine reads as one ramp. */}
-        {view === 'library' && moduleOn && (
-          <SocialMediaModule items={moduleItems} childId={childId} childName={childName} onBack={() => setModuleOn(false)} />
+        {view === 'library' && moduleOn && moduleInReach && (
+          <SocialMediaModule
+            items={moduleItems}
+            childId={childId}
+            childName={childName}
+            childStageNum={childStageNum}
+            ages={moduleAges}
+            onBack={() => setModuleOn(false)}
+          />
         )}
-        {view === 'library' && !moduleOn && (
+        {view === 'library' && !(moduleOn && moduleInReach) && (
           <>
-            {moduleItems.length > 0 && (
-              <ModuleCard count={moduleItems.length} onOpen={() => { setModuleOn(true); setStage('all') }} />
+            {moduleInReach && (
+              <ModuleCard count={moduleItems.length} ages={moduleAges} onOpen={() => { setModuleOn(true); setStage('all') }} />
             )}
             <ProgressLessonsBanner
               childId={childId}
@@ -612,7 +647,7 @@ function ProgressLessonsBanner({
 // The pinned entry to the Social Media Ready module: the one topic parents
 // worry about most, gathered from across the stages into a single dedicated
 // spine. Sits at the top of the Lessons view so it is the first thing offered.
-function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
+function ModuleCard({ count, ages, onOpen }: { count: number; ages: string | null; onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}
@@ -625,13 +660,13 @@ function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
       <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="phonebed" size={34} /></span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
-          Special module · the big one
+          Special module · {ages ? `ages ${ages}` : 'the big one'}
         </div>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
           Social Media Ready
         </div>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 0' }}>
-          The whole spine in one ramp, {count} lessons from what it even is to taking the wheel at 16. Settings, dangers, safe use, and the research behind every one.
+          The whole spine in one ramp, {count} lessons from before the first account to taking the wheel at 16. Settings, dangers, safe use, and the research behind every one.
         </p>
       </div>
       <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>→</span>
@@ -643,10 +678,16 @@ function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
 // ramp and the evidence, then every social media lesson in stage order, with a
 // quiet age divider so a parent sees it climb from 8 to 16. A back control
 // returns to the full library.
-function SocialMediaModule({ items, childId, childName, onBack }: { items: LibraryItem[]; childId: string | null; childName: string; onBack: () => void }) {
+function SocialMediaModule({ items, childId, childName, childStageNum, ages, onBack }: { items: LibraryItem[]; childId: string | null; childName: string; childStageNum: number; ages: string | null; onBack: () => void }) {
   const groups = STAGE_LIST
     .map(s => ({ s, items: items.filter(i => i.stageNum === s.num) }))
     .filter(g => g.items.length > 0)
+  // What this child can actually be sent. The single lesson page has gated its
+  // send button on the child's stage since it was written; this one never did,
+  // so Send all would push nine lessons about accounts, group chats and mood
+  // checks at a child whose own list has an age gate and will not show them.
+  // A ping pointing at a lesson the child cannot open is worse than no ping.
+  const sendable = items.filter(l => l.stageNum <= childStageNum)
   return (
     <div>
       <button
@@ -658,13 +699,13 @@ function SocialMediaModule({ items, childId, childName, onBack }: { items: Libra
 
       <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
-          Special module · {items.length} lessons
+          Special module · {items.length} lessons{ages ? ` · ages ${ages}` : ''}
         </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1, margin: '0 0 8px' }}>
           Social Media Ready
         </h2>
         <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
-          The one topic parents worry about most, taught as a ramp, not a cliff. It climbs from what social media even is, through the settings that keep you private and the real dangers, to the honest mood check and taking the wheel at 16. Grounded in Orben, Odgers, Przybylski, Livingstone and Knibbs, so every lesson holds up to a hard question.
+          The one topic parents worry about most, taught as a ramp, not a cliff. It climbs from before the first account, through the settings that keep you private and the real dangers, to the honest mood check and taking the wheel at 16. Grounded in Orben, Odgers, Przybylski, Livingstone and Knibbs, so every lesson holds up to a hard question.
         </p>
         {/* Justin, 8 August 2026: the module should come "with the ability to
             send to child's phone to do". The nine lessons were already here
@@ -675,15 +716,21 @@ function SocialMediaModule({ items, childId, childName, onBack }: { items: Libra
             lesson to play" is wrong for nine of them, and the ping deep links
             to the child's own page where the set is already in order with the
             next one marked. */}
-        <div style={{ marginTop: '14px' }}>
-          <LessonSendButton
-            childId={childId}
-            childName={childName}
-            title="Social Media Ready"
-            message={`The Social Media Ready lessons are on your page, ${items.length} of them in order. Start with the first one ⭐`}
-            idleLabel={`📲 Send all ${items.length} to ${childName}`}
-          />
-        </div>
+        {sendable.length > 0 ? (
+          <div style={{ marginTop: '14px' }}>
+            <LessonSendButton
+              childId={childId}
+              childName={childName}
+              title="Social Media Ready"
+              message={`The Social Media Ready lessons are on your page, ${sendable.length} of them in order. Start with the first one ⭐`}
+              idleLabel={`📲 Send ${sendable.length} to ${childName}`}
+            />
+          </div>
+        ) : (
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '14px 0 0' }}>
+            None of these are on {childName}&rsquo;s own list yet. Read ahead as much as you like, and they arrive on their page as they grow into them.
+          </p>
+        )}
       </div>
 
       {groups.map(g => (
