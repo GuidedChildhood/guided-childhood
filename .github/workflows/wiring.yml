@@ -156,6 +156,11 @@ jobs:
       # the two had never been introduced, so a new family met a warm greeting
       # aimed at the daily loop while four steps sat on a page they had to find.
       - run: node scripts/check-digi-drives-setup.mjs
+      # The three questions come first and the account comes last. Every advert
+      # we run says "Three questions. No sign up." and for two months the second
+      # screen of the funnel asked for a name, an email and a password. Nothing
+      # failed, and the whole route to 4,000 a month runs through that page.
+      - run: node scripts/check-starter-order.mjs
       - run: node --experimental-strip-types scripts/check-focus-labels.mjs
       - run: node --experimental-strip-types scripts/check-baseline-seed.mjs
       - run: node --experimental-strip-types scripts/check-silver-rule.mjs

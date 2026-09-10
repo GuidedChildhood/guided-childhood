@@ -25,15 +25,41 @@ import Link from 'next/link'
 // It hides again at the very bottom, where the real card is, so a parent does
 // not end the page looking at two versions of the same button.
 
+/** A link when there is somewhere to go, a button when there is something to
+ *  do. Same look either way, so the bar never changes shape. */
+function CTA({ href, onClick, style, tabIndex, children }: {
+  href: string
+  onClick?: () => void
+  style?: React.CSSProperties
+  /** The bar is hidden rather than unmounted, so it must leave the tab order
+   *  when it is off screen. Carried through to whichever element is drawn. */
+  tabIndex?: number
+  children: React.ReactNode
+}) {
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} tabIndex={tabIndex} style={{ ...style, border: 'none', cursor: 'pointer' }}>
+        {children}
+      </button>
+    )
+  }
+  return <Link href={href} tabIndex={tabIndex} style={style}>{children}</Link>
+}
+
 export default function StickyJoin({
   href,
   label,
   note,
+  onClick,
 }: {
   href: string
   label: string
   /** One short line. The price and the four days live in the card at the foot. */
   note: string
+  /** Given when the account does not exist yet: the bar opens the account step
+   *  in place rather than navigating, because the account now comes AFTER this
+   *  page. See plans/2026-09-10-starter-account-last.md. */
+  onClick?: () => void
 }) {
   const [show, setShow] = useState(false)
 
@@ -63,8 +89,9 @@ export default function StickyJoin({
       }}
     >
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
-        <Link
+        <CTA
           href={href}
+          onClick={onClick}
           tabIndex={show ? 0 : -1}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -75,7 +102,7 @@ export default function StickyJoin({
           }}
         >
           {label} <span aria-hidden>→</span>
-        </Link>
+        </CTA>
         <p style={{
           margin: '6px 0 0', textAlign: 'center',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,

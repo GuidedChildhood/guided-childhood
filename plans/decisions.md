@@ -12978,3 +12978,57 @@ engagement held at 10.00, passport 10.00 with 23 of 23 knowing their page.
 ks2-23 contributes zero failures on all four. Tested against a scratch Postgres
 seeded from the live rows, idempotent on a second run, all four migration guards
 green, and all 23 modules map under the player's own anchoring rule.
+## 10 September 2026: the account goes last, and the advert becomes true again
+
+Justin asked for a review of the starter flow that did not stop until it could
+not be improved. The first thing the review found was not a nit.
+
+**Every advert we run promised "Three questions. No sign up." The second screen
+of the funnel asked for a name, an email and a password.** app/page.tsx:305 is
+the promise, under a button reading Start for free. Two taps later a parent who
+came for a free stage check met a password box before a single question about
+their child.
+
+It got that way honestly. Commit 619150bc, 10 July, front loaded the account to
+stop the child being asked about twice, once in the quiz and once in a separate
+onboarding. That goal was right and still is. The order was wrong, and the same
+goal is served by asking once at the END, which costs nothing because the
+answers are already in state and in localStorage.
+
+**The order now:** intro, the three questions, the build beat, the reveal in
+full, then the account. The reveal is the sell and it is now read by people who
+have not signed up, which is the only audience a sell page is for. Before, the
+whole persuasion was aimed at somebody who had already converted.
+
+**The account asks for two things.** Email and password. The parent's name is
+gone: dashboard/page.tsx has recovered a first name from the email since August
+("justin@..." greets "Justin"), so the field bought nothing, and a form asking
+only for an email beats one asking name and email by 12 to 18 points.
+
+**What the reference apps do**, from the Mobbin sweep: Calm Sleep runs six
+questions, shows the plan, then says "Your plan is ready. Unlock it now" and
+asks. Brilliant asks with "Create a free account to discover your personalized
+learning path". Life Reset writes a personal reading before asking anything.
+Noom is the one that asks early, on the strength of a brand and a budget we do
+not have.
+
+**A privacy improvement fell out of it.** Nothing about the child now leaves the
+browser until the parent chooses to save: captureLead returns immediately when
+there is no email, and there is no email until the account step. The child's
+name and birth month are held on their own device until they say yes.
+
+**Two flaws on the new last screen, found by looking at it.** The progress bar
+read empty at the exact moment a parent had answered everything, and the small
+print under the button was --ink-light, 2.18 to 1 on white. The bar shows full
+and the print is --ink-muted.
+
+**scripts/check-starter-order.mjs** holds the four rules that could each reverse
+in one edit with nothing going red: no account screen before the questions, the
+opening button goes to the first question, the account asks two things and not a
+name, and nothing writes the account through before the account exists. Mutation
+tested against five regressions.
+
+**Still the biggest remaining win, and it is not code.** One tap sign in with
+Google or Apple, which every reference app has and which the benchmarks put at
+20 to 40 percent on top of account conversion. It needs provider credentials and
+the Supabase toggles, which is Justin's to do, not something a session can add.
