@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
-import { WALL } from '../wall-scale'
+import { WALL, WALL_CONTRAST } from '../wall-scale'
 import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
@@ -418,9 +418,18 @@ function DigiClosingBlock({ slide, projector }: { slide: DigiSlide; projector?: 
 
   useEffect(() => {
     if (!ref.current) return
-    if (prefersReducedMotion()) { setMood('happy'); return }
     const avatar = ref.current.querySelector('[data-digi-avatar]')
     const bubbles = ref.current.querySelectorAll('[data-digi-line]')
+    // The avatar and every line are authored at opacity 0 for the animation to
+    // fade up from. Under reduced motion the animation never runs, so the
+    // early return left the whole closing block invisible: DiGi's three lines
+    // are the last thing every lesson says and a child with the setting on saw
+    // an empty slide. Reduced motion means no movement, not no content.
+    if (prefersReducedMotion()) {
+      gsap.set([avatar, ...bubbles].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
+      setMood('happy')
+      return
+    }
     const tl = gsap.timeline()
     if (avatar) tl.fromTo(avatar, { opacity: 0, scale: 0.4, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(2.2)' })
     tl.fromTo(bubbles, { opacity: 0, y: 14, scale: 0.96 }, {
@@ -1315,7 +1324,11 @@ export default function LessonPlayer({
             onClick={advance}
             disabled={!canContinue}
             className="btn btn-gold"
-            style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : 0.45 }}
+            // 0.45 fades the text AND the butter together, which on a wall
+            // measured 2.31:1 for "Pick an answer to continue". That is an
+            // instruction to the whole class, not decoration, so on a
+            // projector it fades to 0.75 (5.2:1) and still reads as waiting.
+            style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : projector ? 0.75 : 0.45 }}
           >
             {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
           </button>
@@ -1346,6 +1359,11 @@ export default function LessonPlayer({
       // competing with six other destinations.
       position: 'fixed', inset: 0, zIndex: 110, background: 'var(--cream)',
       display: 'flex', flexDirection: 'column',
+      // The classroom contrast variant re-points two tokens for the whole
+      // player (wall-scale.ts). It goes on the root, not on the slide shell,
+      // because the header phase line, the phase pills and the cycle map all
+      // sit ABOVE the shell and they are the labels the muted ink carries.
+      ...(projector ? (WALL_CONTRAST as React.CSSProperties) : {}),
     }} className="gc-lesson-player">
       {/* Authored focus ring: every control in the deck is keyboard reachable,
           and a reachable control with no visible focus is reachable in name
@@ -1505,7 +1523,10 @@ export default function LessonPlayer({
                       fontWeight: isNow ? 900 : 700,
                       fontSize: projector ? 'var(--text-lg)' : 'var(--text-base)',
                       color: isNow ? 'var(--ink)' : 'var(--ink-muted)',
-                      opacity: isDone ? 0.6 : 1,
+                      // A done cycle recedes, it does not disappear. 0.6 on a
+                      // wall measured 2.80:1; 0.82 is 4.5:1 and still visibly
+                      // behind the cycle we are in.
+                      opacity: isDone ? (projector ? 0.82 : 0.6) : 1,
                     }}
                   >
                     <span style={{

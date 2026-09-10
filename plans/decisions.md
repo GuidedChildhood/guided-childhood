@@ -12362,3 +12362,172 @@ so the measurement is known to be live.
 question: three EYFS and KS1 title cards at 36 to 43 words plus two diagrams.
 Those are teacher speech printed on a wall for children who cannot read it, the
 same shape as migration 276, and they are small. Named, not started.
+
+## 9 September 2026: the classroom contrast variant, and the widgets that were legible and cut off
+
+**The brief was right that something was washed out and wrong about what.**
+`plans/kids-player-design.md` has asked since the player was designed for "a
+higher contrast variant of the tokens" because "cream washes out under classroom
+lighting". Measured: `--ink` on `--cream` is 16.07:1, far above AAA. The body
+text was never the problem. The accent and the muted ink were, at 2.43:1 and
+3.26:1, and they carry every label on the wall: "Hands up, then tap the class
+answer", "The evidence", "Your turn", the cycle map, the source lines. Those are
+the eyebrows made bigger that same morning. **Size and contrast are different
+properties and only one of them had been fixed.**
+
+**Two existing tokens, not a new palette.** `--stage-1-text` (amber 900, 8.17:1
+on cream) stands in for `--terracotta-dark`, `--ink-soft` (7.13:1) for
+`--ink-muted`, on the player root in projector mode only.
+
+**A static contrast table passed while the wall still had seven failures on it.**
+It was written first, as a list of token pairs, and it was wrong three ways that
+only a browser can see: a `background-image` is invisible to `backgroundColor`
+(the title card sits on a dark teal gradient, so the table read 1.06:1 on the one
+slide never in danger); CSS `opacity` composites a GROUP, fading text and
+background together; and **a token alias resolves where it is DECLARED**, so
+`--coral-dark: var(--terracotta-dark)` on `:root` keeps the root value no matter
+what the player says. `scripts/check-wall-contrast.mjs` renders instead, and it
+is wired into CI. Removing the variant makes it fail with 59 findings, so it is a
+guard rather than a comment.
+
+**What rendering found that reading could not.** A widget eyebrow at 1.57:1
+(butter used as ink, which is a fill colour). The two spread race share counts at
+2.58:1 and 1.67:1, and the palette consolidation had quietly made "outrage" and
+"honest" the same colour anyway. The disabled Continue label at 2.31:1, which is
+an instruction to the whole room. And **DiGi's entire closing block invisible
+under `prefers-reduced-motion`**: the avatar and all three lines are authored at
+`opacity: 0` for the animation to fade up from, and the early return never made
+them visible. That is the last thing every one of the 21 lessons says.
+
+**The bigger find: the widgets were legible and cut off at the same time.** The
+morning's `WALL_TOKENS` re-pointed the `--text-*` scale for the widget subtree,
+which fixed 38 font sizes at once and looked right. The widgets size their type
+from tokens and their BOXES in pixels, because they were drawn for a phone.
+Multiplying the text by 2.5 and leaving a 170px card at 170px gives a card with
+the words falling out of it. On a 1920 wall the signal meter pushed its fourth
+option off the bottom of the screen; all six overflowed a 1366x768 laptop. It
+passed typecheck, the size guard AND the contrast guard, because the colours were
+perfect. **Only a screenshot found it.**
+
+**So the widgets zoom to fit rather than scale their type.** `zoom` scales the
+layout and the space it takes, so every proportion survives exactly. The factor
+is measured per slide, not fixed: probe at the 2.5 ceiling, and if it spills, the
+spill says exactly how much room the widget has. Getting that budget took three
+wrong measurements, all recorded in the code: the stage's `scrollHeight` reads
+`clientHeight` because the column inside it is `flex: 1` with `justifyContent:
+center` and stretches whatever it holds; `offsetHeight` ignores zoom entirely
+(429px at 1.0, 1.5 and 2.5); and the probe left the DOM at the ceiling, so when
+the computed zoom matched state React never re-rendered to correct it.
+
+**Now zero overflow on both screens, all six widgets, Continue always reachable.**
+
+**Named, not fixed.** Three widgets on a wall and all six on a laptop still land
+under the 40px floor, because a tall phone layout cannot be both fully scaled and
+on one screen. The real fix is wall shaped widget layouts, which is a redesign of
+six components. Separately, the spread race racer cards clip their own text
+inside a fixed 64px lane, identically on a phone, so that one predates all of
+this. And the family app still shows about 100 text nodes below AA, mostly the
+same eyebrow colour at 2.43:1: the classroom variant does not touch it, and
+changing the brand accent for parents is Justin's call, not a projector PR's.
+
+## 9 September 2026: the engagement cadence, and an action beat that changed nothing
+
+**"Fourteen modules of curriculum writing" was the wrong shape.** Measuring the
+35 failing stretches first: **twenty of them are the same stretch.** Every module
+except `eyfs-01` opens title, sometimes a video, objective, keywords, and only
+then a choice. Five to seven minutes of a class watching, in the first five to
+seven minutes of the hour. Fifteen are genuine mid lesson gaps.
+
+**The obvious fix does nothing, and the simulation is what said so.** An action
+slide at the top of each lesson leaves the passive run exactly as long: title
+plus objective plus keywords is still five contiguous minutes, the beat just
+moves where the run starts. Simulated against the council's own check it scored
+**6.96 to 6.96**. Had I written twenty slides and shipped them on the strength of
+"twenty lessons now open with something to do", the number would not have moved
+and I would not have known why.
+
+**The insert has to land inside the run.** Trying every position, one slot works
+for all twenty: after the objective, before the keywords. Opening becomes title
+(plus its video where there is one) at one to two minutes, then the class talks,
+then objective and keywords at four. It is also the better lesson: the class
+names its own experience before it is handed the vocabulary, so the keywords
+land on a room that already has something at stake.
+
+**Tagged `starter`, not `connect`, and that is a correction to my own plan.** I
+wrote the plan around "the connect phase was designed and never built", which
+reads well and is half true. `connect` is Jigsaw's Connect us and Calm me and it
+belongs at the TOP of a lesson, which is the one place an added beat does nothing
+for the cadence. A connect slide sitting third would also put Connect after
+Recall on the phase strip and march the marker backwards mid lesson. These are
+starter beats. `eyfs-01` keeps the only genuine connect slide in the scheme.
+
+**Not the starter quiz, though it was the cheaper option.** Every module already
+has a four question `starter_quiz` in `teacher_notes`. Projecting one of its
+questions would have saved writing twenty prompts and spoiled the instrument: it
+is a printed sheet a teacher marks to find out what prior knowledge is missing,
+and it cannot do that with an answer on the wall.
+
+**Safeguarding wording is the part to read.** Every prompt is answerable with no
+prior knowledge and never asks a child to disclose something that happened to
+them. `ks4-17` (sextortion) asks what makes *anybody* in trouble stay silent, not
+you. `ks3-14` (bodies) asks about the *tools* an app has, not about any body in
+the room. `ks4-16` (consent) asks who *should* decide, not what anyone has done.
+
+**This session cannot reach the database.** Both `execute_sql` and
+`apply_migration` return permission denied, so migration 279 is written but NOT
+applied. Rather than ship SQL nobody has run, it was run for real against a local
+Postgres 16 seeded with the live scheme: 20 rows updated, all six guards passed,
+and re-running it fails guard 2 and rolls back with the slide count still 513
+rather than 533. The council was then re-run against the migrated data, not
+against a simulation of it.
+
+**Engagement 6.96 to 8.89**, prose held at 9.78, blocks 9.52 to 9.53. The fifteen
+that remain are the genuine mid lesson gaps and each needs its own answer.
+
+## 9 September 2026: the last fifteen gaps, and engagement at ten
+
+**Sixteen beats for fifteen gaps.** `ks4-17` runs eight minutes across three
+slides and no single insert splits that under the ceiling, so it gets two.
+
+**Placement is computed, not chosen.** Walk each stretch accumulating minutes and
+cut as late as the ceiling allows: fewest beats, every one landing on a slide
+boundary the lesson already has.
+
+**The phase is not authored either.** Each beat takes the phase of the slide it
+sits in front of, so a beat can never announce a phase the lesson is not in.
+Fourteen land in teach, one in the `eyfs-01` starter, one in the `ks3-12` close.
+
+**Mostly `choice`**, because a run of teaching is where Rosenshine puts a check
+for understanding, and each question is written to catch the misconception the
+next slide is about to correct rather than to reward listening. `discussion`
+where there is no right answer to check: `ks2-09` asks who made an AI picture,
+which real judges are still arguing about, and the slide straight after says so.
+`ks3-12` closes on a `quote`, which the player renders under Say this.
+
+**Safeguarding.** `ks4-17` asks who has done something wrong when someone is
+blackmailed; the correct answer is the blackmailer and only the blackmailer, and
+the two wrong answers are the two the room is actually thinking, each answered
+rather than dismissed. `ks3-14` asks what follows from content being produced,
+performed and edited, and its script says out loud that nobody will be asked what
+they have seen.
+
+**The cycle check I wrote first proved nothing.** It replayed the player's own
+derivation against the local copy and reported zero unanchored, which was true
+and useless: the extract that seeded the copy had dropped `teacher_notes.cycles`,
+so it was checking twenty one modules with no cycles in them. A green check on
+absent data is worse than no check.
+
+The honest version is structural. Anchoring only ever looks at teach phase slides
+that carry a `heading`, and cycle one always opens on the first teach slide. So a
+beat can unanchor a map in exactly two ways: by carrying a heading, or by
+becoming the first teach slide. Both are now guards in 280 and both hold
+whatever the live cycles turn out to say.
+
+**Engagement 6.96 to 10.00**, 151 of 151 stretches inside four minutes, prose
+held at 9.78, blocks 9.52 to 9.55, passport held at 10.00. `parseSlides` accepts
+all 21 decks. 493 slides to 529.
+
+**Not ratcheted, on purpose.** The council's baseline is a floor, and raising it
+while 279 and 280 are unapplied would set a floor the live database does not
+meet and fail the next run for the right reason at the wrong time. The ratchet
+goes up after the migrations land.

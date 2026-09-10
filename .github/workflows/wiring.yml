@@ -44,7 +44,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - name: Start the app and run the guard
+      - name: Start the app and run the guards
         run: |
           npm run dev &
           for i in $(seq 1 60); do
@@ -52,6 +52,13 @@ jobs:
             sleep 2
           done
           npm run checkin-guard
+          # The classroom wall's contrast, which rides here because it is the
+          # same shape of check and the app is already up. It has to RENDER:
+          # a source reading version of it was written first and was wrong
+          # three ways, because a gradient backdrop, an opacity group and a
+          # token alias are all invisible to anything that only reads the
+          # source. See the header of check-wall-contrast.mjs.
+          npm run wall-contrast-guard
 
   # The two guards on the join between what a parent answers and what the
   # daily check in asks about.
