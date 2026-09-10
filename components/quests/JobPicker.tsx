@@ -251,8 +251,24 @@ export default function JobPicker({
                   <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
                     {job.why}
                   </span>
+                  {/* ── SAY THAT IT IS SET, AND THAT TAPPING CHANGES IT ──
+                      Justin, 10 September 2026: "here where it says every day
+                      maybe we should be clearer that it's set as every day but
+                      change here."
+
+                      It read "EVERY DAY · CHANGE", and both halves look like
+                      options rather than a state and an action: a parent can
+                      reasonably read it as a choice between every day and
+                      changing. "Set to" makes the first half a fact and "tap to
+                      change" is a verb phrase that cannot be misread as one.
+
+                      The pick the days prompt is already an instruction, so it
+                      takes neither: telling someone to tap to change a thing
+                      they have not set yet is a sentence about nothing. */}
                   <span style={{ ...EYEBROW, display: 'block', letterSpacing: '0.06em', color: open ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 5 }}>
-                    {whenSummary}{open ? '' : ' · change'}
+                    {whenSummary === 'Pick the days'
+                      ? whenSummary
+                      : <>Set to {whenSummary}{open ? '' : ' · tap to change'}</>}
                   </span>
                 </>
               )}

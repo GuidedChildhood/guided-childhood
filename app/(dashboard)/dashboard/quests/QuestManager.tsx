@@ -1029,7 +1029,24 @@ export default function QuestManager() {
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
                   Four things to print, tap any one to open it ready for the printer.
                 </p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginBottom: '10px' }}>
+                {/* ── THE WORDS FELL OUT OF THESE TILES (10 September 2026) ──
+                    Justin, with the pack on his phone: "some design issues here
+                    where text comes outside box."
+
+                    Measured rather than guessed. A tile is 15px padding and a
+                    2px border each side, a 38px plate and a 10px gap: 82px of
+                    chrome. At the old 150px floor that leaves 68px for the
+                    label, and two columns formed from a 420px viewport up.
+                    "Printables" is ONE WORD needing 83px, so it could not wrap
+                    and hung 4px past the border, and the other three crushed to
+                    three lines to fit.
+
+                    The floor is now the chrome plus the longest single word,
+                    with room to spare, so two columns only form when a tile can
+                    actually hold its own name. Below that it stays one column,
+                    which is what a 390px phone already got and what looked
+                    right. */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(172px, 1fr))', gap: '8px', marginBottom: '10px' }}>
                   {([
                     ['print', 'Quest sheet', '/dashboard/quests/print'],
                     ['deal', 'Device contract', '/dashboard/quests/contract'],
@@ -1041,7 +1058,11 @@ export default function QuestManager() {
                       background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '13px 15px',
                     }}>
                       <Plate name={icon} size={38} icon={28} radius={10} />
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{label}</span>
+                      {/* minWidth 0 lets the label shrink inside the flex row at
+                          all, and anywhere lets a single long word break rather
+                          than push through the border. Belt and braces beside
+                          the floor above: a label added later cannot spill. */}
+                      <span style={{ minWidth: 0, overflowWrap: 'anywhere', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{label}</span>
                     </a>
                   ))}
                 </div>
