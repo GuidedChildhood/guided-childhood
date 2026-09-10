@@ -18,7 +18,14 @@
   --app-bg:            #F1EFEA;
   --ink:               #1A1A2E;
   --ink-soft:          #52526A;
-  --ink-muted:         #8888A0;
+  /* Darkened from #8888A0 on 10 September 2026. That was 3.46 to 1 on white
+     and 2.98 on tint sage, under the 4.5 AA floor for body text on every
+     surface in the house, and this token carries the eyebrows, the recency
+     lines and most of the second sentence on 300 odd screens. #65657C clears
+     4.5 on every background we own, tint blue included at 4.54, and is the
+     lightest value that does. Nothing about the look changes but the bit a
+     parent could not read in daylight. */
+  --ink-muted:         #65657C;
   --ink-light:         #AEAEC0;
   --border:            #EAEAF0;
 
