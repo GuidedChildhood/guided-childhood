@@ -7,6 +7,7 @@ import { londonToday, londonDayStart } from '@/lib/pathway/today'
 import { currentStagePassportSections, type CurrentStageChild } from '@/lib/pathway/passport-sections'
 import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
 import { readTonight } from '@/lib/pathway/tonight'
+import { countsTowardPathway } from '@/lib/pathway/script-status'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -171,7 +172,7 @@ export async function getTodayLoop(
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid, childId: child?.id ?? null }),
     // THIS child's script today (or a household row), so Jody's bedtime read
     // ticks Jody's day and Tray's stays open. Key per child since 219.
-    supabase.from('script_completions').select('id, child_id').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
+    supabase.from('script_completions').select('id, child_id, status').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
     supabase.from('digi_questions').select('id, child_id').eq('user_id', userId).gte('created_at', dayStart).limit(10),
     // Per child since migration 211. Asking by user alone is what let one
     // child's moment tick the step for the whole household, so a parent doing
@@ -309,6 +310,23 @@ export async function getTodayLoop(
   const passportOutstanding = passportRead === null
     ? null
     : passportRead.sections.filter(sec => sec.pct < 100).length
+  // ── AND WHICH JOB IT ACTUALLY IS (10 September 2026) ─────────────────────
+  //
+  // Justin: the rung "has passport but needs to then send them when clicked on
+  // exactly the daily part needed to do that ticks when done like set up
+  // device or a job send".
+  //
+  // Every open section already carries its own name and its own route, and the
+  // sections are already in hand here, so a rung saying "Passport" and landing
+  // on the book was throwing both away. A parent tapping it arrived at a record
+  // of the work rather than the work.
+  //
+  // Passport day is the exception and keeps the book: on that day reading the
+  // record IS the one thing, which is a decision from 14 August, not an
+  // oversight. Every other day names the job.
+  const nextPassportJob = passportRead === null
+    ? null
+    : passportRead.sections.find(sec => sec.pct < 100) ?? null
 
   // ── THE DAY'S FOCUS ────────────────────────────────────────────────────────
   //
@@ -370,11 +388,40 @@ export async function getTodayLoop(
     const name = kidName(other?.child_id)
     return name ? `with ${name}` : 'done today'
   }
+  // ── A MOMENT IS CARDS, NOT A FINISHED DAY (10 September 2026) ────────────
+  //
+  // Justin: "moments has update today and scripts and haven't read one yet or
+  // ticked a moment." His session row for the day: completed_at set at 08:30,
+  // cards_completed 0.
+  //
+  // completed_at on daily_sessions does NOT mean a moment was done. It is
+  // written by /api/daily/day-done, whose own comment is explicit about it:
+  // since the rotation a day can complete on a lesson, a DiGi question or a
+  // passport look, "none of which pass through the deck", and it "never claims
+  // cards were completed, because none were". Reading that field here claimed
+  // it anyway, so every day finished on anything else turned the Moment rung
+  // green for a parent who had not opened a card.
+  //
+  // Both real moment paths write cards, so nothing is lost: /api/daily/complete
+  // writes cards_completed 5, /api/daily/feedback writes Math.max(1, ...). A
+  // rung on this road must read the field that means the thing it claims.
   const momentRows = ((momentCompletionsToday ?? []) as { child_id: string | null }[])
-  const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
-    || momentRows.length > 0
-  const momentNote = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0)) ? undefined : withNote(momentRows)
-  const scriptRows = ((scriptToday ?? []) as { child_id?: string | null }[]).map(r => ({ child_id: r.child_id ?? null }))
+  const deckMoment = (session?.cards_completed ?? 0) > 0
+  const momentDone = deckMoment || momentRows.length > 0
+  const momentNote = deckMoment ? undefined : withNote(momentRows)
+  // ── AND A SCRIPT IS ONE THAT COUNTS ──────────────────────────────────────
+  //
+  // script-status.ts exists for exactly this and says so: "One definition,
+  // imported by the road and the passport both, because the two of them
+  // disagreeing about how far a family has got is the bug here that would cost
+  // us their trust in both at the same time."
+  //
+  // The passport asks countsTowardPathway, which excludes `opened`. This rung
+  // never asked. It did not even SELECT status, so opening a script and closing
+  // it ticked the road and moved nothing on the passport.
+  const scriptRows = ((scriptToday ?? []) as { child_id?: string | null; status?: string | null }[])
+    .filter(r => countsTowardPathway(r.status))
+    .map(r => ({ child_id: r.child_id ?? null }))
   const scriptDone = scriptRows.length > 0
   const scriptNote = withNote(scriptRows)
 
@@ -453,6 +500,16 @@ export async function getTodayLoop(
     child?.id && !href.includes('child=')
       ? `${href}${href.includes('?') ? '&' : '?'}child=${child.id}`
       : href
+  // The same, for a route that may already carry a #fragment. withChild would
+  // append the child AFTER the hash, where it stops being a query param and
+  // becomes part of the anchor, so the page loads on the wrong child and does
+  // not scroll. The passport sections are the first hrefs on this road written
+  // somewhere else, so this is the first time it could bite.
+  const withChildOn = (href: string) => {
+    const hash = href.indexOf('#')
+    if (hash === -1) return withChild(href)
+    return `${withChild(href.slice(0, hash))}${href.slice(hash)}`
+  }
 
   const tasks: TodayLoopTask[] = [
     // ── SETUP LEADS, AND THE CHECK IN WAITS FOR IT ─────────────────────────
@@ -617,7 +674,8 @@ export async function getTodayLoop(
     // It never appears before there is a passport to read: no stage, no rung.
     ...(passportOutstanding !== null ? [{
       key: 'passport' as const,
-      label: 'Passport',
+      // The job's own name on every day but passport day. See nextPassportJob.
+      label: focus !== 'passport' && nextPassportJob ? nextPassportJob.label : 'Passport',
       // Both halves of this line arrived from different branches on the same
       // day and both are right. The route is the passport's own page since
       // 13 August, which is the whole reason that split was worth doing: this
@@ -632,7 +690,12 @@ export async function getTodayLoop(
       // param stays a real query param.
       href: focus === 'passport'
         ? `${withChild('/dashboard/pathway?from=today&passportday=1')}#passport`
-        : withChild('/dashboard/pathway?from=today'),
+        // The job itself, not the record of it. withChild is skipped because
+        // the section's href is already a real route with its own query; the
+        // child rides along below.
+        : nextPassportJob
+          ? withChildOn(nextPassportJob.href)
+          : withChild('/dashboard/pathway?from=today'),
       // On passport day the ask is a LOOK, not a finish: reading the record
       // is the day's one thing, and the pathway page records the look when it
       // is opened from the road. Every other day keeps the honest reading the
@@ -764,7 +827,7 @@ export async function getDailyTasks(
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid, childId }),
     // THIS child's script today (or a household row), so Jody's bedtime read
     // ticks Jody's day and Tray's stays open. Key per child since 219.
-    supabase.from('script_completions').select('id, child_id').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
+    supabase.from('script_completions').select('id, child_id, status').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
@@ -789,7 +852,8 @@ export async function getDailyTasks(
     .find(r => r.child_id === childId || r.child_id === null) ?? null
 
 
-  const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
+  // Cards, not a finished day. See the long note in getTodayLoop above.
+  const momentDone = (session?.cards_completed ?? 0) > 0
     // THIS child's moment. See the note in getTodayLoop above.
     || ((momentCompletionsToday ?? []) as { child_id: string | null }[])
          .some(r => r.child_id === childId || r.child_id === null)
@@ -828,7 +892,11 @@ export async function getDailyTasks(
         ? 'Tonight’s script, picked for you'
         : 'Every script for this stage is read',
       href: withChild(await safeScriptHref(supabase, userId, isPaid, recommended)),
-      done: !recommended || (scriptDoneToday ?? []).some(r => (r as { child_id?: string | null }).child_id === childId || (r as { child_id?: string | null }).child_id == null),
+      // countsTowardPathway, not merely a row: the road and the passport read
+      // one definition. See the note in getTodayLoop.
+      done: !recommended || (scriptDoneToday ?? [])
+        .filter(r => countsTowardPathway((r as { status?: string | null }).status))
+        .some(r => (r as { child_id?: string | null }).child_id === childId || (r as { child_id?: string | null }).child_id == null),
     },
     {
       key: 'lesson',
