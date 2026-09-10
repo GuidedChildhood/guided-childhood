@@ -113,6 +113,8 @@ export async function GET(request: NextRequest) {
     steps: row.steps as StepKey[],
     done: row.done as StepKey[],
     complete: !!row.completed_at,
+    // Today's sticker, read from the day's own row. See migration 283.
+    sticker: !!row.sticker_awarded_at,
     streak,
   })
 }
@@ -150,6 +152,7 @@ export async function POST(request: NextRequest) {
     // transition, so a refresh of a finished day does not replay the takeover.
     justCompleted: result.justCompleted,
     complete: result.complete,
+    sticker: result.sticker,
     streak,
   })
 }

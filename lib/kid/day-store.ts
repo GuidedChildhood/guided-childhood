@@ -219,6 +219,11 @@ export interface MarkResult {
    * the second print of a day should not send them anywhere.
    */
   already: boolean
+  /**
+   * Does this day hold its sticker? The stored fact, on the transition and on
+   * every repeat call after it, so a child who refreshes still sees it.
+   */
+  sticker: boolean
 }
 
 /**
@@ -246,7 +251,7 @@ export async function markStep(
   const { day, row } = await loadDay(admin, userId, childId, available)
   const steps = row.steps as StepKey[]
   const already = (row.done as StepKey[]).includes(step)
-  const base = { day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false, holidayMinutes: 0, already }
+  const base = { day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false, holidayMinutes: 0, already, sticker: !!row.sticker_awarded_at }
 
   // A step that is not part of today is not marked done. Without this a stale
   // tab from yesterday could complete a day it was never shown.
@@ -311,6 +316,10 @@ export async function markStep(
     justCompleted,
     holidayMinutes: justCompleted ? MINUTES_PER_COMPLETED_DAY : 0,
     already,
+    // The sticker this day now holds: the one just written, or the one it was
+    // already carrying. Never `complete`, which would be a second answer to a
+    // question the row has already answered.
+    sticker: !!(patch.sticker_awarded_at ?? row.sticker_awarded_at),
   }
 }
 

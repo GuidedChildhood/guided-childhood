@@ -48,6 +48,8 @@ import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import MonthlyShopSheet from '@/components/shop/MonthlyShopSheet'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
+import ChildDayStrip from '@/components/daily/ChildDayStrip'
+import { readTodayState } from '@/lib/kid/today-state'
 import CatchupCard from '@/components/daily/CatchupCard'
 import { rollVisit, getCatchup } from '@/lib/pathway/catchup'
 import DigiGreeting from '@/components/home/DigiGreeting'
@@ -371,6 +373,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // child, the step simply waits until they move up.
   const phoneAge = !!child?.age_band && child.age_band !== '4-7'
   const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === child?.id)
+
+  // What the child has left today, and their sticker count. One reading, shared
+  // with the child's own app so the two can never print different answers to
+  // the same question. See lib/kid/today-state.
+  const childDay = await readTodayState(supabase, child?.id ?? null)
   // The child app is only really set up once the child has actually opened it.
   // A parent can run the whole parent side for weeks without realising the
   // jobs, the earned device time and the printables all live on the child's
@@ -1069,6 +1076,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* The Planet Friend beside the road, chosen against the daily lead so
           the road and the coin never offer the same thing on the same day. */}
+      {/* ── THEIR DAY, ON THE PARENT'S HOME ────────────────────────────────
+          Justin, 10 September 2026, with the daily sticker agreed: both Homes
+          should show what is left today.
+
+          Above the parent's own path rather than below it, because the question
+          a parent arrives at six o'clock with is about their child and not about
+          themselves, and because it is one line: putting it under four steps
+          means it is read last or not at all. See ChildDayStrip for why it names
+          what is left rather than only counting it. */}
+      <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
+
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} childId={child?.id ?? null} />
 
       {/* ── THE DAY, WHERE THE SIX COINS USED TO BE ──────────────────────────

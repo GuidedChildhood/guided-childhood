@@ -27,6 +27,7 @@
     "picker-guard": "node scripts/check-job-picker.mjs",
     "auth-guard": "node scripts/check-auth-honesty.mjs",
     "kidbook-guard": "node scripts/check-passport-readonly.mjs",
+    "sticker-guard": "node scripts/check-daily-sticker.mjs",
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
     "module-contract": "node scripts/check-module-contract.mjs"
   },
