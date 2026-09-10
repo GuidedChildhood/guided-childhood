@@ -83,13 +83,14 @@ Mutation tested before it is trusted, per the house rule.
 the Supabase callback as the redirect URI, client id and secret pasted into
 Supabase, provider on.
 
-**Apple: £79 a year and longer.** Sign in with Apple needs a paid Apple Developer
-Program membership. Without it there is no Services ID and no key, and no amount
-of code makes the button work.
+**Apple: about twenty five minutes.** Justin, 10 September 2026: "I have an apple
+dev membership". That was the gate, and it is already paid, so both go on
+together and the value is `google,apple`.
 
-The recommendation is Google now and Apple when the membership exists, which the
-config flag supports directly: `NEXT_PUBLIC_AUTH_PROVIDERS=google` turns on one
-without promising the other.
+The flag still takes them one at a time if anything goes wrong with one of them:
+`NEXT_PUBLIC_AUTH_PROVIDERS=google` turns on one without promising the other,
+which is the thing to reach for if Apple's key or Services ID needs a second
+attempt.
 
 ## Risk
 
@@ -140,24 +141,22 @@ our own address in here gets a redirect_uri_mismatch and no explanation.
     Preview. Redeploy. It is baked in at build time, so nothing changes until a
     build runs.
 
-### APPLE, £79 a year, longer
+### APPLE, about twenty five minutes, membership already held
 
-Only worth starting once the developer membership exists. Steps 4 to 10 have
-the same shape; what differs is that Apple wants a Services ID and a signing
-key rather than a client secret, and the key expires every six months, so it is
-a diary entry as well as a setup.
+Same shape as Google. What differs is that Apple wants a Services ID and a
+signing key rather than a client secret, and THE KEY EXPIRES EVERY SIX MONTHS,
+so this is a diary entry as well as a setup: sign in with Apple simply stops
+working on the day it lapses, for everybody who used it.
 
-11. Join the Apple Developer Program. This is the £79 and it is the gate: there
-    is no Services ID without it.
-12. Certificates, Identifiers and Profiles, Identifiers. Make an App ID first,
+11. Certificates, Identifiers and Profiles, Identifiers. Make an App ID first,
     then a Services ID (this is the one that acts as the client id).
-13. On the Services ID, enable Sign In with Apple, then Configure. Domain
+12. On the Services ID, enable Sign In with Apple, then Configure. Domain
     guidedchildhood.com. Return URL: the callback address above.
-14. Keys, then make a new key with Sign In with Apple enabled. Download the .p8
+13. Keys, then make a new key with Sign In with Apple enabled. Download the .p8
     ONCE, because Apple never shows it again. Note the Key ID and the Team ID.
-15. Supabase, same providers screen, Apple. Turn it on and give it the Services
+14. Supabase, same providers screen, Apple. Turn it on and give it the Services
     ID, the Team ID, the Key ID and the contents of the .p8.
-16. Change NEXT_PUBLIC_AUTH_PROVIDERS to google,apple in Vercel and redeploy.
+15. Change NEXT_PUBLIC_AUTH_PROVIDERS to google,apple in Vercel and redeploy.
 
 ### How to know it worked
 
