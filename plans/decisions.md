@@ -12725,3 +12725,56 @@ ks4-17 say 64 and run 70. The smallest gap is two minutes and there is no
 module without one. That is prose in several shapes, one of which carries a
 whole alternative plan for a 55 minute period, so it wants writing rather than
 a regular expression.
+
+## 10 September 2026: the recommended time on setup step three, and the table that already existed
+
+**Justin, 10 September:** the setup step that asks how much free screen time a
+child gets should name the recommended amount, default under it so quests can
+earn the rest up to it, and encourage families to ask for time through the app
+so the balance can be measured against offline.
+
+**The evidence does not support a threshold, and saying it does would be the
+one claim this product cannot make.** `research/2026-08-31-marketing-evidence-research.md`
+has RCPCH 2019 verified as "no safe or harmful threshold", Przybylski's
+Goldilocks finding, and Etchells on what the time displaces rather than how long
+it ran. The UK Chief Medical Officers looked at the same question and declined
+to set a limit. A confident number with no source is the unearned certainty the
+LinkedIn work attacks in other people. Justin picked a sourced age default,
+named as a starting point rather than a limit, over both a bare number and a
+displacement only framing with no total.
+
+**Then it turned out none of it needed inventing.** `lib/quests/screen-balance.ts`
+already holds the whole thing, and it was built from Justin's own words on 9
+September: `BAND` for the age guide, `SCREEN_GUIDE_SOURCES` naming the WHO, the
+AAP, the Canadian 24 hour guidelines and the RCPCH, `BASE_SHARE = 2/3` and
+`baseDailyMinutes` for the starting point that sits under the guide, and a
+`DayAllowance` where earned minutes never pass it. Sixteen places read it. The
+mechanic was already correct everywhere except the one screen that introduces
+it.
+
+**The first version of this change built a second table**, with its own numbers
+and its own sourcing comment, which would have drifted from the real one inside
+a month. Deleted. Step three now reads the same functions as the timer, the
+child's screen and the balance report.
+
+**The choices are per child now, not a fixed row.** `[0, 30, 45, 60, 90]` let a
+parent hand a four year old ninety minutes, which is above the guide for that
+age and leaves the stars nothing to add, so the mechanic silently did nothing.
+Four options built from the band: none, half the base, the base, the guide. An
+eight year old sees none, 25, 50 and 75. The base is marked with a dashed edge
+rather than a fill, because a filled suggestion reads as already chosen and
+nothing is chosen until a parent taps.
+
+**The sources are on the screen**, all four, with the fact that they disagree
+said out loud and the RCPCH's refusal to set a limit named. That is the proof
+path for the only number on the step.
+
+**App requested time is encouraged and never required.** A product built on
+connection cannot make tracking the price of using it, so the line says what it
+buys a family, which is both halves of the day, and that nothing stops working
+if they would rather not.
+
+**Two pre existing copy mismatches in `BAND`, not fixed here.** The 8 to 10 line
+says "up to an hour or so" beside `dailyMins: 75`, and 11 to 13 says "a couple
+of hours" beside `90`. Neither is wrong enough to be worth a change in a commit
+about something else, but the prose and the number should agree.
