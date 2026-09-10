@@ -12778,3 +12778,52 @@ if they would rather not.
 says "up to an hour or so" beside `dailyMins: 75`, and 11 to 13 says "a couple
 of hours" beside `90`. Neither is wrong enough to be worth a change in a commit
 about something else, but the prose and the number should agree.
+
+## 10 September 2026: the twenty second module, demanded by a feature
+
+**Justin: "add missing lesson regarding ai."** The school AI governance tool
+joins a procurement risk to the lesson that teaches a child about it. Six of its
+seven links resolved. The seventh named a competency, "can I explain the
+difference between an AI that talks like a friend and a friend", and had no
+module behind it. Rather than link the persuasion or mood lessons, which are
+close and are not it, the gap was written down and shown to schools in amber.
+`ks3-22-when-an-ai-acts-like-a-friend` closes it, in migration 282.
+
+**It is a safeguarding lesson, not an IT one.** KCSIE 2026 treats generative AI
+simulating harmful interaction as a CONTACT risk, in force from 1 September
+2026. That is the spine of the lesson and the reason `dsl_note.required` is
+true. It is also why the lesson is timely rather than speculative.
+
+**It never says stop.** Non negotiable one. A pupil told to delete it has a
+secret as well as a habit, and has learned that this teacher is not the one to
+tell. Cycle three lands on keep both: nobody is taking the app away, you are
+adding a person. One of the six practise cases is deliberately fine, so the
+class sees that a good verdict exists and giving it is not being soft.
+
+**What it will not claim.** No rewiring, no two sigma tutor, no retracted
+learning gains paper, no 65 percent of future jobs. The single outcome claim is
+Bastani et al., PNAS 2025, used only for what it measured: unguarded chatbot
+access and exam grades, never loneliness or attachment.
+
+**Its arithmetic is honest, which makes it the first one that is.** 27 slides,
+62 minutes, and the timing string says 62. The other 21 all under state their
+totals by two to six minutes. That fix stays a separate migration.
+
+**sort_order 22, not an insert at 15.** The plan said shift everything from 15
+up. Building it showed why not: the seven modules after KS3 carry their numbers
+inside their ids, so shifting the display number gives a module labelled 16 with
+an id saying `ks4-15`. Every surface groups by key stage and keeps array order,
+so putting the entry after `ks3-14` in the manifest reads last in KS3 everywhere
+without renumbering a thing.
+
+**A test had to change, and the direction matters.** `ai-governance.test.mjs`
+asserted the companion gap was stated rather than mislinked. That was the right
+assertion while no lesson existed. Now the honest state is a real link, so the
+assertion says that instead. The rule underneath is untouched: every link either
+names a lesson that exists, or explains why it cannot.
+
+**Measured with 22 modules, against the live scheme plus 281 and 282:** prose
+9.78 to 9.79, blocks 9.52 to 9.57, engagement held at 10.00 with 160 of 160
+stretches inside four minutes, passport 10.00 with 22 of 22 knowing their page.
+The new module contributes zero failures on all four checks. Both ratchets moved
+up, and the fixture run does not touch the floor.
