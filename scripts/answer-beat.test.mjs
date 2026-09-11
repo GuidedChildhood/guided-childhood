@@ -12,6 +12,7 @@
 // before the teacher taps again, and that only happens while the answer is
 // still hidden.
 
+import { readFileSync } from 'node:fs'
 import { answerBeat } from '../shared/lesson-slides.ts'
 
 let failed = 0
@@ -96,6 +97,30 @@ const TWO = (tries) => answerBeat(0, 2, tries)
   const bad = every.filter(t => THREE(t).states[1] === 'wrong')
   ok('the right answer is never styled as wrong', bad.length === 0,
     `broke on: ${bad.map(t => `[${t}]`).join(' ')}`)
+}
+
+// ── The player must gate Continue on SETTLED, not on ANSWERED ───────
+// This one is about the wiring, not the maths, and it is here because the
+// pure rules above all passed while the bug was live.
+//
+// onAnswered fires on the FIRST tap, because the first tap is the one that
+// scores. Until the retry landed that was also the tap that ended the
+// question, so gating Continue on `answered` was correct. It is not correct
+// any more: a wrong first pick answers the slide and deliberately leaves it
+// live, and a Continue button that wakes up there walks the class straight
+// past the answer they were about to be shown. Caught by driving the real
+// component in a browser, which is the only place it was visible.
+{
+  const src = readFileSync(new URL('../shared/components/LessonPlayer.tsx', import.meta.url), 'utf8')
+  ok('Continue is gated on settled, never on answered',
+    /const canContinue = !isChoice \|\| settled\b/.test(src),
+    'canContinue must read `settled`; `answered` is true from the first tap and unlocks the retry')
+  ok('the settle signal reaches the player',
+    /onSettled=\{\(\) => setSettled\(true\)\}/.test(src),
+    'ChoiceBlock owns the tries, so the player only learns a slide settled if it is told')
+  ok('the retry says why it is waiting',
+    src.includes("'Have another go to continue'"),
+    'a disabled button with no reason reads as broken rather than as waiting')
 }
 
 if (failed) {

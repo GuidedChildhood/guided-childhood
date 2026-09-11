@@ -154,12 +154,18 @@ function ToolStrip({ tool, projector }: { tool: LessonTool; projector?: boolean 
 function ChoiceBlock({
   slide,
   onAnswered,
+  onSettled,
   projector = false,
   seed = 0,
   tool,
 }: {
   slide: ChoiceSlide
   onAnswered: (correct: boolean, chosen: string) => void
+  // Fired once, the moment the slide settles. The player gates Continue on
+  // THIS rather than on onAnswered, because a wrong first pick answers the
+  // slide without settling it, and letting the class move on there would
+  // walk them past the right answer they were about to be shown.
+  onSettled?: () => void
   projector?: boolean
   seed?: number
   tool?: LessonTool
@@ -184,7 +190,9 @@ function ChoiceBlock({
     // is the class thinking again, which is the point, and scoring it would
     // turn every retry into a free mark.
     if (tries.length === 0) onAnswered(opt.correct, opt.text)
-    setTries([...tries, i])
+    const next = [...tries, i]
+    setTries(next)
+    if (answerBeat(correctIndex, order.length, next).settled) onSettled?.()
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
     if (el && !prefersReducedMotion()) {
@@ -679,10 +687,11 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, projector, seed, tool,
+  slide, onAnswered, onSettled, projector, seed, tool,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
+  onSettled?: () => void
   projector?: boolean
   seed?: number
   tool?: LessonTool
@@ -782,7 +791,7 @@ function SlideBody({
         </div>
       )
     case 'choice':
-      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} seed={seed} tool={tool} />
+      return <ChoiceBlock slide={slide} onAnswered={onAnswered} onSettled={onSettled} projector={projector} seed={seed} tool={tool} />
     case 'discussion':
       return <DiscussionBlock slide={slide} projector={projector} />
     case 'stat':
@@ -917,6 +926,10 @@ export default function LessonPlayer({
   const projector = projectorProp ?? classMode
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
   const [answered, setAnswered] = useState(false)
+  // Answered and settled were the same instant until the retry landed: the
+  // first tap ended the question. Now a wrong first pick answers the slide
+  // and leaves it live, so Continue has to wait for the settle instead.
+  const [settled, setSettled] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
   const [finished, setFinished] = useState(false)
   // A pass on the child link can open a planet on their star system (Planet
@@ -944,7 +957,7 @@ export default function LessonPlayer({
   const slide = slides[index]
   const isChoice = slide?.type === 'choice'
   const isLast = index === slides.length - 1
-  const canContinue = !isChoice || answered
+  const canContinue = !isChoice || settled
   const hasScripts = teacherView && slides.some(s => s.script)
 
   // The end of lesson check: every choice slide counts towards the score and
@@ -1051,6 +1064,7 @@ export default function LessonPlayer({
       return
     }
     setAnswered(false)
+    setSettled(false)
     setIndex(i => i + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLast, passed, completeEndpoint, lessonId, lessonSource, choiceCount, completeBody])
@@ -1059,6 +1073,9 @@ export default function LessonPlayer({
     if (index === 0) return
     dirRef.current = -1
     setAnswered(true)
+    // A slide already behind us is settled by definition, so stepping back
+    // never re-locks the way forward.
+    setSettled(true)
     setIndex(i => i - 1)
   }, [index])
 
@@ -1092,6 +1109,7 @@ export default function LessonPlayer({
     setRunSalt(freshSalt())
     dirRef.current = 1
     setAnswered(false)
+    setSettled(false)
     setFinished(false)
     setIndex(0)
     setDigiMood('idle')
@@ -1106,6 +1124,7 @@ export default function LessonPlayer({
     const firstWrong = slides.findIndex((s, i) => s.type === 'choice' && answersRef.current[i] === false)
     dirRef.current = -1
     setAnswered(false)
+    setSettled(false)
     setFinished(false)
     setIndex(firstWrong > 0 ? firstWrong - 1 : 0)
     setDigiMood('idle')
@@ -1405,7 +1424,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} seed={runSalt + index * 101} tool={tool} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} />
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 
@@ -1457,7 +1476,10 @@ export default function LessonPlayer({
             // projector it fades to 0.75 (5.2:1) and still reads as waiting.
             style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : projector ? 0.75 : 0.45 }}
           >
-            {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
+            {isLast ? 'Finish lesson'
+              : isChoice && !answered ? 'Pick an answer to continue'
+              : isChoice && !settled ? 'Have another go to continue'
+              : 'Continue'}
           </button>
         </div>
       </>
