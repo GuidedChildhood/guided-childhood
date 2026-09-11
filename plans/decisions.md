@@ -13288,3 +13288,57 @@ files that both claimed 283 yesterday. A migration is cheap to make rerunnable
 and expensive to make exclusive, so the rule stands: guard every update on the
 state it expects to find, and a collision costs seventeen seconds instead of a
 restore.
+
+## 11 September 2026: the pilot lesson, and the last silent beat
+
+**ks3-12 is the lesson to send.** It now carries six animated beats across
+seventy two minutes, roughly one every twelve, and every one speaks with a
+transcript beside it:
+
+| slide | phase | beat |
+| 2  | starter | DiGi opens the lesson |
+| 7  | teach   | Opening the case: real or made? |
+| 12 | teach   | The three checks |
+| 19 | teach   | DiGi Junior half time check in |
+| 27 | close   | Your mission: check before you share |
+| 30 | close   | Where this lesson sits on your passport |
+
+**Both bookends land outside the teach phase, and that is the whole design.** A
+cycle opens on the teach slide whose heading it names and runs to the slide
+before the next opens, so putting the new beats in starter and close means
+nothing in the cycle map moves and no budget needs recomputing. Teach still runs
+29 and the cycles still state 29, asserted by guard 3. This is 281's lesson
+applied before the fact instead of after it.
+
+**The welcome goes after the title, not before.** On a projector the title card
+is what orients a room. The class sees where they are, then DiGi says hello.
+
+**What DiGi says is the AI curriculum in one line.** "I am a machine, and I am
+quite good at this." The guide introducing itself as a machine is ks2-23 and
+ks3-22 compressed, said by the character best placed to say it.
+
+**DiGi is the star, and the second attempt proves the reference was the whole
+problem.** Same prompt shape, same model, swapped from Digi.png to DiGi-star.png
+with the robot ruled out in words, and all three came back on model first time:
+yellow, matte, two round black eyes, orange eyebrows. The earlier failure was
+not the model struggling, it was being handed the wrong picture.
+
+**Every line landed word perfect again**, which is now five for five on scripted
+dialogue. Worth trusting: seedance holds a short script exactly when the words
+are given as the only thing the character says.
+
+**ks2-06 was the last silent beat and now speaks.** Its line hands the next
+lesson its starting point, which ks2-23's prior_knowledge already claimed it
+would: an app is following a recipe somebody wrote. The claim and the clip now
+match.
+
+**Nothing in the scheme claims an unverified board any more.** ks2-06 was the
+only beat still carrying onScreen, because its clip was the untouched July one.
+That clip is replaced, the new one was checked, the board could not be read, and
+the field went the same way as the six in 288. Ten beats, ten voices, zero board
+claims.
+
+**One imperfection kept on purpose.** The passport clip shows six stamps and the
+passport has five stages. The described field says "a row of stamps" rather than
+a number, nobody in a classroom counts them, and a re render costs 108 credits to
+fix something no child will notice.
