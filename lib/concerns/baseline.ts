@@ -240,10 +240,43 @@ export async function seedBaselineConcerns(
  * Idempotent the same way, on the same principle: it does nothing for a child
  * who already has a worry of their own.
  */
+/** What this child's first check in asks about: their parent's answers where
+ *  there are any, the stock openers where there are not. Capped at three, in
+ *  the order the parent ranked them, because Justin's own rule on the first
+ *  check in still holds: "just don't want too many on first check in until we
+ *  know issues." */
+function pickSlugs(worrySlugs?: string[]): string[] {
+  const named = (worrySlugs ?? [])
+    .map(s => String(s).trim())
+    .filter(Boolean)
+    .filter((s, i, all) => all.indexOf(s) === i)
+    .slice(0, 3)
+  return named.length ? named : [...STARTER_SLUGS]
+}
+
 export async function seedChildBaseline(
   supabase: SupabaseClient,
   userId: string,
   childId: string,
+  /** The worries the parent actually named for THIS child, if they were asked.
+   *
+   *  ── WHY THIS ARGUMENT EXISTS (11 September 2026) ────────────────────────
+   *
+   *  Justin: "when we do check in for new second child we have no reference of
+   *  issues to add to check in, how are we starting that? maybe we should just
+   *  have the questionaire for second child."
+   *
+   *  He had spotted the real shape of it. seedBaselineConcerns reads the
+   *  parent's onboarding answers, but those are reserved for the PRIMARY child,
+   *  so every child after the first fell through to this function and got the
+   *  same stock two: bedtime screens and coming off screens. A parent with a
+   *  six year old and a fifteen year old was asked identical questions about
+   *  both, which is the app telling them it has not been listening.
+   *
+   *  Given worries, they are used. Given none, the stock two remain, because a
+   *  child added in a hurry still needs something to be asked about tomorrow
+   *  and two rows is a far better failure than an empty check in. */
+  worrySlugs?: string[],
 ): Promise<BaselineConcern[]> {
   const { data: existing, error: readError } = await supabase
     .from('concerns')
@@ -260,7 +293,7 @@ export async function seedChildBaseline(
   const now = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const { data: inserted, error } = await supabase
     .from('concerns')
-    .insert(STARTER_SLUGS.map(slug => ({
+    .insert(pickSlugs(worrySlugs).map(slug => ({
       user_id: userId,
       child_id: childId,
       source: BASELINE_SOURCE,

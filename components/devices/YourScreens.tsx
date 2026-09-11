@@ -166,7 +166,10 @@ export default function YourScreens({
   })
 
   return (
-    <div style={CARD}>
+    // The anchor the fortnightly sweep card scrolls to. That card asks whether
+    // anything new has arrived; the answer to "yes" has to be this list, one
+    // tap away, rather than a parent hunting for it down the page.
+    <div id="your-screens" style={{ ...CARD, scrollMarginTop: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: 0, letterSpacing: '-0.02em' }}>
           The screens in your home

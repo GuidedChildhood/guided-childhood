@@ -57,6 +57,25 @@ export async function GET(req: NextRequest) {
     || null
   if (!child) return NextResponse.json({ due: false })
 
+  // ── NOTHING TO SWEEP YET (11 September 2026) ──────────────────────────────
+  //
+  // Justin, looking at the Device Safety Hub: "the device add page is not that
+  // clear, it should have add devices here and only ask every 2 weeks if any
+  // new devices and the list below is correct".
+  //
+  // He is describing two different jobs that were running at once. A family
+  // with no screens recorded was asked "Any NEW devices?" directly above a card
+  // asking them to add their first, which is a question about a list that does
+  // not exist. The fortnightly sweep is a RE check, so it has to wait until
+  // there is something to re check; before that the add card is the whole job
+  // and deserves the screen to itself.
+  const { count: deviceCount } = await supabase
+    .from('family_devices')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .is('retired_at', null)
+  if (!deviceCount) return NextResponse.json({ due: false })
+
   const since = new Date(Date.now() - SWEEP_GAP_DAYS * 86_400_000).toISOString()
   const { data: recent, error } = await supabase
     .from('digi_device_checkins')

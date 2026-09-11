@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { childColour, childInitial } from '@/lib/children/colour'
+import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/BirthdayFields'
+import { WORRIES } from '@/lib/onboarding/worries'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
@@ -736,13 +738,10 @@ function SettleShare({ childName }: { childName: string }) {
 // for having the family they have. The month end prompt is what stops that
 // answer being permanent.
 
-const AGE_BANDS: { value: string; label: string }[] = [
-  { value: '4-7', label: '4 to 7' },
-  { value: '8-10', label: '8 to 10' },
-  { value: '11-13', label: '11 to 13' },
-  { value: '13-15', label: '13 to 15' },
-  { value: '16+', label: '16 and over' },
-]
+// The hand picked age band list that used to live here went on 11 September
+// 2026, with the select it fed. A band a parent picks is a band that never
+// changes; the birthday they give instead is one the product can read every
+// morning. See components/children/BirthdayFields.
 
 // ── ADDING ONE CHILD MUST NOT END THE STEP (18 August 2026) ────────────────
 //
@@ -762,7 +761,14 @@ const AGE_BANDS: { value: string; label: string }[] = [
 function OtherChildren() {
   const router = useRouter()
   const [name, setName] = useState('')
-  const [band, setBand] = useState('')
+  // The birthday, not a band. See components/children/BirthdayFields for why a
+  // child added with only a band could never age up.
+  const [dobMonth, setDobMonth] = useState<number | null>(null)
+  const [dobYear, setDobYear] = useState<number | null>(null)
+  // The three worries for THIS child. Every child after the first used to get
+  // the same stock two, which told a parent of a six year old and a fifteen
+  // year old that we had not been listening to either of them.
+  const [worries, setWorries] = useState<string[]>([])
   const [busy, setBusy] = useState<'add' | 'only' | null>(null)
   const [failed, setFailed] = useState(false)
   /** Who has been added in this sitting, so the parent can see it landed. */
@@ -784,7 +790,9 @@ function OtherChildren() {
       if (isAdd) {
         setAdded(prev => [...prev, name.trim()])
         setName('')
-        setBand('')
+        setDobMonth(null)
+        setDobYear(null)
+        setWorries([])
         // Deliberately NO router.refresh() here. See the note above: refreshing
         // is what ticked the step and closed it after one child.
       } else {
@@ -804,7 +812,7 @@ function OtherChildren() {
     router.refresh()
   }
 
-  const ready = name.trim().length > 0 && band.length > 0
+  const ready = name.trim().length > 0 && bandFrom(dobMonth, dobYear) !== null
 
   const field: React.CSSProperties = {
     width: '100%', boxSizing: 'border-box', padding: '12px 14px',
@@ -829,19 +837,72 @@ function OtherChildren() {
             style={field}
           />
         </label>
-        <label style={{ display: 'block' }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
-            How old
-          </span>
-          <select value={band} onChange={e => setBand(e.target.value)} style={field}>
-            <option value="">Choose an age</option>
-            {AGE_BANDS.map(b => <option key={b.value} value={b.value}>{b.label}</option>)}
-          </select>
-        </label>
+        <BirthdayFields
+          month={dobMonth}
+          year={dobYear}
+          onChange={(m, y) => { setDobMonth(m); setDobYear(y) }}
+          fieldStyle={field}
+        />
+
+        {/* THE SAME THREE QUESTIONS THE FIRST CHILD GOT.
+            Justin, 11 September 2026: "maybe we should just have the
+            questionaire for second child to see what issues they have".
+            Only once there is a birthday, so the tiles arrive as the third
+            thing rather than a wall of nine beside an empty name box. */}
+        {bandFrom(dobMonth, dobYear) && (
+          <div>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+              What is going on with {name.trim() || 'them'}
+            </span>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 8px', lineHeight: 1.5 }}>
+              Up to three, most pressing first. These become their check in, so
+              it asks about them rather than about their brother or sister.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+              {WORRIES.map(w => {
+                const on = worries.includes(w.id)
+                const full = worries.length >= 3 && !on
+                return (
+                  <button
+                    key={w.id}
+                    type="button"
+                    aria-pressed={on}
+                    disabled={full}
+                    onClick={() => setWorries(prev => on ? prev.filter(x => x !== w.id) : [...prev, w.id])}
+                    style={{
+                      padding: '9px 13px', borderRadius: '100px', cursor: full ? 'default' : 'pointer',
+                      border: `2px solid ${on ? 'var(--ink)' : 'var(--border)'}`,
+                      background: on ? 'var(--terracotta)' : '#fff',
+                      color: full ? 'var(--ink-muted)' : 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontWeight: on ? 800 : 600, fontSize: 'var(--text-sm)',
+                      boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+                      opacity: full ? 0.5 : 1,
+                    }}
+                  >
+                    {on ? `${worries.indexOf(w.id) + 1}. ` : ''}{w.label}
+                  </button>
+                )
+              })}
+            </div>
+            {/* Skippable on purpose: a parent adding three children at bedtime
+                should not be held at a wall of tiles. Nothing named still gets
+                the stock openers, so their check in is never empty. */}
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '8px 0 0', lineHeight: 1.5 }}>
+              {worries.length === 0
+                ? 'Skip this and we will start them on the two most families begin with.'
+                : `${worries.length} picked. You can change these any time.`}
+            </p>
+          </div>
+        )}
       </div>
 
       <button
-        onClick={() => post('/api/quests', { action: 'child', name: name.trim(), age_band: band })}
+        onClick={() => post('/api/quests', {
+          action: 'child',
+          name: name.trim(),
+          date_of_birth: dobFrom(dobMonth, dobYear),
+          worries,
+        })}
         disabled={!ready || busy !== null}
         style={{
           marginTop: '12px',

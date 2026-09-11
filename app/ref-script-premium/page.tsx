@@ -65,7 +65,6 @@ export default async function RefScriptPremium({ searchParams }: { searchParams:
         script={SCRIPT}
         sortOrder={12}
         showBanNote
-        voiceUrl="/fixture-voice.mp3"
         isPaid
         childName="Teo"
         childPhone={null}

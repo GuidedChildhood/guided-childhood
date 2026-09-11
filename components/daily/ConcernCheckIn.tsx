@@ -536,7 +536,7 @@ export default function ConcernCheckIn({
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 6px' }}>
         {baseline
           ? 'One tap each. This is your starting point, so there is no right answer and nothing to work up to. We check in each day from here and show you the movement.'
-          : 'One tap each. More stars is a better week.'}
+          : 'One tap each. Five stars means it is sorted and comes off your list. Anything less and we stay on it with you.'}
       </p>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 18px' }}>
         We read these every week to see which of our suggestions is working for
@@ -778,6 +778,31 @@ export default function ConcernCheckIn({
                   <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                     That is sorted, so we will drop it off your check in. If it comes back, log it as a moment and it returns here on its own.
                   </span>
+                </div>
+              )}
+
+              {/* AND THE OTHER FOUR STARS MEAN SOMETHING TOO.
+                  Justin, 11 September 2026: "on the star rating we need to be
+                  clear that if under 4 stars means still needs help and we keep
+                  on it until we get a 5 then drops off."
+                  Five stars had a message and one to four had nothing, so the
+                  only answer that was explained was the one that ends the
+                  conversation. A parent tapping two stars learned nothing about
+                  what happens next, and the thing they most need to know at two
+                  stars is that we are staying on it.
+                  Quiet, not a box: five stars is an event and earns the
+                  celebration, this is a standing fact and should not shout over
+                  it every single day. Four is called out separately because
+                  "nearly" is true there and useful, and because a parent who
+                  cannot see the finish line stops aiming at it. */}
+              {(isTouched || isSaved) && chosenBand >= 1 && chosenBand <= 4 && (
+                <div style={{
+                  fontSize: 'var(--text-sm)', color: 'var(--ink-muted)',
+                  lineHeight: 1.5, marginTop: '6px',
+                }}>
+                  {chosenBand === 4
+                    ? 'Nearly there. It stays on your list until five stars, then it is done.'
+                    : 'Still needs help, so it stays on your list and we keep working on it with you.'}
                 </div>
               )}
 
