@@ -66,6 +66,19 @@ export type LessonCycle = {
   minutes: number
 }
 
+// The one thing a class leaves with, already carried by every module in
+// teacher_notes.tool and already printed on the poster and the organiser. It
+// was never shown inside the player, which is how ks3-12 ended up asking
+// "which check does that feeling trigger?" with options reading "Check three"
+// and "Check one only" while the three checks themselves were nine slides
+// back and off screen. A question a class cannot answer without remembering a
+// list is testing memory for the list, not the thinking.
+export type LessonTool = {
+  heading?: string
+  strapline?: string
+  lines: string[]
+}
+
 // The same phases wearing Rosenshine openly, for the quiet mono label on an
 // individual slide. `starter` says Retrieval here rather than Recall because
 // this is the label aimed at the adult who knows the literature, and
@@ -137,6 +150,11 @@ export type ChoiceSlide = SlideBase & {
   type: 'choice'
   question: string
   options: ChoiceOption[]
+  // Show the lesson's tool under the question, for a question whose options
+  // refer to it by name or number. Opt in per slide rather than automatic:
+  // most choice slides stand on their own and a strip on all of them would be
+  // wallpaper by the third one.
+  toolStrip?: boolean
 }
 
 // A realistic feed post pupils investigate. Rendered as a phone style card.

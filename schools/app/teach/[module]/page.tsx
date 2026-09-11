@@ -1,7 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
-import { parseSlides, type LessonCycle } from '@gc/shared/lesson-slides'
+import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
 
 // The teach route: any live module, played full screen for the classroom.
@@ -43,7 +43,10 @@ type SchoolLesson = {
   slides: unknown
   // The named cycles (migration 268). The player derives which slide sits in
   // which cycle from the minutes, so nothing here needs tagging by hand.
-  teacher_notes: { cycles?: LessonCycle[] } | null
+  // The tool goes down too (migration 290): a choice slide whose options name
+  // "check one" needs the checks on the wall beside them, and the player has
+  // no other route to it.
+  teacher_notes: { cycles?: LessonCycle[]; tool?: LessonTool } | null
 }
 
 export default async function TeachLessonPage({
@@ -106,6 +109,7 @@ export default async function TeachLessonPage({
           completeEndpoint={null}
           initialIndex={initialIndex}
           cycles={lesson.teacher_notes?.cycles}
+          tool={lesson.teacher_notes?.tool}
         />
       </div>
     </main>

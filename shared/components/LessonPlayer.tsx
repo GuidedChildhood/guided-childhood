@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -86,16 +86,60 @@ function optionOrder(count: number, seed: number): number[] {
 
 const freshSalt = () => Math.floor(Math.random() * 2147483646) + 1
 
+// THE TOOL, ON THE SLIDE THAT NEEDS IT.
+//
+// Every module carries one tool in teacher_notes: the three checks, the friend
+// check, the shield. It is on the overview page, the poster and the organiser,
+// and it was never inside the player. That is how ks3-12 came to ask "which
+// check does that feeling trigger?" with options reading "Check three" and
+// "Check one only" while the checks themselves sat nine slides back, off
+// screen. A class that cannot see the list is being asked to remember it,
+// which is not the thinking the question is for.
+//
+// Quiet on purpose. The question is the loudest thing on the wall and this
+// sits under it as a reference line, numbered so an option saying "check one"
+// has something to point at. Off by default and opted into per slide, because
+// a strip on every choice slide is wallpaper by the third one.
+function ToolStrip({ tool, projector }: { tool: LessonTool; projector?: boolean }) {
+  return (
+    <div data-reveal style={{
+      maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '28px', '20px')}`,
+      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+      padding: room(projector, '16px 20px', '12px 16px'),
+    }}>
+      <div style={{
+        ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '8px',
+        fontSize: room(projector, WALL.aside, 'var(--text-xs)'),
+      }}>
+        {tool.heading ?? 'Your tool'}
+      </div>
+      <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        {tool.lines.map((line, i) => (
+          <li key={i} style={{
+            fontSize: room(projector, WALL.body, 'var(--text-base)'),
+            color: 'var(--ink)', lineHeight: 1.5, display: 'flex', gap: '10px',
+          }}>
+            <span style={{ color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', fontWeight: 700, flexShrink: 0 }}>{i + 1}</span>
+            <span>{line}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
 function ChoiceBlock({
   slide,
   onAnswered,
   projector = false,
   seed = 0,
+  tool,
 }: {
   slide: ChoiceSlide
   onAnswered: (correct: boolean, chosen: string) => void
   projector?: boolean
   seed?: number
+  tool?: LessonTool
 }) {
   const [picked, setPicked] = useState<number | null>(null)
   // Fixed for the life of this slide's mount, so a later salt change can
@@ -131,6 +175,9 @@ function ChoiceBlock({
       }}>
         {slide.question}
       </h2>
+
+      {slide.toolStrip && tool?.lines?.length ? <ToolStrip tool={tool} projector={projector} /> : null}
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: room(projector, '18px', '12px'), maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
         {order.map((optIndex, i) => {
           const opt = slide.options[optIndex]
@@ -572,12 +619,13 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, projector, seed,
+  slide, onAnswered, projector, seed, tool,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
   projector?: boolean
   seed?: number
+  tool?: LessonTool
 }) {
   switch (slide.type) {
     case 'title':
@@ -674,7 +722,7 @@ function SlideBody({
         </div>
       )
     case 'choice':
-      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} seed={seed} />
+      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} seed={seed} tool={tool} />
     case 'discussion':
       return <DiscussionBlock slide={slide} projector={projector} />
     case 'stat':
@@ -746,6 +794,7 @@ export default function LessonPlayer({
   classCtaHref,
   initialIndex = 0,
   cycles,
+  tool,
   projector: projectorProp,
 }: {
   lessonId: string
@@ -767,6 +816,11 @@ export default function LessonPlayer({
   completeBody?: Record<string, unknown>
   // Key Stage and Education for a Connected World chips on the intro slide.
   badges?: CurriculumBadges
+  // The module's one tool, from teacher_notes.tool. Shown under the question
+  // on any choice slide that sets toolStrip, so options naming "check one"
+  // have the list to point at. Absent on the parent app lessons, which carry
+  // no teacher notes, and the strip simply does not render.
+  tool?: LessonTool
   // A block shown on the first slide only, under the header, INSIDE the
   // player. Added 10 September 2026 for the reading ahead notice on the
   // parent app: a lesson above this child's stage has to say so, and it
@@ -1291,7 +1345,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} seed={runSalt + index * 101} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} seed={runSalt + index * 101} tool={tool} />
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 
