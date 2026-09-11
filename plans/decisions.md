@@ -13207,3 +13207,32 @@ the star 72, passport explainer on the star 108, ks2-06 voiced 72. That is 252
 and the balance is 40. Animating the whole scheme at roughly three beats a
 module is about 5,000 credits, which is two months of the ULTRA plan rather than
 a top up.
+
+## 11 September 2026 — 286 and 287 were on main and not in the database
+
+Found by the routine migration check, not by a failure. Both files were merged
+to main and neither had been applied to production. Applied and verified today.
+
+**287 mattered more than it looked.** `daily_sessions.all_done_at` did not
+exist, and three live files on main already read it. The day done route guards
+the column explicitly, so it degraded rather than broke, but
+`lib/checkin/done-today.ts` fails soft to an empty set: the tick by a child's
+name and the celebration were reading a column that was not there, so no child
+could be shown as finished however much of the road they walked. The feature was
+silently dead in production rather than loudly broken, which is why nothing
+surfaced it. Column and comment now match the file exactly.
+
+**286 had not moved a single clip.** All six retired clips were still live, none
+of the six new ones was present, six accessible alternatives still described
+children from the squad retired on 23 July, and four beats were silent rather
+than one. All seven of its guards passed on apply. Verified after: six new clips
+live, zero old cast descriptions left, ks2-06 the only silent beat, and the six
+rewritten `described` strings digest match the migration file exactly
+(`1fe20f5997a2d7ea8137de357e963bed`).
+
+**The lesson for the routine.** A migration being merged to main is not evidence
+it ran. The applied ledger and the live schema are the only evidence, and 286
+and 287 are the first case in this sequence where a merged file sat unapplied
+long enough for app code depending on it to ship. Checking the ledger against
+the repo's file list is now part of every migration check, not just reading the
+newest file and trusting its commit message.
