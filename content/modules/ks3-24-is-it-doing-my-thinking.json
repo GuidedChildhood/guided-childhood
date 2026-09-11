@@ -1,0 +1,839 @@
+{
+  "module_id": "ks3-24-is-it-doing-my-thinking",
+  "key_stage": "KS3",
+  "sort_order": 24,
+  "teacher_notes": {
+    "learning_objective": "To decide, for a given task, which part of the thinking must stay with me and where a tool may legitimately help.",
+    "essential_question": "How do I tell the difference between help that gets me to the work and help that does the work?",
+    "timing": "61 minutes: starter 8, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 4",
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "The help that costs you something",
+        "outcome": "I can say why the group that got answers did worse once the tool was gone.",
+        "minutes": 10
+      },
+      {
+        "verb": "Test",
+        "title": "What is this task teaching you?",
+        "outcome": "I can sort a ramp from a swap and say what decided it.",
+        "minutes": 10
+      },
+      {
+        "verb": "Prove",
+        "title": "Close the tab and find out",
+        "outcome": "I can run the explain it back test on myself and read the result honestly.",
+        "minutes": 10
+      }
+    ],
+    "tool": {
+      "heading": "The thinking test",
+      "strapline": "Three questions, about ten seconds, any task.",
+      "lines": [
+        "What is this task teaching me?",
+        "Is the hard part the teaching part, or is it in the way?",
+        "If it is in the way, use the tool and say that you used it."
+      ]
+    },
+    "keywords": [
+      {
+        "word": "offload",
+        "definition": "To hand a job to something outside your head, such as a calculator, a note or a chatbot. Offloading is normal and often sensible. The question is only ever which job."
+      },
+      {
+        "word": "fluent",
+        "definition": "Smooth and easy. Worth watching, because work that felt smooth at the time is often the work that is gone a week later."
+      },
+      {
+        "word": "calibrated",
+        "definition": "When how sure you feel matches how right you actually are. Most people are badly calibrated after a tool has explained something to them."
+      }
+    ],
+    "prior_knowledge": [
+      "Pupils have used a chatbot for schoolwork at least once, which is true of roughly six in ten of this age group.",
+      "Pupils know what a mark scheme is and have seen one for at least one subject."
+    ],
+    "key_learning_points": [
+      "The same AI tool improved practice scores and lowered exam scores, and the only difference was whether it gave hints or answers.",
+      "The test that decides it is what the task is teaching you, not whether the tool is allowed.",
+      "Using a tool inflates how well you think you understand, so the feeling of understanding cannot be trusted as evidence.",
+      "Support should be reduced one step at a time once it has been earned, not dropped all at once."
+    ],
+    "misconceptions": [
+      "That the lesson is about cheating. It is not. Every case in the practise set is something a pupil is allowed to do, and the question is what it costs them.",
+      "That using AI more is the problem. In the trial, the group that came out ahead used it as much as the group that came out behind.",
+      "That a reader, a scribe or text to speech is a soft option. Those are access arrangements, the exam board permits them by name, and this lesson says so explicitly.",
+      "That struggling on your own is always better. If a pupil cannot get started at all, unaided struggle is not learning, it is just failing, and a hint is the correct move."
+    ],
+    "i_can": [
+      "I can explain why the group given answers did worse on the exam than pupils who never had the tool.",
+      "I can run the thinking test on a task and say which part must stay with me.",
+      "I can use the explain it back test to find out whether I have actually learned something."
+    ],
+    "commitment_stem": "My commitment: the next piece of work I use AI on, the part I will do myself is...",
+    "teacher_tip": "Do not open with a warning. The single most common way this lesson fails is that pupils decide in the first ninety seconds that it is another assembly about cheating and stop listening. The 72 percent figure in the starter exists to prevent exactly that, so do not skip it or soften it.",
+    "equipment": "Projector. Printed pupil booklet. No pupil devices needed. If pupils do have devices, the explain it back test works better with them shut.",
+    "paper_fallback": "Everything runs without screens. The six practise cases are on the sheet, the sort can be done as a three column table on paper or as a stand in three corners activity, and the explain it back test needs nothing at all.",
+    "differentiation": {
+      "support": "Bookmark strip with the three thinking test questions on the table throughout. Do practise cases one and two together using the stem: the task is teaching me... so this is a... Pupils may answer on the page rather than to the room at any point.",
+      "stretch": "Case four is genuinely undecidable without more information. Ask the strongest pupils to write the two versions of the task that would flip the answer, then argue which is more likely and why."
+    },
+    "send": {
+      "communication": "Every practise case carries a sentence stem on the sheet. The explain it back test may be done to a partner, to an adult, or written, and nobody is required to speak in front of the room.",
+      "attention": "The thinking test is three questions and one decision at a time. Case cards can be handled one at a time rather than as a set of six.",
+      "sensory": "The sort runs on paper if the board version is too busy. No sound is required at any point in this lesson.",
+      "eal": "The thinking test translates cleanly and is worth having in first language on the desk. Note that case four is specifically about working across two languages and is a good entry point for EAL pupils to lead."
+    },
+    "passport_stage": "shaper",
+    "worksheet": {
+      "title": "Ramp or swap: six cases, then your own homework",
+      "directions": "For each case, write what the task is teaching, then your verdict, then the reason. Finish with one real piece of your own work.",
+      "verdict_options": [
+        "Ramp, it clears the way",
+        "Swap, it does the learning",
+        "Depends what is being marked"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "text": "You are dyslexic. You have a computer read the history source aloud so you can answer questions about what it says.",
+        "stem": "The task is teaching me..."
+      },
+      {
+        "n": 2,
+        "text": "Maths homework on solving equations. You photograph each question and copy the worked answers.",
+        "stem": "The task is teaching me..."
+      },
+      {
+        "n": 3,
+        "text": "You have written an essay. You ask a chatbot which paragraph is weakest and why, then you rewrite it yourself.",
+        "stem": "The task is teaching me..."
+      },
+      {
+        "n": 4,
+        "text": "Spanish homework. You write it in English and have it translated.",
+        "stem": "The task is teaching me..."
+      },
+      {
+        "n": 5,
+        "text": "You are stuck on question four and have been for ten minutes. You ask for a hint, not the answer, then carry on.",
+        "stem": "The task is teaching me..."
+      },
+      {
+        "n": 6,
+        "text": "Book review on a novel you did not read. You ask for a summary and write from that.",
+        "stem": "The task is teaching me..."
+      },
+      {
+        "n": 7,
+        "text": "Your own homework this week. Name it, then draw the line yourself.",
+        "stem": "The task is teaching me..."
+      }
+    ],
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "Out of every ten pupils offered AI during a piece of school work, how many turned it down?",
+          "options": [
+            "About two",
+            "About four",
+            "About seven"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "If an explanation made complete sense to you, how much does that prove?",
+          "options": [
+            "That you have learned it",
+            "Very little on its own",
+            "That it was an easy topic"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Having a computer read a maths question aloud to a dyslexic pupil in an exam is...",
+          "options": [
+            "Against the rules",
+            "Allowed, because reading is not what maths measures",
+            "Allowed only in primary school"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "You have been using hints and can now do part of it alone. What should change?",
+          "options": [
+            "Stop using it completely",
+            "Ask for one step less than last time",
+            "Nothing, it is working"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same four ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "In the maths trial, what was the only difference between the group that came out ahead and the group that came out behind?",
+          "options": [
+            "How much they used it",
+            "Hints instead of answers",
+            "How good they were at maths already"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the thinking test?",
+          "options": [
+            "Am I allowed to use this?",
+            "What is this task teaching me?",
+            "Would my teacher mind?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Your second score in the explain it back test was lower than your first. That means...",
+          "options": [
+            "You got worse",
+            "You found the part you had borrowed",
+            "You explained it badly"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "A pupil who uses a reader in an exam is...",
+          "options": [
+            "Getting an unfair advantage",
+            "Using a ramp the exam board permits by name",
+            "Better off doing it themselves"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "evidence_base": [
+      "Bastani, Bastani, Sungu, Ge, Kabakci and Mariman (2025), Generative AI without guardrails can harm learning: evidence from high school mathematics, PNAS. Randomised, nearly 1,000 pupils. Answers arm plus 48 percent in practice and minus 17 percent on the unaided exam against control. Hints arm plus 127 percent in practice and no exam penalty.",
+      "Oxford University Press (June 2026), Navigating AI in Education. 3,100 UK pupils aged 13 to 18 surveyed in May 2026, plus 704 observed across 20 schools. 72 percent declined AI when it was offered during a written task. 62 percent said AI had negatively affected their skills. 15 percent said they had been given enough guidance.",
+      "Ofcom (May 2026), Children and Parents: Media Use and Attitudes. 52 percent of teenagers said they were confident recognising AI generated content, and a quarter of those confident teenagers could not identify the AI generated image when tested.",
+      "JCQ, Access Arrangements and Reasonable Adjustments 2025/2026. A computer reader is permitted in assessments where reading is not the construct being measured, and is not permitted in the reading assessment of GCSE English Language.",
+      "Rozenblit and Keil (2002), The misunderstood limits of folk science: an illusion of explanatory depth, Cognitive Science. Ratings of understanding fall sharply after producing a step by step causal explanation. Shown in children from roughly age seven by Mills and Keil (2004)."
+    ],
+    "hard_questions": [
+      {
+        "q": "So is using it cheating or not?",
+        "a": "Almost everything in this lesson is allowed. Your school will have a rule about what you must declare and you should follow it. This lesson is about something else: what it costs you, which is a question the rules do not answer."
+      },
+      {
+        "q": "What if I use a reader or a laptop? Is that on the bad list?",
+        "a": "No, and the exam board agrees with you by name. A reader clears something out of the way so you can get to the thinking. That is a ramp. Nothing in this lesson is aimed at you."
+      },
+      {
+        "q": "What if I genuinely cannot start without it?",
+        "a": "Then a hint is the right move, and that is not a failure. Struggling with no way in is not learning, it is just being stuck. Get in with the smallest help that works, then do the rest."
+      },
+      {
+        "q": "My teachers just ban it. Why are you telling me how to use it?",
+        "a": "Because you will be using these tools for the next fifty years and somebody has to tell you where to stand. A ban is a rule for this room. This is a method for the rest of it."
+      }
+    ],
+    "parent_questions": [
+      "What was the one thing today's homework was trying to teach you?",
+      "Where did you let it help, and where did you keep it out?",
+      "Shut the tab and explain it to me. Where do you get stuck?"
+    ],
+    "subject_knowledge": "The mechanism is effort transfer, not screen time and not morality. Memory is strengthened by effortful retrieval, so a tool that removes the effort removes the strengthening even while the visible output improves. That is why performance during practice and learning measured later can move in opposite directions, which is exactly what the Bastani trial found. The second mechanism is metacognitive: access to a tool inflates people's estimate of their own knowledge, so pupils cannot detect the loss by introspection and need an actual test. The access versus substitution distinction is not our invention, it is the construct relevance test that governs exam access arrangements, which is why it is both defensible and already legally embedded."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "eyebrow": "KS3 . Years 7 and 8",
+      "title": "Is it doing my thinking?",
+      "body": "Not whether you use it. Where you let it in.",
+      "script": "Read the title, then the line under it, then stop. Do not open with a warning and do not open with a survey of who uses it. The whole lesson turns on the second line: nobody in this room is being asked to give anything up."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I can decide, for one piece of work, which part I have to do myself.",
+      "why": "You are going to be using these tools for the rest of your life. Nobody has taught you where to put them.",
+      "gains": [
+        "A test you can run on any task in about ten seconds",
+        "A way to find out whether you actually learned it",
+        "The reason your brain feels certain when it is wrong"
+      ],
+      "script": "Land the outcome as a decision, not a rule. They are not being told what to do with AI. They are being handed the thing that lets them decide, task by task, which is a bigger offer and they will notice."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "minutes": 3,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "Three thousand pupils your age were given the option of using AI during a piece of school work. Guess: how many out of every ten turned it down?",
+      "lookFor": "Guesses are almost always low, usually two or three. The real answer is about seven.",
+      "script": "Take guesses before you say the number. Then tell them: 72 percent said no. Let that sit. Most of them have spent two years being talked to as though they are the one child in ten who hands in work they did not write. Say plainly that this lesson is not about that child. Oxford University Press asked 3,100 pupils aged 13 to 18 in May 2026."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Three words for today",
+      "words": [
+        {
+          "word": "offload",
+          "definition": "To hand a job to something outside your head. A calculator, a note, a friend, a chatbot. Offloading is not cheating. Everybody does it every day."
+        },
+        {
+          "word": "fluent",
+          "definition": "Smooth and easy. Watch this one. Work that feels smooth while you do it is often the work you remember least."
+        },
+        {
+          "word": "calibrated",
+          "definition": "When how sure you feel matches how right you actually are. Today you find out whether yours is."
+        }
+      ],
+      "script": "Offload is the load bearing word and it must land as neutral. If offloading were bad, writing anything down would be bad. Fluent is the trap being named early so it pays off in cycle three."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🧪",
+      "heading": "The help that costs you something",
+      "body": "Nearly a thousand pupils in Years 10 and 11 were split into three groups for their maths practice. One group had no AI. One had a normal chatbot. One had a chatbot told to give hints and never the answer. Then the tool was taken away and everyone sat the same exam.",
+      "script": "Set it up as an experiment and hold the result back. Do not say what happened. The next two slides are the payoff and they only work if nobody has been told yet."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Before you see the result. Which group do you think did best on the exam, once the tool had been taken away from everyone?",
+      "options": [
+        {
+          "text": "The group who had the normal chatbot",
+          "correct": false,
+          "feedback": "They did best in every practice session. On the exam they came 17 percent BELOW the group who never had it at all."
+        },
+        {
+          "text": "The group told to give hints and never answers",
+          "correct": true,
+          "feedback": "Yes. They gained the most in practice, 127 percent, and kept it. Same model as the other group. One instruction was different."
+        },
+        {
+          "text": "The group with no AI at all",
+          "correct": false,
+          "feedback": "Close, and better than one of the AI groups. But the hints group matched them and had a far easier time getting there."
+        }
+      ],
+      "script": "Make them commit before you show them anything. Hands up for each. Guessing first is not a warm up, it is the thing that makes the answer stick, and it is worth telling them that."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Same tool, opposite result",
+      "caption": "What happened while they had it, and what happened when it went.",
+      "steps": [
+        {
+          "emoji": "📈",
+          "title": "Chatbot giving answers",
+          "text": "Practice scores went up 48 percent. On the exam, with the tool gone, they scored 17 percent BELOW the group who never had it."
+        },
+        {
+          "emoji": "💡",
+          "title": "Chatbot giving hints only",
+          "text": "Practice scores went up 127 percent, and on the exam they were level with the group who never had it."
+        },
+        {
+          "emoji": "⚖️",
+          "title": "Same model, same pupils",
+          "text": "One instruction was different. Give a hint, never the answer. That was the only change."
+        }
+      ],
+      "verdicts": [
+        "The tool was not the problem",
+        "Where the effort went was the problem"
+      ],
+      "script": "Give them ten seconds on the two numbers before you speak. The 127 is the one that surprises. The good arm did not get a smaller boost for being careful, it got a much bigger one, and it kept it. Bastani and colleagues, PNAS, 2025."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🏋️",
+      "heading": "Why the easy version teaches you less",
+      "body": "Your memory is not a bucket you pour things into. It is more like a muscle: it changes when it has to work. The moment you are stuck and reaching for something is the moment it changes. Skip that moment and the answer still arrives, it just arrives in your book instead of in you.",
+      "script": "Keep the muscle line simple and do not oversell the brain science. The honest version is that effort at the moment of retrieval is what makes memory stick, and that finding is decades old and solid. It does not need a brain scan."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 60,
+      "prompt": "Think of one thing you are genuinely good at. Who did the hard part while you were learning it?",
+      "lookFor": "They say it themselves. Nobody gets good at something by watching someone else do it.",
+      "script": "Sixty seconds, take three. This is the cycle one landing and they should say the sentence rather than hear it. Football, an instrument, a game, cooking. Nobody names a skill they got by watching."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🎯",
+      "heading": "What is this task teaching you?",
+      "body": "Here is the thing that decides it, and it is not a rule about AI. Every task is trying to teach you one thing. Find that thing, and let the tool touch everything except it.",
+      "script": "This is the centre of the lesson. Say it slowly, twice. Note the shape: it is a question they answer per task, not an instruction they obey. That is deliberate and it is why it survives outside this room."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "The exam board already decided this",
+      "caption": "Two real rules from the body that runs every GCSE in England.",
+      "steps": [
+        {
+          "emoji": "🖥️",
+          "title": "Maths exam, dyslexic candidate",
+          "text": "A computer may read the question aloud. Allowed, because reading is not what a maths exam measures."
+        },
+        {
+          "emoji": "📖",
+          "title": "English reading exam, same candidate",
+          "text": "Nobody may read it aloud. Not allowed, because reading IS what that exam measures."
+        },
+        {
+          "emoji": "🔑",
+          "title": "Same pupil, same tool, opposite answer",
+          "text": "What changed was not the person and not the technology. It was what the task was measuring."
+        }
+      ],
+      "verdicts": [
+        "A ramp gets you to the work",
+        "A swap does the work"
+      ],
+      "script": "This is the one that makes the lesson fair. Say clearly: a reader is not cheating and never was. Anyone in this room who uses one is using a ramp, and the rules agree with them. If pupils in your class have access arrangements, this slide is the reason they can relax."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "French vocabulary test on Friday. You ask a chatbot to translate the word list for you. Ramp or swap?",
+      "options": [
+        {
+          "text": "Swap. Turning French into English is the thing being tested",
+          "correct": true,
+          "feedback": "Right. The task is teaching you to hold those words. Handing that over leaves nothing behind."
+        },
+        {
+          "text": "Ramp. It is only a word list, the real work is memorising it",
+          "correct": false,
+          "feedback": "The memorising starts the moment you work out what the word means. Get the meaning handed to you and you have skipped the first pass."
+        },
+        {
+          "text": "Neither. It depends how many words there are",
+          "correct": false,
+          "feedback": "The number does not change what is being taught. A hundred words or five, it is the same skill."
+        }
+      ],
+      "script": "Quick one. Most rooms get this. It is here to build the habit of asking the question before the harder case lands."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Science write up on a practical you did. You cannot get the introduction started, so you ask for a first sentence. Ramp or swap?",
+      "options": [
+        {
+          "text": "Ramp, if the write up is marked on your method and results",
+          "correct": true,
+          "feedback": "Yes, and notice it took reading the mark scheme to answer. A blank page is not the thing being taught. If you were being marked on writing an opening, the answer flips."
+        },
+        {
+          "text": "Swap. Any words it writes are its words, not yours",
+          "correct": false,
+          "feedback": "That is a fair instinct and it is the safer habit, but it goes further than the rules do. A sentence that gets you moving is a ramp when the writing is not what is being measured."
+        },
+        {
+          "text": "Ramp. Getting started is always the hardest part",
+          "correct": false,
+          "feedback": "Hard does not mean it is not the lesson. Sometimes the hard part IS the lesson. The question is what is being marked."
+        }
+      ],
+      "script": "This one splits a class and it should. Let them argue for a minute. The point is not the right answer, it is that they cannot get there without knowing what the task is for, which is the whole tool doing its job."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 60,
+      "prompt": "Name a task where the hard part is in the way rather than the point. Then name one where the hard part IS the point.",
+      "lookFor": "Reading a long question in a maths problem. Handwriting neatly in a history essay. Against: working out the maths, choosing the argument.",
+      "script": "Sixty seconds. Take one of each. If a pupil offers their own access arrangement as an example, take it warmly and move on without making it a moment."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🪞",
+      "heading": "Close the tab and find out",
+      "body": "Here is the part nobody warns you about. When a tool explains something to you, it does not just do the work. It leaves you feeling like you could have done it yourself. The feeling of understanding arrives whether or not the understanding does.",
+      "script": "Slow down here. This is the most useful idea in the lesson and the one they have never been told. It is not a warning about AI, it is a fact about the feeling in their own head, which is far more interesting to a Year 8."
+    },
+    {
+      "type": "stat",
+      "phase": "teach",
+      "minutes": 2,
+      "figure": "1 in 4",
+      "claim": "Of the UK teenagers who said they were confident they could spot AI generated content, a quarter could not identify the AI image when they were actually tested.",
+      "source": "Ofcom, Children and Parents: Media Use and Attitudes, May 2026",
+      "script": "Fifty two percent said they were confident. A quarter of those confident ones failed the test. Ask the room: did those people know they were about to get it wrong? No. That is the whole point. Being wrong feels exactly like being right."
+    },
+    {
+      "type": "tryit",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "The explain it back test",
+      "body": "Pick something you learned this week. Score out of 5 how well you could explain it. Now say it out loud, every step, as if to a Year 5. Score yourself again.",
+      "script": "Run it live, right now, sixty seconds, out loud in pairs. Then ask for a show of hands: whose second number was lower? Most hands go up. Tell them that drop is not them being thick, it is the test working, and it is the only way to find out before a test does it for you."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Your second score was lower than your first. What does that actually tell you?",
+      "options": [
+        {
+          "text": "You found the bit you had borrowed instead of learned",
+          "correct": true,
+          "feedback": "Yes. And you found it on a Tuesday for free, instead of in an exam hall. The gap was always there. Now you can see it."
+        },
+        {
+          "text": "You are worse at this than you thought",
+          "correct": false,
+          "feedback": "You are exactly as good as you were a minute ago. The only thing that changed is that you now know where the edge is."
+        },
+        {
+          "text": "You explained it badly",
+          "correct": false,
+          "feedback": "Sometimes. But explaining is how you find the hole, so a bad explanation has just done you a favour."
+        }
+      ],
+      "script": "Option two is the one to head off hardest. Nobody got worse. They got accurate. Say that phrase and leave it up."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 60,
+      "prompt": "If the feeling of understanding turns up whether or not you understand, what could you actually trust instead?",
+      "lookFor": "Doing one on your own. Explaining it. Tomorrow, with it shut. Anything that is an attempt rather than a feeling.",
+      "script": "They will get there. The answer is always some version of try one and see. Write the best version on the board in their words and keep it for the recap."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 5,
+      "component": "verdict-sort",
+      "caption": "Sort the six together before the sheet.",
+      "config": {
+        "label": "Ramp or swap . tap the class verdict",
+        "verdicts": [
+          "Ramp, it clears the way",
+          "Swap, it does the learning",
+          "Depends what is being marked"
+        ],
+        "doneTitle": "All six sorted",
+        "doneEmoji": "⭐",
+        "doneBody": "Same six on the sheet now. This time your verdict needs the reason written next to it.",
+        "posts": [
+          {
+            "handle": "Case 1",
+            "avatar": "📚",
+            "answer": 0,
+            "text": "You are dyslexic. You have a computer read the history source aloud so you can answer questions about what it says.",
+            "why": "Reading is in the way. The task is understanding the source, and that part is still all yours."
+          },
+          {
+            "handle": "Case 2",
+            "avatar": "✏️",
+            "answer": 1,
+            "text": "Maths homework on solving equations. You photograph each question and copy the worked answers.",
+            "why": "Solving is the whole task. Nothing is left for you once the working is handed over."
+          },
+          {
+            "handle": "Case 3",
+            "avatar": "💬",
+            "answer": 0,
+            "text": "You have written an essay. You ask a chatbot to tell you which paragraph is weakest and why, then you rewrite it.",
+            "why": "It marked, you wrote. The thinking stayed with you and you got feedback you would otherwise wait a week for."
+          },
+          {
+            "handle": "Case 4",
+            "avatar": "🌐",
+            "answer": 2,
+            "text": "Spanish homework. You write it in English and have it translated.",
+            "why": "If it is a Spanish writing task, that is a swap. If it is a geography project that happens to be in Spanish, it is a ramp. Check what is being marked."
+          },
+          {
+            "handle": "Case 5",
+            "avatar": "🧠",
+            "answer": 0,
+            "text": "You are stuck on question four and have been for ten minutes. You ask for a hint, not the answer, then carry on.",
+            "why": "This is the arm of the trial that came out ahead. Stuck for ten minutes is not noble, it is just stuck. A hint puts you back in the work."
+          },
+          {
+            "handle": "Case 6",
+            "avatar": "📝",
+            "answer": 1,
+            "text": "Book review on a novel you did not read. You ask for a summary and write from that.",
+            "why": "Reading the book was the task. You can produce something that reads well and know nothing, which is exactly the gap this lesson is about."
+          }
+        ]
+      },
+      "script": "Do case one first and do it deliberately. A reader is a ramp and the exam board says so. That settles the room for anyone in it who uses one. Case four is the one to spend time on: the answer genuinely is it depends, and being able to say why is the skill."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "minutes": 5,
+      "heading": "Now on your own work",
+      "body": "Take a real piece of homework you have this week. Write down the one thing it is teaching you. Then write one place AI may help, and one place it must not.",
+      "script": "This is the transfer and it is the part that leaves the room with them. Circulate. If a pupil cannot name what the task is teaching, that is worth knowing and it is often the more useful conversation."
+    },
+    {
+      "type": "discussion",
+      "phase": "practise",
+      "minutes": 3,
+      "mode": "table",
+      "seconds": 120,
+      "prompt": "Swap sheets. Do you agree with where your partner drew the line? Argue it out.",
+      "lookFor": "Disagreement is the point. Ask them which of them had read the mark scheme.",
+      "script": "Two minutes. The disagreements are more useful than the agreements and you want a couple of them read out."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "You have been using hints and you can now do the first three steps alone. What changes next time?",
+      "options": [
+        {
+          "text": "Ask for one step less than last time",
+          "correct": true,
+          "feedback": "That is the whole method. Not stopping, not going cold turkey. One step less, once you have earned it twice."
+        },
+        {
+          "text": "Stop using it now you can do some of it",
+          "correct": false,
+          "feedback": "Too fast. There is real evidence that pulling support away too early leaves people worse off than keeping it. Drop one rung, not the ladder."
+        },
+        {
+          "text": "Keep going the same way, it is working",
+          "correct": false,
+          "feedback": "It was working. The help that fits you today is too much help next week, and that is a sign you improved."
+        }
+      ],
+      "script": "This is the fading rule and it is the answer to do I just stop. Ask for one step less than last time. Put it on the board."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "One test decides whether a tool is a ramp or a swap. Which is it?",
+      "options": [
+        {
+          "text": "What is this task actually teaching me?",
+          "correct": true,
+          "feedback": "That is it. Everything else in this lesson hangs off that question."
+        },
+        {
+          "text": "Am I allowed to use it?",
+          "correct": false,
+          "feedback": "Worth knowing, but it is a different question. Plenty of allowed things still do your learning for you."
+        },
+        {
+          "text": "Would I be embarrassed if my teacher saw?",
+          "correct": false,
+          "feedback": "A decent gut check, and not enough. Embarrassment tracks the rules, not what you are losing."
+        }
+      ],
+      "script": "Straight recall of the tool. If this one is shaky the lesson did not land and cycle two is where to go back to."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "You read an explanation and it made complete sense. How much does that tell you about whether you have learned it?",
+      "options": [
+        {
+          "text": "Almost nothing. Understanding feels the same whether or not it stuck",
+          "correct": true,
+          "feedback": "Exactly. That feeling is the least reliable thing in the room, which is why the explain it back test exists."
+        },
+        {
+          "text": "Quite a lot. If it made sense, you understood it",
+          "correct": false,
+          "feedback": "It made sense while it was in front of you. The question is what is there tomorrow with the tab shut."
+        },
+        {
+          "text": "It depends how hard the topic was",
+          "correct": false,
+          "feedback": "The feeling shows up on hard topics and easy ones alike. Difficulty does not make it more trustworthy."
+        }
+      ],
+      "script": "This is the one worth getting right. Everything they do afterwards depends on not trusting the feeling of having understood."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "Three things to take out of here",
+      "points": [
+        "Ask what the task is teaching you, then let it touch everything except that.",
+        "The feeling of understanding turns up whether or not the understanding did. Explain it back and find out.",
+        "Ask for one step less than last time."
+      ],
+      "script": "Read them. Do not add to them. Three is what fits in a head on the way to the next lesson."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "One last thing",
+      "lines": [
+        "Nobody in here is being told to stop using it.",
+        "You are being told where to stand while you do.",
+        "The pupils who came out ahead in that experiment used it more than anyone. They just never asked it for the answer."
+      ],
+      "script": "Close on the third line and stop. It is the ban neutral position in one sentence and it is the thing they will repeat to someone else. Do not add a warning after it."
+    }
+  ],
+  "row": {
+    "title": "Is it doing my thinking?",
+    "year_band": "Years 7 and 8",
+    "audience": "teacher",
+    "efcw_strands": [
+      3,
+      7
+    ],
+    "statutory_hooks": [
+      "RSHE 2026 (media literacy and critical evaluation of online content)",
+      "JCQ Access Arrangements 2025/2026 (construct relevance, computer reader)"
+    ],
+    "ailit_domains": [
+      "Use AI",
+      "Engage with AI"
+    ],
+    "evidence_anchor": "Bastani et al, PNAS 2025: unguarded AI cost 17 percent on the unaided exam, hints only removed the harm",
+    "single_action_outcome": "I can decide which part of a task has to stay with me.",
+    "character_cast": "Orbit opens, DiGi closes on where to stand",
+    "scaffold": "CHOOSE",
+    "sort_order": 24
+  },
+  "assessment": {
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "Out of every ten pupils offered AI during a piece of school work, how many turned it down?",
+          "options": [
+            "About two",
+            "About four",
+            "About seven"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "If an explanation made complete sense to you, how much does that prove?",
+          "options": [
+            "That you have learned it",
+            "Very little on its own",
+            "That it was an easy topic"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Having a computer read a maths question aloud to a dyslexic pupil in an exam is...",
+          "options": [
+            "Against the rules",
+            "Allowed, because reading is not what maths measures",
+            "Allowed only in primary school"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "You have been using hints and can now do part of it alone. What should change?",
+          "options": [
+            "Stop using it completely",
+            "Ask for one step less than last time",
+            "Nothing, it is working"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same four ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "In the maths trial, what was the only difference between the group that came out ahead and the group that came out behind?",
+          "options": [
+            "How much they used it",
+            "Hints instead of answers",
+            "How good they were at maths already"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the thinking test?",
+          "options": [
+            "Am I allowed to use this?",
+            "What is this task teaching me?",
+            "Would my teacher mind?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Your second score in the explain it back test was lower than your first. That means...",
+          "options": [
+            "You got worse",
+            "You found the part you had borrowed",
+            "You explained it badly"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "A pupil who uses a reader in an exam is...",
+          "options": [
+            "Getting an unfair advantage",
+            "Using a ramp the exam board permits by name",
+            "Better off doing it themselves"
+          ],
+          "answer": 1
+        }
+      ]
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today we looked at where AI belongs in a piece of schoolwork. Not whether to use it, but which part of the thinking has to stay with your child. We used a real trial of nearly a thousand pupils where the same chatbot improved practice scores and then lowered exam scores, and the only difference was whether it gave hints or answers. Nobody was told to stop using anything.",
+    "try_tonight": "Do not ask whether they understood their homework. Ask them to shut the tab and explain it to you, every step, as if you knew nothing. The place they go quiet is the part that was borrowed rather than learned, and finding it at the kitchen table is a great deal cheaper than finding it in an exam.",
+    "words": "What was tonight's homework actually teaching you? Where did you let it help, and where did you keep it out?"
+  },
+  "dsl_note": {
+    "required": false,
+    "concern_form_linked": false,
+    "note": "This lesson is about learning rather than safeguarding, and carries no disclosure prompt. One inclusion point matters and is written into the script: access arrangements such as a reader, a scribe or text to speech are named explicitly as legitimate, because a lesson about doing your own thinking can otherwise be heard by a pupil with an access arrangement as an accusation. Staff should not apply the content as a blanket no tools rule, which would cut across the school's anticipatory duty under the Equality Act 2010 and the SEND Code of Practice."
+  }
+}

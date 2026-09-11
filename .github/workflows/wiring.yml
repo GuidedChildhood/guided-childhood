@@ -202,3 +202,4 @@ jobs:
       # database, so this runs against the one module whose source is here.
       - run: node scripts/check-module-contract.mjs content/modules/ks3-22-when-an-ai-acts-like-a-friend.json
       - run: node scripts/check-module-contract.mjs content/modules/ks2-23-when-a-machine-talks-like-a-friend.json
+      - run: node scripts/check-module-contract.mjs content/modules/ks3-24-is-it-doing-my-thinking.json

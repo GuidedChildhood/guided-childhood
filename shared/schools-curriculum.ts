@@ -257,6 +257,22 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing', 'respectful_relationships'],
   },
   {
+    // Module 24, and the one the governance tool has been asking for. The
+    // `dependence` link in shared/ai-governance/passport-links.ts resolved to
+    // two KS5 modules, so a primary school answering no to its three questions
+    // was routed to Years 12 to 13. This is the KS3 answer to it.
+    //
+    // NOT the companion lesson. ks3-22 covers AI that behaves like a friend,
+    // which KCSIE treats as a contact risk. This covers AI that does your
+    // thinking, which is a learning question and carries no disclosure prompt.
+    n: 24, moduleId: 'ks3-24-is-it-doing-my-thinking', keyStage: 'KS3', yearBand: 'Years 7 and 8',
+    title: 'Is it doing my thinking?',
+    outcome: 'I can decide which part of a task has to stay with me.',
+    blurb: 'Hints against answers, the test the exam board already uses, and how to find out what you actually learned.',
+    character: 'orbit', castLine: 'Orbit opens, DiGi closes',
+    rshe: ['online_safety'],
+  },
+  {
     n: 15, moduleId: 'ks4-15-manipulation-persuasion', keyStage: 'KS4', yearBand: 'Years 10 to 11',
     title: 'Manipulation and persuasion',
     outcome: 'I can name the technique being used on me.',
