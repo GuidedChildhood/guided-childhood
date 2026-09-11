@@ -13270,3 +13270,21 @@ only survivor.
 **A field that says nothing is a smaller fault than a field that says the wrong
 thing**, and this is one insert away from being undone the moment somebody
 confirms the words are there.
+
+## 11 September 2026, footnote: 286 was applied twice, seventeen seconds apart
+
+Two sessions found 286 unapplied in the same minute and both ran it. The ledger
+shows it at 08:29:38 and again at 08:29:55. No harm done, and the reason is worth
+keeping: every update in 286 matches on the old src as well as the slide index,
+so the second run matched nothing and changed nothing, and its guards then passed
+on the state the first run had already produced. The backup table is
+`create table if not exists`, so it still holds the true pre change snapshot from
+the first run rather than being overwritten with post change rows by the second.
+
+That is the idempotency the file claims in its own header doing its job under the
+exact condition it was written for. It is also the third near miss of the kind
+the multi session rules exist to prevent, after PR 55 and 56 in July and the two
+files that both claimed 283 yesterday. A migration is cheap to make rerunnable
+and expensive to make exclusive, so the rule stands: guard every update on the
+state it expects to find, and a collision costs seventeen seconds instead of a
+restore.
