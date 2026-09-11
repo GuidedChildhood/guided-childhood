@@ -104,7 +104,23 @@ function newSourceLine(item: ConcernCheckItem): string | null {
     case 'digi': return `New. You raised this with DiGi ${when}.`
     case 'moment': return `New. From a moment you logged ${when}.`
     case 'rightnow': return `New. You asked about this ${when}.`
-    default: return `New. Added ${when}.`
+    // ── NO DATE ON A ROW THAT HAS NO EVENT BEHIND IT (11 September 2026) ────
+    //
+    // Justin, looking at his own first check in: "it says added yesterday,
+    // thats not true, it needs to say these were the issues we added when
+    // setting up."
+    //
+    // He is right twice over. The three cases above name a thing the parent
+    // DID on a day: a DiGi conversation, a moment logged, a Right now ask, and
+    // the date is honest because there is an event behind it. This branch had
+    // no event, so it read the row's own stamp instead, and a setup row is
+    // deliberately stamped a day back so the check in's review filter cannot
+    // eat it on the morning a family joins. So "yesterday" was never a day
+    // anything happened, it was a filter workaround being read as a fact.
+    //
+    // Null hands the row to recencyLabel below, which already had the true
+    // sentence and could never be reached.
+    default: return null
   }
 }
 
@@ -114,7 +130,7 @@ function recencyLabel(item: ConcernCheckItem, baseline: boolean): string {
   // flagged yesterday, and "0 days ago" is not something anybody says. What is
   // true is where it came from, and saying that is also the reassurance that
   // the app was listening during setup.
-  if (baseline) return 'You told us about this when you joined'
+  if (baseline) return 'Added when you set up'
   // ── A STARTING ROW NEVER SAYS "YOU FLAGGED" (19 August 2026) ──────────────
   //
   // Justin, first check in with a newly added child: "it says you flagged this
@@ -130,7 +146,7 @@ function recencyLabel(item: ConcernCheckItem, baseline: boolean): string {
   // been rated and never re raised is the starting set, whichever day it was
   // born. The moment the parent rates it once, or raises it again, the row has
   // a real history and the dated wording becomes true.
-  if (item.lastScore == null && item.timesFlagged <= 1) return 'On the starting list from setup'
+  if (item.lastScore == null && item.timesFlagged <= 1) return 'Added when you set up'
   const daysSince = Math.floor((Date.now() - new Date(item.lastFlaggedAt).getTime()) / 86400000)
   if (item.timesFlagged > 1) return `Come up ${item.timesFlagged} times, still open`
   if (daysSince <= 1) return 'You flagged this yesterday'
@@ -442,11 +458,21 @@ export default function ConcernCheckIn({
   function Star({ filled, past, size = 34 }: { filled: boolean; past: boolean; size?: number }) {
     return (
       <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: 'block' }}>
+        {/* ── THE HAPPY NEWS FINISH (11 September 2026) ──────────────────
+            Justin: "lets improve the look visual on this, more happy news
+            styling we have on child app for reference."
+            The child's app draws everything with a real ink outline and a
+            confident fill, and these stars were the thin version: a pale
+            terracotta edge on gold and a hairline grey on the rest, which at
+            34px reads as a wireframe rather than a thing you have won. Ink on
+            everything, thicker, and the empty ones keep a soft ground so the
+            row still reads as five taps waiting rather than five holes. */}
         <path
           d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95z"
-          fill={filled ? 'var(--terracotta)' : past ? '#D9D5CC' : '#fff'}
-          stroke={filled ? 'var(--terracotta-dark)' : past ? '#C3BEB2' : 'var(--border)'}
-          strokeWidth={1.6}
+          fill={filled ? 'var(--terracotta)' : past ? '#DCD7CB' : '#FBF9F4'}
+          stroke="var(--ink)"
+          strokeOpacity={filled ? 1 : past ? 0.45 : 0.28}
+          strokeWidth={filled ? 2.2 : 1.8}
           strokeLinejoin="round"
         />
       </svg>
@@ -465,9 +491,12 @@ export default function ConcernCheckIn({
     <div style={{
       background: '#fff',
       border: '2px solid var(--ink)',
+      // The house finish, which this card was the last thing on the daily page
+      // not wearing: a chunky ink shadow rather than a flat outline.
+      boxShadow: '0 5px 0 var(--ink)',
       borderRadius: '20px',
       padding: '20px',
-      marginBottom: '16px',
+      marginBottom: '20px',
     }}>
       {lastNight && words !== 'yes' && words !== 'somewhat' && words !== 'no' && (
         <div style={{
@@ -533,15 +562,20 @@ export default function ConcernCheckIn({
           not after it. A parent who knows the numbers come back to them as a
           judgement on the ADVICE rather than on their parenting answers
           honestly, and honest numbers are the only ones worth having. */}
-      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 6px' }}>
+      {/* ── ONE LINE, NOT THREE (11 September 2026) ────────────────────────
+          Justin: "the text explainer needs to be simple, not much on this,
+          just purely to see how these issues are going."
+          There were two paragraphs above five rows of stars, and the second
+          one explained our methodology to somebody who had opened the app to
+          answer a question about their evening. Everything it said is still
+          true and still said, in the place it is actually needed: the line
+          under a rating of four or less says we stay on it, and the dip
+          helpers offer the different approach. A promise kept beats a promise
+          announced. */}
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {baseline
-          ? 'One tap each. This is your starting point, so there is no right answer and nothing to work up to. We check in each day from here and show you the movement.'
-          : 'One tap each. Five stars means it is sorted and comes off your list. Anything less and we stay on it with you.'}
-      </p>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 18px' }}>
-        We read these every week to see which of our suggestions is working for
-        you, and when something is not moving we change the approach rather
-        than push more of the same.
+          ? 'One tap each, just to see where things stand. No right answer.'
+          : 'One tap each, just to see how it is going. Five stars and it comes off your list.'}
       </p>
 
       {concerns.map((c, idx) => {
@@ -550,6 +584,24 @@ export default function ConcernCheckIn({
         const isPending = pending[c.id]
         const chosenBand = isTouched ? bandOf(value[c.id]) : 0
         const lastBand = c.lastScore != null ? bandOf(c.lastScore) : 0
+        // ── A NEW ROW STARTS AT ONE STAR, NOT AT NOTHING ──────────────────
+        //
+        // Justin, 11 September 2026: "if first time added from check in we can
+        // populate with 1 star meaning just added and needs attention."
+        //
+        // A row nobody has rated drew five empty outlines, which reads as a
+        // form waiting to be filled in rather than as a thing that needs
+        // attention. One star is the honest starting position for something a
+        // parent has just told us is going on: it is on the list because it is
+        // not working.
+        //
+        // It is drawn, NOT stored. A score is the parent's own word about
+        // their week, and writing a 2 they never said would put a fake first
+        // point on every line the What is working page draws. So it uses the
+        // same grey the previous rating uses: clearly a starting mark, clearly
+        // not today's gold answer, and gone the moment they tap.
+        const startBand = c.lastScore == null && c.timesFlagged <= 1 ? 1 : 0
+        const ghostBand = Math.max(lastBand, startBand)
         const newChild = grouped && c.childName && c.childName !== concerns[idx - 1]?.childName
         return (
           <div key={c.id}>
@@ -598,7 +650,24 @@ export default function ConcernCheckIn({
               // 'first' only, never 'skipped': a parent who skipped a row has
               // told us they do not want to talk about it right now, and two
               // buttons is not the answer to that.
-              const nextMove = move === 'dip' || (!!c.isNew && move === 'first' && bandOf(value[c.id]) < 5)
+              // ── AND THE SETUP ROWS GET THEM TOO (11 September 2026) ─────
+              //
+              // Justin: "make sure again wiring works for this and we pick it
+              // up with first scripts and digi conversations on how to fix
+              // these, so hopefully improves so next check on this might go
+              // up."
+              //
+              // It did not, for the rows that need it most. isNew is false for
+              // a worry seeded at setup, so the two or three stars a parent
+              // gives their own named worry on their first check in led
+              // nowhere: no script, no DiGi opener, nothing until it dipped,
+              // and it cannot dip until there is a second reading.
+              //
+              // A first rating under five stars is the same fact as a dip. It
+              // says this is not working, and the answer to that is a script
+              // and a conversation, whether the row arrived from setup, from
+              // DiGi or from a moment.
+              const nextMove = move === 'dip' || (move === 'first' && bandOf(value[c.id]) < 5)
               const scriptCat = nextMove ? categoryForConcern(c.slug, c.label) : null
               const digiHref = `/dashboard/digi?${childId ? `child=${childId}&` : ''}ask=${encodeURIComponent(
                 move === 'dip'
@@ -720,7 +789,7 @@ export default function ConcernCheckIn({
                   // unanswered. The moment a star is tapped the row is about
                   // today, and leaving last week's grey underneath would be two
                   // answers on one line.
-                  const past = !isTouched && lastBand >= n
+                  const past = !isTouched && ghostBand >= n
                   return (
                     <button
                       key={b.score}
@@ -817,7 +886,9 @@ export default function ConcernCheckIn({
                   color: 'var(--ink-muted)', marginTop: '4px',
                 }}>
                   {newSourceLine(c) ?? recencyLabel(c, baseline)}
-                  {c.lastScore != null ? ` · last time ${scoreWord(c.lastScore).toLowerCase()}` : ''}
+                  {c.lastScore != null
+                    ? ` · last time ${scoreWord(c.lastScore).toLowerCase()}`
+                    : startBand > 0 ? ' · one star until you say otherwise' : ''}
                 </div>
               )}
             </div>
