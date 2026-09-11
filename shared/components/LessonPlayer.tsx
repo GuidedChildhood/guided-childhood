@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -128,6 +128,29 @@ function ToolStrip({ tool, projector }: { tool: LessonTool; projector?: boolean 
   )
 }
 
+// THE ANSWER BEAT: RIGHT, WRONG, AND THE SECOND GO IN BETWEEN.
+//
+// It used to lock on the first tap and light the correct answer immediately,
+// which quietly ended the thinking. A class that guessed wrong saw the answer
+// before anybody had to reconsider, and a class that guessed right never heard
+// why the other two failed.
+//
+// So: a wrong first pick says why THAT one fails and nothing else. The answer
+// stays hidden, the other options stay live, and the class gets one more go.
+// This is the bit that teaches on a projector, because the retry is thirty
+// children arguing before the teacher taps again.
+//
+// The second pick settles it either way, and settling ALWAYS reveals the
+// correct option with its reasoning, whether they found it or not. Nobody
+// leaves the slide without hearing the why.
+//
+// SCORING USES THE FIRST ATTEMPT ONLY. onAnswered fires once, on the first
+// tap, because that is the honest measure of what the class knew. A retry is
+// for learning, not for marking.
+//
+// Green for right and amber for wrong, from the real tokens rather than the
+// butter accent that used to carry both. Nothing auto advances: the teacher
+// moves on, always.
 function ChoiceBlock({
   slide,
   onAnswered,
@@ -141,17 +164,27 @@ function ChoiceBlock({
   seed?: number
   tool?: LessonTool
 }) {
-  const [picked, setPicked] = useState<number | null>(null)
+  // Picked indices in the order they were tapped. One wrong entry means the
+  // retry is live; two entries, or one correct entry, means settled.
+  const [tries, setTries] = useState<number[]>([])
   // Fixed for the life of this slide's mount, so a later salt change can
   // never move an answer out from under a pick.
   const [order] = useState(() => optionOrder(slide.options.length, seed))
   const rootRef = useRef<HTMLDivElement>(null)
 
+  const optionAt = (i: number) => slide.options[order[i]]
+  // The display index of the right answer, after the shuffle.
+  const correctIndex = order.findIndex(oi => slide.options[oi].correct)
+  const { settled, retrying, states } = answerBeat(correctIndex, order.length, tries)
+
   const pick = (i: number) => {
-    if (picked !== null) return
-    const opt = slide.options[order[i]]
-    setPicked(i)
-    onAnswered(opt.correct, opt.text)
+    if (settled || tries.includes(i)) return
+    const opt = optionAt(i)
+    // The first tap is the one that counts. A second tap after a wrong guess
+    // is the class thinking again, which is the point, and scoring it would
+    // turn every retry into a free mark.
+    if (tries.length === 0) onAnswered(opt.correct, opt.text)
+    setTries([...tries, i])
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
     if (el && !prefersReducedMotion()) {
@@ -178,48 +211,75 @@ function ChoiceBlock({
 
       {slide.toolStrip && tool?.lines?.length ? <ToolStrip tool={tool} projector={projector} /> : null}
 
+      {/* The invitation to think again, said plainly and warmly. It sits above
+          the options because that is where a room is already looking. */}
+      {retrying && (
+        <div style={{
+          maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '20px', '14px')}`,
+          background: 'var(--tint-amber)', borderRadius: '14px',
+          padding: room(projector, '14px 20px', '11px 16px'), textAlign: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--stage-1-text)',
+        }}>
+          Not that one. Have another think, then try again.
+        </div>
+      )}
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: room(projector, '18px', '12px'), maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
         {order.map((optIndex, i) => {
           const opt = slide.options[optIndex]
-          const isPicked = picked === i
-          const revealed = picked !== null
-          const showRight = revealed && opt.correct
-          const border = isPicked
-            ? opt.correct ? '2.5px solid var(--terracotta-dark)' : '2.5px solid var(--ink-muted)'
-            : showRight ? '2.5px solid var(--terracotta-dark)' : '2px solid var(--border)'
-          const bg = isPicked
-            ? opt.correct ? 'var(--terracotta-lt)' : 'var(--cream)'
-            : showRight ? 'var(--terracotta-lt)' : '#fff'
-          const shadow = revealed
-            ? isPicked || showRight ? '0 3px 0 var(--border)' : 'none'
+          const isTried = tries.includes(i)
+          // The right answer shows itself only once the slide has settled, so
+          // a wrong first pick does not hand the class the answer.
+          const showRight = states[i] === 'right'
+          const showWrong = states[i] === 'wrong'
+          const dead = states[i] === 'dead'
+
+          const border = showRight ? '2.5px solid var(--retro-green-dark)'
+            : showWrong ? '2.5px solid var(--stage-1-text)'
+            : '2px solid var(--border)'
+          const bg = showRight ? 'var(--tint-green)'
+            : showWrong ? 'var(--tint-amber)'
+            : '#fff'
+          const shadow = showRight || showWrong ? '0 3px 0 var(--border)'
+            : dead ? 'none'
             : '0 5px 0 var(--border)'
+
+          // Feedback appears on anything the class tapped, and on the right
+          // answer once settled, so the why is always heard.
+          const feedback = showWrong || showRight
+
           return (
             <button
               key={i}
               data-choice-opt={i}
               data-reveal
               onClick={() => pick(i)}
-              disabled={revealed}
+              disabled={settled || isTried}
               style={{
                 textAlign: 'left', background: bg, border, borderRadius: '18px',
                 padding: room(projector, '26px 32px', '17px 20px'),
-                cursor: revealed ? 'default' : 'pointer',
+                cursor: settled || isTried ? 'default' : 'pointer',
                 fontFamily: 'var(--font-display)',
                 fontSize: room(projector, WALL.body, '16px'), fontWeight: 800,
                 color: 'var(--ink)', lineHeight: 1.45,
+                opacity: dead ? 0.55 : 1,
                 boxShadow: shadow,
-                transform: revealed && (isPicked || showRight) ? 'translateY(2px)' : 'none',
-                transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s',
+                transform: showRight || showWrong ? 'translateY(2px)' : 'none',
+                transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s',
               }}
             >
               {opt.text}
-              {isPicked && (
+              {feedback && (
                 <span style={{
                   display: 'block', marginTop: '10px',
                   fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, '14px'),
                   fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55,
                 }}>
-                  {opt.correct ? '✓ ' : ''}{opt.feedback}
+                  <strong style={{ color: showRight ? 'var(--retro-green-dark)' : 'var(--stage-1-text)' }}>
+                    {showRight ? '✓ ' : '✕ '}
+                  </strong>
+                  {opt.feedback}
                 </span>
               )}
             </button>

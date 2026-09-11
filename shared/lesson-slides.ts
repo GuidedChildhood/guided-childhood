@@ -79,6 +79,39 @@ export type LessonTool = {
   lines: string[]
 }
 
+// THE ANSWER BEAT, as pure state so it can be argued with in a test rather
+// than only in a browser.
+//
+// A wrong first pick does not end the question. It says why THAT option fails,
+// leaves the answer hidden and the others live, and the class gets one more
+// go. The second pick settles it either way, and settling always reveals the
+// right answer with its reasoning, found or not, so nobody leaves the slide
+// without hearing the why.
+//
+// Indices here are DISPLAY indices, after the per run shuffle, because that is
+// what a pupil actually taps.
+export type OptionState =
+  | 'idle'   // untouched and still tappable
+  | 'right'  // the correct answer, revealed
+  | 'wrong'  // tapped and wrong
+  | 'dead'   // never tapped, wrong, and the question is over
+
+export function answerBeat(correctIndex: number, optionCount: number, tries: number[]) {
+  const foundIt = tries.includes(correctIndex)
+  // A true or false slide gets no retry. With one option left, "try again" is
+  // a forced tap that hands over the answer by elimination, which is worse
+  // than simply showing it and saying why.
+  const retryWorthHaving = optionCount > 2
+  const settled = foundIt || tries.length >= 2 || (tries.length >= 1 && !retryWorthHaving)
+  const retrying = !settled && tries.length === 1
+  const states: OptionState[] = Array.from({ length: optionCount }, (_, i) => {
+    if (i === correctIndex) return settled ? 'right' : 'idle'
+    if (tries.includes(i)) return 'wrong'
+    return settled ? 'dead' : 'idle'
+  })
+  return { settled, retrying, states }
+}
+
 // The same phases wearing Rosenshine openly, for the quiet mono label on an
 // individual slide. `starter` says Retrieval here rather than Recall because
 // this is the label aimed at the adult who knows the literature, and
