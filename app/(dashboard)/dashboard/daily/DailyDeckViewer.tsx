@@ -272,6 +272,34 @@ export default function DailyDeckViewer({
     const commitNext = () => {
       if (!isLast) {
         setCardIndex(i => i + 1)
+        // ── THE FIRST CARD COUNTS ─────────────────────────────────────────
+        //
+        // Justin, 11 September 2026: "just did moment cards on check in
+        // pathway to do today but did not update."
+        //
+        // Nothing was written until the LAST card, so a parent who worked two
+        // and put the phone down had done today's moment and the rung still
+        // said no. One post, on the first card finished, recording the cards
+        // and nothing else: the route treats a partial as progress, never as
+        // a finished day, so the streak and the week's actions still belong
+        // to the whole deck.
+        //
+        // Guarded per day rather than per render, because this fires on every
+        // swipe and the rung only needs telling once.
+        const key = `gc_deckstart_${currentChildId() ?? 'family'}`
+        const day = new Date().toDateString()
+        let told = false
+        try { told = localStorage.getItem(key) === day } catch { /* post anyway */ }
+        if (!told) {
+          try { localStorage.setItem(key, day) } catch { /* the server takes the max */ }
+          fetch('/api/daily/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ child_id: currentChildId(), cards: 1 }),
+          })
+            .then(() => router.refresh())
+            .catch(() => { /* the finish still records the whole deck */ })
+        }
       } else if (!done) {
         setDone(true)
         setShowComplete(true)
