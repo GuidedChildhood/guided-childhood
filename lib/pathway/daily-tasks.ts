@@ -265,9 +265,27 @@ export async function getTodayLoop(
   // A legacy row with no child counts for everybody, which is exactly what it
   // meant before migration 210, so a family mid week does not lose the day they
   // already finished.
+  // ── THIS CHILD'S ROW FIRST, THE HOUSEHOLD ROW ONLY AS A FALLBACK ─────────
+  //
+  // Justin, 11 September 2026: "just did moment cards on check in pathway to
+  // do today but did not update."
+  //
+  // This was a single find with an OR in it, so it returned whichever row
+  // Postgres happened to hand back first. A family can genuinely have two rows
+  // for today: a per child row (migration 210) and a legacy or fallback
+  // household row with child_id null. Both matched, and if the household one
+  // came back first it won, so the deck could write cards_completed 5 against
+  // the child while the rung read 0 off the other row and stayed lit.
+  //
+  // Two finds in order, which is exactly what /api/daily/day-done already does
+  // when it picks the row to stamp. The household row still counts for
+  // everybody, as it always meant, but only when this child has none of their
+  // own.
   type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
-  const session = ((sessionRows ?? []) as SessionRow[])
-    .find(r => r.child_id === (child?.id ?? null) || r.child_id === null) ?? null
+  const sessionsToday = (sessionRows ?? []) as SessionRow[]
+  const session = sessionsToday.find(r => r.child_id === (child?.id ?? null))
+    ?? sessionsToday.find(r => r.child_id === null)
+    ?? null
 
 
   const anyQuests = (questCount ?? 0) > 0
@@ -864,9 +882,14 @@ export async function getDailyTasks(
   // A legacy row with no child counts for everybody, which is exactly what it
   // meant before migration 210, so a family mid week does not lose the day they
   // already finished.
+  // Same two step as getTodayLoop above, and for the same reason: an OR here
+  // returned whichever row came back first, so a household row could hide the
+  // child's own finished day.
   type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
-  const session = ((sessionRows ?? []) as SessionRow[])
-    .find(r => r.child_id === childId || r.child_id === null) ?? null
+  const sessionsToday = (sessionRows ?? []) as SessionRow[]
+  const session = sessionsToday.find(r => r.child_id === childId)
+    ?? sessionsToday.find(r => r.child_id === null)
+    ?? null
 
 
   // Cards, not a finished day. See the long note in getTodayLoop above.
