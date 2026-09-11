@@ -892,8 +892,10 @@
  "parent_note": {
   "headline": "What we taught today, and one thing to try at home",
   "taught": "Today we looked at where AI belongs in a piece of schoolwork. Not whether to use it, but which part of the thinking has to stay with your child. We used a real trial of nearly a thousand pupils a few school years older than yours where the same chatbot improved practice scores and then lowered exam scores, and the only difference was whether it gave hints or answers. Nobody was told to stop using anything.",
-  "try_tonight": "Do not ask whether they understood their homework. Ask them to shut the tab and explain it to you, every step, as if you knew nothing. The place they go quiet is the part that was borrowed rather than learned, and finding it at the kitchen table is a great deal cheaper than finding it in an exam.",
-  "words": "What was tonight's homework actually teaching you? Where did you let it help, and where did you keep it out?"
+  "try_this": "Do not ask whether they understood their homework. Ask them to shut the tab and explain it to you, every step, as if you knew nothing. The place they go quiet is the part that was borrowed rather than learned, and finding it at the kitchen table is a great deal cheaper than finding it in an exam.",
+  "family_question": "What was tonight's homework actually teaching you, and where did you let it help? The first answer decides the second.",
+  "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is deciding which part of a piece of work has to stay with them.",
+  "no_login_required": true
  },
  "dsl_note": {
   "required": false,

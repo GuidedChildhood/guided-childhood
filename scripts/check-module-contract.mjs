@@ -120,6 +120,31 @@ for (const [key, need] of Object.entries(SHAPES)) {
      Array.isArray(v) ? `array of ${typeof v[0]}, first keys: ${v[0] && typeof v[0] === 'object' ? Object.keys(v[0]).join('/') : String(v[0]).slice(0,30)}` : typeof v)
 }
 
+// 6c. the PARENT NOTE carries the fields the app actually reads
+// Added 11 September 2026, and found the same way as 6b: by reading the
+// consumers rather than the schema. The parent note is rendered in three
+// places (print/[module] page 5, the lesson page's "What goes home" card, and
+// the run sheet's after-the-lesson row) and between them they read exactly
+// headline, taught, try_this, family_question and passport.
+//
+// ks3-24 shipped with `try_tonight` and `words` instead. Nothing reads either.
+// Every field is guarded with &&, so nothing crashed and rendering the page
+// did not catch it: the sheet simply printed with no try-this box, no dinner
+// table question and no passport line, and the run sheet quietly dropped the
+// passport clause from its tick row. 23 of 24 modules had it right, which is
+// what made it worth pinning rather than treating as taste.
+const PARENT_NEED = ['headline', 'taught', 'try_this', 'family_question', 'passport']
+const pn = m.parent_note
+if (pn && typeof pn === 'object') {
+  const missing = PARENT_NEED.filter(k => typeof pn[k] !== 'string' || !pn[k].trim())
+  ok(`parent note carries ${PARENT_NEED.join(', ')}`, missing.length === 0,
+     `missing or empty: ${missing.join(', ')}`)
+  // The dead spellings, named, so a writer copying an old module is told why.
+  const dead = ['try_tonight', 'words'].filter(k => k in pn)
+  ok('parent note has no fields the app cannot read', dead.length === 0,
+     `${dead.join(' and ')} is read by nothing. try_this and family_question are the live names`)
+}
+
 // 7. every slide has a script and minutes
 slides.forEach((s,i) => {
   ok(`slide ${i} (${s.type}) has a script`, typeof s.script === 'string' && s.script.length > 20)

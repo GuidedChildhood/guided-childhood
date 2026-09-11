@@ -60,8 +60,14 @@ export const PASSPORT_LINKS: PassportLink[] = [
     // that answered no to all three questions was pointed at Years 12 to 13.
     // That is worse than the empty `companion` gap was, because it resolved to
     // something and therefore looked answered. The KS5 pair stay for sixth form.
-    stages: ['explorer', 'shaper', 'independent'],
-    modules: ['ks3-24-is-it-doing-my-thinking', 'ks5-20-ai-mastery-data-rights', 'ks5-21-digital-identity-future-work'],
+    // ks2-25 added 11 September 2026 and it is the reason migration 294 exists.
+    // 292 stopped this link sending a primary school to Years 12 to 13, but it
+    // still sent them to a Year 7 lesson, which is an answer a Year 4 teacher
+    // cannot use. `builder` is the KS2 stage, so a primary school now gets a
+    // primary lesson. Youngest first, so the first module named fits the
+    // youngest school that can reach this link.
+    stages: ['builder', 'explorer', 'shaper', 'independent'],
+    modules: ['ks2-25-stay-the-maker', 'ks3-24-is-it-doing-my-thinking', 'ks5-20-ai-mastery-data-rights', 'ks5-21-digital-identity-future-work'],
   },
   {
     id: 'personal-data',

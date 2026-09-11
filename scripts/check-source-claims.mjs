@@ -22,6 +22,7 @@ import fs from 'node:fs'
 const M = f => JSON.parse(fs.readFileSync(`content/modules/${f}.json`, 'utf8'))
 const KS3_24 = 'ks3-24-is-it-doing-my-thinking'
 const KS3_22 = 'ks3-22-when-an-ai-acts-like-a-friend'
+const KS2_25 = 'ks2-25-stay-the-maker'
 
 // [module, source, never | null, always | null, why]
 const CLAIMS = [
@@ -77,6 +78,23 @@ const CLAIMS = [
   [KS3_24, 'Keil', 'Most hands go up', null, 'd of 0.49 does not license most on a single item'],
   [KS3_24, 'Keil', null, '1 to 7 scale', 'their instrument, which is not our out of 5 drill'],
   [KS3_24, 'Keil', null, 'No study covers 11 to 13', 'this class is an inference, not a finding'],
+
+  // ks2-25. The KS2 lesson makes a DIFFERENT argument on purpose, and the line
+  // it must not cross is the one the KS3 lesson stands on. Bastani is 14 to 17
+  // at one Turkish school and has nothing to say about a Year 4 class, so it
+  // appears in this module exactly once, in the evidence base, marked as out of
+  // scope. Anything that reads like the KS3 claim has crossed the line.
+  [KS2_25, 'Bastani', '17 percent', null,
+   'the exam grade result is 14 to 17 year olds and must never be taught to this age group'],
+  [KS2_25, 'Bastani', '48 percent', null, 'same trial, same age problem'],
+  [KS2_25, 'Bastani', '127 percent', null, 'same trial, same age problem'],
+  [KS2_25, 'Bastani', null, 'deliberately NOT used here',
+   'the one mention is the note recording that it is out of scope. Losing that note loses the reason'],
+  [KS2_25, 'Keil', null, 'works in steps',
+   'the effect is weak or absent for facts and procedures, so the drill must name a mechanism'],
+  [KS2_25, 'Keil', 'Most hands go up', null, 'd is about 0.49, which does not license most'],
+  [KS2_25, 'metaphor', null, 'It is an analogy, not a finding about brains',
+   'the muscle line is a picture, and the teacher notes have to keep saying so'],
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in
@@ -87,6 +105,14 @@ const CLAIMS = [
 const FIELD_CLAIMS = [
   [KS3_24, 'Keil', m => m.slides[16].body, null, 'works in steps',
    'the illusion is weak or absent for facts and procedures, so the pupil facing drill must name a mechanism'],
+  [KS2_25, 'Keil', m => m.slides[15].body, null, 'WORKS IN STEPS',
+   'same rule, KS2 drill. Shouted on the slide because seven year olds need the constraint to be loud'],
+  // Pinned to the evidence base row rather than the module, because the same
+  // phrase also appears in subject_knowledge. Gutting the row while leaving the
+  // teacher note intact would otherwise pass, and the row is the load bearing
+  // one: it is the only age matched claim this lesson stands on.
+  [KS2_25, 'Keil', m => m.teacher_notes.evidence_base[0].claim, null, 'grades 2 and 4, roughly ages 7 to 10',
+   'the age matched evidence this lesson actually rests on'],
 ]
 
 // The exit quiz and starter quiz each exist TWICE, in teacher_notes and in
@@ -116,7 +142,7 @@ for (const [id, source, pick, never, always, why] of FIELD_CLAIMS) {
     bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${always}"\n         ${why}`)
   }
 }
-for (const id of [KS3_24]) {
+for (const id of [KS3_24, KS2_25]) {
   const m = M(id)
   for (const [a, b] of TWINS) {
     const x = m.teacher_notes?.[a], y = m.assessment?.[b]
