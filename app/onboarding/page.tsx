@@ -403,6 +403,12 @@ export default function OnboardingPage() {
       })
     } catch { /* the rest of setup matters more, and Devices can be told later */ }
 
+    // Say hello today rather than at eight tomorrow morning. Same call the
+    // starter pack makes, idempotent on the server through email_log, so
+    // whichever route a family came in by they hear from us on the day they
+    // joined and only once. See app/api/email/welcome.
+    try { await fetch('/api/email/welcome', { method: 'POST' }) } catch { /* the daily cron still has it */ }
+
     localStorage.removeItem('gc_starter_answers')
     try { localStorage.removeItem(WORRIES_KEY) } catch { /* private mode */ }
 

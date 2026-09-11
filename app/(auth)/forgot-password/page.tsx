@@ -29,7 +29,14 @@ export default function ForgotPasswordPage() {
     setLoading(true)
     const supabase = createClient()
     const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/callback?next=/dashboard/settings`,
+      // ── AND IT LANDS SOMEWHERE THAT CAN ACTUALLY CHANGE IT ──────────────
+      //
+      // This pointed at /dashboard/settings, which has no password field, and
+      // neither does anywhere else in the product. So the link signed a parent
+      // in, showed them their dashboard, and left the forgotten password
+      // exactly as it was. It looked like it worked, which is the worst way
+      // for it not to.
+      redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
     })
     const offline = networkAuthMessage(resetError?.message)
     if (offline) {
