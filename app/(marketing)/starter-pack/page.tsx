@@ -122,6 +122,26 @@ export default function StarterPackPage() {
   const [feeling, setFeeling] = useState<FeelingId | null>('unsure')
   const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
   const [email, setEmail] = useState('')
+  // ── THE PARENT'S OWN FIRST NAME (11 September 2026) ───────────────────────
+  //
+  // Justin, asked whether the starter pack should collect one: "yes".
+  //
+  // This state has existed all along and nothing has ever set it: the old
+  // account form had a name box, the box was removed, and what was left was a
+  // variable restored from localStorage, sent to the lead capture as
+  // `name: null` every single time, and rendered nowhere.
+  //
+  // The cost of the missing box showed up in Justin's own inbox. With no name
+  // passed at signup, handle_new_user falls back to the part of the email
+  // before the @, so the welcome opened "Thank you for joining, justin+1234."
+  // Every CTA on the product routes here, so that is every future family.
+  //
+  // OPTIONAL, not required. This is the last screen between a convinced parent
+  // and the product, and a form that refuses to submit costs more than a
+  // missing name ever could. A visible box gets filled in by most people, and
+  // the greeting drops the name gracefully for anyone who skips it
+  // (lib/email/parent-name), so skipping is a supported answer rather than a
+  // hole.
   const [name, setName] = useState('')
   const [childName, setChildName] = useState('')
   const [password, setPassword] = useState('')
@@ -169,6 +189,9 @@ export default function StarterPackPage() {
       // the blob. Without this the screen says "your pathway" to a parent who
       // has been reading their child's name on every screen up to here.
       if (pending?.childName) setChildName(pending.childName)
+      // Their own name too, for the same reason: the round trip cleared it,
+      // and finish-setup writes it to the profile a few lines below.
+      if (pending?.parentName) setName(pending.parentName)
       const { data: { user } } = await supabase.auth.getUser()
       if (cancelled) return
       if (!user) {
@@ -394,10 +417,20 @@ export default function StarterPackPage() {
     const { data, error } = await supabase.auth.signUp({
       email: clean,
       password,
-      // No name is collected any more, so none is set here. The dashboard
-      // recovers a first name from the email when the profile has none, which
-      // it has done since August.
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      // The name goes in the AUTH METADATA, because that is the only thing
+      // handle_new_user (migration 001) reads: it takes
+      // raw_user_meta_data->>'full_name' and falls back to the part of the
+      // email before the @. Setting profiles.full_name afterwards would work
+      // too and finish-setup does it as well, but this is the one that stops
+      // the wrong value ever being written in the first place.
+      //
+      // Omitted entirely when they skipped the box, rather than sent as an
+      // empty string, so the column stays null and the greeting knows it does
+      // not have a name.
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        ...(name.trim() ? { data: { full_name: name.trim() } } : {}),
+      },
     })
     if (error) {
       const msg = error.message.toLowerCase()
@@ -437,7 +470,7 @@ export default function StarterPackPage() {
   // thing. See lib/starter/finish-setup.ts for why the birthday has to travel
   // with it rather than be looked up from the older keys.
   function pendingNow(): PendingSetup {
-    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, dob }
+    return { ageBand, challenge, picks, worryOther, feeling, timeCommitment, childName, parentName: name.trim(), dob }
   }
 
   // Write the account through: onboarding complete, the trial, the child. One
@@ -614,12 +647,16 @@ export default function StarterPackPage() {
         {/* The account, at the END, framed by what it saves.
             The parent has just watched their child's pathway being built and
             read the whole of it. Now it asks for the least that can make an
-            account: an email and a password. The name is gone, and nothing is
-            lost by it, because dashboard/page.tsx already recovers a first name
-            from the email when the profile has none. A form asking only for an
-            email outperforms one asking name and email by 12 to 18 points, and
-            this one is the last thing between a convinced parent and the
-            product. */}
+            account: an email and a password, plus a first name they may skip.
+
+            The name came OUT of this form on the reasoning that an email only
+            form converts 12 to 18 points better than name and email, and that
+            reasoning holds for a REQUIRED field. What it missed is that the
+            name does not disappear when you stop asking: handle_new_user
+            writes the part of the email before the @ into it instead, so the
+            welcome greeted Justin as justin+1234. An optional box asks without
+            demanding, and the greeting is written to cope with an empty one,
+            so the conversion argument and the email are both satisfied. */}
         {step === 'account' && (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
@@ -638,8 +675,14 @@ export default function StarterPackPage() {
                   worse promise than the one we are actually making. Found by
                   walking the screen with the flag on, which is the only way it
                   could have been found. */}
+              {/* It said "two boxes" and there are three of them now, one of
+                  which is optional. Rather than argue that two is the number
+                  that counts because the third can be skipped, the line stops
+                  counting: it names what is asked for, which stays true
+                  whatever the form does next. This whole day has been about
+                  screens that say things that are nearly true. */}
               {oneTap ? 'One tap and it is yours, with four days of everything free. No card.'
-                      : 'Two boxes and it is yours, with four days of everything free. No card.'}
+                      : 'Your email and a password, and it is yours. Four days of everything free, no card.'}
             </p>
 
             {/* Above the email, not below it. The Mobbin sweep of account
@@ -655,6 +698,19 @@ export default function StarterPackPage() {
               onBeforeRedirect={() => keepPendingSetup(pendingNow())}
             />
 
+            {/* First, because it is the friendly one and it sets the tone for
+                the two boxes under it. Optional: nothing checks it, and the
+                button works without it. */}
+            <input
+              className="input"
+              type="text"
+              autoComplete="given-name"
+              placeholder="Your first name"
+              maxLength={40}
+              value={name}
+              onChange={e => { setName(e.target.value); try { localStorage.setItem('gc_starter_name', e.target.value.trim()) } catch {} }}
+              style={{ fontSize: 'var(--text-md)', marginBottom: '12px' }}
+            />
             <input
               className="input"
               type="email"
