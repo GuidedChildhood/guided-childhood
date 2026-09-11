@@ -1,4 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
+import { isFirstRun } from '@/lib/home/first-run'
+import HomeShortcuts from '@/components/home/HomeShortcuts'
 import { hasFullAccess, inTrial, TRIAL_DAYS } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -765,8 +767,33 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     hasDoneLesson: stagePassed.size > 0,
   })
 
-  const checkinDue = !lastCheckin
-    || (Date.now() - new Date(lastCheckin.created_at).getTime()) > 28 * 24 * 60 * 60 * 1000
+  // ── A MONTHLY CHECK IN THAT WAITS A MONTH (11 September 2026) ─────────────
+  //
+  // Justin: "some of them are not right for first ever log in, monthly catch
+  // up."
+  //
+  // This read `!lastCheckin`, so a card headed MONTHLY CHECK IN asking "how
+  // have you been this month? Not your child. You." appeared on an account
+  // twenty minutes old, on every visit, until the parent answered it. There
+  // was no month to ask about, and it sat between a brand new family and the
+  // only thing they should be doing, which is their first walk down the path.
+  //
+  // The second clause was always right: 28 days since the last one. The first
+  // now says the same thing about the first one ever, measured from the day
+  // they joined. A monthly question earns its place by a month passing.
+  const checkinDue = (!lastCheckin && accountAgeDays >= 28)
+    || (!!lastCheckin && (Date.now() - new Date(lastCheckin.created_at).getTime()) > 28 * 24 * 60 * 60 * 1000)
+
+  // ── THE FIRST DAY GETS THE FIRST DAY'S SCREEN ────────────────────────────
+  //
+  // Justin: "some of them are not right for first ever log in." Half the cards
+  // on this page report on history, and a family who joined an hour ago has
+  // none. See lib/home/first-run for what the three tests are and why.
+  const firstRun = isFirstRun({
+    daysShownUp: streak.total,
+    hasCheckedIn: !!(profile?.first_checkin_at as string | null),
+    accountAgeDays,
+  })
 
   const showTrial = inTrial(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
@@ -1060,7 +1087,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* DiGi's word. The knock on the door while an insight is unread, right
           under whoever is waiting and above the road, because it is the one
           thing on Home that was written for this family this week. */}
-      <DigiWordCard />
+      {!firstRun && <DigiWordCard />}
 
       {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
           Justin, holding up Duolingo's home: "it has pathway only on Home
@@ -1080,14 +1107,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           meets their child's week before they are handed another checklist.
           Nothing happened means no card, and a parent who is here every day
           never sees it, which is the point. It is news. */}
-      {catchup && <CatchupCard catchup={catchup} childName={child?.name ?? null} />}
+      {!firstRun && catchup && <CatchupCard catchup={catchup} childName={child?.name ?? null} />}
 
       {/* One quiet card, only when something is true, and only ever one.
           Justin: "little nudges ... but not intrusive or annoying." It sits
           below the news and above the day's list, which is where a thing worth
           knowing but not worth interrupting for belongs. See
           lib/home/habit-nudges.ts for why each rule earns its place. */}
-      {nudgeFacts && <HabitNudge facts={nudgeFacts} />}
+      {!firstRun && nudgeFacts && <HabitNudge facts={nudgeFacts} />}
 
       {/* The Planet Friend beside the road, chosen against the daily lead so
           the road and the coin never offer the same thing on the same day. */}
@@ -1103,6 +1130,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} childId={child?.id ?? null} />
+
+      {/* ── ONE TAP, NOT ONE SCROLL (11 September 2026) ─────────────────────
+          Justin: "cant be a long scroll... so not a massive long scroll but
+          behind icons if needed." Four destinations a parent goes to on
+          purpose, plus the door to the rest, directly under the day's path.
+          Everything above this is the day; everything below it is optional. */}
+      <HomeShortcuts childId={child?.id ?? null} />
 
       {/* ── THE DAY, WHERE THE SIX COINS USED TO BE ──────────────────────────
           Justin, 13 August 2026: "we can also now lose the planets underneath
@@ -1264,7 +1298,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* The monthly community bite. Left as it is: Justin did not pick it off,
           and it is already silent once answered, so it costs nothing on the
           other twenty nine days of the month. */}
-      <CommunityBite />
+      {!firstRun && <CommunityBite />}
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
           finished lands on an overview of what is waiting from their child,
@@ -1498,7 +1532,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       </div>
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
-      {lastFeedback && (
+      {!firstRun && lastFeedback && (
         <div style={{
           background: 'var(--stage-5)',
           border: '2px solid var(--ink)',
@@ -1553,7 +1587,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           under Today, so the only condition left is the one that always did the
           real work: do not put this in front of a family who are still setting
           up. */}
-      {!hasSchoolConnection && setupComplete && <SchoolPromoCard />}
+      {!firstRun && !hasSchoolConnection && setupComplete && <SchoolPromoCard />}
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (
@@ -1626,7 +1660,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       )}
 
       {/* Last script insight */}
-      {lastInsight && (
+      {!firstRun && lastInsight && (
         <div style={{
           background: 'var(--stage-2)',
           border: '2px solid var(--ink)',

@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { notFound } from 'next/navigation'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
+import ChildSwitcher from '@/components/children/ChildSwitcher'
+import HomeShortcuts from '@/components/home/HomeShortcuts'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 
 // Dev only fixture: the three states of a day, since 11 September 2026 there
@@ -67,6 +69,16 @@ export default function DayDoneFixture() {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 10px' }}>
           {TITLE[state]}
         </p>
+        {/* The name tags in the happy news finish, with the tick that now
+            means the whole path. Alma is chosen and done, Olgie is not. */}
+        <ChildSwitcher
+          kids={[
+            { id: 'a', name: 'Alma', is_primary: true, age_band: '4-7', done: allDone },
+            { id: 'o', name: 'Olgie', is_primary: false, age_band: '11-13', done: false },
+          ]}
+          selectedId="a"
+          basePath="#"
+        />
         <DigiGreeting
           firstName="Justin" childName="Ava" stageName="Explorer" stageNum={3}
           minutesLeft={8} dayDone={allDone} streakCount={3} aliveToday
@@ -77,6 +89,9 @@ export default function DayDoneFixture() {
           tasks={tasks} dailyMinutes={10} childName="Ava"
           streakCount={3} bonus={null} childId={null}
         />
+        {/* One tap, not one scroll: the icon row that replaces a column of
+            cards for the four places a parent goes on purpose. */}
+        <HomeShortcuts />
       </div>
     </div>
   )

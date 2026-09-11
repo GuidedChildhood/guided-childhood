@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { childColour, childInitial } from '@/lib/children/colour'
 import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/BirthdayFields'
-import { WORRIES } from '@/lib/onboarding/worries'
+import { WORRIES, CATCH_ALL_ID } from '@/lib/onboarding/worries'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
@@ -769,6 +769,18 @@ function OtherChildren() {
   // the same stock two, which told a parent of a six year old and a fifteen
   // year old that we had not been listening to either of them.
   const [worries, setWorries] = useState<string[]>([])
+  // ── SOMETHING ELSE NEEDS SOMEWHERE TO SAY WHAT ────────────────────────────
+  //
+  // Justin, 11 September 2026: "this is where they free type the thing thats
+  // worrying them and there was no option for this when clicking something
+  // else on multi child."
+  //
+  // The first child has had a free text box since the starter quiz. Here the
+  // tile was tappable and silent: something_else is deliberately unmapped, so
+  // tapping it sent an id that resolves to no slug, and the child was seeded
+  // as though the parent had named one thing fewer. A picker with nothing
+  // behind it is worse than no picker.
+  const [worryOther, setWorryOther] = useState('')
   const [busy, setBusy] = useState<'add' | 'only' | null>(null)
   const [failed, setFailed] = useState(false)
   /** Who has been added in this sitting, so the parent can see it landed. */
@@ -861,7 +873,21 @@ function OtherChildren() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
               {WORRIES.map(w => {
                 const on = worries.includes(w.id)
-                const full = worries.length >= 3 && !on
+                // ── SOMETHING ELSE DOES NOT USE UP A SLOT ──────────────────
+                //
+                // Justin: "we can only add 3 which is great, but I think we
+                // should leave out Something else, as this is where they free
+                // type the thing that's worrying them."
+                //
+                // Right, and it is the same point as the missing box. The cap
+                // of three is about how many worries a family can hold in
+                // their head at once. Something else is not a worry, it is the
+                // door to naming one, so counting it meant a parent who wanted
+                // to type their own thing could only tap two of ours, and a
+                // parent who had already tapped three could not reach the box
+                // at all.
+                const named = worries.filter(x => x !== CATCH_ALL_ID)
+                const full = w.id !== CATCH_ALL_ID && named.length >= 3 && !on
                 return (
                   <button
                     key={w.id}
@@ -879,18 +905,36 @@ function OtherChildren() {
                       opacity: full ? 0.5 : 1,
                     }}
                   >
-                    {on ? `${worries.indexOf(w.id) + 1}. ` : ''}{w.label}
+                    {on && w.id !== CATCH_ALL_ID ? `${named.indexOf(w.id) + 1}. ` : ''}{w.label}
                   </button>
                 )
               })}
             </div>
+            {/* Only once they have asked for it, so nine tiles do not arrive
+                with a box underneath them as a tenth thing to read. */}
+            {worries.includes(CATCH_ALL_ID) && (
+              <input
+                type="text"
+                value={worryOther}
+                onChange={e => setWorryOther(e.target.value)}
+                placeholder={`What is going on with ${name.trim() || 'them'}?`}
+                maxLength={120}
+                style={{ ...field, marginTop: '8px', fontSize: 'var(--text-base)' }}
+              />
+            )}
             {/* Skippable on purpose: a parent adding three children at bedtime
                 should not be held at a wall of tiles. Nothing named still gets
                 the stock openers, so their check in is never empty. */}
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '8px 0 0', lineHeight: 1.5 }}>
-              {worries.length === 0
-                ? 'Skip this and we will start them on the two most families begin with.'
-                : `${worries.length} picked. You can change these any time.`}
+              {(() => {
+                const named = worries.filter(x => x !== CATCH_ALL_ID).length
+                const typed = worries.includes(CATCH_ALL_ID) && worryOther.trim().length > 0
+                if (named === 0 && !typed) return 'Skip this and we will start them on the two most families begin with.'
+                const parts = []
+                if (named > 0) parts.push(`${named} picked`)
+                if (typed) parts.push('plus your own')
+                return `${parts.join(', ')}. You can change these any time.`
+              })()}
             </p>
           </div>
         )}
@@ -902,6 +946,7 @@ function OtherChildren() {
           name: name.trim(),
           date_of_birth: dobFrom(dobMonth, dobYear),
           worries,
+          worry_other: worryOther.trim() || undefined,
         })}
         disabled={!ready || busy !== null}
         style={{
@@ -990,6 +1035,42 @@ function HomeScreenHow() {
   const [busy, setBusy] = useState<'done' | 'skip' | null>(null)
   const [failed, setFailed] = useState(false)
 
+  // ── IF THEY ARE ALREADY IN THE APP, STOP ASKING ───────────────────────────
+  //
+  // Justin, 11 September 2026: "its asking me to add to home page but im on
+  // the app on laptop, can it be clever enough not to ask if already added to
+  // home?"
+  //
+  // It can, and the browser has been telling us all along. display-mode is
+  // standalone when the page is running as an installed app rather than in a
+  // tab, and that is the same proof InstallPrompt already trusts. Three other
+  // display modes mean installed too: minimal-ui, fullscreen, and Chrome's
+  // window-controls-overlay, which is what a desktop PWA reports on Windows.
+  // Only matching standalone is why a laptop could be inside the app and still
+  // be handed instructions for getting into it.
+  //
+  // InstallPrompt's own standalone ping cannot help here: its effect returns
+  // early on the setup page on purpose, so this page would only ever stamp on
+  // some later visit to another page. A parent who installs the app and comes
+  // straight here to finish setup is exactly the parent who never got the
+  // tick.
+  //
+  // So this stamps it itself, once, and shows the done state instead of three
+  // rows of how to. Fire and forget: the route is idempotent and writes only
+  // when the column is still null.
+  const [installed, setInstalled] = useState(false)
+  useEffect(() => {
+    const nav = navigator as Navigator & { standalone?: boolean }
+    const standalone = ['standalone', 'minimal-ui', 'fullscreen', 'window-controls-overlay']
+      .some(m => window.matchMedia(`(display-mode: ${m})`).matches)
+      || nav.standalone === true
+    if (!standalone) return
+    setInstalled(true)
+    fetch('/api/setup/home-screen', { method: 'POST' })
+      .then(() => router.refresh())
+      .catch(() => { /* the tick lands on the next open */ })
+  }, [router])
+
   // Both buttons post the same thing, because both are the parent telling us
   // this step is dealt with. What differs is only what they mean by it, and
   // neither is proof: see the note above the buttons.
@@ -1029,6 +1110,12 @@ function HomeScreenHow() {
           web notifications only work at all once the app is on the home screen,
           so this is not decoration, it is the difference between the check ins
           reaching a parent and not. */}
+      {installed ? (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
+          You are already in the app rather than a browser tab, so this one is
+          done. Ticking it now.
+        </p>
+      ) : (<>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 2px', fontWeight: 600 }}>
         This is what lets the check ins reach you. Apple only allows notifications from the home screen.
       </p>
@@ -1061,6 +1148,7 @@ function HomeScreenHow() {
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '2px 0 0' }}>
         Open it from your home screen once and this step ticks itself.
       </p>
+      </>)}
 
       {/* ── DONE AND SKIP, AND WHY BOTH ARE HONEST ─────────────────────────
           Justin: "should have a button click done then it should also then
