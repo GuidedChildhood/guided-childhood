@@ -41,6 +41,9 @@ export type PendingSetup = {
   feeling: FeelingId | null
   timeCommitment: TimeCommitmentId | null
   childName: string
+  /** The parent's own first name, asked for on the account step. Empty when
+   *  they skipped it, which the greeting copes with (lib/email/parent-name). */
+  parentName: string
   /** ISO date, first of the birth month. The band is derived FROM this, so
    *  losing it means lib/learning/term.ts cannot say which school year the
    *  child is in and setup has to ask all over again. */
@@ -103,8 +106,21 @@ export async function writeStarterSetup(supabase: SupabaseClient, p: PendingSetu
     //
     // Justin, 9 September 2026: "Make sure changes are all wired into platform
     // so we include the issues in daily check up." This is that wire.
+    // ── THEIR NAME, WHERE EVERY EMAIL LOOKS FOR IT ────────────────────────
+    //
+    // Justin, 11 September 2026, asked to add the first name to the starter
+    // pack, so it has to land on profiles.full_name and not only in the auth
+    // metadata. The signUp call passes it too, which is what the database
+    // trigger reads, but the trigger only ever fires ONCE, at account
+    // creation. A parent returning from Google already has a profile by the
+    // time this runs, and theirs would keep whatever the provider gave.
+    //
+    // Written only when we have one, so skipping the field never overwrites a
+    // good name with an empty string.
+    const parentName = p.parentName.trim()
     await supabase.from('profiles').update({
       onboarding_complete: true,
+      ...(parentName ? { full_name: parentName } : {}),
       onboarding_answers: {
         ageBand: p.ageBand,
         challenge: p.challenge,
