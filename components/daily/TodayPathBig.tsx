@@ -136,7 +136,12 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   const pathDone = steps.length > 0 && doneCount === steps.length
   const toBudgetMin = Math.max(0, minutes - investedMinutes)
   const nextWeight = TASK_MINUTES[tasks[currentIndex].key] ?? 0
-  const pressure = !pathDone && !allDone
+  // The strong nudge (the Go callout on the current node) eases off once the
+  // ONE tick has landed, exactly as it always did. That is the half of the old
+  // behaviour that was right: a parent who has done their tick should not be
+  // pushed, they should be invited. What changed is only what we CALL that
+  // state, which used to be "done".
+  const pressure = !streakDone && !allDone
   // Hang the Friend off a row that leans LEFT, so a coin at the right edge can
   // never touch a node that has already meandered that way.
   //
@@ -403,7 +408,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          {pathDone ? 'Today' : streakDone ? 'Today counts · more if you want it' : 'Today · do this next'}
+          {/* Kept to two words in the middle state: at 390px the eyebrow and the
+              minute count share one row, and a longer line wrapped underneath
+              and ran into the numbers. */}
+          {pathDone ? 'Today' : streakDone ? 'Today counts' : 'Today · do this next'}
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: pathDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
           {pathDone ? 'All done ✓' : `${investedMinutes} of ${minutes} min`}
@@ -703,10 +711,15 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           background: 'var(--tint-sage)', borderRadius: '14px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
-            {lead ? 'Today’s one thing, done 🎉' : `That is your ${minutes} minutes, day done 🎉`}
+            {lead ? 'Today’s one tick, done 🎉' : `That is your ${minutes} minutes 🎉`}
           </div>
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
-            You are readier for {kid} today than yesterday.{streakCount >= 2 ? ` ${streakCount} days in a row now.` : ''} Streak safe, the rest waits for tomorrow. Got a spare minute?
+            {/* It said "day done" here while the road above it still had rungs
+                on it, which is the sentence Justin read and did not believe.
+                The streak IS safe and that is worth saying; the day is not
+                finished and saying so is what makes the finish mean
+                something. */}
+            You are readier for {kid} today than yesterday.{streakCount >= 2 ? ` ${streakCount} days in a row now.` : ''} Your streak is safe. {steps.length - doneCount} left on the path if you have the time.
           </div>
           <Link
             href={tasks[currentIndex].href}
