@@ -22,6 +22,14 @@
 -- at somebody who is not there, which is worse than the mismatch it fixes.
 -- Guard 4 fails the migration if any alternative still describes the old cast.
 --
+-- EVERY BEAT NOW SPEAKS, which is the second half of the job. Four of the eight
+-- beats were silent, and the player says so out loud: "Nobody speaks in this
+-- clip. Nothing is missing from your sound." Three of those four are re rendered
+-- here with a voice, and alternative.spoken carries the exact words, checked
+-- line by line against the finished audio. The fourth, ks2-06, is already on
+-- cast and only wants a voiced re render, so guard 7 asserts it is the only
+-- silent beat left rather than letting it slip.
+--
 -- WHAT IS NOT IN HERE. The onScreen field, which names the words burned into
 -- each clip, is untouched. Whether the new clips carry those words legibly is a
 -- judgement about what is on a projector, and it is checked by eye rather than
@@ -48,8 +56,10 @@ alter table schools.school_lessons_backup_286 enable row level security;
 -- a girl in a gold detective cape -> Pebble
 update schools.school_lessons
    set slides = jsonb_set(
-                  jsonb_set(slides, '{1,src}', to_jsonb('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074508_1d42e19e-aa12-49c8-b4b0-b8ffed195f53.mp4'::text)),
-                  '{1,alternative,described}', to_jsonb('Pebble, the round yellow Planet Friend, holds a big magnifying glass up to a picture on an easel at the front of a classroom. Pebble peers through the glass like a detective on a mission while the children on the carpet lean forward and watch.'::text))
+                  jsonb_set(
+                  jsonb_set(slides, '{1,src}', to_jsonb('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081117_50fdb52f-cad6-4328-b694-ec4e7902f43b.mp4'::text)),
+                  '{1,alternative,described}', to_jsonb('Pebble, the round yellow Planet Friend, holds a big magnifying glass at the front of a classroom beside a picture on an easel. Pebble winks, lifts the glass to one eye to peer through it, then lowers it and smiles at the class.'::text)),
+                  '{1,alternative,spoken}', '["Some pictures are real. Some are made on a computer. Today we look very closely. Ready?"]'::jsonb)
  where module_id = 'ks1-03-real-pretend-computer'
    and slides->1->>'type' = 'video'
    and slides->1->>'src' = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210314_08e5094c-a1ad-42bc-aed4-ca3f2df62cde.mp4';
@@ -58,8 +68,10 @@ update schools.school_lessons
 -- a boy in a football kit -> Bloop
 update schools.school_lessons
    set slides = jsonb_set(
-                  jsonb_set(slides, '{1,src}', to_jsonb('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_071208_5a355d61-30a3-43d5-b387-201bc0abd815.mp4'::text)),
-                  '{1,alternative,described}', to_jsonb('Bloop, the round green Planet Friend, stands at the front of a classroom and lifts both arms like a coach explaining a game plan. The children on the carpet cheer and put their hands up.'::text))
+                  jsonb_set(
+                  jsonb_set(slides, '{1,src}', to_jsonb('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081136_e558411d-5dd9-413f-8c46-62eec87f1221.mp4'::text)),
+                  '{1,alternative,described}', to_jsonb('Bloop, the round green Planet Friend, stands at the front of a classroom and talks to the class like a coach, gesturing with both rounded arms. Bloop starts serious, then breaks into a wide encouraging smile.'::text)),
+                  '{1,alternative,spoken}', '["Your screen never says right, that is enough. So who does? You do. Today you learn how."]'::jsonb)
  where module_id = 'ks2-04-screen-routines'
    and slides->1->>'type' = 'video'
    and slides->1->>'src' = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210302_73a1ddee-7a31-429c-b382-339dd740fdc9.mp4';
@@ -68,8 +80,10 @@ update schools.school_lessons
 -- a girl in a green cape -> Bloop
 update schools.school_lessons
    set slides = jsonb_set(
-                  jsonb_set(slides, '{1,src}', to_jsonb('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074508_74007062-db28-4a7e-983f-7673a196fb2a.mp4'::text)),
-                  '{1,alternative,described}', to_jsonb('Bloop, the round green Planet Friend, wears a cape and holds up a glowing see through shield with both paws at the front of a classroom. The children sitting on the carpet look up and clap.'::text))
+                  jsonb_set(
+                  jsonb_set(slides, '{1,src}', to_jsonb('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081117_dcd36ba7-69bb-425f-9c7e-3cde634aff95.mp4'::text)),
+                  '{1,alternative,described}', to_jsonb('Bloop, the round green Planet Friend, wears a cape and holds a glowing shield with both paws at the front of a classroom. Bloop looks down at the shield as it glows, then back up at the children with a broad smile.'::text)),
+                  '{1,alternative,spoken}', '["Some things you share. Some things you keep. Today you build a shield. You choose what goes behind it."]'::jsonb)
  where module_id = 'ks2-07-privacy-reputation'
    and slides->1->>'type' = 'video'
    and slides->1->>'src' = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210333_95e07492-9204-4682-99e3-fdbfb8effd35.mp4';
@@ -130,9 +144,9 @@ begin
   --    so one that matched nothing would be silent. This is what catches it.
   select count(*) into n
     from schools.school_lessons l, jsonb_array_elements(l.slides) s
-   where s->>'src' in ('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074508_1d42e19e-aa12-49c8-b4b0-b8ffed195f53.mp4',
-                     'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_071208_5a355d61-30a3-43d5-b387-201bc0abd815.mp4',
-                     'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074508_74007062-db28-4a7e-983f-7673a196fb2a.mp4',
+   where s->>'src' in ('https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081117_50fdb52f-cad6-4328-b694-ec4e7902f43b.mp4',
+                     'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081136_e558411d-5dd9-413f-8c46-62eec87f1221.mp4',
+                     'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081117_dcd36ba7-69bb-425f-9c7e-3cde634aff95.mp4',
                      'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074831_00460c51-8df6-4a15-b117-7517bb528dd2.mp4',
                      'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074832_694bb4c7-293e-4890-a615-6024626d37b9.mp4',
                      'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074831_895acbfe-2b47-499c-a04b-8399e2142699.mp4');
@@ -158,6 +172,18 @@ begin
   select count(*) into n
     from schools.school_lessons l, jsonb_array_elements(l.slides) s where s->>'type' = 'video';
   if n <> 8 then raise exception 'Migration 286: the scheme should hold 8 video beats, found %', n; end if;
+
+  -- 7. All six beats this migration touches now speak, and exactly one beat in
+  --    the whole scheme is still silent: ks2-06, which is on cast already and
+  --    is the last one waiting for a voiced re render. Named here so it cannot
+  --    be quietly forgotten.
+  select string_agg(l.module_id || ' slide ' || (ord - 1), ', ') into bad
+    from schools.school_lessons l, jsonb_array_elements(l.slides) with ordinality t(s, ord)
+   where s->>'type' = 'video'
+     and coalesce(jsonb_array_length(s->'alternative'->'spoken'), 0) = 0;
+  if bad is distinct from 'ks2-06-how-algorithms-work slide 1' then
+    raise exception 'Migration 286: the silent beats should be ks2-06 alone, found %', coalesce(bad, 'none');
+  end if;
 end $mig$;
 
 commit;
