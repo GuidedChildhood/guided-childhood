@@ -70,13 +70,30 @@ if (sourceUses === 0) {
   ok.push('the row says where a new worry came from')
 }
 
+// ── WHAT THIS RULE IS ACTUALLY ABOUT (11 September 2026) ──────────────────
+//
+// It used to test for `c.isNew` in the expression, which was the right rule
+// written as the wrong assertion: it matched the implementation rather than
+// the thing the implementation was for.
+//
+// The rule is that a FIRST rating under five stars arrives with its two next
+// moves, because a first ever row has no last time to dip from and would
+// otherwise be the only row on the page offered no help. isNew was one way to
+// spell that, and a narrow one: it is false for a worry seeded at setup, so
+// the parent's own named worry rated two stars on their first check in led
+// nowhere until it dipped, and it cannot dip until there is a second reading.
+// Justin found that on his own account.
+//
+// So the assertion is the rule: the condition must carry a first rating
+// branch, whatever decides which first ratings count. `c.isNew` still passes,
+// which is correct, because it was never wrong, only incomplete.
 const move = card.match(/const nextMove = [^\n]*/)
 if (!move) {
   fails.push('The next move rule is gone from ConcernCheckIn. Ask DiGi and See the script are what a raised worry arrives WITH.')
-} else if (!/c\.isNew/.test(move[0])) {
+} else if (!/move === 'first'/.test(move[0])) {
   fails.push('The next moves have narrowed back to dips alone. A first ever row has no last time to dip from, so this hides the buttons from exactly the worry the parent asked about.')
 } else {
-  ok.push('a new worry arrives with its two next moves')
+  ok.push('a first rating arrives with its two next moves, not only a dip')
 }
 
 // The pills are read by a parent, so they clear the AA floor. Gold on white is
