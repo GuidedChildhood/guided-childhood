@@ -13236,3 +13236,37 @@ and 287 are the first case in this sequence where a merged file sat unapplied
 long enough for app code depending on it to ship. Checking the ledger against
 the repo's file list is now part of every migration check, not just reading the
 newest file and trusting its commit message.
+## 11 September 2026, applied: 286 and 288 are on production
+
+**286 is applied.** All seven guards passed. Six beats now carry on cast clips,
+seven of the eight speak, and every description names a Planet Friend rather
+than a child from the retired squad. ks2-06 is the one silent beat left and
+guard 7 holds it visible.
+
+**288 went in behind it, and it is the honest half.** Every video beat carries an
+onScreen field naming the words burned into the clip, and LessonPlayer renders it
+as THE BOARD READS: REAL OR FAKE inside the disclosure. That line exists for one
+reader: a pupil who cannot see or hear the clip, and who therefore cannot check
+it. It is the only claim in the deck whose audience is unable to verify it, which
+is precisely why it has to be true.
+
+**On all six new clips the board could not be read.** The instrument is not blind
+to text. On the July original it reads REAL OR MADE? off the whiteboard cleanly,
+and on the new three checks beat it reads the three green ticks that landed on
+the board but no heading above them. The board is being drawn. The words are not.
+
+**The one piece of contrary evidence does not carry.** Justin looked at a clip on
+11 September and said the whiteboard was good. That clip has since been replaced
+by a voiced re render, so the observation describes a file that is no longer
+live. Six beats were left claiming text nobody has confirmed.
+
+**So the six lose the field, and only the field.** The slide caption still names
+the beat in Nunito at the projector legibility floor and described still says
+what happens, so the class loses nothing. Only the specific unverifiable claim
+goes. ks2-06 keeps its onScreen because its clip is the untouched July one, from
+the same generation that demonstrably rendered text, and guard 1 pins it as the
+only survivor.
+
+**A field that says nothing is a smaller fault than a field that says the wrong
+thing**, and this is one insert away from being undone the moment somebody
+confirms the words are there.
