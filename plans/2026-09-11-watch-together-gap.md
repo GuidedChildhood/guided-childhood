@@ -1,83 +1,106 @@
-# The film library stops at stage 1
+# The content estate, counted
 
-Justin, 11 September 2026, with the Watch together tab showing "Nothing written
-for this stage yet": if that is true we need the same style of film "for every
-age, a version condensed for the school curriculum, for children and parents, to
-get them AI and social media safe from 4 to 16."
+Justin, 11 September 2026, twice, with the Watch together tab showing "Nothing
+written for this stage yet": is it true we have no lessons for this stage, and
+can we build them with the same skill, scripts plus Higgsfield images, for both
+parent and child, and convert the school curriculum into the same format.
 
-It is true. Here is exactly how true, counted against the live database on
-11 September 2026.
+**The premise is half right, and the half that is wrong is the good half.**
+His child has 26 lessons for that stage. That is the "Lessons 26" on the same
+screen. What is missing is only the parent facing film.
 
-## What exists
+But counting the whole estate to answer him turned up three bigger holes.
 
-| | |
-|---|---|
-| Parent films (`parent_lessons`) | **10 lessons, all stage 1**, four segments each, every one filmed |
-| Stages 2, 3, 4 and 5 | **zero films** |
-| Written child curriculum (`lessons`) | **147 lessons across all five stages**, 9 strands each |
+## What actually exists, counted 11 September 2026
 
-So the writing is done and the filming is not. Every child above the age of
-seven opens Watch together and is handed the four to seven films with an
-apology. That is what the blue box on Justin's screen is.
+| set | rows | covers | state |
+|---|---|---|---|
+| child lessons (`lessons`) | 147 | all five stages, nine strands | **only 92 playable** |
+| AI lessons (`ai_lessons`) | 54 | ages 7, 9, 11, 13, 16 plus parent and teacher | **zero playable** |
+| school lessons (`schools.school_lessons`) | 25 | EYFS to KS5 | all have slides, **24 of 25 have no video beats** |
+| parent films (`parent_lessons`) | 10 | **stage 1 only** | four segments each, all filmed |
 
-The ten that exist, one per strand:
+So 236 written lessons exist across four separate sets, and ten of them are
+films.
 
-| code | title | strand |
-|---|---|---|
-| 1.1 | Me on a screen and me in real life | Self image and identity |
-| 1.2 | Kind words on screens | Online relationships and bullying |
-| 1.3 | The internet remembers | Online reputation |
-| 1.4 | When screens make you sad | Health, wellbeing and lifestyle |
-| 1.5 | Real or pretend? | Managing online information |
-| 1.6 | Screens, sleep and growing bodies | Health, wellbeing and lifestyle |
-| 1.7 | My privacy shield | Privacy and security |
-| 1.8 | Someone made that | Copyright and ownership |
-| 1.9 | Some voices are not people | **AI safety** |
-| 1.10 | The Yes No Button | Online relationships and consent |
+### Hole one: a third of the child curriculum will not play
 
-One AI safety film exists in the whole product, and it is written for a five
-year old. Nothing above it. For a platform whose thesis is preparing children
-for an AI world, that is the gap that matters most.
+`lessons` has 147 rows and 92 of them have slides. The other 55 are titles with
+no lesson behind them.
 
-## The shape of the work
+| stage | lessons | playable | missing |
+|---|---|---|---|
+| foundation | 26 | 15 | 11 |
+| explorer | 27 | 16 | 11 |
+| builder | 28 | 17 | 11 |
+| independent | 26 | 15 | 11 |
+| shaper | 40 | 29 | 11 |
 
-Ten per stage, five stages, is fifty films. Ten exist, so **forty to make.**
+Eleven per stage, every stage. That is a pattern, not a coincidence: something
+wrote 147 rows and filled 92. Find out which eleven and why before writing a
+single new word, because a set of rows that were deliberately parked is a
+different problem from a job that stopped halfway.
 
-The ten strand set above is the right spine, because it is one film per strand
-and a parent can see the whole year in one screen. Each stage gets its own
-version of the same ten, not a harder edit of the stage 1 script: what changes
-is the situation, not the vocabulary. "Some voices are not people" at 4 to 7 is
-a talking toy. At 13 to 16 it is a chatbot that says it is your friend, an AI
-girlfriend app, and a deepfake of someone in your year.
+### Hole two: the AI curriculum exists and cannot be opened
 
-The AI strand should carry two films per stage from stage 3 up, not one. That
-takes it to forty five to make. It is the strand parents are most frightened of
-and the one where the curriculum is thinnest.
+54 rows covering every age band we serve, plus a parent set and a teacher set.
+**None of them have slides.** So the thing Justin is most worried about, getting
+children AI safe from four to sixteen, is already written for every age, and a
+parent cannot watch any of it.
 
-## Who makes them
+This is the cheapest big win on the list. The content is done. What is missing
+is the slide array, which is the same shape the 92 playable child lessons
+already use.
 
-The `lesson-video` skill, in the session that already holds it. It takes a
-script from `content/lesson-scripts`, generates the illustrated beats in the
-house style, animates the squad pop ins, burns captions and stitches one MP4.
-That pipeline made the ten that exist, so the look is already settled and this
-is a production run rather than a design problem.
+### Hole three: the school lessons are one field away from being films
 
-What that session needs from this one, and it is all in the database already:
+Every one of the 25 school lessons has slides, a parent note, and a `home_code`
+tying it to the home curriculum. They also have a `video_beats` column, which
+is exactly the input the `lesson-video` skill consumes.
 
-1. The 147 written child lessons per stage are the source. The film is the
-   condensed version of the stage's strand, not a new curriculum.
-2. `parent_lessons` rows 1.1 to 1.10 are the template: four segments, the
-   pause and quiz cards in `parent_lesson_cards`, the poster, the catchphrase,
-   the misconception, the parent note. A new stage means new rows in the same
-   shape with a new `stage_id`, so nothing in the player changes.
-3. The stage 1 scripts are the tone reference for length and pacing.
+**It is empty on 24 of the 25.** Only `ks3-12-misinfo-deepfakes` has beats, and
+it has four.
 
-## What to do about it before then
+So converting the school curriculum into parent and child films is not a
+rewrite. The `home_code` already says which home lesson each school module maps
+to. Fill `video_beats` and the pipeline that made the existing ten films runs.
 
-Nothing in the app needs changing. The fallback already does the right thing:
-it shows everything rather than a dead end, and it says why. The only honest
-improvement is to stop calling it a fallback to the parent and say plainly that
-the films for their child's age are being made, which is true.
+## So the answer to what he asked
 
-That is a copy change, so it can ride with the parent UX pass rather than
-becoming its own piece of work.
+Yes, and the order matters, because three of these are conversions and only one
+is authoring.
+
+1. **Fill the 54 AI lessons' slides.** Already written for every age including
+   parents. Pure format work, the biggest coverage gain per hour, and it lands
+   on the strand he cares most about.
+2. **Find the missing eleven per stage** in the child curriculum and decide
+   whether they are parked or dropped. Do not write until that is known.
+3. **Fill `video_beats` on the 24 school lessons** and let the video skill run.
+   The `home_code` mapping means each one lands as both a school module and a
+   home lesson without the content being written twice.
+4. **Then the parent films for stages 2 to 5.** Ten per stage, forty to make,
+   and this is the only one that is genuinely new authoring. Each stage is the
+   same ten strands with the situation changed rather than the vocabulary: a
+   talking toy at four, a chatbot that says it is your friend at fourteen.
+
+Two AI films per stage from stage 3 up rather than one, because exactly one AI
+safety film exists in the product today (1.9, "Some voices are not people") and
+it is written for a five year old.
+
+## Who does what
+
+The `lesson-video` skill session owns anything that produces an MP4: the beats,
+the Higgsfield image sets, the captions, the stitch. It made the existing ten,
+so the look is settled and that part is a production run rather than a design
+problem.
+
+Everything above it is database content in the same shapes that already exist,
+so it does not need the video skill and can run in parallel without touching
+the same files.
+
+## What does not need changing
+
+The Watch together fallback is already correct. It shows everything rather than
+a dead end and it says why. The only honest improvement is telling the parent
+the films for their child's age are being made, which is a line of copy for the
+look and feel pass.
