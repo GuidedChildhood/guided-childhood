@@ -2,6 +2,7 @@
 
 import FoldSection from '@/components/dashboard/FoldSection'
 import { currentChildId } from '@/lib/children/current'
+import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/BirthdayFields'
 import { SITE_URL } from '@/lib/config/site'
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
@@ -55,7 +56,8 @@ const TABS: { key: QuestTab; label: string; icon: HappyIconName; hint: string }[
 
 type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null; daily_limit_minutes?: number | null }
 
-const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
+// The hand picked band list went with the pills on 11 September 2026. A band a
+// parent taps is a band that never changes; see components/children/BirthdayFields.
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; blocks_screens?: boolean }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null }
 type KidLink = { child_id: string; token: string }
@@ -141,7 +143,13 @@ export default function QuestManager() {
   const [showQr, setShowQr] = useState(false)
   const [addingChild, setAddingChild] = useState(false)
   const [newChildName, setNewChildName] = useState('')
-  const [newChildAge, setNewChildAge] = useState<string | null>(null)
+  // A birthday, not a picked band. The band a parent taps never changes; the
+  // birthday they give is one the age up cron can read every morning. Without
+  // it this page was still creating children who could never get older, which
+  // is the fault the setup card was fixed for on 11 September 2026.
+  const [newChildDobMonth, setNewChildDobMonth] = useState<number | null>(null)
+  const [newChildDobYear, setNewChildDobYear] = useState<number | null>(null)
+  const newChildAge = bandFrom(newChildDobMonth, newChildDobYear)
   const [newChildMode, setNewChildMode] = useState<'own' | 'coview'>('own')
   const [phoneDraft, setPhoneDraft] = useState('')
   const [phoneSaved, setPhoneSaved] = useState(false)
@@ -288,13 +296,19 @@ export default function QuestManager() {
     const res = await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'child', name: newChildName.trim(), age_band: newChildAge, use_mode: newChildMode }),
+      body: JSON.stringify({
+        action: 'child',
+        name: newChildName.trim(),
+        date_of_birth: dobFrom(newChildDobMonth, newChildDobYear),
+        use_mode: newChildMode,
+      }),
     })
     const data = await res.json()
     if (data.child) {
       setAddingChild(false)
       setNewChildName('')
-      setNewChildAge(null)
+      setNewChildDobMonth(null)
+      setNewChildDobYear(null)
       setNewChildMode('own')
       setActiveChild(data.child.id)
       await load()
@@ -760,22 +774,24 @@ export default function QuestManager() {
             }}
             maxLength={60}
           />
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
-            {AGE_BANDS.map(band => (
-              <button
-                key={band}
-                onClick={() => { setNewChildAge(band); setNewChildMode(['4-7', '8-10'].includes(band) ? 'coview' : 'own') }}
-                style={{
-                  padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
-                  border: '2px solid var(--ink)',
-                  background: newChildAge === band ? 'var(--terracotta)' : '#fff',
-                  color: newChildAge === band ? 'var(--ink)' : 'var(--ink-soft)',
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
-                }}
-              >
-                {band === '16+' ? 'Ages 16 and up' : `Ages ${band.replace('-', ' to ')}`}
-              </button>
-            ))}
+          <div style={{ marginBottom: '14px' }}>
+            <BirthdayFields
+              month={newChildDobMonth}
+              year={newChildDobYear}
+              onChange={(m, y) => {
+                setNewChildDobMonth(m); setNewChildDobYear(y)
+                // The default stance still follows the age: under 11 is parent
+                // led, no device in their hands. It just reads the band off the
+                // birthday now instead of off a tapped pill.
+                const band = bandFrom(m, y)
+                if (band) setNewChildMode(['4-7', '8-10'].includes(band) ? 'coview' : 'own')
+              }}
+              fieldStyle={{
+                width: '100%', boxSizing: 'border-box', padding: '12px 15px', borderRadius: '12px',
+                border: '2px solid var(--ink)', background: 'var(--cream)',
+                fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
+              }}
+            />
           </div>
 
           {/* How they use it: their own app, or together on your device. */}
