@@ -49,6 +49,7 @@ export default function PassportToDo({
   childItems,
   onApp,
   stageName,
+  stamped = false,
 }: {
   childId: string | null
   childName: string | null
@@ -60,6 +61,12 @@ export default function PassportToDo({
   onApp: boolean
   /** "Stage 3, Explorer", for the catch up line. */
   stageName?: string | null
+  /**
+   * Is this stage actually stamped? The five rows above do not answer that
+   * (scripts and the end of stage check are not among them), so the page
+   * passes the real answer in rather than letting the rows imply one.
+   */
+  stamped?: boolean
 }) {
   const [sending, setSending] = useState(false)
   const [sentAt, setSentAt] = useState<string | null>(null)
@@ -99,7 +106,7 @@ export default function PassportToDo({
       }}>
         <span aria-hidden style={{ fontSize: 'var(--text-lg)' }}>✓</span>
         <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4 }}>
-          {catchUpLine(items, stageName ?? 'this page')}
+          {catchUpLine(items, stageName ?? 'this page', stamped)}
         </span>
       </div>
     )
@@ -126,7 +133,7 @@ export default function PassportToDo({
         </span>
       </div>
       <p style={{ margin: '0 0 12px', fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4 }}>
-        {catchUpLine(items, stageName ?? 'this page')}
+        {catchUpLine(items, stageName ?? 'this page', stamped)}
       </p>
 
       <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>

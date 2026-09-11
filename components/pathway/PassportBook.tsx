@@ -741,8 +741,23 @@ export default function PassportBook({
                             )}
                           </Link>
                         ) : (
+                          /* ── FIVE ROWS FULL IS NOT A STAMP (11 Sept 2026) ──
+                              This read "All five, done." and stopped, which a
+                              parent reads as finished. The five rows are not
+                              what stamps a page: lib/pathway/stamped.ts wants
+                              every lesson passed, every SCRIPT resolved and the
+                              end of stage check passed, and neither scripts nor
+                              the check is one of the five. So a family could be
+                              congratulated on a finished page while the ring
+                              directly above it still read In progress.
+                              The five are still worth saying. What follows them
+                              is now the truth about the stamp. */
                           <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: DONE, lineHeight: 1.45, margin: '13px 0 0', textAlign: 'center' }}>
-                            All five, done.
+                            {stamp.status === 'earned'
+                              ? 'All five, done. This page is stamped.'
+                              : (stamp.scriptsPct ?? 100) < 100
+                                ? 'All five, done. The scripts for this stage are still open, and they stamp the page with the check.'
+                                : 'All five, done. The end of stage check is the last thing between this page and its stamp.'}
                           </p>
                         )}
 

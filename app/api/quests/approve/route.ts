@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { getChildStarRate } from '@/lib/quests/time-tiers'
 import { recordJobsStreak } from '@/lib/pathway/jobs-streak'
+import { awardDayStarIfComplete, DAY_STAR_STARS } from '@/lib/quests/day-star'
 
 // After a job is confirmed, see whether it just completed a five day run of
 // every job done on time. If so, the milestone is recorded once, the parent
@@ -25,6 +26,27 @@ async function celebrateStreakIfComplete(supabase: StreakClient, userId: string,
       )
     }
   } catch { /* the streak is a happy extra, never a reason an approval fails */ }
+}
+
+// The day's own star: everything due today, done. Paid once a day into the
+// same ledger every other star lands in, and the child hears about it on their
+// own phone. Best effort, like the streak beside it: a bonus never blocks or
+// fails an approval.
+async function payDayStarIfComplete(
+  supabase: Parameters<typeof awardDayStarIfComplete>[0],
+  userId: string,
+  childId: string | null,
+) {
+  if (!childId) return
+  try {
+    const paid = await awardDayStarIfComplete(supabase, userId, childId)
+    if (!paid) return
+    await pushToChild(
+      createAdminClient(), userId, childId,
+      'Every job done today ⭐',
+      `That is the whole day cleared. ${DAY_STAR_STARS} bonus star for finishing it. See you tomorrow!`,
+    )
+  } catch { /* the star is written or it is not; the push is a happy extra */ }
 }
 
 // Parent approval: the one tap that lands the stars. Approve or reject a
@@ -141,6 +163,7 @@ export async function POST(req: NextRequest) {
     if (targetChild) {
       await settleOldestGiftDebt(supabase, user.id, targetChild)
       await tellChildConfirmed(user.id, targetChild, quest.title, quest.stars ?? 1, await isFamilyJobQuest(supabase, quest.id))
+      await payDayStarIfComplete(supabase, user.id, targetChild)
       await celebrateStreakIfComplete(supabase, user.id, quest.child_id)
     }
     return NextResponse.json({ ok: true })
@@ -171,6 +194,7 @@ export async function POST(req: NextRequest) {
         .from('family_quests').select('title, stars').eq('id', tick.quest_id).maybeSingle()
       if (quest) await tellChildConfirmed(user.id, tick.child_id, quest.title, quest.stars ?? 1, await isFamilyJobQuest(supabase, tick.quest_id as string))
     }
+    if (tick?.child_id) await payDayStarIfComplete(supabase, user.id, tick.child_id)
     if (tick?.child_id) await celebrateStreakIfComplete(supabase, user.id, tick.child_id)
   }
   return NextResponse.json({ ok: true })

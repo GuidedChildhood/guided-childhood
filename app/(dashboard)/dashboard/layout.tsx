@@ -11,7 +11,7 @@ import AppBadge from '@/components/pwa/AppBadge'
 import SetupNextBar from '@/components/setup/SetupNextBar'
 import BackToToday from '@/components/home/BackToToday'
 import ChildRail from '@/components/children/ChildRail'
-import { checkedInToday } from '@/lib/checkin/done-today'
+import { pathwayDoneToday } from '@/lib/checkin/done-today'
 import { Suspense } from 'react'
 import AskPopup from '@/components/quests/AskPopup'
 
@@ -285,6 +285,6 @@ async function ChildRailWithTicks({ kids, userId }: {
 }) {
   if (kids.length < 2) return null
   const supabase = await createClient()
-  const done = userId ? await checkedInToday(supabase, userId) : new Set<string>()
+  const done = userId ? await pathwayDoneToday(supabase, userId) : new Set<string>()
   return <ChildRail kids={kids.map(k => ({ ...k, done: done.has(k.id) }))} />
 }

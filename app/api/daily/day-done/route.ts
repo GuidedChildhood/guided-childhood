@@ -23,7 +23,19 @@ export async function POST(req: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const body = await req.json().catch(() => ({} as { child_id?: string; focus?: string }))
+  const body = await req.json().catch(() => ({} as { child_id?: string; focus?: string; all_done?: boolean }))
+
+  // ── THE ONE TICK AND THE WHOLE ROAD ARE TWO DIFFERENT FACTS ───────────────
+  //
+  // Justin, 11 September 2026: "one tick keeps the streak, the pathway earns
+  // the celebration."
+  //
+  // completed_at has meant "the lead rung landed" since the rotation and a
+  // dozen readers depend on that, so it keeps its meaning exactly. all_done
+  // is the stricter second fact: every rung on today's road went green. The
+  // path posts it separately when that happens, and only the celebration and
+  // the tick by the child's name read it.
+  const allDone = body.all_done === true
 
   // The child off the wire, validated as this parent's, null meaning the
   // household, exactly as every other daily write does it. The age band rides
@@ -55,13 +67,28 @@ export async function POST(req: Request) {
   // migration 210 household row, which the readers already treat as counting
   // for everybody. Filling that one in rather than adding a sibling row keeps
   // one day one fact.
-  const { data: rows } = await supabase
+  //
+  // all_done_at is read optionally: a database that has not run migration 287
+  // yet rejects the whole select for one unknown column, and losing the day
+  // over a column only the celebration reads would be the worse trade. So it
+  // is asked for, and dropped if the answer is no.
+  type Row = { id: string; completed_at: string | null; focus: string | null; child_id: string | null; all_done_at?: string | null }
+  let sessionsMissingAllDone = false
+  let rows: Row[] | null = (await supabase
     .from('daily_sessions')
-    .select('id, completed_at, focus, child_id')
+    .select('id, completed_at, focus, child_id, all_done_at')
     .eq('user_id', user.id)
     .eq('session_date', today)
-    .limit(10)
-  type Row = { id: string; completed_at: string | null; focus: string | null; child_id: string | null }
+    .limit(10)).data as Row[] | null
+  if (!rows) {
+    const legacy = await supabase
+      .from('daily_sessions')
+      .select('id, completed_at, focus, child_id')
+      .eq('user_id', user.id)
+      .eq('session_date', today)
+      .limit(10)
+    if (legacy.data) { rows = legacy.data as Row[]; sessionsMissingAllDone = true }
+  }
   const held = (rows ?? []) as Row[]
   const row = held.find(r => r.child_id === childId) ?? held.find(r => r.child_id === null)
 
@@ -69,6 +96,9 @@ export async function POST(req: Request) {
     const patch: Record<string, string> = {}
     if (!row.completed_at) patch.completed_at = new Date().toISOString()
     if (!row.focus && focus) patch.focus = focus
+    // Stamped once. The first finish is the one that stands, same rule as
+    // completed_at, so a second render or a second device changes nothing.
+    if (allDone && !sessionsMissingAllDone && !row.all_done_at) patch.all_done_at = new Date().toISOString()
     if (Object.keys(patch).length > 0) {
       await supabase.from('daily_sessions').update(patch).eq('id', row.id)
     }
@@ -83,6 +113,7 @@ export async function POST(req: Request) {
     child_id: childId,
   }
   if (focus) insert.focus = focus
+  if (allDone && !sessionsMissingAllDone) insert.all_done_at = new Date().toISOString()
   const { error } = await supabase
     .from('daily_sessions')
     .upsert(insert, { onConflict: 'user_id,child_id,session_date' })

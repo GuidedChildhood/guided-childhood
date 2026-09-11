@@ -1,7 +1,7 @@
 import type { createClient } from '@/lib/supabase/server'
 import type { ChecklistSection } from '@/components/pathway/PassportStamps'
 import type { StageProgress, StageId } from '@/lib/pathway/progress'
-import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
+import { computeJobsStreak, jobsTodayStatus, jobsDayStars, type JobsDays, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import type { ParentReport } from '@/lib/balance/parent-report'
 
 // The passport's five section checklist, in one place.
@@ -88,6 +88,7 @@ export async function buildPassportSections(
 
   let jobsStatus: 'on_track' | 'pending' | 'none' = 'none'
   let jobsStreakDays = 0
+  let jobsDays: JobsDays = { stars: 0, due: 0, anyRoutine: false }
   let aheadNames: string[] = []
   let homeDeviceCount = 0
 
@@ -109,6 +110,9 @@ export async function buildPassportSections(
     const jt = (jtRes.data ?? []) as StreakTick[]
     jobsStatus = jobsTodayStatus(jq, jt)
     jobsStreakDays = computeJobsStreak(jq, jt).streakDays
+    // The same sixty days the ticks were fetched for, so the count never
+    // reaches past the data behind it.
+    jobsDays = jobsDayStars(jq, jt, 60)
     // A device counts as ahead only when it is actually set up (owned) and its
     // minimum age is above the child's band, like a smartphone for a young one.
     const doneKeys = new Set((dpRes.data ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
@@ -117,7 +121,20 @@ export async function buildPassportSections(
       .map(d => d.name as string)
   }
 
-  const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
+  // ── THE JOBS ROW COUNTS DAYS, NOT THIS MORNING ────────────────────────────
+  //
+  // This was jobsTodayStatus: on track 100, pending 40, none 0. On track is
+  // also what "nothing due today" returns, so a weekday only routine showed a
+  // full green star every Saturday and Sunday, and the row calls itself judged
+  // across the whole stage while reading a single morning.
+  //
+  // It is the share of the days that ASKED something and got it: five star days
+  // out of six days with jobs due is 83, and a day with nothing due is in
+  // neither number. No routines at all stays zero, with Set a job under it,
+  // because there is genuinely nothing being kept up yet.
+  const jobsPct = !jobsDays.anyRoutine ? 0
+    : jobsDays.due === 0 ? 0
+    : Math.round((jobsDays.stars / jobsDays.due) * 100)
   // Balance reading: healthy or a light week is full, over is a nudge, well
   // over is the clear to do. Never a lock, just the honest heads up.
   //
@@ -208,9 +225,18 @@ export async function buildPassportSections(
       {
         key: 'jobs', emoji: '⭐', label: 'Jobs and routines',
         pct: isCurrent ? jobsPct : 0,
-        detail: !isCurrent ? 'Later' : jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
+        // A star a day, which is what the star on this row always implied and
+        // now literally is: every day the jobs due get done pays one bonus
+        // star into the child's bank (lib/quests/day-star), and this is the
+        // count of them. The streak, when there is one, is the better news of
+        // the two and wins the line.
+        detail: !isCurrent ? 'Later'
+          : !jobsDays.anyRoutine ? 'Set a job'
+          : jobsStreakDays > 0 ? `${jobsStreakDays} day streak`
+          : jobsDays.stars > 0 ? `${jobsDays.stars} star${jobsDays.stars === 1 ? '' : 's'} earned`
+          : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
         href: withOrigin('/dashboard/quests', 'passport'),
-        help: 'Goes green once the jobs are set and being done on time, and stays green while that keeps up.',
+        help: 'One star a day, every day the jobs due get done. Counted across the days that asked something, so a day with nothing due never counts against you.',
         ongoing: true,
       },
       {
