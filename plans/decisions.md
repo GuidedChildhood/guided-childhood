@@ -13154,3 +13154,56 @@ guarded clauses match exactly one row.
 **286 is written and not applied.** Applying it before the on screen question is
 settled would turn onScreen from a true claim about the July clips into a
 possibly false one about these.
+
+## 11 September 2026, later: every beat gets a voice, and the DiGi reference that was the legacy robot
+
+**Voice turned out to be free.** seedance charges by duration, not by audio: eight
+seconds at 1080p costs 72 credits whether it speaks or not. Twelve seconds costs
+108. That is worth knowing before planning any of this, because it means the
+question is never whether a beat speaks, only how long it runs.
+
+**Three of the four silent beats now speak.** ks1-03, ks2-04 and ks2-07 are re
+rendered with lines written for the age and the lesson, and every one came back
+word perfect against the script. Pebble: "Some pictures are real. Some are made
+on a computer. Today we look very closely. Ready?" Bloop on screen routines:
+"Your screen never says right, that is enough. So who does? You do. Today you
+learn how." Bloop on privacy: "Some things you share. Some things you keep.
+Today you build a shield. You choose what goes behind it." The fourth silent
+beat is ks2-06, which is already on cast and only wants a voiced re render.
+
+**alternative.spoken moves with them, and it has to.** The player prints "Nobody
+speaks in this clip. Nothing is missing from your sound." whenever spoken is
+empty. Swapping in a talking clip and leaving that line would tell a teacher
+their speakers are fine while a voice plays. Guard 7 in 286 now asserts ks2-06
+is the only silent beat left, so the last one cannot be quietly forgotten.
+
+**The mistake worth recording: I used the legacy DiGi.** Both new DiGi clips were
+rendered against public/digi-squad/Digi.png, and digi-squad/README.md names that
+exact file as the superseded green robot, with "never render DiGi or DiGi Junior
+as the robot or the owl, both are legacy designs", confirmed by Justin on 3 July
+2026. The passport clip came back as the robot outright. The welcome clip came
+back as a hybrid: the golden star silhouette carrying the robot's green screen
+face. CLAUDE.md routes character work to digi-squad/README.md for exactly this
+reason and I went to the asset folder instead. The correct reference is
+DiGi-star.svg, or DiGi-star.png for a raster.
+
+**Neither DiGi clip is wired into anything.** They are held, not shipped, and
+both want re rendering against the star.
+
+**The pilot lesson is ks3-12.** It already carries four video beats, more than
+any other module, it is the module the gold standard work went into, and three
+of its four beats are freshly rendered with Orbit and word perfect dialogue. The
+plan is 287: insert a DiGi welcome in the starter phase and a passport explainer
+in the close, both outside the teach phase so no cycle budget moves, taking the
+lesson from 70 minutes to 72 with the timing string rewritten to match. 286 must
+run first, because its updates are pinned to slide indexes that 287 shifts.
+
+**287 is not written yet**, because writing it around two clips that are off
+model would be writing a lie into the alternatives. It waits on the DiGi re
+renders.
+
+**What finishing costs, in credits rather than in adjectives.** DiGi welcome on
+the star 72, passport explainer on the star 108, ks2-06 voiced 72. That is 252
+and the balance is 40. Animating the whole scheme at roughly three beats a
+module is about 5,000 credits, which is two months of the ULTRA plan rather than
+a top up.
