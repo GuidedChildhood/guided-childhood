@@ -277,6 +277,27 @@ export async function seedChildBaseline(
    *  child added in a hurry still needs something to be asked about tomorrow
    *  and two rows is a far better failure than an empty check in. */
   worrySlugs?: string[],
+  /** What the parent TYPED when they picked Something else, if anything.
+   *
+   *  ── WHY THIS ARGUMENT EXISTS (11 September 2026) ────────────────────────
+   *
+   *  Justin, adding Teo: "this is where they free type the thing that's
+   *  worrying them and there was no option for this when clicking something
+   *  else on multi child."
+   *
+   *  Exactly right, and it was the last piece of the same gap. The first child
+   *  has been able to type their own worry since the starter quiz, and it goes
+   *  through resolveWorry so a typo never becomes a permanent title. Every
+   *  child after the first could TAP Something else and then had nowhere to
+   *  say what the something was, so the tap carried no information at all:
+   *  the catch all has no slug on purpose, so it mapped to nothing and the
+   *  child was seeded as if the parent had picked two fewer things.
+   *
+   *  Resolved the same way as the first child's, so a parent who types "wont
+   *  get off the switch" lands on our coming off screens row, with our
+   *  spelling and the scripts already written for it, and a parent who types
+   *  something genuinely their own keeps their words. */
+  ownWords?: string | null,
 ): Promise<BaselineConcern[]> {
   const { data: existing, error: readError } = await supabase
     .from('concerns')
@@ -291,14 +312,30 @@ export async function seedChildBaseline(
   // the first rating of the day would filter this child's remaining rows away
   // and read as done.
   const now = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+
+  // Their own words go FIRST, for the same reason they do for the first child:
+  // a parent who typed something rather than tapping a tile has told us the
+  // thing they actually came here about.
+  //
+  // It ADDS to the three rather than pushing one off. Justin's rule is that
+  // Something else is not one of the three, it is the door to naming your own,
+  // so a parent who tapped three tiles and then typed a fourth thing must not
+  // silently lose one of the three they tapped. Four is the ceiling because
+  // the tiles are capped at three and there is only ever one typed line.
+  const own = resolveWorry(ownWords ?? '')
+  const tapped = pickSlugs(worrySlugs)
+  const slugs = own.slug
+    ? [own.slug, ...tapped.filter(sl => sl !== own.slug)]
+    : tapped
+
   const { data: inserted, error } = await supabase
     .from('concerns')
-    .insert(pickSlugs(worrySlugs).map(slug => ({
+    .insert(slugs.map(slug => ({
       user_id: userId,
       child_id: childId,
       source: BASELINE_SOURCE,
       slug,
-      label: LABEL[slug] ?? slug,
+      label: slug === own.slug ? own.label : LABEL[slug] ?? slug,
       status: 'open',
       times_flagged: 1,
       last_flagged_at: now,

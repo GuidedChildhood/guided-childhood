@@ -73,9 +73,15 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
     {
       icon: 'cheer' as HappyIconName,
       title: 'Today is made',
+      // ── WHAT THIS SCREEN IS CONGRATULATING (11 September 2026) ───────────
+      //
+      // It said "the one thing that matters today is done", which was true
+      // when this fired on the lead rung alone. It fires on the WHOLE road
+      // now, and congratulating a parent for one thing when they did five
+      // reads as not having noticed.
       body: streakCount >= 2
-        ? `The one thing that matters today is done, and that is ${streakCount} days in a row now. Small and daily beats big and rarely, every time.`
-        : 'The one thing that matters today is done. Small and daily beats big and rarely, every time.',
+        ? `The whole road, walked, and that is ${streakCount} days in a row now. Small and daily beats big and rarely, every time.`
+        : 'The whole road, walked. Small and daily beats big and rarely, every time.',
       action: null as null | { label: string; href: string },
       next: 'Keep going',
     },

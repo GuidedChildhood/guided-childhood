@@ -186,6 +186,45 @@ export default function PushPrompt({ userId, stage }: Props) {
     else if (perm === 'denied') setStatus('denied')
   }, [])
 
+  // ── IS IT THE CHAIN, OR IS IT THE COMPUTER? ───────────────────────────────
+  //
+  // Justin, 11 September 2026: "do test checkin notifications as didnt seem to
+  // work on laptop." The card had told him "Sent to this device. It should
+  // appear within seconds", which is true as far as it goes: the push service
+  // ACCEPTED it. Accepted and shown are two different events, and the gap
+  // between them on a desktop is the operating system.
+  //
+  // Nothing in JavaScript can see whether a banner was actually drawn, so the
+  // only honest test is to have the computer draw one from right here, with no
+  // server and no push service involved at all, and ask the parent what they
+  // saw. Two outcomes and they point at completely different fixes:
+  //
+  //   This one appears and the pushed one does not  the delivery chain is
+  //   broken, which is ours, and worth telling us about.
+  //   Neither appears  the computer is holding both back, which is macOS
+  //   Notification Centre or Focus, or Windows quiet hours.
+  //
+  // It goes through the service worker's own registration rather than `new
+  // Notification()`, because an installed app has no page level notification
+  // permission surface and that constructor is not supported from a worker
+  // backed install on some platforms.
+  const [localResult, setLocalResult] = useState<string | null>(null)
+  async function testThisComputer() {
+    setLocalResult('Showing one now...')
+    try {
+      const reg = await navigator.serviceWorker.ready
+      await reg.showNotification('Test from this computer', {
+        body: 'This one came straight from your browser, with nothing sent over the internet.',
+        icon: '/icons/icon-192.png',
+        badge: '/icons/icon-192.png',
+        data: { url: '/dashboard' },
+      })
+      setLocalResult('Shown. If you saw that one but not the test above, tell Claude and we will fix the delivery. If you saw neither, it is this computer holding them back: allow notifications for this app in your system settings and turn off Do Not Disturb.')
+    } catch {
+      setLocalResult('This browser refused to show one at all, which means the block is on this computer rather than with us. Allow notifications for this app in your system settings, then try again.')
+    }
+  }
+
   async function enable() {
     setStatus('asking')
     setEnableError(null)
@@ -379,10 +418,45 @@ export default function PushPrompt({ userId, stage }: Props) {
             shown.
           </p>
         )}
+        {/* The installed desktop app had no line at all, and it is the surface
+            Justin was sitting on. Being installed clears the Safari problem
+            and the browser problem; it does not clear the operating system,
+            which is the layer that quietly swallows a banner during Focus or
+            when the app was never allowed to notify. */}
+        {surface === 'desktop-installed' && (
+          <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            On your phone these work with no extra step. On a computer they
+            still pass through the system settings, so if nothing appears,
+            check Guided Childhood is allowed to notify and that Do Not Disturb
+            or Focus is off.
+          </p>
+        )}
         {testResult && (
           <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             {testResult}
           </p>
+        )}
+        {/* The second half of the test, and the half that tells us which side
+            the fault is on. Only on a computer: a phone shows these with no
+            help and the extra button would be noise. */}
+        {(desktopTab || surface === 'desktop-installed') && testResult && (
+          <>
+            <button
+              onClick={testThisComputer}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginTop: '8px',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
+              }}
+            >
+              Nothing arrived? Test this computer on its own
+            </button>
+            {localResult && (
+              <p style={{ margin: '8px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                {localResult}
+              </p>
+            )}
+          </>
         )}
         <button
           onClick={resetAndRetest}

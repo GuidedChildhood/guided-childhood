@@ -232,9 +232,29 @@ check('each concern says which child it belongs to',
   /TEO/i.test(bodyText) && /OLGA/i.test(bodyText),
   bodyText.split('\n').filter(l => /^(TEO|OLGA)$/i.test(l.trim())).join(', ') || 'no child headings')
 
-// WHY IT IS WORTH DOING, said before the ask rather than after it.
-check('it says why the check in matters',
-  /read these every week/i.test(bodyText) && /change the approach/i.test(bodyText))
+// WHY IT IS WORTH DOING, IN ONE LINE.
+//
+// This used to assert the two paragraph explainer: "we read these every week"
+// plus "we change the approach rather than push more of the same". Justin, 11
+// September 2026, looking at his own check in: "the text explainer needs to be
+// simple, not much on this, just purely to see how these issues are going."
+//
+// Both sentences were true and both are still kept, in the place they are
+// actually needed rather than above five rows of stars: the line under a
+// rating of four or less says we stay on it, and a first rating under five now
+// brings the script and the DiGi opener with it. A promise kept beats a
+// promise announced.
+//
+// So the rule the guard holds is the new one: one line, it says what the tap
+// is for, and the second paragraph is gone rather than merely shortened.
+// Found by its own words rather than by position: the fixture renders last
+// night's words above the card, so "the first paragraph on the page" is not
+// the intro and asserting on it tested the fixture instead of the product.
+const intro = await stable(() => p.locator('p', { hasText: /one tap each/i }).first().innerText())
+check('the intro is one line and says what the tap is for',
+  /one tap each/i.test(intro) && intro.length < 140, `${intro.length} chars: ${intro}`)
+check('the methodology paragraph is gone',
+  !/read these every week/i.test(bodyText) && !/push more of the same/i.test(bodyText))
 
 // LAST TIME IS MARKED ON THE SCALE, before anything is tapped. The fixture's
 // first concern carries lastScore 3, which is band 2, "Hard going".

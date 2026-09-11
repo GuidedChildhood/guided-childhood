@@ -220,8 +220,14 @@ export async function POST(req: NextRequest) {
           .filter((x): x is string => !!x)
           .slice(0, 3)
       : undefined
+    // What they typed under Something else, if they typed anything. Trimmed
+    // and capped here rather than trusted from the wire; resolveWorry inside
+    // the seed does the rest, so a typo never becomes a permanent title.
+    const worryOther = typeof body.worry_other === 'string'
+      ? body.worry_other.trim().slice(0, 120) || null
+      : null
     if (data?.id) {
-      await seedChildBaseline(supabase, user.id, data.id as string, worries)
+      await seedChildBaseline(supabase, user.id, data.id as string, worries, worryOther)
         .catch(() => { /* the child still exists, which is the thing they asked for */ })
     }
     return NextResponse.json({ child: data })
