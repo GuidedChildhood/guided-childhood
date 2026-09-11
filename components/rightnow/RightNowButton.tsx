@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
-import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import ShareWithChildPanel, { type ShareChild } from '@/components/rightnow/ShareWithChildPanel'
@@ -90,8 +89,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   // spot, or steps through to the full moments library to pick the exact one.
   const [customMode, setCustomMode] = useState(false)
   const [customInput, setCustomInput] = useState('')
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const [speaking, setSpeaking] = useState(false)
 
   // Share with your child, when the child has the app. The parent always
   // reads the note before it lands on their child's screen.
@@ -149,12 +146,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     setShowHint(false)
   }
 
-  function stopVoice() {
-    audioRef.current?.pause()
-    audioRef.current = null
-    setSpeaking(false)
-  }
-
   function openSheet() {
     dismissHint()
     setPicked(null)
@@ -168,7 +159,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   }
 
   function closeSheet() {
-    stopVoice()
     setEntered(false)
     setTimeout(() => setOpen(false), 500)
   }
@@ -311,16 +301,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
       if (navigator.share) await navigator.share({ title: script.title, text })
       else await navigator.clipboard.writeText(text)
     } catch { /* cancelled */ }
-  }
-
-  function playVoice(url: string) {
-    if (speaking) { stopVoice(); return }
-    const audio = new Audio(url)
-    audioRef.current = audio
-    setSpeaking(true)
-    audio.onended = () => setSpeaking(false)
-    audio.onerror = () => setSpeaking(false)
-    audio.play().catch(() => setSpeaking(false))
   }
 
   const digiHref = `/dashboard/digi?q=${encodeURIComponent(
@@ -600,7 +580,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     missing behind Something else. */}
                 <Link
                   href="/dashboard/moments"
-                  onClick={() => { stopVoice(); setOpen(false) }}
+                  onClick={() => setOpen(false)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
                     background: 'var(--white)', border: '2px solid var(--ink)',
@@ -666,21 +646,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
                           Say this
                         </div>
-                        {script?.sort_order != null && scriptVoiceUrl(script.sort_order) && (
-                          <button
-                            type="button"
-                            onClick={() => playVoice(scriptVoiceUrl(script.sort_order!)!)}
-                            style={{
-                              display: 'inline-flex', alignItems: 'center', gap: '6px',
-                              background: 'var(--white, #fff)', border: '2px solid var(--ink)',
-                              borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
-                              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                              letterSpacing: '0.06em', color: 'var(--ink)',
-                            }}
-                          >
-                            {speaking ? '◼ Stop' : '▶ Hear it'}
-                          </button>
-                        )}
                       </div>
                       <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-xl)', lineHeight: 1.45, color: 'var(--ink)', minHeight: script ? undefined : '86px' }}>
                         {script?.say_this ?? ''}
@@ -710,7 +675,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 {script && /\bfun\b|do together|do instead|something (else )?to do|off ?screen|offline/i.test(`${script.say_this ?? ''} ${script.title ?? ''}`) && (
                   <Link
                     href="/dashboard/printables"
-                    onClick={() => { stopVoice(); setOpen(false) }}
+                    onClick={() => setOpen(false)}
                     className="no-print"
                     style={{
                       display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
@@ -775,7 +740,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   )}
                   <Link
                     href={digiHref}
-                    onClick={() => { stopVoice(); setOpen(false) }}
+                    onClick={() => setOpen(false)}
                     style={{
                       display: 'block', textAlign: 'center', textDecoration: 'none',
                       background: 'var(--terracotta)', color: 'var(--ink)',

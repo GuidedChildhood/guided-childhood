@@ -382,6 +382,23 @@ export async function getTodayLoop(
     return k?.name && k.name !== 'Your child' ? k.name : null
   }
   const withNote = (rows: { child_id: string | null }[]): string | undefined => {
+    // ── NOBODY DID IT IS NOT SOMEBODY DID IT (11 September 2026) ───────────
+    //
+    // Justin, with a screenshot of two grey rungs both captioned "done today":
+    // "its still reading done today in this pathway, why is it doing that as we
+    // havent done them today".
+    //
+    // Because an empty list walked past both guards. `[].some()` is false, so
+    // it never returned undefined for "this family did it"; `[].find()` is
+    // undefined, so there was no sibling to name; and the last line handed back
+    // the words "done today" for a day on which nothing had happened at all.
+    //
+    // This note exists for one job: to say a SIBLING did a household rung, so
+    // the tick is never silent. With no rows there is no sibling and no tick,
+    // and the rung already renders grey and undone beside it. A caption that
+    // contradicts its own node is worse than no caption, because the pathway is
+    // the one screen a parent trusts to tell them what is left.
+    if (rows.length === 0) return undefined
     const mine = rows.some(r => r.child_id === (child?.id ?? null) || r.child_id === null)
     if (mine) return undefined
     const other = rows.find(r => r.child_id && r.child_id !== child?.id)

@@ -40,7 +40,6 @@ type Props = {
   script: ScriptDetailData
   sortOrder: number
   showBanNote: boolean
-  voiceUrl: string | null
   isPaid: boolean
   childName: string | null
   childPhone: string | null
@@ -75,7 +74,7 @@ const chip: React.CSSProperties = {
 }
 
 export default function ScriptDetailView({
-  script, sortOrder, showBanNote, voiceUrl, isPaid,
+  script, sortOrder, showBanNote, isPaid,
   childName, childPhone, childId, childHasApp, workedRating, scriptStatus,
   backToPathway = false, stageSlug = null, childIdParam = null,
   prevScript, nextScript, depthInitial, rehearseFixture,
@@ -178,7 +177,6 @@ export default function ScriptDetailView({
           whyItWorks={script.why_it_works}
           tonight={script.tonight}
           stageId={script.stage_id}
-          voiceUrl={voiceUrl}
         />
 
         {/* Rehearse the words with DiGi before the real conversation */}

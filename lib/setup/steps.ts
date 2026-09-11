@@ -94,7 +94,7 @@ export const STEPS: SetupStep[] = [
   {
     key: 'children',
     title: 'Add your other children',
-    what: 'The same two questions we asked at signup, so it takes a moment. Each child gets their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',
+    what: 'Their name, their birthday and what is going on with them. Each child gets their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',
     href: '/dashboard/setup#children',
   },
   {

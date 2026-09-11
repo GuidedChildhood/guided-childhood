@@ -34,6 +34,7 @@
     "digi-setup-guard": "node scripts/check-digi-drives-setup.mjs",
     "starter-order-guard": "node scripts/check-starter-order.mjs",
     "one-tap-guard": "node scripts/check-one-tap.mjs",
+    "pathway-notes-guard": "node scripts/check-pathway-notes.mjs",
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
     "module-contract": "node scripts/check-module-contract.mjs"
   },
