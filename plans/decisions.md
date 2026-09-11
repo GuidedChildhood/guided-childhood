@@ -13342,3 +13342,66 @@ claims.
 passport has five stages. The described field says "a row of stamps" rather than
 a number, nobody in a classroom counts them, and a re render costs 108 credits to
 fix something no child will notice.
+
+## 11 September 2026: the answer beat, and a bridge I said was missing that was already there
+
+**The answer beat was ending the thinking.** A tap locked the slide and lit the
+correct answer at once, so a class that guessed wrong saw the answer before
+anybody reconsidered, and a class that guessed right never heard why the other
+two failed.
+
+**Now a wrong first pick says why that one fails and nothing else.** The answer
+stays hidden, the other options stay live, one more go. On a projector that
+retry is thirty children arguing before the teacher taps again, which is the
+part that teaches. The second pick settles it either way, and settling always
+reveals the right answer with its reasoning, found or not.
+
+**Scoring is the first attempt only.** onAnswered fires once. A retry is for
+learning, not for marking, and scoring it would turn every second go into a free
+mark.
+
+**A true or false slide gets no retry**, because with one option left "try
+again" is a forced tap that hands over the answer by elimination.
+
+**The state machine is pure and tested**, answerBeat() in shared/lesson-slides.ts
+with scripts/answer-beat.test.mjs in CI beside the governance tests. Mutation
+tested against five regressions including the old settle on first pick behaviour
+and revealing the answer mid retry. The rule worth protecting most is that a
+wrong first pick must not reveal the answer: everything else about the design
+follows from that one.
+
+**Green and amber from the real tokens**, retro-green and tint-amber, rather than
+the butter accent that used to carry both states.
+
+## THE CORRECTION, and it is mine
+
+**I told Justin the school to home passport bridge did not exist.** I said the
+philosophy page claim, "lessons in class earn credit toward the same passport to
+sixteen a family follows in the parents app", had no proof path in the product.
+
+**That was wrong. The bridge was built in August, by migration 230, and it is
+wired end to end.** A static HOME-XXXX code per module, all 23 present, printed
+on the pack, redeemed at /api/school-code through components/lessons/SchoolCodeCard.tsx,
+writing a lesson_completions row with lesson_source 'school_lesson', the slot
+migration 023 held open. It deliberately does not move a stage stamp, because a
+school module is credit rather than a stage lesson, and the route says so in its
+own comment.
+
+**Why I got it wrong, which is the part worth keeping.** I looked for a join
+between schools.pupils and public.stage_passports, found none, and concluded
+there was no sync. But the design deliberately has no such join: the code IS the
+bridge, precisely so the schools app never holds a pupil record and a school can
+start on Monday with no data protection conversation. The absence I found was
+the design working, and I read it as a hole. The lesson is to search for the
+mechanism the product would plausibly use before concluding from a missing
+foreign key.
+
+**One real gap did fall out of the audit.** The home code printed on the
+teacher's pack and nowhere else, and the pack is the sheet that stays on a desk.
+The pupil booklet is the one that goes home in a bag, and it now carries the
+code under the family question. A bridge nobody can reach is not a bridge.
+
+**Also shipped:** the pupil booklet and the knowledge organiser now appear in the
+lesson prep row. Both routes existed and were reachable only from the print
+room's list of 23 modules. Five identical inline button styles are now one
+const, which is how the row drifted: adding a link meant pasting the block again.
