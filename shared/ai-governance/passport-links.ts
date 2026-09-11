@@ -55,8 +55,13 @@ export const PASSPORT_LINKS: PassportLink[] = [
     ],
     risk: 'The tool may be doing the part of the work that was the learning.',
     competency: 'Can I do part of this without AI, and explain what I did?',
-    stages: ['shaper', 'independent'],
-    modules: ['ks5-20-ai-mastery-data-rights', 'ks5-21-digital-identity-future-work'],
+    // ks3-24 first, and it is the reason migration 292 exists. This link used
+    // to resolve ONLY to the two KS5 modules, so a primary or secondary school
+    // that answered no to all three questions was pointed at Years 12 to 13.
+    // That is worse than the empty `companion` gap was, because it resolved to
+    // something and therefore looked answered. The KS5 pair stay for sixth form.
+    stages: ['explorer', 'shaper', 'independent'],
+    modules: ['ks3-24-is-it-doing-my-thinking', 'ks5-20-ai-mastery-data-rights', 'ks5-21-digital-identity-future-work'],
   },
   {
     id: 'personal-data',

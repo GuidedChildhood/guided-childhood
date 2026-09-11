@@ -15,9 +15,19 @@ export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com'
 
+// The bands that are a LEAD rather than an order. Both post through this
+// same letterbox on purpose (no new table, no second cron), so the only thing
+// that has to tell them apart is the email, and it very much does: an order
+// needs an invoice raised against a PO, and a lead needs a reply.
+const LEAD_BANDS = new Set(['draw', 'taster'])
+
 const BAND_LABELS: Record<string, string> = {
   // A free class pack draw entry (schools /draw) uses the same letterbox.
   draw: 'Free class pack draw entry',
+  // A teacher who played the sample lesson and asked for its pack (schools
+  // taster, 11 September 2026). No PO, by design: asking a browsing teacher
+  // for a purchase order is asking them to leave.
+  taster: 'Sample lesson taster · lead',
   primary_small: 'Primary up to 200 pupils · £495',
   primary_large: 'Primary 200 to 500 · £795',
   secondary: 'Secondary up to 1,000 · £1,495',
@@ -62,21 +72,26 @@ async function handler(request: Request) {
 
   let sent = 0
   for (const r of requests) {
+    const lead = LEAD_BANDS.has(r.band)
     const result = await sendEmail({
       to: FOUNDER_EMAIL,
-      subject: `School invoice request: ${r.school_name}`,
+      subject: lead
+        ? `School lead: ${r.school_name}`
+        : `School invoice request: ${r.school_name}`,
       kind: 'operational',
       key: 'school-invoice-request',
       html: `
-        <h2 style="margin:0 0 12px">${esc(r.school_name)} wants a licence</h2>
+        <h2 style="margin:0 0 12px">${esc(r.school_name)} ${lead ? 'is having a look' : 'wants a licence'}</h2>
         <table style="border-collapse:collapse;font-size:15px;line-height:1.7">
           <tr><td style="padding-right:16px;color:#888">Band</td><td><strong>${esc(BAND_LABELS[r.band] ?? r.band)}</strong></td></tr>
           <tr><td style="padding-right:16px;color:#888">Pupils</td><td>${r.pupil_count ?? 'not given'}</td></tr>
           <tr><td style="padding-right:16px;color:#888">Contact</td><td>${esc(r.contact_name)} · ${esc(r.email)}</td></tr>
-          <tr><td style="padding-right:16px;color:#888">PO number</td><td><strong>${esc(r.po_number)}</strong></td></tr>
+          ${lead ? '' : `<tr><td style="padding-right:16px;color:#888">PO number</td><td><strong>${esc(r.po_number)}</strong></td></tr>`}
           ${r.notes ? `<tr><td style="padding-right:16px;color:#888">Notes</td><td>${esc(r.notes)}</td></tr>` : ''}
         </table>
-        <p style="margin-top:16px">Raise the invoice by hand in the Stripe dashboard, 30 day terms, and quote the PO on it. That is the whole flow.</p>
+        <p style="margin-top:16px">${lead
+          ? 'No invoice to raise. This is a lead: reply to them yourself while the lesson is still fresh.'
+          : 'Raise the invoice by hand in the Stripe dashboard, 30 day terms, and quote the PO on it. That is the whole flow.'}</p>
       `,
     })
     if (result.ok) {

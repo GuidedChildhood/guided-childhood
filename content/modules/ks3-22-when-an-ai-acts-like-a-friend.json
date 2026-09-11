@@ -131,7 +131,7 @@
    },
    {
     "heading": "What the evidence lets us say about dependence",
-    "body": "One strong randomised trial, Bastani and colleagues in PNAS 2025, gave near a thousand secondary pupils unrestricted chatbot access and found 17 percent lower exam grades, with the harm disappearing when guardrails were added. That is a claim about unguarded use and learning. It is not a claim about loneliness, attachment or mental health, and it must not be stretched into one."
+    "body": "One strong trial, Bastani and colleagues in PNAS 2025, gave secondary pupils unrestricted chatbot access and found 17 percent lower exam grades once the tool was taken away. A second arm, given hints instead of answers, came out statistically indistinguishable from pupils with no AI at all, so the guardrails avoided the loss rather than producing a gain. It was cluster randomised across about fifty classes at one Turkish secondary school, pupils aged roughly 14 to 17. That is a claim about unguarded use and learning. It is not a claim about loneliness, attachment or mental health, and it must not be stretched into one."
    },
    {
     "heading": "What we never say",
@@ -158,8 +158,8 @@
     "status": "verified"
    },
    {
-    "claim": "Unrestricted chatbot access produced 17 percent lower exam grades, and guardrails removed the harm",
-    "source": "Bastani et al., PNAS, 2025",
+    "claim": "Unrestricted chatbot access produced 17 percent lower exam grades, and a hints only arm avoided that loss without beating the no AI group",
+    "source": "Bastani et al., PNAS 122(26) e2422633122, 2025",
     "status": "verified"
    },
    {

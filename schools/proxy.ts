@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { ACCESS_COOKIE, isOpenPath, tokenIsValid } from '@/lib/access'
+import { isTasterPath } from '@/lib/taster'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
 // the old middleware). Two jobs, in this order:
@@ -21,7 +22,13 @@ import { ACCESS_COOKIE, isOpenPath, tokenIsValid } from '@/lib/access'
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
-  if (isOpenPath(pathname)) return NextResponse.next()
+  // Two separate questions, composed here rather than tangled together.
+  // isOpenPath is the PERMANENT open map: the pages that sell the scheme.
+  // isTasterPath is the TEMPORARY sample: one module of twenty three, let
+  // through on purpose so a lesson link Justin sends actually opens. Keeping
+  // them apart means the sample can be widened, narrowed or withdrawn without
+  // anybody having to reason about the paid wall at the same time.
+  if (isOpenPath(pathname) || isTasterPath(pathname)) return NextResponse.next()
 
   const token = request.cookies.get(ACCESS_COOKIE)?.value
   if (await tokenIsValid(token)) return NextResponse.next()

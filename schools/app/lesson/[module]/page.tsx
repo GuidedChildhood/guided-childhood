@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
 import { EFCW_STRANDS } from '@gc/shared/efcw'
+import { isTasterModule } from '@/lib/taster'
+import { hasLicence } from '@/lib/licence'
+import TasterBar from '@/app/taster/TasterBar'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
 //
@@ -150,6 +153,10 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
   const slides = parseSlides(lesson.slides) ?? []
   const notes = lesson.teacher_notes ?? {}
+  // The sales bar, and only for somebody who is not already paying for this.
+  // isTasterModule first so the cookie is never read on the other twenty two,
+  // which are gated anyway and would be paying a crypto verify for nothing.
+  const showTaster = isTasterModule(moduleId) && !(await hasLicence())
   const parent = lesson.parent_note ?? {}
   const dsl = lesson.dsl_note ?? {}
 
@@ -212,6 +219,12 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         }}>
           &ldquo;{lesson.single_action_outcome}&rdquo;
         </p>
+
+        {/* Above the plan on purpose. A teacher who arrived from a link Justin
+            sent does not yet know whether this page is a sample or a wall, and
+            a page that looks like a wall gets closed before the substance
+            below it ever gets read. */}
+        {showTaster && <TasterBar moduleId={moduleId} moduleTitle={lesson.title} />}
 
         {/* The button, high on the page. A teacher who already knows this
             lesson should not have to scroll past the prep to start it. */}

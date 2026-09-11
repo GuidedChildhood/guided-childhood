@@ -13457,3 +13457,258 @@ the settle signal is dropped, or if the waiting label is lost. All three
 mutation tested. They are source greps rather than behaviour, which is the
 honest trade: the behavioural check needs a browser and a running server, and
 the repo already pays that cost once in check-concern-dots.mjs.
+
+---
+
+## 11 September 2026 — the taster: one lesson outside the wall, and the lead that follows it
+
+Justin: "how can I send that one sample lesson so teachers can get a taster,
+then leads, then to sign up, request an invoice page."
+
+**Both ends of that already existed and the middle did not.** /pricing takes
+an invoice request and the hourly cron emails it over. What was missing was
+anything in between: a lesson link sent to a teacher hit /unlock and bounced,
+and the only form on the site asked for a purchase order number, which is the
+last thing a browsing teacher has rather than the first.
+
+**The order is Justin's and it decides the design.** Taster, then lead, then
+invoice. So the lesson is NOT behind the form. A teacher who arrives from a
+link owes us nothing yet, the lesson is what earns the email, and a form in
+front of it spends the best asset we have on a stranger's patience.
+
+**THIS AMENDS THE OPEN MAP DECISION of 30 August 2026**, which put the paid
+wall at "the lessons, the scripts, the packs and the testing". One module of
+twenty three now sits outside it: ks3-12-misinfo-deepfakes, the pilot. The
+catalogue is still the product; a single worked example is the advert for it,
+and a scheme nobody has watched teach is a scheme nobody buys.
+
+**The real pages, not a demo.** /lesson/[module] is already the page a teacher
+opens the night before, and that page IS the argument for zero prep. A cut
+down demo would sell the product worse than the product does and would be a
+second thing to keep in step with every migration. So the taster is the real
+prep page, the real player and the real printable pack, at their ordinary
+URLs, for one module.
+
+**Two questions kept apart, on purpose.** isOpenPath is the PERMANENT open map
+(the pages that sell the scheme). isTasterPath is the TEMPORARY sample. They
+are composed in proxy.ts rather than folded together, so the sample can be
+widened, narrowed or withdrawn without anybody reasoning about the paid wall
+at the same time. And the matcher checks the MODULE ID, never the prefix: a
+startsWith('/lesson/') would have opened all twenty three, which is the exact
+mistake scripts/check-taster-wall.mjs exists to catch (mutation tested six
+ways, including that one).
+
+**No migration, because /draw already solved this.** A lead who is not buying
+goes into schools.invoice_requests with a marker band and the PO field
+carrying a word rather than a number. A taster lead is band 'taster',
+po_number 'TASTER'. The cron now knows the difference: LEAD_BANDS covers draw
+and taster, and a lead emails Justin "School lead" with no PO row and "reply
+to them yourself" instead of "raise the invoice", because a lead labelled as
+an order sends him hunting for a purchase order that does not exist.
+
+**Verified against the database as the anon role, not assumed.** anon holds
+INSERT on invoice_requests and the exact taster payload inserts cleanly
+(po_number is NOT NULL, which is why the placeholder word exists). anon also
+holds a SELECT grant, which the migration 195 comment does not mention: RLS
+denies it in practice (0 rows read as anon against 3 real rows), so the pile
+is not public, but the grant is broader than the comment claims and is worth
+tidying the day someone touches that table.
+
+**What could not be seen from this container.** The schools app reads lessons
+with the SERVICE key and the network policy blocks the Supabase host, so the
+lesson page and the curriculum chip could not be rendered here. The taster bar
+and its success state were rendered and driven at 390 and 1440, licensed and
+unlicensed, through the real proxy gate.
+
+---
+
+## 11 September 2026 — the AI cognition lesson, and the numbers we will not use
+
+Justin: "research and have an AI lesson on how to use AI in a cognitive
+beneficial way for the brain, what the science says, what top neuroscientists
+say, and then develop a lesson so we can teach children how." Eleven lens sweep,
+then migration 292: **ks3-24-is-it-doing-my-thinking**, Years 7 and 8.
+
+**IT SITS AT KS3, NOT KS5 WHERE THE SPEC PUT IT.** The build spec had this
+content as module 20 at KS5, which has the least timetabled PSHE, the worst
+attendance at non examined sessions and no statutory RSHE duty. Years 7 and 8
+have a weekly slot, the RSHE duty that became compulsory on 1 September, daily
+AI use for homework, and nothing displaced from a GCSE. The ALEKS dataset agrees:
+the offloading cost graded by age, largest in the upper school and undetectable
+at Year 5. Teaching it in Year 12 is teaching it after the habit has set.
+
+**IT CLOSES A LIVE GAP IN THE GOVERNANCE TOOL.** The `dependence` link in
+shared/ai-governance/passport-links.ts resolved to two KS5 modules, so a primary
+school answering no to its three questions was routed to Years 12 to 13. That is
+worse than the empty `companion` gap migration 282 closed, because it resolved to
+something and therefore looked answered.
+
+**THE TOOL IS BORROWED FROM JCQ, ON PURPOSE.** A computer reader is permitted in
+a maths paper and forbidden in the GCSE English reading paper. Same pupil, same
+technology, opposite answer, and what flips it is what the task measures. So the
+lesson teaches a decision procedure, not a moral instruction: name the one thing
+this task is teaching you, then let the tool touch everything except that. Every
+child in a mixed ability room runs the same reasoning and reaches a different,
+correct answer, which means the dyslexic child arrives at "use the reader" by the
+same logic as everyone else and nobody watched them ask.
+
+**AND THAT IS ALSO A LEGAL POINT, NOT ONLY A KIND ONE.** Schools are under an
+ANTICIPATORY duty under the Equality Act 2010 and the SEND Code of Practice, and
+auxiliary aids explicitly include assistive technology. A lesson about doing your
+own thinking, applied flatly by a teacher as a no tools rule, cuts across it. The
+exemption is therefore written into the script, the misconceptions, the hard
+questions and practise case one, which is deliberately the first card sorted.
+
+**THE SPINE IS BASTANI, PNAS 2025**, and it is the whole ban neutral argument in
+one randomised trial: answers arm plus 48 percent in practice and minus 17 percent
+on the unaided exam; hints arm plus 127 percent and no penalty. Same model, same
+pupils, one instruction different. Corroborated at the neural level by Yin et al,
+npj Science of Learning 2025 (n=87, fNIRS): a chatbot asking "why do you think
+that is the answer?" raised frontopolar activation and transfer scores, where one
+that simply answered did not. That pair is the honest answer to "cognitively
+beneficial", and neither needs the MIT preprint.
+
+**NUMBERS WE WILL NOT USE, AND WHY.**
+- **The 54 percent on AI dependency: DROP IT.** Traced to the GoStudent Future of
+  Education Report 2025. GoStudent sells AI enhanced tutoring, so it is vendor
+  research on its own market's anxiety; it is 5,859 parents across SIX European
+  countries, not UK; and their own page states it two ways, once as AI dependency
+  and once as screen overdependence, which are different questions. Worse, we
+  already publish a different 54 percent (smartphone regret, THE-STORY.md and
+  components/starter/KnownProblems.tsx). Two unrelated 54s on one brand is a
+  credibility hazard. Use instead: **Ofcom May 2026, 52 percent of UK teens
+  confident spotting AI content, a quarter of those failed the actual test.**
+- The ChatGPT learning meta analysis with the large effect (g = 0.867) was
+  **RETRACTED in April 2026** after 266 citations and is still circulating.
+- Bloom's 2 sigma never replicated; 96 tutoring RCTs average about 0.37.
+- Gerlich 2025 is cross sectional self report and carries a published Correction.
+- The MIT "Your Brain on ChatGPT" EEG study is a preprint, 54 adults, 18 in the
+  session carrying the headline, and its own authors published a list of words
+  they ask journalists not to use about it.
+- The viral "AI brain rot" paper studied **language models**, not humans.
+
+**A CORRECTION TO THE BRIEF, and it sharpens the lesson.** Justin framed
+dependency as losing the belief you can do it alone. The evidence says the belief
+is not lost, it is INFLATED (Fisher, Goddu and Keil 2015; Ward, PNAS 2021, n=1,917;
+Ofcom's confident quarter who failed). That is worse than lost confidence, because
+a child who feels shaky asks for help and a child who feels fine does not know
+anything is wrong. There is no felt signal, which is why the lesson teaches a
+physical routine (explain it back, score twice, watch the number fall) rather than
+asking a child whether they understood.
+
+**AND STRUGGLE FIRST IS CALIBRATED, NOT MORAL.** Rowland's meta analysis puts the
+testing effect above roughly half right, robust above three quarters. Below that
+floor unassisted struggle is not desirable difficulty, it is failing, and a hint is
+the correct move. That is in the misconceptions and in the hard questions.
+
+**THE PROCESS LESSON, WHICH COST THE MOST TIME.** I twice told Justin this was a
+gap before searching the repo, and was twice wrong: an orphaned `ai_lessons`
+module exists at /dashboard/ai-module, a live shaper lesson already teaches
+borrowed brain and explain it back, a free parent script at sort_order 9652
+already teaches hints not answers, Bastani was already in DiGi's knowledge bank
+via migration 263, and content/lesson-scripts/ai-panel-additions.md has held a
+written KS2 lesson since 25 July that was never built. **Run the platform mapper
+FIRST on any sweep that ends in a build, not last.**
+
+---
+
+## 11 September 2026 — what the sources actually say, and the slide that was backwards
+
+Migration 292 shipped ks3-24 with five sources and no verification pass. Four
+adversarial verifiers were then run, one per source cluster, against the primary
+documents. They returned 14 confirmations, 14 corrections and 4 demotions on a
+lesson that was already live. Migration 293 carries every correction.
+
+**The worst one was not a number.** We told teachers, on a slide, that a computer
+reader is barred from the GCSE English Language reading paper. JCQ says the
+opposite by name: "A computer reader will be allowed in papers (or sections of
+papers) testing reading." What is barred there is a HUMAN reader, because a
+person reading aloud adds vocal interpretation and the interpretation is what
+the paper marks. And the bar falls on SECTIONS, not whole papers, with up to 50
+percent extra time granted instead. Two errors in one sentence, in a regulatory
+claim, stated to the one audience that could act on it. A SENCO could have been
+told it.
+
+**The corrected pivot is better than the wrong one and more on thesis.** What
+flips is not the technology, it is whether the help hands over the thing being
+tested. A flat machine voice decodes and supplies no comprehension. A person
+supplies nuance. That is the ramp and swap distinction sharpened, and it is
+still the exam board's own reasoning rather than ours.
+
+**The three headline numbers survived.** Bastani's 48, 127 and 17 are all
+correct, correctly signed and correctly assigned. Every defect there was in
+framing: the trial was cluster randomised across about fifty classes at ONE
+Turkish school with pupils aged roughly 14 to 17, not "Years 10 and 11"; and the
+hints arm came out statistically indistinguishable from control rather than
+ahead of it, with the paper explicitly observing no positive effect. "Came out
+ahead" appeared eight times. Guardrails stopped a loss. They did not buy a gain,
+and we now say so on the slide and in the teacher script.
+
+**The opening hook had the wrong denominator.** The 72 percent who declined AI is
+from Oxford University Press's 704 pupil qualitative strand, not its 3,100 pupil
+survey. The slide claimed three thousand pupils, over four times the real base.
+The task was also a paragraph about AI itself inside a study, which plausibly
+inflates the rate, so the script now names that limit and calls seven in ten a
+ceiling. The 62 percent on skills turned out to belong to a different OUP report
+altogether.
+
+**And the live demo would have failed in front of a class.** The illusion of
+explanatory depth is "far stronger for explanatory knowledge than many other
+kinds of knowledge, such as that for facts, procedures or narratives", and Mills
+and Keil found no illusion for procedures in children at all. Our drill said
+"pick something you learned this week", which mostly yields facts and dates,
+which is exactly where the effect is weak or absent. It now says "that works in
+steps". The script also no longer asserts that most hands go up: the effect is
+Cohen's d of about 0.49, which does not license "most" on a single self chosen
+item, and a pupil whose score holds is not a failed demonstration.
+
+**Nobody in any of this evidence is the age of the class being taught.** The
+trial's youngest were about 14, and the explanatory depth work covers 7 to 10
+and adults. Both results are borrowed from either side of Years 7 and 8. The
+teacher notes now say so and the script says it out loud to the room, which is
+the same habit the lesson is asking pupils to practise.
+
+**Separately, found by rendering the page rather than reading it.** Four
+teacher_notes fields shipped in the wrong SHAPE. subject_knowledge was a plain
+string where the lesson page maps over {heading, body}; evidence_base and
+parent_questions were lists of strings; hard_questions was keyed {a,q} instead
+of {question,answer}. The page guards with `?.length`, and a non empty string has
+a length, so it passed the guard and threw on .map. **The teacher prep page for
+this module had been returning 500 in production since 292 applied**, and no
+check noticed, because the contract checker only asks whether a key is THERE.
+
+**Three guards added, all mutation tested.** check-module-contract now checks the
+shape of those four fields (7 of 7 mutations caught). Its no dashes rule gained
+a /i flag, because the lookbehind was case sensitive and "AI-Native" sailed
+through in a cited title. And a new check-source-claims.mjs pins 33 verified
+claims as sentences we must never say again or must keep saying, each with the
+source that settles it (11 of 11 mutations caught). A correction that lives only
+in a commit message comes back the next time someone rewrites the slide.
+
+**The exit quiz and starter quiz each exist TWICE**, in teacher_notes and in
+assessment. The first correction pass fixed one copy of each and missed the
+other, so "came out ahead" survived in the assessment copy. Both guards now
+assert the copies are identical.
+
+**One thing worth keeping for the next chunked migration.** The applied row was
+digest checked rather than trusted, and the first comparison FAILED while the
+content was fine. Postgres sorts under the database collation, Python sorts by
+codepoint, and the two disagree on the same set of strings. Use `order by s
+collate "C"`. Migration 292 verified itself with the unsafe default and happened
+to pass, which is worse than failing, because it means that check was never
+testing what it claimed to test.
+
+**Verified, not assumed.** All 27 slides rendered in a real browser at 390 and
+1440 via ?slide=N, plus the prep page and the run sheet, with zero console
+errors and no horizontal scroll anywhere. The applied row was digest checked
+against the source file on both slides (247 strings) and teacher notes (149
+strings) and matched exactly. Contract passes, council scores 10/10/10/10, all
+three cycles anchor at 1.00.
+
+**How the schools app gets rendered in this container, improved.** The earlier
+recipe used a throwaway route fed real slide data. Better: swap
+schools/lib/supabase/server-db.ts for a fixture backed stub reading a local JSON
+file, and the REAL routes render real content with no Supabase reachable. That
+is what found the 500. Note /lesson/[module]/run is the printable run sheet and
+/teach/[module] is the projector player, and the player takes ?slide=N, which is
+a far more reliable instrument than walking the deck with clicks.
