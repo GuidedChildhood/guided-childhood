@@ -13405,3 +13405,55 @@ code under the family question. A bridge nobody can reach is not a bridge.
 lesson prep row. Both routes existed and were reachable only from the print
 room's list of 23 modules. Five identical inline button styles are now one
 const, which is how the row drifted: adding a link meant pasting the block again.
+
+---
+
+## 11 September 2026 — the answer beat's Continue button, and why the schools UI can be looked at after all
+
+**A wrong first pick unlocked the way past the answer.** The retry shipped that
+morning worked exactly as designed: a wrong first tap says why that option
+fails, keeps the answer hidden, and gives the class one more go. But the
+Continue button woke up on the same tap, read "Continue", and let the class
+leave the slide without ever seeing the right answer. The whole point of the
+retry leaked out the bottom of the slide while every rule above it held.
+
+**The cause is worth keeping.** onAnswered fires on the FIRST tap, because the
+first tap is the one that scores. Until the retry landed that was also the tap
+that ended the question, so `canContinue = !isChoice || answered` was correct.
+The retry split one moment into two and nothing pointed at the button. The
+player now tracks `settled` separately, fired from ChoiceBlock's pick() rather
+than an effect so it cannot lag a frame or fire twice. Going back to an earlier
+slide still settles it, so stepping back never re-locks the way forward.
+
+**The general shape: when a change splits one moment into two, every consumer
+of the old single moment is a suspect.** The pure state machine was right and
+fully tested the whole time. The bug lived in the wiring around it.
+
+**The disabled button says why it is waiting** ("Have another go to continue").
+A disabled control with no reason reads as broken, and on a projector that is a
+teacher tapping a dead button in front of thirty children.
+
+**The schools UI CAN be verified in a container with no Supabase key, and from
+now on it should be.** The blocker was always that every page reads a lesson
+through the admin client. The way through: the app's own layout has no Supabase
+dependency, so a throwaway route fed real slide data (pulled from the database
+through the MCP, not invented) boots on `next dev` with a dummy
+SCHOOLS_ACCESS_CODES and SCHOOLS_ACCESS_SECRET, and the access cookie can be
+minted directly with node crypto rather than driven through /unlock. Playwright
+then drives the real component at 390 and 1440, pupil and projector. The Vercel
+preview is not an option: the container's network policy denies the preview host
+at CONNECT. Chromium is at /opt/pw-browsers/chromium-1194, and the repo's
+Playwright needs executablePath pointed at it.
+
+**Two traps found doing it.** A Next app route folder starting with an
+underscore is a private folder and never becomes a route. And a full page
+screenshot of a `position: fixed` player paints the footer over the content,
+which looks exactly like an overlap bug; hit test with elementFromPoint and a
+real click before believing it.
+
+**Guards added rather than a note.** Three source assertions in
+scripts/answer-beat.test.mjs now fail if the gate goes back to `answered`, if
+the settle signal is dropped, or if the waiting label is lost. All three
+mutation tested. They are source greps rather than behaviour, which is the
+honest trade: the behavioural check needs a browser and a running server, and
+the repo already pays that cost once in check-concern-dots.mjs.
