@@ -13609,3 +13609,106 @@ already teaches hints not answers, Bastani was already in DiGi's knowledge bank
 via migration 263, and content/lesson-scripts/ai-panel-additions.md has held a
 written KS2 lesson since 25 July that was never built. **Run the platform mapper
 FIRST on any sweep that ends in a build, not last.**
+
+---
+
+## 11 September 2026 — what the sources actually say, and the slide that was backwards
+
+Migration 292 shipped ks3-24 with five sources and no verification pass. Four
+adversarial verifiers were then run, one per source cluster, against the primary
+documents. They returned 14 confirmations, 14 corrections and 4 demotions on a
+lesson that was already live. Migration 293 carries every correction.
+
+**The worst one was not a number.** We told teachers, on a slide, that a computer
+reader is barred from the GCSE English Language reading paper. JCQ says the
+opposite by name: "A computer reader will be allowed in papers (or sections of
+papers) testing reading." What is barred there is a HUMAN reader, because a
+person reading aloud adds vocal interpretation and the interpretation is what
+the paper marks. And the bar falls on SECTIONS, not whole papers, with up to 50
+percent extra time granted instead. Two errors in one sentence, in a regulatory
+claim, stated to the one audience that could act on it. A SENCO could have been
+told it.
+
+**The corrected pivot is better than the wrong one and more on thesis.** What
+flips is not the technology, it is whether the help hands over the thing being
+tested. A flat machine voice decodes and supplies no comprehension. A person
+supplies nuance. That is the ramp and swap distinction sharpened, and it is
+still the exam board's own reasoning rather than ours.
+
+**The three headline numbers survived.** Bastani's 48, 127 and 17 are all
+correct, correctly signed and correctly assigned. Every defect there was in
+framing: the trial was cluster randomised across about fifty classes at ONE
+Turkish school with pupils aged roughly 14 to 17, not "Years 10 and 11"; and the
+hints arm came out statistically indistinguishable from control rather than
+ahead of it, with the paper explicitly observing no positive effect. "Came out
+ahead" appeared eight times. Guardrails stopped a loss. They did not buy a gain,
+and we now say so on the slide and in the teacher script.
+
+**The opening hook had the wrong denominator.** The 72 percent who declined AI is
+from Oxford University Press's 704 pupil qualitative strand, not its 3,100 pupil
+survey. The slide claimed three thousand pupils, over four times the real base.
+The task was also a paragraph about AI itself inside a study, which plausibly
+inflates the rate, so the script now names that limit and calls seven in ten a
+ceiling. The 62 percent on skills turned out to belong to a different OUP report
+altogether.
+
+**And the live demo would have failed in front of a class.** The illusion of
+explanatory depth is "far stronger for explanatory knowledge than many other
+kinds of knowledge, such as that for facts, procedures or narratives", and Mills
+and Keil found no illusion for procedures in children at all. Our drill said
+"pick something you learned this week", which mostly yields facts and dates,
+which is exactly where the effect is weak or absent. It now says "that works in
+steps". The script also no longer asserts that most hands go up: the effect is
+Cohen's d of about 0.49, which does not license "most" on a single self chosen
+item, and a pupil whose score holds is not a failed demonstration.
+
+**Nobody in any of this evidence is the age of the class being taught.** The
+trial's youngest were about 14, and the explanatory depth work covers 7 to 10
+and adults. Both results are borrowed from either side of Years 7 and 8. The
+teacher notes now say so and the script says it out loud to the room, which is
+the same habit the lesson is asking pupils to practise.
+
+**Separately, found by rendering the page rather than reading it.** Four
+teacher_notes fields shipped in the wrong SHAPE. subject_knowledge was a plain
+string where the lesson page maps over {heading, body}; evidence_base and
+parent_questions were lists of strings; hard_questions was keyed {a,q} instead
+of {question,answer}. The page guards with `?.length`, and a non empty string has
+a length, so it passed the guard and threw on .map. **The teacher prep page for
+this module had been returning 500 in production since 292 applied**, and no
+check noticed, because the contract checker only asks whether a key is THERE.
+
+**Three guards added, all mutation tested.** check-module-contract now checks the
+shape of those four fields (7 of 7 mutations caught). Its no dashes rule gained
+a /i flag, because the lookbehind was case sensitive and "AI-Native" sailed
+through in a cited title. And a new check-source-claims.mjs pins 33 verified
+claims as sentences we must never say again or must keep saying, each with the
+source that settles it (11 of 11 mutations caught). A correction that lives only
+in a commit message comes back the next time someone rewrites the slide.
+
+**The exit quiz and starter quiz each exist TWICE**, in teacher_notes and in
+assessment. The first correction pass fixed one copy of each and missed the
+other, so "came out ahead" survived in the assessment copy. Both guards now
+assert the copies are identical.
+
+**One thing worth keeping for the next chunked migration.** The applied row was
+digest checked rather than trusted, and the first comparison FAILED while the
+content was fine. Postgres sorts under the database collation, Python sorts by
+codepoint, and the two disagree on the same set of strings. Use `order by s
+collate "C"`. Migration 292 verified itself with the unsafe default and happened
+to pass, which is worse than failing, because it means that check was never
+testing what it claimed to test.
+
+**Verified, not assumed.** All 27 slides rendered in a real browser at 390 and
+1440 via ?slide=N, plus the prep page and the run sheet, with zero console
+errors and no horizontal scroll anywhere. The applied row was digest checked
+against the source file on both slides (247 strings) and teacher notes (149
+strings) and matched exactly. Contract passes, council scores 10/10/10/10, all
+three cycles anchor at 1.00.
+
+**How the schools app gets rendered in this container, improved.** The earlier
+recipe used a throwaway route fed real slide data. Better: swap
+schools/lib/supabase/server-db.ts for a fixture backed stub reading a local JSON
+file, and the REAL routes render real content with no Supabase reachable. That
+is what found the 500. Note /lesson/[module]/run is the printable run sheet and
+/teach/[module] is the projector player, and the player takes ?slide=N, which is
+a far more reliable instrument than walking the deck with clicks.
