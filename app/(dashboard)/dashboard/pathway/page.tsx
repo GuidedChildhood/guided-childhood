@@ -20,6 +20,7 @@ import FiveADayReport from '@/components/pathway/FiveADayReport'
 import { getFiveADayReport } from '@/lib/kid/day-report'
 import WhatIsWorkingLink from '@/components/working/WhatIsWorkingLink'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
+import { readPassportChild } from '@/lib/pathway/passport-child'
 import { isStageStamped } from '@/lib/pathway/stamped'
 import { restingConcernIds, TOP_BAND } from '@/lib/concerns/resting'
 import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
@@ -202,6 +203,22 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const { data: kidLink } = primaryChild?.id
     ? await supabase.from('kid_links').select('token').eq('child_id', primaryChild.id).maybeSingle()
     : { data: null }
+
+  // ── THE CHILD'S OWN NUMBERS, FINALLY ON THE PAGE ───────────────────────────
+  //
+  // lib/pathway/passport-child.ts has computed these since 10 September and
+  // was called from exactly one place: a dev fixture with the numbers hard
+  // coded. So every passport in production showed five rows about what a
+  // GROWN UP had done, on an object with the child's name on the cover, and
+  // the days they had finished in their own app and the stars they were
+  // holding were never drawn.
+  //
+  // Justin, 11 September 2026: "the passport needs to sync that when kids do
+  // their today jobs it adds a star per day." The star is real now, paid by
+  // the approval (lib/quests/day-star); this is where a parent sees it.
+  const childRead = primaryChild?.id
+    ? await readPassportChild(supabase, user.id, primaryChild.id, (primaryChild.age_band as string | null) ?? null)
+    : null
 
   // Show the end of stage check as a family nears the end: content finished,
   // or the blend past three quarters, or the stamp already earned so it can
@@ -457,6 +474,10 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               onApp={!!kidLink?.token}
               // Named, so the catch up line can say which page has things left
               // rather than "this page", which reads as any page.
+              // The real answer to "is this page stamped", which the five rows
+              // cannot give: they carry neither the scripts nor the end of
+              // stage check, and those are two thirds of the gate.
+              stamped={isStageStamped(currentStageProgress, passedStages, stageNum)}
               stageName={currentStageNum && passportStamps.length > 0
                 ? `Stage ${currentStageNum}, ${passportStamps.find(st => st.id === currentStageNum)?.name ?? ''}`.trim().replace(/,$/, '')
                 : null}
@@ -468,6 +489,8 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               childId={primaryChild?.id ?? null}
               catchupLines={catchupLines}
               passportCode={primaryChild?.passport_code ?? null}
+              childRead={childRead}
+              onApp={!!kidLink?.token}
             />
             {socialRoad && socialRoad.total > 0 && primaryChild?.id && (
               <SocialRoadNova

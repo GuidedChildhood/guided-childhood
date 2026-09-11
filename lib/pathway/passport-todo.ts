@@ -201,8 +201,24 @@ export function spokenFor(key: string): string | null {
  * honest version of that is not a nag: it is the count, the one thing to start
  * with, and silence when there is genuinely nothing.
  */
-export function catchUpLine(open: ParentToDo[], stageName: string): string {
-  if (open.length === 0) return `Nothing open on ${stageName}. This page is ready to stamp.`
+export function catchUpLine(open: ParentToDo[], stageName: string, stamped = false): string {
+  // ── THE FIVE ROWS ARE NOT THE STAMP ───────────────────────────────────────
+  //
+  // This said "ready to stamp" the moment the five displayed rows read full,
+  // and the five rows are not what stamps a page. lib/pathway/stamped.ts is:
+  // every lesson for the stage passed, every script for it resolved, and the
+  // end of stage check passed. Scripts and the check are not among the five,
+  // so a family could be told the page was ready while two of the three real
+  // requirements were still open, with the ring above it still reading In
+  // progress. That contradiction is the same one Justin found on the daily
+  // road, and it has the same answer: say the true thing.
+  //
+  // stamped comes from the page, which already knows (isStageStamped).
+  if (open.length === 0) {
+    return stamped
+      ? `${stageName} is stamped. Nothing left to do on this page.`
+      : `Nothing open on ${stageName}. The scripts and the end of stage check are what stamp it.`
+  }
   const first = open[0]
   return open.length === 1
     ? `One thing left on ${stageName}. Start with ${first.label.toLowerCase()}.`

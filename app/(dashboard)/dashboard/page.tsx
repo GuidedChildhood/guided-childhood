@@ -1233,6 +1233,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {(() => {
         const dailyBudget = (profile?.daily_minutes as number | null) ?? 10
         const spent = investedMinutes(todayLoop)
+        // ── DiGi SAYS DONE ONLY WHEN THE ROAD IS DONE (11 September 2026) ──
+        //
+        // This read `spent >= dailyBudget || stepsAllDone`, so a parent who
+        // spent their ten minutes on one long rung was greeted with the day
+        // finished while the road under the greeting still had rungs open.
+        // Justin's rule settles it: one tick keeps the streak, the pathway
+        // earns the celebration, and a greeting that says done is part of the
+        // celebration. The minutes budget goes back to being the invitation
+        // it was always meant to be.
         const stepsAllDone = todayLoop.filter(t => t.key !== 'done').every(t => t.done)
         return (
           <DigiGreeting
@@ -1241,7 +1250,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             stageName={stage.name}
             stageNum={stage.id}
             minutesLeft={Math.max(1, dailyBudget - spent)}
-            dayDone={spent >= dailyBudget || stepsAllDone}
+            dayDone={stepsAllDone}
             streakCount={streak.count}
             aliveToday={streak.aliveToday}
             jobsStatus={jobsStatus}

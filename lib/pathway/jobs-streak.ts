@@ -147,6 +147,70 @@ export function jobsTodayCount(
   return { due: due.length, done: due.filter(q => approved.has(q.id)).length }
 }
 
+// ── THE STAR DAYS, WHICH IS WHAT THE PASSPORT ROW ACTUALLY MEANS ──────────
+//
+// Justin, 11 September 2026: "the passport needs to sync that when kids do
+// their today jobs it adds a star per day."
+//
+// The passport's Jobs row read jobsTodayStatus, which answers a question about
+// TODAY, and the row is drawn with a star and described as judged across the
+// whole stage. Two consequences, both of them wrong on the page:
+//
+//   A weekday only routine meant the row sat solid green all weekend, because
+//   nothing due reads as on track.
+//   A family who joined on Saturday saw a green star before they had set a
+//   single job.
+//
+// This counts DAYS instead. One good day is one star, exactly as the child's
+// ledger now pays it (lib/quests/day-star), so the number on the passport and
+// the stars in the bank are the same fact counted once.
+//
+// `due` is the honest denominator: days that actually asked something. A day
+// with nothing due is neither a pass nor a fail and is left out of both, so a
+// weekday routine is judged on weekdays and a quiet Sunday neither flatters
+// nor punishes.
+export interface JobsDays {
+  /** Days in the window where every job due was done and approved. One star each. */
+  stars: number
+  /** Days in the window that had any job due at all. */
+  due: number
+  /** Whether any recurring job exists to be judged. */
+  anyRoutine: boolean
+}
+
+export function jobsDayStars(
+  quests: StreakQuest[],
+  ticks: StreakTick[],
+  windowDays = 60,
+  today: Date = new Date(),
+): JobsDays {
+  const routines = quests.filter(isRecurring)
+  if (routines.length === 0) return { stars: 0, due: 0, anyRoutine: false }
+  const approved = new Set<string>()
+  for (const t of ticks) {
+    if (t.status === 'approved') approved.add(`${t.tick_date}|${t.quest_id}`)
+  }
+  let stars = 0
+  let due = 0
+  for (let i = 0; i < windowDays; i++) {
+    const d = addDays(today, -i)
+    const day = ymd(d)
+    const dueToday = routines.filter(q => {
+      if (q.created_at && q.created_at.slice(0, 10) > day) return false
+      return questDueToday(q.schedule, q.schedule_days ?? null, d)
+    })
+    if (dueToday.length === 0) continue
+    // Today is still in play, so it counts as a star when finished and is left
+    // out of the denominator when not. A parent looking at the passport at
+    // breakfast should not see the day marked against them.
+    const allDone = dueToday.every(q => approved.has(`${day}|${q.id}`))
+    if (allDone) { stars++; due++; continue }
+    if (i === 0) continue
+    due++
+  }
+  return { stars, due, anyRoutine: true }
+}
+
 // ── Server side: record a completed milestone ──
 // Called right after a parent confirms a job. Works out the strict streak and,
 // when today has just landed a fresh multiple of five good days, records the

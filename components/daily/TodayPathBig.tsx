@@ -109,20 +109,34 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   const steps = tasks.filter(t => t.key !== 'done')
   const doneCount = steps.filter(t => t.done).length
   const investedMinutes = steps.filter(t => t.done).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
-  // ── ONE TICK MAKES THE DAY ─────────────────────────────────────────────────
+  // ── ONE TICK KEEPS THE STREAK, THE PATHWAY EARNS THE CELEBRATION ──────────
   //
   // Justin, 1 September 2026: "only have to click one tick per day but have
   // other recommended." The engine marks exactly one rung as the lead
-  // (lib/pathway/daily-tasks.ts) and that rung alone completes the day; the
-  // minutes budget stays as the invitation to do more, never the gate. Roads
-  // built before the rotation carry no lead flag and keep the old reading.
+  // (lib/pathway/daily-tasks.ts), and landing it is what keeps the flame lit.
+  //
+  // Justin, 11 September 2026, after a morning where he answered the check in
+  // and was told the day was finished: "lets go with one tick keeps the
+  // streak, the pathway earns the celebration."
+  //
+  // So one flag became two, and the difference is the whole point:
+  //
+  //   streakDone  the lead rung landed. Today counts. Quiet: the road stays
+  //               open, because there is still road.
+  //   pathDone    every rung is green. THAT is a finished day, and it is the
+  //               only thing that folds the card away, says "Today is made",
+  //               runs the close flow, or puts a tick by the child's name.
+  //
+  // Roads built before the rotation carry no lead flag, so they fall back to
+  // the old reading for the streak half and are unaffected by the rest.
   const lead = steps.find(t => t.lead)
-  const dayDone = lead
+  const streakDone = lead
     ? lead.done
     : investedMinutes >= minutes || (steps.length > 0 && doneCount === steps.length)
+  const pathDone = steps.length > 0 && doneCount === steps.length
   const toBudgetMin = Math.max(0, minutes - investedMinutes)
   const nextWeight = TASK_MINUTES[tasks[currentIndex].key] ?? 0
-  const pressure = !dayDone && !allDone
+  const pressure = !pathDone && !allDone
   // Hang the Friend off a row that leans LEFT, so a coin at the right edge can
   // never touch a node that has already meandered that way.
   //
@@ -143,13 +157,18 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     }).catch(() => { /* the choice still holds for this view */ })
   }
 
-  // The recorded day. When the lead rung lands, the day is done and the
+  // The recorded day. When the lead rung lands, the day COUNTS and the
   // rotation may advance tomorrow, so it is written down: once, per child,
   // per day, idempotent on the server too. The moments deck records its own
   // finishes; this catches the days that complete on a lesson, a check in, a
   // DiGi question or a passport look.
+  //
+  // It no longer opens the close flow. That moved to the second post below,
+  // and the split is Justin's rule: the streak is kept by one tick, the
+  // celebration is earned by the whole road.
   const leadDone = !!lead?.done
   const leadKey = lead?.key
+  const focusOf = (k?: string) => k === 'lesson' ? 'lesson' : k === 'digi' ? 'digi' : k === 'passport' ? 'passport' : 'connect'
   // The day's close: recorded, then walked through. The response carries what
   // the close screen says (tomorrow's focus, the balance guide for the age),
   // and the localStorage guard is what makes the flow a once a day moment
@@ -160,17 +179,42 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     const day = new Date().toDateString()
     const storageKey = `gc_daydone_${childId ?? 'family'}`
     try { if (localStorage.getItem(storageKey) === day) return } catch { /* still post; the server is idempotent */ }
-    const focus = leadKey === 'lesson' ? 'lesson' : leadKey === 'digi' ? 'digi' : leadKey === 'passport' ? 'passport' : 'connect'
     fetch('/api/daily/day-done', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ child_id: childId ?? undefined, focus }),
+      body: JSON.stringify({ child_id: childId ?? undefined, focus: focusOf(leadKey) }),
+    }).then(() => {
+      try { localStorage.setItem(storageKey, day) } catch { /* fine, the server dedupes */ }
+    }).catch(() => { /* the next open retries */ })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leadDone, leadKey, childId])
+
+  // ── THE FINISHED DAY ───────────────────────────────────────────────────────
+  //
+  // Every rung green. This is the post that stamps all_done_at (migration 287),
+  // which is what puts the green tick by this child's name on the rail, and it
+  // is the only thing that opens the close flow.
+  //
+  // Its own storage key, because the two facts happen on different days for
+  // the same family: a parent can land the one tick on Monday and never finish
+  // the road, then walk the whole thing on Tuesday. One key would have let
+  // Monday's write suppress Tuesday's.
+  useEffect(() => {
+    if (!pathDone) return
+    const day = new Date().toDateString()
+    const storageKey = `gc_pathdone_${childId ?? 'family'}`
+    try { if (localStorage.getItem(storageKey) === day) return } catch { /* still post; the server is idempotent */ }
+    fetch('/api/daily/day-done', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ child_id: childId ?? undefined, focus: focusOf(leadKey), all_done: true }),
     }).then(async r => {
       try { localStorage.setItem(storageKey, day) } catch { /* fine, the server dedupes */ }
       const facts = await r.json().catch(() => null)
       setCloseFacts(facts ?? {})
     }).catch(() => { /* the next open retries */ })
-  }, [leadDone, leadKey, childId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathDone, leadKey, childId])
 
   useEffect(() => {
     const el = pathRef.current
@@ -247,7 +291,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     />
   )
 
-  if (dayDone && !openAnyway) {
+  if (pathDone && !openAnyway) {
     return (
       <>
       {closeFlow}
@@ -333,26 +377,36 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
               stop goes green, and with two children whose it is matters more
               than what day it is. So it is named as one: the child's path.
               "Today" stays in the eyebrow, where the day belongs. */}
-          {dayDone ? `${kid}'s path, done` : `${kid}'s path today`}
+          {pathDone ? `${kid}'s path, done` : `${kid}'s path today`}
         </h2>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
           {/* The promise names the ONE tick. A parent should know from this
               line alone what makes today count, and that the rest is theirs
               to take or leave. */}
-          {dayDone
+          {/* ── THREE STATES, NOT TWO (11 September 2026) ─────────────────
+              Justin's rule: one tick keeps the streak, the pathway earns the
+              celebration. That needs a middle line, and it is the one that
+              was missing. A parent who has landed the one tick used to be
+              told "Today is made" with four rungs still open behind the
+              words, which is why he asked why it said done when it was not.
+              Now the tick is acknowledged, plainly, and the road stays
+              open. */}
+          {pathDone
             ? 'Today is made. Anything more is yours to take.'
-            : lead
-              ? `One tick makes today: ${lead.label.toLowerCase()}. The rest is extra, not homework.`
-              : 'Understand one moment, and walk away with the exact words for it.'}
+            : streakDone
+              ? `Today counts, your streak is safe. ${steps.length - doneCount} left if you have the time.`
+              : lead
+                ? `One tick makes today count: ${lead.label.toLowerCase()}. The rest is extra, not homework.`
+                : 'Understand one moment, and walk away with the exact words for it.'}
         </p>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          {dayDone ? 'Today' : 'Today · do this next'}
+          {pathDone ? 'Today' : streakDone ? 'Today counts · more if you want it' : 'Today · do this next'}
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {dayDone ? 'All done ✓' : `${investedMinutes} of ${minutes} min`}
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: pathDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+          {pathDone ? 'All done ✓' : `${investedMinutes} of ${minutes} min`}
         </span>
       </div>
 
