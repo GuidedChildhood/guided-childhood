@@ -43,6 +43,9 @@ type TeacherNotes = {
   // /print/[module]/exit-quiz, so a module without a bank offers no button.
   starter_quiz?: unknown[]
   exit_quiz?: unknown[]
+  // Presence only again: the pupil booklet is built from these, and a module
+  // without them would hand out a booklet with no casework in it.
+  worksheet_items?: unknown[]
   differentiation?: { support?: string; stretch?: string }
   // The graduated approach, per module: SEND and EAL adaptations written
   // from the module's own activities, never a generic checklist.
@@ -114,6 +117,16 @@ const body: React.CSSProperties = {
 const card: React.CSSProperties = {
   background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
   padding: '22px 24px', boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
+}
+// Every secondary button in the prep row. It was five identical inline copies,
+// which is how the row quietly drifted: the two routes that existed in the
+// print room and nowhere else were never added here because adding one meant
+// pasting the block again.
+const prepBtn: React.CSSProperties = {
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+  padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+  color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+  boxShadow: '0 5px 0 var(--border)',
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
@@ -206,31 +219,16 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>
             Teach this lesson
           </Link>
-          <Link href={`/print/${lesson.module_id}`} className="btn" style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-            padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
-            color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
-            boxShadow: '0 5px 0 var(--border)',
-          }}>
+          <Link href={`/print/${lesson.module_id}`} className="btn" style={prepBtn}>
             Print the pack
           </Link>
-          <Link href={`/lesson/${lesson.module_id}/run`} className="btn" style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-            padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
-            color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
-            boxShadow: '0 5px 0 var(--border)',
-          }}>
+          <Link href={`/lesson/${lesson.module_id}/run`} className="btn" style={prepBtn}>
             Walk me through it
           </Link>
           {/* Only offered where the three statements have been written, so a
               module that is not ready cannot hand out a blank sheet. */}
           {(notes.i_can?.length ?? 0) > 0 && (
-            <Link href={`/print/${lesson.module_id}/record`} className="btn" style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
-              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
-              boxShadow: '0 5px 0 var(--border)',
-            }}>
+            <Link href={`/print/${lesson.module_id}/record`} className="btn" style={prepBtn}>
               Print the learning record
             </Link>
           )}
@@ -238,25 +236,26 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               one opens on its question version with the answer version one
               tap away (migration 269). */}
           {(notes.starter_quiz?.length ?? 0) > 0 && (
-            <Link href={`/print/${lesson.module_id}/starter-quiz`} className="btn" style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
-              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
-              boxShadow: '0 5px 0 var(--border)',
-            }}>
+            <Link href={`/print/${lesson.module_id}/starter-quiz`} className="btn" style={prepBtn}>
               Starter quiz
             </Link>
           )}
           {(notes.exit_quiz?.length ?? 0) > 0 && (
-            <Link href={`/print/${lesson.module_id}/exit-quiz`} className="btn" style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
-              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
-              boxShadow: '0 5px 0 var(--border)',
-            }}>
+            <Link href={`/print/${lesson.module_id}/exit-quiz`} className="btn" style={prepBtn}>
               Exit quiz
             </Link>
           )}
+          {/* The two that existed in the print room and were reachable from
+              nowhere else. A teacher preparing this lesson is exactly who
+              wants them, and /print is a list of 23 modules to hunt through. */}
+          {(notes.worksheet_items?.length ?? 0) > 0 && (
+            <Link href={`/print/${lesson.module_id}/booklet`} className="btn" style={prepBtn}>
+              Pupil booklet
+            </Link>
+          )}
+          <Link href={`/print/${lesson.module_id}/organiser`} className="btn" style={prepBtn}>
+            Knowledge organiser
+          </Link>
         </div>
         <p style={{ ...mono, marginBottom: '30px' }}>
           {totalMinutes} minutes · {slides.length} slides

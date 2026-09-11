@@ -13342,3 +13342,118 @@ claims.
 passport has five stages. The described field says "a row of stamps" rather than
 a number, nobody in a classroom counts them, and a re render costs 108 credits to
 fix something no child will notice.
+
+## 11 September 2026: the answer beat, and a bridge I said was missing that was already there
+
+**The answer beat was ending the thinking.** A tap locked the slide and lit the
+correct answer at once, so a class that guessed wrong saw the answer before
+anybody reconsidered, and a class that guessed right never heard why the other
+two failed.
+
+**Now a wrong first pick says why that one fails and nothing else.** The answer
+stays hidden, the other options stay live, one more go. On a projector that
+retry is thirty children arguing before the teacher taps again, which is the
+part that teaches. The second pick settles it either way, and settling always
+reveals the right answer with its reasoning, found or not.
+
+**Scoring is the first attempt only.** onAnswered fires once. A retry is for
+learning, not for marking, and scoring it would turn every second go into a free
+mark.
+
+**A true or false slide gets no retry**, because with one option left "try
+again" is a forced tap that hands over the answer by elimination.
+
+**The state machine is pure and tested**, answerBeat() in shared/lesson-slides.ts
+with scripts/answer-beat.test.mjs in CI beside the governance tests. Mutation
+tested against five regressions including the old settle on first pick behaviour
+and revealing the answer mid retry. The rule worth protecting most is that a
+wrong first pick must not reveal the answer: everything else about the design
+follows from that one.
+
+**Green and amber from the real tokens**, retro-green and tint-amber, rather than
+the butter accent that used to carry both states.
+
+## THE CORRECTION, and it is mine
+
+**I told Justin the school to home passport bridge did not exist.** I said the
+philosophy page claim, "lessons in class earn credit toward the same passport to
+sixteen a family follows in the parents app", had no proof path in the product.
+
+**That was wrong. The bridge was built in August, by migration 230, and it is
+wired end to end.** A static HOME-XXXX code per module, all 23 present, printed
+on the pack, redeemed at /api/school-code through components/lessons/SchoolCodeCard.tsx,
+writing a lesson_completions row with lesson_source 'school_lesson', the slot
+migration 023 held open. It deliberately does not move a stage stamp, because a
+school module is credit rather than a stage lesson, and the route says so in its
+own comment.
+
+**Why I got it wrong, which is the part worth keeping.** I looked for a join
+between schools.pupils and public.stage_passports, found none, and concluded
+there was no sync. But the design deliberately has no such join: the code IS the
+bridge, precisely so the schools app never holds a pupil record and a school can
+start on Monday with no data protection conversation. The absence I found was
+the design working, and I read it as a hole. The lesson is to search for the
+mechanism the product would plausibly use before concluding from a missing
+foreign key.
+
+**One real gap did fall out of the audit.** The home code printed on the
+teacher's pack and nowhere else, and the pack is the sheet that stays on a desk.
+The pupil booklet is the one that goes home in a bag, and it now carries the
+code under the family question. A bridge nobody can reach is not a bridge.
+
+**Also shipped:** the pupil booklet and the knowledge organiser now appear in the
+lesson prep row. Both routes existed and were reachable only from the print
+room's list of 23 modules. Five identical inline button styles are now one
+const, which is how the row drifted: adding a link meant pasting the block again.
+
+---
+
+## 11 September 2026 — the answer beat's Continue button, and why the schools UI can be looked at after all
+
+**A wrong first pick unlocked the way past the answer.** The retry shipped that
+morning worked exactly as designed: a wrong first tap says why that option
+fails, keeps the answer hidden, and gives the class one more go. But the
+Continue button woke up on the same tap, read "Continue", and let the class
+leave the slide without ever seeing the right answer. The whole point of the
+retry leaked out the bottom of the slide while every rule above it held.
+
+**The cause is worth keeping.** onAnswered fires on the FIRST tap, because the
+first tap is the one that scores. Until the retry landed that was also the tap
+that ended the question, so `canContinue = !isChoice || answered` was correct.
+The retry split one moment into two and nothing pointed at the button. The
+player now tracks `settled` separately, fired from ChoiceBlock's pick() rather
+than an effect so it cannot lag a frame or fire twice. Going back to an earlier
+slide still settles it, so stepping back never re-locks the way forward.
+
+**The general shape: when a change splits one moment into two, every consumer
+of the old single moment is a suspect.** The pure state machine was right and
+fully tested the whole time. The bug lived in the wiring around it.
+
+**The disabled button says why it is waiting** ("Have another go to continue").
+A disabled control with no reason reads as broken, and on a projector that is a
+teacher tapping a dead button in front of thirty children.
+
+**The schools UI CAN be verified in a container with no Supabase key, and from
+now on it should be.** The blocker was always that every page reads a lesson
+through the admin client. The way through: the app's own layout has no Supabase
+dependency, so a throwaway route fed real slide data (pulled from the database
+through the MCP, not invented) boots on `next dev` with a dummy
+SCHOOLS_ACCESS_CODES and SCHOOLS_ACCESS_SECRET, and the access cookie can be
+minted directly with node crypto rather than driven through /unlock. Playwright
+then drives the real component at 390 and 1440, pupil and projector. The Vercel
+preview is not an option: the container's network policy denies the preview host
+at CONNECT. Chromium is at /opt/pw-browsers/chromium-1194, and the repo's
+Playwright needs executablePath pointed at it.
+
+**Two traps found doing it.** A Next app route folder starting with an
+underscore is a private folder and never becomes a route. And a full page
+screenshot of a `position: fixed` player paints the footer over the content,
+which looks exactly like an overlap bug; hit test with elementFromPoint and a
+real click before believing it.
+
+**Guards added rather than a note.** Three source assertions in
+scripts/answer-beat.test.mjs now fail if the gate goes back to `answered`, if
+the settle signal is dropped, or if the waiting label is lost. All three
+mutation tested. They are source greps rather than behaviour, which is the
+honest trade: the behavioural check needs a browser and a running server, and
+the repo already pays that cost once in check-concern-dots.mjs.

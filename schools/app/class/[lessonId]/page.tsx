@@ -19,7 +19,7 @@ export default async function ClassLessonPage({ params }: { params: Promise<{ le
 
   const { data: lesson } = await supabase
     .from('school_lessons')
-    .select('id, title, slides')
+    .select('id, title, slides, teacher_notes')
     .eq('id', lessonId)
     .maybeSingle()
   if (!lesson) notFound()
@@ -41,6 +41,7 @@ export default async function ClassLessonPage({ params }: { params: Promise<{ le
       completeEndpoint={null}
       classMode
       classCtaHref="/curriculum"
+      tool={lesson.teacher_notes?.tool}
     />
   )
 }

@@ -28,7 +28,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
 
   const { data: lesson } = await supabase
     .from('school_lessons')
-    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note')
+    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, home_code')
     .eq('module_id', moduleId)
     .maybeSingle()
   if (!lesson) notFound()
@@ -38,6 +38,11 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   const quote = slides.find(s => s.type === 'quote') as { text: string; label?: string } | undefined
   const items = ((lesson.teacher_notes ?? {}) as TeacherNotes).worksheet_items ?? []
   const familyQuestion = ((lesson.parent_note ?? {}) as ParentNote).family_question
+  // The home code (migration 230). It printed on the teacher's pack and
+  // nowhere else, and the pack is the sheet that stays on a desk. THIS is the
+  // one that goes home in a bag, which makes it the one the code belongs on:
+  // a bridge nobody can reach is not a bridge.
+  const homeCode = (lesson as { home_code?: string | null }).home_code ?? null
   const characterName = (lesson.character_cast ?? 'DiGi').split(' ')[0]
 
   return (
@@ -114,6 +119,15 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
           <div style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px' }}>
             <div style={{ ...mono, color: 'var(--ink-muted)', marginBottom: '8px' }}>Ask at home tonight</div>
             <p style={{ ...body, fontWeight: 700 }}>{familyQuestion}</p>
+          </div>
+        )}
+        {homeCode && (
+          <div style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginTop: '16px' }}>
+            <div style={{ ...mono, color: 'var(--gold-dark)', marginBottom: '8px' }}>For a grown up</div>
+            <p style={{ ...body }}>
+              On the Guided Childhood app at home? Enter <strong style={{ letterSpacing: '0.08em' }}>{homeCode}</strong> on
+              the Lessons page and this lesson goes onto your child&rsquo;s record.
+            </p>
           </div>
         )}
         <p style={{ textAlign: 'center', marginTop: '32px' }}><span style={star(40)}>⭐</span></p>

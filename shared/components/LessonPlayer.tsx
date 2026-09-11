@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -86,28 +86,113 @@ function optionOrder(count: number, seed: number): number[] {
 
 const freshSalt = () => Math.floor(Math.random() * 2147483646) + 1
 
+// THE TOOL, ON THE SLIDE THAT NEEDS IT.
+//
+// Every module carries one tool in teacher_notes: the three checks, the friend
+// check, the shield. It is on the overview page, the poster and the organiser,
+// and it was never inside the player. That is how ks3-12 came to ask "which
+// check does that feeling trigger?" with options reading "Check three" and
+// "Check one only" while the checks themselves sat nine slides back, off
+// screen. A class that cannot see the list is being asked to remember it,
+// which is not the thinking the question is for.
+//
+// Quiet on purpose. The question is the loudest thing on the wall and this
+// sits under it as a reference line, numbered so an option saying "check one"
+// has something to point at. Off by default and opted into per slide, because
+// a strip on every choice slide is wallpaper by the third one.
+function ToolStrip({ tool, projector }: { tool: LessonTool; projector?: boolean }) {
+  return (
+    <div data-reveal style={{
+      maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '28px', '20px')}`,
+      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+      padding: room(projector, '16px 20px', '12px 16px'),
+    }}>
+      <div style={{
+        ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '8px',
+        fontSize: room(projector, WALL.aside, 'var(--text-xs)'),
+      }}>
+        {tool.heading ?? 'Your tool'}
+      </div>
+      <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        {tool.lines.map((line, i) => (
+          <li key={i} style={{
+            fontSize: room(projector, WALL.body, 'var(--text-base)'),
+            color: 'var(--ink)', lineHeight: 1.5, display: 'flex', gap: '10px',
+          }}>
+            <span style={{ color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', fontWeight: 700, flexShrink: 0 }}>{i + 1}</span>
+            <span>{line}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+// THE ANSWER BEAT: RIGHT, WRONG, AND THE SECOND GO IN BETWEEN.
+//
+// It used to lock on the first tap and light the correct answer immediately,
+// which quietly ended the thinking. A class that guessed wrong saw the answer
+// before anybody had to reconsider, and a class that guessed right never heard
+// why the other two failed.
+//
+// So: a wrong first pick says why THAT one fails and nothing else. The answer
+// stays hidden, the other options stay live, and the class gets one more go.
+// This is the bit that teaches on a projector, because the retry is thirty
+// children arguing before the teacher taps again.
+//
+// The second pick settles it either way, and settling ALWAYS reveals the
+// correct option with its reasoning, whether they found it or not. Nobody
+// leaves the slide without hearing the why.
+//
+// SCORING USES THE FIRST ATTEMPT ONLY. onAnswered fires once, on the first
+// tap, because that is the honest measure of what the class knew. A retry is
+// for learning, not for marking.
+//
+// Green for right and amber for wrong, from the real tokens rather than the
+// butter accent that used to carry both. Nothing auto advances: the teacher
+// moves on, always.
 function ChoiceBlock({
   slide,
   onAnswered,
+  onSettled,
   projector = false,
   seed = 0,
+  tool,
 }: {
   slide: ChoiceSlide
   onAnswered: (correct: boolean, chosen: string) => void
+  // Fired once, the moment the slide settles. The player gates Continue on
+  // THIS rather than on onAnswered, because a wrong first pick answers the
+  // slide without settling it, and letting the class move on there would
+  // walk them past the right answer they were about to be shown.
+  onSettled?: () => void
   projector?: boolean
   seed?: number
+  tool?: LessonTool
 }) {
-  const [picked, setPicked] = useState<number | null>(null)
+  // Picked indices in the order they were tapped. One wrong entry means the
+  // retry is live; two entries, or one correct entry, means settled.
+  const [tries, setTries] = useState<number[]>([])
   // Fixed for the life of this slide's mount, so a later salt change can
   // never move an answer out from under a pick.
   const [order] = useState(() => optionOrder(slide.options.length, seed))
   const rootRef = useRef<HTMLDivElement>(null)
 
+  const optionAt = (i: number) => slide.options[order[i]]
+  // The display index of the right answer, after the shuffle.
+  const correctIndex = order.findIndex(oi => slide.options[oi].correct)
+  const { settled, retrying, states } = answerBeat(correctIndex, order.length, tries)
+
   const pick = (i: number) => {
-    if (picked !== null) return
-    const opt = slide.options[order[i]]
-    setPicked(i)
-    onAnswered(opt.correct, opt.text)
+    if (settled || tries.includes(i)) return
+    const opt = optionAt(i)
+    // The first tap is the one that counts. A second tap after a wrong guess
+    // is the class thinking again, which is the point, and scoring it would
+    // turn every retry into a free mark.
+    if (tries.length === 0) onAnswered(opt.correct, opt.text)
+    const next = [...tries, i]
+    setTries(next)
+    if (answerBeat(correctIndex, order.length, next).settled) onSettled?.()
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
     if (el && !prefersReducedMotion()) {
@@ -131,48 +216,78 @@ function ChoiceBlock({
       }}>
         {slide.question}
       </h2>
+
+      {slide.toolStrip && tool?.lines?.length ? <ToolStrip tool={tool} projector={projector} /> : null}
+
+      {/* The invitation to think again, said plainly and warmly. It sits above
+          the options because that is where a room is already looking. */}
+      {retrying && (
+        <div style={{
+          maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '20px', '14px')}`,
+          background: 'var(--tint-amber)', borderRadius: '14px',
+          padding: room(projector, '14px 20px', '11px 16px'), textAlign: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--stage-1-text)',
+        }}>
+          Not that one. Have another think, then try again.
+        </div>
+      )}
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: room(projector, '18px', '12px'), maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
         {order.map((optIndex, i) => {
           const opt = slide.options[optIndex]
-          const isPicked = picked === i
-          const revealed = picked !== null
-          const showRight = revealed && opt.correct
-          const border = isPicked
-            ? opt.correct ? '2.5px solid var(--terracotta-dark)' : '2.5px solid var(--ink-muted)'
-            : showRight ? '2.5px solid var(--terracotta-dark)' : '2px solid var(--border)'
-          const bg = isPicked
-            ? opt.correct ? 'var(--terracotta-lt)' : 'var(--cream)'
-            : showRight ? 'var(--terracotta-lt)' : '#fff'
-          const shadow = revealed
-            ? isPicked || showRight ? '0 3px 0 var(--border)' : 'none'
+          const isTried = tries.includes(i)
+          // The right answer shows itself only once the slide has settled, so
+          // a wrong first pick does not hand the class the answer.
+          const showRight = states[i] === 'right'
+          const showWrong = states[i] === 'wrong'
+          const dead = states[i] === 'dead'
+
+          const border = showRight ? '2.5px solid var(--retro-green-dark)'
+            : showWrong ? '2.5px solid var(--stage-1-text)'
+            : '2px solid var(--border)'
+          const bg = showRight ? 'var(--tint-green)'
+            : showWrong ? 'var(--tint-amber)'
+            : '#fff'
+          const shadow = showRight || showWrong ? '0 3px 0 var(--border)'
+            : dead ? 'none'
             : '0 5px 0 var(--border)'
+
+          // Feedback appears on anything the class tapped, and on the right
+          // answer once settled, so the why is always heard.
+          const feedback = showWrong || showRight
+
           return (
             <button
               key={i}
               data-choice-opt={i}
               data-reveal
               onClick={() => pick(i)}
-              disabled={revealed}
+              disabled={settled || isTried}
               style={{
                 textAlign: 'left', background: bg, border, borderRadius: '18px',
                 padding: room(projector, '26px 32px', '17px 20px'),
-                cursor: revealed ? 'default' : 'pointer',
+                cursor: settled || isTried ? 'default' : 'pointer',
                 fontFamily: 'var(--font-display)',
                 fontSize: room(projector, WALL.body, '16px'), fontWeight: 800,
                 color: 'var(--ink)', lineHeight: 1.45,
+                opacity: dead ? 0.55 : 1,
                 boxShadow: shadow,
-                transform: revealed && (isPicked || showRight) ? 'translateY(2px)' : 'none',
-                transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s',
+                transform: showRight || showWrong ? 'translateY(2px)' : 'none',
+                transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s',
               }}
             >
               {opt.text}
-              {isPicked && (
+              {feedback && (
                 <span style={{
                   display: 'block', marginTop: '10px',
                   fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, '14px'),
                   fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55,
                 }}>
-                  {opt.correct ? '✓ ' : ''}{opt.feedback}
+                  <strong style={{ color: showRight ? 'var(--retro-green-dark)' : 'var(--stage-1-text)' }}>
+                    {showRight ? '✓ ' : '✕ '}
+                  </strong>
+                  {opt.feedback}
                 </span>
               )}
             </button>
@@ -572,12 +687,14 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, projector, seed,
+  slide, onAnswered, onSettled, projector, seed, tool,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
+  onSettled?: () => void
   projector?: boolean
   seed?: number
+  tool?: LessonTool
 }) {
   switch (slide.type) {
     case 'title':
@@ -674,7 +791,7 @@ function SlideBody({
         </div>
       )
     case 'choice':
-      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} seed={seed} />
+      return <ChoiceBlock slide={slide} onAnswered={onAnswered} onSettled={onSettled} projector={projector} seed={seed} tool={tool} />
     case 'discussion':
       return <DiscussionBlock slide={slide} projector={projector} />
     case 'stat':
@@ -746,6 +863,7 @@ export default function LessonPlayer({
   classCtaHref,
   initialIndex = 0,
   cycles,
+  tool,
   projector: projectorProp,
 }: {
   lessonId: string
@@ -767,6 +885,11 @@ export default function LessonPlayer({
   completeBody?: Record<string, unknown>
   // Key Stage and Education for a Connected World chips on the intro slide.
   badges?: CurriculumBadges
+  // The module's one tool, from teacher_notes.tool. Shown under the question
+  // on any choice slide that sets toolStrip, so options naming "check one"
+  // have the list to point at. Absent on the parent app lessons, which carry
+  // no teacher notes, and the strip simply does not render.
+  tool?: LessonTool
   // A block shown on the first slide only, under the header, INSIDE the
   // player. Added 10 September 2026 for the reading ahead notice on the
   // parent app: a lesson above this child's stage has to say so, and it
@@ -803,6 +926,10 @@ export default function LessonPlayer({
   const projector = projectorProp ?? classMode
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
   const [answered, setAnswered] = useState(false)
+  // Answered and settled were the same instant until the retry landed: the
+  // first tap ended the question. Now a wrong first pick answers the slide
+  // and leaves it live, so Continue has to wait for the settle instead.
+  const [settled, setSettled] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
   const [finished, setFinished] = useState(false)
   // A pass on the child link can open a planet on their star system (Planet
@@ -830,7 +957,7 @@ export default function LessonPlayer({
   const slide = slides[index]
   const isChoice = slide?.type === 'choice'
   const isLast = index === slides.length - 1
-  const canContinue = !isChoice || answered
+  const canContinue = !isChoice || settled
   const hasScripts = teacherView && slides.some(s => s.script)
 
   // The end of lesson check: every choice slide counts towards the score and
@@ -937,6 +1064,7 @@ export default function LessonPlayer({
       return
     }
     setAnswered(false)
+    setSettled(false)
     setIndex(i => i + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLast, passed, completeEndpoint, lessonId, lessonSource, choiceCount, completeBody])
@@ -945,6 +1073,9 @@ export default function LessonPlayer({
     if (index === 0) return
     dirRef.current = -1
     setAnswered(true)
+    // A slide already behind us is settled by definition, so stepping back
+    // never re-locks the way forward.
+    setSettled(true)
     setIndex(i => i - 1)
   }, [index])
 
@@ -978,6 +1109,7 @@ export default function LessonPlayer({
     setRunSalt(freshSalt())
     dirRef.current = 1
     setAnswered(false)
+    setSettled(false)
     setFinished(false)
     setIndex(0)
     setDigiMood('idle')
@@ -992,6 +1124,7 @@ export default function LessonPlayer({
     const firstWrong = slides.findIndex((s, i) => s.type === 'choice' && answersRef.current[i] === false)
     dirRef.current = -1
     setAnswered(false)
+    setSettled(false)
     setFinished(false)
     setIndex(firstWrong > 0 ? firstWrong - 1 : 0)
     setDigiMood('idle')
@@ -1291,7 +1424,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} seed={runSalt + index * 101} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} />
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 
@@ -1343,7 +1476,10 @@ export default function LessonPlayer({
             // projector it fades to 0.75 (5.2:1) and still reads as waiting.
             style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : projector ? 0.75 : 0.45 }}
           >
-            {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
+            {isLast ? 'Finish lesson'
+              : isChoice && !answered ? 'Pick an answer to continue'
+              : isChoice && !settled ? 'Have another go to continue'
+              : 'Continue'}
           </button>
         </div>
       </>
