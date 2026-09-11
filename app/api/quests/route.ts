@@ -2,6 +2,8 @@ import { BEST_JOBS } from '@/lib/quests/best-jobs'
 import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { createClient } from '@/lib/supabase/server'
+import { bandForAge } from '@/lib/children/age'
+import { ONBOARDING_TO_SLUG } from '@/lib/concerns/worry-map'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getHolidayBanks } from '@/lib/quests/holiday-bank'
@@ -145,11 +147,32 @@ export async function POST(req: NextRequest) {
 
   // Add a child directly from the quest manager: no trip back through
   // onboarding, and the door to multi child families.
-  if (body.action === 'child' && body.name && body.age_band) {
+  if (body.action === 'child' && body.name && (body.age_band || body.date_of_birth)) {
     const AGE_TO_STAGE: Record<string, string> = {
       '4-7': 'foundation', '8-10': 'builder', '11-13': 'explorer', '13-15': 'shaper', '16+': 'independent',
     }
-    const stageId = AGE_TO_STAGE[body.age_band]
+    // ── THE BIRTHDAY DECIDES THE BAND, NOT THE OTHER WAY ROUND ─────────────
+    //
+    // Justin, 11 September 2026: "when we add other child it asks for age and
+    // at the start up we ask for birth year, is it better these forms match?
+    // ... second child needs to age up".
+    //
+    // It was not just inconsistent, it was a child who never got older. This
+    // endpoint took an age BAND and stored no birthday, so bandForAge had
+    // nothing to read and the child stayed on the band their parent picked for
+    // ever. The first child, added through the starter pack, grew. Every one
+    // after them did not, on a product whose whole promise is a pathway from 4
+    // to 16.
+    //
+    // A birthday is accepted now and the band is DERIVED from it, so the two
+    // can never drift apart. age_band alone is still honoured because older
+    // clients and the onboarding wizard still send it, and refusing them would
+    // break adding a child to fix how adding a child works.
+    const dob = typeof body.date_of_birth === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.date_of_birth)
+      ? body.date_of_birth
+      : null
+    const band = (dob ? bandForAge(dob) : null) ?? body.age_band
+    const stageId = AGE_TO_STAGE[band]
     if (!stageId) return NextResponse.json({ error: 'bad age band' }, { status: 400 })
     const { count } = await supabase
       .from('children').select('id', { count: 'exact', head: true }).eq('parent_id', user.id)
@@ -157,11 +180,12 @@ export async function POST(req: NextRequest) {
     // (Foundation and Builder) defaults to parent led, no child device, because
     // that is the stance: we do not put a phone in a young child's hand. Their
     // own app is a deliberate choice for an older child who already has a device.
-    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (['4-7', '8-10'].includes(body.age_band) ? 'coview' : 'own')
+    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (['4-7', '8-10'].includes(band) ? 'coview' : 'own')
     const { data, error } = await supabase.from('children').insert({
       parent_id: user.id,
       name: String(body.name).slice(0, 60),
-      age_band: body.age_band,
+      age_band: band,
+      date_of_birth: dob,
       stage_id: stageId,
       is_primary: (count ?? 0) === 0,
       use_mode: useMode,
@@ -179,8 +203,25 @@ export async function POST(req: NextRequest) {
     // Fire and forget. A child who is added is added; a baseline that failed to
     // seed is a check in with one fewer row on it, and must never be the reason
     // the parent sees an error after typing a name.
+    //
+    // AND THE WORRIES THE PARENT NAMED FOR THIS CHILD (11 September 2026).
+    // Justin: "maybe we should just have the questionaire for second child to
+    // see what issues they have". The add form asks now, so the answers come
+    // through here and become this child's first check in. Nothing named still
+    // falls back to the stock openers, because a child added in a hurry needs
+    // something to be asked about tomorrow.
+    // The form sends the tile ids it showed; the id to slug table stays here so
+    // there is one copy of it, the same one the wizard and the starter pack
+    // read. An id we do not know is dropped rather than stored, because an
+    // unmapped slug is a concern row nothing in the product has content for.
+    const worries = Array.isArray(body.worries)
+      ? (body.worries as unknown[])
+          .map(w => ONBOARDING_TO_SLUG[String(w)] ?? null)
+          .filter((x): x is string => !!x)
+          .slice(0, 3)
+      : undefined
     if (data?.id) {
-      await seedChildBaseline(supabase, user.id, data.id as string)
+      await seedChildBaseline(supabase, user.id, data.id as string, worries)
         .catch(() => { /* the child still exists, which is the thing they asked for */ })
     }
     return NextResponse.json({ child: data })
