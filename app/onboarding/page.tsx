@@ -2,7 +2,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
+import { getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
+import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/BirthdayFields'
 import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from '@/lib/quests/screen-balance'
 import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
@@ -143,14 +144,26 @@ export default function OnboardingPage() {
   const [screen, setScreen] = useState<Screen>('init')
   const [childName, setChildName] = useState('')
   const [nameNudge, setNameNudge] = useState(false)
-  const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
+  // ── A BIRTHDAY, SO THEY GET OLDER (11 September 2026) ───────────────────
+  //
+  // Justin: "second child needs to age up". This wizard collected an age BAND
+  // and wrote no birthday, so app/api/cron/age-up skipped every child added
+  // here for ever: it selects on date_of_birth not being null. A child stayed
+  // Builder at fourteen, with the wrong lessons, stamps and screen guide.
+  //
+  // ageBand stays the variable everything downstream reads, so nothing else in
+  // this long file has to change. It is DERIVED from the birthday now instead
+  // of tapped, and falls back to the old default until one is given.
+  const [dobMonth, setDobMonth] = useState<number | null>(null)
+  const [dobYear, setDobYear] = useState<number | null>(null)
+  const ageBand: AgeBand = bandFrom(dobMonth, dobYear) ?? '8-10'
   // The daily screen time limit for the primary child. Null means use the age
   // recommendation, and it stays adaptive if the age changes later.
   const [dailyLimit, setDailyLimit] = useState<number | null>(null)
   // Any additional children the parent adds. The first child above is the
   // active one the app follows for now; these are saved so the account feels
   // complete, ready for full multi child later.
-  const [siblings, setSiblings] = useState<{ name: string; ageBand: AgeBand }[]>([])
+  const [siblings, setSiblings] = useState<{ name: string; dobMonth: number | null; dobYear: number | null }[]>([])
   // The screens actually in this house, by suggestion label. Asked here rather
   // than left to be discovered, because every device number in the app (the
   // passport percentage, the timer picker, the setup guides worth showing) is
@@ -229,7 +242,6 @@ export default function OnboardingPage() {
         const saved = localStorage.getItem('gc_starter_answers')
         if (saved) {
           const answers = JSON.parse(saved) as StarterAnswers
-          if (answers.ageBand) setAgeBand(answers.ageBand)
           // Carry through every worry the parent ticked in the starter quiz,
           // most pressing first. Since 9 September 2026 the quiz asks these
           // directly, so `worries` is the real answer; `concerns` and
@@ -343,7 +355,7 @@ export default function OnboardingPage() {
 
     if (!existingChildren.data || existingChildren.data.length === 0) {
       await supabase.from('children').insert({
-        parent_id: user.id, name, age_band: ageBand, stage_id: stage.name.toLowerCase(), is_primary: true,
+        parent_id: user.id, name, age_band: ageBand, date_of_birth: dobFrom(dobMonth, dobYear), stage_id: stage.name.toLowerCase(), is_primary: true,
         daily_limit_minutes: limitToStore,
       })
     } else {
@@ -358,13 +370,19 @@ export default function OnboardingPage() {
     if ((!existingChildren.data || existingChildren.data.length === 0) && siblings.length) {
       const rows = siblings
         .filter(s => s.name.trim())
-        .map(s => ({
-          parent_id: user.id,
-          name: s.name.trim(),
-          age_band: s.ageBand,
-          stage_id: getStageFromAgeBand(s.ageBand).name.toLowerCase(),
-          is_primary: false,
-        }))
+        .map(s => {
+          // Same rule as the first child: the birthday is stored and the band
+          // comes off it, so the age up cron can find them.
+          const band = bandFrom(s.dobMonth, s.dobYear) ?? '8-10'
+          return {
+            parent_id: user.id,
+            name: s.name.trim(),
+            age_band: band,
+            date_of_birth: dobFrom(s.dobMonth, s.dobYear),
+            stage_id: getStageFromAgeBand(band).name.toLowerCase(),
+            is_primary: false,
+          }
+        })
       if (rows.length) await supabase.from('children').insert(rows)
     }
 
@@ -495,13 +513,12 @@ export default function OnboardingPage() {
       }
       setScreen('devices')
     }
-    const addSibling = () => setSiblings(prev => [...prev, { name: '', ageBand: '8-10' }])
-    const updateSibling = (i: number, patch: Partial<{ name: string; ageBand: AgeBand }>) =>
+    const addSibling = () => setSiblings(prev => [...prev, { name: '', dobMonth: null, dobYear: null }])
+    const updateSibling = (i: number, patch: Partial<{ name: string; dobMonth: number | null; dobYear: number | null }>) =>
       setSiblings(prev => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)))
     const removeSibling = (i: number) => setSiblings(prev => prev.filter((_, idx) => idx !== i))
 
     const lbl: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: 8 }
-    const ageRow = (on: boolean): React.CSSProperties => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 16, background: on ? 'var(--terracotta-lt)' : '#fff', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'border-color 0.12s, background 0.12s' })
 
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
@@ -528,19 +545,17 @@ export default function OnboardingPage() {
               </div>
             )}
 
-            <label style={lbl}>How old {firstName ? `is ${firstName}` : 'are they'}?</label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-              {AGE_BAND_OPTIONS.map(opt => (
-                <button key={opt.value} onClick={() => setAgeBand(opt.value)} style={ageRow(ageBand === opt.value)}>
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 2 }}>{opt.label}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', letterSpacing: '0.04em' }}>{opt.sub}</div>
-                  </div>
-                  {ageBand === opt.value
-                    ? <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><span style={{ color: '#fff', fontSize: 'var(--text-sm)', fontWeight: 800, lineHeight: 1 }}>✓</span></div>
-                    : <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid var(--border)', flexShrink: 0 }} />}
-                </button>
-              ))}
+            <div style={{ marginBottom: '24px' }}>
+              <BirthdayFields
+                month={dobMonth}
+                year={dobYear}
+                onChange={(m, y) => { setDobMonth(m); setDobYear(y) }}
+                fieldStyle={{
+                  width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: '12px',
+                  border: '2px solid var(--ink)', background: '#fff',
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+                }}
+              />
             </div>
 
             {/* Daily screen time: the healthy amount for this age, which the
@@ -633,9 +648,16 @@ export default function OnboardingPage() {
                   <button type="button" onClick={() => removeSibling(i)} style={{ background: 'none', border: 'none', color: 'var(--ink-light)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', cursor: 'pointer', letterSpacing: '0.04em' }}>Remove</button>
                 </div>
                 <input className="input" value={s.name} onChange={e => updateSibling(i, { name: e.target.value })} placeholder="First name" style={{ marginBottom: '10px', fontSize: 'var(--text-lg)' }} />
-                <select value={s.ageBand} onChange={e => updateSibling(i, { ageBand: e.target.value as AgeBand })} className="input" style={{ fontSize: 'var(--text-md)' }}>
-                  {AGE_BAND_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-                </select>
+                <BirthdayFields
+                  month={s.dobMonth}
+                  year={s.dobYear}
+                  onChange={(m, y) => updateSibling(i, { dobMonth: m, dobYear: y })}
+                  fieldStyle={{
+                    width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: '12px',
+                    border: '2px solid var(--ink)', background: '#fff',
+                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+                  }}
+                />
               </div>
             ))}
 
