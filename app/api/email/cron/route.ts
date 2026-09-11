@@ -3,6 +3,7 @@ import { identityKey } from '@/lib/email/floor'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
+import { parentFirstName } from '@/lib/email/parent-name'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl, type EmailKind } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, founderPrechargeEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
@@ -290,6 +291,12 @@ async function handler(req: NextRequest) {
     if (!profile.email || profile.email_opt_out) continue
     const days = daysSince(profile.created_at)
     const name = profile.full_name?.split(' ')[0] ?? 'there'
+    // The welcome asks a stricter question than the rest: not "what is in the
+    // name column" but "do we actually KNOW their name". A starter pack signup
+    // has the email address sitting in that column (see lib/email/parent-name),
+    // and the one email where being greeted by your own login looks worst is
+    // the first one. Null makes the greeting drop the name instead.
+    const greetName = parentFirstName(profile.full_name, profile.email)
     const unsubscribe = unsubscribeUrl(profile.id)
 
     const child = childByParent.get(profile.id)
@@ -325,7 +332,7 @@ async function handler(req: NextRequest) {
     // accounts (first couple of days) so switching this on never lands a
     // welcome in an established parent's inbox on the next run.
     if (days <= 2 && !alreadySent(profile.id, 'welcome')) {
-      await deliver(profile.id, profile.email, 'welcome', welcomeEmail({ parentName: name, childName, unsubscribe }), 'welcome')
+      await deliver(profile.id, profile.email, 'welcome', welcomeEmail({ parentName: greetName, childName, unsubscribe }), 'welcome')
     }
 
     if (days >= 2 && !alreadySent(profile.id, 'day2-stage')) {

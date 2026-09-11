@@ -109,7 +109,17 @@ export interface EmailContent {
 // minutes is finish, and the first thing setup asks for is the check in that
 // becomes their baseline.
 export function welcomeEmail(params: {
-  parentName: string
+  /**
+   * The parent's first name, or NULL when we do not have a real one.
+   *
+   * Null is the normal case for a starter pack family, not an edge one: that
+   * form does not ask for a name, so the database trigger falls back to the
+   * part of the email before the @, and the greeting read "Thank you for
+   * joining, justin+1234." See lib/email/parent-name for the whole of it.
+   *
+   * So the greeting is written to work without one rather than to guess.
+   */
+  parentName: string | null
   childName: string
   unsubscribe: string
 }): EmailContent {
@@ -119,7 +129,7 @@ export function welcomeEmail(params: {
     // one says what it is: the beginning of something with an end in sight.
     subject: 'Welcome. Here is where this is going',
     html: wrapper(
-      heading(`Thank you for joining, ${parentName}.`) +
+      heading(parentName ? `Thank you for joining, ${parentName}.` : 'Thank you for joining.') +
       p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
       p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} ${verb(childName, 'is', 'are')} safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
       p(`<strong>It takes ten minutes a day.</strong> A small thing each day, matched to their stage. Not a course, not fifty pages, and nothing to catch up on if you miss a day.`) +

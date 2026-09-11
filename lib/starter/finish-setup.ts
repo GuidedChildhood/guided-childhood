@@ -132,6 +132,22 @@ export async function writeStarterSetup(supabase: SupabaseClient, p: PendingSetu
       })
     }
 
+    // ── AND SAY HELLO TODAY, NOT TOMORROW MORNING ─────────────────────────
+    //
+    // Justin, 11 September 2026: "do we send a confirmation email once set up,
+    // with welcome and user email confirmation?"
+    //
+    // The welcome lives in the daily email cron, which runs at 08:00, so a
+    // family who joined at ten in the morning heard nothing for twenty two
+    // hours. Confirm email is off on the project (every account on it was
+    // confirmed the instant it was made), so there was no other mail in that
+    // gap either: the day a parent signs up was the one day we said nothing.
+    //
+    // Best effort, like everything else in here, and idempotent on the server
+    // through email_log, so the cron's own copy tomorrow is a safety net rather
+    // than a second welcome.
+    try { await fetch('/api/email/welcome', { method: 'POST' }) } catch { /* the cron still has it */ }
+
     try { localStorage.removeItem('gc_starter_answers') } catch { /* private mode */ }
     clearPendingSetup()
   } catch { /* onboarding remains the fallback */ }
