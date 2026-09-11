@@ -1,14 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   eyebrow, sheet, sheetBand, dottedRule, sheetBody, stageAccent, stageCircle, chunky,
 } from '@/components/scripts/card-system'
 
 // The heart of a script: the line to say, made to feel like the single most
 // important thing on the screen. A parent opens this in the heat of a hard
-// moment, so the words they will actually say are set large and warm, and they
-// can hear them read aloud first so the delivery lands calm, not clipped.
+// moment, so the words they will actually say are set large and warm.
 //
 // It used to arrive as four separate white boxes, and four boxes read as four
 // things to get through. It is one thing: the words for one moment. So it is
@@ -24,71 +22,9 @@ type Props = {
   whyItWorks: string
   tonight: string
   stageId: string
-  // The Skye recording for this script. Skye or silence: no recording
-  // means the hear it button stays hidden, never a device voice.
-  voiceUrl?: string | null
 }
 
-function useReadAloud(voiceUrl?: string | null) {
-  const [speaking, setSpeaking] = useState(false)
-  const [supported, setSupported] = useState(true)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  // One voice across the platform: a script speaks in Skye or not at all.
-  // The old browser speech fallback grabbed whatever voice the device had
-  // (Mabel, Daniel, luck of the draw), which broke the one voice rule the
-  // moment a script had no recording. No recording now means no button.
-  useEffect(() => {
-    if (!voiceUrl) setSupported(false)
-  }, [voiceUrl])
-
-  const stop = useCallback(() => {
-    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0 }
-    setSpeaking(false)
-  }, [])
-
-  const play = useCallback(() => {
-    if (speaking) { stop(); return }
-    if (!voiceUrl) return
-    const el = audioRef.current ?? new Audio(voiceUrl)
-    audioRef.current = el
-    el.onended = () => setSpeaking(false)
-    el.onerror = () => setSpeaking(false)
-    el.currentTime = 0
-    el.play().then(() => setSpeaking(true)).catch(() => setSpeaking(false))
-  }, [speaking, stop, voiceUrl])
-
-  // Never leave a voice talking after the parent navigates away.
-  useEffect(() => () => stop(), [stop])
-
-  return { speaking, supported, play, stop }
-}
-
-// A small speaker glyph that animates its bars while speaking.
-function SpeakerIcon({ speaking }: { speaking: boolean }) {
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2, height: 16 }} aria-hidden>
-      {speaking ? (
-        [0, 1, 2].map(i => (
-          <span key={i} style={{
-            width: 3, borderRadius: 2, background: 'currentColor',
-            height: 14, transformOrigin: 'center',
-            animation: `sr-bar 0.9s ease-in-out ${i * 0.15}s infinite`,
-          }} />
-        ))
-      ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none" />
-          <path d="M15.5 8.5a5 5 0 0 1 0 7" />
-          <path d="M18.5 5.5a9 9 0 0 1 0 13" />
-        </svg>
-      )}
-    </span>
-  )
-}
-
-export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId, voiceUrl }: Props) {
-  const { speaking, supported, play } = useReadAloud(voiceUrl)
+export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId }: Props) {
   const accent = stageAccent(stageId)
 
   // Every step opens the same way: the number circle and the mono label on one
@@ -134,14 +70,26 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
           <span aria-hidden style={{ opacity: 0.35 }}>&ldquo;</span>{sayThis}<span aria-hidden style={{ opacity: 0.35 }}>&rdquo;</span>
         </blockquote>
 
-        {supported && (
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
-            <button onClick={play} style={heroBtn(speaking)}>
-              <SpeakerIcon speaking={speaking} />
-              {speaking ? 'Stop' : 'Hear it aloud'}
-            </button>
-          </div>
-        )}
+        {/* ── HEAR IT ALOUD IS GONE (11 September 2026) ────────────────────
+            Justin: "lets get rid of hear it aloud on scripts or anything else
+            as not helpful unless you think there is better way to have
+            something there?"
+
+            Agreed, and the case against it is stronger than "not helpful".
+            The one person who has to say these words is the parent, in their
+            own voice, and a synthetic reading rehearses nothing. Worse, it is
+            played in a house where the child is usually in the next room, so
+            the likeliest outcome of the button is the child hearing an app
+            read out the exact line about to be used on them. That is the worst
+            thing that can happen to a script, and we had a button under the
+            quote inviting it.
+
+            NOTHING REPLACES IT, on purpose. The page already ends with the
+            thing that earns the space: mark it used or not needed, which moves
+            the pathway and retires the script from the recommender
+            (ScriptStatusButtons, rendered by ScriptDetailView). A second
+            control up here would only compete with the one that matters, and
+            the quote is meant to be the hero of this block. */}
 
         <div style={dottedRule} />
 
@@ -169,9 +117,4 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
       `}</style>
     </section>
   )
-}
-
-// The hero action: the one chunky button, butter while it speaks.
-function heroBtn(active: boolean): React.CSSProperties {
-  return { ...chunky(active ? 'butter' : 'white'), transition: 'transform 0.12s, box-shadow 0.12s' }
 }
