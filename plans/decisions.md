@@ -13096,3 +13096,61 @@ better answer may be to render the six with no text in them at all and drop
 onScreen from the six alternatives, which is honest and self consistent, rather
 than to keep asking a video model for typography. That is a change beyond
 refreshing the cast, so it waits for Justin.
+
+## 11 September 2026: the lesson animations meet the new cast, and the six checks that found what the eye would not
+
+**Six of the eight video beats showed the retired squad.** ks1-03, ks2-04,
+ks2-07 and three of the four ks3-12 beats all show human children while
+character_cast on the same row names a Planet Friend. ks2-06 (DiGi) and the
+ks3-12 half time beat (DiGi Junior) were already right and are untouched.
+
+**All six are re rendered and every one is on cast.** seedance 2.5 in
+omni_reference mode against the published friend art, 1080p for the projector.
+Pebble, Bloop and Orbit all came back on model: right colour, right sprout,
+right proportions, right plush texture.
+
+**The dialogue was the risk and it landed exactly.** Three of the ks3-12 beats
+carry spoken lines in their alternative, so a re render that improvised would
+have made the player's transcript a lie. Analysing the July original first
+showed it runs eleven seconds and speaks the scripted lines word for word, so
+the new ones were given twelve seconds and the exact lines. All three came back
+word perfect against alternative.spoken, including the numbered one, two and the
+big one in the three checks beat.
+
+**Every clip was checked rather than assumed**, by scene by scene analysis of
+the finished file: cast on model, words spoken, words on screen, artefacts. That
+is the check the eye cannot do from here, since the CDN is not reachable from
+this container.
+
+**What the checks found that a quick look would not.** The first ks1-03 take put
+toddlers of two or three in a KS1 lesson, in what read as a playroom rather than
+a classroom. Re rendered with the ages named and the camera told to hold one
+wide shot, which fixed the ages and put writing on the whiteboard, and cost
+Pebble an eye: the second take renders it with one large eye rather than two.
+Both takes are kept and the on model one is the one wired up, because being on
+model is the whole point of the exercise.
+
+**The on screen words are the open question and the migration deliberately does
+not touch them.** Each beat's alternative carries an onScreen field naming the
+words burned into the clip. Across five of the six new clips the analysis reads
+no words at all, while on the July original it reads REAL OR MADE? off the
+whiteboard cleanly, so the instrument can see text when text is there. Against
+that, Justin looked at the ks2-04 clip and said the whiteboard was good. One of
+those two readings is wrong and it is settled by a person looking at a projector,
+not by this session. Until it is, onScreen stays as it is and 286 changes only
+src and described.
+
+**described moves with the clip, and that is not optional.** Six alternatives
+describe a girl or a boy who is no longer in the video, and that field is the
+only route into the beat for a pupil who cannot hear it. Guard 4 fails the
+migration if any alternative still describes the old cast.
+
+**Every update in 286 matches on the old src as well as the slide index**, so a
+reordered deck writes nothing rather than putting a URL on the wrong slide. That
+makes a miss silent, which is the dangerous outcome, so guard 3 counts the six
+new clips and fails if any is absent. Dry run against production: all six
+guarded clauses match exactly one row.
+
+**286 is written and not applied.** Applying it before the on screen question is
+settled would turn onScreen from a true claim about the July clips into a
+possibly false one about these.
