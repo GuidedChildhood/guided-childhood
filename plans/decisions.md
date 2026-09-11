@@ -13032,3 +13032,67 @@ tested against five regressions.
 Google or Apple, which every reference app has and which the benchmarks put at
 20 to 40 percent on top of account conversion. It needs provider credentials and
 the Supabase toggles, which is Justin's to do, not something a session can add.
+
+## 11 September 2026: migration 285 applied at last, and the six animations that show the wrong cast
+
+**Migration 285 is on production.** The KS2 companion lesson,
+ks2-23-when-a-machine-talks-like-a-friend, has been a live 404 since the code
+merged: shared/schools-curriculum.ts and shared/ai-governance/passport-links.ts
+both name it, so the governance tool has been pointing KS2 schools at a lesson
+page that called notFound(). The row now exists. 23 modules, 29 slides, 69
+minutes, timing string 69, passport stage builder, and all four guards in the
+file passed.
+
+**It went in as three parts** because the MCP route takes SQL as text and the
+payload is 38KB on one line: part1 the row with slides and teacher_notes empty,
+part2 the slides, part3 the teacher notes plus the guards. Same split 282 used,
+for the same reason.
+
+**The transcription was verified rather than trusted.** Sending 38KB of JSON
+through a tool call is a copy, and a copy can go wrong in a way that guards
+about minutes and cycle titles would never catch: a single letter changed in a
+teacher script still passes every structural check. So every JSON column was
+digested on both sides, in the database and from the file, by pulling out every
+string leaf, sorting by the md5 of each string (order independent, so no
+collation or UTF-16 argument) and hashing the join. slides 306 strings,
+teacher_notes 143, assessment 40, parent_note 5, dsl_note 1, and all five
+digests matched the file exactly. That check is worth keeping for any future
+migration that goes in by this route.
+
+**The recurring failure this closes.** Code and migration ship separately. The
+manifest ships with the code and the row ships with the migration, so any merge
+where the second half is forgotten produces a link that is live and dead at the
+same time. Nothing in CI catches it, because the test asserts the lesson
+resolves in CURRICULUM, which is a static manifest, not that the row exists.
+Worth a check that queries the database before this happens a third time.
+
+**Separately, the animations audit.** Eight video beats exist across five
+modules: ks1-03, ks2-04, ks2-06, ks2-07 and ks3-12 (four of them). Six of the
+eight describe human children from the retired squad while character_cast names
+a Planet Friend. ks1-03 shows "a girl in a gold detective cape" where the cast
+says Pebble. ks2-04 shows "a boy in a green and coral football kit" where the
+cast says Bloop. ks2-07 shows "a girl in a green cape" against Bloop. Three of
+the ks3-12 beats show the same detective girl against Orbit. Only ks2-06 (DiGi,
+the golden star) and the ks3-12 half time beat (DiGi Junior) are on cast. The
+videos rendered on 1 and 3 July 2026; the cast changed on 23 July, which is
+exactly the gap digi-squad/README.md already names as still to do.
+
+**One proof clip rendered before spending on six.** ks2-04, Bloop replacing the
+football boy, 1080p for projector legibility, 72 credits. Bloop came back on
+model: round, lime green, sprout leaf, orange freckles, the classroom warm and
+the children on the carpet. Two things are not right. The whiteboard was asked
+to read BE THE BOSS OF YOUR SCREEN and a scene by scene analysis of the finished
+clip describes a whiteboard and no text on it anywhere in eight seconds, and the
+same analysis describes a spoken voice line despite generate_audio being false
+on the job.
+
+**Which opens a real fork, and it is not a cast question.** Every one of these
+slides carries an alternative with an onScreen field naming the words burned
+into the video, because the July clips have them. AI video is at its worst
+rendering legible moving text, and a wobbly whiteboard on a classroom projector
+fails the ISO 9241 floor the rest of the deck was raised to meet in the first
+place. The slide already renders its own caption in Nunito at that floor. So the
+better answer may be to render the six with no text in them at all and drop
+onScreen from the six alternatives, which is honest and self consistent, rather
+than to keep asking a video model for typography. That is a change beyond
+refreshing the cast, so it waits for Justin.
