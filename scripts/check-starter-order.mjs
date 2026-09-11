@@ -15,7 +15,7 @@
 //
 //   1. The opening screen goes to the first QUESTION.
 //   2. The reveal offers to make the account, rather than assuming one.
-//   3. The account asks for an email and a password, and no name.
+//   3. The account BLOCKS on an email and a password, and nothing else.
 //   4. Nothing writes the account through before the account exists.
 //
 // Usage: node scripts/check-starter-order.mjs
@@ -66,18 +66,43 @@ if (!/onJoin\?\s*:/.test(reveal)) {
   ok.push('and the reveal knows how to ask')
 }
 
-// ── 3. Email and password, no name ─────────────────────────────────────────
+// ── 3. Two things can BLOCK, and only two ──────────────────────────────────
+//
+// This used to count the boxes and demand exactly two, on the evidence that an
+// email only form beats name and email by 12 to 18 points. That evidence is
+// real, and it is about REQUIRED fields.
+//
+// What the old rule missed is that the name does not go away when you stop
+// asking for it. handle_new_user (migration 001) writes
+// split_part(email, '@', 1) into profiles.full_name instead, so the welcome
+// greeted Justin as "justin+1234", on the funnel every CTA in the product
+// points at. Justin, 11 September 2026, asked directly whether the starter
+// pack should collect a first name: "yes".
+//
+// So the rule is what it was always protecting: nothing beyond an email and a
+// password may stand between a convinced parent and the product. An optional
+// box cannot, a required one can, and the difference is not visible in a count
+// of placeholders. It is visible in submitAccount, which is the only thing
+// that can refuse to go on.
 const account = page.match(/\{step === 'account' && \([\s\S]*?\n        \)\}/)
+const submit = page.match(/async function submitAccount\(\)[\s\S]*?\n  \}/)
 if (!account) {
   fails.push('The account step is gone from the starter pack.')
+} else if (!submit) {
+  fails.push('submitAccount is gone, so nothing can be held about what the account step refuses to go on.')
 } else {
   const fields = [...account[0].matchAll(/placeholder="([^"]+)"/g)].map(m => m[1])
-  if (fields.length !== 2) {
-    fails.push(`The account step asks for ${fields.length} things (${fields.join(', ')}). Two is the whole point: a form asking only for an email beats one asking name and email by 12 to 18 points, and this is the last thing between a convinced parent and the product.`)
-  } else if (fields.some(f => /name/i.test(f))) {
-    fails.push('The account step asks for a name again. The dashboard already recovers a first name from the email, so the field buys nothing and costs conversions.')
+  // Every early return in submitAccount is a thing that can stop a parent.
+  // Reading the guards rather than counting them, because what matters is
+  // WHICH field each one is about.
+  const gates = [...submit[0].matchAll(/if \(([^)]*(?:\([^)]*\))?[^)]*)\)\s*\{[\s\S]{0,200}?return/g)].map(m => m[1])
+  const nameGate = gates.find(g => /\bname\b/.test(g) && !/childName|clean|email|password/i.test(g))
+  if (nameGate) {
+    fails.push(`submitAccount refuses to continue on the name (${nameGate.trim()}). The name is asked for, never required: this is the last screen between a convinced parent and the product, and a form that will not submit costs more than a missing name, which the greeting already copes with (lib/email/parent-name).`)
+  } else if (fields.length > 3) {
+    fails.push(`The account step asks for ${fields.length} things (${fields.join(', ')}). Three is the ceiling: an email, a password and a first name they may skip.`)
   } else {
-    ok.push('the account asks for two things, an email and a password')
+    ok.push(`the account blocks on an email and a password only (${fields.length} boxes: ${fields.join(', ')})`)
   }
 }
 
