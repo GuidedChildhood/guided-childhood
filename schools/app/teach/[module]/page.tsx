@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
+import { isTasterModule } from '@/lib/taster'
+import { hasLicence } from '@/lib/licence'
+import { TasterStrip } from '@/app/taster/TasterBar'
 
 // The teach route: any live module, played full screen for the classroom.
 //
@@ -71,6 +74,8 @@ export default async function TeachLessonPage({
   const slides = parseSlides(lesson.slides)
   if (!slides) notFound()
 
+  const showTaster = isTasterModule(moduleId) && !(await hasLicence())
+
   // ?slide=N (1 based, from the run sheet) opens the player at that slide, so
   // a teacher can step out mid lesson and step back in where they were. A
   // value off either end clamps rather than 404s: the run sheet may be a
@@ -99,6 +104,11 @@ export default async function TeachLessonPage({
         </h1>
       </div>
       <div style={{ maxWidth: WALL.wide, margin: '0 auto', padding: '0 clamp(20px, 4vw, 56px) 80px' }}>
+        {/* A line, not the form. This is the page the whole taster is trying
+            to get a teacher to, so putting a lead capture on top of it would
+            wreck the one thing they came to see. The form is on the prep page
+            they arrived through, and on the pack at the end. */}
+        {showTaster && <TasterStrip />}
         <LessonPlayer
           lessonId={lesson.id}
           lessonSource="school_lesson"

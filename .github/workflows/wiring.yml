@@ -189,6 +189,11 @@ jobs:
       # worse than no link at all. Nothing about that fails a typecheck.
       - run: node --experimental-strip-types scripts/ai-governance.test.mjs
       - run: node --experimental-strip-types scripts/answer-beat.test.mjs
+      # One module of twenty three sits outside the licence wall on purpose so
+      # a lesson link Justin sends actually opens. A deliberate hole is exactly
+      # the kind that gets quietly widened, and every school that pays is
+      # paying for the other twenty two staying shut.
+      - run: node --experimental-strip-types scripts/check-taster-wall.mjs
       # The source copy of ks3-22, held to every rule the scheme has learned:
       # cycle anchoring, cycle minutes, the four minute passive ceiling, an
       # honest timing string, the contract keys, and a teacher script on every

@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import { isTasterModule } from '@/lib/taster'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, SPIRAL_BEHAVIOURS } from '@gc/shared/schools-curriculum'
@@ -168,6 +169,21 @@ export default async function CurriculumMapPage() {
                         </p>
 
                         <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                          {/* The one module anybody can open without a code.
+                              This map is public, so without the chip it is
+                              twenty two doors to /unlock and one that opens,
+                              with nothing saying which. See lib/taster.ts. */}
+                          {live && isTasterModule(m.moduleId) && (
+                            <span style={{
+                              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                              letterSpacing: '0.1em', textTransform: 'uppercase',
+                              color: 'var(--retro-green-dark)', background: 'var(--tint-green)',
+                              border: '1.5px solid var(--retro-green-dark)', borderRadius: '100px',
+                              padding: '5px 11px',
+                            }}>
+                              Free sample
+                            </span>
+                          )}
                           {live ? (
                             // The card lands on the lesson page, not straight
                             // into the player. A teacher choosing a module

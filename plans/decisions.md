@@ -13457,3 +13457,65 @@ the settle signal is dropped, or if the waiting label is lost. All three
 mutation tested. They are source greps rather than behaviour, which is the
 honest trade: the behavioural check needs a browser and a running server, and
 the repo already pays that cost once in check-concern-dots.mjs.
+
+---
+
+## 11 September 2026 — the taster: one lesson outside the wall, and the lead that follows it
+
+Justin: "how can I send that one sample lesson so teachers can get a taster,
+then leads, then to sign up, request an invoice page."
+
+**Both ends of that already existed and the middle did not.** /pricing takes
+an invoice request and the hourly cron emails it over. What was missing was
+anything in between: a lesson link sent to a teacher hit /unlock and bounced,
+and the only form on the site asked for a purchase order number, which is the
+last thing a browsing teacher has rather than the first.
+
+**The order is Justin's and it decides the design.** Taster, then lead, then
+invoice. So the lesson is NOT behind the form. A teacher who arrives from a
+link owes us nothing yet, the lesson is what earns the email, and a form in
+front of it spends the best asset we have on a stranger's patience.
+
+**THIS AMENDS THE OPEN MAP DECISION of 30 August 2026**, which put the paid
+wall at "the lessons, the scripts, the packs and the testing". One module of
+twenty three now sits outside it: ks3-12-misinfo-deepfakes, the pilot. The
+catalogue is still the product; a single worked example is the advert for it,
+and a scheme nobody has watched teach is a scheme nobody buys.
+
+**The real pages, not a demo.** /lesson/[module] is already the page a teacher
+opens the night before, and that page IS the argument for zero prep. A cut
+down demo would sell the product worse than the product does and would be a
+second thing to keep in step with every migration. So the taster is the real
+prep page, the real player and the real printable pack, at their ordinary
+URLs, for one module.
+
+**Two questions kept apart, on purpose.** isOpenPath is the PERMANENT open map
+(the pages that sell the scheme). isTasterPath is the TEMPORARY sample. They
+are composed in proxy.ts rather than folded together, so the sample can be
+widened, narrowed or withdrawn without anybody reasoning about the paid wall
+at the same time. And the matcher checks the MODULE ID, never the prefix: a
+startsWith('/lesson/') would have opened all twenty three, which is the exact
+mistake scripts/check-taster-wall.mjs exists to catch (mutation tested six
+ways, including that one).
+
+**No migration, because /draw already solved this.** A lead who is not buying
+goes into schools.invoice_requests with a marker band and the PO field
+carrying a word rather than a number. A taster lead is band 'taster',
+po_number 'TASTER'. The cron now knows the difference: LEAD_BANDS covers draw
+and taster, and a lead emails Justin "School lead" with no PO row and "reply
+to them yourself" instead of "raise the invoice", because a lead labelled as
+an order sends him hunting for a purchase order that does not exist.
+
+**Verified against the database as the anon role, not assumed.** anon holds
+INSERT on invoice_requests and the exact taster payload inserts cleanly
+(po_number is NOT NULL, which is why the placeholder word exists). anon also
+holds a SELECT grant, which the migration 195 comment does not mention: RLS
+denies it in practice (0 rows read as anon against 3 real rows), so the pile
+is not public, but the grant is broader than the comment claims and is worth
+tidying the day someone touches that table.
+
+**What could not be seen from this container.** The schools app reads lessons
+with the SERVICE key and the network policy blocks the Supabase host, so the
+lesson page and the curriculum chip could not be rendered here. The taster bar
+and its success state were rendered and driven at 390 and 1440, licensed and
+unlicensed, through the real proxy gate.
