@@ -207,3 +207,9 @@ jobs:
       # Structure and density are checked above. This one checks whether the
       # claims are TRUE, against the four verification passes of 11 September.
       - run: node scripts/check-source-claims.mjs
+      # A parent who asks DiGi a question must never be left with nothing, and
+      # the latency row must say which of the two happened. Ten silent replies
+      # in digi_latency read identically to ten warm apologies, so the guard
+      # holds every give up path to a rescue, a word to the parent, and a
+      # reason that records it. See the header of check-digi-rescue.mjs.
+      - run: node scripts/check-digi-rescue.mjs
