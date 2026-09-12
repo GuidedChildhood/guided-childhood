@@ -1268,6 +1268,19 @@ When a parent asks whether or for how long their child should use any device, do
           await rescuePlain()
           if (fullText === opener) {
             try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }
+            // THE ROW HAS TO SAY THE PARENT SAW SOMETHING.
+            //
+            // fullText is cleared below so the apology is never filed as the
+            // answer, and that clearing is exactly what made the last ten of
+            // these unreadable: replied false with zero characters, which is
+            // the same row whether the parent read a warm apology or stared at
+            // a blank screen. Two very different products, one row.
+            //
+            // So the reason carries the outcome. 'apology: silent tool loop'
+            // means the rescue ran, failed, and the parent was told. A bare
+            // 'silent tool loop' would now mean the apology itself never got
+            // out, which is the only version of this worth being woken for.
+            failReason = `apology: ${failReason}`
             fullText = ''
           }
         }
@@ -1301,6 +1314,9 @@ When a parent asks whether or for how long their child should use any device, do
 
         if (fullText === opener) {
           try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }
+          // Same reason as the silent path above: the row must say whether the
+          // parent was told, because clearing fullText hides it otherwise.
+          failReason = `apology: ${failReason}`
           fullText = ''
         }
       } finally {
