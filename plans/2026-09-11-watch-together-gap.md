@@ -9,83 +9,112 @@ parent and child, and convert the school curriculum into the same format.
 His child has 26 lessons for that stage. That is the "Lessons 26" on the same
 screen. What is missing is only the parent facing film.
 
-But counting the whole estate to answer him turned up three bigger holes.
+But counting the whole estate to answer him turned up one real hole, and cost me
+a wrong claim I have corrected below.
 
 ## What actually exists, counted 11 September 2026
 
 | set | rows | covers | state |
 |---|---|---|---|
-| child lessons (`lessons`) | 147 | all five stages, nine strands | **only 92 playable** |
-| AI lessons (`ai_lessons`) | 54 | ages 7, 9, 11, 13, 16 plus parent and teacher | **zero playable** |
+| child lessons (`lessons`) | 147 | all five stages, nine strands | all play for a parent, **55 can never be sent to the child** |
+| AI lessons (`ai_lessons`) | 54 | ages 7, 9, 11, 13, 16 plus parent and teacher | all play, nothing wrong |
 | school lessons (`schools.school_lessons`) | 25 | EYFS to KS5 | all have slides, **24 of 25 have no video beats** |
 | parent films (`parent_lessons`) | 10 | **stage 1 only** | four segments each, all filmed |
 
 So 236 written lessons exist across four separate sets, and ten of them are
 films.
 
-### Hole one: a third of the child curriculum will not play
+### Hole one: 55 lessons a parent can read and a child can never be sent
 
-`lessons` has 147 rows and 92 of them have slides. The other 55 are titles with
-no lesson behind them.
+**Correction, 12 September 2026.** An earlier version of this file said 55 child
+lessons and all 54 AI lessons "will not play". That was wrong, and the mistake
+was reading the database without reading the code that consumes it.
 
-| stage | lessons | playable | missing |
-|---|---|---|---|
-| foundation | 26 | 15 | 11 |
-| explorer | 27 | 16 | 11 |
-| builder | 28 | 17 | 11 |
-| independent | 26 | 15 | 11 |
-| shaper | 40 | 29 | 11 |
+Both parent facing lesson pages fall back on purpose: when `slides` is null,
+`autoSlidesFromLesson` builds a deck out of the lesson's own four text fields
+and a generated check question. So **every lesson plays for a parent**, and the
+AI module is fine exactly as it is. That part of the plan is withdrawn.
 
-Eleven per stage, every stage. That is a pattern, not a coincidence: something
-wrote 147 rows and filled 92. Find out which eleven and why before writing a
-single new word, because a set of rows that were deliberately parked is a
-different problem from a job that stopped halfway.
+What is real is narrower and worse.
 
-### Hole two: the AI curriculum exists and cannot be opened
+The child's own app takes the authored deck and nothing else:
 
-54 rows covering every age band we serve, plus a parent set and a teacher set.
-**None of them have slides.** So the thing Justin is most worried about, getting
-children AI safe from four to sixteen, is already written for every age, and a
-parent cannot watch any of it.
+```
+// app/k/[token]/lessons/[lessonId]/page.tsx
+const rawSlides = parseSlides(lesson.slides)
+if (!rawSlides) notFound()
+```
 
-This is the cheapest big win on the list. The content is done. What is missing
-is the slide array, which is the same shape the 92 playable child lessons
-already use.
+and the parent's Send button is gated on the same thing:
 
-### Hole three: the school lessons are one field away from being films
+```
+// app/(dashboard)/dashboard/lessons/[id]/page.tsx
+const sendable = !!child && !!parseSlides(lesson.slides) && ...
+```
 
-Every one of the 25 school lessons has slides, a parent note, and a `home_code`
-tying it to the home curriculum. They also have a `video_beats` column, which
-is exactly the input the `lesson-video` skill consumes.
+Both are deliberate and the comments say so: the generated deck is written to a
+grown up, so a child must never land on one. Correct call.
 
-**It is empty on 24 of the 25.** Only `ks3-12-misinfo-deepfakes` has beats, and
-it has four.
+The consequence is that **a lesson with no authored deck can be read by a parent
+and can never reach the child.** There are 55 of them.
 
-So converting the school curriculum into parent and child films is not a
-rewrite. The `home_code` already says which home lesson each school module maps
-to. Fill `video_beats` and the pipeline that made the existing ten films runs.
+### The pattern is exact, which says what happened
+
+Nine strands per stage, two lessons in each strand, and in every single pair one
+has a deck and one does not.
+
+| stage | strands with a pair | pairs missing a deck | plus untagged | total |
+|---|---|---|---|---|
+| foundation | 9 | 9 | 2 | 11 |
+| explorer | 8 | 8 | 3 | 11 |
+| builder | 9 | 9 | 2 | 11 |
+| shaper | 9 | 9 | 2 | 11 |
+| independent | 9 | 9 | 2 | 11 |
+
+That regularity is not rows somebody parked. It is a second lesson per strand
+that was written and never decked, on every stage, in the same shape. Five
+stages, eleven each, 55 lessons that exist for the parent and are invisible to
+the child.
+
+### Hole two, withdrawn
+
+The AI curriculum claim is gone. 54 rows, every one plays, because the module
+page falls back the same way. Nothing to do.
+
+### Hole three: the school lessons are still one field away from being films
+
+This one stands. All 25 school lessons have slides, a parent note, and a
+`home_code` tying each to the home curriculum. They also have `video_beats`,
+exactly what the `lesson-video` skill consumes, and it is **empty on 24 of 25**.
+Only `ks3-12-misinfo-deepfakes` has beats, which is why that one is the taster.
 
 ## So the answer to what he asked
 
-Yes, and the order matters, because three of these are conversions and only one
-is authoring.
+Yes, and the order has changed now the AI claim is withdrawn. Two of these are
+conversions and one is authoring.
 
-1. **Fill the 54 AI lessons' slides.** Already written for every age including
-   parents. Pure format work, the biggest coverage gain per hour, and it lands
-   on the strand he cares most about.
-2. **Find the missing eleven per stage** in the child curriculum and decide
-   whether they are parked or dropped. Do not write until that is known.
-3. **Fill `video_beats` on the 24 school lessons** and let the video skill run.
-   The `home_code` mapping means each one lands as both a school module and a
-   home lesson without the content being written twice.
-4. **Then the parent films for stages 2 to 5.** Ten per stage, forty to make,
-   and this is the only one that is genuinely new authoring. Each stage is the
-   same ten strands with the situation changed rather than the vocabulary: a
-   talking toy at four, a chatbot that says it is your friend at fourteen.
+1. **Deck the 55 second lessons.** They are written already. What they lack is
+   the authored slide array, and that array is the only thing standing between a
+   parent reading a lesson and being able to send it to their child. Biggest
+   real gain, and the shape is the one 92 lessons already use.
+2. **Fill `video_beats` on the 24 school lessons** and let the video skill run.
+   The `home_code` mapping means each lands as both a school module and a home
+   lesson without the content being written twice.
+3. **Then the parent films for stages 2 to 5.** Ten per stage, forty to make,
+   the only genuinely new authoring on the list. Each stage is the same ten
+   strands with the situation changed rather than the vocabulary: a talking toy
+   at four, a chatbot that says it is your friend at fourteen.
 
 Two AI films per stage from stage 3 up rather than one, because exactly one AI
 safety film exists in the product today (1.9, "Some voices are not people") and
 it is written for a five year old.
+
+**Before starting number one, answer one question:** was the second lesson in
+each pair meant to be sent to the child at all, or is it deliberately a parent
+only companion to the first? The uniformity makes either reading possible, and
+writing 55 decks for lessons that were never meant to reach a child would be 55
+lessons of wasted work. The pairs are visible in `lessons` by stage and strand,
+so an hour reading four or five of them settles it.
 
 ## Who does what
 
