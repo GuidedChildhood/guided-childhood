@@ -201,6 +201,14 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'respectful_relationships'],
   },
   {
+    n: 25, moduleId: 'ks2-25-stay-the-maker', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    title: 'Stay the maker',
+    outcome: 'I can say what the job was, and which part of it I did myself.',
+    blurb: 'Asking smaller, adding your own bit, and the ten second test for whether you really made it.',
+    character: 'bloop', castLine: 'Bloop opens, DiGi closes',
+    rshe: ['online_safety', 'deepfakes_ai'],
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',

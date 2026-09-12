@@ -13712,3 +13712,79 @@ file, and the REAL routes render real content with no Supabase reachable. That
 is what found the 500. Note /lesson/[module]/run is the printable run sheet and
 /teach/[module] is the projector player, and the player takes ?slide=N, which is
 a far more reliable instrument than walking the deck with clicks.
+
+---
+
+## 11 September 2026 — stay the maker, and the parent note that never printed
+
+Justin, on the two open questions: "Yes go with recommended." Build the KS2
+lesson, skip the briefing. Migration 294, module ks2-25-stay-the-maker, n and
+sort_order 25.
+
+**What it closes.** `dependence` in the schools governance tool sends a school
+that answers no to all three learning questions at a module. 292 stopped it
+sending a PRIMARY school to Years 12 to 13, which was the worst of it, but it
+still sent them to a Year 7 lesson, and that is not an answer a Year 4 teacher
+can use. The link now carries the `builder` stage and names ks2-25 first.
+
+**The constraint that decided the whole design, and the reason this is not a
+junior version of ks3-24.** The evidence the KS3 lesson stands on does not reach
+this age. Bastani is 14 to 17 at one Turkish secondary school. It appears in
+this module exactly once, in the evidence base, marked `mechanism` and labelled
+out of scope, so a teacher asked about it by a parent has the honest answer to
+hand. Nothing pupil facing cites it: 220 pupil facing strings, zero mentions of
+the trial, the percentages, or the word exam.
+
+What DOES reach this age is Mills and Keil (2004), the illusion of explanatory
+depth in grades 2 and 4, roughly ages 7 to 10, for devices. That is direct
+support for the explain it back drill, it is the module's evidence anchor, and
+it is why the drill says WORKS IN STEPS in capitals on the slide. The effect is
+weak or absent for facts and procedures, so an unconstrained drill would fail in
+front of the class.
+
+**So the lesson rests on ownership rather than harm.** Ask for help and not the
+whole thing. Add your own bit. Explain it back. If you can explain it, you made
+it. That is age appropriate, defensible, and the better idea for seven to eleven
+year olds anyway. The muscle line from the July script survives and stays
+labelled as a metaphor in the teacher notes.
+
+**The source was already written.** content/lesson-scripts/ai-panel-additions.md,
+25 July 2026, seven beats, never built. Its three moves became the three cycles.
+Its planned id ks2-22-ai-maker was dead: 22 went to ks3-22 and 23 to ks2-23.
+
+**SECOND THING, and it is a defect in what 293 shipped.** The ks3-24 parent note
+used `try_tonight` and `words`. Nothing reads either. The app reads headline,
+taught, try_this, family_question and passport, across three surfaces, and every
+one is guarded with `&&`. So nothing crashed, and rendering the page did not
+catch it: the sheet that goes home in book bags simply printed with no try this
+box, no dinner table question and no passport line, and the run sheet quietly
+dropped the passport clause from its tick row. The best thing written for
+parents in that lesson, shut the tab and ask them to explain it, reached nobody.
+
+23 of 24 modules had it right, which is what made it a defect rather than taste.
+Found the same way as the subject_knowledge 500: by reading the consumers rather
+than the schema. **The general shape, now twice in two days: a guarded optional
+field fails silently, so the page renders and the content is simply absent. Grep
+the consumers for the field names before writing a new module, not after.**
+
+**Three guards, all mutation tested.**
+- check-module-contract gains a parent note rule: the five live fields must be
+  present and non empty, and the two dead spellings are named in the failure
+  message so a writer copying an old module is told why. 6 of 6 caught.
+- check-source-claims gains nine ks2-25 claims, pinning the age line in both
+  directions: the KS3 percentages must never appear, and the out of scope note
+  and the age matched anchor must never disappear. 9 of 9 caught.
+- Both new checks are wired into the concern-guards job.
+
+**A render finding worth keeping.** The tool slide first used 1, 2, 3 emoji for
+its three steps. The player draws its own numbered circles, so every step
+printed its number twice. Fixed by using the emoji from the three teach slides
+the moves summarise, which also makes the tool slide read as a callback. Only
+visible by looking at the picture.
+
+**Verified, not assumed.** All 27 slides driven at 390 and 1440 via ?slide=N,
+plus the prep page, the run sheet and the print pack, zero console errors, no
+horizontal scroll. Contract passes, council 10/10/10/10, all three cycles anchor
+at 1.00. The applied rows were digest checked with `collate "C"`: ks2-25 slides
+247 strings, teacher notes 135 strings, and the ks3-24 parent note 5 strings,
+all three identical to source.

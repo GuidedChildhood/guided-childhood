@@ -1,0 +1,882 @@
+{
+ "module_id": "ks2-25-stay-the-maker",
+ "key_stage": "KS2",
+ "sort_order": 25,
+ "row": {
+  "title": "Stay the maker",
+  "year_band": "Years 3 to 6",
+  "audience": "teacher",
+  "efcw_strands": [
+   5,
+   8
+  ],
+  "statutory_hooks": [
+   "EfCW copyright and ownership",
+   "Computing (using technology purposefully)"
+  ],
+  "ailit_domains": [
+   "Use AI",
+   "Create with AI"
+  ],
+  "evidence_anchor": "Mills and Keil 2004: children of about 7 to 10 think they understand how something works until they try to explain it",
+  "single_action_outcome": "I can say what the job was, and which part of it I did myself.",
+  "character_cast": "Bloop opens, DiGi closes on staying the maker",
+  "scaffold": "CHOOSE",
+  "sort_order": 25
+ },
+ "slides": [
+  {
+   "type": "title",
+   "phase": "starter",
+   "minutes": 1,
+   "character": "bloop",
+   "eyebrow": "KS2 . Years 3 to 6",
+   "title": "Stay the maker",
+   "body": "You can use it. You just have to stay the one who made it.",
+   "script": "Read the title, then the line under it, then stop. Do not open by asking who uses AI at home, and do not open with a warning. Plenty of this class uses it and the lesson only works if that stays completely ordinary. The second line is the whole offer: nobody is being asked to give anything up."
+  },
+  {
+   "type": "objective",
+   "phase": "starter",
+   "minutes": 2,
+   "outcome": "I can ask AI for help with part of my work and still be the one who made it.",
+   "why": "These tools are not going away. Nobody has shown you where to put them yet.",
+   "gains": [
+    "Three moves you can use on any piece of work",
+    "A way to check whether you really learned something",
+    "A reason to feel proud of your own work again"
+   ],
+   "script": "Land this as something they are being given, not a rule they are being handed. They get to decide, job by job. That is a bigger offer than a ban and they will feel the difference."
+  },
+  {
+   "type": "discussion",
+   "phase": "starter",
+   "minutes": 3,
+   "mode": "pairs",
+   "seconds": 90,
+   "prompt": "A computer draws your dragon in one second. It is brilliant. It is better than you could draw. Who made it?",
+   "lookFor": "Most say the computer. Some say both. Listen for the child who says \"I did, I asked for it\", because that is the idea the whole lesson turns on.",
+   "script": "Ninety seconds. Take three answers and do not judge any of them. If someone says I made it because I asked for it, that is the most useful wrong answer in the room and you will come back to it in a minute. Do not settle it yet."
+  },
+  {
+   "type": "keywords",
+   "phase": "starter",
+   "minutes": 2,
+   "heading": "Three words for today",
+   "words": [
+    {
+     "word": "maker",
+     "definition": "The person who made it. Not the person who asked for it. If you can explain how it works and why, you are the maker."
+    },
+    {
+     "word": "helper",
+     "definition": "Something that helps you do a job. A ruler, a dictionary, a grown up, a computer. A helper does not take the job away from you."
+    },
+    {
+     "word": "stuck",
+     "definition": "When you cannot see what to do next. Being stuck is normal and it is not a problem. Staying stuck for ages is the problem."
+    }
+   ],
+   "script": "Maker is the load bearing word and it must land as something good. Helper must land as completely allowed. Stuck matters because half this lesson is about asking for the right amount of help, and a child who thinks stuck means stupid will never ask for any."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "🐉",
+   "heading": "Whose dragon is it?",
+   "body": "Here is the test. Could you draw it again on your own? Could you say why it has those wings and not different ones? If you cannot, you did not make it. You ordered it.",
+   "script": "Slow down. Ordered it is the word that lands, because they know exactly what ordering feels like. Nobody is in trouble for ordering a dragon. The point is only that ordering and making are two different things, and only one of them is yours."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "You typed six words and the computer drew the dragon. Who is the maker?",
+   "options": [
+    {
+     "text": "The computer. It did the drawing",
+     "correct": true,
+     "feedback": "Yes. You chose it, and choosing matters. But the making was the drawing, and you did not do any of it."
+    },
+    {
+     "text": "You. It was your idea",
+     "correct": false,
+     "feedback": "Your idea started it, and that is real. But an idea is not a dragon yet. Somebody still has to do the making, and this time it was not you."
+    },
+    {
+     "text": "Nobody. It is just a picture",
+     "correct": false,
+     "feedback": "Somebody made it. That is exactly the question worth asking every time something appears in one second."
+    }
+   ],
+   "script": "Option two is where most of the class lives and you must not squash it. Their idea IS real. Say that first, then separate having the idea from doing the making. That separation is the lesson."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "🪜",
+   "heading": "A helper does not take over",
+   "body": "A ruler helps you draw a straight line. It does not draw the picture. A dictionary helps you spell a word. It does not write the story. Good helpers get you to the work. They do not do the work.",
+   "script": "This is the slide that keeps the lesson fair. Every child in this room uses helpers and some of them use a lot. Say plainly that helpers are allowed, they are sensible, and nothing today is aimed at anyone who uses one."
+  },
+  {
+   "type": "discussion",
+   "phase": "teach",
+   "minutes": 2,
+   "mode": "pairs",
+   "seconds": 60,
+   "prompt": "Think of one thing you are really good at. Who did the hard part while you were learning it?",
+   "lookFor": "They say it themselves, every time. Football, drawing, swimming, a game, cooking. Nobody names something they got good at by watching.",
+   "script": "Sixty seconds, take three. Do not say the answer for them. This is the moment they tell you that nobody gets good at something by watching, and it is worth far more coming out of their mouths than yours."
+  },
+  {
+   "type": "diagram",
+   "phase": "teach",
+   "minutes": 2,
+   "heading": "Helper, or took over?",
+   "caption": "Same tool. Two different jobs.",
+   "steps": [
+    {
+     "emoji": "📏",
+     "title": "It helped",
+     "text": "You wanted a straight line. The ruler gave you a straight line. You still drew the picture."
+    },
+    {
+     "emoji": "🖨️",
+     "title": "It took over",
+     "text": "You wanted a picture. The computer gave you the whole picture. There was nothing left for you to do."
+    },
+    {
+     "emoji": "🔑",
+     "title": "The difference",
+     "text": "Ask what the job actually was. Then see how much of it is still yours."
+    }
+   ],
+   "verdicts": [
+    "A helper gets you to the work",
+    "Taking over does the work"
+   ],
+   "script": "Hold up the two chips and have the class vote on each step before you turn it over. The third step is the one to repeat: what was the job? That question is doing all the work in this lesson and they will use it again in five minutes."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "🙋",
+   "heading": "Ask for help, not for the whole thing",
+   "body": "You are allowed to ask. Just ask smaller. Not \"write my story\" but \"give me three ideas for what happens next\". Not \"do my maths\" but \"how do I start question four?\". Small asks leave the making with you.",
+   "script": "This is the practical heart of the lesson, and it is a skill rather than a rule. Read both examples out loud and let them hear how similar the two asks sound and how different they are underneath."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "You are stuck on your story. Which ask keeps you as the maker?",
+   "options": [
+    {
+     "text": "Give me two ideas for what the dragon does next",
+     "correct": true,
+     "feedback": "Yes. You get unstuck, and you still choose, and you still write it. That is a helper doing exactly its job."
+    },
+    {
+     "text": "Write the next part of my story",
+     "correct": false,
+     "feedback": "It will do it, and it will be good, and it will not be yours. When someone asks you what happens next you will have to go and look."
+    },
+    {
+     "text": "Write my whole story so I can see how it should go",
+     "correct": false,
+     "feedback": "This one sounds sensible and it is the sneakiest of the three. Reading a finished story teaches you much less than writing a wobbly one."
+    }
+   ],
+   "script": "Option three is the one to spend time on. It sounds like learning and it is not, and clever children reach for it most. Say out loud that a wobbly story you wrote beats a brilliant one you read."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "✨",
+   "heading": "Add your own bit",
+   "body": "Whatever help you got, put something in that only you would have thought of. Your dragon is scared of moths. Your castle has a broken lift. That bit is where you show up in your own work.",
+   "script": "Children love this one and it is the easiest of the three moves to do. It is also the one that makes work worth reading. Collect two or three examples on the board and keep them up for the practise task."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "Two children hand in a dragon story. Their teacher asks both of them what happens at the end. What tells you who made theirs?",
+   "options": [
+    {
+     "text": "The one who can tell you, without looking",
+     "correct": true,
+     "feedback": "That is the whole test, and it takes about ten seconds. If it is in your head, you made it."
+    },
+    {
+     "text": "The one whose story is longer",
+     "correct": false,
+     "feedback": "A computer can make anything long in a second. Length tells you nothing about who made it."
+    },
+    {
+     "text": "The one whose story has better spelling",
+     "correct": false,
+     "feedback": "Neat and correct is not the same as yours. Plenty of beautiful work was made by somebody else."
+    }
+   ],
+   "script": "This is the bridge into cycle three. Do not explain the explain it back test yet, just let them notice that being able to say it out loud is the thing that separates the two children."
+  },
+  {
+   "type": "discussion",
+   "phase": "teach",
+   "minutes": 2,
+   "mode": "pairs",
+   "seconds": 60,
+   "prompt": "Think of a time you asked someone for a nudge and not the answer. What did you ask for?",
+   "lookFor": "A hint. Where to start. Whether they were on the right track. Anything that got them moving without finishing it for them.",
+   "script": "Sixty seconds. They already do this with grown ups and friends constantly, and naming it is what lets them do it on purpose with a machine. Take two and write the best wording on the board."
+  },
+  {
+   "type": "concept",
+   "phase": "teach",
+   "minutes": 2,
+   "emoji": "🪞",
+   "heading": "Explain it back",
+   "body": "Here is something strange about your brain. When you read a good explanation, it feels like you understand. That feeling turns up whether you actually understand or not. So the feeling is not proof. Saying it out loud is.",
+   "script": "This is the most useful idea in the lesson and no one has ever told them. Keep it as a fact about their own head rather than a warning about computers, which is far more interesting at this age and much easier to believe."
+  },
+  {
+   "type": "tryit",
+   "phase": "teach",
+   "minutes": 2,
+   "heading": "Try it now, on something that works in steps",
+   "body": "Pick something you learned this week that WORKS IN STEPS. How a plant drinks. How to do a column subtraction. Score yourself out of 5. Now say it out loud to your partner, every step. Score yourself again.",
+   "script": "Run it live, sixty seconds, out loud in pairs. Enforce the works in steps part: this only works properly on things with a how, not on facts or dates, so steer anyone who picks a capital city. Then hands up, whose second score was lower? Many hands, not all. A child whose score stayed the same has not failed anything."
+  },
+  {
+   "type": "choice",
+   "phase": "teach",
+   "minutes": 2,
+   "question": "Your second score was lower than your first. What does that actually mean?",
+   "options": [
+    {
+     "text": "You found the bit you had not really learned yet",
+     "correct": true,
+     "feedback": "Yes. And you found it today, for free, instead of in a test. The gap was already there. Now you can see it."
+    },
+    {
+     "text": "You got worse at it while you were talking",
+     "correct": false,
+     "feedback": "You are exactly as good as you were a minute ago. The only thing that changed is that now you know where your edge is."
+    },
+    {
+     "text": "You are bad at explaining",
+     "correct": false,
+     "feedback": "Sometimes. But explaining is how you find the hole, so even a messy explanation has just done you a favour."
+    }
+   ],
+   "script": "Option two is the one to head off hardest, and some child in this room will believe it. Nobody got worse. They got accurate. Say that phrase, write it up, leave it there."
+  },
+  {
+   "type": "diagram",
+   "phase": "teach",
+   "minutes": 2,
+   "heading": "Stay the maker",
+   "caption": "Three moves. Any job, any time.",
+   "steps": [
+    {
+     "emoji": "🙋",
+     "title": "Ask for help, not the whole thing",
+     "text": "Ask smaller. A nudge, an idea, a place to start."
+    },
+    {
+     "emoji": "✨",
+     "title": "Add your own bit",
+     "text": "Put in the part only you would have thought of."
+    },
+    {
+     "emoji": "🪞",
+     "title": "Explain it back",
+     "text": "If you can explain it, you made it. If you cannot, it made it."
+    }
+   ],
+   "verdicts": [
+    "I am still the maker",
+    "It took over"
+   ],
+   "script": "This is the tool and it goes on the wall. Chant it twice, together, pointing at each step. Then hold up the two chips and say you will be using those for the rest of the lesson. If they leave with nothing else, they leave with these three moves."
+  },
+  {
+   "type": "discussion",
+   "phase": "teach",
+   "minutes": 2,
+   "mode": "pairs",
+   "seconds": 60,
+   "prompt": "Feeling sure is not proof. So what could you actually check instead?",
+   "lookFor": "Say it out loud. Do one on my own. Try it again tomorrow with the book shut. Teach it to someone smaller. Anything that is a try rather than a feeling.",
+   "script": "They get there on their own. The answer is always some version of have a go and find out. Write the best version in their own words and keep it for the recap."
+  },
+  {
+   "type": "interactive",
+   "phase": "practise",
+   "minutes": 5,
+   "component": "verdict-sort",
+   "caption": "Sort the six together before the sheet.",
+   "config": {
+    "label": "Helper or took over . tap the class answer",
+    "verdicts": [
+     "Helper. I am still the maker",
+     "It took over. I did not make it",
+     "Depends what the job was"
+    ],
+    "doneTitle": "All six sorted",
+    "doneEmoji": "⭐",
+    "doneBody": "Same six on your sheet now. This time write the reason next to your answer.",
+    "posts": [
+     {
+      "handle": "Card 1",
+      "avatar": "🔊",
+      "answer": 0,
+      "text": "Reading is hard for you, so the computer reads the question out loud. You work out the answer yourself.",
+      "why": "Reading was in the way. The job was working out the answer, and that part is still all yours."
+     },
+     {
+      "handle": "Card 2",
+      "avatar": "📖",
+      "answer": 1,
+      "text": "You ask it to write your whole story about a dragon. You copy it out and hand it in.",
+      "why": "Writing the story WAS the job. Once it is copied out there is nothing left that you did."
+     },
+     {
+      "handle": "Card 3",
+      "avatar": "💡",
+      "answer": 0,
+      "text": "You ask for three ideas for what happens next. You pick one and write the rest yourself.",
+      "why": "You got unstuck and you still did the writing. This is asking smaller, done properly."
+     },
+     {
+      "handle": "Card 4",
+      "avatar": "🔤",
+      "answer": 2,
+      "text": "You ask it to check your spellings.",
+      "why": "If the job was practising your spellings, it took over. If the job was writing a good story, it is a helper. Ask what the job was."
+     },
+     {
+      "handle": "Card 5",
+      "avatar": "🧮",
+      "answer": 0,
+      "text": "You have been stuck on question four for ten minutes. You ask how to start, then you do the rest.",
+      "why": "Stuck for ten minutes is not brave, it is just stuck. A nudge puts you back into the work."
+     },
+     {
+      "handle": "Card 6",
+      "avatar": "🐉",
+      "answer": 1,
+      "text": "You ask it to draw your dragon. It is beautiful. You did not draw any of it.",
+      "why": "You chose it, and choosing is real. But the job was the drawing, and none of the drawing is yours."
+     }
+    ]
+   },
+   "script": "Do card one first and do it deliberately. A computer reading to you is a helper, full stop, and settling that in the first thirty seconds lets every child in the room who needs one relax. Card four is the one worth arguing about: the answer genuinely is it depends, and being able to say why is the skill."
+  },
+  {
+   "type": "tryit",
+   "phase": "practise",
+   "minutes": 5,
+   "heading": "Now on your own work",
+   "body": "Take a real piece of homework you have this week. Write down what the job actually is. Then write one place a helper could help, and one place it must not.",
+   "script": "This is the part that leaves the room with them. Circulate. If a child cannot say what the job is, that is worth knowing and it is usually the more useful conversation to have."
+  },
+  {
+   "type": "discussion",
+   "phase": "practise",
+   "minutes": 2,
+   "mode": "table",
+   "seconds": 120,
+   "prompt": "Swap sheets with your partner. Do you agree with where they drew the line?",
+   "lookFor": "Disagreement is the point. Ask which of them had actually checked what the job was.",
+   "script": "Two minutes. Read out a couple of the disagreements. Those are worth far more than the agreements."
+  },
+  {
+   "type": "choice",
+   "phase": "practise",
+   "minutes": 2,
+   "question": "You have been asking for a nudge on question one every time. Today you did it on your own. What changes next time?",
+   "options": [
+    {
+     "text": "Ask for a little bit less help than last time",
+     "correct": true,
+     "feedback": "That is the whole method. Not stopping. Not carrying on the same. One step less, once you have earned it."
+    },
+    {
+     "text": "Stop asking for any help ever again",
+     "correct": false,
+     "feedback": "Too big a jump. You will get stuck, stay stuck, and learn nothing. Come down one step at a time."
+    },
+    {
+     "text": "Keep asking for exactly the same help",
+     "correct": false,
+     "feedback": "It was the right help last month. The help that fits you today is too much help next week, and that is a sign you got better."
+    }
+   ],
+   "script": "This answers the question children always ask, which is do I just stop. No. Ask for a little bit less than last time. Put that line on the board next to the three moves."
+  },
+  {
+   "type": "choice",
+   "phase": "prove",
+   "minutes": 2,
+   "question": "One question tells you whether something is a helper or whether it took over. Which one?",
+   "options": [
+    {
+     "text": "What was the job I was actually doing?",
+     "correct": true,
+     "feedback": "That is it. Everything else today hangs off that one question."
+    },
+    {
+     "text": "Am I allowed to use it?",
+     "correct": false,
+     "feedback": "Worth knowing, and a different question. Lots of allowed things still do the job for you."
+    },
+    {
+     "text": "Would my teacher be cross?",
+     "correct": false,
+     "feedback": "A decent guess, and not enough. Cross tracks the rules. This is about what you get to keep."
+    }
+   ],
+   "script": "Straight recall of the tool. If this one wobbles, the lesson did not land and cycle two is where to go back to."
+  },
+  {
+   "type": "choice",
+   "phase": "prove",
+   "minutes": 2,
+   "question": "How do you know whether you really learned something?",
+   "options": [
+    {
+     "text": "Explain it out loud, with the book shut",
+     "correct": true,
+     "feedback": "Yes. The bit where you go quiet is the bit you had borrowed. Finding it today is a good thing."
+    },
+    {
+     "text": "It felt easy when you read it",
+     "correct": false,
+     "feedback": "That feeling turns up whether you learned it or not, which is exactly why it cannot be your proof."
+    },
+    {
+     "text": "You got a tick",
+     "correct": false,
+     "feedback": "A tick says the answer was right. It does not tell you whether the answer is still in your head tomorrow."
+    }
+   ],
+   "script": "This is the one worth getting right. Everything they do after today depends on not trusting the feeling of having understood."
+  },
+  {
+   "type": "recap",
+   "phase": "close",
+   "minutes": 2,
+   "heading": "Three things to take with you",
+   "points": [
+    "Ask for help, not for the whole thing.",
+    "Add your own bit, the part only you would think of.",
+    "If you can explain it, you made it."
+   ],
+   "script": "Read them. Do not add a fourth. Three is what fits in a head on the way out to play."
+  },
+  {
+   "type": "digi",
+   "phase": "close",
+   "minutes": 2,
+   "heading": "One last thing",
+   "lines": [
+    "Nobody here is being told to stop using it.",
+    "You are being told how to stay the maker while you do.",
+    "Ask smaller. Add your bit. Then tell someone what you made."
+   ],
+   "script": "Close on the third line and stop. Do not add a warning after it. It is the whole lesson in three short instructions and it is the bit they will repeat to somebody at home."
+  }
+ ],
+ "video_beats": [],
+ "assessment": {
+  "retrieval_starter": {
+   "title": "Before we start",
+   "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+   "questions": [
+    {
+     "q": "A computer draws your dragon in one second. Who made it?",
+     "options": [
+      "You did, it was your idea",
+      "The computer did the drawing",
+      "Nobody, it is just a picture"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "You are stuck. Which is the better thing to ask for?",
+     "options": [
+      "The whole answer",
+      "A nudge to get started",
+      "Nothing, stay stuck"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "An explanation made complete sense to you. What does that prove?",
+     "options": [
+      "You have learned it",
+      "Not much on its own",
+      "It was an easy topic"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Reading is hard for a pupil, so a computer reads the maths question aloud. That is...",
+     "options": [
+      "Against the rules",
+      "A helper, and allowed",
+      "Only for little children"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  "exit_quiz": {
+   "title": "Before you go",
+   "instructions": "Four questions. The same four ideas as the start, so you can see what moved.",
+   "questions": [
+    {
+     "q": "What makes you the maker of something?",
+     "options": [
+      "You asked for it",
+      "You can explain it without looking",
+      "It looks good"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Which ask keeps the making with you?",
+     "options": [
+      "Write the next part for me",
+      "Give me two ideas for the next part",
+      "Write the whole thing so I can see it"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Your second score in the explain it back test was lower. That means...",
+     "options": [
+      "You got worse",
+      "You found the bit you had not really learned",
+      "You are bad at explaining"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "You can now do question one on your own. What changes next time?",
+     "options": [
+      "Stop asking for help completely",
+      "Ask for a little bit less than last time",
+      "Ask for exactly the same help"
+     ],
+     "answer": 1
+    }
+   ]
+  }
+ },
+ "parent_note": {
+  "headline": "What we taught today, and one thing to try at home",
+  "taught": "Today we looked at where a computer helper belongs in a piece of work. Not whether to use one, but which part of the job has to stay with your child. They learned three moves: ask for help rather than the whole thing, add your own bit, and explain it back. Nothing was banned and nobody was asked whether they use one at home.",
+  "try_this": "Do not ask whether they understood their homework. Ask them to shut the book and tell you how it works, every step, as if you knew nothing about it. The bit where they go quiet is the bit that was borrowed rather than learned, and the kitchen table is a much kinder place to find it than a test.",
+  "family_question": "What was that piece of work actually trying to teach you? Then: which part did you do yourself?",
+  "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is knowing which part of a job has to stay with you.",
+  "no_login_required": true
+ },
+ "teacher_notes": {
+  "learning_objective": "To use a helper for part of a task while keeping the making, and to check that by explaining it back.",
+  "essential_question": "If the computer made it, whose is it?",
+  "timing": "60 minutes: starter 8, cycle one 10, cycle two 10, cycle three 10, practise 14, prove 4, close 4",
+  "cycles": [
+   {
+    "verb": "Notice",
+    "title": "Whose dragon is it?",
+    "minutes": 10,
+    "outcome": "I can say who made a thing, and how I can tell."
+   },
+   {
+    "verb": "Try",
+    "title": "Ask for help, not for the whole thing",
+    "minutes": 10,
+    "outcome": "I can turn a do it all ask into a help me ask."
+   },
+   {
+    "verb": "Prove",
+    "title": "Explain it back",
+    "minutes": 10,
+    "outcome": "I can explain something back and spot the part I had not really learned."
+   }
+  ],
+  "tool": {
+   "heading": "Stay the maker",
+   "strapline": "Three moves. Any job, any time.",
+   "lines": [
+    "Ask for help, not for the whole thing.",
+    "Add your own bit, the part only you would think of.",
+    "Explain it back. If you can explain it, you made it."
+   ]
+  },
+  "keywords": [
+   {
+    "word": "maker",
+    "definition": "The person who made it, not the person who asked for it. If you can explain how it works and why, you are the maker."
+   },
+   {
+    "word": "helper",
+    "definition": "Something that helps you do a job. A ruler, a dictionary, a grown up, a computer. A helper does not take the job away from you."
+   },
+   {
+    "word": "stuck",
+    "definition": "When you cannot see what to do next. Being stuck is normal. Staying stuck for ages is the bit to fix."
+   }
+  ],
+  "prior_knowledge": [
+   "Children have asked a computer or an assistant to make something for them at least once, which is true of most of this age group.",
+   "Children know what it means to be told what a piece of work is for, from ks2-06 on how algorithms work."
+  ],
+  "key_learning_points": [
+   "Asking for something and making something are two different things, and only one of them is yours.",
+   "Helpers are allowed and sensible. The question is always what the job actually was.",
+   "A small ask keeps the making with you. A do it all ask hands it over.",
+   "The feeling of understanding turns up whether or not you understood, so explaining it out loud is the only way to check."
+  ],
+  "misconceptions": [
+   "That this lesson is about cheating. It is not. Everything in the practise set is allowed, and the question is what it costs you.",
+   "That using a computer more is the problem. It is not about how much. It is about what you ask it for.",
+   "That a reader, a scribe or text to speech is a soft option. Those are helpers, they are permitted, and this lesson says so in the first card the class sorts.",
+   "That struggling alone is always better. A child who cannot start at all is not learning, they are just stuck, and a nudge is the right move."
+  ],
+  "i_can": [
+   "I can say who made something and explain how I can tell.",
+   "I can turn a do it all ask into a help me ask.",
+   "I can explain something back and notice the bit I had not really learned."
+  ],
+  "commitment_stem": "My promise: the next time I use a helper, the part I will do myself is...",
+  "teacher_tip": "Do not open by asking who uses AI at home. Some of this class uses it a lot and one or two will be handing in work they did not write. The lesson stops working the moment it feels like an investigation. Treat every example as a made up one, keep your voice completely flat, and let the three moves do the work.",
+  "equipment": "Nothing beyond the board and the printed pack. No pupil devices needed. If pupils do have devices, the explain it back test works better with them shut.",
+  "paper_fallback": "The whole lesson runs from the printed pack. Read the six cards aloud and take a hands up vote on each before turning over the reason. The three moves go on the board as you say them, and stay up as a poster all term. Discussions run on a timer. The worksheet and both quizzes are already paper.",
+  "differentiation": {
+   "support": "Bookmark strip with the three moves on the table throughout. Sort cards one and two together with the group, using the sentence starter: the job was... so this is a... Any child may answer on the page instead of to the room.",
+   "stretch": "Card four is genuinely undecidable without more information. Ask the strongest writers to write out the two versions of the job that would flip the answer, then argue which one is more likely. Writing the two versions is harder than picking a side."
+  },
+  "send": {
+   "communication": "Every sort card carries a sentence starter on the sheet. The explain it back test may be done to a partner, to an adult, or written down, and nobody has to speak in front of the room.",
+   "attention": "The tool is three moves and one card at a time. Let a child hold a card and ask the question for the class.",
+   "sensory": "No gasps and no laughing at any of the cards, especially card one. Any child may pass on any question without giving a reason.",
+   "eal": "Maker, helper and job are the words to pre teach. The whole lesson survives in any language once maker is solid: the one who did it, not the one who asked for it."
+  },
+  "passport_stage": "builder",
+  "worksheet": {
+   "title": "Helper or took over: six cards, then your own work",
+   "directions": "For each card, write what the job was. Then tick your answer and write one reason. Finish with a real piece of your own work.",
+   "verdict_options": [
+    "Helper. I am still the maker",
+    "It took over. I did not make it",
+    "Depends what the job was"
+   ]
+  },
+  "worksheet_items": [
+   {
+    "n": 1,
+    "text": "Reading is hard for you, so the computer reads the question out loud. You work out the answer yourself.",
+    "stem": "The job was..."
+   },
+   {
+    "n": 2,
+    "text": "You ask it to write your whole story about a dragon. You copy it out and hand it in.",
+    "stem": "The job was..."
+   },
+   {
+    "n": 3,
+    "text": "You ask for three ideas for what happens next. You pick one and write the rest yourself.",
+    "stem": "The job was..."
+   },
+   {
+    "n": 4,
+    "text": "You ask it to check your spellings.",
+    "stem": "The job was..."
+   },
+   {
+    "n": 5,
+    "text": "You have been stuck on question four for ten minutes. You ask how to start, then you do the rest.",
+    "stem": "The job was..."
+   },
+   {
+    "n": 6,
+    "text": "You ask it to draw your dragon. It is beautiful. You did not draw any of it.",
+    "stem": "The job was..."
+   },
+   {
+    "n": 7,
+    "text": "Your own homework this week. Write down what the job is, then draw the line yourself.",
+    "stem": "The job is..."
+   }
+  ],
+  "starter_quiz": {
+   "title": "Before we start",
+   "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+   "questions": [
+    {
+     "q": "A computer draws your dragon in one second. Who made it?",
+     "options": [
+      "You did, it was your idea",
+      "The computer did the drawing",
+      "Nobody, it is just a picture"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "You are stuck. Which is the better thing to ask for?",
+     "options": [
+      "The whole answer",
+      "A nudge to get started",
+      "Nothing, stay stuck"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "An explanation made complete sense to you. What does that prove?",
+     "options": [
+      "You have learned it",
+      "Not much on its own",
+      "It was an easy topic"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Reading is hard for a pupil, so a computer reads the maths question aloud. That is...",
+     "options": [
+      "Against the rules",
+      "A helper, and allowed",
+      "Only for little children"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  "exit_quiz": {
+   "title": "Before you go",
+   "instructions": "Four questions. The same four ideas as the start, so you can see what moved.",
+   "questions": [
+    {
+     "q": "What makes you the maker of something?",
+     "options": [
+      "You asked for it",
+      "You can explain it without looking",
+      "It looks good"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Which ask keeps the making with you?",
+     "options": [
+      "Write the next part for me",
+      "Give me two ideas for the next part",
+      "Write the whole thing so I can see it"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "Your second score in the explain it back test was lower. That means...",
+     "options": [
+      "You got worse",
+      "You found the bit you had not really learned",
+      "You are bad at explaining"
+     ],
+     "answer": 1
+    },
+    {
+     "q": "You can now do question one on your own. What changes next time?",
+     "options": [
+      "Stop asking for help completely",
+      "Ask for a little bit less than last time",
+      "Ask for exactly the same help"
+     ],
+     "answer": 1
+    }
+   ]
+  },
+  "evidence_base": [
+   {
+    "claim": "Children in grades 2 and 4, roughly ages 7 to 10, rate their own understanding of how things work highly and then rate it lower after trying to explain it step by step. Kindergarteners did not show it, and it was not found for procedures. This is the age matched support for the explain it back drill, and it is why the drill names something that works in steps rather than a fact or a date.",
+    "source": "Mills and Keil (2004), Knowing the limits of one's understanding, Journal of Experimental Child Psychology 87(1)",
+    "status": "verified"
+   },
+   {
+    "claim": "The same effect in adults, on a 1 to 7 scale, is a medium one, Cohen's d about 0.49 as recomputed by Johnson and colleagues (2016). It is specific to causal and mechanistic knowledge rather than facts, procedures or narratives. Expect many hands rather than all hands when you take the vote.",
+    "source": "Rozenblit and Keil (2002), The misunderstood limits of folk science: an illusion of explanatory depth, Cognitive Science 26(5), 521 to 562",
+    "status": "verified"
+   },
+   {
+    "claim": "The randomised trial showing that unguarded AI lowered later exam scores, and that hints only avoided that, was run on pupils aged roughly 14 to 17 at one Turkish secondary school. It is the spine of the KS3 lesson and it is deliberately NOT used here, because it says nothing about this age group.",
+    "source": "Bastani and colleagues (2025), PNAS 122(26), e2422633122, named here only to record that it is out of scope",
+    "status": "mechanism"
+   }
+  ],
+  "hard_questions": [
+   {
+    "question": "So am I not allowed to use it?",
+    "answer": "You are allowed. Everything on the cards today is allowed. The only thing we are doing is working out which part of each job has to stay with you, so that the work still counts as yours."
+   },
+   {
+    "question": "What if the computer reads things out for me?",
+    "answer": "Then it is a helper and nothing in this lesson is about you. It clears the reading out of the way so you can get to the thinking, and the thinking is still all yours."
+   },
+   {
+    "question": "What if I really cannot start?",
+    "answer": "Then ask for the smallest nudge that gets you going, and that is the right move. Sitting stuck for twenty minutes is not brave, it is just twenty minutes. Get in, then do the rest."
+   },
+   {
+    "question": "My mum lets me use it for homework. Is she wrong?",
+    "answer": "No. She is helping you get it done. Show her the three moves and do it together. Using it is fine, and what you ask it for is the part worth deciding."
+   }
+  ],
+  "parent_questions": [
+   {
+    "question": "Are you teaching my child to use AI for homework?",
+    "answer": "We are teaching them where to put it. They learn one question, what was the job, and three moves: ask smaller, add your own bit, explain it back. That is a decision they make each time rather than a rule we hand down, which is why it still works when none of us are watching."
+   },
+   {
+    "question": "Would it not be easier to just ban it at home?",
+    "answer": "It is simpler, and it tends not to hold. These tools are inside the apps and the homework sites your child already uses, so a ban mostly moves it out of sight. We would rather they had the words for it now, while it is still small, and while you are the person they show it to."
+   },
+   {
+    "question": "My child uses a reader or text to speech. Is this saying that is cheating?",
+    "answer": "The opposite, and the lesson says so out loud in the very first card the class sorts. A computer reading to your child clears the reading out of the way so they can get to the thinking. It is a helper and it is allowed. If your child uses one, this lesson is the reason they can stop feeling odd about it."
+   },
+   {
+    "question": "What should I do at home?",
+    "answer": "One thing. Do not ask whether they understood their homework, because that feeling is unreliable and this lesson explains why. Ask them to shut the book and tell you how it works, in their own words. The bit where they go quiet is the bit that was borrowed, and the kitchen table is a much kinder place to find it than a test."
+   }
+  ],
+  "subject_knowledge": [
+   {
+    "heading": "The lesson rests on ownership, not on harm",
+    "body": "This is the KS2 half of the same idea as ks3-24, but it makes a different argument on purpose. The KS3 lesson can say that unguarded AI use cost pupils exam marks, because there is a randomised trial that measured it. That trial was run on 14 to 17 year olds. It says nothing about a Year 4 class, so this lesson does not use it, and neither should you if a parent asks."
+   },
+   {
+    "heading": "What the evidence does support at this age",
+    "body": "Mills and Keil (2004) found the illusion of explanatory depth in children in grades 2 and 4, roughly ages 7 to 10, for devices. That is direct, age matched support for the explain it back drill, and it is why the drill is the spine of cycle three rather than a nice extra. It is also why the drill specifies something that works in steps: the effect is weak or absent for facts and procedures."
+   },
+   {
+    "heading": "The muscle line is a metaphor and should stay one",
+    "body": "If a machine lifts every weight, your arm never grows. Children find this instantly convincing and it is a good way in. It is an analogy, not a finding about brains, so say it as a picture rather than as science. Nobody has scanned a Year 4 brain before and after using a chatbot, and we do not need them to for this lesson to be worth teaching."
+   },
+   {
+    "heading": "Why the first sort card is the one about reading",
+    "body": "A lesson about doing your own thinking is exactly the lesson a child with an access arrangement hears as an accusation. Card one settles that in the first thirty seconds: a computer reading the question aloud is a helper, it is permitted, and the class says so out loud before anything else is sorted. Do not reorder the cards."
+   }
+  ]
+ },
+ "dsl_note": {
+  "required": false,
+  "concern_form_linked": false,
+  "note": "This lesson is about learning rather than safeguarding and carries no disclosure prompt. One inclusion point matters and is built into the first practise card: a computer reader, a scribe or text to speech is named out loud as a helper that is permitted, because a lesson about doing your own thinking can otherwise be heard by a child with an access arrangement as an accusation. Staff should not apply this lesson as a no computers rule, which would cut across the school's anticipatory duty under the Equality Act 2010 and the SEND Code of Practice. If a child does disclose something during the lesson, treat it under the normal safeguarding policy."
+ }
+}

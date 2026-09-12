@@ -203,6 +203,7 @@ jobs:
       - run: node scripts/check-module-contract.mjs content/modules/ks3-22-when-an-ai-acts-like-a-friend.json
       - run: node scripts/check-module-contract.mjs content/modules/ks2-23-when-a-machine-talks-like-a-friend.json
       - run: node scripts/check-module-contract.mjs content/modules/ks3-24-is-it-doing-my-thinking.json
+      - run: node scripts/check-module-contract.mjs content/modules/ks2-25-stay-the-maker.json
       # Structure and density are checked above. This one checks whether the
       # claims are TRUE, against the four verification passes of 11 September.
       - run: node scripts/check-source-claims.mjs
