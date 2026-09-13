@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { STAGES, type ChallengeId } from '@/lib/content/stages'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
+import { getReadinessAreas } from '@/lib/pathway/readiness-areas'
+import { AREA_ORDER, AREA_START, LITERACY_AREAS } from '@/lib/content/literacy'
+import { childWorries, improvedLine } from '@/lib/concerns/sorted'
 import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import BackTo from '@/components/nav/BackTo'
 import { pickChild } from '@/lib/children/select'
@@ -180,15 +183,25 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     && (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as ProgressStageId[])
       .every((slug, i) => allStagesProgress[slug].contentComplete && passedStages.has(i + 1))
 
-  // One live literacy reading, for the end of stage check's greens and ambers.
-  const litStatuses = await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1, primaryChild?.id ?? null)
+  // ── THE FOUR THINGS, COUNTED ONCE ──────────────────────────────────────────
+  //
+  // One read of the four areas for every stage (lib/pathway/readiness-areas.ts,
+  // the one rule), handed to the literacy reading for the check card and
+  // printed on every page of the passport book. Justin, 13 September 2026: the
+  // passport is "updated based on progression through the areas we have agreed
+  // need to be met". Alongside it, the worries as the child's own passport
+  // reads them, for the behaviour line on the parent's book.
+  const [areasRead, worries] = await Promise.all([
+    getReadinessAreas(supabase, user.id, primaryChild?.id ?? null),
+    primaryChild?.id ? childWorries(supabase, user.id, primaryChild.id) : Promise.resolve([]),
+  ])
+  const improved = improvedLine(worries)
 
-  const READINESS_AREAS = [
-    { key: 'safe', name: 'Safe online', startStage: 1 },
-    { key: 'balance', name: 'Healthy balance', startStage: 1 },
-    { key: 'ai', name: 'AI and chatbots', startStage: 3 },
-    { key: 'social', name: 'Social media ready', startStage: 3 },
-  ] as const
+  // One live literacy reading, for the end of stage check's greens and ambers.
+  const litStatuses = await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1, primaryChild?.id ?? null, areasRead)
+
+  // The start age per area is declared once, in lib/content/literacy.ts.
+  const READINESS_AREAS = AREA_ORDER.map(key => ({ key, name: LITERACY_AREAS[key].name, startStage: AREA_START[key] }))
   const stageNum = currentStageNum ?? 1
   const activeAreas = READINESS_AREAS.filter(a => stageNum >= a.startStage)
   const readinessAmbers = activeAreas
@@ -256,6 +269,8 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           // Every row's link out carries the child, so working a sibling's
           // page never silently switches whose data the next screen shows.
           ...(sections ? { sections: sections.sections.map(row => ({ ...row, href: withChild(row.href, childParam) })) } : {}),
+          // The four things this page builds, as counts, for StageAreas.
+          areas: areasRead.byStage[s.id],
         }
       })
     : []
@@ -490,6 +505,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               catchupLines={catchupLines}
               passportCode={primaryChild?.passport_code ?? null}
               childRead={childRead}
+              improved={improved}
               onApp={!!kidLink?.token}
             />
             {socialRoad && socialRoad.total > 0 && primaryChild?.id && (

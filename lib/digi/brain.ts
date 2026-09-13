@@ -1,5 +1,7 @@
 import type { createClient } from '@/lib/supabase/server'
+import type { SupabaseClient as PlainClient } from '@supabase/supabase-js'
 import { getStageProgress, type StageId } from '@/lib/pathway/progress'
+import { readFamilyState, renderFamilyState } from './family-state'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -351,10 +353,26 @@ export async function getPathwayPosition(
   streakWeeks: number,
   /** Whose position. The stage is one child's, so the counts must be too. */
   childId: string | null = null,
+  /**
+   * The child's age band and name, for the goal reading below. Optional so
+   * every existing caller keeps working; without them the goal reading still
+   * runs, with the child unnamed and the star bank at the default rate.
+   */
+  who: { ageBand?: string | null; name?: string | null } = {},
 ): Promise<string> {
   let p
+  let goal = ''
   try {
-    p = await getStageProgress(supabase, userId, stage.stageId, streakWeeks, childId)
+    // The goal reading rides alongside the stage progress, never after it:
+    // both are one round trip and DiGi's first token is the number a parent
+    // feels (lib/digi/timing.ts).
+    const [prog, state] = await Promise.all([
+      getStageProgress(supabase, userId, stage.stageId, streakWeeks, childId),
+      readFamilyState(supabase as unknown as PlainClient, userId, childId, stage.id, who.ageBand ?? null),
+    ])
+    p = prog
+    const kid = who.name && who.name !== 'Your child' ? who.name : 'their child'
+    goal = renderFamilyState(state, kid)
   } catch {
     return '' // pathway position is an anchor, never a hard dependency of the reply
   }
@@ -377,18 +395,13 @@ export async function getPathwayPosition(
 - Stage ${stage.id} of 5, ${stage.name} (${stage.ages}). The ${stage.name} stamp is ${p.overallPct}% filled.
 - What fills this stamp: lessons ${lessonsDetail}, scripts ${p.scriptsPct}%, devices ${p.devicesPct}%, daily habit ${streakWeeks} of 4 weeks.
 - ${nextLine}
-Keep it to one calibrated next step, never a to do list, never pressure, never guilt.`
+Keep it to one calibrated next step, never a to do list, never pressure, never guilt.${goal}`
 }
 
 export interface ProactiveTrigger {
   kind: 'watch_for' | 'tip' | 'parent_care' | 'celebration' | 'stage_arrival'
   reason: string
 }
-
-// The verbatim reason that marks a prompt as a share nudge: DiGi inviting the
-// parent to open Lessons and send a printable or lesson so the child earns
-// stars. The route matches on this to deep link the prompt straight there.
-export const SHARE_NUDGE_REASON = 'Routine cadence: nudge to share a printable or lesson so the child earns stars.'
 
 // The verbatim reason for the young age phone flag: the balance report saw
 // phone and social time this week for a child at an age where the guide keeps
@@ -443,19 +456,15 @@ export function findTriggers(
     triggers.push({ kind: 'celebration', reason: `${streakWeeks} week practice streak.` })
   }
 
-  // A steady drumbeat even when nothing is wrong: one daily life tip, and
-  // parent care roughly weekly, because the parent's own mental health is
-  // half of the child's environment. On alternate days the tip becomes a
-  // gentle nudge to share a printable or lesson so the child earns stars,
-  // which keeps the star loop alive without ever being a chore.
-  const stale = !lastPromptAt || (Date.now() - new Date(lastPromptAt).getTime()) > 3 * 24 * 60 * 60 * 1000
-  if (stale && (opts?.includeRoutine ?? true)) {
-    const shareTurn = Math.floor(Date.now() / 86_400_000) % 2 === 0
-    triggers.push(shareTurn
-      ? { kind: 'tip', reason: SHARE_NUDGE_REASON }
-      : { kind: 'tip', reason: 'Routine cadence: no proactive prompt in the last three days.' })
-    triggers.push({ kind: 'parent_care', reason: 'Routine cadence: parent wellbeing check due.' })
-  }
+  // THE DRUMBEAT IS GONE. Until 13 September 2026 this added a tip every
+  // three days, a parent care nudge with it, and a printable nudge on
+  // alternate days, whatever had happened in the family. That is a calendar,
+  // and Justin asked for judgement: DiGi steps in when there is something
+  // worth saying and stays quiet otherwise. The hard signals above still feed
+  // the moment reader (lib/digi/moment.ts); the routine ones do not exist.
+  // lastPromptAt and includeRoutine stay in the signature so no caller moves.
+  void lastPromptAt
+  void opts?.includeRoutine
 
   return triggers.slice(0, 2)
 }

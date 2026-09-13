@@ -13872,3 +13872,110 @@ thinking turn; six of six mutations caught.
 came after a tool fired. A dropped thinking block on the continuation is the
 exact shape of that. Not proven; the row records the model and stop reason
 now, so the next one will say.
+
+## 13 September 2026, the ink edge stays at 2px (session p37w5v)
+
+**Justin: "Go with 2px, keep the character."** Decided from the pictures, home
+and the child home at 390 with the edge token at 2px against 1.5px. The 1.5px
+read as more expensive and less ours. So --edge stays 2px solid var(--ink),
+and the question is closed: the next look and feel session should not reopen
+it without a new reason.
+
+## 13 September 2026: the passport proves the four things
+
+Justin, decoded from a voice note: the passport must be "updated based on
+progression through the areas we have agreed need to be met", easy for parent
+and child, "shows measurable progression", and the review must show "how child
+behaviour improved, better use of devices, safety, aware and educated on devices,
+social media risks and benefits, healthy, AI literate, safe and ready for the
+future we think AI will give us."
+
+Audit in `plans/2026-09-13-passport-readiness-plan.md`. Four findings, all
+closed in PR 1057, no migration:
+
+**AI was invisible to the passport.** The child's own AI modules (`ai_lessons`,
+seven or eight per age band, every band) counted toward nothing, and the AI
+area matched three parent lessons in the whole library while saying it comes at
+11. Now `lib/pathway/readiness-areas.ts` is the one counting rule: parent
+lessons by category plus the age band's AI modules, credited by the stamp's own
+rule (`lib/pathway/lesson-credit.ts`, lifted out of progress.ts so both share
+it by import).
+
+**A third of the library landed in no area.** bullying, information,
+ownership, relationships and reputation matched nothing: 36 lessons counting
+toward none of the four things. information goes to AI (telling what is real
+is that area's own promise), bullying to Safe, the other three to Social. And
+`ai_safety` fell through to Safe because an underscore is a word character.
+
+**The start age was written four times.** `AREA_START` in
+`lib/content/literacy.ts` is the one copy. AI starts on page one: the modules
+for 4 to 7 exist and the hub already offered "What is AI?" to a five year old
+while three of the four copies said 11. The algorithm and feed conversation
+still lands at Explorer through that stage's own lessons. Social stays at 11.
+
+**The passport never showed the areas.** Every stage page now carries "What
+this page builds": the four areas as counts and bars in the stage's ink
+(`components/pathway/StageAreas.tsx`). Lesson counts only, so the child's read
+only book draws the same block. And the parent's current page carries the
+behaviour line, "Phones in the car went from 2 to 5 stars", from the parent's
+own first and latest check in bands (`improvedLine` in `lib/concerns/sorted.ts`).
+Never on the child's book: `scripts/check-readiness-areas.mjs` holds that, the
+category mapping, the AI count and the single start rule, mutation tested
+eleven ways.
+
+**Not changed: what stamps a stage.** The AI modules are counted and shown.
+Whether they should also gate the stamp is Justin's call. The daily sticker
+decided on 10 September is still the "keeps interest daily" piece and is not
+built.
+
+## 13 September 2026: DiGi as the driving force, on judgement under a cap
+
+Justin, on the DiGi assessment: "Go with your recommendations." Plan in
+`plans/2026-09-13-digi-agentic-plan.md`. All four pieces built in PR 1057, no
+migration.
+
+**The AI modules gate the stamp.** progress.ts folds the age band's AI modules
+into lessonsDone and lessonsTotal in both readings, so the ring, the row, the
+sticker tile, the to do and the stamp move together and contentComplete
+requires them. AI literate is in the definition of ready.
+
+**The goal, every turn.** `lib/digi/family-state.ts` is one reading of where
+the family stands: the four things for the stage, the worry that moved the
+most in the parent's own stars, the child's own days and timer days, the check
+status. DiGi's chat anchor renders it on every call and the twice weekly word
+carries it in its brief. No new model call; the judgement of when to name it
+is the model's.
+
+**The moment reader replaces the calendar.** `lib/digi/moment.ts` reads what
+changed since DiGi last looked, the hard signals the old rules still find, the
+horizons not yet said with the next band flagged, and what DiGi said before,
+then asks one question: is anything worth an interruption today. A no is a
+dismissed row, once a day, so the silence is on the record. A yes is a card in
+a kind the table already accepts, reason `step_in:`, source the horizon, one
+push. The drumbeat (a tip every three days, parent care with it, a printable
+nudge on alternate days) is gone. The dashboard visit asks the reader; a 07:20
+UK cron asks it for families where something changed yesterday.
+
+**The cap is config and code.** `DIGI_STEP_IN_PER_WEEK`, default two, never
+two days running, checked before the model is called. Zero turns it off.
+
+**Platform changes, from a source, through the gate.** Four source families as
+config (`lib/config/platform-sources.ts`: Ofcom, ICO, Common Sense Media, the
+platform newsrooms). A Monday cron searches them through the model's web
+search, the same way the research updater does, drafts into `ai_updates` as
+drafts, and emails Justin. The insights board lists them; Publish is the only
+way a draft leaves draft, and it sends one `new_research` card to the families
+whose child's band the draft names. Rejected drafts are archived.
+
+**The human gate stays.** Nothing self learned reaches a family or DiGi's bank
+without Justin's click. The step in itself is DiGi speaking, the same as chat.
+
+**Guards.** `check-digi-step-in.mjs` (the cadence rule run for real, the
+order, the quiet gate, the kinds, no drumbeat) and `check-platform-watch.mjs`
+(the four families, drafts only, the founder gate inside POST before the
+publish, the fan out kind). Both mutation tested, both in CI.
+
+**Not verified here.** No API key in this container, so the reader and the
+watch have not been run against the model. The first real step in and the
+first Monday watch are the proof, and the quiet rows will say how often DiGi
+chose silence.

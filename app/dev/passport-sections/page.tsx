@@ -28,6 +28,14 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
   href: '/dashboard/lessons',
   lessonsDone: 3, lessonsTotal: 5,
   scriptsPct: 60, streakPct: 75, devicesPct: 80, lessonsPct: 60,
+  // The four things block, StageAreas: full, empty and part way, plus social
+  // media ghosted before stage 3 so the "later" state is on the fixture too.
+  areas: [
+    { key: 'safe', name: 'Safe online', done: mode === 'full' ? 7 : mode === 'empty' ? 0 : 3, total: 7 },
+    { key: 'balance', name: 'Healthy balance', done: mode === 'full' ? 4 : mode === 'empty' ? 0 : 4, total: 4 },
+    { key: 'ai', name: 'AI and chatbots', done: mode === 'full' ? 10 : mode === 'empty' ? 0 : 1, total: 10 },
+    { key: 'social', name: 'Social media ready', done: mode === 'full' ? 6 : mode === 'empty' ? 0 : 2, total: 6 },
+  ],
   sections: [
     {
       key: 'devices', emoji: '🔧', label: 'Devices set up',
@@ -70,7 +78,7 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
   ],
 }))
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ stage?: string; full?: string; empty?: string; notimer?: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ stage?: string; full?: string; empty?: string; notimer?: string; readonly?: string }> }) {
   const sp = await searchParams
   const mode = sp.full === '1' ? 'full' : sp.empty === '1' ? 'empty' : 'mixed'
   const stage = Number(sp.stage) || null
@@ -88,6 +96,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
         // be looked at. ?notimer=1 is the nudge case: a week with no session
         // means screen balance above is reporting on nothing measured.
         childRead={{ daysDone: 12, stars: 8, timerDays: sp.notimer === '1' ? 0 : 4 }}
+        // ?readonly=1 is the child's copy of the book: the four areas stay,
+        // the behaviour line must not appear even though it is passed.
+        readOnly={sp.readonly === '1'}
+        improved={mode === 'mixed' ? { label: 'Phones in the car', from: 2, to: 5, sortedCount: 2 } : null}
       />
     </main>
   )

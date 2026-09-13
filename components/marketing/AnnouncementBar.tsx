@@ -39,7 +39,7 @@ export default function AnnouncementBar() {
           fontSize: 'var(--text-lg)',
           cursor: 'pointer',
           color: 'rgba(255,255,255,.7)',
-          padding: '0 2px',
+          padding: 0, width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', margin: '-12px -6px',
           flexShrink: 0,
           lineHeight: 1,
         }}

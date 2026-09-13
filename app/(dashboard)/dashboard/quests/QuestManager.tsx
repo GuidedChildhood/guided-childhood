@@ -1322,7 +1322,7 @@ export default function QuestManager() {
             <a
               href="/dashboard/quests/contract"
               style={{
-                display: 'inline-block', marginTop: '12px',
+                display: 'inline-flex', alignItems: 'center', minHeight: 44, marginTop: '2px',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 color: 'var(--terracotta-dark)', textDecoration: 'none',
               }}
@@ -1500,7 +1500,7 @@ export default function QuestManager() {
                     <button
                       onClick={() => document.getElementById('all-ideas')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                       style={{
-                        background: 'none', border: 'none', padding: 0, marginBottom: '14px', cursor: 'pointer',
+                        background: 'none', border: 'none', padding: '10px 0', minHeight: 44, marginBottom: '4px', cursor: 'pointer', textAlign: 'left',
                         fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
                       }}
                     >
@@ -1775,7 +1775,7 @@ export default function QuestManager() {
                         onClick={() => setOpenRoutine(open ? null : pack.key)}
                         aria-expanded={open}
                         style={{
-                          background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left',
+                          background: 'none', border: 'none', padding: '10px 0', minHeight: 44, cursor: 'pointer', textAlign: 'left',
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           color: 'var(--terracotta-dark)',
                         }}

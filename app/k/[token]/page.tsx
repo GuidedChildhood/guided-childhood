@@ -19,6 +19,7 @@ import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
+import { getReadinessAreas } from '@/lib/pathway/readiness-areas'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import type { Stamp as PassportStamp } from '@/components/pathway/PassportStamps'
 
@@ -661,7 +662,12 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // a number nothing here renders. childId scopes the lessons to THIS child
     // rather than the family, which is what a passport with their name on it
     // has to mean in a house with two children.
-    const allProgress = await getAllStagesProgress(supabase, link.user_id, 0, link.child_id)
+    // The four things, counted by the one rule, so the child's copy of the
+    // book shows the same "3 of 7" the parent's does. Lesson counts only.
+    const [allProgress, areasRead] = await Promise.all([
+      getAllStagesProgress(supabase, link.user_id, 0, link.child_id),
+      getReadinessAreas(supabase, link.user_id, link.child_id),
+    ])
     const built = await buildPassportSections(
       supabase, link.user_id,
       { id: link.child_id, age_band: ageBand ?? null },
@@ -683,6 +689,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         lessonsDone: prog?.lessonsDone ?? 0,
         lessonsTotal: prog?.lessonsTotal ?? 0,
         sections: built1?.sections,
+        areas: areasRead.byStage[id],
       }
     })
     if (stamps.some(st => (st.sections?.length ?? 0) > 0)) kidBook = { stamps, currentStage: stageId }

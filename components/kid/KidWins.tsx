@@ -98,7 +98,7 @@ export default function KidWins({
             🏆 {childName}&rsquo;s wins
           </span>
           <button onClick={onClose} aria-label="Close" style={{
-            width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff',
+            width: 44, height: 44, borderRadius: '50%', border: 'none', background: '#fff',
             cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0,
           }}>✕</button>
         </div>

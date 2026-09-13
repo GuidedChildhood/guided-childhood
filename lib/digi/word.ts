@@ -7,6 +7,7 @@ import { getProvenSolutions } from '@/lib/digi/wisdom'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { sendPush } from '@/lib/push/send'
 import { renderHorizons, horizonsFor } from '@/lib/digi/horizons'
+import { readFamilyState, renderFamilyState } from '@/lib/digi/family-state'
 
 // DiGi's word: the proactive insight, twice a week.
 //
@@ -46,7 +47,7 @@ export type DigiWord = {
 
 type Child = { id: string; name: string | null; age_band: string | null; stage_id: string | null; is_primary: boolean | null }
 
-const FIXED_LINKS: { href: string; label: string }[] = [
+export const FIXED_LINKS: { href: string; label: string }[] = [
   { href: '/dashboard/checkin', label: 'the check in, where the parent rates how the worry went' },
   { href: '/dashboard/tonight', label: 'tonight, the one live mechanism for the top worry' },
   { href: '/dashboard/quests/timer', label: 'the timer, where screen time is set and wound up' },
@@ -194,13 +195,16 @@ export async function buildWordFor(userId: string, opts?: { admin?: SupabaseClie
   const stage = band ? getStageFromAgeBand(band) : null
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'your child'
 
-  const [researchRes, scriptsRes, lessonsRes, proven] = await Promise.all([
+  const [researchRes, scriptsRes, lessonsRes, proven, familyState] = await Promise.all([
     band
       ? admin.from('expert_knowledge').select('source_name, finding, created_at').eq('active', true).contains('age_bands', [band]).order('created_at', { ascending: false }).limit(14)
       : admin.from('expert_knowledge').select('source_name, finding, created_at').eq('active', true).order('created_at', { ascending: false }).limit(10),
     child.stage_id ? admin.from('scripts').select('sort_order, title, situation').eq('stage_id', child.stage_id).order('sort_order').limit(40) : Promise.resolve({ data: [] }),
     child.stage_id ? admin.from('lessons').select('id, title').eq('stage_id', child.stage_id).eq('audience', 'parent').limit(20) : Promise.resolve({ data: [] }),
     getProvenSolutions(admin, band, '', 3).catch(() => ''),
+    // Where the family is against the goal, the same reading every chat
+    // carries, so the word can drive toward the stamp rather than beside it.
+    readFamilyState(admin, userId, child.id, stage?.id ?? 1, band),
   ])
   const research = (researchRes.data ?? []) as { source_name: string; finding: string }[]
   const scripts = (scriptsRes.data ?? []) as { sort_order: number; title: string; situation: string | null }[]
@@ -241,6 +245,7 @@ export async function buildWordFor(userId: string, opts?: { admin?: SupabaseClie
     ...research.map(r => `- ${r.source_name}: ${r.finding.slice(0, 220)}`),
     proven ? `\n${proven.slice(0, 900)}` : '',
     renderHorizons(band, kidName),
+    renderFamilyState(familyState, kidName),
     '',
     'LINKS YOU MAY USE (copy one href exactly):',
     ...links.slice(0, 70).map(l => `- ${l.href}  ${l.label}`),

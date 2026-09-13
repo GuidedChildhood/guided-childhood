@@ -94,7 +94,7 @@ export default function DigiWondering() {
           </div>
         </div>
         {!done && (
-          <button onClick={skip} aria-label="Not now" style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', lineHeight: 1, padding: 4 }}>✕</button>
+          <button onClick={skip} aria-label="Not now" style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', lineHeight: 1, width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', margin: -8 }}>✕</button>
         )}
       </div>
       {done && (
