@@ -181,6 +181,7 @@ jobs:
       # screen of the funnel asked for a name, an email and a password. Nothing
       # failed, and the whole route to 4,000 a month runs through that page.
       - run: node scripts/check-starter-order.mjs
+      - run: node scripts/check-starter-fold.mjs
       - run: node scripts/check-one-tap.mjs
       - run: node scripts/check-pathway-notes.mjs
       - run: node scripts/check-children-age-up.mjs

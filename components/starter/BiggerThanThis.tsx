@@ -31,15 +31,19 @@
 // is a thing you can only ever test probabilistically. A commitment made on a
 // safety block has to be one you can guarantee.
 
-export default function BiggerThanThis({ kid, urgent = false }: {
+export default function BiggerThanThis({ kid, urgent = false, inRow = false }: {
   kid?: string
   /** Set when the parent has typed something that needs help before it needs a
    *  product. The block then leads the page instead of sitting under it. */
   urgent?: boolean
+  /** Drawn inside a Fold row (ResultScreen, 13 September 2026): no shell, no
+   *  heading, because the row carries both and the phone numbers on its
+   *  visible line. Never combined with `urgent`, which must never fold. */
+  inRow?: boolean
 }) {
   const child = kid && kid.length > 1 ? kid : 'your child'
   return (
-    <div className="wow-fu" style={{
+    <div className={inRow ? undefined : 'wow-fu'} style={inRow ? { padding: '2px 0 0' } : {
       background: urgent ? 'var(--stage-3)' : 'var(--tint-sage)',
       border: 'var(--edge)',
       borderRadius: 'var(--radius-card)',
@@ -48,13 +52,15 @@ export default function BiggerThanThis({ kid, urgent = false }: {
       marginTop: urgent ? 0 : 20,
       marginBottom: urgent ? 24 : 0,
     }}>
-      <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-        letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
-        marginBottom: 7,
-      }}>
-        When it is bigger than this
-      </div>
+      {!inRow && (
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+          marginBottom: 7,
+        }}>
+          When it is bigger than this
+        </div>
+      )}
 
       {/* ── SELF HARM IS TIERED ON ITS OWN ─────────────────────────────────
           The first version listed anything about hurting themselves in the
