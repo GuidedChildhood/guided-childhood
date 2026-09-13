@@ -14230,3 +14230,19 @@ card still never mentions the gap.
 
 **Guards.** `check-device-issues.mjs` and `check-habit-loop.mjs`, both
 running the real code, nine mutations caught between them, in CI.
+## 13 September 2026, Sunday, the schools platform reviewed (session 0u09q9)
+
+Justin asked for a review of the whole schools platform: what is left to make it
+sellable, and whether the appearance is finished to an Apple level. Every route
+was rendered locally at 390 and 1440 on the full production catalogue, the six
+printables as A4 PDFs, and the buyer and teacher journeys read from the code.
+
+The review lives at plans/2026-09-13-schools-review.md. Verdict: the teaching is
+sellable, the buying is not, and the Apple bar fails on detail rather than on
+bones. Eight must fix items (four newest modules crash their printed quizzes in
+production, the pupil booklet prints module 12's words on every module, the
+module count is wrong on eleven pages, three visible copy bugs, the compliance
+pages disagree on KCSIE's year and the flagged count, the player's Continue sits
+below the fold at 900px, the script and timing are hidden on the wall, and
+buying needs a phone call). Nothing was fixed in this session; the fixes wait on
+Justin's yes to the order in the review and on five decisions named there.
