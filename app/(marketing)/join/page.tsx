@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { STAGES } from '@/lib/content/stages'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 
@@ -20,10 +21,17 @@ const STAGE_COLORS = {
 // returned. The founder cap itself is enforced at checkout, never here.
 const FOUNDER_COUNT_TIMEOUT_MS = 1500
 
-async function getFounderData() {
+// Cached for a minute, so the buy page ships without waiting on the database
+// at all for the next sixty seconds of visitors. Found in the speed review of
+// 13 September 2026: this one count made /join a dynamic render on every
+// visit. The count is a nicety and the cap is enforced at checkout, so a
+// minute of staleness costs nothing. Admin client because a cached function
+// cannot read the visitor's cookies, and it never needs to: the count is the
+// same for everyone.
+const getFounderData = unstable_cache(async () => {
   const fallback = { taken: 0, available: true }
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const query = supabase
       .from('profiles')
       .select('id', { count: 'exact', head: true })
@@ -38,7 +46,7 @@ async function getFounderData() {
   } catch {
     return fallback
   }
-}
+}, ['founder-count'], { revalidate: 60 })
 
 // The star quest leads, per THE-STORY §10: it is the one piece competitors do
 // not have, and until 29 August 2026 it was missing from this page entirely,
@@ -256,7 +264,7 @@ export default async function JoinPage() {
           </div>
 
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--ink-light)', letterSpacing: '.06em' }}>
-            Four questions. No account needed. Your pathway is waiting.
+            Three questions. No account needed. Your pathway is waiting.
           </p>
 
           {/* Social proof row */}
@@ -278,7 +286,7 @@ export default async function JoinPage() {
 
       {/* Guarantee strip */}
       <div style={{ background: 'var(--stage-2)', borderTop: '1px solid var(--stage-2)', borderBottom: '1px solid var(--stage-2)', padding: '14px 32px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px', flexWrap: 'wrap' }}>
-        {['30 day money back guarantee', 'Cancel any time', 'No lock-in'].map((item, i) => (
+        {['30 day money back guarantee', 'Cancel any time', 'No lock in'].map((item, i) => (
           <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
             <span style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '.6rem', flexShrink: 0 }}>✓</span>
             {item}
@@ -800,13 +808,13 @@ export default async function JoinPage() {
         <div aria-hidden="true" style={{ position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '540px', margin: '0 auto', position: 'relative' }}>
-          <p className="eyebrow" style={{ color: 'var(--terracotta-lt)', marginBottom: '18px' }}>Your starting point is four questions away</p>
+          <p className="eyebrow" style={{ color: 'var(--terracotta-lt)', marginBottom: '18px' }}>Your starting point is three questions away</p>
           <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#fff', marginBottom: '18px', letterSpacing: '-.04em', lineHeight: 1.06 }}>
             Find your child's stage.<br />
             <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Free.</em>
           </h2>
           <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.97rem', lineHeight: 1.85, marginBottom: '32px' }}>
-            Age, main challenge, how you are feeling, and how much time you have. Four questions. Your personalised pathway is waiting on the other side.
+            Their age, the worry on your mind, and how you are feeling. Three questions. Your personalised pathway is waiting on the other side.
           </p>
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '17px 36px', display: 'inline-flex' }}>
             Start the check, it is free →

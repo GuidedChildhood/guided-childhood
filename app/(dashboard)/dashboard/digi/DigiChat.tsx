@@ -806,7 +806,12 @@ export default function DigiChat({
                 The one word per line break of 6 September was the block having
                 no room at all; flex 1 gives it the row. */}
             <div style={{ minWidth: 0 }}>
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)' }}>Your evidence led guide</p>
+              {/* Whose thread this is. The thread is per child and remounts by
+                  child id, but the chat itself never said the name, so a
+                  parent of two could be answering about the wrong one. */}
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)' }}>
+                {childName ? `${childName}${stageId ? ` · Stage ${stageId}` : ''}` : 'Your evidence led guide'}
+              </p>
               <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
             </div>
           </div>

@@ -62,7 +62,9 @@ export default function HomeLive({
         .catch(() => { if (live) setUrgent(0) })
     }
     refresh()
-    const id = setInterval(refresh, 15000)
+    // Skipped while the tab is hidden: a phone in a pocket was calling the
+    // notifications route four times a minute for nobody.
+    const id = setInterval(() => { if (!document.hidden) refresh() }, 15000)
     const onVis = () => { if (!document.hidden) refresh() }
     window.addEventListener(NOTIFS_CHANGED_EVENT, refresh)
     window.addEventListener('focus', refresh)

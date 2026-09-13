@@ -14518,3 +14518,50 @@ letter invites a reply to it. The pilot codes are still added by hand to
 SCHOOLS_ACCESS_CODES on the schools Vercel project; the note to him says so
 each time. FOUNDER_NOTIFY_EMAIL and EMAIL_FROM on the parents app project
 decide where his note goes and who the school's letter comes from.
+## 13 September 2026, evening: the platform review, speed and a simpler DiGi
+
+Justin: "Anything outstanding? Can you review the whole platform and ask me
+questions if any area is not clear, and make sure all code is efficient and
+quick, and DiGi is simple, easy to read and use."
+
+Four review passes ran in parallel, report only, then the certain wins were
+built and the judgement calls went to Justin as questions.
+
+**Where the time went.** The client side was already clean: local fonts, no
+third party scripts, no render time waste. The cost was on the server. The
+child app waited on 36 sequential database reads before first byte, the
+parent home on 13, DiGi on three serial reads and two embeddings of the same
+message after its parallel rounds, and every message paid about 1,100 tokens
+of unchanging text outside the cached block.
+
+**Built, no change in what a family sees.** Child app 36 awaits to two waves
+plus a loading skeleton; kid day route six to two; parent home 13 hops to 5;
+DiGi weighing rules and tool rules into the cached block, one embedding
+shared, scripts, moments and concern scores in round two, the question row
+claim no longer ahead of the first token; /join founder count cached a
+minute (cap still enforced at checkout); /starter-pack loads the reveal, the
+saving screen and the provider buttons only when the quiz reaches them;
+polling sleeps while the tab is hidden; 25 dead files (about 3,700 lines)
+removed; the reachability guard now checks each nav file it reads is
+mounted, because MobileSecondaryNav was dead and it was reading it.
+
+**DiGi readability, the certain part.** The chat eyebrow names the child and
+stage. The voice rules gain one line: short sentences, everyday words, no
+sentence over 20 words. The Home word hook clamps at 90 characters, matching
+its own prompt. The docs name the real default model id.
+
+**Deliberately not built, questions for Justin.** The length of a DiGi
+answer (the prompt asks for nine things and produces 300 word replies against
+a 3 to 5 sentence rule); whether the reflective question stays under every
+reply; whether the 11.5k character researchers file leaves the prompt now
+that retrieval exists; whether the fix of the week card should show only the
+issue and the button; whether six actions under an answer become two;
+whether middleware verifies the session locally (getClaims) to save two auth
+round trips per tap; whether notification polling slows to once a minute.
+Each changes what a family sees or how auth behaves, so none was decided
+here.
+
+**Left as found.** scripts/check-module-contract.mjs fails locally because it
+expects a file path argument; it is a schools guard and CI supplies it. 25
+guard scripts are wired into nothing (listed in the sweep); wiring them is a
+schools and content lane job.
