@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { HAPPY, Sticker } from '@/components/kid/HappyNewsBits'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
@@ -13,6 +14,8 @@ export type HomeTile = {
   /** The icon well's crayon colour. */
   tint: string
   onClick: () => void
+  /** Drawn on the home page itself. Everything else waits behind More. */
+  front?: boolean
 }
 
 const INK = HAPPY.ink
@@ -43,6 +46,21 @@ function Well({ tint, children, size = 76 }: { tint: string; children: React.Rea
   )
 }
 
+// ── ONE BIG THING, THREE SMALL THINGS, THE REST ONE TAP AWAY ────────────────
+//
+// The live walk of 13 September 2026 counted thirteen things to tap on the
+// child's home, ten of them tiles of the same size, behind a three second
+// splash. A seven year old cannot find the main action in that. Justin, on
+// the recommendation: "Go with recommendations."
+//
+// So: Use my time stays the hero, the first three tiles the parent screen
+// hands in are drawn, and everything else (the other tiles and Meet the
+// Planet Friends) waits behind one More things to do row. Nothing is removed
+// and every tap still does what it did. Telling a grown up stays on the
+// page in full, because a child who needs it must never have to open
+// anything to find it.
+const SHOWN = 3
+
 export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, tiles, onFriends, tellHref }: {
   minutesReady: number
   /** All jobs done and stars in the bank: the door is open, still an ask. */
@@ -53,6 +71,9 @@ export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, 
   onFriends: () => void
   tellHref?: string | null
 }) {
+  const [more, setMore] = useState(false)
+  const first = tiles.filter(t => t.front).slice(0, SHOWN)
+  const rest = tiles.filter(t => !first.includes(t))
   return (
     <div style={{ marginBottom: 18, fontFamily: 'var(--font-body)' }}>
       <style>{`
@@ -79,9 +100,31 @@ export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, 
         </span>
       </button>
 
-      {/* The grid: picture first, words under, the Math Games shape. */}
+      {/* The grid: picture first, words under, the Math Games shape. Three
+          tiles, then More. */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        {tiles.map(t => (
+        {first.map(t => (
+          <button key={t.label} className="kid-tile" onClick={t.onClick} style={{ ...EDGE, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '18px 12px 16px', textAlign: 'center', color: INK }}>
+            <Well tint={t.tint}><HappyIcon name={t.icon} size={46} /></Well>
+            <span style={{ minWidth: 0, maxWidth: '100%' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', lineHeight: 1.1, letterSpacing: '-0.01em' }}>{t.label}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.3 }}>{t.sub}</span>
+            </span>
+          </button>
+        ))}
+
+        {/* The fourth cell: More, or the rest of the tiles once it is open.
+            Butter because it is the thing to tap. */}
+        {rest.length > 0 && !more && (
+          <button className="kid-tile" onClick={() => setMore(true)} aria-expanded={false} style={{ ...EDGE, background: CRAYON.butter, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '18px 12px 16px', textAlign: 'center', color: INK }}>
+            <Well tint="#fff"><HappyIcon name="hand" size={46} /></Well>
+            <span style={{ minWidth: 0, maxWidth: '100%' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', lineHeight: 1.1, letterSpacing: '-0.01em' }}>More</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.3 }}>{rest.length + 1} more things to do</span>
+            </span>
+          </button>
+        )}
+        {more && rest.map(t => (
           <button key={t.label} className="kid-tile" onClick={t.onClick} style={{ ...EDGE, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '18px 12px 16px', textAlign: 'center', color: INK }}>
             <Well tint={t.tint}><HappyIcon name={t.icon} size={46} /></Well>
             <span style={{ minWidth: 0, maxWidth: '100%' }}>
@@ -92,10 +135,12 @@ export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, 
         ))}
       </div>
 
-      {/* Meet the Planet Friends, any time. */}
-      <button className="kid-tile" onClick={onFriends} style={{ ...EDGE, background: CRAYON.butter, width: '100%', marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, cursor: 'pointer', padding: '12px 16px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: INK }}>
-        <HappyIcon name="friends" size={30} /> Meet the Planet Friends
-      </button>
+      {/* Meet the Planet Friends, any time, once More is open. */}
+      {more && (
+        <button className="kid-tile" onClick={onFriends} style={{ ...EDGE, background: CRAYON.butter, width: '100%', marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, cursor: 'pointer', padding: '12px 16px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: INK }}>
+          <HappyIcon name="friends" size={30} /> Meet the Planet Friends
+        </button>
+      )}
 
       {/* Telling a grown up: on its own, under the playful tiles, with room. */}
       {tellHref && (
