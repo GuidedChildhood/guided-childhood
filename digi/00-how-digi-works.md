@@ -80,10 +80,17 @@ DiGi, it does not cap it.** Three levels:
    attached and nothing dressed up as our own approach
 3. It is genuinely contested, so say that and say why
 
-The research itself is two layers: sixteen sections of researchers loaded into
-every prompt (`digi/02-scientists.md`), and around sixty five findings in
-`expert_knowledge`, of which six are retrieved per question with a floor of two,
-so no answer is ever built on nothing.
+The research itself is two layers: the researchers file (`digi/02-scientists.md`)
+and around sixty five findings in `expert_knowledge`, of which six are retrieved
+per question with a floor of two, so no answer is ever built on nothing. How much
+of the file rides in every prompt is a switch, `DIGI_RESEARCH_BASE` in
+`lib/config/digi.ts`: `file` (the default) sends the whole thing, about 11,500
+characters, on every message; `retrieval` sends only DiGi's stance (the core
+argument, whose work it does not build on, the honest caveat) and leaves the
+sixteen profiles and the ban evidence to retrieval, where the same researchers
+already live as findings. The evals score both on the same cases
+(`POST /api/admin/digi-evals?research=both`, or the Compare research bases button
+on the insights board), and the switch flips only after that run has been read.
 
 Retrieval is **hybrid**: the question is embedded and the findings nearest in
 meaning come back first, then the keyword pass fills in what a vector blurs (the

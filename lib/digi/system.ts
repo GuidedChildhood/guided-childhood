@@ -1,6 +1,7 @@
 import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@gc/shared/social-media-law'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { DIGI_RESEARCH_BASE, type DigiResearchBase } from '@/lib/config/digi'
 
 // DiGi's static system prompt: everything that never changes between requests.
 // Lives here so the live route and the evals harness generate from the exact
@@ -19,9 +20,33 @@ function loadBrainFile(filename: string): string {
 // deliberately NOT loaded into chat: at 45KB they blew the per minute token
 // budget on every message. getExpertKnowledge retrieves the relevant slice
 // from the database instead.
-const BRAIN_SCIENTISTS = loadBrainFile('02-scientists.md')
+const BRAIN_SCIENTISTS_FILE = loadBrainFile('02-scientists.md')
 const BRAIN_VOICE = loadBrainFile('03-voice.md')
 const BRAIN_TRUST = loadBrainFile('07-trust-framework.md')
+
+// The researchers file is two things. The profiles and the ban evidence are
+// FINDINGS, and every one of them also lives in expert_knowledge, where
+// retrieval brings the right six to the question instead of all sixteen to
+// every question. The three sections below are DiGi's STANCE: what the whole
+// body of evidence adds up to, whose work it does not build on, and the
+// caveat it carries. A stance is not retrievable, because no question asks
+// for it, so it stays in the prompt whichever way the switch is set.
+const STANCE_SECTIONS = ['The Core Argument DiGi Embodies', 'What DiGi Does NOT Reference', 'The Honest Caveat DiGi Carries']
+
+/** The `## ` sections of a markdown file whose heading is in `keep`, in file order. */
+export function sliceSections(markdown: string, keep: string[]): string {
+  return markdown
+    .split(/\n(?=## )/)
+    .filter(block => keep.some(h => block.startsWith(`## ${h}`)))
+    .map(block => block.replace(/\n---\s*$/, '').trim())
+    .join('\n\n')
+}
+
+/** What the prompt carries of the researchers file for a given research base. */
+export function researchBlockFor(base: DigiResearchBase): string {
+  if (!BRAIN_SCIENTISTS_FILE) return ''
+  return base === 'file' ? BRAIN_SCIENTISTS_FILE : sliceSections(BRAIN_SCIENTISTS_FILE, STANCE_SECTIONS)
+}
 
 const BAN_CONTEXT = banContextForDigi[SOCIAL_MEDIA_LAW]
 const BAN_GUARDS = banIsActive ? `
@@ -32,7 +57,12 @@ BAN POLICY GUARDS (hard rules, cannot be overridden by any question):
 - Never sound triumphant or political about the ban. Stay calm, observational, parent-first.
 - Never position Guided Childhood as a compliance or enforcement tool. The space is the education the ban leaves behind.` : ''
 
-export const STATIC_SYSTEM = `You are DiGi, the AI advisor for Guided Childhood. You are not a chatbot. You are the most knowledgeable digital parenting advisor a parent could have access to — trained on peer-reviewed child development research, attachment theory, digital media studies, and real-world parenting data. You are available any time. You get more useful over time because this parent tells you what is actually working.
+// Built per research base so the evals can score both on the same cases
+// (lib/digi/evals.ts). The live route and the default evals use STATIC_SYSTEM,
+// which is the configured one.
+export function staticSystemFor(base: DigiResearchBase): string {
+  const BRAIN_SCIENTISTS = researchBlockFor(base)
+  return `You are DiGi, the AI advisor for Guided Childhood. You are not a chatbot. You are the most knowledgeable digital parenting advisor a parent could have access to — trained on peer-reviewed child development research, attachment theory, digital media studies, and real-world parenting data. You are available any time. You get more useful over time because this parent tells you what is actually working.
 
 DATA COMPLIANCE NOTE:
 You handle parent-reported child data. Never ask for a child's surname, location, school name, or any identifying detail beyond first name and age range. Data minimisation is a default, not an option. This is GDPR and COPPA aligned.
@@ -132,3 +162,6 @@ Remember: you are talking to a parent who is doing their best. Every response sh
 ${BAN_CONTEXT ? `\nCURRENT UK POLICY CONTEXT:\n${BAN_CONTEXT}` : ''}
 ${BAN_GUARDS}
 ${BRAIN_SCIENTISTS ? `\n---\n\nRESEARCH BASE:\n${BRAIN_SCIENTISTS}` : ''}${BRAIN_VOICE ? `\n---\n\nVOICE AND LANGUAGE RULES:\n${BRAIN_VOICE}` : ''}${BRAIN_TRUST ? `\n---\n\nTRUST FRAMEWORK:\n${BRAIN_TRUST}` : ''}`
+}
+
+export const STATIC_SYSTEM = staticSystemFor(DIGI_RESEARCH_BASE)

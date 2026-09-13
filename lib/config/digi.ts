@@ -113,6 +113,34 @@ export function fastModeFor(model: string): boolean {
   return DIGI_FAST_MODE && supportsFastMode(model)
 }
 
+// ── THE RESEARCH BASE ────────────────────────────────────────────────────────
+//
+// Where DiGi's researchers come from on every reply.
+//
+//   file       digi/02-scientists.md rides in the cached system prompt: the
+//              sixteen researcher profiles and the ban evidence, about 11,500
+//              characters, on every message whether the question touches them
+//              or not.
+//   retrieval  the profiles leave the prompt. The same researchers live in
+//              expert_knowledge as findings, six of which are retrieved per
+//              question by meaning, and DiGi can search for more with its own
+//              tool. Only DiGi's stance stays in the prompt (the core argument,
+//              who it does not build on, the honest caveat), a few hundred
+//              characters.
+//
+// Justin, 13 September 2026, on the review recommendation: go with it, as a
+// switch, with the evals run against both before it flips. The default is
+// the file until that run has been read, because a prompt change nobody has
+// scored is a guess. POST /api/admin/digi-evals?research=both scores the
+// two side by side on the same cases.
+export type DigiResearchBase = 'file' | 'retrieval'
+
+export function parseResearchBase(raw: string | undefined): DigiResearchBase {
+  return (raw ?? '').trim().toLowerCase() === 'retrieval' ? 'retrieval' : 'file'
+}
+
+export const DIGI_RESEARCH_BASE: DigiResearchBase = parseResearchBase(process.env.DIGI_RESEARCH_BASE)
+
 // ── STEPPING IN UNASKED ──────────────────────────────────────────────────────
 //
 // Justin, 13 September 2026, approving the recommendation: DiGi may step in

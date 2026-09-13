@@ -14673,3 +14673,39 @@ one tap away.
 
 Fixture: /dev/digi-question renders both cards. What is still true: the
 copy of the two landing photos into /public waits on the files.
+
+## 13 September 2026, night: the researchers file behind a switch
+
+The third of the recommendation PRs. The 11,500 character researchers file
+rode in every DiGi prompt whether the question touched a researcher or not,
+while the same researchers already sat in expert_knowledge where retrieval
+brings the right six to the question. Justin: go with the recommendation, as
+a switch, with the evals run against both before it flips.
+
+**DIGI_RESEARCH_BASE** in lib/config/digi.ts: `file` (default) or
+`retrieval`. The prompt is built per base by `staticSystemFor`; the live
+route sends the configured one. In retrieval mode the sixteen profiles and
+the ban evidence leave the prompt and DiGi's stance stays (the core argument,
+whose work it does not build on, the honest caveat), because a stance is not
+retrievable: no question asks for it. Every hard rule is in both prompts.
+The retrieval prompt is 9,907 characters shorter, about 2,500 tokens a
+message, all of it out of the cached block.
+
+**The read before the flip.** `POST /api/admin/digi-evals?research=both`
+scores the two bases on the same cases and returns them side by side; the
+insights board has a Compare research bases button for it. Only the live
+base's breaches are logged to the safety board. The Monday cron and the
+self review keep scoring what is live.
+
+**Guard** scripts/check-digi-research-base.mjs, twelve rules from the real
+config and the real prompt builder, mutation tested four ways (default
+flipped, stance dropped, switch ignored, live prompt not the configured
+one), wired into CI. The TypeScript resolve hook the guards share now maps
+`@gc/shared/x` to `shared/x`, which is what let a guard import the prompt
+builder at all.
+
+**Not done here.** The evals themselves: this container has no API key.
+The default stays the file until Justin has run the comparison and read
+both scores. The env template's DiGi lines, a generation stale, now name
+the real defaults.
+
