@@ -270,13 +270,14 @@ export async function POST(request: Request) {
       .eq('parent_id', user.id)
       .order('week_start', { ascending: false })
       .limit(24),
+    // Answered rows feed the prompt; today's row, answered or not, tells the
+    // model whether the day's reflective question has already been asked.
     supabase
       .from('digi_feedback')
       .select('feedback_date, question, parent_response, digi_insight')
       .eq('user_id', user.id)
-      .not('parent_response', 'is', null)
       .order('feedback_date', { ascending: false })
-      .limit(10),
+      .limit(11),
     supabase
       .from('script_completions')
       .select('script_sort_order, worked, completed_at')
@@ -838,6 +839,14 @@ When a parent asks whether or for how long their child should use any device, do
     child?.name && child.name !== 'Your child' ? child.name : 'your child',
   )
 
+  // Once a day, on Home, not under every reply (Justin, 13 September 2026,
+  // on the recommendations). The route stores the first question of the day;
+  // after that the model is told not to add one.
+  const feedbackRows = (feedbackResult.data ?? []) as { feedback_date: string; question: string; parent_response: string | null; digi_insight: string | null }[]
+  const askedToday = feedbackRows.some(r => r.feedback_date === today)
+  const reflectionGate = askedToday
+    ? '\n\nTODAY\'S REFLECTIVE QUESTION HAS ALREADY BEEN ASKED. Do not add a separator line or a question at the end of this reply.'
+    : ''
   const familyContext = buildSystemPrompt(
     stage,
     child,
@@ -849,7 +858,7 @@ When a parent asks whether or for how long their child should use any device, do
       .filter(t => ((t as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
         || (t as { child_id?: string | null }).child_id == null)
       .slice(0, 6),
-    feedbackResult.data ?? [],
+    feedbackRows.filter(r => r.parent_response != null),
     aiKnowledge,
     // The order these are concatenated in is not the order they should be
     // weighed in, which is what PRECEDENCE exists to say. Before it, thirteen
@@ -859,7 +868,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane),
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + reflectionGate + laneShape(lane),
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -893,7 +902,10 @@ When a parent asks whether or for how long their child should use any device, do
       // Headroom for the main reply AND the reflective question that follows the
       // --- marker. At 700 a long lesson ate the whole budget and the reflection
       // came through chopped mid word, so it gets its own room here.
-      max_tokens: 1600,
+      // 900 is room for a how to with three steps and a Tonight line; the shape
+      // asks for under 120 words, and 1600 was paying for replies the prompt no
+      // longer wants.
+      max_tokens: 900,
       system: [
         { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: familyContext },
