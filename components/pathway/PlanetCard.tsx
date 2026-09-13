@@ -83,11 +83,11 @@ export default function PlanetCard({ startIndex }: { startIndex: number }) {
           className="gc-planet-card"
           style={{
             display: 'flex', alignItems: 'center', gap: '14px',
-            background: '#fff', border: '2px solid var(--ink)',
-            borderRadius: '18px', padding: '14px 16px',
+            background: '#fff', border: 'var(--edge)',
+            borderRadius: 'var(--radius-card)', padding: '14px 16px',
             // The house button shadow, so this reads as a thing you press and
             // sits in the same family as every other chunky control.
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           <PlanetArt

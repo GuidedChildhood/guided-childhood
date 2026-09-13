@@ -24,16 +24,16 @@ export type KidNudge = { id: string; message: string }
 // hard ledge, a drawn icon in a crayon well instead of a phone emoji.
 const cardBase: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 13,
-  border: '2px solid var(--ink)', borderRadius: '20px', padding: '13px 15px', marginBottom: '12px',
-  boxShadow: '0 4px 0 var(--ink)', textAlign: 'left',
+  border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '13px 15px', marginBottom: '12px',
+  boxShadow: 'var(--lift)', textAlign: 'left',
 }
 const okBtn: React.CSSProperties = {
-  flexShrink: 0, border: '2px solid var(--ink)', background: '#fff', borderRadius: '12px', padding: '8px 12px', cursor: 'pointer',
-  boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)',
+  flexShrink: 0, border: 'var(--edge)', background: '#fff', borderRadius: 'var(--radius-tile)', padding: '8px 12px', cursor: 'pointer',
+  boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)',
 }
 function Well({ icon, tint }: { icon: HappyIconName; tint: string }) {
   return (
-    <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: tint, border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+    <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: tint, border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
       <HappyIcon name={icon} size={34} />
     </span>
   )
@@ -102,7 +102,7 @@ export default function KidAskBanner({
           {/* Jobs still to do today: a soft steer to finish those first, the
               same one their grown up saw. Never a block, the Start still works. */}
           {outstandingJobs.length > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: '#fff', border: '2px solid var(--ink)', borderRadius: '13px', padding: '8px 12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '8px 12px' }}>
               <HappyIcon name="sprout" size={26} />
               <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>
                 Finish {outstandingJobs[0]}{outstandingJobs.length > 1 ? ` and ${outstandingJobs.length - 1} more` : ''} first
@@ -113,7 +113,7 @@ export default function KidAskBanner({
             onClick={onStart}
             disabled={startBusy}
             style={{
-              width: '100%', padding: '15px', borderRadius: '16px', border: 'none',
+              width: '100%', padding: '15px', borderRadius: 'var(--radius-btn)', border: 'none',
               background: 'var(--ink)', color: '#fff', cursor: startBusy ? 'default' : 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
               boxShadow: '0 4px 0 rgba(0,0,0,0.45)', opacity: startBusy ? 0.7 : 1,

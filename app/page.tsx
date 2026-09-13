@@ -354,7 +354,7 @@ export default function HomePage() {
             ].map((chip, i) => {
               const [icon, label, tint] = chip as [string, string, string]
               return (
-                <div key={label} className={`chip chip-${i + 1}`} style={{ display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
+                <div key={label} className={`chip chip-${i + 1}`} style={{ display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
                   <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', flexShrink: 0 }}>{icon}</span>
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
                 </div>
@@ -407,7 +407,7 @@ export default function HomePage() {
             'The habit forming star system', '160 scripts', '100 lessons', 'Printables',
             'Homework help', 'School syllabus tracking', 'Outside play pays most', 'The wellbeing tracker',
           ].map(item => (
-            <span key={item} style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '7px 14px' }}>
+            <span key={item} style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '7px 14px' }}>
               {item}
             </span>
           ))}
@@ -466,7 +466,7 @@ export default function HomePage() {
             <div className="fu">
               <div style={{
                 background: '#fff',
-                borderRadius: '24px',
+                borderRadius: 'var(--radius-card)',
                 border: '1px solid var(--border)',
                 boxShadow: '0 20px 60px rgba(26,26,46,0.10)',
                 overflow: 'hidden',
@@ -496,7 +496,7 @@ export default function HomePage() {
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em' }}>DiGi</div>
                     <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '1px' }}>Guided Childhood Advisor</div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '.62rem', color: 'var(--terracotta)', fontWeight: 600, background: 'rgba(255,255,255,.6)', padding: '4px 10px', borderRadius: '100px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '.62rem', color: 'var(--terracotta)', fontWeight: 600, background: 'rgba(255,255,255,.6)', padding: '4px 10px', borderRadius: 'var(--radius-pill)' }}>
                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E' }} />
                     Online now
                   </div>
@@ -537,7 +537,7 @@ export default function HomePage() {
                     flex: 1,
                     background: '#fff',
                     border: '1.5px solid var(--border)',
-                    borderRadius: '100px',
+                    borderRadius: 'var(--radius-pill)',
                     padding: '10px 16px',
                     fontFamily: 'var(--font-body)',
                     fontSize: 'var(--text-sm)',
@@ -613,8 +613,8 @@ export default function HomePage() {
                 tint: 'var(--stage-3-bold)',
               },
             ].map(step => (
-              <div key={step.num} className="fu" style={{ background: '#fff', borderRadius: '20px', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: '30px 26px', display: 'flex', flexDirection: 'column' }}>
-                <span style={{ width: 46, height: 46, borderRadius: '14px', background: step.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-.02em', marginBottom: '18px', boxShadow: '0 3px 0 rgba(0,0,0,0.1)' }}>
+              <div key={step.num} className="fu" style={{ background: '#fff', borderRadius: 'var(--radius-card)', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: '30px 26px', display: 'flex', flexDirection: 'column' }}>
+                <span style={{ width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: step.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-.02em', marginBottom: '18px', boxShadow: '0 3px 0 rgba(0,0,0,0.1)' }}>
                   {step.num}
                 </span>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', margin: '0 0 10px' }}>
@@ -676,7 +676,7 @@ export default function HomePage() {
               ['School calendar reminders', 'Term dates, homework rhythms and school activity messages home, so the plan fits real weeks, not perfect ones.'],
               ['The Guided Digital Childhood Passport', 'Every stage stamped, every page earned. Tap each page open above, done by 16.'],
             ].map(([title, body]) => (
-              <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 18px 16px' }}>
+              <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '18px 18px 16px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em', marginBottom: '6px' }}>{title}</div>
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{body}</p>
               </div>
@@ -727,7 +727,7 @@ export default function HomePage() {
                 tint: 'var(--stage-1)',
               },
             ].map(col => (
-              <div key={col.title} className="fu" style={{ background: col.tint, borderRadius: '20px', border: '1px solid var(--border)', padding: '28px 24px' }}>
+              <div key={col.title} className="fu" style={{ background: col.tint, borderRadius: 'var(--radius-card)', border: '1px solid var(--border)', padding: '28px 24px' }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', margin: '0 0 10px' }}>
                   {col.title}
                 </h3>
@@ -776,8 +776,8 @@ export default function HomePage() {
                 tint: 'var(--stage-4-bold)',
               },
             ].map(act => (
-              <div key={act.label} className="fu" style={{ background: '#fff', borderRadius: '20px', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: '28px 24px' }}>
-                <div style={{ display: 'inline-block', background: act.tint, borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink)', marginBottom: '14px' }}>
+              <div key={act.label} className="fu" style={{ background: '#fff', borderRadius: 'var(--radius-card)', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: '28px 24px' }}>
+                <div style={{ display: 'inline-block', background: act.tint, borderRadius: 'var(--radius-pill)', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink)', marginBottom: '14px' }}>
                   {act.label}
                 </div>
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
@@ -811,7 +811,7 @@ export default function HomePage() {
             {STAGES.map((s, i) => {
               const friend = STAGE_CHARACTERS[i]
               return (
-                <div key={s.num} className="fu" style={{ background: s.bg, border: s.critical ? '2px solid var(--stage-3-bold)' : '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div key={s.num} className="fu" style={{ background: s.bg, border: s.critical ? '2px solid var(--stage-3-bold)' : '1px solid var(--border)', borderRadius: 'var(--radius-card)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                   <div style={{ background: s.bold, padding: '14px 18px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
                     <div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', color: s.text, opacity: .75 }}>{s.num} · {s.ages}</div>
@@ -831,7 +831,7 @@ export default function HomePage() {
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
                       {s.tags.map(tag => (
-                        <span key={tag} style={{ fontSize: '.62rem', fontWeight: 600, color: 'var(--ink-soft)', background: 'rgba(255,255,255,.7)', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px 9px' }}>{tag}</span>
+                        <span key={tag} style={{ fontSize: '.62rem', fontWeight: 600, color: 'var(--ink-soft)', background: 'rgba(255,255,255,.7)', border: '1px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '3px 9px' }}>{tag}</span>
                       ))}
                     </div>
                   </div>
@@ -858,7 +858,7 @@ export default function HomePage() {
               <div style={{
                 width: '160px',
                 height: '160px',
-                borderRadius: '24px',
+                borderRadius: 'var(--radius-card)',
                 overflow: 'hidden',
                 margin: '0 auto',
                 boxShadow: '0 8px 32px rgba(61,115,154,.18)',
@@ -895,7 +895,7 @@ export default function HomePage() {
           </div>
 
           {/* Science backed, said once, names live on the evidence page */}
-          <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px 24px', textAlign: 'center' }}>
+          <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '22px 24px', textAlign: 'center' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', margin: '0 0 6px' }}>
               The science moves. So do we.
             </p>
@@ -921,7 +921,7 @@ export default function HomePage() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px', marginBottom: '64px' }}>
             {TESTIMONIALS.map((p) => (
-              <div key={p.name} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 5px 0 var(--border)' }}>
+              <div key={p.name} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 5px 0 var(--border)' }}>
                 <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', color: 'var(--terracotta)', lineHeight: 0.7, marginBottom: '10px' }}>&ldquo;</div>
                 <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, fontStyle: 'italic', margin: '0 0 18px', flex: 1 }}>
                   {p.quote}
@@ -940,7 +940,7 @@ export default function HomePage() {
           </p>
 
           <div id="pricing" style={{ scrollMarginTop: '84px' }} />
-          <div className="fu" style={{ background: 'var(--terracotta)', borderRadius: '14px', padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+          <div className="fu" style={{ background: 'var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.8)', flexShrink: 0 }}>Limited</span>
               <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: '#fff' }}>
@@ -951,7 +951,7 @@ export default function HomePage() {
             <Link href="/starter-pack" style={{
               background: '#fff', color: 'var(--terracotta)', fontFamily: 'var(--font-mono)', fontWeight: 700,
               fontSize: 'var(--text-xs)', letterSpacing: '.06em', textTransform: 'uppercase',
-              padding: '9px 20px', borderRadius: '100px', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0,
+              padding: '9px 20px', borderRadius: 'var(--radius-pill)', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0,
             }}>
               Claim Founder Rate
             </Link>
@@ -1013,7 +1013,7 @@ export default function HomePage() {
                 cardStyle: {},
               },
             ].map((plan, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', ...plan.cardStyle }}>
+              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column', ...plan.cardStyle }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px', minHeight: '2em' }}>
                   {plan.tier}
                 </div>
@@ -1040,7 +1040,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <Link href={plan.href} style={{
-                  width: '100%', marginTop: 'auto', padding: '14px', borderRadius: '14px',
+                  width: '100%', marginTop: 'auto', padding: '14px', borderRadius: 'var(--radius-tile)',
                   fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)',
                   textDecoration: 'none', display: 'block', textAlign: 'center',
                   background: plan.ctaBg, color: plan.ctaColor, border: plan.ctaBorder, boxShadow: plan.ctaShadow,
@@ -1069,7 +1069,7 @@ export default function HomePage() {
           <h2 className="fu" style={{ textAlign: 'center', margin: '0 0 26px' }}>
             Questions parents <span style={{ color: 'var(--terracotta)' }}>ask us</span>
           </h2>
-          <div className="faq fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '6px 24px', boxShadow: '0 5px 0 var(--border)' }}>
+          <div className="faq fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '6px 24px', boxShadow: '0 5px 0 var(--border)' }}>
             {FAQS.map(f => (
               <details key={f.q}>
                 <summary>{f.q}</summary>
@@ -1085,7 +1085,7 @@ export default function HomePage() {
           ================================================================ */}
       <section aria-label="Start today" style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: '#FFFBEE', borderTop: '1px solid var(--border)' }}>
         <div style={{ maxWidth: '620px', margin: '0 auto' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1-bold)', borderRadius: '100px', padding: '6px 16px', marginBottom: '24px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1-bold)', borderRadius: 'var(--radius-pill)', padding: '6px 16px', marginBottom: '24px' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
               Your family&rsquo;s pathway starts free today
             </span>

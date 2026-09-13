@@ -75,7 +75,7 @@ export default async function WisdomReviewPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {(live ?? []).map(w => (
-              <div key={w.id as string} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 14px' }}>
+              <div key={w.id as string} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', marginBottom: '2px' }}>
                   {w.topic as string}
                 </div>

@@ -113,14 +113,14 @@ export default function KidDiaryItemSheet({
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)',
-            borderRadius: 100, padding: '4px 10px',
+            borderRadius: 'var(--radius-pill)', padding: '4px 10px',
           }}>
             {KIND_LABEL[item.kind] ?? '📌 Reminder'}
           </span>
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)',
-            borderRadius: 100, padding: '4px 10px',
+            borderRadius: 'var(--radius-pill)', padding: '4px 10px',
           }}>
             {when}
           </span>
@@ -128,7 +128,7 @@ export default function KidDiaryItemSheet({
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)',
-              borderRadius: 100, padding: '4px 10px',
+              borderRadius: 'var(--radius-pill)', padding: '4px 10px',
             }}>
               {item.runsInHolidays ? '🏖️ holidays too' : '🏫 school time only'}
             </span>
@@ -139,7 +139,7 @@ export default function KidDiaryItemSheet({
           <p style={{
             fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5,
             background: 'var(--tint-sage, #EAF3EE)', border: '1.5px solid var(--border)',
-            borderRadius: 14, padding: '11px 13px', margin: '0 0 14px',
+            borderRadius: 'var(--radius-tile)', padding: '11px 13px', margin: '0 0 14px',
           }}>
             ⛱️ It is the school holidays, so this one is having a rest. It comes back when school does.
           </p>
@@ -179,7 +179,7 @@ export default function KidDiaryItemSheet({
           <p style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             color: 'var(--ink)', background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
-            borderRadius: 14, padding: '12px 14px', margin: 0, textAlign: 'center',
+            borderRadius: 'var(--radius-tile)', padding: '12px 14px', margin: 0, textAlign: 'center',
           }}>
             Told them! Your grown up can fix it from their phone.
           </p>

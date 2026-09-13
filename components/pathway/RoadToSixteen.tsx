@@ -27,9 +27,9 @@ export default function RoadToSixteen({
       href="/dashboard/pathway"
       style={{
         display: 'block', textDecoration: 'none',
-        background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
+        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
         padding: '18px 18px 16px', marginBottom: '20px',
-        boxShadow: '0 4px 0 var(--ink)',
+        boxShadow: 'var(--lift)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>

@@ -609,7 +609,7 @@ export default function KidPath({
       <div style={{ maxWidth: '520px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '10px' }}>
           <KidBackLink href={`/k/${token}`} color="var(--ink-soft)" />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             ⭐ {bankStars} in the bank
           </span>
         </div>
@@ -617,7 +617,7 @@ export default function KidPath({
         {/* The stage banner: the pathway's real name and purpose, then the
             digital literacy passport with a stamp for every safety lesson
             passed, the same count the grown up's progress report shows. */}
-        <div style={{ background: '#fff', borderRadius: '22px', padding: '16px 18px', marginBottom: '14px', boxShadow: '0 5px 0 rgba(26,26,46,0.12)', border: '1.5px solid var(--border)' }}>
+        <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '14px', boxShadow: '0 5px 0 rgba(26,26,46,0.12)', border: '1.5px solid var(--border)' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
             Stage {stageId} of 5 · {stageName} · ages {ages}
           </div>
@@ -634,7 +634,7 @@ export default function KidPath({
               passed. Hidden until the stage has lessons so it never shows an
               empty promise. */}
           {stampsTotal > 0 && (
-            <div style={{ marginTop: 12, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 16, padding: '11px 13px' }}>
+            <div style={{ marginTop: 12, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '11px 13px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
                 <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>🪪</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
@@ -672,8 +672,8 @@ export default function KidPath({
               something the child was never asked to do. */}
           {jobs.length > 0 && (
           <div style={{ marginTop: 12 }}>
-            <div style={{ height: 10, borderRadius: 100, background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${Math.round(childFrac * 100)}%`, borderRadius: 100, background: 'var(--terracotta)', transition: 'width 0.5s ease' }} />
+            <div style={{ height: 10, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${Math.round(childFrac * 100)}%`, borderRadius: 'var(--radius-pill)', background: 'var(--terracotta)', transition: 'width 0.5s ease' }} />
             </div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: 5 }}>
               {todayAllDone
@@ -685,7 +685,7 @@ export default function KidPath({
         </div>
 
         {toast && (
-          <div style={{ position: 'sticky', top: 10, zIndex: 20, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '11px 15px', marginBottom: 14, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', textAlign: 'center', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+          <div style={{ position: 'sticky', top: 10, zIndex: 20, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '11px 15px', marginBottom: 14, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', textAlign: 'center', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
             {toast}
           </div>
         )}
@@ -745,7 +745,7 @@ export default function KidPath({
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                       letterSpacing: '0.08em', textTransform: 'uppercase',
                       color: 'var(--ink-soft)', background: 'var(--cream)',
-                      border: '1.5px solid var(--border)', borderRadius: 100,
+                      border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
                       padding: '2px 8px',
                     }}>
                       {bandLabelOn(j.band, new Date())}
@@ -917,7 +917,7 @@ export default function KidPath({
                       <span style={{
                         position: 'absolute', top: 0, left: '50%',
                         animation: 'gcStartBob 1.4s ease-in-out infinite',
-                        background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 12,
+                        background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-tile)',
                         padding: '5px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
                         boxShadow: '0 3px 0 rgba(26,26,46,0.12)', whiteSpace: 'nowrap', zIndex: 2,
@@ -949,7 +949,7 @@ export default function KidPath({
           })}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 26, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '14px 16px', boxShadow: '0 4px 0 rgba(26,26,46,0.10)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 26, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '14px 16px', boxShadow: '0 4px 0 rgba(26,26,46,0.10)' }}>
           <DigiCharacter mood="wave" size={44} once />
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {stageId === 1
@@ -979,7 +979,7 @@ export default function KidPath({
             </p>
             <button
               onClick={() => { setPathComplete(false); playKidSound('tap') }}
-              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-btn)', padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               Brilliant ⭐
             </button>
@@ -1010,7 +1010,7 @@ export default function KidPath({
             {chestReveal === 'quiz' && (
               <button
                 onClick={() => { const s = stones.find(s => s.type === 'character' && s.holdsQuiz); setChestReveal(null); if (s) openSheet(s) }}
-                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
               >
                 Take the quiz, 2 more stars →
               </button>
@@ -1018,18 +1018,18 @@ export default function KidPath({
             {chestReveal === 'printable' && todoPrintable && (
               <button
                 onClick={() => { setChestReveal(null); setActivePrintable(todoPrintable); playKidSound('tap') }}
-                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
               >
                 Do the printable →
               </button>
             )}
             {chestReveal === 'game' && (
-              <a href={`/k/${token}?tab=games`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
+              <a href={`/k/${token}?tab=games`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
                 Play a game →
               </a>
             )}
             {chestReveal === 'challenge' && (
-              <a href={`/k/${token}#my-todo`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
+              <a href={`/k/${token}#my-todo`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
                 {bonusChallenge.cta} →
               </a>
             )}
@@ -1056,14 +1056,14 @@ export default function KidPath({
             <a
               href={activePrintable.sheetUrl} target="_blank" rel="noopener noreferrer"
               onClick={() => playKidSound('tap')}
-              style={{ display: 'block', textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', marginBottom: 10, boxSizing: 'border-box' }}
+              style={{ display: 'block', textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', marginBottom: 10, boxSizing: 'border-box' }}
             >
               🖨️ Open the sheet to print
             </a>
             <button
               onClick={() => sendPrintable(activePrintable)}
               disabled={busy}
-              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               {busy ? 'Sending...' : `I did it! Show my grown up ⭐${activePrintable.stars}`}
             </button>
@@ -1091,7 +1091,7 @@ export default function KidPath({
             </div>
             <button
               onClick={() => { setViewTip(null); playKidSound('tap') }}
-              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               Got it ⭐
             </button>
@@ -1134,7 +1134,7 @@ export default function KidPath({
                 <a
                   href={`/k/${token}#my-todo`}
                   onClick={() => playKidSound('tap')}
-                  style={{ display: 'block', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                  style={{ display: 'block', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
                 >
                   {sheet.challenge.cta} →
                 </a>
@@ -1171,7 +1171,7 @@ export default function KidPath({
                         key={oi}
                         onClick={() => answerQuiz(oi)}
                         style={{
-                          textAlign: 'left', padding: '14px 16px', borderRadius: 14, cursor: qPicked == null ? 'pointer' : 'default',
+                          textAlign: 'left', padding: '14px 16px', borderRadius: 'var(--radius-tile)', cursor: qPicked == null ? 'pointer' : 'default',
                           border: `2px solid ${showState && isRight ? '#2F8F6B' : picked ? '#C0533E' : 'var(--border)'}`,
                           background: showState && isRight ? '#DEF0E7' : picked ? '#FDECEC' : '#fff',
                           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
@@ -1189,7 +1189,7 @@ export default function KidPath({
                     <div style={{
                       background: qPicked === runQs[qIndex].answer ? '#DEF0E7' : '#FDECEC',
                       border: `1.5px solid ${qPicked === runQs[qIndex].answer ? '#2F8F6B' : '#C0533E'}`,
-                      borderRadius: 12, padding: '11px 14px', marginBottom: 10,
+                      borderRadius: 'var(--radius-tile)', padding: '11px 14px', marginBottom: 10,
                     }}>
                       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: qPicked === runQs[qIndex].answer ? '#1F7A54' : '#B93B3F', marginBottom: 3 }}>
                         {qPicked === runQs[qIndex].answer ? 'Correct!' : 'Not quite'}
@@ -1200,7 +1200,7 @@ export default function KidPath({
                     </div>
                     <button
                       onClick={continueQuiz}
-                      style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                      style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
                     >
                       {qIndex + 1 < runQs.length ? 'Continue →' : 'See my score →'}
                     </button>

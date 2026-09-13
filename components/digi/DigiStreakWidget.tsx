@@ -94,9 +94,9 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
       style={{
         position: 'relative', overflow: 'hidden',
         background: surface,
-        border: '2px solid var(--ink)',
-        borderRadius: '20px', padding: '18px 20px', marginBottom: '20px',
-        boxShadow: '0 4px 0 var(--ink)',
+        border: 'var(--edge)',
+        borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '20px',
+        boxShadow: 'var(--lift)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -132,7 +132,7 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
             <div
               key={i}
               style={{
-                flex: 1, height: 7, borderRadius: 100,
+                flex: 1, height: 7, borderRadius: 'var(--radius-pill)',
                 background: on ? (isTodaySlot && !aliveToday ? 'var(--ink-light)' : accent) : 'var(--border)',
                 transition: 'background 0.3s ease',
               }}
@@ -147,7 +147,7 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: 14, padding: '10px 18px', textDecoration: 'none',
+            borderRadius: 'var(--radius-tile)', padding: '10px 18px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}

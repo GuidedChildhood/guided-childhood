@@ -129,8 +129,8 @@ export default async function CheckInPage({
           // link they tapped a minute ago, so it says so and offers the next
           // real thing rather than an empty page.
           <div style={{
-            background: '#fff', border: '2px solid var(--ink)',
-            borderRadius: 20, padding: '26px 22px', textAlign: 'center',
+            background: '#fff', border: 'var(--edge)',
+            borderRadius: 'var(--radius-card)', padding: '26px 22px', textAlign: 'center',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
               All done for today
@@ -140,7 +140,7 @@ export default async function CheckInPage({
             </p>
             <Link href="/dashboard" style={{
               display: 'inline-flex', padding: '12px 20px', background: 'var(--terracotta)',
-              color: 'var(--ink)', borderRadius: 14, textDecoration: 'none',
+              color: 'var(--ink)', borderRadius: 'var(--radius-tile)', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}>

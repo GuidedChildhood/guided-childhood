@@ -36,7 +36,7 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
   }
   const idea: CSSProperties = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-    flex: '1 1 auto', padding: '11px 12px', borderRadius: '14px', border: `2px solid ${HAPPY.ink}`,
+    flex: '1 1 auto', padding: '11px 12px', borderRadius: 'var(--radius-tile)', border: `2px solid ${HAPPY.ink}`,
     background: '#fff', cursor: 'pointer', boxShadow: `0 3px 0 ${HAPPY.ink}`,
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
     lineHeight: 1.2, whiteSpace: 'nowrap',
@@ -505,7 +505,7 @@ export default function DeviceTimeCard({
     // gets a warm terracotta and a friendly line comes up, never a red warning.
     const countingDown = remaining <= 10 && remaining > 0
     return (
-      <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
+      <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '16px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <span style={{ fontSize: 'var(--text-2xl)', display: 'inline-block', animation: countingDown ? 'gcAlarmBounce 0.7s ease-in-out infinite' : 'none' }}>{countingDown ? '🎉' : deviceEmoji(session.device)}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -535,7 +535,7 @@ export default function DeviceTimeCard({
         {ageBand && !countingDown && (() => {
           const tip = screenTipFor(ageBand, new Date().getDate())
           return (
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, background: 'var(--cream)', borderRadius: 'var(--radius-tile)', padding: '9px 12px', marginBottom: '12px' }}>
               <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0 }}>{tip.emoji}</span>
               <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                 {tip.text}
@@ -544,7 +544,7 @@ export default function DeviceTimeCard({
           )
         })()}
         {countingDown && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: `2px solid ${HAPPY.ink}`, borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', padding: '9px 12px', marginBottom: '12px' }}>
             <span aria-hidden style={{ lineHeight: 0, flexShrink: 0 }}><HappyIcon name="cheer" size={26} /></span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.35 }}>
               Nearly there. Time to find some offline fun.
@@ -554,7 +554,7 @@ export default function DeviceTimeCard({
         <button
           onClick={stop}
           disabled={busy}
-          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '2px solid var(--ink)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)' }}
+          style={{ width: '100%', padding: '13px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)' }}
         >
           I&apos;m done, hand it back
         </button>
@@ -565,7 +565,7 @@ export default function DeviceTimeCard({
   // ── Time's up ──
   if (phase === 'up') {
     return (
-      <div style={{ position: 'relative', background: 'var(--terracotta)', borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', background: 'var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center', overflow: 'hidden' }}>
         <Celebration fire />
         <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>{endedByGuide ? '🌱' : '🎉'}</div>
@@ -579,7 +579,7 @@ export default function DeviceTimeCard({
               telling off: the next block of time is sitting right there in
               them, which is a far better reason to go and do one. */}
           {outstandingJobs.length > 0 && (
-            <div style={{ background: 'rgba(255,255,255,0.72)', borderRadius: '14px', padding: '13px 14px', marginBottom: '12px', textAlign: 'left' }}>
+            <div style={{ background: 'rgba(255,255,255,0.72)', borderRadius: 'var(--radius-tile)', padding: '13px 14px', marginBottom: '12px', textAlign: 'left' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '7px' }}>
                 {outstandingMinutes > 0
                   ? `${outstandingMinutes} more minutes are waiting in your jobs`
@@ -601,12 +601,12 @@ export default function DeviceTimeCard({
           )}
 
           {/* Not just "go away from the screen": here is what to do, one tap. */}
-          <div style={{ background: 'rgba(255,255,255,0.45)', borderRadius: '14px', padding: '12px 13px', marginBottom: '14px' }}>
+          <div style={{ background: 'rgba(255,255,255,0.45)', borderRadius: 'var(--radius-tile)', padding: '12px 13px', marginBottom: '14px' }}>
             <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
           </div>
           <button
             onClick={() => { setSession(null); setPhase('idle'); setEndedByGuide(false); router.refresh() }}
-            style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800 }}
+            style={{ padding: '11px 22px', borderRadius: 'var(--radius-tile)', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800 }}
           >
             OK
           </button>
@@ -620,7 +620,7 @@ export default function DeviceTimeCard({
     const guideToday = Math.max(0, Math.round(recommendedMinutes))
     const exceedsGuide = guideToday > 0 && Math.round(usedTodayMinutes) + minutes > guideToday
     return (
-      <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 18px', marginBottom: '16px', border: `2px solid ${HAPPY.ink}`, boxShadow: `0 5px 0 ${HAPPY.ink}` }}>
+      <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '18px 18px', marginBottom: '16px', border: `2px solid ${HAPPY.ink}`, boxShadow: `0 5px 0 ${HAPPY.ink}` }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: asksFirst ? '4px' : '12px' }}>
           What will you use?
         </div>
@@ -644,7 +644,7 @@ export default function DeviceTimeCard({
                 aria-pressed={on}
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                  minHeight: 92, padding: '12px 6px', borderRadius: '18px', cursor: 'pointer',
+                  minHeight: 92, padding: '12px 6px', borderRadius: 'var(--radius-card)', cursor: 'pointer',
                   border: `2px solid ${HAPPY.ink}`,
                   background: on ? HAPPY.butter : '#fff',
                   boxShadow: on ? `0 4px 0 ${HAPPY.ink}` : 'none',
@@ -692,7 +692,7 @@ export default function DeviceTimeCard({
                     aria-pressed={on}
                     style={{
                       display: 'flex', alignItems: 'center', gap: '8px',
-                      minHeight: 56, padding: '10px 12px', borderRadius: '14px', cursor: 'pointer',
+                      minHeight: 56, padding: '10px 12px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
                       border: `2px solid ${HAPPY.ink}`,
                       background: on ? HAPPY.butter : '#fff',
                       boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none',
@@ -739,7 +739,7 @@ export default function DeviceTimeCard({
                   onClick={() => setMinutes(p)}
                   aria-pressed={on}
                   style={{
-                    minWidth: 0, padding: '9px 2px', borderRadius: 100, cursor: 'pointer',
+                    minWidth: 0, padding: '9px 2px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                     border: `2px solid ${HAPPY.ink}`, background: on ? HAPPY.butter : '#fff', color: 'var(--ink)',
                     boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none', transform: on ? 'none' : 'translateY(2px)',
                     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
@@ -755,7 +755,7 @@ export default function DeviceTimeCard({
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <button
             onClick={() => setMinutes(m => Math.max(starMinutes, m - starMinutes))}
-            style={{ width: 46, height: 46, borderRadius: '14px', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', flexShrink: 0, boxShadow: `0 3px 0 ${HAPPY.ink}` }}
+            style={{ width: 46, height: 46, borderRadius: 'var(--radius-tile)', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', flexShrink: 0, boxShadow: `0 3px 0 ${HAPPY.ink}` }}
           >−</button>
           <div style={{ flex: 1, textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', lineHeight: 1, color: 'var(--ink)' }}>{minutes}</div>
@@ -764,20 +764,20 @@ export default function DeviceTimeCard({
           <button
             onClick={() => setMinutes(m => Math.min(askCeiling, m + starMinutes))}
             disabled={minutes + starMinutes > askCeiling}
-            style={{ width: 46, height: 46, borderRadius: '14px', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: minutes + starMinutes > askCeiling ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', opacity: minutes + starMinutes > askCeiling ? 0.4 : 1, flexShrink: 0, boxShadow: `0 3px 0 ${HAPPY.ink}` }}
+            style={{ width: 46, height: 46, borderRadius: 'var(--radius-tile)', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: minutes + starMinutes > askCeiling ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', opacity: minutes + starMinutes > askCeiling ? 0.4 : 1, flexShrink: 0, boxShadow: `0 3px 0 ${HAPPY.ink}` }}
           >+</button>
         </div>
         {/* Short of stars: never a dead end. The grown up can still say yes,
             and the jobs still to do today are the way to earn the rest. */}
         {short && (
-          <div style={{ background: HAPPY.butterLt, border: `2px solid ${HAPPY.ink}`, borderRadius: '14px', padding: '11px 13px', marginBottom: '12px' }}>
+          <div style={{ background: HAPPY.butterLt, border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginBottom: '12px' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
               You are {Math.max(0, costStars - balanceStars)} star{costStars - balanceStars === 1 ? '' : 's'} short. You can still ask, your grown up decides.
             </p>
             {outstandingMinutes > 0 && (
               <button
                 onClick={() => { setPhase('idle'); try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ } }}
-                style={{ marginTop: 8, padding: '9px 14px', borderRadius: 100, border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', boxShadow: `0 3px 0 ${HAPPY.ink}` }}
+                style={{ marginTop: 8, padding: '9px 14px', borderRadius: 'var(--radius-pill)', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', boxShadow: `0 3px 0 ${HAPPY.ink}` }}
               >
                 Jobs today could earn {outstandingMinutes} more minutes →
               </button>
@@ -787,7 +787,7 @@ export default function DeviceTimeCard({
         {/* An ask past today's healthy amount is allowed, just named: the
             grown up decides, and the good offline stuff sits right there. */}
         {asksFirst && exceedsGuide && (
-          <div style={{ background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '11px 13px', marginBottom: '12px' }}>
+          <div style={{ background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginBottom: '12px' }}>
             <p style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
               🌱 This goes past the healthy amount for today, your grown up decides.
             </p>
@@ -795,14 +795,14 @@ export default function DeviceTimeCard({
           </div>
         )}
         {note && (
-          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: 'var(--text-md)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
+          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: 'var(--radius-tile)', padding: '10px 13px', marginBottom: '12px', fontSize: 'var(--text-md)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
             {note}
           </div>
         )}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setPhase('idle')}
-            style={{ padding: '13px 18px', borderRadius: '16px', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', boxShadow: `0 4px 0 ${HAPPY.ink}` }}
+            style={{ padding: '13px 18px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', boxShadow: `0 4px 0 ${HAPPY.ink}` }}
           >Back</button>
           {/* Blocked until the question is answered, for the one device that
               asks it. Starting anyway would write a session we then have to
@@ -813,7 +813,7 @@ export default function DeviceTimeCard({
           <button
             onClick={start}
             disabled={busy || minutes < starMinutes || needsActivity}
-            style={{ flex: 1, padding: '13px', borderRadius: '16px', border: `2px solid ${HAPPY.ink}`, background: HAPPY.butter, color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, boxShadow: `0 4px 0 ${HAPPY.ink}`, opacity: busy || needsActivity ? 0.6 : 1 }}
+            style={{ flex: 1, padding: '13px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`, background: HAPPY.butter, color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, boxShadow: `0 4px 0 ${HAPPY.ink}`, opacity: busy || needsActivity ? 0.6 : 1 }}
           >
             {busy
               ? (asksFirst || short ? 'Asking...' : 'Starting...')
@@ -852,7 +852,7 @@ export default function DeviceTimeCard({
           start below still works, it just goes to the grown up as an ask,
           because the pathway is ask, never a flat no. */}
       {protectedLine && (
-        <div style={{ background: 'var(--tint-sage)', border: `2px solid ${HAPPY.ink}`, borderRadius: '14px', padding: '12px 15px', marginBottom: '10px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
+        <div style={{ background: 'var(--tint-sage)', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', padding: '12px 15px', marginBottom: '10px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
             🌙 {protectedLine}
           </p>
@@ -867,7 +867,7 @@ export default function DeviceTimeCard({
       {recToday > 0 && (
         <div style={{
           background: reachedGuide ? 'var(--tint-sage)' : '#fff', border: `2px solid ${HAPPY.ink}`,
-          borderRadius: '14px', padding: '11px 15px', marginBottom: '10px',
+          borderRadius: 'var(--radius-tile)', padding: '11px 15px', marginBottom: '10px',
           boxShadow: `0 4px 0 ${HAPPY.ink}`,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '6px' }}>
@@ -878,8 +878,8 @@ export default function DeviceTimeCard({
               {usedToday}/{recToday} min
             </span>
           </div>
-          <div style={{ height: 8, borderRadius: 100, background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: `${guidePct}%`, borderRadius: 100, background: reachedGuide ? 'var(--retro-green)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
+          <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${guidePct}%`, borderRadius: 'var(--radius-pill)', background: reachedGuide ? 'var(--retro-green)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
           </div>
           {reachedGuide && (
             <>
@@ -911,8 +911,8 @@ export default function DeviceTimeCard({
                   {usedWeek}/{weekGuide} min
                 </span>
               </div>
-              <div style={{ height: 5, borderRadius: 100, background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: `${weekPct}%`, borderRadius: 100, background: weekPct >= 100 ? 'var(--retro-green)' : 'var(--gold, #EDC35F)', transition: 'width 0.5s ease' }} />
+              <div style={{ height: 5, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${weekPct}%`, borderRadius: 'var(--radius-pill)', background: weekPct >= 100 ? 'var(--retro-green)' : 'var(--gold, #EDC35F)', transition: 'width 0.5s ease' }} />
               </div>
               <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.4, margin: '5px 0 0' }}>
                 Yours to spread across the week. A big Saturday means a lighter Tuesday.
@@ -932,7 +932,7 @@ export default function DeviceTimeCard({
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
           background: canSpend ? HAPPY.butter : '#fff', border: `2px solid ${HAPPY.ink}`,
-          borderRadius: '20px', padding: '15px 16px', cursor: 'pointer',
+          borderRadius: 'var(--radius-card)', padding: '15px 16px', cursor: 'pointer',
           boxShadow: `0 5px 0 ${HAPPY.ink}`,
         }}
       >

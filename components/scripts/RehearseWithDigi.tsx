@@ -282,7 +282,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
     if (doneOnce) {
       return (
         <div style={{ ...card, padding: cardPad, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <span aria-hidden style={{ width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: 'var(--tint-sage)', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <HappyIcon name="cheer" size={28} />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -312,7 +312,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
     <div style={{ ...card, padding: 0, overflow: 'hidden' }}>
 
       {/* Header: who is speaking, and the quiet controls */}
-      <div style={{ padding: '14px 18px', borderBottom: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+      <div style={{ padding: '14px 18px', borderBottom: 'var(--edge)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {coached ? (
             <DigiCharacter size={32} mood="idle" once />
@@ -321,7 +321,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
               className={busy ? 'rd-kid-talk' : undefined}
               style={{
                 width: 38, height: 38, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
-                background: 'var(--cream)', border: '2px solid var(--ink)', display: 'block',
+                background: 'var(--cream)', border: 'var(--edge)', display: 'block',
               }}
             >
               <Image src={kidFace} alt="" width={38} height={38} style={{ objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
@@ -369,7 +369,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
           scrolls beneath it, so the parent never loses what they are
           rehearsing. */}
       <div style={{ padding: '14px 18px 12px', background: '#fff' }}>
-        <div style={{ background: '#DCE7FB', color: '#1B2A4A', borderRadius: 18, padding: '12px 16px' }}>
+        <div style={{ background: '#DCE7FB', color: '#1B2A4A', borderRadius: 'var(--radius-card)', padding: '12px 16px' }}>
           <div style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: '#1B2A4A', opacity: 0.65, marginBottom: 4 }}>
             You are rehearsing
           </div>
@@ -399,9 +399,9 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
             ) : m.coach ? (
               <div style={{
                 maxWidth: '86%', padding: '12px 15px', fontSize: 'var(--text-md)', lineHeight: 1.55,
-                whiteSpace: 'pre-wrap', fontWeight: 500, borderRadius: 16,
+                whiteSpace: 'pre-wrap', fontWeight: 500, borderRadius: 'var(--radius-btn)',
                 background: 'linear-gradient(180deg,#FFF9EC,#FCEFD2)', color: 'var(--ink)',
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
               }}>
                 {m.content}
               </div>
@@ -422,7 +422,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
         {busy && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <DigiCharacter size={28} mood="thinking" />
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'var(--cream)', borderRadius: 100, padding: '9px 14px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'var(--cream)', borderRadius: 'var(--radius-pill)', padding: '9px 14px' }}>
               <span style={{ display: 'inline-flex', gap: 4 }} aria-hidden>
                 {[0, 1, 2].map(i => (
                   <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ink-light)', animation: `rh-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
@@ -439,7 +439,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
         {error && <p style={{ fontSize: 'var(--text-md)', color: 'var(--danger)', padding: '4px 2px', margin: 0 }}>{error}</p>}
       </div>
 
-      <div style={{ padding: '12px 16px 14px', borderTop: '2px solid var(--ink)', background: 'var(--white,#fff)' }}>
+      <div style={{ padding: '12px 16px 14px', borderTop: 'var(--edge)', background: 'var(--white,#fff)' }}>
         {!coached ? (
           <>
             {/* Ready made replies, Cleo style: tap one and it is said. The
@@ -462,7 +462,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
               {suggestions.length === 0 && step !== 'connect' && (
                 <p style={{
                   display: 'flex', gap: 8, alignItems: 'flex-start',
-                  background: 'var(--tint-blue)', borderRadius: 12, padding: '10px 12px',
+                  background: 'var(--tint-blue)', borderRadius: 'var(--radius-tile)', padding: '10px 12px',
                   margin: '0 0 8px', fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink)', fontWeight: 600,
                 }}>
                   <span aria-hidden style={{ flexShrink: 0 }}>💡</span>
@@ -476,8 +476,8 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
                     onClick={() => sendText(s)}
                     disabled={busy}
                     style={{
-                      textAlign: 'left', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
-                      borderRadius: 14, padding: '10px 14px', cursor: busy ? 'default' : 'pointer',
+                      textAlign: 'left', background: 'var(--terracotta-lt)', border: 'var(--edge)',
+                      borderRadius: 'var(--radius-tile)', padding: '10px 14px', cursor: busy ? 'default' : 'pointer',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45,
                       opacity: busy ? 0.55 : 1,
                     }}
@@ -499,7 +499,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
                 placeholder="Try your own words..."
                 rows={1}
                 style={{
-                  flex: 1, padding: '11px 16px', borderRadius: 100, border: '2px solid var(--ink)',
+                  flex: 1, padding: '11px 16px', borderRadius: 'var(--radius-pill)', border: 'var(--edge)',
                   background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)',
                   resize: 'none', outline: 'none', lineHeight: 1.5, maxHeight: 120,
                 }}
@@ -526,7 +526,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
             {/* The rehearsal ends with something to DO, not just a well done.
                 A parent who has just practised a standoff and been told they
                 did fine still has the standoff waiting for them at six. */}
-            <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px', marginBottom: 10 }}>
+            <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginBottom: 10 }}>
               <div style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginBottom: 8 }}>
                 {AFTER_THE_STANDOFF.heading}
               </div>
@@ -563,7 +563,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
 const heading: React.CSSProperties = { fontSize: 'clamp(1.15rem,3.4vw,1.35rem)', letterSpacing: '-0.01em', margin: '6px 0 8px', color: 'var(--ink)' }
 const sub: React.CSSProperties = { fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }
 const ghostBtn: React.CSSProperties = {
-  background: 'none', border: '2px solid var(--ink)', borderRadius: 10, cursor: 'pointer',
+  background: 'none', border: 'var(--edge)', borderRadius: 10, cursor: 'pointer',
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
   color: 'var(--ink-muted)', padding: '7px 12px',
 }

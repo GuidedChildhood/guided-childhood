@@ -77,7 +77,7 @@ export default function DeviceList({
             style={{
               flexShrink: 0,
               padding: '8px 16px',
-              borderRadius: '100px',
+              borderRadius: 'var(--radius-pill)',
               border: `2px solid ${activeCategory === cat ? 'var(--terracotta)' : 'var(--ink)'}`,
               background: activeCategory === cat ? 'var(--terracotta)' : '#fff',
               color: activeCategory === cat ? '#fff' : 'var(--ink)',
@@ -110,7 +110,7 @@ export default function DeviceList({
               id={`device-${d.device_key}`}
               style={{
                 background: '#fff', border: `2px solid ${isOpen ? 'var(--terracotta)' : 'var(--ink)'}`,
-                borderRadius: '16px', overflow: 'hidden',
+                borderRadius: 'var(--radius-btn)', overflow: 'hidden',
                 boxShadow: isOpen ? '0 8px 32px rgba(26,26,46,0.08)' : 'none',
                 transition: 'border-color 0.15s', scrollMarginTop: '90px',
               }}
@@ -122,7 +122,7 @@ export default function DeviceList({
                   padding: '14px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
                 }}
               >
-                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: 'var(--radius-tile)', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>
                   {d.emoji}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -130,7 +130,7 @@ export default function DeviceList({
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{d.name}</span>
                     {isDone && <span style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta)' }}>✓</span>}
                     {isNotOwned && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '2px 8px' }}>
                         Not in our home
                       </span>
                     )}

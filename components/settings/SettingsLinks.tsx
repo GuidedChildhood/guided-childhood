@@ -33,7 +33,7 @@ const LINKS = [
 
 export default function SettingsLinks() {
   return (
-    <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+    <section style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '16px' }}>
       <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '14px', color: 'var(--ink)' }}>Everything else</h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -43,7 +43,7 @@ export default function SettingsLinks() {
             href={l.href}
             style={{
               display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
-              background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
+              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
               padding: '14px 16px',
             }}
           >

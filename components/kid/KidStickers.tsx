@@ -88,8 +88,8 @@ function Tile({ s }: { s: KidSticker }) {
 
       {showBar && (
         <>
-          <span style={{ width: '100%', height: 5, borderRadius: 100, background: 'rgba(26,26,46,0.12)', overflow: 'hidden' }}>
-            <span style={{ display: 'block', height: '100%', borderRadius: 100, width: `${Math.round((have / need) * 100)}%`, background: s.colour }} />
+          <span style={{ width: '100%', height: 5, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.12)', overflow: 'hidden' }}>
+            <span style={{ display: 'block', height: '100%', borderRadius: 'var(--radius-pill)', width: `${Math.round((have / need) * 100)}%`, background: s.colour }} />
           </span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
             {have} of {need}{s.rule.kind === 'sorted' ? ' stars' : s.rule.kind === 'stamp' || s.rule.kind === 'lessons' ? ' lessons' : ''}
@@ -360,7 +360,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
                 : 'Straight into your sticker book. Keep going for more.'}
             </p>
             <button onClick={() => setShowCheer(false)} style={{
-              width: '100%', padding: '14px', borderRadius: 16, border: 'none', cursor: 'pointer',
+              width: '100%', padding: '14px', borderRadius: 'var(--radius-btn)', border: 'none', cursor: 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)',
               fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}>

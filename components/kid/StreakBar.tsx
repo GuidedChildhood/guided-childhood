@@ -25,9 +25,9 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
   // to say the number and the next prize.
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
       padding: '7px 12px 7px 8px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8,
-      boxShadow: '0 4px 0 var(--ink)',
+      boxShadow: 'var(--lift)',
     }}>
       {/* The flame, drawn (the Happy Newspaper pass), and the count beside it. */}
       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
@@ -47,9 +47,9 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
           <span style={{ flex: 1, minWidth: 0, display: 'flex', gap: 4, alignItems: 'center' }}>
             {Array.from({ length: rungLength(completedStreaks) }).map((_, i) => (
               <span key={i} style={{
-                flex: 1, height: 10, borderRadius: 100, maxWidth: 26, boxSizing: 'border-box',
+                flex: 1, height: 10, borderRadius: 'var(--radius-pill)', maxWidth: 26, boxSizing: 'border-box',
                 background: i < banked ? 'var(--terracotta)' : '#fff',
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
                 transition: 'background 0.3s ease',
               }} />
             ))}
@@ -62,7 +62,7 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
 
       {next && (
         // eslint-disable-next-line @next/next/no-img-element
-        <span style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: '#FEF7E0', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        <span style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: '#FEF7E0', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
           <img src={next.cutout} alt={next.name} width={30} height={30} style={{ objectFit: 'contain', filter: 'grayscale(0.6) opacity(0.7)' }} />
         </span>
       )}

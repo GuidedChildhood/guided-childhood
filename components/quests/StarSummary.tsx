@@ -92,8 +92,8 @@ export default function StarSummary({
         cursor: onClick ? 'pointer' : 'default',
         background: hot ? 'var(--danger-bg)' : onClick ? '#fff' : 'var(--cream)',
         border: `2px solid ${hot ? 'var(--danger)' : 'var(--ink)'}`,
-        borderRadius: '14px', padding: '11px 8px',
-        boxShadow: onClick ? '0 4px 0 var(--ink)' : 'none',
+        borderRadius: 'var(--radius-tile)', padding: '11px 8px',
+        boxShadow: onClick ? 'var(--lift)' : 'none',
         opacity: onClick || hot ? 1 : 0.82,
       }}
     >
@@ -108,12 +108,12 @@ export default function StarSummary({
 
   const bigBtn = (icon: HappyIconName, label: string, onClick: () => void, primary?: boolean): React.ReactNode => (
     <button onClick={onClick} style={{
-      flex: 1, minWidth: 96, padding: '12px 8px', borderRadius: '14px', cursor: 'pointer',
+      flex: 1, minWidth: 96, padding: '12px 8px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
       fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
       background: primary ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
-      boxShadow: '0 4px 0 var(--ink)',
-      border: '2px solid var(--ink)',
+      boxShadow: 'var(--lift)',
+      border: 'var(--edge)',
     }}>
       <span style={{ lineHeight: 0 }}><HappyIcon name={icon} size={30} /></span>
       <span>{label}</span>
@@ -121,12 +121,12 @@ export default function StarSummary({
   )
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           {childName}&apos;s stars
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px 11px' }}>
           1 ⭐ = {rate} min
         </span>
       </div>
@@ -144,10 +144,10 @@ export default function StarSummary({
       {timerRunning && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '13px',
-          background: 'var(--tint-sage)', border: '2px solid var(--ink)',
-          borderRadius: '13px', padding: '11px 14px',
+          background: 'var(--tint-sage)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-tile)', padding: '11px 14px',
         }}>
-          <span aria-hidden style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+          <span aria-hidden style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
             <HappyIcon name="time" size={26} />
           </span>
           <div style={{ flex: 1 }}>
@@ -175,7 +175,7 @@ export default function StarSummary({
       {/* The goal, in one of three states: quietly saving, saved and ready to
           hand over, or done and asking for the next one. */}
       {goal && goalAchieved && (
-        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '13px 14px', marginBottom: '14px' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '13px 14px', marginBottom: '14px' }}>
           <Celebration fire />
           {onDismissGoalDone && (
             <button
@@ -204,13 +204,13 @@ export default function StarSummary({
       )}
 
       {goal && !goalAchieved && (
-        <div style={{ background: goalReached ? 'var(--terracotta-lt)' : 'var(--cream)', border: `2px solid ${goalReached ? 'var(--terracotta)' : 'var(--ink)'}`, borderRadius: '13px', padding: '10px 12px', marginBottom: '14px' }}>
+        <div style={{ background: goalReached ? 'var(--terracotta-lt)' : 'var(--cream)', border: `2px solid ${goalReached ? 'var(--terracotta)' : 'var(--ink)'}`, borderRadius: 'var(--radius-tile)', padding: '10px 12px', marginBottom: '14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>🎯 Saving for: {goal.title}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)' }}>{Math.min(balanceStars, goal.stars_needed)}/{goal.stars_needed}</span>
           </div>
-          <div style={{ height: 8, borderRadius: 100, background: 'rgba(26,26,46,0.1)', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: `${goalPct}%`, borderRadius: 100, background: goalReached ? 'var(--deep-teal)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
+          <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.1)', overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${goalPct}%`, borderRadius: 'var(--radius-pill)', background: goalReached ? 'var(--deep-teal)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
           </div>
           {goalReached && (
             confirmDone ? (
@@ -229,7 +229,7 @@ export default function StarSummary({
                   <button
                     onClick={() => setConfirmDone(false)}
                     disabled={redeeming}
-                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}
+                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: 'var(--edge)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}
                   >
                     Not yet
                   </button>

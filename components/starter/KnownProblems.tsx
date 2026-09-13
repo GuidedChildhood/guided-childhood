@@ -29,8 +29,8 @@ const LINES: { stat: string; said: string }[] = [
 export default function KnownProblems() {
   return (
     <div style={{
-      background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 18,
-      boxShadow: '0 5px 0 var(--ink)', padding: '16px 16px 14px',
+      background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      boxShadow: 'var(--lift-deep)', padding: '16px 16px 14px',
     }}>
       <p style={{
         margin: '0 0 9px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,

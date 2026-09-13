@@ -34,7 +34,7 @@ export default function PrintableCoversFixture() {
         </p>
 
         {/* THE HERO, the card a grown up's send lands on. */}
-        <div id="gc-hero" style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18, padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+        <div id="gc-hero" style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
             <div className="gc-cover" style={{
               position: 'relative', width: 152, height: 215, borderRadius: 8,
@@ -53,7 +53,7 @@ export default function PrintableCoversFixture() {
           <button
             id="gc-print-hero"
             onClick={() => { if (hero.pdfColourIn) printPack(hero.pdfColourIn, hero.title); else printSheet(hero.sheetUrl, hero.title) }}
-            style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+            style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
           >
             🖨️ Print it
           </button>
@@ -61,7 +61,7 @@ export default function PrintableCoversFixture() {
 
         {/* THE LIST TILE, the one on the Printables tab. */}
         {sheets.map(p => (
-          <div key={p.key} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '11px 13px 13px', marginBottom: 12 }}>
+          <div key={p.key} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '11px 13px 13px', marginBottom: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
               <div className="gc-cover" style={{ position: 'relative', width: 68, height: 96, borderRadius: 9, flexShrink: 0, overflow: 'hidden', background: '#fff', border: '1.5px solid var(--border)' }}>
                 <Image src={p.previewUrl} alt="" fill sizes="68px" style={{ objectFit: 'contain' }} />

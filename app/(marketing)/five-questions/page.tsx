@@ -29,7 +29,7 @@ export default function FiveQuestionsPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', margin: '30px 0 36px' }}>
         {QUESTIONS.map(([q, a], i) => (
-          <div key={i} style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px 22px' }}>
+          <div key={i} style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px 22px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta)', flexShrink: 0 }}>{i + 1}</span>
               <div>

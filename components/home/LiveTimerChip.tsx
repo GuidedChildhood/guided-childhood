@@ -95,7 +95,7 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
           <div style={{
             display: 'flex', alignItems: 'center', gap: '11px',
             background: '#E8F4EE', border: '1.5px solid #2F8F6B',
-            borderRadius: '14px', padding: '10px 14px',
+            borderRadius: 'var(--radius-tile)', padding: '10px 14px',
           }}>
             <span aria-hidden className="gc-live-dot" style={{ width: 9, height: 9, borderRadius: '50%', background: '#2F8F6B', flexShrink: 0 }} />
             <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -116,9 +116,9 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
           <div key={k.id} style={{
             display: 'flex', alignItems: 'center', gap: '10px',
             background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-            borderRadius: '14px', padding: '9px 11px 9px 14px',
+            borderRadius: 'var(--radius-tile)', padding: '9px 11px 9px 14px',
           }}>
-            <span aria-hidden style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="hand" size={24} /></span>
+            <span aria-hidden style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="hand" size={24} /></span>
             <Link href="/dashboard/quests" style={{ flex: 1, minWidth: 0, textDecoration: 'none' }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {k.name} is asking for {k.request!.minutes} min on the {deviceLabel(k.request!.device)}
@@ -128,7 +128,7 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
               onClick={() => approve(k)}
               disabled={busy || sent}
               style={{
-                flexShrink: 0, padding: '9px 18px', borderRadius: '12px', border: 'none',
+                flexShrink: 0, padding: '9px 18px', borderRadius: 'var(--radius-tile)', border: 'none',
                 cursor: (busy || sent) ? 'default' : 'pointer',
                 background: sent ? '#2F8F6B' : 'var(--terracotta)', color: sent ? '#fff' : 'var(--ink)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',

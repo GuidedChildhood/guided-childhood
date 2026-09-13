@@ -152,7 +152,7 @@ export default function SchoolAddSheet({
           width: '100%', maxWidth: 460, background: '#fff',
           borderRadius: '22px 22px 0 0', padding: '20px 18px calc(18px + env(safe-area-inset-bottom))',
           maxHeight: '88vh', overflowY: 'auto',
-          border: '2px solid var(--ink)', borderBottom: 'none',
+          border: 'var(--edge)', borderBottom: 'none',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 14 }}>
@@ -171,7 +171,7 @@ export default function SchoolAddSheet({
             </h2>
           </div>
           <button onClick={onCancel} aria-label="Cancel" style={{
-            width: 32, height: 32, borderRadius: '50%', border: '2px solid var(--ink)', background: 'var(--cream)',
+            width: 32, height: 32, borderRadius: '50%', border: 'var(--edge)', background: 'var(--cream)',
             cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', flexShrink: 0,
           }}>✕</button>
         </div>
@@ -186,8 +186,8 @@ export default function SchoolAddSheet({
           onKeyDown={e => { if (e.key === 'Enter') submit() }}
           placeholder="PE kit, swimming, spelling test"
           style={{
-            width: '100%', padding: '13px 14px', borderRadius: 13,
-            border: '2px solid var(--ink)', fontSize: 'var(--text-md)',
+            width: '100%', padding: '13px 14px', borderRadius: 'var(--radius-tile)',
+            border: 'var(--edge)', fontSize: 'var(--text-md)',
             fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--ink)',
             background: 'var(--cream)', marginBottom: 10,
           }}
@@ -200,7 +200,7 @@ export default function SchoolAddSheet({
               onClick={() => { setTitle(q.label); setKind(q.kind); setRepeats(true) }}
               style={{
                 background: title === q.label ? 'var(--terracotta)' : '#fff',
-                border: '2px solid var(--ink)', borderRadius: 999,
+                border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
                 padding: '7px 12px', cursor: 'pointer',
                 fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)',
                 color: 'var(--ink)',
@@ -227,8 +227,8 @@ export default function SchoolAddSheet({
                   style={{
                     cursor: 'pointer', flex: '1 1 auto',
                     background: forChild === o.id ? 'var(--tint-butter, #FFF6DE)' : '#fff',
-                    border: '2px solid var(--ink)',
-                    borderRadius: 14, padding: '11px 12px',
+                    border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '11px 12px',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
                   }}
                 >
@@ -254,8 +254,8 @@ export default function SchoolAddSheet({
               style={{
                 flex: 1, textAlign: 'left', cursor: 'pointer',
                 background: repeats === o.on ? 'var(--tint-butter, #FFF6DE)' : '#fff',
-                border: '2px solid var(--ink)',
-                borderRadius: 14, padding: '11px 12px',
+                border: 'var(--edge)',
+                borderRadius: 'var(--radius-tile)', padding: '11px 12px',
               }}
             >
               <span style={{
@@ -291,8 +291,8 @@ export default function SchoolAddSheet({
                   style={{
                     flex: 1, textAlign: 'left', cursor: 'pointer',
                     background: inHolidays === o.on ? 'var(--tint-butter, #FFF6DE)' : '#fff',
-                    border: '2px solid var(--ink)',
-                    borderRadius: 14, padding: '11px 12px',
+                    border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '11px 12px',
                   }}
                 >
                   <span style={{
@@ -319,7 +319,7 @@ export default function SchoolAddSheet({
             value={time}
             onChange={e => setTime(e.target.value)}
             style={{
-              padding: '11px 12px', borderRadius: 13, border: '2px solid var(--ink)',
+              padding: '11px 12px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)',
               fontSize: 'var(--text-md)', fontFamily: 'var(--font-body)', fontWeight: 600,
               color: 'var(--ink)', background: 'var(--cream)',
             }}
@@ -341,13 +341,13 @@ export default function SchoolAddSheet({
           style={{
             width: '100%', display: 'flex', alignItems: 'center', gap: 11, cursor: 'pointer',
             background: toChild ? 'var(--tint-sage, #EAF3EE)' : '#fff',
-            border: '2px solid var(--ink)',
-            borderRadius: 14, padding: '12px 13px', marginBottom: 16, textAlign: 'left',
+            border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', padding: '12px 13px', marginBottom: 16, textAlign: 'left',
           }}
         >
           <span aria-hidden style={{
             width: 24, height: 24, borderRadius: 7, flexShrink: 0,
-            border: '2px solid var(--ink)',
+            border: 'var(--edge)',
             background: toChild ? 'var(--retro-green, #2F8F6B)' : '#fff',
             color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 'var(--text-base)', fontWeight: 900,
@@ -371,7 +371,7 @@ export default function SchoolAddSheet({
           <button
             onClick={onCancel}
             style={{
-              padding: '14px 18px', borderRadius: 15, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+              padding: '14px 18px', borderRadius: 15, border: 'var(--edge)', boxShadow: 'var(--lift)',
               background: '#fff', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)',
             }}
@@ -382,11 +382,11 @@ export default function SchoolAddSheet({
             onClick={submit}
             disabled={!title.trim() || saving}
             style={{
-              flex: 1, padding: '14px', borderRadius: 15, border: '2px solid var(--ink)',
+              flex: 1, padding: '14px', borderRadius: 15, border: 'var(--edge)',
               background: title.trim() ? 'var(--terracotta)' : '#fff',
               color: title.trim() ? 'var(--ink)' : 'var(--ink-muted)', cursor: title.trim() && !saving ? 'pointer' : 'default',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-              boxShadow: title.trim() ? '0 4px 0 var(--ink)' : 'none',
+              boxShadow: title.trim() ? 'var(--lift)' : 'none',
             }}
           >
             {saving ? 'Saving...' : editing ? 'Save changes' : repeats ? `Add every ${DAY_NAMES[dow]}` : 'Add it'}

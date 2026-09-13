@@ -81,7 +81,7 @@ export default async function CategoryPage({
       <div style={{
         background: meta.bg,
         border: `1.5px solid ${meta.border}`,
-        borderRadius: '18px',
+        borderRadius: 'var(--radius-card)',
         overflow: 'hidden',
         marginBottom: '24px',
       }}>
@@ -123,9 +123,9 @@ export default async function CategoryPage({
               style={{
                 background: isDone ? 'var(--stage-2)' : '#fff',
                 border: INK_EDGE,
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 padding: '20px 20px',
-                boxShadow: '0 4px 0 var(--ink)',
+                boxShadow: 'var(--lift)',
                 opacity: isLocked ? 0.7 : 1,
               }}
             >
@@ -134,7 +134,7 @@ export default async function CategoryPage({
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
                   color: stageColor.color, background: stageColor.bg,
-                  padding: '3px 8px', borderRadius: '100px',
+                  padding: '3px 8px', borderRadius: 'var(--radius-pill)',
                 }}>
                   {STAGE_LABELS[script.stage_id] ?? script.stage_id}
                 </span>
@@ -143,7 +143,7 @@ export default async function CategoryPage({
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--terracotta)', background: 'var(--stage-2)',
-                    padding: '3px 8px', borderRadius: '100px', border: '2px solid var(--ink)',
+                    padding: '3px 8px', borderRadius: 'var(--radius-pill)', border: 'var(--edge)',
                   }}>
                     Done
                   </span>
@@ -153,7 +153,7 @@ export default async function CategoryPage({
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--ink-light)', background: 'var(--cream)',
-                    padding: '3px 8px', borderRadius: '100px', border: '2px solid var(--ink)',
+                    padding: '3px 8px', borderRadius: 'var(--radius-pill)', border: 'var(--edge)',
                   }}>
                     Locked
                   </span>

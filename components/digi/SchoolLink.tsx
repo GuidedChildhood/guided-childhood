@@ -56,7 +56,7 @@ export default function SchoolLink() {
   }
 
   return (
-    <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '20px', opacity: SCHOOL_LINK_LIVE ? 1 : 0.55 }}>
+    <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '20px', opacity: SCHOOL_LINK_LIVE ? 1 : 0.55 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: '6px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: SCHOOL_LINK_LIVE ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
           School link
@@ -65,7 +65,7 @@ export default function SchoolLink() {
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-            background: 'rgba(26,26,46,0.06)', borderRadius: 100, padding: '3px 9px',
+            background: 'rgba(26,26,46,0.06)', borderRadius: 'var(--radius-pill)', padding: '3px 9px',
           }}>
             Coming soon
           </span>
@@ -93,7 +93,7 @@ export default function SchoolLink() {
       )}
 
       {address && (
-        <div style={{ marginTop: '16px', background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', padding: '14px' }}>
+        <div style={{ marginTop: '16px', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', wordBreak: 'break-all', marginBottom: '10px' }}>
             {address}
           </div>

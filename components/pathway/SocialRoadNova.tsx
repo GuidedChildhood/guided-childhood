@@ -74,8 +74,8 @@ export default function SocialRoadNova({
 
   return (
     <div style={{
-      background: 'var(--stage-4)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '20px', padding: '17px 18px', marginBottom: '16px',
+      background: 'var(--stage-4)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '17px 18px', marginBottom: '16px',
     }}>
       {/* Nova, and where the road has got to */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '12px' }}>
@@ -117,7 +117,7 @@ export default function SocialRoadNova({
           const isNext = l.lessonId === leg?.lessonId && !done
           return (
             <span key={l.lessonId} style={{
-              flex: 1, height: isNext ? 9 : 6, borderRadius: 100,
+              flex: 1, height: isNext ? 9 : 6, borderRadius: 'var(--radius-pill)',
               alignSelf: 'center',
               background: done ? 'var(--retro-green)' : isNext ? 'var(--terracotta)' : 'rgba(26,26,46,0.14)',
               transition: 'background 0.3s ease',
@@ -129,8 +129,8 @@ export default function SocialRoadNova({
       {leg ? (
         <>
           <div style={{
-            background: 'rgba(255,255,255,0.72)', border: '2px solid var(--ink)',
-            borderRadius: '14px', padding: '13px 14px',
+            background: 'rgba(255,255,255,0.72)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', padding: '13px 14px',
           }}>
             <div style={{
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -185,9 +185,9 @@ export default function SocialRoadNova({
                 href={`/dashboard/lessons/${leg.lessonId}`}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 7,
-                  background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-                  borderRadius: 14, padding: '11px 17px', textDecoration: 'none',
-                  boxShadow: '0 4px 0 var(--ink)',
+                  background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+                  borderRadius: 'var(--radius-tile)', padding: '11px 17px', textDecoration: 'none',
+                  boxShadow: 'var(--lift)',
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                 }}
               >
@@ -203,8 +203,8 @@ export default function SocialRoadNova({
             {!childTicked && onApp && (
               <span style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--ink)',
-                borderRadius: 100, padding: '8px 13px',
+                background: '#fff', color: 'var(--ink-soft)', border: 'var(--edge)',
+                borderRadius: 'var(--radius-pill)', padding: '8px 13px',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.04em',
               }}>

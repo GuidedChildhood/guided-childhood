@@ -97,7 +97,7 @@ export default function YourScreensHarness() {
         type="button"
         onClick={() => setDoneDevices(prev => (prev ? null : new Set(['dev-iphone', 'dev-tv'])))}
         style={{
-          marginBottom: 14, border: '1.5px solid var(--border)', borderRadius: 100,
+          marginBottom: 14, border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
           background: '#fff', padding: '8px 14px', cursor: 'pointer',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)',
         }}

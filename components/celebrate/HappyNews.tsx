@@ -79,8 +79,8 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
 
       <div style={{
         position: 'relative', maxWidth: 420, width: '100%',
-        background: '#fff', borderRadius: '22px', padding: '16px 18px',
-        boxShadow: '0 4px 0 var(--ink)', border: '2px solid var(--ink)',
+        background: '#fff', borderRadius: 'var(--radius-card)', padding: '16px 18px',
+        boxShadow: 'var(--lift)', border: 'var(--edge)',
         display: 'flex', alignItems: 'center', gap: '14px',
         animation: 'gcHappyUp 0.55s cubic-bezier(0.22,1.2,0.36,1) both',
       }}>
@@ -117,7 +117,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
               }}
               style={{
                 marginTop: '9px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                borderRadius: '12px', padding: '9px 16px', cursor: 'pointer',
+                borderRadius: 'var(--radius-tile)', padding: '9px 16px', cursor: 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}

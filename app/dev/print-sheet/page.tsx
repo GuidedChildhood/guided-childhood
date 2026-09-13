@@ -37,7 +37,7 @@ export default function PrintSheetFixture() {
         id="gc-print"
         onClick={() => printSheet(sheetUrl(), title)}
         style={{
-          padding: '13px 20px', borderRadius: 16, border: 'none', cursor: 'pointer',
+          padding: '13px 20px', borderRadius: 'var(--radius-btn)', border: 'none', cursor: 'pointer',
           background: 'var(--terracotta)', color: 'var(--ink)', boxShadow: '0 5px 0 var(--terracotta-dark)',
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
         }}

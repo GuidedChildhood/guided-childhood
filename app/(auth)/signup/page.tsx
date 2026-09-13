@@ -94,7 +94,7 @@ export default function SignupPage() {
                 padding: '20px',
                 background: '#f9fafb',
                 border: '1.5px solid #e5e7eb',
-                borderRadius: 14,
+                borderRadius: 'var(--radius-tile)',
                 marginBottom: '16px',
               }}>
                 <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 6 }}>
@@ -110,7 +110,7 @@ export default function SignupPage() {
                   display: 'block', textAlign: 'center', width: '100%',
                   padding: '16px 28px',
                   background: 'var(--terracotta)', color: 'var(--ink)',
-                  borderRadius: 16, textDecoration: 'none',
+                  borderRadius: 'var(--radius-btn)', textDecoration: 'none',
                   fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)',
                   letterSpacing: '0.08em', textTransform: 'uppercase',
                   boxShadow: '0 5px 0 var(--terracotta-dark)',

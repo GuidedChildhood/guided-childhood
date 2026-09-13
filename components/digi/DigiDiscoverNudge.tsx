@@ -26,13 +26,13 @@ export default function DigiDiscoverNudge({ card }: { card: CoverageCard }) {
 
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '18px', padding: '16px 18px', marginBottom: '20px',
+      background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '20px',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '10px' }}>
         <div style={{
           width: 36, height: 36, borderRadius: '10px', flexShrink: 0,
-          background: '#fff', border: '2px solid var(--ink)',
+          background: '#fff', border: 'var(--edge)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
         }}>
           {card.emoji}
@@ -57,7 +57,7 @@ export default function DigiDiscoverNudge({ card }: { card: CoverageCard }) {
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-            border: 'none', borderRadius: '12px', padding: '9px 15px',
+            border: 'none', borderRadius: 'var(--radius-tile)', padding: '9px 15px',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}

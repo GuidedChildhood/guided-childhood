@@ -56,9 +56,9 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
 
   if (done) {
     return (
-      <div style={{ background: 'var(--deep-teal)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '36px 28px', textAlign: 'center', color: '#fff' }}>
+      <div style={{ background: 'var(--deep-teal)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '36px 28px', textAlign: 'center', color: '#fff' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-          <span aria-hidden style={{ width: 54, height: 54, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span aria-hidden style={{ width: 54, height: 54, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
             <HappyIcon name="heart" size={38} />
           </span>
         </div>
@@ -88,7 +88,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
         background: active ? 'var(--terracotta)' : 'var(--cream)',
         color: active ? '#fff' : 'var(--ink)',
         border: `2px solid ${active ? 'var(--terracotta)' : 'var(--ink)'}`,
-        borderRadius: '100px', padding: '9px 15px', cursor: 'pointer',
+        borderRadius: 'var(--radius-pill)', padding: '9px 15px', cursor: 'pointer',
         fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
         transition: 'all 0.12s',
       }}
@@ -116,7 +116,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
                 flex: '1 1 90px', minWidth: 90,
                 background: mood === m.value ? 'var(--stage-4)' : 'var(--cream)',
                 border: `2px solid ${mood === m.value ? 'var(--terracotta)' : 'var(--ink)'}`,
-                borderRadius: '16px', padding: '14px 8px', cursor: 'pointer',
+                borderRadius: 'var(--radius-btn)', padding: '14px 8px', cursor: 'pointer',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
               }}
             >
@@ -170,7 +170,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
           maxLength={1000}
           placeholder="This month has been..."
           style={{
-            width: '100%', borderRadius: '14px', border: '2px solid var(--ink)',
+            width: '100%', borderRadius: 'var(--radius-tile)', border: 'var(--edge)',
             padding: '14px 16px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)',
             color: 'var(--ink)', resize: 'vertical', background: 'var(--cream)',
           }}

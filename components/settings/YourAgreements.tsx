@@ -63,7 +63,7 @@ export default function YourAgreements({
   }
 
   return (
-    <section style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+    <section style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '16px' }}>
       <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '14px', color: 'var(--ink)' }}>What you have agreed to</h2>
 
       <div>
@@ -93,8 +93,8 @@ export default function YourAgreements({
           <button
             onClick={() => setAsking(true)}
             style={{
-              marginTop: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-              borderRadius: '14px', padding: '10px 18px', cursor: 'pointer',
+              marginTop: 12, background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+              borderRadius: 'var(--radius-tile)', padding: '10px 18px', cursor: 'pointer',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
               color: 'var(--terracotta-dark)',
             }}
@@ -104,7 +104,7 @@ export default function YourAgreements({
         )}
 
         {consented && asking && (
-          <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px', marginTop: 12 }}>
+          <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '15px', marginTop: 12 }}>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
               Every check in you have saved is deleted now, and we stop keeping them. DiGi will still help, it just will not know how your weeks have been going. The rest of Guided Childhood carries on as normal.
             </p>
@@ -113,7 +113,7 @@ export default function YourAgreements({
                 onClick={withdraw}
                 disabled={busy}
                 style={{
-                  background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '12px',
+                  background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)',
                   padding: '11px 18px', cursor: busy ? 'default' : 'pointer',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
                 }}
@@ -123,7 +123,7 @@ export default function YourAgreements({
               <button
                 onClick={() => { setAsking(false); setFailed(false) }}
                 style={{
-                  background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
+                  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
                   padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                   fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
                 }}

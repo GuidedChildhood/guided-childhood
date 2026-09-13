@@ -192,7 +192,7 @@ export default function KidPrintables({
       </div>
 
       {printables.length === 0 ? (
-        <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 20, padding: '22px 18px', textAlign: 'center', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
+        <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', padding: '22px 18px', textAlign: 'center', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>More sheets soon</div>
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: 4 }}>New ones land here all the time.</div>
         </div>
@@ -208,7 +208,7 @@ export default function KidPrintables({
                     onClick={() => { setKind(c.key); setShowAll(false); playKidSound('tap') }}
                     aria-pressed={on}
                     style={{
-                      flexShrink: 0, padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
+                      flexShrink: 0, padding: '9px 15px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                       border: `2px solid ${HAPPY.ink}`, background: on ? HAPPY.butter : '#fff', color: HAPPY.ink,
                       fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                       boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none', transform: on ? 'none' : 'translateY(2px)',
@@ -235,7 +235,7 @@ export default function KidPrintables({
                   aria-label={`${p.title}, ${p.stars} stars`}
                   style={{
                     position: 'relative', display: 'block', width: '100%', textAlign: 'left', padding: 0,
-                    background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 18, overflow: 'hidden',
+                    background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', overflow: 'hidden',
                     cursor: 'pointer', boxShadow: `0 4px 0 ${HAPPY.ink}`, color: HAPPY.ink,
                     opacity: status === 'confirmed' ? 0.85 : 1,
                   }}
@@ -284,7 +284,7 @@ export default function KidPrintables({
             <button
               onClick={() => { setShowAll(true); playKidSound('tap') }}
               style={{
-                display: 'block', margin: '14px auto 0', padding: '12px 20px', borderRadius: 100, cursor: 'pointer',
+                display: 'block', margin: '14px auto 0', padding: '12px 20px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                 border: `2px solid ${HAPPY.ink}`, background: '#fff', color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               }}
@@ -324,7 +324,7 @@ function MakeTile({ href, emoji, title, sub, tint, accent }: {
       onClick={() => playKidSound('tap')}
       style={{
         position: 'relative', display: 'block', textDecoration: 'none', overflow: 'hidden',
-        background: tint, border: `2px solid ${HAPPY.ink}`, borderRadius: 18, padding: '14px 12px 12px',
+        background: tint, border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', padding: '14px 12px 12px',
         boxShadow: `0 4px 0 ${HAPPY.ink}`, color: HAPPY.ink, minHeight: 128,
       }}
     >
@@ -461,7 +461,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
       </div>
 
       <div className="kid-print-chrome" style={{ maxWidth: 560, margin: '0 auto', padding: '16px 16px 6px' }}>
-        <div style={{ position: 'relative', background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 20, padding: '14px 16px 16px', boxShadow: `0 4px 0 ${HAPPY.ink}`, overflow: 'hidden' }}>
+        <div style={{ position: 'relative', background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', padding: '14px 16px 16px', boxShadow: `0 4px 0 ${HAPPY.ink}`, overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: -6, right: 10, display: 'flex', gap: 6 }} aria-hidden>
             <SmileyDot size={16} color={HAPPY.coral} /><SmileyDot size={12} color={HAPPY.sky} />
           </div>
@@ -475,7 +475,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
               <button
                 onClick={print}
                 style={{
-                  width: '100%', padding: '16px 14px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
+                  width: '100%', padding: '16px 14px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
                   background: HAPPY.butter, color: HAPPY.ink, boxShadow: `0 5px 0 ${HAPPY.ink}`,
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
                 }}
@@ -486,7 +486,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
                 onClick={finished}
                 disabled={!!status || busy}
                 style={{
-                  width: '100%', padding: '14px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`, marginTop: 10,
+                  width: '100%', padding: '14px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`, marginTop: 10,
                   cursor: status ? 'default' : 'pointer',
                   background: status ? '#E8F0EE' : HAPPY.green, color: status ? HAPPY.ink : '#fff',
                   boxShadow: status ? 'none' : `0 5px 0 ${HAPPY.ink}`,
@@ -508,7 +508,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
                 onClick={askForIt}
                 disabled={requested}
                 style={{
-                  width: '100%', padding: '16px 14px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`,
+                  width: '100%', padding: '16px 14px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`,
                   cursor: requested ? 'default' : 'pointer',
                   background: requested ? '#E8F0EE' : HAPPY.green, color: requested ? HAPPY.ink : '#fff',
                   boxShadow: requested ? 'none' : `0 5px 0 ${HAPPY.ink}`,
@@ -524,7 +524,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
           )}
 
           {note && (
-            <p style={{ margin: '10px 0 0', padding: '10px 12px', background: HAPPY.butterLt, border: `1.5px solid ${HAPPY.butterDark}`, borderRadius: 12, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: HAPPY.ink, lineHeight: 1.4 }}>
+            <p style={{ margin: '10px 0 0', padding: '10px 12px', background: HAPPY.butterLt, border: `1.5px solid ${HAPPY.butterDark}`, borderRadius: 'var(--radius-tile)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: HAPPY.ink, lineHeight: 1.4 }}>
               {note}
             </p>
           )}
@@ -543,7 +543,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
             <button
               onClick={() => { playKidSound('tap'); setShowExample(v => !v) }}
               style={{
-                padding: '10px 18px', borderRadius: 100, cursor: 'pointer',
+                padding: '10px 18px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                 border: `2px solid ${HAPPY.ink}`, background: showExample ? '#fff' : HAPPY.butter, color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               }}
@@ -553,11 +553,11 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
           </div>
         )}
         {p.drawn && showExample && (
-          <div className="kid-print-chrome" style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}` }} aria-hidden>
+          <div className="kid-print-chrome" style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-btn)', overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}` }} aria-hidden>
             <DrawnPaper spec={{ key: p.drawn, childName, stars: p.stars, facts: dealFacts, example: true }} />
           </div>
         )}
-        <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}`, display: p.drawn && showExample ? 'none' : undefined }} className={isPack ? 'kid-print-chrome' : 'kid-print-paper'}>
+        <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-btn)', overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}`, display: p.drawn && showExample ? 'none' : undefined }} className={isPack ? 'kid-print-chrome' : 'kid-print-paper'}>
           {isPack ? (
             <div style={{ position: 'relative', aspectRatio: '3 / 4' }}>
               <Image src={p.previewUrl} alt={p.title} fill sizes="560px" style={{ objectFit: 'contain', padding: 10 }} />

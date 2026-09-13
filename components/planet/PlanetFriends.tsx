@@ -746,9 +746,9 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
 
   const chunky = (fill: 'accent' | 'white'): React.CSSProperties => ({
     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.15,
-    padding: '14px 20px', borderRadius: 16, cursor: 'pointer', textDecoration: 'none',
+    padding: '14px 20px', borderRadius: 'var(--radius-btn)', cursor: 'pointer', textDecoration: 'none',
     background: fill === 'accent' ? theme.hex : '#fff', color: fill === 'accent' ? theme.onAccent : 'var(--ink)',
-    border: '2px solid var(--ink)', boxShadow: '0 5px 0 var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    border: 'var(--edge)', boxShadow: 'var(--lift-deep)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
   })
 
   const resting = live.friends.filter(f => f.cooldown)
@@ -763,7 +763,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const words = cfg.words
 
   const overlayBase: React.CSSProperties = {
-    position: 'absolute', inset: 0, borderRadius: 24, display: 'flex', flexDirection: 'column', alignItems: 'center',
+    position: 'absolute', inset: 0, borderRadius: 'var(--radius-card)', display: 'flex', flexDirection: 'column', alignItems: 'center',
     justifyContent: 'center', gap: 14, padding: '22px 18px', textAlign: 'center', zIndex: 5,
   }
   const overlayLine: React.CSSProperties = {
@@ -838,17 +838,17 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '6px 4px 10px' }}>
           {token ? <KidBackLink href={`/k/${token}`} color={theme.ink} /> : <span />}
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>{ROOM_TITLES[where]} {ROOM_EMOJI[where]}</span>
-          <button onClick={toggleMute} aria-label={muted ? 'Sound on' : 'Sound off'} style={{ width: 42, height: 42, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', cursor: 'pointer', fontSize: 18 }}>
+          <button onClick={toggleMute} aria-label={muted ? 'Sound on' : 'Sound off'} style={{ width: 42, height: 42, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', cursor: 'pointer', fontSize: 18 }}>
             {muted ? '🔇' : '🔊'}
           </button>
         </header>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: theme.panel, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '8px 12px', marginBottom: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: theme.panel, border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '8px 12px', marginBottom: 10 }}>
           <img src={friendArt(lead).img} alt={leadName} width={40} height={40} style={{ width: 40, height: 40, objectFit: 'contain', flexShrink: 0 }} />
           <p aria-live="polite" style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3, color: theme.ink }}>{line}</p>
         </div>
 
-        <div ref={stageRef} style={{ position: 'relative', borderRadius: 24, border: '2.5px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)', overflow: 'hidden', background: '#fff' }}>
+        <div ref={stageRef} style={{ position: 'relative', borderRadius: 'var(--radius-card)', border: '2.5px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)', overflow: 'hidden', background: '#fff' }}>
           {onMap ? (
             <StarMap
               home={live}
@@ -945,7 +945,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
           )}
 
           {landed && landedCard && !boardOpen && overlay !== 'night' && (
-            <div style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 28 }} aria-hidden>{landedCard.emoji}</span>
               <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>
                 {landedCard.rewardLabel}. {MISSION_LINES.landed}
@@ -976,7 +976,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
 
           {/* The new planet card waits its turn behind the grew card, so two cards never sit on each other. */}
           {fresh.length > 0 && !newSeen && !onMap && overlay === 'none' && !landed && !boardOpen && !(grewTotal > 0 && !grewShown) && (
-            <div data-new-planet style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div data-new-planet style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 28 }} aria-hidden>🚀</span>
               <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>
                 {MAP_LINES.isNew(PLANET_WORDS[fresh[0]].title)}
@@ -986,7 +986,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
           )}
 
           {grewTotal > 0 && !grewShown && overlay === 'none' && !landed && (
-            <div ref={grewRef} style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div ref={grewRef} style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: 28 }} aria-hidden>🪐</span>
                 <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>
@@ -1126,12 +1126,12 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             waiting to be put somewhere. Drag a part onto the planet, an outfit
             onto a Friend. Drag a placed part off the bottom to put it back. */}
         {boxOpen && overlay === 'none' && !onMap && (
-          <div role="region" aria-label={MISSION_LINES.box} style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 30, background: '#fff', color: 'var(--ink)', borderTop: '2px solid var(--ink)', boxShadow: '0 -4px 0 rgba(26,26,46,0.12)', padding: '10px 12px calc(env(safe-area-inset-bottom, 0px) + 10px)', maxHeight: '42vh', overflowY: 'auto' }}>
+          <div role="region" aria-label={MISSION_LINES.box} style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 30, background: '#fff', color: 'var(--ink)', borderTop: 'var(--edge)', boxShadow: '0 -4px 0 rgba(26,26,46,0.12)', padding: '10px 12px calc(env(safe-area-inset-bottom, 0px) + 10px)', maxHeight: '42vh', overflowY: 'auto' }}>
            <div style={{ maxWidth: 480, margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
               <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)' }}>🧰 {MISSION_LINES.box}</p>
               <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{MISSION_LINES.spaces(room ? freeSpotsHere : spacesLeft)}</p>
-              <button onClick={() => { playFx('tap'); setBoxOpen(false) }} aria-label={MISSION_LINES.close} style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 2px 0 var(--ink)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900 }}>✕</button>
+              <button onClick={() => { playFx('tap'); setBoxOpen(false) }} aria-label={MISSION_LINES.close} style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift-press)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900 }}>✕</button>
             </div>
             <p style={{ margin: '2px 0 8px', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.3 }}>
               {box.length + boxWear.length === 0 ? MISSION_LINES.boxEmpty : MISSION_LINES.boxHint}
@@ -1140,7 +1140,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               {box.map(part => (
                 <div key={part} role="button" tabIndex={0} aria-label={`Carry ${PART_LABELS[part]}`} data-box-part={part}
                   onPointerDown={e => startCarry(e, { kind: 'part', part })} onPointerMove={moveCarry} onPointerUp={endCarry} onPointerCancel={() => setCarry(null)}
-                  style={{ width: 66, touchAction: 'none', cursor: 'grab', userSelect: 'none', background: 'var(--butter-lt)', border: '2px solid var(--ink)', borderRadius: 14, boxShadow: '0 3px 0 var(--ink)', padding: '4px 2px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, opacity: carry?.kind === 'part' && carry.part === part ? 0.4 : 1 }}>
+                  style={{ width: 66, touchAction: 'none', cursor: 'grab', userSelect: 'none', background: 'var(--butter-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)', padding: '4px 2px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, opacity: carry?.kind === 'part' && carry.part === part ? 0.4 : 1 }}>
                   <svg viewBox={PART_ZONE[part] === 'sky' ? '-40 -40 80 80' : '-40 -70 80 80'} width={46} height={46} aria-hidden style={{ pointerEvents: 'none' }}>
                     <PartArt part={part} accent={theme.hex} night={false} />
                   </svg>
@@ -1150,7 +1150,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               {boxWear.map(outfit => (
                 <div key={outfit} role="button" tabIndex={0} aria-label={`Carry ${OUTFIT_LABELS[outfit]}`} data-box-outfit={outfit}
                   onPointerDown={e => startCarry(e, { kind: 'outfit', outfit })} onPointerMove={moveCarry} onPointerUp={endCarry} onPointerCancel={() => setCarry(null)}
-                  style={{ width: 66, touchAction: 'none', cursor: 'grab', userSelect: 'none', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, boxShadow: '0 3px 0 var(--ink)', padding: '4px 2px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, opacity: carry?.kind === 'outfit' && carry.outfit === outfit ? 0.4 : 1 }}>
+                  style={{ width: 66, touchAction: 'none', cursor: 'grab', userSelect: 'none', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)', padding: '4px 2px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, opacity: carry?.kind === 'outfit' && carry.outfit === outfit ? 0.4 : 1 }}>
                   <span aria-hidden style={{ fontSize: 32, lineHeight: '46px' }}>{OUTFIT_ICON[outfit]}</span>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xs)', textAlign: 'center', lineHeight: 1.15 }}>{OUTFIT_LABELS[outfit]}</span>
                 </div>
@@ -1160,7 +1160,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
                 {(Object.entries(live.build.wearing) as [FriendKey, Outfit][]).map(([friend, outfit]) => (
                   <button key={friend} onClick={() => takeOff(friend)} aria-label={`Take the ${OUTFIT_LABELS[outfit].replace(/^(A|An) /, '').toLowerCase()} off ${friendArt(friend).name}`}
-                    style={{ border: '1.5px solid var(--ink)', borderRadius: 999, background: '#fff', padding: '4px 10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xs)', cursor: 'pointer', color: 'var(--ink)' }}>
+                    style={{ border: '1.5px solid var(--ink)', borderRadius: 'var(--radius-pill)', background: '#fff', padding: '4px 10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xs)', cursor: 'pointer', color: 'var(--ink)' }}>
                     {OUTFIT_ICON[outfit]} {friendArt(friend).name} ✕
                   </button>
                 ))}

@@ -45,8 +45,8 @@ export default function AddChildName() {
   return (
     <div style={{
       position: 'relative',
-      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '16px', padding: '16px 18px', marginBottom: '16px',
+      background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '16px',
     }}>
       <button
         type="button"
@@ -76,8 +76,8 @@ export default function AddChildName() {
           onKeyDown={e => { if (e.key === 'Enter') save() }}
           placeholder="Their first name"
           style={{
-            flex: 1, minWidth: 0, padding: '11px 14px', borderRadius: 12,
-            border: '2px solid var(--ink)', background: '#fff',
+            flex: 1, minWidth: 0, padding: '11px 14px', borderRadius: 'var(--radius-tile)',
+            border: 'var(--edge)', background: '#fff',
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
           }}
         />
@@ -87,7 +87,7 @@ export default function AddChildName() {
           disabled={saving || !name.trim()}
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
-            border: 'none', borderRadius: 12, padding: '11px 18px', cursor: 'pointer',
+            border: 'none', borderRadius: 'var(--radius-tile)', padding: '11px 18px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: saving || !name.trim() ? 0.6 : 1,
           }}

@@ -357,12 +357,12 @@ export default function PassportBook({
         <div
           style={{
             position: 'relative',
-            borderRadius: '18px',
+            borderRadius: 'var(--radius-card)',
             transformStyle: 'preserve-3d',
             transformOrigin: 'left center',
             transform: flipping === 'next' ? 'rotateY(-88deg)' : flipping === 'prev' ? 'rotateY(88deg)' : 'rotateY(0deg)',
             transition: 'transform 0.28s ease-in',
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           {page === 0 ? (
@@ -509,13 +509,13 @@ export default function PassportBook({
             /* ── A stage page ──────────────────────────── */
             <div
               style={{
-                background: theme.bg, borderRadius: '18px',
+                background: theme.bg, borderRadius: 'var(--radius-card)',
                 // Bottom padding clears the print mark in the corner. Checked
                 // at 390 wide: without it the stage CTA runs the full width of
                 // the card to the bottom edge and the mark sits on top of the
                 // button, which is a collision rather than a corner.
                 padding: '20px 22px 46px', minHeight: '420px', position: 'relative', overflow: 'hidden',
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
                 display: 'flex', flexDirection: 'column',
               }}
             >
@@ -705,7 +705,7 @@ export default function PassportBook({
                             href={next.href}
                             style={{
                               display: 'block', textDecoration: 'none', marginTop: 13,
-                              background: '#fff', border: `1.5px solid ${theme.bold}`, borderRadius: 13,
+                              background: '#fff', border: `1.5px solid ${theme.bold}`, borderRadius: 'var(--radius-tile)',
                               padding: '10px 11px',
                             }}
                           >
@@ -734,7 +734,7 @@ export default function PassportBook({
                                 display: 'inline-block', marginTop: 6,
                                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                                 letterSpacing: '0.06em', textTransform: 'uppercase', color: TODO,
-                                background: 'var(--terracotta-lt)', borderRadius: 100, padding: '2px 8px',
+                                background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                               }}>
                                 Kept up, not ticked off
                               </span>
@@ -852,8 +852,8 @@ export default function PassportBook({
                     display: 'block', textAlign: 'center', marginTop: '11px',
                     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                     color: 'var(--ink)', textDecoration: 'none',
-                    background: theme.bold, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-                    borderRadius: '12px', padding: '10px 14px',
+                    background: theme.bold, border: 'var(--edge)', boxShadow: 'var(--lift)',
+                    borderRadius: 'var(--radius-tile)', padding: '10px 14px',
                   }}
                 >
                   {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
@@ -883,7 +883,7 @@ export default function PassportBook({
           aria-label="Previous page"
           disabled={page === 0}
           style={{
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: '10px', boxShadow: '0 3px 0 var(--ink)',
+            background: '#fff', border: 'var(--edge)', borderRadius: '10px', boxShadow: 'var(--lift)',
             width: 34, height: 34, cursor: page === 0 ? 'default' : 'pointer',
             opacity: page === 0 ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
@@ -904,7 +904,7 @@ export default function PassportBook({
                 onClick={() => goTo(i)}
                 aria-label={i === 0 ? 'Cover' : isCert ? 'Certificate' : behind ? `Stage ${i}, not stamped yet` : `Stage ${i}`}
                 style={{
-                  width: active ? 22 : 8, height: 8, borderRadius: '100px', border: 'none', padding: 0,
+                  width: active ? 22 : 8, height: 8, borderRadius: 'var(--radius-pill)', border: 'none', padding: 0,
                   cursor: 'pointer', transition: 'all 0.25s ease',
                   background: active ? (t ? t.bold : 'var(--deep-teal)') : behind ? 'var(--terracotta)' : isCert ? 'var(--terracotta-dark)' : 'var(--border)',
                   boxShadow: behind && !active ? '0 0 0 2px var(--terracotta-lt)' : 'none',
@@ -918,7 +918,7 @@ export default function PassportBook({
           aria-label="Next page"
           disabled={page === lastPage}
           style={{
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: '10px', boxShadow: '0 3px 0 var(--ink)',
+            background: '#fff', border: 'var(--edge)', borderRadius: '10px', boxShadow: 'var(--lift)',
             width: 34, height: 34, cursor: page === lastPage ? 'default' : 'pointer',
             opacity: page === lastPage ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
@@ -959,7 +959,7 @@ export default function PassportBook({
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             width: '100%', marginTop: 14, padding: '14px 18px',
             background: 'var(--terracotta)', color: 'var(--ink)',
-            border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
             cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900,
             fontSize: 'var(--text-md)', lineHeight: 1.3,
           }}
@@ -989,7 +989,7 @@ export default function PassportBook({
       {catchUps.length > 0 && (
         <div style={{
           marginTop: 16, background: 'var(--terracotta-lt)',
-          border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '14px 16px',
+          border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '14px 16px',
         }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
             {catchUps.length === 1 ? 'One page behind you' : `${catchUps.length} pages behind you`}
@@ -1009,7 +1009,7 @@ export default function PassportBook({
                 onClick={() => openFromBelow(s.id)}
                 style={{
                   display: 'inline-flex', alignItems: 'baseline', gap: 7, flexWrap: 'wrap',
-                  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 12,
+                  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)',
                   padding: '8px 13px', cursor: 'pointer', textAlign: 'left',
                 }}
               >
@@ -1057,8 +1057,8 @@ export default function PassportBook({
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           marginTop: 16, padding: '15px 20px',
           background: '#fff', color: 'var(--ink)',
-          border: '2px solid var(--ink)', borderRadius: 16,
-          boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+          boxShadow: 'var(--lift)',
           textDecoration: 'none', textAlign: 'center',
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
           lineHeight: 1.3,
@@ -1071,7 +1071,7 @@ export default function PassportBook({
 
       {allEarned && (
         <div style={{
-          marginTop: '14px', background: 'var(--deep-teal)', borderRadius: '14px',
+          marginTop: '14px', background: 'var(--deep-teal)', borderRadius: 'var(--radius-tile)',
           padding: '14px 16px', textAlign: 'center',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#fff' }}>

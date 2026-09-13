@@ -70,7 +70,7 @@ export default function RefStarChartSheet() {
         </div></div>
 
         <Label>The kid variant of the shared builder (the child app page is exactly this)</Label>
-        <div style={{ background: 'var(--cream)', borderRadius: 16 }}>
+        <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-btn)' }}>
           <StarChartBuilder
             variant="kid"
             yourJobs={FIVE_JOBS.map(j => ({ ...j, childId: null }))}

@@ -56,8 +56,8 @@ export default function DayDoneFixture() {
               key={s}
               onClick={() => setState(s)}
               style={{
-                flex: 1, padding: '8px 6px', borderRadius: 12, cursor: 'pointer',
-                border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                flex: 1, padding: '8px 6px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
+                border: 'var(--edge)', boxShadow: 'var(--lift)',
                 background: s === state ? 'var(--terracotta)' : '#fff',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               }}

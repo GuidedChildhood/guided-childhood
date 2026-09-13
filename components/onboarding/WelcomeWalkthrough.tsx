@@ -88,7 +88,7 @@ const BTN: React.CSSProperties = {
   // The child's button (plans/week-of-2026-08-31-parent-happy-news-plan.md):
   // butter, an ink edge, a hard ink ledge, Nunito 900.
   background: BUTTER, color: INK,
-  border: `2px solid ${INK}`, borderRadius: 16,
+  border: `2px solid ${INK}`, borderRadius: 'var(--radius-btn)',
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
   cursor: 'pointer',
   boxShadow: `0 4px 0 ${INK}`,
@@ -162,7 +162,7 @@ function SceneCheckIn() {
           <div key={i} data-rise><Star size={44} filled={i < 3} muted={i >= 3} /></div>
         ))}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--tint-sage)', borderRadius: 14, padding: '10px 12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--tint-sage)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
         <Tick size={18} color="#2F8F6B" width={2.4} />
         <div style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: GREEN_DARK }}>Better than last time. That counts.</div>
       </div>
@@ -181,7 +181,7 @@ function SceneMoments() {
     <div style={{ width: '100%', maxWidth: 330, display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
       {tiles.map(([label, bg, band, chosen]) => (
         <div key={label} data-rise style={{
-          background: bg, border: `2px solid ${chosen ? '#1A1A2E' : 'transparent'}`, borderRadius: 18,
+          background: bg, border: `2px solid ${chosen ? '#1A1A2E' : 'transparent'}`, borderRadius: 'var(--radius-card)',
           padding: '12px 12px 10px', display: 'flex', flexDirection: 'column', gap: 8,
           boxShadow: chosen ? '0 4px 0 #1A1A2E' : 'none',
         }}>
@@ -215,7 +215,7 @@ function SceneDigi() {
     <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
         <img data-pop src="/digi-squad/DiGi-star.svg" alt="DiGi" width={58} height={62} style={{ flexShrink: 0, display: 'block' }} />
-        <div data-rise style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px 18px 18px 4px', padding: '12px 14px', boxShadow: '0 3px 0 var(--ink)' }}>
+        <div data-rise style={{ background: '#fff', border: 'var(--edge)', borderRadius: '18px 18px 18px 4px', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
           <div style={{ fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.4, color: INK }}>That is not defiance, that is mid game. Here is the pathway for tonight:</div>
         </div>
       </div>
@@ -239,15 +239,15 @@ function SceneChild({ name }: { name: string }) {
     </div>
   )
   return (
-    <div style={{ width: '100%', maxWidth: 330, background: 'var(--kid-bg)', borderRadius: 20, padding: 16, display: 'flex', flexDirection: 'column', gap: 12, color: '#fff' }}>
+    <div style={{ width: '100%', maxWidth: 330, background: 'var(--kid-bg)', borderRadius: 'var(--radius-card)', padding: 16, display: 'flex', flexDirection: 'column', gap: 12, color: '#fff' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>{name}&rsquo;s five for today</div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', opacity: 0.8 }}>2 of 5</div>
       </div>
-      <div style={{ height: 8, borderRadius: 100, background: 'rgba(255,255,255,0.15)', overflow: 'hidden' }}><div style={{ width: '40%', height: '100%', background: BUTTER, borderRadius: 100 }} /></div>
+      <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'rgba(255,255,255,0.15)', overflow: 'hidden' }}><div style={{ width: '40%', height: '100%', background: BUTTER, borderRadius: 'var(--radius-pill)' }} /></div>
       {done('Tidy my room')}
       {done('A lesson')}
-      <div data-rise style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', border: `2px solid #EDC35F`, borderRadius: 14, padding: '10px 12px', boxShadow: '0 4px 0 #C99A28' }}>
+      <div data-rise style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', border: `2px solid #EDC35F`, borderRadius: 'var(--radius-tile)', padding: '10px 12px', boxShadow: '0 4px 0 #C99A28' }}>
         <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Star size={18} /></div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>Check my balance</div>
@@ -276,11 +276,11 @@ function ScenePayoff() {
         <text x="278" y="116" fontFamily="var(--font-mono)" fontSize="11" fill="#8888A0">WEEK 6</text>
       </svg>
       <div style={{ display: 'flex', gap: 8 }}>
-        <div data-rise style={{ flex: 1, background: 'var(--terracotta-lt)', borderRadius: 14, padding: '10px 12px' }}>
+        <div data-rise style={{ flex: 1, background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
           <div style={{ ...MONO_LABEL, color: BUTTER_DARK, fontWeight: 700, letterSpacing: '0.1em' }}>Weekly email</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: INK, marginTop: 2 }}>What worked</div>
         </div>
-        <div data-rise style={{ flex: 1, background: 'var(--stage-2)', borderRadius: 14, padding: '10px 12px' }}>
+        <div data-rise style={{ flex: 1, background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
           <div style={{ ...MONO_LABEL, color: 'var(--stage-2-text)', fontWeight: 700, letterSpacing: '0.1em' }}>Passport</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: INK, marginTop: 2 }}>Filled in together</div>
         </div>
@@ -292,7 +292,7 @@ function ScenePayoff() {
 function SceneRemind({ name }: { name: string }) {
   return (
     <div style={{ width: '100%', maxWidth: 330, display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div data-rise style={{ display: 'flex', gap: 12, alignItems: 'center', background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, padding: '12px 14px', boxShadow: '0 3px 0 var(--ink)' }}>
+      <div data-rise style={{ display: 'flex', gap: 12, alignItems: 'center', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" width={36} height={39} style={{ flexShrink: 0, display: 'block' }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
@@ -302,7 +302,7 @@ function SceneRemind({ name }: { name: string }) {
           <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.35 }}>Bedtime in twenty minutes. The words for tonight are ready.</div>
         </div>
       </div>
-      <div data-rise style={{ display: 'flex', gap: 12, alignItems: 'center', background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, padding: '12px 14px', boxShadow: '0 3px 0 var(--ink)' }}>
+      <div data-rise style={{ display: 'flex', gap: 12, alignItems: 'center', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '12px 14px', boxShadow: 'var(--lift)' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" width={36} height={39} style={{ flexShrink: 0, display: 'block' }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
@@ -328,12 +328,12 @@ function SceneWorries({ worries }: { worries: NonNullable<Props['worries']> }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
         {shown.map(w => (
           <div key={w.id} data-rise style={{
-            background: '#fff', border: `2px solid ${INK}`, borderRadius: 16,
+            background: '#fff', border: `2px solid ${INK}`, borderRadius: 'var(--radius-btn)',
             boxShadow: `0 4px 0 ${INK}`, padding: '11px 11px 13px',
             display: 'flex', flexDirection: 'column', gap: 8,
           }}>
             <span aria-hidden style={{
-              width: 38, height: 38, borderRadius: 12, background: w.tint,
+              width: 38, height: 38, borderRadius: 'var(--radius-tile)', background: w.tint,
               border: `2px solid ${INK}`, boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', justifyContent: 'center', color: INK,
             }}>
@@ -534,10 +534,10 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 32%, var(--terracotta-lt) 0%, rgba(254,247,224,0) 60%)', pointerEvents: 'none' }} />
         <div ref={stageRef} style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 22, padding: '40px 28px 0', position: 'relative', maxWidth: 480, width: '100%', margin: '0 auto' }}>
           <div data-part style={{ position: 'relative' }}>
-            <div style={{ width: 168, height: 168, borderRadius: '50%', background: '#FEF7E0', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 168, height: 168, borderRadius: '50%', background: '#FEF7E0', border: 'var(--edge)', boxShadow: 'var(--lift)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img data-pop src="/digi-squad/DiGi-star.svg" alt="DiGi" width={140} height={150} style={{ display: 'block' }} />
             </div>
-            <div data-rise style={{ position: 'absolute', right: -14, bottom: 6, background: GREEN, color: '#fff', borderRadius: 100, padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 6, boxShadow: `0 4px 0 ${GREEN_DARK}` }}>
+            <div data-rise style={{ position: 'absolute', right: -14, bottom: 6, background: GREEN, color: '#fff', borderRadius: 'var(--radius-pill)', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 6, boxShadow: `0 4px 0 ${GREEN_DARK}` }}>
               <Tick size={16} />
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)' }}>{name}</span>
             </div>
@@ -569,8 +569,8 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
       <style>{ZOOM_CSS}</style>
       {/* Progress and the way out, the same on every card. */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px 0', maxWidth: 480, width: '100%', margin: '0 auto' }}>
-        <div style={{ flex: 1, height: 8, borderRadius: 100, background: 'var(--border)', overflow: 'hidden' }}>
-          <div style={{ height: '100%', width: `${Math.round((step / stepCount) * 100)}%`, background: BUTTER, borderRadius: 100, transition: 'width 0.45s ease-out' }} />
+        <div style={{ flex: 1, height: 8, borderRadius: 'var(--radius-pill)', background: 'var(--border)', overflow: 'hidden' }}>
+          <div style={{ height: '100%', width: `${Math.round((step / stepCount) * 100)}%`, background: BUTTER, borderRadius: 'var(--radius-pill)', transition: 'width 0.45s ease-out' }} />
         </div>
         <div style={{ ...MONO_LABEL, letterSpacing: '0.06em', textTransform: 'none', whiteSpace: 'nowrap' }}>{step} of {stepCount}</div>
         <button type="button" onClick={() => finish('dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0 6px 6px', ...MONO_LABEL, letterSpacing: '0.06em', textTransform: 'none', color: 'var(--ink-light)' }}>
@@ -580,8 +580,8 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
 
       <div ref={stageRef} key={card.key} style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 18, padding: '22px 20px 12px', maxWidth: 480, width: '100%', margin: '0 auto' }}>
         <div data-part style={{
-          background: card.sceneBg ?? '#fff', border: '2px solid var(--ink)', borderRadius: 24,
-          boxShadow: '0 4px 0 var(--ink)', padding: '18px 16px', overflow: 'hidden',
+          background: card.sceneBg ?? '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+          boxShadow: 'var(--lift)', padding: '18px 16px', overflow: 'hidden',
           display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 200,
         }}>
           {card.scene}
@@ -593,7 +593,7 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
         <p data-part style={{ fontSize: 'var(--text-md)', lineHeight: 1.5, color: 'var(--ink-soft)', marginTop: -6, textWrap: 'pretty' }}>
           {card.body}
         </p>
-        <div data-part style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'var(--tint-sage)', borderRadius: 16, padding: '12px 14px', marginTop: -2 }}>
+        <div data-part style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'var(--tint-sage)', borderRadius: 'var(--radius-btn)', padding: '12px 14px', marginTop: -2 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F8F6B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }} aria-hidden><circle cx="12" cy="12" r="9" /><path d="M12 8v0.5M12 11v5" /></svg>
           <div style={{ fontSize: 'var(--text-base)', lineHeight: 1.4, color: GREEN_DARK, fontWeight: 700 }}>{card.why}</div>
         </div>
@@ -602,7 +602,7 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '12px 20px 28px', maxWidth: 480, width: '100%', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 6 }} aria-hidden>
           {Array.from({ length: stepCount }, (_, k) => (
-            <div key={k} style={{ width: k === i ? 22 : 8, height: 8, borderRadius: 100, background: k === i ? BUTTER : 'var(--border)', transition: 'width 0.3s ease' }} />
+            <div key={k} style={{ width: k === i ? 22 : 8, height: 8, borderRadius: 'var(--radius-pill)', background: k === i ? BUTTER : 'var(--border)', transition: 'width 0.3s ease' }} />
           ))}
         </div>
         {isRemind ? (

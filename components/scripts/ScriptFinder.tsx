@@ -73,7 +73,7 @@ export default function ScriptFinder({
   }
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '16px 18px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '20px', boxShadow: 'var(--lift)' }}>
       <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
         Find my script
       </label>
@@ -82,8 +82,8 @@ export default function ScriptFinder({
         onChange={e => { setQ(e.target.value); setAsked(false) }}
         placeholder="What is happening? e.g. wants a phone, will not come off the game"
         style={{
-          width: '100%', padding: '13px 15px', borderRadius: '13px', boxSizing: 'border-box',
-          border: '2px solid var(--ink)', background: '#fff',
+          width: '100%', padding: '13px 15px', borderRadius: 'var(--radius-tile)', boxSizing: 'border-box',
+          border: 'var(--edge)', background: '#fff',
           fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
         }}
         onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
@@ -98,9 +98,9 @@ export default function ScriptFinder({
               <Link
                 key={s.sort_order}
                 href={locked ? '/dashboard/upgrade' : `/dashboard/scripts/${s.sort_order}${childId ? `?child=${childId}` : ''}`}
-                style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '11px 13px', textDecoration: 'none' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', textDecoration: 'none' }}
               >
-                <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <HappyIcon name="tell" size={26} />
                 </span>
                 <span style={{ flex: 1, minWidth: 0 }}>
@@ -118,8 +118,8 @@ export default function ScriptFinder({
           lands in the founder insights to be written. */}
       {query.length >= 4 && (
         asked ? (
-          <div style={{ marginTop: '12px', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 14px', display: 'flex', gap: '9px', alignItems: 'center' }}>
-            <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ marginTop: '12px', background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', display: 'flex', gap: '9px', alignItems: 'center' }}>
+            <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <HappyIcon name="heart" size={26} />
             </span>
             <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.45 }}>
@@ -135,10 +135,10 @@ export default function ScriptFinder({
               onClick={askDigi}
               disabled={sending}
               style={{
-                background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: '14px',
+                background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                 padding: '9px 15px', cursor: sending ? 'default' : 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                boxShadow: '0 3px 0 var(--ink)', opacity: sending ? 0.7 : 1,
+                boxShadow: 'var(--lift)', opacity: sending ? 0.7 : 1,
               }}
             >
               {sending ? 'Sending…' : 'Ask DiGi for this script'}

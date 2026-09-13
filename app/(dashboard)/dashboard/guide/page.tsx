@@ -62,9 +62,9 @@ export default function GuidePage() {
       {/* How it works, the parts and what they are for */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
         {HOW_IT_WORKS.map((step, i) => (
-          <div key={step.title} style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '18px 20px', boxShadow: '0 4px 0 var(--ink)' }}>
+          <div key={step.title} style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px 20px', boxShadow: 'var(--lift)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-              <span aria-hidden style={{ width: 40, height: 40, borderRadius: 11, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)' }}>{step.emoji}</span>
+              <span aria-hidden style={{ width: 40, height: 40, borderRadius: 11, background: 'var(--terracotta-lt)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)' }}>{step.emoji}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--ink-muted)' }}>Step {i + 1}</span>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>{step.title}</span>
             </div>
@@ -77,7 +77,7 @@ export default function GuidePage() {
       </div>
 
       {/* The lesson map, the whole journey 4 to 16 */}
-      <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '22px', marginBottom: '20px' }}>
+      <div style={{ background: 'var(--deep-teal)', borderRadius: 'var(--radius-card)', padding: '22px', marginBottom: '20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
           The lesson map
         </div>
@@ -91,7 +91,7 @@ export default function GuidePage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '30px' }}>
         {LESSON_MAP.map(band => (
-          <div key={band.stage} style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px' }}>
+          <div key={band.stage} style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>{band.stage}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{band.ages}</span>
@@ -109,14 +109,14 @@ export default function GuidePage() {
       </div>
 
       {/* Start here */}
-      <div style={{ background: 'var(--tint-sage)', borderRadius: '18px', padding: '20px 22px', textAlign: 'center' }}>
+      <div style={{ background: 'var(--tint-sage)', borderRadius: 'var(--radius-card)', padding: '20px 22px', textAlign: 'center' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
           Not sure where to start?
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
           Start with today’s ten minute practice. Everything else grows from there.
         </p>
-        <Link href="/dashboard/daily" style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px', padding: '13px 24px', textDecoration: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+        <Link href="/dashboard/daily" style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '13px 24px', textDecoration: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
           Start today’s practice
         </Link>
       </div>

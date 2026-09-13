@@ -41,7 +41,7 @@ const BTN: React.CSSProperties = {
   display: 'block', width: '100%',
   padding: '17px 28px',
   background: 'var(--terracotta)', color: 'var(--ink)',
-  border: 'none', borderRadius: 16,
+  border: 'none', borderRadius: 'var(--radius-btn)',
   fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)',
   letterSpacing: '0.08em', textTransform: 'uppercase' as const,
   cursor: 'pointer',
@@ -124,7 +124,7 @@ function DigiSpeech({ text }: { text: string }) {
         }} />
         <div style={{
           background: '#fff', border: '1.5px solid var(--border)',
-          borderRadius: 18, padding: '14px 18px',
+          borderRadius: 'var(--radius-card)', padding: '14px 18px',
           boxShadow: '0 2px 12px rgba(26,26,46,0.07)',
           position: 'relative', zIndex: 0,
         }}>
@@ -477,7 +477,7 @@ export default function OnboardingPage() {
             }} />
             <div style={{
               background: '#fff', border: '1.5px solid var(--border)',
-              borderRadius: 18, padding: '14px 22px',
+              borderRadius: 'var(--radius-card)', padding: '14px 22px',
               boxShadow: '0 2px 12px rgba(26,26,46,0.07)',
               position: 'relative', zIndex: 0,
             }}>
@@ -544,7 +544,7 @@ export default function OnboardingPage() {
               style={{ marginBottom: nameNudge && !firstName ? '10px' : '18px', fontSize: 'var(--text-lg)' }}
             />
             {nameNudge && !firstName && (
-              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px', marginBottom: '18px' }}>
+              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', marginBottom: '18px' }}>
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
                   A first name makes every script and DiGi answer personal to them. First name only, nothing else is ever asked for. You can also continue without one.
                 </p>
@@ -557,8 +557,8 @@ export default function OnboardingPage() {
                 year={dobYear}
                 onChange={(m, y) => { setDobMonth(m); setDobYear(y) }}
                 fieldStyle={{
-                  width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: '12px',
-                  border: '2px solid var(--ink)', background: '#fff',
+                  width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+                  border: 'var(--edge)', background: '#fff',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
                 }}
               />
@@ -580,7 +580,7 @@ export default function OnboardingPage() {
               const val = dailyLimit ?? rec
               const split = bucketDailyGuide(ageBand)
               return (
-                <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 15px', marginBottom: '18px' }}>
+                <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '14px 15px', marginBottom: '18px' }}>
                   <label style={{ ...lbl, marginBottom: 6 }}>Daily screen time</label>
                   <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
                     Recommended for this age is <strong style={{ color: 'var(--ink)' }}>{term} minutes a day</strong>
@@ -592,7 +592,7 @@ export default function OnboardingPage() {
                       value={String(val)}
                       onChange={e => { const n = parseInt(e.target.value.replace(/[^0-9]/g, '').slice(0, 3), 10); setDailyLimit(Number.isFinite(n) ? n : null) }}
                       inputMode="numeric"
-                      style={{ width: 90, padding: '10px 14px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', outline: 'none' }}
+                      style={{ width: 90, padding: '10px 14px', borderRadius: 'var(--radius-tile)', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', outline: 'none' }}
                       maxLength={3}
                     />
                     <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>min a day</span>
@@ -648,7 +648,7 @@ export default function OnboardingPage() {
             })()}
 
             {siblings.map((s, i) => (
-              <div key={i} style={{ border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 15px', marginBottom: '12px' }}>
+              <div key={i} style={{ border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '14px 15px', marginBottom: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                   <span style={{ ...lbl, marginBottom: 0 }}>Another child</span>
                   <button type="button" onClick={() => removeSibling(i)} style={{ background: 'none', border: 'none', color: 'var(--ink-light)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', cursor: 'pointer', letterSpacing: '0.04em' }}>Remove</button>
@@ -659,8 +659,8 @@ export default function OnboardingPage() {
                   year={s.dobYear}
                   onChange={(m, y) => updateSibling(i, { dobMonth: m, dobYear: y })}
                   fieldStyle={{
-                    width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: '12px',
-                    border: '2px solid var(--ink)', background: '#fff',
+                    width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+                    border: 'var(--edge)', background: '#fff',
                     fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
                   }}
                 />
@@ -716,7 +716,7 @@ export default function OnboardingPage() {
                       display: 'flex', alignItems: 'center', gap: 9,
                       padding: '13px 12px',
                       border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
-                      borderRadius: 14,
+                      borderRadius: 'var(--radius-tile)',
                       background: on ? 'var(--terracotta-lt)' : '#fff',
                       cursor: 'pointer', textAlign: 'left',
                       fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)',

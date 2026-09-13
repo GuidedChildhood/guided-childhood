@@ -98,7 +98,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
       key: 'email',
       label: 'Email',
       href: `mailto:?subject=${encodeURIComponent(`${childName}'s quests`)}&body=${encodeURIComponent(invite)}`,
-      bg: '#fff', fg: 'var(--ink)', shadow: '0 4px 0 var(--ink)',
+      bg: '#fff', fg: 'var(--ink)', shadow: 'var(--lift)',
       icon: (
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <rect x="2" y="4" width="20" height="16" rx="2.5" />
@@ -112,13 +112,13 @@ export default function QrHandoverModal({ token, childName, onClose }: {
   // doors stopped being the same height, which reads as one being the lesser
   // of the two. They are not.
   const doorTab = (key: Door): React.CSSProperties => ({
-    flex: 1, padding: '11px 6px', borderRadius: '13px', cursor: 'pointer', border: 'none',
+    flex: 1, padding: '11px 6px', borderRadius: 'var(--radius-tile)', cursor: 'pointer', border: 'none',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
     whiteSpace: 'nowrap',
     color: door === key ? 'var(--ink)' : 'var(--ink-soft)',
     background: door === key ? '#fff' : 'transparent',
     boxShadow: 'none',
-    outline: door === key ? '2px solid var(--ink)' : 'none', outlineOffset: -2,
+    outline: door === key ? 'var(--edge)' : 'none', outlineOffset: -2,
   })
 
   return (
@@ -131,18 +131,18 @@ export default function QrHandoverModal({ token, childName, onClose }: {
     >
       <div
         onClick={e => e.stopPropagation()}
-        style={{ width: '100%', maxWidth: 420, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '26px', padding: '20px 20px 22px', boxShadow: '0 4px 0 var(--ink)', textAlign: 'center', margin: 'auto' }}
+        style={{ width: '100%', maxWidth: 420, background: 'var(--cream)', border: 'var(--edge)', borderRadius: '26px', padding: '20px 20px 22px', boxShadow: 'var(--lift)', textAlign: 'center', margin: 'auto' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             Hand it to {childName}
           </span>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--ink)', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink)', flexShrink: 0 }}>✕</button>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'var(--edge)', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink)', flexShrink: 0 }}>✕</button>
         </div>
 
         {/* Two doors, equal weight. A family with no child device is not taking
             the lesser option, they are taking the other one. */}
-        <div role="tablist" style={{ display: 'flex', gap: '4px', background: 'rgba(26,26,46,0.06)', borderRadius: '16px', padding: '4px', marginBottom: '18px' }}>
+        <div role="tablist" style={{ display: 'flex', gap: '4px', background: 'rgba(26,26,46,0.06)', borderRadius: 'var(--radius-btn)', padding: '4px', marginBottom: '18px' }}>
           <button role="tab" aria-selected={door === 'phone'} onClick={() => setDoor('phone')} style={doorTab('phone')}>
             📱 Their phone
           </button>
@@ -159,7 +159,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
 
             {/* The hero. Big enough to scan from across a table, which is the
                 whole point of a code rather than a link. */}
-            <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px', padding: '16px', display: 'inline-block', marginBottom: '14px' }}>
+            <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '16px', display: 'inline-block', marginBottom: '14px' }}>
               {qr ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -196,11 +196,11 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                 happens, phrased as the second half of the same action rather
                 than as a warning. */}
             <div style={{
-              background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
+              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
               padding: '12px 14px', margin: '0 0 18px', textAlign: 'left',
               display: 'flex', alignItems: 'flex-start', gap: '10px',
             }}>
-              <span aria-hidden style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+              <span aria-hidden style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta-lt)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
                 <HappyIcon name="phonebed" size={24} />
               </span>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
@@ -223,7 +223,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                     flex: 1, display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
                     background: c.bg, color: c.fg, borderRadius: '15px', padding: '13px 6px', textDecoration: 'none',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                    boxShadow: c.shadow, border: c.key === 'email' ? '2px solid var(--ink)' : 'none',
+                    boxShadow: c.shadow, border: c.key === 'email' ? 'var(--edge)' : 'none',
                   }}
                 >
                   {c.icon}
@@ -235,7 +235,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
             <button
               onClick={copy}
               style={{
-                width: '100%', background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px', boxShadow: '0 4px 0 var(--ink)',
+                width: '100%', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
                 padding: '11px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
                 fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}
@@ -252,7 +252,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
             {/* The chart shown at the same size the code gets, because it is
                 the same offer. A family who prints this is fully set up: the
                 child ticks the paper, the parent taps the stars. */}
-            <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px', padding: '16px 14px', marginBottom: '14px' }}>
+            <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '16px 14px', marginBottom: '14px' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '10px' }}>
                 {childName}&apos;s week
               </div>
@@ -262,7 +262,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                 ))}
                 {Array.from({ length: 21 }).map((_, i) => (
                   <div key={i} aria-hidden style={{
-                    aspectRatio: '1', borderRadius: '7px', border: '2px solid var(--ink)',
+                    aspectRatio: '1', borderRadius: '7px', border: 'var(--edge)',
                     background: i === 0 || i === 8 || i === 15 ? 'var(--terracotta-lt)' : '#fff',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)',
@@ -280,7 +280,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
             <Link
               href="/dashboard/quests/print"
               style={{
-                display: 'block', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '16px',
+                display: 'block', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)',
                 padding: '15px', textDecoration: 'none', fontFamily: 'var(--font-display)',
                 fontWeight: 900, fontSize: 'var(--text-lg)', boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
@@ -309,7 +309,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
           onClick={onClose}
           style={{
             width: '100%', marginTop: '14px', background: '#fff',
-            border: '2px solid var(--ink)', borderRadius: '16px', padding: '13px', boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '13px', boxShadow: 'var(--lift)',
             cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
             fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}

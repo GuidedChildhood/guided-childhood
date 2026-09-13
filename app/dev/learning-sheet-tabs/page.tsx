@@ -75,7 +75,7 @@ export default async function LearningSheetTabsFixture({
             href={`/dev/learning-sheet-tabs?subject=${s}${broken ? '&bug=1' : ''}`}
             data-subject={s}
             style={{
-              padding: '11px 18px', borderRadius: 14, textDecoration: 'none',
+              padding: '11px 18px', borderRadius: 'var(--radius-tile)', textDecoration: 'none',
               border: `1.5px solid ${s === subject ? 'var(--terracotta)' : 'var(--border)'}`,
               background: s === subject ? 'var(--terracotta)' : '#fff',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',

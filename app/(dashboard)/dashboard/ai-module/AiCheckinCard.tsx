@@ -113,8 +113,8 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
     return (
       <div style={{
         background: 'var(--stage-2)',
-        border: '2px solid var(--ink)',
-        borderRadius: '16px',
+        border: 'var(--edge)',
+        borderRadius: 'var(--radius-btn)',
         padding: '20px',
         marginBottom: '28px',
         display: 'flex',
@@ -155,8 +155,8 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
     return (
       <div style={{
         background: 'var(--cream)',
-        border: '2px solid var(--ink)',
-        borderRadius: '16px',
+        border: 'var(--edge)',
+        borderRadius: 'var(--radius-btn)',
         padding: '20px',
         marginBottom: '28px',
       }}>
@@ -176,9 +176,9 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
             style={{
               display: 'block',
               background: '#fff',
-              border: '2px solid var(--ink)',
-              boxShadow: '0 4px 0 var(--ink)',
-              borderRadius: '14px',
+              border: 'var(--edge)',
+              boxShadow: 'var(--lift)',
+              borderRadius: 'var(--radius-tile)',
               padding: '16px',
               textDecoration: 'none',
               marginBottom: '12px',
@@ -217,8 +217,8 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
   return (
     <div style={{
       background: '#fff',
-      border: '2px solid var(--ink)',
-      borderRadius: '16px',
+      border: 'var(--edge)',
+      borderRadius: 'var(--radius-btn)',
       padding: '24px',
       marginBottom: '28px',
     }}>
@@ -253,7 +253,7 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
                       textAlign: 'left',
                       background: selected ? 'var(--terracotta-lt)' : '#f9fafb',
                       border: `1.5px solid ${selected ? 'var(--terracotta)' : '#e5e7eb'}`,
-                      borderRadius: '12px',
+                      borderRadius: 'var(--radius-tile)',
                       padding: '12px 16px',
                       fontSize: 'var(--text-md)',
                       fontWeight: selected ? 600 : 400,

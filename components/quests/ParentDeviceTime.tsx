@@ -53,7 +53,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
   starMinutes?: number
 }) {
   return (
-    <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
+    <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginBottom: '11px' }}>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: '2px' }}>
         {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
       </div>
@@ -68,8 +68,8 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
         </p>
       )}
       <div style={{ display: 'flex', gap: '8px' }}>
-        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes ⭐</button>
-        <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: '12px', border: '2px solid var(--ink)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>Not yet</button>
+        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes ⭐</button>
+        <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>Not yet</button>
       </div>
     </div>
   )
@@ -141,9 +141,9 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
   return (
     // scrollMarginTop so the sticky header does not sit over the card when the
     // bell's See the timer link lands here.
-    <div id="screen-time" style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '20px', marginTop: '24px', scrollMarginTop: '80px' }}>
+    <div id="screen-time" style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '20px', marginTop: '24px', scrollMarginTop: '80px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-        <span aria-hidden style={{ width: 42, height: 42, borderRadius: 12, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+        <span aria-hidden style={{ width: 42, height: 42, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
           <HappyIcon name="time" size={32} />
         </span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Screen time</span>
@@ -179,7 +179,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
             ['cheer', 'When it reaches zero, both phones get the alarm. Then it is time to agree the next quests.'],
           ] as const).map(([icon, text]) => (
             <li key={text} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-              <span aria-hidden style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
+              <span aria-hidden style={{ width: 34, height: 34, borderRadius: '50%', background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}>
                 <HappyIcon name={icon} size={24} />
               </span>
               <span>{text}</span>
@@ -352,7 +352,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
     const pct = Math.max(0, Math.min(100, ((total - Math.max(0, remaining)) / total) * 100))
     const up = remaining <= 0
     return (
-      <div style={{ border: `1.5px solid ${up ? '#E5484D' : 'var(--terracotta)'}`, background: up ? '#FDECEC' : 'var(--terracotta-lt)', borderRadius: '16px', padding: '14px 16px' }}>
+      <div style={{ border: `1.5px solid ${up ? '#E5484D' : 'var(--terracotta)'}`, background: up ? '#FDECEC' : 'var(--terracotta-lt)', borderRadius: 'var(--radius-btn)', padding: '14px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             {deviceEmoji(kid.session.device)} {kid.name}
@@ -362,8 +362,8 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           </span>
         </div>
         {!up ? (
-          <div style={{ height: '7px', borderRadius: '100px', background: 'rgba(26,26,46,0.10)', overflow: 'hidden', marginTop: '9px' }}>
-            <div style={{ height: '100%', borderRadius: '100px', background: 'var(--terracotta)', width: `${pct}%`, transition: 'width 1s linear' }} />
+          <div style={{ height: '7px', borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.10)', overflow: 'hidden', marginTop: '9px' }}>
+            <div style={{ height: '100%', borderRadius: 'var(--radius-pill)', background: 'var(--terracotta)', width: `${pct}%`, transition: 'width 1s linear' }} />
           </div>
         ) : (
           <Link href="#quest-board" onClick={onChange} style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#B93B3F', textDecoration: 'none' }}>
@@ -376,7 +376,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
 
   // Idle: the grant control.
   return (
-    <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', padding: '14px 16px' }}>
+    <div style={{ border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 16px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '10px' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{kid.name}</span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
@@ -386,7 +386,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           stopped, and so did this one, so a parent watching the board is told
           the same thing the push says, with the minutes that were recorded. */}
       {stoppedNote && (
-        <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
+        <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginBottom: '11px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '8px' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
               ⏹️ {kid.name} has stopped watching
@@ -468,7 +468,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
           background: 'var(--tint-butter, #FFF6DE)', border: '1.5px solid var(--terracotta)',
-          borderRadius: 12, padding: '10px 12px', margin: '0 0 11px',
+          borderRadius: 'var(--radius-tile)', padding: '10px 12px', margin: '0 0 11px',
         }}>
           <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4, flex: 1, minWidth: 180 }}>
             {kid.name} has {kid.jobsLeft!.count} job{kid.jobsLeft!.count === 1 ? '' : 's'} left today
@@ -488,7 +488,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
             disabled={nudged}
             style={{
               background: nudged ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--terracotta)',
-              borderRadius: 100, padding: '8px 14px', cursor: nudged ? 'default' : 'pointer',
+              borderRadius: 'var(--radius-pill)', padding: '8px 14px', cursor: nudged ? 'default' : 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               color: 'var(--ink)', flexShrink: 0,
             }}
@@ -511,7 +511,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
 
       {/* Who starts the timer: how much this child does alone, more as they
           grow. Easy to find, one plain line per option. */}
-      <details style={{ marginBottom: '11px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '9px 12px' }}>
+      <details style={{ marginBottom: '11px', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
         <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>
           Who starts the timer? <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>{TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'} ›</span>
         </summary>
@@ -520,7 +520,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
             <button key={l.key} onClick={() => setTrust(l.key)} aria-pressed={kid.trust === l.key} style={{
               textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
               background: kid.trust === l.key ? 'var(--terracotta-lt)' : '#fff',
-              border: kid.trust === l.key ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+              border: kid.trust === l.key ? '2px solid var(--terracotta)' : 'var(--edge)',
             }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{l.label}</span>
               <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
@@ -544,7 +544,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             background: minutes === m ? 'var(--terracotta-lt)' : '#fff',
             color: minutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
-            border: minutes === m ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+            border: minutes === m ? '2px solid var(--terracotta)' : 'var(--edge)',
           }}>{m}m</button>
         ))}
       </div>
@@ -555,7 +555,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           <button key={m.key} onClick={() => setMode(m.key)} aria-pressed={mode === m.key} style={{
             textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
             background: mode === m.key ? 'var(--terracotta-lt)' : '#fff',
-            border: mode === m.key ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+            border: mode === m.key ? '2px solid var(--terracotta)' : 'var(--edge)',
           }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{m.label}</span>
             <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{m.hint}</span>
@@ -566,7 +566,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
       {err && <p style={{ fontSize: 'var(--text-base)', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
 
       <button onClick={start} disabled={busy || tooPoor} style={{
-        width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+        width: '100%', padding: '12px', borderRadius: 'var(--radius-tile)', border: 'none',
         cursor: busy || tooPoor ? 'default' : 'pointer', opacity: tooPoor ? 0.55 : 1,
         background: 'var(--terracotta)', color: 'var(--ink)',
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
@@ -589,8 +589,8 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           the honest thing about the balance in the same breath. */}
       {tooPoor && (
         <div style={{
-          background: 'var(--tint-sage)', border: '2px solid var(--ink)',
-          borderRadius: '14px', padding: '12px 14px', margin: '9px 0 0',
+          background: 'var(--tint-sage)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-tile)', padding: '12px 14px', margin: '9px 0 0',
         }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '8px' }}>
             {kid.name} is {cost - kid.balance} star{cost - kid.balance === 1 ? '' : 's'} short this week. You can still send it as a gift, and the next job {kid.name} does pays it back.
@@ -599,7 +599,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
             <button
               onClick={() => setMode('gift')}
               style={{
-                background: 'var(--terracotta)', border: 'none', borderRadius: '12px',
+                background: 'var(--terracotta)', border: 'none', borderRadius: 'var(--radius-tile)',
                 padding: '9px 15px', cursor: 'pointer', color: 'var(--ink)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 boxShadow: '0 3px 0 var(--terracotta-dark)',
@@ -611,7 +611,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
                 and the fix is jobs rather than a smaller number here. */}
             <Link href="/dashboard/quests/manage" style={{
               display: 'inline-flex', alignItems: 'center', background: 'var(--white)',
-              border: '2px solid var(--ink)', borderRadius: '12px', padding: '9px 15px',
+              border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 15px',
               textDecoration: 'none', color: 'var(--ink)',
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
             }}>
@@ -651,7 +651,7 @@ function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: stri
     computer: `The computer carries most of ${name}'s screen time. At age ${band} it is worth knowing how much of it is making and how much is watching, so keep the sittings earned on the quest board either way.`,
   }
   return (
-    <div style={{ marginTop: '12px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '11px 13px' }}>
+    <div style={{ marginTop: '12px', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
         Where the time goes · last 7 days
       </div>
@@ -697,8 +697,8 @@ function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, 
           {g.used} of ~{recommended} min
         </span>
       </div>
-      <div style={{ height: 6, borderRadius: 100, background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: `${g.pct}%`, borderRadius: 100, background: accent, transition: 'width 0.4s ease' }} />
+      <div style={{ height: 6, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${g.pct}%`, borderRadius: 'var(--radius-pill)', background: accent, transition: 'width 0.4s ease' }} />
       </div>
       {sessionsToday > 0 && (
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '4px' }}>

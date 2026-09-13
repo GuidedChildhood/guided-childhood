@@ -65,17 +65,17 @@ function MomentTile({
         position: 'relative',
         width: '64px',
         height: '64px',
-        borderRadius: '16px',
+        borderRadius: 'var(--radius-btn)',
         background: tint,
-        border: '2px solid var(--ink)',
+        border: 'var(--edge)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'visible',
         transform: selected ? 'translateY(-4px)' : 'translateY(0)',
         boxShadow: selected
-          ? '0 0 0 2.5px var(--terracotta), 0 4px 0 var(--ink)'
-          : '0 3px 0 var(--ink)',
+          ? '0 0 0 2.5px var(--terracotta), var(--lift)'
+          : 'var(--lift)',
         transition: `transform 0.5s ${EASE}, box-shadow 0.5s ${EASE}`,
       }}>
         {imageSrc ? (
@@ -230,8 +230,8 @@ export default function MomentTimeline({
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginTop: '4px', marginLeft: '64px', padding: '12px 16px',
-          background: 'var(--cream)', border: '2px solid var(--ink)',
-          borderRadius: '14px', textDecoration: 'none',
+          background: 'var(--cream)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-tile)', textDecoration: 'none',
         }}
       >
         <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>

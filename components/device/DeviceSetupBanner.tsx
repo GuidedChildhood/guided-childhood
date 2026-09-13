@@ -132,7 +132,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
       <div style={{
         background: colors.bg,
         border: `1.5px solid ${colors.bold}`,
-        borderRadius: '20px',
+        borderRadius: 'var(--radius-card)',
         overflow: 'hidden',
       }}>
         {/* Top accent bar */}
@@ -171,7 +171,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             letterSpacing: '0.08em', textTransform: 'uppercase',
             background: colors.bold, color: colors.text,
-            padding: '3px 10px', borderRadius: '100px',
+            padding: '3px 10px', borderRadius: 'var(--radius-pill)',
           }}>
             {data.device}
           </span>
@@ -248,7 +248,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
             onClick={() => { localStorage.setItem(storageKey, '1'); setConfirmed(true) }}
             style={{
               background: colors.text, color: colors.bg,
-              border: 'none', borderRadius: '16px',
+              border: 'none', borderRadius: 'var(--radius-btn)',
               padding: '11px 22px', cursor: 'pointer',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
               letterSpacing: '0.06em', textTransform: 'uppercase',

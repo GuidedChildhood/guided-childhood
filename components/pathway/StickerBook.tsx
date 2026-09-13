@@ -68,8 +68,8 @@ export default function StickerBook({ book, childName }: { book: Book; childName
   return (
     <section
       style={{
-        background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
-        padding: '18px 18px 20px', boxShadow: '0 4px 0 var(--ink)',
+        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+        padding: '18px 18px 20px', boxShadow: 'var(--lift)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
@@ -85,8 +85,8 @@ export default function StickerBook({ book, childName }: { book: Book; childName
       </h2>
 
       {/* The collection so far */}
-      <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '2px solid var(--ink)', boxSizing: 'border-box', overflow: 'hidden', marginBottom: '16px' }}>
-        <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
+      <div style={{ height: 10, borderRadius: 'var(--radius-pill)', background: 'var(--cream)', border: 'var(--edge)', boxSizing: 'border-box', overflow: 'hidden', marginBottom: '16px' }}>
+        <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: 'var(--radius-pill)' }} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: '14px 8px' }}>
@@ -107,11 +107,11 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         href="/dashboard/printables/star-chart"
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px',
-          background: 'var(--cream)', border: '2px solid var(--ink)',
-          borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
+          background: 'var(--cream)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-btn)', padding: '13px 15px', textDecoration: 'none',
         }}
       >
-        <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="print" size={26} /></span>
+        <span aria-hidden style={{ width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="print" size={26} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             Print stars at home tonight
@@ -126,11 +126,11 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         href="/dashboard/keepsakes#p-sticker_sheet"
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px',
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
-          borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
+          background: 'var(--terracotta-lt)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-btn)', padding: '13px 15px', textDecoration: 'none',
         }}
       >
-        <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="wins" size={26} /></span>
+        <span aria-hidden style={{ width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="wins" size={26} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             Get these as real stickers

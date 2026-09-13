@@ -88,7 +88,7 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
 
   return (
     <div style={{
-      background: 'var(--deep-teal)', borderRadius: '18px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+      background: 'var(--deep-teal)', borderRadius: 'var(--radius-card)', border: 'var(--edge)', boxShadow: 'var(--lift)',
       padding: '18px 20px', marginBottom: '20px', position: 'relative', color: '#fff',
     }}>
       <button
@@ -109,7 +109,7 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
       </p>
 
       {tip.href === null && showInstall && (
-        <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '13px 15px', marginBottom: '14px' }}>
+        <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 'var(--radius-tile)', padding: '13px 15px', marginBottom: '14px' }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.92)', lineHeight: 1.55, margin: 0 }}>
             {isIOS
               ? 'Tap the Share button at the bottom of Safari (the square with an arrow), scroll down, then tap Add to Home Screen.'
@@ -122,7 +122,7 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
         {tip.href === null ? (
           <button
             onClick={() => setShowInstall(true)}
-            style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '11px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+            style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '11px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
           >
             {tip.cta}
           </button>
@@ -130,7 +130,7 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
           <Link
             href={tip.href}
             onClick={dismiss}
-            style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '11px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '11px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
           >
             {tip.cta}
           </Link>

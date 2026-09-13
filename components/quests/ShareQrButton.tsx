@@ -55,7 +55,7 @@ export default function ShareQrButton({
         style={{
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-          borderRadius: 16, padding: '14px 24px', cursor: busy ? 'default' : 'pointer',
+          borderRadius: 'var(--radius-btn)', padding: '14px 24px', cursor: busy ? 'default' : 'pointer',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
           boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.75 : 1,
           ...style,

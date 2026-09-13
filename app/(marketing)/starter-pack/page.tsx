@@ -584,7 +584,7 @@ export default function StarterPackPage() {
             </p>
             <button
               onClick={() => setStep('result')}
-              style={{ width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', padding: '17px 28px', borderRadius: 'var(--radius-btn)', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               See my pathway
             </button>
@@ -622,7 +622,7 @@ export default function StarterPackPage() {
                 { n: '2', title: 'We build their pathway', sub: 'The digital literacy plan for their exact stage, guiding you year by year to a safe, capable 16' },
                 { n: '3', title: 'Step into the platform, free', sub: 'The words for tonight, safe lessons by age, and a plan that protects your child and you' },
               ].map(item => (
-                <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' }}>
+                <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 18px' }}>
                   <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
                   <div>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{item.title}</div>
@@ -776,7 +776,7 @@ export default function StarterPackPage() {
               ].map(row => (
                 <div key={row.t} className="build-row" style={{
                   display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left',
-                  background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '13px',
+                  background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)',
                   padding: '12px 15px', opacity: 0, animation: `buildIn 0.5s ease ${row.d} forwards`,
                 }}>
                   <span style={{
@@ -890,7 +890,7 @@ export default function StarterPackPage() {
             <div style={{
               display: 'flex', alignItems: 'flex-start', gap: '11px',
               background: 'var(--cream)', border: '1.5px solid var(--border)',
-              borderRadius: '14px', padding: '13px 15px', marginTop: '16px',
+              borderRadius: 'var(--radius-tile)', padding: '13px 15px', marginTop: '16px',
             }}>
               <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.2, flexShrink: 0 }}>👧🧒</span>
               <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
@@ -951,7 +951,7 @@ export default function StarterPackPage() {
             <div style={{
               display: 'flex', gap: '12px', alignItems: 'flex-start',
               background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: '16px', padding: '14px 16px', marginTop: '20px',
+              borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginTop: '20px',
             }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={34} height={34} style={{ flexShrink: 0, marginTop: '1px' }} />
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
@@ -971,7 +971,7 @@ export default function StarterPackPage() {
               disabled={picks.length === 0}
               style={{
                 marginTop: '14px', width: '100%',
-                padding: '16px 22px', borderRadius: 16, border: 'none',
+                padding: '16px 22px', borderRadius: 'var(--radius-btn)', border: 'none',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                 background: picks.length ? 'var(--terracotta)' : 'var(--border)',
                 color: picks.length ? 'var(--ink)' : 'var(--ink-muted)',
@@ -988,7 +988,7 @@ export default function StarterPackPage() {
                   <span>Start with {picks.length === 1 ? 'this focus' : 'these'}</span>
                   {picks.length > 1 && (
                     <span style={{
-                      minWidth: '22px', height: '22px', padding: '0 7px', borderRadius: '100px',
+                      minWidth: '22px', height: '22px', padding: '0 7px', borderRadius: 'var(--radius-pill)',
                       background: 'rgba(26,26,46,0.16)', color: 'var(--ink)',
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -1056,7 +1056,7 @@ export default function StarterPackPage() {
                       padding: '15px 16px',
                       background: recommended && !on ? 'var(--stage-1)' : '#fff',
                       border: `${recommended ? 2 : 1.5}px solid ${on || recommended ? 'var(--terracotta)' : 'var(--border)'}`,
-                      borderRadius: '16px', cursor: 'pointer', textAlign: 'left',
+                      borderRadius: 'var(--radius-btn)', cursor: 'pointer', textAlign: 'left',
                       boxShadow: on
                         ? '0 8px 22px rgba(220,88,50,0.18)'
                         : recommended ? '0 5px 0 var(--terracotta-dark)' : '0 1px 2px rgba(26,26,46,0.05)',
@@ -1073,7 +1073,7 @@ export default function StarterPackPage() {
                             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                             letterSpacing: '0.1em', textTransform: 'uppercase',
                             color: 'var(--ink)', background: 'var(--gold)',
-                            borderRadius: '100px', padding: '3px 9px',
+                            borderRadius: 'var(--radius-pill)', padding: '3px 9px',
                           }}>
                             Recommended
                           </span>

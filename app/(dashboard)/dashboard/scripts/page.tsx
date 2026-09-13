@@ -309,9 +309,9 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           it is the other half of the library. */}
       <Link
         href="/dashboard/tell-a-parent"
-        style={{ display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none', background: 'var(--tint-sage)', border: INK_EDGE, borderRadius: '18px', padding: '15px 17px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none', background: 'var(--tint-sage)', border: INK_EDGE, borderRadius: 'var(--radius-card)', padding: '15px 17px', marginBottom: '20px', boxShadow: 'var(--lift)' }}
       >
-        <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: '#fff', border: INK_EDGE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: '#fff', border: INK_EDGE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
             When they come to you
@@ -331,7 +331,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           deck cards, so the words carry the same weight on screen as on paper. */}
       {topicScripts.length > 0 && (
         <section style={{ marginBottom: '24px' }}>
-          <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: '20px', padding: '16px 20px 14px', marginBottom: '14px', boxShadow: '0 5px 0 var(--ink)' }}>
+          <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '16px 20px 14px', marginBottom: '14px', boxShadow: 'var(--lift-deep)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
               {topicScripts.length} script{topicScripts.length > 1 ? 's' : ''} for this moment
             </div>
@@ -353,7 +353,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 <Link
                   key={script.id}
                   href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${script.sort_order}`)}
-                  style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: '#fff', border: INK_EDGE, borderRadius: '20px', boxShadow: '0 4px 0 var(--ink)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: '#fff', border: INK_EDGE, borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)' }}
                 >
                   <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', border: INK_EDGE, boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>
                     {i + 1}
@@ -375,7 +375,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           href={withChild(`/dashboard/scripts/${recommended.sort_order}`)}
           style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}
         >
-          <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: '22px', padding: '20px 20px 18px', boxShadow: '0 5px 0 var(--ink)' }}>
+          <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '20px 20px 18px', boxShadow: 'var(--lift-deep)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7, marginBottom: '6px' }}>
               Recommended next
             </div>
@@ -389,7 +389,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 week. A recommendation that cannot say why it is here is
                 indistinguishable from the next row down. */}
             {recommended.reason && (
-              <div style={{ display: 'inline-block', marginTop: '12px', background: '#fff', border: INK_EDGE, borderRadius: 100, padding: '6px 12px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', color: 'var(--ink)', fontWeight: 800 }}>
+              <div style={{ display: 'inline-block', marginTop: '12px', background: '#fff', border: INK_EDGE, borderRadius: 'var(--radius-pill)', padding: '6px 12px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', color: 'var(--ink)', fontWeight: 800 }}>
                 {recommended.reason}
               </div>
             )}
@@ -415,7 +415,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 <Link
                   key={pick.sort_order}
                   href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${pick.sort_order}`)}
-                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '15px 16px', textDecoration: 'none', background: '#fff', border: INK_EDGE, borderRadius: '18px', boxShadow: '0 4px 0 var(--ink)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '15px 16px', textDecoration: 'none', background: '#fff', border: INK_EDGE, borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)' }}
                 >
                   <span aria-hidden style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: 'var(--terracotta)', border: INK_EDGE, boxSizing: 'border-box', color: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>
                     {i + 2}
@@ -446,7 +446,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           membership, and saying so is the difference between a parent who
           upgrades later and one who stops opening the app. */}
       {!isPaid && (
-        <div style={{ background: 'var(--stage-5)', border: INK_EDGE, borderRadius: '20px', padding: '16px 20px', marginBottom: '24px', boxShadow: '0 4px 0 var(--ink)' }}>
+        <div style={{ background: 'var(--stage-5)', border: INK_EDGE, borderRadius: 'var(--radius-card)', padding: '16px 20px', marginBottom: '24px', boxShadow: 'var(--lift)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '10px' }}>
             <div>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Your free days are up</span>
@@ -521,7 +521,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           it was never said out loud anywhere, so the only way to learn it was to
           read a script, go back, and find nothing had moved. */}
       {askedStage && (
-        <div style={{ background: 'var(--tint-sage)', border: INK_EDGE, borderRadius: 18, padding: '14px 16px', marginBottom: 18, boxShadow: '0 4px 0 var(--ink)' }}>
+        <div style={{ background: 'var(--tint-sage)', border: INK_EDGE, borderRadius: 'var(--radius-card)', padding: '14px 16px', marginBottom: 18, boxShadow: 'var(--lift)' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 4px' }}>
             {STAGE_META[askedStage].label}, {STAGE_META[askedStage].ages.toLowerCase()}
           </p>
@@ -562,7 +562,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
               color: group.meta.color, background: group.meta.bg,
-              padding: '4px 10px', borderRadius: '100px',
+              padding: '4px 10px', borderRadius: 'var(--radius-pill)',
             }}>
               Stage {group.meta.num}: {group.meta.label}
             </span>
@@ -610,7 +610,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           <details key={group.stageId} style={{ marginBottom: '14px' }}>
             <summary style={{
               cursor: 'pointer', listStyle: 'none', padding: '12px 14px',
-              background: '#fff', border: INK_EDGE, borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
+              background: '#fff', border: INK_EDGE, borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
             }}>
               {header}
             </summary>
@@ -622,7 +622,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
       {!isPaid && (
         <div style={{
           background: '#fff', border: '2px dashed var(--ink)',
-          borderRadius: '20px', padding: '24px 20px', textAlign: 'center',
+          borderRadius: 'var(--radius-card)', padding: '24px 20px', textAlign: 'center',
         }}>
           <div style={{ fontSize: 'var(--text-xl)', marginBottom: '12px' }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', marginBottom: '8px' }}>

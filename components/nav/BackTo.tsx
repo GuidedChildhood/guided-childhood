@@ -65,7 +65,9 @@ export default function BackTo({
     <Link
       href={origin.href}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 18,
+        // 44px tall on purpose: the link is one line of small mono and it is
+        // the thing a thumb reaches for first on every inner page.
+        display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, minHeight: 44, padding: '6px 0',
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
         letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none',
       }}

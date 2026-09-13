@@ -45,8 +45,8 @@ export default function SchoolCodeCard({ childId, childName }: {
 
   return (
     <div style={{
-      marginTop: 28, background: '#fff', border: '2px solid var(--ink)',
-      borderRadius: 18, padding: '18px 20px',
+      marginTop: 28, background: '#fff', border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '18px 20px',
     }}>
       <p className="eyebrow" style={{ marginBottom: 4 }}>Brought home from school</p>
       <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px' }}>
@@ -71,7 +71,7 @@ export default function SchoolCodeCard({ childId, childName }: {
             flex: '1 1 140px', minWidth: 0, padding: '12px 14px',
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-md)', fontWeight: 700,
             letterSpacing: '0.08em', textTransform: 'uppercase',
-            border: '2px solid var(--ink)', borderRadius: 12, color: 'var(--ink)',
+            border: 'var(--edge)', borderRadius: 'var(--radius-tile)', color: 'var(--ink)',
             background: 'var(--cream)',
           }}
         />
@@ -79,7 +79,7 @@ export default function SchoolCodeCard({ childId, childName }: {
           type="submit"
           disabled={busy || !code.trim()}
           style={{
-            padding: '12px 20px', border: 'none', borderRadius: 16,
+            padding: '12px 20px', border: 'none', borderRadius: 'var(--radius-btn)',
             background: 'var(--terracotta)', color: 'var(--ink)',
             boxShadow: '0 5px 0 var(--terracotta-dark)', cursor: busy || !code.trim() ? 'default' : 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',

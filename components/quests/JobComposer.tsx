@@ -75,7 +75,7 @@ const BANDS: { key: JobBand | 'auto'; label: string }[] = [
 type Step = 'what' | 'often' | 'when' | 'added'
 
 const CHIP_BASE: React.CSSProperties = {
-  cursor: 'pointer', borderRadius: 100, padding: '11px 12px',
+  cursor: 'pointer', borderRadius: 'var(--radius-pill)', padding: '11px 12px',
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
   color: 'var(--ink)', textAlign: 'center',
 }
@@ -292,8 +292,8 @@ export default function JobComposer({
             // minWidth 0 so a long placeholder cannot push the button off a
             // phone screen.
             style={{
-              flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-              border: '2px solid var(--ink)',
+              flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+              border: 'var(--edge)',
               background: tone === 'cream' ? 'var(--cream)' : '#fff',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
@@ -303,11 +303,11 @@ export default function JobComposer({
             onClick={() => ready && startWith(title.trim())}
             disabled={!ready}
             style={{
-              flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-              borderRadius: '14px', padding: '12px 20px',
+              flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+              borderRadius: 'var(--radius-tile)', padding: '12px 20px',
               cursor: ready ? 'pointer' : 'default',
               fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900,
-              boxShadow: '0 4px 0 var(--ink)', opacity: ready ? 1 : 0.5,
+              boxShadow: 'var(--lift)', opacity: ready ? 1 : 0.5,
             }}
           >
             Next
@@ -367,7 +367,7 @@ export default function JobComposer({
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
             background: 'var(--terracotta)', color: 'var(--ink)',
             border: '1.5px solid var(--terracotta-dark)',
-            borderRadius: 100, padding: '4px 11px',
+            borderRadius: 'var(--radius-pill)', padding: '4px 11px',
           }}>
             {WHEN.find(x => x.key === when)?.label}
           </span>
@@ -489,7 +489,7 @@ export default function JobComposer({
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                     background: 'var(--terracotta)', color: 'var(--ink)',
                     border: '1.5px solid var(--terracotta-dark)',
-                    borderRadius: 100, padding: '4px 11px',
+                    borderRadius: 'var(--radius-pill)', padding: '4px 11px',
                   }}>
                     {text}
                   </span>
@@ -517,10 +517,10 @@ export default function JobComposer({
           type="button"
           onClick={() => { setStep('what'); setTitle('') }}
           style={{
-            flex: 1, minWidth: 130, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-            borderRadius: 14, padding: '12px 16px', cursor: 'pointer',
+            flex: 1, minWidth: 130, background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', padding: '12px 16px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900,
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           Add another
@@ -531,7 +531,7 @@ export default function JobComposer({
             onClick={onSeeWaiting}
             style={{
               flex: 1, minWidth: 130, background: '#fff', color: 'var(--ink)',
-              border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 16px',
+              border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 16px',
               cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 700,
             }}
           >

@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
 
   return new NextResponse(
     `<!doctype html><html><body style="margin:0;background:#F9F8F6;font-family:Nunito,Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">
-      <div style="max-width:420px;background:#fff;border:1px solid #EAEAF0;border-radius:20px;padding:40px 32px;text-align:center">
+      <div style="max-width:420px;background:#fff;border:1px solid #EAEAF0;border-radius: var(--radius-card);padding:40px 32px;text-align:center">
         <h1 style="font-size:22px;color:#1A1A2E;margin:0 0 12px">You are unsubscribed.</h1>
         <p style="font-size:15px;color:#52526A;line-height:1.6;margin:0">No more emails from us. Your account and everything in it stays exactly as it was.</p>
       </div>

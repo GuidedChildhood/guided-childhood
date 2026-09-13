@@ -10,9 +10,9 @@ import HappyIcon from '@/components/kid/HappyIcon'
 export default function SocialMediaHeadsUp({ childName }: { childName?: string | null }) {
   const name = childName && childName !== 'Your child' ? childName : 'your child'
   return (
-    <div style={{ background: 'var(--tint-blue)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px', padding: '20px 22px', marginBottom: '20px' }}>
+    <div style={{ background: 'var(--tint-blue)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '20px 22px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '10px' }}>
-        <span aria-hidden style={{ width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="friends" size={26} /></span>
+        <span aria-hidden style={{ width: 38, height: 38, borderRadius: '11px', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name="friends" size={26} /></span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           DiGi, looking ahead
         </span>
@@ -26,10 +26,10 @@ export default function SocialMediaHeadsUp({ childName }: { childName?: string |
       </p>
 
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <Link href="/dashboard/social-settings" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: '13px', padding: '12px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)' }}>
+        <Link href="/dashboard/social-settings" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: 'var(--lift)' }}>
           See the settings, app by app
         </Link>
-        <Link href="/dashboard/lessons" style={{ display: 'inline-flex', alignItems: 'center', color: 'var(--ink)', background: '#fff', border: '2px solid var(--ink)', borderRadius: '13px', padding: '12px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)' }}>
+        <Link href="/dashboard/lessons" style={{ display: 'inline-flex', alignItems: 'center', color: 'var(--ink)', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: 'var(--lift)' }}>
           The lessons for this
         </Link>
       </div>

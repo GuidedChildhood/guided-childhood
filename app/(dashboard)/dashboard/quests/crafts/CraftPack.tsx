@@ -34,7 +34,7 @@ function AwardStars({ title, worth }: { title: string; worth: number }) {
       style={{
         marginTop: '14px', width: '100%',
         background: added ? 'var(--tint-sage)' : 'var(--terracotta)',
-        border: 'none', borderRadius: '14px', padding: '13px 18px',
+        border: 'none', borderRadius: 'var(--radius-tile)', padding: '13px 18px',
         cursor: added ? 'default' : 'pointer',
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
         boxShadow: added ? 'none' : '0 4px 0 var(--terracotta-dark)',
@@ -79,7 +79,7 @@ function Sheet({ children, band, title, worth, lesson, plays, slug }: {
   return (
     <div className="craft-sheet" id={slug} style={{
       scrollMarginTop: 90,
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '28px', marginBottom: '24px', position: 'relative', overflow: 'hidden',
     }}>
       {/* Header band */}
@@ -92,9 +92,9 @@ function Sheet({ children, band, title, worth, lesson, plays, slug }: {
           </h2>
         </div>
         <div style={{
-          background: 'var(--butter, #EDC35F)', borderRadius: '14px', padding: '8px 14px', border: '2px solid var(--ink)',
+          background: 'var(--butter, #EDC35F)', borderRadius: 'var(--radius-tile)', padding: '8px 14px', border: 'var(--edge)',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)',
-          boxShadow: '0 4px 0 var(--ink)', flexShrink: 0,
+          boxShadow: 'var(--lift)', flexShrink: 0,
         }}>
           Worth {'⭐'.repeat(worth)}
         </div>
@@ -102,8 +102,8 @@ function Sheet({ children, band, title, worth, lesson, plays, slug }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', margin: '0 0 18px' }}>
         <span style={{
           ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink)',
-          background: 'var(--cream)', border: '2px solid var(--ink)',
-          borderRadius: '100px', padding: '4px 10px',
+          background: 'var(--cream)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-pill)', padding: '4px 10px',
         }}>
           Plays like {plays}
         </span>
@@ -134,7 +134,7 @@ function StarChartSheet() {
   ]
   const ladder = [1, 2, 3, 5, 10]
   return (
-    <div className="craft-sheet" style={{ position: 'relative', overflow: 'hidden', background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+    <div className="craft-sheet" style={{ position: 'relative', overflow: 'hidden', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '28px', marginBottom: '24px' }}>
       {/* A Planet Friend in the corner, a little brand mark on the fridge */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={STAGE_CHARACTERS[0].cutout} alt="" aria-hidden style={{ position: 'absolute', right: 10, bottom: 8, width: 64, height: 64, objectFit: 'contain', opacity: 0.9, pointerEvents: 'none' }} />
@@ -152,7 +152,7 @@ function StarChartSheet() {
       </p>
 
       {/* The conversion ladder */}
-      <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden', marginBottom: '16px' }}>
+      <div style={{ border: 'var(--edge)', borderRadius: 'var(--radius-btn)', overflow: 'hidden', marginBottom: '16px' }}>
         {ladder.map((s, i) => (
           <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '11px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', minWidth: 62 }}>{s} {'⭐'.repeat(Math.min(s, 3))}{s > 3 ? '…' : ''}</span>
@@ -165,7 +165,7 @@ function StarChartSheet() {
       {/* Which screens it covers */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginBottom: '18px' }}>
         {rows.map(r => (
-          <div key={r.label} style={{ border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 12px', textAlign: 'center', background: 'var(--cream)' }}>
+          <div key={r.label} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px', textAlign: 'center', background: 'var(--cream)' }}>
             <div style={{ fontSize: 'var(--text-xl)' }}>{r.icon}</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: '2px' }}>{r.label}</div>
           </div>
@@ -173,7 +173,7 @@ function StarChartSheet() {
       </div>
 
       {/* Colour a star as you earn it */}
-      <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: '14px', padding: '14px 16px', textAlign: 'center' }}>
+      <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: 'var(--radius-tile)', padding: '14px 16px', textAlign: 'center' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '8px' }}>
           My stars this week
         </div>
@@ -195,7 +195,7 @@ function StarChartSheet() {
 // for crayons.
 function PlanetFriendsColourSheet() {
   return (
-    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+    <div className="craft-sheet" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '28px', marginBottom: '24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
@@ -210,7 +210,7 @@ function PlanetFriendsColourSheet() {
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
         {STAGE_CHARACTERS.map(c => (
-          <div key={c.key} style={{ border: '2px dashed var(--ink-light)', borderRadius: '16px', padding: '12px', textAlign: 'center' }}>
+          <div key={c.key} style={{ border: '2px dashed var(--ink-light)', borderRadius: 'var(--radius-btn)', padding: '12px', textAlign: 'center' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={c.colouring} alt={`Colour in ${c.name}`} style={{ width: '100%', maxWidth: '190px', height: 'auto', margin: '0 auto', display: 'block' }} />
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginTop: '6px' }}>{c.name}</div>
@@ -233,7 +233,7 @@ function StarTokensSheet() {
     { label: 'This month', count: 30 },
   ]
   return (
-    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+    <div className="craft-sheet" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '28px', marginBottom: '24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
@@ -268,7 +268,7 @@ function StarTokensSheet() {
 function StarCalendarSheet({ childName }: { childName: string | null }) {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   return (
-    <div className="craft-sheet" style={{ position: 'relative', overflow: 'hidden', background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+    <div className="craft-sheet" style={{ position: 'relative', overflow: 'hidden', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '28px', marginBottom: '24px' }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={STAGE_CHARACTERS[1].cutout} alt="" aria-hidden style={{ position: 'absolute', right: 10, bottom: 8, width: 60, height: 60, objectFit: 'contain', opacity: 0.9, pointerEvents: 'none' }} />
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
@@ -280,7 +280,7 @@ function StarCalendarSheet({ childName }: { childName: string | null }) {
           <div style={{ borderBottom: '2.5px solid var(--ink)', width: '60%', margin: '10px auto 0', height: '28px' }} />
         )}
       </div>
-      <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden' }}>
+      <div style={{ border: 'var(--edge)', borderRadius: 'var(--radius-btn)', overflow: 'hidden' }}>
         {days.map((d, i) => (
           <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', width: 86, flexShrink: 0 }}>{d}</span>
@@ -508,7 +508,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           <button onClick={printPack} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
             Print this pack
           </button>
-          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
+          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
             ⭐ Print the whole offline pack
           </button>
         </div>
@@ -517,7 +517,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* When the whole pack is on, a line so the parent knows the print will
           be long: every game, the fridge chart and the star calendar at once. */}
       {showAll && (
-        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
+        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', marginBottom: '18px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
           The whole offline star pack is ready below: every game for every age, the fridge star chart and {childName ? `${childName}'s` : 'the'} weekly star calendar. Print the lot, or use Print this pack for one age at a time.
         </div>
       )}
@@ -541,11 +541,11 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             key={b.key}
             onClick={() => setBand(b.key)}
             style={{
-              padding: '10px 18px', borderRadius: '100px', cursor: 'pointer',
+              padding: '10px 18px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               background: band === b.key ? 'var(--terracotta)' : '#fff',
               color: 'var(--ink)',
-              border: '2px solid var(--ink)',
+              border: 'var(--edge)',
               boxShadow: band === b.key ? '0 3px 0 var(--terracotta-dark)' : 'none',
             }}
           >
@@ -559,7 +559,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {(showAll || band === 'young') && (
         <>
           <Sheet band="Ages 4 to 7" title="Robot Parent" slug="robot-parent" worth={3} plays="Simon Says" lesson="computers only do exactly what they are told, nothing more">
-            <div style={{ background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px', marginBottom: '4px' }}>
+            <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-tile)', padding: '14px 16px', marginBottom: '4px' }}>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                 <strong>How to play:</strong> cut out the cards. Your grown up is now a robot. Hand them a card and they must do it, exactly, in their best robot voice. Robots never guess and never do extra. That is how computers work too: they only follow instructions.
               </p>
@@ -568,7 +568,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px' }}>
               {ROBOT_CARDS.map((c, i) => (
                 <div key={i} style={{
-                  border: '2px dashed var(--ink-light)', borderRadius: '14px', padding: '14px 12px',
+                  border: '2px dashed var(--ink-light)', borderRadius: 'var(--radius-tile)', padding: '14px 12px',
                   textAlign: 'center', background: '#fff',
                 }}>
                   <div style={{ fontSize: 'var(--text-2xl)', marginBottom: '6px' }}>{c.emoji}</div>
@@ -580,7 +580,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           </Sheet>
 
           <Sheet band="Ages 4 to 7" title="My Screen Rules door poster" slug="screen-rules-poster" worth={2} plays="a keep out sign, but yours" lesson="rules the child writes are rules the child keeps">
-            <div style={{ border: '3px solid var(--ink)', borderRadius: '18px', padding: '24px', textAlign: 'center', background: '#fff' }}>
+            <div style={{ border: '3px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '24px', textAlign: 'center', background: '#fff' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="DiGi" style={{ width: '90px', height: '90px', marginBottom: '8px' }} />
               <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>this room belongs to</div>
               <div style={{ borderBottom: '3px solid var(--ink)', width: '60%', margin: '0 auto 20px', height: '34px' }} />
@@ -611,7 +611,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
               {[...SNAP_PAIRS, ...SNAP_PAIRS].map((e, i) => (
                 <div key={i} style={{
-                  border: '2px dashed var(--ink-light)', borderRadius: '14px', aspectRatio: '1',
+                  border: '2px dashed var(--ink-light)', borderRadius: 'var(--radius-tile)', aspectRatio: '1',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px',
                   background: '#fff',
                 }}>
@@ -633,7 +633,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '16px' }}>
               {PASSWORD_COLS.map((col, i) => (
-                <div key={i} style={{ background: 'var(--cream)', borderRadius: '14px', padding: '12px' }}>
+                <div key={i} style={{ background: 'var(--cream)', borderRadius: 'var(--radius-tile)', padding: '12px' }}>
                   <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '8px', textAlign: 'center' }}>{col.head}</div>
                   {col.words.map(w => (
                     <p key={w} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', margin: '0 0 6px' }}>{w}</p>
@@ -641,7 +641,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 </div>
               ))}
             </div>
-            <div style={{ border: '2px dashed var(--ink-light)', borderRadius: '16px', height: '170px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ border: '2px dashed var(--ink-light)', borderRadius: 'var(--radius-btn)', height: '170px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-light)' }}>draw your password monster here</span>
             </div>
           </Sheet>
@@ -655,7 +655,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 <div key={sq.n} style={{
                   aspectRatio: '1', borderRadius: '10px', padding: '5px',
                   background: sq.special ? (sq.special.kind === 'ladder' ? 'var(--tint-sage, #DCE8DC)' : '#F6DBD3') : 'var(--cream)',
-                  border: '2px solid var(--ink)',
+                  border: 'var(--edge)',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
                 }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{sq.n}</span>
@@ -685,7 +685,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 <div key={i} style={{
                   aspectRatio: '1', borderRadius: '10px', padding: '7px',
                   background: i % 2 === 0 ? 'var(--cream)' : '#fff',
-                  border: '2px solid var(--ink)',
+                  border: 'var(--edge)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
                 }}>
                   <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.35 }}>{sq}</span>
@@ -706,7 +706,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             <CutLine />
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '10px' }}>
               {QUIZ_CARDS.map((c, i) => (
-                <div key={i} style={{ border: '2px dashed var(--ink-light)', borderRadius: '14px', overflow: 'hidden' }}>
+                <div key={i} style={{ border: '2px dashed var(--ink-light)', borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
                   <div style={{ padding: '12px 14px', background: '#fff' }}>
                     <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>card {i + 1} · real or fake?</div>
                     <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>{c.q}</p>
@@ -733,10 +733,10 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#fff',
                 }}>{n}</span>
-                <span style={{ flex: 1, borderBottom: '2px solid var(--ink)', height: '26px' }} />
+                <span style={{ flex: 1, borderBottom: 'var(--edge)', height: '26px' }} />
               </div>
             ))}
-            <div style={{ background: 'var(--butter, #EDC35F)', borderRadius: '14px', padding: '14px 16px' }}>
+            <div style={{ background: 'var(--butter, #EDC35F)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
               <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
                 The debrief, together: which trick was strongest? Now the big one: whose feed is running these exact tricks on you, and where did it work this week?
               </p>
@@ -755,7 +755,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px' }}>
             {DINNER_CARDS.map((q, i) => (
               <div key={i} style={{
-                border: '2px dashed var(--ink-light)', borderRadius: '14px', padding: '16px 14px',
+                border: '2px dashed var(--ink-light)', borderRadius: 'var(--radius-tile)', padding: '16px 14px',
                 background: i % 2 === 0 ? '#fff' : 'var(--cream)', textAlign: 'center',
               }}>
                 <div style={{ fontSize: 'var(--text-lg)', marginBottom: '6px' }}>🍽️</div>

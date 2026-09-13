@@ -58,7 +58,7 @@ function paletteFor(card: DailyCard, index: number): Palette {
   return PALETTES[index % PALETTES.length]
 }
 
-const CARD_SHADOW = '0 4px 0 var(--ink)'
+const CARD_SHADOW = 'var(--lift)'
 
 // ── BBC CLARITY ──────────────────────────────────────────────────────────────
 // Card bodies read like a news piece: short paragraphs with real space
@@ -115,7 +115,7 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       borderRadius: '28px',
       overflow: 'hidden',
       boxShadow: CARD_SHADOW,
-      border: '2px solid var(--ink)',
+      border: 'var(--edge)',
       minHeight: 'min(56dvh, 540px)',
       display: 'flex',
       flexDirection: 'column',
@@ -209,7 +209,7 @@ function DoneFace() {
     <div style={{
       height: '100%',
       background: 'var(--tint-green)',
-      border: '2px solid var(--ink)',
+      border: 'var(--edge)',
       borderRadius: '28px',
       boxShadow: CARD_SHADOW,
       display: 'flex', flexDirection: 'column',
@@ -217,7 +217,7 @@ function DoneFace() {
     }}>
       <div style={{
         width: 76, height: 76, borderRadius: '50%',
-        background: 'var(--tint-sage)', border: '2px solid var(--ink)',
+        background: 'var(--tint-sage)', border: 'var(--edge)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 'var(--text-3xl)', color: 'var(--ink)',
       }}>✓</div>
@@ -397,7 +397,7 @@ export default function DailyDeckViewer({
           <div style={{
             width: 72, height: 72, borderRadius: '50%',
             background: 'var(--tint-green)',
-            border: '2px solid var(--ink)',
+            border: 'var(--edge)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '0 auto 16px',
           }}>✓</div>
@@ -416,8 +416,8 @@ export default function DailyDeckViewer({
         {/* Tracker check in */}
         {!loggedTracker ? (
           <div style={{
-            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '20px', padding: '22px', marginBottom: '16px',
+            background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-card)', padding: '22px', marginBottom: '16px',
           }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
               Quick tracker check in
@@ -438,12 +438,12 @@ export default function DailyDeckViewer({
                     }).catch(() => {})
                   }}
                   style={{
-                    padding: '14px 12px', borderRadius: '14px',
-                    border: '2px solid var(--ink)',
+                    padding: '14px 12px', borderRadius: 'var(--radius-tile)',
+                    border: 'var(--edge)',
                     background: '#fff',
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)',
                     fontWeight: 800, color: 'var(--ink)',
-                    cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
+                    cursor: 'pointer', boxShadow: 'var(--lift)',
                   }}
                 >
                   {label}
@@ -453,8 +453,8 @@ export default function DailyDeckViewer({
           </div>
         ) : (
           <div style={{
-            background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
+            background: 'var(--stage-2)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-btn)', padding: '14px 18px', marginBottom: '16px',
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)',
           }}>
             ✓ Added to your tracker
@@ -464,8 +464,8 @@ export default function DailyDeckViewer({
         {/* Daily moments feedback: the day as a timeline of picture tiles */}
         {!momentsSaved ? (
           <div style={{
-            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '20px', padding: '22px', marginBottom: '16px',
+            background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-card)', padding: '22px', marginBottom: '16px',
           }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
               What came up today?
@@ -481,8 +481,8 @@ export default function DailyDeckViewer({
               style={{
                 width: '100%', padding: '12px',
                 background: selectedMoments.length > 0 ? 'var(--terracotta)' : 'var(--cream)',
-                border: '2px solid var(--ink)',
-                borderRadius: '12px',
+                border: 'var(--edge)',
+                borderRadius: 'var(--radius-tile)',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 letterSpacing: '.08em', textTransform: 'uppercase',
                 color: 'var(--ink)',
@@ -496,8 +496,8 @@ export default function DailyDeckViewer({
           </div>
         ) : (
           <div style={{
-            background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
+            background: 'var(--stage-2)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-btn)', padding: '14px 18px', marginBottom: '16px',
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)',
           }}>
             ✓ Got it. Tomorrow we will cover what came up today.
@@ -536,7 +536,7 @@ export default function DailyDeckViewer({
             onClick={() => router.push('/dashboard/moments')}
             style={{
               flex: 1, padding: '13px', background: 'var(--white)',
-              border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)', boxShadow: '0 4px 0 var(--ink)',
+              border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '.06em', textTransform: 'uppercase',
               color: 'var(--ink-soft)', cursor: 'pointer',
@@ -548,7 +548,7 @@ export default function DailyDeckViewer({
             onClick={() => router.push('/dashboard/quests')}
             style={{
               flex: 1, padding: '13px', background: 'var(--white)',
-              border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)', boxShadow: '0 4px 0 var(--ink)',
+              border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '.06em', textTransform: 'uppercase',
               color: 'var(--ink-soft)', cursor: 'pointer',
@@ -584,7 +584,7 @@ export default function DailyDeckViewer({
           onClick={() => router.push('/dashboard')}
           style={{
             width: 36, height: 36, borderRadius: '50%',
-            background: '#fff', border: '2px solid var(--ink)', cursor: 'pointer',
+            background: '#fff', border: 'var(--edge)', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 'var(--text-lg)', color: 'var(--ink)',
           }}
@@ -596,12 +596,12 @@ export default function DailyDeckViewer({
             shrink to specks, and a bar reads as how far through you are at any
             length. */}
         <div style={{
-          flex: 1, height: 8, borderRadius: '100px', margin: '0 14px',
+          flex: 1, height: 8, borderRadius: 'var(--radius-pill)', margin: '0 14px',
           background: 'var(--border)', overflow: 'hidden',
         }}>
           <div style={{
             width: `${((cardIndex + 1) / Math.max(1, cards.length)) * 100}%`,
-            height: '100%', borderRadius: '100px',
+            height: '100%', borderRadius: 'var(--radius-pill)',
             background: 'var(--stage-2-text)',
             transition: 'width 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
           }} />
@@ -701,7 +701,7 @@ export default function DailyDeckViewer({
             onClick={() => navigate('back')}
             style={{
               padding: '14px 18px', background: 'var(--cream)',
-              border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)', boxShadow: '0 4px 0 var(--ink)',
+              border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600,
               letterSpacing: '.06em', color: 'var(--ink)',
               cursor: 'pointer', flexShrink: 0,

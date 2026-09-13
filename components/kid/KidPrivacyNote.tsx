@@ -25,7 +25,7 @@ export default function KidPrivacyNote() {
         style={{
           width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           gap: 10, background: 'rgba(255,255,255,0.9)', border: '1.5px solid var(--border)',
-          borderRadius: 16, padding: '12px 15px', cursor: 'pointer', textAlign: 'left',
+          borderRadius: 'var(--radius-btn)', padding: '12px 15px', cursor: 'pointer', textAlign: 'left',
         }}
       >
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
@@ -35,7 +35,7 @@ export default function KidPrivacyNote() {
       </button>
 
       {open && (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '15px', marginTop: 8 }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '15px', marginTop: 8 }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 10px' }}>
             Your grown up set this up with you, so they can see:
           </p>

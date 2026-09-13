@@ -1307,8 +1307,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Silent until the habit is done, so it never crowds the path. */}
       {dayComplete && (
         <Link href={nextUp.href} style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '22px', padding: '18px 20px' }}>
-            <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)' }}>{nextUp.icon}</span>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px' }}>
+            <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)' }}>{nextUp.icon}</span>
             {/* The words own the whole width, and Open sits under them. As a
                 third column the fixed Open pill starved the title into one
                 word a line at larger text sizes (Justin's screenshot,
@@ -1321,7 +1321,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
                 {nextUp.line}
               </span>
-              <span style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '9px 18px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
+              <span style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--gold)', borderRadius: 'var(--radius-tile)', padding: '9px 18px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
             </span>
           </div>
         </Link>
@@ -1417,10 +1417,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <Link href={qc('/dashboard/setup')} style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '14px',
-              background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '15px 18px',
-              boxShadow: '0 4px 0 var(--ink)',
+              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '15px 18px',
+              boxShadow: 'var(--lift)',
             }}>
-              <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="passport" size={32} /></span>
+              <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="passport" size={32} /></span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
                   Finish setting up
@@ -1535,9 +1535,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {!firstRun && lastFeedback && (
         <div style={{
           background: 'var(--stage-5)',
-          border: '2px solid var(--ink)',
-          boxShadow: '0 4px 0 var(--ink)',
-          borderRadius: '16px',
+          border: 'var(--edge)',
+          boxShadow: 'var(--lift)',
+          borderRadius: 'var(--radius-btn)',
           padding: '20px 22px',
           marginBottom: '20px',
         }}>
@@ -1639,12 +1639,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <Link href={qc('/dashboard/moments')} style={{ textDecoration: 'none' }}>
               <div style={{
                 height: '100%', minHeight: '170px',
-                background: 'var(--deep-teal)', borderRadius: '20px',
+                background: 'var(--deep-teal)', borderRadius: 'var(--radius-card)',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                 gap: '10px', padding: '18px 14px', textAlign: 'center',
               }}>
                 <span style={{
-                  width: 56, height: 56, borderRadius: '16px', background: 'rgba(255,255,255,0.14)',
+                  width: 56, height: 56, borderRadius: 'var(--radius-btn)', background: 'rgba(255,255,255,0.14)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
                 }}>✨</span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#fff', lineHeight: 1.25 }}>
@@ -1663,9 +1663,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {!firstRun && lastInsight && (
         <div style={{
           background: 'var(--stage-2)',
-          border: '2px solid var(--ink)',
-          boxShadow: '0 4px 0 var(--ink)',
-          borderRadius: '16px',
+          border: 'var(--edge)',
+          boxShadow: 'var(--lift)',
+          borderRadius: 'var(--radius-btn)',
           padding: '22px',
           marginBottom: '20px',
         }}>
@@ -1699,12 +1699,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {checkinDue && (
         <Link href={qc('/dashboard/checkin')} style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
           <div style={{
-            background: 'var(--stage-4)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '16px', padding: '20px 22px',
+            background: 'var(--stage-4)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-btn)', padding: '20px 22px',
             display: 'flex', alignItems: 'center', gap: '16px',
           }}>
             <span style={{
-              width: 48, height: 48, borderRadius: '14px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+              width: 48, height: 48, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}><HappyIcon name="heart" size={34} /></span>
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -1724,7 +1724,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       )}
 
       {/* This week's actions */}
-      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
+      <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             This week's actions
@@ -1749,7 +1749,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           ))}
         </div>
 
-        <div style={{ marginTop: '16px', padding: '14px 16px', background: 'var(--stage-5)', border: '2px solid var(--ink)', borderRadius: '10px' }}>
+        <div style={{ marginTop: '16px', padding: '14px 16px', background: 'var(--stage-5)', border: 'var(--edge)', borderRadius: '10px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi tip
           </div>
@@ -1769,7 +1769,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       </>)}
 
       {/* DiGi quick access */}
-      <div style={{ background: 'var(--stage-5)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
+      <div style={{ background: 'var(--stage-5)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
@@ -1795,7 +1795,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 display: 'block',
                 padding: '10px 14px',
                 background: 'var(--cream)',
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
                 borderRadius: '10px',
                 fontSize: 'var(--text-base)',
                 color: 'var(--ink-soft)',
@@ -1815,7 +1815,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* Upgrade nudge for free users */}
       {!isPaid && (
-        <div style={{ border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '20px 22px', background: 'var(--stage-5)' }}>
+        <div style={{ border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '20px 22px', background: 'var(--stage-5)' }}>
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>

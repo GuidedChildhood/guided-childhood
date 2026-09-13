@@ -41,7 +41,7 @@ export default function AgeUpFixturePage() {
       </section>
 
       <section id="birthday" style={{ padding: '8px 0 24px' }}>
-        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
+        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '22px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>Alfie</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>

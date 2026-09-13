@@ -89,7 +89,7 @@ export default function TraceView({ game, onDone }: { game: TraceGame; onDone: (
           viewBox={`0 0 ${BOX_W} ${BOX_H}`}
           onPointerDown={onPointer}
           onPointerMove={onPointer}
-          style={{ width: 'min(100%, 280px)', touchAction: 'none', background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', cursor: 'crosshair' }}
+          style={{ width: 'min(100%, 280px)', touchAction: 'none', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', cursor: 'crosshair' }}
         >
           {/* Exercise book lines, so the letter has a home like it does at school */}
           <line x1="6" y1="55" x2="94" y2="55" stroke="var(--border)" strokeWidth="1" strokeDasharray="3 3" />
@@ -137,7 +137,7 @@ export default function TraceView({ game, onDone }: { game: TraceGame; onDone: (
           </div>
           <button onClick={nextLetter} style={{
             marginTop: '14px', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-            padding: '14px', borderRadius: '16px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)',
+            padding: '14px', borderRadius: 'var(--radius-btn)', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)',
             boxShadow: '0 5px 0 var(--terracotta-dark)', cursor: 'pointer',
           }}>{isLast ? 'Finish' : 'Next letter'}</button>
         </div>

@@ -16,7 +16,7 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 const INK = 'var(--ink)'
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
+  background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
   boxShadow: '0 2px 10px rgba(26,26,46,0.05)',
 }
 const EYEBROW: React.CSSProperties = {
@@ -30,7 +30,7 @@ const TITLE: React.CSSProperties = {
 /** A soft stage on which every drawing sits: the app's own cream, rounded, a hair of border. */
 export function Stage({ children, tint = 'var(--cream)', pad = 18 }: { children: React.ReactNode; tint?: string; pad?: number }) {
   return (
-    <div aria-hidden style={{ background: tint, border: '1.5px solid var(--border)', borderRadius: 22, padding: pad, overflow: 'hidden' }}>
+    <div aria-hidden style={{ background: tint, border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: pad, overflow: 'hidden' }}>
       {children}
     </div>
   )
@@ -141,7 +141,7 @@ export function MockDigi({ question, answer, words }: { question: string; answer
         <div style={{ flexShrink: 0, marginTop: 2 }}><DigiCharacter mood="idle" size={32} /></div>
         <div style={{ flex: 1, minWidth: 0, background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', padding: '12px 14px' }}>
           <p style={{ margin: '0 0 8px', fontSize: 'var(--text-sm)', color: INK, lineHeight: 1.5 }}>{answer}</p>
-          <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '9px 11px' }}>
+          <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '9px 11px' }}>
             <div style={{ ...EYEBROW, marginBottom: 4 }}>The words</div>
             <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: INK, lineHeight: 1.45 }}>&ldquo;{words}&rdquo;</p>
           </div>
@@ -179,18 +179,18 @@ export function MockAsk({ kid }: { kid: string }) {
   return (
     <Stage>
       <div style={{ ...EYEBROW, marginBottom: 10 }}>On your phone</div>
-      <div style={{ background: '#fff', border: '2.5px solid var(--ink)', borderRadius: 20, boxShadow: '0 5px 0 var(--ink)', padding: '14px 16px 14px' }}>
+      <div style={{ background: '#fff', border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '14px 16px 14px' }}>
         <div style={{ ...EYEBROW, marginBottom: 6 }}>Screen time ask</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Screen /></span>
+          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Screen /></span>
           <div style={{ minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: INK, lineHeight: 1.15 }}>{kid} is asking for 30 minutes</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 3 }}>On the TV. That is 6 stars, they have 6.</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-          <span style={{ flex: 1, textAlign: 'center', padding: '11px 0', borderRadius: 14, background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>Yes <Star size={16} /></span>
-          <span style={{ padding: '11px 16px', borderRadius: 14, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK }}>Not now</span>
+          <span style={{ flex: 1, textAlign: 'center', padding: '11px 0', borderRadius: 'var(--radius-tile)', background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>Yes <Star size={16} /></span>
+          <span style={{ padding: '11px 16px', borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: INK }}>Not now</span>
         </div>
       </div>
     </Stage>
@@ -217,8 +217,8 @@ export function MockJars() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
         {jars.map(j => (
           <div key={j.label} style={{ ...CARD, padding: '12px 10px 12px', textAlign: 'center' }}>
-            <div style={{ width: 44, height: 52, margin: '0 auto 8px', borderRadius: '8px 8px 14px 14px', background: j.fill, border: '2px solid var(--ink)', position: 'relative' }}>
-              <div style={{ position: 'absolute', top: -8, left: 8, right: 8, height: 8, background: '#fff', border: '2px solid var(--ink)', borderRadius: 4 }} />
+            <div style={{ width: 44, height: 52, margin: '0 auto 8px', borderRadius: '8px 8px 14px 14px', background: j.fill, border: 'var(--edge)', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: -8, left: 8, right: 8, height: 8, background: '#fff', border: 'var(--edge)', borderRadius: 4 }} />
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK }}>{j.label}</div>
             <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: 4, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{j.body}</div>
@@ -241,23 +241,23 @@ export function MockKidApp({ kid }: { kid: string }) {
   // the page.
   return (
     <Stage tint="var(--tint-blue)" pad={14}>
-      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, padding: 6, display: 'flex', gap: 4, marginBottom: 10 }}>
+      <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: 6, display: 'flex', gap: 4, marginBottom: 10 }}>
         {['Quests', 'Lessons', 'Printables'].map((t, i) => (
-          <span key={t} style={{ flex: 1, textAlign: 'center', padding: '8px 0', borderRadius: 12, background: i === 0 ? 'var(--terracotta)' : 'transparent', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK }}>{t}</span>
+          <span key={t} style={{ flex: 1, textAlign: 'center', padding: '8px 0', borderRadius: 'var(--radius-tile)', background: i === 0 ? 'var(--terracotta)' : 'transparent', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK }}>{t}</span>
         ))}
       </div>
-      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)', padding: '14px 16px', marginBottom: 10 }}>
+      <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px', marginBottom: 10 }}>
         <div style={{ ...EYEBROW, marginBottom: 4 }}>{kid}'s balance</div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', color: INK, lineHeight: 1 }}>30</span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>minutes ready · 6 <Star size={14} /></span>
         </div>
       </div>
-      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)', padding: '12px 14px' }}>
+      <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '12px 14px' }}>
         <div style={{ ...EYEBROW, marginBottom: 8 }}>Five a day</div>
         {five.map(f => (
           <div key={f.t} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0', borderTop: '1.5px dotted var(--border)' }}>
-            <span style={{ width: 22, height: 22, borderRadius: '50%', border: '2px solid var(--ink)', background: f.done ? 'var(--retro-green)' : '#fff', color: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, flexShrink: 0 }}>{f.done ? '✓' : ''}</span>
+            <span style={{ width: 22, height: 22, borderRadius: '50%', border: 'var(--edge)', background: f.done ? 'var(--retro-green)' : '#fff', color: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, flexShrink: 0 }}>{f.done ? '✓' : ''}</span>
             <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: INK }}>{f.t}</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK, display: 'inline-flex', alignItems: 'center', gap: 4 }}><Star size={13} /> {f.s}</span>
           </div>

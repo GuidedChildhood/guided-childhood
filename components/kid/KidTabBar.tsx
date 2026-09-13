@@ -29,9 +29,9 @@ export default function KidTabBar({ current, onSelect, badges }: {
       style={{
         position: 'sticky', top: 0, zIndex: 30,
         display: 'flex', gap: 4, background: 'var(--terracotta)',
-        border: '2px solid var(--ink)', borderRadius: 18,
+        border: 'var(--edge)', borderRadius: 'var(--radius-card)',
         padding: 5, marginBottom: 16, scrollMarginTop: 12,
-        boxShadow: '0 4px 0 var(--ink), 0 10px 24px rgba(26,26,46,0.16)',
+        boxShadow: 'var(--lift), 0 10px 24px rgba(26,26,46,0.16)',
       }}
     >
       {tabs.map(([key, label, icon, dot]) => {
@@ -42,13 +42,13 @@ export default function KidTabBar({ current, onSelect, badges }: {
             onClick={() => onSelect(key)}
             style={{
               position: 'relative',
-              flex: 1, padding: '11px 4px', borderRadius: 13, cursor: 'pointer',
-              border: on ? '2px solid var(--ink)' : '2px solid transparent',
+              flex: 1, padding: '11px 4px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
+              border: on ? 'var(--edge)' : '2px solid transparent',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
               background: on ? '#fff' : 'transparent',
               color: 'var(--ink)',
-              boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+              boxShadow: on ? 'var(--lift)' : 'none',
               transition: 'background 0.15s',
             }}
           >
@@ -57,7 +57,7 @@ export default function KidTabBar({ current, onSelect, badges }: {
             {dot > 0 && (
               <span style={{
                 position: 'absolute', top: -7, right: -4, minWidth: 20, height: 20, padding: '0 5px',
-                borderRadius: 100, background: '#E5484D', color: '#fff', border: '2px solid #fff',
+                borderRadius: 'var(--radius-pill)', background: '#E5484D', color: '#fff', border: '2px solid #fff',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '16px',
                 textAlign: 'center',
               }}>

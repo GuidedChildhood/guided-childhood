@@ -57,7 +57,7 @@ function BadgeChips({ badges, projector }: { badges: CurriculumBadges; projector
     fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-xs)'), fontWeight: 700,
     letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)',
     background: '#fff', border: '1.5px solid var(--border)',
-    borderRadius: '100px', padding: room(projector, '9px 22px', '5px 12px'), whiteSpace: 'nowrap',
+    borderRadius: 'var(--radius-pill)', padding: room(projector, '9px 22px', '5px 12px'), whiteSpace: 'nowrap',
   }
   return (
     <div data-reveal style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
@@ -104,7 +104,7 @@ function ToolStrip({ tool, projector }: { tool: LessonTool; projector?: boolean 
   return (
     <div data-reveal style={{
       maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '28px', '20px')}`,
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)',
       padding: room(projector, '16px 20px', '12px 16px'),
     }}>
       <div style={{
@@ -224,7 +224,7 @@ function ChoiceBlock({
       {retrying && (
         <div style={{
           maxWidth: room(projector, WALL.column, '520px'), margin: `0 auto ${room(projector, '20px', '14px')}`,
-          background: 'var(--tint-amber)', borderRadius: '14px',
+          background: 'var(--tint-amber)', borderRadius: 'var(--radius-tile)',
           padding: room(projector, '14px 20px', '11px 16px'), textAlign: 'center',
           fontFamily: 'var(--font-display)', fontWeight: 800,
           fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--stage-1-text)',
@@ -265,7 +265,7 @@ function ChoiceBlock({
               onClick={() => pick(i)}
               disabled={settled || isTried}
               style={{
-                textAlign: 'left', background: bg, border, borderRadius: '18px',
+                textAlign: 'left', background: bg, border, borderRadius: 'var(--radius-card)',
                 padding: room(projector, '26px 32px', '17px 20px'),
                 cursor: settled || isTried ? 'default' : 'pointer',
                 fontFamily: 'var(--font-display)',
@@ -330,7 +330,7 @@ function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; project
       <div data-reveal style={{
         display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
         background: done ? 'var(--stage-1)' : '#fff', border: `2px solid ${done ? 'var(--stage-1-bold)' : 'var(--border)'}`,
-        borderRadius: '20px', padding: '18px 34px', boxShadow: '0 5px 0 var(--border)',
+        borderRadius: 'var(--radius-card)', padding: '18px 34px', boxShadow: '0 5px 0 var(--border)',
       }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: room(projector, '72px', '42px'), color: done ? 'var(--stage-1-text)' : 'var(--ink)', lineHeight: 1 }}>
           {done ? 'Time!' : `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`}
@@ -341,7 +341,7 @@ function DiscussionBlock({ slide, projector }: { slide: DiscussionSlide; project
             style={{
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.aside, 'var(--text-base)'),
               background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-              borderRadius: '12px', padding: room(projector, '14px 28px', '9px 20px'), cursor: 'pointer',
+              borderRadius: 'var(--radius-tile)', padding: room(projector, '14px 28px', '9px 20px'), cursor: 'pointer',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
@@ -389,7 +389,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
       <div data-reveal style={{
         maxWidth: room(projector, WALL.column, '440px'), margin: '0 auto',
         background: isMessage ? 'var(--stage-1)' : '#fff',
-        border: '1.5px solid var(--border)', borderRadius: '22px',
+        border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
         padding: '16px 18px', boxShadow: '0 6px 0 var(--border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
@@ -409,7 +409,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         </p>
         {slide.image && (
           <div style={{
-            background: 'var(--stage-2)', borderRadius: '14px', padding: '26px 0',
+            background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: '26px 0',
             textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
           }}>
             {slide.image}
@@ -474,7 +474,7 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
               {/* The rail: number, then the line down to the next step. */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
                 <span style={{
-                  width: dot, height: dot, borderRadius: '100px', flexShrink: 0,
+                  width: dot, height: dot, borderRadius: 'var(--radius-pill)', flexShrink: 0,
                   background: 'var(--terracotta)', color: 'var(--ink)',
                   border: '2px solid var(--terracotta-dark)',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -483,11 +483,11 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
                 }}>
                   {i + 1}
                 </span>
-                {!last && <span aria-hidden style={{ flex: 1, width: '3px', background: 'var(--terracotta-lt)', borderRadius: '100px', marginTop: '4px' }} />}
+                {!last && <span aria-hidden style={{ flex: 1, width: '3px', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', marginTop: '4px' }} />}
               </div>
               <div style={{
                 flex: 1, display: 'flex', gap: room(projector, '18px', '14px'), alignItems: 'center',
-                background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '18px',
+                background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
                 padding: room(projector, '20px 26px', '14px 18px'),
                 boxShadow: '0 5px 0 var(--terracotta-lt)',
                 marginBottom: last ? 0 : room(projector, '18px', '12px'),
@@ -507,7 +507,7 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
               <span key={i} data-diagram-chip style={{
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-base)'),
                 background: 'var(--stage-1)', border: '2px solid var(--stage-1-bold)',
-                color: 'var(--stage-1-text)', borderRadius: '100px', padding: '8px 16px',
+                color: 'var(--stage-1-text)', borderRadius: 'var(--radius-pill)', padding: '8px 16px',
               }}>
                 {v}
               </span>
@@ -615,7 +615,7 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
         // Without this the control is announced as bare "video". The caption
         // is the only human name the beat has, so it is the one to use.
         aria-label={slide.caption ?? 'Lesson video'}
-        style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
+        style={{ width: '100%', borderRadius: 'var(--radius-card)', background: 'var(--ink)', display: 'block' }}
       />
 
       {slide.caption && (
@@ -630,7 +630,7 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
       {alt && (
         <details style={{
           marginTop: '12px', background: '#fff', border: '1.5px solid var(--border)',
-          borderRadius: '16px', padding: '2px 18px',
+          borderRadius: 'var(--radius-btn)', padding: '2px 18px',
         }}>
           <summary style={{
             ...eyebrowOn(projector), color: 'var(--terracotta-dark)', cursor: 'pointer',
@@ -718,7 +718,7 @@ function SlideBody({
           </div>
           <div data-reveal style={{
             background: 'var(--stage-2)', border: '2px solid var(--terracotta)',
-            borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '18px',
+            borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '18px',
             boxShadow: '0 5px 0 var(--terracotta-lt)',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: room(projector, WALL.display, 'clamp(1.3rem, 3.2vw, 1.7rem)'), color: 'var(--ink)', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
@@ -728,7 +728,7 @@ function SlideBody({
           <p data-reveal style={{ fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, marginBottom: '16px' }}>{slide.why}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
             {slide.gains.map((g, i) => (
-              <div key={i} data-reveal style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 15px' }}>
+              <div key={i} data-reveal style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 15px' }}>
                 <span style={{ fontSize: room(projector, WALL.body, 'inherit'), color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0, lineHeight: 1.55 }}>✓</span>
                 <span style={{ fontSize: room(projector, WALL.body, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.55 }}>{g}</span>
               </div>
@@ -744,7 +744,7 @@ function SlideBody({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {slide.words.map((w, i) => (
-              <div key={i} data-reveal style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px 16px' }}>
+              <div key={i} data-reveal style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '13px 16px' }}>
                 <span style={{
                   display: 'inline-block', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: room(projector, WALL.title, 'var(--text-sm)'),
                   color: 'var(--stage-1-text)', background: 'var(--stage-1)', border: '1.5px solid var(--stage-1-bold)',
@@ -781,7 +781,7 @@ function SlideBody({
       )
     case 'quote':
       return (
-        <div data-reveal style={{ background: 'var(--stage-2)', borderRadius: '20px', padding: 'clamp(24px, 4.5vw, 34px)', borderLeft: '3px solid var(--terracotta)', maxWidth: room(projector, WALL.column, '560px'), margin: '0 auto' }}>
+        <div data-reveal style={{ background: 'var(--stage-2)', borderRadius: 'var(--radius-card)', padding: 'clamp(24px, 4.5vw, 34px)', borderLeft: '3px solid var(--terracotta)', maxWidth: room(projector, WALL.column, '560px'), margin: '0 auto' }}>
           <div style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
             {slide.label ?? 'Say this'}
           </div>
@@ -808,7 +808,7 @@ function SlideBody({
       return <VideoBlock slide={slide} projector={projector} />
     case 'tryit':
       return (
-        <div data-reveal style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(24px, 4.5vw, 34px)', border: '1.5px solid var(--stage-1-bold)', maxWidth: room(projector, WALL.column, '560px'), margin: '0 auto' }}>
+        <div data-reveal style={{ background: 'var(--stage-1)', borderRadius: 'var(--radius-card)', padding: 'clamp(24px, 4.5vw, 34px)', border: '1.5px solid var(--stage-1-bold)', maxWidth: room(projector, WALL.column, '560px'), margin: '0 auto' }}>
           <div style={{ ...eyebrowOn(projector), color: 'var(--stage-1-text)', marginBottom: '12px' }}>
             {slide.label ?? 'Try it tonight'}
           </div>
@@ -826,7 +826,7 @@ function SlideBody({
           </h2>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', padding: 0, maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
             {slide.points.map((p, i) => (
-              <li key={i} data-reveal style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '13px 16px' }}>
+              <li key={i} data-reveal style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 16px' }}>
                 <span style={{ fontSize: room(projector, WALL.body, 'inherit'), color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0, lineHeight: 1.6 }}>✓</span>
                 <span style={{ fontSize: room(projector, WALL.body, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.6 }}>{p}</span>
               </li>
@@ -1301,7 +1301,7 @@ export default function LessonPlayer({
         {typeof kidStars === 'number' && (
           <div style={{
             display: 'inline-block', background: 'var(--terracotta-lt, #FBEEC9)',
-            border: '2px solid var(--terracotta)', borderRadius: '100px',
+            border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-pill)',
             padding: '10px 22px', margin: '10px 0 12px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)',
           }}>
@@ -1314,7 +1314,7 @@ export default function LessonPlayer({
             : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
         {planetOpened && (
-          <div data-planet-opened style={{ maxWidth: '340px', margin: '0 auto 16px', background: '#FFF6DD', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)', padding: '12px 14px', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div data-planet-opened style={{ maxWidth: '340px', margin: '0 auto 16px', background: '#FFF6DD', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)', padding: '12px 14px', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
             <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
               A new planet is waiting on your map. {planetOpened.title} is open.
@@ -1445,7 +1445,7 @@ export default function LessonPlayer({
             {scriptOpen && (
               <div style={{
                 background: 'var(--stage-2)', borderLeft: '3px solid var(--terracotta)',
-                borderRadius: '12px', padding: '13px 16px',
+                borderRadius: 'var(--radius-tile)', padding: '13px 16px',
               }}>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.65 }}>
                   {slide.script ?? 'No script for this slide. Let it land, then continue.'}
@@ -1564,7 +1564,7 @@ export default function LessonPlayer({
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
             color: 'var(--ink)', textDecoration: 'none',
-            background: '#fff', border: '2px solid var(--border)', borderRadius: '100px',
+            background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-pill)',
             padding: '8px 15px', boxShadow: '0 3px 0 var(--border)',
           }}>
             ◀ Quests
@@ -1597,7 +1597,7 @@ export default function LessonPlayer({
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               color: 'var(--ink)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: '100px', padding: '4px 11px',
+              borderRadius: 'var(--radius-pill)', padding: '4px 11px',
             }}>
               ⭐ {kidStars}
             </span>
@@ -1628,7 +1628,7 @@ export default function LessonPlayer({
                   fontSize: room(projector, WALL.aside, '10px'),
                   fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
                   padding: room(projector, '9px 20px', '4px 10px'),
-                  borderRadius: '100px',
+                  borderRadius: 'var(--radius-pill)',
                   border: `1.5px solid ${isNow ? 'var(--terracotta)' : 'var(--border)'}`,
                   background: isNow ? 'var(--terracotta)' : isDone ? 'var(--border)' : 'transparent',
                   color: isNow ? '#fff' : isDone ? 'var(--ink-soft)' : 'var(--ink-muted)',
@@ -1668,7 +1668,7 @@ export default function LessonPlayer({
               display: 'flex', flexDirection: 'column', gap: '6px',
               margin: '4px 0 18px', padding: '12px 14px',
               background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: '16px',
+              borderRadius: 'var(--radius-btn)',
             }}>
               {cycles.map((c, i) => {
                 const isNow = i === cycleIndex

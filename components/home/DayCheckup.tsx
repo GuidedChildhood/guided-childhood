@@ -50,8 +50,8 @@ export default function DayCheckup({
       // The anchor the fix pages come back to, so a parent lands on the list
       // again rather than at the top of Home. See BackTo's home-check origin.
       scrollMarginTop: 16,
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 22,
-      padding: '20px 22px', marginBottom: 22, boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      padding: '20px 22px', marginBottom: 22, boxShadow: 'var(--lift)',
     }}>
       <div style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -83,12 +83,12 @@ export default function DayCheckup({
           href="/dashboard/lessons"
           style={{
             display: 'flex', alignItems: 'center', gap: 13, marginTop: 14,
-            background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
-            borderRadius: 16, padding: '14px 16px', textDecoration: 'none',
+            background: 'var(--terracotta-lt)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-btn)', padding: '14px 16px', textDecoration: 'none',
           }}
         >
           <span aria-hidden style={{
-            flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)',
+            flexShrink: 0, width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)',
             boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}><HappyIcon name="lessons" size={28} /></span>
           <span style={{ flex: 1, minWidth: 0 }}>

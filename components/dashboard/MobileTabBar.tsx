@@ -156,9 +156,9 @@ function MobileTabBarInner({ pendingAsks = 0, digiWord = 0, childId = null }: { 
             <span
               style={{
                 position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: 46, height: 30, borderRadius: 100, boxSizing: 'border-box',
+                width: 46, height: 30, borderRadius: 'var(--radius-pill)', boxSizing: 'border-box',
                 background: isActive ? 'var(--terracotta)' : 'transparent',
-                border: isActive ? '2px solid var(--ink)' : '2px solid transparent',
+                border: isActive ? 'var(--edge)' : '2px solid transparent',
                 color: isActive ? 'var(--ink)' : 'var(--ink-soft)',
                 transition: 'background 0.15s, color 0.15s',
               }}
@@ -170,7 +170,7 @@ function MobileTabBarInner({ pendingAsks = 0, digiWord = 0, childId = null }: { 
                 </span>
               )}
               {showWord && (
-                <span className="ask-badge" aria-label="DiGi wants to tell you something" style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)' }}>
+                <span className="ask-badge" aria-label="DiGi wants to tell you something" style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)' }}>
                   {digiWord > 9 ? '9+' : digiWord}
                 </span>
               )}

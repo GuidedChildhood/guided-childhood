@@ -76,11 +76,11 @@ export default function FriendEmailsDevPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
               <div>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', margin: '0 0 6px' }}>WITH A FRIEND (stage 2)</p>
-                <iframe title={`${e.key} with`} srcDoc={e.content.html} style={{ width: '100%', height: '620px', border: '1px solid var(--border)', borderRadius: '14px', background: '#fff' }} />
+                <iframe title={`${e.key} with`} srcDoc={e.content.html} style={{ width: '100%', height: '620px', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', background: '#fff' }} />
               </div>
               <div>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', margin: '0 0 6px' }}>NO STAGE, SO NO ART</p>
-                <iframe title={`${e.key} without`} srcDoc={without[i].content.html} style={{ width: '100%', height: '620px', border: '1px solid var(--border)', borderRadius: '14px', background: '#fff' }} />
+                <iframe title={`${e.key} without`} srcDoc={without[i].content.html} style={{ width: '100%', height: '620px', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', background: '#fff' }} />
               </div>
             </div>
           </div>

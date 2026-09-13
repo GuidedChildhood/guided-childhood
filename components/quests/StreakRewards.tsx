@@ -49,11 +49,11 @@ export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) 
     <div style={{ marginBottom: '18px' }}>
       {queue.map(streak => (
         <div key={streak.id} style={{
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-          borderRadius: '18px', padding: '17px 18px', marginBottom: '12px',
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+          borderRadius: 'var(--radius-card)', padding: '17px 18px', marginBottom: '12px',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '12px' }}>
-            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <span aria-hidden style={{ width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <HappyIcon name="flame" size={34} />
             </span>
             <span style={{ flex: 1, minWidth: 0 }}>
@@ -76,9 +76,9 @@ export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) 
                 disabled={busy === streak.id}
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                  background: '#fff', border: '2px solid var(--ink)', borderRadius: '14px',
+                  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                   padding: '12px 8px', cursor: busy === streak.id ? 'default' : 'pointer',
-                  boxShadow: '0 4px 0 var(--ink)', opacity: busy === streak.id ? 0.6 : 1,
+                  boxShadow: 'var(--lift)', opacity: busy === streak.id ? 0.6 : 1,
                   textAlign: 'center',
                 }}
               >

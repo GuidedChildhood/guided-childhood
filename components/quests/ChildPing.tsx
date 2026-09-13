@@ -50,7 +50,7 @@ export default function ChildPing({
   const ready = draft.trim().length > 0
 
   return (
-    <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '2px solid var(--ink)' }}>
+    <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: 'var(--edge)' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
         Ping {childName}&apos;s phone now
       </div>
@@ -64,7 +64,7 @@ export default function ChildPing({
             onClick={() => onSend(msg)}
             title={msg}
             style={{
-              background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px',
+              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
               padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
               fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
               // Wraps to a second line rather than being cut off. Long labels are
@@ -95,8 +95,8 @@ export default function ChildPing({
           maxLength={140}
           placeholder="Or type your own quick message"
           style={{
-            flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
-            border: '2px solid var(--ink)', fontFamily: 'var(--font-body)',
+            flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: 'var(--radius-tile)',
+            border: 'var(--edge)', fontFamily: 'var(--font-body)',
             fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff',
           }}
         />
@@ -105,8 +105,8 @@ export default function ChildPing({
           disabled={!ready}
           style={{
             flexShrink: 0, background: ready ? 'var(--terracotta)' : '#fff', opacity: ready ? 1 : 0.5,
-            color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 16px',
-            boxShadow: ready ? '0 4px 0 var(--ink)' : 'none',
+            color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 16px',
+            boxShadow: ready ? 'var(--lift)' : 'none',
             cursor: ready ? 'pointer' : 'default',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
           }}

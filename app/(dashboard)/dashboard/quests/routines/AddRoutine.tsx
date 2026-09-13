@@ -26,7 +26,7 @@ type Child = { id: string; name: string }
 type Quest = { id: string; title: string; child_id: string | null }
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)',
+  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
   padding: '18px', marginBottom: 14,
 }
 
@@ -121,7 +121,7 @@ export default function AddRoutine() {
               style={{
                 border: `2px solid ${activeChild === c.id ? 'var(--terracotta)' : 'var(--ink)'}`,
                 background: activeChild === c.id ? 'var(--terracotta-lt)' : '#fff',
-                borderRadius: 100, padding: '8px 15px', cursor: 'pointer',
+                borderRadius: 'var(--radius-pill)', padding: '8px 15px', cursor: 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}
             >
@@ -134,7 +134,7 @@ export default function AddRoutine() {
       {added && (
         <div role="status" style={{
           display: 'flex', alignItems: 'center', gap: 8, background: 'var(--retro-green)', color: '#fff',
-          borderRadius: 14, padding: '12px 15px', marginBottom: 14,
+          borderRadius: 'var(--radius-tile)', padding: '12px 15px', marginBottom: 14,
           fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
         }}>
           <span aria-hidden>✓</span> {added} is on {name}&apos;s board
@@ -154,7 +154,7 @@ export default function AddRoutine() {
               aria-expanded={isOpen}
               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
             >
-              <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--cream)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)', lineHeight: 1 }}>{pack.emoji}</span>
+              <span aria-hidden style={{ width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: 'var(--cream)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)', lineHeight: 1 }}>{pack.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {pack.name}
@@ -167,7 +167,7 @@ export default function AddRoutine() {
             </button>
 
             {isOpen && (
-              <div style={{ marginTop: 14, paddingTop: 14, borderTop: '2px solid var(--ink)' }}>
+              <div style={{ marginTop: 14, paddingTop: 14, borderTop: 'var(--edge)' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginBottom: 14 }}>
                   {pack.tasks.map(t => {
                     const on = picked.includes(t.title)
@@ -175,7 +175,7 @@ export default function AddRoutine() {
                     return (
                       <label key={t.title} style={{
                         display: 'flex', alignItems: 'center', gap: 10, cursor: onBoard ? 'default' : 'pointer',
-                        border: '2px solid var(--ink)', borderRadius: 13, padding: '10px 12px',
+                        border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px',
                         background: onBoard ? 'var(--cream)' : '#fff', opacity: onBoard ? 0.6 : 1,
                       }}>
                         <input
@@ -185,7 +185,7 @@ export default function AddRoutine() {
                           onChange={() => togglePick(pack, t.title)}
                           style={{ width: 20, height: 20, flexShrink: 0, accentColor: 'var(--terracotta)' }}
                         />
-                        <span aria-hidden style={{ width: 28, height: 28, borderRadius: 8, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-base)', lineHeight: 1 }}>{t.emoji}</span>
+                        <span aria-hidden style={{ width: 28, height: 28, borderRadius: 8, background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-base)', lineHeight: 1 }}>{t.emoji}</span>
                         <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
                           {t.title}
                         </span>

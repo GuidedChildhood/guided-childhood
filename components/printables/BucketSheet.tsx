@@ -190,7 +190,7 @@ export default function BucketSheet({ title, childName, picked, framed = true }:
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--deep-teal)', borderRadius: '14px', padding: '11px 16px', marginTop: '12px', flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--deep-teal)', borderRadius: 'var(--radius-tile)', padding: '11px 16px', marginTop: '12px', flexShrink: 0 }}>
         <span style={{ fontSize: 'var(--text-xl)' }}>⭐</span>
         <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: '#fff', lineHeight: 1.4 }}>
           Whole list done? Hand this to your grown up. Worth 5 stars toward your screen time.

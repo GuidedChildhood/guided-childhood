@@ -139,10 +139,10 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           userSelect: 'none',
           WebkitTapHighlightColor: 'transparent',
           outline: 'none',
-          borderRadius: '20px',
+          borderRadius: 'var(--radius-card)',
           background: 'var(--white)',
-          border: '2px solid var(--ink)',
-          boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)',
+          boxShadow: 'var(--lift)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -162,11 +162,11 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               alt=""
               width={84}
               height={84}
-              style={{ borderRadius: '18px', display: 'block' }}
+              style={{ borderRadius: 'var(--radius-card)', display: 'block' }}
             />
           ) : (
             <div style={{
-              width: 84, height: 84, borderRadius: '18px',
+              width: 84, height: 84, borderRadius: 'var(--radius-card)',
               background: accentColor,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 'var(--text-3xl)', flexShrink: 0,
@@ -192,7 +192,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
 
         {/* Hint */}
         <div style={{
-          padding: '9px 12px', borderTop: '2px solid var(--ink)',
+          padding: '9px 12px', borderTop: 'var(--edge)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
           background: 'var(--cream)', marginTop: 'auto',
         }}>
@@ -274,7 +274,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                       alignSelf: 'flex-start', marginLeft: 58,
                       display: 'inline-flex', alignItems: 'center', gap: 7,
                       background: '#fff', border: `1.5px solid ${look.band}`,
-                      borderRadius: 100, padding: '9px 15px', textDecoration: 'none',
+                      borderRadius: 'var(--radius-pill)', padding: '9px 15px', textDecoration: 'none',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                       color: 'var(--ink)',
                     }}
@@ -339,7 +339,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 onClick={e => e.stopPropagation()}
                 style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  background: look.band, color: '#fff', borderRadius: '16px', padding: '16px 22px',
+                  background: look.band, color: '#fff', borderRadius: 'var(--radius-btn)', padding: '16px 22px',
                   textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800,
                   fontSize: 'var(--text-md)', boxShadow: '0 5px 0 rgba(0,0,0,0.18)',
                 }}
@@ -414,7 +414,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
             {/* Progress bar, one segment per card */}
             <div style={{ width: 'min(100%, 520px)', display: 'flex', gap: 5, marginBottom: 12, flexShrink: 0 }}>
               {deck.map((_, i) => (
-                <div key={i} style={{ flex: 1, height: 5, borderRadius: 100, background: i <= idx ? '#fff' : 'rgba(255,255,255,0.28)', transition: 'background 0.25s ease' }} />
+                <div key={i} style={{ flex: 1, height: 5, borderRadius: 'var(--radius-pill)', background: i <= idx ? '#fff' : 'rgba(255,255,255,0.28)', transition: 'background 0.25s ease' }} />
               ))}
             </div>
 
@@ -426,9 +426,9 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'Enter') next(); if (e.key === 'ArrowLeft') prev() }}
               style={{
                 width: 'min(100%, 520px)', flex: 1, minHeight: 0,
-                background: look.tint, borderRadius: '26px', border: '2px solid var(--ink)',
+                background: look.tint, borderRadius: '26px', border: 'var(--edge)',
                 display: 'flex', flexDirection: 'column', overflow: 'hidden',
-                boxShadow: '0 4px 0 var(--ink)',
+                boxShadow: 'var(--lift)',
                 cursor: isLast ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent',
               }}
             >
@@ -514,7 +514,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                       already proves works with white on it, and ties the pill
                       to the card's own colour rather than to a backdrop it
                       never touches. */}
-                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: look.band, borderRadius: 100, padding: '7px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: '#fff', flexShrink: 0 }}>
+                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: look.band, borderRadius: 'var(--radius-pill)', padding: '7px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: '#fff', flexShrink: 0 }}>
                     Tap to continue →
                   </span>
                 </div>

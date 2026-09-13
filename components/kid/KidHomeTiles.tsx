@@ -33,7 +33,7 @@ const INK = HAPPY.ink
 // with the words underneath. Everything a tile does is handed in by the
 // screen, so the taps are exactly what they were.
 
-const EDGE: React.CSSProperties = { background: '#fff', border: `2px solid ${INK}`, borderRadius: 20, boxShadow: `0 4px 0 ${INK}` }
+const EDGE: React.CSSProperties = { background: '#fff', border: `2px solid ${INK}`, borderRadius: 'var(--radius-card)', boxShadow: `0 4px 0 ${INK}` }
 
 function Well({ tint, children, size = 76 }: { tint: string; children: React.ReactNode; size?: number }) {
   return (

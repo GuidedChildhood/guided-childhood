@@ -89,7 +89,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
 
   const downloadStyle: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: '7px',
-    background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
+    background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
     padding: '10px 16px', textDecoration: 'none',
     fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
     boxShadow: '0 3px 0 var(--terracotta-dark)',
@@ -104,7 +104,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
   // wrong way round, and it also meant nobody could open it to check it.
   if (!isPaid && !printable.free) {
     return (
-      <a href="/dashboard/upgrade" style={{ ...downloadStyle, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', color: 'var(--ink)' }}>
+      <a href="/dashboard/upgrade" style={{ ...downloadStyle, background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', color: 'var(--ink)' }}>
         🔒 Members download and print
       </a>
     )
@@ -128,7 +128,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
           <a href={printable.pdfColour} {...OPEN_AWAY} style={downloadStyle}>
             ⬇ Colour
           </a>
-          <a href={printable.pdfColourIn} {...OPEN_AWAY} style={{ ...downloadStyle, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
+          <a href={printable.pdfColourIn} {...OPEN_AWAY} style={{ ...downloadStyle, background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)' }}>
             ⬇ Colour in
           </a>
         </>
@@ -149,7 +149,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         disabled={added}
         style={{
           background: added ? 'var(--retro-green)' : '#fff',
-          border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
           padding: '10px 16px', cursor: added ? 'default' : 'pointer',
           fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: added ? '#fff' : 'var(--ink)',
         }}
@@ -161,7 +161,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         disabled={sent}
         style={{
           background: sent ? 'var(--retro-green)' : 'var(--stage-1)',
-          border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
           padding: '10px 16px', cursor: sent ? 'default' : 'pointer',
           fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: sent ? '#fff' : 'var(--ink)',
         }}
@@ -174,7 +174,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         title="Record it done and land the stars, for a sheet finished away from the app"
         style={{
           background: done ? 'var(--retro-green)' : '#fff',
-          border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
           padding: '10px 16px', cursor: done ? 'default' : 'pointer',
           fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: done ? '#fff' : 'var(--ink)',
         }}

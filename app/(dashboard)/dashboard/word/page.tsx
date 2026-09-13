@@ -38,7 +38,7 @@ export default async function WordPage({ searchParams }: { searchParams: Promise
       </p>
 
       {words.length === 0 ? (
-        <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 4px 0 var(--ink)', padding: '22px 18px' }}>
+        <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '22px 18px' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px' }}>
             Nothing yet
           </p>

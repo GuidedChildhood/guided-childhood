@@ -107,7 +107,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
-        borderBottom: '2px solid var(--ink)',
+        borderBottom: 'var(--edge)',
         background: 'rgba(255,255,255,.96)',
         backdropFilter: 'blur(20px)',
         position: 'sticky',
@@ -170,7 +170,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
                     fontSize: '.72rem',
                     fontWeight: 700,
                     letterSpacing: '.04em',
-                    borderRadius: '100px',
+                    borderRadius: 'var(--radius-pill)',
                     boxShadow: '0 2px 0 var(--terracotta-dark)',
                     whiteSpace: 'nowrap',
                   }}
@@ -210,7 +210,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <div style={{
               maxWidth: 720, margin: '0 auto', display: 'flex', alignItems: 'center',
               gap: 12, flexWrap: 'wrap', background: 'var(--danger-bg)',
-              border: '1.5px solid var(--danger-border)', borderRadius: 16, padding: '13px 16px',
+              border: '1.5px solid var(--danger-border)', borderRadius: 'var(--radius-btn)', padding: '13px 16px',
             }}>
               <div style={{ flex: 1, minWidth: 220 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
@@ -224,7 +224,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
                 href="/dashboard/settings#billing"
                 style={{
                   flexShrink: 0, textDecoration: 'none', background: 'var(--terracotta)',
-                  color: 'var(--ink)', borderRadius: 12, padding: '11px 16px',
+                  color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '11px 16px',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                   boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}

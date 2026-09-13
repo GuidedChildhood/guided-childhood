@@ -67,7 +67,7 @@ const chip: React.CSSProperties = {
   ...eyebrow,
   fontSize: 'var(--text-sm)',
   padding: '6px 12px',
-  borderRadius: 100,
+  borderRadius: 'var(--radius-pill)',
   border: INK_EDGE,
   display: 'inline-flex',
   alignItems: 'center',
@@ -235,7 +235,7 @@ export default function ScriptDetailView({
           href="/dashboard/agreement"
           style={{ ...card, display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none', padding: cardPad }}
         >
-          <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--terracotta-lt)', border: INK_EDGE, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <span aria-hidden style={{ width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: INK_EDGE, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <HappyIcon name="deal" size={32} />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -254,7 +254,7 @@ export default function ScriptDetailView({
           {prevScript ? (
             <Link
               href={withChild(`/dashboard/scripts/${prevScript.sort_order}`)}
-              style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
+              style={{ ...card, borderRadius: 'var(--radius-btn)', flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
             >
               <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>← Previous</span>
               <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{prevScript.title}</span>
@@ -262,7 +262,7 @@ export default function ScriptDetailView({
           ) : (
             <Link
               href={withChild('/dashboard/scripts')}
-              style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
+              style={{ ...card, borderRadius: 'var(--radius-btn)', flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
             >
               <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>All topics</span>
               <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>Back to scripts</span>
@@ -272,7 +272,7 @@ export default function ScriptDetailView({
           {nextScript && (
             <Link
               href={withChild(`/dashboard/scripts/${nextScript.sort_order}`)}
-              style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'right', minWidth: 0 }}
+              style={{ ...card, borderRadius: 'var(--radius-btn)', flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'right', minWidth: 0 }}
             >
               <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Next →</span>
               <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{nextScript.title}</span>
@@ -296,7 +296,7 @@ export default function ScriptDetailView({
         )}
         <Link
           href={backToPathway ? '/dashboard/pathway' : '/dashboard'}
-          style={{ ...chunky('butter', 'lg'), display: 'flex', width: '100%', boxShadow: '0 5px 0 var(--ink)' }}
+          style={{ ...chunky('butter', 'lg'), display: 'flex', width: '100%', boxShadow: 'var(--lift-deep)' }}
         >
           {backToPathway ? 'Back to your pathway →' : 'Continue your pathway →'}
         </Link>

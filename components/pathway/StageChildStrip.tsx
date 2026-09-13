@@ -103,7 +103,7 @@ export default function StageChildStrip({
         {cells.map(c => (
           <span key={c.label} style={{
             flex: '1 1 0', minWidth: 0, textAlign: 'center',
-            background: '#fff', border: `1.5px solid ${ink}`, borderRadius: 12, padding: '7px 3px',
+            background: '#fff', border: `1.5px solid ${ink}`, borderRadius: 'var(--radius-tile)', padding: '7px 3px',
           }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.1 }}>
               {c.value}
@@ -136,8 +136,8 @@ export default function StageChildStrip({
           style={{
             width: '100%', marginTop: 9, padding: '11px 14px',
             background: sentAt ? 'var(--retro-green)' : '#fff', color: sentAt ? '#fff' : 'var(--ink)',
-            border: `2px solid ${sentAt ? 'var(--retro-green)' : 'var(--ink)'}`, borderRadius: 14,
-            boxShadow: sentAt ? 'none' : '0 3px 0 var(--ink)',
+            border: `2px solid ${sentAt ? 'var(--retro-green)' : 'var(--ink)'}`, borderRadius: 'var(--radius-tile)',
+            boxShadow: sentAt ? 'none' : 'var(--lift)',
             cursor: sending || sentAt ? 'default' : 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           }}

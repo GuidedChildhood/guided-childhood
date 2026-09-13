@@ -96,7 +96,7 @@ export default function ChildSwitcher({
               // only signal: the weight, the height and the ink ring on the
               // plate all say it too.
               padding: '8px 18px 8px 8px',
-              borderRadius: '100px',
+              borderRadius: 'var(--radius-pill)',
               textDecoration: 'none',
               fontFamily: 'var(--font-display)',
               fontWeight: active ? 900 : 800,
@@ -105,11 +105,11 @@ export default function ChildSwitcher({
               gap: '10px',
               color: active ? c.text : 'var(--ink)',
               background: active ? c.bold : '#fff',
-              border: '2px solid var(--ink)',
+              border: 'var(--edge)',
               // Raised when chosen, pressed when not. The translate keeps the
               // row's height steady while the shadow changes, so nothing
               // jumps as a parent taps between children.
-              boxShadow: active ? '0 5px 0 var(--ink)' : '0 2px 0 var(--ink)',
+              boxShadow: active ? 'var(--lift-deep)' : 'var(--lift-press)',
               transform: active ? 'none' : 'translateY(3px)',
               transition: 'box-shadow 0.16s ease, transform 0.16s ease, background 0.16s ease',
             }}
@@ -129,7 +129,7 @@ export default function ChildSwitcher({
                 position: 'relative',
                 flexShrink: 0, width: 30, height: 30, borderRadius: '50%',
                 background: active ? '#fff' : c.bold,
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--font-display)', fontWeight: 900,
                 fontSize: '0.85rem', color: active ? c.text : 'var(--ink)',
@@ -148,7 +148,7 @@ export default function ChildSwitcher({
                   aria-hidden
                   style={{
                     position: 'absolute', right: -7, bottom: -7, width: 18, height: 18, borderRadius: '50%',
-                    background: 'var(--retro-green)', border: '2px solid var(--ink)',
+                    background: 'var(--retro-green)', border: 'var(--edge)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}
                 >

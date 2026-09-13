@@ -19,12 +19,12 @@ export default function QuestGamesIndex() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '14px' }}>
         {QUEST_GAMES.map(g => (
           <div key={g.key} style={{
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px',
-            boxShadow: '0 4px 0 var(--ink)', display: 'flex', flexDirection: 'column', gap: '10px',
+            background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px',
+            boxShadow: 'var(--lift)', display: 'flex', flexDirection: 'column', gap: '10px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--cream)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)', lineHeight: 1 }}>{g.emoji}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: '100px' }}>
+              <span aria-hidden style={{ width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: 'var(--cream)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-xl)', lineHeight: 1 }}>{g.emoji}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: 'var(--radius-pill)' }}>
                 {g.stage}
               </span>
             </div>
@@ -35,7 +35,7 @@ export default function QuestGamesIndex() {
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, flex: 1 }}>{g.blurb}</p>
             <Link href={`/dashboard/quests/play/${g.key}`} style={{
               alignSelf: 'flex-start', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-              background: 'var(--gold, #EDC35F)', color: 'var(--ink)', borderRadius: '13px', padding: '10px 20px',
+              background: 'var(--gold, #EDC35F)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '10px 20px',
               textDecoration: 'none', boxShadow: '0 4px 0 var(--gold-dark, #C99A28)',
             }}>Play</Link>
           </div>

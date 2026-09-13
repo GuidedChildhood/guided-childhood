@@ -95,7 +95,7 @@ export default async function OgImage({ params }: { params: { id: string } }) {
               fontSize: 'var(--text-2xl)',
               fontWeight: 800,
               padding: '14px 30px',
-              borderRadius: 18,
+              borderRadius: 'var(--radius-card)',
             }}
           >
             The words that work

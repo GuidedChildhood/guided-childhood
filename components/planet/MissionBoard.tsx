@@ -41,9 +41,9 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
 
   const chunky = (fill: 'accent' | 'white', disabled = false): React.CSSProperties => ({
     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', lineHeight: 1.15,
-    padding: '12px 16px', borderRadius: 16, cursor: disabled ? 'default' : 'pointer', textDecoration: 'none',
+    padding: '12px 16px', borderRadius: 'var(--radius-btn)', cursor: disabled ? 'default' : 'pointer', textDecoration: 'none',
     background: fill === 'accent' ? theme.hex : '#fff', color: fill === 'accent' ? theme.onAccent : 'var(--ink)',
-    border: '2px solid var(--ink)', boxShadow: disabled ? 'none' : '0 4px 0 var(--ink)', opacity: disabled ? 0.55 : 1,
+    border: 'var(--edge)', boxShadow: disabled ? 'none' : 'var(--lift)', opacity: disabled ? 0.55 : 1,
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
   })
 
@@ -82,7 +82,7 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
     void childAge
 
     return (
-      <div key={key} style={{ background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '14px 14px 12px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div key={key} style={{ background: '#fff', color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', padding: '14px 14px 12px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span aria-hidden style={{ fontSize: 34, lineHeight: 1 }}>{m.emoji}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -93,13 +93,13 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
           </div>
         </div>
         <div>
-          <span style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--ink)', borderRadius: 999, padding: '4px 10px' }}>
+          <span style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--ink)', borderRadius: 'var(--radius-pill)', padding: '4px 10px' }}>
             {MISSION_LINES.rewardPrefix} {m.rewardLabel}
           </span>
         </div>
 
         {status === 'approved' ? (
-          <div style={{ background: 'var(--retro-green)', color: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ background: 'var(--retro-green)', color: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
             <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', lineHeight: 1.2 }}>{m.rewardLabel}. {MISSION_LINES.landed}</p>
             <button onClick={() => onSeen(key)} style={{ ...chunky('white'), padding: '8px 12px' }}>Yay!</button>
           </div>
@@ -147,11 +147,11 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {tokens.map(t => (
                     <button key={t} onClick={() => setCodes(c => ({ ...c, [key]: [...(c[key] ?? []), t].slice(-cap) }))} aria-label={`Tap ${t}`}
-                      style={{ width: tileW, height: mode === 'pictures' ? 54 : 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: mode === 'pictures' ? 26 : 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)', padding: 0 }}>
+                      style={{ width: tileW, height: mode === 'pictures' ? 54 : 40, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: mode === 'pictures' ? 26 : 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)', padding: 0 }}>
                       {mode === 'pictures' ? PICTURE_ART[t] : t.toUpperCase()}
                     </button>
                   ))}
-                  <button onClick={() => setCodes(c => ({ ...c, [key]: [] }))} aria-label="Clear" style={{ height: mode === 'pictures' ? 54 : 40, padding: '0 12px', borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, cursor: 'pointer', color: 'var(--ink)' }}>
+                  <button onClick={() => setCodes(c => ({ ...c, [key]: [] }))} aria-label="Clear" style={{ height: mode === 'pictures' ? 54 : 40, padding: '0 12px', borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', fontFamily: 'var(--font-display)', fontWeight: 800, cursor: 'pointer', color: 'var(--ink)' }}>
                     ↺
                   </button>
                 </div>
@@ -190,7 +190,7 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
   }
 
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 8, background: 'linear-gradient(180deg, #F7F3EA 0%, #EFE7D8 100%)', borderRadius: 24, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 8, background: 'linear-gradient(180deg, #F7F3EA 0%, #EFE7D8 100%)', borderRadius: 'var(--radius-card)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px 8px', gap: 10 }}>
         <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
           🎯 {tier === 1 ? MISSION_LINES.boardTier1 : MISSION_LINES.board}

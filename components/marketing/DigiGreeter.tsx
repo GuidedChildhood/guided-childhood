@@ -107,7 +107,7 @@ export default function DigiGreeter() {
               href="/starter-pack"
               style={{
                 display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-                borderRadius: '12px', padding: '10px 18px', textDecoration: 'none',
+                borderRadius: 'var(--radius-tile)', padding: '10px 18px', textDecoration: 'none',
                 fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
                 boxShadow: '0 3px 0 var(--terracotta-dark)', animation: 'digiFadeIn 0.4s ease both',
               }}

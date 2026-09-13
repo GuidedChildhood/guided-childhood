@@ -21,7 +21,7 @@ export default function StreakFlame({ count, aliveToday }: StreakFlameProps) {
         display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0,
         background: aliveToday ? 'var(--terracotta-lt)' : 'var(--cream)',
         border: `1.5px solid ${aliveToday ? 'var(--terracotta)' : 'var(--border)'}`,
-        borderRadius: '100px', padding: '7px 13px',
+        borderRadius: 'var(--radius-pill)', padding: '7px 13px',
       }}
     >
       <svg width="15" height="19" viewBox="0 0 24 24" aria-hidden="true" style={{ flexShrink: 0, display: 'block' }}>

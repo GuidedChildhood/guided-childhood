@@ -119,7 +119,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
   }
 
   const chip = (active: boolean): React.CSSProperties => ({
-    padding: '7px 12px', borderRadius: 100, cursor: 'pointer',
+    padding: '7px 12px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
     border: `2px solid ${active ? 'var(--terracotta)' : 'var(--ink)'}`,
     background: active ? 'var(--terracotta-lt)' : '#fff',
     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
@@ -131,7 +131,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
   // parent wanted, and the number they came to see is how long is left.
   if (running) {
     return (
-      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 4px 0 var(--ink)', padding: 18, marginBottom: 16 }}>
+      <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: 18, marginBottom: 16 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--retro-green-dark, #236F52)', marginBottom: 8 }}>
           Screen time running
         </div>
@@ -154,7 +154,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
           href="/dashboard/quests"
           style={{
             display: 'block', textAlign: 'center', marginTop: 14,
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: 12, boxShadow: '0 4px 0 var(--ink)',
+            background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
             padding: '11px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
@@ -166,7 +166,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
   }
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 4px 0 var(--ink)', padding: 18, marginBottom: 16 }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: 18, marginBottom: 16 }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
         Start screen time
       </div>
@@ -190,7 +190,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         onClick={start}
         disabled={busy}
         style={{
-          width: '100%', padding: '11px', borderRadius: 12, border: 'none',
+          width: '100%', padding: '11px', borderRadius: 'var(--radius-tile)', border: 'none',
           cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)',
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           boxShadow: busy ? 'none' : '0 3px 0 var(--terracotta-dark)',

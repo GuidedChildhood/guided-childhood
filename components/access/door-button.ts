@@ -23,7 +23,7 @@
 
 const BASE: React.CSSProperties = {
   display: 'block', width: '100%', padding: '17px 28px',
-  borderRadius: 16,
+  borderRadius: 'var(--radius-btn)',
   fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)',
   letterSpacing: '0.08em', textTransform: 'uppercase',
   cursor: 'pointer', textAlign: 'center',

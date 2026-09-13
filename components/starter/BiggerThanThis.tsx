@@ -41,9 +41,9 @@ export default function BiggerThanThis({ kid, urgent = false }: {
   return (
     <div className="wow-fu" style={{
       background: urgent ? 'var(--stage-3)' : 'var(--tint-sage)',
-      border: '2px solid var(--ink)',
-      borderRadius: 18,
-      boxShadow: '0 5px 0 var(--ink)',
+      border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)',
+      boxShadow: 'var(--lift-deep)',
       padding: '16px 18px 18px',
       marginTop: urgent ? 0 : 20,
       marginBottom: urgent ? 24 : 0,

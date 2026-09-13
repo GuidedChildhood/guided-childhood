@@ -35,12 +35,12 @@ export default function DigiWordCard({ initial }: { initial?: WordPreview | null
       href="/dashboard/word"
       style={{
         display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none',
-        background: 'var(--terracotta)', border: '2px solid var(--ink)', borderRadius: 20,
-        boxShadow: '0 4px 0 var(--ink)', padding: '14px 16px', marginBottom: 16, color: 'var(--ink)',
+        background: 'var(--terracotta)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+        boxShadow: 'var(--lift)', padding: '14px 16px', marginBottom: 16, color: 'var(--ink)',
       }}
     >
       <span aria-hidden style={{
-        width: 52, height: 52, borderRadius: 16, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+        width: 52, height: 52, borderRadius: 'var(--radius-btn)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
       }}>
         <HappyIcon name="tell" size={34} />
@@ -55,7 +55,7 @@ export default function DigiWordCard({ initial }: { initial?: WordPreview | null
         </span>
       </span>
       <span aria-hidden style={{
-        flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)',
+        flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: '#fff', border: 'var(--edge)',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900,
       }}>›</span>
     </Link>

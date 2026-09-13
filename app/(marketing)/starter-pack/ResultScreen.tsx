@@ -163,13 +163,13 @@ function Problem({ children }: { children: React.ReactNode }) {
       // the answers all carried a 2px edge and a hard shadow, which is exactly
       // backwards: the recognition has to land before the answer means
       // anything.
-      background: 'var(--stage-3)', border: '2px solid var(--ink)', borderRadius: 16,
-      boxShadow: '0 5px 0 var(--ink)',
+      background: 'var(--stage-3)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+      boxShadow: 'var(--lift-deep)',
       padding: '13px 16px', margin: '0 0 16px',
     }}>
       <span aria-hidden style={{
         flexShrink: 0, width: 26, height: 26, borderRadius: '50%',
-        background: 'var(--stage-3-bold)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+        background: 'var(--stage-3-bold)', border: 'var(--edge)', boxSizing: 'border-box',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
       }}>?</span>
@@ -202,7 +202,7 @@ function Point({ icon, title, children }: { icon: MethodId; title: string; child
           butter, sitting directly beside the hand drawn WorryIcon and
           MethodIcon sets. Next to real drawings an emoji reads as a
           placeholder somebody meant to replace. */}
-      <span aria-hidden style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: METHOD[icon].tint, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span aria-hidden style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: METHOD[icon].tint, border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
         <MethodIcon id={icon} size={23} />
       </span>
       <div style={{ minWidth: 0 }}>
@@ -354,7 +354,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               line instead, and minWidth 0 lets the pill shrink rather than
               force the row. */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 26, flexWrap: 'wrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: accent.bold, color: accent.text, padding: '6px 12px', borderRadius: 100 }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: accent.bold, color: accent.text, padding: '6px 12px', borderRadius: 'var(--radius-pill)' }}>
               Stage {stage.id} · {stage.name}
             </span>
             {/* The Get started button that used to sit here is gone. It fired
@@ -434,8 +434,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           {/* The roll call, in butter rather than the old black card. */}
           <div className="wow-fu" style={{
             background: 'var(--terracotta-lt)',
-            border: '2px solid var(--ink)', borderRadius: 18,
-            boxShadow: '0 5px 0 var(--ink)',
+            border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--lift-deep)',
             padding: '14px 16px 16px', marginBottom: 24,
           }}>
             {/* The chips went. Every worry was printed here and then again as
@@ -494,7 +494,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
                 Blocking software makes tonight&apos;s decision for you and teaches {they} nothing for tomorrow. This works the other way round.
               </p>
               <SolveLoop />
-              <div style={{ marginTop: 18, background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 15px' }}>
+              <div style={{ marginTop: 18, background: 'var(--tint-green)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 15px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 4 }}>Five minutes a day. Not a task every day.</div>
                 <p style={{ ...BODY, fontSize: 'var(--text-base)' }}>Some days it is one tap. Some days it is a script at bedtime. The platform decides what today needs. You decide when.</p>
               </div>
@@ -519,8 +519,8 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               fact, and the gap between them IS the product: the base is theirs
               at breakfast, the rest arrives with the day. */}
           <div className="wow-fu" style={{
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-            boxShadow: '0 5px 0 var(--ink)', padding: '18px 18px 20px', marginTop: 20,
+            background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--lift-deep)', padding: '18px 18px 20px', marginTop: 20,
           }}>
             {/* Short enough not to orphan the second number onto its own line at 390. */}
             <div style={{ ...EYEBROW, marginBottom: 8 }}>Our steer for ages {ages}</div>
@@ -594,7 +594,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               apologising. */}
           <div style={{
             background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
-            borderRadius: 18, padding: '16px 18px', marginTop: 18,
+            borderRadius: 'var(--radius-card)', padding: '16px 18px', marginTop: 18,
           }}>
             <div style={{ ...EYEBROW, marginBottom: 6 }}>How the time is counted</div>
             <p style={{ ...BODY, color: 'var(--ink)', margin: '0 0 14px' }}>
@@ -677,17 +677,17 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           <p className="wow-fu" style={{ ...BODY, marginBottom: 14 }}>
             Stage {stage.id} is where you start, not where it ends.
           </p>
-          <div className="wow-fu" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 5px 0 var(--ink)', overflow: 'hidden' }}>
+          <div className="wow-fu" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', overflow: 'hidden' }}>
             {STAGES.map((s, i) => {
               const here = s.id === stage.id
               const a = s.ageBand === '16+' ? '16 and up' : s.ageBand.replace('-', ' to ')
               return (
                 <div key={s.id} style={{ display: 'flex', gap: 13, padding: '13px 16px', borderTop: i === 0 ? 'none' : '1.5px solid var(--border)', background: here ? 'var(--terracotta-lt)' : '#fff', alignItems: 'center' }}>
-                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: `var(--stage-${s.id}-bold)`, color: `var(--stage-${s.id}-text)`, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>{s.id}</span>
+                  <span style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: `var(--stage-${s.id}-bold)`, color: `var(--stage-${s.id}-text)`, border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>{s.id}</span>
                   <div style={{ minWidth: 0, flex: 1, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{s.name}</span>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>{a}</span>
-                    {here && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', border: '1.5px solid var(--ink)', padding: '2px 8px', borderRadius: 100 }}>You are here</span>}
+                    {here && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', border: '1.5px solid var(--ink)', padding: '2px 8px', borderRadius: 'var(--radius-pill)' }}>You are here</span>}
                   </div>
                 </div>
               )
@@ -711,7 +711,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         </section>
 
         {/* ── The door ─────────────────────────────────────────────────── */}
-        <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 22, padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
+        <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
           <div style={EYEBROW}>{needsConfirm ? 'One last step' : `Stage ${stage.id} · ${stage.name}`}</div>
           <h2 style={{ ...H2, fontSize: 'clamp(1.6rem, 5.2vw, 2.1rem)' }}>{needsConfirm ? 'Check your email' : kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}</h2>
           <p style={{ ...LEAD, marginBottom: 20 }}>
@@ -764,11 +764,11 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         transform: showFloat ? 'translateY(0)' : 'translateY(90px)', opacity: showFloat ? 1 : 0,
         transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 'min(100%, 460px)', background: '#fff', borderRadius: 18, border: `2px solid ${accent.bold}`, padding: '10px 10px 10px 18px', boxShadow: '0 12px 36px rgba(26,26,46,0.22)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 'min(100%, 460px)', background: '#fff', borderRadius: 'var(--radius-card)', border: `2px solid ${accent.bold}`, padding: '10px 10px 10px 18px', boxShadow: '0 12px 36px rgba(26,26,46,0.22)' }}>
           <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>
             {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
           </span>
-          <Link href={enterHref} style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 7, padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 13, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <Link href={enterHref} style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 7, padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Finish setting up <span aria-hidden>→</span>
           </Link>
         </div>

@@ -258,14 +258,14 @@ export default function MissionWelcome({
         onClick={e => e.stopPropagation()}
         style={{
           width: '100%', maxWidth: 440, margin: 'auto',
-          background: '#fff', border: '2px solid var(--ink)',
-          borderRadius: 24, overflow: 'hidden',
-          boxShadow: '0 4px 0 var(--ink)',
+          background: '#fff', border: 'var(--edge)',
+          borderRadius: 'var(--radius-card)', overflow: 'hidden',
+          boxShadow: 'var(--lift)',
         }}
       >
         {/* The hello. Short, warm, and no idea how long today is going to be. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)', borderBottom: '2px solid var(--ink)' }}>
-          <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)', borderBottom: 'var(--edge)' }}>
+          <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter size={26} mood="wave" />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -296,7 +296,7 @@ export default function MissionWelcome({
 
         {/* What we do with what you tell it. Every card carries one, because
             the honest answer is the feature. */}
-        <div style={{ margin: '14px 18px 0', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 14, padding: '11px 13px' }}>
+        <div style={{ margin: '14px 18px 0', background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
             What we do with it
           </div>
@@ -335,7 +335,7 @@ export default function MissionWelcome({
               onClick={close}
               style={{
                 display: 'block', textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
+                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
@@ -353,10 +353,10 @@ export default function MissionWelcome({
             style={{
               flex: 1, textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
               background: action ? '#fff' : 'var(--terracotta)',
-              color: 'var(--ink)', borderRadius: 16,
-              border: action ? '2px solid var(--ink)' : 'none',
+              color: 'var(--ink)', borderRadius: 'var(--radius-btn)',
+              border: action ? 'var(--edge)' : 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              boxShadow: action ? '0 4px 0 var(--ink)' : '0 4px 0 var(--terracotta-dark)',
+              boxShadow: action ? 'var(--lift)' : '0 4px 0 var(--terracotta-dark)',
             }}
           >
             Ask DiGi this
@@ -370,8 +370,8 @@ export default function MissionWelcome({
             style={{
               flex: '0 0 auto', padding: '13px 18px', cursor: 'pointer',
               background: '#fff', color: 'var(--ink)',
-              border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              border: 'var(--edge)', boxShadow: 'var(--lift)',
+              borderRadius: 'var(--radius-btn)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             }}
           >
             {isLast ? 'Later' : 'Next'}

@@ -9,7 +9,7 @@ export default function RefQuestBoard() {
   return (
     <main style={{ background: 'var(--butter)', minHeight: '100vh', padding: '20px 16px' }}>
       <div data-ref-card style={{
-        background: 'var(--white)', borderRadius: '20px', padding: '18px 16px',
+        background: 'var(--white)', borderRadius: 'var(--radius-card)', padding: '18px 16px',
         border: '1.5px solid var(--border)',
       }}>
         <QuestBoard />

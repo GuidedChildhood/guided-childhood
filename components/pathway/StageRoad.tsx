@@ -34,7 +34,7 @@ export function StageDot({ n, state, size = 44 }: { n: number; state: StageDotSt
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: Math.round(size * 0.36),
         background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
-        border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--ink)',
+        border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : 'var(--edge)',
         color: here || behind ? 'var(--terracotta-dark)' : 'var(--ink-light)',
         boxShadow: here ? '0 4px 0 var(--terracotta-dark)' : 'none',
         position: 'relative', zIndex: 1,
@@ -199,7 +199,7 @@ export function StrandPills({ strands, onNavigate, from }: {
             display: 'flex', alignItems: 'flex-start', gap: 10,
             background: red ? '#FDF0EE' : 'var(--cream)',
             border: `2px solid ${red ? '#E8C4BC' : 'var(--ink)'}`,
-            borderRadius: 14, padding: '11px 13px',
+            borderRadius: 'var(--radius-tile)', padding: '11px 13px',
             opacity: s.tone === 'grey' ? 0.55 : 1,
           }
           return linked ? (
@@ -377,7 +377,7 @@ export default function StageRoad({
       {current > 0 && currentReadiness && (
         <Link href={`/dashboard/lessons?stage=${current}`} className="gc-road-sticky" style={{
           textDecoration: 'none',
-          background: 'var(--terracotta)', borderRadius: 16, padding: '14px 18px',
+          background: 'var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '14px 18px',
           boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: 22,
           display: 'flex', alignItems: 'center', gap: 13,
         }}>
@@ -400,7 +400,7 @@ export default function StageRoad({
           {progressPct !== null && (
             <span style={{
               flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-              background: '#fff', color: 'var(--terracotta-dark)', borderRadius: 100, padding: '8px 14px',
+              background: '#fff', color: 'var(--terracotta-dark)', borderRadius: 'var(--radius-pill)', padding: '8px 14px',
             }}>
               {isComplete(current) ? '✓' : `${progressPct}%`}
             </span>
@@ -479,7 +479,7 @@ export default function StageRoad({
                       {r.ages}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100, padding: '4px 13px 4px 5px' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px 13px 4px 5px' }}>
                         {(() => {
                           const ch = characterForStage(stage.id)
                           return ch ? (
@@ -493,22 +493,22 @@ export default function StageRoad({
                       </span>
                       {here && (
                         isComplete(stage.id) ? (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#2F8F6B', color: '#fff', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#2F8F6B', color: '#fff', padding: '7px 14px', borderRadius: 'var(--radius-pill)', alignSelf: 'center' }}>
                             ✓ Stage complete
                           </span>
                         ) : (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '7px 14px', borderRadius: 'var(--radius-pill)', alignSelf: 'center' }}>
                             You are here
                           </span>
                         )
                       )}
                       {behind && (
                         isComplete(stage.id) ? (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#fff', background: '#2F8F6B', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#fff', background: '#2F8F6B', padding: '5px 12px', borderRadius: 'var(--radius-pill)', alignSelf: 'center' }}>
                             ✓ Caught up
                           </span>
                         ) : (
-                          <Link href={`/dashboard/lessons?stage=${stage.id}`} style={{ textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
+                          <Link href={`/dashboard/lessons?stage=${stage.id}`} style={{ textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '5px 12px', borderRadius: 'var(--radius-pill)', alignSelf: 'center' }}>
                             Catch up →
                           </Link>
                         )
@@ -538,15 +538,15 @@ export default function StageRoad({
 
               {/* The current stage opens out below its node, full width */}
               {here ? (
-                <div style={{ marginTop: 14, background: '#fff', border: '2px solid var(--ink)', borderLeft: '6px solid var(--terracotta)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '16px 16px 14px', position: 'relative', zIndex: 2 }}>
+                <div style={{ marginTop: 14, background: '#fff', border: 'var(--edge)', borderLeft: '6px solid var(--terracotta)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '16px 16px 14px', position: 'relative', zIndex: 2 }}>
                   {progressPct !== null && (
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>This stage</span>
                         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>{progressPct}%</span>
                       </div>
-                      <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '2px solid var(--ink)', overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
+                      <div style={{ height: 10, borderRadius: 'var(--radius-pill)', background: 'var(--cream)', border: 'var(--edge)', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--terracotta)', borderRadius: 'var(--radius-pill)' }} />
                       </div>
                     </div>
                   )}
@@ -564,7 +564,7 @@ export default function StageRoad({
                       every pass ticks the progress above and the passport. */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
                     {STAGE_CONCEPTS[stage.id].map(c => (
-                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', padding: '4px 10px', borderRadius: 100, textDecoration: 'none' }}>
+                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: 'var(--edge)', padding: '4px 10px', borderRadius: 'var(--radius-pill)', textDecoration: 'none' }}>
                         {c} →
                       </Link>
                     ))}
@@ -577,7 +577,7 @@ export default function StageRoad({
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                      borderRadius: 16, padding: '14px 20px', marginBottom: 8,
+                      borderRadius: 'var(--radius-btn)', padding: '14px 20px', marginBottom: 8,
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                       boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
                     }}
@@ -589,8 +589,8 @@ export default function StageRoad({
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       background: '#fff', color: 'var(--ink)', textDecoration: 'none',
-                      borderRadius: 16, padding: '12px 20px', border: '2px solid var(--ink)',
-                      boxShadow: '0 4px 0 var(--ink)',
+                      borderRadius: 'var(--radius-btn)', padding: '12px 20px', border: 'var(--edge)',
+                      boxShadow: 'var(--lift)',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                       whiteSpace: 'nowrap',
                     }}
@@ -603,10 +603,10 @@ export default function StageRoad({
                   <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
                     {behind ? 'Revisit this stage ▾' : 'What this stage holds ▾'}
                   </summary>
-                  <div style={{ marginTop: 10, background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '13px 14px', transform: `translateX(${-x / 2}px)`, width: 'min(340px, calc(100vw - 40px))' }}>
+                  <div style={{ marginTop: 10, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '13px 14px', transform: `translateX(${-x / 2}px)`, width: 'min(340px, calc(100vw - 40px))' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                       {STAGE_CONCEPTS[stage.id].map(c => (
-                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '2px solid var(--ink)', padding: '4px 10px', borderRadius: 100 }}>
+                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: 'var(--edge)', padding: '4px 10px', borderRadius: 'var(--radius-pill)' }}>
                           {c}
                         </span>
                       ))}
@@ -631,7 +631,7 @@ export default function StageRoad({
           width: 'fit-content', margin: '0 auto', position: 'relative', zIndex: 1,
         }}>
           <div style={{
-            width: 76, height: 76, borderRadius: 22,
+            width: 76, height: 76, borderRadius: 'var(--radius-card)',
             background: allStagesDone ? 'var(--terracotta)' : 'var(--cream)',
             border: '3px solid var(--ink)',
             boxShadow: allStagesDone ? '0 6px 0 var(--terracotta-dark)' : '0 6px 0 var(--ink)',

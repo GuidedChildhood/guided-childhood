@@ -228,7 +228,7 @@ export default function StarChartBuilder({
           onChange={e => setChildName(e.target.value)}
           maxLength={20}
           placeholder="Their name (optional)"
-          style={{ width: '100%', maxWidth: 340, padding: '13px 16px', borderRadius: 14, border: '2px solid var(--ink)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', marginBottom: 26 }}
+          style={{ width: '100%', maxWidth: 340, padding: '13px 16px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', marginBottom: 26 }}
         />
 
         {/* Which child, only when there is more than one named. A single child
@@ -263,7 +263,7 @@ export default function StarChartBuilder({
                     }}
                     aria-pressed={on}
                     style={{
-                      padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
+                      padding: '9px 15px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                       border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
@@ -281,7 +281,7 @@ export default function StarChartBuilder({
             up the board should recognise this page immediately rather than
             hunting our menu for things they have already typed once. */}
         {mine.length > 0 && (
-          <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '15px 16px', marginBottom: 12 }}>
+          <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '15px 16px', marginBottom: 12 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
               Your jobs, already on the board
             </div>
@@ -297,7 +297,7 @@ export default function StarChartBuilder({
                     onClick={() => toggle({ emoji: job.emoji, text: job.text, stars: job.stars })}
                     aria-pressed={on}
                     style={{
-                      padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
+                      padding: '9px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                       border: `2px solid ${on ? 'var(--terracotta-dark)' : 'var(--ink)'}`,
                       background: on ? '#fff' : 'rgba(255,255,255,0.55)',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
@@ -327,7 +327,7 @@ export default function StarChartBuilder({
         )}
         <div style={{ display: 'grid', gap: 12, marginBottom: 12 }}>
           {POOL.map(group => (
-            <div key={group.group} style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '15px 16px' }}>
+            <div key={group.group} style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '15px 16px' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 11 }}>
                 {group.group}
               </div>
@@ -340,7 +340,7 @@ export default function StarChartBuilder({
                       onClick={() => toggle(job)}
                       aria-pressed={on}
                       style={{
-                        padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
+                        padding: '9px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                         border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                         background: on ? 'var(--terracotta-lt)' : '#fff',
                         fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
@@ -359,7 +359,7 @@ export default function StarChartBuilder({
         </div>
 
         {/* Add your own, matched to the same card look. */}
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '15px 16px', marginBottom: 24 }}>
+        <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '15px 16px', marginBottom: 24 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 11 }}>
             One only your house has
           </div>
@@ -370,11 +370,11 @@ export default function StarChartBuilder({
               onKeyDown={e => { if (e.key === 'Enter') addCustom() }}
               maxLength={40}
               placeholder="Write a job and add it…"
-              style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: 12, border: '2px solid var(--ink)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
+              style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
             />
             <button
               onClick={addCustom}
-              style={{ padding: '12px 20px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
+              style={{ padding: '12px 20px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
             >
               Add
             </button>
@@ -397,8 +397,8 @@ export default function StarChartBuilder({
                 key={w.start}
                 onClick={() => setWeekIdx(i)}
                 style={{
-                  padding: '10px 16px', borderRadius: 13, cursor: 'pointer',
-                  border: '2px solid var(--ink)',
+                  padding: '10px 16px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
+                  border: 'var(--edge)',
                   background: weekIdx === i ? 'var(--deep-teal)' : '#fff',
                   color: weekIdx === i ? '#fff' : 'var(--ink)',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
@@ -437,7 +437,7 @@ export default function StarChartBuilder({
           existed for the shop basket; this bar had just never adopted it. */}
       <div className="no-print above-tab-bar" style={{
         background: 'rgba(249,248,246,0.94)', backdropFilter: 'blur(8px)',
-        borderTop: '2px solid var(--ink)', padding: '12px 20px',
+        borderTop: 'var(--edge)', padding: '12px 20px',
       }}>
         {/* The button leads on a phone and the count follows, so the action is
             never the thing that wraps away. Side by side again once there is

@@ -65,7 +65,7 @@ export default function SeeInside() {
           {TILES.map(tile => (
             <figure key={tile.title} style={{ margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{
-                borderRadius: '22px', overflow: 'hidden',
+                borderRadius: 'var(--radius-card)', overflow: 'hidden',
                 border: '1.5px solid var(--border)',
                 boxShadow: '0 18px 50px rgba(26,26,46,0.12)',
                 background: '#fff',

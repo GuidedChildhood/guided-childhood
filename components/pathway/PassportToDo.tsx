@@ -100,8 +100,8 @@ export default function PassportToDo({
   if (count === 0) {
     return (
       <div style={{
-        background: 'var(--tint-green)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-        borderRadius: 18, padding: '13px 15px', marginBottom: 14,
+        background: 'var(--tint-green)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-card)', padding: '13px 15px', marginBottom: 14,
         display: 'flex', alignItems: 'center', gap: 10,
       }}>
         <span aria-hidden style={{ fontSize: 'var(--text-lg)' }}>✓</span>
@@ -114,8 +114,8 @@ export default function PassportToDo({
 
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: 18, padding: '14px 15px 15px', marginBottom: 14,
+      background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '14px 15px 15px', marginBottom: 14,
     }}>
       {/* WHAT TO DO, SAID BEFORE ANYTHING ELSE. Justin asked to be told on every
           visit what to catch up on, and the honest version of that is the count
@@ -124,7 +124,7 @@ export default function PassportToDo({
         <span style={{
           flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)',
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: 9, padding: '3px 9px',
+          background: '#fff', border: 'var(--edge)', borderRadius: 9, padding: '3px 9px',
         }}>
           To stamp this page
         </span>
@@ -143,8 +143,8 @@ export default function PassportToDo({
           return (
             <li key={it.key} style={{
               background: '#fff', border: `2px solid ${first ? 'var(--ink)' : 'var(--border)'}`,
-              borderRadius: 14, padding: '11px 12px',
-              boxShadow: first ? '0 3px 0 var(--ink)' : 'none',
+              borderRadius: 'var(--radius-tile)', padding: '11px 12px',
+              boxShadow: first ? 'var(--lift)' : 'none',
             }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9 }}>
                 {/* The number, so four steps read as a sequence rather than a
@@ -152,7 +152,7 @@ export default function PassportToDo({
                 <span aria-hidden style={{
                   flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
                   background: first ? 'var(--terracotta)' : '#fff',
-                  border: '2px solid var(--ink)', boxSizing: 'border-box',
+                  border: 'var(--edge)', boxSizing: 'border-box',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--ink)',
                 }}>
@@ -181,7 +181,7 @@ export default function PassportToDo({
                       display: 'inline-block', marginTop: 6,
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                       letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-                      background: 'var(--cream)', borderRadius: 100, padding: '2px 8px',
+                      background: 'var(--cream)', borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                     }}>
                       Kept up, not ticked off
                     </span>
@@ -193,8 +193,8 @@ export default function PassportToDo({
                       style={{
                         display: 'inline-flex', alignItems: 'center', gap: 5, textDecoration: 'none',
                         background: first ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
-                        border: '2px solid var(--ink)', borderRadius: 12,
-                        boxShadow: first ? '0 3px 0 var(--ink)' : 'none',
+                        border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+                        boxShadow: first ? 'var(--lift)' : 'none',
                         padding: '7px 13px',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                       }}
@@ -216,7 +216,7 @@ export default function PassportToDo({
                         style={{
                           display: 'inline-flex', alignItems: 'center', gap: 5, cursor: 'pointer',
                           background: '#fff', color: 'var(--ink-soft)',
-                          border: '1.5px solid var(--border)', borderRadius: 100, padding: '6px 11px',
+                          border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '6px 11px',
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         }}
                       >
@@ -228,7 +228,7 @@ export default function PassportToDo({
                   {spoken && !onApp && saying === it.key && (
                     <span style={{
                       display: 'block', marginTop: 8, background: 'var(--terracotta-lt)',
-                      border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '10px 12px',
+                      border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '10px 12px',
                     }}>
                       <span style={{
                         display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -252,7 +252,7 @@ export default function PassportToDo({
           grown up's work, so the child is only ever offered the ones they can
           move. See lib/pathway/passport-todo.ts for what is filtered out. */}
       {childItems.length > 0 && onApp && childId && (
-        <div style={{ marginTop: 12, paddingTop: 11, borderTop: '2px solid var(--ink)' }}>
+        <div style={{ marginTop: 12, paddingTop: 11, borderTop: 'var(--edge)' }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 9px' }}>
             <strong style={{ fontWeight: 800 }}>{childName ? `${childName} can do` : 'They can do'} {childItems.length === 1 ? 'one of these' : `${childItems.length} of these`}.</strong>{' '}
             It goes on their app on the first of every month. Send it now if you would rather not wait.
@@ -264,8 +264,8 @@ export default function PassportToDo({
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 7,
               background: sentAt ? 'var(--retro-green)' : 'var(--terracotta)', color: sentAt ? '#fff' : 'var(--ink)',
-              border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 15px',
-              boxShadow: sentAt ? 'none' : '0 4px 0 var(--ink)',
+              border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 15px',
+              boxShadow: sentAt ? 'none' : 'var(--lift)',
               cursor: sending || sentAt ? 'default' : 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
             }}

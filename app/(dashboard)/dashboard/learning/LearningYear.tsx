@@ -57,7 +57,7 @@ import type { WeekBrief } from '@/lib/learning/this-week'
 // hide the best thing on the page behind a choice.
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)',
+  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
   padding: '18px', marginBottom: 14,
 }
 
@@ -119,7 +119,7 @@ export default function LearningYear({
               onClick={() => setActive(i)}
               aria-pressed={i === active}
               style={{
-                padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
+                padding: '9px 15px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                 border: `2px solid ${i === active ? 'var(--terracotta)' : 'var(--ink)'}`,
                 background: i === active ? 'var(--terracotta-lt)' : '#fff',
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
@@ -140,7 +140,7 @@ export default function LearningYear({
           frame. Without this a parent cannot tell whether they are reading this
           term, this year, or the whole of primary. */}
       {v.label && (
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '8px 13px', margin: '14px 0 12px' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '8px 13px', margin: '14px 0 12px' }}>
           <span aria-hidden>🎒</span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{v.label}</span>
         </div>
@@ -190,7 +190,7 @@ export default function LearningYear({
               href={`/dashboard/quests/manage?title=${encodeURIComponent(brief.questTitle)}`}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 12,
+                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
                 padding: '11px 15px', fontFamily: 'var(--font-display)', fontWeight: 800,
                 fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)',
               }}
@@ -201,8 +201,8 @@ export default function LearningYear({
               href="/dashboard/homework"
               style={{
                 display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
-                background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
-                borderRadius: 12, padding: '11px 15px', fontFamily: 'var(--font-display)',
+                background: '#fff', color: 'var(--ink)', border: 'var(--edge)',
+                borderRadius: 'var(--radius-tile)', padding: '11px 15px', fontFamily: 'var(--font-display)',
                 fontWeight: 800, fontSize: 'var(--text-base)',
               }}
             >
@@ -248,7 +248,7 @@ export default function LearningYear({
                 aria-selected={on}
                 onClick={() => setTab(t.key)}
                 style={{
-                  flexShrink: 0, cursor: 'pointer', borderRadius: 100, padding: '10px 14px',
+                  flexShrink: 0, cursor: 'pointer', borderRadius: 'var(--radius-pill)', padding: '10px 14px',
                   border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                   background: on ? 'var(--terracotta-lt)' : '#fff',
                   fontFamily: 'var(--font-display)', fontWeight: 800,
@@ -317,7 +317,7 @@ export default function LearningYear({
               const key = `${sub.subject}:${st.strand}`
               const isOpen = Boolean(open[key])
               return (
-                <div key={key} style={{ border: '2px solid var(--ink)', borderRadius: 13, overflow: 'hidden' }}>
+                <div key={key} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
                   <button
                     onClick={() => toggle(key)}
                     aria-expanded={isOpen}

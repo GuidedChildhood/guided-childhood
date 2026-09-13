@@ -92,8 +92,8 @@ export default function ProviderButtons({
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
               width: '100%', padding: '15px 18px',
-              background: '#fff', border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)',
-              boxShadow: '0 5px 0 var(--ink)',
+              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+              boxShadow: 'var(--lift-deep)',
               fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-base)',
               color: 'var(--ink)', cursor: busy ? 'default' : 'pointer',
               opacity: busy && busy !== p ? 0.55 : 1,

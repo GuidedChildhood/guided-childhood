@@ -118,11 +118,11 @@ export default function AskPopup({ initial }: {
       <style>{`@keyframes gc-ask-up { from { transform: translateY(24px); opacity: 0 } to { transform: none; opacity: 1 } }`}</style>
       <div role="dialog" aria-live="polite" style={{
         width: 'min(100%, 520px)', background: '#fff', color: 'var(--ink)',
-        border: '2.5px solid var(--ink)', borderRadius: 24, boxShadow: '0 6px 0 var(--ink)',
+        border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', boxShadow: '0 6px 0 var(--ink)',
         padding: '18px 18px 16px', animation: 'gc-ask-up 0.28s ease-out', fontFamily: 'var(--font-body)',
       }}>
         {done ? (
-          <div style={{ background: 'var(--retro-green)', color: '#fff', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.3 }}>
+          <div style={{ background: 'var(--retro-green)', color: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.3 }}>
             ✓ {done}
           </div>
         ) : (
@@ -131,7 +131,7 @@ export default function AskPopup({ initial }: {
               Screen time ask
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span aria-hidden style={{ flexShrink: 0, width: 54, height: 54, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+              <span aria-hidden style={{ flexShrink: 0, width: 54, height: 54, borderRadius: '50%', background: 'var(--terracotta)', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
                 {deviceEmoji(req.device)}
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -210,11 +210,11 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
       <style>{`@keyframes gc-ask-up { from { transform: translateY(24px); opacity: 0 } to { transform: none; opacity: 1 } }`}</style>
       <div role="dialog" aria-live="polite" style={{
         width: 'min(100%, 520px)', background: '#fff', color: 'var(--ink)',
-        border: '2.5px solid var(--ink)', borderRadius: 24, boxShadow: '0 6px 0 var(--ink)',
+        border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-card)', boxShadow: '0 6px 0 var(--ink)',
         padding: '18px 18px 16px', animation: 'gc-ask-up 0.28s ease-out', fontFamily: 'var(--font-body)',
       }}>
         {done ? (
-          <div style={{ background: 'var(--retro-green)', color: '#fff', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.3 }}>
+          <div style={{ background: 'var(--retro-green)', color: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.3 }}>
             ✓ {done}
           </div>
         ) : (
@@ -223,7 +223,7 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
               {mission ? 'Mission done' : 'Planet ask'}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span aria-hidden style={{ flexShrink: 0, width: 54, height: 54, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+              <span aria-hidden style={{ flexShrink: 0, width: 54, height: 54, borderRadius: '50%', background: 'var(--terracotta)', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
                 🪐
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>

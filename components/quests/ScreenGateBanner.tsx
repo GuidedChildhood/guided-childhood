@@ -99,7 +99,7 @@ export default function ScreenGateBanner({
     setStarting(false)
   }
   const startChip = (active: boolean): React.CSSProperties => ({
-    padding: '6px 11px', borderRadius: 100, cursor: 'pointer',
+    padding: '6px 11px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
     border: `2px solid ${active ? 'var(--terracotta)' : 'var(--ink)'}`,
     background: active ? '#fff' : 'rgba(255,255,255,0.55)',
     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', flexShrink: 0,
@@ -137,11 +137,11 @@ export default function ScreenGateBanner({
 
       <div style={{
         background: locked ? 'var(--danger-bg)' : 'var(--stage-4)',
-        border: `2px solid ${locked ? 'var(--danger)' : 'var(--ink)'}`, boxShadow: '0 4px 0 var(--ink)',
-        borderRadius: '14px', padding: '13px 15px',
+        border: `2px solid ${locked ? 'var(--danger)' : 'var(--ink)'}`, boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-tile)', padding: '13px 15px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: locked ? '10px' : 0 }}>
-          <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 'var(--text-lg)' }}>
+          <span aria-hidden style={{ width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 'var(--text-lg)' }}>
             {locked ? '🔒' : <HappyIcon name="cheer" size={28} />}
           </span>
           <div style={{ minWidth: 0 }}>
@@ -159,7 +159,7 @@ export default function ScreenGateBanner({
         {/* Co-view: no child device to press Start, so the parent starts the
             timer here and the minutes are recorded to the week. */}
         {!locked && coView && (
-          <div style={{ marginTop: 12, borderTop: '2px solid var(--ink)', paddingTop: 12 }}>
+          <div style={{ marginTop: 12, borderTop: 'var(--edge)', paddingTop: 12 }}>
             <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', fontWeight: 600, marginBottom: 9, lineHeight: 1.45 }}>
               Watching together on a shared screen? Start the timer here so it still counts in {childName}&apos;s week.
             </div>
@@ -178,7 +178,7 @@ export default function ScreenGateBanner({
               onClick={startTimer}
               disabled={starting}
               style={{
-                width: '100%', padding: '10px', borderRadius: 12, border: 'none',
+                width: '100%', padding: '10px', borderRadius: 'var(--radius-tile)', border: 'none',
                 cursor: starting ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: starting ? 'none' : '0 3px 0 var(--terracotta-dark)',
@@ -195,8 +195,8 @@ export default function ScreenGateBanner({
             {blocking.map(job => (
               <div key={job.questId} style={{
                 display: 'flex', alignItems: 'center', gap: '9px',
-                background: '#fff', border: '2px solid var(--ink)',
-                borderRadius: '12px', padding: '9px 12px',
+                background: '#fff', border: 'var(--edge)',
+                borderRadius: 'var(--radius-tile)', padding: '9px 12px',
               }}>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {job.title}
@@ -204,7 +204,7 @@ export default function ScreenGateBanner({
                 {job.count > 1 && (
                   <span style={{
                     flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                    background: 'var(--danger)', color: '#fff', borderRadius: '100px', padding: '3px 9px',
+                    background: 'var(--danger)', color: '#fff', borderRadius: 'var(--radius-pill)', padding: '3px 9px',
                   }}>
                     ×{job.count}
                   </span>

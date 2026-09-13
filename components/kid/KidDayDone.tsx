@@ -155,7 +155,7 @@ export default function KidDayDone({
 
   const tile = (bg: string, border: string, eyebrow: string, big: string, small: string) => (
     <div className="gc-dd-tile" style={{
-      flex: 1, minWidth: 0, background: '#fff', border: `2px solid ${border}`, borderRadius: 16,
+      flex: 1, minWidth: 0, background: '#fff', border: `2px solid ${border}`, borderRadius: 'var(--radius-btn)',
       padding: '10px 8px 9px', textAlign: 'center', boxShadow: `0 4px 0 ${border}`,
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: border, background: bg, borderRadius: 8, padding: '3px 4px', marginBottom: 6 }}>
@@ -185,7 +185,7 @@ export default function KidDayDone({
       <div style={{ position: 'relative', width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
         {/* The Friend, big, with the bubble as its speech. */}
         <div className="gc-dd-bubble" style={{
-          position: 'relative', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
+          position: 'relative', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
           padding: '12px 16px', maxWidth: 340, boxShadow: '0 2px 12px rgba(26,26,46,0.07)',
         }}>
           <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
@@ -250,7 +250,7 @@ export default function KidDayDone({
           onClick={() => { try { playKidSound('tap') } catch { /* sound off */ } onClose() }}
           className="gc-dd-rise"
           style={{
-            marginTop: 10, width: '100%', padding: '16px 28px', borderRadius: 16, border: 'none',
+            marginTop: 10, width: '100%', padding: '16px 28px', borderRadius: 'var(--radius-btn)', border: 'none',
             background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',

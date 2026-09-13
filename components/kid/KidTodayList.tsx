@@ -349,7 +349,7 @@ export default function KidTodayList({
           display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left',
           background: done ? 'var(--tint-sage)' : waiting ? '#FFF7E0' : '#fff',
           border: waiting ? '1.5px dashed var(--terracotta)' : 'none',
-          borderRadius: '20px', padding: '15px 17px',
+          borderRadius: 'var(--radius-card)', padding: '15px 17px',
           cursor: r.tappable ? 'pointer' : 'default',
           boxShadow: done ? '0 2px 0 rgba(0,0,0,0.10)' : waiting ? 'none' : '0 5px 0 rgba(0,0,0,0.18)',
           transform: done ? 'translateY(3px)' : 'none',
@@ -377,7 +377,7 @@ export default function KidTodayList({
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
-                border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
+                border: '1px solid var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '2px 8px',
               }}>
                 📵 Before screens
               </span>
@@ -407,7 +407,7 @@ export default function KidTodayList({
                 aria-pressed={on}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 5,
-                  padding: '5px 11px', borderRadius: '100px', cursor: 'pointer',
+                  padding: '5px 11px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                   fontSize: 'var(--text-sm)', fontWeight: 700,
                   background: on ? 'var(--tint-sage)' : '#fff',
                   color: on ? 'var(--ink-muted)' : 'var(--ink)',
@@ -451,7 +451,7 @@ export default function KidTodayList({
       disabled={!r.tappable}
       style={{
         display: 'flex', alignItems: 'center', gap: 12, width: '100%', textAlign: 'left',
-        background: '#fff', border: 'none', borderRadius: '16px', padding: '12px 15px',
+        background: '#fff', border: 'none', borderRadius: 'var(--radius-btn)', padding: '12px 15px',
         marginTop: idx === 0 ? '11px' : '-7px', position: 'relative', zIndex: 40 - idx,
         cursor: r.tappable ? 'pointer' : 'default',
         boxShadow: '0 4px 0 rgba(0,0,0,0.12)',
@@ -516,7 +516,7 @@ export default function KidTodayList({
       {newQuestCount > 0 && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: 11,
-          background: 'var(--terracotta)', borderRadius: 16,
+          background: 'var(--terracotta)', borderRadius: 'var(--radius-btn)',
           padding: '13px 15px', marginBottom: 12,
           boxShadow: '0 4px 0 var(--terracotta-dark)',
         }}>
@@ -543,7 +543,7 @@ export default function KidTodayList({
         <div style={{
           display: 'flex', alignItems: 'center', gap: 14,
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-          borderRadius: '20px', padding: '13px 17px', marginBottom: '12px',
+          borderRadius: 'var(--radius-card)', padding: '13px 17px', marginBottom: '12px',
         }}>
           <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>💛</span>
           <span style={{ flex: 1, minWidth: 0 }}>
@@ -561,7 +561,7 @@ export default function KidTodayList({
         // The proud strip: the day is done, the list gets out of the way.
         <div style={{
           display: 'flex', alignItems: 'center', gap: 13,
-          background: 'var(--tint-sage)', borderRadius: '20px', padding: '15px 18px',
+          background: 'var(--tint-sage)', borderRadius: 'var(--radius-card)', padding: '15px 18px',
           border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 5px 0 rgba(26,26,46,0.12)',
         }}>
           <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, flexShrink: 0 }}>🏅</span>
@@ -599,7 +599,7 @@ export default function KidTodayList({
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
                   width: '100%', background: 'rgba(255,255,255,0.55)', border: '1.5px dashed rgba(26,26,46,0.35)',
-                  borderRadius: '16px', padding: '12px 16px', cursor: 'pointer',
+                  borderRadius: 'var(--radius-btn)', padding: '12px 16px', cursor: 'pointer',
                 }}
               >
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>

@@ -132,7 +132,7 @@ export default function KidPrintPage({ job, token }: {
               <button
                 onClick={closeTab}
                 style={{
-                  padding: '12px 18px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
+                  padding: '12px 18px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
                   background: HAPPY.butter, color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                 }}
@@ -143,7 +143,7 @@ export default function KidPrintPage({ job, token }: {
             <button
               onClick={printNow}
               style={{
-                padding: '12px 16px', borderRadius: 16, border: '2px solid rgba(255,255,255,0.7)', cursor: 'pointer',
+                padding: '12px 16px', borderRadius: 'var(--radius-btn)', border: '2px solid rgba(255,255,255,0.7)', cursor: 'pointer',
                 background: 'transparent', color: '#fff',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               }}
@@ -173,7 +173,7 @@ export default function KidPrintPage({ job, token }: {
           <button
             onClick={printNow}
             style={{
-              display: 'block', width: '100%', padding: '14px 18px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
+              display: 'block', width: '100%', padding: '14px 18px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
               background: '#fff', color: HAPPY.ink, boxShadow: `0 5px 0 ${HAPPY.ink}`,
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
             }}

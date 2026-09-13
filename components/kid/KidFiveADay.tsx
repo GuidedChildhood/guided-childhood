@@ -330,7 +330,7 @@ export default function KidFiveADay({
         onClick={() => { playKidSound('tap'); setOpenAnyway(true) }}
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', width: '100%',
-          background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '22px',
+          background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
           padding: '14px 16px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
           cursor: 'pointer', textAlign: 'left', font: 'inherit', color: 'var(--ink)',
         }}
@@ -362,8 +362,8 @@ export default function KidFiveADay({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px',
-      padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      padding: '16px 16px 12px', marginBottom: '16px', boxShadow: 'var(--lift)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
         {/* The one ribbon heading on the screen (the Happy Newspaper pass):
@@ -381,10 +381,10 @@ export default function KidFiveADay({
 
       {/* One bar for the whole day. A child reads the row of ticks first and the
           bar second, so it stays thin and quiet. */}
-      <div style={{ height: 8, borderRadius: 100, background: 'var(--cream)', overflow: 'hidden', margin: '8px 0 14px' }}>
+      <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'var(--cream)', overflow: 'hidden', margin: '8px 0 14px' }}>
         <div style={{
           width: `${Math.round((doneCount / total) * 100)}%`, height: '100%',
-          background: t.hex, borderRadius: 100, transition: 'width 0.35s ease',
+          background: t.hex, borderRadius: 'var(--radius-pill)', transition: 'width 0.35s ease',
         }} />
       </div>
 
@@ -401,7 +401,7 @@ export default function KidFiveADay({
                 width: 26, height: 26, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 'var(--text-sm)', fontWeight: 900, lineHeight: 1, color: '#fff',
-                background: 'var(--retro-green)', border: '2px solid var(--ink)',
+                background: 'var(--retro-green)', border: 'var(--edge)',
               }}>
                 ✓
               </span>
@@ -444,7 +444,7 @@ export default function KidFiveADay({
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 'var(--text-lg)', lineHeight: 1,
                 background: isDone ? 'var(--retro-green)' : CRAYON.paper,
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
               }}>
                 {isDone ? '✓' : STEP_ICON[key] ? <HappyIcon name={STEP_ICON[key]!} size={32} /> : def.emoji}
               </span>
@@ -502,9 +502,9 @@ export default function KidFiveADay({
             display: 'flex', alignItems: 'center', gap: '11px', width: '100%',
             textAlign: 'left', cursor: 'pointer',
             background: '#fff',
-            border: '2px solid var(--ink)',
-            borderRadius: '16px', padding: '12px 13px',
-            boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)',
+            borderRadius: 'var(--radius-btn)', padding: '12px 13px',
+            boxShadow: 'var(--lift)',
             textDecoration: 'none',
           }
 

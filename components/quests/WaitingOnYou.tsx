@@ -62,7 +62,7 @@ export default function WaitingOnYou() {
       <div style={{
         display: 'flex', alignItems: 'center', gap: '15px',
         background: '#fff', border: `2px solid ${urgent > 0 ? '#E5484D' : 'var(--ink)'}`,
-        borderRadius: '22px', padding: '17px 20px',
+        borderRadius: 'var(--radius-card)', padding: '17px 20px',
         boxShadow: urgent > 0 ? '0 6px 22px -6px rgba(229,72,77,0.22)' : '0 2px 4px rgba(26,26,46,0.03), 0 14px 34px -12px rgba(26,26,46,0.12)',
       }}>
         <span style={{
@@ -73,7 +73,7 @@ export default function WaitingOnYou() {
           🔔
           <span style={{
             position: 'absolute', top: -7, right: -7, minWidth: 22, height: 22, padding: '0 5px',
-            borderRadius: '100px', background: urgent > 0 ? '#E5484D' : 'var(--ink-muted)', color: '#fff',
+            borderRadius: 'var(--radius-pill)', background: urgent > 0 ? '#E5484D' : 'var(--ink-muted)', color: '#fff',
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, lineHeight: '22px',
             textAlign: 'center', boxShadow: '0 0 0 2px #fff',
           }}>
@@ -90,7 +90,7 @@ export default function WaitingOnYou() {
         </span>
         <span style={{
           flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-          color: '#fff', background: urgent > 0 ? '#E5484D' : 'var(--deep-teal)', borderRadius: '13px', padding: '11px 18px',
+          color: '#fff', background: urgent > 0 ? '#E5484D' : 'var(--deep-teal)', borderRadius: 'var(--radius-tile)', padding: '11px 18px',
           boxShadow: urgent > 0 ? '0 4px 0 #B93B3F' : '0 4px 0 rgba(0,0,0,0.25)',
         }}>
           {urgent > 0 ? 'Review' : 'Open'}

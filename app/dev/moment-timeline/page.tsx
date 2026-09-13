@@ -24,7 +24,7 @@ export default function MomentTimelineFixture() {
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--app-bg)', padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: 22 }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 22 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: 8 }}>
             What came up today?
           </div>

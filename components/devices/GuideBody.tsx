@@ -43,7 +43,7 @@ export default function GuideBody({
   const ageReady = childAge >= guide.min_age
 
   return (
-    <div style={{ padding: '16px 18px 20px 18px', borderTop: '2px solid var(--ink)' }}>
+    <div style={{ padding: '16px 18px 20px 18px', borderTop: 'var(--edge)' }}>
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: '6px',
         background: ageReady ? 'var(--stage-2)' : 'var(--stage-5)',
@@ -70,7 +70,7 @@ export default function GuideBody({
         ))}
       </ol>
 
-      <div style={{ background: 'var(--stage-5)', border: '2px solid var(--ink)', borderLeft: '4px solid var(--terracotta)', borderRadius: '10px', padding: '12px 14px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '14px' }}>
+      <div style={{ background: 'var(--stage-5)', border: 'var(--edge)', borderLeft: '4px solid var(--terracotta)', borderRadius: '10px', padding: '12px 14px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '14px' }}>
         <strong style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Pathway note: </strong>
         {guide.note}
       </div>

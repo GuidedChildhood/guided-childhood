@@ -230,7 +230,7 @@ export default function KidFriendArrival({
             style={{
               position: 'absolute', top: 'max(14px, env(safe-area-inset-top))', right: 14, zIndex: 3,
               background: 'rgba(255,255,255,0.14)', color: '#FFF6DE', border: '1.5px solid rgba(255,246,222,0.4)',
-              borderRadius: 100, padding: '8px 14px', cursor: 'pointer',
+              borderRadius: 'var(--radius-pill)', padding: '8px 14px', cursor: 'pointer',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
             }}
           >
@@ -375,7 +375,7 @@ export default function KidFriendArrival({
 
             {/* The circle plate (the Happy Newspaper pass): a pale disc in the
                 friend's colour behind the cutout, inside the rays. */}
-            <span aria-hidden style={{ position: 'absolute', inset: '9%', borderRadius: '50%', background: `color-mix(in srgb, ${friend.colour} 30%, #FEF7E0)`, border: '2px solid var(--ink)', boxSizing: 'border-box' }} />
+            <span aria-hidden style={{ position: 'absolute', inset: '9%', borderRadius: '50%', background: `color-mix(in srgb, ${friend.colour} 30%, #FEF7E0)`, border: 'var(--edge)', boxSizing: 'border-box' }} />
             <div className="gc-fa-hero" style={{
               position: 'absolute', inset: 0,
               animation: 'gcFaBob 3.4s ease-in-out infinite',
@@ -433,7 +433,7 @@ export default function KidFriendArrival({
             className="gc-fa-say"
             onClick={() => { playKidSound('tap'); if (onOpenBook) onOpenBook(); else onClose() }}
             style={{
-              marginTop: 26, padding: '15px 34px', borderRadius: 16, border: 'none',
+              marginTop: 26, padding: '15px 34px', borderRadius: 'var(--radius-btn)', border: 'none',
               background: 'var(--terracotta, #EDC35F)', color: 'var(--ink, #1A1A2E)', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
               boxShadow: '0 5px 0 var(--terracotta-dark, #C99A28)',
@@ -446,7 +446,7 @@ export default function KidFriendArrival({
             <button
               onClick={() => { playKidSound('tap'); onClose() }}
               style={{
-                marginTop: 12, padding: '8px 14px', borderRadius: 12, border: 'none',
+                marginTop: 12, padding: '8px 14px', borderRadius: 'var(--radius-tile)', border: 'none',
                 background: 'transparent', color: 'rgba(255,246,222,0.6)', cursor: 'pointer',
                 fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-base)',
               }}

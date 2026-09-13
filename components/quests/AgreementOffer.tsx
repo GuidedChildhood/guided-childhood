@@ -52,7 +52,7 @@ export default function AgreementOffer({ childName }: { childName: string | null
   return (
     <div style={{
       background: 'var(--stage-2)', border: '1.5px solid var(--stage-2-bold)',
-      borderRadius: 20, padding: '20px 20px 22px', marginBottom: '20px',
+      borderRadius: 'var(--radius-card)', padding: '20px 20px 22px', marginBottom: '20px',
     }}>
       <p style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -81,7 +81,7 @@ export default function AgreementOffer({ childName }: { childName: string | null
           href="/dashboard/agreement?from=quests"
           style={{
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-            borderRadius: 16, padding: '13px 22px',
+            borderRadius: 'var(--radius-btn)', padding: '13px 22px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}

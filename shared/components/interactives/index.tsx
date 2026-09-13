@@ -95,7 +95,7 @@ function VerdictSort({ config }: {
           <span key={v} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             color: 'var(--ink)', background: 'var(--stage-1)', border: '1.5px solid var(--stage-1-bold)',
-            borderRadius: '100px', padding: '6px 14px',
+            borderRadius: 'var(--radius-pill)', padding: '6px 14px',
           }}>
             {v} · {tallies[i]}
           </span>
@@ -112,7 +112,7 @@ function VerdictSort({ config }: {
         <>
           <div ref={cardRef} style={{
             maxWidth: '400px', margin: '0 auto 18px', background: '#fff',
-            border: '1.5px solid var(--border)', borderRadius: '20px', padding: '16px 18px',
+            border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '16px 18px',
             boxShadow: '0 6px 0 var(--border)', textAlign: 'left',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
@@ -127,7 +127,7 @@ function VerdictSort({ config }: {
               <button key={v} onClick={() => pick(i)} disabled={picked !== null} style={{
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer',
                 color: '#fff', background: i === 0 ? 'var(--green-dark)' : i === verdicts.length - 1 ? 'var(--coral, #D4600A)' : 'var(--terracotta)',
-                border: 'none', borderRadius: '14px', padding: '12px 18px',
+                border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 18px',
                 boxShadow: '0 4px 0 rgba(0,0,0,0.18)', opacity: picked !== null ? 0.5 : 1,
               }}>
                 {v}
@@ -171,14 +171,14 @@ function SignalMeter({ config }: { config: { actions?: SignalAction[]; caption?:
         Every tap tells the feed &ldquo;more like this&rdquo;. Watch which taps shout loudest.
       </p>
       <div role="meter" aria-label="Signal strength" aria-valuemin={0} aria-valuemax={max} aria-valuenow={signal}
-        style={{ height: '22px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden', maxWidth: '440px', margin: '0 auto 18px' }}>
-        <div ref={barRef} style={{ height: '100%', width: '0%', borderRadius: '100px', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))' }} />
+        style={{ height: '22px', borderRadius: 'var(--radius-pill)', background: 'var(--border)', overflow: 'hidden', maxWidth: '440px', margin: '0 auto 18px' }}>
+        <div ref={barRef} style={{ height: '100%', width: '0%', borderRadius: 'var(--radius-pill)', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))' }} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px', maxWidth: '440px', margin: '0 auto' }}>
         {actions.map(a => (
           <button key={a.label} onClick={() => tap(a.weight)} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer',
-            color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: '16px',
+            color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-btn)',
             padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center',
           }}>
             <span style={{ fontSize: 'var(--text-xl)' }}>{a.emoji}</span>
@@ -320,7 +320,7 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
         {NODES.map(n => (
           <div key={n.label} style={{
             position: 'absolute', top: n.top, left: n.left, transform: 'translate(-50%, -50%)',
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)',
             padding: '8px 10px', width: '108px',
           }}>
             <div style={{ fontSize: 'var(--text-lg)' }}>{n.emoji}</div>
@@ -336,14 +336,14 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', maxWidth: '380px', margin: '0 auto 14px', lineHeight: 1.6 }}>
             Four laps, each faster than the last, and now the feed only shows more of the same. Knowing the recipe is how you open it back up.
           </p>
-          <button onClick={reset} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: '14px', padding: '11px 20px' }}>
+          <button onClick={reset} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '11px 20px' }}>
             Run it again
           </button>
         </>
       ) : (
         <button onClick={start} disabled={running} style={{
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer',
-          color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px',
+          color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: 'var(--radius-tile)',
           padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)', opacity: running ? 0.6 : 1,
         }}>
           {running ? `Lap ${lap} of ${laps}...` : 'Start watching'}
@@ -394,8 +394,8 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
     })
   }
 
-  const lane: React.CSSProperties = { position: 'relative', height: '64px', background: 'var(--warm, #fff)', border: '1.5px solid var(--border)', borderRadius: '16px', marginBottom: '10px', overflow: 'hidden' }
-  const racer: React.CSSProperties = { position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px', display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '7px 10px', width: '170px' }
+  const lane: React.CSSProperties = { position: 'relative', height: '64px', background: 'var(--warm, #fff)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', marginBottom: '10px', overflow: 'hidden' }
+  const racer: React.CSSProperties = { position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px', display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '7px 10px', width: '170px' }
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -431,7 +431,7 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
         </div>
       </div>
       {phase === 'ready' && (
-        <button onClick={() => run(false)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)' }}>
+        <button onClick={() => run(false)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)' }}>
           Run the race
         </button>
       )}
@@ -440,7 +440,7 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto 12px', lineHeight: 1.6 }}>
             <strong>The outrage post wins by miles.</strong> Not because it is true, because reactions are the fuel. Now calm the reactions: what if people paused instead of raging?
           </p>
-          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer', color: '#fff', background: 'var(--green-dark, #2E7D5A)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}>
+          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', cursor: 'pointer', color: '#fff', background: 'var(--green-dark, #2E7D5A)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 24px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}>
             Calm the reactions, race again
           </button>
         </>
@@ -483,11 +483,11 @@ function ClassTally({ config }: { config: { question?: string; options?: string[
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{opt}</span>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)' }}>{counts[i]}</span>
                 </div>
-                <div style={{ height: '12px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${pct}%`, borderRadius: '100px', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))', transition: 'width 0.45s cubic-bezier(0.22,1,0.36,1)' }} />
+                <div style={{ height: '12px', borderRadius: 'var(--radius-pill)', background: 'var(--border)', overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${pct}%`, borderRadius: 'var(--radius-pill)', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))', transition: 'width 0.45s cubic-bezier(0.22,1,0.36,1)' }} />
                 </div>
               </div>
-              <button onClick={() => bump(i, 1)} aria-label={`One more for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: '12px', border: 'none', background: 'var(--terracotta)', fontWeight: 900, fontSize: 'var(--text-xl)', cursor: 'pointer', color: 'var(--ink)', boxShadow: '0 3px 0 var(--terracotta-dark, #C99A28)', flexShrink: 0 }}>+</button>
+              <button onClick={() => bump(i, 1)} aria-label={`One more for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: 'var(--radius-tile)', border: 'none', background: 'var(--terracotta)', fontWeight: 900, fontSize: 'var(--text-xl)', cursor: 'pointer', color: 'var(--ink)', boxShadow: '0 3px 0 var(--terracotta-dark, #C99A28)', flexShrink: 0 }}>+</button>
             </div>
           )
         })}

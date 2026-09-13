@@ -36,9 +36,9 @@ export default function TonightConfirm({
 
   const BTN: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-    width: '100%', padding: '15px 18px', borderRadius: 16, cursor: 'pointer',
+    width: '100%', padding: '15px 18px', borderRadius: 'var(--radius-btn)', cursor: 'pointer',
     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-    border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+    border: 'var(--edge)', boxShadow: 'var(--lift)',
   }
 
   return (

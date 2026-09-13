@@ -42,7 +42,7 @@ export default function RefFriendArrivalPage() {
 
         <label style={{
           display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer',
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)',
           padding: '12px 14px', marginBottom: 16,
         }}>
           <input type="checkbox" checked={useVideo} onChange={e => setUseVideo(e.target.checked)} style={{ width: 18, height: 18 }} />
@@ -61,7 +61,7 @@ export default function RefFriendArrivalPage() {
               onClick={() => setPlaying(c)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
-                background: '#fff', border: `2px solid ${c.colour}`, borderRadius: 16,
+                background: '#fff', border: `2px solid ${c.colour}`, borderRadius: 'var(--radius-btn)',
                 padding: '13px 15px', cursor: 'pointer', boxShadow: `0 4px 0 ${c.colour}55`,
               }}
             >

@@ -161,13 +161,13 @@ export default function ExploreGrid({ scriptHref = '/dashboard/scripts' }: { scr
                   // match, and because it is a minimum it can only ever grow a
                   // tile, never clip one.
                   minHeight: 180,
-                  border: '2px solid var(--ink)', borderRadius: '16px',
-                  padding: '13px 6px 11px', boxShadow: '0 4px 0 var(--ink)',
+                  border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+                  padding: '13px 6px 11px', boxShadow: 'var(--lift)',
                 }}
               >
                 <span style={{
-                  width: 58, height: 58, borderRadius: '13px', background: g.plate,
-                  border: '2px solid var(--ink)', boxSizing: 'border-box',
+                  width: 58, height: 58, borderRadius: 'var(--radius-tile)', background: g.plate,
+                  border: 'var(--edge)', boxSizing: 'border-box',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)', flexShrink: 0,
                 }}>
                   {t.icon

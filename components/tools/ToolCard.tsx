@@ -30,12 +30,12 @@ export default function ToolCard({ tool }: { tool: Tool }) {
   const grade = GRADE[tool.evidence_grade] ?? GRADE.emerging
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px 20px', marginBottom: '14px', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '14px', boxShadow: 'var(--lift)' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           {tool.category}
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: grade.fg, background: grade.bg, borderRadius: '100px', padding: '4px 10px', whiteSpace: 'nowrap' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: grade.fg, background: grade.bg, borderRadius: 'var(--radius-pill)', padding: '4px 10px', whiteSpace: 'nowrap' }}>
           {grade.label}
         </span>
       </div>
@@ -76,7 +76,7 @@ export default function ToolCard({ tool }: { tool: Tool }) {
 const ctaStyle: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', gap: '6px',
   background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-  border: 'none', borderRadius: '12px', padding: '10px 16px',
+  border: 'none', borderRadius: 'var(--radius-tile)', padding: '10px 16px',
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
   boxShadow: '0 4px 0 var(--terracotta-dark)',
 }

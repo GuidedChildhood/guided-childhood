@@ -101,7 +101,7 @@ export default function ScreenTimeDealSheet({ childName, stars, facts = {} }: {
             { title: 'Set together', sub: 'We hold it together', h: 136, on: true },
             { title: 'Set by me', sub: 'I hold it myself', h: 176, on: false },
           ].map(step => (
-            <div key={step.title} style={{ flex: 1, height: step.h, boxSizing: 'border-box', border: `3px solid ${INK}`, borderRadius: 16, background: ex && step.on ? CRAYON.butter : '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 10 }}>
+            <div key={step.title} style={{ flex: 1, height: step.h, boxSizing: 'border-box', border: `3px solid ${INK}`, borderRadius: 'var(--radius-btn)', background: ex && step.on ? CRAYON.butter : '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 10 }}>
               <TickCircle size={26} sample={step.on} />
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: INK, lineHeight: 1.1, textAlign: 'center' }}>{step.title}</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: ex && step.on ? INK : INK_MUTED, textAlign: 'center' }}>{step.sub}</div>

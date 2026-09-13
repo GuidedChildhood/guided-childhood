@@ -50,7 +50,7 @@ export default function KidTermPreview({
         onClick={() => setOpen(true)}
         style={{
           display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
-          background: '#fff', border: '1.5px solid rgba(26,26,46,0.10)', borderRadius: 16,
+          background: '#fff', border: '1.5px solid rgba(26,26,46,0.10)', borderRadius: 'var(--radius-btn)',
           boxShadow: '0 3px 0 rgba(26,26,46,0.08)', padding: '11px 14px', marginBottom: 16,
           cursor: 'pointer', fontFamily: 'var(--font-body)',
         }}
@@ -66,7 +66,7 @@ export default function KidTermPreview({
 
   return (
     <section style={{
-      background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 20,
+      background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
       padding: '16px 18px', marginBottom: 16, boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
@@ -106,7 +106,7 @@ export default function KidTermPreview({
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {preview.subjects.map(s => (
           <div key={s.label} style={{
-            background: 'var(--cream)', borderRadius: 14, padding: '11px 13px',
+            background: 'var(--cream)', borderRadius: 'var(--radius-tile)', padding: '11px 13px',
           }}>
             <div style={{
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',

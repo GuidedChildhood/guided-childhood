@@ -112,7 +112,7 @@ export default async function RefApplication({
           display: 'flex', alignItems: 'flex-start', gap: 9,
           background: onTrack ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
           border: `1.5px solid ${onTrack ? '#C9DDD5' : 'var(--terracotta)'}`,
-          borderRadius: 14, padding: '11px 14px', marginBottom: 14,
+          borderRadius: 'var(--radius-tile)', padding: '11px 14px', marginBottom: 14,
         }}>
           <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', lineHeight: 1.4 }}>🕰️</span>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>

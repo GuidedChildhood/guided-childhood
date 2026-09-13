@@ -70,7 +70,7 @@ export default function DrawnSheetsFixture() {
       <div style={{ minHeight: '100dvh', background: '#3B3F47', padding: 16, fontFamily: 'var(--font-body)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 420, margin: '0 auto' }}>
           {DRAWN_KEYS.filter(k => k !== 'mission-sheet').map(k => (
-            <div key={k} style={{ background: '#fff', border: '2px solid #1A1A2E', borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 0 #1A1A2E' }}>
+            <div key={k} style={{ background: '#fff', border: '2px solid #1A1A2E', borderRadius: 'var(--radius-card)', overflow: 'hidden', boxShadow: '0 4px 0 #1A1A2E' }}>
               <div style={{ position: 'relative', aspectRatio: '3 / 3.6', borderBottom: '2px solid #1A1A2E' }}>
                 <DrawnCover spec={spec(k)} />
               </div>
@@ -87,12 +87,12 @@ export default function DrawnSheetsFixture() {
     <div style={{ minHeight: '100dvh', background: 'var(--app-bg)', padding: 20, fontFamily: 'var(--font-body)' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: 20 }}>
         {DRAWN_KEYS.filter(k => k !== 'mission-sheet').map(k => (
-          <a key={k} href={`/dev/drawn-sheets?key=${k}${example ? '&example=1' : ''}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
+          <a key={k} href={`/dev/drawn-sheets?key=${k}${example ? '&example=1' : ''}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
             <DrawnPaper spec={spec(k)} />
           </a>
         ))}
         {MISSIONS_FOR_PRINT.map(m => (
-          <a key={m.key} href={`/dev/drawn-sheets?key=mission-sheet&mission=${m.key}${example ? '&example=1' : ''}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
+          <a key={m.key} href={`/dev/drawn-sheets?key=mission-sheet&mission=${m.key}${example ? '&example=1' : ''}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', overflow: 'hidden', boxShadow: '0 8px 30px rgba(26,26,46,0.10)' }}>
             <DrawnPaper spec={missionSpec(m.key)} />
           </a>
         ))}

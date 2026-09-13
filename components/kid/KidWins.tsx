@@ -42,7 +42,7 @@ export type WinRecord = {
 function Stat({ n, label, sub, colour }: { n: number | string; label: string; sub?: string; colour: string }) {
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 18,
+      background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
       padding: '14px 12px', textAlign: 'center', boxShadow: `0 4px 0 ${colour}`,
     }}>
       <div style={{
@@ -86,7 +86,7 @@ export default function KidWins({
         onClick={e => e.stopPropagation()}
         style={{
           width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto',
-          background: 'var(--cream)', borderRadius: 24, padding: '22px 20px',
+          background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '22px 20px',
           boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)',
         }}
       >
@@ -134,7 +134,7 @@ export default function KidWins({
                 nothing here ever says a run ended, or was lost, or is at risk. */}
             {r.currentRun > 1 && (
               <div style={{
-                background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', borderRadius: 16,
+                background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', borderRadius: 'var(--radius-btn)',
                 padding: '12px 14px', marginBottom: 12,
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700,
                 color: 'var(--ink)', lineHeight: 1.4,

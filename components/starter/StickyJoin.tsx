@@ -82,7 +82,7 @@ export default function StickyJoin({
         position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 40,
         padding: '10px 16px calc(10px + env(safe-area-inset-bottom))',
         background: 'rgba(250,249,246,0.94)', backdropFilter: 'blur(8px)',
-        borderTop: '2px solid var(--ink)',
+        borderTop: 'var(--edge)',
         transform: show ? 'translateY(0)' : 'translateY(115%)',
         transition: 'transform 0.28s cubic-bezier(0.22,1,0.36,1)',
         pointerEvents: show ? 'auto' : 'none',
@@ -97,7 +97,7 @@ export default function StickyJoin({
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             width: '100%', padding: '14px 18px', textDecoration: 'none',
             background: 'var(--terracotta)', color: 'var(--ink)',
-            border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
           }}
         >

@@ -64,16 +64,16 @@ export default function TermPreviewCard({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '18px 20px', marginBottom: 18, position: 'relative',
-      boxShadow: '0 4px 0 var(--ink)',
+      boxShadow: 'var(--lift)',
     }}>
       <button
         onClick={dismiss}
         aria-label="Not now"
         style={{
           position: 'absolute', top: 12, right: 12, width: 30, height: 30,
-          borderRadius: '50%', border: '2px solid var(--ink)', background: 'var(--cream)',
+          borderRadius: '50%', border: 'var(--edge)', background: 'var(--cream)',
           color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
@@ -113,8 +113,8 @@ export default function TermPreviewCard({
           {preview.subjects.map(s => (
             <span key={s.label} style={{
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700,
-              color: 'var(--ink)', background: 'var(--cream)', border: '2px solid var(--ink)',
-              borderRadius: 100, padding: '5px 11px', lineHeight: 1.35,
+              color: 'var(--ink)', background: 'var(--cream)', border: 'var(--edge)',
+              borderRadius: 'var(--radius-pill)', padding: '5px 11px', lineHeight: 1.35,
             }}>
               {s.label}
             </span>

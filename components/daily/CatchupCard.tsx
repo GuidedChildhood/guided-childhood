@@ -37,8 +37,8 @@ export default function CatchupCard({ catchup, childName }: {
     <section
       aria-label="What happened while you were away"
       style={{
-        background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-        borderRadius: 20, padding: '18px 17px', marginBottom: 16,
+        background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-card)', padding: '18px 17px', marginBottom: 16,
       }}
     >
       <span style={{
@@ -81,7 +81,7 @@ export default function CatchupCard({ catchup, childName }: {
         <div style={{
           marginTop: lines.length > 0 ? 14 : 8,
           paddingTop: lines.length > 0 ? 12 : 0,
-          borderTop: lines.length > 0 ? '2px solid var(--ink)' : 'none',
+          borderTop: lines.length > 0 ? 'var(--edge)' : 'none',
         }}>
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -104,7 +104,7 @@ export default function CatchupCard({ catchup, childName }: {
             style={{
               display: 'inline-block', marginTop: 11,
               background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-              borderRadius: 13, padding: '10px 16px',
+              borderRadius: 'var(--radius-tile)', padding: '10px 16px',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}

@@ -62,7 +62,7 @@ export default function HelpingHandSheet({ childName, stars }: { childName: stri
       </div>
 
       {/* The palm sentence */}
-      <div style={{ border: `3px solid ${INK}`, borderRadius: 18, padding: '12px 18px 14px', flexShrink: 0, marginTop: 6, background: ex ? CRAYON.paper : '#fff' }}>
+      <div style={{ border: `3px solid ${INK}`, borderRadius: 'var(--radius-card)', padding: '12px 18px 14px', flexShrink: 0, marginTop: 6, background: ex ? CRAYON.paper : '#fff' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: INK, lineHeight: 1.3 }}>
           If something online feels odd, wrong or scary, I stop, I do not reply, and I tell
         </div>

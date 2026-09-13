@@ -1332,7 +1332,7 @@ export default function KidQuestScreen({
         }}>
           <div style={{
             background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: '14px', padding: '12px 18px', maxWidth: '420px',
+            borderRadius: 'var(--radius-tile)', padding: '12px 18px', maxWidth: '420px',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center',
             boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
           }}>
@@ -1345,7 +1345,7 @@ export default function KidQuestScreen({
         {/* First visit: how this works, in kid language */}
         {showWelcome && (
           <div style={{
-            background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px',
+            background: '#fff', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '16px',
             boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 10px' }}>
@@ -1373,7 +1373,7 @@ export default function KidQuestScreen({
               onClick={dismissWelcome}
               style={{
                 width: '100%', padding: '12px', background: 'var(--terracotta)', color: 'var(--ink)',
-                border: 'none', borderRadius: '12px', cursor: 'pointer',
+                border: 'none', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
@@ -1545,7 +1545,7 @@ export default function KidQuestScreen({
             onClick={() => playKidSound('tap')}
             style={{
               display: 'block', textDecoration: 'none', background: '#fff',
-              border: '2px solid var(--retro-green)', borderRadius: 18,
+              border: '2px solid var(--retro-green)', borderRadius: 'var(--radius-card)',
               padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--retro-green-dark, #2E7D5B)',
             }}
           >
@@ -1564,7 +1564,7 @@ export default function KidQuestScreen({
               Your grown up read this one first and thought it would help. It takes a few minutes.
             </p>
             <div style={{
-              textAlign: 'center', background: 'var(--retro-green)', color: '#fff', borderRadius: 14,
+              textAlign: 'center', background: 'var(--retro-green)', color: '#fff', borderRadius: 'var(--radius-tile)',
               padding: '12px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               boxShadow: '0 4px 0 var(--retro-green-dark, #2E7D5B)',
             }}>
@@ -1576,7 +1576,7 @@ export default function KidQuestScreen({
         {/* The sent printable: print it, do it, then send it to be
             confirmed like any printable. */}
         {assignedPrintable && !assignedSent && (
-          <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18, padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+          <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
             {/* The real product cover, so the child sees exactly what is coming.
                 A SHEET OF PAPER, not a letterbox. Justin, 11 August 2026, on
                 this exact card: "again this thumbnail does not look good."
@@ -1618,11 +1618,11 @@ export default function KidQuestScreen({
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
                   else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES }, mission: missionSheetFor(assignedPrintable.key) } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
                 }}
-                style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
+                style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
               </button>
               <button onClick={sendAssignedPrintable}
-                style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+                style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
                 I did it ⭐{assignedPrintable.stars}
               </button>
             </div>
@@ -1738,7 +1738,7 @@ export default function KidQuestScreen({
               ? 'Lovely balance. You have earned more than you have watched.'
               : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
           return (
-        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', overflow: 'hidden' }}>
+        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: 'var(--radius-card)', border: 'var(--edge)', boxShadow: 'var(--lift)', overflow: 'hidden' }}>
           <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {/* TWO ROWS, NOT ONE. Justin, 16:47, with the card wrapping one
                 word per line: "need to look tidier not messy." The star count,
@@ -1766,7 +1766,7 @@ export default function KidQuestScreen({
                 </span>
               </span>
               {streakDays > 0 && (
-                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '6px 9px' }}>
+                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '6px 9px' }}>
                   <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={18} color="var(--terracotta-dark)" /></span>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>{streakDays}</span>
                   <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
@@ -1783,7 +1783,7 @@ export default function KidQuestScreen({
               )}
             </div>
             {/* The hero: the balance we celebrate, or the gentle nudge to a job. */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: healthy ? 'var(--tint-sage)' : 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: healthy ? 'var(--tint-sage)' : 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
               <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{healthy ? '🌱' : '💪'}</span>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>{balanceMsg}</span>
             </div>
@@ -1853,8 +1853,8 @@ export default function KidQuestScreen({
             its own, empty bank or not, because that is the moment the whole
             idea is easiest to understand. */}
         {holidayLine && (
-          <div style={{ marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', padding: '15px 17px', display: 'flex', alignItems: 'flex-start', gap: 13 }}>
-            <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--tint-amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🌞</span>
+          <div style={{ marginBottom: '16px', background: '#fff', borderRadius: 'var(--radius-card)', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', padding: '15px 17px', display: 'flex', alignItems: 'flex-start', gap: 13 }}>
+            <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: 'var(--tint-amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🌞</span>
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
                 {holidaySpendable ? 'Holiday time' : 'Saving up'}
@@ -1971,7 +1971,7 @@ export default function KidQuestScreen({
             a warm toast points at a job or the timer. Free to wave away. */}
         {presenceNudge && (
           <div style={{ position: 'fixed', left: '50%', bottom: 'calc(18px + env(safe-area-inset-bottom))', transform: 'translateX(-50%)', zIndex: 125, width: 'min(94vw, 420px)' }}>
-            <div style={{ background: 'var(--cream)', borderRadius: 20, padding: '16px 18px', boxShadow: '0 12px 40px -8px rgba(0,0,0,0.55)' }}>
+            <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '16px 18px', boxShadow: '0 12px 40px -8px rgba(0,0,0,0.55)' }}>
               <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 4px' }}>
                 Been in here a while 👀
               </p>
@@ -1984,13 +1984,13 @@ export default function KidQuestScreen({
                     setPresenceNudge(false); presenceMinsRef.current = 0; playKidSound('tap')
                     try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
                   }}
-                  style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 13, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+                  style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
                 >
                   Do a job ⭐
                 </button>
                 <button
                   onClick={() => { setPresenceNudge(false); presenceMinsRef.current = 0; playKidSound('tap') }}
-                  style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 13, padding: '12px 18px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}
+                  style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 18px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}
                 >
                   OK
                 </button>
@@ -2014,7 +2014,7 @@ export default function KidQuestScreen({
           return (
             <div style={{
               background: dayComplete ? 'var(--terracotta)' : 'var(--cream)',
-              borderRadius: '16px', padding: '14px 18px', marginBottom: '12px',
+              borderRadius: 'var(--radius-btn)', padding: '14px 18px', marginBottom: '12px',
               boxShadow: dayComplete ? '0 5px 0 var(--terracotta-dark)' : 'none',
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
@@ -2044,7 +2044,7 @@ export default function KidQuestScreen({
             // Finished and ticked off: it drops away so the list stays fresh.
             if (goalDone) return null
             return (
-              <div style={{ background: 'var(--tint-sage)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px', textAlign: 'center' }}>
+              <div style={{ background: 'var(--tint-sage)', borderRadius: 'var(--radius-btn)', padding: '14px 18px', marginBottom: '20px', textAlign: 'center' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>🎉 Redeemed: {goal.title}</span>
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: '2px 0 10px' }}>Your grown up knows. Ask them to set a new goal!</span>
                 <button
@@ -2059,7 +2059,7 @@ export default function KidQuestScreen({
                       body: JSON.stringify({ token }),
                     }).catch(() => { /* localStorage still hides it here */ })
                   }}
-                  style={{ background: 'var(--retro-green)', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}
+                  style={{ background: 'var(--retro-green)', color: '#fff', border: 'none', borderRadius: 'var(--radius-tile)', padding: '10px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}
                 >
                   Got it, tick it off ✓
                 </button>
@@ -2067,7 +2067,7 @@ export default function KidQuestScreen({
             )
           }
           return (
-            <div style={{ background: ready ? 'var(--terracotta)' : 'var(--cream)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px', boxShadow: ready ? '0 5px 0 var(--terracotta-dark)' : 'none' }}>
+            <div style={{ background: ready ? 'var(--terracotta)' : 'var(--cream)', borderRadius: 'var(--radius-btn)', padding: '14px 18px', marginBottom: '20px', boxShadow: ready ? '0 5px 0 var(--terracotta-dark)' : 'none' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
                 <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: ready ? 'var(--ink)' : 'var(--ink-soft)' }}>Saving for: {goal.title}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: ready ? 'var(--ink)' : 'var(--ink-soft)' }}>
@@ -2088,12 +2088,12 @@ export default function KidQuestScreen({
                       Cash in {goal.stars_needed} stars for {goal.title}?
                     </p>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                      <button onClick={redeemGoal} disabled={goalBusy} style={{ flex: 1, padding: '11px', borderRadius: '13px', border: 'none', cursor: goalBusy ? 'default' : 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 rgba(0,0,0,0.22)' }}>{goalBusy ? 'Redeeming…' : 'Yes, redeem it!'}</button>
-                      <button onClick={() => setGoalConfirm(false)} disabled={goalBusy} style={{ flexShrink: 0, padding: '11px 16px', borderRadius: '13px', border: 'none', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)' }}>Not yet</button>
+                      <button onClick={redeemGoal} disabled={goalBusy} style={{ flex: 1, padding: '11px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: goalBusy ? 'default' : 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 rgba(0,0,0,0.22)' }}>{goalBusy ? 'Redeeming…' : 'Yes, redeem it!'}</button>
+                      <button onClick={() => setGoalConfirm(false)} disabled={goalBusy} style={{ flexShrink: 0, padding: '11px 16px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)' }}>Not yet</button>
                     </div>
                   </div>
                 ) : (
-                  <button onClick={() => setGoalConfirm(true)} style={{ width: '100%', marginTop: '12px', padding: '12px', borderRadius: '13px', border: 'none', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 rgba(0,0,0,0.18)' }}>
+                  <button onClick={() => setGoalConfirm(true)} style={{ width: '100%', marginTop: '12px', padding: '12px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 rgba(0,0,0,0.18)' }}>
                     🎉 You saved enough! Redeem it
                   </button>
                 )
@@ -2156,7 +2156,7 @@ export default function KidQuestScreen({
               onClick={askForMore}
               disabled={askedMore}
               style={{
-                padding: '12px 22px', borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
+                padding: '12px 22px', borderRadius: 'var(--radius-tile)', cursor: askedMore ? 'default' : 'pointer',
                 background: askedMore ? 'var(--cream)' : 'var(--terracotta)',
                 color: askedMore ? 'var(--ink-soft)' : 'var(--ink)',
                 border: askedMore ? '1.5px solid rgba(26,26,46,0.1)' : 'none',
@@ -2179,8 +2179,8 @@ export default function KidQuestScreen({
           onClick={() => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) }}
           style={{
             display: 'flex', alignItems: 'center', gap: '13px', width: '100%', textAlign: 'left', cursor: 'pointer',
-            marginTop: '18px', background: '#fff', border: '2px solid var(--ink)',
-            borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 var(--ink)',
+            marginTop: '18px', background: '#fff', border: 'var(--edge)',
+            borderRadius: 'var(--radius-card)', padding: '16px 18px', boxShadow: 'var(--lift)',
           }}
         >
           <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>💡</span>
@@ -2199,7 +2199,7 @@ export default function KidQuestScreen({
 
         {/* Quests waiting on other days, so done today never reads as done forever */}
         {laterQuests.length > 0 && (
-          <div style={{ marginTop: '22px', background: 'var(--cream)', borderRadius: '16px', padding: '14px 18px' }}>
+          <div style={{ marginTop: '22px', background: 'var(--cream)', borderRadius: 'var(--radius-btn)', padding: '14px 18px' }}>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>
               Coming up, not today
             </p>
@@ -2223,7 +2223,7 @@ export default function KidQuestScreen({
         {/* Lessons: two minutes, real skills, stars through the same approve loop */}
         {tab === 'lessons' && (
           activeLesson ? (
-            <div style={{ background: '#fff', borderRadius: '20px', padding: '20px', boxShadow: '0 6px 0 rgba(0,0,0,0.2)' }}>
+            <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '20px', boxShadow: '0 6px 0 rgba(0,0,0,0.2)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
                   {activeLesson.emoji} {activeLesson.title}
@@ -2261,7 +2261,7 @@ export default function KidQuestScreen({
                     onClick={() => setLessonCard(c => c + 1)}
                     style={{
                       width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
-                      border: 'none', borderRadius: '14px', cursor: 'pointer',
+                      border: 'none', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
                       boxShadow: '0 4px 0 var(--terracotta-dark)',
                     }}
@@ -2290,7 +2290,7 @@ export default function KidQuestScreen({
                             onClick={() => !answered && setQPicked(i)}
                             disabled={answered}
                             style={{
-                              padding: '14px 16px', borderRadius: '14px', textAlign: 'left',
+                              padding: '14px 16px', borderRadius: 'var(--radius-tile)', textAlign: 'left',
                               cursor: answered ? 'default' : 'pointer',
                               fontSize: 'var(--text-lg)', fontWeight: 600, lineHeight: 1.45,
                               background: showState ? (isRight ? 'var(--tint-sage)' : '#F6DBD3') : 'var(--cream)',
@@ -2316,7 +2316,7 @@ export default function KidQuestScreen({
                           }}
                           style={{
                             width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
-                            border: 'none', borderRadius: '14px', cursor: 'pointer',
+                            border: 'none', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
                             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
                             boxShadow: '0 4px 0 var(--terracotta-dark)',
                           }}
@@ -2346,7 +2346,7 @@ export default function KidQuestScreen({
                       onClick={() => finishLesson(activeLesson, qAnswers)}
                       style={{
                         width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
-                        border: 'none', borderRadius: '14px', cursor: 'pointer',
+                        border: 'none', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
                         boxShadow: '0 4px 0 var(--terracotta-dark)',
                       }}
@@ -2367,13 +2367,13 @@ export default function KidQuestScreen({
                   Games, Print. Each wears a red dot the moment a grown up pings
                   something new into it. */}
               {availableLessonTabs.length > 1 && (
-                <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '4px', marginBottom: '2px' }}>
+                <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: 'var(--radius-btn)', padding: '4px', marginBottom: '2px' }}>
                   {availableLessonTabs.map(t => {
                     const on = t.key === activeLessonTab
                     const subIcon: KidIconName = t.key === 'watch' ? 'watch' : t.key === 'games' ? 'games' : 'lessons'
                     return (
                       <button key={t.key} onClick={() => setLessonTab(t.key)} style={{
-                        position: 'relative', flex: 1, padding: '9px 4px', borderRadius: '12px', cursor: 'pointer', border: 'none',
+                        position: 'relative', flex: 1, padding: '9px 4px', borderRadius: 'var(--radius-tile)', cursor: 'pointer', border: 'none',
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                         background: on ? 'var(--terracotta)' : 'transparent',
@@ -2384,7 +2384,7 @@ export default function KidQuestScreen({
                         <KidIcon name={subIcon} size={19} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
                         {t.label}
                         {t.dot > 0 && (
-                          <span style={{ position: 'absolute', top: '-5px', right: '-2px', minWidth: 18, height: 18, padding: '0 4px', borderRadius: '100px', background: '#E5484D', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '18px', textAlign: 'center', boxShadow: '0 0 0 2px var(--cream)' }}>{t.dot}</span>
+                          <span style={{ position: 'absolute', top: '-5px', right: '-2px', minWidth: 18, height: 18, padding: '0 4px', borderRadius: 'var(--radius-pill)', background: '#E5484D', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '18px', textAlign: 'center', boxShadow: '0 0 0 2px var(--cream)' }}>{t.dot}</span>
                         )}
                       </button>
                     )
@@ -2705,7 +2705,7 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
   }
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             <KidIcon name="deal" size={24} color="var(--terracotta-dark)" /> Our family deal
@@ -2714,8 +2714,8 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {rows.map((r, i) => (
-            <div key={i} style={{ display: 'flex', gap: '13px', alignItems: 'center', background: '#fff', borderRadius: '16px', padding: '13px 15px' }}>
-              <span style={{ width: 42, height: 42, borderRadius: '12px', background: r.tint, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={r.icon} size={23} color={r.iconColor} /></span>
+            <div key={i} style={{ display: 'flex', gap: '13px', alignItems: 'center', background: '#fff', borderRadius: 'var(--radius-btn)', padding: '13px 15px' }}>
+              <span style={{ width: 42, height: 42, borderRadius: 'var(--radius-tile)', background: r.tint, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={r.icon} size={23} color={r.iconColor} /></span>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{r.title}</div>
                 <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{r.body}</div>
@@ -2731,7 +2731,7 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
               My timer rule
             </div>
-            <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px' }}>
+            <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
               <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
                 {contractRule}
               </p>
@@ -2756,7 +2756,7 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
               {agreementItems.map((it, i) => {
                 const open = openPromise === i
                 return (
-                  <div key={i} style={{ background: '#fff', borderRadius: '14px', overflow: 'hidden' }}>
+                  <div key={i} style={{ background: '#fff', borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
                     <button
                       onClick={() => setOpenPromise(open ? null : i)}
                       aria-expanded={open}
@@ -2815,7 +2815,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
   const preview = resolveTheme(chosenAccent)
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             <KidIcon name="star" size={22} color="var(--terracotta-dark)" /> Make it mine
@@ -2842,7 +2842,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
                 aria-pressed={on}
                 aria-disabled={locked}
                 aria-label={locked ? `${b.name}, not earned yet` : b.name}
-                style={{ flex: '1 0 26%', minWidth: 72, cursor: locked ? 'not-allowed' : 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', opacity: locked ? 0.7 : 1, position: 'relative' }}
+                style={{ flex: '1 0 26%', minWidth: 72, cursor: locked ? 'not-allowed' : 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: 'var(--radius-btn)', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', opacity: locked ? 0.7 : 1, position: 'relative' }}
               >
                 <span style={{ width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: locked ? 'grayscale(1)' : 'none' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2885,7 +2885,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
         {/* The colour bar: each swatch is the real background it sets, so the
             child picks the whole screen, not a ring. A live preview strip sits
             above it so the change is obvious before they even close. */}
-        <div style={{ height: 54, borderRadius: '14px', background: preview.bg, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(26,26,46,0.12)' }}>
+        <div style={{ height: 54, borderRadius: 'var(--radius-tile)', background: preview.bg, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(26,26,46,0.12)' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: preview.ink }}>My app</span>
         </div>
         <div style={{ display: 'flex', gap: '9px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
@@ -2894,7 +2894,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
             const on = chosenAccent === id
             return (
               <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ flexShrink: 0, cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: 50, height: 50, borderRadius: '14px', background: a.bg, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
+                <span style={{ width: 50, height: 50, borderRadius: 'var(--radius-tile)', background: a.bg, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: on ? 'var(--ink)' : 'var(--ink-soft)' }}>{a.name}</span>
               </button>
             )
@@ -2936,7 +2936,7 @@ function NotesFromGrownUp({ token, notes }: {
   return (
     <div style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
       {visible.map(n => (
-        <div key={n.id} style={{ background: '#fff', borderRadius: '18px', padding: '16px 18px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
+        <div key={n.id} style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '16px 18px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9 }}>
             <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1 }}>💛</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
@@ -2949,7 +2949,7 @@ function NotesFromGrownUp({ token, notes }: {
           <button
             onClick={() => gotIt(n.id)}
             style={{
-              width: '100%', padding: '12px', borderRadius: '14px', border: 'none', cursor: 'pointer',
+              width: '100%', padding: '12px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
@@ -2972,12 +2972,12 @@ export function KidStarChartHero({ token }: { token: string }) {
       onClick={() => playKidSound('tap')}
       style={{
         display: 'flex', alignItems: 'center', gap: 13, textDecoration: 'none',
-        background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18,
+        background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
         boxShadow: '0 5px 0 var(--terracotta-dark)', padding: '14px 16px', marginBottom: 12,
       }}
     >
       <span aria-hidden style={{
-        width: 48, height: 48, borderRadius: 14, background: 'var(--terracotta-lt)', flexShrink: 0,
+        width: 48, height: 48, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)',
       }}>
         ⭐
@@ -3007,12 +3007,12 @@ export function KidBucketHero({ token }: { token: string }) {
       onClick={() => playKidSound('tap')}
       style={{
         display: 'flex', alignItems: 'center', gap: 13, textDecoration: 'none',
-        background: '#fff', border: '2px solid var(--border)', borderRadius: 18,
+        background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
         boxShadow: '0 4px 0 var(--border)', padding: '14px 16px', marginBottom: 12,
       }}
     >
       <span aria-hidden style={{
-        width: 48, height: 48, borderRadius: 14, background: 'var(--tint-sage, #EAF3EE)', flexShrink: 0,
+        width: 48, height: 48, borderRadius: 'var(--radius-tile)', background: 'var(--tint-sage, #EAF3EE)', flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)',
       }}>
         🪣
@@ -3063,12 +3063,12 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
         href={`/k/${token}/week`}
         style={{
           display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
-          boxShadow: '0 4px 0 var(--ink)', padding: '10px 14px 10px 10px', marginBottom: 16,
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+          boxShadow: 'var(--lift)', padding: '10px 14px 10px 10px', marginBottom: 16,
         }}
       >
         {/* The drawn calendar in a crayon well (the Happy Newspaper pass). */}
-        <span aria-hidden style={{ width: 48, height: 48, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: CRAYON.paper, border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span aria-hidden style={{ width: 48, height: 48, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: CRAYON.paper, border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
           <HappyIcon name="calendar" size={32} />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -3108,7 +3108,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
       {i.time && (
         <span style={{
           flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-          padding: '3px 9px', borderRadius: '100px',
+          padding: '3px 9px', borderRadius: 'var(--radius-pill)',
           background: hot ? '#FDECEC' : 'var(--tint-sage)',
           color: hot ? '#B93B3F' : 'var(--ink-soft)',
         }}>
@@ -3120,9 +3120,9 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
 
   return (
     <div style={{
-      background: '#fff', borderRadius: '18px', padding: '14px 16px', marginBottom: '16px',
-      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--ink)',
-      boxShadow: anyUrgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--ink)',
+      background: '#fff', borderRadius: 'var(--radius-card)', padding: '14px 16px', marginBottom: '16px',
+      border: anyUrgent ? '2.5px solid #E5484D' : 'var(--edge)',
+      boxShadow: anyUrgent ? '0 4px 0 #B93B3F' : 'var(--lift)',
       animation: anyUrgent ? 'gcKidSchoolPulse 1.3s ease-in-out infinite' : undefined,
     }}>
       <style>{`@keyframes gcKidSchoolPulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }`}</style>
@@ -3181,7 +3181,7 @@ function KidWeekChart({ data, weekStars }: { data: { label: string; count: numbe
     : activeDays >= 3 ? `Great going, ${activeDays} days this week`
     : `${activeDays} day${activeDays === 1 ? '' : 's'} this week, keep it up`
   return (
-    <div style={{ background: '#fff', borderRadius: '18px', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
+    <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '12px' }}>
         {headline}
       </div>
@@ -3217,7 +3217,7 @@ function KidWeekChart({ data, weekStars }: { data: { label: string; count: numbe
 function bigCardShell(done: boolean): React.CSSProperties {
   return {
     display: 'block', width: '100%', textAlign: 'left', padding: 0,
-    background: '#fff', border: 'none', borderRadius: '18px', overflow: 'hidden',
+    background: '#fff', border: 'none', borderRadius: 'var(--radius-card)', overflow: 'hidden',
     textDecoration: 'none', cursor: done ? 'default' : 'pointer',
     boxShadow: done ? '0 2px 0 rgba(0,0,0,0.10)' : '0 5px 0 rgba(0,0,0,0.16)',
     transform: done ? 'translateY(3px)' : 'none',
@@ -3256,19 +3256,19 @@ function CardFace({
           <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.18))' }}>{emoji}</span>
         )}
         {pill && (
-          <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
+          <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: 'var(--radius-pill)', padding: '2px 7px' }}>
             {pill}
           </span>
         )}
         {isNew && (
-          <span style={{ position: 'absolute', top: '4px', right: '4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#fff', background: 'var(--coral, #D4600A)', borderRadius: '100px', padding: '2px 6px', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+          <span style={{ position: 'absolute', top: '4px', right: '4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#fff', background: 'var(--coral, #D4600A)', borderRadius: 'var(--radius-pill)', padding: '2px 6px', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
             New
           </span>
         )}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         {done && (
-          <span style={{ display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px', marginBottom: '4px' }}>
+          <span style={{ display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: 'var(--radius-pill)', padding: '2px 8px', marginBottom: '4px' }}>
             ✓ Done
           </span>
         )}

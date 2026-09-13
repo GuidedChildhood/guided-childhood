@@ -105,7 +105,7 @@ export function HappyPaper({ title, kicker, stars, deal, children }: {
         {children}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: DEEP, borderRadius: 14, padding: '10px 16px', marginTop: 12, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: DEEP, borderRadius: 'var(--radius-tile)', padding: '10px 16px', marginTop: 12, flexShrink: 0 }}>
         <span style={{ fontSize: 22, lineHeight: 1 }}>⭐</span>
         <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.35 }}>
           {deal}{stars > 0 ? ` Worth ${stars} ${stars === 1 ? 'star' : 'stars'} toward your screen time.` : ''}

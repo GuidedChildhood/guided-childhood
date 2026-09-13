@@ -54,7 +54,7 @@ export default function RefTimerNudge() {
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', fontWeight: 700, margin: '0 0 8px' }}>
               {label}
             </p>
-            <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 14 }}>
+            <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: 14 }}>
               <ChildRow kid={kid} onChange={() => {}} onAlarm={() => {}} />
             </div>
           </div>

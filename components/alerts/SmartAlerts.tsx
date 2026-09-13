@@ -77,15 +77,15 @@ export default function SmartAlerts({ suggestions }: { suggestions: Suggestion[]
         {shown.map((s, i) => (
           <div key={s.key} style={{
             display: 'flex', alignItems: 'center', gap: 4,
-            background: i === 0 ? 'var(--terracotta-lt)' : '#fff', border: '2px solid var(--ink)',
-            borderRadius: '14px', paddingRight: 4,
+            background: i === 0 ? 'var(--terracotta-lt)' : '#fff', border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', paddingRight: 4,
           }}>
             <Link href={s.href} style={{
               flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: '11px',
               textDecoration: 'none', padding: '11px 4px 11px 13px',
             }}>
               <span aria-hidden style={{
-                width: 34, height: 34, borderRadius: 10, background: '#fff', border: '2px solid var(--ink)',
+                width: 34, height: 34, borderRadius: 10, background: '#fff', border: 'var(--edge)',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-md)', lineHeight: 1, flexShrink: 0, boxSizing: 'border-box',
               }}>{s.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>

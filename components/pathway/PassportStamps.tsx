@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { StarShape } from '@/components/kid/HappyNewsBits'
 
 // The passport, gamified and live. Five stamps, one per stage. Each fills as
 // the family works through that stage's tasks (the same blend the pathway
@@ -93,8 +94,8 @@ export default function PassportStamps({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
-      padding: '20px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      padding: '20px', marginBottom: '20px', boxShadow: 'var(--lift)',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
@@ -177,12 +178,12 @@ export default function PassportStamps({
 
       {allEarned && (
         <div style={{
-          marginTop: '16px', background: 'var(--deep-teal)', borderRadius: '14px',
+          marginTop: '16px', background: 'var(--deep-teal)', borderRadius: 'var(--radius-tile)',
           padding: '14px 16px', textAlign: 'center',
           animation: drawn ? 'stampIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both' : 'none',
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#fff' }}>
-            🎉 Passport complete
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#fff', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <StarShape size={18} /> Passport complete
           </div>
           <div style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
             Every stage earned, all the way to 16. {childName === 'your child' ? 'Your child is' : `${childName} is`} prepared, educated and safe.

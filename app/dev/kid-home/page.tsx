@@ -34,7 +34,7 @@ export default function KidHomeFixture() {
         <KidAskBanner ask={{ id: 'a', device: 'tv', minutes: 10, status: 'pending' }} blockingJobs={[]} nudges={[{ id: 'n', message: 'Nearly there. One more job and the TV is yours.' }]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
         <KidAskBanner ask={{ id: 'b', device: 'tv', minutes: 30, status: 'approved' }} blockingJobs={[]} outstandingJobs={['Tidy my room']} nudges={[]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
         <StreakBar completedStreaks={1} earnedStages={0} />
-        <div style={{ background: '#fff', borderRadius: 22, padding: '16px', marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}><Ribbon>Your five for today</Ribbon><Ribbon tone="green">Today is done! 🎉</Ribbon></div>
+        <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '16px', marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}><Ribbon>Your five for today</Ribbon><Ribbon tone="green">Today is done! 🎉</Ribbon></div>
         <KidHomeTiles minutesReady={0} unlocked={false} rule={TIMER_RULE} onUseTime={noop} tiles={tiles} onFriends={noop} tellHref="#" />
         <div style={{ height: 24 }} />
         <KidHomeTiles minutesReady={30} unlocked rule={TIMER_RULE} onUseTime={noop} tiles={tiles.slice(0, 4)} onFriends={noop} tellHref={null} />

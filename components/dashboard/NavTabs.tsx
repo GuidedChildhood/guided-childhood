@@ -42,7 +42,7 @@ function NavTabsInner({ pendingAsks = 0, digiWord = 0, childId = null }: { pendi
     .sort((a, b) => b.href.length - a.href.length)[0]?.href
 
   return (
-    <nav style={{ display: 'flex', gap: '3px', flex: 1, background: 'rgba(247,244,238,0.7)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px', width: 'fit-content', flexGrow: 0, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: 'inset 0 1px 2px rgba(26,26,46,0.03)' }}>
+    <nav style={{ display: 'flex', gap: '3px', flex: 1, background: 'rgba(247,244,238,0.7)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px', width: 'fit-content', flexGrow: 0, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: 'inset 0 1px 2px rgba(26,26,46,0.03)' }}>
       {NAV_TABS.map(tab => {
         const showBadge = tab.href === '/dashboard/quests' && pendingAsks > 0
         const showWord = tab.href === '/dashboard/digi' && digiWord > 0
@@ -60,7 +60,7 @@ function NavTabsInner({ pendingAsks = 0, digiWord = 0, childId = null }: { pendi
               </span>
             )}
             {showWord && (
-              <span className="ask-badge" aria-label="DiGi wants to tell you something" style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)' }}>
+              <span className="ask-badge" aria-label="DiGi wants to tell you something" style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)' }}>
                 {digiWord > 9 ? '9+' : digiWord}
               </span>
             )}

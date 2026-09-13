@@ -6,8 +6,8 @@
 export default function ReadingAhead({ stageLabel, childName, childStageName }: { stageLabel: string; childName: string; childStageName: string }) {
   return (
     <div style={{
-      background: 'var(--tint-green)', border: '2px solid var(--ink)',
-      boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px',
+      background: 'var(--tint-green)', border: 'var(--edge)',
+      boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)',
       padding: '14px 16px', marginBottom: '18px',
     }}>
       <div style={{

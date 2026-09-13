@@ -69,9 +69,9 @@ export default function SchoolChest({
     <div style={{
       position: 'relative',
       background: opened ? '#fff' : 'var(--stage-1)',
-      border: '2px solid var(--ink)',
-      borderRadius: 20, padding: '17px 18px',
-      boxShadow: '0 4px 0 var(--ink)',
+      border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '17px 18px',
+      boxShadow: 'var(--lift)',
     }}>
       {/* Justin: "I want it sparking next to the pathway, like a shooting star."
           The chest is drawn small and quiet on purpose, and the cost of that
@@ -92,7 +92,7 @@ export default function SchoolChest({
       </div>
 
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 13 }}>
-        <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
           <HappyIcon name={opened ? 'bag' : 'homework'} size={32} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -117,9 +117,9 @@ export default function SchoolChest({
               onClick={markOpened}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 12,
+                background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                 padding: '11px 15px', fontFamily: 'var(--font-display)', fontWeight: 900,
-                fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)',
+                fontSize: 'var(--text-base)', boxShadow: 'var(--lift)',
               }}
             >
               {opened ? 'Open it again' : 'Open it'}
@@ -132,9 +132,9 @@ export default function SchoolChest({
               onClick={markOpened}
               style={{
                 display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
-                background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
-                borderRadius: 12, padding: '11px 15px', fontFamily: 'var(--font-display)',
-                fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--ink)',
+                background: '#fff', color: 'var(--ink)', border: 'var(--edge)',
+                borderRadius: 'var(--radius-tile)', padding: '11px 15px', fontFamily: 'var(--font-display)',
+                fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: 'var(--lift)',
               }}
             >
               Homework help

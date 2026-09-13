@@ -115,17 +115,17 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
             className="wow-fu"
             style={{
               background: '#fff',
-              border: '2px solid var(--ink)',
-              borderRadius: 20,
-              boxShadow: '0 5px 0 var(--ink)',
+              border: 'var(--edge)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: 'var(--lift-deep)',
               padding: '18px 18px 20px',
               marginBottom: i === chosen.length - 1 ? 0 : 16,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
               <span aria-hidden style={{
-                width: 46, height: 46, borderRadius: 14, flexShrink: 0,
-                background: worry.tint, border: '2px solid var(--ink)', boxSizing: 'border-box',
+                width: 46, height: 46, borderRadius: 'var(--radius-tile)', flexShrink: 0,
+                background: worry.tint, border: 'var(--edge)', boxSizing: 'border-box',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink)',
               }}>
                 <WorryIcon name={worry.icon} size={25} />
@@ -180,7 +180,7 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
                 penny. On the first card the stock script actually fits: never
                 on the catch all, and never when the words tripped the gate. */}
             {!isOwn && !helpFirst && i === firstAnswerable && tonight && (
-              <div style={{ marginTop: 13, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 14, padding: '12px 14px' }}>
+              <div style={{ marginTop: 13, background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
                 <div style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
@@ -216,7 +216,7 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
       {rest.length > 0 && (
         <div className="wow-fu" style={{
           marginTop: 16, padding: '15px 17px 17px',
-          background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: 18,
+          background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
         }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -229,7 +229,7 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
             {rest.map(w => (
               <span key={w.id} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 100,
+                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
                 padding: '5px 11px 5px 6px',
                 fontFamily: 'var(--font-display)', fontWeight: 700,
                 fontSize: 'var(--text-sm)', color: 'var(--ink)',

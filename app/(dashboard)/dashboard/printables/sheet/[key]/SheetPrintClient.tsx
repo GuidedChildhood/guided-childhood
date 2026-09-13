@@ -25,7 +25,7 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
 
       <div className="no-print" style={{
         position: 'sticky', top: 0, zIndex: 2, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-        padding: '12px 16px', background: '#fff', borderBottom: '2px solid var(--ink)',
+        padding: '12px 16px', background: '#fff', borderBottom: 'var(--edge)',
       }}>
         <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', textDecoration: 'none' }}>
           ← Printables
@@ -40,8 +40,8 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
                 key={k.id}
                 href={`/dashboard/printables/sheet/${sheetKey}?child=${k.id}`}
                 style={{
-                  padding: '7px 12px', borderRadius: 100, textDecoration: 'none',
-                  border: '2px solid var(--ink)', background: k.id === currentChildId ? 'var(--butter)' : '#fff',
+                  padding: '7px 12px', borderRadius: 'var(--radius-pill)', textDecoration: 'none',
+                  border: 'var(--edge)', background: k.id === currentChildId ? 'var(--butter)' : '#fff',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                 }}
               >
@@ -53,7 +53,7 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
         <button
           onClick={() => { try { window.print() } catch { /* nothing to do */ } }}
           style={{
-            padding: '12px 20px', borderRadius: 16, border: 'none', cursor: 'pointer',
+            padding: '12px 20px', borderRadius: 'var(--radius-btn)', border: 'none', cursor: 'pointer',
             background: 'var(--butter)', color: 'var(--ink)', boxShadow: '0 5px 0 var(--butter-dark)',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
           }}
@@ -66,7 +66,7 @@ export default function SheetPrintClient({ spec, title, kids, currentChildId, sh
         <div className="no-print" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
           One side of A4, with {spec.childName ? `${spec.childName}'s` : 'your child\'s'} name and your family's own deal already written on it. Print it, put the pens out, and it goes on the fridge.
         </div>
-        <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)' }}>
+        <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', overflow: 'hidden', boxShadow: 'var(--lift)' }}>
           <DrawnPaper spec={spec} />
         </div>
       </div>

@@ -31,9 +31,9 @@ export default function RevealCard({ reveals }: { reveals: Reveal[] }) {
   }
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '18px 20px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '20px', boxShadow: 'var(--lift)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood="happy" size={30} once />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -45,7 +45,7 @@ export default function RevealCard({ reveals }: { reveals: Reveal[] }) {
       </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>{show.body}</p>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <Link href={show.href} onClick={seen} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '14px', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+        <Link href={show.href} onClick={seen} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: 'var(--radius-tile)', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
           Have a look <span aria-hidden>→</span>
         </Link>
         <button onClick={seen} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)' }}>Got it</button>

@@ -204,7 +204,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           width: '100%', maxWidth: 560,
           background: 'var(--cream)',
           borderTopLeftRadius: 26, borderTopRightRadius: 26,
-          border: '2px solid var(--ink)', borderBottom: 'none',
+          border: 'var(--edge)', borderBottom: 'none',
           padding: '14px 24px calc(26px + env(safe-area-inset-bottom))',
           transform: entered ? `translateY(${dragY}px)` : 'translateY(102%)',
           transition: dragging ? 'none' : 'transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)',
@@ -213,13 +213,13 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         }}
       >
         {/* Drag handle */}
-        <div style={{ width: 44, height: 5, borderRadius: 100, background: 'var(--ink)', opacity: 0.35, margin: '0 auto 22px' }} />
+        <div style={{ width: 44, height: 5, borderRadius: 'var(--radius-pill)', background: 'var(--ink)', opacity: 0.35, margin: '0 auto 22px' }} />
 
         {/* DiGi mark, in the gold speech square, echoing the reference */}
         <div style={{
-          width: 60, height: 60, borderRadius: 18, background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+          width: 60, height: 60, borderRadius: 'var(--radius-card)', background: 'var(--terracotta)', border: 'var(--edge)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 4px 0 var(--ink)', marginBottom: 22,
+          boxShadow: 'var(--lift)', marginBottom: 22,
         }}>
           <DigiCharacter mood="speak" size={40} />
         </div>
@@ -258,7 +258,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         )}
 
         {step === 0 && insight && (
-          <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
+          <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginTop: 18 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
               A quiet thought on {insight.childName}
             </div>
@@ -275,7 +275,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           <button
             onClick={() => setStep(s => s + 1)}
             style={{
-              width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
+              width: '100%', marginTop: 20, padding: '15px', borderRadius: 'var(--radius-btn)', border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
@@ -288,7 +288,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           <button
             onClick={() => { close(); router.push((guide.setup ?? guide.nextTask!).href) }}
             style={{
-              width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
+              width: '100%', marginTop: 20, padding: '15px', borderRadius: 'var(--radius-btn)', border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
@@ -310,8 +310,8 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             placeholder="What is going on?"
             aria-label="Tell DiGi what is going on"
             style={{
-              flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 16,
-              background: '#fff', border: '2px solid var(--ink)',
+              flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 'var(--radius-btn)',
+              background: '#fff', border: 'var(--edge)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', outline: 'none',
             }}
           />

@@ -42,8 +42,8 @@ export default function SolveLoop() {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
             <span aria-hidden style={{
               width: 52, height: 52, borderRadius: '50%',
-              background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box',
-              boxShadow: '0 4px 0 var(--ink)',
+              background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box',
+              boxShadow: 'var(--lift)',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <MethodIcon id={b.id} size={27} />

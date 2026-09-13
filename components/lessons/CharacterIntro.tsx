@@ -75,7 +75,7 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
       <div style={{ maxWidth: '560px', width: '100%', textAlign: 'center' }}>
 
         {/* Stage badge */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(158,216,178,.2)', border: '1px solid rgba(158,216,178,.4)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2)', marginBottom: '32px' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(158,216,178,.2)', border: '1px solid rgba(158,216,178,.4)', borderRadius: 'var(--radius-pill)', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2)', marginBottom: '32px' }}>
           {ageStage}
         </div>
 
@@ -104,13 +104,13 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
         {/* Speech bubble */}
         <div style={{
           background: 'rgba(255,255,255,.95)',
-          borderRadius: '20px',
+          borderRadius: 'var(--radius-card)',
           borderBottomLeftRadius: '4px',
           padding: '24px 28px',
           marginBottom: '8px',
           position: 'relative',
-          border: '2px solid var(--ink)',
-          boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)',
+          boxShadow: 'var(--lift)',
         }}>
           <p style={{
             fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
@@ -125,7 +125,7 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
         <div style={{ width: 0, height: 0, borderLeft: '14px solid transparent', borderRight: '0', borderTop: '14px solid rgba(255,255,255,.95)', marginLeft: '32px', marginBottom: '32px' }} />
 
         {/* Lesson title */}
-        <div style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '14px', padding: '16px 20px', marginBottom: '32px' }}>
+        <div style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 'var(--radius-tile)', padding: '16px 20px', marginBottom: '32px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '6px' }}>Today&rsquo;s lesson</div>
           <div style={{ color: '#fff', fontWeight: 700, fontSize: 'var(--text-md)' }}>{lessonTitle}</div>
         </div>

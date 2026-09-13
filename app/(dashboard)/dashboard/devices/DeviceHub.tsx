@@ -199,7 +199,7 @@ export default function DeviceHub({
           aria-expanded={catalogueOpen}
           style={{
             width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            gap: 10, background: '#fff', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
+            gap: 10, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
             padding: '14px 16px', cursor: 'pointer', textAlign: 'left',
           }}
         >

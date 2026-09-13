@@ -121,7 +121,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
             The promise first. Everything under it depends on a child believing
             this bit, and a child who does not believe it will not scroll. */}
         {card && (
-          <section style={{ background: 'var(--cream)', borderRadius: '22px', padding: '20px 18px', marginBottom: '18px', boxShadow: `0 5px 0 ${theme.shadow}` }}>
+          <section style={{ background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '20px 18px', marginBottom: '18px', boxShadow: `0 5px 0 ${theme.shadow}` }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 8px' }}>
               {card.headline}
             </h2>
@@ -129,7 +129,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
               {card.intro}
             </p>
 
-            <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px 16px', marginBottom: '16px' }}>
+            <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '15px 16px', marginBottom: '16px' }}>
               <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>The promise</div>
               <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35, margin: 0 }}>
                 {card.the_promise}
@@ -173,7 +173,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
               ))}
             </ol>
 
-            <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
+            <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
               <div style={{ ...label, color: 'var(--ink-muted)', marginBottom: '5px' }}>What will not happen</div>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
                 {card.never}
@@ -195,9 +195,9 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {scripts.map(s => (
-                <details key={s.id} style={{ background: '#fff', borderRadius: '18px', overflow: 'hidden', border: s.urgent ? '2px solid var(--terracotta)' : '1.5px solid rgba(0,0,0,0.06)' }}>
+                <details key={s.id} style={{ background: '#fff', borderRadius: 'var(--radius-card)', overflow: 'hidden', border: s.urgent ? '2px solid var(--terracotta)' : '1.5px solid rgba(0,0,0,0.06)' }}>
                   <summary style={{ cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', gap: '12px', padding: '15px 16px' }}>
-                    <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '13px', background: s.urgent ? 'var(--terracotta-lt)' : 'var(--tint-blue, #E4ECF7)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>
+                    <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: 'var(--radius-tile)', background: s.urgent ? 'var(--terracotta-lt)' : 'var(--tint-blue, #E4ECF7)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>
                       {s.emoji}
                     </span>
                     <span style={{ flex: 1, minWidth: 0 }}>
@@ -225,7 +225,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
 
                     {/* The words themselves, at reading size and set apart, so a
                         child can hold the phone up and read straight off it. */}
-                    <div style={{ background: 'var(--cream)', borderLeft: '4px solid var(--terracotta)', borderRadius: '12px', padding: '14px 15px', marginBottom: '14px' }}>
+                    <div style={{ background: 'var(--cream)', borderLeft: '4px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '14px 15px', marginBottom: '14px' }}>
                       <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>Then say this</div>
                       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                         {s.say_this}
@@ -251,7 +251,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
         {/* Childline stands on its own at the bottom rather than only inside the
             scripts. A child who finds nothing here that fits their situation
             still leaves the page with somewhere to go. */}
-        <div style={{ marginTop: '20px', background: theme.panel, border: `1.5px solid ${theme.panelBorder}`, borderRadius: '18px', padding: '16px' }}>
+        <div style={{ marginTop: '20px', background: theme.panel, border: `1.5px solid ${theme.panelBorder}`, borderRadius: 'var(--radius-card)', padding: '16px' }}>
           <div style={{ ...label, color: theme.inkMuted, marginBottom: '6px' }}>If none of these fit</div>
           <p style={{ fontSize: 'var(--text-md)', color: theme.ink, lineHeight: 1.55, margin: 0 }}>
             Childline is free on 0800 1111, any time of day or night. It does not show up on the phone bill, and you do not have to give your name.

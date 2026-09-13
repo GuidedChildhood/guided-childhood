@@ -132,7 +132,7 @@ export default function KidStepSheet({
                     aria-pressed={on}
                     style={{
                       cursor: 'pointer', textAlign: 'left',
-                      padding: '11px 13px', borderRadius: 14,
+                      padding: '11px 13px', borderRadius: 'var(--radius-tile)',
                       background: on ? theme.hex : 'var(--cream)',
                       color: on ? theme.onAccent : 'var(--ink)',
                       border: on ? `1.5px solid ${theme.hex}` : '1.5px solid rgba(26,26,46,0.1)',
@@ -152,7 +152,7 @@ export default function KidStepSheet({
           onClick={() => { if (!busy) { playKidSound('star'); onConfirm(picked) } }}
           disabled={busy}
           style={{
-            width: '100%', padding: '15px', borderRadius: 16, border: 'none',
+            width: '100%', padding: '15px', borderRadius: 'var(--radius-btn)', border: 'none',
             cursor: busy ? 'default' : 'pointer', marginBottom: 9,
             background: theme.hex, color: theme.onAccent,
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
@@ -167,7 +167,7 @@ export default function KidStepSheet({
         <button
           onClick={onClose}
           style={{
-            width: '100%', padding: '13px', borderRadius: 16, border: 'none',
+            width: '100%', padding: '13px', borderRadius: 'var(--radius-btn)', border: 'none',
             cursor: 'pointer', background: 'none',
             fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-md)',
             color: 'var(--ink-muted)',

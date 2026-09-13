@@ -196,7 +196,7 @@ export default function KidSquadIntro({
           minHeight: 44, padding: '10px 20px',
           background: 'rgba(255,255,255,0.14)',
           border: '1.5px solid rgba(255,255,255,0.45)',
-          borderRadius: 100, cursor: 'pointer',
+          borderRadius: 'var(--radius-pill)', cursor: 'pointer',
           fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
           color: '#fff', letterSpacing: '0.01em',
         }}
@@ -233,7 +233,7 @@ export default function KidSquadIntro({
               {/* The circle plate under the friend (the Happy Newspaper
                   pass): a pale disc of the friend's own colour, so the cutout
                   reads as a page rather than a sticker on the dark. */}
-              <span aria-hidden style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', background: `color-mix(in srgb, ${friend.colour} 28%, #FEF7E0)`, border: '2px solid var(--ink)', boxSizing: 'border-box' }} />
+              <span aria-hidden style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', background: `color-mix(in srgb, ${friend.colour} 28%, #FEF7E0)`, border: 'var(--edge)', boxSizing: 'border-box' }} />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={friend.cutout} alt={friend.name} width={196} height={196}
@@ -260,7 +260,7 @@ export default function KidSquadIntro({
               display: 'inline-flex', alignItems: 'center', gap: 8,
               background: isYours ? 'rgba(47,143,107,0.22)' : 'rgba(255,255,255,0.1)',
               border: `1.5px solid ${isYours ? 'rgba(104,197,159,0.6)' : 'rgba(255,255,255,0.22)'}`,
-              borderRadius: 100, padding: '9px 16px',
+              borderRadius: 'var(--radius-pill)', padding: '9px 16px',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               color: isYours ? '#9FE3C4' : white,
             }}>
@@ -277,7 +277,7 @@ export default function KidSquadIntro({
       <button
         onClick={(e) => { e.stopPropagation(); advance() }}
         style={{
-          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '16px',
+          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-btn)',
           padding: '16px 32px', cursor: 'pointer', minWidth: 210, marginTop: 26,
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
           boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -288,7 +288,7 @@ export default function KidSquadIntro({
 
       <div style={{ display: 'flex', gap: 6, marginTop: 20 }}>
         {cards.map((_, i) => (
-          <span key={i} style={{ width: i === step ? 20 : 7, height: 7, borderRadius: 100, background: i === step ? 'var(--terracotta)' : 'rgba(255,255,255,0.25)', transition: 'width 0.25s ease' }} />
+          <span key={i} style={{ width: i === step ? 20 : 7, height: 7, borderRadius: 'var(--radius-pill)', background: i === step ? 'var(--terracotta)' : 'rgba(255,255,255,0.25)', transition: 'width 0.25s ease' }} />
         ))}
       </div>
 

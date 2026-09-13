@@ -42,7 +42,7 @@ export default function EmailCheck() {
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
       padding: '20px 22px', maxWidth: 640, margin: '0 auto',
     }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '0 0 6px' }}>Email check</p>
@@ -57,7 +57,7 @@ export default function EmailCheck() {
         onClick={run}
         disabled={state === 'sending'}
         style={{
-          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
+          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-btn)',
           padding: '14px 24px', cursor: state === 'sending' ? 'wait' : 'pointer',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
           boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: state === 'sending' ? 0.7 : 1,
@@ -74,9 +74,9 @@ export default function EmailCheck() {
 
       {state === 'done' && result && (
         <div style={{
-          marginTop: 16, borderRadius: 16, padding: '14px 16px',
+          marginTop: 16, borderRadius: 'var(--radius-btn)', padding: '14px 16px',
           background: good ? 'var(--tint-green)' : 'var(--terracotta-lt)',
-          border: '2px solid var(--ink)',
+          border: 'var(--edge)',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: 4 }}>
             {good ? 'Sent' : 'Not sent'}

@@ -21,7 +21,7 @@ const JOBS: JobRow[] = [
 ]
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 22,
+  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
   padding: '16px 18px', marginBottom: 14, boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
 }
 const EYEBROW: React.CSSProperties = {

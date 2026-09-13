@@ -92,7 +92,7 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
       `}</style>
 
       {/* The sheet itself. What is on screen here is exactly what prints. */}
-      <div className="print-sheet" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22 }}>
+      <div className="print-sheet" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: 22 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14, marginBottom: 12 }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
@@ -179,7 +179,7 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
 
       {/* Page two: the gold stars to cut out, then the Planet Family with the
           deal written on it. Prints on its own sheet after the chart. */}
-      <div className="print-sheet cut-page" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22, marginTop: 24 }}>
+      <div className="print-sheet cut-page" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: 22, marginTop: 24 }}>
         <div style={{ textAlign: 'center', marginBottom: 4 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             Cut out and keep
@@ -214,7 +214,7 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
 
         {/* The Planet Family and the deal, written plainly so a family reads it
             straight off the sheet. */}
-        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 16px 18px' }}>
+        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '16px 16px 18px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', marginBottom: 3 }}>
             1 star = {starMinutes} minutes of screen time
           </div>
@@ -247,7 +247,7 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
             steps that close the loop lived only in the app, which is the one
             place a paper first family is not looking. So the deal's mechanics
             print here, on the sheet that lives on the fridge. */}
-        <div style={{ background: '#fff', border: '1.5px dashed var(--ink-muted)', borderRadius: 16, padding: '14px 16px', marginTop: 14 }}>
+        <div style={{ background: '#fff', border: '1.5px dashed var(--ink-muted)', borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginTop: 14 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', textAlign: 'center', marginBottom: 8 }}>
             No phone needed, here is the whole loop
           </div>

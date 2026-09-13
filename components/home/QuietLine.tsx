@@ -39,8 +39,8 @@ export default function QuietLine({
     <Link href={href} style={{ textDecoration: 'none', display: 'block', marginBottom: '10px' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '10px',
-        background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-        borderRadius: '14px', padding: '11px 14px',
+        background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-tile)', padding: '11px 14px',
       }}>
         {icon && (
           <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', lineHeight: 1 }}>{icon}</span>

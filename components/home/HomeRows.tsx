@@ -22,11 +22,11 @@ function SlimRow({ href, icon, tint, title, meta, badge, urgent }: {
       <div style={{
         display: 'flex', alignItems: 'center', gap: '13px', minWidth: 0, overflow: 'hidden',
         background: '#fff', border: `2px solid ${urgent ? '#E5484D' : 'var(--ink)'}`,
-        borderRadius: '18px', padding: '12px 15px 12px 12px',
+        borderRadius: 'var(--radius-card)', padding: '12px 15px 12px 12px',
         boxShadow: `0 4px 0 ${urgent ? '#B93B3F' : 'var(--ink)'}`,
       }}>
         <span aria-hidden style={{
-          width: 52, height: 52, borderRadius: '50%', background: tint, border: '2px solid var(--ink)', boxSizing: 'border-box',
+          width: 52, height: 52, borderRadius: '50%', background: tint, border: 'var(--edge)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
         }}><HappyIcon name={icon} size={34} /></span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -37,7 +37,7 @@ function SlimRow({ href, icon, tint, title, meta, badge, urgent }: {
           <span style={{
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 900, flexShrink: 0,
             background: urgent ? '#E5484D' : 'var(--terracotta)', color: urgent ? '#fff' : 'var(--ink)',
-            border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px 10px',
+            border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px 10px',
           }}>{badge}</span>
         )}
         <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>

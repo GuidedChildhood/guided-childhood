@@ -63,8 +63,8 @@ export default async function AgreementPrintPage({ searchParams }: { searchParam
           --ag-sign: 36px;
 
           background: #fff;
-          border: 2px solid var(--ink);
-          border-radius: 20px;
+          border: var(--edge);
+          border-radius: var(--radius-card);
           padding: var(--ag-pad);
         }
 
@@ -98,7 +98,7 @@ export default async function AgreementPrintPage({ searchParams }: { searchParam
         .ag-sig { flex: 1; min-width: 180px; }
         .ag-sig-line {
           font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg);
-          color: var(--ink); border-bottom: 2px solid var(--ink);
+          color: var(--ink); border-bottom: var(--edge);
           padding-bottom: 6px; margin-bottom: 6px; min-height: 30px;
         }
         .ag-sig-role {

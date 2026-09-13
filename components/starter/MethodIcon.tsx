@@ -146,14 +146,14 @@ export function MethodRow({ ids }: { ids: MethodId[] }) {
       {ids.map(id => (
         <span key={id} style={{
           display: 'inline-flex', alignItems: 'center', gap: 7,
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: 100,
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
           padding: '5px 12px 5px 6px',
           fontFamily: 'var(--font-display)', fontWeight: 800,
           fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.2,
         }}>
           <span aria-hidden style={{
             width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
-            background: METHOD[id].tint, border: '2px solid var(--ink)', boxSizing: 'border-box',
+            background: METHOD[id].tint, border: 'var(--edge)', boxSizing: 'border-box',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <MethodIcon id={id} size={17} />
