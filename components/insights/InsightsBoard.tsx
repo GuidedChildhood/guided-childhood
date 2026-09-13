@@ -14,7 +14,7 @@ type Payload = { generatedAt: string; days: number; count: number; report: Repor
 
 type Violation = { code: string; detail: string; severity: 'low' | 'medium' | 'high' }
 type CaseResult = { id: string; category: string; prompt: string; reply: string; safetyPass: boolean; severity: string; rubricScore: number; score: number; rubricNotes: string; violations: Violation[] }
-type EvalRun = { ranAt: string; model: string; cases: number; passed: number; safetyBreaches: number; averageScore: number; results: CaseResult[] }
+type EvalRun = { ranAt: string; model: string; researchBase?: 'file' | 'retrieval'; cases: number; passed: number; safetyBreaches: number; averageScore: number; results: CaseResult[]; compare?: EvalRun | null }
 type WisdomRow = { topic: string; age_band: string | null; what_works: string; evidence_count: number }
 type WisdomRebuild = { ranAt: string; signals: number; written: number; rows: WisdomRow[] }
 
@@ -56,13 +56,15 @@ export default function InsightsBoard() {
   const [evalRun, setEvalRun] = useState<EvalRun | null>(null)
   const [openCase, setOpenCase] = useState<string | null>(null)
   const [wisdom, setWisdom] = useState<WisdomRebuild | null>(null)
-  const [qLoading, setQLoading] = useState<'evals' | 'wisdom' | 'embed' | null>(null)
+  const [qLoading, setQLoading] = useState<'evals' | 'compare' | 'wisdom' | 'embed' | null>(null)
   const [qError, setQError] = useState('')
 
-  async function runEvals() {
-    setQLoading('evals'); setQError('')
+  // 'both' scores the live research base and the other one on the same cases
+  // (lib/config/digi.ts, DIGI_RESEARCH_BASE): the read before the switch flips.
+  async function runEvals(research: 'live' | 'both' = 'live') {
+    setQLoading(research === 'both' ? 'compare' : 'evals'); setQError('')
     try {
-      const res = await fetch('/api/admin/digi-evals', { method: 'POST' })
+      const res = await fetch(research === 'both' ? '/api/admin/digi-evals?research=both' : '/api/admin/digi-evals', { method: 'POST' })
       const json = await res.json()
       if (!res.ok) { setQError(json.error ?? 'Could not run the evals.'); return }
       setEvalRun(json)
@@ -657,8 +659,11 @@ export default function InsightsBoard() {
         </p>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 18 }}>
-          <button onClick={runEvals} disabled={qLoading !== null} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
+          <button onClick={() => runEvals('live')} disabled={qLoading !== null} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
             {qLoading === 'evals' ? 'Running the evals...' : 'Run safety evals'}
+          </button>
+          <button onClick={() => runEvals('both')} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
+            {qLoading === 'compare' ? 'Scoring both bases...' : 'Compare research bases'}
           </button>
           <button onClick={rebuildWisdom} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
             {qLoading === 'wisdom' ? 'Rebuilding wisdom...' : 'Rebuild shared wisdom'}
@@ -680,6 +685,21 @@ export default function InsightsBoard() {
               <Stat label="Safety breaches" value={String(evalRun.safetyBreaches)} tone={evalRun.safetyBreaches === 0 ? 'good' : 'bad'} />
               <Stat label="Average score" value={`${Math.round(evalRun.averageScore * 100)}%`} tone={evalRun.averageScore >= 0.8 ? 'good' : evalRun.averageScore >= 0.6 ? 'warn' : 'bad'} />
             </div>
+            {/* The other research base on the same cases. The row above is the
+                live one; this is what would go live if DIGI_RESEARCH_BASE
+                flipped. Both numbers side by side is the whole decision. */}
+            {evalRun.compare && (
+              <div style={{ marginBottom: 12 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
+                  Live base: {evalRun.researchBase ?? 'file'}. The other base, {evalRun.compare.researchBase}, on the same cases:
+                </p>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <Stat label={`Passed (${evalRun.compare.researchBase})`} value={`${evalRun.compare.passed}/${evalRun.compare.cases}`} tone={evalRun.compare.passed === evalRun.compare.cases ? 'good' : 'warn'} />
+                  <Stat label="Safety breaches" value={String(evalRun.compare.safetyBreaches)} tone={evalRun.compare.safetyBreaches === 0 ? 'good' : 'bad'} />
+                  <Stat label="Average score" value={`${Math.round(evalRun.compare.averageScore * 100)}%`} tone={evalRun.compare.averageScore >= 0.8 ? 'good' : evalRun.compare.averageScore >= 0.6 ? 'warn' : 'bad'} />
+                </div>
+              </div>
+            )}
             {/* Tap a case to read what DiGi actually said.
                 Justin was told to run these and read the replies by hand, which
                 turned out to be impossible: the board showed a score and the

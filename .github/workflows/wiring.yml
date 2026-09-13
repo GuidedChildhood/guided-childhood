@@ -260,6 +260,11 @@ jobs:
       # never two days running, the drumbeat gone. See the header of
       # check-digi-step-in.mjs.
       - run: node --experimental-strip-types scripts/check-digi-step-in.mjs
+      # The researchers file leaves the prompt only by DIGI_RESEARCH_BASE, the
+      # default stays the file, and DiGi's stance and every hard rule are in
+      # the prompt whichever way it is set. Builds both prompts from the real
+      # code. See the header of check-digi-research-base.mjs.
+      - run: node --experimental-strip-types scripts/check-digi-research-base.mjs
       # Platform changes reach a family only through Justin's click. See the
       # header of check-platform-watch.mjs.
       - run: node --experimental-strip-types scripts/check-platform-watch.mjs
