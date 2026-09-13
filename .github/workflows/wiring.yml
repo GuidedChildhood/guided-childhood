@@ -219,3 +219,8 @@ jobs:
       # that cannot take it. Imports the real config, so it tests behaviour
       # rather than spelling. See the header of check-digi-model.mjs.
       - run: node --experimental-strip-types scripts/check-digi-model.mjs
+      # The assistant turn DiGi replays in a tool round is the turn the model
+      # produced: thinking blocks and their signatures included, in order. A
+      # thinking model rejects a turn with its reasoning removed. Runs the real
+      # stream reader over a synthetic thinking turn.
+      - run: node --experimental-strip-types scripts/check-digi-turn.mjs

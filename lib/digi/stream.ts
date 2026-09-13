@@ -35,6 +35,8 @@ export interface TurnResult {
  * Text is accumulated RAW for the assistant turn and dash stripped for the
  * parent. The model's own words go back to the model; the cleaned words go to
  * the person. Sending it the stripped version would quietly rewrite its history.
+ * Thinking blocks go back too, signature and all, because a thinking model
+ * rejects a turn that has had its reasoning removed.
  */
 export async function consumeStream(
   // Either endpoint's events. Fast mode is only reachable through the beta
@@ -44,13 +46,28 @@ export async function consumeStream(
   encoder: TextEncoder,
   dashes: ReturnType<typeof makeDashStripper>,
 ): Promise<TurnResult> {
-  let raw = ''
   let clean = ''
   let stopReason: string | null = null
   const usage: TurnUsage = { input: null, cacheRead: null, cacheWrite: null, output: null }
-  // Keyed by content block index: a reply can open a text block and a tool_use
-  // block, and their deltas arrive interleaved.
-  const partials = new Map<number, { id: string; name: string; json: string }>()
+
+  // ── EVERY BLOCK GOES BACK, IN THE ORDER IT CAME (13 September 2026) ───────
+  //
+  // The assistant turn is rebuilt here for the next request in a tool round.
+  // It used to keep the text and the tool calls and drop everything else,
+  // which was fine on a model that does not think and is a 400 waiting to
+  // happen on one that does: a thinking model signs each thinking block and
+  // expects it back, unchanged and in place, ahead of the tool call it
+  // introduced. Fable 5.1 thinks on every request and cannot be told not to,
+  // and from today it answers the chat. So the turn is kept by content block
+  // index, thinking and redacted thinking included, with the signature the
+  // model streams at the end of each thinking block. Under the default
+  // display the thinking text is empty; the signature is what matters.
+  type Partial =
+    | { kind: 'text'; text: string }
+    | { kind: 'tool_use'; id: string; name: string; json: string }
+    | { kind: 'thinking'; thinking: string; signature: string }
+    | { kind: 'redacted_thinking'; data: string }
+  const partials = new Map<number, Partial>()
   const toolUses: ToolUse[] = []
 
   for await (const event of stream) {
@@ -59,30 +76,29 @@ export async function consumeStream(
       usage.input = u.input_tokens ?? null
       usage.cacheRead = u.cache_read_input_tokens ?? null
       usage.cacheWrite = u.cache_creation_input_tokens ?? null
-    } else if (event.type === 'content_block_start' && event.content_block.type === 'tool_use') {
-      partials.set(event.index, { id: event.content_block.id, name: event.content_block.name, json: '' })
+    } else if (event.type === 'content_block_start') {
+      const b = event.content_block
+      if (b.type === 'tool_use') partials.set(event.index, { kind: 'tool_use', id: b.id, name: b.name, json: '' })
+      else if (b.type === 'text') partials.set(event.index, { kind: 'text', text: b.text ?? '' })
+      else if (b.type === 'thinking') partials.set(event.index, { kind: 'thinking', thinking: b.thinking ?? '', signature: b.signature ?? '' })
+      else if (b.type === 'redacted_thinking') partials.set(event.index, { kind: 'redacted_thinking', data: b.data })
     } else if (event.type === 'content_block_delta') {
-      if (event.delta.type === 'text_delta') {
-        raw += event.delta.text
-        const out = dashes.push(event.delta.text)
+      const p = partials.get(event.index)
+      const d = event.delta
+      if (d.type === 'text_delta') {
+        if (p?.kind === 'text') p.text += d.text
+        else partials.set(event.index, { kind: 'text', text: d.text })
+        const out = dashes.push(d.text)
         if (out) {
           clean += out
           controller.enqueue(encoder.encode(out))
         }
-      } else if (event.delta.type === 'input_json_delta') {
-        const p = partials.get(event.index)
-        if (p) p.json += event.delta.partial_json
-      }
-    } else if (event.type === 'content_block_stop') {
-      const p = partials.get(event.index)
-      if (p) {
-        let input: unknown = {}
-        // An empty string is what an argumentless tool call looks like, and
-        // JSON.parse('') throws. Malformed JSON means the call is unusable, so
-        // it is dropped rather than passed on as a half object.
-        try { input = p.json.trim() ? JSON.parse(p.json) : {} } catch { partials.delete(event.index); continue }
-        toolUses.push({ id: p.id, name: p.name, input })
-        partials.delete(event.index)
+      } else if (d.type === 'input_json_delta') {
+        if (p?.kind === 'tool_use') p.json += d.partial_json
+      } else if (d.type === 'thinking_delta') {
+        if (p?.kind === 'thinking') p.thinking += d.thinking
+      } else if (d.type === 'signature_delta') {
+        if (p?.kind === 'thinking') p.signature += d.signature
       }
     } else if (event.type === 'message_delta') {
       stopReason = event.delta.stop_reason ?? stopReason
@@ -90,10 +106,26 @@ export async function consumeStream(
     }
   }
 
+  // Text is accumulated RAW for the assistant turn and dash stripped for the
+  // parent: the model's own words go back to the model.
   const blocks: Anthropic.ContentBlockParam[] = []
-  if (raw.trim()) blocks.push({ type: 'text', text: raw })
-  for (const t of toolUses) {
-    blocks.push({ type: 'tool_use', id: t.id, name: t.name, input: t.input })
+  for (const index of [...partials.keys()].sort((a, b) => a - b)) {
+    const p = partials.get(index)!
+    if (p.kind === 'text') {
+      if (p.text.trim()) blocks.push({ type: 'text', text: p.text })
+    } else if (p.kind === 'thinking') {
+      blocks.push({ type: 'thinking', thinking: p.thinking, signature: p.signature })
+    } else if (p.kind === 'redacted_thinking') {
+      blocks.push({ type: 'redacted_thinking', data: p.data })
+    } else {
+      // An empty string is what an argumentless tool call looks like, and
+      // JSON.parse('') throws. Malformed JSON means the call is unusable, so
+      // it is dropped rather than passed on as a half object.
+      let input: unknown = {}
+      try { input = p.json.trim() ? JSON.parse(p.json) : {} } catch { continue }
+      toolUses.push({ id: p.id, name: p.name, input })
+      blocks.push({ type: 'tool_use', id: p.id, name: p.name, input })
+    }
   }
 
   return { clean, blocks, toolUses, stopReason, usage }

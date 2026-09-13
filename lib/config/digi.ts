@@ -4,14 +4,17 @@
 //
 // THE CHAT TIER answers a parent who is standing in a kitchen at bedtime
 // watching the screen. What matters there is the first word arriving fast and
-// the whole answer still being right. Claude Opus 5 runs at lower effort for
-// that, and it is the only tier that can be put into fast mode (below).
+// the whole answer still being right. It runs at lower effort for that.
 //
 // THE DEEP TIER does the thinking nobody is waiting on: the weekly review, the
-// insights, the wisdom pass, the safety verifier, the evals. Claude Fable 5.1
-// thinks on every request and cannot be told not to, which is exactly right
-// for a job that runs at 6am on a Monday and exactly wrong for a parent at
-// 9pm, so it is the default here and not for chat.
+// insights, the wisdom pass, the safety verifier, the evals.
+//
+// Both default to Claude Fable 5.1. Justin, 13 September 2026: "make sure DiGi
+// uses 5.1." The brief had argued for Opus 5 on chat, because Fable thinks on
+// every request and cannot be told not to; the effort setting is what keeps
+// that honest for a parent who is waiting, and digi_latency.model_ms will say
+// whether it is enough. DIGI_MODEL_CHAT=claude-opus-5 is the one line back,
+// and the only tier that can then be put into fast mode (below).
 //
 // Sunday 13 September 2026: the ladder had fallen a generation behind
 // (claude-fable-5, opus-4-8, a date suffixed haiku). Every id is checked
@@ -30,10 +33,9 @@ export const DIGI_MODEL_FALLBACKS = [
   'claude-sonnet-5',
 ] as const
 
-// The model that answers a parent in the chat. Set DIGI_MODEL_CHAT to
-// claude-fable-5-1 to put the deep model on chat as well; the ladder behind it
-// stays the same either way.
-export const DIGI_MODEL_CHAT = envOr('DIGI_MODEL_CHAT', 'claude-opus-5')
+// The model that answers a parent in the chat. Its own setting so the two
+// tiers can be split again without a deploy; the ladder behind it is the same.
+export const DIGI_MODEL_CHAT = envOr('DIGI_MODEL_CHAT', 'claude-fable-5-1')
 
 // The fast tier for mechanical jobs: memory extraction, feedback
 // classification, prompt chips, moment copy, the lane classifier. The deep
