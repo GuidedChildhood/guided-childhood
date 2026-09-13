@@ -1,5 +1,6 @@
 import type { createClient } from '@/lib/supabase/server'
-import { literacyAreaFor } from '@/lib/content/literacy'
+import { AREA_START, type LiteracyKey } from '@/lib/content/literacy'
+import { getReadinessAreas, type ReadinessAreas } from './readiness-areas'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
@@ -20,9 +21,15 @@ export type AreaStatus = {
   improve?: string
   // Where acting on this reading happens. Defaults to the lessons hub.
   href?: string
+  /**
+   * This stage's lessons for the area, as numbers: the parent lessons whose
+   * category lands here plus, for AI, the child's own modules for the band.
+   * The four things card draws its bar from this rather than from a regex
+   * over `value`, which is how the balance bar and the lesson bar used to
+   * disagree about what a count looked like.
+   */
+  lessons?: { done: number; total: number }
 }
-
-const STAGE_ORDER = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
 
 function deviceAgeToStageNum(minAge: number): number {
   if (minAge <= 7) return 1
@@ -44,20 +51,25 @@ export async function getLiteracyStatuses(
    * the old family wide reading for any caller that has no child.
    */
   childId: string | null = null,
+  /**
+   * The four areas already counted, when the caller has them (the pathway
+   * page reads them for the passport book too). Otherwise read here. Either
+   * way the numbers come from lib/pathway/readiness-areas.ts, the one rule.
+   */
+  areas: ReadinessAreas | null = null,
 ): Promise<Record<string, AreaStatus>> {
   const scope = childId ? `child_id.eq.${childId},child_id.is.null` : null
+  const areasRead = areas ?? await getReadinessAreas(supabase, userId, childId)
   const now = new Date()
   const day = (now.getUTCDay() + 6) % 7
   const monday = new Date(now); monday.setUTCDate(now.getUTCDate() - day)
   const weekStart = monday.toISOString().slice(0, 10)
 
-  const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes, guidesRes, setupRes, checkinsRes] = await Promise.all([
+  const [ticksRes, questsRes, spendsRes, concernsRes, guidesRes, setupRes, checkinsRes] = await Promise.all([
     (() => { const q = supabase.from('quest_ticks').select('quest_id, tick_date').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart); return scope ? q.or(scope) : q })(),
     supabase.from('family_quests').select('id, stars').eq('user_id', userId),
     (() => { const q = supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`); return scope ? q.or(scope) : q })(),
     (() => { const q = supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']); return scope ? q.or(scope) : q })(),
-    supabase.from('lessons').select('id, category, stage_id'),
-    (() => { const q = supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', userId); return scope ? q.or(scope) : q })(),
     supabase.from('device_guides').select('device_key, name, min_age'),
     (() => { const q = supabase.from('device_setup_progress').select('device_key').eq('user_id', userId); return scope ? q.or(scope) : q })(),
     (() => { const q = supabase.from('literacy_checkins').select('strand, grade, grade_note, created_at').eq('user_id', userId); return scope ? q.or(scope) : q })().gte('created_at', new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString()).order('created_at', { ascending: false }),
@@ -102,35 +114,24 @@ export async function getLiteracyStatuses(
   const healthy = usedMins === 0 || usedMins <= earnedMins
   const worries = (concernsRes.data ?? []).length
 
-  // Lessons passed per strand, the learning half of every reading. Since the
-  // lesson test landed, a lesson only counts once its end of lesson check was
-  // passed. Every completion from before defaults to passed, so nothing that
-  // was already green goes backwards.
-  const doneIds = new Set((doneRes.data ?? []).filter(d => d.passed !== false).map(d => d.lesson_id))
-  const doneByArea = new Map<string, number>()
-  for (const l of lessonsRes.data ?? []) {
-    if (!doneIds.has(l.id)) continue
-    const a = literacyAreaFor(l.category)
-    if (a) doneByArea.set(a.key, (doneByArea.get(a.key) ?? 0) + 1)
-  }
-  // This stage's lessons per strand: the tick asks for the age right lessons
-  // to actually be taken, so learning is part of every reading.
-  const stageSlug = STAGE_ORDER[Math.min(4, Math.max(0, (stageNum ?? 1) - 1))]
-  const stageTotal = new Map<string, number>()
-  const stageDone = new Map<string, number>()
-  for (const l of (lessonsRes.data ?? []) as { id: string; category: string; stage_id?: string }[]) {
-    if (l.stage_id !== stageSlug) continue
-    const a = literacyAreaFor(l.category)
-    if (!a) continue
-    stageTotal.set(a.key, (stageTotal.get(a.key) ?? 0) + 1)
-    if (doneIds.has(l.id)) stageDone.set(a.key, (stageDone.get(a.key) ?? 0) + 1)
-  }
-  const stageLessonsLeft = (k: string) => (stageTotal.get(k) ?? 0) - (stageDone.get(k) ?? 0)
+  // ── THE LESSONS, FROM THE ONE RULE ──────────────────────────────────────
+  //
+  // This used to count `lessons.category` here, in its own loop: every row in
+  // the table including the teacher stubs, a pass being any completion row
+  // scoped by child, and the child's AI modules not counted at all. The
+  // passport audit of 13 September 2026 moved the counting to
+  // lib/pathway/readiness-areas.ts, where the stamp's own credit rule applies
+  // and the AI modules land in AI. What is left here is reading it.
+  const stage = stageNum ?? 1
+  const stageAreas = areasRead.byStage[Math.min(5, Math.max(1, stage))] ?? []
+  const stageRow = (k: string) => stageAreas.find(a => a.key === k) ?? { done: 0, total: 0 }
+  const stageLessonsLeft = (k: string) => Math.max(0, stageRow(k).total - stageRow(k).done)
   const stageLessonBit = (k: string) => {
-    const t = stageTotal.get(k) ?? 0
-    return t > 0 ? `${stageDone.get(k) ?? 0} of ${t} stage lessons passed` : null
+    const r = stageRow(k)
+    return r.total > 0 ? `${r.done} of ${r.total} stage lessons passed` : null
   }
-  const lessonCount = (k: string) => doneByArea.get(k) ?? 0
+  const stageLessons = (k: string) => ({ done: stageRow(k).done, total: stageRow(k).total })
+  const lessonCount = (k: string) => areasRead.allTime[k as LiteracyKey] ?? 0
   const lessonBit = (k: string) => {
     const n = lessonCount(k)
     return n > 0 ? `${n} lesson${n === 1 ? '' : 's'} done` : 'No lessons done yet'
@@ -139,7 +140,6 @@ export async function getLiteracyStatuses(
   // Safe online is part settings, part conversation: the device guides for
   // this child's age actually marked done in the device setup section, plus
   // the lessons, plus DiGi asking gently through the weekly catch up.
-  const stage = stageNum ?? 1
   const guidesForAge = (guidesRes.data ?? []).filter(g => deviceAgeToStageNum(g.min_age) <= stage)
   const doneKeys = new Set((setupRes.data ?? []).map(d => d.device_key))
   const guidesDone = guidesForAge.filter(g => doneKeys.has(g.device_key))
@@ -159,6 +159,7 @@ export async function getLiteracyStatuses(
           value: guidesForAge.length > 0 ? `${guidesDone.length} of ${guidesForAge.length} device guides set` : 'No devices to set yet',
           note: `${lessonBit('safe')}. No open worries. DiGi keeps asking gently in the weekly catch up.`,
           href: '/dashboard/lessons',
+          lessons: stageLessons('safe'),
         }
       : {
           tone: 'red',
@@ -173,6 +174,7 @@ export async function getLiteracyStatuses(
             ? `Do the next safe online lesson for this stage, ${stageLessonsLeft('safe')} to go.`
             : safeCheck?.grade_note ?? 'Answer DiGi honestly next week and keep the telling channel open.',
           href: devicesOk ? '/dashboard/digi' : '/dashboard/devices',
+          lessons: stageLessons('safe'),
         },
     balance: healthy && stageLessonsLeft('balance') === 0
       ? {
@@ -180,6 +182,7 @@ export async function getLiteracyStatuses(
           value: `${earnedMins} min earned · ${usedMins} min used`,
           note: `${lessonBit('balance')}. Real world jobs are paying for the screen time, which is the balance doing its job.`,
           href: '/dashboard/quests',
+          lessons: stageLessons('balance'),
         }
       : {
           tone: 'red', label: healthy ? 'Stage lessons waiting' : 'Screen ahead',
@@ -189,6 +192,7 @@ export async function getLiteracyStatuses(
             ? `Do the next healthy balance lesson for this stage, ${stageLessonsLeft('balance')} to go.`
             : 'Add two or three more jobs this week so the time is earned again.',
           href: '/dashboard/quests',
+          lessons: stageLessons('balance'),
         },
   }
 
@@ -204,9 +208,10 @@ export async function getLiteracyStatuses(
           tone: 'green', label: 'Building now',
           value: stageLessonBit(k) ?? `${n} lesson${n === 1 ? '' : 's'} done`,
           note: k === 'ai'
-            ? 'What AI is, how chatbots work, and how to tell what is real, built lesson by lesson.'
+            ? 'What AI is, how chatbots work, and how to tell what is real, built lesson by lesson. Their own AI modules for this age count here.'
             : 'The judgement for the platforms, built in good time before 16. From 13, DiGi also asks what they are seeing.',
           href: '/dashboard/lessons',
+          lessons: stageLessons(k),
         }
       : {
           tone: 'red', label: 'Lessons waiting',
@@ -217,9 +222,10 @@ export async function getLiteracyStatuses(
             ? 'The age is right for this now. The first AI lesson takes ten minutes together.'
             : 'The age is right to start building platform judgement, well before any account exists.',
           improve: k === 'ai'
-            ? 'Watch the first AI and chatbots lesson together this week.'
+            ? (stage >= AREA_START.ai ? 'Watch the first AI and chatbots lesson together this week.' : 'Comes later on the road.')
             : (socialRed && socialCheck?.grade_note) ? socialCheck.grade_note : 'Do the first social media readiness lesson together this week.',
           href: '/dashboard/lessons',
+          lessons: stageLessons(k),
         }
   }
   return statuses

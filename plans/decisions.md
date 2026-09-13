@@ -13880,3 +13880,50 @@ and the child home at 390 with the edge token at 2px against 1.5px. The 1.5px
 read as more expensive and less ours. So --edge stays 2px solid var(--ink),
 and the question is closed: the next look and feel session should not reopen
 it without a new reason.
+
+## 13 September 2026: the passport proves the four things
+
+Justin, decoded from a voice note: the passport must be "updated based on
+progression through the areas we have agreed need to be met", easy for parent
+and child, "shows measurable progression", and the review must show "how child
+behaviour improved, better use of devices, safety, aware and educated on devices,
+social media risks and benefits, healthy, AI literate, safe and ready for the
+future we think AI will give us."
+
+Audit in `plans/2026-09-13-passport-readiness-plan.md`. Four findings, all
+closed in PR 1057, no migration:
+
+**AI was invisible to the passport.** The child's own AI modules (`ai_lessons`,
+seven or eight per age band, every band) counted toward nothing, and the AI
+area matched three parent lessons in the whole library while saying it comes at
+11. Now `lib/pathway/readiness-areas.ts` is the one counting rule: parent
+lessons by category plus the age band's AI modules, credited by the stamp's own
+rule (`lib/pathway/lesson-credit.ts`, lifted out of progress.ts so both share
+it by import).
+
+**A third of the library landed in no area.** bullying, information,
+ownership, relationships and reputation matched nothing: 36 lessons counting
+toward none of the four things. information goes to AI (telling what is real
+is that area's own promise), bullying to Safe, the other three to Social. And
+`ai_safety` fell through to Safe because an underscore is a word character.
+
+**The start age was written four times.** `AREA_START` in
+`lib/content/literacy.ts` is the one copy. AI starts on page one: the modules
+for 4 to 7 exist and the hub already offered "What is AI?" to a five year old
+while three of the four copies said 11. The algorithm and feed conversation
+still lands at Explorer through that stage's own lessons. Social stays at 11.
+
+**The passport never showed the areas.** Every stage page now carries "What
+this page builds": the four areas as counts and bars in the stage's ink
+(`components/pathway/StageAreas.tsx`). Lesson counts only, so the child's read
+only book draws the same block. And the parent's current page carries the
+behaviour line, "Phones in the car went from 2 to 5 stars", from the parent's
+own first and latest check in bands (`improvedLine` in `lib/concerns/sorted.ts`).
+Never on the child's book: `scripts/check-readiness-areas.mjs` holds that, the
+category mapping, the AI count and the single start rule, mutation tested
+eleven ways.
+
+**Not changed: what stamps a stage.** The AI modules are counted and shown.
+Whether they should also gate the stamp is Justin's call. The daily sticker
+decided on 10 September is still the "keeps interest daily" piece and is not
+built.

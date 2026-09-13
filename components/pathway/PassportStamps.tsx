@@ -57,6 +57,14 @@ export interface Stamp {
   // and routines, balance). When present the passport page renders this instead
   // of the four task list, each row a tick or a tap with a running percent.
   sections?: ChecklistSection[]
+  /**
+   * The four things this stage builds, as lesson counts: Safe online, Healthy
+   * balance, AI and chatbots, Social media ready. Justin, 13 September 2026:
+   * the passport is "updated based on progression through the areas we have
+   * agreed need to be met". Counts only, never a worry or a note, so the
+   * child's read only book carries the same block. See StageAreas.
+   */
+  areas?: { key: string; name: string; done: number; total: number }[]
 }
 
 const R = 32

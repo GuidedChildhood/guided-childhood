@@ -7,6 +7,8 @@ import type { Stamp, StampStatus } from './PassportStamps'
 import { characterForStage, STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import StageSlots from './StageSlots'
 import StageChildStrip from './StageChildStrip'
+import StageAreas from './StageAreas'
+import { improvedSentence, type ImprovedLine } from '@/lib/concerns/sorted'
 
 // The passport as a little book. A teal cover with the gold crest, then
 // one page per stage in that stage's colour, each carrying a big progress
@@ -78,6 +80,7 @@ export default function PassportBook({
   childRead = null,
   onApp = false,
   readOnly = false,
+  improved = null,
 }: {
   stamps: Stamp[]
   childName: string
@@ -137,6 +140,14 @@ export default function PassportBook({
   /** Read only: no links out, no send, no page turn controls beyond the flip.
    *  This is the child looking at their parent's book. */
   readOnly?: boolean
+  /**
+   * The behaviour line: the worry that has moved the most, in the parent's
+   * own stars. Justin, 13 September 2026: the passport must show "clearly how
+   * child behaviour improved". Only the parent's page ever passes it, and the
+   * book only draws it when it is not read only, because it is an adult's
+   * note about the child. scripts/check-passport-readonly.mjs holds both.
+   */
+  improved?: ImprovedLine | null
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
@@ -647,6 +658,16 @@ export default function PassportBook({
                 </div>
               </div>
 
+              {/* ── WHAT THIS PAGE BUILDS ────────────────────────────────
+                  The four things, as counts, on the page itself. The slots
+                  below are the WORK of the stage; this is what the work is
+                  FOR, and until 13 September 2026 it lived in a card further
+                  down the page and never on the passport. Counts only, so
+                  the child's read only book draws it too. */}
+              {stamp.areas && stamp.areas.length > 0 && (
+                <StageAreas areas={stamp.areas} stageId={stamp.id} ink={theme.text} tint={theme.bg} />
+              )}
+
               {/* To stamp this page: the plain checklist of what completes the
                   stage. Each task shows a tick when it is done and how much is
                   left when it is not, so the page always says exactly what to
@@ -843,6 +864,34 @@ export default function PassportBook({
                     onApp={onApp && !readOnly}
                     ink={theme.text}
                   />
+                )}
+
+                {/* ── THE BEHAVIOUR LINE, PARENT'S BOOK ONLY ───────────────
+                    "Phones in the car went from 2 to 5 stars." The parent's
+                    own check in answers, first and latest, on the page that
+                    is supposed to be the record of the whole journey. Never
+                    on the read only book: readOnly gates it here and the
+                    child's page never passes it. */}
+                {!readOnly && improved && stamp.id === currentStage && (
+                  <div style={{
+                    marginTop: 12, background: '#fff', border: `1.5px solid ${theme.text}`,
+                    borderRadius: 'var(--radius-tile)', padding: '9px 11px',
+                  }}>
+                    <span style={{
+                      display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                      letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.75,
+                    }}>
+                      Getting better
+                    </span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3, marginTop: 3 }}>
+                      {improvedSentence(improved)}
+                    </span>
+                    {improved.sortedCount > 0 && (
+                      <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3 }}>
+                        {improved.sortedCount === 1 ? 'One worry sorted so far, on your own stars.' : `${improved.sortedCount} worries sorted so far, on your own stars.`}
+                      </span>
+                    )}
+                  </div>
                 )}
 
                 {!readOnly && (

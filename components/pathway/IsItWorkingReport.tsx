@@ -8,6 +8,7 @@ import { readScores, type ScoredEvent } from '@/lib/concerns/scores'
 import { TOP_BAND, SILVER_RUN } from '@/lib/concerns/resting'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
+import { AREA_ORDER, AREA_START } from '@/lib/content/literacy'
 import StickerBook from '@/components/pathway/StickerBook'
 import { getStickerBook } from '@/lib/stickers/book'
 import StaggerReveal from '@/components/pathway/StaggerReveal'
@@ -205,7 +206,7 @@ export default async function IsItWorkingReport(
   // warmth, so they are computed once here.
   const stageNum = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand).id : 1
   const literacyStatuses = await getLiteracyStatuses(supabase, user.id, stageNum)
-  const activeAreaKeys = ['safe', 'balance', ...(stageNum >= 3 ? ['ai', 'social'] : [])]
+  const activeAreaKeys = AREA_ORDER.filter(k => stageNum >= AREA_START[k])
   const greenCount = activeAreaKeys.filter(k => literacyStatuses[k]?.tone === 'green').length
 
   return (

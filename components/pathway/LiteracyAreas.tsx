@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { READINESS } from '@/lib/content/readiness'
+import { AREA_START } from '@/lib/content/literacy'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 
 // The whole promise in four things a parent can hold in their head, read
@@ -19,23 +20,25 @@ type Area = { key: string; icon: HappyIconName; tint: string; name: string; star
 
 const AREAS: Area[] = [
   {
-    key: 'safe', icon: 'tell', tint: 'var(--terracotta-lt)', name: 'Safe online', startStage: 1,
+    key: 'safe', icon: 'tell', tint: 'var(--terracotta-lt)', name: 'Safe online', startStage: AREA_START.safe,
     blurb: 'Device settings set, worries worked through, and DiGi asking gently along the way.',
     comesWhy: '', comesAge: '4',
   },
   {
-    key: 'balance', icon: 'balance', tint: 'var(--tint-sage)', name: 'Healthy balance', startStage: 1,
+    key: 'balance', icon: 'balance', tint: 'var(--tint-sage)', name: 'Healthy balance', startStage: AREA_START.balance,
     blurb: 'Real world jobs against screen time, held in a good balance.',
     comesWhy: '', comesAge: '4',
   },
   {
-    key: 'ai', icon: 'quiz', tint: 'var(--stage-3)', name: 'AI and chatbots', startStage: 3,
-    blurb: 'What AI is, how chatbots work, and how to tell what is real.',
-    comesWhy: 'Orben and Odgers place the algorithm conversation in the 11 to 13 window, when abstract thinking can hold it.',
-    comesAge: '11',
+    // From page one since 13 September 2026: the AI modules for 4 to 7 exist
+    // and were already in the lessons hub while this row said "comes at 11".
+    // The algorithm conversation still lands at Explorer through its lessons.
+    key: 'ai', icon: 'quiz', tint: 'var(--stage-3)', name: 'AI and chatbots', startStage: AREA_START.ai,
+    blurb: 'What AI is, how chatbots work, and how to tell what is real. Their own AI modules for this age count here.',
+    comesWhy: '', comesAge: '4',
   },
   {
-    key: 'social', icon: 'friends', tint: 'var(--stage-4)', name: 'Social media ready', startStage: 3,
+    key: 'social', icon: 'friends', tint: 'var(--stage-4)', name: 'Social media ready', startStage: AREA_START.social,
     blurb: 'The judgement for the platforms, built in good time before 16.',
     comesWhy: 'Built before any account exists, so the skills are there first. From 13, DiGi asks what they are actually seeing.',
     comesAge: '11',
@@ -79,7 +82,7 @@ function StatusChip({ tone, children }: { tone: ChipTone; children: React.ReactN
 const MOVES: Record<string, string> = {
   safe: 'Device guides done, worries worked through with DiGi, and the safe online lessons passed.',
   balance: 'Jobs earn stars, screen runs through the timer, balance lessons passed.',
-  ai: 'The stage lessons for this age, passed one by one.',
+  ai: 'The stage lessons for this age and their own AI modules, passed one by one.',
   social: "The stage lessons passed, and from 13 DiGi's weekly question.",
 }
 
@@ -236,7 +239,11 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
 
           const onTrack = (live?.tone ?? 'green') === 'green'
           const chipTone: ChipTone = onTrack ? 'green' : 'amber'
-          const bar = progressFrom(live?.value) ?? balanceFrom(live?.value)
+          // The numbers first, the regex over the value string only for the
+          // balance reading, which is minutes rather than lessons.
+          const bar = (live?.lessons && live.lessons.total > 0 && area.key !== 'balance')
+            ? live.lessons
+            : progressFrom(live?.value) ?? balanceFrom(live?.value)
 
           const inner = (
             <>
