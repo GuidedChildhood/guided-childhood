@@ -213,3 +213,9 @@ jobs:
       # holds every give up path to a rescue, a word to the parent, and a
       # reason that records it. See the header of check-digi-rescue.mjs.
       - run: node scripts/check-digi-rescue.mjs
+      # The model ladder holds and the parameters only some models accept
+      # never reach the ones that reject them: no date suffixed ids, no forced
+      # tool_choice, effort never sent to Haiku, fast mode never sent to a model
+      # that cannot take it. Imports the real config, so it tests behaviour
+      # rather than spelling. See the header of check-digi-model.mjs.
+      - run: node --experimental-strip-types scripts/check-digi-model.mjs

@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { JOBS, CRITICAL, type Job } from './jobs'
+import { DIGI_MODEL } from '@/lib/config/digi'
 
 // One read that answers: is anything broken right now?
 //
@@ -113,7 +114,7 @@ export function serviceChecks(env: NodeJS.ProcessEnv = process.env): Check[] {
     has('ANTHROPIC_API_KEY')
       ? {
           key: 'digi', label: 'DiGi', level: 'ok', headline: 'Configured',
-          detail: `Model ${env.DIGI_MODEL?.trim() || 'claude-fable-5'} (the default applies when DIGI_MODEL is unset).`,
+          detail: `Model ${env.DIGI_MODEL?.trim() || DIGI_MODEL} (the default applies when DIGI_MODEL is unset).`,
         }
       : { key: 'digi', label: 'DiGi', level: 'down', headline: 'No API key', detail: 'DiGi cannot reply. Every pathway request fails.' },
   )

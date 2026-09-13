@@ -2,6 +2,12 @@ import type Anthropic from '@anthropic-ai/sdk'
 import type { makeDashStripper } from '@/lib/digi/text'
 
 export interface ToolUse { id: string; name: string; input: unknown }
+export interface TurnUsage {
+  input: number | null
+  cacheRead: number | null
+  cacheWrite: number | null
+  output: number | null
+}
 export interface TurnResult {
   /** Dash stripped text, already sent to the client. */
   clean: string
@@ -9,6 +15,12 @@ export interface TurnResult {
   blocks: Anthropic.ContentBlockParam[]
   toolUses: ToolUse[]
   stopReason: string | null
+  /**
+   * What the turn cost, from the message_start and message_delta events. The
+   * cache figures are the only evidence there is that the cache_control on the
+   * static system prompt is doing anything (migration 295).
+   */
+  usage: TurnUsage
 }
 
 /**
@@ -25,7 +37,9 @@ export interface TurnResult {
  * the person. Sending it the stripped version would quietly rewrite its history.
  */
 export async function consumeStream(
-  stream: AsyncIterable<Anthropic.RawMessageStreamEvent>,
+  // Either endpoint's events. Fast mode is only reachable through the beta
+  // endpoint, whose event union names the same fields this reads.
+  stream: AsyncIterable<Anthropic.RawMessageStreamEvent | Anthropic.Beta.BetaRawMessageStreamEvent>,
   controller: ReadableStreamDefaultController<Uint8Array>,
   encoder: TextEncoder,
   dashes: ReturnType<typeof makeDashStripper>,
@@ -33,13 +47,19 @@ export async function consumeStream(
   let raw = ''
   let clean = ''
   let stopReason: string | null = null
+  const usage: TurnUsage = { input: null, cacheRead: null, cacheWrite: null, output: null }
   // Keyed by content block index: a reply can open a text block and a tool_use
   // block, and their deltas arrive interleaved.
   const partials = new Map<number, { id: string; name: string; json: string }>()
   const toolUses: ToolUse[] = []
 
   for await (const event of stream) {
-    if (event.type === 'content_block_start' && event.content_block.type === 'tool_use') {
+    if (event.type === 'message_start') {
+      const u = event.message.usage
+      usage.input = u.input_tokens ?? null
+      usage.cacheRead = u.cache_read_input_tokens ?? null
+      usage.cacheWrite = u.cache_creation_input_tokens ?? null
+    } else if (event.type === 'content_block_start' && event.content_block.type === 'tool_use') {
       partials.set(event.index, { id: event.content_block.id, name: event.content_block.name, json: '' })
     } else if (event.type === 'content_block_delta') {
       if (event.delta.type === 'text_delta') {
@@ -66,6 +86,7 @@ export async function consumeStream(
       }
     } else if (event.type === 'message_delta') {
       stopReason = event.delta.stop_reason ?? stopReason
+      usage.output = event.usage?.output_tokens ?? usage.output
     }
   }
 
@@ -75,5 +96,5 @@ export async function consumeStream(
     blocks.push({ type: 'tool_use', id: t.id, name: t.name, input: t.input })
   }
 
-  return { clean, blocks, toolUses, stopReason }
+  return { clean, blocks, toolUses, stopReason, usage }
 }
