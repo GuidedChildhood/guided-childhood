@@ -2,14 +2,19 @@ import { NextResponse } from 'next/server'
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail } from '@/lib/email'
+import { schoolLetter } from '@/lib/email/school-letters'
 
 // The other half of the schools invoice letterbox (migration 195). The
 // schools site has no email code by design, so the form only inserts a row
 // into schools.invoice_requests; this cron, running hourly in the parent
 // app where the email infrastructure lives, picks up anything new and
 // emails Justin, then stamps notified_at so a row is never sent twice.
-// A school buying a licence is not a minutes matter, so hourly is prompt
-// enough and one more cron slot is the whole cost.
+// A school buying a licence is not a minutes matter, so hourly was prompt
+// enough for the note to Justin. Since 13 September 2026 this cron also
+// sends the SCHOOL its own confirmation (lib/email/school-letters.ts,
+// tracked in confirmed_at, migration 299), and a school that has just
+// pressed the button is waiting for that one, so it runs every fifteen
+// minutes now (vercel.json).
 
 export const dynamic = 'force-dynamic'
 
@@ -19,7 +24,7 @@ const FOUNDER_EMAIL = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillb
 // same letterbox on purpose (no new table, no second cron), so the only thing
 // that has to tell them apart is the email, and it very much does: an order
 // needs an invoice raised against a PO, and a lead needs a reply.
-const LEAD_BANDS = new Set(['draw', 'taster'])
+const LEAD_BANDS = new Set(['draw', 'taster', 'pilot'])
 
 const BAND_LABELS: Record<string, string> = {
   // A free class pack draw entry (schools /draw) uses the same letterbox.
@@ -28,6 +33,9 @@ const BAND_LABELS: Record<string, string> = {
   // taster, 11 September 2026). No PO, by design: asking a browsing teacher
   // for a purchase order is asking them to leave.
   taster: 'Sample lesson taster · lead',
+  // A school asking for the free term (schools /pilot, 13 September 2026).
+  // Five places; the pilot page counts them from these rows.
+  pilot: 'Free one term pilot · lead',
   primary_small: 'Primary up to 200 pupils · £495',
   primary_large: 'Primary 200 to 500 · £795',
   secondary: 'Secondary up to 1,000 · £1,495',
@@ -63,16 +71,34 @@ async function handler(request: Request) {
   const { data: requests, error } = await supabase
     .schema('schools')
     .from('invoice_requests')
-    .select('id, school_name, band, pupil_count, contact_name, email, po_number, notes, created_at')
-    .is('notified_at', null)
+    .select('id, school_name, band, pupil_count, contact_name, email, po_number, notes, created_at, notified_at, confirmed_at')
+    .or('notified_at.is.null,confirmed_at.is.null')
     .order('created_at')
     .limit(20)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   if (!requests || requests.length === 0) return NextResponse.json({ ok: true, sent: 0 })
 
   let sent = 0
+  let confirmed = 0
   for (const r of requests) {
     const lead = LEAD_BANDS.has(r.band)
+
+    // The school's own confirmation, once, independent of the note to Justin.
+    // A kind with no letter (the draw) is stamped without a send, so the row
+    // does not come round every quarter hour for ever.
+    if (!r.confirmed_at) {
+      const letter = schoolLetter(r)
+      const ok = letter
+        ? (await sendEmail({ to: r.email, subject: letter.subject, html: letter.html, kind: 'transactional', key: 'school-letterbox-confirmation' })).ok
+        : true
+      if (ok) {
+        await supabase.schema('schools').from('invoice_requests')
+          .update({ confirmed_at: new Date().toISOString() }).eq('id', r.id)
+        if (letter) confirmed++
+      }
+    }
+
+    if (r.notified_at) continue
     const result = await sendEmail({
       to: FOUNDER_EMAIL,
       subject: lead
@@ -89,9 +115,11 @@ async function handler(request: Request) {
           ${lead ? '' : `<tr><td style="padding-right:16px;color:#888">PO number</td><td><strong>${esc(r.po_number)}</strong></td></tr>`}
           ${r.notes ? `<tr><td style="padding-right:16px;color:#888">Notes</td><td>${esc(r.notes)}</td></tr>` : ''}
         </table>
-        <p style="margin-top:16px">${lead
-          ? 'No invoice to raise. This is a lead: reply to them yourself while the lesson is still fresh.'
-          : 'Raise the invoice by hand in the Stripe dashboard, 30 day terms, and quote the PO on it. That is the whole flow.'}</p>
+        <p style="margin-top:16px">${r.band === 'pilot'
+          ? 'A pilot. Add a code for this school to SCHOOLS_ACCESS_CODES on the schools Vercel project, redeploy, and reply with it within two working days. The school has already had a confirmation saying so.'
+          : lead
+            ? 'No invoice to raise. This is a lead: reply to them yourself while the lesson is still fresh.'
+            : 'Raise the invoice by hand in the Stripe dashboard, 30 day terms, and quote the PO on it. That is the whole flow. The school has already had a confirmation saying the invoice is on its way.'}</p>
       `,
     })
     if (result.ok) {
@@ -101,7 +129,7 @@ async function handler(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, sent })
+  return NextResponse.json({ ok: true, sent, confirmed })
 }
 
 export const GET = withHeartbeat('/api/cron/invoice-requests', handler)

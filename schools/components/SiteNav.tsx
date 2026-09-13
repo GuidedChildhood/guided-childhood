@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { PILOT_ENQUIRY } from '@/lib/links'
+import { PILOT_PATH } from '@/lib/links'
 
 // ONE HEADER. The site had three: the home page's own, the philosophy page's
 // single link, and this one on the rest, and this one showed Print room and
@@ -53,7 +53,7 @@ export default function SiteNav({ licensed = false }: { licensed?: boolean }) {
           ) : (
             <>
               <Link href="/unlock" className="gc-nav-code">I have a school code</Link>
-              <a href={PILOT_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold gc-nav-pilot">Request a pilot</a>
+              <Link href={PILOT_PATH} className="btn btn-gold gc-nav-pilot">Request a pilot</Link>
             </>
           )}
         </div>

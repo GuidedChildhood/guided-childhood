@@ -231,3 +231,25 @@ below the third option, reachable by scroll; a tighter option scale at small
 heights is a day two item. The rest of must fix 8 (terms, privacy notice, DPA,
 the confirmation email, the quote path, the Mailchimp pilot) waits on decisions
 2 to 4.
+
+## The six decisions, taken (13 September, evening)
+
+Justin agreed all six: the pilot in the product; a reply by email to every
+lead and order the moment it lands; terms, privacy notice and DPA drafted now
+for a solicitor's pass; £495 stays; five pilot schools, one code each, the
+invoice form pre filled at term end; the staffroom after the first pilot
+signs.
+
+## The pilot door, done (13 September, night)
+
+`/pilot` with five places counted from the letterbox, the same table and the
+same cron as the invoice request, every Mailchimp link gone, the unbuilt
+assembly pack promise gone. The cron now sends the school its own letter for a
+pilot, a taster and an order, every fifteen minutes, once per row (migration
+299, backfilled by 300 so the August rows stay quiet). The pilot letter's last
+link opens the pricing page with the school already filled in. Guarded by
+scripts/check-pilot-door.mjs in CI.
+
+Left from must fix 8: the terms, the privacy notice and the DPA, agreed and
+not yet drafted, and the quote path, which the invoice form already covers for
+a school that needs a number before a PO.

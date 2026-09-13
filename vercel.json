@@ -191,7 +191,7 @@
     },
     {
       "path": "/api/cron/invoice-requests",
-      "schedule": "20 * * * *"
+      "schedule": "*/15 * * * *"
     }
   ]
 }

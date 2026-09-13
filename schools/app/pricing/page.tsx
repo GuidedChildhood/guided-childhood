@@ -21,7 +21,12 @@ const eyebrow: React.CSSProperties = {
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
 }
 
-export default function PricingPage() {
+// The end of a pilot arrives here with the school already typed in: the
+// confirmation email carries ?school=&name=&email= so a pilot turns into a
+// licence in one click (decision 5, 13 September 2026).
+export default async function PricingPage({ searchParams }: { searchParams: Promise<{ school?: string; name?: string; email?: string }> }) {
+  const sp = await searchParams
+  const prefill = { school_name: sp.school?.slice(0, 200), contact_name: sp.name?.slice(0, 120), email: sp.email?.slice(0, 200) }
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '48px 20px 90px' }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
@@ -140,7 +145,7 @@ export default function PricingPage() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '14px' }}>
               Request your invoice
             </h2>
-            <InvoiceForm />
+            <InvoiceForm prefill={prefill} />
           </div>
         </div>
 
