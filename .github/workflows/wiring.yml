@@ -59,6 +59,10 @@ jobs:
           # token alias are all invisible to anything that only reads the
           # source. See the header of check-wall-contrast.mjs.
           npm run wall-contrast-guard
+          # And once more with the teacher's chrome: the arc rail and the
+          # presenter bar carry labels only a teacher reads, and a label only
+          # a teacher reads still has to clear AA.
+          GC_WALL_QUERY='&teacher=1' npm run wall-contrast-guard
 
   # The two guards on the join between what a parent answers and what the
   # daily check in asks about.

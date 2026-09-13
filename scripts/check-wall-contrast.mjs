@@ -37,6 +37,10 @@ import { chromium } from 'playwright'
 
 const BASE = process.env.GC_BASE_URL ?? 'http://localhost:3000'
 const SLIDES = Number(process.env.GC_WALL_SLIDES ?? 21)
+// Extra query on the fixture, so the same walk can cover the teacher's
+// chrome: GC_WALL_QUERY='&teacher=1' renders the arc rail and the presenter
+// bar, which carry labels only a teacher reads and still have to clear AA.
+const QUERY = process.env.GC_WALL_QUERY ?? ''
 
 // The probe runs inside the page. Everything it needs is defined in here.
 const probe = () => {
@@ -161,7 +165,7 @@ const failures = []
 let nodes = 0
 let unsettled = 0
 for (let i = 0; i < SLIDES; i++) {
-  await page.goto(`${BASE}/dev/lesson-player?projector=1&slide=${i}`, { waitUntil: 'networkidle' })
+  await page.goto(`${BASE}/dev/lesson-player?projector=1&slide=${i}${QUERY}`, { waitUntil: 'networkidle' })
   const settled = await page.waitForFunction(() =>
     [...document.querySelectorAll('.gc-lesson-player [data-reveal]')]
       .every(e => parseFloat(getComputedStyle(e).opacity) > 0.98),

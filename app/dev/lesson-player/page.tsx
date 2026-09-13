@@ -193,7 +193,7 @@ async function cyclesToRender(): Promise<LessonCycle[]> {
   return JSON.parse(await readFile(from, 'utf8')) as LessonCycle[]
 }
 
-export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string; projector?: string; ahead?: string }> }) {
+export default async function LessonPlayerFixturePage({ searchParams }: { searchParams: Promise<{ slide?: string; class?: string; projector?: string; ahead?: string; teacher?: string }> }) {
   if (process.env.NODE_ENV === 'production') notFound()
   const sp = await searchParams
   const slides = await slidesToRender()
@@ -201,6 +201,11 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
   const slideIndex = Math.max(0, Number(sp.slide) || 0)
   const classMode = sp.class === '1'
   const projector = classMode || sp.projector === '1'
+  // ?teacher=1 renders the teacher's chrome: the arc rail and the presenter
+  // bar with the script, which is what a school's wall shows. The contrast
+  // guard walks that variant too, because a label only a teacher reads is
+  // still a label that has to clear AA.
+  const teacherView = sp.teacher === '1'
   // ?ahead=1 renders the reading ahead notice above the player, the way the
   // real lesson page does when a parent opens a lesson above their child's
   // stage. Added 10 September 2026 with the notice itself, so the one thing
@@ -217,6 +222,7 @@ export default async function LessonPlayerFixturePage({ searchParams }: { search
       classMode={classMode}
       cycles={cycles}
       projector={projector}
+      teacherView={teacherView}
       initialIndex={slideIndex}
       badges={{ keyStage: 'KS2/3', strand: 'Managing online information' }}
       notice={ahead ? (

@@ -86,11 +86,11 @@ export default function AnimatedIntro({
       style={{
         position: 'relative', overflow: 'hidden',
         background: 'linear-gradient(160deg, #1F5560 0%, #173C46 60%, #12313A 100%)',
-        borderRadius: 'var(--radius-card)', padding: '22px 20px 24px', textAlign: 'center',
+        borderRadius: 'var(--radius-card)', padding: projector ? 'clamp(12px, 2vh, 20px) 20px clamp(12px, 2vh, 20px)' : '22px 20px 24px', textAlign: 'center',
       }}
     >
       {eyebrow && (
-        <div data-eyebrow style={{ opacity: 0, fontFamily: 'var(--font-mono)', fontSize: projector ? WALL.aside : 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
+        <div data-eyebrow style={{ opacity: 0, fontFamily: 'var(--font-mono)', fontSize: projector ? WALL.aside : 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: projector ? 'clamp(6px, 1.2vh, 14px)' : '14px' }}>
           {eyebrow}
         </div>
       )}
@@ -105,10 +105,10 @@ export default function AnimatedIntro({
       <div data-bubble style={{ opacity: 0 }}>
         <div style={{
           maxWidth: projector ? 900 : 300, margin: '0 auto',
-          background: '#fff', borderRadius: 'var(--radius-btn)', padding: '11px 14px',
+          background: '#fff', borderRadius: 'var(--radius-btn)', padding: projector ? '10px 18px' : '11px 14px',
           textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
         }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink)', lineHeight: projector ? 1.3 : 1.4 }}>
             {typed}
             {typed.length < line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
           </span>
@@ -125,10 +125,16 @@ export default function AnimatedIntro({
         // 200 rather than the old 280: with the bubble now OUTSIDE the frame
         // the intro runs taller, and the Continue button must stay on a phone
         // screen without scrolling. The clip reads perfectly at this size.
-        opacity: 0, position: 'relative', width: '100%', maxWidth: projector ? 440 : 200, margin: '0 auto',
+        // On the wall the frame follows the screen's height: 440px is right
+        // on a 1080 projector and a scroll on a 768 laptop.
+        opacity: 0, position: 'relative', width: '100%', maxWidth: projector ? 'min(440px, 28vh)' : 200, margin: '0 auto',
         aspectRatio: '1 / 1', borderRadius: 'var(--radius-card)', overflow: 'hidden',
         border: '3px solid rgba(237,195,95,0.5)', boxShadow: '0 12px 34px rgba(0,0,0,0.3)',
-        background: '#0F2A32',
+        // The friend's own colour behind the clip, so a slow school network
+        // shows a coloured plate while the film loads and never a black box
+        // on the first slide of the lesson (the schools review, 13 September
+        // 2026, found exactly that box on the 1440 frame).
+        background: `radial-gradient(circle at 50% 42%, ${c.accent}55 0%, #0F2A32 68%)`,
       }}>
         {c.clip ? (
           <video
@@ -146,7 +152,7 @@ export default function AnimatedIntro({
         )}
       </div>
 
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: projector ? WALL.display : 'clamp(1.4rem, 5vw, 1.9rem)', fontWeight: 900, color: '#fff', lineHeight: 1.14, letterSpacing: '-0.02em', margin: '18px 0 18px' }}>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: projector ? WALL.display : 'clamp(1.4rem, 5vw, 1.9rem)', fontWeight: 900, color: '#fff', lineHeight: 1.14, letterSpacing: '-0.02em', margin: projector ? 'clamp(8px, 1.4vh, 14px) 0 4px' : '18px 0 18px' }}>
         {titleWords.map((w, i) => (
           w.trim() === '' ? w : <span key={i} data-word style={{ display: 'inline-block', opacity: 0 }}>{w}</span>
         ))}

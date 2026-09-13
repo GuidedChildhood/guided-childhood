@@ -53,6 +53,13 @@ export const WALL = {
   // below the floor because the class does not need to read it from the back;
   // the teacher does, and the sceptical adult in the room does.
   aside: 'clamp(0.8rem, min(1.5vw, 2.4vh), 1.6rem)',     // 26px
+  // The teacher's script in the presenter bar. Read by one person at their
+  // own screen, never by the class from the back, and long on purpose: the
+  // median script is 256 characters and one in ten is over 540. At the aside
+  // size a long script stood 340px tall on a 1080 wall and pushed the slide
+  // into a scroll (the Apple bar pass, 13 September 2026). This is the size
+  // of body text on a laptop, which is the instrument it is read on.
+  script: 'clamp(0.9rem, min(1.2vw, 2.05vh), 1.4rem)',   // 22px at 1920x1080, 16px at 1366x768
 
   // DECORATION, which has to give way before the words do.
   //

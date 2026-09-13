@@ -14272,3 +14272,47 @@ to the bottom of the screen on a projector.
 Still open from the review: the pilot request on Mailchimp (decision 2), the
 school code door in the header (decision 3, the footer carries it for now),
 the terms, privacy notice and DPA (decision 4), and the day two appearance list.
+
+## 13 September 2026, Sunday evening, the lesson on the wall to the Apple bar (session 0u09q9)
+
+Justin, 13 September 2026: "make sure the appearance of the lesson is top
+rating, university, private top school, paid education, better than any
+PowerPoint presentation, super Apple slick UX ... and do not stop designing
+appearance until this is achieved." The plan is
+plans/2026-09-13-schools-apple-bar-plan.md; this entry records what the first
+batch decided for the classroom player (shared/components/LessonPlayer.tsx,
+projector branch only; the phone branch the parents app and the child app use
+is untouched).
+
+- **The arc rail replaces the status line and the five phase pills.** One
+  segmented bar, one segment per phase in the deck, the phase named under it,
+  the current segment in the friend's accent and filling as the slides
+  advance. Equal segments, so the labels always fit. The chrome went from two
+  rows (155px of a 900px screen) to one line. Rosenshine worn openly, still.
+- **A presenter bar at the bottom, outside the scrolling stage.** The teacher
+  script on the left, Back and Continue compact on the right, the same place
+  on every slide. Keynote's presenter notes, for a room with one screen. The
+  full width butter Continue bar is gone.
+- **A script role on the wall scale (WALL.script, 22px at 1080).** The script
+  is read by one person at their own screen and one in ten scripts is over
+  540 characters; at the aside size a long script stood 340px tall. The guard
+  polices the new role at a 20px floor.
+- **Keycaps and number keys on choice slides.** Keys 1 to 4 pick an option;
+  each option wears its key. The Duolingo and Uxcel pattern, in our tokens.
+- **Diagrams run across the wall, down a phone.** Three stacked cards of
+  forty pixel text stood 540px past the bottom of a 1080 wall and looked like
+  SmartArt. Side by side with the rail across the top they read as a process.
+- **Keywords in two columns on the wall; the cycle map is one line.**
+- **A cream fade at the foot of the stage while there is more below.** A
+  slide that still runs past the stage (long diagram steps, the KS1 intro
+  line) says so instead of hiding it.
+- **The teach route on a phone.** It is always the wall's instrument, and a
+  teacher still opens it on a phone: scoped media queries drop the rail to
+  its own row, size its labels for a phone, and stack the presenter bar.
+- **Content follow ups, curriculum lane:** two eyebrows with a full stop for
+  a dot (ks3-24, ks2-25), eight diagram slides with step texts over 90
+  characters, the KS1 intro line at 60 characters. Listed in the plan.
+- **Verified:** every slide of ks2-25, ks3-24 and ks1-02 rendered at 1920 by
+  1080, 1366 by 768, 1440 by 900 and 390 by 844; the wall contrast guard clear
+  on both the showcase and the teacher chrome (255 and 381 text nodes); the
+  wall scale guard; both typechecks.
