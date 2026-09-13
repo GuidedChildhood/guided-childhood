@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import AnnouncementBar from '@/components/marketing/AnnouncementBar'
+import HeroPhoto from '@/components/marketing/HeroPhoto'
 import FlipCards from '@/components/marketing/FlipCards'
 import HomeReveals from '@/components/marketing/HomeReveals'
 import PassportSection from '@/components/marketing/PassportSection'
@@ -335,13 +336,14 @@ export default function HomePage() {
               the same characters the child meets inside the product. */}
           <div className="fu hero-path" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
         <div className="fu hero-circle" style={{ position: 'relative', padding: '26px 0' }}>
-          <div style={{ width: 'min(72vw, 380px)', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', margin: '0 auto', boxShadow: '0 24px 70px rgba(26,26,46,0.16)' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div style={{ position: 'relative', width: 'min(72vw, 380px)', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', margin: '0 auto', boxShadow: '0 24px 70px rgba(26,26,46,0.16)' }}>
+            {/* The largest thing in the first fold, so it is the one image
+                on the site allowed to load before anything else. */}
+            <HeroPhoto
               src={PHOTO_FAMILY_GRASS}
               alt="A family laughing together on the grass, their phone left face down beside them"
-              loading="eager"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              sizes="(max-width: 528px) 72vw, 380px"
+              priority
             />
           </div>
           <div className="chip-row">
@@ -856,6 +858,7 @@ export default function HomePage() {
           <div className="two-col-wide" style={{ marginBottom: '52px' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{
+                position: 'relative',
                 width: '160px',
                 height: '160px',
                 borderRadius: 'var(--radius-card)',
@@ -863,11 +866,11 @@ export default function HomePage() {
                 margin: '0 auto',
                 boxShadow: '0 8px 32px rgba(61,115,154,.18)',
               }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_110934_b98c5da7-a06d-414d-b320-72540a7cc384.png"
+                <HeroPhoto
+                  src={HF + 'hf_20260630_110934_b98c5da7-a06d-414d-b320-72540a7cc384.png'}
                   alt="Justin Phillips, founder of Guided Childhood"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                  sizes="160px"
+                  position="center top"
                 />
               </div>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '14px' }}>
