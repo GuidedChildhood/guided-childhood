@@ -233,7 +233,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
               // A 44 tall hit area around an 8 tall dot, same as the passport's
               // page dots: the dot is the picture, the button is the target.
               style={{
-                width: i === active ? 28 : 16, height: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                width: i === active ? 36 : 24, height: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >

@@ -1322,7 +1322,7 @@ export default function QuestManager() {
             <a
               href="/dashboard/quests/contract"
               style={{
-                display: 'inline-block', marginTop: '12px',
+                display: 'inline-flex', alignItems: 'center', minHeight: 44, marginTop: '2px',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 color: 'var(--terracotta-dark)', textDecoration: 'none',
               }}

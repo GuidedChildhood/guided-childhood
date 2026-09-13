@@ -165,7 +165,7 @@ export default function SchoolWeek({
               onClick={() => onWeek(weekOffset + (step as number))}
               aria-label={String(aria)}
               style={{
-                width: 36, height: 36, borderRadius: '10px', cursor: 'pointer',
+                width: 44, height: 44, borderRadius: '11px', cursor: 'pointer',
                 background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
                 fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1,
               }}
@@ -225,7 +225,7 @@ export default function SchoolWeek({
                   onClick={() => onAdd(d.dateIso, d.dow)}
                   style={{
                     alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '5px 0', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)',
+                    padding: '10px 0', minHeight: 44, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)',
                     fontWeight: 600, color: 'var(--ink-muted)',
                   }}
                 >
@@ -348,7 +348,7 @@ export default function SchoolWeek({
                   onClick={() => onAdd(d.dateIso, d.dow)}
                   style={{
                     alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '1px 0 2px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                    padding: '10px 0', minHeight: 44, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
                     fontWeight: 600, color: 'var(--ink-muted)',
                   }}
                 >

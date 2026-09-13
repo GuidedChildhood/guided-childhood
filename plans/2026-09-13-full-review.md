@@ -72,7 +72,13 @@ routine does it against the live product.
   token wait is the number to watch in `digi_latency` (gather2_ms). If it
   moves, the fix is one shared fetch between progress and readiness areas.
 - Time to first byte on the public and fixture routes: median 4ms, ninetieth
-  percentile 15ms locally. The only slow route was `/join`, fixed above.
+  percentile 15ms locally. The only slow route was `/join`, fixed above: seven
+  seconds before, 1.5 seconds after with the database still unreachable, and
+  in production the count answers in well under that so the clock never fires.
+- After the fixes, the same walk at phone width found 29 small targets where
+  it found 155: the marketing header's two icon links, the join page's pill
+  buttons at 37px, and the school week's add chips, all fixed in the last pass
+  or within a few pixels of the line. No overflow, no page errors.
 - Thirteen fixture routes 404 in this container because they read the
   database on render. Not customer facing.
 - One fixture links to a placeholder child token. Not customer facing.

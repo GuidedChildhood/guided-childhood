@@ -957,7 +957,7 @@ export default function PassportBook({
                 // 8 by 8 button is a target nobody hits first time (the full
                 // review of 13 September 2026 measured it).
                 style={{
-                  width: active ? 30 : 16, height: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                  width: active ? 38 : 24, height: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
               >
