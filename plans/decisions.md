@@ -14453,3 +14453,20 @@ and is the proof path for the claim it makes.
 answer has at least three rows, every row names a real part of the product,
 no line carries a dash, and no line runs past sixteen words, which is three
 lines on a phone. Mutation tested.
+
+## 13 September 2026, later still: What you get is one list, not a grid
+
+Justin, with the two up tile grid on his phone: "maybe in the starter page we
+don't need this detail, just a simple list in happy news style, copy ideas of
+the first intro page of the best performing platforms applied to what we
+have."
+
+**One card, eight rows.** MacroFactor's What you get, Structured's plan and
+Klarna's benefits all draw it the same way: one column, the icon, a bold
+line, one short line, a hairline between rows, nothing to open. So the tiles,
+their chevrons and the paragraph behind each one went. The two beliefs that
+opened the grid (Not another blocking app, We have got you) went too, because
+the How it works section already says both as its heading and its lead.
+
+The lines are reminders, not the argument: the worry cards above carry the
+argument, one line per part, for the worries a parent actually ticked.
