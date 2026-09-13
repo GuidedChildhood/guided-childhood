@@ -14247,6 +14247,41 @@ below the fold at 900px, the script and timing are hidden on the wall, and
 buying needs a phone call). Nothing was fixed in this session; the fixes wait on
 Justin's yes to the order in the review and on five decisions named there.
 
+## 13 September 2026, the starter reveal folded below the worry cards
+
+Justin, with the reveal on his phone (the other parents card and the
+safeguarding card in his screenshot): "don't change the first part as it is
+spot on, but fold the other parts like attached to make super efficient and
+simple, happy news style, Apple UX quality."
+
+**Nothing above the worry cards moved.** The arrival, the heading, the You
+told us strip and every worry card are byte for byte what they were.
+
+**Fold grew a row form** (`components/starter/Fold.tsx`, `icon` or `happy`
+plus `line`): a drawn icon on its plate, one bold label, one small line, a
+butter chevron with the ink edge, one ledge on the shell and none inside,
+opened by a GSAP height tween. The shape is Monzo's What we'll do next and
+Polarsteps' Travel DNA: the promise in full, then Good to know rows.
+
+**The other parents and the safeguarding block are two rows** under Good to
+know, and the visible line on each is chosen so a scanning parent still gets
+the one fact: nine in ten on the first, Childline 0800 1111 and 999 on the
+second. The urgent version of the block, for a typed worry that trips
+lib/concerns/risk, still leads the page open and is never folded.
+`scripts/check-starter-fold.mjs` holds that, mutation tested five ways, in CI.
+
+**The jars picture and the road to 16 folded too.** The steer number stays
+open; the mechanism opens the fold. The stage list and the parent quote wait
+behind a One road row, because the tiles above already said it in a line.
+
+**Two floating doors became one.** StickyJoin (10 September) and an older
+white pill with its own IntersectionObserver were both live; on a phone the
+pill sat on the bar, at 1440 both were plainly stacked. The pill went. The
+bar is now hidden on the crisis path, which only the pill had honoured.
+
+At 390 wide the page went from 8513px and 1041 words to 6578px and 744, ten
+screens to eight, with the safeguarding numbers, the evidence note and the
+price all still on the page.
 ## 13 September 2026 — 298 was the only one missing, and the ledger nearly hid it
 
 Five migrations, 293 294 296 297 and 298, had no entry in the applied ledger

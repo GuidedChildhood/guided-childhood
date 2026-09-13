@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -260,43 +260,23 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
   const base = termTimeBaseMinutes(stage.ageBand)
 
   const rootRef = useRef<HTMLDivElement>(null)
-  const firstRef = useRef<HTMLDivElement>(null)
-  const ctaRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
-  const [showFloat, setShowFloat] = useState(false)
 
-  // ── THE ONLY DOOR, FOR PEOPLE WHO TURNED THE MOTION OFF ──────────────────
+  // ── ONE DOOR ON SCREEN, NEVER TWO ────────────────────────────────────────
   //
-  // showFloat used to be set only inside the GSAP effect below, which returns
-  // early on prefers-reduced-motion. That was survivable while the hero
-  // carried a Get started button. Removing that button (it fired before the
-  // page had made a claim) made it a real bug: anybody with reduced motion on
-  // scrolled the whole reveal with NO call to action until the very bottom.
+  // Until 13 September 2026 this page carried two floating doors at once: the
+  // StickyJoin bar (10 September) and an older white pill with its own
+  // IntersectionObserver, which nobody removed when the bar arrived. On a
+  // phone the pill sat on top of the bar; at 1440 both were plainly visible,
+  // stacked. The bar stays. It runs on a plain scroll listener for everyone,
+  // reduced motion included, which was the only thing the pill still did.
   //
-  // That cohort skews toward migraine, vestibular conditions and parents of
-  // neurodivergent children, which is to say the people this product is for.
-  // So the door rides a plain IntersectionObserver that runs for everybody,
-  // and GSAP is left to do only the decoration.
-  useEffect(() => {
-    const first = firstRef.current
-    const cta = ctaRef.current
-    if (!first || !cta) return
-    // A parent who typed something frightening gets no floating button at all.
-    // The real one is still at the end of the page. A sticky Finish setting up
-    // riding over a block that names Childline is the product selling over the
-    // top of a crisis, and there is no breakpoint where that is acceptable.
-    if (helpFirst) { setShowFloat(false); return }
-    const io = new IntersectionObserver(entries => {
-      for (const e of entries) {
-        if (e.target === first) setShowFloat(!e.isIntersecting && e.boundingClientRect.top < 0)
-        // The real button in view always wins: never float a duplicate over it.
-        if (e.target === cta && e.isIntersecting) setShowFloat(false)
-      }
-    }, { rootMargin: '0px 0px -30% 0px' })
-    io.observe(first)
-    io.observe(cta)
-    return () => io.disconnect()
-  }, [helpFirst])
+  // A parent who typed something frightening gets no floating door at all.
+  // The real one is still at the end of the page. A sticky Finish setting up
+  // riding over a block that names Childline is the product selling over the
+  // top of a crisis, and there is no breakpoint where that is acceptable.
+  // The pill honoured this and the bar did not, which was a second reason to
+  // have one door rather than two.
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -330,19 +310,21 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           until they are past the first section, because a buy button over their
           own child's name reads as a shop rather than an answer, and it hides
           again at the foot where the real card is. See StickyJoin. */}
-      <StickyJoin
-        href={enterHref}
-        onClick={onJoin}
-        label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
-        note="Free for four days. No card."
-      />
+      {!helpFirst && (
+        <StickyJoin
+          href={enterHref}
+          onClick={onJoin}
+          label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
+          note="Free for four days. No card."
+        />
+      )}
       {/* How far down the page they are, a hairline under the status bar. */}
       <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 3, zIndex: 60, pointerEvents: 'none' }} aria-hidden>
         <div ref={progressRef} style={{ height: '100%', background: 'var(--terracotta)', transform: 'scaleX(0)', transformOrigin: 'left' }} />
       </div>
 
       {/* ── The arrival ─────────────────────────────────────────────────── */}
-      <div ref={firstRef} style={{ background: '#fff', borderBottom: '1.5px solid var(--border)', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 22px)', paddingBottom: 30 }}>
+      <div style={{ background: '#fff', borderBottom: '1.5px solid var(--border)', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 22px)', paddingBottom: 30 }}>
         <div style={WRAP}>
           {/* ── WHY THIS ROW WRAPS ──────────────────────────────────────
               Justin's screenshot, 9 September 2026, on an iPhone: the stage
@@ -459,21 +441,36 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               top, above the heading. */}
           <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} tonight={action} helpFirst={helpFirst} />
 
-          {/* ── THE OTHER PARENTS ──────────────────────────────────────────
-              Justin, 10 September 2026: "I love the problem shown, also add
-              known problem for our known ideal customer."
+          {/* ── GOOD TO KNOW: TWO ROWS, THE DETAIL ONE TAP AWAY ────────────
+              Justin, 13 September 2026, with the other parents card and the
+              safeguarding card in his screenshot: keep the first part, "fold
+              the other parts like attached to make super efficient and
+              simple, happy news style, Apple UX quality."
 
-              Straight after their own worries, and before we say one word about
-              ourselves. Every line is from THE-STORY section 2, mined from
-              Mumsnet, app store reviews and UK surveys. It makes no claim about
-              the product at all: it is the moment a parent stops bracing,
-              because the page has just told them the thing they are ashamed of
-              is the normal thing. */}
-          <div className="wow-fu" style={{ marginTop: 20 }}>
-            <KnownProblems />
-          </div>
+              Both cards were printed in full under the worry cards, so the
+              answer a parent came for was followed by two more screens before
+              the page moved on. Monzo's What we'll do next puts the promise
+              in full and then a Good to know group of icon rows, the detail
+              behind each. Same here. Nothing is cut (see Fold for why).
 
-          {!helpFirst && <BiggerThanThis kid={kid} />}
+              The visible line on each row is chosen so a parent scanning past
+              still gets the one fact that matters: the other parents row
+              carries the nine in ten, and the safeguarding row carries
+              Childline and 999. The URGENT version of the safeguarding block,
+              for a parent whose typed worry trips lib/concerns/risk, is not
+              here: it leads the page, open, above the heading, as before.
+              scripts/check-starter-fold.mjs holds all three of those. */}
+          {!helpFirst && (
+            <div className="wow-fu" style={{ marginTop: 26 }}>
+              <div style={{ ...EYEBROW, marginBottom: 2 }}>Good to know</div>
+              <Fold happy="friends" tint="var(--stage-3)" label="You are not the only one" line="9 in 10 parents argue about screen time.">
+                <KnownProblems inRow />
+              </Fold>
+              <Fold happy="heart" tint="var(--tint-sage)" label="When it is bigger than this" line="Childline 0800 1111, any hour. 999 if not safe now.">
+                <BiggerThanThis kid={kid} inRow />
+              </Fold>
+            </div>
+          )}
         </section>
 
         {/* ── How it works ─────────────────────────────────────────────── */}
@@ -563,9 +560,13 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             </Fold>
           </div>
 
-          <div className="wow-fu" style={{ marginTop: 18 }}><MockJars /></div>
+          {/* The jars picture used to sit open between the number and the
+              fold. It is the mechanism, not the number, and the number is what
+              a parent deciding whether to pay wants from this screen, so the
+              picture now opens the fold rather than the section. */}
           <div className="wow-fu" style={{ marginTop: 14 }}>
           <Fold label="How the time works, and what it will not do" tone="card">
+          <div style={{ margin: '4px 0 16px' }}><MockJars /></div>
           <div style={{ display: 'grid', gap: 16 }}>
             {/* ── NOT "EARN YOUR SCREEN TIME" ───────────────────────────────
                 The 9 September research briefing is blunt about this: the
@@ -667,17 +668,16 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             <WhatYouGet childName={kid} />
           </div>
 
-          {/* The road, compact. It used to be a section with its own heading,
-              lead, five rows, a chip cloud and a closing paragraph. What it
-              has to say is that Stage {stage.id} is a start and not the whole
-              purchase, which the rows say on their own. */}
-          <h3 className="wow-fu" style={{ ...H2, fontSize: 'clamp(1.35rem, 4.4vw, 1.7rem)', marginTop: 34, marginBottom: 10 }}>
-            One road, from 4 to 16.
-          </h3>
-          <p className="wow-fu" style={{ ...BODY, marginBottom: 14 }}>
-            Stage {stage.id} is where you start, not where it ends.
-          </p>
-          <div className="wow-fu" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift-deep)', overflow: 'hidden' }}>
+          {/* The road, one row. It was a heading, a line, the five stage list
+              and the parent quote, all open, after the tiles had already said
+              One road from 4 to 16 in one line. Now the row says it and the
+              list and the quote wait behind the chevron for the parent who
+              wants to see where Stage {stage.id} sits. Same happy news row as
+              the Good to know group above, so the page has one shape for
+              "more, if you want it" from top to bottom. */}
+          <div className="wow-fu" style={{ marginTop: 14 }}>
+            <Fold icon="passport" label="One road, from 4 to 16" line={`Stage ${stage.id} is where you start, not where it ends.`}>
+          <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', overflow: 'hidden' }}>
             {STAGES.map((s, i) => {
               const here = s.id === stage.id
               const a = s.ageBand === '16+' ? '16 and up' : s.ageBand.replace('-', ' to ')
@@ -694,7 +694,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             })}
           </div>
 
-          <div className="wow-fu" style={{ marginTop: 24, padding: '18px 22px', borderLeft: '4px solid var(--terracotta)', background: '#fff', borderRadius: '0 16px 16px 0' }}>
+          <div style={{ marginTop: 16, padding: '14px 18px', borderLeft: '4px solid var(--terracotta)', background: 'var(--cream)', borderRadius: '0 16px 16px 0' }}>
             {/* stage.parentQuote is shown as written EXCEPT where it makes a
                 causal claim about screens and mood. The Stage 3 quote read
                 "her mood was dropping every Sunday evening, it took me a month
@@ -708,10 +708,12 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             <p style={{ ...BODY, color: 'var(--ink)', fontStyle: 'italic' }}>{quote}</p>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', margin: '8px 0 0', letterSpacing: '0.04em' }}>Parent, Stage {stage.id}</p>
           </div>
+            </Fold>
+          </div>
         </section>
 
         {/* ── The door ─────────────────────────────────────────────────── */}
-        <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
+        <div id="chapter-cta" className="wow-fu" style={{ ...SECTION, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '30px 22px', boxShadow: '0 6px 24px rgba(26,26,46,0.07)' }}>
           <div style={EYEBROW}>{needsConfirm ? 'One last step' : `Stage ${stage.id} · ${stage.name}`}</div>
           <h2 style={{ ...H2, fontSize: 'clamp(1.6rem, 5.2vw, 2.1rem)' }}>{needsConfirm ? 'Check your email' : kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}</h2>
           <p style={{ ...LEAD, marginBottom: 20 }}>
@@ -757,22 +759,6 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
         </div>
       </div>
 
-      {/* The door rides along the bottom once the first screen is read. */}
-      <div aria-hidden={!showFloat} style={{
-        position: 'fixed', left: 0, right: 0, bottom: 'max(12px, env(safe-area-inset-bottom))', zIndex: 55,
-        display: 'flex', justifyContent: 'center', padding: '0 16px', pointerEvents: showFloat ? 'auto' : 'none',
-        transform: showFloat ? 'translateY(0)' : 'translateY(90px)', opacity: showFloat ? 1 : 0,
-        transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 'min(100%, 460px)', background: '#fff', borderRadius: 'var(--radius-card)', border: `2px solid ${accent.bold}`, padding: '10px 10px 10px 18px', boxShadow: '0 12px 36px rgba(26,26,46,0.22)' }}>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>
-            {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
-          </span>
-          <Link href={enterHref} style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 7, padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            Finish setting up <span aria-hidden>→</span>
-          </Link>
-        </div>
-      </div>
     </div>
   )
 }

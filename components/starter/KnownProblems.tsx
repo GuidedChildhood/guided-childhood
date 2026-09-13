@@ -26,18 +26,24 @@ const LINES: { stat: string; said: string }[] = [
   { stat: '47%', said: 'feel their child knows more about technology than they do' },
 ]
 
-export default function KnownProblems() {
+/** Since 13 September 2026 this sits behind a Fold row headed You are not the
+ *  only one (see ResultScreen), so with `inRow` it draws no shell of its own
+ *  and no heading: one ledge per card, none inside, and the row already says
+ *  the words. The stand alone card is kept for any page that wants it. */
+export default function KnownProblems({ inRow = false }: { inRow?: boolean }) {
   return (
-    <div style={{
+    <div style={inRow ? { padding: '2px 0 0' } : {
       background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       boxShadow: 'var(--lift-deep)', padding: '16px 16px 14px',
     }}>
-      <p style={{
-        margin: '0 0 9px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-        letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
-      }}>
-        You are not the only one
-      </p>
+      {!inRow && (
+        <p style={{
+          margin: '0 0 9px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+        }}>
+          You are not the only one
+        </p>
+      )}
 
       {/* The verbatim first, because a number is a fact and a sentence is a
           recognition, and recognition is what stops somebody scrolling. */}
