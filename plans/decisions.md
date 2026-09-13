@@ -13853,3 +13853,22 @@ uncommitted in an ephemeral container. Reviewed by commit instead.
 
 **Left for Justin.** 2px or 1.5px on --edge, pictures sent. Then the ten daily
 screens and the schools session.
+
+## 13 September 2026, Sunday, DiGi answers on Fable 5.1 (session p37w5v)
+
+**Justin: "make sure DiGi uses 5.1."** The chat tier default moves from Opus 5
+to Fable 5.1 at medium effort. The brief's argument for Opus stands as an
+argument; the decision is Justin's, and digi_latency.model_ms will say what
+it costs a parent. DIGI_MODEL_CHAT=claude-opus-5 is the one line back.
+
+**The fault that made it safe to do.** A thinking model signs each thinking
+block and expects it back unchanged in the next request of a tool round.
+consumeStream kept text and tool calls and dropped the rest. It now rebuilds
+the turn by block index with thinking, signatures and redacted thinking in
+place. Guarded by check-digi-turn, which runs the real reader over a synthetic
+thinking turn; six of six mutations caught.
+
+**The suspicion, stated once.** Eight of the ten silent family lane replies
+came after a tool fired. A dropped thinking block on the continuation is the
+exact shape of that. Not proven; the row records the model and stop reason
+now, so the next one will say.
