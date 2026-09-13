@@ -58,4 +58,4 @@ able."
 - [x] Pathway page reads `?open=N`; Stamp carries `scriptsDone`,
       `scriptsTotal`, `checkPassed`; the child's book and the dev fixture too.
 - [x] Guard `scripts/check-passport-pass.mjs`, mutation tested, in CI.
-- [x] Screenshots at 390 and 1440 on the fixture; overflow walk; tsc; build.
+- [x] Screenshots at 390 and 1440 on the fixture (stage pages, read only, reduced motion, the peek), the turn and the peek sampled frame by frame, tsc, build, 45 CI guards local.

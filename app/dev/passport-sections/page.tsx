@@ -23,8 +23,11 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
   id,
   name: NAMES[id - 1],
   ages: AGES[id - 1],
-  pct: mode === 'full' ? 100 : mode === 'empty' ? 0 : id === 3 ? 62 : id < 3 ? 100 : 0,
-  status: mode === 'full' ? 'earned' : mode === 'empty' ? (id === 3 ? 'current' : 'upcoming') : id < 3 ? 'earned' : id === 3 ? 'current' : 'upcoming',
+  // Mixed: page 1 stamped, page 2 BEHIND with every lesson and script done
+  // and the check still open (the exact page the peek on Today exists for),
+  // page 3 current, 4 and 5 ahead.
+  pct: mode === 'full' ? 100 : mode === 'empty' ? 0 : id === 3 ? 62 : id === 1 ? 100 : id === 2 ? 88 : 0,
+  status: mode === 'full' ? 'earned' : mode === 'empty' ? (id === 3 ? 'current' : 'upcoming') : id === 1 ? 'earned' : id === 2 ? 'catchup' : id === 3 ? 'current' : 'upcoming',
   href: '/dashboard/lessons',
   lessonsDone: mode === 'full' ? 5 : mode === 'empty' ? 0 : id < 3 ? 5 : 3, lessonsTotal: 5,
   scriptsPct: 60, streakPct: 75, devicesPct: 80, lessonsPct: 60,
@@ -94,6 +97,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
         childName="Teo"
         currentStage={3}
         openAtStage={stage && stage >= 1 && stage <= 5 ? stage : null}
+        catchupLines={{ 2: 'Only the check left on it' }}
         passportCode="GC-4K7X-92"
         childId="00000000-0000-0000-0000-000000000000"
         onApp

@@ -38,12 +38,17 @@ function reduceMotion(): boolean {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches } catch { return false }
 }
 
-export default function PassportPeek({ childId }: { childId: string | null }) {
+export default function PassportPeek({ childId, preview = null }: {
+  childId: string | null
+  /** A fixed reason, for the dev fixture only. Production never passes one. */
+  preview?: PassportAttention | null
+}) {
   const [att, setAtt] = useState<PassportAttention | null>(null)
   const [shown, setShown] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (preview) { setAtt(preview); setShown(true); return }
     let cancelled = false
     const q = childId ? `?child=${encodeURIComponent(childId)}` : ''
     fetch(`/api/pathway/attention${q}`)
@@ -60,7 +65,7 @@ export default function PassportPeek({ childId }: { childId: string | null }) {
       })
       .catch(() => { /* a quiet day */ })
     return () => { cancelled = true }
-  }, [childId])
+  }, [childId, preview])
 
   // Flip in, once the card is in the DOM.
   useEffect(() => {

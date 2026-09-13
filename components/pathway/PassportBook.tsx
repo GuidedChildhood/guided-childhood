@@ -298,11 +298,17 @@ export default function PassportBook({
         setFlipping(null)
       },
     })
+    // set() at the spine rather than fromTo(): a fromTo later in a timeline
+    // still renders its from value the moment the timeline is built, which
+    // put the page at plus ninety before the first tween had started and
+    // turned the whole thing into a 180 degree swing through the wrong face.
+    // Caught by sampling the inline transform frame by frame, 13 September.
     tl.to(el, { rotateY: sign * 90, duration: 0.26, ease: 'power2.in' })
     if (shade) tl.to(shade, { opacity: 0.32, duration: 0.26, ease: 'power2.in' }, 0)
     tl.add(() => { flushSync(() => setPage(target)) })
-    tl.fromTo(el, { rotateY: -sign * 90 }, { rotateY: 0, duration: 0.38, ease: 'power2.out' })
-    if (shade) tl.fromTo(shade, { opacity: 0.32 }, { opacity: 0, duration: 0.38, ease: 'power2.out' }, '<')
+    tl.set(el, { rotateY: -sign * 90 })
+    tl.to(el, { rotateY: 0, duration: 0.38, ease: 'power2.out' })
+    if (shade) tl.to(shade, { opacity: 0, duration: 0.38, ease: 'power2.out' }, '<')
   }
 
   // ── WHAT HAPPENS WHEN A PAGE LANDS ───────────────────────────────────
@@ -700,7 +706,11 @@ export default function PassportBook({
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   letterSpacing: '0.08em', textTransform: 'uppercase', color: theme.text, opacity: 0.75,
                 }}>
-                  {stamp.sections.filter(x => x.pct >= 100).length} of {stamp.sections.length} done at this stage
+                  {/* Named, because the pass block below carries its own
+                      "0 of 3" and two bare counts under one ring read as a
+                      contradiction. This one is the work; that one is the
+                      pass. */}
+                  Work at this stage: {stamp.sections.filter(x => x.pct >= 100).length} of {stamp.sections.length} done
                 </p>
               )}
 
@@ -995,7 +1005,10 @@ export default function PassportBook({
                     borderRadius: 'var(--radius-tile)', padding: '10px 14px',
                   }}
                 >
-                  {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
+                  {stamp.status === 'earned' ? 'Look back at this stage'
+                    : stamp.status === 'catchup' ? 'Catch this page up →'
+                    : stamp.status === 'upcoming' ? 'Peek at what it teaches →'
+                    : 'Start the next step →'}
                 </Link>
                 )}
               </div>
