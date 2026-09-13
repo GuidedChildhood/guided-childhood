@@ -1656,6 +1656,9 @@ export default function KidQuestScreen({
             look lives in KidHomeTiles (the happy news finish); what each tap
             does is decided here and handed in, unchanged. */}
         {(() => {
+          // front: drawn on the home page (KidHomeTiles shows three). Lessons,
+          // games and the passport are the three a child comes back for; the
+          // rest wait behind More, every tap unchanged.
           const tiles: HomeTile[] = [
             // My wins, where My path used to be. Justin: "yes lets lose the
             // pathway as advised for children only NOT parents." The slot
@@ -1663,13 +1666,13 @@ export default function KidQuestScreen({
             { icon: 'wins', label: 'My wins', sub: 'Streaks and best runs', tint: CRAYON.sky, onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
             // The sticker book, on its own: an object a child opens. The sub
             // line counts anything earned and not yet seen.
-            { icon: 'passport', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`, tint: CRAYON.butter, onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
+            { front: true, icon: 'passport', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : stickers.length === 0 ? 'Your first sticker is coming' : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`, tint: CRAYON.butter, onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
             // The stage lessons, taken by the child themselves.
-            { icon: 'lessons', label: 'My lessons', sub: 'Learn it, pass it', tint: CRAYON.paper, onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
+            { front: true, icon: 'lessons', label: 'My lessons', sub: 'Learn it, pass it', tint: CRAYON.paper, onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
             // Games, on the front. Justin, 2 September 2026: "where do games
             // appear?" They lived only as a sub tab of Lessons, so a child
             // had to know to look there. Only when the stage has any.
-            ...(hasGames ? [{ icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
+            ...(hasGames ? [{ front: true, icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
             // Planet Friends, the digital toy, on the front. Justin, 2 September
             // 2026: "can't see the new game?" It sat at the bottom of the Games
             // sub tab, under every game, and was hidden at 10 plus. Every age

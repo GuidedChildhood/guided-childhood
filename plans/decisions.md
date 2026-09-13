@@ -14565,3 +14565,31 @@ here.
 expects a file path argument; it is a schools guard and CI supplies it. 25
 guard scripts are wired into nothing (listed in the sweep); wiring them is a
 schools and content lane job.
+
+## 13 September 2026, night: the seven choices, one and four first
+
+Justin, on the seven questions from the platform review and the
+recommendations on each: "Go with recommendations." Built in the order
+recommended: the landing page photos and the child home first, because a
+parent and a child meet them on day one.
+
+**The photos cannot leave a hole.** Both landing page photos were hotlinked
+from the Higgsfield CDN in plain img tags, full size on every phone, blank
+if that host was slow. They now go through next/image (Vercel fetches once,
+resizes per screen, serves from our edge) with a drawn star on butter if the
+load still fails. The copy of the originals into /public needs the files:
+this container cannot reach the host.
+
+**The child home is one big thing, three small things, and More.** Use my
+time stays the hero. Three tiles are drawn (the passport, lessons, games, the
+ones a child comes back for). The other six and Meet the Planet Friends wait
+behind one butter More tile; every tap is unchanged. Telling a grown up stays
+on the page in full. The splash drops from 3.2 seconds to about one. The
+empty passport line reads "Your first sticker is coming" rather than "0 of 0
+collected".
+
+Next, in order: the DiGi readability set (answer shape under 120 words with
+a Tonight line, the reflective question once a day on Home, the fix of the
+week card down to name and button), then the researchers file behind a
+switch with the evals run before it flips, then local session verification
+in middleware as its own PR.
