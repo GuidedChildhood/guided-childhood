@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import { COMPANY } from '@gc/shared/legal'
 
 export const metadata = { title: 'Accessibility statement' }
 
@@ -74,7 +75,7 @@ export default function AccessibilityPage() {
           <h2 style={h2}>Tell us what your classroom needs</h2>
           <p style={body}>
             If a pupil in your class cannot use something in this programme, that is a bug to us, not
-            an edge case. Write to justin@thesocialbillboard.com with the module and what happened,
+            an edge case. Write to {COMPANY.email} with the module and what happened,
             and it goes on the same board as every other fix.
           </p>
         </div>

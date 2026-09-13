@@ -92,8 +92,10 @@ for (const path of ['/hub', '/hub/cpd', '/hub/dsl', '/hub/policy', '/print']) {
 
 // ── The open list did not grow by accident ──────────────────────────
 // 8 became 9 on 13 September 2026: /pilot, the pilot request page, is open
+// (the count on the next line is the one to bump), and 9 became 12 the same
+// evening: /terms, /privacy and /dpa, the buying documents, are open
 // to the world on purpose (the schools review, decision 2).
-ok('the open path list is unchanged in size', OPEN_PATHS.length === 9,
+ok('the open path list is unchanged in size', OPEN_PATHS.length === 12,
   `OPEN_PATHS has ${OPEN_PATHS.length} entries. The taster is meant to travel through isTasterPath, not by adding routes here. If a page really should be public, change this number on purpose.`)
 
 // ── The two questions stay separate ─────────────────────────────────

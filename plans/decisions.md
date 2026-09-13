@@ -14565,3 +14565,57 @@ here.
 expects a file path argument; it is a schools guard and CI supplies it. 25
 guard scripts are wired into nothing (listed in the sweep); wiring them is a
 schools and content lane job.
+
+## 13 September 2026, Sunday night, the buying documents (session 0u09q9)
+
+Decision 3 of the six Justin agreed: the terms, the privacy notice and the
+data processing agreement, drafted now from the data protection pack for a
+solicitor's pass. The review's must fix 8 had named the gap: a school could
+not buy without a phone call, and the data pack had promised a DPA "for
+signature" since 10 September that did not exist.
+
+**Three documents, one shape, one renderer.** `schools/lib/legal/terms.ts`,
+`privacy.ts` and `dpa.ts` are data: numbered sections, numbered clauses a
+solicitor can cite, annex tables, and for the DPA two signature blocks.
+`components/LegalDocument.tsx` draws all three the same way, with an "In
+plain words" box at the top in Justin's voice, a contents list, and the
+version line at the head and the foot. They are open pages (`/terms`,
+`/privacy`, `/dpa`), in the footer of every page, in the sitemap, linked from
+the data pack and from the pilot and invoice letters, and they print to A4
+through the same rules as the hub documents. Every company fact reads from
+`shared/legal.ts` and every pilot number from `lib/pilot.ts`, and
+`scripts/check-schools-legal.mjs` holds that in CI, along with no dashes, one
+address, the same four providers in the notice and the DPA, and the three
+routes staying open and linked.
+
+**Written from the code, not from a template.** The schools app touches two
+tables, sets one signed cookie, sends nothing from the classroom player,
+keeps the AI governance reviews and the passport fill on the school's own
+device, runs no analytics and calls no model. Four providers: Supabase (the
+database, Ireland), Vercel, Resend and Stripe. So the privacy notice's data
+map is six clauses long, and the DPA says the true thing: for the contact
+data a school gives us we are an independent controller, and the Article 28
+terms sit in section 5 and apply automatically the day a feature stores
+anything on a school's behalf, so no school signs twice when the staffroom
+lands.
+
+**Defaults chosen for the solicitor to confirm.** Twelve month licence,
+nothing renews on its own. A 30 day cancel and refund promise at the start of
+a licence, matching the parents' promise. Statutory interest and a paused
+code on a late invoice. Liability capped at the year's fees, or £500 on a
+free pilot. A 48 hour breach notice to the school. Printed materials used up
+after a licence ends, no new copies. These terms over a school's own purchase
+order terms unless agreed in writing. Justin signs the DPA as Founder. Leads
+deleted after twelve months, licensed contacts kept the licence plus six
+years for accounting records. The full list is in
+plans/2026-09-13-schools-legal-plan.md.
+
+**One address, everywhere.** The accessibility statement and the data pack
+still carried justin@thesocialbillboard.com; both now read COMPANY.email, and
+the guard fails on the old address anywhere in the schools app.
+
+**Live at version 1.0 on purpose.** A school reads these before it buys, so
+they go up now rather than waiting on the solicitor; the solicitor's changes
+become version 1.1 and a line here. Whether Resend's open and click tracking
+is off on the sending domain is Justin's to confirm, since the notice says we
+do not track.

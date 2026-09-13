@@ -253,3 +253,14 @@ scripts/check-pilot-door.mjs in CI.
 Left from must fix 8: the terms, the privacy notice and the DPA, agreed and
 not yet drafted, and the quote path, which the invoice form already covers for
 a school that needs a number before a PO.
+
+## The buying documents, done (13 September, night)
+
+The terms for schools, the privacy notice for schools and the data
+processing agreement are live at `/terms`, `/privacy` and `/dpa`, version
+1.0, drafted from what the code actually does and held together by
+`scripts/check-schools-legal.mjs`. The data pack links to both, the pilot and
+invoice letters tell the DPO where the DPA is, and the old founder address is
+gone from every page. Plan and the solicitor's checklist in
+`plans/2026-09-13-schools-legal-plan.md`. Must fix 8 is now closed except for
+the solicitor's pass itself, which is Justin's to arrange.

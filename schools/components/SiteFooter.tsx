@@ -16,6 +16,9 @@ const LINKS: [string, string][] = [
   ['/hub/rshe-mapping', 'The statutory mapping'],
   ['/hub/data-protection', 'Data protection'],
   ['/pricing', 'Pricing'],
+  ['/terms', 'Terms for schools'],
+  ['/privacy', 'Privacy notice'],
+  ['/dpa', 'Data processing agreement'],
   ['/unlock', 'I have a school code'],
 ]
 

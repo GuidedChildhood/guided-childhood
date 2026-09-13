@@ -219,6 +219,10 @@ jobs:
       # back out to Mailchimp, /pilot open and in the sitemap, and the pilot
       # word the same at both ends of the letterbox. See check-pilot-door.mjs.
       - run: node --experimental-strip-types scripts/check-pilot-door.mjs
+      # The buying documents: terms, privacy notice and DPA exist, are open
+      # and linked, carry no dash, name the same providers, and read every
+      # company fact from shared/legal.ts (13 September 2026).
+      - run: node scripts/check-schools-legal.mjs
       # The source copy of ks3-22, held to every rule the scheme has learned:
       # cycle anchoring, cycle minutes, the four minute passive ceiling, an
       # honest timing string, the contract keys, and a teacher script on every
