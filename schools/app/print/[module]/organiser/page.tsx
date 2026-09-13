@@ -3,6 +3,15 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared/lesson-slides'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { title: title ? `Knowledge organiser: ${title}` : 'Knowledge organiser: Module' }
+}
 
 // The pupil Knowledge Organiser (Jigsaw PKO equivalent, cleaner): one
 // page per module. What I am learning, my words, the tool, and the
@@ -10,7 +19,7 @@ import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared
 
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }
-const box: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '12px' }
+const box: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '12px', breakInside: 'avoid' }
 const writeLine: React.CSSProperties = { borderBottom: '1px solid var(--border)', height: '24px' }
 
 type TeacherNotes = {

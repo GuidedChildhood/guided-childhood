@@ -2,6 +2,15 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { robots: { index: false, follow: false }, title: title ? `Learning record: ${title}` : 'Learning record: Module' }
+}
 
 // MY LEARNING RECORD, one side of A4, photocopied per pupil.
 //
@@ -33,7 +42,6 @@ type Lesson = {
   teacher_notes: TeacherNotes | null
 }
 
-export const metadata = { title: 'My learning record', robots: { index: false, follow: false } }
 
 const mono: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,

@@ -214,16 +214,13 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           &ldquo;{lesson.single_action_outcome}&rdquo;
         </p>
 
-        {/* Above the plan on purpose. A teacher who arrived from a link Justin
-            sent does not yet know whether this page is a sample or a wall, and
-            a page that looks like a wall gets closed before the substance
-            below it ever gets read. */}
-        {showTaster && <TasterBar moduleId={moduleId} moduleTitle={lesson.title} />}
-
         {/* The button, high on the page. A teacher who already knows this
             lesson should not have to scroll past the prep to start it. */}
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '14px' }}>
-          <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>
+        {/* A grid, not a wrapped row: on a phone eight pills of eight widths
+            read as a mess, and two tidy columns read as a menu (the schools
+            review, 13 September 2026). Teach spans the row on its own. */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px', marginBottom: '14px' }}>
+          <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px', gridColumn: '1 / -1' }}>
             Teach this lesson
           </Link>
           <Link href={`/print/${lesson.module_id}`} className="btn" style={prepBtn}>
@@ -512,7 +509,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             says so plainly instead of leaving a teacher to wonder. */}
         {videoBeats.some(v => v.alternative) && (
           <div style={{ ...card, marginBottom: '16px' }}>
-            <h2 style={h2}>The video beats, in words</h2>
+            <h2 style={h2}>The video clips, in words</h2>
             <p style={{ ...body, marginBottom: '14px' }}>
               Read these out if a pupil cannot hear the clip, or if the sound
               in your room is not working. Nothing in the lesson depends on
@@ -527,7 +524,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
                   marginTop: i === 0 ? 0 : '14px',
                 }}>
                   <p style={{ ...mono, color: 'var(--ink-soft)', marginBottom: '4px' }}>
-                    {v.caption ?? 'Video beat'}
+                    {v.caption ?? 'Video clip'}
                   </p>
                   {alt.spoken.length === 0 ? (
                     <p style={body}>Nobody speaks in this clip.</p>
@@ -629,7 +626,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
                 <p style={{ ...body, fontSize: 'var(--text-sm)', margin: 0 }}>
                   {e.source}
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
                     marginLeft: '8px', padding: '3px 8px', borderRadius: '100px',
                     border: '1px solid var(--border)', whiteSpace: 'nowrap',
@@ -702,6 +699,12 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             )}
           </div>
         )}
+
+        {/* After the lesson, not in front of it. The form used to sit above
+            the buttons and filled a phone's first screen; the lesson is what
+            earns the email, so it comes first and the form follows it (the
+            schools review, 13 September 2026). */}
+        {showTaster && <div style={{ marginTop: '28px' }}><TasterBar moduleId={moduleId} moduleTitle={lesson.title} /></div>}
 
         <div style={{ marginTop: '28px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>

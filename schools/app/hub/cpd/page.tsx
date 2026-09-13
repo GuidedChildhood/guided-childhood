@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 
+export const metadata = { title: 'Staff briefings' }
+
 // Staff briefings: ten minutes before teaching a sensitive module. The
 // Youth Select Committee 2026 report found teachers often lack confidence
 // to deliver specialist content; these briefings are the confidence.
@@ -128,7 +130,7 @@ export default async function CpdBriefingsPage() {
         </h1>
         <p style={{ ...body, marginBottom: '22px' }}>
           Every slide in these modules already carries a word for word script, so nobody teaches them
-          unsupported. These briefings are the ten minutes before: the register to hold, what to watch
+          unsupported. These briefings are the ten minutes before: the tone to hold, what to watch
           for in the room, and exactly what to do with a disclosure. All{' '}{FLAGGED_MODULES.length}{' '}safeguarding flagged modules have one. Read the one you need the night before, or run them as a staff meeting
           before the scheme starts, alongside the induction page in the Hub.
         </p>
@@ -137,7 +139,7 @@ export default async function CpdBriefingsPage() {
           <div key={b.module} style={{ border: '1.5px solid var(--border)', borderRadius: '14px', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
             <h2 style={h2}>{b.module}</h2>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>What it covers: </span>{b.covers}</p>
-            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The register to hold: </span>{b.register}</p>
+            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The tone to hold: </span>{b.register}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Watch for: </span>{b.watchFor}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Disclosures: </span>{b.disclosure}</p>
             <p style={{ ...body, fontStyle: 'italic' }}>{b.line}</p>

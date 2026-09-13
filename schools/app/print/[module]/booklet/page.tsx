@@ -2,6 +2,15 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect, notFound } from 'next/navigation'
 import { parseSlides } from '@gc/shared/lesson-slides'
 import PrintButton from '@/components/PrintButton'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { title: title ? `Pupil booklet: ${title}` : 'Pupil booklet: Module' }
+}
 
 // The pupil booklet: the little companion each child holds BEFORE and
 // DURING the lesson (JP brief, 6 Jul 2026). Photocopy per pupil, fold in
@@ -86,7 +95,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         <div style={mono}>Before we start · the rundown</div>
         <h2 style={{ ...big, fontSize: 'var(--text-2xl)', margin: '8px 0 20px' }}>What today is about</h2>
         {concepts.slice(0, 3).map((c, i) => (
-          <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '12px' }}>
+          <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '12px', breakInside: 'avoid' }}>
             <span style={{
               flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: 'var(--gold)',
               color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
@@ -113,7 +122,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         <h2 style={{ ...big, fontSize: 'var(--text-2xl)', margin: '8px 0 6px' }}>My verdicts</h2>
         <p style={{ ...body, color: 'var(--ink-soft)', marginBottom: '16px' }}>Circle your verdict for each card, then write your reason.</p>
         {items.map(it => (
-          <div key={it.n} style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px', marginBottom: '10px' }}>
+          <div key={it.n} style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px', marginBottom: '10px', breakInside: 'avoid' }}>
             <p style={{ ...body, fontWeight: 700, marginBottom: '8px' }}>Card {it.n}: {it.item}</p>
             <p style={{ ...body, fontSize: 'var(--text-md)' }}>{verdicts.map((v, i) => <span key={v}>{i > 0 && <>&nbsp;·&nbsp;</>}{v}</span>)}</p>
             <div style={{ ...writeLine, height: '26px' }} />

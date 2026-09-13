@@ -2,10 +2,24 @@
    from @gc/shared/tokens.css, imported first in the root layout. Only what is
    specific to teaching surfaces lives here. */
 
-/* The print pages: hide navigation chrome, keep the ink. */
+/* The print pages: hide navigation chrome, keep the ink.
+
+   A4 in millimetres. Without an @page rule the browser breaks the pack
+   against its own default sheet and margins, which is Letter in some
+   locales and about 10mm in most, and the teacher one pager's safeguarding
+   card split across pages one and two (the schools review, 13 September
+   2026). 14mm side margins keep a 740px column inside the printable width
+   of an A4 sheet; 12mm top and bottom leave room for the brand line.
+
+   And nothing that is a card splits: every bordered box, dashed cut card,
+   table row and worksheet item carries gc-print-card or sits in a section
+   the rule below covers. */
+@page { size: A4; margin: 12mm 14mm; }
 @media print {
   .no-print { display: none !important; }
   body { zoom: 1; background: #fff; }
+  .gc-print-card, .gc-avoid-break, tr { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3 { break-after: avoid; page-break-after: avoid; }
 }
 
 /* The projector teach surface wants the full viewport with no site chrome

@@ -74,7 +74,7 @@ export default async function UnlockPage({
               color: 'var(--ink-soft)', lineHeight: 1.65,
             }}>
               This deployment has no codes configured, so nothing will open. Email
-              hello@guidedchildhood.com and we will sort it the same day.
+              hello@guidedchildhood.com and we will reply within two working days, usually the same day.
             </p>
           </div>
         )}

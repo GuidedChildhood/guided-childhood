@@ -5,6 +5,10 @@ import { INTRO_CHARACTERS } from '@gc/shared/intro-characters'
 import { COMPANY } from '@gc/shared/legal'
 import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
+import SiteNav from '@/components/SiteNav'
+import { hasLicence } from '@/lib/licence'
+import { PILOT_ENQUIRY } from '@/lib/links'
+import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 
 // THE SCHOOLS MARKETING PAGE, rebuilt 31 August 2026 to the parents page
 // bar (plans/2026-08-31-schools-marketing-apple-plan.md). What changed and
@@ -25,6 +29,7 @@ export const metadata: Metadata = {
     `A complete digital literacy scheme of work for UK schools. ${MODULES.length} modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the statutory mapping a school can show. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.`,
   alternates: { canonical: 'https://schools.guidedchildhood.com/' },
   openGraph: {
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Guided Childhood Schools: the digital literacy curriculum, Reception to Year 13' }],
     title: 'Guided Childhood Schools: the digital literacy curriculum, Reception to Year 13',
     description:
       `The ban takes the apps. We build the judgement. ${MODULES.length} modules mapped to the statutory RSHE guidance and KCSIE 2026, taught by the DiGi Squad, feeding the passport to sixteen.`,
@@ -34,7 +39,7 @@ export const metadata: Metadata = {
   },
 }
 
-const MAILCHIMP_ENQUIRY = 'https://mailchi.mp/thesocialbillboard/school'
+const MAILCHIMP_ENQUIRY = PILOT_ENQUIRY
 
 const ESPRESSO = 'var(--deep-teal)'
 const GOLD = 'var(--terracotta)'
@@ -256,8 +261,13 @@ const EVIDENCE = [
   },
 ]
 
-export default function SchoolsPage() {
+export default async function SchoolsPage() {
   const totalModules = MODULES.length
+  // The header shows a licensed school its two rooms and a stranger the door.
+  const licensed = await hasLicence()
+  // The smallest annual price, read from the bands rather than typed here, so
+  // the strip can never disagree with the pricing page.
+  const fromPrice = PRICING_BANDS.filter(b => !b.onApplication).map(b => b.price)[0] ?? '£495'
 
   const jsonLd = [
     {
@@ -299,42 +309,23 @@ export default function SchoolsPage() {
       <HomeReveals />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Nav. On a phone the in page links hide (the sections are one thumb
-          scroll away), and the bar is allowed to WRAP rather than overlap:
-          a fixed 64px height broke on 31 August for readers with larger
-          accessibility text sizes, where the logo and the pilot button
-          collided because neither could shrink. flex wrap plus min height
-          means the button drops to a tidy second row whenever it cannot
-          share the line, at any text size, and nothing ever overlaps. */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 300, minHeight: '64px', padding: '8px clamp(16px, 4vw, 40px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '4px 10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
-        <Link href="/" className="schools-nav-logo" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
-          ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
-        </Link>
-        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center', minWidth: 0, marginLeft: 'auto' }}>
-          <a className="schools-nav-link" href="https://www.guidedchildhood.com" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>For parents</a>
-          <Link className="schools-nav-link" href="#journey" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Curriculum</Link>
-          <Link className="schools-nav-link" href="/philosophy" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Philosophy</Link>
-          <Link className="schools-nav-link" href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Pricing</Link>
-          <Link className="schools-nav-link" href="/curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>The map</Link>
-          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: 'var(--text-sm)', marginLeft: '6px', whiteSpace: 'nowrap', flexShrink: 0 }}>
-            Request a pilot
-          </a>
-        </nav>
-      </header>
+      <SiteNav licensed={licensed} />
 
       {/* ── HERO ── */}
-      <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px) clamp(80px, 10vw, 140px)', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(48px, 6.5vw, 96px) clamp(20px, 4vw, 40px) clamp(64px, 8vw, 120px)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-140px', right: '-100px', width: '620px', height: '620px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.22) 0%, transparent 62%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-200px', left: '-140px', width: '520px', height: '520px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,240,138,0.09) 0%, transparent 68%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1160px', margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }} className="schools-hero-grid">
           <Reveal>
             <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>For schools, heads and PSHE leads</p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5.4vw, 4.4rem)', fontWeight: 900, lineHeight: 1.03, letterSpacing: '-0.045em', marginBottom: '22px', color: '#fff' }}>
-              The digital literacy curriculum,<br />
-              ready for <span style={{ color: GOLD }}>September 2026.</span>
+            {/* Three lines at 1440 by 900, so the button sits on the first
+                screen. Five lines pushed it under the fold (the schools
+                review, 13 September 2026). */}
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.3rem, 4.6vw, 3.7rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '20px', color: '#fff', textWrap: 'balance' }}>
+              The digital literacy curriculum, ready for <span style={{ color: GOLD }}>September 2026.</span>
             </h1>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.22rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '32px' }}>
-              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026. Every lesson taught from an interactive script, with printable packs and the statutory mapping a school can show. Ready in your classroom tomorrow.
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.2rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.65, maxWidth: '500px', marginBottom: '28px' }}>
+              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026, taught from a word for word script with printable packs. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
               <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
@@ -345,7 +336,7 @@ export default function SchoolsPage() {
               </Link>
             </div>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,250,240,0.6)' }}>
-              Free one term pilot for the first schools. We reply within 48 hours.
+              Free one term pilot for the first schools. We reply within two working days, usually the same day.
             </p>
           </Reveal>
           <Reveal delay={0.12} y={34}>
@@ -357,11 +348,14 @@ export default function SchoolsPage() {
       {/* ── STATS STRIP ── */}
       <section style={{ background: '#211C10', color: '#fff', padding: 'clamp(30px, 4vw, 44px) clamp(20px, 4vw, 40px)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: '1160px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '22px' }}>
+          {/* Every figure here is read from the manifest or the price bands,
+              never typed: a stat a head can check and find wrong costs the
+              whole page (the schools review, 13 September 2026). */}
           {[
             { n: `${totalModules}`, count: totalModules, l: 'modules, Reception to Year 13' },
-            { n: '8 of 8', l: 'Connected World strands covered' },
-            { n: '0', l: 'pupil accounts or logins needed' },
-            { n: '48 hrs', l: 'from enquiry to your pilot' },
+            { n: `${KEY_STAGE_ORDER.length}`, count: KEY_STAGE_ORDER.length, l: 'key stages on one licence' },
+            { n: `${FLAGGED_MODULES.length}`, count: FLAGGED_MODULES.length, l: 'staff briefings for the safeguarding flagged modules' },
+            { n: `From ${fromPrice}`, l: 'a year for the whole school, no VAT added' },
           ].map(s => (
             <div key={s.l} className="fu" style={{ textAlign: 'center' }}>
               <div className={s.count ? 'stat-num' : undefined} data-count={s.count} style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 3.4vw, 2.8rem)', color: GOLD, lineHeight: 1, letterSpacing: '-0.02em' }}>{s.n}</div>
@@ -440,7 +434,7 @@ export default function SchoolsPage() {
               Each character owns a corner of digital life, so a child meets a familiar face every time the topic comes back, year after year. These are the actual lesson intros, animated from our own character art so the style never drifts.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(168px, 1fr))', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '14px' }}>
             {SQUAD.map(c => {
               const ch = CHARACTERS[c.key]
               return (
@@ -538,7 +532,7 @@ export default function SchoolsPage() {
               A head should be able to trace every design decision in this scheme to a named source, and to see where the evidence is genuinely unsettled, because the honest line is the credible line. The full picture, source by source, is on the philosophy page.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '18px' }}>
+          <div className="schools-evidence-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '18px' }}>
             {EVIDENCE.map(e => (
               <div key={e.label} className="fu" style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '22px', padding: '26px', height: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)' }}>{e.label}</div>
@@ -564,7 +558,7 @@ export default function SchoolsPage() {
               The learning carries on at home
             </h2>
             <p style={{ fontSize: 'clamp(1rem, 2.4vw, 1.18rem)', lineHeight: 1.6, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto 14px' }}>
-              Every pupil&rsquo;s family gets the Guided Childhood parent app, with DiGi, the daily practice and the same passport to sixteen your curriculum follows. What a child meets in class, a parent can carry on that evening, so the message is one message and not two.
+              Every lesson ends with a home code on the parent note. A family using the Guided Childhood parent app enters it, and the lesson lands in their child&rsquo;s own passport to sixteen, the same passport your curriculum follows. What a child meets in class, a parent can carry on that evening, so the message is one message and not two.
             </p>
             <p style={{ fontSize: 'clamp(1rem, 2.4vw, 1.18rem)', lineHeight: 1.6, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto' }}>
               The passport earns a stamp for each stage on the road to 16, and in time a family will be able to print it as a keepsake book of the journey. One shared pathway, school and home walking it together.
@@ -695,7 +689,7 @@ export default function SchoolsPage() {
             Be one of the first schools to teach it.
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
-            A free one term pilot for the first schools who want to get ahead of the statutory September. Tell us your school and we will reply within 48 hours, with the free assembly pack either way.
+            A free one term pilot for the first schools who want to get ahead of the statutory September. Tell us your school and we will reply within two working days, usually the same day, with the free assembly pack either way.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>
@@ -758,11 +752,14 @@ export default function SchoolsPage() {
           .schools-hero-grid { grid-template-columns: 1fr !important; }
           .schools-curric-row { grid-template-columns: 1fr !important; }
         }
-        @media (max-width: 960px) {
-          .schools-nav-link { display: none; }
+        /* Four evidence cards: four across on a desk, two by two on a tablet,
+           one column on a phone. auto-fill left the fourth card alone in a
+           row of three. */
+        @media (max-width: 1040px) {
+          .schools-evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
         }
-        @media (max-width: 420px) {
-          .schools-nav-logo { font-size: var(--text-base) !important; }
+        @media (max-width: 600px) {
+          .schools-evidence-grid { grid-template-columns: 1fr !important; }
         }
         .schools-faq summary::-webkit-details-marker { display: none; }
         .schools-faq summary { position: relative; padding-right: 30px !important; }

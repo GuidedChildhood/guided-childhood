@@ -1699,7 +1699,7 @@ export default function LessonPlayer({
             </button>
           )}
           <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
-            {isSchool ? 'Back to the lesson hub' : 'Back to all lessons'}
+            {isSchool ? 'Back to the curriculum' : 'Back to all lessons'}
           </Link>
         </div>
       </div>

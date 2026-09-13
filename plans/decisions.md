@@ -14316,3 +14316,50 @@ is untouched).
   1080, 1366 by 768, 1440 by 900 and 390 by 844; the wall contrast guard clear
   on both the showcase and the teacher chrome (255 and 381 text nodes); the
   wall scale guard; both typechecks.
+
+## 13 September 2026, Sunday evening, the text pages and the printables to the Apple bar (session 0u09q9)
+
+Batches two and three of plans/2026-09-13-schools-apple-bar-plan.md, the
+should fix list of the review, on PR #1064.
+
+- **One header, everywhere.** SiteNav is the only header now; the home page
+  and the philosophy page lose their private ones, and the prep page, the run
+  sheet, the unlock page and the draw page, which had none, get it through
+  section layouts. It is licence aware: a stranger sees the four open doors,
+  "I have a school code" and the pilot button; a licensed school sees its
+  Print room and Hub in the same row and a small licensed chip. On a phone
+  the links are one scrolling row of 44px targets under the brand.
+- **The first screen.** The home headline is three lines at 1440 by 900 and
+  the pilot button sits above the fold. The taster form follows the lesson on
+  the prep page instead of standing in front of it.
+- **Every number on the home stats strip is computed**: modules, key stages
+  and safeguarding briefings from the manifest, the entry price from the
+  bands. "8 of 8 strands" left the strip; the claim itself was checked
+  against the live rows today (25 modules, strands 1 to 8, none without) and
+  stays in the prose.
+- **One reply promise**: "within two working days, usually the same day", on
+  the home page, the unlock page and the invoice form.
+- **The honest home link.** The home page no longer says every family gets
+  the parent app. It says what is true: a home code on every parent note,
+  which a family on the app enters.
+- **Words.** "Beat" is a clip or a moment on teacher pages, "the register to
+  hold" is "the tone to hold", the finish button says "Back to the
+  curriculum", the mapping matrix's placeholder line says "This module is
+  not yet published".
+- **Titles on every page**, the module's own title on every module page from
+  the manifest (no second database read), an SVG star favicon on butter, a
+  PNG for iOS, and a share image rendered locally from the repo's own fonts
+  (public/og.png), declared in the root metadata and on the home page.
+- **Phones.** The year plan stacks its terms, the cast sits two across, the
+  prep buttons are a grid with Teach spanning the row, the evidence cards are
+  four across then two by two then one, never one alone. The 12px floor on
+  the mapping matrix and the prep page.
+- **The invoice form** validates inline in the house voice and has a real
+  textarea for notes.
+- **Print.** @page A4 with 12mm by 14mm margins; every bordered card, dashed
+  cut card, table row and worksheet item carries break inside avoid; the unit
+  overview table scrolls in its own frame on a phone; the print room is a
+  table per key stage instead of 25 cards with six buttons each.
+- **Verified:** every route at 390 and 1440 (74 frames, all 200, no sideways
+  overflow, the two fonts only, no dashes), the eight print routes as A4
+  PDFs, both typechecks, every guard.

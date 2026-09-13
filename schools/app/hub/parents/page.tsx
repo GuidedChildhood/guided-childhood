@@ -4,6 +4,8 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
+export const metadata = { title: 'The parent pack' }
+
 // The parent pack: the whole programme explained for parents, built for
 // the consultation the 2025 guidance requires. Family questions pull live
 // from each module's parent note so the pack never drifts from the lessons.

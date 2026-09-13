@@ -4,6 +4,8 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM } from '@gc/shared/schools-curriculum'
 
+export const metadata = { title: 'Safeguarding crosswalk' }
+
 // The DSL crosswalk: every safeguarding flagged module, its statutory
 // hook and its disclosure guidance on one page. DSL notes pull live from
 // the lesson rows so this page and the taught content can never disagree.

@@ -4,6 +4,8 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
+export const metadata = { title: 'The year at a glance' }
+
 // The year at a glance: every key stage's modules spread across the three
 // terms, printable for the staffroom wall and the subject lead's file.
 
@@ -43,7 +45,7 @@ export default async function YearPlanPage() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
                 {meta.label} <span style={{ fontWeight: 700, fontSize: '0.8em', color: 'var(--ink-muted)' }}>{meta.years}</span>
               </h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
                 {terms.map(({ term, modules: termModules }) => (
                   <div key={term} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 14px' }}>
                     <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--green-dark)', marginBottom: '6px' }}>{term}</div>

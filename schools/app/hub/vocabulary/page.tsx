@@ -5,6 +5,8 @@ import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER , MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { parseSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
 
+export const metadata = { title: 'Whole scheme vocabulary' }
+
 // The whole scheme vocabulary: every keyword from every module, grouped
 // by key stage, generated from the decks so it can never drift.
 

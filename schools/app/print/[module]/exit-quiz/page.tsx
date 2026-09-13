@@ -2,6 +2,15 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import QuizSheet from '@/components/QuizSheet'
 import { quizQuestions, type QuizBank } from '@/lib/quiz'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { robots: { index: false, follow: false }, title: title ? `Exit quiz: ${title}` : 'Exit quiz: Module' }
+}
 
 // The assessment exit quiz, in Oak's pattern: five questions in mixed
 // formats, run at the end, question version and answer version from one route.
@@ -13,7 +22,6 @@ import { quizQuestions, type QuizBank } from '@/lib/quiz'
 // the other.
 
 export const revalidate = 3600
-export const metadata = { title: 'Exit quiz', robots: { index: false, follow: false } }
 
 type Lesson = {
   module_id: string

@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 
+export const metadata = { title: 'Policy ready text' }
+
 // Policy ready text: paragraphs a school pastes into its published RSE
 // and online safety policy. Written to the 2025 guidance requirements,
 // including the parental transparency wording.

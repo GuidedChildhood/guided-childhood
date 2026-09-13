@@ -39,7 +39,7 @@ const AGENDA = [
   {
     minutes: '3 minutes',
     title: 'The flagged modules',
-    text: `${FLAGGED_MODULES.length} modules are safeguarding flagged. Each carries disclosure handling written into its scripts, a DSL note, and a ten minute staff briefing: the register to hold, what to watch for in the room, and exactly what to do with a disclosure. Nobody teaches a flagged module without reading its briefing the night before.`,
+    text: `${FLAGGED_MODULES.length} modules are safeguarding flagged. Each carries disclosure handling written into its scripts, a DSL note, and a ten minute staff briefing: the tone to hold, what to watch for in the room, and exactly what to do with a disclosure. Nobody teaches a flagged module without reading its briefing the night before.`,
     action: 'Staff teaching a flagged module this term open their briefing now.',
     href: '/hub/cpd', linkLabel: 'The staff briefings',
   },

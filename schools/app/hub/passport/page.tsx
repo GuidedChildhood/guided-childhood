@@ -23,9 +23,9 @@ export default function HubPassportPage() {
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
           Every lesson in the scheme fills one of the five pages of the Guided Childhood Passport, the
-          journey to sixteen a family follows in the parents app. The passport beat near the end of each
+          journey to sixteen a family follows in the parents app. The passport moment near the end of each
           lesson is where the class fills the page in, and this is what that has added up to on this
-          screen. Tick anything you taught before the beat existed.
+          screen. Tick anything you taught before that moment existed.
         </p>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '640px', marginBottom: '26px' }}>
           Counted here and nowhere else: no pupil, no login, no upload. The child&rsquo;s own passport is

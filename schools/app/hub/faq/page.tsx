@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 
+export const metadata = { title: 'Common questions' }
+
 // The questions heads, governors and parents actually ask, answered in
 // plain words. Short on purpose: every long answer lives in its own Hub
 // document, and each answer points there.

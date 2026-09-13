@@ -2,6 +2,15 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import QuizSheet from '@/components/QuizSheet'
 import { quizQuestions, type QuizBank } from '@/lib/quiz'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { robots: { index: false, follow: false }, title: title ? `Starter quiz: ${title}` : 'Starter quiz: Module' }
+}
 
 // The prior knowledge starter quiz, in Oak's pattern: four questions, run
 // cold before the lesson, question version and answer version from one route.
@@ -15,7 +24,6 @@ import { quizQuestions, type QuizBank } from '@/lib/quiz'
 // printing an empty one. Same rule as the learning record.
 
 export const revalidate = 3600
-export const metadata = { title: 'Starter quiz', robots: { index: false, follow: false } }
 
 type Lesson = {
   module_id: string

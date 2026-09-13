@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 
+export const metadata = { title: 'Data protection pack' }
+
 // The data protection pack: written for the school DPO. Data minimisation
 // is the design, so this document is short because there is little to say,
 // and that IS the point.

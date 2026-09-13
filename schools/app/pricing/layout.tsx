@@ -1,10 +1,11 @@
 import SiteNav from '@/components/SiteNav'
 import SiteFooter from '@/components/SiteFooter'
+import { hasLicence } from '@/lib/licence'
 
-export default function SectionLayout({ children }: { children: React.ReactNode }) {
+export default async function SectionLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SiteNav />
+      <SiteNav licensed={await hasLicence()} />
       {children}
       <SiteFooter />
     </>
