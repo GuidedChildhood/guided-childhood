@@ -26,7 +26,7 @@ Migration **296** is claimed by this plan.
 
 | module | cast on the row | video beats | opens on | note |
 | --- | --- | --- | --- | --- |
-| eyfs-01 | Pebble with DiGi Junior | 0 | **Orbit** | no key on the title, heuristic picks the screen clip |
+| eyfs-01 | Pebble with DiGi Junior | 0 | Pebble | the title is its second slide, after the settle |
 | ks1-02 | Pebble | 0 | Pebble | |
 | ks1-03 | Pebble with DiGi Junior | 1 | Pebble | |
 | ks2-04 | Bloop | 1 | Bloop | |
@@ -58,7 +58,7 @@ Planet Friend loop clip with a typed hello), DiGi closing the lesson in code,
 and one tap interactive. Between the title and the close, on roughly 25
 slides, nothing on the wall is alive except the reveal fades.
 
-**Eight lessons open on the wrong friend and three on a coin flip.** The title
+**Seven lessons open on the wrong friend and three on a coin flip.** The title
 slide `character` keys are the July slot names (`football`, `dance`,
 `celebrate`) plus `nova` and `cosmo`, and the three newest modules wrote real
 friend names that the intro map has never heard of, so it falls back to a

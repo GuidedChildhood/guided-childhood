@@ -3,6 +3,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import DigiCharacter from '../DigiCharacter'
+import FriendPlate from '../FriendPlate'
+import { isCharacterKey } from '../../intro-characters'
+import type { Register } from '../../friend-register'
 import { WALL } from '../../wall-scale'
 
 // The interactive layer: the eighth slide type. A lesson row names a
@@ -194,9 +197,15 @@ function SignalMeter({ config }: { config: { actions?: SignalAction[]; caption?:
 
 // ── star-breath ───────────────────────────────────────────────────────
 // DiGi Junior, the golden star, breathing on a 4 second cycle. The calm
-// pause companion, usable in every module.
-function StarBreath({ config }: { config: { seconds?: number } }) {
+// pause companion, usable in every module. Since 13 September 2026 the
+// module's own friend can lead it: a config that names a character breathes
+// as that friend in the lesson's register, with the half time words under
+// it, which is how every lesson got a pause beat without a film.
+const REGISTERS: Register[] = ['bouncy', 'playful', 'level', 'still']
+function StarBreath({ config }: { config: { seconds?: number; character?: string; register?: string; heading?: string; prompt?: string } }) {
   const dur = config.seconds ?? 4
+  const who = isCharacterKey(config.character) && config.character !== 'digi' ? config.character : null
+  const register = REGISTERS.includes(config.register as Register) ? (config.register as Register) : 'playful'
   const starRef = useRef<HTMLDivElement>(null)
   const [phase, setPhase] = useState('Breathe in')
 
@@ -217,9 +226,9 @@ function StarBreath({ config }: { config: { seconds?: number } }) {
 
   return (
     <div style={{ textAlign: 'center', padding: '20px 0' }}>
-      <div style={{ ...eyebrow, marginBottom: '20px' }}>Star breath · everyone together</div>
+      <div style={{ ...eyebrow, marginBottom: '20px' }}>{config.heading ?? 'Star breath · everyone together'}</div>
       <div ref={starRef} style={{ display: 'inline-flex', margin: '10px 0 24px', transformOrigin: 'center' }}>
-        <DigiCharacter mood="idle" size={110} />
+        {who ? <FriendPlate character={who} register={register} mood="idle" size={130} /> : <DigiCharacter mood="idle" size={110} />}
       </div>
       {/* "Breathe in" / "Breathe out": the one word the room is following, so
           it takes the accent meant for text rather than the button fill. */}
@@ -227,7 +236,7 @@ function StarBreath({ config }: { config: { seconds?: number } }) {
         {phase}
       </p>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '6px' }}>
-        Follow the star. In as it grows, out as it shrinks.
+        {config.prompt ?? 'Follow the star. In as it grows, out as it shrinks.'}
       </p>
     </div>
   )

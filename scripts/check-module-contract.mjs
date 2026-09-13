@@ -151,5 +151,27 @@ slides.forEach((s,i) => {
   ok(`slide ${i} (${s.type}) has minutes`, Number.isInteger(s.minutes) && s.minutes > 0)
 })
 
+// 8. the friends are real, and they are the module's own (13 September 2026)
+//
+// Since migration 296 a digi slide can name a Planet Friend and the title
+// slide names who opens the lesson. Both are looked up by key at render time,
+// and an unknown key falls back silently: the beat plays as DiGi, the intro
+// picks a friend from the title. That is the same shape as the parent note
+// fields nothing read, so it is guarded here rather than found on a wall.
+// A friend on a beat must also be named in the row's cast line, so a KS2
+// deck cannot quietly carry Nova.
+const FRIENDS = ['pebble', 'bloop', 'orbit', 'nova', 'cosmo', 'digi']
+const cast = String(m.row && m.row.character_cast ? m.row.character_cast : '').toLowerCase()
+slides.forEach((s, i) => {
+  if (s.type === 'title') ok(`slide ${i} (title) names a real friend`, FRIENDS.includes(s.character), `character is ${JSON.stringify(s.character)}`)
+  if (s.type === 'digi' && s.character !== undefined) {
+    ok(`slide ${i} (digi beat) names a real friend`, FRIENDS.includes(s.character), `character is ${JSON.stringify(s.character)}`)
+    ok(`slide ${i} (digi beat) friend is in the cast`, cast.includes(String(s.character)), `cast is "${cast}"`)
+  }
+  if (s.type === 'interactive' && s.config && s.config.character !== undefined) {
+    ok(`slide ${i} (interactive) names a real friend`, FRIENDS.includes(s.config.character), `character is ${JSON.stringify(s.config.character)}`)
+  }
+})
+
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

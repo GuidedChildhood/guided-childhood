@@ -10,7 +10,7 @@
    "I can name two things a real friend can do that a machine cannot.",
    "I can say who I would tell if something on a screen made me feel worried or funny inside."
   ],
-  "timing": "69 minutes: starter 10, cycle one 10, cycle two 11, cycle three 10, practise 15, prove 4, close 5, class interactive 4",
+  "timing": "71 minutes: starter 11, cycle one 10, cycle two 11, cycle three 10, practise 16, prove 4, close 5, class interactive 4",
   "equipment": "Nothing beyond the board.",
   "teacher_tip": "Do not ask who talks to one at home. Some of this class does, and one or two will be doing it a lot. The lesson only works if that stays completely ordinary, so treat every example as a made up one and never ask a child to read out something they have said to a machine.",
   "commitment_stem": "My promise: if something on a screen ever makes me feel worried or funny inside, the person I will tell is...",
@@ -309,6 +309,19 @@
    "title": "When a machine talks like a friend",
    "body": "Some machines talk back. They know your name and they are always pleased to hear from you. Today we work out what they are.",
    "script": "Straight in. Read the three lines and let them sit. Do not ask who has one at home. Several of this class do and one or two use it a lot, and the lesson only works if that stays completely ordinary."
+  },
+  {
+   "type": "digi",
+   "phase": "starter",
+   "minutes": 1,
+   "character": "bloop",
+   "heading": "Bloop arrives",
+   "lines": [
+    "Hi! Bloop here.",
+    "A machine that says it likes you. Can it?",
+    "Today we work out what it can do, and what only a real friend can."
+   ],
+   "script": "Let Bloop land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told."
   },
   {
    "type": "objective",
@@ -655,6 +668,20 @@
    "script": "Sixty seconds. Let them arrive at it: if telling always costs you something, nobody tells. Worth them knowing that this is deliberate, and that it is how this school handles it."
   },
   {
+   "type": "interactive",
+   "phase": "practise",
+   "minutes": 1,
+   "component": "star-breath",
+   "config": {
+    "seconds": 4,
+    "character": "bloop",
+    "register": "playful",
+    "heading": "Half time · everyone together",
+    "prompt": "Two breaths: in as Bloop grows, out as it shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet."
+   },
+   "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as it shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise."
+  },
+  {
    "type": "concept",
    "phase": "practise",
    "minutes": 2,
@@ -844,7 +871,20 @@
   {
    "type": "digi",
    "phase": "close",
-   "minutes": 3,
+   "minutes": 1,
+   "character": "bloop",
+   "heading": "Bloop's mission for you",
+   "lines": [
+    "Your mission.",
+    "Next time a machine sounds like a friend, ask my three questions. Does it have its own day? Could it ever say no to you? Would it miss you if you stopped?",
+    "And if anything ever feels wrong, tell someone. You are never in trouble for that."
+   ],
+   "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "digi",
+   "phase": "close",
+   "minutes": 2,
    "heading": "DiGi's last word",
    "lines": [
     "I am one of these. I am made, and I do not have days.",

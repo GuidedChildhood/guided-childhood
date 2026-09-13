@@ -139,9 +139,16 @@ export type TitleSlide = SlideBase & {
   eyebrow?: string
   title: string
   body?: string
-  // Which intro character clip plays: football, dance or celebrate. When
-  // absent the intro picks one from the title.
+  // Which Planet Friend opens the lesson: a CharacterKey (pebble, bloop,
+  // orbit, nova, cosmo, digi). The July slot names (football, dance,
+  // celebrate) still resolve as aliases. When absent the intro picks one
+  // from the title, which is a coin flip and why migration 296 wrote a key
+  // onto every row.
   character?: string
+  // The friend's hello, when a lesson wants its own words. Otherwise the
+  // friend's default line from intro-characters. The DSL modules use this
+  // to open quieter than DiGi's usual line.
+  line?: string
 }
 
 export type ObjectiveSlide = SlideBase & {
@@ -290,6 +297,11 @@ export type DigiSlide = SlideBase & {
   type: 'digi'
   heading?: string
   lines: string[]
+  // Which friend speaks. Absent means DiGi, exactly as every closing beat
+  // written before 13 September 2026. A Planet Friend key (pebble, bloop,
+  // orbit, nova, cosmo) makes this an arrival, an explain or a mission beat
+  // in the friend's own plate and register, drawn in code by FriendPlate.
+  character?: string
 }
 
 // The eighth slide type: a named animated interaction. The row names a

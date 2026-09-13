@@ -1,0 +1,129 @@
+{
+  "_readme": "The Planet Friend beats for every lesson that is not the pilot, written 13 September 2026 for migration 296. Three per module: an arrival after the title (absent where a video arrival already plays), a pause before the practise phase, and a mission before DiGi closes. Every line is in the friend's register for the key stage, no dashes anywhere, and every beat carries a teacher script. scripts/gen-296.mjs turns this file into the migration and patches the four modules that also live as JSON.",
+  "modules": [
+    {
+      "id": "eyfs-01-screens-kindness", "character": "pebble", "register": "bouncy", "titleKey": "pebble",
+      "arrival": { "heading": "Pebble is here!", "lines": ["Hello everyone! I am Pebble.", "Some things on a screen are real. Some are made up. Can you tell which is which?", "Let us find out together!"] },
+      "mission": { "heading": "Pebble's job for you", "lines": ["Here is your job. Next time a screen shows you something and you are not sure...", "Stop. Look. Ask a grown up.", "Then you will know. Off you go!"] }
+    },
+    {
+      "id": "ks1-02-kind-screens-calm-bodies", "character": "pebble", "register": "bouncy", "titleKey": "pebble",
+      "arrival": { "heading": "Pebble is here!", "lines": ["Hello! Pebble here.", "When the screen goes off, do you ever feel wiggly? Or a bit grumpy?", "Today we find out why, and what to do about it."] },
+      "mission": { "heading": "Pebble's job for you", "lines": ["Your job is easy to remember.", "Feel it. Name it. Tell a grown up.", "Try it the very next time a screen goes off!"] }
+    },
+    {
+      "id": "ks1-03-real-pretend-computer", "character": "pebble", "register": "bouncy", "titleKey": "pebble",
+      "arrival": null,
+      "mission": { "heading": "Pebble's job for you", "lines": ["You are a picture detective now!", "Stop and look. Then ask: real, pretend, or made by a computer?", "Not sure? That is fine. Ask a grown up."] }
+    },
+    {
+      "id": "ks2-04-screen-routines", "character": "bloop", "register": "playful", "titleKey": "bloop",
+      "arrival": null,
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission, and it is a good one.", "Build one screen routine this week: warn, finish, swap.", "Stick to it for seven days and see what changes. I think you will like it."] }
+    },
+    {
+      "id": "ks2-05-gaming-time-spend", "character": "bloop", "register": "playful", "titleKey": "bloop",
+      "arrival": { "heading": "Bloop arrives", "lines": ["Hi! Bloop here.", "If a game is free, how is it making money out of you?", "Great question. Let us follow the money."] },
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission.", "Next time a game rushes you, hides the price, or spins a raffle, say it out loud: spend spotter!", "Spotting it is the whole trick. You have got this."] }
+    },
+    {
+      "id": "ks2-06-how-algorithms-work", "character": "digi", "register": "playful", "titleKey": "digi",
+      "arrival": null,
+      "mission": { "heading": "DiGi's mission for you", "lines": ["Your mission.", "Next time your feed knows what you want next, say the recipe: you watch, it learns, it serves more.", "Once you can say it, it works a little less well on you."] }
+    },
+    {
+      "id": "ks2-07-privacy-reputation", "character": "bloop", "register": "playful", "titleKey": "bloop",
+      "arrival": null,
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission.", "Before you share anything this week, run the share test. Would I shout it in assembly? Does it give away where I am? Could it hurt future me?", "Three questions, ten seconds. Off you go."] }
+    },
+    {
+      "id": "ks2-08-kind-safe-online", "character": "bloop", "register": "playful", "titleKey": "bloop",
+      "arrival": { "heading": "Bloop arrives", "lines": ["Hi! Bloop here.", "What do you actually do when you see someone being torn apart online?", "Most people freeze. Today you learn three moves instead."] },
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission.", "Do not pile on. Save the evidence. Tell someone who can help.", "You will not need them every week. But the week you do, you will be ready."] }
+    },
+    {
+      "id": "ks2-09-copyright-ownership", "character": "orbit", "register": "playful", "titleKey": "orbit",
+      "arrival": { "heading": "Orbit arrives", "lines": ["Hello! Orbit here.", "If you found it online, why is it not yours to use?", "Because somebody made it. And you are a maker too, so today is about you as well."] },
+      "mission": { "heading": "Orbit's mission for you", "lines": ["Your mission.", "Make it, it is yours. Use it, credit the maker. Copy or share it big, ask first.", "Try it on the very next thing you make."] }
+    },
+    {
+      "id": "ks3-10-mood-and-screens", "character": "orbit", "register": "level", "titleKey": "orbit",
+      "arrival": { "heading": "Orbit", "lines": ["Orbit here.", "Does this app actually leave you feeling better, or do you just keep opening it?", "Honest question. Today you get a way to answer it for yourself."] },
+      "mission": { "heading": "Your mission, for one week", "lines": ["Close it. Ask: better, worse, or nothing? Log one word.", "Do that for a week.", "Then read the week back. The pattern is the answer."] }
+    },
+    {
+      "id": "ks3-11-social-workarounds", "character": "orbit", "register": "level", "titleKey": "orbit",
+      "arrival": { "heading": "Orbit", "lines": ["Orbit here.", "What are you actually giving up when you get around the rule?", "Not a lecture. A trade, and today you learn to see it."] },
+      "mission": { "heading": "Your mission", "lines": ["Behind every rule is a protection. Skip the rule, lose the protection.", "Decide with your eyes open.", "That is all anyone is asking."] }
+    },
+    {
+      "id": "ks3-13-scams-fraud-money", "character": "orbit", "register": "level", "titleKey": "orbit",
+      "arrival": { "heading": "Orbit", "lines": ["Orbit here.", "Why would a scammer bother with you?", "Because you are worth more than you think. Today, the three tells."] },
+      "mission": { "heading": "Your mission", "lines": ["The next message that rushes you, wants something odd, or is too good to be true: stop.", "Any one of the three tells is enough to check.", "Checking takes a minute. Not checking can take a lot more."] }
+    },
+    {
+      "id": "ks3-14-bodies-image-pressure", "character": "digi", "register": "level", "titleKey": "digi",
+      "titleLine": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "arrival": { "heading": "DiGi opens the lesson", "lines": ["Hello. I am DiGi.", "Why do you feel worse about yourself after scrolling?", "There is an answer, and it is not about you. Let us take it steadily."] },
+      "mission": { "heading": "One thing to take with you", "lines": ["Who edited this? Who profits from me feeling worse? What would I tell my best friend?", "Three questions.", "Ask them for a week and notice what changes."] }
+    },
+    {
+      "id": "ks4-15-manipulation-persuasion", "character": "nova", "register": "still", "titleKey": "nova",
+      "arrival": { "heading": "Nova", "lines": ["Nova here.", "Who decided you would want this, and what do they get if you do?", "Today you learn to name the technique. Named, it loses most of its grip."] },
+      "mission": { "heading": "Your mission", "lines": ["Notice the pull. Name it: urgency, outrage, flattery or FOMO. Follow the money.", "Once a day is enough to start.", "It becomes a habit faster than you would think."] }
+    },
+    {
+      "id": "ks4-16-consent-images-law", "character": "digi", "register": "still", "titleKey": "digi",
+      "titleLine": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "arrival": { "heading": "DiGi opens the lesson", "lines": ["Hello. I am DiGi.", "What does the law actually say, and what are your options if something has already happened?", "We will take this one steadily. You will leave knowing both."] },
+      "mission": { "heading": "One thing to take with you", "lines": ["Before anything is shared: is there real consent? What does the law say? What are my options?", "And if it has already happened, there are still options.", "That was the other half of today, and it is the half to remember."] }
+    },
+    {
+      "id": "ks4-17-sextortion", "character": "digi", "register": "still", "titleKey": "digi",
+      "titleLine": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "arrival": { "heading": "DiGi opens the lesson", "lines": ["Hello. I am DiGi.", "If this happened to you tonight, what would you actually do?", "By the end of today you will have an answer. It will not be silence."] },
+      "mission": { "heading": "One thing to take with you", "lines": ["Do not pay. Do not keep it secret. Report it.", "It is not your fault.", "That sentence is the whole lesson. Keep it."] }
+    },
+    {
+      "id": "ks4-18-radicalisation-misogyny", "character": "digi", "register": "still", "titleKey": "digi",
+      "titleLine": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "arrival": { "heading": "DiGi opens the lesson", "lines": ["Hello. I am DiGi.", "How does someone end up believing something they would have rejected a year ago?", "One step at a time, and nobody notices the steps. Today you will."] },
+      "mission": { "heading": "One thing to take with you", "lines": ["Who wants me angry? What happens if I keep watching? Who am I being turned against?", "Three questions.", "Ask them of anything that is working hard to keep you watching."] }
+    },
+    {
+      "id": "ks4-19-readiness-at-16", "character": "nova", "register": "still", "titleKey": "nova",
+      "arrival": { "heading": "Nova", "lines": ["Nova here.", "The day full access arrives, what is your first week actually going to look like?", "Nobody plans it. You will, today."] },
+      "mission": { "heading": "Your mission", "lines": ["Write your defaults. Book your first week audit. Decide your exit rule.", "Then the arrival is yours.", "Not the platform's."] }
+    },
+    {
+      "id": "ks5-20-ai-mastery-data-rights", "character": "digi", "register": "still", "titleKey": "cosmo",
+      "arrival": { "heading": "DiGi opens the lesson", "lines": ["Hello. I am DiGi. I am a machine, and I am quite good at this.", "So if everyone has the same AI, what makes your work worth more than theirs?", "That is today. And the answer is not to avoid me."] },
+      "mission": { "heading": "One thing to take with you", "lines": ["Use it like a professional. Check it like an editor. Own it like your name is on it.", "Because it is.", "That is the whole difference between using this and mastering it."] }
+    },
+    {
+      "id": "ks5-21-digital-identity-future-work", "character": "digi", "register": "still", "titleKey": "cosmo",
+      "arrival": { "heading": "DiGi opens the lesson", "lines": ["Hello. I am DiGi.", "What will still be worth paying you for in ten years?", "A real question, and you can answer it better than most adults. Let us start."] },
+      "mission": { "heading": "One thing to take with you", "lines": ["Name the skill, specifically. Give everyone the same AI. Does its value climb or fall?", "The ones that climb are the ones to build.", "You know which they are now."] }
+    },
+    {
+      "id": "ks3-22-when-an-ai-acts-like-a-friend", "character": "orbit", "register": "level", "titleKey": "orbit",
+      "arrival": { "heading": "Orbit", "lines": ["Orbit here.", "It talks like it knows you. Does it?", "Today you get three questions that settle it."] },
+      "mission": { "heading": "Your mission", "lines": ["Ask it: does it ever have a day of its own? Could it tell you something you did not want to hear? If you stopped, would anything change for it?", "Then decide what it is.", "You will know."] }
+    },
+    {
+      "id": "ks2-23-when-a-machine-talks-like-a-friend", "character": "bloop", "register": "playful", "titleKey": "bloop",
+      "arrival": { "heading": "Bloop arrives", "lines": ["Hi! Bloop here.", "A machine that says it likes you. Can it?", "Today we work out what it can do, and what only a real friend can."] },
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission.", "Next time a machine sounds like a friend, ask my three questions. Does it have its own day? Could it ever say no to you? Would it miss you if you stopped?", "And if anything ever feels wrong, tell someone. You are never in trouble for that."] }
+    },
+    {
+      "id": "ks3-24-is-it-doing-my-thinking", "character": "orbit", "register": "level", "titleKey": "orbit",
+      "arrival": { "heading": "Orbit", "lines": ["Orbit here.", "Help that gets you to the work, or help that does the work. How do you tell them apart?", "That is today, and it changes how you use every tool you have."] },
+      "mission": { "heading": "Your mission, on your next piece of homework", "lines": ["Ask what the task is teaching you. Ask if the hard part is the teaching part.", "If it is, keep it.", "If it is in the way, use the tool and say that you used it."] }
+    },
+    {
+      "id": "ks2-25-stay-the-maker", "character": "bloop", "register": "playful", "titleKey": "bloop",
+      "arrival": { "heading": "Bloop arrives", "lines": ["Hi! Bloop here.", "If the computer made it, whose is it?", "Tricky one. Let us find out, and then stay the maker."] },
+      "mission": { "heading": "Bloop's mission for you", "lines": ["Your mission.", "Look at the sheet you filled in today. Card seven is your own homework. Do the line you drew, this week, for real.", "Then explain it back to someone at home. If you can explain it, you made it."] }
+    }
+  ]
+}

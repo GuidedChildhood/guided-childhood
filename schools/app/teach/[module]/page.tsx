@@ -6,6 +6,7 @@ import { WALL } from '@gc/shared/wall-scale'
 import { isTasterModule } from '@/lib/taster'
 import { hasLicence } from '@/lib/licence'
 import { TasterStrip } from '@/app/taster/TasterBar'
+import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 
 // The teach route: any live module, played full screen for the classroom.
 //
@@ -120,6 +121,12 @@ export default async function TeachLessonPage({
           initialIndex={initialIndex}
           cycles={lesson.teacher_notes?.cycles}
           tool={lesson.teacher_notes?.tool}
+          // The friend who hosts this lesson and how it moves, both read off
+          // the row: the cast line names the friend, the key stage sets the
+          // register. One source, so the header, the beats and the accent
+          // cannot disagree with what the wall says at the top of the page.
+          character={characterKeyFor(lesson.character_cast)}
+          register={registerFor(lesson.key_stage)}
         />
       </div>
     </main>

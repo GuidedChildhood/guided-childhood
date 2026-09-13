@@ -215,9 +215,9 @@ function WallAtSixteen() {
 // intro clips on our own CDN, animated from their own art.
 const SQUAD: { key: keyof typeof CHARACTERS; clip?: string; line: string }[] = [
   { key: 'digi', line: 'The golden star. Carries the heaviest lessons and closes every one.' },
-  { key: 'pebble', clip: INTRO_CHARACTERS.celebrate.clip, line: 'First steps: kindness, feelings, and telling a grown up.' },
-  { key: 'bloop', clip: INTRO_CHARACTERS.dance.clip, line: 'Routines, gaming, and the habits that stick.' },
-  { key: 'orbit', clip: INTRO_CHARACTERS.football.clip, line: 'The detective: real, pretend, and made by a computer.' },
+  { key: 'pebble', clip: INTRO_CHARACTERS.pebble.clip, line: 'First steps: kindness, feelings, and telling a grown up.' },
+  { key: 'bloop', clip: INTRO_CHARACTERS.bloop.clip, line: 'Routines, gaming, and the habits that stick.' },
+  { key: 'orbit', clip: INTRO_CHARACTERS.orbit.clip, line: 'The detective: real, pretend, and made by a computer.' },
   { key: 'nova', clip: INTRO_CHARACTERS.nova.clip, line: 'The calm one: mood, wellbeing, and the serious years.' },
   { key: 'cosmo', clip: INTRO_CHARACTERS.cosmo.clip, line: 'Street smart: scams, workarounds, AI and the road to work.' },
 ]
