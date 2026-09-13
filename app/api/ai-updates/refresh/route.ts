@@ -14,30 +14,12 @@
 // x-cron-secret header. Without CRON_SECRET configured, the route is disabled.
 
 import { createClient } from '@supabase/supabase-js'
-import { firstText } from '@/lib/digi/text'
 import { NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
-import { AI_UPDATE_MODEL, AI_UPDATE_MODEL_FALLBACKS, AI_UPDATE_AUDIENCES } from '@/lib/config/ai-module'
+import { draftUpdates, insertDrafts, type SourceItem } from '@/lib/ai-updates/draft'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
-
-type SourceItem = { title: string; text: string; url?: string; source_name?: string }
-type Draft = { audience: string; headline: string; summary: string; category: string }
-
-async function callModel(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
-  const models = [AI_UPDATE_MODEL, ...AI_UPDATE_MODEL_FALLBACKS.filter(m => m !== AI_UPDATE_MODEL)]
-  let lastError: unknown
-  for (const model of models) {
-    try {
-      return await anthropic.messages.create({ ...params, model })
-    } catch (err) {
-      const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
-      if (!isModelError) throw err
-      lastError = err
-    }
-  }
-  throw lastError
-}
+// The drafting itself lives in lib/ai-updates/draft.ts since 13 September
+// 2026, shared with the weekly platform watch cron. This route is the hand fed
+// door: a trusted item pasted in, drafted, saved as a draft. Same gate.
 
 export async function POST(request: Request) {
   // Guard 1: the route is off unless a secret is configured and matches.
@@ -52,93 +34,29 @@ export async function POST(request: Request) {
   // Guard 2: we need the service role to write drafts past row level security.
   const serviceKey = process.env.SUPABASE_SERVICE_KEY
   if (!serviceKey || !process.env.ANTHROPIC_API_KEY) {
-    return NextResponse.json({ error: 'Refresh not ready: missing service key or model key' }, { status: 503 })
+    return NextResponse.json({ error: 'Refresh disabled: missing SUPABASE_SERVICE_KEY or ANTHROPIC_API_KEY' }, { status: 503 })
   }
 
-  const body = await request.json().catch(() => null) as { sources?: SourceItem[] } | null
-  const sources = (body?.sources ?? []).slice(0, 10).filter(s => s?.title && s?.text)
+  let body: { sources?: SourceItem[] }
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Body must be JSON' }, { status: 400 })
+  }
+  const sources = (body.sources ?? []).filter(s => s && typeof s.title === 'string' && typeof s.text === 'string')
   if (sources.length === 0) {
     return NextResponse.json({ error: 'Provide a non-empty sources array of {title, text, url, source_name}' }, { status: 400 })
   }
 
   const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey)
-
-  const drafts: Draft[] = []
-  for (const source of sources) {
-    const prompt = buildPrompt(source)
-    let response: Anthropic.Message
-    try {
-      response = await callModel({ model: AI_UPDATE_MODEL, max_tokens: 1200, messages: [{ role: 'user', content: prompt }] })
-    } catch {
-      continue // skip a source that fails, keep going
-    }
-    const text = firstText(response)
-    const parsed = safeParseDrafts(text)
-    for (const d of parsed) {
-      if (!AI_UPDATE_AUDIENCES.includes(d.audience as typeof AI_UPDATE_AUDIENCES[number])) continue
-      drafts.push({
-        audience: String(d.audience),
-        headline: String(d.headline ?? source.title).slice(0, 200),
-        summary: String(d.summary ?? '').slice(0, 1500),
-        category: String(d.category ?? 'ai_news').slice(0, 60),
-      })
-    }
-  }
-
+  const drafts = await draftUpdates(sources)
   if (drafts.length === 0) {
     return NextResponse.json({ drafted: 0, note: 'No drafts produced. Nothing was published.' })
   }
-
-  // Everything is saved as a DRAFT. Never published automatically.
-  const rows = drafts.map((d, i) => ({
-    headline: d.headline,
-    summary: d.summary,
-    audience: d.audience,
-    category: d.category,
-    source_name: sources[0]?.source_name ?? null,
-    source_url: sources[0]?.url ?? null,
-    origin: 'claude' as const,
-    status: 'draft' as const,
-    sort_order: i,
-  }))
-
-  const { error } = await supabaseAdmin.from('ai_updates').insert(rows)
-  if (error) {
-    return NextResponse.json({ error: 'Failed to save drafts', detail: error.message }, { status: 500 })
-  }
-
-  return NextResponse.json({ drafted: rows.length, status: 'draft', note: 'Drafts saved for human review. Nothing is live until an editor publishes it.' })
-}
-
-function buildPrompt(source: SourceItem): string {
-  return `You are helping a UK digital parenting platform keep its AI literacy content current.
-
-Below is a single trusted source item about AI (a release, a safety update, or a risk pattern). Write calm, accurate, age-appropriate summaries of it for these audiences: age_13, age_16, parent, teacher.
-
-Rules:
-- British English. No dashes used as punctuation. Warm, plain, never alarmist.
-- Only use facts present in the source. Do not add claims or invent details. If the source is thin, keep the summary short.
-- Each summary is 2 to 4 sentences. For age_13 and age_16, pitch the language to that age.
-- Choose a category tag from: ai_news, ai_safety, deepfakes, scams, model_release, privacy.
-
-Return ONLY a JSON array, no prose, in this exact shape:
-[{"audience":"parent","headline":"...","summary":"...","category":"..."}, ...]
-
-SOURCE TITLE: ${source.title}
-SOURCE TEXT: ${source.text}
-${source.source_name ? `SOURCE NAME: ${source.source_name}` : ''}`
-}
-
-function safeParseDrafts(text: string): Array<Record<string, unknown>> {
-  // The model is asked for a bare JSON array. Be defensive: pull the first
-  // bracketed block and parse it, returning [] on any problem.
-  const start = text.indexOf('[')
-  const end = text.lastIndexOf(']')
-  if (start === -1 || end === -1 || end <= start) return []
   try {
-    const parsed = JSON.parse(text.slice(start, end + 1))
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
+    const drafted = await insertDrafts(supabaseAdmin, drafts)
+    return NextResponse.json({ drafted, status: 'draft', note: 'Drafts saved for human review. Nothing is live until an editor publishes it.' })
+  } catch (err) {
+    return NextResponse.json({ error: 'Failed to save drafts', detail: err instanceof Error ? err.message : String(err) }, { status: 500 })
   }
 }

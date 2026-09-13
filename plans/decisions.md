@@ -13927,3 +13927,55 @@ eleven ways.
 Whether they should also gate the stamp is Justin's call. The daily sticker
 decided on 10 September is still the "keeps interest daily" piece and is not
 built.
+
+## 13 September 2026: DiGi as the driving force, on judgement under a cap
+
+Justin, on the DiGi assessment: "Go with your recommendations." Plan in
+`plans/2026-09-13-digi-agentic-plan.md`. All four pieces built in PR 1057, no
+migration.
+
+**The AI modules gate the stamp.** progress.ts folds the age band's AI modules
+into lessonsDone and lessonsTotal in both readings, so the ring, the row, the
+sticker tile, the to do and the stamp move together and contentComplete
+requires them. AI literate is in the definition of ready.
+
+**The goal, every turn.** `lib/digi/family-state.ts` is one reading of where
+the family stands: the four things for the stage, the worry that moved the
+most in the parent's own stars, the child's own days and timer days, the check
+status. DiGi's chat anchor renders it on every call and the twice weekly word
+carries it in its brief. No new model call; the judgement of when to name it
+is the model's.
+
+**The moment reader replaces the calendar.** `lib/digi/moment.ts` reads what
+changed since DiGi last looked, the hard signals the old rules still find, the
+horizons not yet said with the next band flagged, and what DiGi said before,
+then asks one question: is anything worth an interruption today. A no is a
+dismissed row, once a day, so the silence is on the record. A yes is a card in
+a kind the table already accepts, reason `step_in:`, source the horizon, one
+push. The drumbeat (a tip every three days, parent care with it, a printable
+nudge on alternate days) is gone. The dashboard visit asks the reader; a 07:20
+UK cron asks it for families where something changed yesterday.
+
+**The cap is config and code.** `DIGI_STEP_IN_PER_WEEK`, default two, never
+two days running, checked before the model is called. Zero turns it off.
+
+**Platform changes, from a source, through the gate.** Four source families as
+config (`lib/config/platform-sources.ts`: Ofcom, ICO, Common Sense Media, the
+platform newsrooms). A Monday cron searches them through the model's web
+search, the same way the research updater does, drafts into `ai_updates` as
+drafts, and emails Justin. The insights board lists them; Publish is the only
+way a draft leaves draft, and it sends one `new_research` card to the families
+whose child's band the draft names. Rejected drafts are archived.
+
+**The human gate stays.** Nothing self learned reaches a family or DiGi's bank
+without Justin's click. The step in itself is DiGi speaking, the same as chat.
+
+**Guards.** `check-digi-step-in.mjs` (the cadence rule run for real, the
+order, the quiet gate, the kinds, no drumbeat) and `check-platform-watch.mjs`
+(the four families, drafts only, the founder gate inside POST before the
+publish, the fan out kind). Both mutation tested, both in CI.
+
+**Not verified here.** No API key in this container, so the reader and the
+watch have not been run against the model. The first real step in and the
+first Monday watch are the proof, and the quiet rows will say how often DiGi
+chose silence.

@@ -142,6 +142,10 @@
       "schedule": "0 7 * * 0"
     },
     {
+      "path": "/api/cron/platform-watch",
+      "schedule": "50 6 * * 1"
+    },
+    {
       "path": "/api/cron/digi-step-in",
       "schedule": "20 6 * * *"
     },
