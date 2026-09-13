@@ -48,38 +48,67 @@ export async function GET(request: NextRequest) {
   //
   // The freed slot goes to reading, which is already in the pool. Dropping
   // printable never empties the middle: five of the six rotating steps remain.
-  const region = await getFamilyRegion(link.admin, link.userId).catch(() => 'uk' as const)
+  // ── ONE WAVE FOR THE THREE READS THAT NEED ONLY THE LINK ─────────────────
+  //
+  // Region, this week's lesson count and the age band each depend on nothing
+  // but link.userId and link.childId, so they go to the database together and
+  // the route waits once instead of three times. Each keeps the fail soft it
+  // had: region to uk, lesson count to false, stage to undefined. The comment
+  // for each sits beside its read below.
+  const [region, lessonThisWeek, stage] = await Promise.all([
+    getFamilyRegion(link.admin, link.userId).catch(() => 'uk' as const),
 
-  // A lesson is a WEEKLY thing, not a daily one.
-  //
-  // Justin: "can we make sure the lessons for kids... we only feed one per week
-  // at most."
-  //
-  // Two of the twelve rotating rows are learning (lesson and quiz), so on a bad
-  // draw a child could meet one most days, and the Today list offers the focus
-  // lesson alongside. A lesson a day is school, and this is the fifteen minutes
-  // after school where a child has least appetite for more of it. One a week is
-  // a thing to look forward to; five a week is a subject.
-  //
-  // Enforced through the SAME mechanism the printable already uses: a step that
-  // cannot be completed must never be one of the five, because a child who
-  // cannot finish the day can never earn the streak and has no way of knowing
-  // why. So the row is simply not drawn once this week's lesson is done.
-  //
-  // The week is the last seven days rather than since Monday, deliberately. A
-  // child who does their lesson on Sunday should not meet another on Monday
-  // morning because a calendar boundary happened to fall between them.
-  let lessonThisWeek = false
-  try {
-    const since = new Date(Date.now() - 7 * 86_400_000).toISOString()
-    const { count } = await link.admin
-      .from('kid_lesson_missions')
-      .select('id', { count: 'exact', head: true })
-      .eq('child_id', link.childId)
-      .eq('status', 'done')
-      .gte('completed_at', since)
-    lessonThisWeek = (count ?? 0) > 0
-  } catch { lessonThisWeek = false }
+    // A lesson is a WEEKLY thing, not a daily one.
+    //
+    // Justin: "can we make sure the lessons for kids... we only feed one per week
+    // at most."
+    //
+    // Two of the twelve rotating rows are learning (lesson and quiz), so on a bad
+    // draw a child could meet one most days, and the Today list offers the focus
+    // lesson alongside. A lesson a day is school, and this is the fifteen minutes
+    // after school where a child has least appetite for more of it. One a week is
+    // a thing to look forward to; five a week is a subject.
+    //
+    // Enforced through the SAME mechanism the printable already uses: a step that
+    // cannot be completed must never be one of the five, because a child who
+    // cannot finish the day can never earn the streak and has no way of knowing
+    // why. So the row is simply not drawn once this week's lesson is done.
+    //
+    // The week is the last seven days rather than since Monday, deliberately. A
+    // child who does their lesson on Sunday should not meet another on Monday
+    // morning because a calendar boundary happened to fall between them.
+    (async () => {
+      try {
+        const since = new Date(Date.now() - 7 * 86_400_000).toISOString()
+        const { count } = await link.admin
+          .from('kid_lesson_missions')
+          .select('id', { count: 'exact', head: true })
+          .eq('child_id', link.childId)
+          .eq('status', 'done')
+          .gte('completed_at', since)
+        return (count ?? 0) > 0
+      } catch { return false }
+    })(),
+
+    // ── WHOSE DAY, BY AGE ──────────────────────────────────────────────────
+    //
+    // The Passport brief: "DO NOT hard-code the same checklist for every age. Use
+    // the existing age/stage pathway as the source of truth." pickDay took a
+    // child and a date and nothing else, so this is where the age band it already
+    // had on file finally reaches it.
+    //
+    // Fails soft to undefined, which pickDay reads as Builder: a lookup that
+    // cannot answer should cost a child a slightly wrong shaped day, never a day
+    // they cannot load at all.
+    (async (): Promise<StageNum | undefined> => {
+      try {
+        const { data: kid } = await link.admin
+          .from('children').select('age_band').eq('id', link.childId).maybeSingle()
+        const band = (kid as { age_band?: string | null } | null)?.age_band
+        return band ? getStageFromAgeBand(band as AgeBand).id as StageNum : undefined
+      } catch { return undefined }
+    })(),
+  ])
 
   const available = {
     printable: isSchoolHoliday(new Date(), region),
@@ -88,26 +117,14 @@ export async function GET(request: NextRequest) {
     lesson: !lessonThisWeek,
   }
 
-  // ── WHOSE DAY, BY AGE ────────────────────────────────────────────────────
-  //
-  // The Passport brief: "DO NOT hard-code the same checklist for every age. Use
-  // the existing age/stage pathway as the source of truth." pickDay took a
-  // child and a date and nothing else, so this is where the age band it already
-  // had on file finally reaches it.
-  //
-  // Fails soft to undefined, which pickDay reads as Builder: a lookup that
-  // cannot answer should cost a child a slightly wrong shaped day, never a day
-  // they cannot load at all.
-  let stage: StageNum | undefined
-  try {
-    const { data: kid } = await link.admin
-      .from('children').select('age_band').eq('id', link.childId).maybeSingle()
-    const band = (kid as { age_band?: string | null } | null)?.age_band
-    if (band) stage = getStageFromAgeBand(band as AgeBand).id as StageNum
-  } catch { stage = undefined }
-
-  const { day, row } = await loadDay(link.admin, link.userId, link.childId, available, stage)
-  const streak = await streakCount(link.admin, link.childId)
+  // Today's row and the streak, one wave. loadDay may create today's row on
+  // first open, and streakCount only counts rows with completed_at set, so a
+  // row born blank a moment earlier changes nothing in the count and the two
+  // can safely run side by side.
+  const [{ day, row }, streak] = await Promise.all([
+    loadDay(link.admin, link.userId, link.childId, available, stage),
+    streakCount(link.admin, link.childId),
+  ])
   return NextResponse.json({
     day,
     steps: row.steps as StepKey[],
