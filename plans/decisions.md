@@ -13825,3 +13825,31 @@ average drops, DIGI_CHAT_EFFORT=high is the one line back.
 query the product runs against it. A count is not a finding. And before
 building a guard, try to break it: twelve mutations on check-digi-model, and
 the first version of the guard was wrong twice before the code was wrong once.
+
+## 13 September 2026, Sunday, the look and feel pass, session one (session p37w5v)
+
+**Shape is tokens now.** Four radii, one edge, three lifts in shared/tokens.css.
+The sweep (scripts/sweep-shape.mjs) moved 1,122 edges, 539 lifts and 1,802
+radii across 404 files, exact whole values only. Reproducible: run it on main
+and diff. Session two runs it over schools/.
+
+**What the camera said.** 249 screens before and after at three widths: the
+sweep is invisible where it should be. The only movement is 3px lifts to 4px
+and 18/22/24 cards to 20, which is the point.
+
+**Seven files by hand.** Button (token radii, the nowrap trap, a ledge on
+secondary, a press class), the two back links (44px targets), the passport's
+one emoji, HappyNewsBits' template literal finish, and the DiGi chat header and
+suggestion rail from Justin's 12 September screenshot.
+
+**Why the chip fault was never caught.** check-mobile-overflow asks whether the
+document is wider than the window. The rail scrolls inside its own box, so it
+never was. A side scroller with its scrollbar hidden and no fade is a design
+fault, not an overflow, and a guard for the wrong question stays green.
+
+**One branch, one PR, two commits.** The plan said two pull requests. The
+session has one branch, and 400 changed files were not going to sit
+uncommitted in an ephemeral container. Reviewed by commit instead.
+
+**Left for Justin.** 2px or 1.5px on --edge, pictures sent. Then the ten daily
+screens and the schools session.
