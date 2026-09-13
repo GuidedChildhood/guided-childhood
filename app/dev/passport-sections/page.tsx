@@ -26,8 +26,13 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
   pct: mode === 'full' ? 100 : mode === 'empty' ? 0 : id === 3 ? 62 : id < 3 ? 100 : 0,
   status: mode === 'full' ? 'earned' : mode === 'empty' ? (id === 3 ? 'current' : 'upcoming') : id < 3 ? 'earned' : id === 3 ? 'current' : 'upcoming',
   href: '/dashboard/lessons',
-  lessonsDone: 3, lessonsTotal: 5,
+  lessonsDone: mode === 'full' ? 5 : mode === 'empty' ? 0 : id < 3 ? 5 : 3, lessonsTotal: 5,
   scriptsPct: 60, streakPct: 75, devicesPct: 80, lessonsPct: 60,
+  // The three parts of a pass (PassportPass): stage 2 in the mixed fixture is
+  // every lesson and script done with the check still open, the exact page
+  // the peek on Today exists for.
+  scriptsDone: mode === 'full' ? 4 : mode === 'empty' ? 0 : id <= 2 ? 4 : 2, scriptsTotal: 4,
+  checkPassed: mode === 'full' || (mode === 'mixed' && id === 1),
   // The four things block, StageAreas: full, empty and part way, plus social
   // media ghosted before stage 3 so the "later" state is on the fixture too.
   areas: [

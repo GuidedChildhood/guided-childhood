@@ -26,6 +26,7 @@ import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
+import PassportPeek from '@/components/home/PassportPeek'
 import { friendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import { CHALLENGE_LABELS } from '@/lib/pathway/challenge-labels'
 import { isHeldForHolidays } from '@/lib/school/child-items'
@@ -1294,6 +1295,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           />
         )
       })()}
+
+      {/* The passport, flipping in when a page wants a look: ready for its
+          check, pages behind, a few left. One reason or nothing, decided on
+          the server after Today has painted (lib/pathway/passport-attention).
+          Not on a first run, when the book is a cover and five zeros. */}
+      {!firstRun && <PassportPeek childId={child?.id ?? null} />}
 
       {/* The monthly community bite. Left as it is: Justin did not pick it off,
           and it is already silent once answered, so it costs nothing on the

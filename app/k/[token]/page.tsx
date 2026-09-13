@@ -19,6 +19,8 @@ import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
+import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
+import { isStageStamped } from '@/lib/pathway/stamped'
 import { getReadinessAreas } from '@/lib/pathway/readiness-areas'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import type { Stamp as PassportStamp } from '@/components/pathway/PassportStamps'
@@ -664,9 +666,12 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // has to mean in a house with two children.
     // The four things, counted by the one rule, so the child's copy of the
     // book shows the same "3 of 7" the parent's does. Lesson counts only.
-    const [allProgress, areasRead] = await Promise.all([
+    // Their own check passes, so the child's copy stamps a page by the one
+    // rule (lib/pathway/stamped.ts) and can print the three parts of a pass.
+    const [allProgress, areasRead, passed] = await Promise.all([
       getAllStagesProgress(supabase, link.user_id, 0, link.child_id),
       getReadinessAreas(supabase, link.user_id, link.child_id),
+      getPassedStageQuizzes(supabase, link.user_id, link.child_id),
     ])
     const built = await buildPassportSections(
       supabase, link.user_id,
@@ -684,10 +689,13 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         name: STAGE_TITLES[i],
         ages: STAGE_AGES[i],
         pct,
-        status: pct >= 100 ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
+        status: isStageStamped(prog, passed, id) ? 'earned' : id === stageId ? 'current' : id < stageId ? 'catchup' : 'upcoming',
         href: '#',
         lessonsDone: prog?.lessonsDone ?? 0,
         lessonsTotal: prog?.lessonsTotal ?? 0,
+        scriptsDone: prog?.scriptsDone ?? 0,
+        scriptsTotal: prog?.scriptsTotal ?? 0,
+        checkPassed: passed.has(id),
         sections: built1?.sections,
         areas: areasRead.byStage[id],
       }

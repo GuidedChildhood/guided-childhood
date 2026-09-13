@@ -65,6 +65,14 @@ export interface Stamp {
    * child's read only book carries the same block. See StageAreas.
    */
   areas?: { key: string; name: string; done: number; total: number }[]
+  /**
+   * The three parts of a PASS, from lib/pathway/stamped.ts: every lesson,
+   * every script, the child's stage check. Scripts and the check are not among
+   * the five slots, so the page prints them on their own (PassportPass).
+   */
+  scriptsDone?: number
+  scriptsTotal?: number
+  checkPassed?: boolean
 }
 
 const R = 32
