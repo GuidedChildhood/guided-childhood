@@ -39,6 +39,7 @@ import { starWeekStart } from '@/lib/quests/star-week'
 import { londonToday } from '@/lib/pathway/today'
 import { stagePace, paceLine } from '@/lib/pathway/pace'
 import MarkPassportLook from '@/components/daily/MarkPassportLook'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 // ═══ THE PASSPORT IS THE APPLICATION, AND THE APPLICATION IS THE WHOLE PAGE ═
 //
@@ -466,7 +467,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             border: `1.5px solid ${paceOnTrack ? '#C9DDD5' : 'var(--terracotta)'}`,
             borderRadius: 'var(--radius-tile)', padding: '11px 14px', marginBottom: 14,
           }}>
-            <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', lineHeight: 1.4 }}>🕰️</span>
+            <span aria-hidden style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="time" size={22} /></span>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
               {paceLine(pace, kidName, stageNum)}
             </p>

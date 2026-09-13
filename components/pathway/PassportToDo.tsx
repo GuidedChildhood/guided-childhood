@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { actionFor, spokenFor, catchUpLine, type ParentToDo, type ChildToDo } from '@/lib/pathway/passport-todo'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { SLOT_ICON } from '@/lib/pathway/passport-icons'
 
 // The steps to stamp this passport page, broken down, every visit.
 //
@@ -142,9 +144,11 @@ export default function PassportToDo({
           const spoken = childKeys.has(it.key) ? spokenFor(it.key) : null
           return (
             <li key={it.key} style={{
-              background: '#fff', border: `2px solid ${first ? 'var(--ink)' : 'var(--border)'}`,
+              // The happy news finish: every row edge is ink, no ledge inside
+              // a card that carries one. The first row is butter, which is
+              // what the thing to do next wears everywhere else.
+              background: first ? 'var(--terracotta-lt)' : '#fff', border: 'var(--edge)',
               borderRadius: 'var(--radius-tile)', padding: '11px 12px',
-              boxShadow: first ? 'var(--lift)' : 'none',
             }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9 }}>
                 {/* The number, so four steps read as a sequence rather than a
@@ -160,8 +164,11 @@ export default function PassportToDo({
                 </span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'flex', alignItems: 'baseline', gap: 7, flexWrap: 'wrap' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
-                      <span aria-hidden style={{ marginRight: 5 }}>{it.emoji}</span>{it.label}
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
+                      <span aria-hidden style={{ flexShrink: 0, width: 28, height: 28, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {SLOT_ICON[it.key] ? <HappyIcon name={SLOT_ICON[it.key]} size={19} /> : it.emoji}
+                      </span>
+                      {it.label}
                     </span>
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
                       {it.detail}
@@ -194,7 +201,6 @@ export default function PassportToDo({
                         display: 'inline-flex', alignItems: 'center', gap: 5, textDecoration: 'none',
                         background: first ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
                         border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
-                        boxShadow: first ? 'var(--lift)' : 'none',
                         padding: '7px 13px',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                       }}
@@ -265,7 +271,6 @@ export default function PassportToDo({
               display: 'inline-flex', alignItems: 'center', gap: 7,
               background: sentAt ? 'var(--retro-green)' : 'var(--terracotta)', color: sentAt ? '#fff' : 'var(--ink)',
               border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 15px',
-              boxShadow: sentAt ? 'none' : 'var(--lift)',
               cursor: sending || sentAt ? 'default' : 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
             }}

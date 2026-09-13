@@ -14172,3 +14172,11 @@ it reads isStageStamped now, which the audit of 2 September asked for.
 
 **Guard.** scripts/check-passport-pass.mjs, six rules, A and B run the real
 code, eight mutations caught, in CI.
+
+**The happy news finish on the passport (same day).** Justin asked for any
+gaps. The five slots, the next open row and the to do rows drew emoji doing
+an icon's job (🔧 💬 📚 ⭐ ⚖️); they wear HappyIcon story icons now from one
+map (lib/pathway/passport-icons.ts), the warning and the clock sit on ink
+edged plates, the shop link wears the passport icon, every to do row edge is
+ink with the first row in butter, and no ledge sits inside a card that
+carries one. Guard rule G holds the icons.
