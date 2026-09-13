@@ -13931,3 +13931,69 @@ three moods per friend. The 5,200 credit video series, optional. ks3-11 and
 ks3-13 name one host in the curriculum file and another in the row. And the
 order: the staffroom (register, marking, the report at a button) before the
 currency routine.
+
+## 13 September 2026, Sunday, the passport carries through every lesson (session 0u09q9)
+
+**Justin: "make sure the passport theme carries through and updates for
+progression as agreed, fills up, makes sense, matches the other platform
+passport."** The same ask reached the parents app the same morning (PR #1057,
+session p37w5v): the four agreed areas on every passport page, two by two, with
+counts and a bar in the stage's ink. That is the canon. The school side matches
+it rather than inventing a second passport.
+
+**What was true.** Every module knew its page (migration 277) and told parents
+in the note that today filled it. Only lesson 1 had a passport beat in its deck,
+a digi slide the class watched. The class never saw the page.
+
+**One component, every surface.** shared/components/PassportPage draws the page
+in the parents book's own colours and shape: the stage pastel and ink, the page
+name, a ring counting lessons done of total, the friend's seal ghosted, and the
+four areas two by two. It is the beat in the lesson, the Completed screen, the
+What this lesson earns card on the prep page, and the new hub page
+/hub/passport with all five pages side by side.
+
+**The beat is an action, not a watch.** Migration 297 puts a passport-page
+interactive before DiGi's close in every module with a page: 23 of them, the
+two KS5 modules sit after the passport and get none, and lesson 1's old digi
+slide is replaced in the same place. The class taps Fill the page: the ring and
+the area bar move by one, the seal pulses in the lesson's register, and the room
+says the word stamp. An interactive is an action under the council rule, so
+every closing stretch of watching got shorter or stayed as it was. Seven guards
+in one DO block, 709 to 731 slides, timing true on all 25, longest passive
+stretch still exactly 4 minutes.
+
+**Where the fill lives.** The schools app holds no pupil data and the 29 August
+plan rules out lesson delivery state on the server, so the count is this
+screen's memory (shared/schools-taught, localStorage, the SchoolChest grammar):
+which modules this screen has filled the page for. Tap again to unfill; the hub
+page ticks lessons taught before the beat existed and forgets the record on
+request. Every surface says so in words. The seal is never drawn as earned on
+the school side: the stamp is the stage's, earned at home by the page being
+full and the big check passed.
+
+**One area per module, by hand.** shared/passport-areas carries a copy of the
+parents' area model (keys, names, order, start stages, held to
+lib/content/literacy.ts by scripts/check-passport-areas.mjs) and one deliberate
+area per module with its reason, because a school module carries two or three
+Education for a Connected World strands and a regex over its title would put
+ks2-07 wherever the pattern order fell. Two honest gaps show rather than hide:
+Social ready starts at stage 3 in the canon, but a page that carries a lesson in
+an area shows it, and the shaper page has no Safe online lesson yet and says
+none yet.
+
+**The camera.** Forty two frames at 390 and 1440, no overflow, no broken art,
+no console error. It caught the ring's round cap drawing a dot at zero, the home
+code line losing its space, and the page sitting small on a wall because the
+zoom fits a widget's height: on wide screens the beat now lays the ring beside
+the areas, half the height, nearly twice the zoom.
+
+**Guards.** Contract rule 9: exactly one beat naming its own module and page,
+right before the close, and none on a module after the passport.
+check-passport-areas in CI. The four JSON modules spliced by the same generator
+and held to every rule before the SQL went near production.
+
+**Left for Justin.** Whether a school module, once its home code is entered,
+should count toward an area in the child's own passport (today it is credit on
+the lessons ladder only, by the standing rule). And whether the class count on
+the wall should ever live on the server (bridge b, ruled out on 29 August, still
+ruled out here).

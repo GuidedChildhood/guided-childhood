@@ -10,7 +10,7 @@
    "I can name two things a real friend can do that a machine cannot.",
    "I can say who I would tell if something on a screen made me feel worried or funny inside."
   ],
-  "timing": "71 minutes: starter 11, cycle one 10, cycle two 11, cycle three 10, practise 16, prove 4, close 5, class interactive 4",
+  "timing": "72 minutes: starter 11, cycle one 10, cycle two 11, cycle three 10, practise 16, prove 4, close 6, class interactive 4",
   "equipment": "Nothing beyond the board.",
   "teacher_tip": "Do not ask who talks to one at home. Some of this class does, and one or two will be doing it a lot. The lesson only works if that stays completely ordinary, so treat every example as a made up one and never ask a child to read out something they have said to a machine.",
   "commitment_stem": "My promise: if something on a screen ever makes me feel worried or funny inside, the person I will tell is...",
@@ -880,6 +880,22 @@
     "And if anything ever feels wrong, tell someone. You are never in trouble for that."
    ],
    "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "interactive",
+   "phase": "close",
+   "minutes": 1,
+   "component": "passport-page",
+   "config": {
+    "placement": "builder",
+    "moduleId": "ks2-23-when-a-machine-talks-like-a-friend",
+    "register": "playful",
+    "heading": "The passport",
+    "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+    "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+    "button": "Fill the page"
+   },
+   "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record."
   },
   {
    "type": "digi",

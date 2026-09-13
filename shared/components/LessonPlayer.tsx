@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import FriendPlate from './FriendPlate'
+import PassportPage from './PassportPage'
+import type { PassportPlacement } from '../passport-stages'
 import { CHARACTERS, type CharacterKey } from '../schools-curriculum'
 import { isCharacterKey } from '../intro-characters'
 import type { Register } from '../friend-register'
@@ -894,6 +896,7 @@ export default function LessonPlayer({
   projector: projectorProp,
   character,
   register = 'playful',
+  passport = null,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -958,6 +961,11 @@ export default function LessonPlayer({
   character?: CharacterKey
   // How that friend moves: the treatment ladder, chosen by key stage.
   register?: Register
+  // The page this school lesson fills and the home code that carries it home,
+  // read off the row by the teach route. The Completed screen draws the page
+  // as this screen now holds it (shared/schools-taught) and prints the code.
+  // Absent on the parent app, where the passport is the child's own book.
+  passport?: { placement: PassportPlacement | null; moduleId: string; homeCode?: string | null } | null
 }) {
   const projector = projectorProp ?? classMode
   // The friend's tokens, or the terracotta the player has always worn. Text
@@ -1425,6 +1433,34 @@ export default function LessonPlayer({
         {hasScore && (
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '8px' }}>
             {correctCount} of {choiceCount} right, that is a pass 🌱
+          </p>
+        )}
+        {/* THE PASSPORT, AS IT NOW STANDS. A school lesson ends on the page it
+            filled, in the same colours and shape as the child's book at home,
+            and the home code that puts today into that book. The count is this
+            screen's memory (shared/schools-taught), never a child's record. */}
+        {isSchool && passport && passport.placement && passport.placement !== 'after' && (
+          <div style={{ margin: '0 auto 18px', maxWidth: 400 }}>
+            <PassportPage
+              placement={passport.placement}
+              moduleId={passport.moduleId}
+              fromDevice
+              register={register}
+              compact
+              note="Counted on this screen only. The passport itself is the child's own, kept at home."
+            />
+          </div>
+        )}
+        {isSchool && passport && passport.placement === 'after' && (
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto 14px' }}>
+            No passport page today. The passport is the journey to sixteen, and this year group is past it.
+          </p>
+        )}
+        {isSchool && passport?.homeCode && (
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '380px', margin: '0 auto 14px' }}>
+            Home code{' '}
+            <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', marginRight: '0.35em' }}>{passport.homeCode.replace(/-/g, ' ')}</strong>
+            is on the parent note. Entered at home, it records today in the child&rsquo;s own passport.
           </p>
         )}
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>

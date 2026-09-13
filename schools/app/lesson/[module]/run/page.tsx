@@ -5,6 +5,7 @@ import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { parseSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSlide } from '@gc/shared/lesson-slides'
 import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
+import { AREAS, areaOf } from '@gc/shared/passport-areas'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
 //
@@ -139,6 +140,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
   // here and gets its own line below.
   const placement = notes.passport_stage
   const passport = placement && placement !== 'after' ? PASSPORT_STAGES[placement] : null
+  const area = areaOf(lesson.module_id)
   const dsl = lesson.dsl_note ?? {}
 
   const totalMinutes = slides.reduce((t, s) => t + (s.minutes ?? 0), 0)
@@ -286,9 +288,9 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               asked about it had only the generic line to read back. */}
           {passport && (
             <p style={{ ...body, margin: '8px 0' }}>
-              <strong>{passport.page}.</strong> Today fills that page. When the {passport.keyStage} pages
+              <strong>{passport.page}.</strong> Today fills that page{area ? <> and builds <strong>{AREAS[area].name}</strong>, one of the four things the passport records</> : null}. When the {passport.keyStage} pages
               are finished the child earns {passport.stamp}&rsquo;s stamp, which is the stage ending, not
-              this lesson ending.
+              this lesson ending. The passport beat near the end of the deck is where the class fills the page in.
             </p>
           )}
           {notes.passport_stage === 'after' && (

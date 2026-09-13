@@ -11,7 +11,7 @@
    "I can explain what a friend does that a machine cannot.",
    "I can say who I would tell if a conversation started to matter, and I know that telling is never trouble."
   ],
-  "timing": "64 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 16, prove 4, close 5",
+  "timing": "65 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 16, prove 4, close 6",
   "equipment": "Nothing beyond the board.",
   "teacher_tip": "Never ask who uses one by a show of hands, and never ask a pupil to read out something they have said to a companion app. Some of the room will be using one now and a few will be relying on it. The lesson works because it treats that as ordinary, not as a confession.",
   "commitment_stem": "My commitment: if a chat with an AI ever starts to matter more than it should, the person I will tell is...",
@@ -851,6 +851,22 @@
     "You will know."
    ],
    "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "interactive",
+   "phase": "close",
+   "minutes": 1,
+   "component": "passport-page",
+   "config": {
+    "placement": "shaper",
+    "moduleId": "ks3-22-when-an-ai-acts-like-a-friend",
+    "register": "level",
+    "heading": "The passport",
+    "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+    "after": "When the page is full, the big check earns Orbit's stamp.",
+    "button": "Fill the page"
+   },
+   "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record."
   },
   {
    "type": "digi",

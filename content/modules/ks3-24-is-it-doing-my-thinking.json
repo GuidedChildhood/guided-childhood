@@ -5,7 +5,7 @@
  "teacher_notes": {
   "learning_objective": "To decide, for a given task, which part of the thinking must stay with me and where a tool may legitimately help.",
   "essential_question": "How do I tell the difference between help that gets me to the work and help that does the work?",
-  "timing": "63 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 16, prove 4, close 4",
+  "timing": "64 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 16, prove 4, close 5",
   "cycles": [
    {
     "verb": "Notice",
@@ -807,6 +807,22 @@
     "If it is in the way, use the tool and say that you used it."
    ],
    "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "interactive",
+   "phase": "close",
+   "minutes": 1,
+   "component": "passport-page",
+   "config": {
+    "placement": "shaper",
+    "moduleId": "ks3-24-is-it-doing-my-thinking",
+    "register": "level",
+    "heading": "The passport",
+    "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+    "after": "When the page is full, the big check earns Orbit's stamp.",
+    "button": "Fill the page"
+   },
+   "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record."
   },
   {
    "type": "digi",

@@ -4,6 +4,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import DigiCharacter from '../DigiCharacter'
 import FriendPlate from '../FriendPlate'
+import PassportPage from '../PassportPage'
+import { PASSPORT_STAGES, type PassportStage } from '../../passport-stages'
+import { isTaught, markTaught, readTaught, unmarkTaught } from '../../schools-taught'
 import { isCharacterKey } from '../../intro-characters'
 import type { Register } from '../../friend-register'
 import { WALL } from '../../wall-scale'
@@ -508,6 +511,92 @@ function ClassTally({ config }: { config: { question?: string; options?: string[
   )
 }
 
+
+// THE PASSPORT BEAT: the class fills the page.
+//
+// Justin, 13 September 2026: the passport theme "carries through and updates
+// for progression, fills up, makes sense, matches the other platform
+// passport." Until this beat only lesson 1 mentioned the passport, as a digi
+// slide the class watched. Every lesson with a page now ends on this: the
+// page as it stands, one tap that fills today in, the ring and the area bar
+// moving by one, and the room saying the word stamp.
+//
+// An interactive is an action under the council's four minute rule, so the
+// closing stretch of watching gets shorter with this beat in it, never longer.
+//
+// The tap writes the device memory (shared/schools-taught): this screen, not
+// a child. Tapping again unfills, so a preview the night before can be put
+// back. What it never does is stamp: the seal stays ghosted because the stamp
+// is the stage's, earned at home when the page is full and the big check is
+// passed.
+const isStage = (v: unknown): v is PassportStage => typeof v === 'string' && v in PASSPORT_STAGES
+
+function PassportBeat({ config }: { config: { placement?: string; moduleId?: string; register?: string; heading?: string; prompt?: string; after?: string; button?: string } }) {
+  const placement = isStage(config.placement) ? config.placement : null
+  const moduleId = typeof config.moduleId === 'string' ? config.moduleId : ''
+  const register = REGISTERS.includes(config.register as Register) ? (config.register as Register) : 'playful'
+  const [taught, setTaught] = useState<string[]>([])
+  const [filled, setFilled] = useState(false)
+  const [live, setLive] = useState(false)
+  // Width decides the layout, not the projector flag: a teacher previews the
+  // wall on a phone, and a phone gets the tall page.
+  const [wide, setWide] = useState(false)
+
+  // The memory is read after mount so the server and the first client paint
+  // agree, then the page draws whatever this screen already holds.
+  useEffect(() => {
+    setTaught(readTaught())
+    setFilled(isTaught(moduleId))
+    const mq = window.matchMedia('(min-width: 900px)')
+    const sync = () => setWide(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [moduleId])
+
+  if (!placement) {
+    // Never reached by a deck the migration wrote, but a hand edited slide
+    // should say something true rather than nothing.
+    return (
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', textAlign: 'center', padding: '20px' }}>
+        No passport page today. The passport is the journey to sixteen, and this year group is past it.
+      </p>
+    )
+  }
+
+  const tap = () => {
+    if (filled) { unmarkTaught(moduleId); setFilled(false); setLive(false) }
+    else { markTaught(moduleId); setFilled(true); setLive(true) }
+    setTaught(readTaught())
+  }
+
+  return (
+    <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+      <div style={{ ...eyebrow, marginBottom: '14px' }}>{config.heading ?? 'The passport'}</div>
+      <PassportPage placement={placement} moduleId={moduleId} taught={taught} filled={filled} animate={live} register={register} wide={wide} />
+      <button
+        type="button"
+        onClick={tap}
+        className="btn btn-gold"
+        aria-pressed={filled}
+        style={{ justifyContent: 'center', fontSize: 'var(--text-md)', minWidth: 220, margin: '16px auto 0' }}
+      >
+        {filled ? 'Filled in ✓' : (config.button ?? 'Fill the page')}
+      </button>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, maxWidth: 400, margin: '12px auto 0' }}>
+        {filled
+          ? (config.after ?? 'A full page brings the big check, and the big check earns the stamp.')
+          : (config.prompt ?? 'Today filled a little of this page. Tap to fill it in.')}
+      </p>
+      {filled && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: 6 }}>
+          Tap again to undo
+        </p>
+      )}
+    </div>
+  )
+}
+
 // The registry: lesson rows name a component by key.
 const INTERACTIVES: Record<string, React.ComponentType<{ config: Record<string, unknown> }>> = {
   'verdict-sort': VerdictSort as React.ComponentType<{ config: Record<string, unknown> }>,
@@ -516,6 +605,7 @@ const INTERACTIVES: Record<string, React.ComponentType<{ config: Record<string, 
   'feed-loop': FeedLoop as React.ComponentType<{ config: Record<string, unknown> }>,
   'spread-race': SpreadRace as React.ComponentType<{ config: Record<string, unknown> }>,
   'class-tally': ClassTally as React.ComponentType<{ config: Record<string, unknown> }>,
+  'passport-page': PassportBeat as React.ComponentType<{ config: Record<string, unknown> }>,
 }
 
 // PROJECTOR, THE SECOND ATTEMPT, and the first one is worth recording because

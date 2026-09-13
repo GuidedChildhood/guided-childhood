@@ -7,6 +7,7 @@ import { isTasterModule } from '@/lib/taster'
 import { hasLicence } from '@/lib/licence'
 import { TasterStrip } from '@/app/taster/TasterBar'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
+import type { PassportPlacement } from '@gc/shared/passport-stages'
 
 // The teach route: any live module, played full screen for the classroom.
 //
@@ -50,7 +51,9 @@ type SchoolLesson = {
   // The tool goes down too (migration 290): a choice slide whose options name
   // "check one" needs the checks on the wall beside them, and the player has
   // no other route to it.
-  teacher_notes: { cycles?: LessonCycle[]; tool?: LessonTool } | null
+  teacher_notes: { cycles?: LessonCycle[]; tool?: LessonTool; passport_stage?: PassportPlacement } | null
+  // The static home code (migration 230) printed on the parent note.
+  home_code?: string | null
 }
 
 export default async function TeachLessonPage({
@@ -65,7 +68,7 @@ export default async function TeachLessonPage({
 
   const { data } = await supabase
     .from('school_lessons')
-    .select('id, module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes')
+    .select('id, module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, home_code')
     .eq('module_id', moduleId)
     .maybeSingle()
 
@@ -127,6 +130,9 @@ export default async function TeachLessonPage({
           // cannot disagree with what the wall says at the top of the page.
           character={characterKeyFor(lesson.character_cast)}
           register={registerFor(lesson.key_stage)}
+          // The page this lesson fills (migration 277) and the home code that
+          // carries it home, so the Completed screen ends on the passport.
+          passport={{ placement: lesson.teacher_notes?.passport_stage ?? null, moduleId: lesson.module_id, homeCode: lesson.home_code ?? null }}
         />
       </div>
     </main>
