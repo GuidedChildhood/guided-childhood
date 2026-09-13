@@ -33,9 +33,11 @@ stage. The school lessons now carry the Planet Friends in code (13 September
 arrives, leads the half time breath and hands over the mission, drawn by
 `shared/components/FriendPlate.tsx` from the cutout art in
 `shared/schools-curriculum.ts`, in a register chosen by key stage
-(`shared/friend-register.ts`). The filmed beats are the six on ks3-12 and one
-intro clip per friend; the rest of the video series is priced and waiting in
-`plans/week-of-2026-09-14-every-lesson-animated-plan.md`.
+(`shared/friend-register.ts`). Since the same day each friend also carries three expression stills
+(happy, wave, thinking) in `CHARACTERS.moods`, made from its cutout, so the
+plate changes the face with the mood. The filmed beats are the six on ks3-12
+and one intro clip per friend; the rest of the video series is priced and
+waiting in `plans/week-of-2026-09-14-every-lesson-animated-plan.md`.
 
 The sections below (Oliver, Zara, Sofia) are kept for history only and are no
 longer the live squad.

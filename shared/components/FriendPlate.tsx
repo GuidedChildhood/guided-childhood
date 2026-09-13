@@ -22,6 +22,13 @@ import type { Register } from '../friend-register'
 // The register is amplitude, not a different animation. Bouncy hops, still
 // barely breathes, and the same timeline serves both, which is what keeps a
 // Reception friend and a Year 11 friend reading as the same friend.
+//
+// THE FACE CHANGES WITH THE MOOD (13 September 2026). Each friend carries
+// three expression stills in CHARACTERS.moods (happy, wave, thinking), made
+// from its own cutout so they cannot drift off model. The plate swaps the art
+// for the mood and keeps the motion, so a right answer changes the friend's
+// face and not only its bounce. Idle and speak keep the base cutout, and a
+// friend without stills keeps it for every mood, exactly as before.
 
 const AMP: Record<Register, number> = { bouncy: 1.25, playful: 1, level: 0.45, still: 0.15 }
 
@@ -46,6 +53,8 @@ export default function FriendPlate({
   style?: React.CSSProperties
 }) {
   const c = CHARACTERS[character]
+  const faced = mood === 'happy' || mood === 'wave' || mood === 'thinking'
+  const src = faced && c.moods ? c.moods[mood] : c.img
   const plateRef = useRef<HTMLDivElement>(null)
   const artRef = useRef<HTMLDivElement>(null)
   const bobRef = useRef<HTMLDivElement>(null)
@@ -78,6 +87,13 @@ export default function FriendPlate({
     }
     return () => { tl.kill() }
   }, [arrive, register])
+
+  // Warm the three faces once the plate is on screen, so the first swap to a
+  // face is instant rather than a beat behind the bounce.
+  useEffect(() => {
+    if (!c.moods || typeof window === 'undefined') return
+    for (const url of Object.values(c.moods)) { const im = new window.Image(); im.src = url }
+  }, [c.moods])
 
   // The mood loop, for the friends. DiGi runs its own inside DigiCharacter.
   useEffect(() => {
@@ -145,7 +161,7 @@ export default function FriendPlate({
             // fixed by the plate, and next/image would need a remote pattern
             // for one file family that never changes.
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={c.img} alt={c.name} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            <img src={src} alt={c.name} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
           )}
         </div>
       </div>

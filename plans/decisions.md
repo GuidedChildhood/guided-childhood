@@ -13997,3 +13997,29 @@ should count toward an area in the child's own passport (today it is credit on
 the lessons ladder only, by the standing rule). And whether the class count on
 the wall should ever live on the server (bridge b, ruled out on 29 August, still
 ruled out here).
+
+## 13 September 2026, Sunday, the fifteen faces (session 0u09q9)
+
+**Justin: "I agree to your suggested changes."** Read as the yes to the thirty
+credits for expression stills recommended that morning, and to the order after
+this: the staffroom before the currency routine.
+
+**Fifteen stills, fifteen credits, half the approved spend.** Three faces per
+friend (happy, wave, thinking) made on GPT Image 2.5 from each friend's own
+cutout as the reference, with a true transparent background at one credit each,
+rather than Nano Banana Pro at two credits and an opaque background that would
+have needed a removal pass. One test first, Pebble delighted, and the likeness
+held, then the other fourteen. The safety filter refused Nova's thumbs up pose
+and the redo with plain raised arms passed. Balance 72 to 57.
+
+**Wired, not filed.** CHARACTERS.moods carries the three URLs per friend on the
+same CDN as the base art. FriendPlate swaps the face with the mood and keeps its
+motion, warming the three faces once the plate is on screen; idle and speak keep
+the base cutout. So a right answer changes the friend's face, and the arrival
+waves with a real wave.
+
+**Seen through the sandbox.** The container cannot reach the CDN, so every still
+was checked as a contact sheet built in the Higgsfield sandbox beside its
+reference. All fifteen read as the same friend. The faint low alpha halo on a
+few (one pixel in six on Orbit's happy face) is invisible at plate size and left
+alone.
