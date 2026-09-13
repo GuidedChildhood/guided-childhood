@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import { FLAGGED_MODULES, MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
@@ -37,9 +38,9 @@ export default async function PolicyTextPage() {
           <h2 style={h2}>The programme (for your curriculum section)</h2>
           <p style={body}>
             Digital literacy and online safety are taught through the Guided Childhood Schools programme:
-            a sequenced scheme of twenty one modules from Reception to Year 13, covering all eight strands
+            a sequenced scheme of{' '}{MODULE_COUNT}{' '}modules from Reception to Year 13, covering all eight strands
             of the UKCIS Education for a Connected World framework and mapped to the DfE RSHE statutory
-            guidance (2025), Keeping Children Safe in Education (2025), and the Citizenship and Computing
+            guidance (2025), Keeping Children Safe in Education (2026), and the Citizenship and Computing
             programmes of study. Each lesson is taught by a class teacher from a fully scripted interactive
             lesson, with printed materials for pupils, an action for home in every lesson, and a note to
             parents that requires no login or sign up. The programme supplements and does not replace the
@@ -62,11 +63,12 @@ export default async function PolicyTextPage() {
         <div style={block}>
           <h2 style={h2}>Sensitive content and safeguarding (for your safeguarding section)</h2>
           <p style={body}>
-            Five modules carry content the school treats with additional care: online bullying (Years 3
-            to 6), body image and the harms of pornography (Years 7 to 9), consent and image sharing,
-            sextortion, and radicalisation and misogyny (Years 10 to 11). Each carries a written note for
-            the Designated Safeguarding Lead, staff briefing guidance, and teacher scripts that include
-            disclosure handling in line with our safeguarding policy. Content in these modules is
+            {FLAGGED_MODULES.length}{' '}modules are safeguarding flagged. Each carries a written note for the
+            Designated Safeguarding Lead, staff briefing guidance, and teacher scripts that include
+            disclosure handling in line with our safeguarding policy. Five of them cover topics the
+            school treats with additional care: online bullying (Years 3 to 6), body image and the harms
+            of pornography (Years 7 to 9), consent and image sharing, sextortion, and radicalisation and
+            misogyny (Years 10 to 11). Content in these modules is
             age appropriate, non graphic, and centred on recognising harm, refusing pressure, reporting
             routes, and the message that a young person who discloses is not in trouble. The platform
             records no pupil disclosures: all safeguarding concerns follow the school&rsquo;s own

@@ -14246,3 +14246,29 @@ pages disagree on KCSIE's year and the flagged count, the player's Continue sits
 below the fold at 900px, the script and timing are hidden on the wall, and
 buying needs a phone call). Nothing was fixed in this session; the fixes wait on
 Justin's yes to the order in the review and on five decisions named there.
+
+## 13 September 2026, Sunday, the legal identity, and day one of the schools fixes (session 0u09q9)
+
+Justin answered the first decision in the schools review with the Companies
+House record: the company is Guided Digital Childhood Ltd, company number
+17299814, registered office Apple Acre, Star, Winscombe, BS25 1QF,
+incorporated 24 June 2026, and it is not VAT registered. That lives once, in
+shared/legal.ts, and every footer, the pricing page, the invoice form and the
+data protection pack read it from there. Every page behind the schools
+navigation now ends on a footer with the entity, the number, the office and the
+VAT position, and a door for a licensed school (I have a school code).
+
+Day one of the review's must fix list shipped the same afternoon: the four
+JSON authored modules no longer crash their printed quizzes (one reader takes
+both bank shapes, and the contract check pins them); the pupil booklet prints
+its own module's verdicts and promise instead of module 12's; the module
+count is computed from the manifest everywhere; the flagged module count is
+one number from the manifest on every page, with briefings written for M22 and
+M23 and a guard holding the two together; KCSIE reads 2026 on the hub and in
+the policy text; the player opens the teacher script by default, shows the
+minutes on the wall, scales the script to the room, and pins Back and Continue
+to the bottom of the screen on a projector.
+
+Still open from the review: the pilot request on Mailchimp (decision 2), the
+school code door in the header (decision 3, the footer carries it for now),
+the terms, privacy notice and DPA (decision 4), and the day two appearance list.

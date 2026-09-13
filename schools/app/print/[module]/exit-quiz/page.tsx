@@ -1,6 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
-import QuizSheet, { type QuizQuestion } from '@/components/QuizSheet'
+import QuizSheet from '@/components/QuizSheet'
+import { quizQuestions, type QuizBank } from '@/lib/quiz'
 
 // The assessment exit quiz, in Oak's pattern: five questions in mixed
 // formats, run at the end, question version and answer version from one route.
@@ -18,7 +19,7 @@ type Lesson = {
   module_id: string
   title: string
   year_band: string
-  teacher_notes: { exit_quiz?: QuizQuestion[] } | null
+  teacher_notes: { exit_quiz?: QuizBank } | null
 }
 
 export default async function ExitQuizPage({
@@ -39,7 +40,7 @@ export default async function ExitQuizPage({
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
-  const questions = lesson.teacher_notes?.exit_quiz ?? []
+  const questions = quizQuestions(lesson.teacher_notes?.exit_quiz)
   if (questions.length === 0) notFound()
 
   return (

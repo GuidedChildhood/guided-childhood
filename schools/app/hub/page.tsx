@@ -16,7 +16,7 @@ const DOCS = [
   {
     href: '/hub/rshe-mapping', emoji: '📋', accent: 'var(--green-dark)',
     title: 'RSHE 2025 mapping matrix',
-    body: 'Every module mapped to the named topics of the statutory guidance that becomes compulsory on 1 September 2026, plus KCSIE 2025 and Education for a Connected World. The document your PSHE lead files.',
+    body: 'Every module mapped to the named topics of the statutory guidance that becomes compulsory on 1 September 2026, plus KCSIE 2026 and Education for a Connected World. The document your PSHE lead files.',
   },
   {
     href: '/hub/policy', emoji: '📜', accent: 'var(--green-dark)',

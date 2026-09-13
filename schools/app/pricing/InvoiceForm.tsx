@@ -102,7 +102,7 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
         {state === 'sending' ? 'Sending…' : 'Request the invoice'}
       </button>
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center' }}>
-        No card. No online payment. An invoice with 30 day terms, like every other scheme you buy.
+        No card. No online payment. An invoice with 30 day terms, like every other scheme you buy, and no VAT added: we are not VAT registered.
       </p>
     </form>
   )

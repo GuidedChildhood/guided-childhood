@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import { COMPANY } from '@gc/shared/legal'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
@@ -48,7 +49,8 @@ export default async function DataProtectionPage() {
         <div style={block}>
           <h2 style={h2}>2. Lawful basis and roles</h2>
           <p style={body}>
-            Because no pupil data is processed, there is no controller and processor relationship to
+            The licence is with{' '}{COMPANY.name}, company number{' '}{COMPANY.number}, registered office{' '}
+            {COMPANY.address}. Because no pupil data is processed, there is no controller and processor relationship to
             paper over pupils. The only personal data we hold is what the school gives us to run the
             licence: a contact name and email for invoicing. A short data processing agreement covering
             that contact data is available for signature with the licence. We never use any data for

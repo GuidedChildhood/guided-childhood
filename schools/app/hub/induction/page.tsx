@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { FLAGGED_MODULES, MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import PrintButton from '@/components/PrintButton'
 
 // STAFF INDUCTION: the fifteen minute meeting that starts the scheme.
@@ -18,7 +19,7 @@ const AGENDA = [
   {
     minutes: '2 minutes',
     title: 'What this is',
-    text: 'The digital literacy and online safety spine, Reception to Year 13: 21 modules, one per year group, teaching the judgement to handle screens, feeds, strangers and AI. It slots inside your wider PSHE provision and covers the online safety strand of the statutory RSHE guidance. It is not a filtering product, not a monitoring product, and it holds no pupil data at all.',
+    text: `The digital literacy and online safety spine, Reception to Year 13: ${MODULE_COUNT} modules, teaching the judgement to handle screens, feeds, strangers and AI. It slots inside your wider PSHE provision and covers the online safety strand of the statutory RSHE guidance. It is not a filtering product, not a monitoring product, and it holds no pupil data at all.`,
     action: 'Staff hear the one line: we teach judgement, not fear.',
   },
   {
@@ -38,7 +39,7 @@ const AGENDA = [
   {
     minutes: '3 minutes',
     title: 'The flagged modules',
-    text: 'Ten modules are safeguarding flagged. Each carries disclosure handling written into its scripts, a DSL note, and a ten minute staff briefing: the register to hold, what to watch for in the room, and exactly what to do with a disclosure. Nobody teaches a flagged module without reading its briefing the night before.',
+    text: `${FLAGGED_MODULES.length} modules are safeguarding flagged. Each carries disclosure handling written into its scripts, a DSL note, and a ten minute staff briefing: the register to hold, what to watch for in the room, and exactly what to do with a disclosure. Nobody teaches a flagged module without reading its briefing the night before.`,
     action: 'Staff teaching a flagged module this term open their briefing now.',
     href: '/hub/cpd', linkLabel: 'The staff briefings',
   },

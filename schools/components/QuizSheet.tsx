@@ -148,7 +148,7 @@ function Question({ q, n, answers }: { q: QuizQuestion; n: number; answers: bool
 
       {/* Ours, not Oak's: what to do about a wrong answer, not only what the
           right one was. It is the reason a cover teacher can run this. */}
-      {answers && (
+      {answers && q.teaching_point && (
         <p style={{
           ...body, fontSize: '12.5px', color: '#444', margin: '6px 0 0',
           paddingLeft: '14px', borderLeft: '2px solid #EDC35F', marginLeft: '14px',

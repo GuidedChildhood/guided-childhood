@@ -15,7 +15,7 @@ const TYPE_LABELS: Record<string, string> = {
   title: 'Opening', objective: 'Objective', keywords: 'Keywords', concept: 'Teaching',
   quote: 'The chant', choice: 'Check', scenario: 'Evidence', diagram: 'Diagram',
   discussion: 'Talk task', stat: 'Evidence stat', tryit: 'Practice', recap: 'Recap',
-  video: 'Video beat', digi: 'DiGi closing', interactive: 'Interactive',
+  video: 'Video beat', digi: 'Character moment', interactive: 'Interactive',
 }
 
 function slideTitle(s: LessonSlide): string {

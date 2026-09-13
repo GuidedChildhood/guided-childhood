@@ -1,6 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
-import QuizSheet, { type QuizQuestion } from '@/components/QuizSheet'
+import QuizSheet from '@/components/QuizSheet'
+import { quizQuestions, type QuizBank } from '@/lib/quiz'
 
 // The prior knowledge starter quiz, in Oak's pattern: four questions, run
 // cold before the lesson, question version and answer version from one route.
@@ -20,7 +21,7 @@ type Lesson = {
   module_id: string
   title: string
   year_band: string
-  teacher_notes: { starter_quiz?: QuizQuestion[] } | null
+  teacher_notes: { starter_quiz?: QuizBank } | null
 }
 
 export default async function StarterQuizPage({
@@ -41,7 +42,7 @@ export default async function StarterQuizPage({
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
-  const questions = lesson.teacher_notes?.starter_quiz ?? []
+  const questions = quizQuestions(lesson.teacher_notes?.starter_quiz)
   if (questions.length === 0) notFound()
 
   return (

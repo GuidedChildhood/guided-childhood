@@ -203,7 +203,9 @@ A head's journey: find, trust, try, price, buy, onboard, teach, prove.
 ## Decisions for Justin
 
 1. The legal entity for the footer and the invoice: trading name, company number,
-   registered address, VAT registered or not.
+   registered address, VAT registered or not. Answered the same day: Guided Digital
+   Childhood Ltd, 17299814, Apple Acre, Star, Winscombe, BS25 1QF, not VAT
+   registered. Now in `shared/legal.ts` and on every page.
 2. The pilot: keep Mailchimp, or bring the request into the product.
 3. The school code door: show "I have a school code" in the header of every open
    page.
@@ -214,3 +216,18 @@ A head's journey: find, trust, try, price, buy, onboard, teach, prove.
 ## Not in this review
 
 The parents app, the child app and DiGi. The schools platform only.
+
+## Day one, done (13 September, afternoon)
+
+Must fix 1 to 7 shipped, plus the legal identity from must fix 8: the quiz
+reader and its contract rule, the booklet from its own row, the module count
+from the manifest, the three copy bugs, KCSIE 2026 and one flagged count with
+briefings for M22 and M23 and a guard, the player's script open and scaled with
+the minutes on the wall and the bar pinned on a projector, and the footer,
+pricing and data pack carrying the company and the VAT position.
+
+Left from day one: on a choice slide at 1440 by 900 the open script now sits
+below the third option, reachable by scroll; a tighter option scale at small
+heights is a day two item. The rest of must fix 8 (terms, privacy notice, DPA,
+the confirmation email, the quote path, the Mailchimp pilot) waits on decisions
+2 to 4.

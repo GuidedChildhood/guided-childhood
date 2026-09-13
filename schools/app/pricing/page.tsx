@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PRICING_BANDS, LICENCE_INCLUDES } from '@/lib/pricing'
+import { VAT_LINE } from '@gc/shared/legal'
 import InvoiceForm from './InvoiceForm'
 
 // The pricing page: five bands, decided 13 August 2026, with the per pupil
@@ -71,7 +72,7 @@ export default function PricingPage() {
         </div>
 
         <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginBottom: '48px' }}>
-          One licence, every teacher, no seat counting. Invoice with 30 day terms.
+          One licence, every teacher, no seat counting. Invoice with 30 day terms. {VAT_LINE}
         </p>
 
         {/* Why pay at all. Added 10 September 2026.

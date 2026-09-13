@@ -986,7 +986,10 @@ export default function LessonPlayer({
   // A pass on the child link can open a planet on their star system (Planet
   // Friends slice 3b). The complete route says so; the pass screen shows it.
   const [planetOpened, setPlanetOpened] = useState<{ title: string; href: string } | null>(null)
-  const [scriptOpen, setScriptOpen] = useState(false)
+  // Open by default: the teacher test says the words to say live on the slide,
+  // and a first time teacher opening the board found them behind a small grey
+  // toggle (the schools review, 13 September 2026). The toggle still folds it.
+  const [scriptOpen, setScriptOpen] = useState(true)
   // The run salt behind the option shuffle. It lands after mount rather than
   // in the initial state so the server and the first client render agree.
   const [runSalt, setRunSalt] = useState(0)
@@ -1514,7 +1517,7 @@ export default function LessonPlayer({
             <button
               onClick={() => setScriptOpen(o => !o)}
               style={{
-                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-xs)'), fontWeight: 700,
                 letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
                 background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0', marginBottom: '8px',
               }}
@@ -1526,7 +1529,7 @@ export default function LessonPlayer({
                 background: 'var(--stage-2)', borderLeft: '3px solid var(--terracotta)',
                 borderRadius: 'var(--radius-tile)', padding: '13px 16px',
               }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.65 }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-base)'), color: 'var(--ink)', lineHeight: 1.5 }}>
                   {slide.script ?? 'No script for this slide. Let it land, then continue.'}
                 </p>
               </div>
@@ -1535,7 +1538,13 @@ export default function LessonPlayer({
         )}
 
         {/* Controls */}
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', paddingBottom: 'max(18px, env(safe-area-inset-bottom))' }}>
+        {/* On the wall the bar sticks to the bottom of the screen. A choice slide
+            with three options at 1440 by 900 ended below the fold and the teacher
+            scrolled to find Continue (the schools review, 13 September 2026). */}
+        <div style={{
+          display: 'flex', gap: '10px', alignItems: 'center', paddingBottom: 'max(18px, env(safe-area-inset-bottom))',
+          ...(projector ? { position: 'sticky' as const, bottom: 0, zIndex: 5, background: 'var(--cream)', paddingTop: '10px' } : {}),
+        }}>
           {index > 0 && (
             <button
               onClick={goBack}
@@ -1669,7 +1678,7 @@ export default function LessonPlayer({
             // Inside a cycle the chrome names the cycle instead of the phase.
             // A pupil who glances up mid lesson wants to know which part of
             // today they are in, and Teach is true of eight slides in a row.
-            : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${index + 1} of ${slides.length}${!projector && slide?.minutes ? ` · ~${slide.minutes} min` : ''}`}
+            : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${index + 1} of ${slides.length}${slide?.minutes ? ` · ~${slide.minutes} min` : ''}`}
         </span>
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
           {kidMode && typeof kidStars === 'number' && !finished && (

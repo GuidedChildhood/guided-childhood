@@ -120,6 +120,26 @@ for (const [key, need] of Object.entries(SHAPES)) {
      Array.isArray(v) ? `array of ${typeof v[0]}, first keys: ${v[0] && typeof v[0] === 'object' ? Object.keys(v[0]).join('/') : String(v[0]).slice(0,30)}` : typeof v)
 }
 
+// 6d. the two quiz banks, in either shape the print pages accept
+// Added 13 September 2026 after the schools review found the four JSON
+// authored modules answering 500 on their printed quizzes in production:
+// they carry {title, instructions, questions} where migration 269 wrote
+// plain arrays, and the pages called .map on the row as it came. The reader
+// in schools/lib/quiz.ts takes both; this pins that nothing else arrives.
+for (const key of ['starter_quiz', 'exit_quiz']) {
+  const v = tn[key]
+  const rows = Array.isArray(v) ? v : (v && typeof v === 'object' && Array.isArray(v.questions) ? v.questions : null)
+  // Two row shapes, both drawn by the sheet through schools/lib/quiz.ts: the
+  // full one from migration 269, or the compact multiple choice one the JSON
+  // modules use, where the answer is an index into the options.
+  const fullRow = q => typeof q.question === 'string' && typeof q.answer === 'string' && typeof q.format === 'string'
+  const compactRow = q => typeof q.q === 'string' && Array.isArray(q.options) && q.options.length > 1 &&
+    Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.options.length
+  const good = Array.isArray(rows) && rows.length > 0 &&
+    rows.every(q => q && typeof q === 'object' && (fullRow(q) || compactRow(q)))
+  ok(`${key} is a bank of questions (an array, or {questions}; full or compact rows)`, good, rows ? `${rows.length} rows` : typeof v)
+}
+
 // 6c. the PARENT NOTE carries the fields the app actually reads
 // Added 11 September 2026, and found the same way as 6b: by reading the
 // consumers rather than the schema. The parent note is rendered in three

@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import { quizQuestions, type QuizBank } from '@/lib/quiz'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
@@ -47,8 +48,8 @@ type TeacherNotes = {
   // The two quiz banks (migration 269). Only their presence is read here;
   // the sheets themselves render in /print/[module]/starter-quiz and
   // /print/[module]/exit-quiz, so a module without a bank offers no button.
-  starter_quiz?: unknown[]
-  exit_quiz?: unknown[]
+  starter_quiz?: QuizBank
+  exit_quiz?: QuizBank
   // Presence only again: the pupil booklet is built from these, and a module
   // without them would hand out a booklet with no casework in it.
   worksheet_items?: unknown[]
@@ -241,12 +242,12 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           {/* Oak's two quizzes. Offered only where the banks exist, and each
               one opens on its question version with the answer version one
               tap away (migration 269). */}
-          {(notes.starter_quiz?.length ?? 0) > 0 && (
+          {quizQuestions(notes.starter_quiz).length > 0 && (
             <Link href={`/print/${lesson.module_id}/starter-quiz`} className="btn" style={prepBtn}>
               Starter quiz
             </Link>
           )}
-          {(notes.exit_quiz?.length ?? 0) > 0 && (
+          {quizQuestions(notes.exit_quiz).length > 0 && (
             <Link href={`/print/${lesson.module_id}/exit-quiz`} className="btn" style={prepBtn}>
               Exit quiz
             </Link>

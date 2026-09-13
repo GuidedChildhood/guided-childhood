@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import type { Metadata } from 'next'
 
 // THE PHILOSOPHY PAGE, open to the world by design (the open map decision
@@ -79,7 +80,7 @@ const REGULATORS: Voice[] = [
     name: 'Education for a Connected World',
     who: 'UK Council for Internet Safety framework',
     holds: 'Eight strands of online life a child should understand, from self image to copyright, described age by age from 4 to 18.',
-    align: 'It is the skeleton of our whole scheme: twenty one modules covering all eight strands, Reception to Year 13.',
+    align: `It is the skeleton of our whole scheme: ${MODULE_COUNT} modules covering all eight strands, Reception to Year 13.`,
     differ: 'It is a framework, not lessons. We are the lessons.',
     source: { label: 'gov.uk, EfCW framework', href: 'https://www.gov.uk/government/publications/education-for-a-connected-world' },
   },

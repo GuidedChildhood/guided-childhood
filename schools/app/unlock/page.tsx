@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import Link from 'next/link'
 import UnlockForm from './UnlockForm'
 
@@ -50,7 +51,7 @@ export default async function UnlockPage({
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)',
             color: 'var(--ink-soft)', lineHeight: 1.7,
           }}>
-            Twenty one modules, Reception to Year 13, with every lesson, every printable
+            {MODULE_COUNT}{' '}modules, Reception to Year 13, with every lesson, every printable
             pack and the safeguarding hub. One code for the whole staff room.
           </p>
         </div>

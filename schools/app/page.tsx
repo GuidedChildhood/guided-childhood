@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY } from '@gc/shared/schools-curriculum'
 import { INTRO_CHARACTERS } from '@gc/shared/intro-characters'
+import { COMPANY } from '@gc/shared/legal'
 import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
 
@@ -21,12 +22,12 @@ import HomeReveals from '@/components/HomeReveals'
 export const metadata: Metadata = {
   title: 'The Digital Literacy Curriculum for UK Schools, Reception to Year 13',
   description:
-    'A complete digital literacy scheme of work for UK schools. 21 modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the statutory mapping a school can show. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.',
+    `A complete digital literacy scheme of work for UK schools. ${MODULES.length} modules, Reception to Year 13, taught from an interactive player with word for word scripts, printable packs, parent notes and the statutory mapping a school can show. Mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.`,
   alternates: { canonical: 'https://schools.guidedchildhood.com/' },
   openGraph: {
     title: 'Guided Childhood Schools: the digital literacy curriculum, Reception to Year 13',
     description:
-      'The ban takes the apps. We build the judgement. 21 modules mapped to the statutory RSHE guidance and KCSIE 2026, taught by the DiGi Squad, feeding the passport to sixteen.',
+      `The ban takes the apps. We build the judgement. ${MODULES.length} modules mapped to the statutory RSHE guidance and KCSIE 2026, taught by the DiGi Squad, feeding the passport to sixteen.`,
     url: 'https://schools.guidedchildhood.com/',
     siteName: 'Guided Childhood Schools',
     type: 'website',
@@ -277,7 +278,7 @@ export default function SchoolsPage() {
       '@context': 'https://schema.org',
       '@type': 'Course',
       name: 'The Guided Childhood digital literacy curriculum',
-      description: 'Twenty one modules of digital literacy and online safety, Reception to Year 13, mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.',
+      description: `${MODULES.length} modules of digital literacy and online safety, Reception to Year 13, mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands.`,
       provider: { '@type': 'Organization', name: 'Guided Childhood Schools', url: 'https://schools.guidedchildhood.com' },
       educationalLevel: 'Reception to Year 13',
       teaches: 'Digital literacy, online safety, media literacy, AI literacy',
@@ -744,7 +745,7 @@ export default function SchoolsPage() {
             </div>
           </div>
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>© 2026 Guided Childhood · Justin Phillips</p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>© 2026{' '}{COMPANY.name} · Company number{' '}{COMPANY.number} · {COMPANY.address}</p>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>RSHE statutory 2026 · KCSIE 2026 · Education for a Connected World · No pupil data</p>
           </div>
         </div>

@@ -48,7 +48,7 @@ export default async function CurriculumMapPage() {
           The curriculum map
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
-          Twenty one modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
+          {CURRICULUM.length}{' '}modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
           Pick a module and teach it today. No download wall, no prep, nothing to book.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '22px' }}>

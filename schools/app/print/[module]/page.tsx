@@ -201,7 +201,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         </div>
       </section>
 
-      {/* Page 5: parent note (photocopy per pupil, goes home) */}
+      {/* Page 6: parent note (photocopy per pupil, goes home) */}
       <section style={{ ...page, pageBreakAfter: 'auto' }}>
         <div style={mono}>Photocopy per pupil · goes home · Parent note</div>
         <h2 style={h2}>{parent.headline ?? 'What we taught today'}</h2>

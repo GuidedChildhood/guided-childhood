@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { Nunito, IBM_Plex_Mono } from 'next/font/google'
 // Shared tokens first (the same file the parents app imports), then the
 // thin schools sheet on top. One brand, two apps.
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     template: '%s | Guided Childhood Schools',
   },
   description:
-    'A complete digital literacy scheme of work for UK schools, Reception to Year 13, built on the Education for a Connected World framework and the 2025 RSHE guidance. Twenty one modules, zero prep, one licence for the whole school.',
+    `A complete digital literacy scheme of work for UK schools, Reception to Year 13, built on the Education for a Connected World framework and the 2025 RSHE guidance. ${MODULE_COUNT} modules, zero prep, one licence for the whole school.`,
   // Launched 14 August 2026 on schools.guidedchildhood.com: indexable. The
   // open surface is home, pricing, the curriculum map, the RSHE mapping
   // matrix and the philosophy page (the open map decision, 30 August 2026,
