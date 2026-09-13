@@ -353,7 +353,7 @@ export default function YourScreens({
                       setDismissed(prev => new Set(prev).add(s.label))
                       if (s.guideKey) onNotOwned(s.guideKey)
                     }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: 'var(--text-base)', padding: '10px 6px', flexShrink: 0, lineHeight: 1 }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: 'var(--text-base)', padding: 0, width: 44, height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, lineHeight: 1 }}
                   >
                     ✕
                   </button>

@@ -278,7 +278,10 @@ export default function JobPicker({
                     color: open ? 'var(--ink)' : 'var(--ink-soft)',
                     background: open ? 'var(--terracotta)' : '#fff',
                     border: `1.5px solid ${open ? 'var(--terracotta-dark)' : 'var(--border)'}`,
-                    borderRadius: 'var(--radius-pill)', padding: '3px 8px', cursor: 'pointer',
+                    // 40 tall, not 29: a pill a thumb can hit first time. The
+                    // full review of 13 September 2026 measured every tap
+                    // target on the product screens at phone width.
+                    borderRadius: 'var(--radius-pill)', padding: '6px 12px', minHeight: 40, cursor: 'pointer',
                     textAlign: 'left', overflowWrap: 'anywhere',
                   }}
                 >

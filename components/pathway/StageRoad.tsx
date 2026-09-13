@@ -5,7 +5,7 @@ import HappyIcon from '@/components/kid/HappyIcon'
 import { STAGES } from '@/lib/content/stages'
 import { READINESS } from '@/lib/content/readiness'
 import { characterForStage } from '@/lib/content/stage-characters'
-import { LITERACY_AREAS, type LiteracyKey } from '@/lib/content/literacy'
+import { AREA_START, LITERACY_AREAS, type LiteracyKey } from '@/lib/content/literacy'
 import type { AreaStatus } from '@/lib/pathway/literacy-status'
 
 // THE road. One visual language for the journey from 4 to 16, drawn one way
@@ -84,8 +84,9 @@ export type Strand = {
 }
 
 // Each strand starts at a stage; before it, the dot stays quietly grey rather
-// than pretending progress. The single copy of this rule.
-export const STRAND_START: Record<LiteracyKey, number> = { safe: 1, balance: 1, ai: 3, social: 3 }
+// than pretending progress. This said "the single copy of this rule" and was
+// one of four; AREA_START in lib/content/literacy.ts is the copy now.
+export const STRAND_START = AREA_START
 
 export function strandsFor(currentStage: number, statuses: Partial<Record<string, AreaStatus>> = {}): Strand[] {
   return (Object.keys(LITERACY_AREAS) as LiteracyKey[]).map(k => {

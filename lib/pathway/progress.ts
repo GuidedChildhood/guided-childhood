@@ -30,6 +30,17 @@ export interface StageProgress {
   streakPct: number
   devicesPct: number
   lessonsPct: number
+  /**
+   * The child's own AI modules for this stage's age band, inside the lesson
+   * counts below. Justin, 13 September 2026, approving the recommendation:
+   * "AI literate" is in the definition of ready, so the AI modules gate the
+   * stamp the way every other lesson does. lessonsDone and lessonsTotal
+   * include them, so the ring, the row, the sticker tile, the to do and the
+   * stamp move together. These two are the AI share of that, for anything that
+   * wants to say it separately.
+   */
+  aiDone: number
+  aiTotal: number
   // The passport page shows lessons as the simple visible process:
   // done of total, straight from the completions.
   lessonsDone: number
@@ -48,58 +59,11 @@ export interface StageProgress {
   contentComplete: boolean
 }
 
-// ── WHOSE LESSON COUNTS, THE MULTI CHILD RULE ───────────────────────────────
-//
-// Justin, 18 August 2026: "the passport has to be per child, individual task,
-// quests lessons digi moments etc all child related." The data model for it is
-// migration 162's lesson_pass_by, which records WHO passed: a child row for a
-// pass on a kid link, a parent row (null child_id) for the signed in
-// dashboard, because "a parent watching a lesson is watching it for the
-// family rather than for one child".
-//
-// So for child X a lesson is credited when any of these holds:
-//   1. X passed it on their own link (a pass_by row with X's child_id).
-//   2. The parent passed it (a pass_by row with who parent), which counts for
-//      every child by 162's own doctrine.
-//   3. LEGACY: a lesson_completions pass exists and pass_by knows nothing
-//      about that lesson at all. pass_by is additive since 162 and was never
-//      backfilled, so the absence of a row is history, not absence of work.
-//      Without this rule every family who learned before mid August would
-//      wake to an emptier passport.
-//
-// A sibling's own pass (a pass_by row with a DIFFERENT child_id, and no
-// parent or legacy credit) is exactly what stops counting, which is the
-// point: the eldest doing their lessons never filled the youngest's page.
-type PassByRow = { lesson_id: string; who: string; child_id: string | null }
-function lessonCreditKeys(
-  completions: { lesson_id: string; lesson_source: string; passed: boolean | null }[] | null,
-  passBy: PassByRow[] | null,
-  childId: string | null,
-): Set<string> {
-  const passedCompletions = (completions ?? []).filter(c => c.passed !== false)
-  if (!childId || passBy === null) {
-    return new Set(passedCompletions.map(c => `${c.lesson_source}:${c.lesson_id}`))
-  }
-  const knownToPassBy = new Set((passBy ?? []).map(r => r.lesson_id))
-  const credited = new Set<string>()
-  for (const r of passBy ?? []) {
-    // A parent row with a NULL child is the old doctrine (watching for the
-    // family) and credits every child. A parent row that NAMES a child is the
-    // new doctrine arriving (the plumbing session's write side change: the
-    // parent watched WITH that child, from ?child=) and credits that child
-    // only. Today every parent row is null so both readings agree; when the
-    // write side lands, this line starts meaning it without an edit here.
-    const parentCredit = r.who === 'parent' && (r.child_id === null || r.child_id === childId)
-    if (parentCredit || r.child_id === childId) credited.add(r.lesson_id)
-  }
-  const out = new Set<string>()
-  for (const c of passedCompletions) {
-    if (credited.has(c.lesson_id) || !knownToPassBy.has(c.lesson_id)) {
-      out.add(`${c.lesson_source}:${c.lesson_id}`)
-    }
-  }
-  return out
-}
+// The lesson credit rule lives in lesson-credit.ts since 13 September 2026 so
+// the four things reading shares it by import. Re-exported so callers stay put.
+import { lessonCreditKeys, type PassByRow } from './lesson-credit'
+import { AI_AUDIENCE_TO_STAGE } from './readiness-areas'
+export { lessonCreditKeys, type PassByRow }
 
 // Blends four independent signals into one progress number per stage:
 // scripts actually read, the daily practice streak, devices set up for
@@ -138,6 +102,7 @@ export async function getStageProgress(
     { data: lessonCompletions },
     { data: familyDevices },
     { data: passBy },
+    { data: aiLessonRows },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
     (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
@@ -154,6 +119,9 @@ export async function getStageProgress(
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),
+    // The child's AI modules, keyed by the age their band starts at. They
+    // gate the stamp since 13 September 2026; see StageProgress.aiTotal.
+    supabase.from('ai_lessons').select('id, audience').in('audience', Object.keys(AI_AUDIENCE_TO_STAGE)),
   ])
 
   // Scripts: how many of this stage's scripts this family has RESOLVED, which
@@ -226,9 +194,16 @@ export async function getStageProgress(
   // progress with work their child got wrong, which is the one number in the
   // product that has to be honest. Both rules now match the Lessons page.
   const passedCompletionKeys = lessonCreditKeys(lessonCompletions, passBy as PassByRow[] | null, childId)
-  const totalLessonsInStage = lessonsForStage?.length ?? 0
+  // The AI modules for this stage's band, credited by the same rule under
+  // their own source key, so a parent lesson pass can never stand in for one.
+  const stageNum = STAGE_ORDER.indexOf(stageId) + 1
+  const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
+    .filter(m => AI_AUDIENCE_TO_STAGE[m.audience ?? ''] === stageNum)
+  const aiTotal = aiInStage.length
+  const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
+  const totalLessonsInStage = (lessonsForStage?.length ?? 0) + aiTotal
   const lessonsDone =
-    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
+    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length + aiDone
   const lessonsPct = totalLessonsInStage > 0 ? Math.round((lessonsDone / totalLessonsInStage) * 100) : 0
 
   // Lessons carry the most weight in the passport circle: the stamp is
@@ -239,7 +214,7 @@ export async function getStageProgress(
   const doneContent = completedInStage + lessonsDone
   const contentComplete = totalContent > 0 && doneContent === totalContent
 
-  return { scriptsPct, streakPct, devicesPct, lessonsPct, lessonsDone, lessonsTotal: totalLessonsInStage, scriptsDone: completedInStage, scriptsTotal: stageScriptOrders.size, overallPct, contentComplete }
+  return { scriptsPct, streakPct, devicesPct, lessonsPct, aiDone, aiTotal, lessonsDone, lessonsTotal: totalLessonsInStage, scriptsDone: completedInStage, scriptsTotal: stageScriptOrders.size, overallPct, contentComplete }
 }
 
 export function nextStageId(current: StageId): StageId | null {
@@ -268,6 +243,7 @@ export async function getAllStagesProgress(
     { data: lessonCompletions },
     { data: familyDevices },
     { data: passBy },
+    { data: aiLessonRows },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order, stage_id'),
     // The same child scoping as getStageProgress above, for the same reason:
@@ -282,6 +258,7 @@ export async function getAllStagesProgress(
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),
+    supabase.from('ai_lessons').select('id, audience').in('audience', Object.keys(AI_AUDIENCE_TO_STAGE)),
   ])
 
   // Same stricter rule as getStageProgress above: resolved, not merely opened.
@@ -325,15 +302,21 @@ export async function getAllStagesProgress(
     // Same rule as the single stage version above and as the Lessons page:
     // family library lessons only, and a pass only. See the long note there.
     const stageLessons = (lessons ?? []).filter(l => l.stage_id === stageId)
-    const totalLessons = stageLessons.length
+    // Plus the AI modules for this stage's band, the same way as above.
+    const stageNum = STAGE_ORDER.indexOf(stageId) + 1
+    const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
+      .filter(m => AI_AUDIENCE_TO_STAGE[m.audience ?? ''] === stageNum)
+    const aiTotal = aiInStage.length
+    const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
+    const totalLessons = stageLessons.length + aiTotal
     const lessonsDone =
-      stageLessons.filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
+      stageLessons.filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length + aiDone
     const lessonsPct = totalLessons > 0 ? Math.round((lessonsDone / totalLessons) * 100) : 0
 
-    const totalContent = stageScripts.length + stageLessons.length
+    const totalContent = stageScripts.length + totalLessons
     const doneContent = scriptsDone + lessonsDone
     out[stageId] = {
-      scriptsPct, streakPct, devicesPct, lessonsPct,
+      scriptsPct, streakPct, devicesPct, lessonsPct, aiDone, aiTotal,
       lessonsDone, lessonsTotal: totalLessons,
       scriptsDone, scriptsTotal: stageScripts.length,
       overallPct: Math.round(lessonsPct * 0.4 + scriptsPct * 0.3 + streakPct * 0.15 + devicesPct * 0.15),

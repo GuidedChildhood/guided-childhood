@@ -494,7 +494,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* Screen chrome */}
       <div className="no-print" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
         <div>
-          <Link href="/dashboard/quests" style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+          <Link href="/dashboard/quests" style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: 44, margin: '-12px 0 -8px' }}>
             ← Quests
           </Link>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 2rem)', letterSpacing: '-0.02em', margin: '6px 0 4px' }}>

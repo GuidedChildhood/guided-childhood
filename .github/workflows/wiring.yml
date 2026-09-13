@@ -129,6 +129,10 @@ jobs:
       # typecheck, and adding the count to a slot looks like an improvement
       # right up until you remember who else is holding the phone.
       - run: node scripts/check-passport-readonly.mjs
+      # The four things count everything the family is taught, the AI
+      # modules included, and start at one declared age each. See the header
+      # of check-readiness-areas.mjs.
+      - run: node --experimental-strip-types scripts/check-readiness-areas.mjs
       # The daily sticker pays once, on the day's own row, in the same write
       # that lands the day. Split it into a second write and a failed one
       # leaves a finished day with no sticker and nothing to reconcile it.
@@ -223,6 +227,13 @@ jobs:
       # that cannot take it. Imports the real config, so it tests behaviour
       # rather than spelling. See the header of check-digi-model.mjs.
       - run: node --experimental-strip-types scripts/check-digi-model.mjs
+      # DiGi steps in on judgement under a cap that is code: twice a week,
+      # never two days running, the drumbeat gone. See the header of
+      # check-digi-step-in.mjs.
+      - run: node --experimental-strip-types scripts/check-digi-step-in.mjs
+      # Platform changes reach a family only through Justin's click. See the
+      # header of check-platform-watch.mjs.
+      - run: node --experimental-strip-types scripts/check-platform-watch.mjs
       # The assistant turn DiGi replays in a tool round is the turn the model
       # produced: thinking blocks and their signatures included, in order. A
       # thinking model rejects a turn with its reasoning removed. Runs the real

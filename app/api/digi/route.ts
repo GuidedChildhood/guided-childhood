@@ -464,7 +464,7 @@ export async function POST(request: Request) {
           .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
       : Promise.resolve({ data: null }),
     child?.stage_id
-      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0, child?.id ?? null)
+      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0, child?.id ?? null, { ageBand: (child?.age_band as string | null) ?? null, name: (child?.name as string | null) ?? null })
       : Promise.resolve(''),
   ])
 

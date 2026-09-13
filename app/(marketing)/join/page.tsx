@@ -11,17 +11,32 @@ const STAGE_COLORS = {
   5: { bg: 'var(--stage-5)', text: 'var(--ink)', border: 'var(--stage-5)', accent: 'var(--terracotta)' },
 } as const
 
+// Every CTA on the site routes here, so this page must never wait on a slow
+// database. The count is a nicety (how many founder places are left); the
+// page is the product. Found in the full review of 13 September 2026: with
+// the database unreachable this render took seven seconds to start, because
+// the count had no clock on it. Now it gets a short one and the page ships
+// with the safe default, which is the same default the catch block already
+// returned. The founder cap itself is enforced at checkout, never here.
+const FOUNDER_COUNT_TIMEOUT_MS = 1500
+
 async function getFounderData() {
+  const fallback = { taken: 0, available: true }
   try {
     const supabase = await createClient()
-    const { count } = await supabase
+    const query = supabase
       .from('profiles')
       .select('id', { count: 'exact', head: true })
       .eq('is_founder', true)
       .eq('subscription_status', 'active')
-    return { taken: count ?? 0, available: (count ?? 0) < 50 }
+      .then(r => r)
+    const clock = new Promise<null>(resolve => setTimeout(() => resolve(null), FOUNDER_COUNT_TIMEOUT_MS))
+    const res = await Promise.race([query, clock])
+    if (!res) return fallback
+    const count = res.count ?? 0
+    return { taken: count, available: count < 50 }
   } catch {
-    return { taken: 0, available: true }
+    return fallback
   }
 }
 
@@ -813,7 +828,7 @@ export default async function JoinPage() {
               <Link
                 key={href} href={href}
                 {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-muted)', textDecoration: 'none' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}
               >{label}</Link>
             ))}
           </div>

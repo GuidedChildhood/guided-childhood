@@ -468,7 +468,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
             style={{
               display: 'inline-block', marginTop: '9px',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-              color: 'var(--terracotta-dark)', textDecoration: 'none',
+              color: 'var(--terracotta-dark)', textDecoration: 'none', minHeight: 44,
             }}
           >
             Keep going: {tasks[currentIndex].label} →

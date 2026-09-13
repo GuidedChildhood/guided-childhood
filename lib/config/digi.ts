@@ -112,3 +112,49 @@ export function supportsFastMode(model: string): boolean {
 export function fastModeFor(model: string): boolean {
   return DIGI_FAST_MODE && supportsFastMode(model)
 }
+
+// ── STEPPING IN UNASKED ──────────────────────────────────────────────────────
+//
+// Justin, 13 September 2026, approving the recommendation: DiGi may step in
+// unasked at most twice a week, and never two days running. A number he can
+// change, so it is config. The rule itself is code, never prompt: the reader
+// (lib/digi/moment.ts) checks it BEFORE any model call, so a family cannot be
+// interrupted more often than this however keen the model is.
+//
+// Zero turns stepping in off without touching the reader.
+export const DIGI_STEP_IN_PER_WEEK: number = (() => {
+  const n = Number.parseInt(envOr('DIGI_STEP_IN_PER_WEEK', '2'), 10)
+  return Number.isFinite(n) ? Math.min(7, Math.max(0, n)) : 2
+})()
+
+/** A calendar date in the UK, the only clock a family lives on. */
+export function ukDate(d: Date): string {
+  return d.toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
+}
+
+export type StepInVerdict = { ok: true } | { ok: false; reason: 'off' | 'cap' | 'consecutive' }
+
+/**
+ * May DiGi step in today, given when it last did.
+ *
+ * `recent` is every time DiGi stepped in, as ISO timestamps, newest or oldest
+ * first, it does not matter. Two rules, both about the family's calendar:
+ *
+ *   cap          no more than DIGI_STEP_IN_PER_WEEK in the last seven days
+ *   consecutive  never on a UK date that is today or yesterday of a step in
+ */
+export function stepInAllowed(recent: string[], now: Date = new Date(), cap: number = DIGI_STEP_IN_PER_WEEK): StepInVerdict {
+  if (cap <= 0) return { ok: false, reason: 'off' }
+  const weekAgo = now.getTime() - 7 * 86_400_000
+  const stamps = recent
+    .map(s => new Date(s))
+    .filter(d => Number.isFinite(d.getTime()))
+  const inWeek = stamps.filter(d => d.getTime() >= weekAgo && d.getTime() <= now.getTime()).length
+  if (inWeek >= cap) return { ok: false, reason: 'cap' }
+  const today = ukDate(now)
+  const yesterday = ukDate(new Date(now.getTime() - 86_400_000))
+  if (stamps.some(d => { const day = ukDate(d); return day === today || day === yesterday })) {
+    return { ok: false, reason: 'consecutive' }
+  }
+  return { ok: true }
+}

@@ -179,7 +179,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             aria-label="Fold this down to one line"
             title="Fold this down to one line"
             style={{
-              flexShrink: 0, width: 32, height: 32, borderRadius: 10,
+              flexShrink: 0, width: 44, height: 44, borderRadius: 12,
               border: 'var(--edge)', background: 'transparent',
               color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
@@ -222,7 +222,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
           ))}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 7, margin: '12px 0 2px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 2, margin: '0 0 2px' }}>
           {points.map((p, i) => (
             <button
               key={p.title}
@@ -230,12 +230,19 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
               onClick={() => goTo(i)}
               aria-label={`Reason ${i + 1} of ${points.length}`}
               aria-current={i === active}
+              // A 44 tall hit area around an 8 tall dot, same as the passport's
+              // page dots: the dot is the picture, the button is the target.
               style={{
-                width: i === active ? 20 : 8, height: 8, borderRadius: 4, border: 'none', padding: 0,
-                background: i === active ? 'var(--terracotta-dark)' : 'var(--border)',
-                cursor: 'pointer', transition: 'width 160ms ease, background 160ms ease',
+                width: i === active ? 36 : 24, height: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
-            />
+            >
+              <span aria-hidden style={{
+                display: 'block', width: i === active ? 20 : 8, height: 8, borderRadius: 4,
+                background: i === active ? 'var(--terracotta-dark)' : 'var(--border)',
+                transition: 'width 160ms ease, background 160ms ease',
+              }} />
+            </button>
           ))}
         </div>
 

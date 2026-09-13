@@ -147,6 +147,30 @@ export default function InsightsBoard() {
     } catch { /* leave it in the list to try again */ } finally { setReviewing(null) }
   }
 
+  // The weekly platform watch's drafts: what changed for children online at
+  // Ofcom, the ICO, Common Sense Media and the platforms' own newsrooms,
+  // summarised by DiGi, waiting for a publish. Publishing is what sends one
+  // card to the families it affects. Nothing reaches a family before that.
+  type PlatformUpdate = { id: string; headline: string; summary: string; audience: string; category: string; source_name: string | null; source_url: string | null; created_at: string }
+  const [updates, setUpdates] = useState<PlatformUpdate[] | null>(null)
+  const [publishing, setPublishing] = useState<string | null>(null)
+  useEffect(() => {
+    fetch('/api/admin/ai-updates')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setUpdates(d.updates ?? []) })
+      .catch(() => setUpdates([]))
+  }, [])
+  async function reviewUpdate(id: string, action: 'publish' | 'reject') {
+    setPublishing(id)
+    try {
+      const res = await fetch('/api/admin/ai-updates', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action }),
+      })
+      if (res.ok) setUpdates(u => (u ?? []).filter(x => x.id !== id))
+    } catch { /* leave it listed so it can be tried again */ } finally { setPublishing(null) }
+  }
+
   // The quarterly legal watch. Things that may have changed in the law this
   // product sits on, filed for a human to go and check. Never advice, and it
   // never says we are compliant, so closing a row is a decision the founder
@@ -409,6 +433,37 @@ export default function InsightsBoard() {
                     {reviewing === c.id ? 'Adding...' : 'OK, add to bank'}
                   </button>
                   <button onClick={() => reviewCandidate(c.id, 'reject')} disabled={reviewing === c.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {updates && updates.length > 0 && (
+        <section style={{ marginBottom: 26 }}>
+          <h2 style={sectionH}>Platform changes to review · {updates.length}</h2>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 12 }}>
+            The weekly watch found these at Ofcom, the ICO, Common Sense Media and the platforms. Publish sends one card to the families it affects. Nothing reaches a family until you do.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {updates.map(u => (
+              <div key={u.id} style={{ background: 'var(--white,#fff)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+                    {u.source_url ? <a href={u.source_url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', textDecoration: 'underline' }}>{u.headline}</a> : u.headline}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>{u.audience.replace('_', ' ')} · {u.category.replace(/_/g, ' ')}</span>
+                </div>
+                <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{u.summary}</p>
+                {u.source_name && <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>Source: {u.source_name}</p>}
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={() => reviewUpdate(u.id, 'publish')} disabled={publishing === u.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: 'var(--lift)', opacity: publishing === u.id ? 0.6 : 1 }}>
+                    {publishing === u.id ? 'Publishing...' : u.audience === 'teacher' ? 'Publish' : 'Publish to families'}
+                  </button>
+                  <button onClick={() => reviewUpdate(u.id, 'reject')} disabled={publishing === u.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                     Reject
                   </button>
                 </div>
