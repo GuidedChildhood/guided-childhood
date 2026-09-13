@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { hasFullAccess, needsMembership, needsPlanChoice } from '@/lib/access'
+import { sessionUser } from '@/lib/supabase/session'
 
 // Where the two doors live. Exempt from its own redirect, or the block would
 // bounce against itself for ever.
@@ -66,7 +67,9 @@ export async function middleware(request: NextRequest) {
       }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
+    // Verified locally against the project's signing keys, not a round trip
+    // to the auth server on every tap. See lib/supabase/session.ts.
+    const user = await sessionUser(supabase)
 
     if (isProtected && !user) {
       const url = request.nextUrl.clone()

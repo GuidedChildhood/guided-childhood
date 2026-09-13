@@ -127,6 +127,11 @@ jobs:
       # Chrome's name for a request that died in the browser, and the fault it
       # was reporting has hit this product before.
       - run: node scripts/check-auth-honesty.mjs
+      # The two checks that run on every tap (middleware, dashboard layout)
+      # verify the session locally through getClaims and answer nobody for an
+      # expired or unsigned token. Runs the real helper against fake auth
+      # answers. See the header of check-session-check.mjs.
+      - run: node --experimental-strip-types scripts/check-session-check.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

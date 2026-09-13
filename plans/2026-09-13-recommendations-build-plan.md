@@ -21,6 +21,10 @@ Justin, 13 September 2026, on the seven questions from the platform review:
    `check-digi-research-base.mjs` wired into CI.
 4. **Middleware auth** (own PR, last). Local session verification, with a
    walk of login, logout and an expired session before it merges.
+   Built: `lib/supabase/session.ts` (`sessionUser`, getClaims), used by the
+   middleware and the dashboard layout; guard `check-session-check.mjs`
+   wired into CI; the walk at 390 and 1440 (no session, login, expired
+   session, logged out). The real login tap waits on the live site.
 
 ## What cannot be done from this container
 

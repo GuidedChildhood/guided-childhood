@@ -14709,3 +14709,36 @@ The default stays the file until Justin has run the comparison and read
 both scores. The env template's DiGi lines, a generation stale, now name
 the real defaults.
 
+## 13 September 2026, night: the session verified locally
+
+The last of the recommendation PRs. Every tap on the dashboard paid for two
+trips to the auth server before a page could start: getUser() in the
+middleware, then getUser() again in the dashboard layout, each a network call
+asking whether the token was still good.
+
+**sessionUser** (lib/supabase/session.ts) answers with getClaims(): the
+token's signature checked against the project's public signing keys, which
+the client fetches once and caches. On a project with asymmetric signing keys
+that is a local check and no network; on the legacy shared secret it falls
+back to the same server call, so it is never less safe than before, only
+faster once the keys are switched on. The middleware and the layout are the
+two callers, the two that run on every navigation. The two hundred route
+handlers keep getUser(): once per action, not per tap.
+
+**Guard** scripts/check-session-check.mjs: the real helper against fake auth
+answers (a verified token signs in; an error, an expired token, claims with
+no subject, or claims that arrive with an error are nobody), the two per tap
+callers use it and never getUser(), and the helper never decodes a token by
+hand. Mutation tested five ways, one of which found a hole (an error with
+plausible claims) that the guard now covers. Wired into CI.
+
+**The walk**, on the dev server pointed at the real project: no session sends
+/dashboard/quests to /login with the way back; /login renders clean at 390
+and 1440; an expired token with a bad signature is nobody and lands on
+/login, never a 500; a cleared cookie is logged out. The real login and
+logout taps need the live site, because the auth server is unreachable from
+this container.
+
+**What Justin does.** Supabase, Project Settings, JWT Keys: Migrate JWT
+secret, then Rotate keys. Until then the change is safe and saves nothing.
+
