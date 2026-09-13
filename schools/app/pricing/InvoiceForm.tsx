@@ -16,15 +16,47 @@ const label: React.CSSProperties = {
   color: 'var(--ink-muted)', marginBottom: '6px',
 }
 
+// The field notes, in the house voice rather than the browser's bubble. The
+// native validation popup is the one piece of somebody else's design on the
+// page, it vanishes on the next click, and it cannot say why a field matters
+// (the schools review, 13 September 2026). These stay put under the field
+// until it is right, and the first wrong field takes focus.
+const fieldNote: React.CSSProperties = {
+  fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
+  color: 'var(--danger)', marginTop: '6px', lineHeight: 1.45,
+}
+
+function check(fd: FormData): Record<string, string> {
+  const errs: Record<string, string> = {}
+  const text = (k: string) => String(fd.get(k) ?? '').trim()
+  if (!text('school_name')) errs.school_name = 'The school the invoice is addressed to.'
+  if (!text('contact_name')) errs.contact_name = 'Your name, so we know who to reply to.'
+  const email = text('email')
+  if (!email) errs.email = 'The school email the invoice should go to.'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'That does not look like an email address.'
+  if (!text('po_number')) errs.po_number = 'The purchase order number. Finance will bounce an invoice without one.'
+  return errs
+}
+
 export default function InvoiceForm({ preselect }: { preselect?: string }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
+  const [errs, setErrs] = useState<Record<string, string>>({})
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError('')
+    const form = e.currentTarget
+    const fd = new FormData(form)
+    const found = check(fd)
+    setErrs(found)
+    if (Object.keys(found).length) {
+      const first = form.querySelector<HTMLElement>(`[name="${Object.keys(found)[0]}"]`)
+      first?.focus()
+      return
+    }
     setState('sending')
-    const result = await requestInvoice(new FormData(e.currentTarget))
+    const result = await requestInvoice(fd)
     if (result.ok) {
       setState('done')
     } else {
@@ -49,10 +81,11 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div>
         <label style={label} htmlFor="school_name">School name</label>
-        <input className="input" id="school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" />
+        <input className="input" id="school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-school_name' : undefined} />
+        {errs.school_name && <p id="err-school_name" role="alert" style={fieldNote}>{errs.school_name}</p>}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
         <div>
@@ -73,23 +106,27 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
         <div>
           <label style={label} htmlFor="contact_name">Your name</label>
-          <input className="input" id="contact_name" name="contact_name" required maxLength={120} placeholder="Sam Headteacher" />
+          <input className="input" id="contact_name" name="contact_name" required maxLength={120} placeholder="Sam Headteacher" aria-invalid={!!errs.contact_name} aria-describedby={errs.contact_name ? 'err-contact_name' : undefined} />
+          {errs.contact_name && <p id="err-contact_name" role="alert" style={fieldNote}>{errs.contact_name}</p>}
         </div>
         <div>
           <label style={label} htmlFor="email">School email</label>
-          <input className="input" id="email" name="email" type="email" required maxLength={200} placeholder="office@school.sch.uk" />
+          <input className="input" id="email" name="email" type="email" required maxLength={200} placeholder="office@school.sch.uk" aria-invalid={!!errs.email} aria-describedby={errs.email ? 'err-email' : undefined} />
+          {errs.email && <p id="err-email" role="alert" style={fieldNote}>{errs.email}</p>}
         </div>
       </div>
       <div>
         <label style={label} htmlFor="po_number">Purchase order number</label>
-        <input className="input" id="po_number" name="po_number" required maxLength={80} placeholder="PO-2026-0148" />
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '6px', lineHeight: 1.5 }}>
-          Your finance team will have this. The invoice carries it, which is what stops it bouncing.
-        </p>
+        <input className="input" id="po_number" name="po_number" required maxLength={80} placeholder="PO-2026-0148" aria-invalid={!!errs.po_number} aria-describedby={errs.po_number ? 'err-po_number' : undefined} />
+        {errs.po_number
+          ? <p id="err-po_number" role="alert" style={fieldNote}>{errs.po_number}</p>
+          : <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '6px', lineHeight: 1.5 }}>
+              Your finance team will have this. The invoice carries it, which is what stops it bouncing.
+            </p>}
       </div>
       <div>
         <label style={label} htmlFor="notes">Anything we should know (optional)</label>
-        <input className="input" id="notes" name="notes" maxLength={1000} placeholder="Start date, trust name, billing address quirks" />
+        <textarea className="input" id="notes" name="notes" maxLength={1000} rows={3} placeholder="Start date, trust name, billing address quirks" style={{ resize: 'vertical', minHeight: '84px', lineHeight: 1.5 }} />
       </div>
 
       {error && (
@@ -102,7 +139,7 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
         {state === 'sending' ? 'Sending…' : 'Request the invoice'}
       </button>
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center' }}>
-        No card. No online payment. An invoice with 30 day terms, like every other scheme you buy.
+        No card. No online payment. An invoice with 30 day terms, like every other scheme you buy, and no VAT added: we are not VAT registered.
       </p>
     </form>
   )

@@ -1,3 +1,5 @@
+import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
+
 // The five band structure, decided 13 August 2026. The per pupil figure sits
 // next to every price on purpose: £795 sounds like money, £1.59 per child
 // per year does not, and they are the same number.
@@ -73,12 +75,12 @@ export const PRICING_BANDS: PricingBand[] = [
 // thing being bought is whole school delivery: every module, printed,
 // evidenced and supported.
 export const LICENCE_INCLUDES = [
-  'All 21 modules, Reception to Year 13, and every update through the year',
+  `All ${MODULE_COUNT} modules, Reception to Year 13, and every update through the year`,
   'The word for word teacher script on every slide',
   'Every printable pack, pupil booklet and knowledge organiser',
   'The compliance Hub: RSHE 2025 mapping, policy text, DPIA support, DSL notes',
   'Staff CPD briefings for every sensitive module',
   'Parent notes home for every module',
   'Unlimited teacher use across the school',
-  'Invoice payment with 30 day terms. No card, no online checkout',
+  'Invoice payment with 30 day terms and no VAT added. No card, no online checkout',
 ]

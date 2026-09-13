@@ -8,6 +8,15 @@ import { hasLicence } from '@/lib/licence'
 import { TasterStrip } from '@/app/taster/TasterBar'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import type { PassportPlacement } from '@gc/shared/passport-stages'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { title: title ? `Teach: ${title}` : 'Teach: Module' }
+}
 
 // The teach route: any live module, played full screen for the classroom.
 //

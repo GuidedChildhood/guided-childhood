@@ -3,6 +3,15 @@ import { redirect, notFound } from 'next/navigation'
 import { parseSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
 import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { title: title ? `Paper pack: ${title}` : 'Paper pack: Module' }
+}
 
 // The paper pack: every printable a teacher needs for a lesson, generated
 // from the lesson row in one click. This is the paperwork killer promised
@@ -36,7 +45,7 @@ const page: React.CSSProperties = { pageBreakAfter: 'always', padding: '24px 8px
 const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 4px' }
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }
-const box: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '12px', padding: '14px 16px', marginTop: '10px' }
+const box: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '12px', padding: '14px 16px', marginTop: '10px', breakInside: 'avoid' }
 const writeLine: React.CSSProperties = { borderBottom: '1px solid var(--border)', height: '26px' }
 
 export const revalidate = 3600
@@ -116,7 +125,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         <div style={mono}>Photocopy per 4 pupils · cut along the lines · Bookmark</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
           {[0, 1, 2, 3].map(i => (
-            <div key={i} style={{ border: '1px dashed var(--ink-light)', padding: '18px 16px' }}>
+            <div key={i} style={{ border: '1px dashed var(--ink-light)', padding: '18px 16px', breakInside: 'avoid' }}>
               <div style={{ ...mono, color: 'var(--gold-dark)' }}>{tool.heading}</div>
               {tool.lines.map((line, j) => (
                 <p key={j} style={{ ...body, fontWeight: 800, marginTop: j === 0 ? '8px' : 0 }}>{line}</p>
@@ -182,13 +191,13 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
       <section style={page}>
         <div style={mono}>Photocopy per pupil · cut in half · Start and end of lesson</div>
         {retrieval && (
-          <div style={{ border: '1px dashed var(--ink-light)', padding: '16px', marginBottom: '18px' }}>
+          <div style={{ border: '1px dashed var(--ink-light)', padding: '16px', marginBottom: '18px', breakInside: 'avoid' }}>
             <div style={{ ...mono, color: 'var(--green-dark)' }}>Start card · remember last lesson</div>
             <p style={{ ...body, fontWeight: 700, marginTop: '6px' }}>{retrieval.question}</p>
             {retrieval.options.map((o, i) => <p key={i} style={body}>{String.fromCharCode(65 + i)}. {o.text}</p>)}
           </div>
         )}
-        <div style={{ border: '1px dashed var(--ink-light)', padding: '16px' }}>
+        <div style={{ border: '1px dashed var(--ink-light)', padding: '16px', breakInside: 'avoid' }}>
           <div style={{ ...mono, color: 'var(--green-dark)' }}>Exit card</div>
           {exitChecks.map((c, idx) => (
             <div key={idx} style={{ marginTop: '8px' }}>
@@ -201,7 +210,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         </div>
       </section>
 
-      {/* Page 5: parent note (photocopy per pupil, goes home) */}
+      {/* Page 6: parent note (photocopy per pupil, goes home) */}
       <section style={{ ...page, pageBreakAfter: 'auto' }}>
         <div style={mono}>Photocopy per pupil · goes home · Parent note</div>
         <h2 style={h2}>{parent.headline ?? 'What we taught today'}</h2>

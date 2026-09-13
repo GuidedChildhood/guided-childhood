@@ -1,4 +1,4 @@
-// THE TASTER: one module of twenty three, outside the licence wall on purpose.
+// THE TASTER: one module of the catalogue, outside the licence wall on purpose.
 //
 // Decided 11 September 2026 (Justin): "how can I send that one sample lesson
 // so teachers can get a taster, then leads, then to sign up, request an

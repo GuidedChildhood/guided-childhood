@@ -1,6 +1,9 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
+
+export const metadata = { title: 'The Hub' }
 
 // THE HUB: everything a school needs around the lessons, one click deep.
 // The anti Jigsaw: their Knowledge Hub buries compliance gold in a messy
@@ -16,7 +19,7 @@ const DOCS = [
   {
     href: '/hub/rshe-mapping', emoji: '📋', accent: 'var(--green-dark)',
     title: 'RSHE 2025 mapping matrix',
-    body: 'Every module mapped to the named topics of the statutory guidance that becomes compulsory on 1 September 2026, plus KCSIE 2025 and Education for a Connected World. The document your PSHE lead files.',
+    body: 'Every module mapped to the named topics of the statutory guidance that becomes compulsory on 1 September 2026, plus KCSIE 2026 and Education for a Connected World. The document your PSHE lead files.',
   },
   {
     href: '/hub/policy', emoji: '📜', accent: 'var(--green-dark)',
@@ -46,7 +49,7 @@ const DOCS = [
   {
     href: '/hub/cpd', emoji: '🎓', accent: 'var(--coral-dark)',
     title: 'Staff briefings',
-    body: 'Ten minute briefings for all ten safeguarding flagged modules: what the lesson covers, the register to hold, disclosure handling, and what to watch for in the room.',
+    body: `Ten minute briefings for all ${FLAGGED_MODULES.length} safeguarding flagged modules: what the lesson covers, the tone to hold, disclosure handling, and what to watch for in the room.`,
   },
   {
     href: '/hub/induction', emoji: '🧭', accent: 'var(--coral-dark)',
@@ -104,7 +107,7 @@ export default async function HubPage() {
             }}>
               <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{d.emoji}</span>
               <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: d.accent, marginBottom: '4px' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
                   {d.title} →
                 </span>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>

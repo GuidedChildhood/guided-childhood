@@ -4,6 +4,8 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM } from '@gc/shared/schools-curriculum'
 
+export const metadata = { title: 'Safeguarding crosswalk' }
+
 // The DSL crosswalk: every safeguarding flagged module, its statutory
 // hook and its disclosure guidance on one page. DSL notes pull live from
 // the lesson rows so this page and the taught content can never disagree.
@@ -41,7 +43,7 @@ export default async function DslCrosswalkPage() {
           Safeguarding crosswalk
         </h1>
         <p style={{ ...body, marginBottom: '8px' }}>
-          {flagged.length} of the 21 modules are safeguarding flagged. Each is listed below with the
+          {flagged.length}{' '}of the{' '}{CURRICULUM.length}{' '}modules are safeguarding flagged. Each is listed below with the
           statutory ground it stands on and the note its teachers receive before teaching. Two standing
           rules across every module: content is age appropriate and never graphic, and the platform
           records no disclosures, so every concern follows your school&rsquo;s own reporting systems.

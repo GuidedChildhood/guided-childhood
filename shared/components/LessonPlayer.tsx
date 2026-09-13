@@ -209,15 +209,32 @@ function ChoiceBlock({
     }
   }
 
+  // Number keys pick an option, 1 to 4, the way Duolingo and Uxcel let a
+  // keyboard answer without the mouse. A teacher at a laptop with a class to
+  // watch takes the class answer with one key, and the keycap on each option
+  // tells the room which key that is. No dependency list on purpose: pick
+  // closes over this slide's tries, so the listener is renewed each render.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      const n = Number(e.key)
+      if (!Number.isInteger(n) || n < 1 || n > order.length) return
+      e.preventDefault()
+      pick(n - 1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+
   return (
     <div ref={rootRef}>
-      <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '14px', textAlign: 'center' }}>
+      <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: room(projector, 'clamp(8px, 1.4vh, 14px)', '14px'), textAlign: 'center' }}>
         {projector ? 'Hands up, then tap the class answer' : 'Quick check'}
       </div>
       <h2 data-reveal style={{
         fontFamily: 'var(--font-display)', fontSize: room(projector, WALL.question, 'clamp(1.45rem, 4.5vw, 1.9rem)'),
         fontWeight: 900, color: 'var(--ink)', lineHeight: 1.22, letterSpacing: '-0.02em',
-        marginBottom: room(projector, '34px', '24px'), textAlign: 'center',
+        marginBottom: room(projector, 'clamp(16px, 3vh, 34px)', '24px'), textAlign: 'center',
         maxWidth: room(projector, WALL.column, '620px'), marginLeft: 'auto', marginRight: 'auto',
       }}>
         {slide.question}
@@ -239,7 +256,7 @@ function ChoiceBlock({
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: room(projector, '18px', '12px'), maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: room(projector, 'clamp(10px, 1.6vh, 18px)', '12px'), maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
         {order.map((optIndex, i) => {
           const opt = slide.options[optIndex]
           const isTried = tries.includes(i)
@@ -271,8 +288,9 @@ function ChoiceBlock({
               onClick={() => pick(i)}
               disabled={settled || isTried}
               style={{
+                display: 'flex', alignItems: 'flex-start', gap: room(projector, '22px', '12px'),
                 textAlign: 'left', background: bg, border, borderRadius: 'var(--radius-card)',
-                padding: room(projector, '26px 32px', '17px 20px'),
+                padding: room(projector, 'clamp(14px, 2vh, 22px) 28px', '15px 18px'),
                 cursor: settled || isTried ? 'default' : 'pointer',
                 fontFamily: 'var(--font-display)',
                 fontSize: room(projector, WALL.body, '16px'), fontWeight: 800,
@@ -283,19 +301,33 @@ function ChoiceBlock({
                 transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s',
               }}
             >
-              {opt.text}
-              {feedback && (
-                <span style={{
-                  display: 'block', marginTop: '10px',
-                  fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, '14px'),
-                  fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55,
-                }}>
-                  <strong style={{ color: showRight ? 'var(--retro-green-dark)' : 'var(--stage-1-text)' }}>
-                    {showRight ? '✓ ' : '✕ '}
-                  </strong>
-                  {opt.feedback}
-                </span>
-              )}
+              {/* The keycap: which number key picks this one. Sized in em so
+                  it sits on the option's own first line at every scale. */}
+              <span aria-hidden style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                width: '1.5em', height: '1.5em', borderRadius: '0.4em',
+                fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, '13px'), fontWeight: 700,
+                lineHeight: 1, color: 'var(--ink-soft)', background: 'var(--cream)',
+                border: '1.5px solid var(--border)', boxShadow: '0 2px 0 var(--border)',
+                marginTop: '0.05em',
+              }}>
+                {i + 1}
+              </span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                {opt.text}
+                {feedback && (
+                  <span style={{
+                    display: 'block', marginTop: '10px',
+                    fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, '14px'),
+                    fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55,
+                  }}>
+                    <strong style={{ color: showRight ? 'var(--retro-green-dark)' : 'var(--stage-1-text)' }}>
+                      {showRight ? '✓ ' : '✕ '}
+                    </strong>
+                    {opt.feedback}
+                  </span>
+                )}
+              </span>
             </button>
           )
         })}
@@ -393,10 +425,10 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         {slide.label ?? 'Evidence'}
       </div>
       <div data-reveal style={{
-        maxWidth: room(projector, WALL.column, '440px'), margin: '0 auto',
+        maxWidth: room(projector, 'min(1000px, 70vw)', '440px'), margin: '0 auto',
         background: isMessage ? 'var(--stage-1)' : '#fff',
         border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
-        padding: '16px 18px', boxShadow: '0 6px 0 var(--border)',
+        padding: room(projector, 'clamp(12px, 1.8vh, 18px) 22px', '16px 18px'), boxShadow: '0 6px 0 var(--border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <div style={{
@@ -410,12 +442,12 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
             {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-base)'), color: 'var(--ink-muted)' }}>{slide.meta}</div>}
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: projector ? 1.45 : 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
           {slide.text}
         </p>
         {slide.image && (
           <div style={{
-            background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: '26px 0',
+            background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: room(projector, 'clamp(10px, 2vh, 26px) 0', '26px 0'),
             textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
           }}>
             {slide.image}
@@ -430,7 +462,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
       {slide.prompt && (
         <p data-reveal style={{
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'clamp(1rem, 2.4vw, 1.2rem)'), color: 'var(--ink)',
-          textAlign: 'center', lineHeight: 1.5, maxWidth: '440px', margin: '20px auto 0',
+          textAlign: 'center', lineHeight: 1.35, maxWidth: room(projector, WALL.column, '440px'), margin: `${room(projector, 'clamp(10px, 1.8vh, 20px)', '20px')} auto 0`,
         }}>
           {slide.prompt}
         </p>
@@ -467,62 +499,90 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
           between them. Three steps have to READ as three ordered things from
           the back of a room: the rail carries the eye, the number says where
           you are in the sequence, and the step that is being talked about is
-          the one with the number beside it. */}
-      <div style={{
-        display: 'flex', flexDirection: 'column', gap: 0,
-        maxWidth: room(projector, WALL.column, '460px'), margin: '0 auto',
-      }}>
-        {slide.steps.map((step, i) => {
-          const last = i === slide.steps.length - 1
-          const dot = room(projector, '76px', '34px')
-          return (
-            <div key={i} data-diagram-step style={{ display: 'flex', gap: room(projector, '20px', '14px'), alignItems: 'stretch' }}>
-              {/* The rail: number, then the line down to the next step. */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-                <span style={{
-                  width: dot, height: dot, borderRadius: 'var(--radius-pill)', flexShrink: 0,
-                  background: 'var(--terracotta)', color: 'var(--ink)',
-                  border: '2px solid var(--terracotta-dark)',
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'var(--font-display)', fontWeight: 900,
-                  fontSize: room(projector, WALL.title, '16px'), lineHeight: 1,
-                }}>
-                  {i + 1}
-                </span>
-                {!last && <span aria-hidden style={{ flex: 1, width: '3px', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', marginTop: '4px' }} />}
-              </div>
-              <div style={{
-                flex: 1, display: 'flex', gap: room(projector, '18px', '14px'), alignItems: 'center',
-                background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
-                padding: room(projector, '20px 26px', '14px 18px'),
-                boxShadow: '0 5px 0 var(--terracotta-lt)',
-                marginBottom: last ? 0 : room(projector, '18px', '12px'),
-              }}>
-                {step.emoji && <span style={{ fontSize: room(projector, WALL.emojiSmall, 'var(--text-2xl)'), flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
-                <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.25 }}>{step.title}</div>
-                  {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{step.text}</div>}
+          the one with the number beside it.
+
+          ACROSS THE WALL, DOWN A PHONE. Stacked, three steps of forty pixel
+          text stood 540px past the bottom of a 1080 wall (the Apple bar pass,
+          13 September 2026), and a stack of boxes is the PowerPoint SmartArt
+          look in any case. On the wall the steps sit side by side with the
+          rail running across the top, left to right, the way a process is
+          read. A phone keeps the rail down the side. */}
+      {(() => {
+        const dot = room(projector, 'clamp(46px, 6.4vh, 70px)', '34px')
+        const dotStyle: React.CSSProperties = {
+          width: dot, height: dot, borderRadius: 'var(--radius-pill)', flexShrink: 0,
+          background: 'var(--terracotta)', color: 'var(--ink)',
+          border: '2px solid var(--terracotta-dark)',
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: room(projector, WALL.title, '16px'), lineHeight: 1,
+        }
+        const card: React.CSSProperties = {
+          background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
+          boxShadow: '0 5px 0 var(--terracotta-lt)',
+        }
+        if (projector) return (
+          <div style={{
+            display: 'grid', gridTemplateColumns: `repeat(${slide.steps.length}, minmax(0, 1fr))`,
+            gap: 'clamp(14px, 1.6vw, 28px)', maxWidth: WALL.column, margin: '0 auto',
+          }}>
+            {slide.steps.map((step, i) => {
+              const last = i === slide.steps.length - 1
+              return (
+                <div key={i} data-diagram-step style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'clamp(8px, 1.4vh, 14px)' }}>
+                    <span style={dotStyle}>{i + 1}</span>
+                    {!last && <span aria-hidden style={{ flex: 1, height: '3px', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', marginLeft: '10px' }} />}
+                  </div>
+                  <div style={{ ...card, flex: 1, padding: 'clamp(12px, 2vh, 22px) clamp(16px, 1.4vw, 26px)' }}>
+                    {step.emoji && <div style={{ fontSize: WALL.emojiSmall, lineHeight: 1, marginBottom: 'clamp(6px, 1.2vh, 12px)' }}>{step.emoji}</div>}
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.2 }}>{step.title}</div>
+                    {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', lineHeight: 1.3, marginTop: '6px' }}>{step.text}</div>}
+                  </div>
                 </div>
-              </div>
-            </div>
-          )
-        })}
-        {slide.verdicts && slide.verdicts.length > 0 && (
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '16px' }}>
-            {slide.verdicts.map((v, i) => (
-              <span key={i} data-diagram-chip style={{
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-base)'),
-                background: 'var(--stage-1)', border: '2px solid var(--stage-1-bold)',
-                color: 'var(--stage-1-text)', borderRadius: 'var(--radius-pill)', padding: '8px 16px',
-              }}>
-                {v}
-              </span>
-            ))}
+              )
+            })}
           </div>
-        )}
-      </div>
+        )
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0, maxWidth: '460px', margin: '0 auto' }}>
+            {slide.steps.map((step, i) => {
+              const last = i === slide.steps.length - 1
+              return (
+                <div key={i} data-diagram-step style={{ display: 'flex', gap: '14px', alignItems: 'stretch' }}>
+                  {/* The rail: number, then the line down to the next step. */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                    <span style={dotStyle}>{i + 1}</span>
+                    {!last && <span aria-hidden style={{ flex: 1, width: '3px', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', marginTop: '4px' }} />}
+                  </div>
+                  <div style={{ ...card, flex: 1, display: 'flex', gap: '14px', alignItems: 'center', padding: '14px 18px', marginBottom: last ? 0 : '12px' }}>
+                    {step.emoji && <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0, lineHeight: 1 }}>{step.emoji}</span>}
+                    <div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>{step.title}</div>
+                      {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{step.text}</div>}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )
+      })()}
+      {slide.verdicts && slide.verdicts.length > 0 && (
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginTop: room(projector, 'clamp(10px, 1.8vh, 18px)', '16px') }}>
+          {slide.verdicts.map((v, i) => (
+            <span key={i} data-diagram-chip style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-base)'),
+              background: 'var(--stage-1)', border: '2px solid var(--stage-1-bold)',
+              color: 'var(--stage-1-text)', borderRadius: 'var(--radius-pill)', padding: room(projector, '6px 18px', '8px 16px'),
+            }}>
+              {v}
+            </span>
+          ))}
+        </div>
+      )}
       {slide.caption && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: room(projector, WALL.column, '420px'), margin: '16px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-base)'), color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: room(projector, WALL.column, '420px'), margin: `${room(projector, 'clamp(8px, 1.4vh, 16px)', '16px')} auto 0` }}>
           {slide.caption}
         </p>
       )}
@@ -740,26 +800,29 @@ function SlideBody({
         </div>
       )
     case 'objective':
+      // In the wall's column, like every other slide. It used to stretch to the
+      // wide edge, so a left aligned mission started at the far left of a
+      // 1920 wall and the gains ran a metre and a half long.
       return (
-        <div>
-          <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
+        <div style={{ maxWidth: room(projector, WALL.column, 'none'), margin: '0 auto', width: '100%' }}>
+          <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: room(projector, 'clamp(6px, 1.2vh, 14px)', '14px') }}>
             Today&rsquo;s mission
           </div>
           <div data-reveal style={{
             background: 'var(--stage-2)', border: '2px solid var(--terracotta)',
-            borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '18px',
+            borderRadius: 'var(--radius-card)', padding: projector ? 'clamp(14px, 2.4vh, 28px) clamp(20px, 2vw, 30px)' : 'clamp(20px, 4vw, 30px)', marginBottom: room(projector, 'clamp(10px, 1.8vh, 18px)', '18px'),
             boxShadow: '0 5px 0 var(--terracotta-lt)',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: room(projector, WALL.display, 'clamp(1.3rem, 3.2vw, 1.7rem)'), color: 'var(--ink)', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
               {slide.outcome}
             </p>
           </div>
-          <p data-reveal style={{ fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: 1.7, marginBottom: '16px' }}>{slide.why}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
+          <p data-reveal style={{ fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: projector ? 1.5 : 1.7, marginBottom: room(projector, 'clamp(10px, 1.6vh, 16px)', '16px') }}>{slide.why}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: room(projector, 'clamp(6px, 1vh, 10px)', '9px') }}>
             {slide.gains.map((g, i) => (
-              <div key={i} data-reveal style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 15px' }}>
+              <div key={i} data-reveal style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: room(projector, 'clamp(8px, 1.4vh, 14px) 16px', '12px 15px') }}>
                 <span style={{ fontSize: room(projector, WALL.body, 'inherit'), color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0, lineHeight: 1.55 }}>✓</span>
-                <span style={{ fontSize: room(projector, WALL.body, 'var(--text-md)'), color: 'var(--ink)', lineHeight: 1.55 }}>{g}</span>
+                <span style={{ fontSize: room(projector, WALL.body, 'var(--text-md)'), color: 'var(--ink)', lineHeight: projector ? 1.4 : 1.55 }}>{g}</span>
               </div>
             ))}
           </div>
@@ -767,13 +830,18 @@ function SlideBody({
       )
     case 'keywords':
       return (
-        <div>
+        <div style={{ maxWidth: room(projector, WALL.column, 'none'), margin: '0 auto', width: '100%' }}>
           <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
             {slide.heading ?? 'Detective words'}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={projector && slide.words.length >= 3
+            // Two columns on the wall: four words in one column stood 720px
+            // tall and scrolled on a 1080 screen. Side by side they read as a
+            // glossary and fit.
+            ? { display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'clamp(10px, 1.6vh, 16px) 18px' }
+            : { display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {slide.words.map((w, i) => (
-              <div key={i} data-reveal style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '13px 16px' }}>
+              <div key={i} data-reveal style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: room(projector, 'clamp(10px, 1.6vh, 16px) 18px', '13px 16px') }}>
                 <span style={{
                   display: 'inline-block', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: room(projector, WALL.title, 'var(--text-sm)'),
                   color: 'var(--stage-1-text)', background: 'var(--stage-1)', border: '1.5px solid var(--stage-1-bold)',
@@ -802,7 +870,7 @@ function SlideBody({
           </h2>
           <p data-reveal style={{
             fontSize: room(projector, WALL.body, 'clamp(1rem, 2.4vw, 1.1rem)'),
-            color: 'var(--ink)', lineHeight: 1.75, maxWidth: room(projector, WALL.column, '540px'), margin: '0 auto', textAlign: 'left',
+            color: 'var(--ink)', lineHeight: projector ? 1.55 : 1.75, maxWidth: room(projector, WALL.column, '540px'), margin: '0 auto', textAlign: 'left',
           }}>
             {slide.body}
           </p>
@@ -986,7 +1054,10 @@ export default function LessonPlayer({
   // A pass on the child link can open a planet on their star system (Planet
   // Friends slice 3b). The complete route says so; the pass screen shows it.
   const [planetOpened, setPlanetOpened] = useState<{ title: string; href: string } | null>(null)
-  const [scriptOpen, setScriptOpen] = useState(false)
+  // Open by default: the teacher test says the words to say live on the slide,
+  // and a first time teacher opening the board found them behind a small grey
+  // toggle (the schools review, 13 September 2026). The toggle still folds it.
+  const [scriptOpen, setScriptOpen] = useState(true)
   // The run salt behind the option shuffle. It lands after mount rather than
   // in the initial state so the server and the first client render agree.
   const [runSalt, setRunSalt] = useState(0)
@@ -1056,6 +1127,39 @@ export default function LessonPlayer({
   }
   const prevPhaseRef = useRef<string | null>(null)
   const stripRef = useRef<HTMLDivElement>(null)
+  // Where each segment of the arc rail was on the last slide, so the fill can
+  // tween from there rather than jump. Filled on first paint, so the very first
+  // render sets the widths outright and nothing moves before the teacher does.
+  const railPrev = useRef<Record<string, number>>({})
+  // A slide taller than the stage scrolls, and on a wall a teacher should be
+  // able to SEE that from across the room rather than find out by accident:
+  // a soft cream fade sits at the foot of the stage while there is more
+  // below, and goes when the bottom is reached. Projector only; on a phone
+  // the controls are inside the stage and are the thing you scroll to.
+  const [moreBelow, setMoreBelow] = useState(false)
+  useEffect(() => {
+    const el = stageRef.current
+    if (!el || !projector) return
+    const check = () => setMoreBelow(el.scrollHeight - el.clientHeight - el.scrollTop > 8)
+    check()
+    el.addEventListener('scroll', check, { passive: true })
+    window.addEventListener('resize', check)
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(check) : null
+    ro?.observe(el)
+    return () => { el.removeEventListener('scroll', check); window.removeEventListener('resize', check); ro?.disconnect() }
+  }, [index, finished, scriptOpen, projector])
+  useEffect(() => {
+    const root = stripRef.current
+    if (!root) return
+    root.querySelectorAll<HTMLElement>('[data-rail-fill]').forEach(f => {
+      const key = f.dataset.railFill ?? ''
+      const to = Number(f.dataset.fill ?? 0)
+      const from = railPrev.current[key]
+      railPrev.current[key] = to
+      if (from === undefined || from === to || prefersReducedMotion()) return
+      gsap.fromTo(f, { width: `${from}%` }, { width: `${to}%`, duration: 0.5, ease: 'power2.out' })
+    })
+  }, [index, finished])
   useEffect(() => {
     const phase = slide?.phase ?? null
     const phaseChanged = phase !== null && phase !== prevPhaseRef.current
@@ -1068,7 +1172,7 @@ export default function LessonPlayer({
 
     if (phaseChanged && stripRef.current &&
         !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const pill = stripRef.current.querySelector('[aria-current="step"]')
+      const pill = stripRef.current.querySelector('[aria-current="step"] [data-rail-label]')
       if (pill) {
         gsap.fromTo(pill, { scale: 1 }, {
           scale: 1.12, duration: 0.18, ease: 'power2.out',
@@ -1272,10 +1376,120 @@ export default function LessonPlayer({
 
   const cycleIndex = cycleOfSlide[index] ?? null
   const cycle = cycleIndex === null ? null : cycles?.[cycleIndex] ?? null
+
+  // ── The arc rail ── the progress bar and the phase strip as one object.
+  //
+  // It used to be two rows: a mono status line, then five bordered pills, and
+  // together they took 155px of a 900px screen before the slide began (the
+  // schools review, 13 September 2026). Now: one segment per phase in the
+  // deck, the phase named under it, the current segment in the friend's
+  // accent and filling as the slides advance, done segments in soft ink. The
+  // segments are equal rather than proportional so the five labels always
+  // have room, and the counter beside it carries the exact position.
+  // Rosenshine worn openly, in one line. Teacher view only, as the pills were.
+  const rail = teacherView && !finished && deckPhases.length > 1 ? (
+    <div
+      ref={stripRef}
+      className="gc-rail"
+      aria-label="Lesson phases"
+      style={{
+        display: 'flex', gap: room(projector, '8px', '5px'), minWidth: 0,
+        ...(projector ? { flex: '0 1 clamp(420px, 46vw, 960px)' } : { width: '100%' }),
+      }}
+    >
+      {deckPhases.map(p => {
+        const first = slides.findIndex(sl => sl.phase === p)
+        const count = slides.filter(sl => sl.phase === p).length
+        const isNow = slide?.phase === p
+        const isDone = !isNow && lastIndexOfPhase(p) < index
+        const fill = isDone ? 100 : isNow ? Math.round(((index - first + 1) / count) * 100) : 0
+        return (
+          <div key={p} aria-current={isNow ? 'step' : undefined} style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ height: room(projector, '7px', '5px'), borderRadius: 'var(--radius-pill)', background: 'var(--border)', overflow: 'hidden' }}>
+              <div
+                data-rail-fill={p}
+                data-fill={fill}
+                style={{ height: '100%', width: `${fill}%`, borderRadius: 'var(--radius-pill)', background: isNow ? accent : 'var(--ink-soft)' }}
+              />
+            </div>
+            <div
+              data-rail-label
+              className="gc-rail-label"
+              style={{
+                fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, '10px'), fontWeight: 700,
+                letterSpacing: '0.06em', textTransform: 'uppercase', marginTop: room(projector, '6px', '4px'),
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', transformOrigin: 'left center',
+                // The current label wears the friend's ink; a DiGi lesson wears
+                // ink itself, because butter text on cream does not read.
+                color: isNow ? (friend ? inkOn : 'var(--ink)') : isDone ? 'var(--ink-soft)' : 'var(--ink-muted)',
+              }}
+            >
+              {PHASE_LABELS[p]}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  ) : null
+
+  // The status line. Beside the rail it is the counter, the minutes and the
+  // cycle we are in, with the phase left to the rail. Without a rail (the
+  // parent app, the child app, the showcase) it reads exactly as it always
+  // did: the phase, then the counter.
+  const counter = `${index + 1} of ${slides.length}`
+  const minutesLine = slide?.minutes ? `~${slide.minutes} min` : ''
+  const status = finished
+    ? classMode ? 'The showcase' : 'The finish'
+    : rail
+      ? [counter, minutesLine, cycle ? `${cycle.verb}: ${cycle.title}` : ''].filter(Boolean).join(' · ')
+      : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${counter}${minutesLine ? ` · ${minutesLine}` : ''}`
   // The map is shown at each boundary rather than on every slide: it does its
   // work when a pupil arrives somewhere new, and becomes wallpaper if it never
   // goes away. Oak's deck repeats its cycle map slide at exactly these points.
   const atCycleStart = cycleIndex !== null && (index === 0 || cycleOfSlide[index - 1] !== cycleIndex)
+
+  // ── Back and Continue ── built once, placed by the instrument. On the wall
+  // they live in the presenter bar at the bottom of the screen, compact and
+  // right aligned, the same place on every slide, so a teacher's hand learns
+  // where Continue is. A full width butter bar across a 1920 wall was the
+  // PowerPoint tell the review named. On a phone they stay under the slide,
+  // full width, exactly as the parent app has always had them.
+  const continueLabel = isLast ? 'Finish lesson'
+    : isChoice && !answered ? 'Pick an answer to continue'
+    : isChoice && !settled ? 'Have another go to continue'
+    : 'Continue'
+  const controls = (
+    <div className="gc-controls" style={{
+      display: 'flex', gap: '10px', alignItems: 'center',
+      ...(projector ? { flexShrink: 0, marginLeft: 'auto' } : { paddingBottom: 'max(18px, env(safe-area-inset-bottom))' }),
+    }}>
+      {index > 0 && (
+        <button
+          onClick={goBack}
+          className="btn btn-outline"
+          style={{ fontSize: room(projector, WALL.aside, 'var(--text-base)'), padding: room(projector, '16px 26px', '13px 18px'), flexShrink: 0, whiteSpace: projector ? 'nowrap' : undefined }}
+        >
+          Back
+        </button>
+      )}
+      <button
+        onClick={advance}
+        disabled={!canContinue}
+        className="btn btn-gold"
+        // 0.45 fades the text AND the butter together, which on a wall
+        // measured 2.31:1 for "Pick an answer to continue". That is an
+        // instruction to the whole class, not decoration, so on a
+        // projector it fades to 0.75 (5.2:1) and still reads as waiting.
+        style={{
+          ...(projector ? { minWidth: 'clamp(240px, 18vw, 380px)', whiteSpace: 'nowrap' as const } : { flex: 1 }),
+          justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'),
+          padding: room(projector, '16px 30px', '14px 20px'), opacity: canContinue ? 1 : projector ? 0.75 : 0.45,
+        }}
+      >
+        {continueLabel}
+      </button>
+    </div>
+  )
 
   let body: React.ReactNode
 
@@ -1485,7 +1699,7 @@ export default function LessonPlayer({
             </button>
           )}
           <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
-            {isSchool ? 'Back to the lesson hub' : 'Back to all lessons'}
+            {isSchool ? 'Back to the curriculum' : 'Back to all lessons'}
           </Link>
         </div>
       </div>
@@ -1496,6 +1710,7 @@ export default function LessonPlayer({
         {/* The slide, one idea, centre stage */}
         <div
           ref={slideRef}
+          data-slide-type={slide?.type}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
           style={{
@@ -1509,12 +1724,12 @@ export default function LessonPlayer({
 
         {/* Teacher script panel: word for word, teacher screen only by intent.
             The toggle persists across slides so it stays open while teaching. */}
-        {hasScripts && (
+        {hasScripts && !projector && (
           <div style={{ marginBottom: '16px' }}>
             <button
               onClick={() => setScriptOpen(o => !o)}
               style={{
-                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-xs)'), fontWeight: 700,
                 letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
                 background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0', marginBottom: '8px',
               }}
@@ -1526,7 +1741,7 @@ export default function LessonPlayer({
                 background: 'var(--stage-2)', borderLeft: '3px solid var(--terracotta)',
                 borderRadius: 'var(--radius-tile)', padding: '13px 16px',
               }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.65 }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-base)'), color: 'var(--ink)', lineHeight: 1.5 }}>
                   {slide.script ?? 'No script for this slide. Let it land, then continue.'}
                 </p>
               </div>
@@ -1534,33 +1749,7 @@ export default function LessonPlayer({
           </div>
         )}
 
-        {/* Controls */}
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', paddingBottom: 'max(18px, env(safe-area-inset-bottom))' }}>
-          {index > 0 && (
-            <button
-              onClick={goBack}
-              className="btn btn-outline"
-              style={{ fontSize: room(projector, WALL.aside, 'var(--text-base)'), padding: room(projector, '20px 28px', '13px 18px'), flexShrink: 0 }}
-            >
-              Back
-            </button>
-          )}
-          <button
-            onClick={advance}
-            disabled={!canContinue}
-            className="btn btn-gold"
-            // 0.45 fades the text AND the butter together, which on a wall
-            // measured 2.31:1 for "Pick an answer to continue". That is an
-            // instruction to the whole class, not decoration, so on a
-            // projector it fades to 0.75 (5.2:1) and still reads as waiting.
-            style={{ flex: 1, justifyContent: 'center', fontSize: room(projector, WALL.aside, '16px'), padding: room(projector, '20px 28px', '14px 20px'), opacity: canContinue ? 1 : projector ? 0.75 : 0.45 }}
-          >
-            {isLast ? 'Finish lesson'
-              : isChoice && !answered ? 'Pick an answer to continue'
-              : isChoice && !settled ? 'Have another go to continue'
-              : 'Continue'}
-          </button>
-        </div>
+        {!projector && controls}
       </>
     )
   }
@@ -1603,6 +1792,24 @@ export default function LessonPlayer({
           outline-offset: 2px;
           border-radius: 10px;
         }
+        /* The wall's chrome on a narrow screen. The teach route is always the
+           wall's instrument (projector sizing) and a teacher still opens it on
+           a phone, where a one line chrome and a side by side presenter bar do
+           not fit: the rail drops to its own row under the header, its labels
+           take a phone size, and the bar stacks the script above full width
+           controls. Media queries rather than a width state, so the server and
+           the first client paint agree. The important flags override the
+           inline wall sizes, which is the one place that is allowed. */
+        @media (max-width: 700px) {
+          .gc-lesson-player .gc-chrome { flex-wrap: wrap; row-gap: 8px; column-gap: 10px !important; }
+          .gc-lesson-player .gc-rail { order: 5; flex: 1 1 100% !important; }
+          .gc-lesson-player .gc-rail-label { font-size: 10px !important; letter-spacing: 0.04em !important; margin-top: 4px !important; }
+          .gc-lesson-player .gc-status { text-align: left !important; }
+          .gc-lesson-player .gc-presenter { flex-direction: column; align-items: stretch; gap: 10px !important; }
+          .gc-lesson-player .gc-presenter .gc-controls { margin-left: 0 !important; }
+          .gc-lesson-player .gc-presenter .gc-controls > button { flex: 1; min-width: 0 !important; white-space: normal !important; }
+          .gc-lesson-player .gc-script { max-height: 12vh !important; }
+        }
       `}</style>
       {/* The screen reader's phase label: announces each slide change
           politely, mirroring the visual header line. Visually hidden with
@@ -1615,10 +1822,14 @@ export default function LessonPlayer({
           ? 'Lesson finished'
           : `Slide ${index + 1} of ${slides.length}${phaseLabel ? `, ${phaseLabel}` : ''}`}
       </div>
-      {/* The thin butter progress bar, edge to edge */}
-      <div style={{ height: '5px', background: 'var(--border)', flexShrink: 0 }}>
-        <div ref={barRef} style={{ height: '100%', width: 0, background: accent, borderRadius: '0 100px 100px 0' }} />
-      </div>
+      {/* The thin butter progress bar, edge to edge. The arc rail carries
+          progress in teacher view, so it only draws where there is no rail,
+          and it stays away at the finish too rather than appearing there. */}
+      {!(teacherView && deckPhases.length > 1) && (
+        <div style={{ height: '5px', background: 'var(--border)', flexShrink: 0 }}>
+          <div ref={barRef} style={{ height: '100%', width: 0, background: accent, borderRadius: '0 100px 100px 0' }} />
+        </div>
+      )}
 
       {/* The reading ahead notice, first slide only. Inside the player because
           the player owns the screen: see the notice prop above. It sits under
@@ -1631,10 +1842,12 @@ export default function LessonPlayer({
         </div>
       )}
 
-      {/* Quiet header: exit, the Rosenshine phase label, DiGi keeping watch */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0,
-        padding: '10px clamp(16px, 4vw, 28px)',
+      {/* ── The chrome ── one line on the wall: exit, the arc rail, the
+          status, the friend and DiGi. On a phone the rail drops under this
+          row and the status keeps its old place in the middle. */}
+      <div className="gc-chrome" style={{
+        display: 'flex', alignItems: 'center', gap: room(projector, '22px', '12px'), flexShrink: 0,
+        padding: room(projector, '14px clamp(24px, 4vw, 56px) 10px', '10px clamp(16px, 4vw, 28px)'),
       }}>
         {kidMode ? (
           // A big, obvious way home for a child: never leave them hunting for
@@ -1650,26 +1863,24 @@ export default function LessonPlayer({
           </Link>
         ) : (
           <Link href={backHref} aria-label="Leave the lesson" style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'), fontWeight: 700,
             color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.06em',
             padding: '6px 8px', marginLeft: '-8px',
           }}>
             ✕
           </Link>
         )}
-        <span style={{
+        {projector && rail}
+        <span className="gc-status" style={{
           fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, '10.5px'), fontWeight: 700,
-          letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+          letterSpacing: room(projector, '0.06em', '0.14em'), textTransform: 'uppercase', color: 'var(--ink-muted)',
           // The label gives way, never the star: on a narrow phone a long
-          // phase line was crowding DiGi and the star chip to the edge.
+          // phase line was crowding DiGi and the star chip to the edge. On the
+          // wall it sits right aligned between the rail and the characters.
           flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+          textAlign: projector && rail ? 'right' : 'left',
         }}>
-          {finished
-            ? classMode ? 'The showcase' : 'The finish'
-            // Inside a cycle the chrome names the cycle instead of the phase.
-            // A pupil who glances up mid lesson wants to know which part of
-            // today they are in, and Teach is true of eight slides in a row.
-            : `${cycle ? `${cycle.verb}: ${cycle.title} · ` : phaseLabel ? `${phaseLabel} · ` : ''}${index + 1} of ${slides.length}${!projector && slide?.minutes ? ` · ~${slide.minutes} min` : ''}`}
+          {status}
         </span>
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
           {kidMode && typeof kidStars === 'number' && !finished && (
@@ -1685,53 +1896,22 @@ export default function LessonPlayer({
               thinking on a question, a hop on a right answer. DiGi is the
               star; the friend is the host. */}
           {!finished && character && character !== 'digi' && (
-            <FriendPlate character={character} register={register} mood={digiMood} size={projector ? 60 : 40} />
+            <FriendPlate character={character} register={register} mood={digiMood} size={projector ? 56 : 40} />
           )}
-          {!finished && <DigiCharacter mood={digiMood} size={projector ? 52 : 38} />}
+          {!finished && <DigiCharacter mood={digiMood} size={projector ? 48 : 38} />}
         </span>
       </div>
 
-      {/* The phase strip: six pills, the shape of the lesson at a glance */}
-      {teacherView && !finished && deckPhases.length > 1 && (
-        <div
-          ref={stripRef}
-          aria-label="Lesson phases"
-          style={{
-            display: 'flex', gap: '6px', flexShrink: 0, flexWrap: 'wrap',
-            padding: '0 clamp(16px, 4vw, 28px) 10px',
-          }}
-        >
-          {deckPhases.map(p => {
-            const isNow = slide?.phase === p
-            const isDone = !isNow && lastIndexOfPhase(p) < index
-            return (
-              <span
-                key={p}
-                aria-current={isNow ? 'step' : undefined}
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: room(projector, WALL.aside, '10px'),
-                  fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  padding: room(projector, '9px 20px', '4px 10px'),
-                  borderRadius: 'var(--radius-pill)',
-                  border: `1.5px solid ${isNow ? accent : 'var(--border)'}`,
-                  background: isNow ? (friend ? soft : 'var(--terracotta)') : isDone ? 'var(--border)' : 'transparent',
-                  color: isNow ? (friend ? inkOn : '#fff') : isDone ? 'var(--ink-soft)' : 'var(--ink-muted)',
-                  // The done pills recede rather than shout: what matters on a
-                  // classroom wall is where we are, not where we have been.
-                  opacity: isDone ? 0.72 : 1,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {isDone ? '✓ ' : ''}{PHASE_LABELS[p]}
-              </span>
-            )
-          })}
+      {/* The rail on a phone: its own row under the header, five equal
+          segments with their labels, where five wrapping pills used to be. */}
+      {!projector && rail && (
+        <div style={{ flexShrink: 0, padding: '0 clamp(16px, 4vw, 28px) 10px' }}>
+          {rail}
         </div>
       )}
 
       {/* The stage: scrolls when a slide runs tall, centres when it does not */}
-      <div ref={stageRef} style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <div ref={stageRef} data-stage style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
         <div style={{
           flex: 1, display: 'flex', flexDirection: 'column',
           // Centred in the room rather than pinned to the top. A slide sat at
@@ -1750,8 +1930,13 @@ export default function LessonPlayer({
               of the lesson and where in it they have arrived. */}
           {!finished && atCycleStart && cycles && cycles.length > 1 && (
             <div aria-label="Learning cycles" style={{
-              display: 'flex', flexDirection: 'column', gap: '6px',
-              margin: '4px 0 18px', padding: '12px 14px',
+              // One line on the wall, a column on a phone. Three stacked rows
+              // of 18px type at a cycle boundary was neither readable from
+              // the back nor small enough to leave the slide its room.
+              display: 'flex', flexDirection: projector ? 'row' : 'column', flexWrap: 'wrap',
+              alignItems: projector ? 'baseline' : 'stretch',
+              gap: projector ? '6px 28px' : '6px',
+              margin: '4px 0 18px', padding: projector ? '12px 22px' : '12px 14px',
               background: soft, border: `1.5px solid ${accent}`,
               borderRadius: 'var(--radius-btn)',
             }}>
@@ -1766,7 +1951,7 @@ export default function LessonPlayer({
                       display: 'flex', alignItems: 'baseline', gap: '8px',
                       fontFamily: 'var(--font-display)',
                       fontWeight: isNow ? 900 : 700,
-                      fontSize: projector ? 'var(--text-lg)' : 'var(--text-base)',
+                      fontSize: room(projector, WALL.aside, 'var(--text-base)'),
                       color: isNow ? 'var(--ink)' : 'var(--ink-muted)',
                       // A done cycle recedes, it does not disappear. 0.6 on a
                       // wall measured 2.80:1; 0.82 is 4.5:1 and still visibly
@@ -1796,8 +1981,9 @@ export default function LessonPlayer({
               })}
               {cycle && (
                 <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
-                  color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0',
+                  fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'),
+                  color: 'var(--ink-soft)', lineHeight: 1.5, margin: projector ? 0 : '4px 0 0',
+                  flexBasis: projector ? '100%' : undefined,
                 }}>
                   {cycle.outcome}
                 </p>
@@ -1806,7 +1992,59 @@ export default function LessonPlayer({
           )}
           {body}
         </div>
+        {projector && moreBelow && (
+          <div aria-hidden data-more-below style={{
+            position: 'sticky', bottom: 0, flexShrink: 0, height: '48px', marginTop: '-48px', pointerEvents: 'none',
+            background: 'linear-gradient(to bottom, rgba(249, 248, 246, 0), var(--cream) 80%)',
+          }} />
+        )}
       </div>
+
+      {/* ── The presenter bar ── the teacher's strip under the class's slide.
+          Keynote puts the presenter's notes under the slide on the presenter
+          display; a classroom has one screen, so the words to say sit here
+          at the aside size, on white so they read as the teacher's and not
+          the wall's, and Back and Continue keep to the right of them on
+          every slide. Outside the scrolling stage on purpose: a slide that
+          runs tall scrolls above it and the controls never move. */}
+      {projector && !finished && (
+        <div
+          data-presenter-bar
+          className="gc-presenter"
+          style={{
+            flexShrink: 0, background: '#fff', borderTop: '1.5px solid var(--border)',
+            padding: 'clamp(12px, 1.6vh, 18px) clamp(24px, 4vw, 56px) max(clamp(12px, 1.6vh, 18px), env(safe-area-inset-bottom))',
+            display: 'flex', alignItems: 'center', gap: '28px',
+          }}
+        >
+          {hasScripts ? (
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <button
+                onClick={() => setScriptOpen(o => !o)}
+                aria-expanded={scriptOpen}
+                style={{
+                  fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.script, 'var(--text-xs)'), fontWeight: 700,
+                  letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+                  background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0', marginBottom: scriptOpen ? '4px' : 0,
+                }}
+              >
+                {scriptOpen ? '▾ Teacher script' : '▸ Teacher script'}
+              </button>
+              {scriptOpen && (
+                <p className="gc-script" style={{
+                  fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.script, 'var(--text-base)'),
+                  color: 'var(--ink)', lineHeight: 1.4, margin: 0, maxHeight: '24vh', overflowY: 'auto',
+                }}>
+                  {slide?.script ?? 'No script for this slide. Let it land, then continue.'}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div style={{ flex: 1 }} />
+          )}
+          {controls}
+        </div>
+      )}
     </div>
   )
 }

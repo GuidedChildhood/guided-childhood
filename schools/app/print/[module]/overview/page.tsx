@@ -3,6 +3,15 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { parseSlides, PHASE_LABELS, type LessonSlide } from '@gc/shared/lesson-slides'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { title: title ? `Unit overview: ${title}` : 'Unit overview: Module' }
+}
 
 // The unit overview: the whole lesson on one printable page for planning
 // and the subject lead's file (the clean version of Jigsaw's Puzzle Map).
@@ -15,7 +24,7 @@ const TYPE_LABELS: Record<string, string> = {
   title: 'Opening', objective: 'Objective', keywords: 'Keywords', concept: 'Teaching',
   quote: 'The chant', choice: 'Check', scenario: 'Evidence', diagram: 'Diagram',
   discussion: 'Talk task', stat: 'Evidence stat', tryit: 'Practice', recap: 'Recap',
-  video: 'Video beat', digi: 'DiGi closing', interactive: 'Interactive',
+  video: 'Video beat', digi: 'Character moment', interactive: 'Interactive',
 }
 
 function slideTitle(s: LessonSlide): string {
@@ -72,6 +81,8 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
       </p>
       {notes.timing && <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: '14px' }}>{notes.timing}</p>}
 
+      {/* The table scrolls inside its own frame on a phone; the page itself never scrolls sideways. */}
+      <div style={{ overflowX: 'auto' }}>
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <tr>
@@ -94,6 +105,7 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
           ))}
         </tbody>
       </table>
+      </div>
 
       <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '14px' }}>
         Full resources for this module: paper pack, pupil booklets, knowledge organiser and named quizzes,

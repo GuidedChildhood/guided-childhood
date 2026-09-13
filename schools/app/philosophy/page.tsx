@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import type { Metadata } from 'next'
 
 // THE PHILOSOPHY PAGE, open to the world by design (the open map decision
@@ -79,7 +80,7 @@ const REGULATORS: Voice[] = [
     name: 'Education for a Connected World',
     who: 'UK Council for Internet Safety framework',
     holds: 'Eight strands of online life a child should understand, from self image to copyright, described age by age from 4 to 18.',
-    align: 'It is the skeleton of our whole scheme: twenty one modules covering all eight strands, Reception to Year 13.',
+    align: `It is the skeleton of our whole scheme: ${MODULE_COUNT} modules covering all eight strands, Reception to Year 13.`,
     differ: 'It is a framework, not lessons. We are the lessons.',
     source: { label: 'gov.uk, EfCW framework', href: 'https://www.gov.uk/government/publications/education-for-a-connected-world' },
   },
@@ -197,17 +198,6 @@ const SCHOOLS_PROOF = [
 export default function PhilosophyPage() {
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh' }}>
-      {/* Header */}
-      {/* Wraps instead of overlapping at large accessibility text sizes,
-          the same fix as the home header (31 August). */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 300, minHeight: '64px', padding: '8px clamp(16px, 4vw, 40px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '4px 10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-          ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
-        </Link>
-        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-          <Link href="/curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>The map</Link>
-        </nav>
-      </header>
 
       <div style={{ maxWidth: '880px', margin: '0 auto', padding: '56px 20px 100px' }}>
         {/* Hero */}

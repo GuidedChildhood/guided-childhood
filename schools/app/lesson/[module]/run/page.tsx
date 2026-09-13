@@ -290,7 +290,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             <p style={{ ...body, margin: '8px 0' }}>
               <strong>{passport.page}.</strong> Today fills that page{area ? <> and builds <strong>{AREAS[area].name}</strong>, one of the four things the passport records</> : null}. When the {passport.keyStage} pages
               are finished the child earns {passport.stamp}&rsquo;s stamp, which is the stage ending, not
-              this lesson ending. The passport beat near the end of the deck is where the class fills the page in.
+              this lesson ending. The passport moment near the end of the deck is where the class fills the page in.
             </p>
           )}
           {notes.passport_stage === 'after' && (

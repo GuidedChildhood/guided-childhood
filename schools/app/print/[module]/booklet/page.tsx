@@ -2,6 +2,15 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect, notFound } from 'next/navigation'
 import { parseSlides } from '@gc/shared/lesson-slides'
 import PrintButton from '@/components/PrintButton'
+import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+
+// The tab names the module, so a teacher with eight tabs open can find this
+// one. Read from the manifest rather than the row: no second database read.
+export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
+  const { module: moduleId } = await params
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  return { title: title ? `Pupil booklet: ${title}` : 'Pupil booklet: Module' }
+}
 
 // The pupil booklet: the little companion each child holds BEFORE and
 // DURING the lesson (JP brief, 6 Jul 2026). Photocopy per pupil, fold in
@@ -11,7 +20,11 @@ import PrintButton from '@/components/PrintButton'
 // spaces that belong to the child. Generated from the lesson row.
 
 type WorksheetItem = { n: number; item: string; expected_verdict: string; teaching_point: string }
-type TeacherNotes = { worksheet_items?: WorksheetItem[] }
+type TeacherNotes = {
+  worksheet_items?: WorksheetItem[]
+  worksheet?: { verdict_options?: string[] }
+  commitment_stem?: string
+}
 type ParentNote = { family_question?: string }
 
 const page: React.CSSProperties = { pageBreakAfter: 'always', padding: '28px 20px', minHeight: '250mm' }
@@ -36,7 +49,18 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   const slides = parseSlides(lesson.slides) ?? []
   const concepts = slides.filter(s => s.type === 'concept') as { heading: string; body: string; emoji?: string }[]
   const quote = slides.find(s => s.type === 'quote') as { text: string; label?: string } | undefined
-  const items = ((lesson.teacher_notes ?? {}) as TeacherNotes).worksheet_items ?? []
+  const notes = (lesson.teacher_notes ?? {}) as TeacherNotes
+  const items = notes.worksheet_items ?? []
+  // The booklet used to print module 12's words on every module: "needs a
+  // detective", "Believe, Pause, Do not share", "the next time I see a shocking
+  // post". Found on the A4 PDF of Stay the maker by the schools review of
+  // 13 September 2026. The right words were in the row all along: the
+  // worksheet's own verdicts and the commitment stem the pack already reads.
+  const verdicts = notes.worksheet?.verdict_options ?? []
+  const stemRaw = notes.commitment_stem ?? ''
+  const stemLabel = /^my promise/i.test(stemRaw) ? 'My promise' : 'My commitment'
+  const stemBody = stemRaw.replace(/^my (commitment|promise):\s*/i, '')
+  const stem = stemBody ? stemBody.charAt(0).toUpperCase() + stemBody.slice(1) : 'The one thing I will do this week is...'
   const familyQuestion = ((lesson.parent_note ?? {}) as ParentNote).family_question
   // The home code (migration 230). It printed on the teacher's pack and
   // nowhere else, and the pack is the sheet that stays on a desk. THIS is the
@@ -55,7 +79,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
       {/* Cover */}
       <section style={{ ...page, textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={star(64)}>⭐</div>
-        <div style={{ ...mono, margin: '18px 0 10px' }}>{characterName} needs a detective</div>
+        <div style={{ ...mono, margin: '18px 0 10px' }}>With {characterName}</div>
         <h1 style={{ ...big, fontSize: 'var(--text-3xl)', margin: '0 auto 18px', maxWidth: '520px' }}>{lesson.title}</h1>
         <p style={{ ...body, fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', maxWidth: '420px', margin: '0 auto 40px' }}>
           By the end of this lesson: {lesson.single_action_outcome.replace('I can', 'you can')}
@@ -71,7 +95,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         <div style={mono}>Before we start · the rundown</div>
         <h2 style={{ ...big, fontSize: 'var(--text-2xl)', margin: '8px 0 20px' }}>What today is about</h2>
         {concepts.slice(0, 3).map((c, i) => (
-          <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '12px' }}>
+          <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '12px', breakInside: 'avoid' }}>
             <span style={{
               flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: 'var(--gold)',
               color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
@@ -94,13 +118,13 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
 
       {/* Follow along: my verdicts */}
       <section style={page}>
-        <div style={mono}>During the lesson · your case file</div>
+        <div style={mono}>During the lesson · my answers</div>
         <h2 style={{ ...big, fontSize: 'var(--text-2xl)', margin: '8px 0 6px' }}>My verdicts</h2>
-        <p style={{ ...body, color: 'var(--ink-soft)', marginBottom: '16px' }}>Circle your verdict for each case. A detective always gives a reason.</p>
+        <p style={{ ...body, color: 'var(--ink-soft)', marginBottom: '16px' }}>Circle your verdict for each card, then write your reason.</p>
         {items.map(it => (
-          <div key={it.n} style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px', marginBottom: '10px' }}>
-            <p style={{ ...body, fontWeight: 700, marginBottom: '8px' }}>Case {it.n}: {it.item}</p>
-            <p style={{ ...body, fontSize: 'var(--text-md)' }}>Believe &nbsp;·&nbsp; Pause &nbsp;·&nbsp; Do not share</p>
+          <div key={it.n} style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px', marginBottom: '10px', breakInside: 'avoid' }}>
+            <p style={{ ...body, fontWeight: 700, marginBottom: '8px' }}>Card {it.n}: {it.item}</p>
+            <p style={{ ...body, fontSize: 'var(--text-md)' }}>{verdicts.map((v, i) => <span key={v}>{i > 0 && <>&nbsp;·&nbsp;</>}{v}</span>)}</p>
             <div style={{ ...writeLine, height: '26px' }} />
           </div>
         ))}
@@ -111,8 +135,8 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         <div style={mono}>After the lesson · your mission</div>
         <h2 style={{ ...big, fontSize: 'var(--text-2xl)', margin: '8px 0 16px' }}>Take it home</h2>
         <div style={{ background: 'var(--green-lt)', border: '2px solid var(--green)', borderRadius: '16px', padding: '18px 20px', marginBottom: '16px' }}>
-          <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '8px' }}>My mission</div>
-          <p style={{ ...body, fontWeight: 700 }}>The next time I see a shocking post I will...</p>
+          <div style={{ ...mono, color: 'var(--green-dark)', marginBottom: '8px' }}>{stemLabel}</div>
+          <p style={{ ...body, fontWeight: 700 }}>{stem}</p>
           <div style={writeLine} />
         </div>
         {familyQuestion && (
@@ -125,13 +149,12 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
           <div style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginTop: '16px' }}>
             <div style={{ ...mono, color: 'var(--gold-dark)', marginBottom: '8px' }}>For a grown up</div>
             <p style={{ ...body }}>
-              On the Guided Childhood app at home? Enter <strong style={{ letterSpacing: '0.08em' }}>{homeCode}</strong> on
-              the Lessons page and this lesson goes onto your child&rsquo;s record.
+              On the Guided Childhood app at home? Enter <strong style={{ letterSpacing: '0.08em' }}>{homeCode}</strong>{' '}on the Lessons page and this lesson goes onto your child&rsquo;s record.
             </p>
           </div>
         )}
         <p style={{ textAlign: 'center', marginTop: '32px' }}><span style={star(40)}>⭐</span></p>
-        <p style={{ ...body, textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-base)' }}>Case closed, detective. {characterName} is proud of you.</p>
+        <p style={{ ...body, textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-base)' }}>Well done. {characterName} is proud of you.</p>
       </section>
     </main>
   )

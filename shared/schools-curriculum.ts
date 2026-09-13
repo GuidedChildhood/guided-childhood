@@ -167,7 +167,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Kind screens, calm bodies',
     outcome: 'I can name how I feel after screen time and tell a grown up.',
     blurb: 'How screens make my body and mood feel, being kind, and who to tell.',
-    character: 'pebble', castLine: 'Pebble',
+    character: 'pebble', castLine: 'Pebble', dsl: true,
     rshe: ['online_safety', 'mental_wellbeing', 'respectful_relationships'],
   },
   {
@@ -214,7 +214,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Privacy and digital reputation',
     outcome: 'I can decide what not to share.',
     blurb: 'What is private, what lasts, and your digital footprint.',
-    character: 'pebble', castLine: 'Pebble',
+    character: 'pebble', castLine: 'Pebble', dsl: true,
     rshe: ['online_safety'],
   },
   {
@@ -222,7 +222,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Being kind and safe with others online',
     outcome: 'I know three things to do if someone is unkind online.',
     blurb: 'Group chats, fallout, and never being a bystander to online bullying.',
-    character: 'pebble', castLine: 'Pebble with Orbit',
+    character: 'pebble', castLine: 'Pebble with Orbit', dsl: true,
     rshe: ['respectful_relationships', 'online_safety', 'mental_wellbeing'],
   },
   {
@@ -257,7 +257,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
     blurb: 'The honest, mixed evidence on screens and mood, and agency over habits.',
-    character: 'nova', castLine: 'Nova with DiGi',
+    character: 'nova', castLine: 'Nova with DiGi', dsl: true,
     rshe: ['mental_wellbeing', 'online_safety'],
   },
   {
@@ -265,7 +265,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Social media, group chats and the workarounds',
     outcome: 'I can explain the risk behind a workaround I might be tempted by.',
     blurb: 'How platforms work, VPNs and borrowed accounts, and why the rules exist.',
-    character: 'cosmo', castLine: 'Cosmo',
+    character: 'cosmo', castLine: 'Cosmo', dsl: true,
     rshe: ['online_safety', 'illegal_online', 'respectful_relationships'],
   },
   {
@@ -273,7 +273,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Misinformation, deepfakes and AI content',
     outcome: 'I can run three checks before I believe or share something.',
     blurb: 'Spotting manufactured content with three checks that take under a minute.',
-    character: 'orbit', castLine: 'Orbit with a Cosmo cameo',
+    character: 'orbit', castLine: 'Orbit with a Cosmo cameo', dsl: true,
     rshe: ['deepfakes_ai', 'online_safety'],
   },
   {
@@ -383,3 +383,12 @@ export const CURRICULUM: CurriculumModule[] = [
 ]
 
 export const KEY_STAGE_ORDER: KeyStage[] = ['EYFS', 'KS1', 'KS2', 'KS3', 'KS4', 'KS5']
+
+/** The catalogue size, computed, so no page can carry a stale number (the
+ *  schools review of 13 September 2026 found "21" on eleven pages of 25). */
+export const MODULE_COUNT = CURRICULUM.length
+
+/** The safeguarding flagged modules: the rows whose DSL note is required,
+ *  mirrored here as `dsl: true` so a page with no database can count them and
+ *  scripts/check-flagged-briefings.mjs can hold the staff briefings to them. */
+export const FLAGGED_MODULES = CURRICULUM.filter(m => m.dsl)

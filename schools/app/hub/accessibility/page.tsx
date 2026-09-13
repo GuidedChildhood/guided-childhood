@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 
+export const metadata = { title: 'Accessibility statement' }
+
 // The accessibility statement: honest about what the player supports today
 // and what is still improving, dated so a school can see it is maintained.
 // Written for the SENDCo and the procurement checklist, not for lawyers.

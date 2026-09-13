@@ -4,6 +4,8 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
 
+export const metadata = { title: 'RSHE 2025 mapping matrix' }
+
 // THE RSHE 2025 MAPPING MATRIX: the document that survives the September 2026
 // statutory switchover. Renders live from the curriculum manifest so it can
 // never drift from what the modules actually teach.
@@ -76,7 +78,7 @@ function TopicNumber({ n, strong = false }: { n: number; strong?: boolean }) {
     <span style={{
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: '24px', height: '24px', flexShrink: 0, borderRadius: '8px',
-      fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
       background: strong ? 'var(--terracotta)' : 'var(--terracotta-lt)',
       color: strong ? 'var(--ink)' : 'var(--terracotta-dark)',
     }}>
@@ -290,7 +292,7 @@ export default async function RsheMappingPage() {
                           fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)',
                           color: 'var(--ink)', lineHeight: 1.35,
                         }}>
-                          <span style={{ ...mono, fontSize: '10px', color: 'var(--ink-light)', marginRight: '8px' }}>
+                          <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--ink-light)', marginRight: '8px' }}>
                             M{String(m.n).padStart(2, '0')}
                           </span>
                           {m.title}
@@ -394,7 +396,7 @@ export default async function RsheMappingPage() {
             return (
               <div key={m.moduleId} className="gc-avoid-break" style={{ padding: '11px 0', borderTop: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline', marginBottom: '7px', flexWrap: 'wrap' }}>
-                  <span style={{ ...mono, fontSize: '10px', color: 'var(--ink-light)' }}>
+                  <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>
                     {m.keyStage} · M{String(m.n).padStart(2, '0')}
                   </span>
                   <span style={{
@@ -408,7 +410,7 @@ export default async function RsheMappingPage() {
                   {hooks.length > 0
                     ? hooks.map(h => <Chip key={h}>{h}</Chip>)
                     : <span style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
-                        Statutory hooks load when the module row is live.
+                        This module is not yet published.
                       </span>}
                   {strands.length > 0 && (
                     <Chip tone="label">EfCW strand{strands.length === 1 ? '' : 's'} {strands.join(', ')}</Chip>

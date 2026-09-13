@@ -14247,6 +14247,122 @@ below the fold at 900px, the script and timing are hidden on the wall, and
 buying needs a phone call). Nothing was fixed in this session; the fixes wait on
 Justin's yes to the order in the review and on five decisions named there.
 
+## 13 September 2026, Sunday, the legal identity, and day one of the schools fixes (session 0u09q9)
+
+Justin answered the first decision in the schools review with the Companies
+House record: the company is Guided Digital Childhood Ltd, company number
+17299814, registered office Apple Acre, Star, Winscombe, BS25 1QF,
+incorporated 24 June 2026, and it is not VAT registered. That lives once, in
+shared/legal.ts, and every footer, the pricing page, the invoice form and the
+data protection pack read it from there. Every page behind the schools
+navigation now ends on a footer with the entity, the number, the office and the
+VAT position, and a door for a licensed school (I have a school code).
+
+Day one of the review's must fix list shipped the same afternoon: the four
+JSON authored modules no longer crash their printed quizzes (one reader takes
+both bank shapes, and the contract check pins them); the pupil booklet prints
+its own module's verdicts and promise instead of module 12's; the module
+count is computed from the manifest everywhere; the flagged module count is
+one number from the manifest on every page, with briefings written for M22 and
+M23 and a guard holding the two together; KCSIE reads 2026 on the hub and in
+the policy text; the player opens the teacher script by default, shows the
+minutes on the wall, scales the script to the room, and pins Back and Continue
+to the bottom of the screen on a projector.
+
+Still open from the review: the pilot request on Mailchimp (decision 2), the
+school code door in the header (decision 3, the footer carries it for now),
+the terms, privacy notice and DPA (decision 4), and the day two appearance list.
+
+## 13 September 2026, Sunday evening, the lesson on the wall to the Apple bar (session 0u09q9)
+
+Justin, 13 September 2026: "make sure the appearance of the lesson is top
+rating, university, private top school, paid education, better than any
+PowerPoint presentation, super Apple slick UX ... and do not stop designing
+appearance until this is achieved." The plan is
+plans/2026-09-13-schools-apple-bar-plan.md; this entry records what the first
+batch decided for the classroom player (shared/components/LessonPlayer.tsx,
+projector branch only; the phone branch the parents app and the child app use
+is untouched).
+
+- **The arc rail replaces the status line and the five phase pills.** One
+  segmented bar, one segment per phase in the deck, the phase named under it,
+  the current segment in the friend's accent and filling as the slides
+  advance. Equal segments, so the labels always fit. The chrome went from two
+  rows (155px of a 900px screen) to one line. Rosenshine worn openly, still.
+- **A presenter bar at the bottom, outside the scrolling stage.** The teacher
+  script on the left, Back and Continue compact on the right, the same place
+  on every slide. Keynote's presenter notes, for a room with one screen. The
+  full width butter Continue bar is gone.
+- **A script role on the wall scale (WALL.script, 22px at 1080).** The script
+  is read by one person at their own screen and one in ten scripts is over
+  540 characters; at the aside size a long script stood 340px tall. The guard
+  polices the new role at a 20px floor.
+- **Keycaps and number keys on choice slides.** Keys 1 to 4 pick an option;
+  each option wears its key. The Duolingo and Uxcel pattern, in our tokens.
+- **Diagrams run across the wall, down a phone.** Three stacked cards of
+  forty pixel text stood 540px past the bottom of a 1080 wall and looked like
+  SmartArt. Side by side with the rail across the top they read as a process.
+- **Keywords in two columns on the wall; the cycle map is one line.**
+- **A cream fade at the foot of the stage while there is more below.** A
+  slide that still runs past the stage (long diagram steps, the KS1 intro
+  line) says so instead of hiding it.
+- **The teach route on a phone.** It is always the wall's instrument, and a
+  teacher still opens it on a phone: scoped media queries drop the rail to
+  its own row, size its labels for a phone, and stack the presenter bar.
+- **Content follow ups, curriculum lane:** two eyebrows with a full stop for
+  a dot (ks3-24, ks2-25), eight diagram slides with step texts over 90
+  characters, the KS1 intro line at 60 characters. Listed in the plan.
+- **Verified:** every slide of ks2-25, ks3-24 and ks1-02 rendered at 1920 by
+  1080, 1366 by 768, 1440 by 900 and 390 by 844; the wall contrast guard clear
+  on both the showcase and the teacher chrome (255 and 381 text nodes); the
+  wall scale guard; both typechecks.
+
+## 13 September 2026, Sunday evening, the text pages and the printables to the Apple bar (session 0u09q9)
+
+Batches two and three of plans/2026-09-13-schools-apple-bar-plan.md, the
+should fix list of the review, on PR #1064.
+
+- **One header, everywhere.** SiteNav is the only header now; the home page
+  and the philosophy page lose their private ones, and the prep page, the run
+  sheet, the unlock page and the draw page, which had none, get it through
+  section layouts. It is licence aware: a stranger sees the four open doors,
+  "I have a school code" and the pilot button; a licensed school sees its
+  Print room and Hub in the same row and a small licensed chip. On a phone
+  the links are one scrolling row of 44px targets under the brand.
+- **The first screen.** The home headline is three lines at 1440 by 900 and
+  the pilot button sits above the fold. The taster form follows the lesson on
+  the prep page instead of standing in front of it.
+- **Every number on the home stats strip is computed**: modules, key stages
+  and safeguarding briefings from the manifest, the entry price from the
+  bands. "8 of 8 strands" left the strip; the claim itself was checked
+  against the live rows today (25 modules, strands 1 to 8, none without) and
+  stays in the prose.
+- **One reply promise**: "within two working days, usually the same day", on
+  the home page, the unlock page and the invoice form.
+- **The honest home link.** The home page no longer says every family gets
+  the parent app. It says what is true: a home code on every parent note,
+  which a family on the app enters.
+- **Words.** "Beat" is a clip or a moment on teacher pages, "the register to
+  hold" is "the tone to hold", the finish button says "Back to the
+  curriculum", the mapping matrix's placeholder line says "This module is
+  not yet published".
+- **Titles on every page**, the module's own title on every module page from
+  the manifest (no second database read), an SVG star favicon on butter, a
+  PNG for iOS, and a share image rendered locally from the repo's own fonts
+  (public/og.png), declared in the root metadata and on the home page.
+- **Phones.** The year plan stacks its terms, the cast sits two across, the
+  prep buttons are a grid with Teach spanning the row, the evidence cards are
+  four across then two by two then one, never one alone. The 12px floor on
+  the mapping matrix and the prep page.
+- **The invoice form** validates inline in the house voice and has a real
+  textarea for notes.
+- **Print.** @page A4 with 12mm by 14mm margins; every bordered card, dashed
+  cut card, table row and worksheet item carries break inside avoid; the unit
+  overview table scrolls in its own frame on a phone; the print room is a
+  table per key stage instead of 25 cards with six buttons each.
+- **Verified:** every route at 390 and 1440 (74 frames, all 200, no sideways
+  overflow, the two fonts only, no dashes), the eight print routes as A4
+  PDFs, both typechecks, every guard.
 ## 13 September 2026, the starter reveal folded below the worry cards
 
 Justin, with the reveal on his phone (the other parents card and the

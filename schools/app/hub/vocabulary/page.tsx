@@ -2,8 +2,10 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER , MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { parseSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
+
+export const metadata = { title: 'Whole scheme vocabulary' }
 
 // The whole scheme vocabulary: every keyword from every module, grouped
 // by key stage, generated from the decks so it can never drift.
@@ -44,7 +46,7 @@ export default async function VocabularyPage() {
           Every word we teach
         </h1>
         <p style={{ ...body, marginBottom: '22px', maxWidth: '600px' }}>
-          The key vocabulary of all 21 modules with the pupil facing definitions used in the lessons,
+          The key vocabulary of all{' '}{MODULE_COUNT}{' '}modules with the pupil facing definitions used in the lessons,
           in teaching order. Generated from the live lessons, so this list and the classrooms always agree.
         </p>
 

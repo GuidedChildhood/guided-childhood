@@ -1,7 +1,10 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+
+export const metadata = { title: 'Staff briefings' }
 
 // Staff briefings: ten minutes before teaching a sensitive module. The
 // Youth Select Committee 2026 report found teachers often lack confidence
@@ -15,7 +18,7 @@ const label: React.CSSProperties = { fontFamily: 'var(--font-body)', fontWeight:
 const BRIEFINGS = [
   {
     module: 'M02 · Kind screens, calm bodies (KS1, Years 1 to 2)',
-    covers: 'Noticing how the body feels after screen time, Pebble&rsquo;s three steps (feel it, name it, tell a grown up), and telling as safety, never telling tales.',
+    covers: 'Noticing how the body feels after screen time, Pebble’s three steps (feel it, name it, tell a grown up), and telling as safety, never telling tales.',
     register: 'Gentle and playful. The lesson is about feelings, not about screens being bad, and never becomes a lecture about screen time at home: children this age do not control their homes.',
     watchFor: 'A child who reaches a big feeling very fast, or mentions something yucky appearing on their screen. Say out loud, more than once, that nobody is ever in trouble for what appears or for telling. It is the single most important safeguarding message at this age.',
     disclosure: 'This age discloses sideways: a drawing, a whisper at the worksheet, a question at the door. Listen calmly, thank them for telling, do not promise secrecy, and log it on your concern form the same day.',
@@ -38,6 +41,14 @@ const BRIEFINGS = [
     line: 'The line that carries the lesson: telling someone who can help is the strongest move on the board.',
   },
   {
+    module: 'M23 · When a machine talks like a friend (KS2, Years 3 to 6)',
+    covers: 'Machines that talk inside games and assistants: a person wrote what they say, they are not alive, and two things a real friend can do that a machine cannot. One made up message in cycle three shows a helper asking a child to keep a secret from a parent, and the teacher says plainly that this goes to a grown up.',
+    register: 'Flat and unsurprised. No gasps at the made up messages and no laughing at anyone who talks to one. Some of the class talk to one at home and one or two do it a lot, so every example stays a made up one and nobody is asked who uses one.',
+    watchFor: 'A child who says a helper asked them for a secret, asked for a photo, or said something that worried them, in the lesson, on the worksheet, or in the days after. Say out loud, more than once, that telling is never trouble and nothing gets taken away.',
+    disclosure: 'Listen calmly, thank them for telling, do not promise secrecy, and bring it to the DSL the same day under your safeguarding policy. KCSIE 2026 treats a system that simulates harmful interaction as a contact risk. Nothing said or written in the lesson is stored by the platform, so your note and the paper worksheet are the record.',
+    line: 'The line that carries the lesson: a person wrote what it says, and telling a grown up is never trouble.',
+  },
+  {
     module: 'M10 · Mood and screens (KS3, Years 7 to 9)',
     covers: 'The mood audit (close it, then ask: better, worse or nothing), why raw hours barely predict wellbeing, and each pupil reading their own week of honest one word logs instead of trusting an average.',
     register: 'Honest and unbothered. No moral panic, and no screens are fine either: the audit is theirs and the verdict is theirs. An honest example of your own (an app that leaves you flat) buys more honesty than any warning.',
@@ -57,7 +68,7 @@ const BRIEFINGS = [
     module: 'M12 · Misinformation, deepfakes and AI content (KS3, Years 7 to 9)',
     covers: 'The three checks (who made this, what do other places say, how does it want me to feel), the three verdicts (believe, pause, do not share), and why AI made is a method, not a verdict.',
     register: 'Brisk, even fun: this is detective work, not doom. Guard the calibration: the checks must end in believe verdicts too, or the lesson has taught cynicism instead of checking.',
-    watchFor: 'A pupil distressed by something they have seen or shared, or a live school rumour offered as an example. Stay on the slide&rsquo;s neutral examples: running the checks on a live rumour turns a lesson into an investigation.',
+    watchFor: 'A pupil distressed by something they have seen or shared, or a live school rumour offered as an example. Stay on the slide’s neutral examples: running the checks on a live rumour turns a lesson into an investigation.',
     disclosure: 'KCSIE names misinformation, disinformation and conspiracy theories as content harms. Distress about something seen or shared follows your safeguarding policy, recorded in your school system: the platform records nothing.',
     line: 'The line that carries the lesson: pause is a perfectly good verdict.',
   },
@@ -68,6 +79,14 @@ const BRIEFINGS = [
     watchFor: 'Bravado covering discomfort, and pupils for whom body image is a live struggle. Do not single anyone out, do not ask for personal examples, keep every discussion about the content on screen.',
     disclosure: 'A pupil may disclose distress about their body, eating, or something they have seen. Listen, do not promise secrecy, refer to the DSL the same day. The platform records nothing: use your school system.',
     line: 'The line that carries the lesson: who profits from you feeling worse about yourself?',
+  },
+  {
+    module: 'M22 · When an AI acts like a friend (KS3, Years 7 to 9)',
+    covers: 'Companion AI: how it is built to feel like a friend, why agreeing with you every time is the product working as designed, two things a friend does that it cannot, and who to tell if a conversation with one starts to matter. One invented transcript in cycle three shows an app agreeing to keep a serious disclosure secret, and the teacher says plainly that a person should know.',
+    register: 'Level and unhurried. Never ask who uses one by a show of hands and never ask a pupil to read out something they have said to a companion app. Using one is ordinary for this age group, so the lesson treats it as ordinary and is about what happens next, not about who uses it.',
+    watchFor: 'A pupil who discloses reliance on a companion app, something they have typed to one, or a friend who relies on one, in the lesson, in written answers, or in the days after. Reassure them first that they are not in trouble and that nothing is being taken away.',
+    disclosure: 'Treat it under your safeguarding policy and bring it to the DSL the same day. KCSIE 2026 treats a system that simulates harmful interaction as a contact risk. Nothing said or written in the lesson is stored by the platform, so your note and the paper worksheet are the record.',
+    line: 'The line that carries the lesson: it can be good company, and it is still a product.',
   },
   {
     module: 'M16 · Consent, images and the law (KS4, Years 10 to 11)',
@@ -111,9 +130,8 @@ export default async function CpdBriefingsPage() {
         </h1>
         <p style={{ ...body, marginBottom: '22px' }}>
           Every slide in these modules already carries a word for word script, so nobody teaches them
-          unsupported. These briefings are the ten minutes before: the register to hold, what to watch
-          for in the room, and exactly what to do with a disclosure. All ten safeguarding flagged
-          modules have one. Read the one you need the night before, or run them as a staff meeting
+          unsupported. These briefings are the ten minutes before: the tone to hold, what to watch
+          for in the room, and exactly what to do with a disclosure. All{' '}{FLAGGED_MODULES.length}{' '}safeguarding flagged modules have one. Read the one you need the night before, or run them as a staff meeting
           before the scheme starts, alongside the induction page in the Hub.
         </p>
 
@@ -121,7 +139,7 @@ export default async function CpdBriefingsPage() {
           <div key={b.module} style={{ border: '1.5px solid var(--border)', borderRadius: '14px', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
             <h2 style={h2}>{b.module}</h2>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>What it covers: </span>{b.covers}</p>
-            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The register to hold: </span>{b.register}</p>
+            <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The tone to hold: </span>{b.register}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Watch for: </span>{b.watchFor}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Disclosures: </span>{b.disclosure}</p>
             <p style={{ ...body, fontStyle: 'italic' }}>{b.line}</p>

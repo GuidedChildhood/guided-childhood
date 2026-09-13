@@ -48,7 +48,7 @@ export default async function CurriculumMapPage() {
           The curriculum map
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
-          Twenty one modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
+          {CURRICULUM.length}{' '}modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
           Pick a module and teach it today. No download wall, no prep, nothing to book.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '22px' }}>
@@ -57,7 +57,7 @@ export default async function CurriculumMapPage() {
 
         {/* How to use the map: three moves, so a first time visitor is never
             guessing what this page is for. */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '18px', maxWidth: '760px' }}>
+        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '18px' }}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>How to use this map</div>
           <ol style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {[
@@ -76,7 +76,7 @@ export default async function CurriculumMapPage() {
         {/* The spiral: the ten behaviours that recur at every stage, deeper
             each time. This is what makes the map a progression rather than
             a topic list, the White Rose habit. */}
-        <div style={{ marginBottom: '18px', maxWidth: '760px' }}>
+        <div style={{ marginBottom: '18px' }}>
           <div style={{ ...eyebrow, marginBottom: '8px' }}>Ten behaviours spiral through every stage, deeper each time</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {SPIRAL_BEHAVIOURS.map(b => (

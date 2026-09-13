@@ -59,6 +59,10 @@ jobs:
           # token alias are all invisible to anything that only reads the
           # source. See the header of check-wall-contrast.mjs.
           npm run wall-contrast-guard
+          # And once more with the teacher's chrome: the arc rail and the
+          # presenter bar carry labels only a teacher reads, and a label only
+          # a teacher reads still has to clear AA.
+          GC_WALL_QUERY='&teacher=1' npm run wall-contrast-guard
 
   # The two guards on the join between what a parent answers and what the
   # daily check in asks about.
@@ -225,6 +229,10 @@ jobs:
       # one of the four agreed areas, and the school side's copy of the
       # parents app's area model has not drifted from the original.
       - run: node scripts/check-passport-areas.mjs
+      # Every safeguarding flagged module has a staff briefing, and every page
+      # counts them from the manifest rather than by hand. Header of
+      # check-flagged-briefings.mjs.
+      - run: node scripts/check-flagged-briefings.mjs
       # Structure and density are checked above. This one checks whether the
       # claims are TRUE, against the four verification passes of 11 September.
       - run: node scripts/check-source-claims.mjs

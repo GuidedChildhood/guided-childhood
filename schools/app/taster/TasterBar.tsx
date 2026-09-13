@@ -1,5 +1,6 @@
 'use client'
 
+import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { useState } from 'react'
 import Link from 'next/link'
 import { captureTasterLead } from './actions'
@@ -81,7 +82,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
         }}>
           Pupil booklet, knowledge organiser, the two quizzes and the learning record, all
           set for printing. Take them into a lesson and see how it lands. When you want the
-          other twenty two, the whole staff room runs on one code.
+          other{' '}{MODULE_COUNT - 1}, the whole staff room runs on one code.
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
           <Link href={`/print/${moduleId}`} className="btn btn-gold">Open the printable pack</Link>
@@ -96,7 +97,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
       background: '#fff', border: '2px solid var(--terracotta)',
       borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
     }}>
-      <p style={{ ...eyebrow, marginBottom: '10px' }}>Free sample · one of twenty three modules</p>
+      <p style={{ ...eyebrow, marginBottom: '10px' }}>Free sample · one of{' '}{MODULE_COUNT}{' '}modules</p>
       <h2 style={{
         fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
         fontSize: 'clamp(1.3rem, 3.6vw, 1.7rem)', letterSpacing: '-0.02em',

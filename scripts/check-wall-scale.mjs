@@ -30,6 +30,7 @@ import { readFile } from 'node:fs/promises'
 
 const FLOOR_PX = 40           // what every child must be able to read
 const ASIDE_FLOOR_PX = 24     // chrome the class does not read from the back
+const SCRIPT_FLOOR_PX = 20    // the teacher's script, read at their own screen
 const REM = 16
 
 const files = [
@@ -99,6 +100,11 @@ for (const role of ['question', 'display', 'title', 'body']) {
 const aside = px((scale.match(/aside:\s*('[^']+')/) ?? [])[1] ?? '')
 if (aside !== null && aside < ASIDE_FLOOR_PX) {
   note('shared/wall-scale.ts', 0, `WALL.aside renders at ${aside}px, below ${ASIDE_FLOOR_PX}px`)
+}
+const script = px((scale.match(/script:\s*('[^']+')/) ?? [])[1] ?? '')
+if (script === null) note('shared/wall-scale.ts', 0, 'WALL.script is missing')
+else if (script < SCRIPT_FLOOR_PX) {
+  note('shared/wall-scale.ts', 0, `WALL.script renders at ${script}px, below ${SCRIPT_FLOOR_PX}px`)
 }
 
 // ── 2. No projector branch renders a literal below the floor ─────────

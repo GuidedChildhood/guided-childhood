@@ -6,6 +6,10 @@ import { STAGE_BY_NUMBER, pageModules } from '@gc/shared/passport-areas'
 import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { clearTaught, markTaught, readTaught, TAUGHT_EVENT, unmarkTaught } from '@gc/shared/schools-taught'
 
+// Every module that fills a page: the KS5 modules sit after the passport and
+// have none, so the count is the pages' own, never the catalogue's.
+const PAGE_MODULE_COUNT = STAGE_BY_NUMBER.reduce((n, stage) => n + pageModules(stage).length, 0)
+
 // THE FIVE PAGES, SIDE BY SIDE, WITH THIS SCREEN'S FILL.
 //
 // The teacher's progression view. Every module in the scheme fills one page
@@ -86,7 +90,7 @@ export default function HubPassport() {
           Forget this screen&rsquo;s record
         </button>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
-          {taught.length} of 23 lessons with a page filled on this screen
+          {taught.length}{' '}of{' '}{PAGE_MODULE_COUNT}{' '}lessons with a page filled on this screen
         </span>
       </div>
     </div>

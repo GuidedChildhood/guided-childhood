@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
 
   // Two separate questions, composed here rather than tangled together.
   // isOpenPath is the PERMANENT open map: the pages that sell the scheme.
-  // isTasterPath is the TEMPORARY sample: one module of twenty three, let
+  // isTasterPath is the TEMPORARY sample: one module of the catalogue, let
   // through on purpose so a lesson link Justin sends actually opens. Keeping
   // them apart means the sample can be widened, narrowed or withdrawn without
   // anybody having to reason about the paid wall at the same time.
