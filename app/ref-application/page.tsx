@@ -24,7 +24,7 @@ const SECTIONS: ChecklistSection[] = [
 ]
 
 const PROGRESS: StageProgress = {
-  scriptsPct: 26, streakPct: 75, devicesPct: 100, lessonsPct: 40,
+  scriptsPct: 26, streakPct: 75, devicesPct: 100, lessonsPct: 40, aiDone: 2, aiTotal: 8,
   lessonsDone: 6, lessonsTotal: 15, scriptsDone: 12, scriptsTotal: 47,
   overallPct: 47, contentComplete: false,
 }

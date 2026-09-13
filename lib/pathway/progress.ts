@@ -30,6 +30,17 @@ export interface StageProgress {
   streakPct: number
   devicesPct: number
   lessonsPct: number
+  /**
+   * The child's own AI modules for this stage's age band, inside the lesson
+   * counts below. Justin, 13 September 2026, approving the recommendation:
+   * "AI literate" is in the definition of ready, so the AI modules gate the
+   * stamp the way every other lesson does. lessonsDone and lessonsTotal
+   * include them, so the ring, the row, the sticker tile, the to do and the
+   * stamp move together. These two are the AI share of that, for anything that
+   * wants to say it separately.
+   */
+  aiDone: number
+  aiTotal: number
   // The passport page shows lessons as the simple visible process:
   // done of total, straight from the completions.
   lessonsDone: number
@@ -51,6 +62,7 @@ export interface StageProgress {
 // The lesson credit rule lives in lesson-credit.ts since 13 September 2026 so
 // the four things reading shares it by import. Re-exported so callers stay put.
 import { lessonCreditKeys, type PassByRow } from './lesson-credit'
+import { AI_AUDIENCE_TO_STAGE } from './readiness-areas'
 export { lessonCreditKeys, type PassByRow }
 
 // Blends four independent signals into one progress number per stage:
@@ -90,6 +102,7 @@ export async function getStageProgress(
     { data: lessonCompletions },
     { data: familyDevices },
     { data: passBy },
+    { data: aiLessonRows },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
     (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
@@ -106,6 +119,9 @@ export async function getStageProgress(
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),
+    // The child's AI modules, keyed by the age their band starts at. They
+    // gate the stamp since 13 September 2026; see StageProgress.aiTotal.
+    supabase.from('ai_lessons').select('id, audience').in('audience', Object.keys(AI_AUDIENCE_TO_STAGE)),
   ])
 
   // Scripts: how many of this stage's scripts this family has RESOLVED, which
@@ -178,9 +194,16 @@ export async function getStageProgress(
   // progress with work their child got wrong, which is the one number in the
   // product that has to be honest. Both rules now match the Lessons page.
   const passedCompletionKeys = lessonCreditKeys(lessonCompletions, passBy as PassByRow[] | null, childId)
-  const totalLessonsInStage = lessonsForStage?.length ?? 0
+  // The AI modules for this stage's band, credited by the same rule under
+  // their own source key, so a parent lesson pass can never stand in for one.
+  const stageNum = STAGE_ORDER.indexOf(stageId) + 1
+  const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
+    .filter(m => AI_AUDIENCE_TO_STAGE[m.audience ?? ''] === stageNum)
+  const aiTotal = aiInStage.length
+  const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
+  const totalLessonsInStage = (lessonsForStage?.length ?? 0) + aiTotal
   const lessonsDone =
-    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
+    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length + aiDone
   const lessonsPct = totalLessonsInStage > 0 ? Math.round((lessonsDone / totalLessonsInStage) * 100) : 0
 
   // Lessons carry the most weight in the passport circle: the stamp is
@@ -191,7 +214,7 @@ export async function getStageProgress(
   const doneContent = completedInStage + lessonsDone
   const contentComplete = totalContent > 0 && doneContent === totalContent
 
-  return { scriptsPct, streakPct, devicesPct, lessonsPct, lessonsDone, lessonsTotal: totalLessonsInStage, scriptsDone: completedInStage, scriptsTotal: stageScriptOrders.size, overallPct, contentComplete }
+  return { scriptsPct, streakPct, devicesPct, lessonsPct, aiDone, aiTotal, lessonsDone, lessonsTotal: totalLessonsInStage, scriptsDone: completedInStage, scriptsTotal: stageScriptOrders.size, overallPct, contentComplete }
 }
 
 export function nextStageId(current: StageId): StageId | null {
@@ -220,6 +243,7 @@ export async function getAllStagesProgress(
     { data: lessonCompletions },
     { data: familyDevices },
     { data: passBy },
+    { data: aiLessonRows },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order, stage_id'),
     // The same child scoping as getStageProgress above, for the same reason:
@@ -234,6 +258,7 @@ export async function getAllStagesProgress(
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),
+    supabase.from('ai_lessons').select('id, audience').in('audience', Object.keys(AI_AUDIENCE_TO_STAGE)),
   ])
 
   // Same stricter rule as getStageProgress above: resolved, not merely opened.
@@ -277,15 +302,21 @@ export async function getAllStagesProgress(
     // Same rule as the single stage version above and as the Lessons page:
     // family library lessons only, and a pass only. See the long note there.
     const stageLessons = (lessons ?? []).filter(l => l.stage_id === stageId)
-    const totalLessons = stageLessons.length
+    // Plus the AI modules for this stage's band, the same way as above.
+    const stageNum = STAGE_ORDER.indexOf(stageId) + 1
+    const aiInStage = ((aiLessonRows ?? []) as { id: string; audience: string | null }[])
+      .filter(m => AI_AUDIENCE_TO_STAGE[m.audience ?? ''] === stageNum)
+    const aiTotal = aiInStage.length
+    const aiDone = aiInStage.filter(m => passedCompletionKeys.has(`ai_lesson:${m.id}`)).length
+    const totalLessons = stageLessons.length + aiTotal
     const lessonsDone =
-      stageLessons.filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
+      stageLessons.filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length + aiDone
     const lessonsPct = totalLessons > 0 ? Math.round((lessonsDone / totalLessons) * 100) : 0
 
-    const totalContent = stageScripts.length + stageLessons.length
+    const totalContent = stageScripts.length + totalLessons
     const doneContent = scriptsDone + lessonsDone
     out[stageId] = {
-      scriptsPct, streakPct, devicesPct, lessonsPct,
+      scriptsPct, streakPct, devicesPct, lessonsPct, aiDone, aiTotal,
       lessonsDone, lessonsTotal: totalLessons,
       scriptsDone, scriptsTotal: stageScripts.length,
       overallPct: Math.round(lessonsPct * 0.4 + scriptsPct * 0.3 + streakPct * 0.15 + devicesPct * 0.15),

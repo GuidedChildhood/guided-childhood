@@ -128,6 +128,24 @@ for (const f of [...walk('app'), ...walk('components'), ...walk('lib')]) {
 if (copies.length > 0) problems.push(`C: a start stage for the four things is written as a literal outside lib/content/literacy.ts: ${copies.join(', ')}`)
 else ok.push('C: AREA_START is the only start rule')
 
+// ── E: the AI modules gate the stamp ─────────────────────────────────────────
+//
+// Justin, 13 September 2026, approving the recommendation: the child's AI
+// modules count toward the stamp like every other lesson. progress.ts folds
+// the band's modules into both lesson totals, which is what contentComplete
+// reads. Checked on the code with comments blanked, so a note describing the
+// rule cannot satisfy it.
+const progressSrc = readFileSync('lib/pathway/progress.ts', 'utf8')
+  .replace(/\/\*[\s\S]*?\*\//g, ' ')
+  .replace(/\/\/.*$/gm, ' ')
+const eChecks = [
+  [/from\('ai_lessons'\)/.test(progressSrc), 'E: progress.ts reads the AI modules'],
+  [(progressSrc.match(/\+ aiTotal\b/g) ?? []).length >= 2, 'E: both lesson totals include the AI modules (the stamp reads the total)'],
+  [(progressSrc.match(/\+ aiDone\b/g) ?? []).length >= 2, 'E: both lesson done counts include the AI modules'],
+  [(progressSrc.match(/ai_lesson:\$\{m\.id\}/g) ?? []).length >= 2, 'E: an AI module is credited under its own source key, never a parent lesson standing in'],
+]
+for (const [pass, label] of eChecks) (pass ? ok : problems).push(pass ? label : `${label}: NOT so`)
+
 // ── D: the behaviour line stays on the parent's book ────────────────────────
 const book = readFileSync('components/pathway/PassportBook.tsx', 'utf8')
 const kid = readFileSync('components/kid/KidPassport.tsx', 'utf8')
