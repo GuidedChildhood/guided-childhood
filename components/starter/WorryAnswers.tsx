@@ -3,7 +3,7 @@
 import WorryIcon from '@/components/onboarding/WorryIcon'
 import { WORRIES, CATCH_ALL_ID, type Worry } from '@/lib/onboarding/worries'
 import { ANSWERS, scriptsForWorry } from '@/lib/content/proof'
-import { MethodRow, type MethodId } from '@/components/starter/MethodIcon'
+import MethodIcon, { METHOD, type MethodId } from '@/components/starter/MethodIcon'
 import Fold from './Fold'
 
 // The worries a parent just ticked, each with the answer to it.
@@ -103,10 +103,15 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
                 ? 'If they have said anything about hurting themselves or about not wanting to be here, please stop reading this page and ring your GP today. If they are not safe right now, 999 or your nearest A and E. Childline is 0800 1111, any time of day or night. We have kept your words and your place here for when you come back.'
                 : 'DiGi reads your words against everything we hold and hands you the closest scripts and moments we have, and it joins your check in like any other worry. We have not hand written a pathway for these exact words yet. Yours is now in the queue for the ones we write next.',
               proof: [],
-              // No method chips on a handover. A row reading Daily check in and
+              // No method rows on a handover. A row reading Daily check in and
               // Moments under a disclosure of self harm is the product
               // answering the wrong question in public.
-              methods: (helpFirst ? [] : ['checkin', 'digi', 'moment', 'script']) as MethodId[],
+              how: helpFirst ? [] : [
+                { id: 'digi' as MethodId, line: 'Reads your words against everything we hold and hands you the closest scripts.' },
+                { id: 'checkin' as MethodId, line: 'Your worry joins the daily check in like any other.' },
+                { id: 'moment' as MethodId, line: 'Name the evening it happens, and we track whether it eases.' },
+                { id: 'script' as MethodId, line: 'The nearest scripts we have, until yours is written.' },
+              ],
             }
           : ANSWERS[id]
         return (
@@ -193,7 +198,53 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
                 </p>
               </div>
             )}
-            <MethodRow ids={a.methods} />
+            {/* ── WHAT WE DO, EACH TIME ─────────────────────────────────
+                Justin, 13 September 2026, with this card on his phone: "should
+                we say how we help with combinations of scripts, lessons and
+                their app to gain balance, family agreements and DiGi that is
+                built to advise based on their check ins, so it shows the
+                problem and what we do each time to fix it."
+
+                The chips said WHICH parts pick the worry up and nothing about
+                what each one does for this evening. Now each part is a row:
+                the drawing, its name, and one line written for this worry.
+                Same rows on every card, so by the second card a parent knows
+                the shape: the problem, then the four things we do about it. */}
+            {a.how.length > 0 && (
+              <div style={{ marginTop: 14 }}>
+                <div style={{
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+                  marginBottom: 6,
+                }}>
+                  What we do, each time
+                </div>
+                <div style={{ border: 'var(--edge)', borderRadius: 'var(--radius-btn)', background: '#fff', overflow: 'hidden' }}>
+                  {a.how.map((h, j) => (
+                    <div key={h.id} style={{
+                      display: 'flex', alignItems: 'flex-start', gap: 10, padding: '9px 11px',
+                      borderTop: j === 0 ? 'none' : '1.5px solid var(--border)',
+                    }}>
+                      <span aria-hidden style={{
+                        width: 30, height: 30, borderRadius: '50%', flexShrink: 0, marginTop: 1,
+                        background: METHOD[h.id].tint, border: 'var(--edge)', boxSizing: 'border-box',
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <MethodIcon id={h.id} size={17} />
+                      </span>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                          {METHOD[h.id].label}
+                        </div>
+                        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>
+                          {h.line}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* The counted number, back on the card.
                 The method row replaced the proof chips and took the only
                 figure on the page with it, so a parent could read the whole

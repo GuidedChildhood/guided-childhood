@@ -59,9 +59,24 @@ export type Answer = {
   answer: string
   /** Named things in the product, not adjectives. The script count is added. */
   proof: string[]
-  /** Which parts of the product pick this worry up. Drawn on the card as the
-   *  method row, and the reason the long mechanism paragraph could go. */
-  methods: MethodId[]
+  /**
+   * What we do about THIS worry, each time: one line per part of the product
+   * that picks it up, in the order a parent meets them.
+   *
+   * Justin, 13 September 2026, with the Coming off screens card on his phone:
+   * "should we say how we help with combinations of scripts, lessons and
+   * their app to gain balance, family agreements and DiGi that is built to
+   * advise based on their check ins, so it shows the problem and what we do
+   * each time to fix it."
+   *
+   * Until today the card named the parts as bare chips (Device time, Scripts,
+   * Their app, Daily check in) and left the parent to guess what each one
+   * did for their evening. A chip is a category; a line is a promise. Every
+   * line here is already true in the product, and the proof path is the part
+   * it names. No examples of scripts, per the 9 September rule: the METHOD,
+   * written for this worry.
+   */
+  how: { id: MethodId; line: string }[]
 }
 
 // ── THE ANSWER TO EACH WORRY ────────────────────────────────────────────────
@@ -95,54 +110,99 @@ export const ANSWERS: Record<string, Answer> = {
     question: 'How do I stop policing it without giving up?',
     answer: 'Time that is theirs without asking, more of it earned through real jobs, and windows no stars can buy.',
     proof: ['The star bank and jobs', 'Protected windows'],
-    methods: ['balance','script','kidapp','checkin'],
+    how: [
+      { id: 'balance', line: 'A number you both agreed at breakfast, and windows no stars can buy.' },
+      { id: 'script', line: 'The words for the ending, said before the ending, so it is not a row.' },
+      { id: 'kidapp', line: 'They watch the time run down and earn more with real jobs, not nagging.' },
+      { id: 'digi', line: 'Reads their check ins and tells you what to change this week.' },
+    ],
   },
   bedtime_screens: {
     question: 'How do I get the screens out of the bedroom without a war?',
     answer: 'One rule you set once, a wind down the day expects, and the words for the night they push back.',
     proof: ['The bedroom rule', 'Wind down in the daily path'],
-    methods: ['script','balance','checkin','digi'],
+    how: [
+      { id: 'balance', line: 'One bedroom rule, set once, and bedtime is off the table at any price.' },
+      { id: 'script', line: 'What to say on the night they push back, ready before it happens.' },
+      { id: 'checkin', line: 'Ten seconds a day shows you whether sleep is coming back.' },
+      { id: 'digi', line: 'Ask it at nine at night, and it answers from your own check ins.' },
+    ],
   },
   mood_after_screens: {
     question: 'Is there a pattern here, or was it just a hard week?',
     answer: 'Ten seconds a day turns a feeling into a line you can read over weeks. It will not tell you the cause. It gives you something real to take to them, or to your GP, instead of a hunch.',
     proof: ['The daily check in', 'Your worry rated over time'],
-    methods: ['checkin','moment','digi','passport'],
+    how: [
+      { id: 'checkin', line: 'Tap how they were today, and a feeling becomes a line over weeks.' },
+      { id: 'moment', line: 'Name the evening it went wrong once, and we track whether it eases.' },
+      { id: 'digi', line: 'Built to advise from that line, not from a generic article.' },
+      { id: 'passport', line: 'The record you take to a teacher or GP instead of a hunch.' },
+    ],
   },
   controller_fights: {
     question: 'How do I get them off it without a meltdown?',
     answer: 'An ending they can see coming, and the next session paid for honestly rather than argued for.',
     proof: ['Timer and warning nudges', 'Jobs that buy game time'],
-    methods: ['balance','script','kidapp','lesson'],
+    how: [
+      { id: 'balance', line: 'An ending they can see coming, with a warning before the last minute.' },
+      { id: 'kidapp', line: 'The next session paid for with jobs, so it is theirs, not begged for.' },
+      { id: 'script', line: 'The words for the handover, so you are not the one who ends the game.' },
+      { id: 'lesson', line: 'A short lesson on why stopping is hard, done together.' },
+    ],
   },
   morning_tv: {
     question: 'How do we get out of the house without the screen?',
     answer: 'The morning gets a shape the night before, so nothing has to be decided at half seven.',
     proof: ['The morning routine', 'Five a day in the child app'],
-    methods: ['checkin','script','balance','moment'],
+    how: [
+      { id: 'checkin', line: 'The morning gets its shape the night before, in ten seconds.' },
+      { id: 'balance', line: 'School hours are protected, so the telly is not a decision at half seven.' },
+      { id: 'script', line: 'One script for the doorstep, when it is still on and the bus is coming.' },
+      { id: 'kidapp', line: 'Their five a day starts with the morning job.' },
+    ],
   },
   asking_for_phone: {
     question: 'What age, and how would I know they are ready?',
     answer: 'A readiness answer built from what they can already do, not from what their friends have.',
     proof: ['The readiness ladder', 'Device setting guides'],
-    methods: ['digi','lesson','script','passport'],
+    how: [
+      { id: 'digi', line: 'A readiness answer built from what they can already do, not from their friends.' },
+      { id: 'lesson', line: 'The lessons they pass before the phone, so it arrives with the habits.' },
+      { id: 'script', line: 'The words for the no, the not yet, and the yes with conditions.' },
+      { id: 'passport', line: 'The stamps that show you both when they are ready.' },
+    ],
   },
   social_media: {
     question: 'When do I let them on, and what do I do until then?',
     answer: 'They learn the feed before they meet it, and you get the words for the day they ask.',
     proof: ['Stage 4 lessons', 'Ready for the 2027 law'],
-    methods: ['lesson','script','kidapp','digi'],
+    how: [
+      { id: 'lesson', line: 'They learn the feed, the algorithm and group chats before they meet them.' },
+      { id: 'kidapp', line: 'Their app teaches social media use responsibly, at their age, before any account.' },
+      { id: 'script', line: 'The words for the day they ask, and for the day a friend already has it.' },
+      { id: 'digi', line: 'Knows the 2027 rules and where your child is on the road.' },
+    ],
   },
   ai_chatbots: {
     question: 'How do I make their AI use safe, and get them ready for it?',
     answer: 'Lessons on what these things are and are not, and a guide you can ask the moment it comes up.',
     proof: [`${AI_LESSONS} AI lessons`, 'The AI readiness thread'],
-    methods: ['lesson','digi','script','moment'],
+    how: [
+      { id: 'lesson', line: `${AI_LESSONS} lessons on what a chatbot is and is not, by age.` },
+      { id: 'digi', line: 'A guide you can ask the moment it comes up, that never just says no.' },
+      { id: 'script', line: 'The words for homework, for company, and for the things it should not do.' },
+      { id: 'moment', line: 'Log the moment it worried you, and we keep an eye on it with you.' },
+    ],
   },
   seen_something: {
     question: 'What do I switch on, and is it even enough?',
     answer: 'A calm first hour, the words that keep them telling you, and a plan for the week after.',
     proof: ['Setting checklists per screen', 'What to say the night it happens'],
-    methods: ['script','digi','moment','checkin'],
+    how: [
+      { id: 'script', line: 'What to say tonight, so they keep telling you.' },
+      { id: 'digi', line: 'The first hour, step by step, including when to report and to whom.' },
+      { id: 'moment', line: 'Name it once, and the week after has a plan.' },
+      { id: 'checkin', line: 'Ten seconds a day tells you whether they are settling.' },
+    ],
   },
 }

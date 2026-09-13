@@ -111,6 +111,29 @@ if (!/happy\?: HappyIconName/.test(fold)) {
 if (dashes.length) fails.push(`A dash in a fold row: ${dashes.join(', ')}`)
 else ok.push('no dash in any fold row')
 
+// ── The how rows: the problem, then what we do about it, every time ────────
+//
+// Justin, 13 September 2026: "it shows the problem and what we do each time
+// to fix it." Every worry answer carries four rows, each a real part of the
+// product with one line written for that worry. A worry with no rows is a
+// card that names a problem and goes quiet.
+const proof = code(readFileSync('lib/content/proof.ts', 'utf8'))
+const methodIds = (code(readFileSync('components/starter/MethodIcon.tsx', 'utf8')).match(/export type MethodId =([^\n]*\n(?:\s*\|[^\n]*\n)*)/)?.[1].match(/'([a-z]+)'/g) ?? []).map(x => x.replace(/'/g, ''))
+const answers = [...proof.matchAll(/^  ([a-z_]+): \{\n([\s\S]*?)\n  \},/gm)]
+if (answers.length < 9) fails.push(`Expected the nine worry answers in lib/content/proof.ts, found ${answers.length}.`)
+let rowsOk = true
+for (const [, id, body] of answers) {
+  const rows = [...body.matchAll(/\{ id: '([a-z]+)', line: (?:'([^']*)'|`([^`]*)`) \}/g)]
+  if (rows.length < 3) { fails.push(`${id} has ${rows.length} how rows. Every worry needs the parts that fix it, one line each.`); rowsOk = false }
+  for (const [, mid, l1, l2] of rows) {
+    const line = l1 ?? l2 ?? ''
+    if (!methodIds.includes(mid)) { fails.push(`${id} names a part of the product that does not exist: ${mid}`); rowsOk = false }
+    if (/[-–—]/.test(line)) { fails.push(`A dash in a how line on ${id}: "${line}"`); rowsOk = false }
+    if (line.split(' ').length > 16) { fails.push(`A how line on ${id} runs past sixteen words, which is three lines on a phone: "${line}"`); rowsOk = false }
+  }
+}
+if (rowsOk && answers.length >= 9) ok.push('every worry says what we do about it, each time, in one line per part')
+
 for (const line of ok) console.log(`PASS  ${line}`)
 for (const line of fails) console.log(`FAIL  ${line}`)
 console.log(fails.length ? `\n${fails.length} failed` : '\nall passed')

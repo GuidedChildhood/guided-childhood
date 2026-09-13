@@ -410,7 +410,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
             {/* Eight things named in prose, when every card below draws the
                 ones that pick up THAT worry as chips a parent can see at a
                 glance. A list you have to hold in your head to use it. */}
-            Every worry below is picked up by the same few things, drawn on each card.
+            Each card names the problem, then the four things we do about it, every time.
           </p>
 
           {/* The roll call, in butter rather than the old black card. */}

@@ -14429,3 +14429,44 @@ did. Four of these five were false alarms. The live schema is the only thing tha
 answers the question, so the check is now: diff the repo's files against the
 ledger to get candidates, then probe each candidate against the database for its
 actual effect. The ledger narrows the search; it never decides.
+
+## 13 September 2026, later: every worry card says what we do about it, each time
+
+Justin, with the Coming off screens card on his phone: "should we say how we
+help with combinations of scripts, lessons and their app to gain balance,
+family agreements and DiGi that is built to advise based on their check ins,
+so it shows the problem and what we do each time to fix it."
+
+**The chips became rows.** Under each worry the card drew four bare chips
+(Device time, Scripts, Their app, Daily check in). A chip is a category, so a
+parent still had to guess what Scripts did for their six o'clock. Now each
+part is a row: the drawing, its name, and one line written for THAT worry,
+under a What we do, each time label. `lib/content/proof.ts` carries the lines
+as `how` on every answer; `methods` is gone and so is `MethodRow`.
+
+**The 9 September rule still holds.** The method, never an example of a
+script, because scripts are written per pathway and a pathway is a bucket
+several worries share. Every line names a part of the product that exists
+and is the proof path for the claim it makes.
+
+**Held in CI.** `scripts/check-starter-fold.mjs` now also checks every worry
+answer has at least three rows, every row names a real part of the product,
+no line carries a dash, and no line runs past sixteen words, which is three
+lines on a phone. Mutation tested.
+
+## 13 September 2026, later still: What you get is one list, not a grid
+
+Justin, with the two up tile grid on his phone: "maybe in the starter page we
+don't need this detail, just a simple list in happy news style, copy ideas of
+the first intro page of the best performing platforms applied to what we
+have."
+
+**One card, eight rows.** MacroFactor's What you get, Structured's plan and
+Klarna's benefits all draw it the same way: one column, the icon, a bold
+line, one short line, a hairline between rows, nothing to open. So the tiles,
+their chevrons and the paragraph behind each one went. The two beliefs that
+opened the grid (Not another blocking app, We have got you) went too, because
+the How it works section already says both as its heading and its lead.
+
+The lines are reminders, not the argument: the worry cards above carry the
+argument, one line per part, for the worries a parent actually ticked.
