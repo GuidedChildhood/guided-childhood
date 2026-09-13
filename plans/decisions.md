@@ -14429,3 +14429,27 @@ did. Four of these five were false alarms. The live schema is the only thing tha
 answers the question, so the check is now: diff the repo's files against the
 ledger to get candidates, then probe each candidate against the database for its
 actual effect. The ledger narrows the search; it never decides.
+
+## 13 September 2026, later: every worry card says what we do about it, each time
+
+Justin, with the Coming off screens card on his phone: "should we say how we
+help with combinations of scripts, lessons and their app to gain balance,
+family agreements and DiGi that is built to advise based on their check ins,
+so it shows the problem and what we do each time to fix it."
+
+**The chips became rows.** Under each worry the card drew four bare chips
+(Device time, Scripts, Their app, Daily check in). A chip is a category, so a
+parent still had to guess what Scripts did for their six o'clock. Now each
+part is a row: the drawing, its name, and one line written for THAT worry,
+under a What we do, each time label. `lib/content/proof.ts` carries the lines
+as `how` on every answer; `methods` is gone and so is `MethodRow`.
+
+**The 9 September rule still holds.** The method, never an example of a
+script, because scripts are written per pathway and a pathway is a bucket
+several worries share. Every line names a part of the product that exists
+and is the proof path for the claim it makes.
+
+**Held in CI.** `scripts/check-starter-fold.mjs` now also checks every worry
+answer has at least three rows, every row names a real part of the product,
+no line carries a dash, and no line runs past sixteen words, which is three
+lines on a phone. Mutation tested.

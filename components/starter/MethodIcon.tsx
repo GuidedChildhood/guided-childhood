@@ -138,29 +138,3 @@ export default function MethodIcon({ id, size = 22 }: { id: MethodId; size?: num
       )
   }
 }
-
-/** The method row: what picks this worry up, drawn, no sentences. */
-export function MethodRow({ ids }: { ids: MethodId[] }) {
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 13 }}>
-      {ids.map(id => (
-        <span key={id} style={{
-          display: 'inline-flex', alignItems: 'center', gap: 7,
-          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
-          padding: '5px 12px 5px 6px',
-          fontFamily: 'var(--font-display)', fontWeight: 800,
-          fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.2,
-        }}>
-          <span aria-hidden style={{
-            width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
-            background: METHOD[id].tint, border: 'var(--edge)', boxSizing: 'border-box',
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <MethodIcon id={id} size={17} />
-          </span>
-          {METHOD[id].label}
-        </span>
-      ))}
-    </div>
-  )
-}
