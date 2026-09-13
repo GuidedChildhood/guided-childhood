@@ -84,7 +84,7 @@ export default function StageSlots({
         const started = sec.pct > 0 && !done
         const inner = (
           <>
-            <span style={{ position: 'relative', width: 48, height: 48, display: 'block', margin: '0 auto' }}>
+            <span className="gc-pp-slot" style={{ position: 'relative', width: 48, height: 48, display: 'block', margin: '0 auto' }}>
               {/* The mark itself. Filled for a job that finishes, a ring for a
                   habit that is kept up, a dashed ghost for anything not there
                   yet. */}

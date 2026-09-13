@@ -1,13 +1,16 @@
 'use client'
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import { flushSync } from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
+import { gsap } from 'gsap'
 import type { Stamp, StampStatus } from './PassportStamps'
 import { characterForStage, STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import StageSlots from './StageSlots'
 import StageChildStrip from './StageChildStrip'
 import StageAreas from './StageAreas'
+import PassportPass from './PassportPass'
 import { improvedSentence, type ImprovedLine } from '@/lib/concerns/sorted'
 
 // The passport as a little book. A teal cover with the gold crest, then
@@ -81,6 +84,7 @@ export default function PassportBook({
   onApp = false,
   readOnly = false,
   improved = null,
+  childParam = null,
 }: {
   stamps: Stamp[]
   childName: string
@@ -148,25 +152,38 @@ export default function PassportBook({
    * note about the child. scripts/check-passport-readonly.mjs holds both.
    */
   improved?: ImprovedLine | null
+  /** The selected child, carried on every link out of the pass rows so working
+   *  a sibling's page never silently switches whose data the next screen shows. */
+  childParam?: string | null
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
   // Justin asked for, so the cover is a real front door. Unless a caller has
   // named a stage, in which case the front door has already been walked
   // through somewhere else.
+  //
+  // openAtStage no longer STARTS the book open. It starts on the cover like
+  // every other visit and FLIPS itself open a moment after paint, so a parent
+  // who was told "see your passport fill" watches the book open on the page
+  // that moved rather than landing mid checklist. Justin, 13 September 2026:
+  // the passport should flip in when attention is needed. Reduced motion
+  // lands on the page directly.
   const openIndex = openAtStage
     ? Math.max(0, stamps.findIndex(s => s.id === openAtStage)) + 1
     : 0
-  const [page, setPage] = useState(openIndex)
+  const [page, setPage] = useState(0)
   const [flipping, setFlipping] = useState<'next' | 'prev' | null>(null)
-  const [drawn, setDrawn] = useState(false)
   const [celebrating, setCelebrating] = useState<Stamp | null>(null)
   // A page was stamped THIS visit and the seal has been dismissed. The one
   // moment the printed booklet is worth mentioning in words rather than
   // leaving to the mark in the corner of the book.
   const [justStamped, setJustStamped] = useState(false)
-  const pending = useRef<number | null>(null)
   const bookRef = useRef<HTMLDivElement>(null)
+  // The page that turns, and the shade that darkens it as it turns to the
+  // spine. Both driven by GSAP (house rule), never by a CSS transition racing
+  // a React state swap.
+  const pageRef = useRef<HTMLDivElement>(null)
+  const shadeRef = useRef<HTMLDivElement>(null)
 
   // ── PICK THE BOOK UP AND LOOK AT IT ────────────────────────────────────
   //
@@ -218,11 +235,17 @@ export default function PassportBook({
   const catchUps = stamps.filter(s => s.status === 'catchup')
   const theirStage = currentStage ? stamps.find(s => s.id === currentStage) ?? null : null
 
-  // Draw the rings in shortly after mount. No auto flip: the cover stays put.
+  // ── THE BOOK FLIPS ITSELF OPEN, WHEN ASKED ─────────────────────────────
+  //
+  // Only when a caller named a stage (the peek on Today, the lesson player's
+  // "see your passport fill", the check). A plain visit rests on the cover.
   useEffect(() => {
-    const draw = setTimeout(() => setDrawn(true), 300)
-    return () => clearTimeout(draw)
-  }, [])
+    if (!openIndex) return
+    if (reduceMotion()) { setPage(openIndex); return }
+    const t = setTimeout(() => goTo(openIndex), 650)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openIndex])
 
   // Real success when a page is newly stamped. We remember which earned pages
   // the family has already celebrated, so the first time a page crosses to
@@ -253,9 +276,66 @@ export default function PassportBook({
     // opens the book. See PathwayIntro: this is what retires it, rather than a
     // timer taking words off the screen while a parent is still reading them.
     try { window.dispatchEvent(new CustomEvent('gc:passport-opened')) } catch { /* SSR */ }
-    pending.current = target
-    setFlipping(target > page ? 'next' : 'prev')
+
+    // ── THE PAGE TURN ────────────────────────────────────────────────────
+    //
+    // It was a CSS transition to 88 degrees with ease in, a timer, a state
+    // swap, and the same ease in on the way back, which is a page that slams
+    // shut and slams open. A real page ACCELERATES to the spine and SETTLES
+    // out of it: power2.in on the way in, power2.out on the way out, and the
+    // paper darkens as it turns edge on. The swap happens at the spine, in a
+    // flushSync so the new page is in the DOM before the first frame of the
+    // way out.
+    const el = pageRef.current
+    if (!el || reduceMotion()) { setPage(target); return }
+    const dir = target > page ? 'next' : 'prev'
+    const sign = dir === 'next' ? -1 : 1
+    setFlipping(dir)
+    const shade = shadeRef.current
+    const tl = gsap.timeline({
+      onComplete: () => {
+        gsap.set(el, { clearProps: 'transform' })
+        setFlipping(null)
+      },
+    })
+    // set() at the spine rather than fromTo(): a fromTo later in a timeline
+    // still renders its from value the moment the timeline is built, which
+    // put the page at plus ninety before the first tween had started and
+    // turned the whole thing into a 180 degree swing through the wrong face.
+    // Caught by sampling the inline transform frame by frame, 13 September.
+    tl.to(el, { rotateY: sign * 90, duration: 0.26, ease: 'power2.in' })
+    if (shade) tl.to(shade, { opacity: 0.32, duration: 0.26, ease: 'power2.in' }, 0)
+    tl.add(() => { flushSync(() => setPage(target)) })
+    tl.set(el, { rotateY: -sign * 90 })
+    tl.to(el, { rotateY: 0, duration: 0.38, ease: 'power2.out' })
+    if (shade) tl.to(shade, { opacity: 0, duration: 0.38, ease: 'power2.out' }, '<')
   }
+
+  // ── WHAT HAPPENS WHEN A PAGE LANDS ───────────────────────────────────
+  //
+  // Every page used to draw its ring once, at mount, so flipping to a new page
+  // showed it already full: the reading was there and the MOVEMENT, which is
+  // the part that says "this is filling", was not. Now each page arrives in
+  // order: the blocks fade up, the ring draws, the bars fill, the five slots
+  // pop. Under half a second all told, and it steps aside entirely for a
+  // reader who asked their phone to stop moving things. Without script the
+  // page is simply already complete: every from() tweens TO the rendered
+  // state, so nothing is ever hidden by CSS.
+  useLayoutEffect(() => {
+    const el = pageRef.current
+    if (!el || page === 0 || reduceMotion()) return
+    const ctx = gsap.context(() => {
+      const blocks = el.querySelectorAll('.gc-pp-in')
+      if (blocks.length) gsap.from(blocks, { opacity: 0, y: 10, duration: 0.45, ease: 'power2.out', delay: 0.1, stagger: 0.07, clearProps: 'opacity,transform' })
+      const ring = el.querySelector('.gc-pp-ring')
+      if (ring) gsap.from(ring, { strokeDashoffset: C, duration: 1.1, ease: 'power3.out', delay: 0.25 })
+      const bars = el.querySelectorAll('.gc-pp-bar')
+      if (bars.length) gsap.from(bars, { scaleX: 0, transformOrigin: 'left center', duration: 0.9, ease: 'power3.out', delay: 0.35, stagger: 0.05, clearProps: 'transform' })
+      const slots = el.querySelectorAll('.gc-pp-slot')
+      if (slots.length) gsap.from(slots, { scale: 0.6, opacity: 0, duration: 0.5, ease: 'back.out(1.8)', delay: 0.4, stagger: 0.06, clearProps: 'opacity,transform' })
+    }, el)
+    return () => ctx.revert()
+  }, [page])
 
   /**
    * Turn to a page from a control that sits BELOW the book.
@@ -268,17 +348,6 @@ export default function PassportBook({
     goTo(target)
     bookRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
-
-  // The flip is two halves: rotate to the spine, swap the page, rotate out.
-  useEffect(() => {
-    if (!flipping) return
-    const t = setTimeout(() => {
-      if (pending.current !== null) setPage(pending.current)
-      pending.current = null
-      setFlipping(null)
-    }, 280)
-    return () => clearTimeout(t)
-  }, [flipping])
 
   const stamp = page >= 1 ? stamps[page - 1] : null
   const theme = stamp ? STAGE_THEME[stamp.id] ?? STAGE_THEME[1] : null
@@ -366,16 +435,22 @@ export default function PassportBook({
             </span>
           </div>
         <div
+          ref={pageRef}
           style={{
             position: 'relative',
             borderRadius: 'var(--radius-card)',
             transformStyle: 'preserve-3d',
             transformOrigin: 'left center',
-            transform: flipping === 'next' ? 'rotateY(-88deg)' : flipping === 'prev' ? 'rotateY(88deg)' : 'rotateY(0deg)',
-            transition: 'transform 0.28s ease-in',
             boxShadow: 'var(--lift)',
           }}
         >
+          {/* The shade: the paper darkening as the page turns edge on. Above
+              the page content, below nothing that needs a tap, and invisible
+              between turns. */}
+          <div ref={shadeRef} aria-hidden style={{
+            position: 'absolute', inset: 0, borderRadius: 'var(--radius-card)',
+            background: 'var(--ink)', opacity: 0, pointerEvents: 'none', zIndex: 6,
+          }} />
           {page === 0 ? (
             /* ── The cover ─────────────────────────────── */
             /* The cover reads like a real passport: burgundy book, gold
@@ -534,7 +609,7 @@ export default function PassportBook({
               <div onClick={() => goTo(page - 1)} aria-hidden style={{ position: 'absolute', inset: '0 50% 0 0', cursor: 'pointer', zIndex: 2 }} />
               <div onClick={() => page < lastPage && goTo(page + 1)} aria-hidden style={{ position: 'absolute', inset: '0 0 0 50%', cursor: page < lastPage ? 'pointer' : 'default', zIndex: 2 }} />
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+              <div className="gc-pp-in" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                 {/* "Digital Passport · Stage 3" no longer fits on one line.
                     In the hero the book sits in a 300px column on a desk, which
                     left 256px of page for a 26 character letterspaced line, so
@@ -551,13 +626,13 @@ export default function PassportBook({
               </div>
 
               {/* The circle that fills as the stage completes */}
-              <div style={{ position: 'relative', width: 128, height: 128, margin: '4px auto 12px' }}>
+              <div className="gc-pp-in" style={{ position: 'relative', width: 128, height: 128, margin: '4px auto 12px' }}>
                 <svg width="128" height="128" viewBox="0 0 128 128" style={{ transform: 'rotate(-90deg)' }} aria-hidden>
                   <circle cx="64" cy="64" r={R} fill="none" stroke="rgba(26,26,46,0.10)" strokeWidth="9" />
                   <circle
+                    className="gc-pp-ring"
                     cx="64" cy="64" r={R} fill="none" stroke={theme.bold} strokeWidth="9" strokeLinecap="round"
-                    strokeDasharray={C} strokeDashoffset={C * (1 - Math.min(drawn ? stamp.pct : 0, 100) / 100)}
-                    style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.22,1,0.36,1)' }}
+                    strokeDasharray={C} strokeDashoffset={C * (1 - Math.min(stamp.pct, 100) / 100)}
                   />
                 </svg>
                 <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -631,11 +706,15 @@ export default function PassportBook({
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   letterSpacing: '0.08em', textTransform: 'uppercase', color: theme.text, opacity: 0.75,
                 }}>
-                  {stamp.sections.filter(x => x.pct >= 100).length} of {stamp.sections.length} done at this stage
+                  {/* Named, because the pass block below carries its own
+                      "0 of 3" and two bare counts under one ring read as a
+                      contradiction. This one is the work; that one is the
+                      pass. */}
+                  Work at this stage: {stamp.sections.filter(x => x.pct >= 100).length} of {stamp.sections.length} done
                 </p>
               )}
 
-              <div style={{ textAlign: 'center', marginBottom: '14px' }}>
+              <div className="gc-pp-in" style={{ textAlign: 'center', marginBottom: '14px' }}>
                 {friend && (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '9px' }}>
                     <span style={{
@@ -664,8 +743,27 @@ export default function PassportBook({
                   FOR, and until 13 September 2026 it lived in a card further
                   down the page and never on the passport. Counts only, so
                   the child's read only book draws it too. */}
+              {/* ── A PASS ON THIS PAGE ──────────────────────────────────
+                  The rule that stamps the page (lib/pathway/stamped.ts), in
+                  three rows with a count and a link each, and one sentence
+                  that says what catching up or waiting means. Justin,
+                  13 September 2026: "linked in each page how to achieve a
+                  pass", "jumping in at any age easily catch up able". */}
+              <PassportPass
+                stamp={stamp}
+                ink={theme.text}
+                tint={theme.bg}
+                bold={theme.bold}
+                readOnly={readOnly}
+                childParam={childParam}
+                childName={childName}
+                catchupLine={catchupLines?.[stamp.id] ?? null}
+              />
+
               {stamp.areas && stamp.areas.length > 0 && (
-                <StageAreas areas={stamp.areas} stageId={stamp.id} ink={theme.text} tint={theme.bg} />
+                <div className="gc-pp-in">
+                  <StageAreas areas={stamp.areas} stageId={stamp.id} ink={theme.text} tint={theme.bg} />
+                </div>
               )}
 
               {/* To stamp this page: the plain checklist of what completes the
@@ -677,13 +775,17 @@ export default function PassportBook({
                   exact thing that fills it: the stage lessons, the scripts, the
                   device setup, the daily habit. Nobody is left guessing the
                   next step. */}
-              <div style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
+              <div className="gc-pp-in" style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
                   {/* "tap any one to do it" described the five link rows.
                       There are five slots now and the sentence wrapped to two
                       lines on a phone saying something the slots already say by
                       being tappable. */}
-                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page'}
+                  {/* "To stamp this page" was the heading, and these five
+                      are not what stamps it: the pass block above is. They
+                      are the work of the stage, kept up while the three parts
+                      of the pass get done. */}
+                  {stamp.status === 'earned' ? 'The work of this stage, done' : 'The work of this stage'}
                 </div>
                 {stamp.sections && stamp.sections.length > 0 ? (
                   (() => {
@@ -776,9 +878,7 @@ export default function PassportBook({
                           <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: DONE, lineHeight: 1.45, margin: '13px 0 0', textAlign: 'center' }}>
                             {stamp.status === 'earned'
                               ? 'All five, done. This page is stamped.'
-                              : (stamp.scriptsPct ?? 100) < 100
-                                ? 'All five, done. The scripts for this stage are still open, and they stamp the page with the check.'
-                                : 'All five, done. The end of stage check is the last thing between this page and its stamp.'}
+                              : 'All five, done. The pass above is what stamps the page.'}
                           </p>
                         )}
 
@@ -905,7 +1005,10 @@ export default function PassportBook({
                     borderRadius: 'var(--radius-tile)', padding: '10px 14px',
                   }}
                 >
-                  {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
+                  {stamp.status === 'earned' ? 'Look back at this stage'
+                    : stamp.status === 'catchup' ? 'Catch this page up →'
+                    : stamp.status === 'upcoming' ? 'Peek at what it teaches →'
+                    : 'Start the next step →'}
                 </Link>
                 )}
               </div>

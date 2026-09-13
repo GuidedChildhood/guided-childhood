@@ -133,6 +133,11 @@ jobs:
       # modules included, and start at one declared age each. See the header
       # of check-readiness-areas.mjs.
       - run: node --experimental-strip-types scripts/check-readiness-areas.mjs
+      # Every passport page prints what a pass IS (lessons, scripts, the
+      # child's check) with the links, the peek on Today flips in for one
+      # reason or not at all, and the page turn is GSAP with a way out for
+      # reduced motion. See the header of check-passport-pass.mjs.
+      - run: node --experimental-strip-types scripts/check-passport-pass.mjs
       # The daily sticker pays once, on the day's own row, in the same write
       # that lands the day. Split it into a second write and a failed one
       # leaves a finished day with no sticker and nothing to reconcile it.

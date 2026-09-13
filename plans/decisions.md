@@ -14129,3 +14129,46 @@ publish, the fan out kind). Both mutation tested, both in CI.
 watch have not been run against the model. The first real step in and the
 first Monday watch are the proof, and the quiet rows will say how often DiGi
 chose silence.
+
+## 13 September 2026, later: a pass on every passport page, the book turns on GSAP, the peek on Today
+
+Justin: the pages must "make complete sense of what is being achieved", each
+"linked how to achieve a pass", motion "top level standard", the book flipping
+"in and out when a passport attention is needed", and a family "jumping in at
+any age easily catch up able". PR 1059.
+
+**A pass is printed on every page.** The rule that stamps a page has been
+lib/pathway/stamped.ts since 2 September (every lesson, every script, the
+child's check), and two of those three were never on the page. Now every page
+carries the three as rows with a count and a link each
+(lib/pathway/passport-pass.ts, PassportPass). The check row links to the check
+page for ITS stage, which already accepts an earlier stage, so a family
+joining late can sit the Foundation check from the Foundation page.
+
+**What catching up means, in one sentence.** Moments, jobs and balance are
+readings about today and belong to the current page. A page behind now says
+so: catching it up is the lessons, the scripts and the check, and the habits
+are kept up on the page the child is on, never twice. A page ahead says the
+age it opens at. Nothing expires; nothing here is a deadline.
+
+**The five slots are "The work of this stage".** They were headed "To stamp
+this page" and they are not what stamps it.
+
+**Motion is GSAP, in the book.** The page turn is a timeline (in on
+power2.in, the paper shading edge on, the swap at the spine in a flushSync,
+out on power2.out); each page arrives in order (blocks, ring, bars, slots).
+Reduced motion lands on the page. `openAtStage` flips the book open after
+paint rather than starting open, so "see your passport fill" is watched.
+
+**The passport flips in for one reason or not at all.**
+lib/pathway/passport-attention.ts: a page ready for its check, pages behind,
+a few left, in that order; nothing before the first check in. Read by
+GET /api/pathway/attention after Today has painted; PassportPeek turns a small
+book in with the reason and out on Not now for the day. The rotating "Open
+the passport" card stays as the reasonless door on other days.
+
+**The child's book stamps by the one rule.** app/k/[token] used a percentage;
+it reads isStageStamped now, which the audit of 2 September asked for.
+
+**Guard.** scripts/check-passport-pass.mjs, six rules, A and B run the real
+code, eight mutations caught, in CI.

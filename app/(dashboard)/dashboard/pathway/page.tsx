@@ -85,11 +85,15 @@ import MarkPassportLook from '@/components/daily/MarkPassportLook'
 // the system is the birthday that ends the stage.
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null; date_of_birth: string | null; passport_code: string | null }
 
-export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string; passportday?: string }> }) {
+export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string; passportday?: string; open?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
-  const { child: childParam, from, passportday } = await searchParams
+  const { child: childParam, from, passportday, open } = await searchParams
+  // ?open=N flips the book open on that page after paint: the peek on Today
+  // and anything else that has already told the parent which page moved.
+  const openAt = Number(open)
+  const openAtStage = Number.isInteger(openAt) && openAt >= 1 && openAt <= 5 ? openAt : null
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
@@ -266,6 +270,10 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
           scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
           devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
+          // The three parts of a pass, for the block on the page. The check
+          // is this child's own (getPassedStageQuizzes is scoped to them).
+          scriptsDone: prog.scriptsDone, scriptsTotal: prog.scriptsTotal,
+          checkPassed: passedStages.has(s.id),
           // Every row's link out carries the child, so working a sibling's
           // page never silently switches whose data the next screen shows.
           ...(sections ? { sections: sections.sections.map(row => ({ ...row, href: withChild(row.href, childParam) })) } : {}),
@@ -507,6 +515,8 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               childRead={childRead}
               improved={improved}
               onApp={!!kidLink?.token}
+              openAtStage={openAtStage}
+              childParam={childParam ?? null}
             />
             {socialRoad && socialRoad.total > 0 && primaryChild?.id && (
               <SocialRoadNova

@@ -98,10 +98,11 @@ export default function StageAreas({
                 aria-valuemax={started ? a.total : undefined}
                 style={{ height: 5, borderRadius: 'var(--radius-pill)', background: tint, border: `1px solid ${ink}`, overflow: 'hidden', marginTop: 6 }}
               >
-                <div style={{
+                {/* Filled by GSAP on page arrival (PassportBook), never by a
+                    CSS transition racing it. Without script it is simply full. */}
+                <div className="gc-pp-bar" style={{
                   height: '100%', width: `${started ? pct : 0}%`, minWidth: started && a.done > 0 ? 6 : 0,
                   background: ink, borderRadius: 'var(--radius-pill)',
-                  transition: 'width 1s cubic-bezier(0.22,1,0.36,1)',
                 }} />
               </div>
               {full && started && (
