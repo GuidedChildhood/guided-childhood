@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
+import { habitMetrics, type SessionRow } from '@/lib/home/habit-metrics'
+import { londonToday } from '@/lib/pathway/today'
 
 // Founder only. The product pulse: a de-identified aggregate read across all
 // families, so the insight board is useful from day one, not only once DiGi has
@@ -24,9 +26,10 @@ export async function GET() {
   const weekAgoDate = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10)
   const weekAgoIso = new Date(now - 7 * 86_400_000).toISOString()
   const monthAgoIso = new Date(now - 30 * 86_400_000).toISOString()
+  const sixtyDaysAgoDate = new Date(now - 60 * 86_400_000).toISOString().slice(0, 10)
 
   try {
-    const [childrenRes, questsRes, ticksRes, spendsRes, wellbeingRes, kidLinksRes, sessionsRes] = await Promise.all([
+    const [childrenRes, questsRes, ticksRes, spendsRes, wellbeingRes, kidLinksRes, sessionsRes, dayRes] = await Promise.all([
       admin.from('children').select('age_band, parent_id'),
       admin.from('family_quests').select('id', { count: 'exact', head: true }).eq('active', true),
       admin.from('quest_ticks').select('user_id, status, tick_date').gte('tick_date', weekAgoDate),
@@ -36,6 +39,9 @@ export async function GET() {
       // actually using it (ticking a job or running a screen time timer).
       admin.from('kid_links').select('user_id'),
       admin.from('device_sessions').select('user_id, started_at').gte('started_at', weekAgoIso),
+      // The habit itself: completed days, sixty days back, for day done rate,
+      // streak lengths and who came back (lib/home/habit-metrics.ts).
+      admin.from('daily_sessions').select('user_id, session_date').gte('session_date', sixtyDaysAgoDate).not('completed_at', 'is', null),
     ])
 
     const kids = childrenRes.data ?? []
@@ -83,6 +89,7 @@ export async function GET() {
       childActive7d: childActive.size,
       wellbeingCheckins30d: wb.length,
       avgParentMood,
+      habit: habitMetrics((dayRes.data ?? []) as SessionRow[], londonToday()),
     })
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Pulse failed' }, { status: 502 })

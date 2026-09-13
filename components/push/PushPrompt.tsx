@@ -634,8 +634,53 @@ export default function PushPrompt({ userId, stage }: Props) {
 const SLOT_OPTIONS = [
   { key: 'morning', label: 'Morning 7:30am' },
   { key: 'afternoon', label: 'After school 3:30pm' },
-  { key: 'evening', label: 'Evening 9pm' },
+  // The evening is at the parent's own time since 13 September 2026: chosen
+  // below, or learned from when they usually finish, or 9pm.
+  { key: 'evening', label: 'Evening, your time' },
 ] as const
+
+// Half hours a parent can pick for the evening reminder, 5pm to 10pm. The
+// empty value lets it learn: an hour after when they usually finish their
+// day (lib/push/evening.ts).
+const REMINDER_TIMES: { value: string; label: string }[] = [
+  { value: '', label: 'When I usually finish (learned)' },
+  ...Array.from({ length: 11 }, (_, i) => {
+    const m = 17 * 60 + i * 30
+    const h = Math.floor(m / 60), mm = m % 60
+    const twelve = h > 12 ? h - 12 : h
+    return { value: String(m), label: `${twelve}${mm ? ':30' : ''}pm` }
+  }),
+]
+
+function ReminderTime() {
+  const [minutes, setMinutes] = useState<string>('')
+  useEffect(() => {
+    fetch('/api/push/reminder-time')
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (d && d.minutes != null) setMinutes(String(d.minutes)) })
+      .catch(() => null)
+  }, [])
+  function pick(v: string) {
+    setMinutes(v)
+    fetch('/api/push/reminder-time', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ minutes: v === '' ? null : Number(v) }),
+    }).catch(() => null)
+  }
+  return (
+    <label style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 10, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}>
+      Evening reminder
+      <select
+        value={minutes}
+        onChange={e => pick(e.target.value)}
+        style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '8px 10px', minHeight: 40 }}
+      >
+        {REMINDER_TIMES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+      </select>
+    </label>
+  )
+}
 
 function NudgeSlots() {
   const [slots, setSlots] = useState<string[]>(['morning', 'afternoon', 'evening'])
@@ -683,6 +728,7 @@ function NudgeSlots() {
           </button>
         )
       })}
+      {slots.includes('evening') && <ReminderTime />}
     </div>
   )
 }

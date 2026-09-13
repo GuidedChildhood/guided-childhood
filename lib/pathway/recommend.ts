@@ -5,6 +5,8 @@ import type { ChallengeId } from '@/lib/content/stages'
 import type { StageId } from './progress'
 import { chooseScript, eligibleScripts, rankScripts, scoreScript } from './recommend-pick'
 import { dipsFrom, type WellbeingCheck } from './checkin-dips'
+import { bandIssueCategories } from '@/lib/content/device-issues'
+import type { AgeBand } from '@/lib/content/stages'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -16,7 +18,7 @@ export interface RecommendedScript {
   matchesChallenge: boolean
   /** Why this one, in words a parent can check against their own life. Null when nothing but stage order chose it. */
   reason: string | null
-  reasonKey: 'concern' | 'dip' | 'device' | 'challenge' | 'returning' | 'opened' | null
+  reasonKey: 'concern' | 'dip' | 'device' | 'challenge' | 'age' | 'returning' | 'opened' | null
 }
 
 // The single best next script for this family.
@@ -74,6 +76,10 @@ type ScriptSignals = {
 // Everything the recommender knows about this family, gathered once. Shared
 // by the single pick below and the top five (getTopScripts), so the two can
 // never rank the same day from different evidence.
+const STAGE_TO_BAND: Record<StageId, AgeBand> = {
+  foundation: '4-7', builder: '8-10', explorer: '11-13', shaper: '13-15', independent: '16+',
+}
+
 async function gatherSignals(
   supabase: SupabaseClient,
   userId: string,
@@ -280,6 +286,18 @@ async function gatherSignals(
   // 4. The signup answer.
   const challengeCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] ?? null : null
   offer(challengeCategory, 25, 'Matches what you told us at the start', 'challenge')
+  // ── 5. WHAT THIS AGE BRINGS, weakest of all (13 September 2026) ──────────
+  //
+  // The bank of device issues by age (lib/content/device-issues.ts), ranked
+  // by how often parents raise them at this age. A family that has flagged
+  // nothing, dipped nowhere and listed no devices used to fall through to
+  // plain sort order; now the script for the problem their child's age
+  // actually brings steps forward, and the reason says so. Below the signup
+  // answer, because a thing this family said beats a thing families in
+  // general say.
+  for (const { category, issue } of bandIssueCategories(STAGE_TO_BAND[stageId]).slice(0, 4)) {
+    offer(category, 10, `Because it is the thing their age brings most: ${issue.name.toLowerCase()}`, 'age')
+  }
 
   const scoreOf = (category: string | null) => (category ? byCategory.get(category)?.score ?? 0 : 0)
 

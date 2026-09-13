@@ -14180,3 +14180,53 @@ map (lib/pathway/passport-icons.ts), the warning and the clock sit on ink
 edged plates, the shop link wears the passport icon, every to do row edge is
 ink with the first row in butter, and no ledge sits inside a card that
 carries one. Guard rule G holds the icons.
+
+
+## 13 September 2026, evening: the daily loop solves the top device problems by age, and the habit holds a Duolingo grade
+
+Justin: "make the daily loop work and really provide success help for
+parents, and DiGi can answer and provide solutions for each device related
+issue. Research by age the top proven common issues, all solved in our
+service and prevented. Use top agents to make sure we have Duolingo habit
+forming for parents, and do not stop until that works." PR 1061,
+migration 298.
+
+**The bank.** `lib/content/device-issues.ts`: 39 issues across the five
+bands, ranked per band by how often parents raise them, from the verified
+ten problems briefing (9 September) and a by age sweep (Ofcom 2026, Common
+Sense, Internet Matters, Pew, NSPCC, the Children's Commissioner, Hiniker,
+Radesky, Fitzpatrick, McDaniel, Mumsnet titles). Each: the parent's words,
+the mechanism, the response as a pathway (never a rule, never a
+confiscation), what prevents it a stage earlier, the source, and the proof
+path: exact script titles that exist in the seeds, the concern slug, the
+mechanic, the link. One gap stays written (meal windows not family
+editable) and it is never in a band's top three.
+
+**Three readers.** DiGi infers the issue from the message and the band and
+gets the pathway with real script links in its context, ungated by the lane.
+Home shows the fix of the week: the first issue for the band this family has
+not acted on, with its script, never re offered once read or used, rotating
+as kept up when all are done. The recommender gains the band's issues as its
+weakest signal, so a quiet family still gets the script for what their
+child's age brings.
+
+**Four scripts for the gaps, migration 298.** Bored is where it starts (4 to
+7); the visible ending for the child who finds stopping hardest (8 to 10,
+the SEN lens the briefing named as missing); when you are frightened of your
+own child (11 to 13, with Family Lives named); the pornography conversation,
+before and after (13 to 15). Every one is an issue's proof path and the
+guard refuses a title that drifts.
+
+**The habit.** An agent audited the loop against Duolingo's published
+playbook. Built: the evening reminder is per parent, at their time (chosen
+in Settings, learned as an hour after when they usually finish from
+daily_sessions.completed_at, or 21:00), and only says the day is open when
+it is, with the streak named and never a word of loss; the perfect week and
+the milestones (7, 14, 30, 50, 100) named on the day done screen and in the
+week's roundup; the habit measured on the product pulse (day done rate,
+came back a week later, streak buckets). Left alone on purpose: no freeze
+to buy, no leagues, no guilt copy, no child buzzed at night, the comeback
+card still never mentions the gap.
+
+**Guards.** `check-device-issues.mjs` and `check-habit-loop.mjs`, both
+running the real code, nine mutations caught between them, in CI.

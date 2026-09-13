@@ -3,6 +3,10 @@ import { londonNow } from '@/lib/time/london'
 import { isSchoolDay } from '@/lib/quests/job-time'
 import { NextRequest, NextResponse } from 'next/server'
 import { sendPush } from '@/lib/push/send'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { getDailyStreak } from '@/lib/pathway/streak'
+import { londonToday, londonDayStart } from '@/lib/pathway/today'
+import { dueNow, eveningLine, reminderTargetMinutes, ukMinutesOf, REMINDER_EARLIEST, REMINDER_LATEST, DUE_WINDOW } from '@/lib/push/evening'
 
 // Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
 // schedules are fixed UTC, but the promise shown in Settings is a UK
@@ -38,13 +42,89 @@ const CHECK_INS = [
       body: 'The long middle of the day is one of the hardest moments for screens. Your stage guide has the structure.',
     },
   },
-  {
-    slot: 'evening',
-    hour: 21, minute: 0,
-    title: 'Evening wind down',
-    body: 'Bedtime and the phone, how did it go? Log the moment and DiGi will help you prepare for tomorrow.',
-  },
+  // The evening slot is no longer here. It is per parent, at their time, and
+  // only says "your day is still open" when it is: runEveningPass below.
 ]
+
+function addDays(iso: string, n: number): string {
+  const d = new Date(`${iso}T00:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + n)
+  return d.toISOString().slice(0, 10)
+}
+
+// ── THE EVENING, PER PARENT ─────────────────────────────────────────────────
+//
+// Justin, 13 September 2026: a Duolingo grade habit. The 21:00 push was one
+// message to everyone, and it never looked at the day. Now, on every half
+// hourly run through the evening, each parent subscribed to the evening slot
+// is reminded at THEIR target (chosen in Settings, learned from when they
+// usually finish, or 21:00), and the words depend on whether today is done:
+// a finished day gets the wind down it always got, an open day gets the one
+// tap that keeps the streak going. Never a loss (lib/push/evening.ts).
+//
+// Reads are batched: one query per table for every evening subscriber, then
+// one streak read for each parent who is due and not done, which on any
+// given half hour is a handful.
+async function runEveningPass(nowMinutes: number) {
+  if (nowMinutes < REMINDER_EARLIEST - DUE_WINDOW || nowMinutes > REMINDER_LATEST + DUE_WINDOW) {
+    return { skipped: true, reason: 'outside the evening' }
+  }
+  const admin = createAdminClient()
+  const { data: subs } = await admin.from('push_subscriptions').select('user_id').is('child_id', null).contains('slots', ['evening'])
+  const users = [...new Set((subs ?? []).map(r => r.user_id as string).filter(Boolean))]
+  if (users.length === 0) return { sent: 0, due: 0 }
+
+  const today = londonToday()
+  const dayStart = londonDayStart()
+  const fortnightAgo = addDays(today, -14)
+  const [profilesRes, finishesRes, sessionsRes, momentsRes, ticksRes, feedbackRes, childrenRes] = await Promise.all([
+    admin.from('profiles').select('id, reminder_minutes').in('id', users),
+    admin.from('daily_sessions').select('user_id, completed_at').in('user_id', users).gte('session_date', fortnightAgo).not('completed_at', 'is', null),
+    admin.from('daily_sessions').select('user_id').in('user_id', users).eq('session_date', today).not('completed_at', 'is', null),
+    admin.from('moment_completions').select('user_id').in('user_id', users).eq('completed_on', today),
+    admin.from('quest_ticks').select('user_id').in('user_id', users).eq('status', 'approved').gte('approved_at', dayStart),
+    admin.from('digi_feedback').select('user_id').in('user_id', users).eq('feedback_date', today).not('parent_response', 'is', null),
+    admin.from('children').select('parent_id, name, is_primary').in('parent_id', users).order('is_primary', { ascending: false }),
+  ])
+  const chosen = new Map<string, number | null>()
+  for (const p of profilesRes.data ?? []) chosen.set(p.id as string, (p.reminder_minutes as number | null) ?? null)
+  const finishes = new Map<string, number[]>()
+  for (const r of finishesRes.data ?? []) {
+    const m = ukMinutesOf(r.completed_at as string)
+    if (m === null) continue
+    const u = r.user_id as string
+    if (!finishes.has(u)) finishes.set(u, [])
+    finishes.get(u)!.push(m)
+  }
+  // Done today by the same reading the streak uses (lib/pathway/streak.ts):
+  // any meaningful showing up, never one particular screen.
+  const done = new Set<string>()
+  for (const rows of [sessionsRes.data, momentsRes.data, ticksRes.data, feedbackRes.data]) {
+    for (const r of rows ?? []) if (r.user_id) done.add(r.user_id as string)
+  }
+  const childName = new Map<string, string>()
+  for (const c of childrenRes.data ?? []) {
+    const u = c.parent_id as string
+    if (!childName.has(u) && c.name) childName.set(u, c.name as string)
+  }
+
+  let due = 0, sent = 0, failed = 0, open = 0
+  for (const user of users) {
+    const target = reminderTargetMinutes(chosen.get(user) ?? null, finishes.get(user) ?? [])
+    if (!dueNow(nowMinutes, target)) continue
+    due++
+    const isDone = done.has(user)
+    if (!isDone) open++
+    // The streak read reuses the app's own function on the admin client: the
+    // same supabase-js API, a different type name.
+    const streakCount = isDone ? 0 : (await getDailyStreak(admin as unknown as Parameters<typeof getDailyStreak>[0], user)).count
+    const line = eveningLine({ done: isDone, streakCount, childName: childName.get(user) ?? null })
+    const r = await sendPush({ title: line.title, body: line.body, url: line.url, userId: user, slot: 'evening' })
+    sent += r.sent
+    failed += r.failed
+  }
+  return { due, open, sent, failed }
+}
 
 async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
@@ -70,6 +150,10 @@ async function handler(req: NextRequest) {
   const ukHour = uk.hour
   const nowMinutes = ukHour * 60 + uk.minute
 
+  // The evening pass runs on every half hour through the evening, whatever
+  // the morning and afternoon broadcasts below decide.
+  const evening = await runEveningPass(nowMinutes)
+
   const checkin = CHECK_INS.reduce((best, c) => {
     const dist = Math.abs(c.hour * 60 + c.minute - nowMinutes)
     const bestDist = Math.abs(best.hour * 60 + best.minute - nowMinutes)
@@ -78,7 +162,7 @@ async function handler(req: NextRequest) {
   const distanceMinutes = Math.abs(checkin.hour * 60 + checkin.minute - nowMinutes)
 
   if (distanceMinutes > WINDOW_MINUTES) {
-    return NextResponse.json({ skipped: true, reason: 'outside check in window', ukHour, nowMinutes })
+    return NextResponse.json({ skipped: true, reason: 'outside check in window', ukHour, nowMinutes, evening })
   }
 
   // Sent in process, so there is no host to get wrong any more.
@@ -122,7 +206,7 @@ async function handler(req: NextRequest) {
     kidResult = await sendPush({ title: kidNudge.title, body: kidNudge.body, url: '/', audience: 'kids' })
   }
 
-  return NextResponse.json({ checkin: checkin.title, ukHour, ...result, kids: kidResult })
+  return NextResponse.json({ checkin: checkin.title, ukHour, ...result, kids: kidResult, evening })
 }
 
 export const GET = withHeartbeat('/api/push/cron', handler)

@@ -74,7 +74,8 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
   const wins: { icon: HappyIconName; text: string }[] = []
   if (starsEarned > 0) wins.push({ icon: 'cheer', text: `${starsEarned} stars earned, worth ${earnedMins} minutes worked for, not just given` })
   if (s.topQuest) wins.push({ icon: 'wins', text: `${firstName} leaned into “${s.topQuest}” the most` })
-  if (activeDays >= 3) wins.push({ icon: 'calendar', text: `Showed up ${activeDays} of 7 days this week` })
+  if (activeDays >= 7) wins.push({ icon: 'calendar', text: 'A perfect week: showed up all seven days' })
+  else if (activeDays >= 3) wins.push({ icon: 'calendar', text: `Showed up ${activeDays} of 7 days this week` })
   if (momentsDone > 0) wins.push({ icon: 'heart', text: `${momentsDone} calm moment${momentsDone === 1 ? '' : 's'} handled well` })
   const topWins = wins.slice(0, 3)
 
