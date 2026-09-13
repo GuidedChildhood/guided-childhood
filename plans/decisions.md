@@ -14470,3 +14470,51 @@ the How it works section already says both as its heading and its lead.
 
 The lines are reminders, not the argument: the worry cards above carry the
 argument, one line per part, for the worries a parent actually ticked.
+
+## 13 September 2026, Sunday night, the pilot comes into the product (session 0u09q9)
+
+Justin, on the six questions from the schools review: "Agree with all six, go
+ahead with the pilot form and emails."
+
+**The six, as taken.** The pilot request lives in the product, not in a
+Mailchimp form. Every lead and every order gets a reply by email the moment
+it lands, from hello@guidedchildhood.com, promising a reply within two working
+days and usually the same day. Terms, a privacy notice and a DPA are drafted
+now from the data protection pack for a solicitor's pass. The £495 entry price
+stays. Five pilot schools, one code each, and at term end the invoice form
+already filled in. The staffroom is built only after the first pilot signs.
+
+**The pilot door, built.** `/pilot` is an open page (OPEN_PATHS, the sitemap)
+that counts its places from the letterbox itself: rows in
+`schools.invoice_requests` with band `pilot`, five places, the chip on the page
+and the button's words following the count. The form posts to that same table
+with the PO field carrying the word PILOT, so no new table, no second cron and
+still no email code in the schools app (wiring check 7 holds). Every Mailchimp
+door on the site is gone, and so is the promise of an assembly pack that was
+never built; the second button teaches the sample lesson instead.
+
+**The school hears back.** The parent app cron that already emailed Justin
+every row now also emails the school its own letter, in his voice: the pilot
+(what the term includes, how to start on the day the code arrives, one link
+that turns the pilot into a licence with the invoice form pre filled), the
+taster (the pack is open, here it is), the order (the invoice within two
+working days, 30 day terms, no VAT). The draw has no letter, the page already
+says what happens. Migration 299 adds `confirmed_at` so each row is written to
+once, independent of the note to Justin, and the cron runs every fifteen
+minutes now instead of hourly because a head who has just pressed the button
+is waiting for that email. `scripts/check-pilot-door.mjs` holds both ends of
+the letterbox to the same band and the site free of Mailchimp links.
+
+**Migration 300, and the lesson in it.** The three rows already in the table,
+from August, had been answered by hand. With `confirmed_at` null they would
+each have had a confirmation a month late saying the invoice was on its way.
+A send once column added to a table with history has to backfill that history
+in the same breath, or the first run sends the past. 300 marks every already
+notified row confirmed; rows still in flight are left for the cron. Both
+applied to production and verified: no row can get a late letter.
+
+**Needed from Justin.** hello@guidedchildhood.com read daily, since every
+letter invites a reply to it. The pilot codes are still added by hand to
+SCHOOLS_ACCESS_CODES on the schools Vercel project; the note to him says so
+each time. FOUNDER_NOTIFY_EMAIL and EMAIL_FROM on the parents app project
+decide where his note goes and who the school's letter comes from.

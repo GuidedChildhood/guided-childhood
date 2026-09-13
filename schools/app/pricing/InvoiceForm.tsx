@@ -38,7 +38,7 @@ function check(fd: FormData): Record<string, string> {
   return errs
 }
 
-export default function InvoiceForm({ preselect }: { preselect?: string }) {
+export default function InvoiceForm({ preselect, prefill }: { preselect?: string; prefill?: { school_name?: string; contact_name?: string; email?: string } }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
   const [errs, setErrs] = useState<Record<string, string>>({})
@@ -84,7 +84,7 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
     <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div>
         <label style={label} htmlFor="school_name">School name</label>
-        <input className="input" id="school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-school_name' : undefined} />
+        <input className="input" id="school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" defaultValue={prefill?.school_name} aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-school_name' : undefined} />
         {errs.school_name && <p id="err-school_name" role="alert" style={fieldNote}>{errs.school_name}</p>}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -106,12 +106,12 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
         <div>
           <label style={label} htmlFor="contact_name">Your name</label>
-          <input className="input" id="contact_name" name="contact_name" required maxLength={120} placeholder="Sam Headteacher" aria-invalid={!!errs.contact_name} aria-describedby={errs.contact_name ? 'err-contact_name' : undefined} />
+          <input className="input" id="contact_name" name="contact_name" required maxLength={120} placeholder="Sam Headteacher" defaultValue={prefill?.contact_name} aria-invalid={!!errs.contact_name} aria-describedby={errs.contact_name ? 'err-contact_name' : undefined} />
           {errs.contact_name && <p id="err-contact_name" role="alert" style={fieldNote}>{errs.contact_name}</p>}
         </div>
         <div>
           <label style={label} htmlFor="email">School email</label>
-          <input className="input" id="email" name="email" type="email" required maxLength={200} placeholder="office@school.sch.uk" aria-invalid={!!errs.email} aria-describedby={errs.email ? 'err-email' : undefined} />
+          <input className="input" id="email" name="email" type="email" required maxLength={200} placeholder="office@school.sch.uk" defaultValue={prefill?.email} aria-invalid={!!errs.email} aria-describedby={errs.email ? 'err-email' : undefined} />
           {errs.email && <p id="err-email" role="alert" style={fieldNote}>{errs.email}</p>}
         </div>
       </div>

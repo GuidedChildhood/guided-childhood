@@ -7,7 +7,9 @@ import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
 import SiteNav from '@/components/SiteNav'
 import { hasLicence } from '@/lib/licence'
-import { PILOT_ENQUIRY } from '@/lib/links'
+import { PILOT_PATH } from '@/lib/links'
+import { PILOT_PLACES } from '@/lib/pilot'
+import { TASTER_MODULES } from '@/lib/taster'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 
 // THE SCHOOLS MARKETING PAGE, rebuilt 31 August 2026 to the parents page
@@ -39,7 +41,6 @@ export const metadata: Metadata = {
   },
 }
 
-const MAILCHIMP_ENQUIRY = PILOT_ENQUIRY
 
 const ESPRESSO = 'var(--deep-teal)'
 const GOLD = 'var(--terracotta)'
@@ -328,15 +329,15 @@ export default async function SchoolsPage() {
               <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete scheme of work, Reception to Year 13, mapped to the statutory RSHE guidance and KCSIE 2026, taught from a word for word script with printable packs. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
-              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
+              <Link href={PILOT_PATH} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
                 Request a free pilot
-              </a>
+              </Link>
               <Link href="#journey" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '16px 30px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.24)' }}>
                 See every year
               </Link>
             </div>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,250,240,0.6)' }}>
-              Free one term pilot for the first schools. We reply within two working days, usually the same day.
+              Free one term pilot for the first {PILOT_PLACES} schools. We reply within two working days, usually the same day.
             </p>
           </Reveal>
           <Reveal delay={0.12} y={34}>
@@ -689,15 +690,18 @@ export default async function SchoolsPage() {
             Be one of the first schools to teach it.
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
-            A free one term pilot for the first schools who want to get ahead of the statutory September. Tell us your school and we will reply within two working days, usually the same day, with the free assembly pack either way.
+            A free one term pilot for the first {PILOT_PLACES} schools who want to get ahead of the statutory September. Tell us your school and we will reply within two working days, usually the same day. Or teach the sample lesson first and ask after.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>
+            <Link href={PILOT_PATH} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>
               Request your pilot
-            </a>
-            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '17px 34px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
-              Get the free assembly pack
-            </a>
+            </Link>
+            {/* The second door used to promise a free assembly pack that was
+                never built (plans/master-build-plan.md still has the box
+                unticked). The sample lesson is real, so it stands here. */}
+            <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '17px 34px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
+              Teach the sample lesson first
+            </Link>
           </div>
         </div>
       </section>
@@ -733,7 +737,7 @@ export default async function SchoolsPage() {
                   <a href="https://www.guidedchildhood.com" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>The parents app</a>
                 </div>
                 <div style={{ marginBottom: '7px' }}>
-                  <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>Request a pilot</a>
+                  <Link href={PILOT_PATH} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>Request a pilot</Link>
                 </div>
               </div>
             </div>
