@@ -14282,3 +14282,34 @@ bar is now hidden on the crisis path, which only the pill had honoured.
 At 390 wide the page went from 8513px and 1041 words to 6578px and 744, ten
 screens to eight, with the safeguarding numbers, the evidence note and the
 price all still on the page.
+## 13 September 2026 — 298 was the only one missing, and the ledger nearly hid it
+
+Five migrations, 293 294 296 297 and 298, had no entry in the applied ledger
+under their own numbers. Four of them were applied all along, under names the
+ledger records differently or through a path that does not stamp the number.
+Probing the live schema settled each one in a single query: ks3-24 carries the
+corrected JCQ rule and no longer carries the reversed one (293), ks2-25 exists
+(294), and the 296 and 297 backup tables are there with their scratch tables
+properly dropped and 23 modules carrying a passport beat (297).
+
+**Only 298 was genuinely missing, and live code already depended on it.**
+`public.profiles.reminder_minutes` did not exist while three files read or wrote
+it. The push cron degrades quietly, every parent falling back to the learned or
+21:00 time, and the GET on the reminder time route always answered null. The one
+that was actually broken for a parent is the POST: a parent picking their evening
+reminder time got a 500 carrying the Postgres error. Applied in two parts, the
+column first so a failure in the long prose could not cost it.
+
+**The four scripts landed byte for byte.** Boredom at four to seven, the visible
+ending for a child with ADHD or autism, the frightened parent at eleven to
+thirteen, and the pornography conversation at thirteen to fifteen. All eight
+prose fields on all four rows digest match the migration file exactly
+(`e8b4a8140edbb4fd42bc72e7009dd711`), with the right stages, categories, sort
+orders 9660 to 9663 and free flags.
+
+**What this run taught, and it sharpens 11 September.** A missing ledger entry is
+not evidence a migration did not run, just as a present file is not evidence it
+did. Four of these five were false alarms. The live schema is the only thing that
+answers the question, so the check is now: diff the repo's files against the
+ledger to get candidates, then probe each candidate against the database for its
+actual effect. The ledger narrows the search; it never decides.
