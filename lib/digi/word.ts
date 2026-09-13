@@ -265,7 +265,9 @@ export async function buildWordFor(userId: string, opts?: { admin?: SupabaseClie
   const href = allowed.has(parsed.href) ? parsed.href : '/dashboard/digi'
   const source = parsed.source && sourceNames.has(parsed.source) ? parsed.source : null
   const clean = (s: string) => stripDashes(s).replace(/\s+/g, ' ').trim()
-  const hook = clean(parsed.hook).slice(0, 120)
+  // The prompt asks for under 90 characters; the clamp used to allow 120, so
+  // a long hook ran to four lines at weight 900 on the Home card.
+  const hook = clean(parsed.hook).slice(0, 90)
   const body = `${stripDashes(parsed.insight).trim()}\n\n**Do this next.** ${clean(parsed.do_next)}`
   const cta = clean(parsed.cta || 'Open it').slice(0, 40)
 

@@ -18,7 +18,7 @@ Re-read /plans/decisions.md after any compaction.
 
 - Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
-- Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5)
+- Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5-1)
 - Characters / lessons       → digi-squad/README.md (Teo, Olga, Alma, DiGi Junior, UK animals)
 - Database work              → docs/02 only
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
@@ -74,7 +74,7 @@ the same thing (it happened: PR 55 and PR 56 built the same Phase 2 twice on
 ## NON-NEGOTIABLES
 
 1. Never allow/deny. DiGi always returns a calibrated pathway.
-2. DIGI_MODEL is a config value (env var). Default: claude-fable-5. Never hardcoded.
+2. DIGI_MODEL is a config value (env var). Default: claude-fable-5-1. Never hardcoded.
 3. Checker design tokens only. No Inter. No purple gradients. No generic AI patterns.
 4. No dashes in any copy — ever. Not in headings, not in buttons, not in body text.
 5. Mobile and desktop checked in Chrome DevTools before declaring anything done.

@@ -31,7 +31,10 @@ export async function readNudgeFacts(
     const weekAgo = daysAgoIso(7)
     const fortnightAgo = daysAgoIso(14)
 
-    const [quests, sessions, weekSessions, ticks, spends, prints] = await Promise.all([
+    // One wave, not three. The six row reads, the bank and the last spend
+    // all need only the user and child ids, so they leave together rather
+    // than the bank waiting on the rows and the last spend waiting on the bank.
+    const [quests, sessions, weekSessions, ticks, spends, prints, banks, lastSpendRes] = await Promise.all([
       supabase.from('family_quests').select('id', { count: 'exact', head: true })
         .eq('user_id', userId).eq('active', true),
       // Ever, not recently: the question is whether this family has ever met
@@ -48,6 +51,14 @@ export async function readNudgeFacts(
         .gte('created_at', weekAgo).limit(60),
       supabase.from('printable_completions').select('created_at').eq('user_id', userId)
         .gte('created_at', fortnightAgo).limit(40),
+      // The bank, and how long it has sat. Imported lazily so a change to the
+      // bank's own reads can never be the reason the home page fails to render.
+      import('@/lib/quests/bank')
+        .then(({ getStarBanks }) => getStarBanks(supabase, userId, childIds, ageBands))
+        .catch(() => []),
+      supabase.from('star_spends')
+        .select('created_at').eq('user_id', userId).gt('minutes', 0)
+        .order('created_at', { ascending: false }).limit(1).maybeSingle(),
     ])
 
     // Days, not rows. Three sessions in one evening is one day of screens, and
@@ -68,15 +79,8 @@ export async function readNudgeFacts(
     const pending = (ticks.data ?? []) as { tick_date: string }[]
     const oldest = pending[0]?.tick_date ?? null
 
-    // The bank, and how long it has sat. Imported lazily so a change to the
-    // bank's own reads can never be the reason the home page fails to render.
-    const { getStarBanks } = await import('@/lib/quests/bank')
-    const banks = await getStarBanks(supabase, userId, childIds, ageBands).catch(() => [])
     const bankedStars = banks.reduce((s, b) => s + Math.max(0, b.balance), 0)
-
-    const { data: lastSpend } = await supabase.from('star_spends')
-      .select('created_at').eq('user_id', userId).gt('minutes', 0)
-      .order('created_at', { ascending: false }).limit(1).maybeSingle()
+    const lastSpend = lastSpendRes.data
 
     return {
       activeQuests: quests.count ?? 0,

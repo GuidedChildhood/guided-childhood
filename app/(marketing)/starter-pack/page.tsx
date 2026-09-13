@@ -1,10 +1,19 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import ResultScreen from './ResultScreen'
+import dynamic from 'next/dynamic'
 import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
-import ProviderButtons from '@/components/auth/ProviderButtons'
-import SavingPathway from '@/components/starter/SavingPathway'
+// ── LOADED WHEN THEY ARE NEEDED, NOT BEFORE ─────────────────────────────────
+//
+// The reveal (764 lines, GSAP and ScrollTrigger, eight subcomponents, the
+// product mocks), the saving screen and the provider buttons all shipped in
+// the first bundle of this page, before a parent had answered question one.
+// Found in the speed review of 13 September 2026. They now load when the quiz
+// reaches them. No server render for these three: this page is a client
+// component and every one of them appears only after a tap.
+const ResultScreen = dynamic(() => import('./ResultScreen'), { ssr: false })
+const ProviderButtons = dynamic(() => import('@/components/auth/ProviderButtons'), { ssr: false })
+const SavingPathway = dynamic(() => import('@/components/starter/SavingPathway'), { ssr: false })
 import { writeStarterSetup, keepPendingSetup, takePendingSetup, clearPendingSetup, type PendingSetup } from '@/lib/starter/finish-setup'
 import { enabledProviders } from '@/lib/auth/providers'
 import { bandForAge } from '@/lib/children/age'

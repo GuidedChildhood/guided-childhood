@@ -239,7 +239,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // One wave, one region, read once and passed to everything that wants it.
   // Both still fail soft: a nudge or a missing region must never be the reason
   // Home does not render.
-  const [nudgeFacts, familyRegion, visit] = await Promise.all([
+  //
+  // WAVE TWO waits for: wave one's child list, nothing else. Four reads that
+  // used to trail behind it as their own awaits (the holiday flags, the child's
+  // day, the family handover, the free time answers) need only user.id or the
+  // selected child's id, so they ride here and cost no extra round trip.
+  const [nudgeFacts, familyRegion, visit, schoolHolidayRes, childDay, familyHandover, timeRowsRes] = await Promise.all([
     readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string),
       Object.fromEntries(allKids.map(k => [k.id as string, (k.age_band as string | null) ?? null]))),
     getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
@@ -263,6 +268,36 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // because a timestamp could not be saved is a far worse bug than a summary
     // that shows twice.
     rollVisit(supabase, user.id),
+    // Which routines keep going in the school holidays, read guarded because
+    // runs_in_holidays lands with migration 182, run by hand, and naming a
+    // missing column fails the whole query it is part of. An error reads as
+    // school time, which rests every routine through the holidays, the
+    // truthful default for a school diary. It stays its own read rather than
+    // joining wave one's school_actions select for exactly that reason: a
+    // guarded column must never ride on the select the whole card depends on.
+    (async () => {
+      try {
+        return await supabase
+          .from('school_actions')
+          .select('id, runs_in_holidays')
+          .eq('user_id', user.id)
+          .eq('status', 'open')
+      } catch { return { data: null, error: true } /* pre 182 */ }
+    })(),
+    // What the child has left today, and their sticker count. One reading,
+    // shared with the child's own app so the two can never print different
+    // answers to the same question. See lib/kid/today-state, which fails soft
+    // to an empty day inside itself.
+    readTodayState(supabase, child?.id ?? null),
+    // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE? One read, three
+    // surfaces silenced. Fails soft to null, which reads as "keep offering",
+    // the old behaviour, because a Home page that stops rendering over a nudge
+    // check is a far worse bug than a nudge.
+    getFamilyHandover(supabase, user.id).catch(() => null),
+    // The free time question, answered per child (6 September 2026). A
+    // child_time_settings row exists once the parent has picked, and "none"
+    // writes one too.
+    supabase.from('child_time_settings').select('child_id').eq('user_id', user.id),
   ])
 
   // THIS CHILD'S DAY. A legacy row with no child counts for everybody, which is
@@ -294,20 +329,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // school cards on one screen, and the phone conversation outranks the
   // calendar every time.
   const upcoming = phoneBridge ? null : dobRows.map(r => nextEventForChild(r.date_of_birth)).find(Boolean) ?? null
-  // What the class is doing next term, three subjects and a line each.
-  //
-  // Silent outside a school holiday and the first week back, so this is null
-  // for most of the year rather than a card that repeats itself daily. Reads
-  // the SELECTED child rather than the primary, so a family with two gets the
-  // preview for whoever they are looking at, like the rest of this screen.
-  const termPreview = child
-    ? await buildTermPreview(
-        supabase,
-        { date_of_birth: (child as { date_of_birth?: string | null }).date_of_birth ?? null },
-        new Date(),
-        familyRegion,
-      )
-    : null
+  // What the class is doing next term, three subjects and a line each: the
+  // termPreview read sits in wave three below, because it needs the region
+  // wave two produces and nothing between here and there reads it.
 
   const schoolAhead = upcoming
     ? {
@@ -322,24 +346,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       }
     : null
 
-  // Which routines keep going in the school holidays, read guarded because
-  // runs_in_holidays lands with migration 182, run by hand, and naming a
-  // missing column fails the whole query it is part of. An error reads as
-  // school time, which rests every routine through the holidays, the
-  // truthful default for a school diary.
+  // Which routines keep going in the school holidays, from the guarded read in
+  // wave two (see the note on it there). An error reads as school time.
   const schoolHolidayFlags = new Map<string, boolean>()
-  try {
-    const { data, error } = await supabase
-      .from('school_actions')
-      .select('id, runs_in_holidays')
-      .eq('user_id', user.id)
-      .eq('status', 'open')
-    if (!error) {
-      for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
-        schoolHolidayFlags.set(String(r.id), r.runs_in_holidays === true)
-      }
+  if (!schoolHolidayRes.error) {
+    for (const r of (schoolHolidayRes.data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+      schoolHolidayFlags.set(String(r.id), r.runs_in_holidays === true)
     }
-  } catch { /* pre 182 */ }
+  }
   const schoolActions: SchoolAction[] = (schoolActionsResult.data ?? []).map((a: SchoolAction) => ({
     ...a,
     runs_in_holidays: schoolHolidayFlags.get(String(a.id)) ?? false,
@@ -379,10 +393,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const phoneAge = !!child?.age_band && child.age_band !== '4-7'
   const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === child?.id)
 
-  // What the child has left today, and their sticker count. One reading, shared
-  // with the child's own app so the two can never print different answers to
-  // the same question. See lib/kid/today-state.
-  const childDay = await readTodayState(supabase, child?.id ?? null)
+  // What the child has left today, and their sticker count, is childDay from
+  // wave two. One reading, shared with the child's own app so the two can never
+  // print different answers to the same question. See lib/kid/today-state.
   // The child app is only really set up once the child has actually opened it.
   // A parent can run the whole parent side for weeks without realising the
   // jobs, the earned device time and the printables all live on the child's
@@ -423,6 +436,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   //
   // One read, three surfaces silenced, and it has to happen up here because
   // the setup path below is computed before the handover overlay's own gates.
+  // The read itself is familyHandover from wave two, null when it failed.
   // Fails soft to false, which is the old behaviour, because a Home page that
   // stops rendering over a nudge check is a far worse bug than a nudge.
   let familyHandoverSettled = false
@@ -430,11 +444,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // worth asking about once more. Never one who has since been linked.
   let phoneLater: { id: string; name: string } | null = null
   try {
-    const family = await getFamilyHandover(supabase, user.id)
-    const linked = new Set((kidLinksResult.data ?? []).map(k => k.child_id as string))
-    familyHandoverSettled = family.children.length > 0 && offerableChildren(family, linked).length === 0
-    const due = reofferChildren(family).filter(c => !linked.has(c.id))
-    if (due.length > 0) phoneLater = { id: due[0].id, name: due[0].name as string }
+    const family = familyHandover
+    if (family) {
+      const linked = new Set((kidLinksResult.data ?? []).map(k => k.child_id as string))
+      familyHandoverSettled = family.children.length > 0 && offerableChildren(family, linked).length === 0
+      const due = reofferChildren(family).filter(c => !linked.has(c.id))
+      if (due.length > 0) phoneLater = { id: due[0].id, name: due[0].name as string }
+    }
   } catch { /* keep offering, exactly as before */ }
   const handoverSettled = familyHandoverSettled
     || ((handoverResult.data as { handover_choice?: string | null } | null)?.handover_choice ?? null) === 'paper'
@@ -449,7 +465,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // childLink counts "no phone, keep it on the fridge" as DONE rather than as a
   // step to hide, which is why this sits below the handover read rather than
   // above it. See lib/setup/flags.ts for the reasoning on each of the three.
-  const { data: timeRows } = await supabase.from('child_time_settings').select('child_id').eq('user_id', user.id)
+  const timeRows = timeRowsRes.data
   const answeredTime = new Set(((timeRows ?? []) as { child_id: string }[]).map(r => r.child_id))
   const setupFlags = {
     // Both signatures, not the row's existence. The row is a draft the builder
@@ -653,9 +669,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // from wave one: the loop, the streak, the strands, plus the reads that
   // used to trail behind as their own awaits (the lesson nudge pair, the
   // last script's insight, the jobs board). Two waves total, not ten.
+  //
+  // WAVE THREE waits for: the stage, isPaid and currentSetupStep (all computed
+  // from waves one and two), the region and the visit marks from wave two. The
+  // term preview, the catch up summary and the fix of the week used to sit
+  // behind it as three more awaits; they need nothing this wave produces, so
+  // they ride in it.
   const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
   const lastCompletion = lastCompletionResult.data
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes, termPreview, catchup, issueOfWeekRead] = await Promise.all([
     getDailyStreak(supabase, user.id),
     // first_checkin_at rides in so the loop can put the BASELINE first for a
     // family who has never checked in, and so DiGi is introduced on day one.
@@ -703,6 +725,41 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // wave shape is that one more read here is free and one more await is not.
     supabase.from('family_devices').select('id').eq('user_id', user.id).is('retired_at', null),
     supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
+    // What the class is doing next term, three subjects and a line each.
+    //
+    // Silent outside a school holiday and the first week back, so this is null
+    // for most of the year rather than a card that repeats itself daily. Reads
+    // the SELECTED child rather than the primary, so a family with two gets the
+    // preview for whoever they are looking at, like the rest of this screen.
+    child
+      ? buildTermPreview(
+          supabase,
+          { date_of_birth: (child as { date_of_birth?: string | null }).date_of_birth ?? null },
+          new Date(),
+          familyRegion,
+        )
+      : Promise.resolve(null),
+    // The visit marks rolled up in wave two, so all that is left here is the
+    // summary of the gap they describe, and only on the rare load where there
+    // IS a gap. Both fail soft to no card: this sits on a page with plenty
+    // else on it.
+    visit
+      ? getCatchup(supabase, user.id, child?.id ?? null, child?.name ?? null, visit.since)
+      : Promise.resolve(null),
+    // ── THE FIX OF THE WEEK (13 September 2026) ──────────────────────────
+    //
+    // The one device problem to solve next for this child's age, with the
+    // script that solves it, from the bank of the top issues parents raise at
+    // each age (lib/content/device-issues.ts). First not yet acted on, never
+    // re offered once done. Two small reads; fails soft to no card.
+    //
+    // Read here for every child with an age band and gated on firstRun AFTER
+    // the wave, because firstRun needs this wave's streak total. The only
+    // cost is two throwaway reads on an account under a day old; the card
+    // shows on exactly the same days it did.
+    child?.age_band
+      ? pickIssueOfWeek(supabase, user.id, child.id ?? null, child.age_band as AgeBand, isPaid).catch(() => null)
+      : Promise.resolve(null),
   ])
 
   // The lesson nudge pick, from the wave's reads: one age relevant film the
@@ -818,13 +875,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // overview of what is waiting from their child, not the finished path. This
   // reads the same "day done" the greeting and the path use, so the lead only
   // changes once the daily loop is genuinely complete.
-  // The visit marks rolled up in the third wave, so all that is left here is
-  // the summary of the gap they describe, and only on the rare load where there
-  // IS a gap. Both fail soft to no card: this sits on a page with plenty else
-  // on it.
-  const catchup = visit
-    ? await getCatchup(supabase, user.id, child?.id ?? null, child?.name ?? null, visit.since)
-    : null
+  // The catch up summary itself is `catchup` from wave three.
 
   const dailySteps = todayLoop.filter(t => t.key !== 'done')
   const dayComplete = dailyDone
@@ -897,15 +948,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // so Home and the pathway can never name a different concern as the one being
   // worked on.
   const liveConcerns = (liveConcernsResult.data ?? []) as { slug: string; label: string; status: string; times_flagged: number }[]
-  // ── THE FIX OF THE WEEK (13 September 2026) ────────────────────────────
-  //
-  // The one device problem to solve next for this child's age, with the
-  // script that solves it, from the bank of the top issues parents raise at
-  // each age (lib/content/device-issues.ts). First not yet acted on, never
-  // re offered once done. Two small reads; fails soft to no card.
-  const issueOfWeek = child?.age_band && !firstRun
-    ? await pickIssueOfWeek(supabase, user.id, child.id ?? null, child.age_band as AgeBand, isPaid).catch(() => null)
-    : null
+  // The fix of the week, read in wave three (see the note there) and held back
+  // on a family's first day, exactly as before.
+  const issueOfWeek = !firstRun ? issueOfWeekRead : null
 
   const nextUp = pickNextUp({
     childName: questsChildName,

@@ -71,7 +71,7 @@ export default function HomeRows({ stageName, stageNum, criticalWindow = false, 
         .catch(() => {})
     }
     refresh()
-    const id = setInterval(refresh, 30000)
+    const id = setInterval(() => { if (!document.hidden) refresh() }, 30000)
     window.addEventListener(NOTIFS_CHANGED_EVENT, refresh)
     return () => {
       live = false

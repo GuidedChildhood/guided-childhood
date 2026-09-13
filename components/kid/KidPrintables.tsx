@@ -131,7 +131,7 @@ export default function KidPrintables({
     load()
     const onVis = () => { if (!document.hidden) load() }
     document.addEventListener('visibilitychange', onVis)
-    const id = waiting ? setInterval(load, 15000) : null
+    const id = waiting ? setInterval(() => { if (!document.hidden) load() }, 15000) : null
     return () => { alive = false; document.removeEventListener('visibilitychange', onVis); if (id) clearInterval(id) }
   }, [token, fetchStatuses, waiting])
 

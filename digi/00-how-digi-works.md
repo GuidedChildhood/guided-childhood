@@ -18,7 +18,7 @@ Claude, wrapped in four things a raw model does not have:
 3. **A memory of this family** that survives between conversations
 4. **Loops** that feed what actually worked back in
 
-The model is set by `DIGI_MODEL`, defaulting to `claude-fable-5`, with a fallback
+The model is set by `DIGI_MODEL`, defaulting to `claude-fable-5-1`, with a fallback
 ladder behind it. It is a config value and is never hardcoded. Mechanical jobs
 (memory extraction, grading, prompt chips) start on a faster tier through
 `digiModelsFor`, so the deep model's judgement is spent where it matters.

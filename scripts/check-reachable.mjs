@@ -38,18 +38,28 @@ const check = (name, ok, detail = '') => {
 
 const home = read('../components/home/HomeMain.tsx')
 const explore = read('../components/home/ExploreGrid.tsx')
-// The real navigation, all three of them: the phone tab bar, the desktop tabs
-// and the secondary sheet. Reading the layout alone was my first attempt and it
-// reported the passport unreachable, which it plainly is not: the nav lives in
-// its own components, not in the shell.
-const shell = [
+// The real navigation, both of them: the phone tab bar and the desktop tabs.
+// Reading the layout alone was my first attempt and it reported the passport
+// unreachable, which it plainly is not: the nav lives in its own components,
+// not in the shell.
+//
+// A third file, MobileSecondaryNav, was read here until 13 September 2026. No
+// layout mounted it, so the guard was passing on doors no parent could open.
+// Every nav file read here must be mounted by the dashboard layout, and that
+// is now checked rather than assumed.
+const NAV = [
   '../components/dashboard/MobileTabBar.tsx',
   '../components/dashboard/NavTabs.tsx',
-  '../components/dashboard/MobileSecondaryNav.tsx',
-].map(read).join('\n')
+]
+const layout = read('../app/(dashboard)/dashboard/layout.tsx')
+for (const p of NAV) {
+  const name = p.split('/').pop().replace('.tsx', '')
+  check(`${name} is mounted by the dashboard layout`, new RegExp(`<${name}\\b`).test(layout))
+}
+const shell = NAV.map(read).join('\n')
 
 check('HomeMain was found', home.length > 0)
-check('the navigation was found', /\/dashboard\/quests/.test(shell), 'all three nav components')
+check('the navigation was found', /\/dashboard\/quests/.test(shell), 'both nav components')
 check('ExploreGrid was found', explore.length > 0)
 
 // The tiles Home used to show, still written down there as the record of what
