@@ -54,7 +54,7 @@ export default function SmartAlerts({ suggestions }: { suggestions: Suggestion[]
         {live.length > 2 && (
           <button
             onClick={() => setShowAll(v => !v)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '10px 0', minHeight: 44, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}
           >
             {showAll ? 'Show less' : `See all ${live.length}`}
           </button>

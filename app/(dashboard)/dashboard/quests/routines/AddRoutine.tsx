@@ -100,7 +100,7 @@ export default function AddRoutine() {
 
   return (
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
-      <Link href="/dashboard/quests/manage" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+      <Link href="/dashboard/quests/manage" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, minHeight: 44, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', margin: '-10px 0 6px' }}>
         ← Manage jobs
       </Link>
 

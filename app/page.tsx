@@ -1159,8 +1159,8 @@ export default function HomePage() {
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Guides</div>
               {[['Stage 1 · Ages 4 to 7', '#stages'], ['Stage 2 · Ages 8 to 10', '#stages'], ['Stage 3 · Ages 11 to 13', '#stages'], ['Stage 4 · Ages 13 to 15', '#stages'], ['Stage 5 · Ages 16+', '#stages']].map(([label, href]) => (
-                <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
+                <div key={label} style={{ marginBottom: 0 }}>
+                  <Link href={href} style={{ display: 'inline-block', padding: '11px 0', fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
                 </div>
               ))}
             </div>
@@ -1168,11 +1168,11 @@ export default function HomePage() {
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
               {[['Free Trial', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
-                <div key={label} style={{ marginBottom: '10px' }}>
+                <div key={label} style={{ marginBottom: 0 }}>
                   <Link
                     href={href}
                     {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
+                    style={{ display: 'inline-block', padding: '11px 0', fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
                   >{label}</Link>
                 </div>
               ))}
@@ -1181,8 +1181,8 @@ export default function HomePage() {
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Company</div>
               {[['About', '/pathway'], ['Contact', 'mailto:hello@guidedchildhood.com'], ['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, href]) => (
-                <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
+                <div key={label} style={{ marginBottom: 0 }}>
+                  <Link href={href} style={{ display: 'inline-block', padding: '11px 0', fontSize: 'var(--text-base)', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
                 </div>
               ))}
             </div>

@@ -239,9 +239,11 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
 
           const onTrack = (live?.tone ?? 'green') === 'green'
           const chipTone: ChipTone = onTrack ? 'green' : 'amber'
-          // The numbers first, the regex over the value string only for the
-          // balance reading, which is minutes rather than lessons.
-          const bar = (live?.lessons && live.lessons.total > 0 && area.key !== 'balance')
+          // The bar draws what the bold value above it says. Safe prints the
+          // device guides and balance prints minutes, so both keep reading the
+          // value string; AI and social print their stage lessons, so those
+          // two draw from the numbers.
+          const bar = ((area.key === 'ai' || area.key === 'social') && live?.lessons && live.lessons.total > 0)
             ? live.lessons
             : progressFrom(live?.value) ?? balanceFrom(live?.value)
 

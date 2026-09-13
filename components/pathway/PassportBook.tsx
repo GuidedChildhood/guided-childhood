@@ -933,13 +933,13 @@ export default function PassportBook({
           disabled={page === 0}
           style={{
             background: '#fff', border: 'var(--edge)', borderRadius: '10px', boxShadow: 'var(--lift)',
-            width: 34, height: 34, cursor: page === 0 ? 'default' : 'pointer',
+            width: 44, height: 44, cursor: page === 0 ? 'default' : 'pointer',
             opacity: page === 0 ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
         >
           ←
         </button>
-        <div style={{ display: 'flex', gap: '7px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
           {[0, ...stamps.map(s => s.id), ...(allEarned ? [stamps.length + 1] : [])].map(i => {
             const active = i === page
             const isCert = i > stamps.length
@@ -952,13 +952,22 @@ export default function PassportBook({
                 key={i}
                 onClick={() => goTo(i)}
                 aria-label={i === 0 ? 'Cover' : isCert ? 'Certificate' : behind ? `Stage ${i}, not stamped yet` : `Stage ${i}`}
+                // A 44 tall hit area around an 8 tall dot. The dot is the
+                // picture; the button is what a thumb has to land on, and an
+                // 8 by 8 button is a target nobody hits first time (the full
+                // review of 13 September 2026 measured it).
                 style={{
-                  width: active ? 22 : 8, height: 8, borderRadius: 'var(--radius-pill)', border: 'none', padding: 0,
-                  cursor: 'pointer', transition: 'all 0.25s ease',
+                  width: active ? 30 : 16, height: 44, background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >
+                <span aria-hidden style={{
+                  display: 'block', width: active ? 22 : 8, height: 8, borderRadius: 'var(--radius-pill)',
+                  transition: 'all 0.25s ease',
                   background: active ? (t ? t.bold : 'var(--deep-teal)') : behind ? 'var(--terracotta)' : isCert ? 'var(--terracotta-dark)' : 'var(--border)',
                   boxShadow: behind && !active ? '0 0 0 2px var(--terracotta-lt)' : 'none',
-                }}
-              />
+                }} />
+              </button>
             )
           })}
         </div>
@@ -968,7 +977,7 @@ export default function PassportBook({
           disabled={page === lastPage}
           style={{
             background: '#fff', border: 'var(--edge)', borderRadius: '10px', boxShadow: 'var(--lift)',
-            width: 34, height: 34, cursor: page === lastPage ? 'default' : 'pointer',
+            width: 44, height: 44, cursor: page === lastPage ? 'default' : 'pointer',
             opacity: page === lastPage ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
         >

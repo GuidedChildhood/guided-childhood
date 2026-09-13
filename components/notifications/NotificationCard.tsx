@@ -107,7 +107,7 @@ export default function NotificationCard({ n }: { n: Notification }) {
             <button onClick={clearIt} disabled={busy} style={pill(n)}>
               {n.recurring ? 'Clear for this week ✓' : 'Got it, clear ✓'}
             </button>
-            <Link href="/dashboard/school" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+            <Link href="/dashboard/school" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>
               Open school
             </Link>
           </div>
@@ -162,7 +162,7 @@ export default function NotificationCard({ n }: { n: Notification }) {
             </button>
             {/* The board is still one tap away for a parent who wants to look
                 before they say yes, or who wants to say no. */}
-            <Link href={n.href} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+            <Link href={n.href} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>
               Open the board
             </Link>
           </div>

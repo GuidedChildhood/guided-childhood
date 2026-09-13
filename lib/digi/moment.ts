@@ -9,7 +9,6 @@ import { readFamilyState, renderFamilyState } from '@/lib/digi/family-state'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import { FIXED_LINKS } from '@/lib/digi/word'
 import { sendPush } from '@/lib/push/send'
-import { ageFromDob } from '@/lib/children/age'
 
 // The moment reader: DiGi deciding whether to step in today.
 //
@@ -51,6 +50,8 @@ import { ageFromDob } from '@/lib/children/age'
 
 export const STEP_IN_PREFIX = 'step_in:'
 export const QUIET_REASON = 'step_in: quiet'
+/** Marks the one change line that is a stage crossing, so it can be matched later. */
+const ARRIVAL_MARK = 'STAGE ARRIVAL:'
 
 /** The kinds the table accepts that a step in may use. new_research carries a horizon. */
 export const STEP_IN_KINDS = ['watch_for', 'tip', 'parent_care', 'celebration', 'new_research'] as const
@@ -124,7 +125,7 @@ async function changesSince(client: SupabaseClient, userId: string, kid: Kid, si
   const scope = `child_id.eq.${kid.id},child_id.is.null`
   const [concernsRes, lessonsRes, devicesRes, daysRes, sessionsRes, arrivalsRes] = await Promise.all([
     client.from('concerns').select('id, label').eq('user_id', userId).or(scope).in('status', ['open', 'improving', 'resolved']),
-    client.from('lesson_completions').select('lesson_id, lesson_source, passed, created_at').eq('user_id', userId).or(scope).gte('created_at', since).limit(20),
+    client.from('lesson_completions').select('lesson_id, lesson_source, passed, completed_at').eq('user_id', userId).or(scope).gte('completed_at', since).limit(20),
     client.from('family_devices').select('label, kind, created_at').eq('user_id', userId).or(scope).gte('created_at', since).limit(10),
     client.from('kid_days').select('day', { count: 'exact', head: true }).eq('child_id', kid.id).not('completed_at', 'is', null).gte('completed_at', since),
     client.from('device_sessions').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('child_id', kid.id).gte('started_at', since),
@@ -170,8 +171,15 @@ async function changesSince(client: SupabaseClient, userId: string, kid: Kid, si
   // A stage the child has arrived in and nobody has yet said anything about.
   const stageNow = kid.age_band ? getStageFromAgeBand(kid.age_band as AgeBand) : null
   const arrivals = (arrivalsRes.data ?? []) as { stage_id: number; prompted_at: string | null }[]
-  if (stageNow && arrivals.length > 0 && !arrivals.some(a => a.stage_id === stageNow.id)) {
-    lines.push(`${kid.name ?? 'The child'} has just arrived in Stage ${stageNow.id}, ${stageNow.name} (ages ${stageNow.ages}). Nobody has said what changes yet.`)
+  if (stageNow && arrivals.length === 0) {
+    // The baseline the old prompts route wrote: the stage the child is in
+    // when DiGi first looks is where they started, not an arrival. Without
+    // this row no crossing can ever be noticed, because a crossing is a stage
+    // that is not on the list.
+    await client.from('stage_arrivals').insert({ user_id: userId, child_id: kid.id, stage_id: stageNow.id })
+      .then(() => {}, () => { /* next look tries again */ })
+  } else if (stageNow && !arrivals.some(a => a.stage_id === stageNow.id)) {
+    lines.push(`${ARRIVAL_MARK} ${kid.name ?? 'The child'} has just arrived in Stage ${stageNow.id}, ${stageNow.name} (ages ${stageNow.ages}). Nobody has said what changes yet.`)
   }
   return lines
 }
@@ -188,14 +196,22 @@ export async function readMoment(
 ): Promise<MomentResult> {
   const now = opts.now ?? new Date()
 
-  // The cap, before anything else costs a call.
-  const { data: past } = await client.from('digi_prompts')
-    .select('created_at, title, body, reason, source, reaction, kind')
-    .eq('user_id', userId).like('reason', `${STEP_IN_PREFIX}%`)
-    .order('created_at', { ascending: false }).limit(12)
-  const pastRows = (past ?? []) as { created_at: string; title: string; body: string; reason: string; source: string | null; reaction: string | null; kind: string }[]
-  const spoken = pastRows.filter(r => r.reason !== QUIET_REASON)
-  const quietToday = pastRows.some(r => r.reason === QUIET_REASON && ukDate(new Date(r.created_at)) === ukDate(now))
+  // The cap, before anything else costs a call. Three separate reads on
+  // purpose: the quiet rows accrue one a day and would push the spoken rows
+  // out of any single window, which would misread both the cap and what has
+  // been said. The sources ever said are read over every kind, so a horizon
+  // the word or a research card leaned on counts as said too.
+  const dayStart = new Date(now.getTime() - 36 * 3_600_000).toISOString()
+  const [spokenRes, quietRes, saidRes] = await Promise.all([
+    client.from('digi_prompts').select('created_at, title, reason, reaction')
+      .eq('user_id', userId).like('reason', `${STEP_IN_PREFIX}%`).neq('reason', QUIET_REASON)
+      .order('created_at', { ascending: false }).limit(12),
+    client.from('digi_prompts').select('created_at').eq('user_id', userId).eq('reason', QUIET_REASON).gte('created_at', dayStart),
+    client.from('digi_prompts').select('source').eq('user_id', userId).not('source', 'is', null).limit(200),
+  ])
+  const spoken = (spokenRes.data ?? []) as { created_at: string; title: string; reason: string; reaction: string | null }[]
+  const quietToday = ((quietRes.data ?? []) as { created_at: string }[]).some(r => ukDate(new Date(r.created_at)) === ukDate(now))
+  const saidSources = new Set(((saidRes.data ?? []) as { source: string | null }[]).map(r => r.source).filter((x): x is string => !!x))
   if (!opts.force) {
     if (quietToday) return { ok: false, reason: 'looked today already' }
     const verdict = stepInAllowed(spoken.map(r => r.created_at), now)
@@ -211,8 +227,8 @@ export async function readMoment(
   const kids = (kidsRaw ?? []) as Kid[]
   if (kids.length === 0) return { ok: false, reason: 'no child' }
 
-  // Since DiGi last looked, or two days, whichever is shorter.
-  const lastLook = pastRows[0]?.created_at ?? null
+  // Since DiGi last spoke, or two days, whichever is shorter.
+  const lastLook = spoken[0]?.created_at ?? null
   const twoDays = new Date(now.getTime() - 2 * 86_400_000).toISOString()
   const since = lastLook && lastLook > twoDays ? lastLook : twoDays
 
@@ -243,7 +259,6 @@ export async function readMoment(
   ).map(t => t.reason)
 
   // The horizons, minus the ones already said, with the next band flagged.
-  const saidSources = new Set(pastRows.map(r => r.source).filter((s): s is string => !!s))
   const months = monthsToNextBand(kid.date_of_birth, band, now)
   const horizons: (Horizon & { next: boolean })[] = horizonsFor(band)
     .filter(h => !saidSources.has(h.source))
@@ -326,9 +341,12 @@ export async function readMoment(
   }).select('id, kind, title, body, href').single()
   if (error || !row) return { ok: false, reason: `insert: ${error?.message ?? 'no row'}` }
 
-  // A stage arrival, once said, is marked so it is never said again.
+  // A stage arrival, once SAID, is marked so it is never said again. Said
+  // means the card was about it: a card about a worry that moved must not
+  // quietly consume the crossing, or it is never said at all.
   const stageNow = band ? getStageFromAgeBand(band) : null
-  if (stageNow && changes.some(c => c.includes('has just arrived in Stage'))) {
+  const aboutArrival = /\b(arriv|stage|new age|secondary|senior school)/i.test(`${decision.reason ?? ''} ${decision.title ?? ''}`)
+  if (stageNow && aboutArrival && changes.some(c => c.startsWith(ARRIVAL_MARK))) {
     await client.from('stage_arrivals').insert({ user_id: userId, child_id: kid.id, stage_id: stageNow.id, prompted_at: now.toISOString() })
       .then(() => {}, () => { /* next look tries again */ })
   }

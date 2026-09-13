@@ -34,7 +34,7 @@ async function handler(req: NextRequest) {
     const since = new Date(Date.now() - 26 * 3_600_000).toISOString()
     const [events, passes, days, devices, sessions] = await Promise.all([
       admin.from('concern_events').select('user_id').gte('created_at', since).not('score', 'is', null).limit(5000),
-      admin.from('lesson_completions').select('user_id').gte('created_at', since).limit(5000),
+      admin.from('lesson_completions').select('user_id').gte('completed_at', since).limit(5000),
       admin.from('kid_days').select('child_id').not('completed_at', 'is', null).gte('completed_at', since).limit(5000),
       admin.from('family_devices').select('user_id').gte('created_at', since).limit(2000),
       admin.from('device_sessions').select('user_id').gte('started_at', since).limit(5000),

@@ -202,7 +202,8 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
         <button
           onClick={onClose}
           style={{
-            marginTop: 12, background: 'none', border: 'none', cursor: 'pointer',
+            marginTop: 4, background: 'none', border: 'none', cursor: 'pointer',
+            padding: '12px 16px', minHeight: 44,
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.06em', color: 'var(--ink-muted)',
           }}
