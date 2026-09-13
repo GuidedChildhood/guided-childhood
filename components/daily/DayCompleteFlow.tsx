@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { milestoneFor } from '@/lib/pathway/parent-milestones'
 import Link from 'next/link'
 import Celebration from '@/components/ui/Celebration'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
@@ -69,19 +70,25 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
   const withChild = (href: string) =>
     childId ? `${href}${href.includes('?') ? '&' : '?'}child=${childId}` : href
 
+  // A milestone reached today is named, once, on the first beat: a perfect
+  // week, a month, a hundred days (lib/pathway/parent-milestones.ts). The
+  // parent earned a number and nothing was ever said about it.
+  const milestone = milestoneFor(streakCount)
   const beats = [
     {
       icon: 'cheer' as HappyIconName,
-      title: 'Today is made',
+      title: milestone ? milestone.title : 'Today is made',
       // ── WHAT THIS SCREEN IS CONGRATULATING (11 September 2026) ───────────
       //
       // It said "the one thing that matters today is done", which was true
       // when this fired on the lead rung alone. It fires on the WHOLE road
       // now, and congratulating a parent for one thing when they did five
       // reads as not having noticed.
-      body: streakCount >= 2
-        ? `The whole road, walked, and that is ${streakCount} days in a row now. Small and daily beats big and rarely, every time.`
-        : 'The whole road, walked. Small and daily beats big and rarely, every time.',
+      body: milestone
+        ? milestone.line
+        : streakCount >= 2
+          ? `The whole road, walked, and that is ${streakCount} days in a row now. Small and daily beats big and rarely, every time.`
+          : 'The whole road, walked. Small and daily beats big and rarely, every time.',
       action: null as null | { label: string; href: string },
       next: 'Keep going',
     },

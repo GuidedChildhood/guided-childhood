@@ -138,6 +138,13 @@ jobs:
       # reason or not at all, and the page turn is GSAP with a way out for
       # reduced motion. See the header of check-passport-pass.mjs.
       - run: node --experimental-strip-types scripts/check-passport-pass.mjs
+      # The top device problems by age, each with a source and a proof path
+      # that exists in the seeds, read by DiGi, the loop and the recommender.
+      - run: node --experimental-strip-types scripts/check-device-issues.mjs
+      # The parent's habit: the evening reminder per parent at their time
+      # only when the day is open, no loss language, the milestones named,
+      # the habit measured. See the header of check-habit-loop.mjs.
+      - run: node --experimental-strip-types scripts/check-habit-loop.mjs
       # The daily sticker pays once, on the day's own row, in the same write
       # that lands the day. Split it into a second write and a failed one
       # leaves a finished day with no sticker and nothing to reconcile it.

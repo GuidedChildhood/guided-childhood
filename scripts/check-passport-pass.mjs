@@ -26,6 +26,8 @@
 //      the old CSS transition flip is gone.
 //   F. The peek asks the attention route and never renders without a reason;
 //      the route passes the first check in stamp to the rule.
+//   G. The happy news finish: the slots, the to do rows, the next open row
+//      and the shop link wear story icons on plates, never a bare emoji.
 //
 // Run:
 //   node --experimental-strip-types scripts/check-passport-pass.mjs
@@ -153,6 +155,19 @@ if (!/hasCheckedIn:\s*!!profileRes\.data\?\.first_checkin_at/.test(route)) probl
 else ok.push('F: the route passes the first check in stamp')
 if (!/passportAttention\(/.test(route)) problems.push('F: the route decides on its own rather than through passportAttention')
 else ok.push('F: the route decides through the one rule')
+
+// ── G: the happy news finish, story icons not emoji on the passport ───────────
+const slots = strip(readFileSync('components/pathway/StageSlots.tsx', 'utf8'))
+const todo = strip(readFileSync('components/pathway/PassportToDo.tsx', 'utf8'))
+const bare = (src, name) => new RegExp(`>\\s*\\{${name}\\.emoji\\}\\s*<`).test(src)
+if (bare(slots, 'sec') || !/SLOT_ICON\[sec\.key\]/.test(slots)) problems.push('G: the five slots draw the emoji rather than the story icon')
+else ok.push('G: the slots wear story icons')
+if (bare(todo, 'it') || !/SLOT_ICON\[it\.key\]/.test(todo)) problems.push('G: the to do rows draw the emoji rather than the story icon')
+else ok.push('G: the to do rows wear story icons')
+if (bare(book, 'next') || !/SLOT_ICON\[next\.key\]/.test(book)) problems.push('G: the next open row draws the emoji rather than the story icon')
+else ok.push('G: the next open row wears a story icon')
+if (/🛂/.test(book)) problems.push('G: the shop link still carries the passport emoji rather than the story icon')
+else ok.push('G: the shop link wears the passport story icon')
 
 for (const line of ok) console.log(`PASS  ${line}`)
 if (problems.length) {

@@ -103,7 +103,8 @@ export default function InsightsBoard() {
 
   // The product pulse: a de-identified aggregate read across all families, loaded
   // on open so the board is useful even before DiGi has been chatted to.
-  type Pulse = { families: number; children: number; byStage: Record<string, number>; questsSet: number; ticksThisWeek: number; approvalRate: number | null; screenMinsWeek: number; activeFamilies7d: number; childAppSetUp: number; childActive7d: number; wellbeingCheckins30d: number; avgParentMood: number | null }
+  type Habit = { dayDoneFamilies7d: number; dayDoneRate7d: number | null; streakBuckets: { one: number; two_to_six: number; week_plus: number; month_plus: number }; returnedD7: number | null; perfectWeeks: number }
+  type Pulse = { families: number; children: number; byStage: Record<string, number>; questsSet: number; ticksThisWeek: number; approvalRate: number | null; screenMinsWeek: number; activeFamilies7d: number; childAppSetUp: number; childActive7d: number; wellbeingCheckins30d: number; avgParentMood: number | null; habit?: Habit }
   const [pulse, setPulse] = useState<Pulse | null>(null)
   const [pulseError, setPulseError] = useState('')
   useEffect(() => {
@@ -268,6 +269,14 @@ export default function InsightsBoard() {
             { label: 'Active this week', value: String(pulse.activeFamilies7d), sub: pulse.families > 0 ? `${Math.round((pulse.activeFamilies7d / pulse.families) * 100)}% of families` : undefined },
             { label: 'Child app set up', value: String(pulse.childAppSetUp), sub: pulse.families > 0 ? `${Math.round((pulse.childAppSetUp / pulse.families) * 100)}% of families` : undefined },
             { label: 'Child using it this week', value: String(pulse.childActive7d), sub: pulse.childAppSetUp > 0 ? `${Math.round((pulse.childActive7d / pulse.childAppSetUp) * 100)}% of those set up` : undefined },
+            // The habit (13 September 2026): is the daily loop forming? Day done
+            // this week, who came back a week later, and how many are on a
+            // streak of seven or more. Duolingo's four numbers in our words.
+            ...(pulse.habit ? [
+              { label: 'Day done this week', value: String(pulse.habit.dayDoneFamilies7d), sub: pulse.habit.dayDoneRate7d != null ? `${pulse.habit.dayDoneRate7d}% of families who have ever done a day` : undefined },
+              { label: 'Came back a week later', value: pulse.habit.returnedD7 != null ? `${pulse.habit.returnedD7}%` : 'Not yet', sub: 'of families who did a day 7 to 13 days ago' },
+              { label: 'On a week or more', value: String(pulse.habit.perfectWeeks), sub: `streaks: ${pulse.habit.streakBuckets.one} at 1, ${pulse.habit.streakBuckets.two_to_six} at 2 to 6, ${pulse.habit.streakBuckets.week_plus} at 7 to 29, ${pulse.habit.streakBuckets.month_plus} at 30 plus` },
+            ] : []),
             { label: 'Quests set', value: String(pulse.questsSet) },
             { label: 'Quests done this week', value: String(pulse.ticksThisWeek), sub: pulse.approvalRate != null ? `${pulse.approvalRate}% approved` : undefined },
             { label: 'Screen mins this week', value: String(pulse.screenMinsWeek) },

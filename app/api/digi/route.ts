@@ -14,6 +14,7 @@ import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { getTriedAlready, getRatedForSituation } from '@/lib/digi/outcomes'
 import { getRatingShifts } from '@/lib/digi/rating-loop'
 import { inferSituation } from '@/lib/digi/situation'
+import { inferIssue } from '@/lib/content/device-issues-match'
 import { lexicalFlags, highestSeverity, hasCrisisLanguage, hasSafeguardingLanguage, CRISIS_OPENER, SAFEGUARDING_OPENER } from '@/lib/digi/safety'
 import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
@@ -441,6 +442,11 @@ export async function POST(request: Request) {
   // one is guessed from the message's own words, no model call. A miss costs
   // nothing: no topic, no query, and the block tells DiGi to ignore a bad fit.
   const situation = inferSituation(String(message))
+  // The issue this family is in, from the bank of the top device problems by
+  // age (lib/content/device-issues.ts). Justin, 13 September 2026: DiGi must
+  // answer each device issue with a solution that exists. Keywords, no model
+  // call; the band ranks the tie.
+  const issue = inferIssue(String(message), (child?.age_band as AgeBand | null) ?? null)
   const round2 = Promise.all([
     getExpertKnowledge(supabase, child?.age_band ?? null, message),
     getAggregateWisdom(supabase, child?.age_band ?? null, message),
@@ -466,6 +472,11 @@ export async function POST(request: Request) {
     child?.stage_id
       ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0, child?.id ?? null, { ageBand: (child?.age_band as string | null) ?? null, name: (child?.name as string | null) ?? null })
       : Promise.resolve(''),
+    // The real rows for the issue's proof scripts, so the links DiGi offers
+    // are titles that exist at numbers that exist.
+    issue
+      ? supabase.from('scripts').select('sort_order, title').in('title', issue.proof.scripts)
+      : Promise.resolve({ data: null }),
   ])
 
   const lane = await lanePromise
@@ -486,7 +497,20 @@ export async function POST(request: Request) {
     : []
 
   // gather2_ms is now the time round two took BEYOND the lane call.
-  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, recommended, matchingScriptsResult, pathwayPosition] = await round2
+  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, recommended, matchingScriptsResult, pathwayPosition, issueScriptsResult] = await round2
+
+  // ── THE ISSUE, WITH ITS PATHWAY AND ITS REAL SCRIPTS ──────────────────────
+  //
+  // Not gated on the lane: a parent describing the meltdown at switch off is
+  // in this issue whether the classifier called it research or not, and the
+  // block is short. Never allow or deny holds here as everywhere: the
+  // pathway is offered, never a rule, never a confiscation.
+  let issueKnowledge = ''
+  if (issue) {
+    const rows = (issueScriptsResult?.data ?? []) as { sort_order: number; title: string }[]
+    const links = rows.map(r => `[${r.title}](/dashboard/scripts/${r.sort_order})`).join(', ')
+    issueKnowledge = `\n\nTHE ISSUE THIS FAMILY IS IN, from the bank of the top device problems parents raise at this age: "${issue.name}". What is going on: ${issue.mechanism} The pathway: ${issue.response} What makes it smaller a stage earlier: ${issue.prevent} Evidence: ${issue.source.name}. Answer with this pathway in your own words, as a next step and the words to say, never as a rule and never as taking the device away. ${links ? `Offer one of these real scripts for it, linked exactly as written: ${links}.` : ''}`
+  }
   const expertKnowledge = wantsResearch ? expertKnowledgeRaw : ''
   const aggregateWisdom = wantsResearch ? aggregateWisdomRaw : ''
   const provenSolutions = wantsResearch ? provenSolutionsRaw : ''
@@ -800,7 +824,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

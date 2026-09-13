@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import type { ChecklistSection } from './PassportStamps'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { SLOT_ICON } from '@/lib/pathway/passport-icons'
 
 // The five stamp slots on a passport page.
 //
@@ -111,7 +113,8 @@ export default function StageSlots({
                   transition: 'opacity 0.4s ease',
                 }}
               >
-                {sec.emoji}
+                {/* The story icon, not the emoji: the happy news finish. */}
+                {SLOT_ICON[sec.key] ? <HappyIcon name={SLOT_ICON[sec.key]} size={26} /> : sec.emoji}
               </span>
               {/* The tick, on a job that FINISHES. Its absence is what says
                   the two habit slots are a different kind of thing, alongside

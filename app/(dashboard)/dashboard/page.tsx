@@ -27,6 +27,8 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
 import PassportPeek from '@/components/home/PassportPeek'
+import IssueOfTheWeek from '@/components/home/IssueOfTheWeek'
+import { pickIssueOfWeek } from '@/lib/home/issue-of-week'
 import { friendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import { CHALLENGE_LABELS } from '@/lib/pathway/challenge-labels'
 import { isHeldForHolidays } from '@/lib/school/child-items'
@@ -895,6 +897,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // so Home and the pathway can never name a different concern as the one being
   // worked on.
   const liveConcerns = (liveConcernsResult.data ?? []) as { slug: string; label: string; status: string; times_flagged: number }[]
+  // ── THE FIX OF THE WEEK (13 September 2026) ────────────────────────────
+  //
+  // The one device problem to solve next for this child's age, with the
+  // script that solves it, from the bank of the top issues parents raise at
+  // each age (lib/content/device-issues.ts). First not yet acted on, never
+  // re offered once done. Two small reads; fails soft to no card.
+  const issueOfWeek = child?.age_band && !firstRun
+    ? await pickIssueOfWeek(supabase, user.id, child.id ?? null, child.age_band as AgeBand, isPaid).catch(() => null)
+    : null
+
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
@@ -1131,6 +1143,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} childId={child?.id ?? null} />
+
+      {/* The fix of the week: the success help, one device problem for this
+          age with the exact words that solve it, under the road. */}
+      {issueOfWeek && <IssueOfTheWeek pick={issueOfWeek} childName={child?.name ?? null} />}
 
       {/* ── ONE TAP, NOT ONE SCROLL (11 September 2026) ─────────────────────
           Justin: "cant be a long scroll... so not a massive long scroll but

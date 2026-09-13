@@ -11,6 +11,8 @@ import StageSlots from './StageSlots'
 import StageChildStrip from './StageChildStrip'
 import StageAreas from './StageAreas'
 import PassportPass from './PassportPass'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { SLOT_ICON } from '@/lib/pathway/passport-icons'
 import { improvedSentence, type ImprovedLine } from '@/lib/concerns/sorted'
 
 // The passport as a little book. A teal cover with the gold crest, then
@@ -833,7 +835,9 @@ export default function PassportBook({
                             }}
                           >
                             <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                              <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)' }}>{next.emoji}</span>
+                              <span aria-hidden style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: theme.bg, border: `1.5px solid ${theme.text}`, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {SLOT_ICON[next.key] ? <HappyIcon name={SLOT_ICON[next.key]} size={20} /> : next.emoji}
+                              </span>
                               <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
                                 {next.label}
                               </span>
@@ -887,7 +891,9 @@ export default function PassportBook({
                             about the child and not about a checklist item. */}
                         {secs.filter(x => x.alert).map(x => (
                           <div key={`alert-${x.key}`} style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 8, background: '#FDECEC', borderRadius: 10, padding: '7px 10px' }}>
-                            <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1.3 }}>⚠️</span>
+                            {/* No story icon says warning, so the emoji stays,
+                                on its plate, as the finish asks. */}
+                            <span aria-hidden style={{ flexShrink: 0, width: 26, height: 26, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-sm)', lineHeight: 1 }}>⚠️</span>
                             <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{x.alert}</span>
                           </div>
                         ))}
@@ -1170,7 +1176,8 @@ export default function PassportBook({
                 onClick={() => openFromBelow(s.id)}
                 style={{
                   display: 'inline-flex', alignItems: 'baseline', gap: 7, flexWrap: 'wrap',
-                  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)',
+                  // No ledge: it sits inside a card that carries one.
+                  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                   padding: '8px 13px', cursor: 'pointer', textAlign: 'left',
                 }}
               >
@@ -1225,7 +1232,7 @@ export default function PassportBook({
           lineHeight: 1.3,
         }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🛂</span>
+        <HappyIcon name="passport" size={26} />
         Order a passport here
       </Link>
       )}
