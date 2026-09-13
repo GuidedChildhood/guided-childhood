@@ -112,7 +112,7 @@ if (r.status !== 0) {
 const route = strip(readFileSync('app/api/digi/route.ts', 'utf8'))
 if (!/const issue = inferIssue\(String\(message\)/.test(route)) problems.push('D: the DiGi route no longer infers the issue')
 else ok.push('D: the DiGi route infers the issue from the message and the band')
-const prec = route.slice(route.indexOf('PRECEDENCE +'), route.indexOf('TOOL_RULES', route.indexOf('PRECEDENCE +')))
+const prec = route.slice(route.indexOf('PRECEDENCE +'), route.indexOf('laneShape(lane)', route.indexOf('PRECEDENCE +')))
 if (!/issueKnowledge/.test(prec)) problems.push('D: the issue block is not in the precedence line')
 else ok.push('D: the issue block reaches the system prompt')
 if (!/never as a rule and never as taking the device away/.test(route)) problems.push('D: the issue block no longer holds never allow or deny')

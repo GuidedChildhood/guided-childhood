@@ -107,11 +107,14 @@ export async function searchKnowledge(
   query: string,
   ageBand: string | null,
   limit = 6,
+  /** An embedding of `query` already in flight, so a request embeds once. */
+  vectorPromise?: Promise<number[] | null>,
 ): Promise<KnowledgeRow[]> {
   if (!query.trim()) return []
   try {
-    const { embedText } = await import('@/lib/digi/embeddings')
-    const vector = await embedText(query, 'query')
+    const vector = vectorPromise
+      ? await vectorPromise
+      : await (await import('@/lib/digi/embeddings')).embedText(query, 'query')
     if (!vector) return []
     const { data } = await supabase.rpc('match_expert_knowledge', {
       query_embedding: vector,
@@ -128,14 +131,15 @@ export async function getExpertKnowledge(
   supabase: SupabaseClient,
   ageBand: string | null,
   userMessage: string,
-  limit = 6
+  limit = 6,
+  vectorPromise?: Promise<number[] | null>,
 ): Promise<string> {
   // Hybrid, the same shape getFamilyMemory has used all along: meaning leads,
   // keywords fill in. Semantic hits go first because they are the ones the
   // keyword map could never have found, and the keyword pass still contributes
   // the crisis rule and the exact topic matches that a vector can blur.
   const [semantic, allRows] = await Promise.all([
-    searchKnowledge(supabase, userMessage, ageBand, limit),
+    searchKnowledge(supabase, userMessage, ageBand, limit, vectorPromise),
     supabase
       .from('expert_knowledge')
       .select('source_name, finding, topics, age_bands')
@@ -262,7 +266,9 @@ export async function getFamilyMemory(
   supabase: SupabaseClient,
   userId: string,
   message = '',
-  limit = 12
+  limit = 12,
+  /** An embedding of `message` already in flight, so a request embeds once. */
+  vectorPromise?: Promise<number[] | null>,
 ): Promise<string> {
   // Hybrid retrieval. When embeddings are configured, the question is embedded
   // and the memories nearest in MEANING come back through match_digi_memory
@@ -270,7 +276,10 @@ export async function getFamilyMemory(
   // through rankMemories, so kind weight, recency and word overlap all keep
   // their say. Any failure, or no key, falls straight back to the recent
   // window plus keyword ranking that has worked all along.
-  const { embedText } = await import('@/lib/digi/embeddings')
+  const embedded = vectorPromise
+    ?? (message.trim()
+      ? import('@/lib/digi/embeddings').then(m => m.embedText(message, 'query')).catch(() => null)
+      : Promise.resolve(null))
 
   const [recentResult, queryEmbedding] = await Promise.all([
     supabase
@@ -280,7 +289,7 @@ export async function getFamilyMemory(
       .eq('active', true)
       .order('created_at', { ascending: false })
       .limit(60),
-    message.trim() ? embedText(message, 'query') : Promise.resolve(null),
+    embedded,
   ])
 
   const recent = (recentResult.data ?? []) as MemoryRow[]

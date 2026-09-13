@@ -152,7 +152,7 @@ export const dynamic = 'force-dynamic'
 // of that. And when they genuinely conflict, saying so out loud is better than
 // silently picking, because a parent who can see the tension makes a better
 // decision than one handed false certainty.
-const PRECEDENCE = `
+const PRECEDENCE_RULES = `
 
 HOW TO WEIGH WHAT FOLLOWS (this ordering overrides the order the sections happen to appear in):
 1. SAFETY FIRST. Anything touching harm, crisis or safeguarding outranks everything else here, always, and the human signpost (GP, NHS 111, Childline 0800 1111) is never replaced by advice.
@@ -162,6 +162,21 @@ HOW TO WEIGH WHAT FOLLOWS (this ordering overrides the order the sections happen
 5. WHAT HAS WORKED for other families is a starting suggestion only. Offer it, never lean on it, never present it as what people do, and never give numbers.
 6. WHEN THEY CONFLICT, SAY SO. If the research points one way and this family's experience the other, name the tension in one plain sentence and give the parent the choice. Do not pick silently and do not pretend there is more certainty than there is.
 7. IF YOU DO NOT KNOW, SAY YOU DO NOT KNOW. Never invent a study, a statistic, a source or a number. An honest gap is worth more than a confident guess. A subject the knowledge base below happens not to cover is NOT one of those gaps: answer it fully from what you know and simply attach no source. Silence in the bank is never a reason to give a parent less than you have.
+`
+
+
+// ── WHAT IS CACHED, AND WHAT IS NOT ─────────────────────────────────────────
+//
+// Until 13 September 2026 the weighing rules above and the tool rules were
+// appended to the per request family context, OUTSIDE the block Anthropic
+// caches, so about 1,100 tokens of text that never changes were paid for on
+// every single message. They now ride in the cached block with the standing
+// instructions, and the family context carries a one line pointer back to
+// them, so the model still meets the rules before the sections they govern.
+const CACHED_SYSTEM = STATIC_SYSTEM + PRECEDENCE_RULES + '\n' + TOOL_RULES
+const PRECEDENCE = `
+
+Weigh everything below by HOW TO WEIGH WHAT FOLLOWS in your standing instructions: safety first, then this family's own agreement, then the research, then this family's fit, and say so when they conflict.
 `
 
 
@@ -179,6 +194,14 @@ export async function POST(request: Request) {
   }
 
   const { message, device_key, child_id: childParam } = await request.json()
+  // One embedding of the message, shared. The family memory search and the
+  // expert knowledge search each embedded the same message over HTTP, in
+  // series with everything else they did. Now it is started here, once, and
+  // both searches wait on the same promise. A missing key or a failed call
+  // resolves to null and both fall back to keywords, as before.
+  const queryVector: Promise<number[] | null> = typeof message === 'string' && message.trim()
+    ? import('@/lib/digi/embeddings').then(m => m.embedText(message, 'query')).catch(() => null)
+    : Promise.resolve(null)
   if (!message?.trim()) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
   }
@@ -284,7 +307,7 @@ export async function POST(request: Request) {
       .in('status', ['open', 'improving'])
       .order('last_flagged_at', { ascending: false })
       .limit(24),
-    getFamilyMemory(supabase, user.id, message),
+    getFamilyMemory(supabase, user.id, message, 12, queryVector),
     getWhatWorked(supabase, user.id),
     supabase
       .from('family_agreements')
@@ -447,8 +470,19 @@ export async function POST(request: Request) {
   // answer each device issue with a solution that exists. Keywords, no model
   // call; the band ranks the tie.
   const issue = inferIssue(String(message), (child?.age_band as AgeBand | null) ?? null)
+  // The live concerns for this child, needed by the score read below and by
+  // the concerns block further down. Computed once, here, so the read can sit
+  // in the wave.
+  const liveConcerns = (concernsResult.data ?? [])
+    .filter(c => ((c as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
+      || (c as { child_id?: string | null }).child_id == null)
+    .slice(0, 6)
+  // Round two. The last three entries (every script, every active moment, the
+  // concern scores) used to run one after another AFTER this wave resolved,
+  // three more round trips on the path to the first token. None of them needs
+  // anything the wave produces, so they ride in it.
   const round2 = Promise.all([
-    getExpertKnowledge(supabase, child?.age_band ?? null, message),
+    getExpertKnowledge(supabase, child?.age_band ?? null, message, 6, queryVector),
     getAggregateWisdom(supabase, child?.age_band ?? null, message),
     getProvenSolutions(supabase, child?.age_band ?? null, message),
     // Built with migration 147 and never called until now: what parents in the
@@ -477,6 +511,20 @@ export async function POST(request: Request) {
     issue
       ? supabase.from('scripts').select('sort_order, title').in('title', issue.proof.scripts)
       : Promise.resolve({ data: null }),
+    supabase.from('scripts').select('sort_order, title, situation, category'),
+    supabase
+      .from('daily_moments')
+      .select('id, title, category, science_brief, age_bands')
+      .eq('active', true),
+    liveConcerns.length > 0
+      ? supabase
+          .from('concern_events')
+          .select('concern_id, score, created_at')
+          .in('concern_id', liveConcerns.map(c => c.id))
+          .not('score', 'is', null)
+          .order('created_at', { ascending: false })
+          .limit(60)
+      : Promise.resolve({ data: null }),
   ])
 
   const lane = await lanePromise
@@ -497,7 +545,7 @@ export async function POST(request: Request) {
     : []
 
   // gather2_ms is now the time round two took BEYOND the lane call.
-  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, recommended, matchingScriptsResult, pathwayPosition, issueScriptsResult] = await round2
+  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, recommended, matchingScriptsResult, pathwayPosition, issueScriptsResult, allScriptsResult, allMomentsResult, scoreRowsResult] = await round2
 
   // ── THE ISSUE, WITH ITS PATHWAY AND ITS REAL SCRIPTS ──────────────────────
   //
@@ -578,7 +626,7 @@ export async function POST(request: Request) {
   // straight when the library has nothing close.
   let ownWorryKnowledgeBlock = ''
   try {
-    const { data: allScripts } = await supabase.from('scripts').select('sort_order, title, situation, category')
+    const allScripts = allScriptsResult.data
     ownWorryKnowledgeBlock = ownWorryKnowledge(
       (concernsResult.data ?? []) as { slug: string; label: string; status?: string | null }[],
       (allScripts ?? []) as MatchableScript[],
@@ -596,10 +644,7 @@ export async function POST(request: Request) {
   // age, and DiGi decides if one genuinely fits.
   let momentLinkKnowledge = ''
   try {
-    const { data: allMoments } = await supabase
-      .from('daily_moments')
-      .select('id, title, category, science_brief, age_bands')
-      .eq('active', true)
+    const allMoments = allMomentsResult.data
     const stop = new Set(['this', 'that', 'with', 'have', 'they', 'them', 'their', 'when', 'what', 'about', 'from', 'want', 'wants', 'will', 'wont', 'does', 'been', 'kids', 'child'])
     const words = [...new Set(String(message).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 3 && !stop.has(w)))]
     const scored = (allMoments ?? [])
@@ -641,10 +686,6 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   let concernsKnowledge = ''
   // THIS child's worries (a legacy row with no child speaks for everybody),
   // capped back to the six the prompt was sized for.
-  const liveConcerns = (concernsResult.data ?? [])
-    .filter(c => ((c as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
-      || (c as { child_id?: string | null }).child_id == null)
-    .slice(0, 6)
   if (liveConcerns.length > 0) {
     // ── DIGI CAN SEE THE STARS NOW (1 September 2026) ────────────────────────
     //
@@ -657,13 +698,7 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
     // its recency instead of having to be retyped.
     const word = (n: number) =>
       n <= 2 ? 'really tough' : n <= 4 ? 'hard going' : n <= 6 ? 'up and down' : n <= 8 ? 'getting there' : 'going great'
-    const { data: scoreRows } = await supabase
-      .from('concern_events')
-      .select('concern_id, score, created_at')
-      .in('concern_id', liveConcerns.map(c => c.id))
-      .not('score', 'is', null)
-      .order('created_at', { ascending: false })
-      .limit(60)
+    const scoreRows = scoreRowsResult.data
     // Newest first, so the first two rows seen per concern are today and the
     // time before: enough to say not just where it stands but which way it
     // just moved.
@@ -824,7 +859,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + laneShape(lane),
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -860,7 +895,7 @@ When a parent asks whether or for how long their child should use any device, do
       // came through chopped mid word, so it gets its own room here.
       max_tokens: 1600,
       system: [
-        { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: familyContext },
       ],
       messages,
@@ -881,7 +916,15 @@ When a parent asks whether or for how long their child should use any device, do
   let resolveDone: (fullText: string) => void = () => {}
   const donePromise = new Promise<string>(resolve => { resolveDone = resolve })
 
+  // The question row claim (below, just before the response is returned) is
+  // started without being waited for, so the first token is not held behind
+  // an admin write. after() waits for it here, so the id is known before
+  // anything reads it.
+  let questionRowId: string | null = null
+  let claimPromise: Promise<string | null> = Promise.resolve(null)
+
   after(async () => {
+    questionRowId = await claimPromise
     const responseText = await donePromise
 
     // Timings first, and deliberately BEFORE the empty reply guard below. A
@@ -1198,7 +1241,7 @@ When a parent asks whether or for how long their child should use any device, do
           const rescue = await callDigiStream({
             max_tokens: 1600,
             system: [
-              { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+              { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
               { type: 'text', text: familyContext },
             ],
             // The ORIGINAL messages, not the conversation the loop was
@@ -1262,7 +1305,7 @@ When a parent asks whether or for how long their child should use any device, do
               const more = await callDigiStream({
                 max_tokens: 1600,
                 system: [
-                  { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+                  { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
                   { type: 'text', text: familyContext },
                 ],
                 messages: [
@@ -1331,7 +1374,7 @@ When a parent asks whether or for how long their child should use any device, do
           stream = await callDigiStream({
             max_tokens: 1600,
             system: [
-              { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+              { type: 'text', text: CACHED_SYSTEM, cache_control: { type: 'ephemeral' } },
               { type: 'text', text: familyContext },
             ],
             messages: conversation,
@@ -1449,22 +1492,22 @@ When a parent asks whether or for how long their child should use any device, do
   // no UPDATE policy on this table, only SELECT and INSERT. Best effort: a
   // failed claim costs the instant tick and nothing else, since after() still
   // writes the row the old way when there is no id to update.
-  let questionRowId: string | null = null
-  try {
-    const { data: claimed } = await createAdminClient()
-      .from('digi_questions')
-      .insert({
-        user_id: user.id,
-        child_id: child?.id ?? null,
-        stage_id: stage.id,
-        question: message,
-        response: '',
-        lane,
-      })
-      .select('id')
-      .single()
-    questionRowId = (claimed?.id as string | undefined) ?? null
-  } catch { /* the tick waits for after(), which is where it used to live */ }
+  // Started, not awaited: the insert takes tens of milliseconds and the
+  // stream takes seconds, so the row is there long before DigiChat's refresh
+  // goes looking for it, and the parent's first word is not held behind it.
+  claimPromise = Promise.resolve(createAdminClient()
+    .from('digi_questions')
+    .insert({
+      user_id: user.id,
+      child_id: child?.id ?? null,
+      stage_id: stage.id,
+      question: message,
+      response: '',
+      lane,
+    })
+    .select('id')
+    .single())
+    .then(r => (r.data?.id as string | undefined) ?? null, () => null)
 
   return new Response(body, {
     headers: {

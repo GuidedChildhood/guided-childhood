@@ -996,7 +996,7 @@ export default function KidQuestScreen({
         }
       } catch { /* offline, the next poll tries again */ }
     }
-    const id = setInterval(poll, 12000)
+    const id = setInterval(() => { if (!document.hidden) poll() }, 12000)
     const onVis = () => { if (!document.hidden) poll() }
     document.addEventListener('visibilitychange', onVis)
     return () => { live = false; clearInterval(id); document.removeEventListener('visibilitychange', onVis) }

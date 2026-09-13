@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { unstable_cache } from 'next/cache'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { STAGES } from '@/lib/content/stages'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 
@@ -20,10 +21,17 @@ const STAGE_COLORS = {
 // returned. The founder cap itself is enforced at checkout, never here.
 const FOUNDER_COUNT_TIMEOUT_MS = 1500
 
-async function getFounderData() {
+// Cached for a minute, so the buy page ships without waiting on the database
+// at all for the next sixty seconds of visitors. Found in the speed review of
+// 13 September 2026: this one count made /join a dynamic render on every
+// visit. The count is a nicety and the cap is enforced at checkout, so a
+// minute of staleness costs nothing. Admin client because a cached function
+// cannot read the visitor's cookies, and it never needs to: the count is the
+// same for everyone.
+const getFounderData = unstable_cache(async () => {
   const fallback = { taken: 0, available: true }
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const query = supabase
       .from('profiles')
       .select('id', { count: 'exact', head: true })
@@ -38,7 +46,7 @@ async function getFounderData() {
   } catch {
     return fallback
   }
-}
+}, ['founder-count'], { revalidate: 60 })
 
 // The star quest leads, per THE-STORY §10: it is the one piece competitors do
 // not have, and until 29 August 2026 it was missing from this page entirely,

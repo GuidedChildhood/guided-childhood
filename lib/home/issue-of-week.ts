@@ -58,15 +58,22 @@ export async function pickIssueOfWeek(
 ): Promise<IssueOfWeek | null> {
   const titles = [...new Set(issuesForBand(band).flatMap(i => i.proof.scripts))]
   if (titles.length === 0) return null
-  const { data: scripts } = await supabase.from('scripts').select('sort_order, title, is_free').in('title', titles)
+  // Both reads leave together. The completions read used to wait for the
+  // scripts read so it could filter to those sort orders in the query; it now
+  // reads the family's completions (a few dozen rows at most) and the filter
+  // happens here, which is the same set and one round trip fewer on Home.
+  let q = supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId)
+  if (childId) q = q.or(`child_id.eq.${childId},child_id.is.null`)
+  const [{ data: scripts }, { data: done }] = await Promise.all([
+    supabase.from('scripts').select('sort_order, title, is_free').in('title', titles),
+    q,
+  ])
   const rows = (scripts ?? []) as { sort_order: number; title: string; is_free: boolean }[]
   if (rows.length === 0) return null
-  let q = supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId).in('script_sort_order', rows.map(r => r.sort_order))
-  if (childId) q = q.or(`child_id.eq.${childId},child_id.is.null`)
-  const { data: done } = await q
+  const wanted = new Set(rows.map(r => r.sort_order))
   const acted = new Set<number>()
   for (const d of (done ?? []) as { script_sort_order: number; status: string | null }[]) {
-    if (countsTowardPathway(d.status)) acted.add(d.script_sort_order)
+    if (wanted.has(d.script_sort_order) && countsTowardPathway(d.status)) acted.add(d.script_sort_order)
   }
   const weekIndex = Math.floor(Date.now() / (7 * 86400000))
   const pick = pickIssue(band, rows, acted, weekIndex)
