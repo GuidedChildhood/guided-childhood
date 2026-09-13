@@ -103,9 +103,9 @@ const CLAIMS = [
 // that matters: the class is told to pick anything they learned this week, and
 // the demonstration then fails in front of them.
 const FIELD_CLAIMS = [
-  [KS3_24, 'Keil', m => m.slides[16].body, null, 'works in steps',
+  [KS3_24, 'Keil', m => m.slides[17].body, null, 'works in steps',
    'the illusion is weak or absent for facts and procedures, so the pupil facing drill must name a mechanism'],
-  [KS2_25, 'Keil', m => m.slides[15].body, null, 'WORKS IN STEPS',
+  [KS2_25, 'Keil', m => m.slides[16].body, null, 'WORKS IN STEPS',
    'same rule, KS2 drill. Shouted on the slide because seven year olds need the constraint to be loud'],
   // Pinned to the evidence base row rather than the module, because the same
   // phrase also appears in subject_knowledge. Gutting the row while leaving the

@@ -59,6 +59,11 @@ const DOCS = [
     body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
+    href: '/hub/passport', emoji: '🛂', accent: 'var(--gold-dark)',
+    title: 'The passport, page by page',
+    body: 'The five pages of the passport to sixteen and how far this screen has taken your classes through them. Counted here and nowhere else: no pupil, no login, no upload.',
+  },
+  {
     href: '/hub/vocabulary', emoji: '🔤', accent: 'var(--gold-dark)',
     title: 'Whole scheme vocabulary',
     body: 'Every keyword from every module with its pupil facing definition, in teaching order. For display walls and planning.',

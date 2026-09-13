@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { introCharacterFor } from '../intro-characters'
+import DigiCharacter from './DigiCharacter'
 import { WALL } from '../wall-scale'
 
 // The lesson intro: the real DiGi Squad character (the footballer, the
@@ -20,17 +21,21 @@ export default function AnimatedIntro({
   title,
   eyebrow,
   character,
+  line: lineOverride,
   onStart,
   projector = false,
 }: {
   title: string
   eyebrow?: string
   character?: string
+  // The lesson's own hello, over the friend's default.
+  line?: string
   onStart?: () => void
   projector?: boolean
 }) {
   const root = useRef<HTMLDivElement>(null)
   const c = introCharacterFor(character, title)
+  const line = lineOverride ?? c.line
   const [typed, setTyped] = useState('')
 
   useEffect(() => {
@@ -45,20 +50,23 @@ export default function AnimatedIntro({
     const cta = el.querySelector('[data-cta]')
 
     if (reduce) {
-      gsap.set([frame, bubble, ...words, eyebrowEl, cta], { opacity: 1, y: 0, scale: 1 })
-      setTyped(c.line)
+      gsap.set([frame, bubble, ...words, eyebrowEl, cta].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
+      setTyped(line)
       return
     }
 
+    // The eyebrow and the Continue button are optional, and GSAP warns on a
+    // null target on every title slide that lacks one: the teach route never
+    // renders the button. Tween only what is on the page.
     const tl = gsap.timeline()
-    tl.fromTo(eyebrowEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35 }, 0.1)
+    if (eyebrowEl) tl.fromTo(eyebrowEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35 }, 0.1)
     tl.fromTo(frame, { opacity: 0, scale: 0.85, y: 12 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' }, 0.2)
     tl.fromTo(bubble, { opacity: 0, y: 12, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }, 0.7)
     tl.fromTo(words, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(1.6)' }, 0.9)
-    tl.fromTo(cta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '>-0.1')
+    if (cta) tl.fromTo(cta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '>-0.1')
 
     // Type the character's hello out word by word, starting as the bubble lands
-    const parts = c.line.split(/(\s+)/)
+    const parts = line.split(/(\s+)/)
     let i = 0
     const typer = setInterval(() => {
       i += 1
@@ -68,7 +76,7 @@ export default function AnimatedIntro({
 
     return () => { tl.kill(); clearInterval(typer) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, character])
+  }, [title, character, line])
 
   const titleWords = title.split(/(\s+)/)
 
@@ -102,7 +110,7 @@ export default function AnimatedIntro({
         }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
             {typed}
-            {typed.length < c.line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
+            {typed.length < line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
           </span>
         </div>
         <div style={{
@@ -122,11 +130,20 @@ export default function AnimatedIntro({
         border: '3px solid rgba(237,195,95,0.5)', boxShadow: '0 12px 34px rgba(0,0,0,0.3)',
         background: '#0F2A32',
       }}>
-        <video
-          src={c.clip}
-          autoPlay muted loop playsInline
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
+        {c.clip ? (
+          <video
+            src={c.clip}
+            autoPlay muted loop playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        ) : (
+          // DiGi has no film and needs none: the star is drawn in code and
+          // waves hello, so a DiGi lesson opens on DiGi rather than on
+          // whichever friend happened to have a clip.
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <DigiCharacter mood="idle" size={projector ? 300 : 136} />
+          </div>
+        )}
       </div>
 
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: projector ? WALL.display : 'clamp(1.4rem, 5vw, 1.9rem)', fontWeight: 900, color: '#fff', lineHeight: 1.14, letterSpacing: '-0.02em', margin: '18px 0 18px' }}>

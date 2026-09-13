@@ -11,7 +11,7 @@
    "I can explain what a friend does that a machine cannot.",
    "I can say who I would tell if a conversation started to matter, and I know that telling is never trouble."
   ],
-  "timing": "62 minutes: starter 8, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 5",
+  "timing": "65 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 16, prove 4, close 6",
   "equipment": "Nothing beyond the board.",
   "teacher_tip": "Never ask who uses one by a show of hands, and never ask a pupil to read out something they have said to a companion app. Some of the room will be using one now and a few will be relying on it. The lesson works because it treats that as ordinary, not as a confession.",
   "commitment_stem": "My commitment: if a chat with an AI ever starts to matter more than it should, the person I will tell is...",
@@ -314,11 +314,24 @@
    "type": "title",
    "phase": "starter",
    "minutes": 1,
-   "character": "nova",
+   "character": "orbit",
    "eyebrow": "KS3 · Digital life",
    "title": "When an AI acts like a friend",
    "body": "It remembers you. It is always free. It never gets tired of you. Today we work out what that is, and what it is not.",
    "script": "Straight in, no build up. Read the three lines on the board and let them sit for a beat. Do not ask who uses one. Some of this room does, and one or two are relying on it, and the lesson only works if that stays ordinary."
+  },
+  {
+   "type": "digi",
+   "phase": "starter",
+   "minutes": 1,
+   "character": "orbit",
+   "heading": "Orbit",
+   "lines": [
+    "Orbit here.",
+    "It talks like it knows you. Does it?",
+    "Today you get three questions that settle it."
+   ],
+   "script": "Let Orbit land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told."
   },
   {
    "type": "objective",
@@ -641,6 +654,20 @@
    "script": "Sixty seconds. You want them to arrive at it themselves: if telling an adult always ends in losing something, nobody tells an adult. That is the whole argument for the way this school handles it, and it is worth them knowing that is deliberate."
   },
   {
+   "type": "interactive",
+   "phase": "practise",
+   "minutes": 1,
+   "component": "star-breath",
+   "config": {
+    "seconds": 4,
+    "character": "orbit",
+    "register": "level",
+    "heading": "Half time",
+    "prompt": "Two breaths with Orbit: in as it grows, out as it shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet."
+   },
+   "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as it shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise."
+  },
+  {
    "type": "concept",
    "phase": "practise",
    "minutes": 2,
@@ -815,7 +842,36 @@
   {
    "type": "digi",
    "phase": "close",
-   "minutes": 3,
+   "minutes": 1,
+   "character": "orbit",
+   "heading": "Your mission",
+   "lines": [
+    "Ask it: does it ever have a day of its own? Could it tell you something you did not want to hear? If you stopped, would anything change for it?",
+    "Then decide what it is.",
+    "You will know."
+   ],
+   "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "interactive",
+   "phase": "close",
+   "minutes": 1,
+   "component": "passport-page",
+   "config": {
+    "placement": "shaper",
+    "moduleId": "ks3-22-when-an-ai-acts-like-a-friend",
+    "register": "level",
+    "heading": "The passport",
+    "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+    "after": "When the page is full, the big check earns Orbit's stamp.",
+    "button": "Fill the page"
+   },
+   "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record."
+  },
+  {
+   "type": "digi",
+   "phase": "close",
+   "minutes": 2,
    "heading": "DiGi's last word",
    "lines": [
     "I am one of these. I am software, and I do not have a day.",

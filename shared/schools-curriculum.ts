@@ -32,13 +32,57 @@ export const CHARACTERS: Record<CharacterKey, {
   accent: string // border, ring, chips
   soft: string   // card header band
   ink: string    // text on the soft band
+  // THE EXPRESSION STILLS (13 September 2026). Three faces per friend, made
+  // from the cutout above as the reference so nothing drifts off model:
+  // happy (eyes shut with joy, arms up; Nova quietly pleased), wave (one arm
+  // raised in hello) and thinking (a hand to the chin, looking up). Fifteen
+  // stills on GPT Image 2.5 with a true transparent background, one credit
+  // each, approved by Justin the same day. FriendPlate swaps the art with the
+  // mood and keeps its motion, so a right answer and a question now change
+  // the friend's face and not only its bounce. DiGi keeps DigiCharacter.
+  moods?: { happy: string; wave: string; thinking: string }
 }> = {
-  pebble: { name: 'Pebble', emblem: '🌱', img: ART + 'hf_20260723_135533_4b42a90b-68d8-4975-93a8-1600028de47e.png', accent: '#C99A28', soft: '#FBEED0', ink: '#7A5A0E' },
-  bloop: { name: 'Bloop', emblem: '🧩', img: ART + 'hf_20260723_135534_b8fa0227-f964-442f-849f-b72e42fb09f9.png', accent: '#6C9E38', soft: '#E4F0D4', ink: '#3F5E1E' },
-  orbit: { name: 'Orbit', emblem: '🔭', img: ART + 'hf_20260723_135535_d2a3f8b1-f5b8-473c-a1f2-27a97968efe6.png', accent: '#3E86BC', soft: '#DCEBF7', ink: '#1F4E6E' },
+  pebble: {
+    name: 'Pebble', emblem: '🌱', img: ART + 'hf_20260723_135533_4b42a90b-68d8-4975-93a8-1600028de47e.png', accent: '#C99A28', soft: '#FBEED0', ink: '#7A5A0E',
+    moods: {
+      happy: ART + 'hf_20260913_081336_a59c4be7-6376-4ae4-ba56-64c325f62f76.png',
+      wave: ART + 'hf_20260913_081941_ae89dd93-bfd1-4fc5-a17c-650010cd2b8c.png',
+      thinking: ART + 'hf_20260913_081941_94f99d58-43dc-44ea-b008-da43d1697aac.png',
+    },
+  },
+  bloop: {
+    name: 'Bloop', emblem: '🧩', img: ART + 'hf_20260723_135534_b8fa0227-f964-442f-849f-b72e42fb09f9.png', accent: '#6C9E38', soft: '#E4F0D4', ink: '#3F5E1E',
+    moods: {
+      happy: ART + 'hf_20260913_081941_2bd12dc6-4139-49cc-92e0-4f18da51ad25.png',
+      wave: ART + 'hf_20260913_081941_9c7bd6fb-0355-4013-9d51-0a3b70e0d161.png',
+      thinking: ART + 'hf_20260913_081941_dc593bff-1176-4069-8238-796de6f8233d.png',
+    },
+  },
+  orbit: {
+    name: 'Orbit', emblem: '🔭', img: ART + 'hf_20260723_135535_d2a3f8b1-f5b8-473c-a1f2-27a97968efe6.png', accent: '#3E86BC', soft: '#DCEBF7', ink: '#1F4E6E',
+    moods: {
+      happy: ART + 'hf_20260913_081941_d1d3b931-a843-4cf8-bd72-145e24d54981.png',
+      wave: ART + 'hf_20260913_081941_1f06ef4d-0832-4aac-ba3a-9b5228fff25c.png',
+      thinking: ART + 'hf_20260913_081941_4f68e598-3542-4311-bf32-9a664328403e.png',
+    },
+  },
   digi: { name: 'DiGi', emblem: '⭐', img: '/digi-squad/DiGi-star.svg', accent: '#C99A28', soft: '#FDF4D9', ink: '#7A5A0E' },
-  nova: { name: 'Nova', emblem: '🧭', img: ART + 'hf_20260725_090735_80eecf61-9864-4a94-9800-da51aa2b7d3d.png', accent: '#7E5AB0', soft: '#ECE3F7', ink: '#4A2F73' },
-  cosmo: { name: 'Cosmo', emblem: '🚀', img: ART + 'hf_20260725_090730_c0428406-c720-4b1f-97e7-5aaea2d9bb6c.png', accent: '#CE7328', soft: '#FBE4D0', ink: '#8F4A12' },
+  nova: {
+    name: 'Nova', emblem: '🧭', img: ART + 'hf_20260725_090735_80eecf61-9864-4a94-9800-da51aa2b7d3d.png', accent: '#7E5AB0', soft: '#ECE3F7', ink: '#4A2F73',
+    moods: {
+      happy: ART + 'hf_20260913_082028_709d33a3-d8c5-4458-8749-98daaef54152.png',
+      wave: ART + 'hf_20260913_081941_2e68342c-1634-4e8d-a8f9-0012fbada22b.png',
+      thinking: ART + 'hf_20260913_081941_a81ce764-3e17-4640-90af-9b5e81594c26.png',
+    },
+  },
+  cosmo: {
+    name: 'Cosmo', emblem: '🚀', img: ART + 'hf_20260725_090730_c0428406-c720-4b1f-97e7-5aaea2d9bb6c.png', accent: '#CE7328', soft: '#FBE4D0', ink: '#8F4A12',
+    moods: {
+      happy: ART + 'hf_20260913_081941_f602f40f-76e7-4554-bcbd-e363c9c33981.png',
+      wave: ART + 'hf_20260913_081946_2e7b931e-915d-4c11-a3cf-f69d39ad497a.png',
+      thinking: ART + 'hf_20260913_081945_e1d8ce39-dd16-4736-81b4-10396e81491a.png',
+    },
+  },
 }
 
 // The named topics of the DfE RSHE statutory guidance published 15 July

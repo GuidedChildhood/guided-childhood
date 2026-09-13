@@ -4,6 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
+import FriendPlate from './FriendPlate'
+import PassportPage from './PassportPage'
+import type { PassportPlacement } from '../passport-stages'
+import { CHARACTERS, type CharacterKey } from '../schools-curriculum'
+import { isCharacterKey } from '../intro-characters'
+import type { Register } from '../friend-register'
 import AnimatedIntro from './AnimatedIntro'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
 import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
@@ -524,54 +530,75 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
   )
 }
 
-// DiGi popping in with his bubble: the app greeting treatment. The golden
-// star lands in his butter circle, then speaks the lesson home one white
-// bubble at a time. No render pipeline, always available.
-function DigiClosingBlock({ slide, projector }: { slide: DigiSlide; projector?: boolean }) {
+// THE CHARACTER BEAT: a friend on its plate, speaking one bubble at a time.
+//
+// This began as DiGi's closing block, the app greeting treatment: the golden
+// star lands in his circle, then speaks the lesson home. Since 13 September
+// 2026 it is every friend's beat. A digi slide that names a character is an
+// arrival, an explain or a mission in that friend's own plate and register,
+// and one that names nobody is DiGi closing, exactly as before. No render
+// pipeline, no credits, always available, and the same code plays every one
+// of the twenty five lessons, which is what makes it a series rather than
+// twenty five one offs.
+function CharacterBeat({ slide, projector, register = 'playful' }: { slide: DigiSlide; projector?: boolean; register?: Register }) {
   const ref = useRef<HTMLDivElement>(null)
   const [mood, setMood] = useState<DigiMood>('wave')
+  // The slide's own friend, or DiGi. DiGi closes every lesson whoever hosts
+  // it, and that is the line this keeps.
+  const who: CharacterKey = isCharacterKey(slide.character) ? slide.character : 'digi'
+  const c = CHARACTERS[who]
+  // A beat that names its character, DiGi included, moves in the lesson's
+  // register, so the DiGi arrival on a KS4 lesson holds still with no plate.
+  // The close that names nobody keeps the pop it always had, in both apps.
+  const reg: Register = slide.character ? register : 'playful'
 
   useEffect(() => {
     if (!ref.current) return
-    const avatar = ref.current.querySelector('[data-digi-avatar]')
     const bubbles = ref.current.querySelectorAll('[data-digi-line]')
-    // The avatar and every line are authored at opacity 0 for the animation to
-    // fade up from. Under reduced motion the animation never runs, so the
-    // early return left the whole closing block invisible: DiGi's three lines
-    // are the last thing every lesson says and a child with the setting on saw
-    // an empty slide. Reduced motion means no movement, not no content.
+    // Every line is authored at opacity 0 for the animation to fade up from.
+    // Under reduced motion the animation never runs, so set the natural state
+    // outright: reduced motion means no movement, not no content.
     if (prefersReducedMotion()) {
-      gsap.set([avatar, ...bubbles].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
+      gsap.set(bubbles, { opacity: 1, y: 0, scale: 1 })
       setMood('happy')
       return
     }
-    const tl = gsap.timeline()
-    if (avatar) tl.fromTo(avatar, { opacity: 0, scale: 0.4, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(2.2)' })
+    // The friend lands first (FriendPlate plays the arrival), then speaks.
+    const tl = gsap.timeline({ delay: 0.55 })
     tl.fromTo(bubbles, { opacity: 0, y: 14, scale: 0.96 }, {
       opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 1.0, ease: 'back.out(1.6)',
       onComplete: () => setMood('happy'),
-    }, '-=0.1')
+    })
     return () => { tl.kill() }
   }, [])
 
+  const plate = projector ? 150 : 64
   return (
     <div ref={ref}>
       {slide.heading && (
-        <div style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '18px', textAlign: 'center' }}>{slide.heading}</div>
+        <div style={{ ...eyebrowOn(projector), color: c.ink, marginBottom: '18px', textAlign: 'center' }}>{slide.heading}</div>
       )}
-      <div style={{ display: 'flex', gap: room(projector, '18px', '12px'), alignItems: 'flex-start', maxWidth: room(projector, WALL.column, '460px'), margin: '0 auto' }}>
-        <span data-digi-avatar style={{
-          opacity: 0, width: 54, height: 54, borderRadius: '50%', flexShrink: 0,
-          background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 4px 0 var(--terracotta-dark)',
-        }}>
-          <DigiCharacter mood={mood} size={projector ? 92 : 38} />
-        </span>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, paddingTop: '4px' }}>
+      {/* The friend sits beside its words wherever the row is wide enough and
+          wraps above them where it is not. Width decides, not the projector
+          flag: the teach route is always the wall, and a teacher still opens
+          it on a phone, where a 150px plate beside a three line mission left
+          the words two thirds of a 390px screen wide and nine lines deep. The
+          words claim 240px before they drop under the plate, which then
+          centres on its own line. DiGi's close in the parent app, a 64px
+          plate beside a 12px gap, still fits a phone as a row. */}
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'flex-start',
+        columnGap: room(projector, '24px', '12px'), rowGap: '6px',
+        maxWidth: room(projector, WALL.column, '460px'), margin: '0 auto',
+      }}>
+        <FriendPlate character={who} register={reg} mood={mood} size={plate} arrive />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: '1 1 240px', paddingTop: room(projector, '18px', '4px') }}>
           {slide.lines.map((line, i) => (
             <div key={i} data-digi-line style={{
-              opacity: 0, background: '#fff', border: '1.5px solid var(--border)',
+              opacity: 0, background: '#fff',
+              // The friend's accent frames the friend's words; DiGi keeps the
+              // quiet border the close has always had.
+              border: `1.5px solid ${who === 'digi' ? 'var(--border)' : c.accent}`,
               borderRadius: i === 0 ? '4px 18px 18px 18px' : '18px', padding: '13px 18px', textAlign: 'left',
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: room(projector, WALL.body, 'var(--text-lg)'),
               color: 'var(--ink)', lineHeight: 1.55, boxShadow: '0 3px 0 rgba(26,26,46,0.06)',
@@ -687,7 +714,7 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, onSettled, projector, seed, tool,
+  slide, onAnswered, onSettled, projector, seed, tool, register,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
@@ -695,6 +722,8 @@ function SlideBody({
   projector?: boolean
   seed?: number
   tool?: LessonTool
+  // The lesson's treatment register, for the character beats.
+  register?: Register
 }) {
   switch (slide.type) {
     case 'title':
@@ -702,7 +731,7 @@ function SlideBody({
         <div style={{ padding: '4px 0' }}>
           {/* The animated character intro is the opener: DiGi the star kicks
               off, the title reveals, far cleaner than a busy stock scene. */}
-          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} projector={projector} />
+          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} line={slide.line} projector={projector} />
           {slide.body && (
             <p data-reveal style={{ fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: room(projector, WALL.column, '420px'), margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}
@@ -801,7 +830,7 @@ function SlideBody({
     case 'diagram':
       return <DiagramBlock slide={slide} projector={projector} />
     case 'digi':
-      return <DigiClosingBlock slide={slide} projector={projector} />
+      return <CharacterBeat slide={slide} projector={projector} register={register} />
     case 'interactive':
       return <Interactive component={slide.component} config={slide.config} caption={slide.caption} projector={projector} />
     case 'video':
@@ -865,6 +894,9 @@ export default function LessonPlayer({
   cycles,
   tool,
   projector: projectorProp,
+  character,
+  register = 'playful',
+  passport = null,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -922,8 +954,27 @@ export default function LessonPlayer({
   // The lesson's named learning cycles, when the caller has them. Omit and
   // the player behaves exactly as it did: no map, no cycle in the chrome.
   cycles?: LessonCycle[]
+  // The Planet Friend who hosts this lesson, read off the row's cast line by
+  // the caller (friend-register.ts). Sets the accent the chrome wears and
+  // puts the friend in the header beside DiGi. Absent on the parent app
+  // lessons, which then look exactly as they did.
+  character?: CharacterKey
+  // How that friend moves: the treatment ladder, chosen by key stage.
+  register?: Register
+  // The page this school lesson fills and the home code that carries it home,
+  // read off the row by the teach route. The Completed screen draws the page
+  // as this screen now holds it (shared/schools-taught) and prints the code.
+  // Absent on the parent app, where the passport is the child's own book.
+  passport?: { placement: PassportPlacement | null; moduleId: string; homeCode?: string | null } | null
 }) {
   const projector = projectorProp ?? classMode
+  // The friend's tokens, or the terracotta the player has always worn. Text
+  // on the current pill and the cycle map uses the friend's ink on the soft
+  // band, the pairing the school cards already use, so the contrast holds.
+  const friend = character ? CHARACTERS[character] : null
+  const accent = friend ? friend.accent : 'var(--terracotta)'
+  const soft = friend ? friend.soft : 'var(--terracotta-lt)'
+  const inkOn = friend ? friend.ink : 'var(--terracotta-dark)'
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
   const [answered, setAnswered] = useState(false)
   // Answered and settled were the same instant until the retry landed: the
@@ -1384,6 +1435,34 @@ export default function LessonPlayer({
             {correctCount} of {choiceCount} right, that is a pass 🌱
           </p>
         )}
+        {/* THE PASSPORT, AS IT NOW STANDS. A school lesson ends on the page it
+            filled, in the same colours and shape as the child's book at home,
+            and the home code that puts today into that book. The count is this
+            screen's memory (shared/schools-taught), never a child's record. */}
+        {isSchool && passport && passport.placement && passport.placement !== 'after' && (
+          <div style={{ margin: '0 auto 18px', maxWidth: 400 }}>
+            <PassportPage
+              placement={passport.placement}
+              moduleId={passport.moduleId}
+              fromDevice
+              register={register}
+              compact
+              note="Counted on this screen only. The passport itself is the child's own, kept at home."
+            />
+          </div>
+        )}
+        {isSchool && passport && passport.placement === 'after' && (
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto 14px' }}>
+            No passport page today. The passport is the journey to sixteen, and this year group is past it.
+          </p>
+        )}
+        {isSchool && passport?.homeCode && (
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '380px', margin: '0 auto 14px' }}>
+            Home code{' '}
+            <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', marginRight: '0.35em' }}>{passport.homeCode.replace(/-/g, ' ')}</strong>
+            is on the parent note. Entered at home, it records today in the child&rsquo;s own passport.
+          </p>
+        )}
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
           {isSchool
             ? 'Now the worksheet verdicts and the exit cards from the printed pack. The answer key is page four, and the learning record goes in their books.'
@@ -1424,7 +1503,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} />
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 
@@ -1538,7 +1617,7 @@ export default function LessonPlayer({
       </div>
       {/* The thin butter progress bar, edge to edge */}
       <div style={{ height: '5px', background: 'var(--border)', flexShrink: 0 }}>
-        <div ref={barRef} style={{ height: '100%', width: 0, background: 'var(--terracotta)', borderRadius: '0 100px 100px 0' }} />
+        <div ref={barRef} style={{ height: '100%', width: 0, background: accent, borderRadius: '0 100px 100px 0' }} />
       </div>
 
       {/* The reading ahead notice, first slide only. Inside the player because
@@ -1602,6 +1681,12 @@ export default function LessonPlayer({
               ⭐ {kidStars}
             </span>
           )}
+          {/* The module's friend keeps watch beside DiGi and shares his mood:
+              thinking on a question, a hop on a right answer. DiGi is the
+              star; the friend is the host. */}
+          {!finished && character && character !== 'digi' && (
+            <FriendPlate character={character} register={register} mood={digiMood} size={projector ? 60 : 40} />
+          )}
           {!finished && <DigiCharacter mood={digiMood} size={projector ? 52 : 38} />}
         </span>
       </div>
@@ -1629,9 +1714,9 @@ export default function LessonPlayer({
                   fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
                   padding: room(projector, '9px 20px', '4px 10px'),
                   borderRadius: 'var(--radius-pill)',
-                  border: `1.5px solid ${isNow ? 'var(--terracotta)' : 'var(--border)'}`,
-                  background: isNow ? 'var(--terracotta)' : isDone ? 'var(--border)' : 'transparent',
-                  color: isNow ? '#fff' : isDone ? 'var(--ink-soft)' : 'var(--ink-muted)',
+                  border: `1.5px solid ${isNow ? accent : 'var(--border)'}`,
+                  background: isNow ? (friend ? soft : 'var(--terracotta)') : isDone ? 'var(--border)' : 'transparent',
+                  color: isNow ? (friend ? inkOn : '#fff') : isDone ? 'var(--ink-soft)' : 'var(--ink-muted)',
                   // The done pills recede rather than shout: what matters on a
                   // classroom wall is where we are, not where we have been.
                   opacity: isDone ? 0.72 : 1,
@@ -1667,7 +1752,7 @@ export default function LessonPlayer({
             <div aria-label="Learning cycles" style={{
               display: 'flex', flexDirection: 'column', gap: '6px',
               margin: '4px 0 18px', padding: '12px 14px',
-              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              background: soft, border: `1.5px solid ${accent}`,
               borderRadius: 'var(--radius-btn)',
             }}>
               {cycles.map((c, i) => {
@@ -1692,7 +1777,7 @@ export default function LessonPlayer({
                     <span style={{
                       fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, '10px'),
                       fontWeight: 700, letterSpacing: '0.12em',
-                      color: isNow ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                      color: isNow ? inkOn : 'var(--ink-muted)',
                     }}>
                       {isDone ? '✓' : i + 1}
                     </span>

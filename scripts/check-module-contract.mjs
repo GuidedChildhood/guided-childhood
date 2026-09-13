@@ -77,7 +77,7 @@ ok('the timing string states the real total', stated === real, `states ${stated}
 // report title in ks3-24, and was only found by eye. Digits stay OUT of the
 // character class on purpose, because module ids are quoted inside prose
 // ("from ks2-06") and those are identifiers, not punctuation.
-const IDENT = new Set(['module_id', 'component', 'type', 'phase', 'mode', 'key_stage'])
+const IDENT = new Set(['module_id', 'component', 'type', 'phase', 'mode', 'key_stage', 'moduleId'])
 const walk = (v, path) => {
   if (IDENT.has(path.split('.').pop())) return
   if (typeof v === 'string') {
@@ -150,6 +150,53 @@ slides.forEach((s,i) => {
   ok(`slide ${i} (${s.type}) has a script`, typeof s.script === 'string' && s.script.length > 20)
   ok(`slide ${i} (${s.type}) has minutes`, Number.isInteger(s.minutes) && s.minutes > 0)
 })
+
+// 8. the friends are real, and they are the module's own (13 September 2026)
+//
+// Since migration 296 a digi slide can name a Planet Friend and the title
+// slide names who opens the lesson. Both are looked up by key at render time,
+// and an unknown key falls back silently: the beat plays as DiGi, the intro
+// picks a friend from the title. That is the same shape as the parent note
+// fields nothing read, so it is guarded here rather than found on a wall.
+// A friend on a beat must also be named in the row's cast line, so a KS2
+// deck cannot quietly carry Nova.
+const FRIENDS = ['pebble', 'bloop', 'orbit', 'nova', 'cosmo', 'digi']
+const cast = String(m.row && m.row.character_cast ? m.row.character_cast : '').toLowerCase()
+slides.forEach((s, i) => {
+  if (s.type === 'title') ok(`slide ${i} (title) names a real friend`, FRIENDS.includes(s.character), `character is ${JSON.stringify(s.character)}`)
+  if (s.type === 'digi' && s.character !== undefined) {
+    ok(`slide ${i} (digi beat) names a real friend`, FRIENDS.includes(s.character), `character is ${JSON.stringify(s.character)}`)
+    ok(`slide ${i} (digi beat) friend is in the cast`, cast.includes(String(s.character)), `cast is "${cast}"`)
+  }
+  if (s.type === 'interactive' && s.config && s.config.character !== undefined) {
+    ok(`slide ${i} (interactive) names a real friend`, FRIENDS.includes(s.config.character), `character is ${JSON.stringify(s.config.character)}`)
+  }
+})
+
+// 9. the passport beat (13 September 2026, migration 297)
+//
+// Every module with a page carries exactly one interactive of component
+// passport-page, right before DiGi closes, naming its own module and the page
+// the row already knows (migration 277). A module after the passport carries
+// none. The player degrades an unknown or mismatched beat silently (a wrong
+// page draws the wrong colours, a wrong module fills the wrong segment), so it
+// is guarded here rather than found on a wall.
+const PLACEMENT_BY_KS = { EYFS: 'foundation', KS1: 'foundation', KS2: 'builder', KS3: 'shaper', KS4: 'independent', KS5: 'after' }
+const placement = (m.teacher_notes && m.teacher_notes.passport_stage) || PLACEMENT_BY_KS[m.key_stage]
+const passportBeats = slides.map((s, i) => [s, i]).filter(([s]) => s.type === 'interactive' && s.component === 'passport-page')
+if (placement === 'after') {
+  ok('no passport beat on a module after the passport', passportBeats.length === 0, `found ${passportBeats.length}`)
+} else {
+  ok('exactly one passport beat', passportBeats.length === 1, `found ${passportBeats.length}`)
+  if (passportBeats.length === 1) {
+    const [pb, pi] = passportBeats[0]
+    ok('passport beat names this module', !!pb.config && pb.config.moduleId === m.module_id, `moduleId is ${JSON.stringify(pb.config && pb.config.moduleId)}`)
+    ok('passport beat names the row page', !!pb.config && pb.config.placement === placement, `placement is ${JSON.stringify(pb.config && pb.config.placement)}, row says ${placement}`)
+    ok('passport beat is in the close phase', pb.phase === 'close', `phase is ${pb.phase}`)
+    ok('passport beat sits right before DiGi closes', pi === slides.length - 2 && slides[slides.length - 1].type === 'digi', `at ${pi} of ${slides.length}`)
+  }
+  ok('no old passport digi slide survives', !slides.some(s => s.type === 'digi' && s.heading === 'The passport'))
+}
 
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

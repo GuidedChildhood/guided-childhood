@@ -115,3 +115,37 @@ eye before merge:
 - `DIGI_MODEL` stays a config value from the environment, never hardcoded.
 - Unnecessary complexity: a dependency, an abstraction, or a service the
   ticket did not need is a finding.
+
+## 7. The teacher test (the schools scheme)
+
+Justin, 13 September 2026: "these lessons need to be better than Rosenshine,
+White Rose, Oak, Jigsaw, the best possible teaching format, easy to use, teach,
+and has everything a teacher needs. Top quality print, reporting, all the admin
+at the push of a button, and constantly checked and updated to the latest tech
+changes." Judge every schools change as the teacher who has never seen the
+scheme, has a class in eleven minutes, and a projector that works:
+
+- **Better than the four, by name.** Rosenshine: the arc is on the wall and
+  the pass is computed from real questions. Oak: starter and exit quizzes, the
+  words of every video beside it, a worksheet with an answer key, a learning
+  record. Jigsaw: a settle, a pause, a character who carries the room. White
+  Rose: a free progression map and small steps. A change that drops below any
+  of these is a finding.
+- **Everything a teacher needs, in one place.** Prep page, run sheet, the
+  player with the script on every slide, the print pack, the parent note, the
+  DSL note. If a teacher has to leave the product to teach the lesson, that is
+  a must fix.
+- **Easy to use.** One button from the module to teaching it. The script and
+  the timing live on the slide, never in a document they have to open first.
+- **Top quality print.** A4 in millimetres, photocopies clean in black and
+  white, nothing flowing off the page, checked by printing rather than by
+  reading the CSS.
+- **Reporting and admin at a button.** The register, the marking and the
+  report come from what the class did, never from the teacher typing it
+  twice. This is the staffroom, not yet built; a change that makes it harder
+  to build is a finding today.
+- **Constantly checked and updated.** Every claim guarded in code, and the
+  scheme refreshed when the world changes (a new law, a platform change, a new
+  trial) through a routine with a human gate, never a silent edit.
+- **A character in every lesson**, in the register of its key stage, so the
+  wall is alive between slide two and the close and not only at the ends.

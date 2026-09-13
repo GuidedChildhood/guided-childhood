@@ -5,7 +5,7 @@
  "teacher_notes": {
   "learning_objective": "To decide, for a given task, which part of the thinking must stay with me and where a tool may legitimately help.",
   "essential_question": "How do I tell the difference between help that gets me to the work and help that does the work?",
-  "timing": "61 minutes: starter 8, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 4",
+  "timing": "64 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 16, prove 4, close 5",
   "cycles": [
    {
     "verb": "Notice",
@@ -323,6 +323,19 @@
    "script": "Read the title, then the line under it, then stop. Do not open with a warning and do not open with a survey of who uses it. The whole lesson turns on the second line: nobody in this room is being asked to give anything up."
   },
   {
+   "type": "digi",
+   "phase": "starter",
+   "minutes": 1,
+   "character": "orbit",
+   "heading": "Orbit",
+   "lines": [
+    "Orbit here.",
+    "Help that gets you to the work, or help that does the work. How do you tell them apart?",
+    "That is today, and it changes how you use every tool you have."
+   ],
+   "script": "Let Orbit land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told."
+  },
+  {
    "type": "objective",
    "phase": "starter",
    "minutes": 2,
@@ -606,6 +619,20 @@
   {
    "type": "interactive",
    "phase": "practise",
+   "minutes": 1,
+   "component": "star-breath",
+   "config": {
+    "seconds": 4,
+    "character": "orbit",
+    "register": "level",
+    "heading": "Half time",
+    "prompt": "Two breaths with Orbit: in as it grows, out as it shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet."
+   },
+   "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as it shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise."
+  },
+  {
+   "type": "interactive",
+   "phase": "practise",
    "minutes": 5,
    "component": "verdict-sort",
    "caption": "Sort the six together before the sheet.",
@@ -771,7 +798,36 @@
   {
    "type": "digi",
    "phase": "close",
-   "minutes": 2,
+   "minutes": 1,
+   "character": "orbit",
+   "heading": "Your mission, on your next piece of homework",
+   "lines": [
+    "Ask what the task is teaching you. Ask if the hard part is the teaching part.",
+    "If it is, keep it.",
+    "If it is in the way, use the tool and say that you used it."
+   ],
+   "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "interactive",
+   "phase": "close",
+   "minutes": 1,
+   "component": "passport-page",
+   "config": {
+    "placement": "shaper",
+    "moduleId": "ks3-24-is-it-doing-my-thinking",
+    "register": "level",
+    "heading": "The passport",
+    "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+    "after": "When the page is full, the big check earns Orbit's stamp.",
+    "button": "Fill the page"
+   },
+   "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record."
+  },
+  {
+   "type": "digi",
+   "phase": "close",
+   "minutes": 1,
    "heading": "One last thing",
    "lines": [
     "Nobody in here is being told to stop using it.",

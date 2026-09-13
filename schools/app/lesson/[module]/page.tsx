@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type VideoSlide } from '@gc/shared/lesson-slides'
 import { EFCW_STRANDS } from '@gc/shared/efcw'
+import { PASSPORT_STAGES, PLACEMENT_BY_KEY_STAGE } from '@gc/shared/passport-stages'
+import { AREAS, areaOf } from '@gc/shared/passport-areas'
+import PassportPage from '@gc/shared/components/PassportPage'
 import { isTasterModule } from '@/lib/taster'
 import { hasLicence } from '@/lib/licence'
 import TasterBar from '@/app/taster/TasterBar'
@@ -92,19 +95,6 @@ type Lesson = {
   evidence_anchor: string | null
 }
 
-// Which passport page this key stage's lessons fill. The five stages and
-// their ages are the parents app's single source (lib/content/stages.ts);
-// this map only translates a key stage into that vocabulary for the teacher.
-// KS3 straddles two stages because Explorer hands over to Shaper at 13.
-const PASSPORT_STAGE: Record<string, string> = {
-  EYFS: 'Foundation (ages 4 to 7)',
-  KS1: 'Foundation (ages 4 to 7)',
-  KS2: 'Builder (ages 8 to 10)',
-  KS3: 'Explorer (ages 11 to 12) and Shaper (ages 13 to 15)',
-  KS4: 'Shaper (ages 13 to 15)',
-  KS5: 'Independent (ages 16 and above)',
-}
-
 const mono: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
@@ -153,6 +143,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
   const slides = parseSlides(lesson.slides) ?? []
   const notes = lesson.teacher_notes ?? {}
+  // The page and the area, from the row's key stage (the rule migration 277 wrote).
+  const placement = PLACEMENT_BY_KEY_STAGE[lesson.key_stage] ?? null
+  const area = areaOf(lesson.module_id)
   // The sales bar, and only for somebody who is not already paying for this.
   // isTasterModule first so the cookie is never read on the other twenty two,
   // which are gated anyway and would be paying a crypto verify for nothing.
@@ -394,24 +387,37 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         ) : null}
 
-        {/* What this lesson earns. The passport is the parents app's journey
-            to sixteen; the school's part is credit toward the page, said in
-            the approved vocabulary and none of the forbidden words: the
-            passport never records where a page was filled, it is never a
-            test of the child, and nothing here creates pupil data. */}
-        {PASSPORT_STAGE[lesson.key_stage] && (
+        {/* What this lesson earns: the passport page, drawn as the child's
+            book at home draws it, with the area this lesson builds marked.
+            The count is this screen's memory of its classes (the passport
+            beat's tap), never a child: this site holds class codes, not pupil
+            accounts, and the passport never records where a page was filled. */}
+        {placement && placement !== 'after' && (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What this lesson earns</h2>
+            <div style={{ margin: '0 0 14px' }}>
+              <PassportPage placement={placement} moduleId={lesson.module_id} fromDevice compact note="Counted on this screen only, from the pages your classes have filled here. The passport itself is the child's own, kept at home." />
+            </div>
             <p style={body}>
-              Many of your families keep the Guided Digital Childhood Passport at home: the journey to
-              sixteen, filled one stage at a time and finished by DiGi&rsquo;s five question check,
-              which a child cannot fail. This lesson belongs to the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGE[lesson.key_stage]}</strong> page.
-              Teaching it is credit toward that page: the parent note going home says so, and home
-              carries it on with jobs and small wins of their own.
+              Many of your families keep the Guided Childhood Passport at home: the journey to sixteen,
+              filled one stage at a time and finished by DiGi&rsquo;s five question check, which a child
+              cannot fail. This lesson fills the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGES[placement].page}</strong> page
+              {area ? <> and builds <strong style={{ color: 'var(--ink)' }}>{AREAS[area].name}</strong>, one of the four things the passport records</> : null}.
+              Teaching it is credit toward the page: the parent note going home says so and carries the
+              home code that puts it in the child&rsquo;s own book.
             </p>
             <p style={{ ...body, marginTop: '8px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
               The passport never records where a page was filled, school or home, and none of this
               creates pupil data here: this site holds class codes, never pupil accounts.
+            </p>
+          </div>
+        )}
+        {placement === 'after' && (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>What this lesson earns</h2>
+            <p style={body}>
+              No passport page. The passport is the journey to sixteen and this year group is past it:
+              this module is the chapter after the book, and the parent note says so.
             </p>
           </div>
         )}

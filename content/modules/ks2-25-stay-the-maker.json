@@ -36,6 +36,19 @@
    "script": "Read the title, then the line under it, then stop. Do not open by asking who uses AI at home, and do not open with a warning. Plenty of this class uses it and the lesson only works if that stays completely ordinary. The second line is the whole offer: nobody is being asked to give anything up."
   },
   {
+   "type": "digi",
+   "phase": "starter",
+   "minutes": 1,
+   "character": "bloop",
+   "heading": "Bloop arrives",
+   "lines": [
+    "Hi! Bloop here.",
+    "If the computer made it, whose is it?",
+    "Tricky one. Let us find out, and then stay the maker."
+   ],
+   "script": "Let Bloop land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told."
+  },
+  {
    "type": "objective",
    "phase": "starter",
    "minutes": 2,
@@ -319,6 +332,20 @@
   {
    "type": "interactive",
    "phase": "practise",
+   "minutes": 1,
+   "component": "star-breath",
+   "config": {
+    "seconds": 4,
+    "character": "bloop",
+    "register": "playful",
+    "heading": "Half time · everyone together",
+    "prompt": "Two breaths: in as Bloop grows, out as it shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet."
+   },
+   "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as it shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise."
+  },
+  {
+   "type": "interactive",
+   "phase": "practise",
    "minutes": 5,
    "component": "verdict-sort",
    "caption": "Sort the six together before the sheet.",
@@ -484,7 +511,36 @@
   {
    "type": "digi",
    "phase": "close",
-   "minutes": 2,
+   "minutes": 1,
+   "character": "bloop",
+   "heading": "Bloop's mission for you",
+   "lines": [
+    "Your mission.",
+    "Look at the sheet you filled in today. Card seven is your own homework. Do the line you drew, this week, for real.",
+    "Then explain it back to someone at home. If you can explain it, you made it."
+   ],
+   "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide."
+  },
+  {
+   "type": "interactive",
+   "phase": "close",
+   "minutes": 1,
+   "component": "passport-page",
+   "config": {
+    "placement": "builder",
+    "moduleId": "ks2-25-stay-the-maker",
+    "register": "playful",
+    "heading": "The passport",
+    "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+    "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+    "button": "Fill the page"
+   },
+   "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record."
+  },
+  {
+   "type": "digi",
+   "phase": "close",
+   "minutes": 1,
    "heading": "One last thing",
    "lines": [
     "Nobody here is being told to stop using it.",
@@ -592,7 +648,7 @@
  "teacher_notes": {
   "learning_objective": "To use a helper for part of a task while keeping the making, and to check that by explaining it back.",
   "essential_question": "If the computer made it, whose is it?",
-  "timing": "60 minutes: starter 8, cycle one 10, cycle two 10, cycle three 10, practise 14, prove 4, close 4",
+  "timing": "63 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 5",
   "cycles": [
    {
     "verb": "Notice",
