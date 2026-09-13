@@ -289,14 +289,6 @@ export default function DigiChat({
   // reply carries one, we hold it here and only surface the card once the
   // parent has paused (no new message for a spell), so it lands at the natural
   // end of the conversation rather than between two of their questions.
-  const reflectionTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const armReflection = (q: string) => {
-    if (reflectionTimer.current) clearTimeout(reflectionTimer.current)
-    reflectionTimer.current = setTimeout(() => {
-      setReflectionQuestion(prev => (prev || reflectionDone ? prev : q))
-    }, 22_000)
-  }
-  useEffect(() => () => { if (reflectionTimer.current) clearTimeout(reflectionTimer.current) }, [])
 
   // Flagging an answer as off: a quiet way for the parent to tell us when a
   // reply missed, with a short note. It lands server side for the team to work
@@ -525,7 +517,6 @@ export default function DigiChat({
 
     // A new message means the conversation is still going, so any reflection
     // that was waiting to appear stands down and defers to the next real pause.
-    if (reflectionTimer.current) { clearTimeout(reflectionTimer.current); reflectionTimer.current = null }
     if (!reflectionDone) setReflectionQuestion(null)
     // A fresh question clears any flag box left open on the previous answer.
     setFlagOpen(false); setFlagSent(false); setFlagNote('')
@@ -658,9 +649,12 @@ export default function DigiChat({
       }))
       // Hold the reflective question back and only let it surface once the
       // parent has paused, so it never interrupts a live back and forth.
-      if (reflective && !reflectionQuestion && !reflectionDone) {
-        armReflection(reflective)
-      }
+      // The reflective question no longer appears in the thread. The route
+      // stores the day's question and Home asks it once, so a parent answers
+      // it at the evening check in rather than under a wall of text (Justin,
+      // 13 September 2026, on the recommendations). `reflective` is parsed
+      // so the visible reply never carries the separator.
+      void reflective
       return 'ok'
     }
 
@@ -1289,87 +1283,6 @@ export default function DigiChat({
           </div>
         )}
 
-        {/* Reflection card — appears after DiGi has given a daily reflection question */}
-        {reflectionQuestion && !reflectionDone && (
-          <div style={{
-            background: 'var(--white)',
-            border: 'var(--edge)',
-            boxShadow: 'var(--lift)',
-            borderRadius: 'var(--radius-btn)',
-            padding: '18px 18px 16px',
-            marginBottom: '16px',
-            marginTop: '8px',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-                Today's reflection
-              </span>
-            </div>
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: 14, fontWeight: 500 }}>
-              {reflectionQuestion}
-            </p>
-            <textarea
-              value={reflectionInput}
-              onChange={e => setReflectionInput(e.target.value)}
-              placeholder="A sentence or two is fine..."
-              rows={2}
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                borderRadius: '10px',
-                border: 'var(--edge)',
-                background: 'var(--cream)',
-                fontFamily: 'var(--font-body)',
-                fontSize: 'var(--text-md)',
-                color: 'var(--ink)',
-                resize: 'none',
-                outline: 'none',
-                lineHeight: 1.5,
-                marginBottom: 10,
-                boxSizing: 'border-box',
-              }}
-              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
-              onBlur={e => { e.currentTarget.style.borderColor = 'var(--ink)'; document.body.classList.remove('gc-input-focused') }}
-            />
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                onClick={submitReflection}
-                disabled={reflectionSaving || !reflectionInput.trim()}
-                style={{
-                  flex: 1,
-                  padding: '10px 16px',
-                  background: reflectionInput.trim() ? 'var(--terracotta)' : 'var(--border)',
-                  color: reflectionInput.trim() ? '#fff' : 'var(--ink-muted)',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 600,
-                  fontSize: 'var(--text-base)',
-                  cursor: reflectionInput.trim() ? 'pointer' : 'not-allowed',
-                  transition: 'background 0.15s',
-                }}
-              >
-                {reflectionSaving ? 'Saving...' : 'Send to DiGi'}
-              </button>
-              <button
-                onClick={dismissReflection}
-                style={{
-                  padding: '10px 14px',
-                  background: 'none',
-                  border: 'var(--edge)',
-                  borderRadius: '10px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--text-base)',
-                  color: 'var(--ink-muted)',
-                  cursor: 'pointer',
-                }}
-              >
-                Skip
-              </button>
-            </div>
-          </div>
-        )}
 
         {reflectionToast && (
           reflectionInsight ? (

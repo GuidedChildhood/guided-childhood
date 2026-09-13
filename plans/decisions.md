@@ -14593,3 +14593,30 @@ a Tonight line, the reflective question once a day on Home, the fix of the
 week card down to name and button), then the researchers file behind a
 switch with the evals run before it flips, then local session verification
 in middleware as its own PR.
+
+## 13 September 2026, night: DiGi reads in ten seconds
+
+The second of the recommendation PRs, items one, two and five.
+
+**One answer shape, under 120 words.** The prompt asked for nine things in
+every reply and produced 300 word coach notes against a 3 to 5 sentence rule
+nobody could obey. Now: one or two sentences that name it, at most two moves
+with bold lead ins, and a closing line that starts **Tonight.** A quick
+question gets two or three sentences. The nudge, the three facts, the deal,
+the timer, the pathway link and a script link are one extra line at most,
+never two. The main call's token budget drops from 1600 to 900.
+
+**The reflective question moves to Home, once a day.** It is the learning
+loop, so it stays; it was also the biggest piece of clutter under an answer.
+The route already stored the first question of the day; now it also tells
+the model when today's has been asked, so a second reply carries none. The
+thread never shows the card. Home asks the pending question in one line
+(DigiQuestionCard) and posts to the same feedback route, so tomorrow's
+insight is unchanged.
+
+**The fix of the week card is the name and the button.** The mechanism, the
+pathway and the prevention line (about 110 words) live on the script page
+one tap away.
+
+Fixture: /dev/digi-question renders both cards. What is still true: the
+copy of the two landing photos into /public waits on the files.
