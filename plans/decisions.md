@@ -13872,3 +13872,62 @@ thinking turn; six of six mutations caught.
 came after a tool fired. A dropped thinking block on the continuation is the
 exact shape of that. Not proven; the row records the model and stop reason
 now, so the next one will say.
+
+## 13 September 2026, Sunday, every lesson animated (session 0u09q9)
+
+**Justin: "make sure all lessons now flow, have enough animations to make super
+engaging."** The audit first. One lesson had a full set of animated beats
+(ks3-12, six), four had one, twenty had none. Seven lessons opened on the wrong
+Planet Friend and three on a coin flip: the title slides carried the July slot
+names (football, dance, celebrate) and the three newest modules wrote real names
+the intro map had never heard of. The first slide on the wall, the one that says
+which friend this is, was wrong more than a third of the time.
+
+**Animate in code, not in credits.** The Higgsfield balance is 72 credits, one 8
+second clip; the video series for the remaining 24 modules is about 5,200 at
+1080p. So a beat is data on a digi slide (character, heading, lines, teacher
+script) and one component draws every friend: FriendPlate, in a register chosen
+by key stage (bouncy for EYFS and KS1, playful for KS2, level for KS3, still for
+KS4 and KS5). DigiClosingBlock became CharacterBeat; a digi slide that names
+nobody is DiGi closing, exactly as before. The intro map is keyed by
+CharacterKey with the July names kept as aliases, and a DiGi lesson opens on
+the star drawn in code. The friend keeps watch beside DiGi in the header and
+the chrome wears its accent.
+
+**Migration 296, applied and verified.** An arrival after the title (20
+modules; the four with a filmed arrival keep it), a pause before practise as a
+star breath led by the friend (24), a mission before DiGi closes (24), each with
+a script. The pause is an action, so the council's four minute passive rule
+holds, and the mission's minute comes out of the DiGi close. Seven guards in one
+DO block. The applied beats fingerprint identical to the source (af6cd04b, 68
+beats) and every deck's longest passive stretch is exactly 4 minutes. Backup in
+schools.school_lessons_backup_296. Contract rule 8 now refuses a friend that is
+not a real key or not in the module's cast.
+
+**The render, and what the container hid.** The container cannot reach the art
+CDN, so run one shot 68 frames with broken friend art. Run two intercepted the
+CDN request in Playwright and served the repo's own friend PNGs: 58 frames at
+390 and 1440, every page 200, no overflow, no broken images. The one console
+error left is the blocked intro clip on the title slide, which is the container
+and not the code.
+
+**What the camera caught.** DiGi's arrival on a KS4 lesson bounced on a plate;
+a beat that names its character now moves in the lesson's register and holds
+still. And the teach route is always the wall, so a phone rule keyed on the
+projector flag never fired: a 150px plate beside a three line mission left the
+words nine lines deep at 390. Width decides now. The words claim 240px before
+they drop under the plate, shot again at both sizes, and the row on the wall is
+unchanged. Two GSAP null target warnings on every title slide without a
+Continue button are guarded.
+
+**The teacher test is in review.md, section 7.** Justin's bar in his words:
+better than Rosenshine, White Rose, Oak and Jigsaw by name; everything in one
+place; easy to use; top quality print; reporting at a button, which is the
+staffroom and not yet built; constantly checked and updated; a character in
+every lesson.
+
+**Left for Justin.** Yes or no to 30 credits for fifteen expression stills,
+three moods per friend. The 5,200 credit video series, optional. ks3-11 and
+ks3-13 name one host in the curriculum file and another in the row. And the
+order: the staffroom (register, marking, the report at a button) before the
+currency routine.

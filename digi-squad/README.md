@@ -28,7 +28,14 @@ only, locked ones greyed), and the greeting. DiGi stays the star everywhere via
 `components/digi/DigiCharacter.tsx`.
 
 Still to do (no rush, Justin): colour-in printables of each Friend at the right
-stage, and refreshing the lesson and school animations to the new cast.
+stage. The school lessons now carry the Planet Friends in code (13 September
+2026, migration 296): every lesson opens on its own friend, and the friend
+arrives, leads the half time breath and hands over the mission, drawn by
+`shared/components/FriendPlate.tsx` from the cutout art in
+`shared/schools-curriculum.ts`, in a register chosen by key stage
+(`shared/friend-register.ts`). The filmed beats are the six on ks3-12 and one
+intro clip per friend; the rest of the video series is priced and waiting in
+`plans/week-of-2026-09-14-every-lesson-animated-plan.md`.
 
 The sections below (Oliver, Zara, Sofia) are kept for history only and are no
 longer the live squad.

@@ -545,9 +545,10 @@ function CharacterBeat({ slide, projector, register = 'playful' }: { slide: Digi
   // it, and that is the line this keeps.
   const who: CharacterKey = isCharacterKey(slide.character) ? slide.character : 'digi'
   const c = CHARACTERS[who]
-  // DiGi's close keeps the pop it always had; a friend's beat moves in the
-  // lesson's register, so a KS4 friend arrives still and a KS1 one springs.
-  const reg: Register = who === 'digi' ? 'playful' : register
+  // A beat that names its character, DiGi included, moves in the lesson's
+  // register, so the DiGi arrival on a KS4 lesson holds still with no plate.
+  // The close that names nobody keeps the pop it always had, in both apps.
+  const reg: Register = slide.character ? register : 'playful'
 
   useEffect(() => {
     if (!ref.current) return
@@ -575,9 +576,21 @@ function CharacterBeat({ slide, projector, register = 'playful' }: { slide: Digi
       {slide.heading && (
         <div style={{ ...eyebrowOn(projector), color: c.ink, marginBottom: '18px', textAlign: 'center' }}>{slide.heading}</div>
       )}
-      <div style={{ display: 'flex', gap: room(projector, '24px', '12px'), alignItems: 'flex-start', maxWidth: room(projector, WALL.column, '460px'), margin: '0 auto' }}>
+      {/* The friend sits beside its words wherever the row is wide enough and
+          wraps above them where it is not. Width decides, not the projector
+          flag: the teach route is always the wall, and a teacher still opens
+          it on a phone, where a 150px plate beside a three line mission left
+          the words two thirds of a 390px screen wide and nine lines deep. The
+          words claim 240px before they drop under the plate, which then
+          centres on its own line. DiGi's close in the parent app, a 64px
+          plate beside a 12px gap, still fits a phone as a row. */}
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'flex-start',
+        columnGap: room(projector, '24px', '12px'), rowGap: '6px',
+        maxWidth: room(projector, WALL.column, '460px'), margin: '0 auto',
+      }}>
         <FriendPlate character={who} register={reg} mood={mood} size={plate} arrive />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, paddingTop: room(projector, '18px', '4px') }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: '1 1 240px', paddingTop: room(projector, '18px', '4px') }}>
           {slide.lines.map((line, i) => (
             <div key={i} data-digi-line style={{
               opacity: 0, background: '#fff',

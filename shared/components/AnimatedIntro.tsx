@@ -50,17 +50,20 @@ export default function AnimatedIntro({
     const cta = el.querySelector('[data-cta]')
 
     if (reduce) {
-      gsap.set([frame, bubble, ...words, eyebrowEl, cta], { opacity: 1, y: 0, scale: 1 })
+      gsap.set([frame, bubble, ...words, eyebrowEl, cta].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
       setTyped(line)
       return
     }
 
+    // The eyebrow and the Continue button are optional, and GSAP warns on a
+    // null target on every title slide that lacks one: the teach route never
+    // renders the button. Tween only what is on the page.
     const tl = gsap.timeline()
-    tl.fromTo(eyebrowEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35 }, 0.1)
+    if (eyebrowEl) tl.fromTo(eyebrowEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35 }, 0.1)
     tl.fromTo(frame, { opacity: 0, scale: 0.85, y: 12 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' }, 0.2)
     tl.fromTo(bubble, { opacity: 0, y: 12, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }, 0.7)
     tl.fromTo(words, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(1.6)' }, 0.9)
-    tl.fromTo(cta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '>-0.1')
+    if (cta) tl.fromTo(cta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '>-0.1')
 
     // Type the character's hello out word by word, starting as the bubble lands
     const parts = line.split(/(\s+)/)
