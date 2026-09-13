@@ -13788,3 +13788,40 @@ horizontal scroll. Contract passes, council 10/10/10/10, all three cycles anchor
 at 1.00. The applied rows were digest checked with `collate "C"`: ks2-25 slides
 247 strings, teacher notes 135 strings, and the ks3-24 parent note 5 strings,
 all three identical to source.
+
+## 13 September 2026, Sunday, the DiGi review (session p37w5v)
+
+**The ladder is a generation on.** Fable 5.1 on the deep jobs, Opus 5 on the
+chat tier at effort medium, Sonnet 5 behind both, Haiku 4.5 for the mechanical
+jobs. Fast mode is a flag, off, Opus only. Every id a config value; a blank env
+var is unset, not a model called nothing.
+
+**Two tiers, not one, and this is the decision to know about.** Fable 5.1
+thinks on every request and cannot be told not to. That is right for the
+weekly review nobody waits for and wrong for a parent at 9pm. So the parent is
+answered by Opus 5 at medium effort. `DIGI_MODEL_CHAT=claude-fable-5-1` in
+Vercel reverses it with no code change. Sixty days of digi_latency put the
+model at 3.1 of the 4.4 seconds a parent waits, and nothing in the codebase had
+ever set effort, so every call on the platform was at the deepest setting.
+
+**Found on the way.** The memory extraction ran on the deep model on every
+message: it asked for the fast tier and callDigi overwrote the model. The task
+picks the tier now and no caller can pass a model; the guard holds it.
+
+**The lane call and round two overlap.** Round two waited for the lane to
+spare a general question the research fetch. Zero general messages in sixty
+days; the lane missed its keyword list 15 times in 35. The waiting protected a
+case that never happens and slowed every case that does.
+
+**Migration 295, applied.** digi_latency records model, effort, fast, stop
+reason, cache and token counts. The cache_control on the static prompt had
+never once been checked. A refusal is now named instead of reading as blank.
+
+**The evals gate could not run in the container** (no API key). Before is the
+last Monday email, after is the first cron run on the new ladder. If the
+average drops, DIGI_CHAT_EFFORT=high is the one line back.
+
+**Process note, again.** Before reporting anything about a table, read the
+query the product runs against it. A count is not a finding. And before
+building a guard, try to break it: twelve mutations on check-digi-model, and
+the first version of the guard was wrong twice before the code was wrong once.
