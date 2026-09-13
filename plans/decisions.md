@@ -13872,3 +13872,11 @@ thinking turn; six of six mutations caught.
 came after a tool fired. A dropped thinking block on the continuation is the
 exact shape of that. Not proven; the row records the model and stop reason
 now, so the next one will say.
+
+## 13 September 2026, the ink edge stays at 2px (session p37w5v)
+
+**Justin: "Go with 2px, keep the character."** Decided from the pictures, home
+and the child home at 390 with the edge token at 2px against 1.5px. The 1.5px
+read as more expensive and less ours. So --edge stays 2px solid var(--ink),
+and the question is closed: the next look and feel session should not reopen
+it without a new reason.
