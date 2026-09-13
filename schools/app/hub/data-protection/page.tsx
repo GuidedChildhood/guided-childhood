@@ -54,8 +54,9 @@ export default async function DataProtectionPage() {
             The licence is with{' '}{COMPANY.name}, company number{' '}{COMPANY.number}, registered office{' '}
             {COMPANY.address}. Because no pupil data is processed, there is no controller and processor relationship to
             paper over pupils. The only personal data we hold is what the school gives us to run the
-            licence: a contact name and email for invoicing. A short data processing agreement covering
-            that contact data is available for signature with the licence. We never use any data for
+            licence: a contact name and email for invoicing. The data processing agreement covering that contact data is at{' '}
+              <Link href="/dpa" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>schools.guidedchildhood.com/dpa</Link>, ready to print and sign, and the{' '}
+              <Link href="/privacy" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>privacy notice for schools</Link> sets out the rest. We never use any data for
             advertising, profiling, product analytics or model training, and we never sell or share it.
           </p>
         </div>
@@ -76,11 +77,10 @@ export default async function DataProtectionPage() {
         <div style={block}>
           <h2 style={h2}>4. Storage, subprocessors and retention</h2>
           <p style={body}>
-            Data is stored with Supabase (database, EU hosted project region) behind row level security,
-            and the application is served by Vercel. Transport is encrypted throughout. There are no
+            Data is stored with Supabase (database, hosted in Ireland) behind row level security, the
+              application is served by Vercel, confirmation emails go through Resend and invoices are raised in Stripe. Transport is encrypted throughout. There are no
             pupil rows to retain or delete. On licence termination the school&rsquo;s account and contact
-            details are deleted on request or after the retention window agreed in the data processing
-            agreement. Access within Guided Childhood is limited to what operating the service requires.
+            details are deleted on request or after the retention period set out in the privacy notice and the data processing agreement. Access within Guided Childhood is limited to what operating the service requires.
           </p>
         </div>
 
@@ -106,8 +106,8 @@ export default async function DataProtectionPage() {
 
         <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
           This pack supports your DPIA but does not replace it: the school remains responsible for its
-          own assessment. Questions to justin@thesocialbillboard.com and our DPO contact named in the
-          data processing agreement.
+          own assessment. Questions to {COMPANY.email}. Our privacy lead is named in the privacy notice, and the data
+          processing agreement is ready to print and sign.
         </p>
       </div>
     </main>

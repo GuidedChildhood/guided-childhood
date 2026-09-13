@@ -64,7 +64,7 @@ function secret(): string {
 // the licence made the reason to buy invisible until after buying. The same
 // logic already applies to '/hub/rshe-mapping', the sheet an inspector reads.
 // The staff briefings stay gated, because those are the product.
-export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/philosophy', '/pilot']
+export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/philosophy', '/pilot', '/terms', '/privacy', '/dpa']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true
