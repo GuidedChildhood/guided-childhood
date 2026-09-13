@@ -441,7 +441,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             display: 'flex', alignItems: 'flex-start', gap: 9,
             background: paceOnTrack ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
             border: `1.5px solid ${paceOnTrack ? '#C9DDD5' : 'var(--terracotta)'}`,
-            borderRadius: 14, padding: '11px 14px', marginBottom: 14,
+            borderRadius: 'var(--radius-tile)', padding: '11px 14px', marginBottom: 14,
           }}>
             <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', lineHeight: 1.4 }}>🕰️</span>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
@@ -544,7 +544,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
         {/* Tailored by what this family flagged for this child. */}
         {tailoredAction && (
-          <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', margin: '18px 0 0' }}>
+          <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', margin: '18px 0 0' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
               For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
             </div>
@@ -563,7 +563,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           report) still lands. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '18px auto 0' }}>
         <details className="passport-record" style={{
-          background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
+          background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
         }}>
           <summary style={{
             cursor: 'pointer', listStyle: 'none', padding: '13px 16px',
@@ -607,8 +607,8 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                 return (
                   <Link key={child.id} href={child.is_primary ? '/dashboard/pathway' : `/dashboard/pathway?child=${child.id}`} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'var(--cream)', border: '2px solid var(--ink)',
-                    borderRadius: '12px', padding: '12px 16px', gap: '12px',
+                    background: 'var(--cream)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '12px 16px', gap: '12px',
                     textDecoration: 'none',
                   }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
@@ -618,7 +618,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                       <span style={{
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
-                        padding: '3px 10px', borderRadius: '100px', letterSpacing: '0.06em',
+                        padding: '3px 10px', borderRadius: 'var(--radius-pill)', letterSpacing: '0.06em',
                         textTransform: 'uppercase', whiteSpace: 'nowrap',
                       }}>
                         Stage {stageMeta.id} · {stageMeta.name}
@@ -646,7 +646,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {!isPaid && (
           <div style={{
             marginTop: '24px',
-            border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px',
+            border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)',
             padding: '20px 22px', background: 'var(--stage-5)',
           }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate</p>

@@ -87,7 +87,7 @@ export default function BalanceZone({
   return (
     <div id="balance-zone" style={{ scrollMarginTop: '84px', margin: '18px 0 0' }}>
       <div style={{
-        background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
         boxShadow: '0 3px 0 rgba(26,26,46,0.05)', padding: '15px 16px 14px',
       }}>
         <p className="eyebrow" style={{ marginBottom: 3 }}>{kid}&rsquo;s balance</p>
@@ -97,11 +97,11 @@ export default function BalanceZone({
 
         {/* The zone band. The healthy middle is a real drawn region, so the
             marker has somewhere to BE rather than a percentage to reach. */}
-        <div aria-hidden style={{ position: 'relative', height: 14, borderRadius: 100, background: '#EDE9DF', margin: '14px 2px 6px' }}>
-          <span style={{ position: 'absolute', left: '38%', width: '24%', top: 0, bottom: 0, background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 100 }} />
+        <div aria-hidden style={{ position: 'relative', height: 14, borderRadius: 'var(--radius-pill)', background: '#EDE9DF', margin: '14px 2px 6px' }}>
+          <span style={{ position: 'absolute', left: '38%', width: '24%', top: 0, bottom: 0, background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)' }} />
           <span style={{
             position: 'absolute', left: `${pct}%`, top: -5, width: 24, height: 24, marginLeft: -12,
-            borderRadius: 100, background: 'var(--terracotta)', border: '2.5px solid var(--terracotta-dark)',
+            borderRadius: 'var(--radius-pill)', background: 'var(--terracotta)', border: '2.5px solid var(--terracotta-dark)',
             boxShadow: '0 2px 0 rgba(26,26,46,0.18)',
           }} />
         </div>
@@ -112,14 +112,14 @@ export default function BalanceZone({
         {/* The two contributors, straight from the readings the product
             already makes: what moves the marker, one status word each. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: '9px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
             <span aria-hidden>⭐</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Jobs</span>
             <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: jobsOk ? 'var(--retro-green)' : 'var(--terracotta-dark)' }}>
               {jobsLine}
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 12, padding: '9px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
             <span aria-hidden>📱</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Screens</span>
             <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: screensOk ? 'var(--retro-green)' : 'var(--terracotta-dark)' }}>
@@ -133,7 +133,7 @@ export default function BalanceZone({
         <div style={{ display: 'flex', gap: 7, justifyContent: 'center', margin: '13px 0 0' }}>
           {days.map((d, i) => (
             <span key={i} aria-hidden style={{
-              width: 13, height: 13, borderRadius: 100,
+              width: 13, height: 13, borderRadius: 'var(--radius-pill)',
               background: d.kept ? 'var(--terracotta)' : '#fff',
               border: d.today ? '2px solid var(--terracotta-dark)' : `1.5px solid ${d.kept ? 'var(--terracotta-dark)' : 'var(--border)'}`,
               opacity: d.future ? 0.45 : 1,
@@ -144,7 +144,7 @@ export default function BalanceZone({
         {/* The repair line, only when the week has slipped: the way back in
             the same breath, and the fact that a comeback still counts. */}
         {report && !green && (
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '10px 12px', margin: '12px 0 0' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '10px 12px', margin: '12px 0 0' }}>
             {!screensOk
               ? `Over by ${overBy(report)}. A couple of jobs and a lighter weekend brings it back, and back in the zone by Sunday still counts.`
               : 'No jobs banked yet this week. One tick tonight starts the week again, and a late start still counts.'}
@@ -170,9 +170,9 @@ export default function BalanceZone({
         <Link href={siblingGlance.href} style={{
           display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none',
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-          borderRadius: 12, padding: '9px 13px', marginTop: 9,
+          borderRadius: 'var(--radius-tile)', padding: '9px 13px', marginTop: 9,
         }}>
-          <span aria-hidden style={{ width: 9, height: 9, borderRadius: 100, background: '#D97706', flexShrink: 0 }} />
+          <span aria-hidden style={{ width: 9, height: 9, borderRadius: 'var(--radius-pill)', background: '#D97706', flexShrink: 0 }} />
           <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)' }}>
             {siblingGlance.name}&rsquo;s balance is worth a look this week
           </span>

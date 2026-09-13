@@ -91,7 +91,7 @@ export default function TabBarHarness() {
 
       <pre style={{
         fontFamily: 'var(--font-mono)', fontSize: 12, lineHeight: 1.7, whiteSpace: 'pre-wrap',
-        background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12, padding: 12,
+        background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: 12,
       }}>{report}</pre>
 
       {/* The other half of the shell: coming back in starts at the top. Mounted

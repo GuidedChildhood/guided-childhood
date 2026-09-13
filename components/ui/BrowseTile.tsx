@@ -47,10 +47,10 @@ export default function BrowseTile({
         // Without it a long wrapped title paints straight over the badge
         // (part of the "characters blocked out with text" report, 1 September
         // 2026): text and art each get their own room, never each other's.
-        borderRadius: '20px', padding: '17px 18px 56px',
+        borderRadius: 'var(--radius-card)', padding: '17px 18px 56px',
         // The bold finish (2 September 2026): an ink edge and a hard ink
         // ledge, the child app's card exactly, in the stage pastel.
-        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+        border: 'var(--edge)', boxShadow: 'var(--lift)',
       }}
     >
       <span style={{
@@ -78,7 +78,7 @@ export default function BrowseTile({
             <span key={i} style={{
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.05em', textTransform: 'uppercase', color: text,
-              background: 'rgba(255,255,255,0.55)', borderRadius: '100px', padding: '2px 8px',
+              background: 'rgba(255,255,255,0.55)', borderRadius: 'var(--radius-pill)', padding: '2px 8px',
             }}>
               {c}
             </span>
@@ -92,7 +92,7 @@ export default function BrowseTile({
           position: 'absolute', right: '-10px', bottom: '-14px', width: '76px', height: '76px',
           borderRadius: '50%', backgroundImage: `url(${coverUrl})`,
           backgroundSize: 'cover', backgroundPosition: 'center',
-          border: '2px solid var(--ink)',
+          border: 'var(--edge)',
         }} />
       ) : (
         <span aria-hidden style={{
@@ -111,7 +111,7 @@ export default function BrowseTile({
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
           background: done ? 'var(--retro-green)' : '#fff',
           color: done ? '#fff' : text,
-          border: '2px solid var(--ink)', boxSizing: 'border-box',
+          border: 'var(--edge)', boxSizing: 'border-box',
         }}>
           {number}
         </span>
@@ -124,7 +124,7 @@ export default function BrowseTile({
           letterSpacing: '0.06em', textTransform: 'uppercase',
           background: done ? '#D4EDDF' : attempted ? '#FBE7C6' : 'rgba(255,255,255,0.85)',
           color: done ? '#1F7A54' : attempted ? '#9A6A16' : 'var(--ink)',
-          borderRadius: '100px', padding: '3px 9px',
+          borderRadius: 'var(--radius-pill)', padding: '3px 9px',
         }}>
           {done ? doneLabel ?? 'Done' : attempted ? 'Attempted' : 'Members'}
         </span>

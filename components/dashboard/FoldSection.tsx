@@ -56,8 +56,8 @@ export default function FoldSection({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
-      marginBottom: 12, overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+      marginBottom: 12, overflow: 'hidden', boxShadow: 'var(--lift)',
     }}>
       <button
         onClick={() => setOpen(o => !o)}
@@ -90,7 +90,7 @@ export default function FoldSection({
 
         {count > 0 && (
           <span style={{
-            flexShrink: 0, minWidth: 22, textAlign: 'center', padding: '2px 7px', borderRadius: 100,
+            flexShrink: 0, minWidth: 22, textAlign: 'center', padding: '2px 7px', borderRadius: 'var(--radius-pill)',
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             background: alert ? '#E5484D' : 'var(--border)',
             color: alert ? '#fff' : 'var(--ink-soft)',

@@ -82,8 +82,8 @@ export default function PathwayJourney({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px',
-      padding: '22px 22px 24px', boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      padding: '22px 22px 24px', boxShadow: 'var(--lift)',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
@@ -119,7 +119,7 @@ export default function PathwayJourney({
                   width: 44, height: 44, borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
                   background: isDone ? 'var(--retro-green)' : isCurrent ? 'var(--terracotta-lt)' : '#fff',
-                  border: '2px solid var(--ink)',
+                  border: 'var(--edge)',
                   boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
                   filter: ahead ? 'grayscale(1) opacity(0.6)' : 'none',
                 }}>
@@ -136,15 +136,15 @@ export default function PathwayJourney({
                 <div style={{
                   flex: 1, minWidth: 0,
                   background: isCurrent ? 'var(--terracotta-lt)' : 'var(--cream)',
-                  border: '2px solid var(--ink)',
-                  borderRadius: '16px', padding: '14px 16px',
+                  border: 'var(--edge)',
+                  borderRadius: 'var(--radius-btn)', padding: '14px 16px',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                       {s.title}
                     </span>
                     {isCurrent && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '2px 8px' }}>
                         Do this next
                       </span>
                     )}
@@ -155,11 +155,11 @@ export default function PathwayJourney({
                   <Link href={s.href} style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none',
                     fontFamily: 'var(--font-display)', fontWeight: isCurrent ? 900 : 800, fontSize: 'var(--text-base)',
-                    padding: isCurrent ? '10px 18px' : '8px 14px', borderRadius: '12px',
+                    padding: isCurrent ? '10px 18px' : '8px 14px', borderRadius: 'var(--radius-tile)',
                     background: isCurrent ? 'var(--terracotta)' : '#fff',
                     color: 'var(--ink)',
-                    border: '2px solid var(--ink)',
-                    boxShadow: '0 4px 0 var(--ink)',
+                    border: 'var(--edge)',
+                    boxShadow: 'var(--lift)',
                   }}>
                     {s.cta} <span aria-hidden="true">→</span>
                   </Link>

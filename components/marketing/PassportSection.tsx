@@ -77,7 +77,7 @@ export default function PassportSection() {
             flex: '0 1 200px', minWidth: 180, maxWidth: 230, alignSelf: 'center',
             display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center',
           }}>
-            <div style={{ borderRadius: '22px', overflow: 'hidden', border: '5px solid var(--ink)', boxShadow: '0 18px 50px rgba(26,26,46,0.22)' }}>
+            <div style={{ borderRadius: 'var(--radius-card)', overflow: 'hidden', border: '5px solid var(--ink)', boxShadow: '0 18px 50px rgba(26,26,46,0.22)' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/marketing/passport-mobile-stage.png"
@@ -94,7 +94,7 @@ export default function PassportSection() {
 
         {/* Two supporting points: device settings, and catch up at any age */}
         <div className="fu" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '34px' }}>
-          <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', borderRadius: '16px', padding: '20px 22px' }}>
+          <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', borderRadius: 'var(--radius-btn)', padding: '20px 22px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               Settings that grow with them
             </div>
@@ -102,7 +102,7 @@ export default function PassportSection() {
               The parental device settings relax as each stamp is earned, so freedom is age related and earned, never handed over all at once. A feature phone around 9, a guided smartphone later, real social media at 16.
             </p>
           </div>
-          <div style={{ background: 'var(--stage-4)', border: '1.5px solid var(--stage-4)', borderRadius: '16px', padding: '20px 22px' }}>
+          <div style={{ background: 'var(--stage-4)', border: '1.5px solid var(--stage-4)', borderRadius: 'var(--radius-btn)', padding: '20px 22px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               Start at any age
             </div>
@@ -117,7 +117,7 @@ export default function PassportSection() {
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 32px' }}>
             Start the passport, it is free
           </Link>
-          <Link href="/passport" style={{ display: 'inline-flex', alignItems: 'center', padding: '15px 28px', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
+          <Link href="/passport" style={{ display: 'inline-flex', alignItems: 'center', padding: '15px 28px', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
             See how it works
           </Link>
         </div>

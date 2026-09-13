@@ -59,11 +59,11 @@ export default function DayPicker({
               // 44 square, because this is the smallest thing on the screen and
               // a thumb has to hit one of seven of them.
               width: 44, height: 44, flexShrink: 0,
-              borderRadius: 13,
-              border: '2px solid var(--ink)',
+              borderRadius: 'var(--radius-tile)',
+              border: 'var(--edge)',
               boxSizing: 'border-box',
               background: on ? 'var(--terracotta)' : '#fff',
-              boxShadow: on ? '0 4px 0 var(--terracotta-dark)' : '0 3px 0 var(--ink)',
+              boxShadow: on ? '0 4px 0 var(--terracotta-dark)' : 'var(--lift)',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
               fontSize: 'var(--text-md)',

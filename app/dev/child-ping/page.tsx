@@ -10,7 +10,7 @@ export default function Page() {
   const [result, setResult] = useState<string | null>(null)
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh', padding: 20, maxWidth: 640, margin: '0 auto' }}>
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: 16 }}>
+      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 16 }}>
         <ChildPing
           childName="Gus"
           result={result}

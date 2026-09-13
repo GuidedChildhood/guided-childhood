@@ -211,7 +211,7 @@ export default async function JoinPage() {
 
         <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
           {/* Urgency badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1)', border: '1.5px solid var(--terracotta-lt)', borderRadius: '100px', padding: '7px 16px', marginBottom: '24px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1)', border: '1.5px solid var(--terracotta-lt)', borderRadius: 'var(--radius-pill)', padding: '7px 16px', marginBottom: '24px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)', display: 'inline-block' }} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
               UK social media ban confirmed · Spring 2027
@@ -291,7 +291,7 @@ export default async function JoinPage() {
                 <div key={stage.id} style={{
                   background: color.bg,
                   border: `1px solid ${color.border}`,
-                  borderRadius: '16px',
+                  borderRadius: 'var(--radius-btn)',
                   padding: '22px 18px',
                   display: 'flex',
                   flexDirection: 'column',
@@ -302,7 +302,7 @@ export default async function JoinPage() {
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: color.accent }} />
 
                   {stage.isCritical && (
-                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '100px', marginBottom: '8px' }}>
+                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: 'var(--radius-pill)', marginBottom: '8px' }}>
                       Critical window
                     </span>
                   )}
@@ -490,7 +490,7 @@ export default async function JoinPage() {
               { name: 'Prof. Andrew Przybylski', institution: 'Oxford OII', note: 'The Goldilocks effect. Moderate, structured use is not the problem.', initial: 'AP', bg: 'var(--stage-5)', color: 'var(--terracotta)' },
               { name: 'Prof. Sonia Livingstone', institution: 'LSE, London', note: 'Children need skills and agency, not just restrictions.', initial: 'SL', bg: 'var(--stage-4)', color: 'var(--terracotta)' },
             ].map((expert, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', padding: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: expert.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.8rem', color: expert.color, flexShrink: 0 }}>
                   {expert.initial}
                 </div>
@@ -520,7 +520,7 @@ export default async function JoinPage() {
 
           <div className="three-col">
             {FEATURES.map((f, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ fontSize: 'var(--text-2xl)', color: 'var(--terracotta)', lineHeight: 1 }}>{f.icon}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{f.title}</div>
                 <p style={{ fontSize: '.84rem', color: 'var(--ink-soft)', lineHeight: 1.72, flex: 1 }}>{f.desc}</p>
@@ -529,7 +529,7 @@ export default async function JoinPage() {
                   alignSelf: 'flex-start',
                   background: f.tagBg,
                   color: f.tagColor,
-                  borderRadius: '100px',
+                  borderRadius: 'var(--radius-pill)',
                   padding: '4px 11px',
                   fontSize: '.63rem',
                   fontWeight: 700,
@@ -560,7 +560,7 @@ export default async function JoinPage() {
               { time: 'This term', color: 'var(--stage-5)', desc: 'You have had the algorithm conversation. They come to you when something weird shows up. The door is open. That is the whole thing.' },
               { time: 'Spring 2027', color: 'var(--stage-1)', desc: 'The ban comes into force. Your child reaches 16 ready. They know how algorithms work, what their digital footprint says about them, and how to get help when something goes wrong online. The switch flips. They are not starting from zero.' },
             ].map((moment, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '18px', padding: '28px', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
+              <div key={i} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 'var(--radius-card)', padding: '28px', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: moment.color }} />
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: moment.color, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '14px', fontWeight: 700 }}>
                   {moment.time}
@@ -587,7 +587,7 @@ export default async function JoinPage() {
 
           <div className="two-col-issues" style={{ gap: '14px', marginBottom: '16px' }}>
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '28px', display: 'flex', flexDirection: 'column' }}>
+              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ color: 'var(--gold)', fontSize: '.95rem', letterSpacing: '2px', marginBottom: '14px' }}>★★★★★</div>
                 <p style={{ fontFamily: 'var(--font-display)', fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.68, fontStyle: 'italic', flex: 1, marginBottom: '18px' }}>
                   "{t.quote}"
@@ -598,7 +598,7 @@ export default async function JoinPage() {
                   </div>
                   <div>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.82rem', color: 'var(--ink)' }}>{t.name}</div>
-                    <span style={{ background: 'var(--stage-2)', color: 'var(--terracotta)', borderRadius: '100px', padding: '2px 8px', fontSize: '.62rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                    <span style={{ background: 'var(--stage-2)', color: 'var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '2px 8px', fontSize: '.62rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
                       {t.stage}
                     </span>
                   </div>
@@ -652,7 +652,7 @@ export default async function JoinPage() {
             <div style={{
               background: 'var(--stage-1)',
               border: '1.5px solid var(--gold)',
-              borderRadius: '20px',
+              borderRadius: 'var(--radius-card)',
               padding: 'clamp(28px, 4vw, 40px)',
               marginBottom: '20px',
               position: 'relative',
@@ -671,8 +671,8 @@ export default async function JoinPage() {
                   <p className="eyebrow" style={{ color: 'var(--terracotta-dark)' }}>Founder rate, first 50 members</p>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-muted)' }}>{taken} taken</span>
                 </div>
-                <div style={{ height: '6px', background: 'rgba(26,26,46,.10)', borderRadius: '100px', overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: '100px', transition: 'width 1s ease' }} />
+                <div style={{ height: '6px', background: 'rgba(26,26,46,.10)', borderRadius: 'var(--radius-pill)', overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: 'var(--radius-pill)', transition: 'width 1s ease' }} />
                 </div>
               </div>
 
@@ -717,7 +717,7 @@ export default async function JoinPage() {
           {/* Standard + Annual */}
           <div className="two-col-issues" style={{ gap: '16px' }}>
             {/* Standard */}
-            <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
+            <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px' }}>
               <p className="eyebrow" style={{ marginBottom: '12px' }}>Standard</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', marginBottom: '20px' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-3xl)', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>£12.99</span>
@@ -737,8 +737,8 @@ export default async function JoinPage() {
             </div>
 
             {/* Annual */}
-            <div style={{ background: 'var(--stage-2)', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '28px', position: 'relative' }}>
-              <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: '100px', whiteSpace: 'nowrap' }}>
+            <div style={{ background: 'var(--stage-2)', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '28px', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap' }}>
                 Save £56.88
               </div>
               <p className="eyebrow" style={{ marginBottom: '12px', marginTop: '8px', color: 'var(--terracotta)' }}>Annual</p>

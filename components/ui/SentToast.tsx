@@ -80,10 +80,10 @@ export default function SentToast({
         gap: 10,
         background: 'var(--ink)',
         color: '#fff',
-        borderRadius: 16,
+        borderRadius: 'var(--radius-btn)',
         padding: '13px 17px',
-        border: '2px solid var(--ink)',
-        boxShadow: '0 4px 0 var(--ink)',
+        border: 'var(--edge)',
+        boxShadow: 'var(--lift)',
         // The page underneath stays usable. A toast that swallows taps means a
         // parent adding three jobs in a row loses the second one.
         pointerEvents: 'none',
@@ -92,7 +92,7 @@ export default function SentToast({
       <span
         aria-hidden
         style={{
-          flexShrink: 0, width: 22, height: 22, borderRadius: 999,
+          flexShrink: 0, width: 22, height: 22, borderRadius: 'var(--radius-pill)',
           background: 'var(--retro-green, #5C9433)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 'var(--text-sm)', fontWeight: 900, color: '#fff', lineHeight: 1,

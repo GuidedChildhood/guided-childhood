@@ -111,8 +111,8 @@ export default function DeviceCoverageBoard({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px',
-      padding: '20px 20px 22px', marginBottom: '22px', boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      padding: '20px 20px 22px', marginBottom: '22px', boxShadow: 'var(--lift)',
     }}>
       {/* Header with the coverage ring */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '6px' }}>
@@ -194,7 +194,7 @@ export default function DeviceCoverageBoard({
       {/* Not in our home yet: the escape hatch, kept findable for the day a
           device arrives. */}
       {notOwnedItems.length > 0 && (
-        <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '2px solid var(--ink)' }}>
+        <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: 'var(--edge)' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             Not in our home yet
           </span>
@@ -202,7 +202,7 @@ export default function DeviceCoverageBoard({
             {notOwnedItems.map(item => (
               <div key={item.key} style={{
                 display: 'flex', alignItems: 'center', gap: '12px',
-                background: 'var(--cream)', border: '2px solid var(--ink)',
+                background: 'var(--cream)', border: 'var(--edge)',
                 borderRadius: '15px', padding: '10px 13px', opacity: 0.9,
               }}>
                 <div style={{ width: 34, height: 34, borderRadius: '10px', flexShrink: 0, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)' }}>
@@ -215,7 +215,7 @@ export default function DeviceCoverageBoard({
                   onClick={() => onRestore(item.key)}
                   disabled={pending === item.key}
                   style={{
-                    flexShrink: 0, background: 'none', border: '2px solid var(--ink)', borderRadius: '100px',
+                    flexShrink: 0, background: 'none', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
                     padding: '6px 13px', cursor: pending === item.key ? 'wait' : 'pointer',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
                   }}
@@ -246,7 +246,7 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
         width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: isDone ? 'var(--tint-sage)' : '#fff',
-        border: isDone ? '2px solid var(--retro-green)' : '2px solid var(--ink)',
+        border: isDone ? '2px solid var(--retro-green)' : 'var(--edge)',
         color: '#2D5016', fontSize: 'var(--text-base)', fontWeight: 800,
       }}
     >
@@ -269,7 +269,7 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
             {item.name}
           </span>
           {isNext && !isDone && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 7px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '1px solid var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '2px 7px' }}>
               Start here
             </span>
           )}

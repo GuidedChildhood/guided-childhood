@@ -78,7 +78,7 @@ export default function AnimatedIntro({
       style={{
         position: 'relative', overflow: 'hidden',
         background: 'linear-gradient(160deg, #1F5560 0%, #173C46 60%, #12313A 100%)',
-        borderRadius: '22px', padding: '22px 20px 24px', textAlign: 'center',
+        borderRadius: 'var(--radius-card)', padding: '22px 20px 24px', textAlign: 'center',
       }}
     >
       {eyebrow && (
@@ -97,7 +97,7 @@ export default function AnimatedIntro({
       <div data-bubble style={{ opacity: 0 }}>
         <div style={{
           maxWidth: projector ? 900 : 300, margin: '0 auto',
-          background: '#fff', borderRadius: '16px', padding: '11px 14px',
+          background: '#fff', borderRadius: 'var(--radius-btn)', padding: '11px 14px',
           textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
         }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: projector ? WALL.body : 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
@@ -118,7 +118,7 @@ export default function AnimatedIntro({
         // the intro runs taller, and the Continue button must stay on a phone
         // screen without scrolling. The clip reads perfectly at this size.
         opacity: 0, position: 'relative', width: '100%', maxWidth: projector ? 440 : 200, margin: '0 auto',
-        aspectRatio: '1 / 1', borderRadius: '20px', overflow: 'hidden',
+        aspectRatio: '1 / 1', borderRadius: 'var(--radius-card)', overflow: 'hidden',
         border: '3px solid rgba(237,195,95,0.5)', boxShadow: '0 12px 34px rgba(0,0,0,0.3)',
         background: '#0F2A32',
       }}>
@@ -141,7 +141,7 @@ export default function AnimatedIntro({
           onClick={onStart}
           style={{
             opacity: 0, background: c.accent, color: 'var(--ink)', border: 'none',
-            borderRadius: '16px', padding: '14px 30px', cursor: 'pointer',
+            borderRadius: 'var(--radius-btn)', padding: '14px 30px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: projector ? WALL.title : 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}

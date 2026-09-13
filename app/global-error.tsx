@@ -36,7 +36,7 @@ export default function GlobalError({
             onClick={() => { window.location.reload() }}
             style={{
               background: '#DC5832', color: '#fff', border: 'none',
-              borderRadius: 14, padding: '14px 28px', fontSize: 'var(--text-md)', fontWeight: 700,
+              borderRadius: 'var(--radius-tile)', padding: '14px 28px', fontSize: 'var(--text-md)', fontWeight: 700,
               boxShadow: '0 5px 0 #B8451F', cursor: 'pointer',
             }}
           >

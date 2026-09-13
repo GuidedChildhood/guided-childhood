@@ -72,7 +72,7 @@ export default function CheckoutError({ reason }: { reason: string }) {
         display: 'flex', alignItems: 'flex-start', gap: '12px',
         background: r.ours ? 'var(--danger-bg)' : 'var(--cream)',
         border: `2px solid ${r.ours ? 'var(--danger-border)' : 'var(--ink)'}`,
-        borderRadius: 16, padding: '15px 17px', marginBottom: '22px',
+        borderRadius: 'var(--radius-btn)', padding: '15px 17px', marginBottom: '22px',
       }}
     >
       <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.25, flexShrink: 0 }}>

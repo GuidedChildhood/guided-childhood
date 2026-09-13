@@ -36,9 +36,9 @@ function CardShell({ n, children }: { n: Notification; children: React.ReactNode
     <>
       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
         <span style={{
-          flexShrink: 0, width: 48, height: 48, borderRadius: '14px',
+          flexShrink: 0, width: 48, height: 48, borderRadius: 'var(--radius-tile)',
           background: n.urgent ? '#FDECEC' : isDigi ? 'var(--terracotta-lt)' : 'var(--cream)',
-          border: '2px solid var(--ink)', boxSizing: 'border-box',
+          border: 'var(--edge)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
         }}>
           {isDigi ? <DigiCharacter mood="speak" size={32} once /> : n.icon}
@@ -66,14 +66,14 @@ function CardShell({ n, children }: { n: Notification; children: React.ReactNode
 const cardStyle = (n: Notification): React.CSSProperties => ({
   display: 'block', textDecoration: 'none', background: '#fff',
   border: `2px solid ${n.urgent ? '#E5484D' : 'var(--ink)'}`,
-  borderRadius: '20px', padding: '18px 18px 16px',
-  boxShadow: n.urgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--ink)',
+  borderRadius: 'var(--radius-card)', padding: '18px 18px 16px',
+  boxShadow: n.urgent ? '0 4px 0 #B93B3F' : 'var(--lift)',
 })
 
 const pill = (n: Notification): React.CSSProperties => ({
   display: 'inline-flex', alignItems: 'center', gap: '7px',
   background: n.urgent ? '#E5484D' : 'var(--terracotta)', color: n.urgent ? '#fff' : 'var(--ink)',
-  borderRadius: '13px', padding: '10px 16px', border: 'none', cursor: 'pointer',
+  borderRadius: 'var(--radius-tile)', padding: '10px 16px', border: 'none', cursor: 'pointer',
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
   boxShadow: n.urgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--terracotta-dark)',
 })

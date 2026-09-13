@@ -71,7 +71,7 @@ export default function SlidePlayer({ lesson }: { lesson: Lesson }) {
         <div style={{
           flex: 1, minHeight: 0, background: TINT, borderRadius: '26px',
           display: 'flex', flexDirection: 'column', overflow: 'hidden',
-          border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+          border: 'var(--edge)', boxShadow: 'var(--lift)',
           opacity: fading ? 0 : 1, transform: fading ? 'translateY(8px)' : 'none',
           transition: 'opacity 0.18s ease, transform 0.18s ease',
         }}>
@@ -96,7 +96,7 @@ export default function SlidePlayer({ lesson }: { lesson: Lesson }) {
               onClick={() => go(-1)}
               style={{
                 padding: '15px 20px', background: 'transparent',
-                border: '1.5px solid rgba(255,255,255,0.5)', borderRadius: '16px',
+                border: '1.5px solid rgba(255,255,255,0.5)', borderRadius: 'var(--radius-btn)',
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)',
                 color: '#fff', cursor: 'pointer',
               }}
@@ -110,11 +110,11 @@ export default function SlidePlayer({ lesson }: { lesson: Lesson }) {
             style={{
               flex: 1, padding: '15px 20px',
               background: canAdvance ? 'var(--terracotta)' : 'rgba(255,255,255,0.15)',
-              border: canAdvance ? '2px solid var(--ink)' : '1.5px solid rgba(255,255,255,0.3)', borderRadius: '16px',
+              border: canAdvance ? 'var(--edge)' : '1.5px solid rgba(255,255,255,0.3)', borderRadius: 'var(--radius-btn)',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
               color: canAdvance ? 'var(--ink)' : 'rgba(255,255,255,0.5)',
               cursor: canAdvance ? 'pointer' : 'not-allowed',
-              boxShadow: canAdvance ? '0 4px 0 var(--ink)' : 'none',
+              boxShadow: canAdvance ? 'var(--lift)' : 'none',
             }}
           >
             {isLast ? 'Finish the lesson' : slide.type === 'check' && picked === null ? 'Pick an answer first' : 'Next'}
@@ -166,7 +166,7 @@ function SlideBody({ slide, picked, onPick }: {
         {slide.checks.map((c, i) => (
           <div key={i} style={{
             display: 'flex', gap: '10px', alignItems: 'flex-start',
-            background: 'rgba(255,255,255,0.65)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '13px 15px',
+            background: 'rgba(255,255,255,0.65)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '13px 15px',
           }}>
             <span style={{ color: BAND, fontWeight: 800, flexShrink: 0 }}>✓</span>
             <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>{c}</span>
@@ -182,7 +182,7 @@ function SlideBody({ slide, picked, onPick }: {
       {h(slide.heading)}
       {p(slide.body, 16)}
       {slide.example && (
-        <div style={{ background: 'rgba(255,255,255,0.65)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px 16px', borderLeft: `3px solid ${BAND}` }}>
+        <div style={{ background: 'rgba(255,255,255,0.65)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 16px', borderLeft: `3px solid ${BAND}` }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>{slide.example}</p>
         </div>
       )}
@@ -221,8 +221,8 @@ function SlideBody({ slide, picked, onPick }: {
               key={i}
               onClick={() => onPick(i)}
               style={{
-                textAlign: 'left', padding: '14px 16px', borderRadius: '14px', cursor: 'pointer',
-                border: chosen ? `2.5px solid ${o.correct ? BAND : 'var(--danger)'}` : '2px solid var(--ink)',
+                textAlign: 'left', padding: '14px 16px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
+                border: chosen ? `2.5px solid ${o.correct ? BAND : 'var(--danger)'}` : 'var(--edge)',
                 background: chosen ? (o.correct ? 'rgba(255,255,255,0.85)' : '#FBEAEA') : 'rgba(255,255,255,0.65)',
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5,
               }}
@@ -245,7 +245,7 @@ function SlideBody({ slide, picked, onPick }: {
       {eyebrow('Well done, both of you')}
       {h(slide.heading)}
       {p(slide.body)}
-      <div style={{ background: BAND, borderRadius: '16px', padding: '16px 18px' }}>
+      <div style={{ background: BAND, borderRadius: 'var(--radius-btn)', padding: '16px 18px' }}>
         <p style={{ fontSize: 'var(--text-md)', color: '#fff', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{slide.takeaway}</p>
       </div>
     </>

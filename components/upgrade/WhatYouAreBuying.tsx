@@ -25,8 +25,8 @@ import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 export default function WhatYouAreBuying() {
   return (
     <div style={{
-      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '18px', padding: '18px 20px', marginBottom: '24px',
+      background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '24px',
     }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
         What you are really buying
@@ -84,7 +84,7 @@ export default function WhatYouAreBuying() {
 
           Plain rows rather than cards, because this is a list being checked
           against a price and eleven cards would bury the button underneath. */}
-      <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '2px solid var(--ink)' }}>
+      <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: 'var(--edge)' }}>
         <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
           Everything inside
         </p>

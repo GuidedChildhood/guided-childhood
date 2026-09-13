@@ -86,7 +86,7 @@ export default async function HealthPage() {
       </p>
 
       {readError && (
-        <div style={{ background: 'var(--danger-bg)', border: '1.5px solid var(--danger-border)', borderRadius: 18, padding: '16px 18px', marginBottom: 18 }}>
+        <div style={{ background: 'var(--danger-bg)', border: '1.5px solid var(--danger-border)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: 18 }}>
           <div style={{ ...eyebrow, color: 'var(--danger)', marginBottom: 5 }}>Could not read</div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>{readError}</p>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
@@ -98,7 +98,7 @@ export default async function HealthPage() {
       {h && (
         <>
           {/* The verdict, in one word, at the top. */}
-          <div style={{ background: tone.bg, border: `1.5px solid ${tone.border}`, borderRadius: 20, padding: '18px 20px', marginBottom: 18 }}>
+          <div style={{ background: tone.bg, border: `1.5px solid ${tone.border}`, borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: 18 }}>
             <div style={{ ...eyebrow, color: tone.text, marginBottom: 4 }}>Right now</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, marginBottom: 6 }}>
               {tone.word}
@@ -113,7 +113,7 @@ export default async function HealthPage() {
           </div>
 
           {/* Services: config only, never a secret's value. */}
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px', marginBottom: 18 }}>
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: 18 }}>
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: 12 }}>Services</div>
             {h.services.map(s => (
               <div key={s.key} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 14 }}>
@@ -135,7 +135,7 @@ export default async function HealthPage() {
           </div>
 
           {/* Jobs, worst first, because the top of the list is what gets read. */}
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px' }}>
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: 12 }}>
               Scheduled jobs ({h.jobs.length})
             </div>

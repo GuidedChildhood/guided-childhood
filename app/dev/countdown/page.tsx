@@ -60,7 +60,7 @@ export default function Page() {
               onClick={() => { setSeconds(s); setRunId(n => n + 1) }}
               style={{
                 border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer',
-                borderRadius: 16, padding: '10px 16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)',
+                borderRadius: 'var(--radius-btn)', padding: '10px 16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
               }}
             >
@@ -72,7 +72,7 @@ export default function Page() {
             onClick={() => setSeconds(null)}
             style={{
               border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer',
-              borderRadius: 16, padding: '10px 16px',
+              borderRadius: 'var(--radius-btn)', padding: '10px 16px',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
             }}
           >

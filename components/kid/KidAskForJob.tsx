@@ -216,7 +216,7 @@ export default function KidAskForJob({
                   style={{
                     position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 10,
                     textAlign: 'left', cursor: justSent ? 'default' : 'pointer', minHeight: 132,
-                    padding: '12px 12px 12px', borderRadius: 18,
+                    padding: '12px 12px 12px', borderRadius: 'var(--radius-card)',
                     background: justSent ? HAPPY.green : '#fff', color: justSent ? '#fff' : HAPPY.ink,
                     border: `2px solid ${HAPPY.ink}`, boxShadow: `0 4px 0 ${HAPPY.ink}`,
                     transition: 'background .2s ease',
@@ -245,7 +245,7 @@ export default function KidAskForJob({
             <button
               onClick={() => { setShowAll(true); playKidSound('tap') }}
               style={{
-                display: 'block', margin: '0 auto 14px', padding: '11px 18px', borderRadius: 100, cursor: 'pointer',
+                display: 'block', margin: '0 auto 14px', padding: '11px 18px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                 border: `2px solid ${HAPPY.ink}`, background: '#fff', color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
               }}
@@ -257,7 +257,7 @@ export default function KidAskForJob({
       )}
 
       {/* Write your own */}
-      <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 20, padding: '14px 14px 14px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
+      <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', padding: '14px 14px 14px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: HAPPY.ink, margin: '0 0 10px' }}>
           Or write your own ✏️
         </p>
@@ -269,7 +269,7 @@ export default function KidAskForJob({
             placeholder="Your idea..."
             maxLength={60}
             style={{
-              flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: 14,
+              flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: 'var(--radius-tile)',
               border: `2px solid ${HAPPY.ink}`, background: HAPPY.cream,
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: HAPPY.ink, outline: 'none',
             }}
@@ -278,7 +278,7 @@ export default function KidAskForJob({
             onClick={() => submit(text, '⭐')}
             disabled={!canPitch}
             style={{
-              padding: '13px 18px', borderRadius: 14, flexShrink: 0,
+              padding: '13px 18px', borderRadius: 'var(--radius-tile)', flexShrink: 0,
               border: `2px solid ${HAPPY.ink}`, cursor: canPitch ? 'pointer' : 'default',
               background: canPitch ? HAPPY.butter : '#fff', color: HAPPY.ink,
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
@@ -304,7 +304,7 @@ export default function KidAskForJob({
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {asks.slice(0, 8).map(a => (
-              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, padding: '11px 12px', boxShadow: `0 3px 0 ${HAPPY.ink}` }}>
+              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-btn)', padding: '11px 12px', boxShadow: `0 3px 0 ${HAPPY.ink}` }}>
                 <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{a.emoji}</span>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: HAPPY.ink, lineHeight: 1.25 }}>{a.title}</span>
                 <span style={{ flexShrink: 0 }}>
@@ -328,7 +328,7 @@ export default function KidAskForJob({
       )}
 
       {note && (
-        <div role="status" style={{ position: 'fixed', left: '50%', bottom: 22, transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: HAPPY.ink, color: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 14, padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center', lineHeight: 1.35 }}>
+        <div role="status" style={{ position: 'fixed', left: '50%', bottom: 22, transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: HAPPY.ink, color: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center', lineHeight: 1.35 }}>
           {note}
         </div>
       )}

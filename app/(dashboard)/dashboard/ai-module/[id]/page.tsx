@@ -127,7 +127,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'var(--ink)', background: audience.bg,
-            padding: '4px 10px', borderRadius: '100px',
+            padding: '4px 10px', borderRadius: 'var(--radius-pill)',
           }}>
             {audience.label}
           </span>
@@ -142,7 +142,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
         {SECTIONS.map(section => (
           <div
             key={section.num}
-            style={{ background: section.bg, border: `1.5px solid ${section.bg}`, borderRadius: '16px', padding: '22px', display: 'flex', gap: '18px' }}
+            style={{ background: section.bg, border: `1.5px solid ${section.bg}`, borderRadius: 'var(--radius-btn)', padding: '22px', display: 'flex', gap: '18px' }}
           >
             <div style={{
               width: '36px', height: '36px', borderRadius: '50%',
@@ -170,7 +170,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
       <MarkLessonDone lessonId={lesson.id} lessonSource="ai_lesson" initialDone={!!completion} />
 
       {/* DiGi CTA */}
-      <div style={{ background: 'var(--stage-5)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div style={{ background: 'var(--stage-5)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
@@ -191,7 +191,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
       {/* Back to all */}
       <Link
         href="/dashboard/ai-module"
-        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
+        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
       >
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>The AI module</span>
         <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta)' }}>Back to all lessons</span>

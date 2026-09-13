@@ -121,7 +121,7 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
                 <div key={stage.id} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
                   background: earned ? 'rgba(47,143,107,0.12)' : 'rgba(26,26,46,0.05)',
-                  borderRadius: 12, padding: '10px 14px',
+                  borderRadius: 'var(--radius-tile)', padding: '10px 14px',
                 }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                     {earned ? '✅' : '⬜'} Stage {stage.id} · {stage.name}
@@ -152,7 +152,7 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: '16px', padding: '14px 28px', textDecoration: 'none',
+            borderRadius: 'var(--radius-btn)', padding: '14px 28px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}

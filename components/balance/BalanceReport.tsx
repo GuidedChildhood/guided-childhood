@@ -96,8 +96,8 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   }, [good])
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-    boxShadow: '0 4px 0 var(--ink)', padding: 18, marginBottom: 16,
+    background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+    boxShadow: 'var(--lift)', padding: 18, marginBottom: 16,
   }
   const cardTitle: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em',
@@ -145,7 +145,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
           <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             {tg.emoji} {tg.label}
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: pill.fg, background: pill.bg, padding: '4px 8px', borderRadius: 100, flexShrink: 0 }}>{pill.label}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: pill.fg, background: pill.bg, padding: '4px 8px', borderRadius: 'var(--radius-pill)', flexShrink: 0 }}>{pill.label}</span>
         </div>
         <div style={{ position: 'relative', height: 14, background: 'var(--cream)', borderRadius: 7 }}>
           <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 7, background: fill }} />
@@ -173,8 +173,8 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   return (
     <div>
       {/* One glanceable state for the whole child, read before any bars. */}
-      <div style={{ ...card, background: top.bg, border: '2px solid var(--ink)', display: 'flex', gap: 13, alignItems: 'flex-start' }}>
-        <span ref={starRef} style={{ width: 44, height: 44, flexShrink: 0, borderRadius: 14, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{top.emoji}</span>
+      <div style={{ ...card, background: top.bg, border: 'var(--edge)', display: 'flex', gap: 13, alignItems: 'flex-start' }}>
+        <span ref={starRef} style={{ width: 44, height: 44, flexShrink: 0, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>{top.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25 }}>{topState.label}</div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0' }}>{topState.sub}</p>
@@ -207,7 +207,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             screens quoting different totals for "this week" is survivable
             when each says which week it means, and invisible when neither
             does. */}
-        <div style={{ marginTop: 6, paddingTop: 14, borderTop: '2px solid var(--ink)' }}>
+        <div style={{ marginTop: 6, paddingTop: 14, borderTop: 'var(--edge)' }}>
           <div style={cardTitle}>Screen time so far</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, margin: '7px 0 0', flexWrap: 'wrap' }}>
             <span style={{
@@ -261,8 +261,8 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             The steadiest fix is not less screen, it is more of the other thing. Point {name} at one real world win and the balance follows.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <a href="/dashboard/quests" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 4px 0 var(--ink)' }}>Set a quest</a>
-            <a href="/dashboard/quests/crafts" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 4px 0 var(--ink)' }}>Print something to make</a>
+            <a href="/dashboard/quests" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 14px', textDecoration: 'none', boxShadow: 'var(--lift)' }}>Set a quest</a>
+            <a href="/dashboard/quests/crafts" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 14px', textDecoration: 'none', boxShadow: 'var(--lift)' }}>Print something to make</a>
           </div>
         </div>
       )}
@@ -271,7 +271,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
           beside the screen total, so the balance reads at a glance. */}
       <div style={{ ...card, marginBottom: 0, background: 'var(--tint-sage)' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-          <span aria-hidden style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span aria-hidden style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <HappyIcon name="wins" size={30} />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>

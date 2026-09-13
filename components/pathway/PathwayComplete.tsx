@@ -79,7 +79,7 @@ export default function PathwayComplete({ childName }: { childName?: string | nu
       <div style={{
         position: 'relative', zIndex: 1,
         background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
-        borderRadius: '20px', padding: '20px 20px 18px',
+        borderRadius: 'var(--radius-card)', padding: '20px 20px 18px',
         boxShadow: '0 5px 0 var(--terracotta-dark)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>

@@ -66,8 +66,8 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
     return (
       <div style={{
         display: 'flex', alignItems: 'center', gap: '10px',
-        background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-        borderRadius: '16px', padding: '13px 16px', marginBottom: '16px',
+        background: 'var(--stage-2)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-btn)', padding: '13px 16px', marginBottom: '16px',
       }}>
         <span aria-hidden="true">✓</span>
         <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
@@ -91,8 +91,8 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)',
-      borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '20px', marginBottom: '16px', boxShadow: 'var(--lift)',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
         What came up today?
@@ -111,12 +111,12 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
         style={{
           width: '100%', padding: '13px',
           background: selected.length > 0 ? 'var(--terracotta)' : 'var(--cream)',
-          border: '2px solid var(--ink)',
-          borderRadius: '14px',
+          border: 'var(--edge)',
+          borderRadius: 'var(--radius-tile)',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
           letterSpacing: '.08em', textTransform: 'uppercase',
           color: 'var(--ink)',
-          boxShadow: '0 4px 0 var(--ink)',
+          boxShadow: 'var(--lift)',
           cursor: 'pointer',
         }}
       >

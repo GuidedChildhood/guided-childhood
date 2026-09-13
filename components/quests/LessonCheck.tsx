@@ -58,8 +58,8 @@ export default function LessonCheck({ lesson, childName }: {
 
       {open && (
         <div style={{
-          marginTop: 8, background: 'var(--cream)', border: '2px solid var(--ink)',
-          borderRadius: 14, padding: '12px 13px',
+          marginTop: 8, background: 'var(--cream)', border: 'var(--edge)',
+          borderRadius: 'var(--radius-tile)', padding: '12px 13px',
         }}>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>
             The three they just answered. Ask out loud, then check.
@@ -92,7 +92,7 @@ export default function LessonCheck({ lesson, childName }: {
                       onClick={() => setShown(prev => new Set(prev).add(i))}
                       style={{
                         marginTop: 6, cursor: 'pointer',
-                        background: '#fff', border: '2px solid var(--ink)', borderRadius: 100,
+                        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
                         padding: '5px 12px',
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         color: 'var(--ink-soft)',

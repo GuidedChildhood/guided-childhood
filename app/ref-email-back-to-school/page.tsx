@@ -43,7 +43,7 @@ function Frame({ title, note, html }: { title: string; note: string; html: strin
         srcDoc={html}
         style={{
           width: '100%', height: 1400, border: '1.5px solid var(--border)',
-          borderRadius: 16, background: '#fff',
+          borderRadius: 'var(--radius-btn)', background: '#fff',
         }}
       />
     </div>

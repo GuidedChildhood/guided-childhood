@@ -20,12 +20,12 @@ export default function DigiScriptNudge({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)',
-      borderRadius: '18px', padding: '16px 18px', marginBottom: '20px',
-      boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '20px',
+      boxShadow: 'var(--lift)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '10px' }}>
-        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood="idle" />
         </span>
         <div style={{ minWidth: 0 }}>
@@ -50,7 +50,7 @@ export default function DigiScriptNudge({
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-            border: 'none', borderRadius: '12px', padding: '9px 15px',
+            border: 'none', borderRadius: 'var(--radius-tile)', padding: '9px 15px',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}

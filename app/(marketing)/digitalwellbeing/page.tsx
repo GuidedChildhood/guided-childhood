@@ -54,7 +54,7 @@ export default function DigitalWellbeingPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {AREAS.map((area, i) => (
-              <div key={i} style={{ background: area.color, borderRadius: '14px', padding: '24px' }}>
+              <div key={i} style={{ background: area.color, borderRadius: 'var(--radius-tile)', padding: '24px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: area.text, marginBottom: '8px' }}>{area.label}</div>
                 <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{area.desc}</p>
               </div>
@@ -77,7 +77,7 @@ export default function DigitalWellbeingPage() {
               { num: '03', title: 'One thing to do tonight', body: 'A single concrete action, based on your answers, that you can take tonight. Not a plan. One thing.' },
               { num: '04', title: 'Your starting point in Guided Childhood', body: 'If you want to go further, you\'ll know exactly where to start in the platform and what your first week looks like.' },
             ].map((item, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px 28px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '24px 28px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', fontWeight: 900, color: 'var(--stage-5)', lineHeight: 1, flexShrink: 0 }}>{item.num}</div>
                 <div>
                   <h3 style={{ fontSize: 'var(--text-md)', fontWeight: 700, marginBottom: '6px' }}>{item.title}</h3>

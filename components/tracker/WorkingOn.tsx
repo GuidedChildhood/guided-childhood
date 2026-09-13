@@ -184,7 +184,7 @@ export default function WorkingOn({
   }
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '20px' }}>
       {/* Fixed to the bottom of the viewport by the component itself, so it
           rides above whatever the parent is looking at and does not push the
           list around as it arrives. */}
@@ -194,7 +194,7 @@ export default function WorkingOn({
       </div>
 
       {pendingSolve && (
-        <div style={{ background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px', marginBottom: '16px' }}>
+        <div style={{ background: 'var(--tint-green)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px', marginBottom: '16px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', marginBottom: '4px' }}>
             {pendingSolve.label} is sorted. Nice one.
           </div>
@@ -215,7 +215,7 @@ export default function WorkingOn({
                 key={n}
                 onClick={() => answerLookBack(n)}
                 aria-label={`${n} out of 10`}
-                style={{ flex: 1, minWidth: 0, padding: '9px 0', borderRadius: '9px', border: '2px solid var(--ink)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', cursor: 'pointer' }}
+                style={{ flex: 1, minWidth: 0, padding: '9px 0', borderRadius: '9px', border: 'var(--edge)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', cursor: 'pointer' }}
               >
                 {n}
               </button>
@@ -226,11 +226,11 @@ export default function WorkingOn({
 
       {/* The report: wins and live count */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: working > 0 ? '16px' : '0' }}>
-        <div style={{ background: 'var(--tint-green)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--tint-green)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1 }}>{solvedTotal}</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#2D5016', marginTop: '6px' }}>Sorted</div>
         </div>
-        <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1 }}>{working}</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '6px' }}>On the go</div>
         </div>
@@ -245,7 +245,7 @@ export default function WorkingOn({
       ) : (
         <>
           {pattern && (
-            <div style={{ background: 'var(--stage-1)', border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 14px', marginBottom: '14px' }}>
+            <div style={{ background: 'var(--stage-1)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', marginBottom: '14px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)', display: 'block', marginBottom: '4px' }}>
                 Pattern
               </span>
@@ -255,7 +255,7 @@ export default function WorkingOn({
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {live.map(c => (
-              <div key={c.slug} style={{ border: '2px solid var(--ink)', borderRadius: '14px', padding: '13px 15px', background: 'var(--cream)' }}>
+              <div key={c.slug} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '13px 15px', background: 'var(--cream)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                   <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                     {c.label}
@@ -298,7 +298,7 @@ export default function WorkingOn({
                       background: c.now > c.from ? 'var(--tint-green)' : 'var(--terracotta-lt)',
                       border: `1.5px solid ${c.now > c.from ? '#2D5016' : 'var(--terracotta)'}`,
                       color: c.now > c.from ? '#2D5016' : 'var(--ink)',
-                      borderRadius: 100, padding: '3px 10px',
+                      borderRadius: 'var(--radius-pill)', padding: '3px 10px',
                     }}>
                       {scoreWord(c.now)}
                     </span>
@@ -307,7 +307,7 @@ export default function WorkingOn({
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.08em', textTransform: 'uppercase',
                         background: 'var(--ink)', color: 'var(--terracotta)',
-                        borderRadius: 100, padding: '3px 9px',
+                        borderRadius: 'var(--radius-pill)', padding: '3px 9px',
                       }}>
                         Silver
                       </span>
@@ -319,7 +319,7 @@ export default function WorkingOn({
                     onClick={() => markSolved(c.slug)}
                     style={{
                       background: 'var(--tint-green)', border: '1.5px solid #2D5016', color: '#2D5016',
-                      borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
+                      borderRadius: 'var(--radius-pill)', padding: '7px 14px', cursor: 'pointer',
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
                     }}
                   >
@@ -328,8 +328,8 @@ export default function WorkingOn({
                   <button
                     onClick={() => markStuck(c.slug)}
                     style={{
-                      background: '#fff', border: '2px solid var(--ink)', color: 'var(--ink-soft)',
-                      borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
+                      background: '#fff', border: 'var(--edge)', color: 'var(--ink-soft)',
+                      borderRadius: 'var(--radius-pill)', padding: '7px 14px', cursor: 'pointer',
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700,
                     }}
                   >
@@ -339,7 +339,7 @@ export default function WorkingOn({
                     href={helpHref(c.label)}
                     style={{
                       background: 'var(--terracotta)', border: 'none', color: 'var(--ink)',
-                      borderRadius: '100px', padding: '7px 14px', textDecoration: 'none',
+                      borderRadius: 'var(--radius-pill)', padding: '7px 14px', textDecoration: 'none',
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
                       boxShadow: '0 3px 0 var(--terracotta-dark)',
                     }}
@@ -361,7 +361,7 @@ export default function WorkingOn({
       {/* Recently sorted, with a way back on. A win is never final: if it
           comes back, one tap reopens it and DiGi sees the pattern. */}
       {solvedList.length > 0 && (
-        <div style={{ marginTop: working > 0 ? '18px' : '14px', borderTop: '2px solid var(--ink)', paddingTop: '14px' }}>
+        <div style={{ marginTop: working > 0 ? '18px' : '14px', borderTop: 'var(--edge)', paddingTop: '14px' }}>
           <button
             onClick={() => setShowSolved(s => !s)}
             style={{
@@ -375,7 +375,7 @@ export default function WorkingOn({
           {showSolved && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
               {solvedList.map(s => (
-                <div key={s.slug} style={{ display: 'flex', alignItems: 'center', gap: '10px', border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 13px', background: 'var(--tint-green)' }}>
+                <div key={s.slug} style={{ display: 'flex', alignItems: 'center', gap: '10px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 13px', background: 'var(--tint-green)' }}>
                   <span style={{ flexShrink: 0, color: '#2D5016' }} aria-hidden="true">✓</span>
                   <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                     {s.label}
@@ -383,8 +383,8 @@ export default function WorkingOn({
                   <button
                     onClick={() => markHappenedAgain(s.slug)}
                     style={{
-                      flexShrink: 0, background: '#fff', border: '2px solid var(--ink)', color: 'var(--ink-soft)',
-                      borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
+                      flexShrink: 0, background: '#fff', border: 'var(--edge)', color: 'var(--ink-soft)',
+                      borderRadius: 'var(--radius-pill)', padding: '6px 12px', cursor: 'pointer',
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700,
                     }}
                   >

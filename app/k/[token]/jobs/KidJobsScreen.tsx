@@ -168,7 +168,7 @@ export default function KidJobsScreen({
         }}>
           <div style={{
             background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: '14px', padding: '12px 18px', maxWidth: '420px',
+            borderRadius: 'var(--radius-tile)', padding: '12px 18px', maxWidth: '420px',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center',
             boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
           }}>
@@ -202,7 +202,7 @@ export default function KidJobsScreen({
 
         {quests.length === 0 ? (
           <div style={{
-            background: '#fff', border: '2px solid var(--border)', borderRadius: 20,
+            background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
             boxShadow: '0 5px 0 var(--border)', padding: '20px 18px',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.3 }}>
@@ -257,8 +257,8 @@ export default function KidJobsScreen({
 
         {moreQuests.length > 0 && (
           <div style={{
-            marginTop: 18, background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-            boxShadow: '0 4px 0 var(--ink)', padding: '16px 16px 14px',
+            marginTop: 18, background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--lift)', padding: '16px 16px 14px',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 4px', lineHeight: 1.2 }}>
               If you fancy more
@@ -276,8 +276,8 @@ export default function KidJobsScreen({
                 <button
                   onClick={() => { playKidSound('tap'); setPromoted(prev => new Set(prev).add(q.id)) }}
                   style={{
-                    flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-                    borderRadius: 100, padding: '8px 13px', cursor: 'pointer', boxShadow: '0 3px 0 var(--ink)',
+                    flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-pill)', padding: '8px 13px', cursor: 'pointer', boxShadow: 'var(--lift)',
                     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
                   }}
                 >

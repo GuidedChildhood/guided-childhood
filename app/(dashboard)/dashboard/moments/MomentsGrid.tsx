@@ -83,10 +83,10 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
       {suggestedMoment && suggestReason && activeCategory === 'All' && (
         <div style={{
           display: 'flex', gap: 12, alignItems: 'flex-start',
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16,
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)',
           padding: '14px 16px', marginBottom: 14,
         }}>
-          <span aria-hidden style={{ width: 44, height: 44, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}><HappyIcon name="cheer" size={32} /></span>
+          <span aria-hidden style={{ width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}><HappyIcon name="cheer" size={32} /></span>
           <p style={{ margin: 0, fontSize: 'var(--text-lg)', lineHeight: 1.5, color: 'var(--ink)' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', display: 'block', marginBottom: 3 }}>
               DiGi&apos;s pick
@@ -108,8 +108,8 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
               onClick={() => setScope(key)}
               style={{
                 padding: '7px 14px',
-                borderRadius: '100px',
-                border: scope === key ? '1.5px solid var(--terracotta-dark)' : '2px solid var(--ink)',
+                borderRadius: 'var(--radius-pill)',
+                border: scope === key ? '1.5px solid var(--terracotta-dark)' : 'var(--edge)',
                 background: scope === key ? 'var(--terracotta)' : 'var(--white)',
                 color: 'var(--ink)',
                 fontFamily: 'var(--font-mono)',
@@ -142,8 +142,8 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
             onClick={() => setActiveCategory(cat)}
             style={{
               padding: '7px 14px',
-              borderRadius: '100px',
-              border: '2px solid var(--ink)',
+              borderRadius: 'var(--radius-pill)',
+              border: 'var(--edge)',
               background: activeCategory === cat ? 'var(--terracotta)' : 'var(--white)',
               color: activeCategory === cat ? '#fff' : 'var(--ink-soft)',
               fontFamily: 'var(--font-body)',

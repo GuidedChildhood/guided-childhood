@@ -65,7 +65,7 @@ export default function DeviceSweepFixture() {
       </p>
       {ready && <DeviceSweepCard />}
       {/* The thing "Yes, add it" scrolls to. */}
-      <div id="your-screens" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)', padding: '16px 18px', marginTop: 600 }}>
+      <div id="your-screens" style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '16px 18px', marginTop: 600 }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', margin: 0 }}>The screens in your home</h2>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: '6px 0 0' }}>Stands in for the real list, so the scroll target is real.</p>
       </div>

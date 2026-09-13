@@ -10,10 +10,13 @@ import type { CSSProperties, ReactNode } from 'react'
 type Variant = 'primary' | 'secondary' | 'quiet' | 'teal' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
+// Radii from the shape tokens (13 September 2026): the small button is a
+// tile, the two real sizes are the button radius every other button wears.
+// 11, 13 and 15 were three more spellings of the same idea.
 const SIZE: Record<Size, { padding: string; fontSize: string; radius: string; lift: string }> = {
-  sm: { padding: '8px 14px', fontSize: 'var(--text-base)', radius: '11px', lift: '3px' },
-  md: { padding: '11px 18px', fontSize: 'var(--text-md)', radius: '13px', lift: '4px' },
-  lg: { padding: '14px 22px', fontSize: 'var(--text-md)', radius: '15px', lift: '5px' },
+  sm: { padding: '8px 14px', fontSize: 'var(--text-base)', radius: 'var(--radius-tile)', lift: '3px' },
+  md: { padding: '11px 18px', fontSize: 'var(--text-md)', radius: 'var(--radius-btn)', lift: '4px' },
+  lg: { padding: '14px 22px', fontSize: 'var(--text-md)', radius: 'var(--radius-btn)', lift: '5px' },
 }
 
 function surface(variant: Variant): { bg: string; color: string; border: string; shadowColor: string | null } {
@@ -21,7 +24,9 @@ function surface(variant: Variant): { bg: string; color: string; border: string;
     case 'primary': return { bg: 'var(--terracotta)', color: 'var(--ink)', border: 'none', shadowColor: 'var(--terracotta-dark)' }
     case 'teal':    return { bg: 'var(--deep-teal)', color: '#fff', border: 'none', shadowColor: 'rgba(0,0,0,0.28)' }
     case 'danger':  return { bg: '#E5484D', color: '#fff', border: 'none', shadowColor: '#B93B3F' }
-    case 'secondary': return { bg: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', shadowColor: null }
+    // The house finish: white, ink edge, ink ledge. It had the edge and no
+    // ledge, so it read as an outline next to every card that has both.
+    case 'secondary': return { bg: '#fff', color: 'var(--ink)', border: 'var(--edge)', shadowColor: 'var(--ink)' }
     case 'quiet':   return { bg: 'transparent', color: 'var(--ink-soft)', border: 'none', shadowColor: null }
   }
 }
@@ -47,7 +52,12 @@ function styleFor({ variant = 'primary', size = 'md', fullWidth, disabled }: Com
     background: c.bg, color: c.color, border: c.border,
     boxShadow: c.shadowColor ? `0 ${s.lift} 0 ${c.shadowColor}` : 'none',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: s.fontSize, lineHeight: 1.2,
-    textDecoration: 'none', whiteSpace: 'nowrap', cursor: disabled ? 'default' : 'pointer',
+    // Never nowrap. A label that does not fit does not shrink the button, it
+    // hangs outside it, which is the founder rate button on a phone in August.
+    // A label that fits never wraps, so nothing short changes; the ones that
+    // were spilling move to two balanced lines instead.
+    textDecoration: 'none', whiteSpace: 'normal', textWrap: 'balance', overflowWrap: 'break-word', maxWidth: '100%',
+    cursor: disabled ? 'default' : 'pointer',
     opacity: disabled ? 0.55 : 1,
     transition: 'transform 0.06s ease',
   }
@@ -57,7 +67,7 @@ function styleFor({ variant = 'primary', size = 'md', fullWidth, disabled }: Com
 export function ButtonLink(props: CommonProps & { href: string; target?: string; rel?: string }) {
   const { href, target, rel, children, icon, style } = props
   return (
-    <Link href={href} target={target} rel={rel} style={{ ...styleFor(props), ...style }}>
+    <Link href={href} target={target} rel={rel} className="gc-press" style={{ ...styleFor(props), ...style }}>
       {icon}{children}
     </Link>
   )
@@ -67,7 +77,7 @@ export function ButtonLink(props: CommonProps & { href: string; target?: string;
 export default function Button(props: CommonProps & { onClick?: () => void; type?: 'button' | 'submit' }) {
   const { onClick, type = 'button', disabled, children, icon, style } = props
   return (
-    <button type={type} onClick={onClick} disabled={disabled} style={{ ...styleFor(props), ...style }}>
+    <button type={type} onClick={onClick} disabled={disabled} className="gc-press" style={{ ...styleFor(props), ...style }}>
       {icon}{children}
     </button>
   )

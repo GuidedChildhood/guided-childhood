@@ -109,8 +109,8 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
           marginTop: 10, padding: '8px 14px',
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: 12,
-          boxShadow: '0 4px 0 var(--ink)',
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+          boxShadow: 'var(--lift)',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)',
           cursor: 'pointer',
@@ -127,7 +127,7 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
           <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', maxWidth: '580px' }}>
             {PROVES.map(([icon, t, b]) => (
               <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
-                <span aria-hidden style={{ width: 38, height: 38, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name={icon} size={26} /></span>
+                <span aria-hidden style={{ width: 38, height: 38, borderRadius: 11, background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name={icon} size={26} /></span>
                 <span>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{t}</span>
                   <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>

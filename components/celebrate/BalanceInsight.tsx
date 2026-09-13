@@ -72,9 +72,9 @@ export default function BalanceInsight({
 
   return (
     <div style={{
-      background: THEME_BG[cur.theme], border: '2px solid var(--ink)',
-      borderRadius: '20px', padding: '18px 18px 15px', marginBottom: '16px',
-      boxShadow: '0 4px 0 var(--ink)',
+      background: THEME_BG[cur.theme], border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '18px 18px 15px', marginBottom: '16px',
+      boxShadow: 'var(--lift)',
     }}>
       <style>{`@keyframes gcInsightIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }`}</style>
 
@@ -91,7 +91,7 @@ export default function BalanceInsight({
       <div key={cur.id} style={{ animation: 'gcInsightIn 0.35s ease' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '12px' }}>
           <span style={{
-            flexShrink: 0, width: 54, height: 54, borderRadius: '16px', background: '#fff',
+            flexShrink: 0, width: 54, height: 54, borderRadius: 'var(--radius-btn)', background: '#fff',
             border: `2px solid ${c.ring}`, display: 'flex', alignItems: 'center', justifyContent: 'center',
             overflow: 'hidden',
           }}>
@@ -126,7 +126,7 @@ export default function BalanceInsight({
         <button
           onClick={() => setI(v => (v + 1) % list.length)}
           style={{
-            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '100px',
+            background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-pill)',
             padding: '8px 15px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
           }}

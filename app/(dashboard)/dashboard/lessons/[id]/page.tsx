@@ -140,7 +140,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
             ← Lessons
           </Link>
         </div>
-        <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '32px 26px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--deep-teal)', borderRadius: 'var(--radius-card)', padding: '32px 26px', textAlign: 'center' }}>
           <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 12 }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 10 }}>
             {stage.label}
@@ -151,7 +151,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
           <p style={{ fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: 380, margin: '0 auto 22px' }}>
             One lesson in every stage is free, and you have opened it. The rest of the lessons, all the scripts and the full pathway are part of membership. The founder rate is still open at £7.99 a month for life.
           </p>
-          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px', padding: '13px 24px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '13px 24px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
             Unlock every lesson
           </Link>
         </div>
@@ -233,7 +233,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'var(--ink)', background: stage.bg,
-            padding: '4px 10px', borderRadius: '100px',
+            padding: '4px 10px', borderRadius: 'var(--radius-pill)',
           }}>
             {stage.label}
           </span>
@@ -248,7 +248,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
         {SECTIONS.map(section => (
           <div
             key={section.num}
-            style={{ background: section.bg, border: `1.5px solid ${section.bg}`, borderRadius: '16px', padding: '22px', display: 'flex', gap: '18px' }}
+            style={{ background: section.bg, border: `1.5px solid ${section.bg}`, borderRadius: 'var(--radius-btn)', padding: '22px', display: 'flex', gap: '18px' }}
           >
             <div style={{
               width: '36px', height: '36px', borderRadius: '50%',
@@ -276,7 +276,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
       <MarkLessonDone lessonId={lesson.id} lessonSource="lesson" initialDone={!!completion} />
 
       {/* DiGi CTA */}
-      <div style={{ background: 'var(--stage-5)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div style={{ background: 'var(--stage-5)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
@@ -297,7 +297,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
       {/* Back to all */}
       <Link
         href={lessonsBackHref}
-        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
+        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
       >
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Lessons</span>
         <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta)' }}>Back to lessons</span>

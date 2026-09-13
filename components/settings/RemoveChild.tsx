@@ -83,7 +83,7 @@ export default function RemoveChild({
   }
 
   return (
-    <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '2px solid var(--ink)' }}>
+    <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: 'var(--edge)' }}>
       {!open ? (
         <>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 10px' }}>
@@ -93,7 +93,7 @@ export default function RemoveChild({
             type="button"
             onClick={() => setOpen(true)}
             style={{
-              background: 'none', border: '2px solid var(--ink)', borderRadius: '12px',
+              background: 'none', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
               padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-body)',
               fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)',
             }}
@@ -102,7 +102,7 @@ export default function RemoveChild({
           </button>
         </>
       ) : (
-        <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px' }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '15px' }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
             This takes {label} off your account for good, along with their jobs and stars, their stickers, their own app link, and everything DiGi remembers about them. Your other {siblingCount > 2 ? 'children are' : 'child is'} not affected. It cannot be undone.
           </p>
@@ -115,8 +115,8 @@ export default function RemoveChild({
             onChange={e => setTyped(e.target.value)}
             autoComplete="off"
             style={{
-              width: '100%', padding: '12px 14px', borderRadius: '12px',
-              border: '2px solid var(--ink)', background: 'var(--cream)',
+              width: '100%', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+              border: 'var(--edge)', background: 'var(--cream)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
           />
@@ -126,9 +126,9 @@ export default function RemoveChild({
               onClick={go}
               disabled={!ready || busy}
               style={{
-                background: ready ? 'var(--terracotta)' : 'var(--cream)', border: '2px solid var(--ink)',
-                boxShadow: ready ? '0 4px 0 var(--ink)' : 'none',
-                borderRadius: '12px', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
+                background: ready ? 'var(--terracotta)' : 'var(--cream)', border: 'var(--edge)',
+                boxShadow: ready ? 'var(--lift)' : 'none',
+                borderRadius: 'var(--radius-tile)', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
                 fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
               }}
             >
@@ -138,7 +138,7 @@ export default function RemoveChild({
               type="button"
               onClick={() => { setOpen(false); setTyped(''); setError(null) }}
               style={{
-                background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
+                background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}

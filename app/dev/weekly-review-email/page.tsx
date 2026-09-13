@@ -63,7 +63,7 @@ export default function DevWeeklyReviewEmail() {
       <iframe
         title="Weekly review email"
         srcDoc={content.html}
-        style={{ width: '100%', maxWidth: 620, height: '200vh', border: '1.5px solid var(--border)', borderRadius: 16, background: '#fff' }}
+        style={{ width: '100%', maxWidth: 620, height: '200vh', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', background: '#fff' }}
       />
     </main>
   )

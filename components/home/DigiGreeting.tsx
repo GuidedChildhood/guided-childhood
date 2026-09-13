@@ -77,16 +77,16 @@ export default function DigiGreeting({
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '18px' }}>
       <span style={{
         width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-        background: 'var(--terracotta)', border: '2px solid var(--ink)',
+        background: 'var(--terracotta)', border: 'var(--edge)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: '0 3px 0 var(--ink)',
+        boxShadow: 'var(--lift)',
       }}>
         <DigiCharacter mood="speak" size={30} once />
       </span>
       <div style={{
-        flex: 1, minWidth: 0, background: '#fff', border: '2px solid var(--ink)',
+        flex: 1, minWidth: 0, background: '#fff', border: 'var(--edge)',
         borderRadius: '4px 18px 18px 18px', padding: '11px 14px',
-        boxShadow: '0 3px 0 var(--ink)',
+        boxShadow: 'var(--lift)',
       }}>
         <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45 }}>
           {line}

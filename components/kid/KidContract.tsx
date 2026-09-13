@@ -42,7 +42,7 @@ export default function KidContract({ childName, level, trust, onAgree }: {
 
         {/* The rule itself, big and warm, in the child's own words. */}
         <div style={{
-          background: 'var(--terracotta)', borderRadius: '20px', padding: '18px 20px',
+          background: 'var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '18px 20px',
           boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: '14px',
         }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35, margin: 0 }}>
@@ -53,7 +53,7 @@ export default function KidContract({ childName, level, trust, onAgree }: {
         {/* The promises around it, from the family agreement clauses. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '18px' }}>
           {promises.map((p, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#fff', borderRadius: '16px', padding: '13px 15px' }}>
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#fff', borderRadius: 'var(--radius-btn)', padding: '13px 15px' }}>
               <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{p.emoji}</span>
               <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>{p.text}</span>
             </div>
@@ -70,7 +70,7 @@ export default function KidContract({ childName, level, trust, onAgree }: {
           disabled={busy}
           style={{
             width: '100%', padding: '17px', background: 'var(--terracotta)', color: 'var(--ink)',
-            border: 'none', borderRadius: '16px', cursor: busy ? 'default' : 'pointer',
+            border: 'none', borderRadius: 'var(--radius-btn)', cursor: busy ? 'default' : 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
             boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.7 : 1,
           }}

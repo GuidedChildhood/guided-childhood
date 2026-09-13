@@ -193,8 +193,8 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
   return (
     <div style={{
       background: '#fff',
-      border: '2px solid var(--ink)',
-      borderRadius: '20px',
+      border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)',
       padding: '18px 16px 16px',
       marginBottom: '20px',
     }}>
@@ -259,8 +259,8 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
               aria-pressed={on}
               style={{
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                padding: '4px 11px', borderRadius: '100px', cursor: 'pointer',
-                border: on ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+                padding: '4px 11px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
+                border: on ? '2px solid var(--terracotta)' : 'var(--edge)',
                 background: on ? 'var(--terracotta-lt)' : '#fff',
                 color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
                 transition: 'all 0.15s',
@@ -300,7 +300,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                   color: 'var(--ink)',
                   border: celebrating ? 'none' : '1.5px solid var(--terracotta)',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-                  padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
+                  padding: '5px 10px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
                   boxShadow: '0 3px 10px rgba(237,195,95,0.35)',
                   marginBottom: '2px', transition: 'background 0.3s',
                 }}>
@@ -429,7 +429,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
             marginTop: '14px', padding: '12px 14px',
             background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-            borderRadius: '14px', textDecoration: 'none',
+            borderRadius: 'var(--radius-tile)', textDecoration: 'none',
           }}
         >
           <span style={{ minWidth: 0 }}>
@@ -445,7 +445,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
           </span>
           <span style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: '12px', padding: '9px 16px',
+            borderRadius: 'var(--radius-tile)', padding: '9px 16px',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}>
@@ -455,7 +455,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
       ) : !allDone ? (
         <div style={{
           marginTop: '14px', padding: '13px 15px',
-          background: 'var(--tint-sage)', borderRadius: '14px',
+          background: 'var(--tint-sage)', borderRadius: 'var(--radius-tile)',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             That is your {minutes} minutes, day done 🎉

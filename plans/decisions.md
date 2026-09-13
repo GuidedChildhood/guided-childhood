@@ -13788,3 +13788,87 @@ horizontal scroll. Contract passes, council 10/10/10/10, all three cycles anchor
 at 1.00. The applied rows were digest checked with `collate "C"`: ks2-25 slides
 247 strings, teacher notes 135 strings, and the ks3-24 parent note 5 strings,
 all three identical to source.
+
+## 13 September 2026, Sunday, the DiGi review (session p37w5v)
+
+**The ladder is a generation on.** Fable 5.1 on the deep jobs, Opus 5 on the
+chat tier at effort medium, Sonnet 5 behind both, Haiku 4.5 for the mechanical
+jobs. Fast mode is a flag, off, Opus only. Every id a config value; a blank env
+var is unset, not a model called nothing.
+
+**Two tiers, not one, and this is the decision to know about.** Fable 5.1
+thinks on every request and cannot be told not to. That is right for the
+weekly review nobody waits for and wrong for a parent at 9pm. So the parent is
+answered by Opus 5 at medium effort. `DIGI_MODEL_CHAT=claude-fable-5-1` in
+Vercel reverses it with no code change. Sixty days of digi_latency put the
+model at 3.1 of the 4.4 seconds a parent waits, and nothing in the codebase had
+ever set effort, so every call on the platform was at the deepest setting.
+
+**Found on the way.** The memory extraction ran on the deep model on every
+message: it asked for the fast tier and callDigi overwrote the model. The task
+picks the tier now and no caller can pass a model; the guard holds it.
+
+**The lane call and round two overlap.** Round two waited for the lane to
+spare a general question the research fetch. Zero general messages in sixty
+days; the lane missed its keyword list 15 times in 35. The waiting protected a
+case that never happens and slowed every case that does.
+
+**Migration 295, applied.** digi_latency records model, effort, fast, stop
+reason, cache and token counts. The cache_control on the static prompt had
+never once been checked. A refusal is now named instead of reading as blank.
+
+**The evals gate could not run in the container** (no API key). Before is the
+last Monday email, after is the first cron run on the new ladder. If the
+average drops, DIGI_CHAT_EFFORT=high is the one line back.
+
+**Process note, again.** Before reporting anything about a table, read the
+query the product runs against it. A count is not a finding. And before
+building a guard, try to break it: twelve mutations on check-digi-model, and
+the first version of the guard was wrong twice before the code was wrong once.
+
+## 13 September 2026, Sunday, the look and feel pass, session one (session p37w5v)
+
+**Shape is tokens now.** Four radii, one edge, three lifts in shared/tokens.css.
+The sweep (scripts/sweep-shape.mjs) moved 1,122 edges, 539 lifts and 1,802
+radii across 404 files, exact whole values only. Reproducible: run it on main
+and diff. Session two runs it over schools/.
+
+**What the camera said.** 249 screens before and after at three widths: the
+sweep is invisible where it should be. The only movement is 3px lifts to 4px
+and 18/22/24 cards to 20, which is the point.
+
+**Seven files by hand.** Button (token radii, the nowrap trap, a ledge on
+secondary, a press class), the two back links (44px targets), the passport's
+one emoji, HappyNewsBits' template literal finish, and the DiGi chat header and
+suggestion rail from Justin's 12 September screenshot.
+
+**Why the chip fault was never caught.** check-mobile-overflow asks whether the
+document is wider than the window. The rail scrolls inside its own box, so it
+never was. A side scroller with its scrollbar hidden and no fade is a design
+fault, not an overflow, and a guard for the wrong question stays green.
+
+**One branch, one PR, two commits.** The plan said two pull requests. The
+session has one branch, and 400 changed files were not going to sit
+uncommitted in an ephemeral container. Reviewed by commit instead.
+
+**Left for Justin.** 2px or 1.5px on --edge, pictures sent. Then the ten daily
+screens and the schools session.
+
+## 13 September 2026, Sunday, DiGi answers on Fable 5.1 (session p37w5v)
+
+**Justin: "make sure DiGi uses 5.1."** The chat tier default moves from Opus 5
+to Fable 5.1 at medium effort. The brief's argument for Opus stands as an
+argument; the decision is Justin's, and digi_latency.model_ms will say what
+it costs a parent. DIGI_MODEL_CHAT=claude-opus-5 is the one line back.
+
+**The fault that made it safe to do.** A thinking model signs each thinking
+block and expects it back unchanged in the next request of a tool round.
+consumeStream kept text and tool calls and dropped the rest. It now rebuilds
+the turn by block index with thinking, signatures and redacted thinking in
+place. Guarded by check-digi-turn, which runs the real reader over a synthetic
+thinking turn; six of six mutations caught.
+
+**The suspicion, stated once.** Eight of the ten silent family lane replies
+came after a tool fired. A dropped thinking block on the continuation is the
+exact shape of that. Not proven; the row records the model and stop reason
+now, so the next one will say.

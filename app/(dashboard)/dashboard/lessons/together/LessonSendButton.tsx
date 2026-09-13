@@ -61,7 +61,7 @@ export default function LessonSendButton({
       title={childId ? `Ping ${childName} to play this on their quests` : 'Add your child first'}
       style={{
         background: state === 'sent' ? 'var(--retro-green)' : '#fff',
-        border: '2px solid var(--ink)', borderRadius: '11px', boxShadow: '0 4px 0 var(--ink)',
+        border: 'var(--edge)', borderRadius: '11px', boxShadow: 'var(--lift)',
         padding: '8px 12px', cursor: childId && state !== 'sending' ? 'pointer' : 'default',
         fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: state === 'sent' ? '#fff' : 'var(--ink)',
         whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,

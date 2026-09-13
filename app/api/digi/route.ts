@@ -3,7 +3,7 @@ import { pickChild } from '@/lib/children/select'
 import { firstText, makeDashStripper } from '@/lib/digi/text'
 import { hasFullAccess, inStarterTrial, isAllowlisted } from '@/lib/access'
 import { getTrialConfig } from '@/lib/config/trial'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
+import { digiModelsFor, digiEffortFor, fastModeFor, FAST_MODE_BETA, type DigiTask, type DigiEffort } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, ageBandInList, type AgeBand, type ChallengeId } from '@/lib/content/stages'
@@ -21,7 +21,7 @@ import { loadLaneKeywords } from '@/lib/digi/keywords'
 import { matchScripts, type MatchableScript } from '@/lib/digi/script-match'
 import { ownWorryKnowledge } from '@/lib/concerns/related'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
-import { consumeStream } from '@/lib/digi/stream'
+import { consumeStream, type TurnUsage } from '@/lib/digi/stream'
 import { renderHorizons } from '@/lib/digi/horizons'
 import type { AgeBand as HorizonBand } from '@/lib/content/stages'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
@@ -42,33 +42,70 @@ const anthropic = new Anthropic({
 const WARM_ERROR = 'DiGi took too long to think just then. Ask again, your message was not lost.'
 const BUSY_ERROR = 'DiGi is helping a lot of parents right now. Give it a minute and ask again, your message was not lost.'
 
-async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
-  const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+// One opened model call: the stream, plus the facts the latency row needs
+// about who actually answered. A ladder that can fall back quietly is only
+// honest if the row says where it landed (migration 295).
+interface DigiCall {
+  stream: AsyncIterable<Anthropic.RawMessageStreamEvent | Anthropic.Beta.BetaRawMessageStreamEvent>
+  model: string
+  effort: DigiEffort | null
+  fast: boolean
+}
+
+// Is this the kind of error that means try the next model in the ladder
+// rather than give up? An unknown or retired id comes back 404 or 400.
+function isModelError(err: unknown): boolean {
+  return err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
+}
+
+// The model is chosen in here from the task, so a caller cannot put the deep
+// model on a mechanical job by passing it. That is exactly what the memory
+// extraction below was doing until 13 September 2026: it asked for the fast
+// tier and callDigi overwrote it with the deep one.
+type DigiParams = Omit<Anthropic.MessageCreateParamsNonStreaming, 'model' | 'stream'>
+
+function withEffort<T extends object>(params: T, effort: DigiEffort | null): T {
+  return effort ? { ...params, output_config: { effort } } : params
+}
+
+async function callDigi(task: DigiTask, params: DigiParams): Promise<Anthropic.Message> {
   let lastError: unknown
-  for (const model of modelsToTry) {
+  for (const model of digiModelsFor(task)) {
     try {
-      return await anthropic.messages.create({ ...params, model })
+      return await anthropic.messages.create(withEffort({ ...params, model }, digiEffortFor(task, model)))
     } catch (err) {
-      const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
-      if (!isModelError) throw err
+      if (!isModelError(err)) throw err
       lastError = err
     }
   }
   throw lastError
 }
 
-// Streaming variant of callDigi with the same model fallback chain. The await
-// resolves once response headers arrive, so 404/400 model errors throw here
-// and the next model is tried before any text has been sent to the client.
-async function callDigiStream(params: Omit<Anthropic.MessageCreateParamsStreaming, 'stream'>) {
-  const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+// Streaming variant with the same ladder, always the chat tier: every stream
+// in this file has a parent watching it arrive. The await resolves once
+// response headers arrive, so 404/400 model errors throw here and the next
+// model is tried before any text has been sent to the client.
+async function callDigiStream(params: DigiParams): Promise<DigiCall> {
   let lastError: unknown
-  for (const model of modelsToTry) {
+  for (const model of digiModelsFor('chat')) {
+    const effort = digiEffortFor('chat', model)
+    const request = withEffort({ ...params, model, stream: true as const }, effort)
     try {
-      return await anthropic.messages.create({ ...params, model, stream: true })
+      if (fastModeFor(model)) {
+        try {
+          const stream = await anthropic.beta.messages.create({ ...request, speed: 'fast', betas: [FAST_MODE_BETA] })
+          return { stream, model, effort, fast: true }
+        } catch (err) {
+          // Fast mode has its own rate limit, separate from the model's. Being
+          // turned away there means answer at standard speed on the same
+          // model, not move down the ladder.
+          if (!(err instanceof Anthropic.APIError && err.status === 429)) throw err
+        }
+      }
+      const stream = await anthropic.messages.create(request)
+      return { stream, model, effort, fast: false }
     } catch (err) {
-      const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
-      if (!isModelError) throw err
+      if (!isModelError(err)) throw err
       lastError = err
     }
   }
@@ -388,7 +425,50 @@ export async function POST(request: Request) {
   // pass answers it with no model call, and every failure lands on 'parenting',
   // which is the shape that loses least by being wrong.
   const hasHistoryNow = (convData?.messages ?? []).length > 0
-  const lane = await classifyLane(message, hasHistoryNow, laneKeywords)
+  const lanePromise = classifyLane(message, hasHistoryNow, laneKeywords)
+
+  // Round two starts NOW, before the lane is known, and runs alongside it.
+  //
+  // It used to wait for the lane, so that a general question did not go and
+  // fetch six findings about eleven year olds to ignore. Sixty days of
+  // digi_latency, 13 September 2026: zero general lane messages, and the lane
+  // call cost 319ms on average because the keyword list missed 15 times in 35
+  // and paid a model round trip each time. So the waiting protected a case
+  // that never happens and slowed every case that does. The research is
+  // fetched regardless and simply not used on a general message.
+  //
+  // The counted cross family evidence needs a situation shape to look up, so
+  // one is guessed from the message's own words, no model call. A miss costs
+  // nothing: no topic, no query, and the block tells DiGi to ignore a bad fit.
+  const situation = inferSituation(String(message))
+  const round2 = Promise.all([
+    getExpertKnowledge(supabase, child?.age_band ?? null, message),
+    getAggregateWisdom(supabase, child?.age_band ?? null, message),
+    getProvenSolutions(supabase, child?.age_band ?? null, message),
+    // Built with migration 147 and never called until now: what parents in the
+    // same situation shape actually told us worked, counted, three verdicts
+    // minimum before anything is offered as working elsewhere.
+    getRatedForSituation(supabase, child?.age_band ?? null, situation.topic, situation.time_band),
+    // What this family has already tried and what they told us happened.
+    // Suggesting again the exact thing somebody told you failed is worse than
+    // having no memory at all, because the first is not listening. Dropped
+    // with the research on a general message, as it always was.
+    getTriedAlready(supabase, user.id),
+    child?.stage_id
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid, childId: child.id ?? null })
+      : Promise.resolve(null),
+    scriptFeedback.length > 0
+      ? supabase
+          .from('scripts')
+          .select('sort_order, title')
+          .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
+      : Promise.resolve({ data: null }),
+    child?.stage_id
+      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0, child?.id ?? null)
+      : Promise.resolve(''),
+  ])
+
+  const lane = await lanePromise
   timer.mark('lane')
   const wantsResearch = lane !== 'general'
 
@@ -405,38 +485,13 @@ export async function POST(request: Request) {
     ? missCandidates(message, new Set(laneKeywords))
     : []
 
-  // Second parallel round trip for the queries that depend on the first
-  // The counted cross family evidence needs a situation shape to look up, so
-  // one is guessed from the message's own words, no model call. A miss costs
-  // nothing: no topic, no query, and the block tells DiGi to ignore a bad fit.
-  const situation = inferSituation(String(message))
-  const [expertKnowledge, aggregateWisdom, provenSolutions, ratedForSituation, triedAlready, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
-    wantsResearch ? getExpertKnowledge(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
-    wantsResearch ? getAggregateWisdom(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
-    wantsResearch ? getProvenSolutions(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
-    // Built with migration 147 and never called until now: what parents in the
-    // same situation shape actually told us worked, counted, three verdicts
-    // minimum before anything is offered as working elsewhere.
-    wantsResearch ? getRatedForSituation(supabase, child?.age_band ?? null, situation.topic, situation.time_band) : Promise.resolve(''),
-    // What this family has already tried and what they told us happened. Not
-    // gated on wantsResearch: a parent's own verdict on their own child is not
-    // research, it is the thing DiGi must not contradict or repeat back to
-    // them. Suggesting again the exact thing somebody told you failed is worse
-    // than having no memory at all, because the first is not listening.
-    wantsResearch ? getTriedAlready(supabase, user.id) : Promise.resolve(''),
-    child?.stage_id
-      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid, childId: child.id ?? null })
-      : Promise.resolve(null),
-    scriptFeedback.length > 0
-      ? supabase
-          .from('scripts')
-          .select('sort_order, title')
-          .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
-      : Promise.resolve({ data: null }),
-    child?.stage_id
-      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0, child?.id ?? null)
-      : Promise.resolve(''),
-  ])
+  // gather2_ms is now the time round two took BEYOND the lane call.
+  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, recommended, matchingScriptsResult, pathwayPosition] = await round2
+  const expertKnowledge = wantsResearch ? expertKnowledgeRaw : ''
+  const aggregateWisdom = wantsResearch ? aggregateWisdomRaw : ''
+  const provenSolutions = wantsResearch ? provenSolutionsRaw : ''
+  const ratedForSituation = wantsResearch ? ratedForSituationRaw : ''
+  const triedAlready = wantsResearch ? triedAlreadyRaw : ''
   timer.mark('gather2')
 
   let nextStepKnowledge = ''
@@ -776,7 +831,6 @@ When a parent asks whether or for how long their child should use any device, do
   let modelStream: Awaited<ReturnType<typeof callDigiStream>>
   try {
     modelStream = await callDigiStream({
-      model: DIGI_MODEL,
       // Headroom for the main reply AND the reflective question that follows the
       // --- marker. At 700 a long lesson ate the whole budget and the reflection
       // came through chopped mid word, so it gets its own room here.
@@ -842,6 +896,17 @@ When a parent asks whether or for how long their child should use any device, do
         // column was cleared whenever a single character had arrived, so a
         // sentence that stopped mid word was filed as a clean success.
         failure: replied ? (failReason ?? null) : (failReason ?? 'empty'),
+        // Who answered, at what effort, in which speed, and whether the cache
+        // hit. Migration 295: a ladder that can fall back quietly is only
+        // honest if the row says where it landed.
+        model: modelStream.model,
+        effort: modelStream.effort,
+        fast: modelStream.fast,
+        stop_reason: firstStop,
+        cache_read_tokens: firstUsage?.cacheRead ?? null,
+        cache_write_tokens: firstUsage?.cacheWrite ?? null,
+        input_tokens: firstUsage?.input ?? null,
+        output_tokens: outputTokens || null,
       })
 
       // The words we did not know, from a message the keyword pass could not
@@ -933,8 +998,7 @@ When a parent asks whether or for how long their child should use any device, do
       // it, so the extraction call is skipped rather than paid for and answered
       // NONE. It also stops a stray note about someone's work deadline being
       // filed as lasting context about the family.
-      const extraction = (lane === 'general' || savedItsOwnMemory) ? null : await callDigi({
-        model: digiModelsFor('extract')[0],
+      const extraction = (lane === 'general' || savedItsOwnMemory) ? null : await callDigi('extract', {
         max_tokens: 220,
         messages: [{
           role: 'user',
@@ -1072,6 +1136,12 @@ When a parent asks whether or for how long their child should use any device, do
   // Out here rather than inside the stream, because the latency row is written
   // from an after() closure in the same scope, the way toolFired already is.
   let failReason: string | null = null
+  // The first turn's cost and stop reason, for the latency row. The first
+  // turn is the one whose time to first token was measured, so its cache
+  // figures are the ones that explain that number.
+  let firstUsage: TurnUsage | null = null
+  let firstStop: string | null = null
+  let outputTokens = 0
 
   const encoder = new TextEncoder()
   const body = new ReadableStream<Uint8Array>({
@@ -1102,7 +1172,6 @@ When a parent asks whether or for how long their child should use any device, do
       const rescuePlain = async () => {
         try {
           const rescue = await callDigiStream({
-            model: DIGI_MODEL,
             max_tokens: 1600,
             system: [
               { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
@@ -1113,7 +1182,7 @@ When a parent asks whether or for how long their child should use any device, do
             // half built tool exchange is exactly the shape the API rejects.
             messages,
           })
-          const saved = await consumeStream(rescue, controller, encoder, dashes)
+          const saved = await consumeStream(rescue.stream, controller, encoder, dashes)
           fullText += saved.clean
           const rest = dashes.flush()
           if (rest) {
@@ -1140,8 +1209,14 @@ When a parent asks whether or for how long their child should use any device, do
         // what it already knows rather than a third search.
         let stream = modelStream
         for (let round = 0; round < 3; round++) {
-          const turn = await consumeStream(stream, controller, encoder, dashes)
+          const turn = await consumeStream(stream.stream, controller, encoder, dashes)
           fullText += turn.clean
+          if (!firstUsage) { firstUsage = turn.usage; firstStop = turn.stopReason }
+          outputTokens += turn.usage.output ?? 0
+          // The new generation can decline a request outright: HTTP 200, no
+          // text, stop_reason refusal. The silent path below rescues it like
+          // any other empty turn; the row must say which it was.
+          if (turn.stopReason === 'refusal') failReason = 'refusal'
 
           // web_search is resolved at Anthropic's end inside the same turn, so
           // it never reaches here. Only the tools we run ourselves continue the
@@ -1161,7 +1236,6 @@ When a parent asks whether or for how long their child should use any device, do
             failReason = 'cut: max_tokens'
             try {
               const more = await callDigiStream({
-                model: DIGI_MODEL,
                 max_tokens: 1600,
                 system: [
                   { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
@@ -1173,7 +1247,7 @@ When a parent asks whether or for how long their child should use any device, do
                   { role: 'user', content: 'Carry on exactly where you stopped, mid sentence if that is where it was. Do not repeat anything, do not start again, no preamble.' },
                 ],
               })
-              const rest = await consumeStream(more, controller, encoder, dashes)
+              const rest = await consumeStream(more.stream, controller, encoder, dashes)
               fullText += rest.clean
               if (rest.clean.trim()) failReason = 'recovered: cut: max_tokens'
             } catch { /* the parent keeps what arrived, and the row says it was cut */ }
@@ -1231,7 +1305,6 @@ When a parent asks whether or for how long their child should use any device, do
           conversation.push({ role: 'user', content: results })
 
           stream = await callDigiStream({
-            model: DIGI_MODEL,
             max_tokens: 1600,
             system: [
               { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
@@ -1264,7 +1337,7 @@ When a parent asks whether or for how long their child should use any device, do
         // Third time, no tool, a good answer in four seconds. Same rescue,
         // now for silence too.
         if (fullText === opener) {
-          failReason = 'silent tool loop'
+          failReason ??= 'silent tool loop'
           await rescuePlain()
           if (fullText === opener) {
             try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }

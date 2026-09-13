@@ -145,7 +145,7 @@ export default function ParentStageCheck({
                 textAlign: 'left', cursor: revealed ? 'default' : 'pointer',
                 background: revealed ? (isRight ? 'var(--tint-sage)' : chosen ? 'var(--danger-bg)' : '#fff') : '#fff',
                 border: `1.5px solid ${revealed ? (isRight ? 'var(--retro-green)' : chosen ? 'var(--danger-border)' : 'var(--border)') : 'var(--border)'}`,
-                borderRadius: 13, padding: '12px 14px',
+                borderRadius: 'var(--radius-tile)', padding: '12px 14px',
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
                 boxShadow: revealed ? 'none' : '0 2px 0 var(--border)',
               }}
@@ -157,7 +157,7 @@ export default function ParentStageCheck({
       </div>
 
       {picked !== null && (
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 13, padding: '11px 13px', marginTop: 11 }}>
+        <div style={{ background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginTop: 11 }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {q.why}
           </p>

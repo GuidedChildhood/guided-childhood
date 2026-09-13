@@ -62,7 +62,7 @@ type Ask = { id: string; child_id: string | null; title: string; status: string;
 type TabKey = 'add' | 'agree' | 'theirs'
 
 const CARD: React.CSSProperties = {
-  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 4px 0 var(--ink)',
+  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
   padding: '18px 18px 20px', marginBottom: 18,
 }
 const H2: React.CSSProperties = {
@@ -94,7 +94,7 @@ const CHIP_BTN = (on: boolean, tint: string, ink: string): React.CSSProperties =
   display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0,
   background: on ? tint : '#fff',
   border: `1.5px solid ${on ? ink : 'var(--border)'}`,
-  borderRadius: 100, padding: '5px 11px', cursor: 'pointer',
+  borderRadius: 'var(--radius-pill)', padding: '5px 11px', cursor: 'pointer',
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.02em', color: on ? ink : 'var(--ink-soft)',
   lineHeight: 1.3, whiteSpace: 'nowrap',
@@ -437,7 +437,7 @@ export default function ManageJobs({
                 style={{
                   border: `1.5px solid ${activeChild === c.id ? 'var(--terracotta)' : 'var(--border)'}`,
                   background: activeChild === c.id ? 'var(--terracotta-lt)' : '#fff',
-                  borderRadius: 100, padding: '8px 15px', cursor: 'pointer',
+                  borderRadius: 'var(--radius-pill)', padding: '8px 15px', cursor: 'pointer',
                   fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
                   display: 'inline-flex', alignItems: 'center', gap: 7,
                 }}
@@ -445,7 +445,7 @@ export default function ManageJobs({
                 {c.name}
                 {mineWaiting > 0 && (
                   <span style={{
-                    background: '#B93B3F', color: '#fff', borderRadius: 100,
+                    background: '#B93B3F', color: '#fff', borderRadius: 'var(--radius-pill)',
                     minWidth: 20, padding: '1px 6px', textAlign: 'center',
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   }}>
@@ -470,7 +470,7 @@ export default function ManageJobs({
         style={{
           scrollMarginTop: 12,
           display: 'flex', gap: 6, marginBottom: 18, padding: 4,
-          background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 100,
+          background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
         }}
       >
         {TABS.map(t => {
@@ -483,7 +483,7 @@ export default function ManageJobs({
               onClick={() => goTab(t.key)}
               style={{
                 flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                gap: 6, padding: '9px 8px', borderRadius: 100, cursor: 'pointer',
+                gap: 6, padding: '9px 8px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                 border: 'none', background: on ? '#fff' : 'transparent',
                 boxShadow: on ? '0 2px 0 rgba(26,26,46,0.07)' : 'none',
                 fontFamily: 'var(--font-display)', fontWeight: on ? 800 : 600,
@@ -498,7 +498,7 @@ export default function ManageJobs({
               <span>{t.label}</span>
               {t.count > 0 && (
                 <span style={{
-                  flexShrink: 0, minWidth: 20, padding: '1px 6px', borderRadius: 100,
+                  flexShrink: 0, minWidth: 20, padding: '1px 6px', borderRadius: 'var(--radius-pill)',
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   background: t.alert ? '#E5484D' : 'var(--border)',
                   color: t.alert ? '#fff' : 'var(--ink-soft)',
@@ -536,7 +536,7 @@ export default function ManageJobs({
               display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
               background: hasApp ? 'var(--cream)' : 'var(--terracotta-lt)',
               border: `1.5px solid ${hasApp ? 'var(--border)' : 'var(--terracotta)'}`,
-              borderRadius: 16, padding: '13px 15px', marginBottom: 16,
+              borderRadius: 'var(--radius-btn)', padding: '13px 15px', marginBottom: 16,
             }}>
               <span style={{ flex: 1, minWidth: 180, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
                 {hasApp
@@ -651,7 +651,7 @@ export default function ManageJobs({
               onClick={() => goTab('theirs')}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: 10,
-                background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
+                background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                 padding: '13px 15px', cursor: 'pointer', textAlign: 'left',
               }}
             >
@@ -689,7 +689,7 @@ export default function ManageJobs({
                 {waiting.map(t => {
                   const q = questById.get(t.quest_id)
                   return (
-                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
+                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px', flexWrap: 'wrap' }}>
                       <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q?.emoji ?? '⭐'}</span>
                       {/* minWidth 140 so a long job title wraps the button to
                           the next line instead of being squeezed one word a
@@ -725,7 +725,7 @@ export default function ManageJobs({
                   // whole family job stays for the siblings.
                   const swapOld = a.swap_quest_id ? quests.find(q => q.id === a.swap_quest_id) : undefined
                   return (
-                  <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
+                  <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px', flexWrap: 'wrap' }}>
                     <span style={{ flex: 1, minWidth: 140, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {a.title}
                       {swapOld && (
@@ -765,7 +765,7 @@ export default function ManageJobs({
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {mine.map(q => (
-                <div key={q.id} style={{ border: '2px solid var(--ink)', borderRadius: 14, padding: '10px 12px' }}>
+                <div key={q.id} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
                   <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
@@ -829,7 +829,7 @@ export default function ManageJobs({
                       onChange={e => setStepsDraft(e.target.value)}
                       rows={4}
                       placeholder={'One step per line, up to five.\nClothes in the basket\nBooks on the shelf\nFloor clear'}
-                      style={{ width: '100%', borderRadius: 11, border: '2px solid var(--ink)', padding: '8px 10px', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-body)', color: 'var(--ink)', resize: 'vertical' }}
+                      style={{ width: '100%', borderRadius: 11, border: 'var(--edge)', padding: '8px 10px', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-body)', color: 'var(--ink)', resize: 'vertical' }}
                     />
                     <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '4px 0 6px' }}>
                       Little ticks that chunk the job on their card. The stars stay on the whole job, never per step.
@@ -898,8 +898,8 @@ export default function ManageJobs({
               // separate boxes with real edges, and the accent stays reserved
               // for the thing a parent has actually chosen.
               background: 'var(--cream)', color: 'var(--ink)',
-              border: '2px solid var(--ink)',
-              borderRadius: 14,
+              border: 'var(--edge)',
+              borderRadius: 'var(--radius-tile)',
               boxShadow: '0 3px 0 var(--border)',
               padding: '10px 8px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',

@@ -103,7 +103,7 @@ export default async function EmailHealthPage() {
       </p>
 
       {readError && (
-        <div style={{ background: 'var(--danger-bg)', border: '1.5px solid var(--danger-border)', borderRadius: 18, padding: '16px 18px', marginBottom: 18 }}>
+        <div style={{ background: 'var(--danger-bg)', border: '1.5px solid var(--danger-border)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: 18 }}>
           <div style={{ ...eyebrow, color: 'var(--danger)', marginBottom: 5 }}>Could not read</div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>{readError}</p>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
@@ -118,7 +118,7 @@ export default async function EmailHealthPage() {
           <div style={{
             background: h.live ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
             border: `1.5px solid ${h.live ? 'var(--retro-green)' : 'var(--terracotta)'}`,
-            borderRadius: 20, padding: '18px 20px', marginBottom: 18,
+            borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: 18,
           }}>
             <div style={{ ...eyebrow, color: h.live ? 'var(--retro-green-dark)' : 'var(--terracotta-dark)', marginBottom: 4 }}>
               Right now
@@ -130,7 +130,7 @@ export default async function EmailHealthPage() {
           </div>
 
           {/* The settings. Never a secret's value, only whether it is there. */}
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px', marginBottom: 18 }}>
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: 18 }}>
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: 12 }}>Settings</div>
             {h.config.map(c => (
               <div key={c.key} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 14 }}>
@@ -156,14 +156,14 @@ export default async function EmailHealthPage() {
           </div>
 
           {/* What actually went out. */}
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px' }}>
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: 12 }}>What has gone out</div>
             <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
               {[
                 { n: h.sent24h, label: 'last 24 hours' },
                 { n: h.sent7d, label: 'last 7 days' },
               ].map(s => (
-                <span key={s.label} style={{ flex: 1, minWidth: 120, background: 'var(--cream)', borderRadius: 14, padding: '12px 13px' }}>
+                <span key={s.label} style={{ flex: 1, minWidth: 120, background: 'var(--cream)', borderRadius: 'var(--radius-tile)', padding: '12px 13px' }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1 }}>{s.n}</span>
                   <span style={{ display: 'block', ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: 4 }}>{s.label}</span>
                 </span>

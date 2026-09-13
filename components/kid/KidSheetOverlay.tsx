@@ -99,7 +99,7 @@ export default function KidSheetOverlay({ sheet, onClose, onPrinted }: {
         <button
           onClick={print}
           style={{
-            flexShrink: 0, padding: '11px 16px', border: `2px solid ${HAPPY.ink}`, borderRadius: 14, cursor: 'pointer',
+            flexShrink: 0, padding: '11px 16px', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             color: HAPPY.ink, background: '#fff', boxShadow: `0 3px 0 ${HAPPY.ink}`,
           }}

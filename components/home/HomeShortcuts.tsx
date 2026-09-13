@@ -74,7 +74,7 @@ export default function HomeShortcuts({ childId = null }: { childId?: string | n
             aria-hidden
             style={{
               width: 56, height: 56, borderRadius: '50%',
-              background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+              background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >

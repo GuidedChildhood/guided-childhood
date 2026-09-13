@@ -19,13 +19,13 @@ export default function PlanChooser({ heading }: { heading: string }) {
   const p = PLANS[plan]
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '22px', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '22px', boxShadow: 'var(--lift)' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
         {heading}
       </div>
 
       {/* Segmented toggle */}
-      <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px', marginBottom: '20px' }}>
         {([['annual', 'Yearly'], ['standard', 'Monthly']] as [Plan, string][]).map(([key, label]) => {
           const on = plan === key
           return (
@@ -33,7 +33,7 @@ export default function PlanChooser({ heading }: { heading: string }) {
               key={key}
               onClick={() => setPlan(key)}
               style={{
-                flex: 1, padding: '10px', borderRadius: '100px', border: 'none', cursor: 'pointer',
+                flex: 1, padding: '10px', borderRadius: 'var(--radius-pill)', border: 'none', cursor: 'pointer',
                 background: on ? 'var(--deep-teal)' : 'transparent',
                 color: on ? '#fff' : 'var(--ink-soft)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
@@ -46,7 +46,7 @@ export default function PlanChooser({ heading }: { heading: string }) {
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   background: on ? 'var(--terracotta)' : 'var(--terracotta-lt)',
-                  color: 'var(--ink)', padding: '2px 7px', borderRadius: '100px',
+                  color: 'var(--ink)', padding: '2px 7px', borderRadius: 'var(--radius-pill)',
                 }}>
                   Save £56.88
                 </span>

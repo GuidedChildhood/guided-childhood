@@ -24,9 +24,9 @@ export default function StageRoadMap({
 
   return (
     <div style={{
-      background: 'var(--white, #fff)', border: '2px solid var(--ink)',
-      borderRadius: '20px', padding: '18px 16px 14px',
-      boxShadow: '0 4px 0 var(--ink)',
+      background: 'var(--white, #fff)', border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '18px 16px 14px',
+      boxShadow: 'var(--lift)',
     }}>
       <style>{`
         @keyframes roadmap-pulse {
@@ -49,8 +49,8 @@ export default function StageRoadMap({
 
       <div style={{ position: 'relative', paddingTop: 30 }}>
         {/* Track */}
-        <div style={{ position: 'absolute', left: '10%', right: '10%', top: 30 + 21, height: 4, background: 'var(--border)', borderRadius: 100 }} />
-        <div style={{ position: 'absolute', left: '10%', width: `calc(80% * ${roadFrac / 100})`, top: 30 + 21, height: 4, background: 'var(--terracotta-lt)', borderRadius: 100 }} />
+        <div style={{ position: 'absolute', left: '10%', right: '10%', top: 30 + 21, height: 4, background: 'var(--border)', borderRadius: 'var(--radius-pill)' }} />
+        <div style={{ position: 'absolute', left: '10%', width: `calc(80% * ${roadFrac / 100})`, top: 30 + 21, height: 4, background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-pill)' }} />
 
         <div style={{ position: 'relative', display: 'flex' }}>
           {STAGES.map(stage => {
@@ -71,7 +71,7 @@ export default function StageRoadMap({
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                     background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
-                    border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--ink)',
+                    border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : 'var(--edge)',
                     color: here ? 'var(--terracotta-dark)' : behind ? 'var(--terracotta-dark)' : 'var(--ink-light)',
                     animation: here ? 'roadmap-pulse 1.6s ease-in-out infinite' : undefined,
                     position: 'relative', zIndex: 1,
@@ -92,7 +92,7 @@ export default function StageRoadMap({
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                       letterSpacing: '0.08em', textTransform: 'uppercase',
                       background: 'var(--terracotta)', color: 'var(--ink)',
-                      padding: '2px 8px', borderRadius: 100, whiteSpace: 'nowrap',
+                      padding: '2px 8px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
                     }}>
                       You are here
                     </div>
@@ -104,7 +104,7 @@ export default function StageRoadMap({
                       letterSpacing: '0.08em', textTransform: 'uppercase',
                       background: 'transparent', color: 'var(--terracotta-dark)',
                       border: '1px dashed var(--terracotta)',
-                      padding: '1px 7px', borderRadius: 100, whiteSpace: 'nowrap',
+                      padding: '1px 7px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
                     }}>
                       Catch up
                     </div>

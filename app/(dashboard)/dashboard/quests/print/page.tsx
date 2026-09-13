@@ -63,14 +63,14 @@ export default async function QuestPrintPage() {
         const goal = goals.find(g => g.child_id === child.id)
         return (
           <div key={child.id} className="quest-sheet" style={{
-            background: '#fff', border: '3px solid var(--ink)', borderRadius: '20px',
+            background: '#fff', border: '3px solid var(--ink)', borderRadius: 'var(--radius-card)',
             padding: '24px 26px', marginBottom: '24px',
           }}>
             <PrintBrandHeader />
             {/* Board banner, DiGi presiding */}
             <div style={{
               textAlign: 'center', marginBottom: '14px',
-              border: '2.5px solid var(--ink)', borderRadius: '16px',
+              border: '2.5px solid var(--ink)', borderRadius: 'var(--radius-btn)',
               padding: '14px 16px 12px', position: 'relative',
               background: 'var(--terracotta-lt)',
               display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center',
@@ -92,7 +92,7 @@ export default async function QuestPrintPage() {
             {/* The prize and the star track to colour in */}
             {goal && (
               <div style={{
-                border: '2px dashed var(--terracotta-dark)', borderRadius: '14px',
+                border: '2px dashed var(--terracotta-dark)', borderRadius: 'var(--radius-tile)',
                 padding: '12px 16px', marginBottom: '16px', textAlign: 'center',
               }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '6px' }}>
@@ -111,11 +111,11 @@ export default async function QuestPrintPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  <th style={{ textAlign: 'left', padding: '8px 6px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)' }}>
+                  <th style={{ textAlign: 'left', padding: '8px 6px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: 'var(--edge)' }}>
                     Quest
                   </th>
                   {DAYS.map(d => (
-                    <th key={d} style={{ padding: '8px 4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)', width: '44px' }}>
+                    <th key={d} style={{ padding: '8px 4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: 'var(--edge)', width: '44px' }}>
                       {d}
                     </th>
                   ))}
@@ -142,7 +142,7 @@ export default async function QuestPrintPage() {
                           ) : (
                             <span style={{
                               display: 'inline-block', width: '24px', height: '24px',
-                              border: '2px solid var(--ink)', borderRadius: '7px',
+                              border: 'var(--edge)', borderRadius: '7px',
                             }} />
                           )}
                         </td>
@@ -155,7 +155,7 @@ export default async function QuestPrintPage() {
 
             {/* Weekend family bonus */}
             <div style={{
-              marginTop: '14px', border: '2px solid var(--ink)', borderRadius: '14px',
+              marginTop: '14px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '12px',
               background: 'var(--tint-sage)',
             }}>

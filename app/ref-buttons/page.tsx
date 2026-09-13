@@ -49,7 +49,7 @@ export default function RefButtons() {
               real padding, so the button gets the width it really gets. */}
           <div
             data-probe={`card-${w}`}
-            style={{ width: w, maxWidth: '100%', background: 'var(--deep-teal)', borderRadius: 22, padding: '18px 22px' }}
+            style={{ width: w, maxWidth: '100%', background: 'var(--deep-teal)', borderRadius: 'var(--radius-card)', padding: '18px 22px' }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {LABELS.map(label => (
@@ -74,7 +74,7 @@ export default function RefButtons() {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', margin: '0 0 8px' }}>
           Auto width, inside a 320px column
         </p>
-        <div data-probe="card-auto" style={{ width: 320, maxWidth: '100%', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: 16 }}>
+        <div data-probe="card-auto" style={{ width: 320, maxWidth: '100%', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 16 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             {LABELS.map(label => (
               <button key={label} type="button" data-probe="btn" className="btn btn-gold">

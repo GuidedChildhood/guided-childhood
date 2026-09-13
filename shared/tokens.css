@@ -189,9 +189,33 @@
   --text-2xl:   1.75rem;    /* 28  page headings */
   --text-3xl:   2.125rem;   /* 34  the one big number on a card */
 
-  /* ── RADIUS ── */
+  /* ── SHAPE (13 September 2026) ──
+     The platform always had a shape language. It was never written down, so
+     every screen re invented it from memory: the ink border typed out by hand
+     1,122 times, the ink drop shadow 538 times in four depths, eleven
+     different corner radii. Colour and type were tokens; shape was folklore.
+
+     Four radii, one edge, three lifts. Nothing else. Change these eight lines
+     and the whole platform moves together, which is the point of having them.
+
+       pill   chips, badges, the tab bar, anything that is a capsule
+       btn    buttons and inputs
+       card   cards and panels, the surface a thing sits on
+       tile   the small tiles inside a card
+
+     lift is the resting drop, lift-deep the primary button, lift-press what a
+     button collapses to under a thumb. Always ink: butter and green buttons
+     shadow in their own dark shade and keep their own declarations.
+
+     Not swept: border-radius 50%. A circle is a circle. */
+  --radius-pill:  100px;
   --radius-btn:   16px;
-  --radius-card:  24px;
+  --radius-card:  20px;
+  --radius-tile:  14px;
+  --edge:         2px solid var(--ink);
+  --lift:         0 4px 0 var(--ink);
+  --lift-deep:    0 5px 0 var(--ink);
+  --lift-press:   0 2px 0 var(--ink);
   --r:            24px;
 }
 

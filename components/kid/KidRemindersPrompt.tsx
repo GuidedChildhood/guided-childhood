@@ -65,7 +65,7 @@ export default function KidRemindersPrompt({
   return (
     <div style={{
       background: 'var(--butter, #FFE9A8)', border: '1.5px solid rgba(26,26,46,0.1)',
-      borderRadius: '20px', padding: '16px 18px', marginBottom: '16px',
+      borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '16px',
       boxShadow: '0 4px 0 rgba(26,26,46,0.1)',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
@@ -86,7 +86,7 @@ export default function KidRemindersPrompt({
         <button
           onClick={state === 'offer' ? onEnable : () => setSteps(v => !v)}
           style={{
-            flex: '1 1 auto', padding: '13px 18px', borderRadius: '14px', border: 'none', cursor: 'pointer',
+            flex: '1 1 auto', padding: '13px 18px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: 'pointer',
             background: 'var(--terracotta)', color: 'var(--ink)',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
@@ -97,7 +97,7 @@ export default function KidRemindersPrompt({
         <button
           onClick={notNow}
           style={{
-            flexShrink: 0, padding: '13px 18px', borderRadius: '14px', cursor: 'pointer',
+            flexShrink: 0, padding: '13px 18px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
             background: 'transparent', border: '1.5px solid rgba(26,26,46,0.18)',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)',
           }}
@@ -107,7 +107,7 @@ export default function KidRemindersPrompt({
       </div>
 
       {state === 'ios' && steps && (
-        <div style={{ marginTop: '12px', background: '#fff', borderRadius: '16px', padding: '16px 18px' }}>
+        <div style={{ marginTop: '12px', background: '#fff', borderRadius: 'var(--radius-btn)', padding: '16px 18px' }}>
           {[
             <>Tap the <strong>Share</strong> button at the bottom of Safari, the square with the arrow pointing up.</>,
             <>Scroll down and tap <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</>,

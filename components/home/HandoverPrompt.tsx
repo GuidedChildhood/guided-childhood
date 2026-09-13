@@ -77,7 +77,7 @@ export default function HandoverPrompt({
   const reason = (icon: HappyIconName, title: string, body: string) => (
     <li style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 9 }}>
       <span aria-hidden style={{
-        flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--cream)', border: '2px solid var(--ink)',
+        flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--cream)', border: 'var(--edge)',
         boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}><HappyIcon name={icon} size={26} /></span>
       <span>
@@ -103,14 +103,14 @@ export default function HandoverPrompt({
         onClick={e => e.stopPropagation()}
         style={{
           width: '100%', maxWidth: 440, margin: 'auto',
-          background: '#fff', border: '2px solid var(--ink)',
-          borderRadius: 24, overflow: 'hidden',
-          boxShadow: '0 4px 0 var(--ink)',
+          background: '#fff', border: 'var(--edge)',
+          borderRadius: 'var(--radius-card)', overflow: 'hidden',
+          boxShadow: 'var(--lift)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)', borderBottom: '2px solid var(--ink)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)', borderBottom: 'var(--edge)' }}>
           <span aria-hidden style={{
-            flexShrink: 0, width: 42, height: 42, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+            flexShrink: 0, width: 42, height: 42, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}><HappyIcon name="phonebed" size={30} /></span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -133,7 +133,7 @@ export default function HandoverPrompt({
           </ul>
         </div>
 
-        <div style={{ margin: '13px 18px 0', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: 14, padding: '11px 13px' }}>
+        <div style={{ margin: '13px 18px 0', background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
             What they get, and what they do not
           </div>
@@ -155,7 +155,7 @@ export default function HandoverPrompt({
             style={{
               width: '100%', padding: '14px', cursor: busy ? 'default' : 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
+              borderRadius: 'var(--radius-btn)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
               boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.7 : 1,
             }}
           >
@@ -168,9 +168,9 @@ export default function HandoverPrompt({
             onClick={onPaper}
             style={{
               width: '100%', marginTop: 8, padding: '13px', cursor: 'pointer',
-              background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              boxShadow: '0 4px 0 var(--ink)',
+              background: '#fff', color: 'var(--ink)', border: 'var(--edge)',
+              borderRadius: 'var(--radius-btn)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              boxShadow: 'var(--lift)',
             }}
           >
             We do it on paper

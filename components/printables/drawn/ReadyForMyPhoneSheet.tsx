@@ -40,7 +40,7 @@ export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: 
 
         {/* The destination */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, position: 'relative', flexShrink: 0 }}>
-          <div style={{ background: ex ? CRAYON.paper : '#fff', border: `3px solid ${INK}`, borderRadius: 16, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ background: ex ? CRAYON.paper : '#fff', border: `3px solid ${INK}`, borderRadius: 'var(--radius-btn)', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <Phone size={64} face="happy" />
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_MUTED }}>The last stop</div>
@@ -60,7 +60,7 @@ export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: 
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 10, width: '52%',
                   flexDirection: left ? 'row-reverse' : 'row',
-                  background: done ? STOP_CRAYONS[(n - 1) % STOP_CRAYONS.length] : '#fff', border: `2.5px solid ${INK}`, borderRadius: 14, padding: '7px 10px',
+                  background: done ? STOP_CRAYONS[(n - 1) % STOP_CRAYONS.length] : '#fff', border: `2.5px solid ${INK}`, borderRadius: 'var(--radius-tile)', padding: '7px 10px',
                 }}>
                   <TickCircle size={30} sample={n <= SAMPLE_DONE} />
                   <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8, flexDirection: left ? 'row-reverse' : 'row' }}>
@@ -75,7 +75,7 @@ export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: 
 
         {/* Start */}
         <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', flexShrink: 0 }}>
-          <span style={{ background: ex ? CRAYON.butter : '#fff', border: `3px solid ${INK}`, borderRadius: 100, padding: '5px 16px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: INK }}>START HERE</span>
+          <span style={{ background: ex ? CRAYON.butter : '#fff', border: `3px solid ${INK}`, borderRadius: 'var(--radius-pill)', padding: '5px 16px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: INK }}>START HERE</span>
         </div>
       </div>
 

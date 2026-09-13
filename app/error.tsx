@@ -19,10 +19,10 @@ export default function Error({ reset }: { error: Error & { digest?: string }; r
         That one is on us, not you. Try again, and if it keeps happening, email us at hello@guidedchildhood.com and we will sort it.
       </p>
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button onClick={reset} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', cursor: 'pointer', borderRadius: '16px', padding: '13px 22px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+        <button onClick={reset} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', cursor: 'pointer', borderRadius: 'var(--radius-btn)', padding: '13px 22px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           Try again
         </button>
-        <Link href="/dashboard" style={{ background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px 22px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
+        <Link href="/dashboard" style={{ background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '13px 22px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
           Back to my dashboard
         </Link>
       </div>

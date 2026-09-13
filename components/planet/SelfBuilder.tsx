@@ -17,7 +17,7 @@ const INK = '#1A1A2E'
 type Tab = 'me' | 'hair' | 'suit'
 
 const swatch = (selected: boolean): React.CSSProperties => ({
-  width: 52, height: 52, borderRadius: 16, cursor: 'pointer', padding: 0,
+  width: 52, height: 52, borderRadius: 'var(--radius-btn)', cursor: 'pointer', padding: 0,
   border: selected ? `3px solid ${INK}` : '2px solid rgba(26,26,46,0.25)',
   boxShadow: selected ? `0 3px 0 ${INK}` : 'none',
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -43,7 +43,7 @@ export default function SelfBuilder({ initial, theme, words, onDone, onTap }: {
       onClick={() => { onTap(); setTab(key) }}
       aria-label={label}
       style={{
-        flex: 1, padding: '10px 8px', borderRadius: 14, cursor: 'pointer',
+        flex: 1, padding: '10px 8px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
         background: tab === key ? theme.hex : '#fff', color: tab === key ? theme.onAccent : INK,
         border: `2px solid ${INK}`, boxShadow: tab === key ? `0 3px 0 ${INK}` : 'none',
@@ -54,7 +54,7 @@ export default function SelfBuilder({ initial, theme, words, onDone, onTap }: {
   )
 
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 6, background: '#141A3C', display: 'flex', flexDirection: 'column', borderRadius: 22 }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 6, background: '#141A3C', display: 'flex', flexDirection: 'column', borderRadius: 'var(--radius-card)' }}>
       <p style={{ margin: '14px 0 0', textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: '#FFF6DD' }}>
         {SELF_LINES.title} ⭐
       </p>
@@ -108,7 +108,7 @@ export default function SelfBuilder({ initial, theme, words, onDone, onTap }: {
         <button
           onClick={() => { onTap(); onDone(draft) }}
           style={{
-            marginTop: 'auto', padding: '14px 20px', borderRadius: 16, cursor: 'pointer',
+            marginTop: 'auto', padding: '14px 20px', borderRadius: 'var(--radius-btn)', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             background: theme.hex, color: theme.onAccent, border: `2px solid ${INK}`, boxShadow: `0 5px 0 ${INK}`,
           }}

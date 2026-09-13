@@ -79,7 +79,7 @@ export default function KidBackLink({
         style={{
           width: 42, height: 42, borderRadius: '50%', flexShrink: 0,
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+          background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
           cursor: 'pointer', textDecoration: 'none',
         }}
       >
@@ -93,7 +93,7 @@ export default function KidBackLink({
       href={href}
       onClick={go}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: 6,
+        display: 'inline-flex', alignItems: 'center', gap: 6, minHeight: 44, padding: '6px 0',
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize,
         color, textDecoration: 'none', cursor: 'pointer',
       }}

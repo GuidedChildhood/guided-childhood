@@ -116,7 +116,7 @@ function ProgressBar({ done, total, tone }: { done: number; total: number; tone:
       aria-valuemin={0}
       aria-valuemax={total}
       style={{
-        display: 'block', height: 6, borderRadius: 100, marginTop: 8, overflow: 'hidden',
+        display: 'block', height: 6, borderRadius: 'var(--radius-pill)', marginTop: 8, overflow: 'hidden',
         // A warm tinted track in the fill's own family, never plain grey:
         // green over a light green wash on track, butter over butter light
         // while the number is still moving.
@@ -124,7 +124,7 @@ function ProgressBar({ done, total, tone }: { done: number; total: number; tone:
       }}
     >
       <span style={{
-        display: 'block', height: '100%', borderRadius: 100,
+        display: 'block', height: '100%', borderRadius: 'var(--radius-pill)',
         width: `${pct}%`, minWidth: done > 0 ? 8 : 0,
         background: tone === 'green' ? 'var(--retro-green)' : 'var(--terracotta)',
       }} />
@@ -145,7 +145,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
 
   return (
     <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
-      <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '22px 20px 8px', boxShadow: '0 4px 0 var(--ink)' }}>
+      <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '22px 20px 8px', boxShadow: 'var(--lift)' }}>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
           The four things we build
         </p>
@@ -153,7 +153,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           Everything {kid} does adds up to these four, ready by 16. Green means on track. Amber comes with the one next step, never a mark against anyone.
         </p>
         {stampChip && (
-          <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 100, padding: '5px 12px 5px 8px', textDecoration: 'none' }}>
+          <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '5px 12px 5px 8px', textDecoration: 'none' }}>
             <HappyIcon name="passport" size={18} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
               These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →
@@ -172,12 +172,12 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           const allGreen = ambers.length === 0 && activeAreas.length > 0
           return (
             <div style={{
-              borderRadius: 16, padding: '16px 18px', marginBottom: 6,
+              borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: 6,
               background: allGreen ? 'var(--tint-green)' : 'var(--terracotta-lt)',
-              border: '2px solid var(--ink)',
+              border: 'var(--edge)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span aria-hidden style={{ width: 44, height: 44, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name={allGreen ? 'sprout' : 'jobs'} size={30} /></span>
+                <span aria-hidden style={{ width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><HappyIcon name={allGreen ? 'sprout' : 'jobs'} size={30} /></span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.01em', color: allGreen ? 'var(--retro-green-dark)' : 'var(--ink)', lineHeight: 1.15 }}>
                   {allGreen
                     ? 'All green for this stage'
@@ -194,7 +194,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                   {ambers.map(a => (
                     <Link key={a.key} href={statuses[a.key]?.href ?? '/dashboard/lessons'} style={{
                       display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-                      background: '#fff', border: '2px solid var(--ink)', borderRadius: 12, padding: '11px 14px',
+                      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 14px',
                     }}>
                       <HappyIcon name={a.icon} size={26} />
                       <span style={{ flex: 1, minWidth: 0 }}>
@@ -218,7 +218,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           if (!active) {
             return (
               <div key={area.key} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '18px 0', borderTop: '2px dotted rgba(26,26,46,0.18)' }}>
-                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--cream)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'grayscale(0.6) opacity(0.7)' }}><HappyIcon name={area.icon} size={28} /></span>
+                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: 'var(--cream)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'grayscale(0.6) opacity(0.7)' }}><HappyIcon name={area.icon} size={28} /></span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.25 }}>
@@ -240,7 +240,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
 
           const inner = (
             <>
-              <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: area.tint, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name={area.icon} size={28} /></span>
+              <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: area.tint, border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name={area.icon} size={28} /></span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25 }}>
@@ -268,10 +268,10 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                 {!onTrack && live?.improve && (
                   <Link href={live.href ?? '/dashboard/lessons'} style={{
                     display: 'inline-flex', alignItems: 'flex-start', gap: 8, marginTop: 12,
-                    background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-                    borderRadius: '12px', padding: '11px 16px', textDecoration: 'none',
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '11px 16px', textDecoration: 'none',
                     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-                    lineHeight: 1.4, boxShadow: '0 4px 0 var(--ink)',
+                    lineHeight: 1.4, boxShadow: 'var(--lift)',
                   }}>
                     <span>{live.improve}</span>
                     <span aria-hidden style={{ flexShrink: 0 }}>→</span>

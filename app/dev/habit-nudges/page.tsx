@@ -57,7 +57,7 @@ const CASES: { label: string; note: string; facts: NudgeFacts }[] = [
 
 const CARD: React.CSSProperties = {
   background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
-  borderRadius: 18, padding: '15px 17px',
+  borderRadius: 'var(--radius-card)', padding: '15px 17px',
 }
 
 export default function HabitNudgesFixture() {
@@ -75,7 +75,7 @@ export default function HabitNudgesFixture() {
         <button
           type="button"
           onClick={() => setSuppressed(new Set())}
-          style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: 12, padding: '7px 13px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)', marginBottom: 24 }}
+          style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '7px 13px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)', marginBottom: 24 }}
         >
           Reset the snoozes
         </button>
@@ -94,7 +94,7 @@ export default function HabitNudgesFixture() {
                   <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 6px' }}>{nudge.line}</p>
                   <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>{nudge.why}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', padding: '10px 18px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, boxShadow: '0 4px 0 var(--terracotta-dark)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', padding: '10px 18px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                       {nudge.cta}
                     </span>
                     <button

@@ -74,7 +74,7 @@ export default function WeeklyReviewCard() {
   // text claims a readable minimum and the button drops to its own line
   // underneath when the two cannot share.
   return (
-    <div style={{ position: 'relative', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '13px', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ position: 'relative', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '13px', boxShadow: 'var(--lift)' }}>
       <button
         onClick={close}
         aria-label="Close"
@@ -82,7 +82,7 @@ export default function WeeklyReviewCard() {
       >
         ×
       </button>
-      <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <DigiCharacter mood="happy" size={30} once />
       </span>
       <div style={{ flex: '1 1 200px', minWidth: 0, paddingRight: 14 }}>
@@ -95,7 +95,7 @@ export default function WeeklyReviewCard() {
           The balance, the wins, and one thing to try next.
         </div>
       </div>
-      <Link href="/dashboard/week" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '12px', padding: '10px 15px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+      <Link href="/dashboard/week" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: 'var(--radius-tile)', padding: '10px 15px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
         See your week →
       </Link>
     </div>

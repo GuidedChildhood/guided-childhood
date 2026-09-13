@@ -29,7 +29,7 @@ export default function BackToTop() {
       }}
       style={{
         position: 'fixed', left: '18px', bottom: '18px', zIndex: 80,
-        width: '46px', height: '46px', borderRadius: '16px',
+        width: '46px', height: '46px', borderRadius: 'var(--radius-btn)',
         background: '#fff', border: '1.5px solid var(--border)',
         boxShadow: '0 5px 0 var(--border)', cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',

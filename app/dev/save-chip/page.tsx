@@ -24,7 +24,7 @@ export default function Page() {
       </div>
 
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>In the row, as a parent sees it</p>
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 14 }}>
+      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <span style={{ display: 'flex', gap: 5 }}>
             {DAYS.map((l, i) => (
@@ -42,7 +42,7 @@ export default function Page() {
 
       <div style={{ display: 'flex', gap: 10, marginTop: 18, flexWrap: 'wrap' }}>
         <button onClick={() => run('saved')} className="btn btn-gold" style={{ padding: '10px 18px' }}>Save that works</button>
-        <button onClick={() => run('failed')} className="btn" style={{ padding: '10px 18px', border: '1.5px solid var(--border)', borderRadius: 12, background: '#fff' }}>Save that fails</button>
+        <button onClick={() => run('failed')} className="btn" style={{ padding: '10px 18px', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', background: '#fff' }}>Save that fails</button>
       </div>
     </main>
   )

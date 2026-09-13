@@ -48,7 +48,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
   const childName = child?.name && child.name !== 'Your child' ? child.name : null
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
+    background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
     overflow: 'hidden', display: 'flex', flexDirection: 'column',
   }
 
@@ -86,7 +86,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.06em', textTransform: 'uppercase',
                         background: 'var(--cream)', color: 'var(--ink-soft)',
-                        border: '2px solid var(--ink)', borderRadius: '100px', padding: '3px 9px',
+                        border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '3px 9px',
                       }}>{chip}</span>
                     ))}
                   </div>
@@ -120,11 +120,11 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         href="/dashboard/printables/star-chart"
         style={{
           display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
           padding: '18px 22px', marginBottom: '12px',
         }}
       >
-        <span aria-hidden style={{ width: 48, height: 48, borderRadius: 14, background: '#fff', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}><HappyIcon name="wins" size={36} /></span>
+        <span aria-hidden style={{ width: 48, height: 48, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box' }}><HappyIcon name="wins" size={36} /></span>
         <span style={{ flex: 1 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             Build your star chart
@@ -176,7 +176,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         className="pr-builder"
         style={{
           textDecoration: 'none',
-          background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
+          background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
           padding: '18px 22px', marginBottom: '34px',
         }}
       >
@@ -203,7 +203,7 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
         className="pr-builder"
         style={{
           textDecoration: 'none',
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '20px',
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
           padding: '18px 22px', marginBottom: '34px',
         }}
       >

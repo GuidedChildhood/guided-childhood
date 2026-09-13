@@ -55,7 +55,7 @@ type Spots = { remaining: number; sold_out: boolean }
 const WRAP: React.CSSProperties = {
   display: 'inline-flex', flexDirection: 'column', alignItems: 'center',
   gap: '5px', background: 'var(--cream)', border: '1.5px solid var(--terracotta)',
-  borderRadius: '18px', padding: '12px 22px 13px', marginBottom: '22px',
+  borderRadius: 'var(--radius-card)', padding: '12px 22px 13px', marginBottom: '22px',
   textAlign: 'center',
 }
 const LABEL: React.CSSProperties = {

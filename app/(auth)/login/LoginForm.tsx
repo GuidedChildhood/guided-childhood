@@ -76,7 +76,7 @@ export default function LoginForm() {
           </span>
         </Link>
 
-        <div className="card" style={{ borderRadius: '20px', boxShadow: '0 5px 0 var(--border)' }}>
+        <div className="card" style={{ borderRadius: 'var(--radius-card)', boxShadow: '0 5px 0 var(--border)' }}>
           <div style={{ marginBottom: '26px' }}>
             <p className="eyebrow" style={{ marginBottom: '8px' }}>Welcome back</p>
             <h1 style={{ fontSize: 'var(--text-2xl)', marginBottom: '4px' }}>Sign in</h1>

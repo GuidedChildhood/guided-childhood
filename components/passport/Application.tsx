@@ -145,7 +145,7 @@ export function NextOnTheApplication({ strands, checkHref }: { strands: Strand[]
         <Link href={checkHref} style={{
           display: 'block', textDecoration: 'none',
           background: 'var(--terracotta)', color: 'var(--ink)',
-          border: '2px solid var(--terracotta-dark)', borderRadius: 14,
+          border: '2px solid var(--terracotta-dark)', borderRadius: 'var(--radius-tile)',
           boxShadow: '0 4px 0 var(--terracotta-dark)', padding: '13px 15px',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
         }}>
@@ -165,7 +165,7 @@ export function NextOnTheApplication({ strands, checkHref }: { strands: Strand[]
       <Link href={next.href} style={{
         display: 'block', textDecoration: 'none',
         background: 'var(--terracotta)', color: 'var(--ink)',
-        border: '2px solid var(--terracotta-dark)', borderRadius: 14,
+        border: '2px solid var(--terracotta-dark)', borderRadius: 'var(--radius-tile)',
         boxShadow: '0 4px 0 var(--terracotta-dark)', padding: '13px 15px',
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
       }}>
@@ -177,8 +177,8 @@ export function NextOnTheApplication({ strands, checkHref }: { strands: Strand[]
       </Link>
       {after && (
         <div style={{
-          opacity: 0.6, background: '#fff', border: '2px solid var(--ink)',
-          borderRadius: 12, padding: '9px 14px', marginTop: 8,
+          opacity: 0.6, background: '#fff', border: 'var(--edge)',
+          borderRadius: 'var(--radius-tile)', padding: '9px 14px', marginTop: 8,
           fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
         }}>
           Then · {after.label.toLowerCase()}
@@ -205,7 +205,7 @@ export function StrandCards({ strands, kid }: { strands: Strand[]; kid: string }
             position: 'relative', textDecoration: 'none',
             background: s.weather ? 'var(--tint-sage)' : s.done ? 'var(--tint-sage)' : '#fff',
             border: `1.5px solid ${s.done || s.weather ? '#C9DDD5' : 'var(--border)'}`,
-            borderRadius: 14, padding: '11px 12px 10px', minHeight: 74,
+            borderRadius: 'var(--radius-tile)', padding: '11px 12px 10px', minHeight: 74,
           }}>
             {/* Tick anatomy for the completable three; the maintained strand
                 gets a status pill instead, and never an empty circle that begs
@@ -216,13 +216,13 @@ export function StrandCards({ strands, kid }: { strands: Strand[]; kid: string }
                 fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                 background: '#fff', color: s.weather.tone === 'green' ? 'var(--retro-green)' : 'var(--terracotta-dark)',
                 border: `1px solid ${s.weather.tone === 'green' ? '#C9DDD5' : 'var(--terracotta)'}`,
-                borderRadius: 100, padding: '2px 8px', marginBottom: 4,
+                borderRadius: 'var(--radius-pill)', padding: '2px 8px', marginBottom: 4,
               }}>
                 {s.weather.word}
               </span>
             ) : (
               <span aria-hidden style={{
-                position: 'absolute', top: 9, right: 10, width: 20, height: 20, borderRadius: 100,
+                position: 'absolute', top: 9, right: 10, width: 20, height: 20, borderRadius: 'var(--radius-pill)',
                 border: s.done ? '1.6px solid var(--retro-green)' : '1.6px dashed var(--ink-muted)',
                 color: 'var(--retro-green)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 'var(--text-xs)', fontWeight: 900, background: s.done ? '#fff' : 'transparent',

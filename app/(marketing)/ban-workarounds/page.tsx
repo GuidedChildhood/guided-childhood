@@ -202,7 +202,7 @@ export default function BanWorkaroundsPage() {
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em', textDecoration: 'none' }}>Guided Childhood</Link>
         <nav className="nav-links-desktop" style={{ gap: '2px' }}>
           {[['For parents', '/'], ['For schools', 'https://www.guidedchildhood.com/schools'], ['Join', '/join']].map(([label, href]) => (
-            <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: '100px', textDecoration: 'none' }}>{label}</Link>
+            <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: 'var(--radius-pill)', textDecoration: 'none' }}>{label}</Link>
           ))}
         </nav>
         <Link href="/starter-pack" className="btn btn-green" style={{ padding: '9px 22px', fontSize: '.78rem' }}>
@@ -213,7 +213,7 @@ export default function BanWorkaroundsPage() {
       {/* Hero */}
       <section style={{ background: 'var(--terracotta)', padding: 'clamp(56px, 8vw, 96px) 24px clamp(48px, 6vw, 80px)' }}>
         <div className="container" style={{ textAlign: 'center' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,.18)', border: '1px solid rgba(255,255,255,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: '24px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,.18)', border: '1px solid rgba(255,255,255,.3)', borderRadius: 'var(--radius-pill)', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: '24px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff', display: 'inline-block', animation: 'pulse 2s infinite' }} />
             Ban takes effect Spring 2027
           </div>
@@ -244,7 +244,7 @@ export default function BanWorkaroundsPage() {
               <div key={w.label} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
                   <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>{w.icon}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', background: w.tagBg, color: w.tagColor, padding: '3px 9px', borderRadius: '100px', whiteSpace: 'nowrap', marginTop: '2px' }}>{w.tag}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', background: w.tagBg, color: w.tagColor, padding: '3px 9px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap', marginTop: '2px' }}>{w.tag}</span>
                 </div>
                 <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '0' }}>{w.label}</h3>
                 <p style={{ color: 'var(--ink-soft)', fontSize: '.9rem', lineHeight: 1.65, margin: 0 }}>{w.desc}</p>
@@ -266,7 +266,7 @@ export default function BanWorkaroundsPage() {
           </div>
           <div className="three-col">
             {HARMS.map((h) => (
-              <div key={h.title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px', borderTop: `4px solid ${h.accent}` }}>
+              <div key={h.title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px', borderTop: `4px solid ${h.accent}` }}>
                 <h3 style={{ fontSize: 'var(--text-md)', lineHeight: 1.3 }}>{h.title}</h3>
                 <p style={{ color: 'var(--ink-soft)', fontSize: '.88rem', lineHeight: 1.65, margin: 0 }}>{h.desc}</p>
               </div>
@@ -338,7 +338,7 @@ export default function BanWorkaroundsPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '860px', margin: '0 auto' }}>
             {PLATFORMS.map((p) => (
-              <div key={p.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
+              <div key={p.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', overflow: 'hidden' }}>
                 <div style={{ background: p.bg, padding: '18px 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: p.text }}>{p.name}</span>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: p.text, opacity: 0.7 }}>{p.steps.length} steps</span>

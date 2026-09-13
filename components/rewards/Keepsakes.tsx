@@ -7,8 +7,8 @@ import HappyIcon from '@/components/kid/HappyIcon'
 // The icon plate at the head of each keepsake card: white, ink edged, the
 // same shape the child app's tiles use.
 const PLATE: React.CSSProperties = {
-  width: 50, height: 50, borderRadius: 14, flexShrink: 0, boxSizing: 'border-box',
-  background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+  width: 50, height: 50, borderRadius: 'var(--radius-tile)', flexShrink: 0, boxSizing: 'border-box',
+  background: 'var(--terracotta-lt)', border: 'var(--edge)',
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
 }
 
@@ -58,15 +58,15 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
   }
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-    boxShadow: '0 4px 0 var(--ink)', padding: 20, marginBottom: 16,
+    background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+    boxShadow: 'var(--lift)', padding: 20, marginBottom: 16,
   }
   const chip = (on: boolean): React.CSSProperties => ({
-    flex: 1, textAlign: 'center', padding: '11px 10px', borderRadius: 12, cursor: 'pointer',
+    flex: 1, textAlign: 'center', padding: '11px 10px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
     background: on ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
-    border: '2px solid var(--ink)',
-    boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+    border: 'var(--edge)',
+    boxShadow: on ? 'var(--lift)' : 'none',
   })
 
   return (
@@ -143,11 +143,11 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <input
                 type="email" value={value} onChange={e => setValue(e.target.value)} placeholder="Your email"
-                style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '2px solid var(--ink)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
+                style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
               />
               <button
                 onClick={register} disabled={state === 'sending'}
-                style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 12, padding: '13px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+                style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '13px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
               >
                 {state === 'sending' ? 'Sending…' : state === 'error' ? 'Try again' : 'Notify me'}
               </button>

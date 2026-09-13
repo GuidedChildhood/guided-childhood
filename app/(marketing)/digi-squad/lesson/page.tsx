@@ -100,7 +100,7 @@ export default function LessonPage() {
           </p>
 
           {/* Mission card */}
-          <div style={{ background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.15)', borderRadius: '16px', padding: '24px', marginBottom: '24px', textAlign: 'left' }}>
+          <div style={{ background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.15)', borderRadius: 'var(--radius-btn)', padding: '24px', marginBottom: '24px', textAlign: 'left' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-5)', marginBottom: '10px' }}>
               🚀 {LESSON.mission.heading}
             </div>
@@ -109,7 +109,7 @@ export default function LessonPage() {
           </div>
 
           {/* Family question */}
-          <div style={{ background: 'var(--stage-2)', borderRadius: '14px', padding: '16px 20px', marginBottom: '32px', textAlign: 'left' }}>
+          <div style={{ background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: '16px 20px', marginBottom: '32px', textAlign: 'left' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               💬 Talk about it tonight
             </div>
@@ -150,8 +150,8 @@ export default function LessonPage() {
           </Link>
 
           {/* Progress bar */}
-          <div style={{ flex: 1, height: '6px', background: 'var(--border)', borderRadius: '100px', overflow: 'hidden' }}>
-            <div style={{ height: '100%', background: 'var(--stage-1)', borderRadius: '100px', width: `${progress}%`, transition: 'width 0.4s ease' }} />
+          <div style={{ flex: 1, height: '6px', background: 'var(--border)', borderRadius: 'var(--radius-pill)', overflow: 'hidden' }}>
+            <div style={{ height: '100%', background: 'var(--stage-1)', borderRadius: 'var(--radius-pill)', width: `${progress}%`, transition: 'width 0.4s ease' }} />
           </div>
 
           {/* Character chip */}
@@ -194,7 +194,7 @@ export default function LessonPage() {
               <button
                 onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
                 disabled={currentStep === 0}
-                style={{ background: 'none', border: '2px solid var(--border)', borderRadius: '100px', padding: '10px 20px', fontFamily: 'var(--font-mono)', fontSize: '.78rem', color: currentStep === 0 ? 'var(--ink-light)' : 'var(--ink-soft)', cursor: currentStep === 0 ? 'default' : 'pointer' }}
+                style={{ background: 'none', border: '2px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '10px 20px', fontFamily: 'var(--font-mono)', fontSize: '.78rem', color: currentStep === 0 ? 'var(--ink-light)' : 'var(--ink-soft)', cursor: currentStep === 0 ? 'default' : 'pointer' }}
               >
                 ← Back
               </button>

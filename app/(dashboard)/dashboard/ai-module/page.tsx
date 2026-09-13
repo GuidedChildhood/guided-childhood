@@ -71,7 +71,7 @@ export default async function AiModulePage() {
       )}
 
       {groups.length === 0 && (
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
+        <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
           The AI lessons are being prepared. Check back soon.
         </div>
       )}
@@ -83,7 +83,7 @@ export default async function AiModulePage() {
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
               color: 'var(--ink)', background: group.meta.bg,
-              padding: '4px 10px', borderRadius: '100px',
+              padding: '4px 10px', borderRadius: 'var(--radius-pill)',
             }}>
               {group.meta.label}
             </span>
@@ -97,8 +97,8 @@ export default async function AiModulePage() {
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
                   textDecoration: 'none',
-                  background: 'var(--cream)', border: '2px solid var(--ink)',
-                  borderRadius: '14px', padding: '14px 16px',
+                  background: 'var(--cream)', border: 'var(--edge)',
+                  borderRadius: 'var(--radius-tile)', padding: '14px 16px',
                 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>

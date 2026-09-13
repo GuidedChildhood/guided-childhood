@@ -41,15 +41,15 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
 
   return (
     <div style={{
-      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: 20, padding: '18px 20px', marginBottom: 18, position: 'relative',
+      background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: 18, position: 'relative',
     }}>
       <button
         onClick={dismiss}
         aria-label="Not now"
         style={{
           position: 'absolute', top: 12, right: 12, width: 30, height: 30,
-          borderRadius: '50%', border: '2px solid var(--ink)', background: '#fff',
+          borderRadius: '50%', border: 'var(--edge)', background: '#fff',
           color: 'var(--terracotta-dark)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
@@ -57,7 +57,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
       </button>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 10, paddingRight: 34 }}>
-        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood="speak" />
         </span>
         <div style={{ minWidth: 0 }}>
@@ -85,7 +85,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
           href="/dashboard/secondary"
           style={{
             display: 'inline-flex', padding: '12px 18px', textDecoration: 'none',
-            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14,
+            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
@@ -96,8 +96,8 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
           href={`/dashboard/digi?q=${encodeURIComponent(bridge.ask)}`}
           style={{
             display: 'inline-flex', padding: '12px 18px', textDecoration: 'none',
-            background: '#fff', color: 'var(--ink)', borderRadius: 14,
-            border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+            background: '#fff', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
+            border: 'var(--edge)', boxShadow: 'var(--lift)',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           }}
         >

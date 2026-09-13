@@ -17,13 +17,13 @@ import type { CSSProperties } from 'react'
 // the energy comes from the edges, the ledges and the type.
 
 /** The one edge. Every card, chip and button wears it. */
-export const INK_EDGE = '2px solid var(--ink)'
+export const INK_EDGE = 'var(--edge)'
 
 export const card: CSSProperties = {
   background: 'var(--white, #FFFFFF)',
   border: INK_EDGE,
-  borderRadius: 20,
-  boxShadow: '0 4px 0 var(--ink)',
+  borderRadius: 'var(--radius-card)',
+  boxShadow: 'var(--lift)',
 }
 
 // One internal padding for every card on the page.
@@ -72,8 +72,8 @@ export const stepCircle: CSSProperties = {
 export const sheet: CSSProperties = {
   background: '#fff',
   border: '2.5px solid var(--ink)',
-  borderRadius: 22,
-  boxShadow: '0 5px 0 var(--ink)',
+  borderRadius: 'var(--radius-card)',
+  boxShadow: 'var(--lift-deep)',
   overflow: 'hidden',
 }
 
@@ -117,9 +117,9 @@ export function band(tone: 'green' | 'butter' | 'ink'): CSSProperties {
     background: fill,
     color: tone === 'butter' ? 'var(--ink)' : '#fff',
     border: '2.5px solid var(--ink)',
-    borderRadius: 20,
+    borderRadius: 'var(--radius-card)',
     padding: '16px 18px',
-    boxShadow: '0 5px 0 var(--ink)',
+    boxShadow: 'var(--lift-deep)',
   }
 }
 
@@ -132,11 +132,11 @@ export function chunky(tone: 'butter' | 'white' | 'green' | 'quiet' = 'butter', 
   return {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
     padding: size === 'lg' ? '15px 20px' : '12px 18px',
-    borderRadius: 16,
+    borderRadius: 'var(--radius-btn)',
     background: fill,
     color: tone === 'green' ? '#fff' : 'var(--ink)',
     border: tone === 'quiet' ? '2px solid rgba(26,26,46,0.25)' : INK_EDGE,
-    boxShadow: tone === 'quiet' ? 'none' : '0 4px 0 var(--ink)',
+    boxShadow: tone === 'quiet' ? 'none' : 'var(--lift)',
     fontFamily: 'var(--font-display)', fontWeight: 900,
     fontSize: size === 'lg' ? 'var(--text-md)' : 'var(--text-base)',
     lineHeight: 1.15, textDecoration: 'none', cursor: 'pointer',
@@ -148,11 +148,11 @@ export function chunky(tone: 'butter' | 'white' | 'green' | 'quiet' = 'butter', 
 export function pill(on: boolean): CSSProperties {
   return {
     display: 'inline-flex', alignItems: 'center', gap: 6,
-    padding: '9px 15px', borderRadius: 100, whiteSpace: 'nowrap',
+    padding: '9px 15px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
     background: on ? 'var(--terracotta)' : '#fff',
     color: 'var(--ink)',
     border: INK_EDGE,
-    boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+    boxShadow: on ? 'var(--lift)' : 'none',
     fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
     textDecoration: 'none',
   }

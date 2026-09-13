@@ -41,7 +41,7 @@ export default function DeleteAccount() {
   }
 
   return (
-    <section style={{ marginTop: '32px', paddingTop: '20px', borderTop: '2px solid var(--ink)' }}>
+    <section style={{ marginTop: '32px', paddingTop: '20px', borderTop: 'var(--edge)' }}>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
         Delete my account
       </h2>
@@ -53,7 +53,7 @@ export default function DeleteAccount() {
         <button
           onClick={() => setOpen(true)}
           style={{
-            background: 'none', border: '2px solid var(--ink)', borderRadius: '14px',
+            background: 'none', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
             padding: '10px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
             fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)',
           }}
@@ -61,7 +61,7 @@ export default function DeleteAccount() {
           Delete my account
         </button>
       ) : (
-        <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px' }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '15px' }}>
           <label htmlFor="confirm-delete" style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px' }}>
             Type <strong>DELETE</strong> to confirm.
           </label>
@@ -71,8 +71,8 @@ export default function DeleteAccount() {
             onChange={e => setTyped(e.target.value)}
             autoComplete="off"
             style={{
-              width: '100%', padding: '12px 14px', borderRadius: '12px',
-              border: '2px solid var(--ink)', background: 'var(--cream)',
+              width: '100%', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+              border: 'var(--edge)', background: 'var(--cream)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
           />
@@ -81,9 +81,9 @@ export default function DeleteAccount() {
               onClick={go}
               disabled={!ready || busy}
               style={{
-                background: ready ? 'var(--terracotta)' : 'var(--cream)', border: '2px solid var(--ink)',
-                boxShadow: ready ? '0 4px 0 var(--ink)' : 'none',
-                borderRadius: '12px', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
+                background: ready ? 'var(--terracotta)' : 'var(--cream)', border: 'var(--edge)',
+                boxShadow: ready ? 'var(--lift)' : 'none',
+                borderRadius: 'var(--radius-tile)', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
                 fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
               }}
             >
@@ -92,7 +92,7 @@ export default function DeleteAccount() {
             <button
               onClick={() => { setOpen(false); setTyped(''); setError(null) }}
               style={{
-                background: '#fff', border: '2px solid var(--ink)', borderRadius: '12px', boxShadow: '0 4px 0 var(--ink)',
+                background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', boxShadow: 'var(--lift)',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}

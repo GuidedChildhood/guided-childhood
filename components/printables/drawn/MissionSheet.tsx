@@ -55,7 +55,7 @@ export default function MissionSheet({ childName, mission }: { childName: string
       {/* The three steps, as pictures first and words second. */}
       <ol style={{ listStyle: 'none', margin: '6px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0 }}>
         {mission.steps.slice(0, 3).map((step, i) => (
-          <li key={step} style={{ display: 'flex', alignItems: 'center', gap: 16, border: `3px solid ${INK}`, borderRadius: 18, padding: '10px 16px', background: ex ? [CRAYON.paper, '#fff', CRAYON.paper][i] : '#fff' }}>
+          <li key={step} style={{ display: 'flex', alignItems: 'center', gap: 16, border: `3px solid ${INK}`, borderRadius: 'var(--radius-card)', padding: '10px 16px', background: ex ? [CRAYON.paper, '#fff', CRAYON.paper][i] : '#fff' }}>
             <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, border: `3px solid ${INK}`, background: ex ? CRAYON.butter : '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: INK }}>
               {i + 1}
             </span>
@@ -67,7 +67,7 @@ export default function MissionSheet({ childName, mission }: { childName: string
 
       {/* The Comet card: cut it out, hide it, the code is the child's own. */}
       {mission.perChild && (
-        <div style={{ margin: '14px 0 0', border: `3px dashed ${INK}`, borderRadius: 22, padding: '14px 18px 16px', position: 'relative', background: ex ? CRAYON.paper : '#fff', flexShrink: 0 }}>
+        <div style={{ margin: '14px 0 0', border: `3px dashed ${INK}`, borderRadius: 'var(--radius-card)', padding: '14px 18px 16px', position: 'relative', background: ex ? CRAYON.paper : '#fff', flexShrink: 0 }}>
           <span aria-hidden style={{ position: 'absolute', top: -16, left: 22, background: '#fff', padding: '0 6px', fontSize: 22 }}>✂️</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -84,7 +84,7 @@ export default function MissionSheet({ childName, mission }: { childName: string
             {card && (
               <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
                 {card.code.map((t, i) => (
-                  <span key={`${t}-${i}`} style={{ width: card.mode === 'pictures' ? 84 : 66, height: 84, borderRadius: 20, border: `3px solid ${INK}`, background: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: card.mode === 'pictures' ? 48 : 44, fontFamily: 'var(--font-display)', fontWeight: 900, color: INK }}>
+                  <span key={`${t}-${i}`} style={{ width: card.mode === 'pictures' ? 84 : 66, height: 84, borderRadius: 'var(--radius-card)', border: `3px solid ${INK}`, background: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: card.mode === 'pictures' ? 48 : 44, fontFamily: 'var(--font-display)', fontWeight: 900, color: INK }}>
                     {card.mode === 'pictures' ? PICTURE_ART[t] ?? t : t.toUpperCase()}
                   </span>
                 ))}

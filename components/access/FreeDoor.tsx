@@ -57,9 +57,9 @@ export default function FreeDoor({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)',
-      borderRadius: 20, padding: '22px 20px',
-      boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: '22px 20px',
+      boxShadow: 'var(--lift)',
       // Matches CARD in TwoDoors exactly. marginTop is gone: the grid owns the
       // spacing now, and a top margin on one of two side by side cards drops it
       // below the other.

@@ -118,8 +118,8 @@ function TileCard({ tile, belief }: { tile: Tile; belief?: boolean }) {
         gridColumn: open ? '1 / -1' : 'auto',
         display: 'block', width: '100%', textAlign: 'left', cursor: 'pointer',
         background: belief ? 'var(--tint-sage)' : '#fff',
-        border: '2px solid var(--ink)', borderRadius: 16,
-        boxShadow: open ? 'none' : '0 4px 0 var(--ink)',
+        border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+        boxShadow: open ? 'none' : 'var(--lift)',
         padding: '11px 12px',
         transition: 'box-shadow 0.2s ease',
         fontFamily: 'var(--font-body)',
@@ -128,8 +128,8 @@ function TileCard({ tile, belief }: { tile: Tile; belief?: boolean }) {
       <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
         <span aria-hidden style={{
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          width: 38, height: 38, borderRadius: 12,
-          background: METHOD[tile.icon].tint, border: '2px solid var(--ink)', boxSizing: 'border-box',
+          width: 38, height: 38, borderRadius: 'var(--radius-tile)',
+          background: METHOD[tile.icon].tint, border: 'var(--edge)', boxSizing: 'border-box',
         }}>
           <MethodIcon id={tile.icon} size={22} />
         </span>

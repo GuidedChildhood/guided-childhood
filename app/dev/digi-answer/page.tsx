@@ -24,7 +24,7 @@ function Turn({ question, answer }: { question: string; answer: string }) {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 22 }}>
-        <div style={{ maxWidth: '84%', background: '#DCE7FB', color: '#1B2A4A', borderRadius: 20, padding: '14px 18px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', lineHeight: 1.45, fontWeight: 800 }}>
+        <div style={{ maxWidth: '84%', background: '#DCE7FB', color: '#1B2A4A', borderRadius: 'var(--radius-card)', padding: '14px 18px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', lineHeight: 1.45, fontWeight: 800 }}>
           {question}
         </div>
       </div>

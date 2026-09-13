@@ -16,7 +16,7 @@ export default function PrintPosterButton() {
         marginBottom: 18,
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
         color: 'var(--ink)', background: 'var(--terracotta)',
-        border: 'none', borderRadius: 16,
+        border: 'none', borderRadius: 'var(--radius-btn)',
         boxShadow: '0 5px 0 var(--terracotta-dark)',
       }}
     >

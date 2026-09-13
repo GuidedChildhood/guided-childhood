@@ -325,9 +325,9 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             // premium, never a stark black box.
             background: '#fff',
             color: 'var(--ink)',
-            border: '2px solid var(--ink)',
-            borderRadius: '16px', padding: '17px 42px 17px 17px',
-            boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)',
+            borderRadius: 'var(--radius-btn)', padding: '17px 42px 17px 17px',
+            boxShadow: 'var(--lift)',
             display: 'flex', gap: '13px', alignItems: 'flex-start',
           }}
         >
@@ -339,7 +339,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             style={{
               position: 'absolute', top: '11px', right: '11px',
               width: '28px', height: '28px', borderRadius: '50%',
-              background: 'var(--cream)', border: '2px solid var(--ink)',
+              background: 'var(--cream)', border: 'var(--edge)',
               color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
@@ -369,7 +369,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
           </span>
           <div className="rightnow-hint-arrow" style={{
             position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#fff',
-            borderRight: '2px solid var(--ink)', borderBottom: '2px solid var(--ink)',
+            borderRight: 'var(--edge)', borderBottom: 'var(--edge)',
             ...(variant === 'fab'
               ? { right: '28px', transform: 'rotate(45deg)' }
               : { left: '50%', transform: 'translateX(-50%) rotate(45deg)' }),
@@ -484,7 +484,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 onClick={closeSheet}
                 aria-label="Close"
                 style={{
-                  background: 'var(--white)', border: '2px solid var(--ink)', borderRadius: '50%',
+                  background: 'var(--white)', border: 'var(--edge)', borderRadius: '50%',
                   width: '38px', height: '38px', fontSize: 'var(--text-lg)', color: 'var(--ink-soft)',
                   cursor: 'pointer', lineHeight: 1,
                 }}
@@ -512,19 +512,19 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                       onClick={() => pick(s.key, s.label)}
                       style={{
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
-                        background: 'var(--white)', border: '2px solid var(--ink)',
-                        borderRadius: '18px', padding: '16px 12px 14px', cursor: 'pointer',
+                        background: 'var(--white)', border: 'var(--edge)',
+                        borderRadius: 'var(--radius-card)', padding: '16px 12px 14px', cursor: 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                         color: 'var(--ink)', textAlign: 'center', lineHeight: 1.3,
-                        boxShadow: '0 4px 0 var(--ink)',
+                        boxShadow: 'var(--lift)',
                       }}
                     >
                       {s.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={s.image} alt="" width={64} height={64} style={{ borderRadius: '14px', display: 'block' }} />
+                        <img src={s.image} alt="" width={64} height={64} style={{ borderRadius: 'var(--radius-tile)', display: 'block' }} />
                       ) : (
                         <span style={{
-                          width: 64, height: 64, borderRadius: '14px', background: 'var(--cream)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+                          width: 64, height: 64, borderRadius: 'var(--radius-tile)', background: 'var(--cream)', border: 'var(--edge)', boxSizing: 'border-box',
                           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)',
                         }}>{s.emoji}</span>
                       )}
@@ -553,8 +553,8 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   maxLength={280}
                   placeholder="She is screaming because I took the iPad at dinner..."
                   style={{
-                    width: '100%', padding: '14px 16px', borderRadius: '16px',
-                    border: '2px solid var(--ink)', background: 'var(--white, #fff)',
+                    width: '100%', padding: '14px 16px', borderRadius: 'var(--radius-btn)',
+                    border: 'var(--edge)', background: 'var(--white, #fff)',
                     fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)',
                     lineHeight: 1.5, resize: 'none', outline: 'none', marginBottom: '12px',
                     boxSizing: 'border-box',
@@ -567,7 +567,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   style={{
                     width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                    border: 'none', borderRadius: '16px', padding: '16px 20px',
+                    border: 'none', borderRadius: 'var(--radius-btn)', padding: '16px 20px',
                     cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)',
                     opacity: customInput.trim() ? 1 : 0.55, marginBottom: '12px',
                   }}
@@ -583,12 +583,12 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   onClick={() => setOpen(false)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
-                    background: 'var(--white)', border: '2px solid var(--ink)',
-                    borderRadius: '16px', padding: '14px 16px', marginBottom: '10px',
-                    boxShadow: '0 4px 0 var(--ink)',
+                    background: 'var(--white)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginBottom: '10px',
+                    boxShadow: 'var(--lift)',
                   }}
                 >
-                  <span aria-hidden style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span aria-hidden style={{ width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <HappyIcon name="read" size={28} />
                   </span>
                   <span style={{ flex: 1, minWidth: 0 }}>
@@ -629,7 +629,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 )}
 
                 {failed ? (
-                  <div style={{ background: 'var(--white)', border: '2px solid var(--ink)', borderRadius: '16px', padding: '20px', marginBottom: '16px' }}>
+                  <div style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '20px', marginBottom: '16px' }}>
                     <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
                       We could not load the script just now. DiGi can talk you through this exact moment instead, and it already knows what is happening.
                     </p>
@@ -638,7 +638,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   <>
                     {/* SAY THIS */}
                     <div style={{
-                      background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '16px', padding: '20px',
+                      background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '20px',
                       marginBottom: '12px',
                       animation: script ? undefined : 'rightnow-pulse 1.2s ease-in-out infinite',
                     }}>
@@ -655,7 +655,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     {/* NOT THIS, or in a crisis the human beside you */}
                     <div style={{
                       background: 'var(--danger-bg)', border: '1px solid var(--danger-border)',
-                      borderRadius: '16px', padding: '18px 20px', marginBottom: '20px',
+                      borderRadius: 'var(--radius-btn)', padding: '18px 20px', marginBottom: '20px',
                       animation: script ? undefined : 'rightnow-pulse 1.2s ease-in-out infinite',
                     }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--danger)', marginBottom: '8px' }}>
@@ -679,11 +679,11 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     className="no-print"
                     style={{
                       display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
-                      background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '14px',
+                      background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                       padding: '12px 14px', marginBottom: '10px',
                     }}
                   >
-                    <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span aria-hidden style={{ width: 36, height: 36, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <HappyIcon name="print" size={26} />
                     </span>
                     <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
@@ -716,10 +716,10 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                         type="button"
                         onClick={openShare}
                         style={{
-                          flex: 1, background: 'var(--white)', border: '2px solid var(--ink)',
+                          flex: 1, background: 'var(--white)', border: 'var(--edge)',
                           color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                          fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px 10px',
-                          cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
+                          fontSize: 'var(--text-base)', borderRadius: 'var(--radius-tile)', padding: '12px 10px',
+                          cursor: 'pointer', boxShadow: 'var(--lift)',
                         }}
                       >
                         Share with your child
@@ -728,10 +728,10 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                         type="button"
                         onClick={() => window.print()}
                         style={{
-                          flex: 1, background: 'var(--white)', border: '2px solid var(--ink)',
+                          flex: 1, background: 'var(--white)', border: 'var(--edge)',
                           color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                          fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px 10px',
-                          cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
+                          fontSize: 'var(--text-base)', borderRadius: 'var(--radius-tile)', padding: '12px 10px',
+                          cursor: 'pointer', boxShadow: 'var(--lift)',
                         }}
                       >
                         Print the card
@@ -745,7 +745,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                       display: 'block', textAlign: 'center', textDecoration: 'none',
                       background: 'var(--terracotta)', color: 'var(--ink)',
                       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                      borderRadius: '16px', padding: '16px 20px',
+                      borderRadius: 'var(--radius-btn)', padding: '16px 20px',
                       boxShadow: '0 5px 0 var(--terracotta-dark)',
                     }}
                   >
@@ -755,10 +755,10 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     type="button"
                     onClick={closeSheet}
                     style={{
-                      background: 'var(--white)', border: '2px solid var(--ink)',
+                      background: 'var(--white)', border: 'var(--edge)',
                       color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                      fontSize: 'var(--text-md)', borderRadius: '16px', padding: '15px 20px',
-                      cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
+                      fontSize: 'var(--text-md)', borderRadius: 'var(--radius-btn)', padding: '15px 20px',
+                      cursor: 'pointer', boxShadow: 'var(--lift)',
                     }}
                   >
                     Done, back to my day

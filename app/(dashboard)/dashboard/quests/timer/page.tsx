@@ -65,8 +65,8 @@ export default async function TimerPage() {
 
       {child && !alreadyLinked && (
         <div style={{
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-          borderRadius: 16, padding: '14px 16px', marginBottom: 18,
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+          borderRadius: 'var(--radius-btn)', padding: '14px 16px', marginBottom: 18,
         }}>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 10px', fontWeight: 600 }}>
             {child.name && child.name !== 'Your child' ? child.name : 'Your child'} does have their own phone? Set it up here and they can start their own time, on the same countdown.

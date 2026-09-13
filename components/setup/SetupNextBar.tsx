@@ -184,8 +184,8 @@ export default function SetupNextBar() {
           shoulder. --retro-green is in the tokens for exactly this, described
           there as the friendlier dark panel. */}
       <div style={{
-        background: 'var(--retro-green)', borderRadius: '18px', border: '2px solid var(--ink)',
-        boxShadow: '0 4px 0 var(--ink)', padding: '12px 12px 12px 18px',
+        background: 'var(--retro-green)', borderRadius: 'var(--radius-card)', border: 'var(--edge)',
+        boxShadow: 'var(--lift)', padding: '12px 12px 12px 18px',
         display: 'flex', alignItems: 'center', gap: '12px',
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -206,7 +206,7 @@ export default function SetupNextBar() {
           href={next.href}
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
+            borderRadius: 'var(--radius-tile)', padding: '11px 18px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}

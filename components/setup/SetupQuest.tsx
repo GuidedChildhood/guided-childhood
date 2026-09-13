@@ -169,7 +169,7 @@ function Progress({ done, total, steps, flags }: {
           return (
             <span key={s.key} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
               <span style={{
-                width: '100%', height: '8px', borderRadius: '100px',
+                width: '100%', height: '8px', borderRadius: 'var(--radius-pill)',
                 background: isDone ? '#1F7A54' : 'var(--border)',
                 transition: 'background 0.4s ease',
               }} />
@@ -223,10 +223,10 @@ function StepCard({ step, number, state, child, childList, userId }: {
         // The happy news finish (plans/week-of-2026-08-31-parent-happy-news-plan.md):
         // the live card wears the ink edge and ledge, done steps the sage.
         background: live ? '#fff' : done ? 'var(--tint-sage)' : 'var(--cream)',
-        border: live ? '2px solid var(--ink)' : done ? '2px solid var(--ink)' : '2px solid var(--border)',
-        borderRadius: '20px',
+        border: live ? 'var(--edge)' : done ? 'var(--edge)' : '2px solid var(--border)',
+        borderRadius: 'var(--radius-card)',
         padding: live ? '18px 20px' : '15px 18px',
-        boxShadow: live ? '0 4px 0 var(--ink)' : done ? '0 3px 0 var(--ink)' : 'none',
+        boxShadow: live ? 'var(--lift)' : done ? 'var(--lift)' : 'none',
         scrollMarginTop: '80px',
       }}
     >
@@ -241,8 +241,8 @@ function StepCard({ step, number, state, child, childList, userId }: {
           flexShrink: 0,
           width: live ? 40 : 32, height: live ? 40 : 32, borderRadius: '50%', boxSizing: 'border-box',
           background: live ? 'var(--terracotta)' : done ? '#fff' : 'transparent',
-          border: live ? '2px solid var(--ink)' : done ? '2px solid var(--ink)' : '2px solid var(--border)',
-          boxShadow: live ? '0 3px 0 var(--ink)' : 'none',
+          border: live ? 'var(--edge)' : done ? 'var(--edge)' : '2px solid var(--border)',
+          boxShadow: live ? 'var(--lift)' : 'none',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: 'var(--font-display)', fontWeight: 900,
           fontSize: live ? 'var(--text-md)' : 'var(--text-sm)',
@@ -284,7 +284,7 @@ function StepCard({ step, number, state, child, childList, userId }: {
           flexShrink: 0, marginTop: '2px',
           width: 28, height: 28, borderRadius: '50%', boxSizing: 'border-box',
           background: done ? 'var(--retro-green)' : 'transparent',
-          border: done ? '2px solid var(--ink)' : '2px solid var(--border)',
+          border: done ? 'var(--edge)' : '2px solid var(--border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: '#fff', fontSize: '15px', fontWeight: 800, lineHeight: 1,
         }}
@@ -343,9 +343,9 @@ function StepAction({ step, child, childList, userId }: {
           href="/dashboard/settings"
           style={{
             display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-            border: '2px solid var(--ink)', borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
+            border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '13px 22px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           Add your child first
@@ -398,7 +398,7 @@ function StepAction({ step, child, childList, userId }: {
               style={{
                 background: settled ? 'var(--tint-sage)' : col.tint,
                 border: settled ? '1.5px solid var(--stage-1-bold)' : `1.5px solid ${col.bold}`,
-                borderRadius: 18, padding: '18px 18px 20px',
+                borderRadius: 'var(--radius-card)', padding: '18px 18px 20px',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: settled ? 0 : '16px' }}>
@@ -582,7 +582,7 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
         const base = baseDailyMinutes(c.age_band)
         const choices = coreChoicesFor(c.age_band)
         return (
-          <div key={c.id} style={{ border: '2px solid var(--ink)', borderRadius: '14px', padding: '10px 12px', background: '#fff' }}>
+          <div key={c.id} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px', background: '#fff' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
               <span aria-hidden style={{ width: '26px', height: '26px', borderRadius: '50%', background: childColour(c.age_band).tint, color: childColour(c.age_band).bold, display: 'grid', placeItems: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)' }}>
                 {childInitial(c.name)}
@@ -608,7 +608,7 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
                     // A dashed edge, not a fill. A filled suggestion reads as
                     // already chosen, and nothing is chosen until they tap.
                     border: on ? '2px solid var(--terracotta)'
-                      : suggest ? '2px dashed var(--gold-hover)' : '2px solid var(--ink)',
+                      : suggest ? '2px dashed var(--gold-hover)' : 'var(--edge)',
                   }}>{m === 0 ? 'None' : `${m}m`}</button>
                 )
               })}
@@ -828,7 +828,7 @@ function OtherChildren() {
 
   const field: React.CSSProperties = {
     width: '100%', boxSizing: 'border-box', padding: '12px 14px',
-    border: '2px solid var(--ink)', borderRadius: '12px',
+    border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
     fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
     background: '#fff',
   }
@@ -896,12 +896,12 @@ function OtherChildren() {
                     disabled={full}
                     onClick={() => setWorries(prev => on ? prev.filter(x => x !== w.id) : [...prev, w.id])}
                     style={{
-                      padding: '9px 13px', borderRadius: '100px', cursor: full ? 'default' : 'pointer',
+                      padding: '9px 13px', borderRadius: 'var(--radius-pill)', cursor: full ? 'default' : 'pointer',
                       border: `2px solid ${on ? 'var(--ink)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta)' : '#fff',
                       color: full ? 'var(--ink-muted)' : 'var(--ink)',
                       fontFamily: 'var(--font-body)', fontWeight: on ? 800 : 600, fontSize: 'var(--text-sm)',
-                      boxShadow: on ? '0 3px 0 var(--ink)' : 'none',
+                      boxShadow: on ? 'var(--lift)' : 'none',
                       opacity: full ? 0.5 : 1,
                     }}
                   >
@@ -953,10 +953,10 @@ function OtherChildren() {
           marginTop: '12px',
           background: ready ? 'var(--terracotta)' : '#fff',
           color: ready ? 'var(--ink)' : 'var(--ink-muted)',
-          border: ready ? '2px solid var(--ink)' : '2px solid var(--border)', borderRadius: 16, padding: '13px 22px',
+          border: ready ? 'var(--edge)' : '2px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '13px 22px',
           cursor: ready && busy === null ? 'pointer' : 'default',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-          boxShadow: ready ? '0 4px 0 var(--ink)' : 'none',
+          boxShadow: ready ? 'var(--lift)' : 'none',
         }}
       >
         {busy === 'add' ? 'Adding...' : 'Add this child'}
@@ -971,7 +971,7 @@ function OtherChildren() {
       {added.length > 0 && (
         <div style={{
           marginTop: '14px', background: 'var(--tint-sage)',
-          border: '2px solid var(--ink)', borderRadius: 16, padding: '14px 16px',
+          border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '14px 16px',
         }}>
           <p style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
@@ -988,10 +988,10 @@ function OtherChildren() {
             style={{
               marginTop: '12px', width: '100%',
               background: 'var(--terracotta)', color: 'var(--ink)',
-              border: '2px solid var(--ink)', borderRadius: 16, padding: '13px 22px',
+              border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '13px 22px',
               cursor: busy === null ? 'pointer' : 'default',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-              boxShadow: '0 4px 0 var(--ink)',
+              boxShadow: 'var(--lift)',
             }}
           >
             {busy === 'only' ? 'Saving...' : 'Done, that is everyone'}
@@ -1093,7 +1093,7 @@ function HomeScreenHow() {
 
   const row: React.CSSProperties = {
     display: 'flex', gap: '10px', alignItems: 'flex-start',
-    background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px 14px',
+    background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px',
   }
   const marker: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
@@ -1172,10 +1172,10 @@ function HomeScreenHow() {
           onClick={() => settle('done')}
           disabled={busy !== null}
           style={{
-            background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-            borderRadius: 16, padding: '12px 20px', cursor: busy ? 'default' : 'pointer',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-btn)', padding: '12px 20px', cursor: busy ? 'default' : 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           {busy === 'done' ? 'Saving...' : 'Done, it is on there'}
@@ -1215,8 +1215,8 @@ function HomeScreenHow() {
 function AllDone({ checkInDone }: { checkInDone: boolean }) {
   return (
     <div style={{
-      background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '22px', padding: '26px 22px', textAlign: 'center',
+      background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '26px 22px', textAlign: 'center',
     }}>
       {/* THE BIG TICK. "All completes and big tick appears in screen, lets get
           started." It is the one moment in setup worth marking, so it is drawn
@@ -1228,7 +1228,7 @@ function AllDone({ checkInDone }: { checkInDone: boolean }) {
         style={{
           width: 84, height: 84, borderRadius: '50%', background: 'var(--retro-green)', border: '2.5px solid var(--ink)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          margin: '0 auto 14px', boxShadow: '0 5px 0 var(--ink)',
+          margin: '0 auto 14px', boxShadow: 'var(--lift-deep)',
           color: '#fff', fontSize: '46px', fontWeight: 800, lineHeight: 1,
         }}
       >
@@ -1271,9 +1271,9 @@ function AllDone({ checkInDone }: { checkInDone: boolean }) {
         href={checkInDone ? '/dashboard' : '/dashboard/checkin'}
         style={{
           display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-          border: '2px solid var(--ink)', borderRadius: 16, padding: '15px 28px', textDecoration: 'none',
+          border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '15px 28px', textDecoration: 'none',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-          boxShadow: '0 4px 0 var(--ink)',
+          boxShadow: 'var(--lift)',
         }}
       >
         {checkInDone ? 'Back to today' : "Start today's check in"}

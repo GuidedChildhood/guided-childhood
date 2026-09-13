@@ -84,7 +84,7 @@ export default function KidHomework({
 
   const t = theme ?? resolveTheme(null)
   const CARD: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 22,
+    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
     padding: '16px 18px', marginBottom: 14, boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
   }
 
@@ -133,7 +133,7 @@ export default function KidHomework({
               disabled={busy}
               style={{
                 display: 'flex', justifyContent: 'center', width: '100%', padding: '15px 20px',
-                border: 'none', borderRadius: 16, cursor: busy ? 'default' : 'pointer',
+                border: 'none', borderRadius: 'var(--radius-btn)', cursor: busy ? 'default' : 'pointer',
                 background: 'var(--terracotta)', color: 'var(--ink)',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
                 boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.6 : 1,
@@ -156,7 +156,7 @@ export default function KidHomework({
                 placeholder={'Maths sheet, questions 1 to 10\nRead two pages\nSpellings for Friday'}
                 style={{
                   width: '100%', boxSizing: 'border-box', resize: 'vertical',
-                  border: '1.5px solid rgba(26,26,46,0.12)', borderRadius: 14,
+                  border: '1.5px solid rgba(26,26,46,0.12)', borderRadius: 'var(--radius-tile)',
                   padding: '12px 13px', background: 'var(--cream)', color: 'var(--ink)',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', lineHeight: 1.5,
                 }}
@@ -175,7 +175,7 @@ export default function KidHomework({
               disabled={busy || text.trim().length === 0}
               style={{
                 display: 'flex', justifyContent: 'center', width: '100%', padding: '15px 20px',
-                border: 'none', borderRadius: 16,
+                border: 'none', borderRadius: 'var(--radius-btn)',
                 cursor: busy || text.trim().length === 0 ? 'default' : 'pointer',
                 background: text.trim().length === 0 ? 'var(--cream)' : 'var(--terracotta)',
                 color: text.trim().length === 0 ? 'var(--ink-muted)' : 'var(--ink)',

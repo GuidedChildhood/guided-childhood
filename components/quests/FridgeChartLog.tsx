@@ -58,7 +58,7 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
   }
 
   const box: React.CSSProperties = {
-    background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px',
+    background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '18px',
   }
 
   if (status === 'done') {
@@ -111,10 +111,10 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
                   key={k.id}
                   onClick={() => setChildId(k.id)}
                   style={{
-                    padding: '7px 14px', borderRadius: 100, cursor: 'pointer',
+                    padding: '7px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                     background: k.id === childId ? 'var(--terracotta)' : '#fff',
-                    border: k.id === childId ? '2px solid var(--terracotta)' : '2px solid var(--ink)',
+                    border: k.id === childId ? '2px solid var(--terracotta)' : 'var(--edge)',
                   }}
                 >
                   {k.name}
@@ -133,11 +133,11 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
                 key={w.start}
                 onClick={() => setWeekStart(w.start)}
                 style={{
-                  padding: '8px 14px', borderRadius: 13, cursor: 'pointer', textAlign: 'left',
+                  padding: '8px 14px', borderRadius: 'var(--radius-tile)', cursor: 'pointer', textAlign: 'left',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                   color: w.start === weekStart ? '#fff' : 'var(--ink)',
                   background: w.start === weekStart ? 'var(--deep-teal)' : '#fff',
-                  border: '2px solid var(--ink)',
+                  border: 'var(--edge)',
                 }}
               >
                 {w.label}
@@ -175,14 +175,14 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
 }
 
 const PLATE: React.CSSProperties = {
-  width: 40, height: 40, borderRadius: 12, flexShrink: 0, boxSizing: 'border-box',
-  background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+  width: 40, height: 40, borderRadius: 'var(--radius-tile)', flexShrink: 0, boxSizing: 'border-box',
+  background: 'var(--terracotta-lt)', border: 'var(--edge)',
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
 }
 
 const stepBtn: React.CSSProperties = {
   width: 46, height: 46, borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
-  border: '2px solid var(--ink)', background: '#fff', color: 'var(--ink)',
+  border: 'var(--edge)', background: '#fff', color: 'var(--ink)',
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1,
   display: 'flex', alignItems: 'center', justifyContent: 'center',
 }

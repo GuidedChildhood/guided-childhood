@@ -74,12 +74,12 @@ export default function DigiPrompts() {
   return (
     <div style={{ marginBottom: '20px' }}>
       <div style={{
-        background: '#fff', border: '2px solid var(--ink)',
-        borderRadius: '20px', padding: '18px 20px 16px',
-        boxShadow: '0 4px 0 var(--ink)',
+        background: '#fff', border: 'var(--edge)',
+        borderRadius: 'var(--radius-card)', padding: '18px 20px 16px',
+        boxShadow: 'var(--lift)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-          <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter mood={p.kind === 'celebration' ? 'happy' : 'speak'} size={30} />
           </span>
           <span style={{ flex: 1, minWidth: 0 }}>
@@ -141,7 +141,7 @@ export default function DigiPrompts() {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '7px',
               background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-              borderRadius: '13px', padding: '10px 16px',
+              borderRadius: 'var(--radius-tile)', padding: '10px 16px',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
@@ -231,7 +231,7 @@ function FollowUpAnswer({
             disabled={!!busy}
             style={{
               flex: '1 1 100px', background: a.bg, border: `1.5px solid ${a.border}`,
-              borderRadius: 13, padding: '11px 12px', cursor: busy ? 'default' : 'pointer',
+              borderRadius: 'var(--radius-tile)', padding: '11px 12px', cursor: busy ? 'default' : 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               color: 'var(--ink)', opacity: busy && busy !== a.verdict ? 0.45 : 1,
             }}
@@ -247,7 +247,7 @@ function FollowUpAnswer({
         rows={2}
         style={{
           width: '100%', marginTop: 10, padding: '10px 12px', resize: 'vertical',
-          border: '2px solid var(--ink)', borderRadius: 12, background: 'var(--cream)',
+          border: 'var(--edge)', borderRadius: 'var(--radius-tile)', background: 'var(--cream)',
           fontFamily: 'inherit', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5,
         }}
       />

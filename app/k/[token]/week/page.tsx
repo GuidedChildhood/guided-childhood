@@ -162,7 +162,7 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
             themselves, an empty week is an invitation, not a dead end. */}
         {items.length === 0 && (
           <div style={{
-            background: '#fff', border: '2px solid var(--border)', borderRadius: 20,
+            background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
             boxShadow: '0 5px 0 rgba(0,0,0,0.25)', padding: '20px 18px', marginBottom: 16,
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.3 }}>

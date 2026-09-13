@@ -28,7 +28,7 @@ export default function ShareSheetDevPage() {
       <button
         onClick={() => setOpen(true)}
         style={{
-          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
+          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-btn)',
           padding: '14px 24px', cursor: 'pointer', fontFamily: 'var(--font-display)',
           fontWeight: 900, fontSize: 'var(--text-lg)', boxShadow: '0 5px 0 var(--terracotta-dark)',
         }}

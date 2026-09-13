@@ -75,7 +75,7 @@ export default function ResetPasswordPage() {
 
   const field: React.CSSProperties = {
     width: '100%', boxSizing: 'border-box', padding: '12px 14px',
-    border: '2px solid var(--ink)', borderRadius: '12px',
+    border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
     fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
     background: '#fff',
   }

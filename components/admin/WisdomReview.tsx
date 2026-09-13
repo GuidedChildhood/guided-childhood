@@ -69,7 +69,7 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
       onClick={rebuild}
       disabled={busy !== null}
       style={{
-        padding: '13px 22px', borderRadius: '16px', border: '2px solid var(--border)',
+        padding: '13px 22px', borderRadius: 'var(--radius-btn)', border: '2px solid var(--border)',
         background: '#fff', color: 'var(--ink-soft)',
         fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
         boxShadow: '0 5px 0 var(--border)', cursor: busy ? 'default' : 'pointer',
@@ -82,7 +82,7 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
 
   if (pending.length === 0) {
     return (
-      <div style={{ background: 'var(--tint-green)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px' }}>
+      <div style={{ background: 'var(--tint-green)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '18px 20px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)', marginBottom: '4px' }}>
           Nothing waiting
         </div>
@@ -100,7 +100,7 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
 
   return (
     <div>
-      <div style={{ background: 'var(--tint-amber)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '18px' }}>
+      <div style={{ background: 'var(--tint-amber)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '18px 20px', marginBottom: '18px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)', marginBottom: '4px' }}>
           {pending.length} {pending.length === 1 ? 'pattern is' : 'patterns are'} waiting on you
         </div>
@@ -112,7 +112,7 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '18px' }}>
         {pending.map(w => (
-          <div key={w.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px 16px' }}>
+          <div key={w.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)' }}>
                 {w.topic}
@@ -140,7 +140,7 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
           onClick={() => act('approve')}
           disabled={busy !== null}
           style={{
-            padding: '13px 22px', borderRadius: '16px', border: 'none',
+            padding: '13px 22px', borderRadius: 'var(--radius-btn)', border: 'none',
             background: 'var(--green)', color: '#fff',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
             boxShadow: '0 5px 0 var(--green-dark)', cursor: busy ? 'default' : 'pointer',
@@ -153,7 +153,7 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
           onClick={() => act('discard')}
           disabled={busy !== null}
           style={{
-            padding: '13px 22px', borderRadius: '16px', border: '2px solid var(--border)',
+            padding: '13px 22px', borderRadius: 'var(--radius-btn)', border: '2px solid var(--border)',
             background: '#fff', color: 'var(--ink-soft)',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
             boxShadow: '0 5px 0 var(--border)', cursor: busy ? 'default' : 'pointer',

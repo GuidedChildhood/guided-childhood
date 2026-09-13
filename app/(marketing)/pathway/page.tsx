@@ -98,7 +98,7 @@ export default function PathwayPage() {
         </p>
 
         {/* Stats row */}
-        <div style={{ display: 'flex', gap: '0', flexWrap: 'wrap', borderRadius: '16px', overflow: 'hidden', border: '1.5px solid var(--border)', background: '#fff', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', gap: '0', flexWrap: 'wrap', borderRadius: 'var(--radius-btn)', overflow: 'hidden', border: '1.5px solid var(--border)', background: '#fff', marginBottom: '8px' }}>
           {[
             { n: '5', label: 'Stages' },
             { n: '20', label: 'Units' },
@@ -146,7 +146,7 @@ export default function PathwayPage() {
               <article style={{
                 background: '#fff',
                 border: `1.5px solid ${col.border}`,
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 overflow: 'hidden',
                 boxShadow: '0 2px 16px rgba(0,0,0,.05)',
               }}>
@@ -189,7 +189,7 @@ export default function PathwayPage() {
                     <div style={{
                       background: '#fff',
                       border: `1px solid ${col.border}`,
-                      borderRadius: '12px',
+                      borderRadius: 'var(--radius-tile)',
                       padding: '10px 14px',
                       textAlign: 'center',
                       flexShrink: 0,
@@ -218,7 +218,7 @@ export default function PathwayPage() {
                       style={{
                         background: unit.locked ? 'var(--cream)' : col.bg,
                         border: `1px solid ${unit.locked ? 'var(--border)' : col.border}`,
-                        borderRadius: '14px',
+                        borderRadius: 'var(--radius-tile)',
                         padding: '14px 18px',
                         display: 'flex',
                         gap: '12px',
@@ -274,7 +274,7 @@ export default function PathwayPage() {
                   <div style={{
                     background: col.bg,
                     border: `1px solid ${col.border}`,
-                    borderRadius: '14px',
+                    borderRadius: 'var(--radius-tile)',
                     padding: '16px 20px',
                     display: 'flex',
                     gap: '14px',
@@ -326,7 +326,7 @@ export default function PathwayPage() {
             gap: '10px',
             background: 'var(--stage-2)',
             border: '1.5px solid var(--stage-2)',
-            borderRadius: '100px',
+            borderRadius: 'var(--radius-pill)',
             padding: '12px 24px',
           }}>
             <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--terracotta)', display: 'inline-block', flexShrink: 0 }} />
@@ -345,7 +345,7 @@ export default function PathwayPage() {
       <section style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px 80px' }}>
         <div style={{
           background: 'var(--deep-teal)',
-          borderRadius: '20px',
+          borderRadius: 'var(--radius-card)',
           padding: 'clamp(32px, 5vw, 48px)',
           position: 'relative',
           overflow: 'hidden',

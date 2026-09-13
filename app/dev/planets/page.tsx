@@ -27,7 +27,7 @@ export default function PlanetsFixture() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
           {PLANETS.map(p => (
             <div key={p.key} style={{
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
+              background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
               padding: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
             }}>
               <PlanetArt motif={p.key} body={p.body} ring={p.ring} tint={p.tint} alt={p.alt} size={92} />

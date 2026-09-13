@@ -119,7 +119,7 @@ export function AnswerBody({ text }: { text: string }) {
             <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <span aria-hidden style={{
                 width: 30, height: 30, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', marginTop: 1,
-                background: 'var(--terracotta)', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                background: 'var(--terracotta)', border: 'var(--edge)', boxShadow: 'var(--lift)',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
               }}>{n}</span>
@@ -792,14 +792,21 @@ export default function DigiChat({
       {/* Header. Wraps on a phone: the eyebrow, the avatar and the way back
           do not fit one row at 390, and the eyebrow was breaking one word per
           line beside the star (Justin's screenshot, 6 September 2026). */}
-      <div style={{ padding: '14px 20px', borderBottom: '2px solid var(--ink)', background: 'var(--white)', flexShrink: 0 }}>
+      {/* The top padding carries the phone's own safe area. Installed to the
+          home screen the page starts under the status bar, and the eyebrow was
+          sitting behind the clock (Justin's screenshot, 12 September 2026). */}
+      <div style={{ padding: '14px 20px', paddingTop: 'calc(14px + env(safe-area-inset-top, 0px))', borderBottom: 'var(--edge)', background: 'var(--white)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px 12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0, flex: '1 1 200px' }}>
             <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <DigiAvatar size={36} mood="wave" />
             </div>
-            <div>
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)', whiteSpace: 'nowrap' }}>Your evidence led guide</p>
+            {/* minWidth 0 so the text block can be narrower than its words and
+                wrap them, instead of nowrap pushing the line off both edges.
+                The one word per line break of 6 September was the block having
+                no room at all; flex 1 gives it the row. */}
+            <div style={{ minWidth: 0 }}>
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)' }}>Your evidence led guide</p>
               <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
             </div>
           </div>
@@ -817,8 +824,8 @@ export default function DigiChat({
                 display: 'inline-flex', alignItems: 'center', gap: 5,
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                 color: 'var(--ink)', textDecoration: 'none',
-                background: 'var(--cream)', border: '2px solid var(--ink)',
-                borderRadius: 100, padding: '6px 13px', whiteSpace: 'nowrap',
+                background: 'var(--cream)', border: 'var(--edge)',
+                borderRadius: 'var(--radius-pill)', padding: '6px 13px', whiteSpace: 'nowrap',
               }}
             >
               <span aria-hidden>←</span> Today&apos;s pathway
@@ -872,9 +879,9 @@ export default function DigiChat({
             {stageId && stageName && !deviceSetupDismissed && (
               <div style={{
                 background: 'var(--stage-2)',
-                border: '2px solid var(--ink)',
-                boxShadow: '0 4px 0 var(--ink)',
-                borderRadius: '16px',
+                border: 'var(--edge)',
+                boxShadow: 'var(--lift)',
+                borderRadius: 'var(--radius-btn)',
                 padding: '16px 18px',
                 marginBottom: '20px',
                 display: 'flex',
@@ -883,7 +890,7 @@ export default function DigiChat({
               }}>
                 <div style={{
                   width: '32px', height: '32px', borderRadius: '8px',
-                  background: 'var(--terracotta)', flexShrink: 0, border: '2px solid var(--ink)', boxSizing: 'border-box',
+                  background: 'var(--terracotta)', flexShrink: 0, border: 'var(--edge)', boxSizing: 'border-box',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)' }}>⚙</span>
@@ -948,8 +955,8 @@ export default function DigiChat({
                   style={{
                     padding: '12px 16px',
                     background: 'var(--white)',
-                    border: '2px solid var(--ink)',
-                    borderRadius: '12px',
+                    border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)',
                     fontSize: 'var(--text-md)',
                     color: 'var(--ink-soft)',
                     textAlign: 'left',
@@ -983,8 +990,8 @@ export default function DigiChat({
               onClick={() => setHistoryOpen(o => !o)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8, width: '100%',
-                background: 'var(--cream)', border: '2px solid var(--ink)',
-                borderRadius: 14, padding: '11px 14px', cursor: 'pointer',
+                background: 'var(--cream)', border: 'var(--edge)',
+                borderRadius: 'var(--radius-tile)', padding: '11px 14px', cursor: 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 color: 'var(--ink-soft)', textAlign: 'left',
               }}
@@ -1013,8 +1020,8 @@ export default function DigiChat({
                     <div style={{
                       maxWidth: '88%',
                       background: m.role === 'user' ? 'var(--stage-2)' : 'transparent',
-                      border: m.role === 'user' ? '2px solid var(--ink)' : 'none',
-                      borderRadius: 16, padding: m.role === 'user' ? '9px 13px' : '0 2px',
+                      border: m.role === 'user' ? 'var(--edge)' : 'none',
+                      borderRadius: 'var(--radius-btn)', padding: m.role === 'user' ? '9px 13px' : '0 2px',
                       // Dimmer than the live thread on purpose. This is a
                       // record, not the conversation a parent is in.
                       fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--ink-soft)',
@@ -1051,7 +1058,7 @@ export default function DigiChat({
                   // dark ink text, so the parent's question reads clear at the
                   // top with DiGi's answer flowing beneath it.
                   maxWidth: '84%', background: '#DCE7FB', color: '#1B2A4A',
-                  borderRadius: '20px', padding: '14px 18px',
+                  borderRadius: 'var(--radius-card)', padding: '14px 18px',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', lineHeight: 1.45,
                   fontWeight: 800, whiteSpace: 'pre-wrap',
                 }}>
@@ -1086,8 +1093,8 @@ export default function DigiChat({
                     <button
                       onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
                       style={{
-                        background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-                        color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
+                        background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+                        color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 14px', cursor: 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                       }}
                     >
@@ -1103,8 +1110,8 @@ export default function DigiChat({
                       disabled={sentToChild[i] === 'sending' || sentToChild[i] === 'sent'}
                       style={{
                         background: sentToChild[i] === 'sent' ? 'var(--retro-green)' : '#fff',
-                        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-                        color: sentToChild[i] === 'sent' ? '#fff' : 'var(--ink)', borderRadius: 12, padding: '9px 14px',
+                        border: 'var(--edge)', boxShadow: 'var(--lift)',
+                        color: sentToChild[i] === 'sent' ? '#fff' : 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 14px',
                         cursor: sentToChild[i] === 'sent' ? 'default' : 'pointer',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                       }}
@@ -1174,7 +1181,7 @@ export default function DigiChat({
               ].map(r => (
                 <Link key={r.href} href={r.href} style={{
                   display: 'inline-flex', alignItems: 'center', gap: '7px',
-                  background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '12px',
+                  background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                   padding: '9px 13px', textDecoration: 'none',
                   fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
                 }}>
@@ -1198,8 +1205,8 @@ export default function DigiChat({
                     placeholder="What was off about this answer? It helps us make DiGi better."
                     rows={2}
                     style={{
-                      width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: '12px',
-                      border: '2px solid var(--ink)', background: 'var(--cream)',
+                      width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: 'var(--radius-tile)',
+                      border: 'var(--edge)', background: 'var(--cream)',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)',
                       resize: 'none', outline: 'none', lineHeight: 1.5, marginBottom: '8px',
                     }}
@@ -1222,7 +1229,7 @@ export default function DigiChat({
                     <button
                       onClick={() => { setFlagOpen(false); setFlagNote('') }}
                       style={{
-                        background: 'none', border: '2px solid var(--ink)', borderRadius: '10px', padding: '9px 14px',
+                        background: 'none', border: 'var(--edge)', borderRadius: '10px', padding: '9px 14px',
                         cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                       }}
                     >
@@ -1254,7 +1261,7 @@ export default function DigiChat({
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>DiGi</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-              <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: '100px', padding: '10px 14px' }}>
+              <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: 'var(--radius-pill)', padding: '10px 14px' }}>
                 {[0, 1, 2].map(i => (
                   <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
                 ))}
@@ -1267,7 +1274,7 @@ export default function DigiChat({
         )}
 
         {error && (
-          <div style={{ padding: '12px 16px', background: 'var(--stage-1)', borderRadius: '12px', marginBottom: '12px' }}>
+          <div style={{ padding: '12px 16px', background: 'var(--stage-1)', borderRadius: 'var(--radius-tile)', marginBottom: '12px' }}>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>{error}</p>
             {error.toLowerCase().includes('upgrade') && (
               <Link href="/dashboard/upgrade" className="btn" style={{ marginTop: '12px', display: 'inline-flex', padding: '10px 20px', fontSize: 'var(--text-base)' }}>
@@ -1281,9 +1288,9 @@ export default function DigiChat({
         {reflectionQuestion && !reflectionDone && (
           <div style={{
             background: 'var(--white)',
-            border: '2px solid var(--ink)',
-            boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '16px',
+            border: 'var(--edge)',
+            boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-btn)',
             padding: '18px 18px 16px',
             marginBottom: '16px',
             marginTop: '8px',
@@ -1306,7 +1313,7 @@ export default function DigiChat({
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: '10px',
-                border: '2px solid var(--ink)',
+                border: 'var(--edge)',
                 background: 'var(--cream)',
                 fontFamily: 'var(--font-body)',
                 fontSize: 'var(--text-md)',
@@ -1345,7 +1352,7 @@ export default function DigiChat({
                 style={{
                   padding: '10px 14px',
                   background: 'none',
-                  border: '2px solid var(--ink)',
+                  border: 'var(--edge)',
                   borderRadius: '10px',
                   fontFamily: 'var(--font-body)',
                   fontSize: 'var(--text-base)',
@@ -1365,8 +1372,8 @@ export default function DigiChat({
                before this rendered, and used to be thrown away in favour of a
                receipt. It reads as a reply because that is what it is. */
             <div style={{
-              background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-              borderRadius: '16px', padding: '15px 17px', margin: '4px 0 12px',
+              background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+              borderRadius: 'var(--radius-btn)', padding: '15px 17px', margin: '4px 0 12px',
             }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
                 DiGi
@@ -1392,7 +1399,7 @@ export default function DigiChat({
       </div>
 
       {/* Input */}
-      <div style={{ padding: '14px 20px', borderTop: '2px solid var(--ink)', background: 'var(--white)', flexShrink: 0 }}>
+      <div style={{ padding: '14px 20px', borderTop: 'var(--edge)', background: 'var(--white)', flexShrink: 0 }}>
         {/* A quiet strip of example questions that stays under the chat once it
             is under way, so a parent always sees the kind of thing they can ask,
             like how long a child their age should be on a screen. Hidden while
@@ -1400,10 +1407,18 @@ export default function DigiChat({
             The empty state keeps its own bigger Try asking list above. */}
         {!atLimit && messages.length > 0 && !input.trim() && !continuingTopic && (faqPrompts?.length ?? 0) > 0 && (
           <div
+            // A side scroller on purpose, inside its own box, and it must LOOK
+            // like one: with the scrollbar hidden nothing said so, and a chip
+            // cut mid word at the right edge read as broken (Justin's
+            // screenshot, 12 September 2026). The fade on the right edge is
+            // the tell, and the snap lands each chip whole after a flick.
             aria-label="Example questions to ask DiGi"
             style={{
               display: 'flex', gap: '7px', overflowX: 'auto', paddingBottom: '10px',
               margin: '0 -20px', paddingLeft: '20px', paddingRight: '20px', scrollbarWidth: 'none',
+              scrollSnapType: 'x proximity',
+              maskImage: 'linear-gradient(to right, black calc(100% - 36px), transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 36px), transparent)',
             }}
           >
             {faqPrompts!.map((q, i) => (
@@ -1412,9 +1427,9 @@ export default function DigiChat({
                 type="button"
                 onClick={() => sendMessage(q)}
                 style={{
-                  flexShrink: 0, whiteSpace: 'nowrap', cursor: 'pointer',
-                  background: 'var(--cream)', border: '2px solid var(--ink)',
-                  borderRadius: '100px', padding: '8px 14px',
+                  flexShrink: 0, whiteSpace: 'nowrap', cursor: 'pointer', scrollSnapAlign: 'start',
+                  background: 'var(--cream)', border: 'var(--edge)',
+                  borderRadius: 'var(--radius-pill)', padding: '8px 14px',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
@@ -1440,8 +1455,8 @@ export default function DigiChat({
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: 'var(--stage-2)', border: '2px solid var(--ink)',
-                  borderRadius: '100px', padding: '5px 12px',
+                  background: 'var(--stage-2)', border: 'var(--edge)',
+                  borderRadius: 'var(--radius-pill)', padding: '5px 12px',
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   color: 'var(--ink-soft)', maxWidth: '100%',
                 }}>
@@ -1463,7 +1478,7 @@ export default function DigiChat({
                 in the corner, the reference feel in our palette. */}
             <div style={{
               display: 'flex', gap: '8px', alignItems: 'flex-end',
-              background: 'var(--cream)', border: '2px solid var(--ink)',
+              background: 'var(--cream)', border: 'var(--edge)',
               borderRadius: '26px', padding: '6px 6px 6px 18px',
               transition: 'border-color 0.15s',
             }}>

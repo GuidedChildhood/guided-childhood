@@ -34,7 +34,7 @@ export default function EtsyBonusPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', margin: '30px 0 36px' }}>
         {GETS.map(([icon, title, body], i) => (
-          <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px' }}>
+          <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px' }}>
             <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{icon}</span>
             <div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 4px' }}>{title}</h2>
@@ -52,7 +52,7 @@ export default function EtsyBonusPage() {
 
       {/* The one permitted funnel line, once, routing to /starter-pack per house
           rule 9. Never a second purchase, just where the whole pathway lives. */}
-      <div style={{ marginTop: '40px', textAlign: 'center', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '20px', padding: '28px 24px' }}>
+      <div style={{ marginTop: '40px', textAlign: 'center', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '28px 24px' }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
           Want the whole pathway, not just the sheet?
         </p>

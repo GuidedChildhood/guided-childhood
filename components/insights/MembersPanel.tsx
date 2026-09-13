@@ -28,8 +28,8 @@ type Stats = {
 }
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
-  padding: '20px 22px', marginBottom: 22, boxShadow: '0 4px 0 var(--ink)',
+  background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+  padding: '20px 22px', marginBottom: 22, boxShadow: 'var(--lift)',
 }
 
 const label: React.CSSProperties = {
@@ -165,13 +165,13 @@ export default function MembersPanel() {
       </Row>
 
       {s.emails.topKeys.length > 0 && (
-        <div style={{ borderTop: '2px solid var(--ink)', paddingTop: 12 }}>
+        <div style={{ borderTop: 'var(--edge)', paddingTop: 12 }}>
           <p style={{ ...label, marginBottom: 8 }}>Most sent this week</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 8px' }}>
             {s.emails.topKeys.map(([key, n]) => (
               <span key={key} style={{
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: 10, padding: '4px 9px',
+                background: 'var(--cream)', border: 'var(--edge)', borderRadius: 10, padding: '4px 9px',
               }}>{key} · {n}</span>
             ))}
           </div>

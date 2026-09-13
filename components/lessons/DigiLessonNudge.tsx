@@ -38,13 +38,13 @@ export default function DigiLessonNudge({
 
   return (
     <div style={{
-      background: 'var(--stage-3)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '18px', padding: '16px 18px', marginBottom: '20px',
+      background: 'var(--stage-3)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '20px',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '10px' }}>
         <div style={{
           width: 36, height: 36, borderRadius: '10px', flexShrink: 0,
-          background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+          background: 'var(--terracotta)', border: 'var(--edge)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{ color: 'var(--ink)', fontSize: 'var(--text-md)', lineHeight: 1 }}>◎</span>
@@ -71,9 +71,9 @@ export default function DigiLessonNudge({
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-            border: '2px solid var(--ink)', borderRadius: '12px', padding: '9px 15px',
+            border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 15px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           ▶ Watch together

@@ -171,10 +171,11 @@ Nothing buzzes a child's phone at night.
 ### DiGi (`digi/`, `lib/digi`, `app/api/digi`)
 Claude wrapped in four things a raw model does not have: rails it cannot talk
 its way out of, a research base we can point at, a memory of this family that
-survives between conversations, and loops that feed back what worked. Model
-set by `DIGI_MODEL` (default `claude-fable-5`), never hardcoded, with a
-fallback ladder and a router that spends the deep model only where judgement
-matters. Every reply streams through a dash stripping filter and past a
+survives between conversations, and loops that feed back what worked. Two
+tiers, both config and both `claude-fable-5-1` by default: `DIGI_MODEL_CHAT`
+answers a parent who is waiting, at medium effort; `DIGI_MODEL` does the
+thinking nobody waits for; a fallback ladder sits behind each and a router
+sends every task to its tier (13 September 2026). Every reply streams through a dash stripping filter and past a
 safety verifier. Free accounts get three messages a day, which is the paywall
 doing its job gently. The canonical write up is `digi/00-how-digi-works.md`.
 

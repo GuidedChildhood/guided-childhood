@@ -63,8 +63,8 @@ export default function ChildDayStrip({
       style={{
         display: 'block', textDecoration: 'none', marginBottom: 14,
         background,
-        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-        borderRadius: 18, padding: '13px 15px',
+        border: 'var(--edge)', boxShadow: 'var(--lift)',
+        borderRadius: 'var(--radius-card)', padding: '13px 15px',
       }}
     >
       <span style={{ display: 'flex', alignItems: 'center', gap: 11 }}>

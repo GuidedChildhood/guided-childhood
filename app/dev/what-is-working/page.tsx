@@ -75,7 +75,7 @@ export default function WhatIsWorkingFixture() {
           Each worry keeps its own line. Nothing here is added together, because a family carrying three things and a family carrying nine do not share a scale, and an average would drop the moment you told us about something new.
         </p>
 
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '6px 18px 14px', marginBottom: '18px' }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '6px 18px 14px', marginBottom: '18px' }}>
           {withMovement.map((m, i) => {
             const start = m.startScore as number
             const end = m.endScore as number
@@ -108,7 +108,7 @@ export default function WhatIsWorkingFixture() {
         </div>
 
         {slipped.length > 0 && (
-          <div style={{ background: 'var(--stage-1)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px 17px', marginBottom: '18px' }}>
+          <div style={{ background: 'var(--stage-1)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '15px 17px', marginBottom: '18px' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '4px' }}>
               {slipped[0].label} has gone the other way
             </div>
@@ -117,7 +117,7 @@ export default function WhatIsWorkingFixture() {
             </p>
             <span style={{
               display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)',
-              borderRadius: '14px', padding: '11px 18px',
+              borderRadius: 'var(--radius-tile)', padding: '11px 18px',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}>
@@ -130,7 +130,7 @@ export default function WhatIsWorkingFixture() {
           1 of these came back after being sorted. That is normal, and it is worth knowing rather than hiding: the ones that keep returning are the ones to build a proper plan around.
         </p>
 
-        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px' }}>
+        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '15px 17px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Waiting on a second check in
           </div>

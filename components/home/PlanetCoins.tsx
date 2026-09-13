@@ -68,9 +68,9 @@ export default function PlanetCoins({ featured }: { featured: number }) {
       position: 'relative',
       overflow: 'hidden',
       background: '#fff',
-      border: '2px solid var(--ink)',
-      boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '20px',
+      border: 'var(--edge)',
+      boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)',
       padding: '15px 13px 14px',
       marginBottom: '20px',
     }}>
@@ -120,7 +120,7 @@ export default function PlanetCoins({ featured }: { featured: number }) {
             href={p.href}
             style={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px',
-              textDecoration: 'none', padding: '9px 4px 10px', borderRadius: '16px',
+              textDecoration: 'none', padding: '9px 4px 10px', borderRadius: 'var(--radius-btn)',
               background: 'transparent',
             }}
           >
@@ -134,7 +134,7 @@ export default function PlanetCoins({ featured }: { featured: number }) {
               aria-hidden
               className={i === lit ? 'coin-lit' : undefined}
               style={{
-                width: 62, height: 62, borderRadius: '100px', background: p.tint,
+                width: 62, height: 62, borderRadius: 'var(--radius-pill)', background: p.tint,
                 border: i === lit ? `2.5px solid ${p.ring}` : `1.5px solid ${p.ring}`,
                 boxShadow: `0 3px 0 ${p.ring}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',

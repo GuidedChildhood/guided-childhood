@@ -34,8 +34,8 @@ const REASSURANCES: { title: string; body: string }[] = [
 ]
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-  borderRadius: '16px', padding: '22px', marginBottom: '16px',
+  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+  borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '16px',
 }
 
 const eyebrow: React.CSSProperties = {
@@ -45,18 +45,18 @@ const eyebrow: React.CSSProperties = {
 }
 
 const inputStyle: React.CSSProperties = {
-  width: '100%', padding: '13px 16px', borderRadius: '12px',
-  border: '2px solid var(--ink)', background: 'var(--cream)',
+  width: '100%', padding: '13px 16px', borderRadius: 'var(--radius-tile)',
+  border: 'var(--edge)', background: 'var(--cream)',
   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
   outline: 'none',
 }
 
 const primaryBtn: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-  borderRadius: '16px', padding: '14px 26px', cursor: 'pointer',
+  background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+  borderRadius: 'var(--radius-btn)', padding: '14px 26px', cursor: 'pointer',
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-  boxShadow: '0 4px 0 var(--ink)', textDecoration: 'none',
+  boxShadow: 'var(--lift)', textDecoration: 'none',
 }
 
 const quietBtn: React.CSSProperties = {
@@ -79,7 +79,7 @@ function CopyButton({ value, label = 'Copy' }: { value: string; label?: string }
       style={{
         background: copied ? 'var(--tint-green)' : 'var(--deep-teal)',
         color: copied ? 'var(--ink)' : '#fff',
-        border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
+        border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, flexShrink: 0,
       }}
     >
@@ -258,8 +258,8 @@ export default function SchoolSetup() {
         </p>
 
         <div style={{
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-          borderRadius: '16px', padding: '18px 20px', marginBottom: '20px',
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+          borderRadius: 'var(--radius-btn)', padding: '18px 20px', marginBottom: '20px',
         }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
             You are giving us a letterbox, not a key. We never see your inbox. You choose exactly which senders get forwarded, and we keep the actions, never the email.
@@ -363,7 +363,7 @@ export default function SchoolSetup() {
             bounce. Warn plainly rather than let the parent hit a silent bounce. */}
         {inboundLive === false && (
           <div style={{
-            background: '#FBEAEA', border: '1.5px solid var(--danger, #c0392b)', borderRadius: '14px',
+            background: '#FBEAEA', border: '1.5px solid var(--danger, #c0392b)', borderRadius: 'var(--radius-tile)',
             padding: '14px 16px', marginBottom: '18px',
           }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--danger, #c0392b)', marginBottom: '6px' }}>
@@ -376,7 +376,7 @@ export default function SchoolSetup() {
         )}
 
         <div style={{
-          background: 'var(--deep-teal)', borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',
+          background: 'var(--deep-teal)', borderRadius: 'var(--radius-btn)', padding: '20px 22px', marginBottom: '20px',
           display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap',
         }}>
           <div style={{
@@ -403,7 +403,7 @@ export default function SchoolSetup() {
             onClick={testLetterbox}
             disabled={testing}
             style={{
-              background: 'var(--deep-teal)', color: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '12px',
+              background: 'var(--deep-teal)', color: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)',
               padding: '11px 18px', cursor: testing ? 'wait' : 'pointer', flexShrink: 0,
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             }}
@@ -414,7 +414,7 @@ export default function SchoolSetup() {
             <div style={{
               width: '100%',
               background: testResult.ok ? 'var(--tint-green)' : 'var(--stage-1)',
-              border: '2px solid var(--ink)', borderRadius: '12px', padding: '12px 14px',
+              border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px',
               fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55,
             }}>
               <strong>{testResult.ok ? '✓ Platform ready. ' : 'Heads up. '}</strong>
@@ -460,8 +460,8 @@ export default function SchoolSetup() {
               key={key}
               onClick={() => setProvider(key)}
               style={{
-                flex: 1, padding: '10px 14px', borderRadius: '100px', cursor: 'pointer',
-                border: '2px solid var(--ink)',
+                flex: 1, padding: '10px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
+                border: 'var(--edge)',
                 background: provider === key ? 'var(--deep-teal)' : '#fff',
                 color: provider === key ? '#fff' : 'var(--ink-soft)',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
@@ -481,9 +481,9 @@ export default function SchoolSetup() {
               <StepRow n={3}>
                 Google sends a confirmation code, or sometimes a one tap confirm link, to that address. Whichever it is appears right here, so stay on this page:
                 <div style={{
-                  marginTop: '10px', padding: '14px 16px', borderRadius: '12px',
+                  marginTop: '10px', padding: '14px 16px', borderRadius: 'var(--radius-tile)',
                   background: hasVerification ? 'var(--tint-green)' : 'var(--cream)',
-                  border: '2px solid var(--ink)',
+                  border: 'var(--edge)',
                 }}>
                   {connection.verification_code ? (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -520,8 +520,8 @@ export default function SchoolSetup() {
               <StepRow n={6}>
                 Paste this into the search box at the top of Gmail, press Enter, then click <strong>Create filter</strong> just under the search box:
                 <div style={{
-                  marginTop: '10px', padding: '12px 14px', borderRadius: '12px',
-                  background: 'var(--cream)', border: '2px solid var(--ink)',
+                  marginTop: '10px', padding: '12px 14px', borderRadius: 'var(--radius-tile)',
+                  background: 'var(--cream)', border: 'var(--edge)',
                   display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap',
                 }}>
                   <code style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
@@ -546,7 +546,7 @@ export default function SchoolSetup() {
               <StepRow n={4}>Save the rule. If your provider sends a confirmation email to the new address, the code or link will appear on this page within a minute.</StepRow>
             </div>
             {hasVerification && (
-              <div style={{ marginTop: '14px', padding: '14px 16px', borderRadius: '12px', background: 'var(--tint-green)', border: '2px solid var(--ink)' }}>
+              <div style={{ marginTop: '14px', padding: '14px 16px', borderRadius: 'var(--radius-tile)', background: 'var(--tint-green)', border: 'var(--edge)' }}>
                 {connection.verification_code && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: connection.verification_link ? '8px' : 0 }}>
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)' }}>{connection.verification_code}</span>
@@ -598,7 +598,7 @@ export default function SchoolSetup() {
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 background: connection.active ? 'var(--tint-green)' : 'var(--border)',
                 color: connection.active ? 'var(--ink)' : 'var(--ink-muted)',
-                padding: '3px 10px', borderRadius: '100px',
+                padding: '3px 10px', borderRadius: 'var(--radius-pill)',
               }}>
                 {connection.active ? 'Active' : 'Paused'}
               </span>
@@ -608,7 +608,7 @@ export default function SchoolSetup() {
               onClick={toggleActive}
               aria-label={connection.active ? 'Pause this connection' : 'Resume this connection'}
               style={{
-                width: '48px', height: '28px', borderRadius: '100px', border: '2px solid var(--ink)', cursor: 'pointer',
+                width: '48px', height: '28px', borderRadius: 'var(--radius-pill)', border: 'var(--edge)', cursor: 'pointer',
                 background: connection.active ? 'var(--terracotta)' : 'var(--cream)',
                 position: 'relative', transition: 'background .15s ease', flexShrink: 0, padding: 0, boxSizing: 'border-box',
               }}
@@ -616,7 +616,7 @@ export default function SchoolSetup() {
               <span style={{
                 position: 'absolute', top: '2px', left: connection.active ? '22px' : '2px',
                 width: '20px', height: '20px', borderRadius: '50%', background: '#fff',
-                border: '2px solid var(--ink)', boxSizing: 'border-box', transition: 'left .15s ease',
+                border: 'var(--edge)', boxSizing: 'border-box', transition: 'left .15s ease',
               }} />
             </button>
           </div>
@@ -626,8 +626,8 @@ export default function SchoolSetup() {
           </div>
           <div style={{
             display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
-            padding: '12px 14px', borderRadius: '12px', background: 'var(--cream)',
-            border: '2px solid var(--ink)', marginBottom: '16px',
+            padding: '12px 14px', borderRadius: 'var(--radius-tile)', background: 'var(--cream)',
+            border: 'var(--edge)', marginBottom: '16px',
           }}>
             <code style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
               {connection.forward_address}
@@ -642,7 +642,7 @@ export default function SchoolSetup() {
             {connection.sender_addresses.map(s => (
               <div key={s} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
-                padding: '9px 12px', borderRadius: '10px', background: 'var(--cream)', border: '2px solid var(--ink)',
+                padding: '9px 12px', borderRadius: '10px', background: 'var(--cream)', border: 'var(--edge)',
               }}>
                 <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', wordBreak: 'break-all' }}>{s}</span>
                 {connection.sender_addresses.length > 1 && (
@@ -665,7 +665,7 @@ export default function SchoolSetup() {
               onClick={addSender}
               disabled={saving}
               style={{
-                background: 'var(--deep-teal)', color: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', borderRadius: '12px',
+                background: 'var(--deep-teal)', color: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)',
                 padding: '10px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)',
                 fontSize: 'var(--text-sm)', fontWeight: 700, flexShrink: 0,
               }}

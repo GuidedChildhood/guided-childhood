@@ -48,7 +48,7 @@ export default function MagnetGate({
 
   const box: React.CSSProperties = {
     background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-    borderRadius: '20px', padding: '26px 24px', textAlign: 'center',
+    borderRadius: 'var(--radius-card)', padding: '26px 24px', textAlign: 'center',
   }
 
   if (state === 'done') {
@@ -93,7 +93,7 @@ export default function MagnetGate({
           style={{
             flex: '1 1 200px', minWidth: 0, padding: '13px 16px', fontSize: 'var(--text-md)',
             fontFamily: 'var(--font-body, inherit)', color: 'var(--ink)',
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', outline: 'none',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', outline: 'none',
           }}
         />
         <button type="submit" disabled={state === 'sending'} className="btn btn-gold" style={{ padding: '13px 24px', fontSize: 'var(--text-md)', opacity: state === 'sending' ? 0.7 : 1 }}>

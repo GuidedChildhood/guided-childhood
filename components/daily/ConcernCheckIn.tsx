@@ -490,17 +490,17 @@ export default function ConcernCheckIn({
   return (
     <div style={{
       background: '#fff',
-      border: '2px solid var(--ink)',
+      border: 'var(--edge)',
       // The house finish, which this card was the last thing on the daily page
       // not wearing: a chunky ink shadow rather than a flat outline.
-      boxShadow: '0 5px 0 var(--ink)',
-      borderRadius: '20px',
+      boxShadow: 'var(--lift-deep)',
+      borderRadius: 'var(--radius-card)',
       padding: '20px',
       marginBottom: '20px',
     }}>
       {lastNight && words !== 'yes' && words !== 'somewhat' && words !== 'no' && (
         <div style={{
-          background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 16,
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
           padding: '14px 14px 12px', marginBottom: 16,
         }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 4px' }}>
@@ -516,8 +516,8 @@ export default function ConcernCheckIn({
                 onClick={() => rateWords(k)}
                 disabled={words === 'busy'}
                 style={{
-                  flex: 1, minWidth: 80, padding: '10px 12px', borderRadius: 100, cursor: 'pointer',
-                  background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                  flex: 1, minWidth: 80, padding: '10px 12px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
+                  background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                   opacity: words === 'busy' ? 0.6 : 1,
                 }}
@@ -685,7 +685,7 @@ export default function ConcernCheckIn({
               // which is decoration and has no floor to clear.
               const pill: React.CSSProperties = {
                 display: 'inline-flex', alignItems: 'center', minHeight: 38,
-                padding: '7px 14px', borderRadius: '100px', textDecoration: 'none',
+                padding: '7px 14px', borderRadius: 'var(--radius-pill)', textDecoration: 'none',
                 border: '2px solid var(--terracotta)', color: 'var(--ink)',
                 boxShadow: '0 3px 0 var(--terracotta)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
@@ -840,7 +840,7 @@ export default function ConcernCheckIn({
               {chosenBand === 5 && (
                 <div style={{
                   display: 'flex', alignItems: 'flex-start', gap: '9px',
-                  background: 'var(--tint-green)', borderRadius: '13px',
+                  background: 'var(--tint-green)', borderRadius: 'var(--radius-tile)',
                   padding: '11px 13px', marginTop: '8px',
                 }}>
                   <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.2, flexShrink: 0 }}>🎉</span>
@@ -900,7 +900,7 @@ export default function ConcernCheckIn({
 
       {allSaved && (
         <div style={{
-          marginTop: '10px', paddingTop: '14px', borderTop: '2px solid var(--ink)',
+          marginTop: '10px', paddingTop: '14px', borderTop: 'var(--edge)',
         }}>
           <div style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
@@ -944,7 +944,7 @@ export default function ConcernCheckIn({
               style={{
                 display: 'block', textAlign: 'center', textDecoration: 'none',
                 background: 'var(--terracotta)', color: 'var(--ink)',
-                borderRadius: '16px', padding: '14px 18px',
+                borderRadius: 'var(--radius-btn)', padding: '14px 18px',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
@@ -963,7 +963,7 @@ export default function ConcernCheckIn({
               style={{
                 display: 'block', textAlign: 'center', textDecoration: 'none', marginTop: '12px',
                 background: 'var(--terracotta)', color: 'var(--ink)',
-                borderRadius: '16px', padding: '14px 18px',
+                borderRadius: 'var(--radius-btn)', padding: '14px 18px',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}

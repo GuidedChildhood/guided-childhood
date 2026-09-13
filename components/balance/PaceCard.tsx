@@ -21,7 +21,7 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
 
   return (
     <div style={{
-      background: tone.bg, border: `1.5px solid ${tone.border}`, borderRadius: 20,
+      background: tone.bg, border: `1.5px solid ${tone.border}`, borderRadius: 'var(--radius-card)',
       padding: '20px 20px 22px', marginBottom: 16,
     }}>
       <div style={{
@@ -76,7 +76,7 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
           different from the guide when the week is running over. */}
       {pace.suggestTomorrow !== null && (
         <div style={{
-          background: '#fff', borderRadius: 14, padding: '14px 16px',
+          background: '#fff', borderRadius: 'var(--radius-tile)', padding: '14px 16px',
           display: 'flex', alignItems: 'center', gap: 14,
         }}>
           <div>

@@ -32,7 +32,7 @@ export default function FamilyDealSheet({
     letterSpacing: '0.12em', textTransform: 'uppercase',
   }
   const card: React.CSSProperties = {
-    border: '2px solid var(--ink)', borderRadius: 16,
+    border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
     padding: '16px 18px', background: '#fff', breakInside: 'avoid',
   }
 
@@ -60,8 +60,8 @@ export default function FamilyDealSheet({
         {rules.map(r => (
           <div key={r.n} style={{ ...card, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
             <span style={{
-              flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: 'var(--terracotta-lt)',
-              border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0, width: 40, height: 40, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta-lt)',
+              border: 'var(--edge)', display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta-dark)',
             }}>{r.n}</span>
             <span style={{ minWidth: 0 }}>
@@ -76,7 +76,7 @@ export default function FamilyDealSheet({
       {timerRule && (
         <div style={{ marginBottom: 20, breakInside: 'avoid' }}>
           <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: 7 }}>The timer rule</div>
-          <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)', borderRadius: 16, padding: '16px 18px' }}>
+          <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-btn)', padding: '16px 18px' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', lineHeight: 1.35, margin: 0 }}>
               {timerRule}
             </p>
@@ -139,7 +139,7 @@ export default function FamilyDealSheet({
       <div style={{ display: 'flex', gap: 20, marginTop: 26, breakInside: 'avoid' }}>
         {[kid, 'Grown up'].map(who => (
           <div key={who} style={{ flex: 1 }}>
-            <div style={{ borderBottom: '2px solid var(--ink)', height: 42 }} />
+            <div style={{ borderBottom: 'var(--edge)', height: 42 }} />
             <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: 7 }}>{who}</div>
           </div>
         ))}

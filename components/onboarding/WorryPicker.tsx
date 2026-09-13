@@ -79,9 +79,9 @@ export default function WorryPicker({
             aria-pressed={on}
             style={{
               background: on ? 'var(--terracotta-lt)' : '#fff',
-              border: '2px solid var(--ink)',
-              borderRadius: 18,
-              boxShadow: on ? '0 5px 0 var(--ink)' : '0 4px 0 var(--ink)',
+              border: 'var(--edge)',
+              borderRadius: 'var(--radius-card)',
+              boxShadow: on ? 'var(--lift-deep)' : 'var(--lift)',
               // Room for the badge in the top right, and a floor that keeps a
               // one word tile the same height as "Seeing things they should
               // not" so the grid never looks half built.
@@ -96,8 +96,8 @@ export default function WorryPicker({
             }}
           >
             <span aria-hidden style={{
-              width: 44, height: 44, borderRadius: 13,
-              background: w.tint, border: '2px solid var(--ink)', boxSizing: 'border-box',
+              width: 44, height: 44, borderRadius: 'var(--radius-tile)',
+              background: w.tint, border: 'var(--edge)', boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0, color: 'var(--ink)',
             }}>
@@ -126,7 +126,7 @@ export default function WorryPicker({
                     // black blob with invisible words in it. Caught in the
                     // 390 screenshot, which is the only place it shows.
                     background: 'var(--ink)', color: 'var(--terracotta)',
-                    borderRadius: 100, padding: '3px 9px',
+                    borderRadius: 'var(--radius-pill)', padding: '3px 9px',
                   }}>
                     First
                   </span>
@@ -137,7 +137,7 @@ export default function WorryPicker({
               <span aria-hidden style={{
                 position: 'absolute', top: 9, right: 9,
                 width: 24, height: 24, borderRadius: '50%',
-                background: 'var(--terracotta)', border: '2px solid var(--ink)',
+                background: 'var(--terracotta)', border: 'var(--edge)',
                 boxSizing: 'border-box',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
@@ -193,8 +193,8 @@ export default function WorryPicker({
             style={{
               flex: '1 1 190px', minWidth: 0, boxSizing: 'border-box',
               padding: '13px 15px',
-              background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
-              boxShadow: '0 4px 0 var(--ink)',
+              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+              boxShadow: 'var(--lift)',
               fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
             }}
           />
@@ -207,8 +207,8 @@ export default function WorryPicker({
               padding: '13px 20px',
               background: dirty && draft.trim() ? 'var(--terracotta)' : 'var(--border)',
               color: 'var(--ink)',
-              border: '2px solid var(--ink)', borderRadius: 14,
-              boxShadow: dirty && draft.trim() ? '0 4px 0 var(--ink)' : 'none',
+              border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+              boxShadow: dirty && draft.trim() ? 'var(--lift)' : 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               cursor: dirty && draft.trim() ? 'pointer' : 'default',
               opacity: dirty && draft.trim() ? 1 : 0.55,
@@ -235,12 +235,12 @@ export default function WorryPicker({
         {savedOther && !dirty && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8, marginTop: 10,
-            background: 'var(--tint-sage)', border: '2px solid var(--ink)',
-            borderRadius: 14, padding: '10px 13px',
+            background: 'var(--tint-sage)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', padding: '10px 13px',
           }}>
             <span aria-hidden style={{
               flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
-              background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box',
+              background: 'var(--terracotta)', border: 'var(--edge)', boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">

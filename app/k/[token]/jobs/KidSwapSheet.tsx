@@ -83,7 +83,7 @@ export default function KidSwapSheet({ token, quest, onClose, onSent }: {
                 onClick={() => { setPicked(i); setCustom('') }}
                 aria-pressed={on}
                 style={{
-                  padding: '10px 14px', borderRadius: 100, cursor: 'pointer',
+                  padding: '10px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                   border: on ? '2px solid var(--terracotta-dark)' : '1.5px solid var(--border)',
                   background: on ? 'var(--terracotta-lt)' : '#fff',
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
@@ -104,7 +104,7 @@ export default function KidSwapSheet({ token, quest, onClose, onSent }: {
           onKeyDown={e => { if (e.key === 'Enter') send() }}
           maxLength={60}
           placeholder="Or write your own idea…"
-          style={{ width: '100%', padding: '13px 15px', borderRadius: 14, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', marginBottom: 14 }}
+          style={{ width: '100%', padding: '13px 15px', borderRadius: 'var(--radius-tile)', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', marginBottom: 14 }}
         />
 
         <button
@@ -114,7 +114,7 @@ export default function KidSwapSheet({ token, quest, onClose, onSent }: {
             width: '100%', padding: '15px', cursor: choice ? 'pointer' : 'default',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             color: 'var(--ink)', background: 'var(--terracotta)',
-            border: 'none', borderRadius: 16,
+            border: 'none', borderRadius: 'var(--radius-btn)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
             opacity: choice && !sending ? 1 : 0.55,
           }}

@@ -142,12 +142,12 @@ out why it did not.
 
 ## Order of work
 
-1. The ten silent replies. Reproduce, root cause, fix, guard.
-2. The model ladder, one line, plus a grep for forced tool choice.
-3. Effort on the chat path, and fast mode behind a config flag.
-4. The 1.3 seconds of pre work.
-5. The five row audit above.
-6. Record `cache_read_input_tokens` so this is measurable next time.
+1. The ten silent replies. Reproduce, root cause, fix, guard. **Done, PR 1055.**
+2. The model ladder, one line, plus a grep for forced tool choice. **Done, Sunday PR.** No forced tool choice existed; the guard now forbids it.
+3. Effort on the chat path, and fast mode behind a config flag. **Done, Sunday PR.** Chat on Opus 5 at medium; fast mode behind DIGI_FAST_MODE.
+4. The 1.3 seconds of pre work. **Partly done.** The lane call and round two now overlap. The keyword list still misses 15 in 35; it learns from misses by design, so leave it a fortnight and re read.
+5. The five row audit above. **Read, not run.** Line references on the Sunday PR; the live test needs a family with a month of use and an API key, neither in the container.
+6. Record `cache_read_input_tokens` so this is measurable next time. **Done, migration 295.**
 
 The gates are unchanged: `npx tsc --noEmit`, `npx next build`, `npm run wiring`
 at zero new, the dash grep, and the DiGi evals in `lib/digi/evals.ts` before and

@@ -85,7 +85,7 @@ export default async function ContractPage() {
 
         return (
           <div key={child.id} className="contract-sheet" style={{
-            background: '#fff', border: '3px solid var(--ink)', borderRadius: '20px',
+            background: '#fff', border: '3px solid var(--ink)', borderRadius: 'var(--radius-card)',
             padding: '26px 28px', marginBottom: '24px',
           }}>
             <PrintBrandHeader />
@@ -101,7 +101,7 @@ export default async function ContractPage() {
 
             {/* The deal */}
             <div style={{
-              border: '2px solid var(--ink)', borderRadius: '14px', padding: '13px 16px',
+              border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '13px 16px',
               marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px',
               background: 'var(--terracotta-lt)',
             }}>
@@ -113,13 +113,13 @@ export default async function ContractPage() {
 
             {/* Before screens clause */}
             {first.length > 0 && (
-              <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: '14px', padding: '13px 16px', marginBottom: '16px' }}>
+              <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: 'var(--radius-tile)', padding: '13px 16px', marginBottom: '16px' }}>
                 <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
                   📵 These come first, before any screens
                 </div>
                 {first.map(q => (
                   <div key={q.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-                    <span style={{ width: 18, height: 18, border: '2px solid var(--ink)', borderRadius: '5px', flexShrink: 0 }} />
+                    <span style={{ width: 18, height: 18, border: 'var(--edge)', borderRadius: '5px', flexShrink: 0 }} />
                     <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)' }}>{q.emoji} {q.title}</span>
                   </div>
                 ))}
@@ -134,7 +134,7 @@ export default async function ContractPage() {
               <thead>
                 <tr>
                   {['Quest', 'When', 'Stars', 'Worth'].map(h => (
-                    <th key={h} style={{ ...mono, textAlign: h === 'Quest' ? 'left' : 'center', padding: '7px 6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)' }}>
+                    <th key={h} style={{ ...mono, textAlign: h === 'Quest' ? 'left' : 'center', padding: '7px 6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', borderBottom: 'var(--edge)' }}>
                       {h}
                     </th>
                   ))}
@@ -167,7 +167,7 @@ export default async function ContractPage() {
                 { n: String(weekStars), label: 'earned this week', sub: 'approved quests' },
                 { n: String(weekMinutes), label: 'minutes used', sub: 'this week' },
               ].map(stat => (
-                <div key={stat.label} style={{ border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+                <div key={stat.label} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 8px', textAlign: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1 }}>{stat.n}</div>
                   <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '5px' }}>{stat.label}</div>
                   <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '1px' }}>{stat.sub}</div>
@@ -179,10 +179,10 @@ export default async function ContractPage() {
             </p>
 
             {/* Signatures */}
-            <div style={{ display: 'flex', gap: '20px', paddingTop: '14px', borderTop: '2px solid var(--ink)', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '20px', paddingTop: '14px', borderTop: 'var(--edge)', flexWrap: 'wrap' }}>
               {['Parent', child.name].map(name => (
                 <div key={name} style={{ flex: 1, minWidth: '160px' }}>
-                  <div style={{ borderBottom: '2px solid var(--ink)', minHeight: '34px' }} />
+                  <div style={{ borderBottom: 'var(--edge)', minHeight: '34px' }} />
                   <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '5px' }}>
                     Signed, {name}
                   </div>

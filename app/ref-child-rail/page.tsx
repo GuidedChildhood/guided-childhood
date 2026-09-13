@@ -31,7 +31,7 @@ export default async function RefChildRail({
         <ChildRail kids={KIDS.slice(0, count).map(k => ({ ...k, done: ticked.has(k.id) }))} forceShow />
       </Suspense>
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 20px 40px' }}>
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '20px' }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px' }}>
           <p className="eyebrow" style={{ marginBottom: 6 }}>The page below the rail</p>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', letterSpacing: '-.03em', lineHeight: 1.1, margin: '0 0 8px' }}>
             Whose day is this

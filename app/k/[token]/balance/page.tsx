@@ -96,7 +96,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
   const pct = guide > 0 ? Math.min(100, Math.round((usedToday / guide) * 100)) : 0
 
   const CARD: React.CSSProperties = {
-    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 22,
+    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 'var(--radius-card)',
     padding: '16px 18px', marginBottom: 14, boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
   }
 
@@ -153,8 +153,8 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
             )}
           </div>
           {guide > 0 && (
-            <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', overflow: 'hidden' }}>
-              <div style={{ width: `${pct}%`, height: '100%', borderRadius: 100, background: 'var(--terracotta)' }} />
+            <div style={{ height: 10, borderRadius: 'var(--radius-pill)', background: 'var(--cream)', overflow: 'hidden' }}>
+              <div style={{ width: `${pct}%`, height: '100%', borderRadius: 'var(--radius-pill)', background: 'var(--terracotta)' }} />
             </div>
           )}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '9px 0 0' }}>
@@ -202,7 +202,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
           </section>
         )}
 
-        <Link href={`/k/${token}`} className="btn" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 'var(--text-md)', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, boxShadow: '0 5px 0 var(--terracotta-dark)', marginTop: 4 }}>
+        <Link href={`/k/${token}`} className="btn" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 'var(--text-md)', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)', fontFamily: 'var(--font-display)', fontWeight: 800, boxShadow: '0 5px 0 var(--terracotta-dark)', marginTop: 4 }}>
           Back to today
         </Link>
       </div>

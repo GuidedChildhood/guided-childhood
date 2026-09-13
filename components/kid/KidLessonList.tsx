@@ -48,7 +48,7 @@ export default function KidLessonList({
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em',
               textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)',
-              borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+              borderRadius: 'var(--radius-pill)', padding: '5px 12px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
             }}>
               {doneCount} of {items.length} passed
             </span>
@@ -71,13 +71,13 @@ export default function KidLessonList({
         </p>
 
         {items.length === 0 ? (
-          <div style={{ background: t.panel, border: `1.5px solid ${t.panelBorder}`, borderRadius: '20px', padding: '26px 20px', textAlign: 'center', color: t.inkSoft, fontSize: 'var(--text-md)', lineHeight: 1.6 }}>
+          <div style={{ background: t.panel, border: `1.5px solid ${t.panelBorder}`, borderRadius: 'var(--radius-card)', padding: '26px 20px', textAlign: 'center', color: t.inkSoft, fontSize: 'var(--text-md)', lineHeight: 1.6 }}>
             No lessons for your stage just yet. New ones land all the time, so check back soon.
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {planetLine && (
-          <Link href={planetLine.href} data-planet-line style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#FFF6DD', border: '2px solid var(--ink)', borderRadius: 16, boxShadow: '0 4px 0 var(--ink)', padding: '12px 14px', marginBottom: 14, textDecoration: 'none', color: 'var(--ink)' }}>
+          <Link href={planetLine.href} data-planet-line style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#FFF6DD', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)', padding: '12px 14px', marginBottom: 14, textDecoration: 'none', color: 'var(--ink)' }}>
             <span style={{ fontSize: '1.8rem', lineHeight: 1 }} aria-hidden>🚀</span>
             <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3 }}>{planetLine.text}</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', whiteSpace: 'nowrap' }}>Fly there →</span>
@@ -92,7 +92,7 @@ export default function KidLessonList({
                 <>
                   <span style={{ position: 'relative', flexShrink: 0 }}>
                     <span style={{
-                      width: '52px', height: '52px', borderRadius: '16px', flexShrink: 0,
+                      width: '52px', height: '52px', borderRadius: 'var(--radius-btn)', flexShrink: 0,
                       background: item.done ? 'var(--terracotta-lt)' : 'var(--stage-2)',
                       border: item.done ? '2px solid var(--terracotta)' : '1.5px solid var(--border)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)',
@@ -121,7 +121,7 @@ export default function KidLessonList({
                       <span style={{
                         display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)',
-                        background: 'var(--terracotta)', borderRadius: '100px', padding: '3px 9px', marginBottom: '5px',
+                        background: 'var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '3px 9px', marginBottom: '5px',
                       }}>
                         ⭐ Do this one next
                       </span>
@@ -138,7 +138,7 @@ export default function KidLessonList({
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
                         textTransform: 'uppercase', color: 'var(--terracotta-dark)',
                         background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                        borderRadius: '100px', padding: '4px 10px',
+                        borderRadius: 'var(--radius-pill)', padding: '4px 10px',
                       }}>
                         ✓ Passed{item.score != null ? ` · ${item.score}` : ''}
                       </span>
@@ -148,7 +148,7 @@ export default function KidLessonList({
                         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                         color: 'var(--ink)', background: isNext ? 'var(--terracotta)' : '#fff',
                         border: isNext ? 'none' : '1.5px solid var(--border)',
-                        borderRadius: '12px', padding: '9px 15px',
+                        borderRadius: 'var(--radius-tile)', padding: '9px 15px',
                         boxShadow: isNext ? '0 4px 0 var(--terracotta-dark)' : 'none',
                       }}>
                         Go ▶
@@ -159,7 +159,7 @@ export default function KidLessonList({
               )
               const shell: React.CSSProperties = {
                 display: 'flex', gap: '13px', alignItems: 'flex-start', textDecoration: 'none',
-                background: 'var(--cream)', borderRadius: '20px', padding: '15px 16px',
+                background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '15px 16px',
                 boxShadow: isNext ? '0 5px 0 var(--terracotta-dark), 0 0 0 3px var(--terracotta)' : '0 5px 0 rgba(0,0,0,0.22)',
                 opacity: item.locked ? 0.75 : 1,
               }
@@ -205,7 +205,7 @@ export default function KidLessonList({
                 <span style={{
                   flexShrink: 0, alignSelf: 'center', fontFamily: 'var(--font-display)', fontWeight: 800,
                   fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--butter)',
-                  borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 rgba(0,0,0,0.22)',
+                  borderRadius: 'var(--radius-tile)', padding: '9px 15px', boxShadow: '0 4px 0 rgba(0,0,0,0.22)',
                 }}>
                   Go ▶
                 </span>
@@ -214,7 +214,7 @@ export default function KidLessonList({
           )
           const shell: React.CSSProperties = {
             display: 'flex', gap: '13px', alignItems: 'flex-start', textDecoration: 'none',
-            background: checkPassed ? 'var(--sage)' : 'var(--cream)', borderRadius: '20px',
+            background: checkPassed ? 'var(--sage)' : 'var(--cream)', borderRadius: 'var(--radius-card)',
             padding: '15px 16px', marginTop: '12px',
             boxShadow: ready && !checkPassed
               ? '0 5px 0 rgba(0,0,0,0.22), 0 0 0 3px var(--butter)'

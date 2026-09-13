@@ -159,7 +159,7 @@ export default function KidSchoolAddSheet({
           maxLength={140}
           placeholder="PE kit, spelling test, football"
           style={{
-            width: '100%', boxSizing: 'border-box', padding: '13px 14px', borderRadius: 13,
+            width: '100%', boxSizing: 'border-box', padding: '13px 14px', borderRadius: 'var(--radius-tile)',
             border: '1.5px solid var(--border)', fontSize: 'var(--text-md)',
             fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--ink)',
             background: 'var(--cream)', marginBottom: 10,
@@ -173,7 +173,7 @@ export default function KidSchoolAddSheet({
               onClick={() => { setTitle(q.label); setKind(q.kind) }}
               style={{
                 background: title === q.label ? 'var(--terracotta)' : '#fff',
-                border: '1.5px solid var(--border)', borderRadius: 999,
+                border: '1.5px solid var(--border)', borderRadius: 'var(--radius-pill)',
                 padding: '7px 12px', cursor: 'pointer',
                 fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)',
                 color: 'var(--ink)',
@@ -199,7 +199,7 @@ export default function KidSchoolAddSheet({
                 color: 'var(--ink)',
                 background: kind === k.kind ? 'var(--terracotta-lt)' : '#fff',
                 border: `2px solid ${kind === k.kind ? 'var(--terracotta)' : 'var(--border)'}`,
-                borderRadius: 100, padding: '9px 14px',
+                borderRadius: 'var(--radius-pill)', padding: '9px 14px',
               }}
             >
               <span aria-hidden>{k.emoji}</span> {k.label}
@@ -222,7 +222,7 @@ export default function KidSchoolAddSheet({
                 flex: 1, textAlign: 'left', cursor: 'pointer',
                 background: repeats === o.on ? 'var(--tint-butter, #FFF6DE)' : '#fff',
                 border: `2px solid ${repeats === o.on ? 'var(--terracotta)' : 'var(--border)'}`,
-                borderRadius: 14, padding: '11px 12px',
+                borderRadius: 'var(--radius-tile)', padding: '11px 12px',
               }}
             >
               <span style={{
@@ -257,7 +257,7 @@ export default function KidSchoolAddSheet({
                     flex: 1, textAlign: 'left', cursor: 'pointer',
                     background: inHolidays === o.on ? 'var(--tint-butter, #FFF6DE)' : '#fff',
                     border: `2px solid ${inHolidays === o.on ? 'var(--terracotta)' : 'var(--border)'}`,
-                    borderRadius: 14, padding: '11px 12px',
+                    borderRadius: 'var(--radius-tile)', padding: '11px 12px',
                   }}
                 >
                   <span style={{
@@ -283,7 +283,7 @@ export default function KidSchoolAddSheet({
             value={time}
             onChange={e => setTime(e.target.value)}
             style={{
-              padding: '11px 12px', borderRadius: 13, border: '1.5px solid var(--border)',
+              padding: '11px 12px', borderRadius: 'var(--radius-tile)', border: '1.5px solid var(--border)',
               fontSize: 'var(--text-md)', fontFamily: 'var(--font-body)', fontWeight: 600,
               color: 'var(--ink)', background: 'var(--cream)',
             }}
@@ -305,7 +305,7 @@ export default function KidSchoolAddSheet({
         <p style={{
           display: 'flex', alignItems: 'center', gap: 9,
           background: 'var(--tint-sage, #EAF3EE)', border: '1.5px solid var(--border)',
-          borderRadius: 14, padding: '11px 13px', margin: '0 0 16px',
+          borderRadius: 'var(--radius-tile)', padding: '11px 13px', margin: '0 0 16px',
           fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4,
         }}>
           <span aria-hidden style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>📲</span>

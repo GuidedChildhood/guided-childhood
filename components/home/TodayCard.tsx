@@ -218,8 +218,8 @@ export default function TodayCard({
 
   return (
     <div style={{
-      background: 'var(--cream)', border: '2px solid var(--ink)',
-      borderRadius: 20, padding: 16, marginBottom: 20, boxShadow: '0 4px 0 var(--ink)',
+      background: 'var(--cream)', border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)', padding: 16, marginBottom: 20, boxShadow: 'var(--lift)',
     }}>
       <h3 style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -246,10 +246,10 @@ export default function TodayCard({
                   quiet chevron there instead. */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 12,
-                background: '#fff', border: '2px solid var(--ink)', borderRadius: 14,
+                background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
                 padding: '12px 13px', marginBottom: 8,
               }}>
-                <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 11, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: 11, background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <HappyIcon name={row.icon} size={26} />
                 </span>
                 <button

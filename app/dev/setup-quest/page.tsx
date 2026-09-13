@@ -38,7 +38,7 @@ export default function SetupQuestDevPage() {
             key={s.label}
             onClick={() => setI(n)}
             style={{
-              border: '1.5px solid var(--border)', borderRadius: 12, padding: '8px 14px', cursor: 'pointer',
+              border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '8px 14px', cursor: 'pointer',
               background: i === n ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
             }}

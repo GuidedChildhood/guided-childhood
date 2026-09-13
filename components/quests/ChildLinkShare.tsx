@@ -68,27 +68,27 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
 
   const btn: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff',
-    border: '2px solid var(--ink)', borderRadius: '12px', padding: '10px 14px',
+    border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 14px',
     cursor: 'pointer', textDecoration: 'none', fontFamily: 'var(--font-display)',
     fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
   }
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '18px 20px', marginBottom: '22px' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '22px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         Share to {childName}
       </div>
 
       {/* The QR is the hero: the fastest hand over there is. */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', background: 'var(--cream)', borderRadius: '16px', padding: '18px 16px 16px', marginBottom: '14px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', background: 'var(--cream)', borderRadius: 'var(--radius-btn)', padding: '18px 16px 16px', marginBottom: '14px' }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', textAlign: 'center', lineHeight: 1.3, margin: 0 }}>
           Scan with {childName}&apos;s device
         </p>
         {qr ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={qr} alt={`QR code to open ${childName}'s app`} style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: '16px', border: '2px solid var(--ink)', background: '#fff' }} />
+          <img src={qr} alt={`QR code to open ${childName}'s app`} style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: 'var(--radius-btn)', border: 'var(--edge)', background: '#fff' }} />
         ) : (
-          <div style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: '16px', background: '#fff', border: '2px solid var(--ink)' }} />
+          <div style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: 'var(--radius-btn)', background: '#fff', border: 'var(--edge)' }} />
         )}
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 280 }}>
           Point {childName}&apos;s camera at this and their app opens. No typing, nothing to install.
@@ -103,7 +103,7 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
               flex: 1, padding: '9px', borderRadius: '11px', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
               background: (youngest === (m === 'coview')) ? 'var(--terracotta-lt)' : '#fff',
-              border: (youngest === (m === 'coview')) ? '1.5px solid var(--terracotta)' : '2px solid var(--ink)',
+              border: (youngest === (m === 'coview')) ? '1.5px solid var(--terracotta)' : 'var(--edge)',
             }}>{label}</button>
           ))}
         </div>

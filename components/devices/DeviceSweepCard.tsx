@@ -100,9 +100,9 @@ export default function DeviceSweepCard() {
   }
 
   return (
-    <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '20px', boxShadow: 'var(--lift)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: done ? 0 : '12px' }}>
-        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood={done ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -128,13 +128,13 @@ export default function DeviceSweepCard() {
               closes the card for a fortnight. */}
           <button
             onClick={goAdd}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: '2px solid var(--ink)', cursor: 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--ink)' }}
+            style={{ padding: '11px 17px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', cursor: 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: 'var(--lift)' }}
           >
             Yes, add it
           </button>
           <button
             onClick={confirm}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: '2px solid var(--ink)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--ink)' }}
+            style={{ padding: '11px 17px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: 'var(--lift)' }}
           >
             Nothing new
           </button>

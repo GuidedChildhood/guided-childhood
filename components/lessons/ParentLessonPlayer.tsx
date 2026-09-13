@@ -45,7 +45,7 @@ type CompleteResult = {
 function AskCard({ card }: { card: ParentLessonCard }) {
   const [showOlder, setShowOlder] = useState(false)
   return (
-    <div style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: 'var(--stage-1)', borderRadius: 'var(--radius-card)', padding: 'clamp(22px, 4vw, 30px)', border: 'var(--edge)', boxShadow: 'var(--lift)' }}>
       <div style={{ ...eyebrowStyle, color: 'var(--stage-1-text)', marginBottom: '12px' }}>
         Pause and ask · Grown up, this one is yours
       </div>
@@ -82,7 +82,7 @@ function AskCard({ card }: { card: ParentLessonCard }) {
 function SayCard({ card }: { card: ParentLessonCard }) {
   const [showOlder, setShowOlder] = useState(false)
   return (
-    <div style={{ background: 'var(--stage-2)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '2px solid var(--ink)', borderLeft: '4px solid var(--terracotta)', boxShadow: '0 4px 0 var(--ink)' }}>
+    <div style={{ background: 'var(--stage-2)', borderRadius: 'var(--radius-card)', padding: 'clamp(22px, 4vw, 30px)', border: 'var(--edge)', borderLeft: '4px solid var(--terracotta)', boxShadow: 'var(--lift)' }}>
       <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
         Pause and say · Say it like you mean it
       </div>
@@ -137,7 +137,7 @@ function QuizCard({ card, onAnswered }: { card: ParentLessonCard; onAnswered: (c
           const revealed = picked !== null
           const border = isPicked
             ? opt.correct ? '2px solid var(--terracotta)' : '2px solid var(--stage-3-bold)'
-            : revealed && opt.correct ? '2px solid var(--terracotta)' : '2px solid var(--ink)'
+            : revealed && opt.correct ? '2px solid var(--terracotta)' : 'var(--edge)'
           const bg = isPicked
             ? opt.correct ? 'var(--terracotta-lt)' : 'var(--stage-3)'
             : '#fff'
@@ -147,7 +147,7 @@ function QuizCard({ card, onAnswered }: { card: ParentLessonCard; onAnswered: (c
               onClick={() => pick(i)}
               disabled={revealed}
               style={{
-                textAlign: 'left', background: bg, border, borderRadius: '16px',
+                textAlign: 'left', background: bg, border, borderRadius: 'var(--radius-btn)',
                 padding: '14px 16px', cursor: revealed ? 'default' : 'pointer',
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600,
                 color: 'var(--ink)', lineHeight: 1.5, transition: 'border-color 0.15s, background 0.15s',
@@ -199,7 +199,7 @@ function PassportCelebration({
       </div>
       <div ref={badgeRef} style={{
         display: 'inline-block', background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
-        borderRadius: '100px', padding: '10px 24px', marginBottom: '14px',
+        borderRadius: 'var(--radius-pill)', padding: '10px 24px', marginBottom: '14px',
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
       }}>
@@ -366,7 +366,7 @@ export default function ParentLessonPlayer({
         </p>
         <div style={{
           display: 'inline-block', background: 'var(--terracotta-lt)',
-          border: '2px solid var(--terracotta)', borderRadius: '100px',
+          border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-pill)',
           padding: '10px 22px', margin: '4px 0 12px',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)',
         }}>
@@ -391,7 +391,7 @@ export default function ParentLessonPlayer({
 
   if (steps.length === 0) {
     return (
-      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
+      <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-tile)', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
         This lesson&rsquo;s video is still on its way. Check back soon.
       </div>
     )
@@ -403,7 +403,7 @@ export default function ParentLessonPlayer({
       <div style={{ display: 'flex', gap: '5px', marginBottom: '20px' }}>
         {steps.map((_, i) => (
           <div key={i} style={{
-            flex: 1, height: '7px', borderRadius: '100px',
+            flex: 1, height: '7px', borderRadius: 'var(--radius-pill)',
             background: i <= index ? 'var(--terracotta)' : 'var(--border)',
             transition: 'background 0.3s ease',
           }} />
@@ -428,7 +428,7 @@ export default function ParentLessonPlayer({
               controls
               playsInline
               onEnded={() => setVideoEnded(true)}
-              style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
+              style={{ width: '100%', borderRadius: 'var(--radius-card)', background: 'var(--ink)', display: 'block' }}
             />
             {!videoEnded && !isRedo && (
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>

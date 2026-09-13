@@ -180,7 +180,7 @@ export default function KidWinPop({ token, wins, onDone, onOpenBook }: {
         <button
           onClick={next}
           style={{
-            width: '100%', background: colour, color: '#fff', border: 'none', borderRadius: 16,
+            width: '100%', background: colour, color: '#fff', border: 'none', borderRadius: 'var(--radius-btn)',
             padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)',
             fontWeight: 900, fontSize: 'var(--text-lg)', boxShadow: '0 5px 0 rgba(26,26,46,0.22)',
           }}

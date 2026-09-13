@@ -41,12 +41,12 @@ export default async function TonightPage({ searchParams }: { searchParams: Prom
             {plan.label}
           </h1>
           <div style={{
-            background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 4px 0 var(--ink)',
+            background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
             padding: '20px 18px 18px', marginBottom: 16,
           }}>
             <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <span aria-hidden style={{
-                width: 56, height: 56, borderRadius: 16, background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+                width: 56, height: 56, borderRadius: 'var(--radius-btn)', background: 'var(--terracotta-lt)', border: 'var(--edge)',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box',
               }}>
                 <HappyIcon name={ICON[plan.key]} size={38} />
@@ -62,7 +62,7 @@ export default async function TonightPage({ searchParams }: { searchParams: Prom
           </p>
         </>
       ) : (
-        <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 4px 0 var(--ink)', padding: '22px 18px' }}>
+        <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '22px 18px' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px' }}>
             Nothing on tonight yet
           </p>

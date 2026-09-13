@@ -42,7 +42,7 @@ export default function TimeEarnedPrompt({
       style={{
         display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
         background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green, #2F8F6B)',
-        borderRadius: 16, padding: '13px 15px', marginBottom: 14,
+        borderRadius: 'var(--radius-btn)', padding: '13px 15px', marginBottom: 14,
         animation: 'gcEarnedIn 0.3s ease both',
       }}
     >
@@ -53,7 +53,7 @@ export default function TimeEarnedPrompt({
       <Link
         href="/dashboard/quests/timer"
         style={{
-          flexShrink: 0, textDecoration: 'none', borderRadius: 12,
+          flexShrink: 0, textDecoration: 'none', borderRadius: 'var(--radius-tile)',
           padding: '10px 15px', background: 'var(--terracotta)', color: 'var(--ink)',
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           boxShadow: '0 3px 0 var(--terracotta-dark)',

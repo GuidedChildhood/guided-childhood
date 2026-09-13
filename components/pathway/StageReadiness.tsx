@@ -42,11 +42,11 @@ export default function StageReadiness({
   const allGreen = ambers.length === 0 && lessonsLeft === 0
 
   const card: React.CSSProperties = {
-    background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-    padding: '20px 20px 22px', boxShadow: '0 4px 0 var(--ink)',
+    background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+    padding: '20px 20px 22px', boxShadow: 'var(--lift)',
   }
   const digiHead = (mood: 'wave' | 'happy' | 'speak' | 'thinking') => (
-    <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: 'var(--terracotta-lt)', border: 'var(--edge)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <DigiCharacter size={30} mood={mood} />
     </span>
   )
@@ -101,7 +101,7 @@ export default function StageReadiness({
             {ambers.map(a => (
               <Link key={a.name} href={a.href} style={{
                 display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-                background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 14px',
+                background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px',
               }}>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
@@ -113,7 +113,7 @@ export default function StageReadiness({
             {lessonsLeft > 0 && (
               <Link href="/dashboard/lessons" style={{
                 display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-                background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', borderRadius: 12, padding: '12px 14px',
+                background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 14px',
               }}>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
@@ -135,9 +135,9 @@ export default function StageReadiness({
                 style={{
                   display: 'block', textAlign: 'center', textDecoration: 'none',
                   marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                  border: '2px solid var(--ink)', borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                  border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', boxSizing: 'border-box',
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-                  boxShadow: '0 4px 0 var(--ink)',
+                  boxShadow: 'var(--lift)',
                 }}
               >
                 Open the check on {kid}&rsquo;s link
@@ -172,9 +172,9 @@ export default function StageReadiness({
                 style={{
                   display: 'block', textAlign: 'center', textDecoration: 'none',
                   marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                  border: '2px solid var(--ink)', borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                  border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', boxSizing: 'border-box',
                   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-                  boxShadow: '0 4px 0 var(--ink)',
+                  boxShadow: 'var(--lift)',
                 }}
               >
                 Sit the check together

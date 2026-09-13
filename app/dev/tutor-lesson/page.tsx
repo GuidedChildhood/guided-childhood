@@ -100,7 +100,7 @@ export default function TutorLessonFixturePage() {
             📘 Fractions that look different but are twins
           </h1>
         </div>
-        <div style={{ background: 'var(--cream)', borderRadius: 24, padding: 'clamp(18px, 4vw, 28px)', boxShadow: '0 6px 0 rgba(0,0,0,0.22)' }}>
+        <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 4vw, 28px)', boxShadow: '0 6px 0 rgba(0,0,0,0.22)' }}>
           <LessonPlayer
             lessonId="fixture"
             lessonSource="lesson"

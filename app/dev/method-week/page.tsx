@@ -43,7 +43,7 @@ export default function MethodWeekFixture() {
               title={b.content.subject}
               data-body
               srcDoc={b.content.html}
-              style={{ width: '100%', height: 900, border: '1.5px solid var(--border)', borderRadius: 16, background: '#fff' }}
+              style={{ width: '100%', height: 900, border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', background: '#fff' }}
             />
           </section>
         ))}

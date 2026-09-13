@@ -104,7 +104,7 @@ export default function KidStageQuiz({
   }
   const card: React.CSSProperties = {
     background: t.panel, border: `1.5px solid ${t.panelBorder}`,
-    borderRadius: 20, padding: '20px 18px 22px',
+    borderRadius: 'var(--radius-card)', padding: '20px 18px 22px',
   }
   const display: React.CSSProperties = {
     fontFamily: 'var(--font-display)', fontWeight: 800, color: t.ink,
@@ -116,7 +116,7 @@ export default function KidStageQuiz({
   const dimRest   = t.dark ? 'rgba(255,255,255,0.14)' : 'rgba(26,26,46,0.07)'
   const button = (bg: string): React.CSSProperties => ({
     display: 'block', width: '100%', textAlign: 'left', cursor: 'pointer',
-    background: bg, color: 'var(--ink)', border: 'none', borderRadius: 16,
+    background: bg, color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-btn)',
     padding: '14px 16px', marginBottom: 10, fontSize: 'var(--text-base)',
     fontFamily: 'var(--font-body)', fontWeight: 600, boxShadow: `0 5px 0 ${t.shadow}`,
   })
@@ -247,7 +247,7 @@ export default function KidStageQuiz({
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)',
-            background: 'var(--terracotta)', borderRadius: 100, padding: '5px 12px',
+            background: 'var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '5px 12px',
           }}>
             {step + 1} of {questions.length}
           </span>

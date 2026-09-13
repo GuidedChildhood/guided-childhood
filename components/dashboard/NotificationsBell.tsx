@@ -48,7 +48,7 @@ export default function NotificationsBell() {
       {count > 0 && (
         <span style={{
           position: 'absolute', top: 2, right: 0, minWidth: 17, height: 17, padding: '0 4px',
-          borderRadius: '100px', background: urgent > 0 ? '#E5484D' : 'var(--ink-muted)', color: '#fff',
+          borderRadius: 'var(--radius-pill)', background: urgent > 0 ? '#E5484D' : 'var(--ink-muted)', color: '#fff',
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '17px',
           textAlign: 'center', boxShadow: '0 0 0 2px rgba(255,255,255,0.96)',
         }}>

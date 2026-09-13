@@ -229,7 +229,7 @@ export default function StarMap({ home, friends, tier, childAge, wearing, accent
       ref={el => { svgRef.current = el; onSvg?.(el) }}
       viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}
       width="100%"
-      style={{ display: 'block', touchAction: 'none', userSelect: 'none', borderRadius: 24 }}
+      style={{ display: 'block', touchAction: 'none', userSelect: 'none', borderRadius: 'var(--radius-card)' }}
       onPointerDown={e => begin(e, 'pan', 'sky')}
       onPointerMove={move}
       onPointerUp={end}

@@ -10,7 +10,7 @@ import HappyIcon from '@/components/kid/HappyIcon'
 // The ink edged plate at the lead of a row, the child app's tile shape.
 const PLATE: React.CSSProperties = {
   width: 36, height: 36, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
-  background: 'var(--terracotta-lt)', border: '2px solid var(--ink)',
+  background: 'var(--terracotta-lt)', border: 'var(--edge)',
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
 }
 
@@ -49,9 +49,9 @@ export default function ShareWithChildPanel({
   return (
 
           <div style={{
-            background: 'var(--white)', border: '2px solid var(--ink)',
-            borderRadius: '16px', padding: '16px', marginBottom: '2px',
-            boxShadow: '0 4px 0 var(--ink)',
+            background: 'var(--white)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-btn)', padding: '16px', marginBottom: '2px',
+            boxShadow: 'var(--lift)',
           }}>
             {sent ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -75,10 +75,10 @@ export default function ShareWithChildPanel({
                   type="button"
                   onClick={onCopy}
                   style={{
-                    width: '100%', background: 'var(--cream)', border: '2px solid var(--ink)',
+                    width: '100%', background: 'var(--cream)', border: 'var(--edge)',
                     color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                    fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px',
-                    cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
+                    fontSize: 'var(--text-base)', borderRadius: 'var(--radius-tile)', padding: '12px',
+                    cursor: 'pointer', boxShadow: 'var(--lift)',
                   }}
                 >
                   Copy the words
@@ -102,7 +102,7 @@ export default function ShareWithChildPanel({
                         onClick={() => onPick(k.id)}
                         style={{
                           background: k.id === kidId ? 'var(--terracotta)' : 'var(--white)',
-                          border: '2px solid var(--ink)', borderRadius: '999px',
+                          border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
                           padding: '7px 14px', cursor: 'pointer',
                           fontFamily: 'var(--font-display)', fontWeight: 700,
                           fontSize: 'var(--text-sm)', color: 'var(--ink)',
@@ -122,8 +122,8 @@ export default function ShareWithChildPanel({
                   aria-label="The note your child will read"
                   style={{
                     width: '100%', boxSizing: 'border-box', resize: 'vertical',
-                    background: 'var(--tint-sage)', border: '2px solid var(--ink)',
-                    borderRadius: '14px', padding: '13px 14px', marginBottom: '10px',
+                    background: 'var(--tint-sage)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '13px 14px', marginBottom: '10px',
                     fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)',
                     color: 'var(--ink)', lineHeight: 1.5,
                     animation: busy && !note ? 'rightnow-pulse 1.2s ease-in-out infinite' : undefined,
@@ -141,10 +141,10 @@ export default function ShareWithChildPanel({
                     type="button"
                     onClick={() => onCancel()}
                     style={{
-                      background: 'var(--white)', border: '2px solid var(--ink)',
+                      background: 'var(--white)', border: 'var(--edge)',
                       color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                      fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px 16px',
-                      cursor: 'pointer', boxShadow: '0 4px 0 var(--ink)',
+                      fontSize: 'var(--text-base)', borderRadius: 'var(--radius-tile)', padding: '12px 16px',
+                      cursor: 'pointer', boxShadow: 'var(--lift)',
                     }}
                   >
                     Not now
@@ -154,12 +154,12 @@ export default function ShareWithChildPanel({
                     onClick={onSend}
                     disabled={busy || !note.trim()}
                     style={{
-                      flex: 1, background: 'var(--terracotta)', border: '2px solid var(--ink)',
+                      flex: 1, background: 'var(--terracotta)', border: 'var(--edge)',
                       color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900,
-                      fontSize: 'var(--text-base)', borderRadius: '14px', padding: '12px 16px',
+                      fontSize: 'var(--text-base)', borderRadius: 'var(--radius-tile)', padding: '12px 16px',
                       cursor: busy || !note.trim() ? 'default' : 'pointer',
                       opacity: busy || !note.trim() ? 0.55 : 1,
-                      boxShadow: '0 4px 0 var(--ink)',
+                      boxShadow: 'var(--lift)',
                     }}
                   >
                     {busy && !note ? 'Writing' : busy ? 'Sending' : `Send to ${possessive()} screen`}

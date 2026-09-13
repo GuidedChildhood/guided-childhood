@@ -109,7 +109,7 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
 
           {solutions.length > 0 && (
             <div style={{
-              background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px',
+              background: 'rgba(255,255,255,0.65)', borderRadius: 'var(--radius-tile)', padding: '14px 16px',
               borderLeft: `3px solid ${look.band}`,
             }}>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
@@ -139,7 +139,7 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: '16px', padding: '14px 28px', textDecoration: 'none',
+            borderRadius: 'var(--radius-btn)', padding: '14px 28px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}

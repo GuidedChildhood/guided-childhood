@@ -31,11 +31,11 @@ export default function BackToToday() {
     <div style={{ padding: '16px 20px 0', maxWidth: 720, margin: '0 auto' }}>
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12,
-      background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: 16, padding: '11px 14px', margin: '0 0 16px',
+      background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-btn)', padding: '11px 14px', margin: '0 0 16px',
     }}>
       <span aria-hidden style={{
-        flexShrink: 0, width: 36, height: 36, borderRadius: 11, background: '#fff', border: '2px solid var(--ink)',
+        flexShrink: 0, width: 36, height: 36, borderRadius: 11, background: '#fff', border: 'var(--edge)',
         boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}><HappyIcon name="calendar" size={26} /></span>
       {/* Sentence and link share the flexible column so the words never get
@@ -48,7 +48,7 @@ export default function BackToToday() {
           href="/dashboard"
           style={{
             display: 'inline-block', marginTop: 8, textDecoration: 'none', padding: '8px 13px',
-            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 12,
+            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}

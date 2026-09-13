@@ -12,9 +12,9 @@ export default function MeetTheFriends({ childName }: { childName?: string | nul
   const name = childName && childName !== 'Your child' ? childName : 'Your child'
   return (
     <div style={{
-      background: 'var(--cream)', border: '2px solid var(--ink)',
-      boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '18px', padding: '18px 18px 16px', marginBottom: '22px',
+      background: 'var(--cream)', border: 'var(--edge)',
+      boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)', padding: '18px 18px 16px', marginBottom: '22px',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         Meet the family

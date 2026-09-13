@@ -72,8 +72,8 @@ export default function WeekPage() {
       {!loaded ? null : review ? (
         <WeeklyRoundup review={review} scoreMoves={scoreMoves} />
       ) : (
-        <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '24px', padding: '28px 24px', textAlign: 'center' }}>
-          <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: '18px', background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+        <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '28px 24px', textAlign: 'center' }}>
+          <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: 'var(--radius-card)', background: 'var(--terracotta-lt)', border: 'var(--edge)', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
             <DigiCharacter mood={busy ? 'thinking' : 'idle'} size={40} />
           </span>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', color: 'var(--ink)', letterSpacing: '-0.03em', margin: '0 0 8px' }}>
@@ -82,7 +82,7 @@ export default function WeekPage() {
           <p style={{ fontSize: 'var(--text-md)', color: busy ? 'var(--terracotta-dark)' : 'var(--ink-soft)', lineHeight: 1.55, fontWeight: busy ? 700 : 400, margin: '0 auto 20px', maxWidth: '380px', transition: 'color 0.3s' }}>
             {busy ? READING_STEPS[step] : 'A clear read of your family’s week, the balance, the wins, and one thing to try next. Nothing compared to anyone else, never a report card on your child.'}
           </p>
-          <button onClick={build} disabled={busy} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px', padding: '13px 24px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.85 : 1 }}>
+          <button onClick={build} disabled={busy} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)', padding: '13px 24px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.85 : 1 }}>
             {busy ? 'Reading your week…' : 'Read my week'}
           </button>
         </div>

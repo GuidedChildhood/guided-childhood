@@ -54,8 +54,8 @@ export default function BalanceDial({
 
   return (
     <div style={{
-      background: '#fff', borderRadius: '16px', padding: '12px 10px 12px',
-      marginBottom: '14px', border: '2px solid var(--ink)',
+      background: '#fff', borderRadius: 'var(--radius-btn)', padding: '12px 10px 12px',
+      marginBottom: '14px', border: 'var(--edge)',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>
@@ -85,7 +85,7 @@ export default function BalanceDial({
       </div>
       <span style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-        color: tone, background: inGreen ? '#E8F4EE' : '#FBEEDF', borderRadius: '100px', padding: '4px 11px', marginTop: '9px',
+        color: tone, background: inGreen ? '#E8F4EE' : '#FBEEDF', borderRadius: 'var(--radius-pill)', padding: '4px 11px', marginTop: '9px',
       }}>
         {inGreen ? 'In the green' : 'Tip it back'}
       </span>

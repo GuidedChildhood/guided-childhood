@@ -229,12 +229,12 @@ export default function InstallPrompt() {
     return (
       <div style={{
         position: 'fixed', left: '14px', right: '14px', bottom: '86px', zIndex: 80,
-        background: 'var(--deep-teal)', borderRadius: '18px', padding: '14px 16px',
+        background: 'var(--deep-teal)', borderRadius: 'var(--radius-card)', padding: '14px 16px',
         display: 'flex', alignItems: 'center', gap: '12px',
-        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+        border: 'var(--edge)', boxShadow: 'var(--lift)',
       }}>
         <span style={{
-          width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta)', flexShrink: 0,
+          width: 42, height: 42, borderRadius: 'var(--radius-tile)', background: 'var(--terracotta)', flexShrink: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 3px 0 var(--terracotta-dark)',
         }}>
@@ -256,7 +256,7 @@ export default function InstallPrompt() {
           <button
             onClick={() => platform === 'ios' ? setMode('ios-sheet') : androidInstall()}
             style={{
-              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
+              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 'var(--radius-tile)',
               padding: '9px 14px', cursor: 'pointer', display: 'inline-block', marginTop: '9px',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               boxShadow: '0 3px 0 var(--terracotta-dark)',
@@ -317,7 +317,7 @@ export default function InstallPrompt() {
         onClick={e => e.stopPropagation()}
         style={{
           width: 'min(100%, 480px)', background: '#fff',
-          border: '2px solid var(--ink)', borderBottom: 'none',
+          border: 'var(--edge)', borderBottom: 'none',
           borderRadius: '24px 24px 0 0', padding: '24px 22px calc(20px + env(safe-area-inset-bottom))',
         }}
       >
@@ -329,19 +329,19 @@ export default function InstallPrompt() {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px' }}>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px 16px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', flexShrink: 0 }}>1</span>
             <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>
               Tap the <strong>Share</strong> button <ShareGlyph /> in the bar at the bottom of Safari (the square with the arrow pointing up).
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px 16px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', flexShrink: 0 }}>2</span>
             <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>
               Scroll down the list and tap <strong>Add to Home Screen</strong> <span style={{ fontWeight: 700 }}>⊞</span>, then <strong>Add</strong>.
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--tint-sage)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '14px 16px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '14px 16px' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', flexShrink: 0 }}>✓</span>
             <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>
               Open it from your Home Screen and turn on check ins when it asks. That is the whole setup.
@@ -354,7 +354,7 @@ export default function InstallPrompt() {
             onClick={markDone}
             style={{
               flex: 1, padding: '14px', background: 'var(--terracotta)', color: 'var(--ink)',
-              border: 'none', borderRadius: '14px', cursor: 'pointer',
+              border: 'none', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
@@ -364,8 +364,8 @@ export default function InstallPrompt() {
           <button
             onClick={markDone}
             style={{
-              padding: '14px 16px', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-              borderRadius: '14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
+              padding: '14px 16px', background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+              borderRadius: 'var(--radius-tile)', cursor: 'pointer', fontFamily: 'var(--font-body)',
               fontSize: 'var(--text-base)', color: 'var(--ink-muted)',
             }}
           >

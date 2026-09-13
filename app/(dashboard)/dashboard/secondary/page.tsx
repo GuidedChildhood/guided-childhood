@@ -55,7 +55,7 @@ export default async function SecondaryPage() {
       {/* The one thing this page refuses to do, said out loud rather than
           implied, because a parent arriving here is often hoping we will make
           the decision and it is kinder to be straight about it. */}
-      <div style={{ background: 'var(--tint-sage)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 16, padding: '14px 16px', margin: '18px 0 24px' }}>
+      <div style={{ background: 'var(--tint-sage)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '14px 16px', margin: '18px 0 24px' }}>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
           We will not tell you whether to get {name} a phone. Nobody who has not met your child should. What we can give you is the order, and the order is the part you cannot go back and redo.
         </p>
@@ -63,7 +63,7 @@ export default async function SecondaryPage() {
 
       <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
         {TRANSITION_STEPS.map((step, i) => (
-          <li key={step.key} style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px' }}>
+          <li key={step.key} style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 8 }}>
               <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                 {i + 1}
@@ -85,7 +85,7 @@ export default async function SecondaryPage() {
                 href={step.href}
                 style={{
                   display: 'inline-flex', marginTop: 12, padding: '10px 16px', textDecoration: 'none',
-                  background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 13,
+                  background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                   boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}
@@ -97,7 +97,7 @@ export default async function SecondaryPage() {
         ))}
       </ol>
 
-      <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 20, padding: '18px 20px', marginTop: 20 }}>
+      <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginTop: 20 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
           Every family lands this differently
         </div>
@@ -108,7 +108,7 @@ export default async function SecondaryPage() {
           href={`/dashboard/digi?q=${encodeURIComponent(ask)}`}
           style={{
             display: 'inline-flex', padding: '13px 18px', textDecoration: 'none',
-            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
+            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}

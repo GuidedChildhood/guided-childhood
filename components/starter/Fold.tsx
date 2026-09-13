@@ -39,8 +39,8 @@ export default function Fold({
   const [open, setOpen] = useState(false)
   return (
     <div style={tone === 'card' ? {
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
-      boxShadow: open ? 'none' : '0 4px 0 var(--ink)', padding: '4px 14px 4px', marginTop: 12,
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+      boxShadow: open ? 'none' : 'var(--lift)', padding: '4px 14px 4px', marginTop: 12,
     } : { marginTop: 10 }}>
       <button
         type="button"

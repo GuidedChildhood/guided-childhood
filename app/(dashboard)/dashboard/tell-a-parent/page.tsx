@@ -65,7 +65,7 @@ function CardBody({ card, scripts }: { card: Card; scripts: ChildScript[] }) {
         {card.intro}
       </p>
 
-      <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '15px 16px', marginBottom: '16px' }}>
+      <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '15px 16px', marginBottom: '16px' }}>
         <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>The promise your child has read</div>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35, margin: 0 }}>
           {card.the_promise}
@@ -112,7 +112,7 @@ function CardBody({ card, scripts }: { card: Card; scripts: ChildScript[] }) {
         ))}
       </ol>
 
-      <div style={{ background: '#fff', border: '2px dashed var(--ink)', borderRadius: '14px', padding: '13px 15px', marginBottom: '20px' }}>
+      <div style={{ background: '#fff', border: '2px dashed var(--ink)', borderRadius: 'var(--radius-tile)', padding: '13px 15px', marginBottom: '20px' }}>
         <div style={{ ...label, color: 'var(--ink-muted)', marginBottom: '5px' }}>What you have promised will not happen</div>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
           {card.never}
@@ -127,9 +127,9 @@ function CardBody({ card, scripts }: { card: Card; scripts: ChildScript[] }) {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {scripts.map(s => (
-              <details key={s.id} style={{ background: '#fff', border: s.urgent ? '1.5px solid var(--terracotta)' : '2px solid var(--ink)', borderRadius: '14px', overflow: 'hidden' }}>
+              <details key={s.id} style={{ background: '#fff', border: s.urgent ? '1.5px solid var(--terracotta)' : 'var(--edge)', borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
                 <summary style={{ cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', gap: '11px', padding: '12px 14px' }}>
-                  <span aria-hidden style={{ width: 32, height: 32, borderRadius: 9, background: 'var(--cream)', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-base)', lineHeight: 1 }}>{s.emoji}</span>
+                  <span aria-hidden style={{ width: 32, height: 32, borderRadius: 9, background: 'var(--cream)', border: 'var(--edge)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxSizing: 'border-box', fontSize: 'var(--text-base)', lineHeight: 1 }}>{s.emoji}</span>
                   <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
                     {s.title}
                   </span>
@@ -186,7 +186,7 @@ export default async function TellAParentPage({ searchParams }: { searchParams: 
         </p>
       </div>
 
-      <div style={{ background: 'var(--stage-5)', borderRadius: '16px', padding: '16px 18px', marginBottom: '24px' }}>
+      <div style={{ background: 'var(--stage-5)', borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '24px' }}>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
           The hard part is not the words. It is that a child weighs telling you against losing the phone, and if nobody has said out loud what happens next, the answer they assume is that it gets taken away. So they say nothing, and you hear about it much later. The promise below is what changes that maths, and it only works if you keep it on the day it is tested.
         </p>
@@ -195,7 +195,7 @@ export default async function TellAParentPage({ searchParams }: { searchParams: 
       {theirs && (
         <section style={{ marginBottom: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap', marginBottom: '12px' }}>
-            <span style={{ ...label, fontWeight: 600, color: 'var(--ink)', background: STAGE_META[theirs.stage_id].bg, padding: '4px 10px', borderRadius: '100px' }}>
+            <span style={{ ...label, fontWeight: 600, color: 'var(--ink)', background: STAGE_META[theirs.stage_id].bg, padding: '4px 10px', borderRadius: 'var(--radius-pill)' }}>
               Stage {STAGE_META[theirs.stage_id].num}: {STAGE_META[theirs.stage_id].label}
             </span>
             <span style={{ ...label, fontWeight: 600, color: 'var(--ink-light)' }}>{STAGE_META[theirs.stage_id].ages}</span>
@@ -217,8 +217,8 @@ export default async function TellAParentPage({ searchParams }: { searchParams: 
           </div>
           {others.map(c => (
             <details key={c.stage_id} style={{ marginBottom: '10px' }}>
-              <summary style={{ cursor: 'pointer', listStyle: 'none', padding: '11px 14px', background: '#fff', border: '2px solid var(--ink)', borderRadius: 14, display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
-                <span style={{ ...label, fontWeight: 600, color: 'var(--ink)', background: STAGE_META[c.stage_id].bg, padding: '4px 10px', borderRadius: '100px' }}>
+              <summary style={{ cursor: 'pointer', listStyle: 'none', padding: '11px 14px', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
+                <span style={{ ...label, fontWeight: 600, color: 'var(--ink)', background: STAGE_META[c.stage_id].bg, padding: '4px 10px', borderRadius: 'var(--radius-pill)' }}>
                   Stage {STAGE_META[c.stage_id].num}: {STAGE_META[c.stage_id].label}
                 </span>
                 <span style={{ ...label, fontWeight: 600, color: 'var(--ink-light)' }}>{STAGE_META[c.stage_id].ages}</span>
@@ -234,7 +234,7 @@ export default async function TellAParentPage({ searchParams }: { searchParams: 
         </section>
       )}
 
-      <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', padding: '18px 20px' }}>
+      <div style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '18px 20px' }}>
         <div style={{ ...label, color: 'var(--ink-muted)', marginBottom: '6px' }}>Where they find it</div>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
           Telling a grown up sits on their own quest screen, under the tiles. They do not need you to send it, which is the point of it being there.

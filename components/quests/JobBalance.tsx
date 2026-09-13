@@ -38,8 +38,8 @@ export default function JobBalance({
 
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 20,
-      boxShadow: '0 4px 0 var(--ink)', padding: 18, marginBottom: 16,
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      boxShadow: 'var(--lift)', padding: 18, marginBottom: 16,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
         <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: '50%', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 2px 0 rgba(26,26,46,0.10)' }}>
@@ -53,17 +53,17 @@ export default function JobBalance({
             {a.headline}
           </div>
         </div>
-        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: t.fg, background: t.bg, border: `1px solid ${t.border}`, padding: '5px 10px', borderRadius: 100 }}>
+        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: t.fg, background: t.bg, border: `1px solid ${t.border}`, padding: '5px 10px', borderRadius: 'var(--radius-pill)' }}>
           {t.label}
         </span>
       </div>
 
       {/* The count and time today against the sweet spot for their age. */}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', borderRadius: 100, padding: '6px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', borderRadius: 'var(--radius-pill)', padding: '6px 11px' }}>
           {a.count} job{a.count === 1 ? '' : 's'} · about {timeStr} today
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', borderRadius: 100, padding: '6px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', borderRadius: 'var(--radius-pill)', padding: '6px 11px' }}>
           Sweet spot for {a.bandLabel}: up to {a.maxJobs} a day
         </span>
       </div>
@@ -75,7 +75,7 @@ export default function JobBalance({
       {/* The real time each job asks, so the day is never longer than it looks.
           Only when there are jobs, capped so the card stays calm. */}
       {a.count > 0 && (
-        <div style={{ borderTop: '2px solid var(--ink)', paddingTop: 10, marginBottom: a.suggestSpread ? 12 : 0 }}>
+        <div style={{ borderTop: 'var(--edge)', paddingTop: 10, marginBottom: a.suggestSpread ? 12 : 0 }}>
           {jobsDueToday.slice(0, 8).map((j, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, padding: '3px 0' }}>
               <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{j.title}</span>
@@ -93,7 +93,7 @@ export default function JobBalance({
       {/* When the day is heavy, the one move that keeps the good and drops the
           swamp: spread some jobs across the week. */}
       {a.suggestSpread && (
-        <div style={{ background: t.bg, border: `1px solid ${t.border}`, borderRadius: 14, padding: '11px 13px' }}>
+        <div style={{ background: t.bg, border: `1px solid ${t.border}`, borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
           {/* Button under the sentence, not beside it: a fixed side button
               squeezed these words one a line at larger text sizes. */}
           <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
@@ -102,7 +102,7 @@ export default function JobBalance({
           {onReview && (
             <button
               onClick={onReview}
-              style={{ display: 'inline-block', marginTop: 9, background: '#fff', border: '2px solid var(--ink)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
+              style={{ display: 'inline-block', marginTop: 9, background: '#fff', border: 'var(--edge)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
             >
               Review jobs
             </button>

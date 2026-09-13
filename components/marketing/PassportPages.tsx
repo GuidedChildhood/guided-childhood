@@ -21,7 +21,7 @@ export default function PassportPages() {
   return (
     <div style={{
       flex: '2 1 420px', minWidth: 300,
-      background: '#fff', borderRadius: '18px', border: '1.5px solid var(--border)',
+      background: '#fff', borderRadius: 'var(--radius-card)', border: '1.5px solid var(--border)',
       padding: '26px 24px', boxShadow: '0 14px 40px rgba(0,0,0,0.07)',
     }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '18px' }}>
@@ -69,7 +69,7 @@ export default function PassportPages() {
 
       {/* The open page */}
       {stage && r && (
-        <div key={open} role="tabpanel" style={{ background: STAGE_RING[open - 1], border: '1px solid var(--border)', borderRadius: '14px', padding: '20px 20px 18px', animation: 'passportPageIn .25s ease' }}>
+        <div key={open} role="tabpanel" style={{ background: STAGE_RING[open - 1], border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '20px 20px 18px', animation: 'passportPageIn .25s ease' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '10px' }}>
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>

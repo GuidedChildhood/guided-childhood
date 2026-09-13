@@ -387,7 +387,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               onClick={() => goWeek(weekOffset + step)}
               aria-label={aria}
               style={{
-                width: 44, height: 44, borderRadius: 14, cursor: 'pointer',
+                width: 44, height: 44, borderRadius: 'var(--radius-tile)', cursor: 'pointer',
                 background: '#fff', border: '2px solid var(--border)',
                 boxShadow: '0 3px 0 var(--border)',
                 fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1,
@@ -414,7 +414,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               aria-current={isOpen ? 'date' : undefined}
               style={{
                 flex: 1, minWidth: 0, padding: '8px 1px 7px', cursor: 'pointer',
-                borderRadius: 14, textAlign: 'center',
+                borderRadius: 'var(--radius-tile)', textAlign: 'center',
                 background: isOpen ? 'var(--terracotta)' : '#fff',
                 border: `2px solid ${isOpen || d.isToday ? 'var(--terracotta)' : 'var(--border)'}`,
                 boxShadow: isOpen ? '0 3px 0 var(--terracotta-dark)' : 'none',
@@ -450,7 +450,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
 
       {/* The chosen day, big enough to read from across a room */}
       <div style={{
-        background: '#fff', border: '2px solid var(--border)', borderRadius: 20,
+        background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
         boxShadow: '0 5px 0 var(--border)', padding: '16px 16px 18px',
       }}>
         <div style={{
@@ -492,7 +492,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                   border: '1.5px solid var(--border)',
                   borderLeftWidth: 5,
                   borderLeftColor: quiet ? 'var(--border)' : c.rail,
-                  borderRadius: 14, padding: '11px 12px',
+                  borderRadius: 'var(--radius-tile)', padding: '11px 12px',
                   opacity: quiet ? 0.6 : 1,
                 }}
               >
@@ -513,7 +513,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)',
-                          borderRadius: 100, padding: '2px 8px',
+                          borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                         }}>
                           {item.time}
                         </span>
@@ -522,7 +522,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
-                          borderRadius: 100, padding: '2px 8px',
+                          borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                         }}>
                           every {DAYS.find(d => d.dow === item.weekday)?.short.toLowerCase()}
                         </span>
@@ -531,7 +531,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           color: 'var(--retro-green)', background: '#fff', border: '1px solid var(--border)',
-                          borderRadius: 100, padding: '2px 8px',
+                          borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                         }}>
                           ✓ sorted
                         </span>
@@ -540,7 +540,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)',
-                          borderRadius: 100, padding: '2px 8px',
+                          borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                         }}>
                           ⛱️ on hold for the holidays
                         </span>
@@ -553,7 +553,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
                           border: '1px solid var(--terracotta)',
-                          borderRadius: 100, padding: '2px 8px',
+                          borderRadius: 'var(--radius-pill)', padding: '2px 8px',
                         }}>
                           ⭐ you added this
                         </span>
@@ -581,7 +581,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
             width: '100%', cursor: 'pointer', marginTop: 12, padding: '15px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             color: 'var(--ink)', background: 'var(--terracotta)',
-            border: 'none', borderRadius: 16,
+            border: 'none', borderRadius: 'var(--radius-btn)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >
@@ -645,7 +645,7 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
         <p style={{
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           color: 'var(--ink)', background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
-          borderRadius: 14, padding: '11px 14px', margin: '10px 0 0', textAlign: 'center',
+          borderRadius: 'var(--radius-tile)', padding: '11px 14px', margin: '10px 0 0', textAlign: 'center',
         }}>
           {addNote}
         </p>

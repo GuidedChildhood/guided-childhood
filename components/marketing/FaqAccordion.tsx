@@ -41,7 +41,7 @@ export default function FaqAccordion() {
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '3px' }}>
       {FAQS.map((faq, i) => (
-        <div key={i} style={{ border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+        <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
           <button
             onClick={() => setOpen(open === i ? null : i)}
             aria-expanded={open === i}

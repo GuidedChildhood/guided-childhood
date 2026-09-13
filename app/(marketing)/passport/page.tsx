@@ -97,7 +97,7 @@ export default function PassportPage() {
                 <div key={stage.id} style={{
                   background: '#fff',
                   border: heavy ? '2.5px solid var(--terracotta)' : '1.5px solid var(--border)',
-                  borderRadius: '22px', padding: 'clamp(20px, 4vw, 26px)',
+                  borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 26px)',
                   display: 'flex', gap: 'clamp(16px, 3vw, 24px)', alignItems: 'center',
                 }}>
                   <div style={{
@@ -121,7 +121,7 @@ export default function PassportPage() {
                         {stage.name} · {stage.ages}
                       </span>
                       {heavy && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: '#fff', padding: '3px 9px', borderRadius: '100px' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: '#fff', padding: '3px 9px', borderRadius: 'var(--radius-pill)' }}>
                           Heavy training
                         </span>
                       )}
@@ -151,7 +151,7 @@ export default function PassportPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {PHONE_LADDER.map((rung, i) => (
               <div key={i} style={{
-                background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+                background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
                 padding: 'clamp(20px, 4vw, 26px)', display: 'flex', gap: 'clamp(16px, 3vw, 24px)', alignItems: 'flex-start',
               }}>
                 <div style={{ flexShrink: 0, width: 'clamp(80px, 20vw, 116px)' }}>
@@ -184,7 +184,7 @@ export default function PassportPage() {
             {PASSPORT_EVIDENCE.map((e, i) => (
               <div key={i} style={{
                 background: '#fff', border: '1.5px solid var(--border)',
-                borderRadius: '22px', padding: 'clamp(24px, 5vw, 32px)',
+                borderRadius: 'var(--radius-card)', padding: 'clamp(24px, 5vw, 32px)',
                 borderLeft: '5px solid var(--terracotta)',
               }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.2rem, 4vw, 1.45rem)', color: 'var(--ink)', marginBottom: '12px', letterSpacing: '-0.01em', lineHeight: 1.2 }}>

@@ -110,12 +110,12 @@ export default function HomeMain({ questsBadge: _questsBadge }: { questsBadge?: 
         href={SHOP.href}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
-          boxShadow: '0 4px 0 var(--ink)', padding: '12px 16px 12px 12px',
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+          boxShadow: 'var(--lift)', padding: '12px 16px 12px 12px',
           textDecoration: 'none', marginBottom: 14,
         }}
       >
-        <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', background: SHOP.bg, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', background: SHOP.bg, border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <KidIcon name="keepsakes" size={30} />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -138,12 +138,12 @@ export default function HomeMain({ questsBadge: _questsBadge }: { questsBadge?: 
         href="/dashboard/explore"
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
-          boxShadow: '0 4px 0 var(--ink)', padding: '12px 16px 12px 12px',
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+          boxShadow: 'var(--lift)', padding: '12px 16px 12px 12px',
           textDecoration: 'none', marginBottom: 22,
         }}
       >
-        <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', background: CRAYON.paper, border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', background: CRAYON.paper, border: 'var(--edge)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <HappyIcon name="lessons" size={34} />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>

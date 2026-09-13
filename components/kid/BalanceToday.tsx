@@ -28,7 +28,7 @@ export function WaitingNote({ stars }: { stars: number }) {
   if (stars <= 0) return null
   const one = stars === 1
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9, background: 'var(--tint-sage)', borderRadius: 14, padding: '10px 12px', marginTop: 10 }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9, background: 'var(--tint-sage)', borderRadius: 'var(--radius-tile)', padding: '10px 12px', marginTop: 10 }}>
       <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0 }}>⏳</span>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
         <strong>{stars} more star{one ? '' : 's'}</strong> {one ? 'is' : 'are'} waiting for a grown up to say yes. Nothing is lost, {one ? 'it lands' : 'they land'} here the moment they do.

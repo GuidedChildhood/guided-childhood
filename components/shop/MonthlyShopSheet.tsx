@@ -112,7 +112,7 @@ export default function MonthlyShopSheet({ childName, devForce = false }: {
             onClick={dismiss}
             aria-label="Close"
             style={{
-              width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--ink)',
+              width: 34, height: 34, borderRadius: '50%', border: 'var(--edge)',
               background: '#fff', cursor: 'pointer',
               fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1,
             }}
@@ -162,7 +162,7 @@ export default function MonthlyShopSheet({ childName, devForce = false }: {
           onClick={dismiss}
           style={{
             display: 'block', textAlign: 'center', background: 'var(--terracotta)',
-            color: 'var(--ink)', borderRadius: 16, padding: '15px 22px', textDecoration: 'none',
+            color: 'var(--ink)', borderRadius: 'var(--radius-btn)', padding: '15px 22px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}

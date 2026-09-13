@@ -28,7 +28,7 @@ export default function DigiSquadPage() {
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em', textDecoration: 'none' }}>Guided Childhood</Link>
         <nav className="nav-links-desktop" style={{ gap: '2px' }}>
           {[['For parents', '/'], ['For schools', 'https://www.guidedchildhood.com/schools'], ['The Friends', '/digi-squad']].map(([label, href]) => (
-            <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: '100px', textDecoration: 'none' }}>{label}</Link>
+            <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: 'var(--radius-pill)', textDecoration: 'none' }}>{label}</Link>
           ))}
         </nav>
         <Link href="/starter-pack" className="btn btn-green" style={{ padding: '9px 22px', fontSize: '.78rem' }}>
@@ -42,7 +42,7 @@ export default function DigiSquadPage() {
         <div style={{ position: 'absolute', bottom: '10%', left: '5%', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(175,220,162,.05)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={92} height={92} style={{ margin: '0 auto 20px', display: 'block', animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(242,201,76,.14)', border: '1px solid rgba(242,201,76,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '24px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(242,201,76,.14)', border: '1px solid rgba(242,201,76,.3)', borderRadius: 'var(--radius-pill)', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '24px' }}>
             Meet the team
           </div>
           <h1 style={{ color: '#fff', fontSize: 'clamp(2.4rem, 6vw, 4rem)', lineHeight: 1.08, marginBottom: '20px' }}>
@@ -58,7 +58,7 @@ export default function DigiSquadPage() {
           {/* Friends preview strip */}
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '40px' }}>
             {FRIENDS.map((f) => (
-              <div key={f.key} style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', borderRadius: '16px', padding: '16px 18px', minWidth: '132px', textAlign: 'center' }}>
+              <div key={f.key} style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 'var(--radius-btn)', padding: '16px 18px', minWidth: '132px', textAlign: 'center' }}>
                 <img src={f.img} alt={f.name} width={64} height={64} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 8px', display: 'block', border: `2px solid ${f.colour}` }} />
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#fff', fontSize: 'var(--text-md)' }}>{f.name}</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginTop: '4px' }}>{f.ages}</div>
@@ -80,7 +80,7 @@ export default function DigiSquadPage() {
 
               {/* Character card */}
               <div style={{ order: i % 2 === 0 ? 0 : 1 }}>
-                <div style={{ background: `${f.colour}12`, border: `2px solid ${f.colour}`, borderRadius: '20px', padding: '40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ background: `${f.colour}12`, border: `2px solid ${f.colour}`, borderRadius: 'var(--radius-card)', padding: '40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', borderRadius: '50%', background: `${f.colour}18`, pointerEvents: 'none' }} />
                   <img src={f.img} alt={f.name} width={168} height={168} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 18px', display: 'block', border: `3px solid ${f.colour}`, boxShadow: '0 8px 24px rgba(0,0,0,.12)' }} />
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: f.colour, marginBottom: '8px' }}>Stage {f.stageId} · {f.ages}</div>
@@ -96,7 +96,7 @@ export default function DigiSquadPage() {
                 <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.7, marginBottom: '24px' }}>
                   {f.name} is the Planet Friend for {f.role}. Earn {f.name} on the way to Stage {f.stageId}, and DiGi and {f.name} take that part of the journey together.
                 </p>
-                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px 18px', marginBottom: '28px' }}>
+                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 18px', marginBottom: '28px' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>{f.name} says</div>
                   <p style={{ color: 'var(--ink)', fontSize: '.98rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>{f.intro}</p>
                 </div>
@@ -136,8 +136,8 @@ export default function DigiSquadPage() {
           </div>
           <div className="three-col">
             {STEPS.map((item) => (
-              <div key={item.step} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', borderTop: '4px solid var(--gold-dark)' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '12px', background: item.bg, display: 'inline-block', padding: '4px 10px', borderRadius: '100px' }}>
+              <div key={item.step} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '28px', borderTop: '4px solid var(--gold-dark)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '12px', background: item.bg, display: 'inline-block', padding: '4px 10px', borderRadius: 'var(--radius-pill)' }}>
                   Step {item.step}
                 </div>
                 <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '12px' }}>{item.title}</h3>

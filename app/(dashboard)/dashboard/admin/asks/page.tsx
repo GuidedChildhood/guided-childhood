@@ -55,8 +55,8 @@ const COVERED = new Set(Object.values(ONBOARDING_TO_SLUG))
 function Card({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
-      boxShadow: '0 4px 0 var(--ink)', padding: '14px 16px 16px', marginBottom: 14,
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      boxShadow: 'var(--lift)', padding: '14px 16px 16px', marginBottom: 14,
     }}>
       {children}
     </div>
@@ -140,8 +140,8 @@ export default async function AsksPage() {
         Raised in the product, no tile for it · {ranked.length}
       </div>
       <div style={{
-        background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
-        boxShadow: '0 4px 0 var(--ink)', overflow: 'hidden',
+        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+        boxShadow: 'var(--lift)', overflow: 'hidden',
       }}>
         {ranked.length === 0 && (
           <p style={{ margin: 0, padding: '14px 16px', color: 'var(--ink-soft)', fontSize: 'var(--text-md)' }}>

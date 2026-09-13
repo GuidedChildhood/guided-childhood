@@ -82,7 +82,7 @@ export default function KidPassport({
         onClick={e => e.stopPropagation()}
         style={{
           width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto',
-          background: 'var(--cream)', borderRadius: 24, padding: '22px 20px',
+          background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '22px 20px',
           boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)',
         }}
       >
@@ -116,7 +116,7 @@ export default function KidPassport({
         {page && pageName && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 12,
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
             padding: '12px 14px', margin: '0 0 14px',
           }}>
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -132,8 +132,8 @@ export default function KidPassport({
                   : `${page.have ?? 0} of ${page.need ?? 0} lessons passed, then the big check`}
               </div>
               {!page.earned && (page.need ?? 0) > 0 && (
-                <div style={{ height: 6, borderRadius: 100, background: 'var(--border)', overflow: 'hidden', marginTop: 8 }}>
-                  <div style={{ height: '100%', width: `${Math.round(((page.have ?? 0) / (page.need ?? 1)) * 100)}%`, background: page.colour, borderRadius: 100 }} />
+                <div style={{ height: 6, borderRadius: 'var(--radius-pill)', background: 'var(--border)', overflow: 'hidden', marginTop: 8 }}>
+                  <div style={{ height: '100%', width: `${Math.round(((page.have ?? 0) / (page.need ?? 1)) * 100)}%`, background: page.colour, borderRadius: 'var(--radius-pill)' }} />
                 </div>
               )}
             </div>

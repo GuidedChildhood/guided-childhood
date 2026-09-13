@@ -53,7 +53,7 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
           <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-sm)" />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
-            color: 'var(--ink)', background: 'var(--gold, #F2C94C)', borderRadius: '100px',
+            color: 'var(--ink)', background: 'var(--gold, #F2C94C)', borderRadius: 'var(--radius-pill)',
             padding: '6px 14px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
           }}>
             Worth ⭐ {isRedo ? REDO_STARS : FIRST_COMPLETION_STARS}
@@ -69,7 +69,7 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
           </h1>
         </div>
 
-        <div style={{ background: 'var(--cream)', borderRadius: '24px', padding: 'clamp(18px, 4vw, 28px)', boxShadow: '0 6px 0 rgba(0,0,0,0.22)' }}>
+        <div style={{ background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 4vw, 28px)', boxShadow: '0 6px 0 rgba(0,0,0,0.22)' }}>
           <ParentLessonPlayer
             lesson={lesson}
             segments={segments}

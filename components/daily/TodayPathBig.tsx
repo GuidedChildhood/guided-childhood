@@ -304,14 +304,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         onClick={() => setOpenAnyway(true)}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-          background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
+          background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
           padding: '14px 16px', marginBottom: '20px', cursor: 'pointer', textAlign: 'left',
-          font: 'inherit', boxShadow: '0 4px 0 var(--ink)',
+          font: 'inherit', boxShadow: 'var(--lift)',
         }}
       >
         <span aria-hidden style={{
           flexShrink: 0, width: 40, height: 40, borderRadius: '50%',
-          background: GREEN, border: '2px solid var(--ink)', color: '#fff', fontWeight: 900,
+          background: GREEN, border: 'var(--edge)', color: '#fff', fontWeight: 900,
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
         }}>✓</span>
         <span style={{ flex: 1, minWidth: 0 }}>
@@ -335,11 +335,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     {closeFlow}
     <div style={{
       background: '#fff',
-      border: '2px solid var(--ink)',
-      borderRadius: '22px',
+      border: 'var(--edge)',
+      borderRadius: 'var(--radius-card)',
       padding: '18px 16px 18px',
       marginBottom: '20px',
-      boxShadow: '0 4px 0 var(--ink)',
+      boxShadow: 'var(--lift)',
     }}>
       <style>{`
         @keyframes todaypathbig-pulse {
@@ -431,10 +431,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
               aria-pressed={on}
               style={{
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
-                padding: '10px 6px 9px', borderRadius: '14px', cursor: 'pointer',
-                border: '2px solid var(--ink)',
+                padding: '10px 6px 9px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
+                border: 'var(--edge)',
                 background: on ? 'var(--terracotta)' : '#fff',
-                boxShadow: on ? '0 3px 0 var(--ink)' : '0 3px 0 var(--ink)',
+                boxShadow: on ? 'var(--lift)' : 'var(--lift)',
                 transition: 'all 0.15s',
               }}
             >
@@ -467,8 +467,8 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                   {/* A pill, not bare text: the connector curve runs up behind
                       this line and the words have to sit on something. */}
                   <span style={{
-                    display: 'inline-block', padding: '4px 12px', borderRadius: '100px',
-                    background: '#fff', border: '2px solid var(--ink)',
+                    display: 'inline-block', padding: '4px 12px', borderRadius: 'var(--radius-pill)',
+                    background: '#fff', border: 'var(--edge)',
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800,
                     color: 'var(--ink-soft)',
                   }}>
@@ -515,7 +515,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                         mistaken for a step a parent has to take. */}
                     <span className="todaypathbig-bounce" style={{
                       position: 'relative',
-                      width: 62, height: 62, borderRadius: '100px',
+                      width: 62, height: 62, borderRadius: 'var(--radius-pill)',
                       background: '#fff',
                       border: `2.5px solid ${bonus.friend.colour}`,
                       boxShadow: `0 4px 0 ${bonus.friend.colour}`,
@@ -599,8 +599,8 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                         background: isDoneNode ? GREEN : isCurrent ? 'var(--terracotta)' : '#fff',
                         border: '2.5px solid var(--ink)',
                         boxShadow: isCurrent
-                          ? '0 5px 0 var(--ink), 0 0 0 6px var(--terracotta-lt)'
-                          : '0 5px 0 var(--ink)',
+                          ? 'var(--lift-deep), 0 0 0 6px var(--terracotta-lt)'
+                          : 'var(--lift-deep)',
                         fontSize: 'var(--text-2xl)',
                         opacity: !isDoneNode && !isCurrent ? 0.55 : 1,
                       }}
@@ -657,8 +657,8 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     transform: `translateX(calc(-50% + ${x}px))`,
                     background: 'var(--terracotta)', color: 'var(--ink)',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-                    padding: '5px 11px', borderRadius: '100px', whiteSpace: 'nowrap',
-                    border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', zIndex: 3,
+                    padding: '5px 11px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
+                    border: 'var(--edge)', boxShadow: 'var(--lift)', zIndex: 3,
                   }}>
                     {celebrating} done, lovely 🎉
                   </span>
@@ -673,11 +673,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     position: 'absolute', top: -9, left: '50%',
                     transform: `translateX(calc(-50% + ${x}px)) rotate(45deg)`,
                     width: 16, height: 16, background: '#fff',
-                    borderTop: '2px solid var(--ink)', borderLeft: '2px solid var(--ink)',
+                    borderTop: 'var(--edge)', borderLeft: 'var(--edge)',
                   }} />
                   <div style={{
-                    background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
-                    padding: '14px 14px 14px', boxShadow: '0 4px 0 var(--ink)',
+                    background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+                    padding: '14px 14px 14px', boxShadow: 'var(--lift)',
                   }}>
                     <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
                       Next: {tasks[currentIndex].label}
@@ -708,7 +708,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       {!pressure && !allDone ? (
         <div style={{
           marginTop: '16px', padding: '13px 15px',
-          background: 'var(--tint-sage)', borderRadius: '14px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+          background: 'var(--tint-sage)', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', boxShadow: 'var(--lift)',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             {lead ? 'Today’s one tick, done 🎉' : `That is your ${minutes} minutes 🎉`}

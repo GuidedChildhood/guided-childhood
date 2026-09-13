@@ -52,17 +52,17 @@ export default function SocialMediaReadiness({
   const titleColor = onDark ? '#FFF8EC' : 'var(--ink)'
   const bodyColor = onDark ? 'rgba(255,251,244,0.90)' : 'var(--ink-soft)'
   const innerBg = onDark ? 'rgba(255,251,244,0.08)' : 'rgba(255,255,255,0.7)'
-  const innerBorder = onDark ? '1px solid rgba(255,251,244,0.14)' : '2px solid var(--ink)'
+  const innerBorder = onDark ? '1px solid rgba(255,251,244,0.14)' : 'var(--edge)'
 
   return (
     <div
       style={{
         background: isHeavy ? HEAVY_SURFACE : 'var(--stage-4)',
-        borderRadius: '24px',
+        borderRadius: 'var(--radius-card)',
         // A faint gold hairline plus an inner top highlight give the panel a
         // crafted, lit edge instead of a flat cutout.
-        border: '2px solid var(--ink)',
-        boxShadow: '0 4px 0 var(--ink)',
+        border: 'var(--edge)',
+        boxShadow: 'var(--lift)',
         padding: 'clamp(22px, 5vw, 28px)',
         marginBottom: '20px',
         overflow: 'hidden',
@@ -81,8 +81,8 @@ export default function SocialMediaReadiness({
           letterSpacing: '0.08em', textTransform: 'uppercase',
           color: onDark ? 'rgba(255,255,255,0.72)' : 'var(--ink-muted)',
           background: onDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.65)',
-          border: onDark ? '1px solid rgba(255,255,255,0.12)' : '2px solid var(--ink)',
-          padding: '3px 9px', borderRadius: '100px',
+          border: onDark ? '1px solid rgba(255,255,255,0.12)' : 'var(--edge)',
+          padding: '3px 9px', borderRadius: 'var(--radius-pill)',
         }}>
           {readiness.moment}
         </span>
@@ -107,7 +107,7 @@ export default function SocialMediaReadiness({
       {/* The one thing to do this stage, a raised surface */}
       <div style={{
         background: innerBg, border: innerBorder,
-        borderRadius: '16px', padding: '16px 18px', marginBottom: '14px',
+        borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '14px',
       }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -124,7 +124,7 @@ export default function SocialMediaReadiness({
       {/* Evidence highlight, a raised surface with a terracotta edge */}
       <div style={{
         background: innerBg, border: innerBorder, borderLeft: '3px solid var(--terracotta)',
-        borderRadius: '16px', padding: '16px 18px', marginBottom: '22px',
+        borderRadius: 'var(--radius-btn)', padding: '16px 18px', marginBottom: '22px',
       }}>
         <p style={{
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
@@ -153,10 +153,10 @@ export default function SocialMediaReadiness({
           )}`}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
-            background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)',
-            borderRadius: '14px', padding: '13px 20px', textDecoration: 'none',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', padding: '13px 20px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-            boxShadow: '0 4px 0 var(--ink)',
+            boxShadow: 'var(--lift)',
           }}
         >
           {isHeavy ? 'Start the training with DiGi' : 'Talk it through with DiGi'}
@@ -167,9 +167,9 @@ export default function SocialMediaReadiness({
             display: 'inline-flex', alignItems: 'center',
             color: onDark ? '#FFF8EC' : 'var(--ink)',
             background: onDark ? 'rgba(255,251,244,0.08)' : '#fff',
-            border: `${onDark ? '1.5px solid rgba(255,251,244,0.30)' : '2px solid var(--ink)'}`,
-            boxShadow: onDark ? 'none' : '0 4px 0 var(--ink)',
-            borderRadius: '14px', padding: '13px 20px', textDecoration: 'none',
+            border: `${onDark ? '1.5px solid rgba(255,251,244,0.30)' : 'var(--edge)'}`,
+            boxShadow: onDark ? 'none' : 'var(--lift)',
+            borderRadius: 'var(--radius-tile)', padding: '13px 20px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           }}
         >

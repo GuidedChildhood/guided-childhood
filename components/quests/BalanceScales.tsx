@@ -67,7 +67,7 @@ export default function BalanceScales({
       {/* the beam, pivoting on the finial */}
       <div style={{
         position: 'absolute', top: 34, left: '11%', right: '11%', height: 6,
-        background: 'var(--ink)', borderRadius: '100px',
+        background: 'var(--ink)', borderRadius: 'var(--radius-pill)',
         transform: `rotate(${beamDeg}deg)`, transformOrigin: 'center', transition: 'transform 0.7s ease', zIndex: 2,
       }}>
         {pan('screen', '📱', `${screenMins}`, 'min screen', screenFill, screenHeavier)}
@@ -76,8 +76,8 @@ export default function BalanceScales({
 
       {/* the central column and a steady, weighted base */}
       <div style={{ position: 'absolute', top: 30, bottom: 26, left: '50%', width: 8, marginLeft: -4, background: 'var(--ink)', borderRadius: '3px' }} />
-      <div style={{ position: 'absolute', bottom: 18, left: '50%', width: 54, height: 9, marginLeft: -27, borderRadius: '100px', background: 'var(--ink)' }} />
-      <div style={{ position: 'absolute', bottom: 10, left: '50%', width: 84, height: 10, marginLeft: -42, borderRadius: '100px', background: 'var(--ink)' }} />
+      <div style={{ position: 'absolute', bottom: 18, left: '50%', width: 54, height: 9, marginLeft: -27, borderRadius: 'var(--radius-pill)', background: 'var(--ink)' }} />
+      <div style={{ position: 'absolute', bottom: 10, left: '50%', width: 84, height: 10, marginLeft: -42, borderRadius: 'var(--radius-pill)', background: 'var(--ink)' }} />
 
       {/* a plain read of which way it leans, so the tilt is never ambiguous */}
       <div style={{ position: 'absolute', bottom: -8, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: screenHeavier ? screenFill : realHeavier ? realFill : 'var(--ink-muted)' }}>

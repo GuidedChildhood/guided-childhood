@@ -140,9 +140,9 @@ export default function SectionTiles({
             // daily path, so the parent app reads as one product with the
             // child's. The colour still lives in the icon plate.
             background: '#fff',
-            border: '2px solid var(--ink)',
-            borderRadius: 18,
-            boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)',
+            borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--lift)',
             padding: '15px 16px 16px',
             // Every tile the same height, whatever its copy does. Grid stretches
             // a ROW to its tallest card, but rows are sized independently, so a
@@ -165,8 +165,8 @@ export default function SectionTiles({
             {/* The pastel moved here off the tile. It is the plate behind the
                 icon now, which is where every app that does this well puts it. */}
             <span aria-hidden style={{
-              width: 48, height: 48, borderRadius: 14, background: t.bg,
-              border: '2px solid var(--ink)', boxSizing: 'border-box',
+              width: 48, height: 48, borderRadius: 'var(--radius-tile)', background: t.bg,
+              border: 'var(--edge)', boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0, fontSize: 'var(--text-xl)', lineHeight: 1,
               // KidIcon draws in currentColor, so setting it here colours the
@@ -193,10 +193,10 @@ export default function SectionTiles({
                   background: '#E5484D', border: '1.5px solid #B93B3F',
                   color: '#fff',
                 } : {
-                  background: t.bg, border: '2px solid var(--ink)',
+                  background: t.bg, border: 'var(--edge)',
                   color: 'var(--ink)',
                 }),
-                borderRadius: 100, padding: '3px 10px',
+                borderRadius: 'var(--radius-pill)', padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 whiteSpace: 'nowrap',
                 // Never shrink, and never clip. The row wraps instead, so a

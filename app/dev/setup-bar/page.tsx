@@ -14,7 +14,7 @@ function Bar({ title, background, shadow }: { title: string; background: string;
   return (
     <div style={{ width: 'calc(100% - 24px)', maxWidth: 440, margin: '0 auto 16px' }}>
       <div style={{
-        background, borderRadius: 18, boxShadow: shadow,
+        background, borderRadius: 'var(--radius-card)', boxShadow: shadow,
         padding: '12px 12px 12px 18px', display: 'flex', alignItems: 'center', gap: 12,
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -30,7 +30,7 @@ function Bar({ title, background, shadow }: { title: string; background: string;
         </button>
         <span style={{
           flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
-          borderRadius: 12, padding: '11px 18px', fontFamily: 'var(--font-display)',
+          borderRadius: 'var(--radius-tile)', padding: '11px 18px', fontFamily: 'var(--font-display)',
           fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)',
         }}>
           Go

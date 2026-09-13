@@ -43,7 +43,7 @@ export default function DevAddJob() {
         <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 14px' }}>
           Alfie&apos;s jobs
         </h1>
-        <section style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: 18, padding: '18px 14px 16px', marginBottom: 18 }}>
+        <section style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 14px 16px', marginBottom: 18 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>Add a job</h2>
           <JobComposer
             countToday={board.length}

@@ -43,9 +43,9 @@ export default function UpdateBanner() {
         onClick={() => window.location.reload()}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
-          width: '100%', background: 'var(--deep-teal)', color: '#fff', border: '2px solid var(--ink)',
-          borderRadius: '18px', padding: '15px 18px', cursor: 'pointer',
-          boxShadow: '0 4px 0 var(--ink)',
+          width: '100%', background: 'var(--deep-teal)', color: '#fff', border: 'var(--edge)',
+          borderRadius: 'var(--radius-card)', padding: '15px 18px', cursor: 'pointer',
+          boxShadow: 'var(--lift)',
           fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
         }}
       >

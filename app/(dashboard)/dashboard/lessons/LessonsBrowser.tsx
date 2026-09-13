@@ -211,9 +211,9 @@ export default function LessonsBrowser({
       <div style={{
         position: 'sticky', top: 0, zIndex: 5, margin: '0 -20px', padding: '10px 20px 12px',
         background: 'rgba(249,248,246,0.86)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '2px solid var(--ink)',
+        borderBottom: 'var(--edge)',
       }}>
-        <div style={{ display: 'flex', gap: '6px', background: '#fff', border: '2px solid var(--ink)', borderRadius: '100px', padding: '4px' }}>
+        <div style={{ display: 'flex', gap: '6px', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px' }}>
           {TABS.map(t => {
             const on = view === t.key
             return (
@@ -222,14 +222,14 @@ export default function LessonsBrowser({
                 onClick={() => { setView(t.key); if (t.key === 'library') setStage(childStageNum) }}
                 style={{
                   flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                  padding: '9px 8px', borderRadius: '100px', cursor: 'pointer', border: 'none',
+                  padding: '9px 8px', borderRadius: 'var(--radius-pill)', cursor: 'pointer', border: 'none',
                   background: on ? 'var(--deep-teal)' : 'transparent',
                   color: on ? '#fff' : 'var(--ink-soft)',
                   fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
                                     transition: 'background 0.2s ease, color 0.2s ease',
                 }}
               >
-                <span style={{ display: 'inline-flex', width: 24, height: 24, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box', flexShrink: 0 }}><HappyIcon name={t.icon} size={20} /></span>
+                <span style={{ display: 'inline-flex', width: 24, height: 24, borderRadius: '50%', background: '#fff', border: 'var(--edge)', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box', flexShrink: 0 }}><HappyIcon name={t.icon} size={20} /></span>
                 <span>{t.label}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, opacity: on ? 0.85 : 0.5 }}>{t.count}</span>
               </button>
@@ -252,7 +252,7 @@ export default function LessonsBrowser({
               onClick={() => setStage('all')}
               data-chip-active={stage === 'all' ? '1' : '0'}
               style={{
-                flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
+                flexShrink: 0, padding: '7px 13px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                 border: `2px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--ink)'}`,
                 background: stage === 'all' ? 'var(--terracotta-lt)' : '#fff',
                 color: stage === 'all' ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
@@ -269,7 +269,7 @@ export default function LessonsBrowser({
                   onClick={() => setStage(s.num)}
                   data-chip-active={on ? '1' : '0'}
                   style={{
-                    flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
+                    flexShrink: 0, padding: '7px 13px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                     border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                     background: on ? 'var(--terracotta-lt)' : '#fff',
                     color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
@@ -296,7 +296,7 @@ export default function LessonsBrowser({
             {watchFallback && (
               <p style={{
                 fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 16px', fontWeight: 600,
-                background: 'var(--tint-blue)', borderRadius: '14px', padding: '13px 15px',
+                background: 'var(--tint-blue)', borderRadius: 'var(--radius-tile)', padding: '13px 15px',
               }}>
                 Nothing written for this stage yet, so here is everything else. An earlier film {childName} never saw is still worth an evening, and the ages are about when something lands best rather than a rule.
               </p>
@@ -318,7 +318,7 @@ export default function LessonsBrowser({
                 {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
                 {g.items.map(w => (
-                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '2px solid var(--ink)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 0 var(--ink)' }}>
+                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', overflow: 'hidden', boxShadow: 'var(--lift)' }}>
                     <Link href={`/dashboard/lessons/together/${w.code}${childId ? `?child=${childId}` : ''}`} style={{ position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '16 / 10', overflow: 'hidden', background: `linear-gradient(150deg, var(--stage-${w.stageNum}-bold) 0%, var(--stage-${w.stageNum}) 100%)` }}>
                       {w.posterUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -327,17 +327,17 @@ export default function LessonsBrowser({
                         <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: 'var(--text-2xl)' }}>{strandEmoji(w.strand)}</span>
                       )}
                       {w.done && (
-                        <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>
+                        <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: 'var(--radius-pill)', padding: '2px 8px' }}>✓ Done</span>
                       )}
                       {/* Play chip in the corner, not dead centre: the posters
                           are character art, and a white circle centred on the
                           frame lands on the character's face (the blocked out
                           by text report, 1 September 2026). Corner chips leave
                           the character clear, same as the duration pill. */}
-                      <span style={{ position: 'absolute', bottom: '8px', right: '10px', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--ink)', boxSizing: 'border-box' }}>
+                      <span style={{ position: 'absolute', bottom: '8px', right: '10px', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'var(--edge)', boxSizing: 'border-box' }}>
                         <span style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
                       </span>
-                      <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: 'var(--radius-pill)', padding: '2px 8px' }}>
                         Lesson {w.journeyStep}{w.duration ? ` · ${w.duration}` : ''}
                       </span>
                     </Link>
@@ -348,7 +348,7 @@ export default function LessonsBrowser({
                         {(() => {
                           const area = literacyAreaFor(w.strand)
                           return area ? (
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: '8px', background: 'var(--tint-sage)', borderRadius: '100px', padding: '3px 9px' }}>
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: '8px', background: 'var(--tint-sage)', borderRadius: 'var(--radius-pill)', padding: '3px 9px' }}>
                               <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>{area.icon}</span>
                               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-soft)' }}>Builds {area.name}</span>
                             </div>
@@ -471,13 +471,13 @@ export default function LessonsBrowser({
                 Rosenshine deep lessons that pass the stamp always lead and the
                 extra is a bonus below, never ahead of the ones that count. */}
             <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginTop: '8px' }}>
-              <div style={{ background: '#DEF0E7', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
+              <div style={{ background: '#DEF0E7', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
                 <div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>Bonus · new · 15 min together · ages 11 to 15</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Is That Real?</div>
                   <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>The sofa lesson on fake images and deepfakes.</div>
                 </div>
-                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', borderRadius: '12px', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
+                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', borderRadius: 'var(--radius-tile)', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
               </div>
             </Link>
           </>
@@ -496,7 +496,7 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px', flexWrap: 'wrap' }}>
       <span style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-        color: 'var(--ink)', background: `var(--stage-${s.num})`, padding: '4px 11px', borderRadius: '100px',
+        color: 'var(--ink)', background: `var(--stage-${s.num})`, padding: '4px 11px', borderRadius: 'var(--radius-pill)',
       }}>
         Stage {s.num} · Ages {s.ages}
       </span>
@@ -516,7 +516,7 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
 function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; count: number; childName: string }) {
   const scene = sceneCoverForStage(s.num)
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', overflow: 'hidden', marginBottom: '13px' }}>
+    <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', overflow: 'hidden', marginBottom: '13px' }}>
       {scene && (
         <div style={{ position: 'relative', aspectRatio: '5 / 2', background: `var(--stage-${s.num})` }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -524,7 +524,7 @@ function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; co
         </div>
       )}
       <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'flex-start', gap: '11px' }}>
-        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="passport" size={28} /></span>
+        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="passport" size={28} /></span>
         <div style={{ minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
             Pass this stage · {count} lesson{count === 1 ? '' : 's'}
@@ -607,7 +607,7 @@ function ProgressLessonsBanner({
     : `📲 Send to ${childName}`
 
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '16px 18px', marginBottom: '14px' }}>
+    <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '16px 18px', marginBottom: '14px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
         These move {childName}&apos;s progress
       </div>
@@ -629,7 +629,7 @@ function ProgressLessonsBanner({
       <div style={{ display: 'flex', gap: 7, marginTop: 9 }}>
         <span style={{
           flex: '1 1 0', minWidth: 0, textAlign: 'center', background: '#fff',
-          border: `2px solid ${passed > 0 ? 'var(--retro-green)' : 'var(--border)'}`, borderRadius: 12, padding: '7px 4px',
+          border: `2px solid ${passed > 0 ? 'var(--retro-green)' : 'var(--border)'}`, borderRadius: 'var(--radius-tile)', padding: '7px 4px',
         }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: passed > 0 ? 'var(--retro-green-dark)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
             {passed}
@@ -640,7 +640,7 @@ function ProgressLessonsBanner({
         </span>
         <span style={{
           flex: '1 1 0', minWidth: 0, textAlign: 'center', background: '#fff',
-          border: `2px solid ${left > 0 ? 'var(--ink)' : 'var(--border)'}`, borderRadius: 12, padding: '7px 4px',
+          border: `2px solid ${left > 0 ? 'var(--ink)' : 'var(--border)'}`, borderRadius: 'var(--radius-tile)', padding: '7px 4px',
         }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: left > 0 ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
             {left}
@@ -663,7 +663,7 @@ function ProgressLessonsBanner({
           come apart. One line, and a way straight back. */}
       {shownStage !== 'all' && shownStage !== childStageNum && (
         <p style={{
-          margin: '0 0 12px', background: '#fff', border: '1.5px solid var(--ink)', borderRadius: 12,
+          margin: '0 0 12px', background: '#fff', border: '1.5px solid var(--ink)', borderRadius: 'var(--radius-tile)',
           padding: '9px 11px', fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.45,
         }}>
           <strong style={{ fontWeight: 800 }}>You are looking at Stage {shownStage}.</strong>{' '}
@@ -688,7 +688,7 @@ function ProgressLessonsBanner({
           title={childId ? `Ping ${childName} to open My lessons on their page` : 'Add your child first'}
           style={{
             background: sendState === 'sent' ? 'var(--tint-sage)' : '#fff',
-            border: '2px solid var(--ink)', borderRadius: '11px', padding: '8px 12px',
+            border: 'var(--edge)', borderRadius: '11px', padding: '8px 12px',
             cursor: childId && sendState !== 'sending' ? 'pointer' : 'default',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
             whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,
@@ -709,12 +709,12 @@ function ModuleCard({ count, ages, onOpen }: { count: number; ages: string | nul
     <button
       onClick={onOpen}
       style={{
-        width: '100%', textAlign: 'left', cursor: 'pointer', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
-        background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', borderRadius: '18px',
+        width: '100%', textAlign: 'left', cursor: 'pointer', border: 'var(--edge)', boxShadow: 'var(--lift)',
+        background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', borderRadius: 'var(--radius-card)',
         padding: '16px 18px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '13px',
       }}
     >
-      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="phonebed" size={34} /></span>
+      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="phonebed" size={34} /></span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
           Special module · {ages ? `ages ${ages}` : 'the big one'}
@@ -754,7 +754,7 @@ function SocialMediaModule({ items, childId, childName, childStageNum, ages, onB
         ← All lessons
       </button>
 
-      <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
+      <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
           Special module · {items.length} lessons{ages ? ` · ages ${ages}` : ''}
         </div>
@@ -793,7 +793,7 @@ function SocialMediaModule({ items, childId, childName, childStageNum, ages, onB
       {groups.map(g => (
         <div key={g.s.num} style={{ marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: `var(--stage-${g.s.num})`, padding: '4px 11px', borderRadius: '100px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: `var(--stage-${g.s.num})`, padding: '4px 11px', borderRadius: 'var(--radius-pill)' }}>
               Stage {g.s.num} · Ages {g.s.ages}
             </span>
           </div>
@@ -827,7 +827,7 @@ function SocialMediaModule({ items, childId, childName, childStageNum, ages, onB
 
 function Empty({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ background: 'var(--cream)', border: '2px solid var(--ink)', borderRadius: '14px', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-lg)' }}>
+    <div style={{ background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-lg)' }}>
       {children}
     </div>
   )

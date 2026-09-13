@@ -166,7 +166,7 @@ export default function SchoolWeek({
               aria-label={String(aria)}
               style={{
                 width: 36, height: 36, borderRadius: '10px', cursor: 'pointer',
-                background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
                 fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1,
               }}
             >
@@ -179,7 +179,7 @@ export default function SchoolWeek({
               onClick={() => onWeek(0)}
               style={{
                 padding: '0 12px', height: 36, borderRadius: '10px', cursor: 'pointer',
-                background: 'var(--terracotta-lt)', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
+                background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
               }}
             >
@@ -190,7 +190,7 @@ export default function SchoolWeek({
       </div>
 
       {/* The week */}
-      <div style={{ background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', borderRadius: '16px', overflow: 'hidden' }}>
+      <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', overflow: 'hidden' }}>
         {days.map((d, i) => (
           <div
             key={d.short}
@@ -273,7 +273,7 @@ export default function SchoolWeek({
                       flexShrink: 0, width: 28, height: 28, borderRadius: '9px',
                       cursor: cleared || !canClear ? 'default' : 'pointer',
                       background: cleared ? 'var(--retro-green)' : '#fff',
-                      border: cleared ? 'none' : '2px solid var(--ink)',
+                      border: cleared ? 'none' : 'var(--edge)',
                       color: cleared ? '#fff' : 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1,
                       opacity: !cleared && !canClear ? 0.4 : 1,
                     }}
@@ -287,7 +287,7 @@ export default function SchoolWeek({
                     title={weekly ? 'Delete this routine for good' : 'Delete'}
                     style={{
                       flexShrink: 0, width: 28, height: 28, borderRadius: '9px', cursor: 'pointer',
-                      background: '#fff', border: '2px solid var(--ink)',
+                      background: '#fff', border: 'var(--edge)',
                       color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1,
                     }}
                   >
@@ -303,8 +303,8 @@ export default function SchoolWeek({
                       {a.due_time && (
                         <span style={{
                           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                          color: 'var(--ink-soft)', background: '#fff', border: '2px solid var(--ink)',
-                          borderRadius: '100px', padding: '2px 7px',
+                          color: 'var(--ink-soft)', background: '#fff', border: 'var(--edge)',
+                          borderRadius: 'var(--radius-pill)', padding: '2px 7px',
                         }}>
                           {a.due_time.slice(0, 5)}
                         </span>
@@ -317,7 +317,7 @@ export default function SchoolWeek({
                           style={{
                             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                             color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
-                            borderRadius: '100px', padding: '2px 7px',
+                            borderRadius: 'var(--radius-pill)', padding: '2px 7px',
                           }}
                         >
                           ↻ weekly
@@ -328,8 +328,8 @@ export default function SchoolWeek({
                           title="Also reminds them on their app"
                           style={{
                             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                            color: 'var(--ink-muted)', background: '#fff', border: '2px solid var(--ink)',
-                            borderRadius: '100px', padding: '2px 7px',
+                            color: 'var(--ink-muted)', background: '#fff', border: 'var(--edge)',
+                            borderRadius: 'var(--radius-pill)', padding: '2px 7px',
                           }}
                         >
                           📱 they get it too

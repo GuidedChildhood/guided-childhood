@@ -167,7 +167,7 @@ export default function BucketBuilder({
 
   const pickedKeys = new Set(picked.map(p => p.text))
   const inputStyle: React.CSSProperties = {
-    padding: '12px 15px', borderRadius: 12, border: '2px solid var(--ink)',
+    padding: '12px 15px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)',
     background: '#fff', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
   }
 
@@ -258,14 +258,14 @@ export default function BucketBuilder({
                     onClick={() => toggle(idea)}
                     aria-pressed={on}
                     style={kid ? {
-                      padding: '10px 14px', borderRadius: 100, cursor: 'pointer',
+                      padding: '10px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                       border: `2px solid ${HAPPY.ink}`,
                       background: on ? HAPPY.butter : '#fff',
                       boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none',
                       transform: on ? 'none' : 'translateY(2px)',
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: HAPPY.ink,
                     } : {
-                      padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
+                      padding: '9px 14px', borderRadius: 'var(--radius-pill)', cursor: 'pointer',
                       border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
@@ -292,8 +292,8 @@ export default function BucketBuilder({
           <button
             onClick={addCustom}
             style={kid
-              ? { padding: '12px 18px', borderRadius: 12, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer', background: HAPPY.green, color: '#fff', boxShadow: `0 3px 0 ${HAPPY.ink}`, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900 }
-              : { padding: '12px 18px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
+              ? { padding: '12px 18px', borderRadius: 'var(--radius-tile)', border: `2px solid ${HAPPY.ink}`, cursor: 'pointer', background: HAPPY.green, color: '#fff', boxShadow: `0 3px 0 ${HAPPY.ink}`, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900 }
+              : { padding: '12px 18px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
           >
             Add
           </button>
@@ -313,7 +313,7 @@ export default function BucketBuilder({
               onClick={addToQuests}
               disabled={added || picked.length === 0}
               style={{
-                background: added ? 'var(--retro-green)' : '#fff', border: '2px solid var(--ink)', borderRadius: '16px', boxShadow: '0 4px 0 var(--ink)',
+                background: added ? 'var(--retro-green)' : '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', boxShadow: 'var(--lift)',
                 padding: '13px 22px', cursor: added || picked.length === 0 ? 'default' : 'pointer',
                 fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: added ? '#fff' : 'var(--ink)',
               }}
@@ -326,8 +326,8 @@ export default function BucketBuilder({
         {askNote && (
           <p style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'var(--ink)', background: 'var(--tint-sage)', border: '2px solid var(--ink)',
-            borderRadius: 14, padding: '11px 14px', margin: '0 0 20px',
+            color: 'var(--ink)', background: 'var(--tint-sage)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-tile)', padding: '11px 14px', margin: '0 0 20px',
           }}>
             {askNote}
           </p>
@@ -355,7 +355,7 @@ export default function BucketBuilder({
               onClick={print}
               disabled={picked.length === 0}
               style={{
-                flex: 1.4, padding: '14px 12px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`,
+                flex: 1.4, padding: '14px 12px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`,
                 cursor: picked.length === 0 ? 'default' : 'pointer', opacity: picked.length === 0 ? 0.55 : 1,
                 background: HAPPY.butter, color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
@@ -367,7 +367,7 @@ export default function BucketBuilder({
               onClick={addToQuests}
               disabled={added || picked.length === 0}
               style={{
-                flex: 1, padding: '14px 10px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`,
+                flex: 1, padding: '14px 10px', borderRadius: 'var(--radius-btn)', border: `2px solid ${HAPPY.ink}`,
                 cursor: added || picked.length === 0 ? 'default' : 'pointer', opacity: picked.length === 0 ? 0.55 : 1,
                 background: added ? '#E8F0EE' : '#fff', color: HAPPY.ink, boxShadow: added ? 'none' : `0 4px 0 ${HAPPY.ink}`,
                 fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',

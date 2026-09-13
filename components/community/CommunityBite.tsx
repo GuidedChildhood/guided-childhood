@@ -100,9 +100,9 @@ export default function CommunityBite() {
   return (
     <div style={{ marginBottom: '22px' }}>
       <div style={{
-        background: '#fff', border: '2px solid var(--ink)',
-        borderRadius: '22px', overflow: 'hidden',
-        boxShadow: '0 4px 0 var(--ink)',
+        background: '#fff', border: 'var(--edge)',
+        borderRadius: 'var(--radius-card)', overflow: 'hidden',
+        boxShadow: 'var(--lift)',
       }}>
         {/* The band, curved through the bottom like the deck cards */}
         <div style={{
@@ -110,7 +110,7 @@ export default function CommunityBite() {
           borderRadius: '0 0 50% 50% / 0 0 26px 26px',
           display: 'flex', alignItems: 'center', gap: 12,
         }}>
-          <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 13, background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="tell" size={32} /></span>
+          <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 'var(--radius-tile)', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><HappyIcon name="tell" size={32} /></span>
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>
               This month
@@ -160,8 +160,8 @@ export default function CommunityBite() {
                   style={{
                     position: 'relative', overflow: 'hidden', textAlign: 'left',
                     background: mine ? 'var(--gold-lt)' : '#fff',
-                    border: '2px solid var(--ink)',
-                    borderRadius: 14, padding: '13px 15px', cursor: busy ? 'default' : 'pointer',
+                    border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '13px 15px', cursor: busy ? 'default' : 'pointer',
                     fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)',
                     lineHeight: 1.4,
                   }}

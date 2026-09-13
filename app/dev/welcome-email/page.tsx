@@ -31,7 +31,7 @@ export default function DevWelcomeEmail() {
       <iframe
         title="Welcome email"
         srcDoc={content.html}
-        style={{ width: '100%', maxWidth: 620, height: '150vh', border: '1.5px solid var(--border)', borderRadius: 16, background: '#fff' }}
+        style={{ width: '100%', maxWidth: 620, height: '150vh', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)', background: '#fff' }}
       />
     </main>
   )

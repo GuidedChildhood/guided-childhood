@@ -17,9 +17,9 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
   return (
     <div style={{
       background: 'var(--stage-3)',
-      border: '2px solid var(--ink)',
-      boxShadow: '0 4px 0 var(--ink)',
-      borderRadius: '20px',
+      border: 'var(--edge)',
+      boxShadow: 'var(--lift)',
+      borderRadius: 'var(--radius-card)',
       padding: '28px',
       textAlign: 'center',
       maxWidth: '480px',
@@ -31,7 +31,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         height: '72px',
         borderRadius: '50%',
         background: 'var(--terracotta)',
-        border: '2px solid var(--ink)',
+        border: 'var(--edge)',
         boxSizing: 'border-box',
         display: 'flex',
         alignItems: 'center',
@@ -50,8 +50,8 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
       {/* Speech bubble */}
       <div style={{
         background: '#fff',
-        border: '2px solid var(--ink)',
-        borderRadius: '16px',
+        border: 'var(--edge)',
+        borderRadius: 'var(--radius-btn)',
         padding: '16px 20px',
         marginBottom: '20px',
       }}>
@@ -66,9 +66,9 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
           style={{
             background: 'var(--terracotta)',
             color: 'var(--ink)',
-            border: '2px solid var(--ink)',
-            boxShadow: '0 4px 0 var(--ink)',
-            borderRadius: '100px',
+            border: 'var(--edge)',
+            boxShadow: 'var(--lift)',
+            borderRadius: 'var(--radius-pill)',
             padding: '10px 20px',
             fontFamily: 'var(--font-mono)',
             fontSize: '.78rem',

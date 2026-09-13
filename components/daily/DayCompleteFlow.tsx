@@ -146,7 +146,7 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
       <div style={{ display: 'flex', gap: 8, marginBottom: 18 }} aria-hidden>
         {beats.map((_, i) => (
           <span key={i} style={{
-            width: i === beat ? 22 : 8, height: 8, borderRadius: 100,
+            width: i === beat ? 22 : 8, height: 8, borderRadius: 'var(--radius-pill)',
             background: i <= beat ? 'var(--terracotta)' : 'rgba(255,255,255,0.35)',
             transition: 'all 0.25s',
           }} />
@@ -155,12 +155,12 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
 
       <div style={{
         width: '100%', maxWidth: 420,
-        background: 'var(--cream)', borderRadius: 24,
-        border: '2px solid var(--ink)', boxShadow: '0 6px 0 var(--ink)',
+        background: 'var(--cream)', borderRadius: 'var(--radius-card)',
+        border: 'var(--edge)', boxShadow: '0 6px 0 var(--ink)',
         padding: '28px 24px 22px', textAlign: 'center',
       }}>
         <div aria-hidden style={{
-          width: 64, height: 64, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxSizing: 'border-box',
+          width: 64, height: 64, borderRadius: '50%', background: '#fff', border: 'var(--edge)', boxSizing: 'border-box',
           display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px',
         }}><HappyIcon name={b.icon} size={40} /></div>
         <h2 style={{ margin: '0 0 10px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.15 }}>
@@ -178,8 +178,8 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
               display: 'block', textDecoration: 'none', marginBottom: 12,
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               color: 'var(--ink)', background: '#fff',
-              border: '2px solid var(--ink)', borderRadius: 16, padding: '13px 0',
-              boxShadow: '0 4px 0 var(--ink)',
+              border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '13px 0',
+              boxShadow: 'var(--lift)',
             }}
           >
             {b.action.label} ›
@@ -192,8 +192,8 @@ export default function DayCompleteFlow({ childName, childId, streakCount, facts
             display: 'block', width: '100%', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
             color: 'var(--ink)', background: 'var(--terracotta)',
-            border: '2px solid var(--ink)', borderRadius: 16, padding: '15px 0',
-            boxShadow: '0 4px 0 var(--ink)',
+            border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '15px 0',
+            boxShadow: 'var(--lift)',
           }}
         >
           {b.next}

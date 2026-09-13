@@ -76,7 +76,7 @@ export default function ScriptsPage() {
               style={{
                 background: '#fff',
                 border: `1.5px solid ${col.border}`,
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 overflow: 'hidden',
                 boxShadow: '0 2px 16px rgba(0,0,0,.05)',
               }}
@@ -137,7 +137,7 @@ export default function ScriptsPage() {
                 <div style={{
                   background: col.bg,
                   border: `1.5px solid ${col.border}`,
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-tile)',
                   padding: '20px 22px',
                   position: 'relative',
                 }}>
@@ -167,7 +167,7 @@ export default function ScriptsPage() {
                 <div style={{
                   background: 'var(--stage-1)',
                   border: '1px solid var(--stage-1)',
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-tile)',
                   padding: '16px 20px',
                   display: 'flex',
                   gap: '12px',
@@ -195,7 +195,7 @@ export default function ScriptsPage() {
                 <div style={{
                   background: 'var(--stage-5)',
                   border: '1px solid var(--stage-5)',
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-tile)',
                   padding: '16px 20px',
                 }}>
                   <div style={{
@@ -218,7 +218,7 @@ export default function ScriptsPage() {
                 <div style={{
                   background: 'var(--stage-2)',
                   border: '1px solid var(--stage-2)',
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-tile)',
                   padding: '16px 20px',
                   display: 'flex',
                   gap: '12px',
@@ -256,7 +256,7 @@ export default function ScriptsPage() {
       <section className="no-print" style={{ maxWidth: '760px', margin: '40px auto 0', padding: '0 24px 80px' }}>
         <div style={{
           background: 'var(--deep-teal)',
-          borderRadius: '20px',
+          borderRadius: 'var(--radius-card)',
           padding: 'clamp(28px, 5vw, 40px)',
           textAlign: 'center',
           position: 'relative',

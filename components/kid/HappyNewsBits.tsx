@@ -89,7 +89,7 @@ export function Sticker({ children, accent = 'butter', rotate = -6, size = 'md',
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
-      background: bg, color: fg, border: `2px solid ${HAPPY.ink}`, borderRadius: 100,
+      background: bg, color: fg, border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
       padding: pad, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: fs,
       letterSpacing: '0.02em', lineHeight: 1.1, whiteSpace: 'nowrap',
       transform: `rotate(${rotate}deg)`, boxShadow: `2px 3px 0 ${HAPPY.ink}`,
@@ -166,8 +166,8 @@ export function HappyMasthead({ kicker, title, sub, right, style }: {
   return (
     <div style={{
       position: 'relative', overflow: 'hidden',
-      background: HAPPY.butter, border: `2.5px solid ${HAPPY.ink}`, borderRadius: 22,
-      padding: '16px 16px 15px', boxShadow: `0 5px 0 ${HAPPY.ink}`, color: HAPPY.ink,
+      background: HAPPY.butter, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      padding: '16px 16px 15px', boxShadow: 'var(--lift-deep)', color: HAPPY.ink,
       ...style,
     }}>
       <HappyScatter dim />
@@ -213,7 +213,7 @@ export function Plate({ size, tint = '#FEF7E0', children, style }: {
 }) {
   return (
     <span style={{ position: 'relative', width: size, height: size, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, ...style }}>
-      <span aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: tint, border: `2px solid ${HAPPY.ink}`, boxSizing: 'border-box' }} />
+      <span aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: tint, border: 'var(--edge)', boxSizing: 'border-box' }} />
       <span aria-hidden style={{ position: 'absolute', top: size * 0.06, right: size * 0.08 }}><StarShape size={Math.max(12, size * 0.12)} color={HAPPY.butter} /></span>
       <span aria-hidden style={{ position: 'absolute', bottom: size * 0.1, left: size * 0.06 }}><StarShape size={Math.max(9, size * 0.08)} color={HAPPY.coral} /></span>
       <span style={{ position: 'relative' }}>{children}</span>

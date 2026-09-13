@@ -55,7 +55,7 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
   background: rgba(255,255,255,.98);
   /* The happy news finish: an ink edge on top, the way the child's bar wears one. */
-  border-top: 2px solid var(--ink);
+  border-top: var(--edge);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -123,7 +123,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   line-height: 1.2;
   transition: color 0.15s, transform 0.06s ease;
   flex: 1;
-  border-radius: 12px;
+  border-radius: var(--radius-tile);
   /* Kill the 300ms mobile tap delay and the grey tap flash, then give our
      own instant press feedback below so the bar answers a finger at once. */
   touch-action: manipulation;
@@ -237,7 +237,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 /* ── DIGI CARD (app) ── */
 .digi-card {
   background: var(--white);
-  border-radius: 20px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--border);
   box-shadow: 0 4px 24px rgba(28,28,42,0.08);
   overflow: visible;
@@ -281,7 +281,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 .bubble-digi {
   background: #fff;
   padding: 11px 14px;
-  border-radius: 16px;
+  border-radius: var(--radius-btn);
   border-bottom-left-radius: 4px;
   border: 1px solid var(--border);
   font-size: .85rem;
@@ -293,7 +293,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 .bubble-parent {
   background: #DCE7FB;
   padding: 11px 15px;
-  border-radius: 16px;
+  border-radius: var(--radius-btn);
   border-bottom-right-radius: 4px;
   font-family: var(--font-display);
   font-weight: 700;
@@ -327,7 +327,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   gap: 8px;
   background: var(--terracotta-lt);
   border: 1.5px solid rgba(61,115,154,.25);
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   padding: 6px 14px;
   font-family: var(--font-body);
   font-size: 0.75rem;
@@ -348,7 +348,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   color: var(--terracotta);
   background: var(--terracotta-lt);
   padding: 8px 16px;
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   border: 1px solid rgba(61,115,154,.2);
 }
 
@@ -426,7 +426,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    tracking, an active pill with real depth and a soft settle transition. */
 .nav-pill {
   padding: 8px 17px;
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   font-family: var(--font-display);
   font-size: 0.82rem;
   font-weight: 700;
@@ -463,7 +463,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   min-width: 17px;
   height: 17px;
   padding: 0 4px;
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   background: #E5484D;
   color: #fff;
   font-family: var(--font-mono);
@@ -548,7 +548,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 
 .squad-card {
   background: #fff;
-  border-radius: 24px;
+  border-radius: var(--radius-card);
   border: 1px solid var(--border);
   overflow: hidden;
   box-shadow: 0 2px 32px rgba(26,26,46,0.05);
@@ -599,7 +599,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
-.placard-wrapper:focus-visible { box-shadow: 0 0 0 3px var(--terracotta); border-radius: 20px; }
+.placard-wrapper:focus-visible { box-shadow: 0 0 0 3px var(--terracotta); border-radius: var(--radius-card); }
 
 /* Both faces sit in the same grid cell instead of position:absolute inside a
    fixed 220px box. The card is as tall as its tallest face, so longer text
@@ -620,7 +620,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 
 .placard-face {
   grid-area: 1 / 1;
-  border-radius: 20px;
+  border-radius: var(--radius-card);
   padding: 22px 20px;
   display: flex;
   flex-direction: column;
@@ -676,7 +676,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 .walkthrough-row {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
-  border-radius: 16px;
+  border-radius: var(--radius-btn);
   border: 1px solid var(--border);
   overflow: hidden;
   background: #fff;
@@ -692,7 +692,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   grid-template-columns: repeat(4, 1fr);
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-btn);
   overflow: hidden;
   margin-top: 32px;
 }
@@ -795,7 +795,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   gap: 2px;
   background: var(--cream);
   border: 1px solid var(--border);
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
   padding: 3px;
 }
 /* Hide below 1021px: five pills plus the logo and the two header capsules
@@ -812,7 +812,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 .nav-burger {
   display: none;
   width: 40px; height: 40px;
-  border-radius: 12px;
+  border-radius: var(--radius-tile);
   border: 1px solid var(--border);
   background: var(--cream);
   cursor: pointer;
@@ -827,7 +827,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   top: calc(100% + 8px); left: 12px; right: 12px;
   background: #fff;
   border: 1.5px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-btn);
   box-shadow: 0 18px 50px rgba(26,26,46,0.16);
   padding: 8px;
   display: flex; flex-direction: column;
@@ -847,7 +847,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    pattern in our butter and ink. */
 .hdr-login {
   display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 100px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill); border: 1.5px solid var(--border);
   background: #fff; color: var(--ink);
   font-family: var(--font-display); font-weight: 800; font-size: 0.90625rem;
   letter-spacing: -0.01em; padding: 10px 20px;
@@ -857,7 +857,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 .hdr-login:hover { background: var(--cream); border-color: var(--ink-light); }
 .hdr-login:active { transform: translateY(1px); }
 .hdr-cta {
-  border-radius: 100px; font-size: 0.90625rem; padding: 11px 22px;
+  border-radius: var(--radius-pill); font-size: 0.90625rem; padding: 11px 22px;
   box-shadow: 0 4px 0 var(--terracotta-dark);
 }
 .hdr-cta:hover, .hdr-cta:active { box-shadow: 0 4px 0 var(--terracotta-dark); }
@@ -959,7 +959,7 @@ body.gc-input-focused .rightnow-fab { display: none; }
     background: var(--terracotta);
     color: var(--ink);
     border: 3px solid var(--white);
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     padding: 14px 22px;
     cursor: pointer;
     font-family: var(--font-display);
@@ -1052,3 +1052,9 @@ body.gc-bare .gc-chrome {
   .ci-fold { transition: none; }
   .ci-pop, .ci-collapsed { animation: none; }
 }
+
+/* Every button through components/ui/Button.tsx wears this. Inline styles
+   cannot express :active, so the one thing a chunky button must do, sink onto
+   its ledge under a thumb, lives here. Same 2px the .btn class uses. */
+.gc-press:active { transform: translateY(2px); }
+@media (prefers-reduced-motion: reduce) { .gc-press:active { transform: none; } }

@@ -100,7 +100,7 @@ export default function ChestSpark({ active }: { active: boolean }) {
       aria-hidden
       style={{
         position: 'absolute', inset: 0, overflow: 'hidden',
-        borderRadius: 20, pointerEvents: 'none',
+        borderRadius: 'var(--radius-card)', pointerEvents: 'none',
       }}
     >
       <div
@@ -108,7 +108,7 @@ export default function ChestSpark({ active }: { active: boolean }) {
         style={{
           position: 'absolute', top: 0, left: 0,
           width: 96, height: 3, opacity: 0,
-          borderRadius: 100,
+          borderRadius: 'var(--radius-pill)',
           // The head is the bright end and the tail fades out behind it, so the
           // streak reads as travelling rather than as a line that appeared.
           //

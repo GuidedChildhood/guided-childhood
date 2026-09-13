@@ -45,14 +45,14 @@ export default function WordCard({ word, childName, latest }: { word: DigiWord; 
   const when = new Date(word.created_at).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
   const BTN: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer',
-    padding: '11px 16px', borderRadius: 14, border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
+    padding: '11px 16px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', boxShadow: 'var(--lift)',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff',
     textDecoration: 'none',
   }
 
   return (
     <article style={{
-      background: '#fff', border: '2px solid var(--ink)', borderRadius: 22, boxShadow: '0 4px 0 var(--ink)',
+      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
       padding: '20px 18px 18px', marginBottom: 20, opacity: latest ? 1 : 0.92,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
