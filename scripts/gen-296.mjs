@@ -146,6 +146,9 @@ for (const f of fs.readdirSync('content/modules')) {
   const m = byId[mod.module_id]
   if (!m) throw new Error(`${f}: no beats`)
   const built = build(m)
+  // A module already carrying its beats is left alone, so the SQL can be
+  // regenerated after the JSON step has run once.
+  if (mod.slides.some(s => s.type === 'interactive' && s.config && s.config.character)) { console.log(`${mod.module_id}: already carries its beats, JSON untouched`); continue }
   const { out, reduced } = splice(mod.slides, m, built)
   mod.slides = out
   mod.teacher_notes.timing = retime(mod.teacher_notes.timing, m, reduced)

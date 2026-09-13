@@ -236,8 +236,10 @@ begin
   end if;
 
   -- 7. every title in the scheme now carries a real key
-  select count(*) into bad from schools.school_lessons l, jsonb_array_elements(l.slides) x
-   where x->>'type' = 'title' and coalesce(x->>'character','') not in ('pebble','bloop','orbit','nova','cosmo','digi');
+  -- (aliased sl, not x: x is a variable of this block and Postgres refuses
+  -- the ambiguity, which rolled the first run back before it wrote a thing)
+  select count(*) into bad from schools.school_lessons l, jsonb_array_elements(l.slides) sl
+   where sl->>'type' = 'title' and coalesce(sl->>'character','') not in ('pebble','bloop','orbit','nova','cosmo','digi');
   if bad > 0 then raise exception 'guard 7: % title slides still carry an unknown character key', bad; end if;
 
   raise notice '296 applied: % slides before, % after', total_before, total_after;
