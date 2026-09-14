@@ -29,6 +29,8 @@ type Lesson = {
   module_id: string
   title: string
   year_band: string
+  key_stage: string
+  character_cast: string | null
   teacher_notes: { starter_quiz?: QuizBank } | null
 }
 
@@ -43,7 +45,7 @@ export default async function StarterQuizPage({
 
   const { data } = await supabase
     .from('school_lessons')
-    .select('module_id, title, year_band, teacher_notes')
+    .select('module_id, title, year_band, key_stage, character_cast, teacher_notes')
     .eq('module_id', moduleId)
     .maybeSingle()
 
@@ -59,6 +61,8 @@ export default async function StarterQuizPage({
       moduleId={lesson.module_id}
       title={lesson.title}
       yearBand={lesson.year_band}
+      keyStage={lesson.key_stage}
+      characterCast={lesson.character_cast}
       questions={questions}
       answers={answers !== undefined}
     />

@@ -1,6 +1,7 @@
 import PrintButton from '@/components/PrintButton'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import Link from 'next/link'
+import { friendFor, printRegister, mono as kitMono, FriendHeader, PrintSheet } from '@/components/print/kit'
 
 // THE QUIZ SHEET, one side of A4, in the Oak pattern.
 //
@@ -33,12 +34,12 @@ export type QuizQuestion = {
 
 const mono: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
-  letterSpacing: '0.14em', textTransform: 'uppercase', color: '#666',
+  letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const body: React.CSSProperties = {
-  fontFamily: 'var(--font-body)', fontSize: '14px', color: '#111', lineHeight: 1.6,
+  fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6,
 }
-const rule: React.CSSProperties = { borderBottom: '1px solid #999', height: '22px' }
+const rule: React.CSSProperties = { borderBottom: '1.5px solid var(--ink-light)', height: '26px' }
 
 // A tick box, drawn rather than an input, because this sheet is filled in
 // with a pencil and is never submitted anywhere.
@@ -66,11 +67,12 @@ function rotated<T>(xs: T[]): T[] {
 
 const LETTERS = 'ABCDEFGH'
 
-function Question({ q, n, answers }: { q: QuizQuestion; n: number; answers: boolean }) {
+function Question({ q, n, answers, accent }: { q: QuizQuestion; n: number; answers: boolean; accent: string }) {
   return (
     <div style={{ marginBottom: '16px', breakInside: 'avoid' }}>
-      <p style={{ ...body, fontWeight: 700, margin: '0 0 8px' }}>
-        {n}. {q.question}
+      <p style={{ ...body, fontWeight: 700, margin: '0 0 8px', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+        <span style={{ flexShrink: 0, width: '24px', height: '24px', borderRadius: '50%', background: accent, color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{n}</span>
+        <span style={{ paddingTop: '2px' }}>{q.question}</span>
       </p>
 
       {q.format === 'tick_one' && (
@@ -113,7 +115,7 @@ function Question({ q, n, answers }: { q: QuizQuestion; n: number; answers: bool
                   <span key={p.left} style={{ ...body, display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ ...mono, color: '#111' }}>{i + 1}</span>
                     {p.left}
-                    <span style={{ borderBottom: '1px solid #999', display: 'inline-block', width: '34px' }} />
+                    <span style={{ borderBottom: '1.5px solid var(--ink-light)', display: 'inline-block', width: '34px' }} />
                   </span>
                 ))}
               </div>
@@ -150,8 +152,8 @@ function Question({ q, n, answers }: { q: QuizQuestion; n: number; answers: bool
           right one was. It is the reason a cover teacher can run this. */}
       {answers && q.teaching_point && (
         <p style={{
-          ...body, fontSize: '12.5px', color: '#444', margin: '6px 0 0',
-          paddingLeft: '14px', borderLeft: '2px solid #EDC35F', marginLeft: '14px',
+          ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '6px 0 0',
+          paddingLeft: '14px', borderLeft: `2px solid ${accent}`, marginLeft: '14px',
         }}>
           {q.teaching_point}
         </p>
@@ -161,15 +163,21 @@ function Question({ q, n, answers }: { q: QuizQuestion; n: number; answers: bool
 }
 
 export default function QuizSheet({
-  kind, moduleId, title, yearBand, questions, answers,
+  kind, moduleId, title, yearBand, keyStage, characterCast, questions, answers,
 }: {
   kind: 'starter' | 'exit'
   moduleId: string
   title: string
   yearBand: string
+  keyStage?: string | null
+  characterCast?: string | null
   questions: QuizQuestion[]
   answers: boolean
 }) {
+  // The friend thinks at the top of the question sheet and is a small mark
+  // on the teacher's answer sheet (the print kit, 14 September 2026).
+  const friend = friendFor(characterCast, keyStage)
+  const reg = printRegister(keyStage)
   const name = kind === 'starter' ? 'Starter quiz' : 'Exit quiz'
   const purpose = kind === 'starter'
     ? 'What they need to know before this lesson. Run it cold, before you teach anything.'
@@ -177,44 +185,36 @@ export default function QuizSheet({
   const other = answers ? `/print/${moduleId}/${kind}-quiz` : `/print/${moduleId}/${kind}-quiz?answers=1`
 
   return (
-    <main style={{ background: '#fff', color: '#111', padding: '28px 30px', maxWidth: '820px', margin: '0 auto' }}>
-      <div className="no-print" style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '14px' }}>
+    <main style={{ background: '#fff', color: 'var(--ink)', padding: '0 8px 40px', maxWidth: '740px', margin: '0 auto' }}>
+      <div className="no-print" style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', padding: '20px 0 0', marginBottom: '8px' }}>
         <PrintButton label={`Print the ${answers ? 'answers' : 'quiz'}`} />
-        <Link href={other} style={{ ...mono, color: '#C99A28', textDecoration: 'none' }}>
+        <Link href={other} style={{ ...kitMono, color: friend.ink, textDecoration: 'none' }}>
           {answers ? 'The question version →' : 'The answer version →'}
         </Link>
       </div>
-
-      <div style={mono}>
-        {answers ? 'Teacher copy, answers' : 'Photocopy per pupil'} · {yearBand} · {name}
-      </div>
-      <h1 style={{
-        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '26px',
-        letterSpacing: '-0.02em', lineHeight: 1.15, margin: '6px 0 4px',
-      }}>
-        {title}
-      </h1>
-
-      {answers ? (
-        <p style={{ ...body, color: '#444', margin: '0 0 18px' }}>{purpose}</p>
-      ) : (
-        <p style={{ ...body, margin: '8px 0 18px' }}>
-          Name: <span style={{ borderBottom: '1px solid #999', display: 'inline-block', width: '220px' }} />
-          &nbsp;&nbsp;Date: <span style={{ borderBottom: '1px solid #999', display: 'inline-block', width: '120px' }} />
-        </p>
-      )}
-
+      <PrintSheet footer={`${title} · ${name.toLowerCase()}${answers ? ' · answers' : ''}`} last>
+      <FriendHeader
+        friend={friend}
+        register={reg}
+        small={answers}
+        mood="thinking"
+        eyebrow={`${answers ? 'Teacher copy, answers' : 'Photocopy per pupil'} · ${yearBand} · ${name}`}
+        title={title}
+        sub={answers ? purpose : undefined}
+        nameLine={answers ? undefined : 'Name and date'}
+      />
       {questions.map((q, i) => (
-        <Question key={i} q={q} n={i + 1} answers={answers} />
+        <Question key={i} q={q} n={i + 1} answers={answers} accent={friend.accent} />
       ))}
 
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: '#666', lineHeight: 1.5, marginTop: '18px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '18px' }}>
         {kind === 'starter'
           ? 'This is a readiness check, not a test of the child. Nothing here is recorded, and a class that struggles with it is telling you where to start rather than failing anything.'
           : 'This checks what the lesson taught, not what a child is worth. Nothing here is recorded and no score leaves the room.'}
       </p>
 
       <PrintBrandFooter />
+      </PrintSheet>
     </main>
   )
 }
