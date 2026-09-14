@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
-import KidAskScreenTime, { askDevicesFrom } from '@/components/kid/KidAskScreenTime'
+import KidAskScreenTime from '@/components/kid/KidAskScreenTime'
+// Server safe by construction: a named export of a 'use client' module is a
+// client reference on the server, and calling one throws. See the note in
+// lib/devices/ask-devices.ts.
+import { askDevicesFrom } from '@/lib/devices/ask-devices'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { getTimeSettings, getCoreUsedToday } from '@/lib/quests/time-tiers'

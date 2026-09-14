@@ -151,6 +151,14 @@ jobs:
       # sheet in the shop is the real catalogue. See the header of
       # check-stickers-land.mjs.
       - run: node --experimental-strip-types scripts/check-stickers-land.mjs
+
+      # The client boundary. A server file that CALLS a named export of a
+      # 'use client' module crashes on every request, and neither tsc nor
+      # next build can see it: the import type checks, and a force-dynamic
+      # route is never rendered at build time. It took a founder on a phone
+      # to find the last one (14 September 2026, the child's Ask for screen
+      # time page). This is the cheap way.
+      - run: node --experimental-strip-types scripts/check-client-boundary.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

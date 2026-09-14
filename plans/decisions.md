@@ -15412,3 +15412,72 @@ progress bar that overstates progress fails it.
   single count above, was taken deliberately and verified again from scratch;
   the rest was reverted to the version that had been measured in a browser.
   Worth remembering: a guard written by the thing it guards proves nothing.
+
+## 14 September 2026: the child app crashed on Use my time, and the child got the parent's error page
+
+Justin, from his phone at 14:07: "clicked use device time in child's app and
+error." A screenshot of "A hiccup on our side".
+
+Two faults, and the second only showed because of the first.
+
+### The crash: a server page calling a client function
+
+`app/k/[token]/ask/page.tsx` is a server component. It imported `askDevicesFrom`
+BY NAME from `components/kid/KidAskScreenTime.tsx`, which is `'use client'`,
+and called it while rendering.
+
+That does not work, and it does not fail quietly. Next compiles a `'use client'`
+module into the SERVER graph as client REFERENCES, not as code. Its own flight
+loader (`next/dist/build/webpack/loaders/next-flight-loader`) replaces every
+named export with a function whose only behaviour is to throw:
+
+```
+function () { throw new Error("Attempted to call askDevicesFrom() from the
+  server but askDevicesFrom is on the client...") }
+```
+
+So on the server the name still imports, still typechecks, and is a landmine.
+Calling it was the crash. **No row state was involved**, which is why it hit
+every child on every tap rather than one family: the ask page threw before it
+rendered a pixel.
+
+`askDevicesFrom` and the `AskDevice` type moved to `lib/devices/ask-devices.ts`,
+a plain module. Both of its dependencies (`deviceIcon`, `KID_DEVICES`) were
+already server safe. The component re imports the type only, which is erased and
+never crosses the boundary.
+
+### Why three layers of checking missed it
+
+1. **TypeScript cannot see the boundary.** It checks the source, and the source
+   is an ordinary exported function.
+2. **`next build` never rendered the route.** It is `export const dynamic =
+   'force-dynamic'`, so there is no build time render to fail. Every build today
+   was green.
+3. **The dev fixture never crossed the boundary.** `/dev/kid-ask` is itself a
+   client page importing the DEFAULT export, so the screen was only ever
+   exercised client side.
+
+It took the founder on a phone to find it. `scripts/check-client-boundary.mjs`
+now fails the build on the shape anywhere in the repo: a file that is not
+`'use client'` calling a named export of a file that is. Wired into
+`wiring.yml`, four mutations caught, including a restoration of the exact bug.
+It clears 1088 files with no false positives, and it deliberately still passes
+the two correct patterns: a default import of a client component, and
+`import type`.
+
+### The second fault: a child was handed the grown up's error page
+
+There was no error boundary anywhere under `app/k`, so every child crash fell
+through to `app/error.tsx`: our apology in adult words, an email address, and a
+button reading "Back to my dashboard" pointing at `/dashboard`. A child has no
+dashboard and cannot log in to one, so the single control we offered them led to
+a sign in wall. The one thing a child needs at that moment, the way back to
+their own page, was the one thing missing.
+
+`app/k/[token]/error.tsx` says the same true thing in their language, carries
+DiGi so a failure is not frightening, and offers the two real choices: try
+again, or go to my page. It takes the token off the address bar rather than
+asking the router, because it renders when something has already gone wrong and
+the URL is the one thing that cannot have failed. No email address: a child
+cannot action it and it is the grown up's to deal with. `tokenFromPath` is
+exported and checked against every real child route.

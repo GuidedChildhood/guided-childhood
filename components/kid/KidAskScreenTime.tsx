@@ -4,8 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { HAPPY, Plate, Ribbon, StarShape } from '@/components/kid/HappyNewsBits'
 import HappyIcon from '@/components/kid/HappyIcon'
 import { playKidSound } from '@/lib/sound/kidSounds'
-import { KID_DEVICES, ACTIVITIES, asksActivity, deviceLabel, type ActivityKey } from '@/lib/quests/device-time'
-import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
+import { ACTIVITIES, asksActivity, deviceLabel, type ActivityKey } from '@/lib/quests/device-time'
+// Type only, so it is erased and never crosses the client boundary.
+import type { AskDevice } from '@/lib/devices/ask-devices'
+export type { AskDevice }
 
 // Ask for screen time, on one clear page.
 //
@@ -30,7 +32,7 @@ import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 // Everything that decides is still on the server: cost, the healthy amount,
 // protected windows, the jobs gate. This page only asks.
 
-export type AskDevice = { id: string | null; kind: string; label: string; emoji: string }
+
 
 export type AskSeed = {
   token: string
@@ -384,7 +386,4 @@ export default function KidAskScreenTime(seed: AskSeed) {
 }
 
 /** The device list for the page: the family's own screens, or the four kinds. */
-export function askDevicesFrom(familyDevices: FamilyDevice[]): AskDevice[] {
-  if (familyDevices.length > 0) return familyDevices.map(d => ({ id: d.id, kind: d.kind, label: d.label, emoji: deviceIcon(d) }))
-  return KID_DEVICES.map(d => ({ id: null, kind: d.key, label: d.label, emoji: d.emoji }))
-}
+
