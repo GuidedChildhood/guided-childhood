@@ -65,6 +65,9 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
   const byArea: Record<AreaKey, typeof lessons> = { safe: [], balance: [], ai: [], social: [] }
   for (const l of lessons) if (l.area) byArea[l.area].push(l)
 
+  // Where the panel's label already ends in "I can", the line under it drops
+  // its own first two words, so a page never reads "I can · I can spot".
+  const icanLine = (line: string) => (/I can$/.test(edition.prove) ? line.replace(/^I can\s+/i, '') : line)
   const body: React.CSSProperties = { ...text, fontSize: young ? '12px' : '10.5px', lineHeight: 1.4 }
   const small: React.CSSProperties = { ...mono, fontSize: '7.5px', letterSpacing: '0.1em', color: friend.ink }
   const h: React.CSSProperties = { ...display, fontSize: young ? '18px' : '15px', lineHeight: 1.15 }
@@ -131,7 +134,7 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <span style={small}><span aria-hidden>{AREA_EMOJI[a]}</span> {AREAS[a].name}</span>
         <div style={{ display: 'flex', gap: '3mm', alignItems: 'flex-start', marginTop: '2mm' }}>
-          <Stamp friend={friend} label="" size={young ? 26 : 22} hint="Sticker" />
+          <Stamp friend={friend} label="" size={young ? 26 : 22} hint={list.length ? 'Sticker' : 'At home'} />
           <div style={{ flex: '1 1 auto', minWidth: 0 }}>
             <span style={{ ...display, fontSize: young ? '13px' : '11px' }}>{list.length ? edition.prove : ''}</span>
             {list.length === 0 && <p style={{ ...body, color: 'var(--ink-soft)' }}>{edition.athome}</p>}
@@ -139,7 +142,7 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
         </div>
         <ul style={{ margin: '2mm 0 0', paddingLeft: '4mm', listStyle: 'disc' }}>
           {list.map(l => (
-            <li key={l.moduleId} style={{ ...body, fontSize: young ? '11px' : '9.5px', marginBottom: '1mm' }}>{l.ican || l.title}</li>
+            <li key={l.moduleId} style={{ ...body, fontSize: young ? '11px' : '9.5px', marginBottom: '1mm' }}>{icanLine(l.ican || l.title)}</li>
           ))}
         </ul>
       </div>
@@ -149,8 +152,8 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
   const others = EDITIONS.filter(e => e.stage !== edition.stage)
 
   return (
-    <main style={{ background: '#fff', color: 'var(--ink)', padding: '0 8px 40px' }}>
-      <style>{`@page { size: A4 landscape; margin: 8mm 9mm; } @media print { .gc-passport-sheet { page-break-after: always; break-after: page; } .gc-passport-wrap { overflow: visible !important; } }`}</style>
+    <main className="gc-passport-main" style={{ background: '#fff', color: 'var(--ink)', padding: '0 8px 40px' }}>
+      <style>{`@page { size: A4 landscape; margin: 8mm 9mm; } @media print { .gc-passport-main { padding: 0 !important; } .gc-passport-wrap { overflow: visible !important; margin: 0 !important; } .gc-passport-a { page-break-after: always; break-after: page; } .gc-passport-b { page-break-after: auto; break-after: auto; } }`}</style>
       <div className="no-print" style={{ maxWidth: '1060px', margin: '0 auto', padding: '20px 0 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
         <div>
           <Link href="/print/passport" style={{ ...mono, textDecoration: 'none' }}>← The passport print out</Link>
@@ -162,7 +165,7 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
 
       {/* Sheet A: the one sheet passport. */}
       <div className="gc-passport-wrap" style={{ overflowX: 'auto', margin: '0 auto', maxWidth: '1060px' }}>
-        <section className="gc-passport-sheet" style={{ width: '279mm', height: '190mm', position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: '1fr 1fr', background: '#fff', border: '1px solid var(--border)' }}>
+        <section className="gc-passport-sheet gc-passport-a" style={{ width: '279mm', height: '190mm', position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: '1fr 1fr', background: '#fff', border: '1px solid var(--border)' }}>
           {ZINE_TOP.map(n => <Panel key={`t${n}`} n={n} upside friend={friend}>{faces[n]}</Panel>)}
           {ZINE_BOTTOM.map(n => <Panel key={`b${n}`} n={n} upside={false} friend={friend}>{faces[n]}</Panel>)}
           {/* The slit: along the middle crease, across the two middle panels only. */}
@@ -174,7 +177,7 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
 
       {/* Sheet B: the stickers and the fold. */}
       <div className="gc-passport-wrap" style={{ overflowX: 'auto', margin: '18px auto 0', maxWidth: '1060px' }}>
-        <section className="gc-passport-sheet" style={{ width: '279mm', minHeight: '190mm', background: '#fff', border: '1px solid var(--border)', padding: '6mm 8mm', display: 'flex', flexDirection: 'column', gap: '4mm', pageBreakAfter: 'auto' }}>
+        <section className="gc-passport-sheet gc-passport-b" style={{ width: '279mm', height: '184mm', boxSizing: 'border-box', background: '#fff', border: '1px solid var(--border)', padding: '5mm 8mm', display: 'flex', flexDirection: 'column', gap: '3mm', pageBreakAfter: 'auto' }}>
           <div style={{ display: 'flex', gap: '6mm', alignItems: 'center', background: friend.soft, border: `2px solid ${friend.accent}`, borderRadius: '14px', padding: '3mm 5mm' }}>
             <FriendArt friend={friend} mood="happy" size={18} />
             <div style={{ flex: '1 1 auto' }}>

@@ -14646,3 +14646,68 @@ a Tonight line, the reflective question once a day on Home, the fix of the
 week card down to name and button), then the researchers file behind a
 switch with the evals run before it flips, then local session verification
 in middleware as its own PR.
+
+## 14 September 2026, Monday, the print kit and the passport print out (session 0u09q9)
+
+Justin, with the print room open: "run the best design agents over the
+print outs like booklet etc and make them print formatted with Planet
+Friends colour print outs, also making a super amazing print out finish for
+children and teachers to be amazed at. And should we have somewhere a print
+out of the passport for them as a task to cut out, print, attach stickers
+etc, with words that reflect what they should know each stage, super simple,
+super fun and more engaging the older the level."
+
+**The kit, and the friend on every sheet.** Every printable in the schools
+app now draws through `schools/components/print/kit.tsx`. The signature is
+one thing: the key stage's Planet Friend is on the page, in colour, doing
+something on that page. It waves on a cover, thinks beside a question, is
+proud on a finished record, and holds the ring a passport sticker goes in.
+Colour comes from the friend (its tint as the band, its accent on rules
+and chips, its ink for words on the tint), body text is always ink, and
+every box keeps an ink border, so a black and white photocopy keeps the
+structure and a colour print keeps the joy. No new art: the cutouts and the
+fifteen expression stills already on the CDN carry all of it, so nothing
+spent a credit.
+
+**The register in print is the wall's ladder.** `printRegister(keyStage)`
+decides the sizes from `shared/friend-register.ts`: a Reception sheet gets
+one idea a page, a friend at 60mm on the cover, stars to colour and boxes to
+draw in; a Year 11 sheet gets an editorial grid, quiet colour and the friend
+as an 18mm mark. Chosen by key stage, never per page.
+
+**On the kit:** the pupil booklet, the paper pack (the teacher one pager,
+the tool bookmarks, the worksheet, the answer key, the start and exit cards,
+the parent note with the passport line and the home code as a chip), the
+knowledge organiser, the learning record with real stars to colour, both
+quizzes, the unit overview and the print room. The renders found two data
+bugs the plain sheets had hidden: the four JSON authored modules carry
+worksheet cards as `{ stem, text }` and printed as empty cards, so
+`schools/lib/worksheet.ts` reads both shapes and the answer key prints only
+where a verdict exists; and the EYFS objective slide has no gains list.
+
+**The passport print out.** `/print/passport` lists four editions, one per
+page the school scheme fills: First steps (Pebble), Good habits (Bloop),
+Making choices (Orbit) and Ready at sixteen (Nova). Each is two landscape
+sheets. Sheet A is the passport: eight panels on one side of one A4, folded
+and cut into a booklet the size of a real passport, the top row printed
+upside down as 5 4 3 2 and the bottom row 6 7 8 1 with the cover bottom
+right, a page number on every panel so a teacher checks the fold before a
+class does, the cut marked across the two middle panels only. The four
+areas each have a ring for a sticker and the words of what a child on this
+page should know: the `I can` line of every lesson on the page, read from
+the lesson rows, never typed. Sheet B is the stickers: one per lesson, one
+per area, the stage stamp, three stars, and the fold in four steps with the
+layout drawn beside it. The ladder holds here too: First steps has huge
+rings and stars to colour, Ready at sixteen calls its areas tests and ends
+with a signature and a date.
+
+**Explorer and KS5.** The Asking questions page has no school lesson (every
+KS3 module sits on Making choices, as `shared/passport-stages.ts` already
+decided), so it is filled at home and has no edition. Years 12 and 13 are
+past the passport by design, and the index says so.
+
+**Held in CI.** `scripts/check-print-kit.mjs`: every sheet draws through the
+kit and places the friend, both worksheet readers are the one reader, the
+fold places the eight pages once each with the cover bottom right, the four
+editions each have a friend, the print room and the hub passport page link
+the print out, and there is no dash in the kit's or the passport's words.

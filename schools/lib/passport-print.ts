@@ -49,7 +49,7 @@ export const EDITIONS: Edition[] = [
   },
   {
     stage: 'builder', friend: 'bloop', years: 'Years 3 to 6', young: false, signed: false,
-    strap: 'Good habits, built by me',
+    strap: 'Built by me, one lesson at a time',
     about: 'Four things every child on this page is learning. Each lesson fills one ring with a sticker. When every ring is full, the page is complete and Bloop is your stamp.',
     prove: 'By the end of this page I can',
     athome: 'No lesson on this page yet. The app fills this ring at home.',
@@ -67,7 +67,7 @@ export const EDITIONS: Edition[] = [
   },
   {
     stage: 'independent', friend: 'nova', years: 'Years 10 and 11', young: false, signed: true,
-    strap: 'Ready at sixteen',
+    strap: 'The last page before full access',
     about: 'The last page before full access. Four areas, each one a test you pass by doing, not a box someone ticks for you. A sticker per lesson, a signature when the page is complete.',
     prove: 'The tests',
     athome: 'No school lesson sits in this area on this page. The app carries it at home.',

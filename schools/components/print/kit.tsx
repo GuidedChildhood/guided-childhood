@@ -110,11 +110,12 @@ export function FriendHeader({ friend, register, mood = 'wave', eyebrow, title, 
   // beside it readable on a phone screen too.
   const size = small ? register.markMm : Math.min(register.friendMm, 44)
   return (
-    <header className="gc-avoid-break" style={{ background: friend.soft, border: `2px solid ${friend.accent}`, borderRadius: `${register.radius}px`, padding: small ? '14px 18px' : '18px 22px', display: 'flex', gap: '18px', alignItems: 'center', marginBottom: '16px' }}>
+    <header className="gc-avoid-break" style={{ background: friend.soft, border: `2px solid ${friend.accent}`, borderRadius: `${register.radius}px`, padding: small ? '14px 18px' : '18px 22px', display: 'flex', flexWrap: 'wrap', gap: '14px 18px', alignItems: 'center', marginBottom: '16px' }}>
       <FriendArt friend={friend} mood={mood} size={size} />
-      <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+      <div style={{ flex: '1 1 220px', minWidth: 0 }}>
         <div style={{ ...mono, color: friend.ink }}>{eyebrow}</div>
-        <h1 style={{ ...display, fontSize: small ? 'var(--text-xl)' : register.title, margin: '4px 0 0' }}>{title}</h1>
+        {/* The phone preview is the only place a Reception title meets a narrow column; the clamp keeps it on the page there and lets the register's size win on paper. */}
+        <h1 style={{ ...display, fontSize: small ? 'var(--text-xl)' : `clamp(22px, 6vw, ${register.title})`, margin: '4px 0 0', overflowWrap: 'anywhere' }}>{title}</h1>
         {sub && <p style={{ ...text, fontSize: small ? 'var(--text-sm)' : register.body, color: 'var(--ink-soft)', marginTop: '6px' }}>{sub}</p>}
         {nameLine && (
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: '10px', marginTop: '14px' }}>

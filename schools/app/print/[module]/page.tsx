@@ -128,10 +128,11 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
       {/* Sheet 2: the tool bookmarks, four to a sheet. */}
       <PrintSheet footer={pupilFooter}>
         <FriendStrip friend={friend} register={reg} eyebrow="Photocopy per 4 pupils · cut along the lines · bookmark" />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+        {/* Two bookmarks a row on paper; one on a phone screen, so the preview never scrolls sideways. */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '14px' }}>
           {[0, 1, 2, 3].map(i => (
             <div key={i} className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 16px 14px', minHeight: '112mm', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px' }}>
                 <FriendArt friend={friend} mood="thinking" size={reg.markMm} />
                 <div style={{ ...mono, color: friend.ink }}>{tool.heading}</div>
               </div>
@@ -189,7 +190,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         <FriendStrip friend={friend} register={reg} eyebrow="Photocopy per pupil · cut in half · start and end of lesson" />
         {retrieval && (
           <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
               <FriendArt friend={friend} mood="thinking" size={reg.markMm} />
               <div style={{ ...mono, color: friend.ink }}>Start card · remember last lesson</div>
             </div>
@@ -206,7 +207,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         )}
         <CutLine />
         <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
             <FriendArt friend={friend} mood="happy" size={reg.markMm} />
             <div style={{ ...mono, color: friend.ink }}>Exit card · what I know now</div>
           </div>
@@ -248,7 +249,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
           </Box>
         )}
         {homeCode && (
-          <div className="gc-avoid-break" style={{ display: 'flex', alignItems: 'center', gap: '16px', border: `2px solid ${friend.accent}`, borderRadius: '16px', padding: '12px 16px', marginTop: '10px' }}>
+          <div className="gc-avoid-break" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 16px', border: `2px solid ${friend.accent}`, borderRadius: '16px', padding: '12px 16px', marginTop: '10px' }}>
             <div style={{ flex: '1 1 auto' }}>
               <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>On the Guided Childhood app at home?</div>
               <p style={text}>Enter this code on the Lessons page and your child&rsquo;s passport records what we covered today.</p>
