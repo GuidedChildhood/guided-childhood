@@ -4,6 +4,9 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 import JobComposer from '@/components/quests/JobComposer'
+import JobGuideCard from '@/components/quests/JobGuideCard'
+import { jobGuide } from '@/lib/quests/job-guide'
+import { questDueToday } from '@/lib/quests/due'
 import JobPicker from '@/components/quests/JobPicker'
 import type { JobBand } from '@/lib/quests/job-time'
 import SentToast from '@/components/ui/SentToast'
@@ -55,7 +58,8 @@ import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 // that could not choose when a job repeated. One composer now, on both pages.
 
 type Child = { id: string; name: string; age_band?: string | null }
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null; is_family_job?: boolean; steps?: string[] | null }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; is_family_job?: boolean; steps?: string[] | null }
+type Approved = { child_id: string | null; tick_date: string }
 type Tick = { id: string; quest_id: string; child_id: string | null; status: string; tick_date: string }
 type Ask = { id: string; child_id: string | null; title: string; status: string; swap_quest_id?: string | null }
 
@@ -142,6 +146,8 @@ export default function ManageJobs({
   const [previous, setPrevious] = useState<Quest[]>([])
   const [ticks, setTicks] = useState<Tick[]>([])
   const [asks, setAsks] = useState<Ask[]>([])
+  // Four weeks of agreed ticks, for the daily jobs guide. See lib/quests/job-guide.ts.
+  const [recentApproved, setRecentApproved] = useState<Approved[]>([])
   const [links, setLinks] = useState<{ child_id: string }[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(initialChild)
   const [loading, setLoading] = useState(true)
@@ -205,6 +211,7 @@ export default function ManageJobs({
       setPrevious(d.previous ?? [])
       setTicks(d.ticks ?? [])
       setAsks((d.requests ?? []).filter((r: Ask) => r.status === 'pending'))
+      setRecentApproved(d.recentApproved ?? [])
       setLinks(d.links ?? [])
       // A child named on the URL wins, as long as this family actually has
       // them. Otherwise the first child, the way it always did.
@@ -352,6 +359,18 @@ export default function ManageJobs({
   const myPrevious = useMemo(() => previous.filter(q => q.child_id === activeChild || q.child_id === null), [previous, activeChild])
   const waiting = useMemo(() => ticks.filter(t => t.status === 'pending' && (t.child_id === activeChild || t.child_id === null)), [ticks, activeChild])
   const myAsks = useMemo(() => asks.filter(a => a.child_id === activeChild || a.child_id === null), [asks, activeChild])
+  // THE DAILY JOBS GUIDE. Justin, 14 September 2026, having put twelve jobs
+  // on the board from the Top picks tab without a word: "we only allow
+  // recommended daily jobs and build up as they get better at doing them, so
+  // they are not overwhelmed. A little warning and advice, not blocked."
+  // Jobs due TODAY against the guide for this child's age and track record.
+  // A weekly job is not a daily load, so the count is what lands on a day.
+  const dueToday = useMemo(() => mine.filter(q => questDueToday(q.schedule, q.schedule_days ?? null)), [mine])
+  const guide = useMemo(() => {
+    const kid = children.find(c => c.id === activeChild)
+    const dates = recentApproved.filter(t => t.child_id === activeChild || t.child_id === null).map(t => t.tick_date)
+    return jobGuide(kid?.age_band ?? null, dueToday.length, dates)
+  }, [children, activeChild, recentApproved, dueToday.length])
   const questById = useMemo(() => new Map(quests.map(q => [q.id, q])), [quests])
 
   const hasApp = !!activeChild && links.some(l => l.child_id === activeChild)
@@ -589,7 +608,8 @@ export default function ManageJobs({
 
             <div style={{ marginBottom: 14 }}>
               <JobComposer
-                countToday={mine.length}
+                countToday={dueToday.length}
+                comfortable={guide.guide}
                 ageBand={activeKid?.age_band ?? null}
                 childName={childName ?? null}
                 pendingTitle={pending?.title ?? null}
@@ -624,6 +644,12 @@ export default function ManageJobs({
             </div>
 
           </section>
+
+          {/* The guide, between the composer and the picker, so it is in view
+              at the moment of the next add. A card, never a gate. */}
+          {!midQuestion && (
+            <JobGuideCard guide={guide} childName={childName ?? null} onSeeJobs={() => goTab('theirs')} />
+          )}
 
           {/* The picker: the best jobs for this child's age in order of most
               useful, one tap to add and send, the tiles the child app uses.
@@ -661,6 +687,9 @@ export default function ManageJobs({
             >
               <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                 <strong style={{ color: 'var(--ink)' }}>{mine.length} job{mine.length === 1 ? '' : 's'}</strong> on {name}&apos;s board already
+                {guide.status === 'over' && (
+                  <span data-over-guide style={{ color: 'var(--alert, #C94F3D)', fontWeight: 700 }}> · {dueToday.length} a day, over the guide of {guide.guide}</span>
+                )}
               </span>
               <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta)' }}>
                 See them →

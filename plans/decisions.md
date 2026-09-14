@@ -15180,3 +15180,30 @@ key stage and the following not:
 Migration 301 applied to production on 14 September; the file in the tree
 is what ran. Two calls Justin may reverse: ks2-09 to Bloop, and DiGi rather
 than Cosmo on the sixth form title.
+
+## 14 September 2026: the daily jobs guide, start small and build up, advice not a block
+
+Justin, 13:04, with the Top picks tab showing twelve jobs on Jonny's board:
+"It allowed me to add 12 jobs. Can we only allow recommended daily jobs and
+build up as they get better at doing them, so they are not overwhelmed. A
+little warning and advice, not blocked."
+
+- The sweet spot per age already lived in `lib/quests/job-load.ts` (three a
+  day at four to seven, up to six from thirteen; NHS, NSPCC, the chores
+  research). The composer said a gentle word at that number; the tile picker
+  never consulted it, so twelve went in silently.
+- `lib/quests/job-guide.ts`: start (two at four to ten, three from eleven),
+  ceiling (the age's sweet spot), and a guide that climbs one for every week
+  that went well (four or more ticks agreed in it, the last four weeks with
+  this one included), never past the ceiling. Status room, at, over against
+  the jobs due today.
+- `JobGuideCard` on the Add a job tab between the composer and the picker:
+  headline, advice in Justin's voice, the sources, "Nothing is blocked", a
+  door to trim. Over is the alert red on a rose wash (on the parent side
+  `--coral` is an alias for butter, so the warning uses `--alert`). The
+  composer's word reads the same number and stops calling twelve "about
+  right". `/api/quests` returns four weeks of agreed ticks for the count.
+- **Nothing is enforced**: the add route takes every add it took before, and
+  the guard fails if it ever checks the guide.
+- Guard `check-job-guide.mjs`, three rules with a probe on the maths, five
+  mutations caught. Fixture `/dev/add-job?board=12&age=11-13`, `?weeks=1`.
