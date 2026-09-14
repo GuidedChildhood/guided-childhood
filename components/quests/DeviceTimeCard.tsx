@@ -62,8 +62,10 @@ export default function DeviceTimeCard({
   initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
   onPrintables, onGames, ageBand = null, familyDevices = [],
-  outstandingJobs = [], outstandingMinutes = 0, dealLines = [],
+  outstandingJobs = [], outstandingMinutes = 0, dealLines = [], askHref = null,
 }: {
+  /** The ask's own page (14 September 2026). When given, the idle door goes there instead of unfolding the picker here. */
+  askHref?: string | null
   token: string
   balanceStars: number
   // The holiday bank: minutes earned in weeks that went past the cap, and
@@ -965,7 +967,8 @@ export default function DeviceTimeCard({
       <button
         // The picker always opens. With nothing to spend the pick becomes an
         // ask the grown up decides on, never a dead end (2 September 2026).
-        onClick={() => { setPhase('picking') }}
+        onClick={() => { if (askHref) { window.location.assign(askHref); return } setPhase('picking') }}
+        data-ask-door={askHref ? '1' : '0'}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
           background: canSpend ? HAPPY.butter : '#fff', border: `2px solid ${HAPPY.ink}`,

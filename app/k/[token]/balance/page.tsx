@@ -112,6 +112,13 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: 'var(--ink)' }}>
           {name ? `${name}'s balance` : 'Your balance'}
         </h1>
+        {/* The one door that matters from here (14 September 2026): asking
+            has its own page, three taps. The balance stays the record. */}
+        <Link href={`/k/${token}/ask`} data-ask-door style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '14px 16px', margin: '10px 0 16px', boxShadow: '0 5px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>
+          <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>🙋</span>
+          <span style={{ flex: 1 }}>Ask for screen time</span>
+          <span aria-hidden>›</span>
+        </Link>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
           Your jobs on one side, your screen time on the other. Nothing here is a score.
         </p>

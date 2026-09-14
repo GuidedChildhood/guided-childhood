@@ -14965,3 +14965,31 @@ of butter with the back link under the clock.
   ink edged card, and the back link clear of the status bar. The chips keep
   Google's calendar colours on their washes, which is what a light ground was
   always for. Fixture `/dev/kid-school-week`.
+
+## 14 September 2026, evening: ask for screen time has its own page
+
+Justin, with the balance card open on Jonny's phone: "when we ask for screen
+time on the child's app it needs to be a much clearer, simpler designed
+page: very simple to select device and time, then make sure it pops up and
+pushes on the parent's app, then come back and you can start on the child's
+app, doing checks on outstanding etc. This device time must be super fun, a
+mix between Kenji and Happy News styling, all wired in to record work, make
+sure it has the right amount, and the earn part: do jobs, outside."
+
+The flow was wired (the ask pushes the grown up, the yes box pops on their
+Home, the approved ask starts from the child's banner, every block is
+recorded and capped at the guide). It lived as a dense card folded inside
+the balance panel. Now `/k/[token]/ask` (`components/kid/KidAskScreenTime`):
+three taps on the dotted sky with the Friend. What screen (chunky tiles of
+the family's own devices). How long (four chips, the cost in stars said
+plainly, short or past the guide named, never a wall). Sent: the page polls
+the status route every eight seconds and turns into Start the moment the
+grown up says yes, and while they wait the jobs still to do (with the
+minutes they pay) and the five a day's outside step sit right there to earn
+more. Before screens jobs are named once at the top. Use my time on the
+home and the balance page's door both open it; a live timer still opens the
+card on the home. Every read fails soft; every decision stays on the server.
+
+Also fixed today's failing wiring check: three links on the Home sticker
+card had the child query variable right after the path, which the link
+checker read as a dead route. The query now starts in the literal.

@@ -32,7 +32,10 @@ export default function StickerNewsCard({ news, childName, childId }: {
   if (!newest || seen === null || seen === newest.key) return null
 
   const who = childName && childName !== 'Your child' ? childName : 'Your child'
-  const child = childId ? `?child=${childId}` : ''
+  // The query starts in the literal, right after the path, so the wiring
+  // check can still read the route each link points at: with the variable
+  // first it read `/dashboard/keepsakes*` and called it a dead link.
+  const child = childId ?? ''
   const dismiss = () => {
     try { localStorage.setItem(SEEN_KEY, newest.key) } catch { /* private mode */ }
     setSeen(newest.key)
@@ -60,15 +63,15 @@ export default function StickerNewsCard({ news, childName, childId }: {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', marginTop: 12 }}>
         {news.firstEver ? (
           <>
-            <Link href={`/dashboard/keepsakes${child}#p-passport_printed`} style={{ background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)', padding: '11px 16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+            <Link href={`/dashboard/keepsakes?child=${child}#p-passport_printed`} style={{ background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-btn)', padding: '11px 16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
               Passport and stickers
             </Link>
-            <Link href={`/dashboard/keepsakes/passport-print${child}`} style={{ color: 'var(--ink)', fontWeight: 800, fontSize: 'var(--text-base)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            <Link href={`/dashboard/keepsakes/passport-print?child=${child}`} style={{ color: 'var(--ink)', fontWeight: 800, fontSize: 'var(--text-base)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
               See the print out
             </Link>
           </>
         ) : (
-          <Link href={`/dashboard/pathway${child}#stickers`} style={{ background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)', padding: '10px 16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: 'var(--lift)' }}>
+          <Link href={`/dashboard/pathway?child=${child}#stickers`} style={{ background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)', padding: '10px 16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: 'var(--lift)' }}>
             See their book
           </Link>
         )}

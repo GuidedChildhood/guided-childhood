@@ -1740,7 +1740,9 @@ export default function KidQuestScreen({
               minutesReady={bankBalance * STAR_MINUTES}
               unlocked={allDone && quests.length > 0 && bankBalance > 0}
               rule={TIMER_RULE}
-              onUseTime={() => { setDeviceOpen(true); setPickNow(bankBalance > 0); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
+              // The ask has its own page now (14 September 2026): three taps
+              // on the dotted sky. A live timer still opens the card here.
+              onUseTime={() => { playKidSound('tap'); if (liveSession) { setDeviceOpen(true); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } else { window.location.assign(`/k/${token}/ask`) } }}
               tiles={tiles}
               onFriends={() => { setShowIntro(true); playKidSound('tap') }}
               tellHref={token ? `/k/${token}/tell` : null}
@@ -1848,6 +1850,7 @@ export default function KidQuestScreen({
               <DeviceTimeCard
                 key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
                 startPicking={pickNow}
+                askHref={`/k/${token}/ask`}
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
                 holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
                 coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}

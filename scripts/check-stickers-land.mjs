@@ -137,6 +137,20 @@ if (/background: 'var\(--butter\)'/.test(weekPage)) problems.push('F2: the child
 else if (!/env\(safe-area-inset-top\)/.test(weekPage) || !/buddyFor\(/.test(weekPage)) problems.push('F2: the week page has no safe area padding or no Friend')
 else ok.push('F2: the week page sits on the dotted sky with the Friend, clear of the status bar')
 
+// ── F3: ask for screen time has its own page, and the wait is watched ───────
+const askPage = read('app/k/[token]/ask/page.tsx')
+const askUi = read('components/kid/KidAskScreenTime.tsx')
+const balancePage = read('app/k/[token]/balance/page.tsx')
+const timerCard = read('components/quests/DeviceTimeCard.tsx')
+if (!existsSync('components/kid/KidAskScreenTime.tsx') || !/data-devices/.test(askUi) || !/data-minutes/.test(askUi) || !/data-earn/.test(askUi)) problems.push('F3: the ask page is missing a step (screen, minutes, or the earn more panel)')
+else if (!/fetch\(`\/api\/quests\/time\/status\?token=/.test(askUi) || !/setInterval\(check, 8000\)/.test(askUi) || !/data-start/.test(askUi)) problems.push('F3: the ask page does not watch for the yes and offer Start')
+else if (!/body: JSON\.stringify\(\{ token, requestId: ask\.id \}\)/.test(askUi)) problems.push('F3: Start does not start the approved ask by its id')
+else if (!/Promise\.resolve\(p\)\.then\(v => v, \(\) => null\)/.test(askPage)) problems.push('F3: the ask page reads do not fail soft')
+else if (!/window\.location\.assign\(`\/k\/\$\{token\}\/ask`\)/.test(screen) || !/askHref=\{`\/k\/\$\{token\}\/ask`\}/.test(screen)) problems.push('F3: the home does not send Use my time and the balance door to the ask page')
+else if (!/if \(askHref\) \{ window\.location\.assign\(askHref\); return \}/.test(timerCard)) problems.push('F3: the timer card ignores its askHref')
+else if (!/href=\{`\/k\/\$\{token\}\/ask`\} data-ask-door/.test(balancePage)) problems.push('F3: the balance page has no door to the ask')
+else ok.push('F3: the ask has its own three step page, the home and the balance open it, and the wait turns into Start')
+
 // ── G: the parent side ──────────────────────────────────────────────────────
 if (!/readStickerNews\(supabase, childId\)/.test(childRead) || !/stickers: \{ total: news\.total, recent: news\.recent\.map\(r => r\.name\) \}/.test(childRead)) problems.push('G: the passport child read has no stickers')
 else if (!/data-stickers-line/.test(strip) || !/New this week:/.test(strip)) problems.push('G: the passport strip has no stickers line')
