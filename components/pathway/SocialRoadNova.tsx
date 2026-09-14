@@ -110,14 +110,26 @@ export default function SocialRoadNova({
         </span>
       </div>
 
-      {/* The legs as a row of marks, Duolingo style: walked, next, still ahead */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: '13px' }} aria-hidden>
+      {/* The legs as a row of marks, Duolingo style: walked, next, still ahead.
+          A GRID rather than a flex row, because the road is as long as the
+          curriculum and the curriculum grows. As a flex row every mark was
+          flex:1 with no floor, so the marks shared whatever width was left:
+          fine at the twelve in the fixture (22px each), 11px at the twenty one
+          social media lessons live today, and under 8px once the 13 plus
+          module is all on. auto-fit with a 14px minimum keeps every mark the
+          same size and wraps a long road onto a second line instead of
+          smearing it into a grey band. Found 14 September 2026 by the sweep
+          that went looking for the streak bar's collapsing dots. */}
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14px, 1fr))',
+        gap: 4, marginBottom: '13px',
+      }} aria-hidden>
         {road.legs.map((l, i) => {
           const done = (l.parentDone && l.childDone) || (markedNow && l.lessonId === leg?.lessonId && l.parentDone)
           const isNext = l.lessonId === leg?.lessonId && !done
           return (
             <span key={l.lessonId} style={{
-              flex: 1, height: isNext ? 9 : 6, borderRadius: 'var(--radius-pill)',
+              height: isNext ? 9 : 6, borderRadius: 'var(--radius-pill)',
               alignSelf: 'center',
               background: done ? 'var(--retro-green)' : isNext ? 'var(--terracotta)' : 'rgba(26,26,46,0.14)',
               transition: 'background 0.3s ease',

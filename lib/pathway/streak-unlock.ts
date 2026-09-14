@@ -93,19 +93,33 @@ export function streaksBankedTowardNext(completedStreaks: number): number {
 }
 
 /**
- * How many streaks the CURRENT rung is worth, end to end.
+ * How many completed days the CURRENT rung is worth, end to end.
  *
- * The pip row on the streak bar draws one dot per streak in the rung it is
- * working through. That used to be a flat four, which the ladder breaks: the
- * run to Cosmo is twenty days and twenty pips would be a grey smear. Capped at
- * eight, so a long rung draws a bar rather than confetti, and the words
- * underneath carry the exact number either way.
+ * This is the denominator the streak bar fills against: banked out of span.
+ * Uncapped, and that matters.
+ *
+ * It replaced `rungLength`, which returned the same number capped at eight so
+ * the bar could draw one pip per day without the twenty day run to Cosmo
+ * becoming a grey smear. The cap was fine for counting pips and wrong for
+ * measuring progress, and the bar used it for both: it filled a pip when
+ * `i < banked`, comparing a pip INDEX against a raw day COUNT. Past eight
+ * banked days the comparison saturated, so on the three rungs whose real gap
+ * is twelve, sixteen and twenty days every pip sat filled while days were
+ * still owed. A child on thirty days saw a full bar beside the words "8 more
+ * for Nova".
+ *
+ * Justin, 14 September 2026, looking at the row: "not sure what the ooooo is
+ * on this?" The rings were the other half of the same fault.
+ *
+ * So the bar is one proportional track now, the way the other six progress
+ * bars in the child app already are, and this returns the truth rather than a
+ * number shaped for drawing. Returns 0 once the whole family is home.
  */
-export function rungLength(completedStreaks: number): number {
+export function rungSpan(completedStreaks: number): number {
   const s = Math.max(0, completedStreaks)
   let floor = 0
   for (const need of FRIEND_STREAKS) {
-    if (s < need) return Math.min(8, need - floor)
+    if (s < need) return need - floor
     floor = need
   }
   return 0

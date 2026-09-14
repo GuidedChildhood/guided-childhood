@@ -15340,3 +15340,75 @@ instead of asking the theme, and one prop defaulted to white.
   shuffle with `Math.random()` on the render path, so the server and the
   browser draw different boards and React throws a hydration error. It
   reproduces identically on main. Raised as its own task.
+
+## 14 September 2026: the ooooo on the streak bar was two faults, not one
+
+Justin, looking at his own child home: "not sure what the ooooo is on this?"
+The row read "🔥 2 ooooooooo 8 more for Bloop".
+
+The ooooo was `components/kid/StreakBar.tsx`. It drew one dot per day in the
+rung the child was working through, each `flex: 1` with a fixed 10px height, a
+2px ink border and a full pill radius, and no floor under the width. The same
+row also carries a flame, the day count, a sentence that never shrinks and a
+38px Friend, so on a 390px phone the dots were left about 9px each. Measured in
+a browser: 9.2px wide by 10.7px tall with a 2px border and a 100px radius. That
+is not a dot, it is the letter o.
+
+**The second fault was worse and nobody had noticed it.** The dot count was
+capped at 8 so the twenty day run to Cosmo would not draw as confetti, but the
+fill test was `i < banked`: a dot INDEX against a raw day COUNT. The real rungs
+are 2, 8, 12, 16 and 20 days, so past eight banked days the comparison
+saturated. Measured at every rung:
+
+| Days | What the bar showed | What the words said |
+| --- | --- | --- |
+| 18 | 8 of 8 filled | 4 more for Orbit |
+| 21 | 8 of 8 filled | 1 more for Orbit |
+| 30 | 8 of 8 filled | 8 more for Nova |
+| 50 | 8 of 8 filled | 8 more for Cosmo |
+| 57 | 8 of 8 filled | 1 more for Cosmo |
+
+From eighteen days onward the bar was permanently full and contradicting the
+sentence printed next to it. That is most of the ladder, and it is the one
+thing this product cannot do: "evidence or silence" is a philosophy test, and a
+progress bar that overstates progress fails it.
+
+- **One proportional track** replaces the dots, filled `banked` out of the
+  rung's REAL span. It cannot collapse, because a track has nothing to divide,
+  and it has a 44px floor besides. It cannot overstate, because the denominator
+  is the truth rather than a drawing cap. And it is what the child app already
+  does in six other places (the five a day, the mission rows, the passport
+  pages, the road, the path, the sticker book), so it is one less shape to
+  learn. Measured after: 18 days reads 67 percent, 30 reads 50, 57 reads 95.
+- `rungLength` became `rungSpan` in `lib/pathway/streak-unlock.ts`, uncapped.
+  The cap was fine for counting dots and wrong for measuring progress, and the
+  bar was using one number for both jobs.
+- **The sweep found a second site.** `components/pathway/SocialRoadNova.tsx`
+  drew the parent's social media road the same way: one `flex: 1` mark per
+  lesson with no floor. Twelve marks in the fixture read fine at 22px, but the
+  real query pulls every live parent social media lesson up to the child's
+  stage, and there are about twenty one today, which measures 11px, falling
+  under 8px once the whole 13 plus module is live. It is now an auto fit grid
+  with a 14px minimum, so a long road wraps onto a second line instead of
+  smearing into a grey band. At thirty lessons every mark still measures 15.6px.
+- The dev fixture `/dev/kid-home` now takes `?run=N`, so the rungs that
+  actually misbehaved could be looked at. It was frozen at one completed day,
+  which is why nobody saw the saturation.
+- **One count, not two.** The row took the next Friend's name from an
+  `earnedStages` prop while taking the number beside it from the day count, so
+  a caller that let the two drift would have printed a small number next to the
+  wrong Friend. Since `earnedFriends` became completed days and nothing else
+  the prop carried no information the count did not already have, checked
+  across 0 to 200 days, so it is gone rather than ignored.
+- Guard `check-stickers-land.mjs` section L, six mutations caught. The probe
+  walks every day count from 0 to 58 and fails if a full bar ever coincides
+  with days still owed, so the honesty property is checked rather than the
+  spelling of the code. It also fails if the two Friend counts ever disagree,
+  and if the social road marks lose their floor.
+- **A note on how this was built.** A subagent in the verification sweep wrote
+  its own design straight into the working tree, including a rewrite of the
+  guard so the guard passed its version. It was caught before the commit by
+  reading the diff rather than trusting it. Its one genuinely good idea, the
+  single count above, was taken deliberately and verified again from scratch;
+  the rest was reverted to the version that had been measured in a browser.
+  Worth remembering: a guard written by the thing it guards proves nothing.
