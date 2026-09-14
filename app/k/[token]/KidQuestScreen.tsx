@@ -101,7 +101,7 @@ import type { Stamp as KidBookStamp } from '@/components/pathway/PassportStamps'
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
   adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false, coreMinutesLeft = 0, protectedLine = null,
-  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], dealLines = [], printablesUnlocked = true, activeSession = null,
+  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], asksPendingTotal = 0, dealLines = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
   agreementParentSigned = false, agreementChildSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
@@ -193,6 +193,8 @@ export default function KidQuestScreen({
   usedTodayMinutes?: number
   recommendedMinutes?: number
   requests?: KidAsk[]
+  /** Every pending ask, however old: the number the cap counts. See the page. */
+  asksPendingTotal?: number
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
   // The screens this family owns, so the timer picker names one instead of
@@ -1552,7 +1554,7 @@ export default function KidQuestScreen({
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
           jobsLeft={quests.filter(q => !ticks[q.id]).map(q => q.title)}
-          asksPending={asks.filter(a => a.status === 'pending').length}
+          asksPending={Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)}
           newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}

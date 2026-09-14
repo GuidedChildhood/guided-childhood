@@ -23,8 +23,7 @@ export default function KidSchoolWeekFixture() {
   return (
     <div style={{
       minHeight: '100dvh', fontFamily: 'var(--font-body)',
-      background: `radial-gradient(circle at 12px 10px, ${HAPPY.coral}55 3px, transparent 3.5px), radial-gradient(circle at 36px 30px, ${HAPPY.butter}88 3px, transparent 3.5px), var(--tint-blue, #D8E8F8)`,
-      backgroundSize: '48px 40px, 48px 40px, auto',
+      background: HAPPY.cream,
       padding: 'calc(18px + env(safe-area-inset-top)) 16px 50px',
     }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>

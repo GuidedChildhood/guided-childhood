@@ -3,6 +3,7 @@
 import KidStickers, { type KidSticker, type DailyStickers } from '@/components/kid/KidStickers'
 import PassportBook from '@/components/pathway/PassportBook'
 import type { Stamp } from '@/components/pathway/PassportStamps'
+import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
 
 // The passport, on its own.
 //
@@ -88,12 +89,23 @@ export default function KidPassport({
           boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)',
         }}
       >
+        {/* The child's own Friend on a butter plate beside the title, the way
+            the week page does it. Justin, 14 September 2026: the passport
+            should be prettier, with stickers. */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
-          <span style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
-            color: 'var(--ink)', letterSpacing: '-0.01em',
-          }}>
-            🛂 {childName}&rsquo;s passport
+          <span style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+            {daily?.friend && (
+              <Plate size={54} tint={HAPPY.butterLt}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={daily.friend.img} alt={daily.friend.name} width={42} height={42} style={{ width: 42, height: 42, objectFit: 'contain', display: 'block' }} />
+              </Plate>
+            )}
+            <span style={{
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
+              color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.1,
+            }}>
+              {childName}&rsquo;s passport
+            </span>
           </span>
           <button onClick={onClose} aria-label="Close" style={{
             width: 44, height: 44, borderRadius: '50%', border: 'none', background: '#fff',
@@ -112,7 +124,7 @@ export default function KidPassport({
           fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
           color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 14px',
         }}>
-          Your own book. Every sticker says what it takes, so you always know what you are working on next.
+          Your own book. Every sticker says what it takes.
         </p>
 
         {page && pageName && (

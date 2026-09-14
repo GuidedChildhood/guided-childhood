@@ -131,21 +131,24 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
     // Scoped to THIS page rather than changed on the --kid-bg token, which five
     // other child pages also use and which Justin has not asked about. A colour
     // token is the wrong place to make a one page decision.
-    // ── THE DOTTED SKY, NOT THE SOLID BUTTER (14 September 2026) ──────────
+    // ── THE WHITE PAGE, NOT THE DOTTED SKY (14 September 2026, later) ─────
     //
-    // Justin, with four Kenji screenshots: "Child calendar does not look great
-    // in yellow. Redesign in super fun happy news style like the Kenji shop
-    // but our Planet Friends." The whole page was a slab of butter. It is the
-    // pastel sky scattered with coral and butter dots now, the same ground as
-    // the child's week row, with their own Friend on a plate beside the title.
+    // Justin, with four Kenji screenshots in the morning: "Child calendar does
+    // not look great in yellow. Redesign in super fun happy news style like the
+    // Kenji shop but our Planet Friends." The slab of butter became a pastel
+    // sky scattered with dots. Then at lunch, with The Happy Newspaper page
+    // beside it: "background blue dots is not the right look, we want happy
+    // news style as the image here for calendar." That page is a white ground
+    // with big flat colour discs and ink lines, so this is the white page now,
+    // the days are discs (see KidSchoolWeek), and the child's own Friend sits
+    // on a butter plate beside the title.
     // The chips inside keep Google's real calendar colours on their washes,
     // which is what the light ground was always for.
     //
     // Padding clears the status bar: the back link sat under the clock.
     <div style={{
       minHeight: '100dvh', fontFamily: 'var(--font-body)',
-      background: `radial-gradient(circle at 12px 10px, ${HAPPY.coral}55 3px, transparent 3.5px), radial-gradient(circle at 36px 30px, ${HAPPY.butter}88 3px, transparent 3.5px), var(--tint-blue, #D8E8F8)`,
-      backgroundSize: '48px 40px, 48px 40px, auto',
+      background: HAPPY.cream,
       padding: 'calc(18px + env(safe-area-inset-top)) 16px 50px',
     }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>

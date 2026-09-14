@@ -29,6 +29,10 @@ export const HAPPY = {
   sky: '#4B9CE5',
   ink: '#1A1A2E',
   cream: '#F9F8F6',
+  // The soft pink disc The Happy Newspaper sits its post box on. Justin,
+  // 14 September 2026, with that page: the calendar is white ground and big
+  // colour discs, not a dotted sky. Today's disc is this pink.
+  pink: '#F9CFD9',
 } as const
 
 export type HappyAccent = 'butter' | 'coral' | 'green' | 'sky'
@@ -143,6 +147,26 @@ export function HappyScatter({ seed = 0, dim = false }: { seed?: number; dim?: b
         )
       })}
     </span>
+  )
+}
+
+/**
+ * The sun's rays: eight short ink dashes around a disc, the masthead sun from
+ * The Happy Newspaper drawn our way. Sits BEHIND a disc (absolute, inset by
+ * the ray length) so today on a calendar reads as the sun without a word.
+ */
+export function SunRays({ size, color = HAPPY.ink, style }: { size: number; color?: string; style?: CSSProperties }) {
+  const rays: string[] = []
+  for (let i = 0; i < 8; i++) {
+    const a = (Math.PI * 2 * i) / 8
+    const x1 = 50 + 40 * Math.cos(a), y1 = 50 + 40 * Math.sin(a)
+    const x2 = 50 + 48 * Math.cos(a), y2 = 50 + 48 * Math.sin(a)
+    rays.push(`M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`)
+  }
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden style={{ display: 'block', ...style }}>
+      <path d={rays.join(' ')} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" />
+    </svg>
   )
 }
 

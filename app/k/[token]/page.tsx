@@ -101,7 +101,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     childRes, jobs, weekTicksRes, goalRes, streakTicksRes,
     missionRowsRes,
     { lessons: adventureLessons }, adventureCompletions,
-    requestsRes, weekSpendsRes, parentProfileRes,
+    requestsRes, pendingAsksRes, weekSpendsRes, parentProfileRes,
     region, activeSession, usedTodayMap, coreUsedRes,
     passRowsRes,
     shareRowsRes, schoolRowsRes, runsInHolidaysRes,
@@ -164,6 +164,18 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .gte('created_at', weekAgoIso)
       .order('created_at', { ascending: false })
       .limit(8),
+    // EVERY pending ask, no window, as a head count. The cap in
+    // app/api/quests/request counts every pending ask this child has, so the
+    // five a day has to count them the same way. Justin, 14 September 2026:
+    // the ask page said "Lots of ideas already waiting" while the five for
+    // today sat at 4 of 5. His ideas were older than the week above, so the
+    // list read empty here, the ask step never ticked itself, and the page
+    // that could have taken a sixth refused it. The list stays for the rows
+    // the screen draws; this number is what the step trusts.
+    supabase.from('quest_requests')
+      .select('id', { count: 'exact', head: true })
+      .eq('child_id', link.child_id)
+      .eq('status', 'pending'),
     supabase.from('star_spends')
       .select('minutes')
       .eq('child_id', link.child_id)
@@ -993,6 +1005,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       activeSession={activeSession}
       weekChart={weekChart}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
+      asksPendingTotal={pendingAsksRes.count ?? 0}
       schoolToday={schoolToday}
       schoolWeekCount={schoolWeekCount}
       notes={notes}

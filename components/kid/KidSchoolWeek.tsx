@@ -400,11 +400,19 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
       </div>
 
       {/* The seven days, as a strip. The dot is the whole point: a child can see
-          which days have something without reading a word. */}
-      <div style={{ display: 'flex', gap: 5, marginBottom: 16 }}>
+          which days have something without reading a word.
+
+          Justin, 14 September 2026, with The Happy Newspaper page: white
+          ground, big flat colour discs, ink lines. So every day is a DISC now,
+          the same discs as the week calendar on the home screen. The open day
+          is butter with an ink ledge, today is the pink disc with a coral edge,
+          a day gone by is pale and quiet, a day to come is white with an ink
+          line. Never a yellow chip on yellow, never a dotted sky. */}
+      <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
         {days.map(d => {
           const isOpen = d.dateIso !== '' && d.dateIso === open?.dateIso
           const hasSomething = d.list.some(x => !x.done && !x.held)
+          const disc = 44
           return (
             <button
               key={d.short}
@@ -412,15 +420,10 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               onClick={() => setPicked(d.dateIso)}
               aria-label={d.long}
               aria-current={isOpen ? 'date' : undefined}
-              // The Kenji note (14 September 2026): chunky white tiles with an
-              // ink edge and a ledge, the open day filled butter, today edged
-              // coral, a day gone by quiet. Never a yellow chip on yellow.
+              data-day={isOpen ? 'open' : d.isToday ? 'today' : d.isPast ? 'quiet' : 'ahead'}
               style={{
-                flex: 1, minWidth: 0, padding: '8px 1px 7px', cursor: 'pointer',
-                borderRadius: 12, textAlign: 'center',
-                background: isOpen ? 'var(--terracotta)' : d.isPast ? 'rgba(255,255,255,0.6)' : '#fff',
-                border: `2px solid ${d.isToday && !isOpen ? '#E5734B' : isOpen || !d.isPast ? 'var(--ink)' : 'rgba(26,26,46,0.18)'}`,
-                boxShadow: isOpen ? '0 3px 0 var(--ink)' : d.isPast ? 'none' : `0 3px 0 ${d.isToday ? '#E5734B' : 'var(--ink)'}`,
+                flex: 1, minWidth: 0, padding: 0, cursor: 'pointer', background: 'transparent', border: 'none',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
               }}
             >
               {/* Three letters, not one. Two Ts and two Ss in a row of seven is
@@ -429,21 +432,25 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               <span style={{
                 display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                 fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase',
-                color: isOpen ? 'var(--ink)' : 'var(--ink-muted)',
+                color: d.isToday ? '#E5734B' : isOpen ? 'var(--ink)' : 'var(--ink-muted)',
               }}>
                 {d.short}
               </span>
-              {/* A day gone by is dimmed by colour rather than opacity, so it
-                  reads as past instead of as unloaded. */}
-              <span style={{
-                display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
-                fontSize: 'var(--text-md)', lineHeight: 1.15, marginTop: 1,
+              <span aria-hidden style={{
+                width: disc, height: disc, borderRadius: '50%', boxSizing: 'border-box',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: isOpen ? 'var(--terracotta)' : d.isToday ? '#F9CFD9' : d.isPast ? '#F3F1EC' : '#fff',
+                border: `2px solid ${isOpen ? 'var(--ink)' : d.isToday ? '#E5734B' : d.isPast ? 'rgba(26,26,46,0.1)' : 'var(--ink)'}`,
+                boxShadow: isOpen ? '0 3px 0 var(--ink)' : d.isToday ? '0 3px 0 #E5734B' : 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1,
+                // A day gone by is dimmed by colour rather than opacity, so it
+                // reads as past instead of as unloaded.
                 color: isOpen ? 'var(--ink)' : d.isPast ? 'var(--ink-light, #A8A5A0)' : 'var(--ink)',
               }}>
                 {d.date ? d.date.getDate() : '·'}
               </span>
               <span aria-hidden style={{
-                display: 'block', width: 7, height: 7, borderRadius: '50%', margin: '4px auto 0',
+                display: 'block', width: 7, height: 7, borderRadius: '50%',
                 background: hasSomething ? (isOpen ? 'var(--ink)' : '#E5734B') : 'transparent',
               }} />
             </button>

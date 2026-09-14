@@ -6,6 +6,7 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import type { StickerRule } from '@/lib/stickers/catalog'
 import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import { HAPPY, Burst, Sticker } from '@/components/kid/HappyNewsBits'
 
 // The child's own sticker book, at the foot of their path. The collection fills
 // up as they earn stars, finish printables and grow, earned bright and locked
@@ -47,37 +48,52 @@ export type KidSticker = {
 // three closest with live progress. Not Boring Vibes is the one we half copied:
 // bare numbers work there because a header names the unit, and we took the
 // numbers and left the header behind.
-function Tile({ s }: { s: KidSticker }) {
+// A DIE CUT STICKER, NOT A CIRCLE IN A RING.
+//
+// Justin, 14 September 2026, with the Every day page: the passport "although
+// matches parents should try to make more pretty visually with stickers."
+// Mobbin, this session: Kit's sticker picker gives every sticker a white die
+// cut edge and a slight tilt, so a grid reads as a sheet you could peel;
+// Swarm draws the ones you have not got yet as pale silhouettes, so the page
+// reads as waiting rather than broken. Both here. An earned sticker is the
+// art on a white disc with a thin ink edge and a hard ink shadow, tilted a
+// few degrees each way down the row. A locked one is the same disc, pale,
+// with the cost under it, because a thing with no name and no price is not
+// something anybody works towards.
+function Tile({ s, i = 0 }: { s: KidSticker; i?: number }) {
   const need = s.need ?? 0
   const have = Math.min(s.have ?? 0, need)
   const showBar = !s.earned && need > 0 && have > 0
+  const tilt = i % 3 === 0 ? -5 : i % 3 === 1 ? 4 : -2
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, textAlign: 'center', width: 96 }}>
-      <div style={{
-        position: 'relative', width: 72, height: 72, borderRadius: '50%',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-        background: s.earned ? '#fff' : 'rgba(26,26,46,0.05)',
-        border: s.earned ? `3px solid ${s.colour}` : '2.5px dashed rgba(26,26,46,0.18)',
-        boxShadow: s.earned ? `0 4px 0 ${s.colour}` : 'none',
-      }}>
-        {s.earned && s.art ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={s.art} alt={s.name} width={60} height={60} style={{ width: 60, height: 60, objectFit: 'contain' }} />
-        ) : s.art ? (
-          // A locked Planet Friend keeps its shape, greyed, so a child can see
-          // WHO is waiting for them rather than a question mark that could be
-          // anybody. The mystery was hiding the reason to carry on.
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={s.art} alt="" aria-hidden width={60} height={60} style={{ width: 60, height: 60, objectFit: 'contain', filter: 'grayscale(1)', opacity: 0.35 }} />
-        ) : (
-          <StickerBadge s={s} size={56} />
-        )}
+    <div data-sticker={s.earned ? 'earned' : 'locked'} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, textAlign: 'center', width: 96 }}>
+      <div style={{ position: 'relative', width: 78, height: 78, transform: `rotate(${tilt}deg)`, marginBottom: 2 }}>
+        <div aria-hidden style={{
+          position: 'absolute', inset: 0, borderRadius: '50%',
+          background: s.earned ? '#fff' : '#F3F1EC',
+          border: s.earned ? `1.5px solid ${HAPPY.ink}` : '1.5px dashed rgba(26,26,46,0.22)',
+          boxShadow: s.earned ? `2px 4px 0 ${HAPPY.ink}` : 'none',
+        }} />
+        <div style={{ position: 'absolute', inset: 7, borderRadius: '50%', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {s.earned && s.art ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={s.art} alt={s.name} width={60} height={60} style={{ width: 60, height: 60, objectFit: 'contain' }} />
+          ) : s.art ? (
+            // A locked Planet Friend keeps its shape, greyed, so a child can see
+            // WHO is waiting for them rather than a question mark that could be
+            // anybody. The mystery was hiding the reason to carry on.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={s.art} alt="" aria-hidden width={60} height={60} style={{ width: 60, height: 60, objectFit: 'contain', filter: 'grayscale(1)', opacity: 0.32 }} />
+          ) : (
+            <span style={{ opacity: s.earned ? 1 : 0.55 }}><StickerBadge s={s} size={56} /></span>
+          )}
+        </div>
       </div>
 
       {/* The name, always. A locked sticker is a thing you are working towards,
           and a thing with no name is not something anybody works towards. */}
-      <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.15 }}>
+      <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.15 }}>
         {s.name}
       </span>
 
@@ -98,6 +114,63 @@ function Tile({ s }: { s: KidSticker }) {
         </>
       )}
     </div>
+  )
+}
+
+// THE HOW, ONE TAP AWAY.
+//
+// Justin, 6 August 2026, made every page say how it works, above the tiles,
+// because a page of locked circles is a question and the answer has to come
+// first. That rule holds. What changed on 14 September is the WEIGHT: a tan
+// block of two paragraphs above every grid made the book read as a manual
+// with some stickers in it. So the headline answer, the one line note, stays
+// first and always visible, and the paragraph sits under it behind a native
+// details, open on a tap. Nothing is lost; the stickers lead.
+function HowItWorks({ note, steps, how }: { note: string; steps?: string[]; how?: string }) {
+  if (!steps && !how) {
+    return (
+      <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: '#4A3B25', lineHeight: 1.4, margin: '0 0 12px' }}>
+        {note}
+      </p>
+    )
+  }
+  return (
+    <details data-how style={{ margin: '0 0 12px' }}>
+      {/* The note on its own line, full width, and the label under it. Side by
+          side the label squeezed the note into five short lines. */}
+      <summary style={{
+        cursor: 'pointer', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 3,
+        fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: '#4A3B25', lineHeight: 1.4,
+      }}>
+        <span>{note}</span>
+        <span style={{
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em',
+          textTransform: 'uppercase', color: '#A08247', whiteSpace: 'nowrap',
+        }}>How it works ›</span>
+      </summary>
+      <div style={{ background: '#F4ECD9', borderRadius: 9, padding: '10px 11px', marginTop: 8, display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {steps && (
+          <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {steps.map((step, i) => (
+              <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                <span aria-hidden style={{
+                  flexShrink: 0, width: 18, height: 18, borderRadius: '50%',
+                  background: '#EDC35F', color: '#2A1F14',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xs)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
+                }}>{i + 1}</span>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: '#4A3B25', lineHeight: 1.45 }}>{step}</span>
+              </li>
+            ))}
+          </ol>
+        )}
+        {how && (
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: '#6B5C42', lineHeight: 1.5, margin: 0 }}>
+            {how}
+          </p>
+        )}
+      </div>
+    </details>
   )
 }
 
@@ -250,22 +323,33 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
         padding: '16px 13px 14px',
         display: 'flex', flexDirection: 'column', gap: 12,
       }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            letterSpacing: '0.2em', textTransform: 'uppercase', color: '#EDC35F',
-          }}>
-            My sticker book
-          </span>
-          {/* One count for the whole book. There used to be two that could not
-              be reconciled: "6 of 13" here and "Friends home 0 of 5" up in the
-              wins panel, both true, of different systems. */}
-          <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            color: 'rgba(237,195,95,0.68)', whiteSpace: 'nowrap',
-          }}>
-            {earnedCount} of {stickers.length} collected
-          </span>
+        {/* THE COVER. The child's own Friend as a big die cut sticker on the
+            burgundy, and the count in a butter sun. Justin, 14 September 2026:
+            prettier, with stickers. One count for the whole book. There used
+            to be two that could not be reconciled: "6 of 13" here and "Friends
+            home 0 of 5" up in the wins panel, both true, of different systems. */}
+        <div data-book-cover style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '2px 2px 4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+            {daily?.friend && (
+              <span style={{ position: 'relative', width: 58, height: 58, flexShrink: 0, transform: 'rotate(-7deg)' }}>
+                <span aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#fff', border: `1.5px solid ${HAPPY.ink}`, boxShadow: `2px 3px 0 ${HAPPY.ink}` }} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={daily.friend.img} alt={daily.friend.name} width={46} height={46} style={{ position: 'absolute', inset: 6, width: 46, height: 46, objectFit: 'contain' }} />
+              </span>
+            )}
+            <div style={{ minWidth: 0 }}>
+              <span style={{
+                display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                letterSpacing: '0.2em', textTransform: 'uppercase', color: '#EDC35F', lineHeight: 1.3,
+              }}>
+                My sticker book
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(237,195,95,0.68)', whiteSpace: 'nowrap', marginTop: 2 }}>
+                {earnedCount} of {stickers.length} collected
+              </span>
+            </div>
+          </div>
+          <Burst size={52} color={HAPPY.butter}>{earnedCount}</Burst>
         </div>
 
         {/* EVERY DAY. The daily sticker (migration 284) lived on today's card
@@ -274,22 +358,16 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
             child's passport." This week's seven, and the total, in the book. */}
         {daily && (
           <div data-daily-page style={{ background: '#FFFCF3', borderRadius: 10, padding: '12px 11px 13px', boxShadow: '0 2px 0 rgba(0,0,0,0.18)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#2A1F14', letterSpacing: '-0.01em' }}>
                 Every day
               </span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#9A8A6A', whiteSpace: 'nowrap' }}>
-                {daily.total} day sticker{daily.total === 1 ? '' : 's'}
-              </span>
+              <Sticker accent="butter" rotate={4} size="sm">{daily.total} day sticker{daily.total === 1 ? '' : 's'}</Sticker>
             </div>
-            <div style={{ background: '#F4ECD9', borderRadius: 9, padding: '10px 11px', marginBottom: 12 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#A08247', display: 'block', marginBottom: 6 }}>
-                How it works
-              </span>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: '#6B5C42', lineHeight: 1.5, margin: 0 }}>
-                Finish your five a day and your Friend lands on that day. Full days are what bring the Planet Friends home.
-              </p>
-            </div>
+            <HowItWorks
+              note="Finish your five a day and your Friend lands on that day"
+              how="Full days are what bring the Planet Friends home. Every Friend on the next page costs a number of full days, and it says how many under their picture."
+            />
             {/* The Kenji note (14 September 2026): the child's Friend on every
                 done day, on a dotted sky, never a yellow star on cream. */}
             {(() => {
@@ -310,62 +388,19 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
 
         {pages.map(page => (
           <div key={page.name} style={{ background: '#FFFCF3', borderRadius: 10, padding: '12px 11px 13px', boxShadow: '0 2px 0 rgba(0,0,0,0.18)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#2A1F14', letterSpacing: '-0.01em' }}>
                 {page.name}
               </span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#9A8A6A', whiteSpace: 'nowrap' }}>
+              <Sticker accent={page.of.every(s => s.earned) ? 'green' : 'butter'} rotate={4} size="sm">
                 {page.of.filter(s => s.earned).length} of {page.of.length}
-              </span>
+              </Sticker>
             </div>
-            {/* How it works, ABOVE the tiles rather than under them. A page of
-                locked circles is the question; the answer has to come first. */}
-            {(page.steps || page.how) && (
-              <div style={{
-                background: '#F4ECD9', borderRadius: 9, padding: '10px 11px', marginBottom: 12,
-                display: 'flex', flexDirection: 'column', gap: 7,
-              }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                  letterSpacing: '0.16em', textTransform: 'uppercase', color: '#A08247',
-                }}>
-                  How it works
-                </span>
-                {page.steps && (
-                  <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {page.steps.map((step, i) => (
-                      <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                        <span aria-hidden style={{
-                          flexShrink: 0, width: 18, height: 18, borderRadius: '50%',
-                          background: '#EDC35F', color: '#2A1F14',
-                          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xs)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
-                        }}>{i + 1}</span>
-                        <span style={{
-                          fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700,
-                          color: '#4A3B25', lineHeight: 1.45,
-                        }}>{step}</span>
-                      </li>
-                    ))}
-                  </ol>
-                )}
-                {page.how && (
-                  <p style={{
-                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
-                    color: '#6B5C42', lineHeight: 1.5, margin: 0,
-                  }}>
-                    {page.how}
-                  </p>
-                )}
-              </div>
-            )}
+            <HowItWorks note={page.note} steps={page.steps} how={page.how} />
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '14px 6px', justifyItems: 'center' }}>
-              {page.of.map(s => <Tile key={s.key} s={s} />)}
+              {page.of.map((s, i) => <Tile key={s.key} s={s} i={i} />)}
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: '#9A8A6A', lineHeight: 1.4, margin: '11px 0 0', textAlign: 'center' }}>
-              {page.note}
-            </p>
           </div>
         ))}
       </div>

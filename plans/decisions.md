@@ -15057,3 +15057,31 @@ card on the home. Every read fails soft; every decision stays on the server.
 Also fixed today's failing wiring check: three links on the Home sticker
 card had the child query variable right after the path, which the link
 checker read as a dead route. The query now starts in the literal.
+
+## 14 September 2026: the fifth step unblocked, the calendar on the white page, the sticker book leads with stickers
+
+Justin, 12:30, five screenshots: the ask page refusing a sixth idea while the
+five for today sat at 4 of 5, Jonny's week and the sticker book on the blue
+dotted ground, and The Happy Newspaper page as the reference.
+
+- **Why the fifth step stuck**: three readers counted pending ideas three
+  ways. The API cap counts every pending ask; the ask page reads a fortnight;
+  home read a WEEK and eight rows and handed that to the five a day. Five
+  ideas older than a week made home count zero, so the ask row never ticked
+  itself and the ask page refused the sixth. Home now has a windowless head
+  count of pending asks, the number the cap uses. At the cap the ask page
+  points at the jobs board with a door. The ideas were with the parent all
+  along (QuestBoard, "Add it", a cross); nothing added there.
+- **The calendar is the Happy Newspaper page, small**: white ground, every
+  day a disc, the Friend on a butter disc for a done day, today the pink disc
+  with the sun's rays, ahead dashed, a quiet past day pale and unremarked.
+  The count is a butter burst. The polka dot sky from the morning's Kenji pass
+  is gone from every child surface (week calendar, Jonny's week, the ask page)
+  and the guard refuses it back. `HAPPY.pink` and `SunRays` join the kit.
+- **The sticker book leads with stickers**: die cut tiles (white disc, ink
+  edge, hard shadow, a small tilt each way), locked ones pale silhouettes with
+  the cost under. The 6 August rule, every page says how it works, holds: the
+  one line note stays first, the paragraph sits behind a native details, one
+  tap. The Friend is on the cover as a sticker and on the passport title on a
+  plate.
+- Guard: check-stickers-land.mjs section H, five rules, mutation tested.
