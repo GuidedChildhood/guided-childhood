@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY } from '@gc/shared/schools-curriculum'
+import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, type CharacterKey } from '@gc/shared/schools-curriculum'
 import { INTRO_CHARACTERS } from '@gc/shared/intro-characters'
 import { COMPANY } from '@gc/shared/legal'
 import Reveal from '@/components/Reveal'
@@ -216,18 +216,35 @@ function WallAtSixteen() {
   )
 }
 
-// The six faces, each carrying the corner of digital life they actually
-// teach in the shipped curriculum (the castLine data is the authority, so
-// these lines can never drift from the lessons again). Five have finished
-// intro clips on our own CDN, animated from their own art.
-const SQUAD: { key: keyof typeof CHARACTERS; clip?: string; line: string }[] = [
+// The faces, each carrying the corner of digital life they actually teach.
+//
+// WHY THIS IS COMPUTED (14 September 2026). The lines used to be six hand
+// written strings, with a comment claiming they could never drift from the
+// lessons. They drifted. The morning the manifest was corrected so the map
+// named the friend each lesson actually uses, three of the six lines here
+// went stale in one commit: Orbit was still selling the real and pretend
+// lesson that is Pebble's, Nova was still selling the mood lesson that is
+// Orbit's, and Cosmo was selling four lessons that had moved to Orbit and
+// Nova, in the retired fox's own words ("street smart"). So the strip now
+// SHOWS only a friend the manifest actually gives a module to, and the guard
+// (scripts/check-character-voices.mjs) holds it. Cosmo fronts nothing today,
+// so Cosmo is not on the page today. He returns here on his own, with no one
+// having to remember, the moment the sixth form lessons are written in his
+// voice and the manifest says so.
+const SQUAD: { key: CharacterKey; clip?: string; line: string }[] = [
   { key: 'digi', line: 'The golden star. Carries the heaviest lessons and closes every one.' },
-  { key: 'pebble', clip: INTRO_CHARACTERS.pebble.clip, line: 'First steps: kindness, feelings, and telling a grown up.' },
-  { key: 'bloop', clip: INTRO_CHARACTERS.bloop.clip, line: 'Routines, gaming, and the habits that stick.' },
-  { key: 'orbit', clip: INTRO_CHARACTERS.orbit.clip, line: 'The detective: real, pretend, and made by a computer.' },
-  { key: 'nova', clip: INTRO_CHARACTERS.nova.clip, line: 'The calm one: mood, wellbeing, and the serious years.' },
-  { key: 'cosmo', clip: INTRO_CHARACTERS.cosmo.clip, line: 'Street smart: scams, workarounds, AI and the road to work.' },
+  { key: 'pebble', clip: INTRO_CHARACTERS.pebble.clip, line: 'First steps: kindness, feelings, and what is real.' },
+  { key: 'bloop', clip: INTRO_CHARACTERS.bloop.clip, line: 'Routines, gaming, privacy, and who really made this.' },
+  { key: 'orbit', clip: INTRO_CHARACTERS.orbit.clip, line: 'The questions years: mood, scams, deepfakes, and whether it is doing your thinking.' },
+  { key: 'nova', clip: INTRO_CHARACTERS.nova.clip, line: 'The calm one: persuasion, the serious years, and arriving ready at sixteen.' },
+  { key: 'cosmo', clip: INTRO_CHARACTERS.cosmo.clip, line: 'The sixth form: mastery, data rights, and the road to work.' },
 ]
+
+/** The friends this page may sell: the ones the shipped curriculum actually
+ *  gives a lesson to. A face here that fronts no module is a promise the
+ *  product does not keep. */
+const FRONTS_A_MODULE = new Set(MODULES.map(m => m.character))
+const CAST = SQUAD.filter(c => FRONTS_A_MODULE.has(c.key))
 
 // The one line a head needs per stage now lives in the shared manifest
 // (KEY_STAGE_WHY) so this page and the curriculum map can never disagree.
@@ -436,7 +453,7 @@ export default async function SchoolsPage() {
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '14px' }}>
-            {SQUAD.map(c => {
+            {CAST.map(c => {
               const ch = CHARACTERS[c.key]
               return (
                 <div key={c.key} className="fu" style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: '20px', padding: '16px 14px 20px', textAlign: 'center', height: '100%' }}>

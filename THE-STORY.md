@@ -338,6 +338,12 @@ The live list, so nothing hides:
   processor DPAs, solicitor review. `plans/go-live-safety-checklist.md`.
 - The content gap: Years 7 to 11 curriculum, the coaches phase, the mobile
   wrap.
+- Cosmo does not speak. The sixth form friend fronts no lesson since the
+  voices were made consistent on 14 September 2026, so the home page filters
+  him out rather than sell a friend who teaches nothing. Justin asked to be
+  reminded to write him into the two KS5 lessons once schools are live. The
+  work is specced and waiting on two of his decisions:
+  `plans/2026-09-14-cosmo-at-sixth-form-spec.md`. Zero credits.
 
 ## 13. House rules
 
