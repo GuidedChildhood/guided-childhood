@@ -56,8 +56,8 @@ export function schoolLetter(r: LetterboxRow): { subject: string; html: string }
       html: wrap([
         `Hello ${name},`,
         `Thank you for asking for a pilot for ${school}. It is in, and I will reply within two working days, usually the same day, with your school code.`,
-        `The code opens everything for a term: every module from Reception to Year 13, the classroom player with the script on every slide, every printable, the Hub and the staff briefings. One code for the whole staff room, no card, no contract, no pupil data.`,
-        `To start on the day the code arrives: open <a href="${SITE}/curriculum" style="color:#C99A28;font-weight:700">the curriculum map</a>, pick a module, and press Teach this lesson. The night before takes five minutes with the run sheet.`,
+        `The code opens two lessons for a term, matched to the phase you teach, with the classroom player and the script on every slide, every printable for both, and the Hub. The rest of the scheme stays visible on the map and opens with a licence. One code for the whole staff room, no card, no contract, no pupil data.`,
+        `To start on the day the code arrives: open <a href="${SITE}/curriculum" style="color:#C99A28;font-weight:700">the curriculum map</a>, find the two marked In your pilot, and press Teach this lesson. The night before takes five minutes with the run sheet.`,
         `When the term ends you decide. Carrying on is one click, with your details already filled in: <a href="${SITE}/pricing?${esc(q)}" style="color:#C99A28;font-weight:700">turn the pilot into a licence</a>. Stopping is fine too, and I would still like to hear what you thought.`,
         `If your data protection officer wants the paperwork first, the privacy notice and the data processing agreement are at <a href="${SITE}/dpa" style="color:#C99A28;font-weight:700">${SITE}/dpa</a>, ready to print and sign.`,
         `If you want to try something before the code lands, <a href="${SITE}/lesson/ks3-12-misinfo-deepfakes" style="color:#C99A28;font-weight:700">the sample lesson</a> is open now. It is the real thing, nothing locked.`,

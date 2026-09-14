@@ -11,12 +11,17 @@
 //   3. Both ends of the letterbox agree on the word: the pilot action inserts
 //      band 'pilot' and the parent app's cron treats 'pilot' as a lead, so a
 //      request is never emailed to Justin as an order to invoice.
+//   4. The pilot is two lessons (Justin, 14 September 2026), matched to the
+//      school's phase, plus the Hub: exactly two per phase, all through is
+//      primary plus secondary, none carries a DSL note, a pilot code cannot
+//      reach a stranger module in any shape, and nothing on the site or in
+//      the letter still promises the pilot the whole scheme.
 //
 // No database, no browser. Runs in the wiring workflow.
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { OPEN_PATHS } from '../schools/lib/access.ts'
-import { PILOT_BAND, PILOT_PLACES } from '../schools/lib/pilot.ts'
+import { OPEN_PATHS, PILOT_PHASES } from '../schools/lib/access.ts'
+import { PILOT_BAND, PILOT_PLACES, PILOT_SET, isPilotPath, pilotModulesFor } from '../schools/lib/pilot.ts'
 
 let failed = 0
 const ok = (name, cond, detail = '') => {
@@ -61,8 +66,57 @@ for (const file of ['schools/app/page.tsx', 'schools/app/pilot/page.tsx']) {
     'use {PILOT_PLACES} so the page and the count cannot disagree')
 }
 
+// 4. Two lessons, matched to the phase, and no way past them.
+const manifest = readFileSync('shared/schools-curriculum.ts', 'utf8')
+const entryOf = id => {
+  const at = manifest.indexOf(`moduleId: '${id}'`)
+  if (at < 0) return null
+  const next = manifest.indexOf('moduleId:', at + 10)
+  return manifest.slice(at, next < 0 ? undefined : next)
+}
+const STAGES_FOR = { primary: ['eyfs', 'ks1', 'ks2'], secondary: ['ks3', 'ks4'], post16: ['ks4', 'ks5'] }
+for (const phase of ['primary', 'secondary', 'post16']) {
+  const set = PILOT_SET[phase]
+  ok(`the ${phase} pilot is exactly two lessons`, set.length === 2, `found ${set.length}: ${set.join(', ')}`)
+  for (const id of set) {
+    const entry = entryOf(id)
+    ok(`${id} is in the curriculum manifest`, entry !== null)
+    ok(`${id} sits in the ${phase} key stages`, STAGES_FOR[phase].some(ks => id.startsWith(`${ks}-`)))
+    ok(`${id} carries no DSL note`, !entry || !/dsl:\s*true/.test(entry),
+      'a pilot lesson must be teachable the day the code lands, with no safeguarding briefing first')
+  }
+}
+ok('all through is primary plus secondary', PILOT_SET.all_through.join(',') === [...PILOT_SET.primary, ...PILOT_SET.secondary].join(','))
+ok('every phase the access module names has a set', PILOT_PHASES.every(p => Array.isArray(PILOT_SET[p])))
+
+// The wall around the two: the same shapes the taster guard checks.
+const PRIMARY_ONE = PILOT_SET.primary[0]
+for (const path of [`/lesson/${PRIMARY_ONE}`, `/lesson/${PRIMARY_ONE}/run`, `/teach/${PRIMARY_ONE}`, `/class/${PRIMARY_ONE}`, `/print/${PRIMARY_ONE}`, `/print/${PRIMARY_ONE}/booklet`, '/hub', '/hub/dsl', '/print', '/print/passport/foundation']) {
+  ok(`a primary pilot opens ${path}`, isPilotPath(path, 'primary'))
+}
+const STRANGER = 'ks4-17-sextortion'
+for (const path of [`/lesson/${STRANGER}`, `/lesson/${STRANGER}/run`, `/teach/${STRANGER}`, `/print/${STRANGER}`, `/class/${STRANGER}`, `/lesson/${PILOT_SET.secondary[0]}`, `/teach/${PRIMARY_ONE}/secret`, `/lesson/${PRIMARY_ONE}extra`, '/lesson', '/teach']) {
+  ok(`a primary pilot does not reach ${path}`, !isPilotPath(path, 'primary'))
+}
+ok('the secondary pilot reaches its own lessons', pilotModulesFor('secondary').every(id => isPilotPath(`/teach/${id}`, 'secondary')))
+const proxy = readFileSync('schools/proxy.ts', 'utf8')
+ok('the proxy composes isPilotPath for a pilot cookie', /access\?\.tier === 'pilot' && isPilotPath\(pathname, access\.phase\)/.test(proxy))
+ok('the proxy sends a pilot school to the door with the pilot message', /pilot=1/.test(proxy))
+
+// Nothing still promises the pilot the whole scheme.
+const pilotPage = readFileSync('schools/app/pilot/page.tsx', 'utf8')
+ok('the pilot page does not promise the whole scheme', !/whole scheme|every module|All \$\{MODULE_COUNT\} modules/.test(pilotPage.replace(/\/\/.*$/gm, '')))
+ok('the pilot page says two lessons', /[Tt]wo lessons/.test(pilotPage))
+const pilotLetter = letters.slice(letters.indexOf("r.band === 'pilot'"), letters.indexOf("r.band === 'taster'"))
+ok('the pilot letter does not promise everything', !/opens everything|every module/.test(pilotLetter))
+ok('the pilot letter says two lessons', /two lessons/.test(pilotLetter))
+const terms = readFileSync('schools/lib/legal/terms.ts', 'utf8')
+ok('the terms do not say the pilot opens everything a licence opens', !/pilot opens everything/.test(terms))
+ok('the cron email names the pilot code list and its shape', /SCHOOLS_PILOT_CODES/.test(cron) && /code:phase/.test(cron))
+ok('the env template documents the pilot code list', /SCHOOLS_PILOT_CODES=/.test(readFileSync('.env.local.template', 'utf8')))
+
 if (failed) {
   console.error(`\npilot door: ${failed} problem${failed === 1 ? '' : 's'}.\n`)
   process.exit(1)
 }
-console.log('pilot door: ours, open, and both ends of the letterbox agree.')
+console.log('pilot door: ours, open, both ends of the letterbox agree, and the pilot is two lessons behind its own wall.')

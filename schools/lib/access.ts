@@ -27,16 +27,65 @@
 // that school out on the next request rather than whenever its cookie
 // happens to lapse.
 
+// No imports on purpose: scripts/check-pilot-door.mjs and
+// scripts/check-taster-wall.mjs load this file under plain node, which cannot
+// resolve an extension free import. The phase primitives live here and
+// lib/pilot.ts takes the type only, which strip types erases.
+export type PilotPhase = 'primary' | 'secondary' | 'post16' | 'all_through'
+export const PILOT_PHASES: PilotPhase[] = ['primary', 'secondary', 'post16', 'all_through']
+
+/** The phase a bare pilot code means when the env entry names none. All
+ *  through is the generous reading, and a code Justin typed in a hurry
+ *  should open more rather than less. */
+export const DEFAULT_PILOT_PHASE: PilotPhase = 'all_through'
+
+export function isPilotPhase(v: string): v is PilotPhase {
+  return (PILOT_PHASES as string[]).includes(v)
+}
+
 const COOKIE = 'gc_schools_access'
 const TTL_DAYS = 180
 
-/** Codes we currently honour. Config, never hardcoded: one per school, or a
- *  shared one for a pilot cohort. Comma separated, case insensitive. */
+/** Licence codes we currently honour. Config, never hardcoded: one per
+ *  school. Comma separated, case insensitive. */
 function allowedCodes(): string[] {
   return (process.env.SCHOOLS_ACCESS_CODES || '')
     .split(',')
     .map(c => c.trim().toLowerCase())
     .filter(Boolean)
+}
+
+// TWO KINDS OF CODE (14 September 2026). A licence code opens everything. A
+// pilot code opens two lessons matched to the school's phase, plus the Hub
+// (lib/pilot.ts holds the sets and the path rule). The pilot codes are their
+// own env list, `SCHOOLS_PILOT_CODES`, each entry `code:phase`; a bare code
+// means all through. The cookie format is unchanged: it carries the code, and
+// the tier and the phase are looked up from the env on every request, so a
+// school moving from pilot to licence is an env edit and a redeploy, and a
+// pilot code pulled from the list stops on the school's next request.
+export type AccessTier = 'licence' | 'pilot'
+export type Access = { tier: 'licence' } | { tier: 'pilot'; phase: PilotPhase }
+
+function pilotCodes(): Map<string, PilotPhase> {
+  const out = new Map<string, PilotPhase>()
+  for (const entry of (process.env.SCHOOLS_PILOT_CODES || '').split(',')) {
+    const [rawCode, rawPhase] = entry.split(':')
+    const code = (rawCode ?? '').trim().toLowerCase()
+    if (!code) continue
+    const phase = (rawPhase ?? '').trim().toLowerCase()
+    out.set(code, isPilotPhase(phase) ? phase : DEFAULT_PILOT_PHASE)
+  }
+  return out
+}
+
+/** What a code opens, or null for a code we do not honour. A code on both
+ *  lists is a licence: the wider door wins, because the only way that
+ *  happens is a school upgrading before its pilot entry is removed. */
+function accessFor(code: string): Access | null {
+  if (allowedCodes().includes(code)) return { tier: 'licence' }
+  const phase = pilotCodes().get(code)
+  if (phase) return { tier: 'pilot', phase }
+  return null
 }
 
 function secret(): string {
@@ -103,26 +152,35 @@ export async function issueToken(code: string): Promise<string> {
   return `${payload}|${await sign(payload)}`
 }
 
-/** True only if the cookie is well formed, correctly signed, unexpired, and
- *  issued against a code we still honour. */
-export async function tokenIsValid(token: string | undefined): Promise<boolean> {
-  if (!token || !secret()) return false
+/** What the cookie opens: a licence, a pilot with its phase, or null when the
+ *  cookie is malformed, badly signed, expired, or issued against a code we no
+ *  longer honour. */
+export async function tokenAccess(token: string | undefined): Promise<Access | null> {
+  if (!token || !secret()) return null
   const parts = token.split('|')
-  if (parts.length !== 3) return false
+  if (parts.length !== 3) return null
   const [code, expires, signature] = parts
 
   const expiry = Number(expires)
-  if (!Number.isFinite(expiry) || expiry < Date.now()) return false
-  if (!allowedCodes().includes(code)) return false
+  if (!Number.isFinite(expiry) || expiry < Date.now()) return null
+  const access = accessFor(code)
+  if (!access) return null
 
-  return sameSignature(await sign(`${code}|${expires}`), signature)
+  return sameSignature(await sign(`${code}|${expires}`), signature) ? access : null
 }
 
-/** Check a code a teacher has just typed. Returns the normalised code so the
- *  caller signs exactly what we matched, spacing and capitals forgiven. */
+/** True only if the cookie is well formed, correctly signed, unexpired, and
+ *  issued against a code we still honour, licence or pilot. */
+export async function tokenIsValid(token: string | undefined): Promise<boolean> {
+  return (await tokenAccess(token)) !== null
+}
+
+/** Check a code a teacher has just typed, against both lists. Returns the
+ *  normalised code so the caller signs exactly what we matched, spacing and
+ *  capitals forgiven. */
 export function matchCode(input: string): string | null {
   const tidy = input.trim().toLowerCase().replace(/\s+/g, '')
-  const hit = allowedCodes().find(c => c.replace(/\s+/g, '') === tidy)
+  const hit = [...allowedCodes(), ...pilotCodes().keys()].find(c => c.replace(/\s+/g, '') === tidy)
   return hit ?? null
 }
 

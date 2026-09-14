@@ -10,15 +10,17 @@ import PilotForm from './PilotForm'
 // on the site goes through (the schools review, decision 2: bring the request
 // into the product). It used to be a Mailchimp form in a new tab.
 //
-// A pilot is the whole scheme, free, for one term, for the first five
-// schools. The five is read from lib/pilot.ts and the places left are counted
-// from the requests themselves, so the page can never claim a place it does
-// not have. When the five are gone the form stays open and says so: the
-// next round starts with whoever asks.
+// A pilot is two lessons, free, for one term, for the first five schools,
+// matched to the phase the school teaches (Justin, 14 September 2026: the
+// pilot has to make paying customers, not give the scheme away). The five
+// is read from lib/pilot.ts and the places left are counted from the
+// requests themselves, so the page can never claim a place it does not
+// have. When the five are gone the form stays open and says so: the next
+// round starts with whoever asks.
 
 export const metadata: Metadata = {
   title: 'Request a free pilot',
-  description: 'Teach the whole Guided Childhood digital literacy scheme free for one term. Five places, one school code, no card, no contract, no pupil data.',
+  description: 'Teach two Guided Childhood digital literacy lessons free for one term, matched to the phase you teach. Five places, one school code, no card, no contract, no pupil data.',
   alternates: { canonical: 'https://schools.guidedchildhood.com/pilot' },
 }
 
@@ -37,10 +39,11 @@ export default async function PilotPage() {
   const full = left !== null && left <= 0
 
   const included = [
-    `All ${MODULE_COUNT} modules, Reception to Year 13, on one school code`,
+    'Two lessons matched to the phase you teach, on one code for the whole staff room',
     'The classroom player with the word for word script on every slide',
-    'Every printable: the pack, the pupil booklet, the organiser, the two quizzes, the learning record',
+    'Every printable for both: the pack, the pupil booklet, the organiser, the two quizzes, the learning record',
     `The compliance Hub, the RSHE mapping matrix and the ${FLAGGED_MODULES.length} staff briefings`,
+    `The map of all ${MODULE_COUNT} modules, Reception to Year 13, open to read`,
     'A reply within two working days, usually the same day',
   ]
 
@@ -53,7 +56,7 @@ export default async function PilotPage() {
             Teach it for a term. Decide after.
           </h1>
           <p style={{ ...body, marginBottom: '14px' }}>
-            The first {PILOT_PLACES} schools get the whole scheme free for a term: every module, every printable, the Hub and the staff briefings. No card, no contract, no pupil data.
+            The first {PILOT_PLACES} schools get two lessons free for a term, matched to the phase they teach, with every printable and the Hub. No card, no contract, no pupil data.
           </p>
           <p style={{ ...body, marginBottom: '22px' }}>
             At the end of the term you carry on with a licence or you stop, and either way we will have learned something from you.

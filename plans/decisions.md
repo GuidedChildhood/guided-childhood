@@ -15093,3 +15093,30 @@ module 01, production has both) or already fixed.
 Guard `scripts/check-print-kit.mjs` holds the Reception faces, the
 safeguarding order, the sheet height, the start card gate and the numbered
 match. No migration.
+
+## 14 September 2026, Monday, the pilot is two lessons (session 0u09q9)
+
+Justin on /pilot: "shouldn't the free pilot only include one lesson, as we
+need to get paying customers from it", then "I think pilot should be 2
+lessons". Taken as: a pilot code opens two lessons matched to the phase the
+school teaches, plus the Hub; everything else stays visible on the map and
+locked on tap. The whole scheme for a term (13 September) is withdrawn.
+
+- Pilot codes are their own env list, `SCHOOLS_PILOT_CODES`, entries as
+  `code:phase` (primary, secondary, post16, all_through; a bare code means
+  all through). Licence codes stay in `SCHOOLS_ACCESS_CODES`. The cookie is
+  unchanged; the tier and the phase are looked up on every request.
+- The sets, one list in `schools/lib/pilot.ts`: primary ks1-03 and ks2-06;
+  secondary ks3-24 and ks4-15; post16 ks4-19 and ks5-20; all through is
+  primary plus secondary. None carries a DSL note. Justin can swap any.
+- A pilot code reaches its two lessons in the four teacher shapes, the class
+  wall for them, the print room index, the passport print out and the whole
+  Hub. A third lesson lands on /unlock with the pilot message naming the two
+  and the prices. The map marks "In your pilot" and "Full scheme"; the nav
+  chip says Pilot school, never Licensed.
+- Every promise updated: /pilot, the pilot letter, the terms section 6, the
+  unlock page, the pricing page, the cron email to Justin (which list, which
+  shape), the env template. The free sample lesson stays open as before.
+
+Guard `scripts/check-pilot-door.mjs` holds the shape and the wall. No
+migration. Plan: `plans/2026-09-14-pilot-two-lessons-plan.md`.

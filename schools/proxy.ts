@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { ACCESS_COOKIE, isOpenPath, tokenIsValid } from '@/lib/access'
+import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
 import { isTasterPath } from '@/lib/taster'
+import { isPilotPath } from '@/lib/pilot'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
 // the old middleware). Two jobs, in this order:
@@ -30,14 +31,19 @@ export async function proxy(request: NextRequest) {
   // anybody having to reason about the paid wall at the same time.
   if (isOpenPath(pathname) || isTasterPath(pathname)) return NextResponse.next()
 
+  // Three answers from the cookie: a licence opens everything; a pilot opens
+  // its two lessons and the Hub (lib/pilot.ts) and meets the door with the
+  // pilot message everywhere else; no cookie meets the door as before.
   const token = request.cookies.get(ACCESS_COOKIE)?.value
-  if (await tokenIsValid(token)) return NextResponse.next()
+  const access = await tokenAccess(token)
+  if (access?.tier === 'licence') return NextResponse.next()
+  if (access?.tier === 'pilot' && isPilotPath(pathname, access.phase)) return NextResponse.next()
 
   // Remember where they were headed so the unlock page can put them back
   // there, rather than dumping every teacher on the home page.
   const url = request.nextUrl.clone()
   url.pathname = '/unlock'
-  url.search = `?next=${encodeURIComponent(pathname + search)}`
+  url.search = `?next=${encodeURIComponent(pathname + search)}${access?.tier === 'pilot' ? '&pilot=1' : ''}`
   return NextResponse.redirect(url)
 }
 

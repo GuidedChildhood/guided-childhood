@@ -4,7 +4,9 @@ import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
 import { isTasterModule } from '@/lib/taster'
-import { hasLicence } from '@/lib/licence'
+import { currentAccess } from '@/lib/licence'
+import { pilotModulesFor } from '@/lib/pilot'
+import PilotStrip from '@/components/PilotStrip'
 import { TasterStrip } from '@/app/taster/TasterBar'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import type { PassportPlacement } from '@gc/shared/passport-stages'
@@ -87,7 +89,9 @@ export default async function TeachLessonPage({
   const slides = parseSlides(lesson.slides)
   if (!slides) notFound()
 
-  const showTaster = isTasterModule(moduleId) && !(await hasLicence())
+  const access = await currentAccess()
+  const showTaster = isTasterModule(moduleId) && !access
+  const showPilot = access?.tier === 'pilot' && pilotModulesFor(access.phase).includes(moduleId)
 
   // ?slide=N (1 based, from the run sheet) opens the player at that slide, so
   // a teacher can step out mid lesson and step back in where they were. A
@@ -122,6 +126,7 @@ export default async function TeachLessonPage({
             wreck the one thing they came to see. The form is on the prep page
             they arrived through, and on the pack at the end. */}
         {showTaster && <TasterStrip />}
+        {showPilot && <PilotStrip compact />}
         <LessonPlayer
           lessonId={lesson.id}
           lessonSource="school_lesson"

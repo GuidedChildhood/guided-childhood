@@ -1,5 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { isTasterModule } from '@/lib/taster'
+import { currentAccess } from '@/lib/licence'
+import { pilotModulesFor } from '@/lib/pilot'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, SPIRAL_BEHAVIOURS } from '@gc/shared/schools-curriculum'
@@ -37,6 +39,10 @@ export default async function CurriculumMapPage() {
   const { data: lessons } = await supabase.from('school_lessons').select('id, module_id')
   const liveModules = new Set((lessons ?? []).map(l => l.module_id))
   const liveCount = CURRICULUM.filter(m => liveModules.has(m.moduleId)).length
+  // A pilot school sees which two its code opens; everything else is marked
+  // as the full scheme, still visible, opening with a licence.
+  const access = await currentAccess()
+  const pilotSet = access?.tier === 'pilot' ? new Set(pilotModulesFor(access.phase)) : null
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '36px 20px 90px' }}>
@@ -52,7 +58,7 @@ export default async function CurriculumMapPage() {
           Pick a module and teach it today. No download wall, no prep, nothing to book.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '22px' }}>
-          {liveCount} of {CURRICULUM.length} modules live in the pilot{liveCount < CURRICULUM.length ? ' · the rest are in production' : ''}
+          {liveCount} of {CURRICULUM.length} modules live{liveCount < CURRICULUM.length ? ' · the rest are in production' : ''}
         </p>
 
         {/* How to use the map: three moves, so a first time visitor is never
@@ -63,7 +69,7 @@ export default async function CurriculumMapPage() {
             {[
               'Find your year group below. Each stage says what it covers and why the content lands at that age.',
               'Open any live module to see the objective, the misconceptions and what to print before you commit a lesson to it.',
-              'Teach it the same day: every module carries the player, the word for word script, the paper pack and the parent note. Your school code opens all of it.',
+              'Teach it the same day: every module carries the player, the word for word script, the paper pack and the parent note. A licence code opens all of it; a pilot code opens two lessons and the Hub.',
             ].map(step => (
               <li key={step} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>{step}</li>
             ))}
@@ -173,6 +179,18 @@ export default async function CurriculumMapPage() {
                               This map is public, so without the chip it is
                               twenty two doors to /unlock and one that opens,
                               with nothing saying which. See lib/taster.ts. */}
+                          {pilotSet && live && !isTasterModule(m.moduleId) && (
+                            <span style={{
+                              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                              letterSpacing: '0.1em', textTransform: 'uppercase',
+                              color: pilotSet.has(m.moduleId) ? 'var(--stage-1-text)' : 'var(--ink-muted)',
+                              background: pilotSet.has(m.moduleId) ? 'var(--stage-1)' : 'transparent',
+                              border: `1.5px solid ${pilotSet.has(m.moduleId) ? 'var(--stage-1-bold)' : 'var(--border)'}`, borderRadius: '100px',
+                              padding: '5px 11px',
+                            }}>
+                              {pilotSet.has(m.moduleId) ? 'In your pilot' : 'Full scheme'}
+                            </span>
+                          )}
                           {live && isTasterModule(m.moduleId) && (
                             <span style={{
                               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,

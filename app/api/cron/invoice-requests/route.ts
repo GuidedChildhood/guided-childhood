@@ -116,7 +116,7 @@ async function handler(request: Request) {
           ${r.notes ? `<tr><td style="padding-right:16px;color:#888">Notes</td><td>${esc(r.notes)}</td></tr>` : ''}
         </table>
         <p style="margin-top:16px">${r.band === 'pilot'
-          ? 'A pilot. Add a code for this school to SCHOOLS_ACCESS_CODES on the schools Vercel project, redeploy, and reply with it within two working days. The school has already had a confirmation saying so.'
+          ? 'A pilot. Add a code for this school to SCHOOLS_PILOT_CODES on the schools Vercel project as code:phase (primary, secondary, post16 or all_through, from the notes above), redeploy, and reply with it within two working days. The code opens the two lessons for that phase plus the Hub; a licence code goes in SCHOOLS_ACCESS_CODES instead. The school has already had a confirmation saying so.'
           : lead
             ? 'No invoice to raise. This is a lead: reply to them yourself while the lesson is still fresh.'
             : 'Raise the invoice by hand in the Stripe dashboard, 30 day terms, and quote the PO on it. That is the whole flow. The school has already had a confirmation saying the invoice is on its way.'}</p>
