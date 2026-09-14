@@ -1571,7 +1571,7 @@ export default function KidQuestScreen({
             bar, one number, and it now counts completed days rather than only
             the jobs run, so the five a day directly under it is visibly what
             moves it. */}
-        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+        <StreakBar completedStreaks={completedStreaks} />
 
         <div id="kid-five" style={{ scrollMarginTop: 96 }} />
         <KidFiveADay
@@ -3039,7 +3039,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
             reading what each locked Friend costs is exactly who wants to know
             how close the next one is. */}
         <div style={{ marginBottom: '18px' }}>
-          <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+          <StreakBar completedStreaks={completedStreaks} />
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your background</div>

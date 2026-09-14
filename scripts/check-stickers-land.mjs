@@ -36,6 +36,12 @@
 //      takeover wears the child's colour instead of one of its own, the
 //      printables tally falls back to ink rather than white, and the mock of
 //      the child app inside the parent welcome shows the app they will get.
+//   L. The streak bar tells the truth and cannot collapse (14 September 2026):
+//      a rung short enough to draw honestly is counted in fixed width pips, a
+//      longer one is measured by one proportional track with a width floor,
+//      the threshold is re-derived from the 390px pixel budget on every run,
+//      and every fill is banked over the rung's REAL span so a full bar
+//      always means nothing left to do.
 //   H. The lunchtime round (14 September 2026): home counts pending ideas the
 //      way the cap counts them, no window; the ask page has a door to the
 //      jobs when it is full; no polka dot ground anywhere on the child side,
@@ -314,6 +320,69 @@ else {
   else if (!/const KID = resolveTheme\(DEFAULT_ACCENT\)/.test(welcome) || !/background: KID\.bg/.test(sceneChild) || !/color: KID\.ink[,}\s]/.test(sceneChild) || /color: '#fff'|color: 'rgba\(255,255,255/.test(sceneChild)) problems.push('K: the welcome shows a parent a child app that is not the one their child gets')
   else ok.push('K: no child surface paints the retired dark ground, the games takeover and the welcome mock ask the theme, and the tally falls back to ink')
 }
+
+// ── L: the streak bar tells the truth and stays a bar ───────────────────────
+// Justin, 14 September 2026, looking at his own child home: "not sure what the
+// ooooo is on this?" The row read "2 ooooooooo 8 more for Bloop".
+//
+// Two faults in one component. The dots were flex:1 with a fixed height, a 2px
+// ink border and a full pill radius and no floor under the width, so on a
+// 390px phone they were left about 9px each and drew as rings. And the fill
+// test was `i < banked`, a dot INDEX against a raw day COUNT, while the dot
+// count was capped at 8: measured in a browser, a child on 18, 21, 30, 50 or
+// 57 days saw a COMPLETELY FULL bar beside words saying 4, 1, 8, 8 and 1 more
+// to go. The bar contradicted the sentence beside it for most of the ladder.
+//
+// The probe runs the real ladder and checks the honesty property directly,
+// rather than trusting a regex to notice a saturating comparison. It walks
+// every day count a child can hold, so a future change to the ladder is
+// checked too rather than only the five rungs that exist today.
+const streakBar = read('components/kid/StreakBar.tsx')
+const spanProbe = `
+import { rungSpan, streaksBankedTowardNext, streaksToNextFriend, earnedFriends, friendsFromStreaks } from './lib/pathway/streak-unlock.ts'
+const rows = []
+for (let s = 0; s <= 58; s++) {
+  const span = rungSpan(s)
+  const banked = streaksBankedTowardNext(s)
+  const owed = streaksToNextFriend(s)
+  const pct = span > 0 ? Math.min(100, Math.max(0, Math.round((banked / span) * 100))) : 0
+  rows.push({ s, span, banked, owed, pct })
+}
+// A full bar must mean nothing owed, and an empty one must mean nothing banked.
+const lies = rows.filter(r => (r.pct === 100 && r.owed > 0) || (r.pct === 0 && r.banked > 0))
+// Every rung's span must be the real gap, never a drawing cap.
+const spans = [...new Set(rows.filter(r => r.span > 0).map(r => r.span))].sort((a, b) => a - b)
+// The row names the next Friend off the same count it prints, so the two can
+// never drift. That only holds while the two routes agree everywhere.
+const drift = []
+for (let s = 0; s <= 200; s++) if (earnedFriends(s) !== friendsFromStreaks(s)) drift.push(s)
+console.log(JSON.stringify({ lies: lies.map(r => r.s), spans, drift: drift.slice(0, 5), capped: rows.some(r => r.span === 8 && r.owed > 8) }))
+`
+const srun = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', spanProbe], { encoding: 'utf8' })
+if (srun.status !== 0) problems.push(`L: the streak span probe could not run: ${(srun.stderr || '').split('\n').slice(0, 3).join(' ')}`)
+else {
+  const r = JSON.parse(srun.stdout.trim().split('\n').pop())
+  if (r.lies.length > 0) problems.push(`L: the streak bar disagrees with its own words on ${r.lies.length} day counts (${r.lies.slice(0, 6).join(', ')})`)
+  else if (r.spans.join() !== '2,8,12,16,20') problems.push(`L: the rung spans are not the real gaps between Friends (${r.spans.join()})`)
+  else if (r.capped) problems.push('L: a rung span is still capped, so the bar measures progress against a drawing number')
+  else if (r.drift.length > 0) problems.push(`L: the Friend count and the day count disagree (first at ${r.drift[0]} days), so the row can name the wrong Friend`)
+  else ok.push('L: every day count from 0 to 58 fills the streak bar by the rung\'s real span, so a full bar always means nothing left')
+}
+if (!/data-streak-track/.test(streakBar) || !/minWidth: 44/.test(streakBar)) problems.push('L: the streak bar has no track with a width floor, so it can collapse into rings again')
+else if (/rungLength/.test(streakBar)) problems.push('L: the streak bar still measures itself against the capped rung length')
+else if (!/width: `\$\{pct\}%`/.test(streakBar) || !/rungSpan\(completedStreaks\)/.test(streakBar)) problems.push('L: the streak bar does not fill proportionally against the real span')
+else if (/Array\.from\(\{ length: rung/.test(streakBar)) problems.push('L: the streak bar is drawing a row of dots again')
+else if (/earnedStages/.test(streakBar) || !/nextFriendToEarn\(friendsFromStreaks\(completedStreaks\)\)/.test(streakBar)) problems.push('L: the streak bar takes the next Friend from something other than the count it prints')
+else ok.push('L: the streak bar is one proportional track with a width floor, measured against the real span, naming the Friend off the same count')
+
+// The road to social media had the same collapsing shape: one flex:1 mark per
+// lesson with no floor. Twelve in the fixture measured 22px, but the real read
+// pulls every live parent social media lesson up to the child's stage, about
+// twenty one today at 11px and falling under 8px as the 13 plus module lands.
+const road = read('components/pathway/SocialRoadNova.tsx')
+if (!/repeat\(auto-fit, minmax\(14px, 1fr\)\)/.test(road)) problems.push('L: the social road marks have no width floor, so a longer curriculum smears them into a band')
+else if (/flex: 1, height: isNext/.test(road)) problems.push('L: the social road marks still share whatever width is left')
+else ok.push('L: the social road marks hold a 14px floor and wrap, so the marks survive the curriculum growing')
 
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')
