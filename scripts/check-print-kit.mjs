@@ -48,11 +48,27 @@ for (const q of ['starter-quiz', 'exit-quiz']) {
   if (!src.includes('keyStage={lesson.key_stage}') || !src.includes('characterCast={lesson.character_cast}')) fail(`${q} does not pass the friend to the quiz sheet`)
 }
 
-// 2. One worksheet reader.
+// 2. One worksheet reader, and the Reception answer is faces, not a writing line.
 for (const file of ['schools/app/print/[module]/page.tsx', 'schools/app/print/[module]/booklet/page.tsx']) {
   const src = read(file)
   if (!src.includes("from '@/lib/worksheet'")) fail(`${file} does not read worksheet cards through lib/worksheet`)
   if (/notes\.worksheet_items \?\? \[\]/.test(src)) fail(`${file} still reads worksheet_items raw`)
+  // The design council, 14 September 2026: a Reception verdict card is three
+  // faces to point at, never tick boxes and a BECAUSE line a four year old
+  // cannot use. `young ? (<BigChoice` is the branch that keeps it so.
+  if (!/young \? \(\s*(verdicts\.length > 0 && )?<BigChoice/.test(src)) fail(`${file} does not give Reception the faces to point at`)
+}
+// 2b. The teacher one pager reads the safeguarding note before anything else.
+{
+  const src = read('schools/app/print/[module]/page.tsx')
+  const dsl = src.indexOf('label="Safeguarding note"'), objective = src.indexOf('label="Objective"')
+  if (dsl < 0 || objective < 0 || dsl > objective) fail('the teacher one pager does not put the safeguarding note above the objective')
+  if (!src.includes('startCard &&')) fail('the pack prints a start card with no question to remember')
+}
+// 2c. The footer sits at the foot of an A4 sheet, not under the last card.
+{
+  const m = kit.match(/minHeight: '(\d+)mm'/)
+  if (!m || Number(m[1]) < 265) fail('PrintSheet is shorter than the printable height of A4, so the footer floats')
 }
 
 // 3. The passport print out.
@@ -69,6 +85,13 @@ if ((words.match(/^  '/gm) ?? []).length < 4 && !/FOLD_STEPS = \[/.test(words)) 
 const stagePage = read('schools/app/print/passport/[stage]/page.tsx')
 for (const piece of ['ZINE_TOP.map', 'ZINE_BOTTOM.map', "rotate(180deg)", 'single_action_outcome', '<Sticker', '<Stamp', 'A4 landscape']) {
   if (!stagePage.includes(piece)) fail(`the passport sheet lost ${piece}`)
+}
+// One sticker per ring, matched by number: the ring beside each lesson line
+// and the sticker on sheet B both carry `n={l.n}`. A sticker with a lesson
+// title and no ring to match was the Reception teacher's first must fix.
+if ((stagePage.match(/n=\{l\.n\}/g) ?? []).length < 2) fail('the passport rings and stickers are not matched by number')
+if (stagePage.includes('label="Well done"')) fail('the sticker sheet still carries Well done stars with no ring to go in')
+{
 }
 if (!read('schools/app/print/page.tsx').includes('href="/print/passport"')) fail('the print room does not link the passport print out')
 if (!read('schools/app/hub/passport/page.tsx').includes('href="/print/passport"')) fail('the hub passport page does not link the print out')
