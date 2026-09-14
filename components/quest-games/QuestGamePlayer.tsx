@@ -9,6 +9,7 @@ import FishingView from './FishingView'
 import CoinsView from './CoinsView'
 import BattleView from './BattleView'
 import TraceView from './TraceView'
+import { resolveTheme, DEFAULT_ACCENT, type KidTheme } from '@/lib/kid/theme'
 
 // The in app quest game player. Renders a game by its mechanic, calm and
 // finite, ending in a warm finish that names the stars. Scoring wiring (send
@@ -27,11 +28,19 @@ function shuffle<T>(a: T[]): T[] {
 // onComplete fires once when the game is finished (the kid screen records
 // the stars there). onClose closes the player. When neither is given, the
 // player falls back to links, for the parent gallery preview.
-export default function QuestGamePlayer({ game, onComplete, onClose }: {
+// The games takeover paints the whole screen, so it has to wear the colour the
+// child chose rather than a colour of its own. It used to hardcode the old
+// anthracite ground and white title text, which was invisible the moment Paper
+// became the default on 14 September 2026 and wrong for every pastel accent
+// before that. Ask the theme, the way the rest of the child app does.
+export default function QuestGamePlayer({ game, onComplete, onClose, theme }: {
   game: QuestGame
   onComplete?: () => void
   onClose?: () => void
+  /** The child's chosen colour. Falls back to the default on the parent and dev routes. */
+  theme?: KidTheme
 }) {
+  const t = theme ?? resolveTheme(DEFAULT_ACCENT)
   const [finished, setFinished] = useState(false)
 
   function finish() {
@@ -42,14 +51,14 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 60, background: 'var(--kid-bg)',
+      position: 'fixed', inset: 0, zIndex: 60, background: t.bg,
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: 'max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom))',
     }}>
       <div style={{ width: 'min(100%, 460px)', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
           <CloseControl onClose={onClose} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(255,255,255,0.78)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: t.inkSoft }}>
             {game.title}
           </span>
         </div>

@@ -1019,7 +1019,9 @@ html[data-gc-hold='parent'] body::before {
 }
 html[data-gc-hold='kid'] body::before {
   content: ''; position: fixed; inset: 0; z-index: 2147483000;
-  background: var(--kid-bg);
+  /* The paper page, the child's default since 14 September 2026 (lib/kid/theme.ts).
+     A dark cover in front of a white page is the flash this cover exists to stop. */
+  background: #F9F8F6;
 }
 
 /* ── A SCREEN WITH NO WAY AROUND IT ─────────────────────────────────────────

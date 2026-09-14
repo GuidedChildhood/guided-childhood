@@ -5,6 +5,7 @@ import { pushToChild } from '@/lib/quests/kid-push'
 import { bandForQuest, isBand, bandLabelOn, type JobBand } from '@/lib/quests/job-time'
 import { isRegion, DEFAULT_REGION } from '@/lib/learning/region'
 import { questDueToday } from '@/lib/quests/due'
+import { isChildVisible, isHeldForHolidays } from '@/lib/school/child-items'
 
 // A nudge on the child's own phone, at the hour the job can still be done.
 //
@@ -128,7 +129,68 @@ async function handler(request: Request) {
     } catch { /* one child's dead subscription never stops the rest */ }
   }
 
-  return NextResponse.json({ ok: true, band, sent })
+  // ── TOMORROW'S KIT, THE EVENING BEFORE ────────────────────────────────────
+  //
+  // Justin, 14 September 2026, with the To remember card on Jonny's home:
+  // "does a day before reminder also?" The card already says "Tomorrow, get
+  // it ready tonight" all day. This is the push half of that: in the evening
+  // band, one message per child naming what school needs tomorrow, so the
+  // bag is packed before bed rather than at the door. The same rules as the
+  // card (lib/school/child-items.ts): only the items meant for the child, a
+  // routine held in the holidays stays quiet, and nothing at all when
+  // tomorrow is empty. A plain fact about tomorrow, nothing engineered to
+  // pull them back in, the same line every push on this route holds.
+  let kit = 0
+  if (band === 'evening') {
+    const userIds = [...new Set(links.map(l => l.user_id as string))]
+    const tomorrow = new Date(now.getTime() + 86400000)
+    const tomorrowDate = tomorrow.toISOString().slice(0, 10)
+    const tomorrowDow = tomorrow.getDay()
+    const [{ data: actionRows }, holidayRes] = await Promise.all([
+      admin.from('school_actions')
+        .select('id, user_id, title, kind, due_date, recurs_weekday, sent_to_child, auto_send_to_child')
+        .in('user_id', userIds).eq('status', 'open'),
+      // Guarded on its own, as the child's page reads it: the column lands
+      // with migration 182 and a missing column would blank the whole read.
+      admin.from('school_actions').select('id, runs_in_holidays').in('user_id', userIds).eq('status', 'open')
+        .then(r => r, () => ({ data: null, error: true as const })),
+    ])
+    const runsInHolidays = new Map<string, boolean>()
+    if (!holidayRes.error) {
+      for (const r of (holidayRes.data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) runsInHolidays.set(String(r.id), r.runs_in_holidays === true)
+    }
+    type Action = { id: string; user_id: string; title: string; kind: string; due_date: string | null; recurs_weekday: number | null; sent_to_child?: boolean | null; auto_send_to_child?: boolean | null }
+    const byUser = new Map<string, Action[]>()
+    for (const a of (actionRows ?? []) as Action[]) {
+      if (!isChildVisible(a)) continue
+      const isRoutine = a.recurs_weekday != null
+      const due = isRoutine ? a.recurs_weekday === tomorrowDow : a.due_date === tomorrowDate
+      if (!due) continue
+      const list = byUser.get(a.user_id) ?? []
+      list.push(a)
+      byUser.set(a.user_id, list)
+    }
+    for (const link of links) {
+      const childId = link.child_id as string
+      const userId = link.user_id as string
+      const region = regionOf.get(userId) ?? DEFAULT_REGION
+      const items = (byUser.get(userId) ?? []).filter(a => !isHeldForHolidays({ recurs_weekday: a.recurs_weekday, runs_in_holidays: runsInHolidays.get(a.id) ?? false }, tomorrow, region))
+      if (items.length === 0) continue
+      const name = nameOf.get(childId)
+      const title = items.length === 1 ? `Tomorrow: ${items[0].title}` : `Tomorrow: ${items.length} things for school`
+      const named = items.slice(0, 3).map(i => i.title).join(', ')
+      const more = items.length > 3 ? ` and ${items.length - 3} more` : ''
+      const body = items.length === 1
+        ? 'Get it ready tonight, then it is done.'
+        : `${named}${more}. Get them ready tonight.`
+      try {
+        await pushToChild(admin, userId, childId, `${title}${name && name !== 'you' ? `, ${name}` : ''}`, body)
+        kit++
+      } catch { /* one child's dead subscription never stops the rest */ }
+    }
+  }
+
+  return NextResponse.json({ ok: true, band, sent, kit })
 }
 
 // Three cron entries share this route, separated only by ?band=. Each band

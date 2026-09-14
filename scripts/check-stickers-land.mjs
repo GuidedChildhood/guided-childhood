@@ -27,6 +27,15 @@
 //   I. The week row moves the moment the day lands, the week is keyed by the
 //      London day the store uses, and the five a day carries the mission:
 //      the next sticker on each objective, under the week, in both views.
+//   J. The front page is the calendar page (14 September 2026): the paper
+//      theme is the default and light, the hold cover is the same page, the
+//      greeting is the rainbow masthead with the Friend, and the evening
+//      band also says what school needs tomorrow.
+//   K. Nothing white is left on the paper page (14 September 2026): no child
+//      surface still paints the retired dark --kid-bg token, the games
+//      takeover wears the child's colour instead of one of its own, the
+//      printables tally falls back to ink rather than white, and the mock of
+//      the child app inside the parent welcome shows the app they will get.
 //   H. The lunchtime round (14 September 2026): home counts pending ideas the
 //      way the cap counts them, no window; the ask page has a door to the
 //      jobs when it is full; no polka dot ground anywhere on the child side,
@@ -237,6 +246,74 @@ else if (!/const todayUk = ukToday\(\)/.test(kidPage) || !/const dayStr = dayStr
 else if (!/mission=\{mission\}/.test(screen) || !/buildMission\(stickers, \{ fullDays: liveStreaks \}\)/.test(screen)) problems.push('I: the screen does not hand the mission to the five a day')
 else if (!/data-mission-site="done"/.test(fiveADay) || !/data-mission-site="open"/.test(fiveADay) || !/<KidMission rows=\{mission\}/.test(fiveADay)) problems.push('I: the mission is not under the week in both views of the five a day')
 else ok.push('I: the week row moves with the day, keyed by the London day, and the mission sits under it in both views')
+
+// ── J: the front page is the calendar page ──────────────────────────────────
+// Justin, 14 September 2026, 13:09, with Jonny's week page open: "having the
+// calendar, which I love the design of ... does a day before reminder also,
+// and the front page has the similar design as the calendar page, as looks
+// great."
+const themeSrc = readFileSync('lib/kid/theme.ts', 'utf8')
+const globalsSrc = readFileSync('app/globals.css', 'utf8')
+const cron = read('app/api/cron/job-reminders/route.ts')
+const themeProbe = `
+import { resolveTheme, DEFAULT_ACCENT, PICKER_ACCENTS } from './lib/kid/theme.ts'
+const t = resolveTheme(null)
+console.log(JSON.stringify({ def: DEFAULT_ACCENT, dark: t.dark, bg: t.bg, ink: t.ink, first: PICKER_ACCENTS[0], graphite: resolveTheme('graphite').dark }))
+`
+const trun = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', themeProbe], { encoding: 'utf8' })
+if (trun.status !== 0) problems.push(`J: the theme probe could not run: ${(trun.stderr || '').split('\n').slice(0, 3).join(' ')}`)
+else {
+  const r = JSON.parse(trun.stdout.trim().split('\n').pop())
+  if (r.def !== 'paper' || r.dark !== false || r.bg !== '#F9F8F6' || r.ink !== 'var(--ink)') problems.push(`J: the default theme is not the light paper page (${r.def}, dark ${r.dark}, ${r.bg})`)
+  else if (r.first !== 'paper') problems.push('J: a child who tried a colour cannot pick the page back')
+  else if (r.graphite !== true) problems.push('J: graphite is gone, so a child who chose it lost it')
+  else ok.push('J: the paper page is the default, light, with graphite kept for those who chose it')
+}
+if (!/html\[data-gc-hold='kid'\] body::before \{[^}]*background: #F9F8F6;/.test(globalsSrc.replace(/\/\*[\s\S]*?\*\//g, ' '))) problems.push('J: the kid hold cover is not the paper page, so a dark flash sits in front of a white page')
+else if (!/data-home-masthead/.test(screen) || !/<KidWeekMasthead\s[\s\S]{0,400}kicker=\{greetHour === null/.test(screen) || !/corner=\{/.test(screen)) problems.push('J: the home greeting is not the rainbow masthead with the greeting as its kicker and the sound switch in the corner')
+else if (!/Tomorrow, get it ready tonight/.test(screen)) problems.push('J: the To remember card lost its tomorrow section')
+else if (!/if \(band === 'evening'\)/.test(cron) || !/isChildVisible\(a\)/.test(cron) || !/isHeldForHolidays\(\{ recurs_weekday: a\.recurs_weekday/.test(cron) || !/`Tomorrow: \$\{items\[0\]\.title\}`/.test(cron)) problems.push('J: the evening band does not push what school needs tomorrow, by the card\'s own rules')
+else ok.push('J: the hold cover, the masthead greeting, the tomorrow section and the evening kit push are all in')
+
+// ── K: nothing white is left on the paper page ──────────────────────────────
+// Making Paper the default flipped the ground under every child screen, and
+// the theme file's own note records that the sub pages were written against a
+// dark background and hardcode white text on it. A sweep of all 26 child pages
+// and 45 child components on 14 September 2026 found four surfaces that named
+// the dark ground themselves rather than asking the theme, so a child would
+// have opened a game or a fixture and watched the app go black. These rules
+// stop the next one being written.
+//
+// --kid-bg is the retired dark token. Any child surface that still paints it
+// is painting a background that no longer matches the app around it.
+const KID_SURFACES = [
+  'components/quest-games/QuestGamePlayer.tsx',
+  'components/onboarding/WelcomeWalkthrough.tsx',
+  'app/dev/kid-day-done/page.tsx',
+  'app/dev/kid-passport/page.tsx',
+  'app/ref-kid-suggest/page.tsx',
+  'app/ref-kid-week/page.tsx',
+]
+const stillDark = KID_SURFACES.filter(f => existsSync(f) && /var\(--kid-bg\)/.test(read(f)))
+if (stillDark.length > 0) problems.push(`K: ${stillDark.join(', ')} still paint the retired dark ground, so the app goes black under a child on the paper page`)
+else {
+  const games = read('components/quest-games/QuestGamePlayer.tsx')
+  const printables = read('components/kid/KidPrintables.tsx')
+  const welcome = read('components/onboarding/WelcomeWalkthrough.tsx')
+  // The mock of the child app inside the parent welcome, on its own. Testing
+  // the whole file would let a KID.inkMuted somewhere else stand in for the
+  // ink on the card itself, which is how the first version of this rule
+  // passed a mutation that put the white text back.
+  //
+  // White TEXT is the fault, not white. A white card on the paper page is the
+  // surface the whole child app is built from and stays exactly as it is.
+  const sceneChild = welcome.slice(welcome.indexOf('function SceneChild'), welcome.indexOf('function ScenePayoff'))
+  if (!/theme\?: KidTheme/.test(games) || !/const t = theme \?\? resolveTheme\(DEFAULT_ACCENT\)/.test(games) || !/background: t\.bg/.test(games)) problems.push('K: the games takeover does not wear the child\'s colour')
+  else if (!/<QuestGamePlayer\s+game=\{activeGame\}\s+theme=\{theme\}/.test(screen)) problems.push('K: the child app does not hand its colour to the games takeover')
+  else if (/tallyColor = 'rgba\(255,255,255/.test(printables)) problems.push('K: the printables tally still falls back to white, which is invisible on the paper page')
+  else if (!/const KID = resolveTheme\(DEFAULT_ACCENT\)/.test(welcome) || !/background: KID\.bg/.test(sceneChild) || !/color: KID\.ink[,}\s]/.test(sceneChild) || /color: '#fff'|color: 'rgba\(255,255,255/.test(sceneChild)) problems.push('K: the welcome shows a parent a child app that is not the one their child gets')
+  else ok.push('K: no child surface paints the retired dark ground, the games takeover and the welcome mock ask the theme, and the tally falls back to ink')
+}
 
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')

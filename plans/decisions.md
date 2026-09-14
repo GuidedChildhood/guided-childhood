@@ -15232,3 +15232,67 @@ use and understanding online safety lessons."
   the timer (balanced screens). The friend row takes the live full days. The
   line under the ribbon says it in one breath.
 - Guard `check-stickers-land.mjs` section I, mutation tested four ways.
+
+## 14 September 2026: the front page is the calendar page, and tomorrow's kit is pushed the evening before
+
+Justin, 13:09, with Jonny's week page open: "having the calendar, which I
+love the design of, does a day before reminder also, and the front page has
+the similar design as the calendar page, as looks great."
+
+- **The paper page is the child's default theme** (`lib/kid/theme.ts`,
+  `paper`: the cream ground, butter accent, ink text). The anthracite
+  graphite stays in the map for any child who chose it and is no longer the
+  default; Paper leads the picker so a child who tried a colour can come
+  back. Every child screen reads its ink from the theme, so the flip is one
+  line and legible everywhere by construction. The kid hold cover is the
+  same page, so no dark flash sits in front of a white one.
+- **The greeting is the masthead**: the week page's painted rainbow, the
+  white sheet with "Go Jonny!" over the sun disc, the greeting as its
+  kicker, the day in one line under it, the child's Friend on a plate, the
+  sound switch in the corner. `KidWeekMasthead` grew `kicker` and `corner`.
+- **The day before reminder**: the To remember card already said "Tomorrow,
+  get it ready tonight" all day. The evening band of the job reminders cron
+  now also pushes one message per child naming what school needs tomorrow,
+  by the card's own rules (child visible items, routines held in the
+  holidays stay quiet, nothing when tomorrow is empty). A plain fact, the
+  ICO line every push on that route holds.
+- Guard `check-stickers-land.mjs` section J, four mutations caught.
+
+## 14 September 2026: the paper sweep, because the ground moved under every child screen
+
+Making Paper the default flipped the background under 26 child pages and 45
+child components at once. The theme file's own note records the risk: the sub
+pages were written against a dark ground and some of them hardcode white text
+on it, so a flip without a sweep prints white on cream and reads as a worse
+bug than the one it fixed.
+
+So the whole child app was swept before the change went in, every surface
+traced to the backdrop its text actually sits on rather than the one the file
+looks like it sits on. Four surfaces named the retired dark token themselves
+instead of asking the theme, and one prop defaulted to white.
+
+- **The games takeover** (`QuestGamePlayer`) painted the old dark ground and
+  white title text on every screen it covers. It now takes the child's theme,
+  so it wears the colour they chose rather than one of its own, and the child
+  app hands its own theme over. The parent and dev routes fall back to the
+  default.
+- **The child mock inside the parent welcome** (`SceneChild`) drew a dark app.
+  A parent shown a dark app and handed a cream one has been told a small lie
+  on the very first screen, so the mock asks the theme the same way the real
+  app does.
+- **Four dev and reference fixtures** were still on the dark ground with white
+  text. They are the surfaces we design against, so a fixture showing a screen
+  that no longer exists is worse than no fixture.
+- **The printables tally colour** defaulted to white at 86 percent. The real
+  tab always passes the theme, so only a caller that left it out was ever at
+  risk, but a default that is only right on one theme is a trap waiting for
+  the next caller. It falls back to ink now.
+- Guard `check-stickers-land.mjs` section K, five mutations caught. It bans
+  the retired dark token on every child surface, holds the games takeover and
+  the welcome mock to the theme, and keeps the tally off white. White CARDS
+  are untouched: a white card on the paper page is the surface the whole child
+  app is built from.
+- Found on the way and left alone as out of scope: several quest game views
+  shuffle with `Math.random()` on the render path, so the server and the
+  browser draw different boards and React throws a hydration error. It
+  reproduces identically on main. Raised as its own task.
