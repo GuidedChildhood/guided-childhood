@@ -62,7 +62,7 @@ export default function DeviceTimeCard({
   initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
   onPrintables, onGames, ageBand = null, familyDevices = [],
-  outstandingJobs = [], outstandingMinutes = 0,
+  outstandingJobs = [], outstandingMinutes = 0, dealLines = [],
 }: {
   token: string
   balanceStars: number
@@ -125,6 +125,13 @@ export default function DeviceTimeCard({
   // minutes waiting to be earned are a number they can see.
   outstandingJobs?: string[]
   outstandingMinutes?: number
+  /**
+   * The two lines of the family deal that matter at the moment of asking:
+   * when screens go off, and how time is earned. Justin, 14 September 2026:
+   * the agreement has to be there "at the time they ask to use the device so
+   * it all ties in". Shown while they pick, in their own deal's words.
+   */
+  dealLines?: string[]
   // The screens this family owns, passed down from the server render since the
   // child app has a token rather than a session and cannot ask for them. With
   // a list the picker offers the actual iPad; without one it offers the four
@@ -631,6 +638,21 @@ export default function DeviceTimeCard({
             This asks your grown up. They get a ping, and when they say yes your timer starts.
           </p>
         )}
+        {/* Our deal, at the moment it is about to be used: the family's own
+            words for when screens go off and how time is earned. The same
+            two lines the grown up sees on their yes, so nobody is surprised. */}
+        {dealLines.length > 0 && (
+          <div data-deal style={{ background: 'var(--tint-sage)', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-tile)', padding: '10px 13px', marginBottom: '14px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>
+              🤝 Our deal
+            </div>
+            {dealLines.map((line, i) => (
+              <p key={i} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4, margin: i === 0 ? 0 : '4px 0 0' }}>
+                {line}
+              </p>
+            ))}
+          </div>
+        )}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px', marginBottom: '16px' }}>
           {(homeDevices.length > 0
             ? homeDevices.map(d => ({ key: d.id, label: d.label, emoji: deviceIcon(d), kind: d.kind, homeId: d.id }))
@@ -881,6 +903,21 @@ export default function DeviceTimeCard({
           <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${guidePct}%`, borderRadius: 'var(--radius-pill)', background: reachedGuide ? 'var(--retro-green)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
           </div>
+          {/* Before the guide is reached the bar used to say nothing, so a
+              child at 70 of 90 minutes had a number and no idea what it meant.
+              Justin, 14 September 2026: the timer has to let both sides know
+              they are "getting to recommended use and if there is scope to
+              earn more time with outside tasks". Under: how much is left.
+              Nearly there, from three quarters: said so. And whenever jobs are
+              still waiting, the minutes they would earn, in one line. */}
+          {!reachedGuide && (
+            <p data-guide-line style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+              {guidePct >= 75
+                ? `Nearly at today's healthy amount: ${recToday - usedToday} minutes left.`
+                : `${recToday - usedToday} minutes of today's healthy amount left.`}
+              {outstandingMinutes > 0 && ` Jobs still to do could earn ${outstandingMinutes} more.`}
+            </p>
+          )}
           {reachedGuide && (
             <>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>

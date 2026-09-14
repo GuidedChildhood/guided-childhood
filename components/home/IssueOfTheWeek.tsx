@@ -12,8 +12,7 @@ import type { IssueOfWeek } from '@/lib/home/issue-of-week'
 
 const BAND_LABEL: Record<string, string> = { '4-7': 'ages 4 to 7', '8-10': 'ages 8 to 10', '11-13': 'ages 11 to 13', '13-15': 'ages 13 to 15', '16+': 'age 16 and up' }
 
-export default function IssueOfTheWeek({ pick, childName }: { pick: IssueOfWeek; childName?: string | null }) {
-  const kid = childName && childName !== 'Your child' ? childName : 'your child'
+export default function IssueOfTheWeek({ pick }: { pick: IssueOfWeek; childName?: string | null }) {
   return (
     <section aria-label="This week's fix" style={{
       background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)',
@@ -30,12 +29,11 @@ export default function IssueOfTheWeek({ pick, childName }: { pick: IssueOfWeek;
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {pick.issue.name}
           </span>
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
-            {pick.issue.mechanism}
-          </p>
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: '6px 0 0', fontWeight: 600 }}>
-            {pick.issue.response}
-          </p>
+          {/* The name and the button, nothing else. The mechanism, the pathway
+              and the prevention line used to print here, about 110 words on a
+              Home card a parent gives five seconds. They live on the script
+              page one tap away (Justin, 13 September 2026, on the
+              recommendations: "Go with recommendations"). */}
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, marginTop: 12 }}>
             <Link href={pick.href} style={{
               display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none', minHeight: 44,
@@ -50,9 +48,6 @@ export default function IssueOfTheWeek({ pick, childName }: { pick: IssueOfWeek;
               </span>
             )}
           </div>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '10px 0 0' }}>
-            What makes it smaller for {kid} later: {pick.issue.prevent}
-          </p>
         </div>
       </div>
     </section>

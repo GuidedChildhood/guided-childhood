@@ -140,7 +140,15 @@ export default function PassportBook({
    * (the two ref pages, the dev fixture, the marketing shots), and a passport
    * with no strip is the book as it has always been rather than a broken one.
    */
-  childRead?: { daysDone: number; stars: number | null; timerDays: number } | null
+  childRead?: {
+    daysDone: number
+    stars: number | null
+    timerDays: number
+    /** Four to seven: the timer is the parent's, so the strip scores the deal instead. */
+    parentRunsTimer?: boolean
+    /** Where the family deal stands, null when none has been started. */
+    deal?: { signed: boolean; agreedDate: string | null; reviewDate: string | null } | null
+  } | null
   /** Does this child have the app? Without it there is nowhere to send. */
   onApp?: boolean
   /** Read only: no links out, no send, no page turn controls beyond the flip.
@@ -967,6 +975,9 @@ export default function PassportBook({
                     stars={childRead.stars}
                     lessonsLeft={Math.max(0, (stamp.lessonsTotal ?? 0) - (stamp.lessonsDone ?? 0))}
                     timerDays={childRead.timerDays}
+                    parentRunsTimer={childRead.parentRunsTimer ?? false}
+                    deal={childRead.deal ?? null}
+                    readOnly={readOnly}
                     onApp={onApp && !readOnly}
                     ink={theme.text}
                   />

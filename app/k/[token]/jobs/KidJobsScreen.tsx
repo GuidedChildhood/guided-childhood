@@ -78,8 +78,8 @@ export default function KidJobsScreen({
       const cast: CharacterKey[] = ['orbit', 'nova', 'digi']
       setHappyNews({
         character: cast[quest.title.length % cast.length],
-        headline: `${quest.stars} star${quest.stars === 1 ? '' : 's'} on the way!`,
-        sub: 'Sent to your grown up. They tap approve and the stars are yours.',
+        headline: quest.is_family_job ? 'Doing your bit. Thank you!' : `${quest.stars} star${quest.stars === 1 ? '' : 's'} on the way!`,
+        sub: quest.is_family_job ? 'Sent to your grown up. A family job is one we all do, no stars needed.' : 'Sent to your grown up. They tap approve and the stars are yours.',
       })
       setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
       setTimeout(() => setToast(null), 3000)
@@ -113,7 +113,9 @@ export default function KidJobsScreen({
             setHappyNews({
               character: 'digi',
               headline: 'Your grown up said yes! ⭐',
-              sub: `${q.title} is done. That is ${q.stars * STAR_MINUTES} minutes of screen time earned. Superstar!`,
+              sub: q.is_family_job
+                ? `${q.title} is done. Thank you for doing your bit for the family!`
+                : `${q.title} is done. That is ${q.stars * STAR_MINUTES} minutes of screen time earned. Superstar!`,
             })
             playKidSound('star')
           }
@@ -271,7 +273,7 @@ export default function KidJobsScreen({
                 <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
                   {q.title}
-                  <span style={{ color: 'var(--ink-muted)', fontWeight: 700, whiteSpace: 'nowrap' }}> · {q.stars} ⭐</span>
+                  <span style={{ color: 'var(--ink-muted)', fontWeight: 700, whiteSpace: 'nowrap' }}> · {q.is_family_job ? 'family job ❤️' : `${q.stars} ⭐`}</span>
                 </span>
                 <button
                   onClick={() => { playKidSound('tap'); setPromoted(prev => new Set(prev).add(q.id)) }}

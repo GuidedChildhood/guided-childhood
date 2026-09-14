@@ -20,10 +20,14 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 export default function DigiWelcomeFixture() {
   const [ready, setReady] = useState(false)
   const [done, setDone] = useState(false)
+  // ?new=1: a family under a week old, so the first greeting says hello
+  // rather than welcome back (the count is cleared below, so it IS the first).
+  const [isNew, setIsNew] = useState(false)
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search)
     setDone(q.get('done') === '1')
+    setIsNew(q.get('new') === '1')
     try {
       sessionStorage.removeItem('gc_digi_welcome_session')
       const today = new Date().toISOString().slice(0, 10)
@@ -52,6 +56,7 @@ export default function DigiWelcomeFixture() {
       {ready && (
         <DigiWelcomeSheet
           childrenInfo={[{ name: 'Nia', ageBand: '8-10' }]}
+          newFamily={isNew}
           guide={{
             stageNum: 2,
             stageName: 'Builder',

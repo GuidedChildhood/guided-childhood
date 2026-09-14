@@ -127,6 +127,23 @@ jobs:
       # Chrome's name for a request that died in the browser, and the fault it
       # was reporting has hit this product before.
       - run: node scripts/check-auth-honesty.mjs
+      # The two checks that run on every tap (middleware, dashboard layout)
+      # verify the session locally through getClaims and answer nobody for an
+      # expired or unsigned token. Runs the real helper against fake auth
+      # answers. See the header of check-session-check.mjs.
+      - run: node --experimental-strip-types scripts/check-session-check.mjs
+      # The deal ties together: a job says what it is worth at add time and
+      # can be a family job, the list says when the first week is full by
+      # age, the agreement is at the ask and at the yes, both sides are told
+      # about the guide, and DiGi knows a first hello. See the header of
+      # check-deal-ties-together.mjs.
+      - run: node --experimental-strip-types scripts/check-deal-ties-together.mjs
+      # The deal is the root: the passport reads it (and scores it instead of
+      # the timer at four to seven), the road asks for it once there is a job
+      # and for its review on the review date, the child agrees on their own
+      # phone, and every clause carries a question to ask the child. See the
+      # header of check-deal-in-the-loop.mjs.
+      - run: node --experimental-strip-types scripts/check-deal-in-the-loop.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a
@@ -264,6 +281,11 @@ jobs:
       # never two days running, the drumbeat gone. See the header of
       # check-digi-step-in.mjs.
       - run: node --experimental-strip-types scripts/check-digi-step-in.mjs
+      # The researchers file leaves the prompt only by DIGI_RESEARCH_BASE, the
+      # default stays the file, and DiGi's stance and every hard rule are in
+      # the prompt whichever way it is set. Builds both prompts from the real
+      # code. See the header of check-digi-research-base.mjs.
+      - run: node --experimental-strip-types scripts/check-digi-research-base.mjs
       # Platform changes reach a family only through Justin's click. See the
       # header of check-platform-watch.mjs.
       - run: node --experimental-strip-types scripts/check-platform-watch.mjs

@@ -1,6 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
+import { dealLine, type StripDeal } from '@/lib/pathway/deal-line'
 
 // The child's half of a passport page.
 //
@@ -27,6 +29,21 @@ import { useState } from 'react'
 // and it already filters to the rows a child can actually move. A second send
 // route would have been a second definition of what a child is allowed to be
 // asked to do, and those two would have disagreed within a month.
+//
+// ── THE DEAL IS THE FIRST PAGE (14 September 2026) ──────────────────────────
+//
+// Justin, with Andy's Foundation passport reading Timer days 0: "Andy prob
+// won't use timer at this age. Can we also see where best to add in family
+// agreement as this determines how jobs, device time is all agreed and
+// passports and device all stem from that."
+//
+// Two things follow. At four to seven the timer is the parent's to run, so a
+// zero against the child's name was scoring a thing they cannot do; that cell
+// now reads the deal instead, and the nudge under it stays off. And at every
+// age a line under the cells says where the deal stands, with the one next
+// thing to do about it: make it, finish it, review it, or print it. The
+// passport is the record of the journey and the deal is what the journey runs
+// on, so a record that never mentioned it was missing its first page.
 
 export default function StageChildStrip({
   childId,
@@ -35,6 +52,9 @@ export default function StageChildStrip({
   stars,
   lessonsLeft,
   timerDays,
+  parentRunsTimer = false,
+  deal = null,
+  readOnly = false,
   onApp,
   ink,
 }: {
@@ -46,6 +66,12 @@ export default function StageChildStrip({
   lessonsLeft: number
   /** Days this week the device timer was actually run. */
   timerDays: number
+  /** Four to seven: the timer is the parent's, so the fourth cell reads the deal. */
+  parentRunsTimer?: boolean
+  /** Where the family deal stands. Null when none has been started. */
+  deal?: StripDeal | null
+  /** The child's copy of the book: no links into the parent's dashboard. */
+  readOnly?: boolean
   onApp: boolean
   /** The stage's own ink, so this strip belongs to the page it is on. */
   ink: string
@@ -85,8 +111,13 @@ export default function StageChildStrip({
     // heading above already says whose these are, and To watch says the same
     // thing in a word that fits.
     { value: String(lessonsLeft), label: 'To watch' },
-    { value: String(timerDays), label: 'Timer days' },
+    // At four to seven the parent runs the timer, so the honest fourth reading
+    // is whether the deal that decides everything else has been agreed.
+    parentRunsTimer
+      ? { value: deal?.signed ? '✓' : '·', label: 'Deal' }
+      : { value: String(timerDays), label: 'Timer days' },
   ]
+  const theDeal = dealLine(deal, childName, childId)
 
   return (
     <div style={{ marginTop: 13, paddingTop: 11, borderTop: `1.5px dashed ${ink}` }}>
@@ -122,11 +153,27 @@ export default function StageChildStrip({
           score, and it earns its space by being true only when it matters: a
           week with no session at all means the screen balance row above is
           reporting on nothing that was measured. */}
-      {timerDays === 0 && (
+      {timerDays === 0 && !parentRunsTimer && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
           The device timer has not been used this week, so screen balance has nothing to read.
         </p>
       )}
+
+      {/* THE DEAL LINE. Where the family deal stands and the one next thing,
+          at every age, because the jobs, the stars and the timer above all
+          rest on it. The child's copy of the book carries the words and not
+          the door: the door is into the parent's dashboard. */}
+      <p data-deal-line style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
+        🤝 {theDeal.text}
+        {!readOnly && (
+          <>
+            {' '}
+            <Link href={theDeal.href} style={{ color: ink, fontWeight: 800, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              {theDeal.cta} ›
+            </Link>
+          </>
+        )}
+      </p>
 
       {onApp && childId && (
         <button

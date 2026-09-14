@@ -12,6 +12,7 @@ import PushPrompt from '@/components/push/PushPrompt'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import DigiWordCard from '@/components/home/DigiWordCard'
+import DigiQuestionCard from '@/components/home/DigiQuestionCard'
 import DigiWondering from '@/components/digi/DigiWondering'
 import DigiDeviceCheckin from '@/components/digi/DigiDeviceCheckin'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
@@ -117,7 +118,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // round trip to the database before a single byte of HTML leaves the
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
-  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
+  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows, pendingQuestionResult] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, created_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice, home_screen_at, subscription_tier, setup_completed_at, only_one_child_at').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // moment_feedback rides along so the day timeline on Home knows what has
@@ -196,6 +197,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     revealed.has('moments')
       ? supabase.from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30)
       : Promise.resolve({ data: null }),
+    // Today's reflective question, if DiGi asked one and it is unanswered.
+    // Asked here once, never in the thread (13 September 2026).
+    supabase.from('digi_feedback').select('question, child_id').eq('user_id', user.id).eq('feedback_date', today).is('parent_response', null).limit(1).maybeSingle(),
   ])
 
   const profile = profileResult.data
@@ -1146,6 +1150,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           under whoever is waiting and above the road, because it is the one
           thing on Home that was written for this family this week. */}
       {!firstRun && <DigiWordCard />}
+      {!firstRun && pendingQuestionResult?.data?.question && (
+        <DigiQuestionCard question={pendingQuestionResult.data.question as string} childId={(pendingQuestionResult.data.child_id as string | null) ?? null} />
+      )}
 
       {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
           Justin, holding up Duolingo's home: "it has pathway only on Home
@@ -1263,6 +1270,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
         childrenInfo={welcomeChildren}
+        newFamily={accountAgeDays <= 7}
         guide={{
           stageNum: stage.id,
           stageName: stage.name,

@@ -86,7 +86,7 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
   ],
 }))
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ stage?: string; full?: string; empty?: string; notimer?: string; readonly?: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ stage?: string; full?: string; empty?: string; notimer?: string; readonly?: string; foundation?: string; deal?: string }> }) {
   const sp = await searchParams
   const mode = sp.full === '1' ? 'full' : sp.empty === '1' ? 'empty' : 'mixed'
   const stage = Number(sp.stage) || null
@@ -104,7 +104,17 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
         // The child's own numbers, so the strip at the foot of their page can
         // be looked at. ?notimer=1 is the nudge case: a week with no session
         // means screen balance above is reporting on nothing measured.
-        childRead={{ daysDone: 12, stars: 8, timerDays: sp.notimer === '1' ? 0 : 4 }}
+        childRead={{
+          daysDone: 12, stars: 8, timerDays: sp.notimer === '1' ? 0 : 4,
+          // ?foundation=1 is Andy at four to seven: the parent runs the timer,
+          // so the fourth cell reads the deal and the timer nudge stays off.
+          parentRunsTimer: sp.foundation === '1',
+          // ?deal=none|draft|due|ok, the four states of the deal line.
+          deal: sp.deal === 'none' ? null
+            : sp.deal === 'draft' ? { signed: false, agreedDate: null, reviewDate: null }
+            : sp.deal === 'due' ? { signed: true, agreedDate: '2026-08-01', reviewDate: '2026-09-01' }
+            : { signed: true, agreedDate: '2026-09-01', reviewDate: '2026-10-01' },
+        }}
         // ?readonly=1 is the child's copy of the book: the four areas stay,
         // the behaviour line must not appear even though it is passed.
         readOnly={sp.readonly === '1'}

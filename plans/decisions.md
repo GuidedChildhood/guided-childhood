@@ -14711,3 +14711,193 @@ kit and places the friend, both worksheet readers are the one reader, the
 fold places the eight pages once each with the cover bottom right, the four
 editions each have a friend, the print room and the hub passport page link
 the print out, and there is no dash in the kit's or the passport's words.
+## 13 September 2026, night: DiGi reads in ten seconds
+
+The second of the recommendation PRs, items one, two and five.
+
+**One answer shape, under 120 words.** The prompt asked for nine things in
+every reply and produced 300 word coach notes against a 3 to 5 sentence rule
+nobody could obey. Now: one or two sentences that name it, at most two moves
+with bold lead ins, and a closing line that starts **Tonight.** A quick
+question gets two or three sentences. The nudge, the three facts, the deal,
+the timer, the pathway link and a script link are one extra line at most,
+never two. The main call's token budget drops from 1600 to 900.
+
+**The reflective question moves to Home, once a day.** It is the learning
+loop, so it stays; it was also the biggest piece of clutter under an answer.
+The route already stored the first question of the day; now it also tells
+the model when today's has been asked, so a second reply carries none. The
+thread never shows the card. Home asks the pending question in one line
+(DigiQuestionCard) and posts to the same feedback route, so tomorrow's
+insight is unchanged.
+
+**The fix of the week card is the name and the button.** The mechanism, the
+pathway and the prevention line (about 110 words) live on the script page
+one tap away.
+
+Fixture: /dev/digi-question renders both cards. What is still true: the
+copy of the two landing photos into /public waits on the files.
+
+## 13 September 2026, night: the researchers file behind a switch
+
+The third of the recommendation PRs. The 11,500 character researchers file
+rode in every DiGi prompt whether the question touched a researcher or not,
+while the same researchers already sat in expert_knowledge where retrieval
+brings the right six to the question. Justin: go with the recommendation, as
+a switch, with the evals run against both before it flips.
+
+**DIGI_RESEARCH_BASE** in lib/config/digi.ts: `file` (default) or
+`retrieval`. The prompt is built per base by `staticSystemFor`; the live
+route sends the configured one. In retrieval mode the sixteen profiles and
+the ban evidence leave the prompt and DiGi's stance stays (the core argument,
+whose work it does not build on, the honest caveat), because a stance is not
+retrievable: no question asks for it. Every hard rule is in both prompts.
+The retrieval prompt is 9,907 characters shorter, about 2,500 tokens a
+message, all of it out of the cached block.
+
+**The read before the flip.** `POST /api/admin/digi-evals?research=both`
+scores the two bases on the same cases and returns them side by side; the
+insights board has a Compare research bases button for it. Only the live
+base's breaches are logged to the safety board. The Monday cron and the
+self review keep scoring what is live.
+
+**Guard** scripts/check-digi-research-base.mjs, twelve rules from the real
+config and the real prompt builder, mutation tested four ways (default
+flipped, stance dropped, switch ignored, live prompt not the configured
+one), wired into CI. The TypeScript resolve hook the guards share now maps
+`@gc/shared/x` to `shared/x`, which is what let a guard import the prompt
+builder at all.
+
+**Not done here.** The evals themselves: this container has no API key.
+The default stays the file until Justin has run the comparison and read
+both scores. The env template's DiGi lines, a generation stale, now name
+the real defaults.
+
+## 13 September 2026, night: the session verified locally
+
+The last of the recommendation PRs. Every tap on the dashboard paid for two
+trips to the auth server before a page could start: getUser() in the
+middleware, then getUser() again in the dashboard layout, each a network call
+asking whether the token was still good.
+
+**sessionUser** (lib/supabase/session.ts) answers with getClaims(): the
+token's signature checked against the project's public signing keys, which
+the client fetches once and caches. On a project with asymmetric signing keys
+that is a local check and no network; on the legacy shared secret it falls
+back to the same server call, so it is never less safe than before, only
+faster once the keys are switched on. The middleware and the layout are the
+two callers, the two that run on every navigation. The two hundred route
+handlers keep getUser(): once per action, not per tap.
+
+**Guard** scripts/check-session-check.mjs: the real helper against fake auth
+answers (a verified token signs in; an error, an expired token, claims with
+no subject, or claims that arrive with an error are nobody), the two per tap
+callers use it and never getUser(), and the helper never decodes a token by
+hand. Mutation tested five ways, one of which found a hole (an error with
+plausible claims) that the guard now covers. Wired into CI.
+
+**The walk**, on the dev server pointed at the real project: no session sends
+/dashboard/quests to /login with the way back; /login renders clean at 390
+and 1440; an expired token with a bad signature is nobody and lands on
+/login, never a 500; a cleared cookie is logged out. The real login and
+logout taps need the live site, because the auth server is unreachable from
+this container.
+
+**What Justin does.** Supabase, Project Settings, JWT Keys: Migrate JWT
+secret, then Rotate keys. Until then the change is safe and saves nothing.
+
+## 14 September 2026, Monday: the deal ties together, and DiGi says hello properly
+
+Justin, from the walkthrough on his phone, four screenshots. Plan:
+plans/2026-09-14-jobs-agreement-timer-first-hello-plan.md. One PR.
+
+**A job says what it is worth, and can be a family job, at add time.** The
+family job flag has existed since migration 223, but the only place to set
+it was a chip on the list after the job had landed priced. The composer now
+carries a worth row through its questions ("Worth 1 star, that is 5 min of
+screen time") and one chip, "Make it a family job", which rides into the
+add on both parent pages. The confirmation names what landed. The child's
+jobs sub page now shows a heart for a family job instead of a star count
+(the main list already did).
+
+**Enough for the first week.** The composer's nudge was a flat five. It now
+reads the age's sweet spot from lib/quests/job-load.ts (three at four to
+seven, six at thirteen plus) and says, at that count, that this is about
+right and probably enough for the first week: let the child get used to
+the deal, then add the life jobs. Both parent pages pass the age band.
+
+**The deal at the ask and at the yes.** A shared helper, dealLinesFrom in
+lib/content/agreement-clauses.ts, returns the two lines that moment is
+about: when screens go off, and how time is earned (from the legacy text
+columns, so every agreement ever saved qualifies). The child's device time
+card shows them as Our deal while they pick. The parent's active feed
+returns them once per family and the yes box shows them, or, with no
+agreement, one line pointing at making one.
+
+**Both told about the guide.** Under the guide, both cards said nothing.
+The child's idle bar now says what is left, nearly there from three
+quarters, and what the jobs still to do could earn. The parent's guide line
+says the same, with the jobs left count the feed already carried.
+
+**DiGi's first hello.** The welcome sheet takes newFamily from Home
+(account under a week old). On its first greeting for a new family it says
+Lovely to meet you and what it is; every other greeting stays Welcome
+back. Both signals, because a new browser on an old account is a return.
+
+**Guard** scripts/check-deal-ties-together.mjs, sixteen rules, four of
+them from the real sweet spot and the real deal helper, mutation tested
+four ways (flat five back, earn line unstripped, hello for every family,
+the deal not reaching the row) and wired into CI. Walked on the fixtures at
+390 and 1440 with 0 console errors: /dev/add-job, /dev/device-time, the new
+/dev/parent-timer, /dev/digi-welcome?new=1 and plain.
+
+**Mobbin.** Kit's Create a job (type of job as a two option choice under
+the name) is the pattern for the worth row; GoHenry's Add a task for the
+amount chips we already have. Nothing copied, the finish is ours.
+
+**Something else on the device list** (same PR, same morning). Justin, on
+the add a device list: "should we have Other, please add, that messages
+hello@". Fourteen names cover most houses and not every house. The picker
+now has a Something else door: name it, say what kind of thing it is (so
+the timer and the guides still work), Add it, and it lands on the list like
+any other device. The route tells hello@ the name and the kind, nothing
+that identifies the family, so the catalogue grows from real homes. Rule G
+on the same guard.
+
+
+## 14 September 2026: the deal is the root of the loop
+
+Justin, from the Monday walkthrough, with Andy's Foundation passport reading
+Timer days 0: "Andy prob won't use timer at this age. Can we also see where
+best to add in family agreement as this determines how jobs, device time is
+all agreed and passports and device all stem from that, and we need to agree,
+to remind, maybe print, appears on child phone, discuss it when building."
+
+Decided, and built on the same PR as the morning's deal work (1073):
+
+- **The passport reads the deal, at every age.** One line under the child's
+  own numbers says where it stands with one door: make it, finish it, review
+  it, print it (`lib/pathway/deal-line.ts`, read in `passport-child.ts`).
+  At four to seven the fourth cell is the deal instead of Timer days and the
+  timer nudge stays off: the timer is the parent's at that age, so a zero
+  against the child's name was scoring a thing they cannot do. DiGi's family
+  state drops the timer clause there too. The child's copy of the book keeps
+  the words and loses the door.
+- **The road asks for it once there is a job.** "Make the deal" appears in
+  the agreement slot for a family with a job and no signed agreement, never
+  as the lead. Once signed the weekly rung stays, and reads "Review the deal"
+  when the review date they picked has passed without the deal being
+  reopened. The review date was printed on the fridge copy and read by
+  nothing until now.
+- **The child agrees on their own phone.** `app/api/kid/deal-agree`, token
+  scoped, only ever sets the child's signature, stamps agreed_date only when
+  the parent has signed. "Our family deal" offers I agree when the promises
+  are there and the child has not signed. The parent's builder still has the
+  box, so a family with no child phone is not stuck.
+- **Talk it through while building.** Every clause carries one question to
+  ask the child, shown once the clause is in, under the science why.
+- Setup stays at four steps: the 18 August decision holds. The deal is asked
+  for at the first job, not before the parent has seen the product.
+
+Guard `scripts/check-deal-in-the-loop.mjs`, seventeen rules, seven
+mutations caught, wired. No migration.

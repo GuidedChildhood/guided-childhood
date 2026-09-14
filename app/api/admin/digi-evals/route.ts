@@ -1,13 +1,19 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { runEvals } from '@/lib/digi/evals'
+import { runEvals, type EvalRun } from '@/lib/digi/evals'
 import { highestSeverity } from '@/lib/digi/safety'
+import { DIGI_RESEARCH_BASE, parseResearchBase } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 
 // Founder facing, on demand: run the DiGi eval suite and return the scored
 // results. Any case that breached a hard rule is also logged to
 // digi_safety_flags (source eval) so the safety board shows evals and live
 // traffic in one place.
+//
+// ?research=file|retrieval scores the suite against that research base
+// instead of the configured one (lib/config/digi.ts). ?research=both runs
+// the two side by side on the same cases and returns the configured run with
+// the other under `compare`, so the switch can be judged before it flips.
 
 export const maxDuration = 300
 export const dynamic = 'force-dynamic'
@@ -21,15 +27,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Not authorised' }, { status: 403 })
   }
 
-  let run
+  const research = new URL(request.url).searchParams.get('research')
+  const other = DIGI_RESEARCH_BASE === 'file' ? 'retrieval' : 'file'
+
+  let run: EvalRun
+  let compare: EvalRun | null = null
   try {
-    run = await runEvals()
+    if (research === 'both') {
+      ;[run, compare] = await Promise.all([runEvals(DIGI_RESEARCH_BASE), runEvals(other)])
+    } else {
+      run = await runEvals(research ? parseResearchBase(research) : DIGI_RESEARCH_BASE)
+    }
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Eval run failed' }, { status: 502 })
   }
 
   // Log the breaches so they land on the same safety board as live traffic.
-  const breaches = run.results.filter(r => !r.safetyPass)
+  // Only the configured base's: a breach on the base that is not live is a
+  // reason not to flip, not a live incident.
+  const breaches = run.researchBase === DIGI_RESEARCH_BASE ? run.results.filter(r => !r.safetyPass) : []
   if (breaches.length > 0) {
     try {
       const admin = createAdminClient()
@@ -47,5 +63,5 @@ export async function POST(request: Request) {
     } catch { /* best effort */ }
   }
 
-  return NextResponse.json(run)
+  return NextResponse.json(compare ? { ...run, compare } : run)
 }

@@ -89,7 +89,7 @@ export function renderFamilyState(state: FamilyState | null, childName = 'their 
         : state.openCount > 0
           ? `BEHAVIOUR: ${state.openCount} worr${state.openCount === 1 ? 'y' : 'ies'} open, none moved yet.`
           : null,
-    `WHAT ${childName.toUpperCase()} HAS DONE THEMSELVES: ${state.child.daysDone} full day${state.child.daysDone === 1 ? '' : 's'} in their own app${state.child.stars !== null ? `, ${state.child.stars} star${state.child.stars === 1 ? '' : 's'} in the bank` : ''}, the device timer used on ${state.child.timerDays} day${state.child.timerDays === 1 ? '' : 's'} this week.`,
+    `WHAT ${childName.toUpperCase()} HAS DONE THEMSELVES: ${state.child.daysDone} full day${state.child.daysDone === 1 ? '' : 's'} in their own app${state.child.stars !== null ? `, ${state.child.stars} star${state.child.stars === 1 ? '' : 's'} in the bank` : ''}${state.child.parentRunsTimer ? '' : `, the device timer used on ${state.child.timerDays} day${state.child.timerDays === 1 ? '' : 's'} this week`}.`,
     'Use this the way a good teacher uses a mark book: know it, name the one thing that moves the page when it fits, and celebrate a real movement in the parent\'s own stars before offering anything new. Never a list, never a percentage of the whole journey, never guilt.',
   ].filter((l): l is string => !!l)
   return `\n\n${lines.join('\n')}`

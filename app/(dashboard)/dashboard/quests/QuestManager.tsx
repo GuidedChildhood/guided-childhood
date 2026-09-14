@@ -435,7 +435,7 @@ export default function QuestManager() {
     setHandMode(youngChild ? 'paper' : 'phone')
   }, [activeChild, youngChild])
 
-  async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string; band?: string | null; schedule_days?: number[] | null }) {
+  async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string; band?: string | null; schedule_days?: number[] | null; is_family_job?: boolean }) {
     const res = await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1514,9 +1514,11 @@ export default function QuestManager() {
                 </div>
                 <JobComposer
                   countToday={childQuests.length}
+                  ageBand={child?.age_band ?? null}
+                  childName={child?.name ?? null}
                   autoFocus={addOpenedByParent}
-                  onAdd={(t, when, band, days) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band, schedule_days: days })}
-                  help="Worth one star. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
+                  onAdd={(t, when, band, days, familyJob) => addQuest({ title: t, emoji: familyJob ? '🏠' : '⭐', stars: 1, schedule: when, band, schedule_days: days, is_family_job: familyJob })}
+                  help="Worth one star, or make it a family job. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
                 />
               </div>
             )}
@@ -1928,9 +1930,11 @@ export default function QuestManager() {
               <div style={{ marginTop: '14px' }}>
                 <JobComposer
                   countToday={childQuests.length}
+                  ageBand={child?.age_band ?? null}
+                  childName={child?.name ?? null}
                   tone="cream"
                   placeholder="Or write your own quest"
-                  onAdd={(t, when, band, days) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band, schedule_days: days })}
+                  onAdd={(t, when, band, days, familyJob) => addQuest({ title: t, emoji: familyJob ? '🏠' : '⭐', stars: 1, schedule: when, band, schedule_days: days, is_family_job: familyJob })}
                 />
               </div>
             </div>

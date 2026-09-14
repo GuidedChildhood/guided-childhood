@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { paymentNeedsAttention } from '@/lib/access'
 import NavTabs from '@/components/dashboard/NavTabs'
 import NotificationsBell from '@/components/dashboard/NotificationsBell'
@@ -17,7 +18,10 @@ import AskPopup from '@/components/quests/AskPopup'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  // The middleware has already verified this token on the way in; this is
+  // the same local check, not a second trip to the auth server. See
+  // lib/supabase/session.ts.
+  const user = await sessionUser(supabase)
 
   // Everything actually waiting on the parent, as ONE number.
   //
