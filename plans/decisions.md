@@ -15181,6 +15181,50 @@ Migration 301 applied to production on 14 September; the file in the tree
 is what ran. Two calls Justin may reverse: ks2-09 to Bloop, and DiGi rather
 than Cosmo on the sixth form title.
 
+## 14 September 2026, Monday, the pilot set approved and Cosmo deferred (session 0u09q9)
+
+Justin, on the three calls in the voice work: "happy with your recommendations
+but do remind me once live schools you re do cosmo." And, on the env var:
+"I don't have any schools yet."
+
+**Approved, unchanged.** The two pilot lessons per phase as built. DiGi rather
+than Cosmo on the sixth form title. The makers lesson (ks2-09) on Bloop.
+
+**Deferred with a trigger.** Cosmo written properly into the two KS5 lessons,
+once the first school is live. Specced the same day while the detail was fresh:
+`plans/2026-09-14-cosmo-at-sixth-form-spec.md`. Zero credits, migration 302
+free, half a day once two decisions are made (whether the title keeps
+migration 301's lines, and whether the nine year Pebble callback ships at all,
+given no sixth former has come up through the scheme). The reminder lives on
+three surfaces and is removed by the pull request that does the work: THE-STORY
+section 12, review.md section 7, and the pilot note the cron emails Justin the
+moment a pilot row lands, which is the only one that reaches him at the moment
+it matters.
+
+**Two live defects the sweep found, fixed here.** Both were fallout from that
+morning's own change, which is worth recording plainly.
+
+- The schools home page cast strip had gone stale in the same commit that
+  corrected the manifest. Three of its six hand written lines described
+  lessons that now belong to other friends, and Cosmo was still being sold in
+  the retired fox's own words, "Street smart", hours after the fox was pulled
+  out of every lesson. The strip is now computed: it shows only a friend the
+  curriculum actually gives a module to, so it cannot drift again, and Cosmo
+  drops off today and comes back on his own the day the manifest gives him the
+  sixth form. A face on the front page that fronts no lesson is a claim with
+  no proof path.
+- `scripts/check-character-voices.mjs` could not have caught it for two
+  separate reasons: rule 2 read only the manifest and the intro lines, not the
+  home page, and its regex had no `/i` flag, so the capitalised phrase on the
+  page would have passed even in a file it read. Both fixed, and the rule now
+  also holds the computed cast. Four mutations tested, all four caught.
+
+**Reported, not touched.** CLAUDE.md's CONTEXT ROUTING block names ten paths
+that do not exist in this repo: docs/01, 02, 05, 07, 08, 09 and 11, schools/01,
+digi/01-philosophy.md and research/01. There is no docs directory at all. Every
+session is routed to nothing on those lines. Not fixed here, because what
+replaced them is a guess and a wrong guess in the routing file is worse than an
+obvious gap. Justin's call, and quick once he says what they became.
 ## 14 September 2026: the daily jobs guide, start small and build up, advice not a block
 
 Justin, 13:04, with the Top picks tab showing twelve jobs on Jonny's board:

@@ -149,3 +149,7 @@ scheme, has a class in eleven minutes, and a projector that works:
   trial) through a routine with a human gate, never a silent edit.
 - **A character in every lesson**, in the register of its key stage, so the
   wall is alive between slide two and the close and not only at the ends.
+  A friend who fronts no lesson is not sold anywhere either: the front page
+  cast is computed from the curriculum for that reason. Cosmo is the live
+  exception and the open work, not the precedent
+  (`plans/2026-09-14-cosmo-at-sixth-form-spec.md`).
