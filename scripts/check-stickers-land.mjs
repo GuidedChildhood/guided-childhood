@@ -24,6 +24,11 @@
 //   G. The parent side: the passport strip has the stickers line, Home has
 //      the news card with the passport doors on the first, the sheet card
 //      draws the real catalogue, and the print out page exists at A6.
+//   H. The lunchtime round (14 September 2026): home counts pending ideas the
+//      way the cap counts them, no window; the ask page has a door to the
+//      jobs when it is full; no polka dot ground anywhere on the child side,
+//      the week is discs with the sun on today; the book's tiles are die
+//      cut and the how is behind a tap.
 //
 //   node --experimental-strip-types scripts/check-stickers-land.mjs
 
@@ -131,11 +136,11 @@ else ok.push(`F: the way back to today is on all ${subPages.length} sub pages`)
 const weekPage = read('app/k/[token]/week/page.tsx')
 if (!/if \(!state \|\| asksPending <= 0\) return/.test(fiveADay) || !/void mark\('ask', true, 'Idea already with your grown up'\)/.test(fiveADay)) problems.push('F2: an idea already with the grown up does not tick the ask row')
 else if (!/Still to do: \$\{jobsLeft\.slice\(0, 3\)\.join/.test(fiveADay)) problems.push('F2: the jobs row does not name the jobs still to do')
-else if (!/asksPending=\{asks\.filter\(a => a\.status === 'pending'\)\.length\}/.test(screen) || !/jobsLeft=\{quests\.filter\(q => !ticks\[q\.id\]\)\.map\(q => q\.title\)\}/.test(screen)) problems.push('F2: the screen does not hand the pending asks and the jobs left to the five a day')
+else if (!/asksPending=\{Math\.max\(asks\.filter\(a => a\.status === 'pending'\)\.length, asksPendingTotal\)\}/.test(screen) || !/jobsLeft=\{quests\.filter\(q => !ticks\[q\.id\]\)\.map\(q => q\.title\)\}/.test(screen)) problems.push('F2: the screen does not hand the pending asks and the jobs left to the five a day')
 else ok.push('F2: an idea with the grown up ticks the ask row, and the jobs row names what is left')
 if (/background: 'var\(--butter\)'/.test(weekPage)) problems.push('F2: the child\'s week page is a slab of butter again')
 else if (!/env\(safe-area-inset-top\)/.test(weekPage) || !/buddyFor\(/.test(weekPage)) problems.push('F2: the week page has no safe area padding or no Friend')
-else ok.push('F2: the week page sits on the dotted sky with the Friend, clear of the status bar')
+else ok.push('F2: the week page has the Friend and sits clear of the status bar')
 
 // ── F3: ask for screen time has its own page, and the wait is watched ───────
 const askPage = read('app/k/[token]/ask/page.tsx')
@@ -163,6 +168,35 @@ else if (!/data-print-preview/.test(shop) || !existsSync('app/(dashboard)/dashbo
 else if (!/size: A6 portrait/.test(readFileSync('app/(dashboard)/dashboard/keepsakes/passport-print/page.tsx', 'utf8'))) problems.push('G: the print out is not A6')
 else if (!/startsWith\('\/dashboard\/keepsakes'\)/.test(fab)) problems.push('G: the Now button still sits on the shop')
 else ok.push('G: the sheet is the catalogue, the print out is A6, and the shop is clear of the Now button')
+
+// ── H: the lunchtime round ──────────────────────────────────────────────────
+// Justin, 14 September 2026, 12:30: "Still blocking last one of 5 ... I'm
+// guessing they are stuck on parents app?" (they were: five pending ideas
+// older than the week the home page read, so home counted zero and the cap
+// counted five). "Background blue dots is not the right look, we want happy
+// news style." "Passport ... more pretty visually with stickers."
+const askForJob = read('components/kid/KidAskForJob.tsx')
+const schoolWeek = read('components/kid/KidSchoolWeek.tsx')
+const passport = read('components/kid/KidPassport.tsx')
+const pendingCount = kidPage.match(/supabase\.from\('quest_requests'\)\s*\.select\('id', \{ count: 'exact', head: true \}\)\s*\.eq\('child_id', link\.child_id\)\s*\.eq\('status', 'pending'\)/)
+if (!pendingCount) problems.push('H: home does not count every pending ask the way the cap does (no window, head count)')
+else if (!/asksPendingTotal=\{pendingAsksRes\.count \?\? 0\}/.test(kidPage) || !/asksPendingTotal = 0/.test(screen)) problems.push('H: the pending count never reaches the five a day')
+else ok.push('H: home counts every pending idea, however old, so the ask row ticks itself')
+if (!/pending >= MAX_PENDING && \(/.test(askForJob) || !/data-jobs-door/.test(askForJob) || !/href=\{`\/k\/\$\{token\}\/jobs`\}\s*data-jobs-door/.test(askForJob)) problems.push('H: at the cap the ask page has no door to the jobs')
+else if (/Lots of ideas already waiting/.test(askForJob)) problems.push('H: the cap still says "Lots of ideas already waiting" with nowhere to go')
+else ok.push('H: at the cap the ask page points at the jobs board')
+const polka = [['components/kid/KidWeekCalendar.tsx', weekCal], ['app/k/[token]/week/page.tsx', weekPage], ['components/kid/KidAskScreenTime.tsx', askUi], ['components/kid/KidSchoolWeek.tsx', schoolWeek]].filter(([, src]) => /48px 40px/.test(src)).map(([f]) => f)
+if (polka.length) problems.push(`H: the polka dot ground is back on ${polka.join(', ')}`)
+else if (!/data-look="happy"/.test(weekCal) || !/<SunRays/.test(weekCal) || !/HAPPY\.pink/.test(weekCal) || !/<Burst/.test(weekCal)) problems.push('H: the week calendar is not the white page with discs, the sun on today, and the count in a burst')
+else if (!/background: HAPPY\.cream/.test(weekPage) || !/background: HAPPY\.cream/.test(askUi)) problems.push('H: the week page or the ask page is not on the white ground')
+else if (!/data-day=\{isOpen \? 'open' : d\.isToday \? 'today' : d\.isPast \? 'quiet' : 'ahead'\}/.test(schoolWeek) || !/borderRadius: '50%', boxSizing: 'border-box'/.test(schoolWeek)) problems.push('H: the week page strip is not discs')
+else if (!/<KidWeekMasthead/.test(weekPage) || !/<KidWeekMasthead/.test(read('app/dev/kid-school-week/page.tsx')) || !/<RainbowArc painted/.test(read('components/kid/KidWeekMasthead.tsx'))) problems.push('H: the week page (or its fixture) has no painted rainbow masthead')
+else ok.push('H: no polka ground on the child side; the week is discs with the sun on today, under the painted rainbow masthead')
+if (!/data-sticker=\{s\.earned \? 'earned' : 'locked'\}/.test(kidStickers) || !/boxShadow: s\.earned \? `2px 4px 0 \$\{HAPPY\.ink\}` : 'none'/.test(kidStickers)) problems.push('H: the book\'s tiles are not die cut stickers')
+else if (!/<details data-how style=/.test(kidStickers) || !/<HowItWorks note=\{page\.note\} steps=\{page\.steps\} how=\{page\.how\} \/>/.test(kidStickers)) problems.push('H: the how it works is not one tap away on every page')
+else if (!/data-book-cover/.test(kidStickers) || !/daily\?\.friend && \(/.test(kidStickers) || !/<Burst size=\{52\}/.test(kidStickers)) problems.push('H: the cover has no Friend sticker or no count burst')
+else if (!/daily\?\.friend && \(/.test(passport) || !/<Plate size=\{54\}/.test(passport)) problems.push('H: the passport title has no Friend on a plate')
+else ok.push('H: the book leads with die cut stickers, the how is a tap away, the Friend is on the cover and the title')
 
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')

@@ -4,10 +4,11 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { isChildVisible } from '@/lib/school/child-items'
 import { getFamilyRegion } from '@/lib/learning/region'
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
+import KidWeekMasthead from '@/components/kid/KidWeekMasthead'
 import KidTermPreview from '@/components/kid/KidTermPreview'
 import { buildTermPreview } from '@/lib/learning/term-preview'
 import { buddyFor } from '@/lib/kid/buddy'
-import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
+import { HAPPY } from '@/components/kid/HappyNewsBits'
 
 // The child's own week from school.
 //
@@ -131,21 +132,24 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
     // Scoped to THIS page rather than changed on the --kid-bg token, which five
     // other child pages also use and which Justin has not asked about. A colour
     // token is the wrong place to make a one page decision.
-    // ── THE DOTTED SKY, NOT THE SOLID BUTTER (14 September 2026) ──────────
+    // ── THE WHITE PAGE, NOT THE DOTTED SKY (14 September 2026, later) ─────
     //
-    // Justin, with four Kenji screenshots: "Child calendar does not look great
-    // in yellow. Redesign in super fun happy news style like the Kenji shop
-    // but our Planet Friends." The whole page was a slab of butter. It is the
-    // pastel sky scattered with coral and butter dots now, the same ground as
-    // the child's week row, with their own Friend on a plate beside the title.
+    // Justin, with four Kenji screenshots in the morning: "Child calendar does
+    // not look great in yellow. Redesign in super fun happy news style like the
+    // Kenji shop but our Planet Friends." The slab of butter became a pastel
+    // sky scattered with dots. Then at lunch, with The Happy Newspaper page
+    // beside it: "background blue dots is not the right look, we want happy
+    // news style as the image here for calendar." That page is a white ground
+    // with big flat colour discs and ink lines, so this is the white page now,
+    // the days are discs (see KidSchoolWeek), and the child's own Friend sits
+    // on a butter plate beside the title.
     // The chips inside keep Google's real calendar colours on their washes,
     // which is what the light ground was always for.
     //
     // Padding clears the status bar: the back link sat under the clock.
     <div style={{
       minHeight: '100dvh', fontFamily: 'var(--font-body)',
-      background: `radial-gradient(circle at 12px 10px, ${HAPPY.coral}55 3px, transparent 3.5px), radial-gradient(circle at 36px 30px, ${HAPPY.butter}88 3px, transparent 3.5px), var(--tint-blue, #D8E8F8)`,
-      backgroundSize: '48px 40px, 48px 40px, auto',
+      background: HAPPY.cream,
       padding: 'calc(18px + env(safe-area-inset-top)) 16px 50px',
     }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
@@ -162,18 +166,11 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
           ‹ Back
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0, color: 'var(--ink)' }}>
-            {name ? `${name}'s week` : 'Your week'}
-          </h1>
-          <Plate size={72} tint={HAPPY.butterLt}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={buddy.img} alt={buddy.name} width={56} height={56} style={{ width: 56, height: 56, objectFit: 'contain', display: 'block' }} />
-          </Plate>
-        </div>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
-          School things and your own reminders, on the day they land. Tap a day to see it.
-        </p>
+        <KidWeekMasthead
+          title={name ? `${name}'s week` : 'Your week'}
+          sub="School things and your own reminders, on the day they land. Tap a day to see it."
+          friend={{ name: buddy.name, img: buddy.img }}
+        />
 
         {/* The shape of the next few months, above the week rather than inside
             a day: it does not start on a Tuesday, and putting it on one would

@@ -29,6 +29,10 @@ export const HAPPY = {
   sky: '#4B9CE5',
   ink: '#1A1A2E',
   cream: '#F9F8F6',
+  // The soft pink disc The Happy Newspaper sits its post box on. Justin,
+  // 14 September 2026, with that page: the calendar is white ground and big
+  // colour discs, not a dotted sky. Today's disc is this pink.
+  pink: '#F9CFD9',
 } as const
 
 export type HappyAccent = 'butter' | 'coral' | 'green' | 'sky'
@@ -109,12 +113,22 @@ export function WavyRule({ color = HAPPY.ink, style }: { color?: string; style?:
   )
 }
 
-/** A soft rainbow arc, four bands, for behind a friend or a headline. */
-export function RainbowArc({ width = 160, style }: { width?: number; style?: CSSProperties }) {
+/**
+ * A soft rainbow arc, four bands, for behind a friend or a headline.
+ *
+ * `painted` is the masthead version, from the second of Justin's two Happy
+ * Newspaper references on 14 September 2026: thick painted bands, the pink
+ * in the set, rising over a pale yellow ground behind the paper's name.
+ * Five bands, wide strokes, square ends, so it reads as paint not as a line.
+ */
+export function RainbowArc({ width = 160, painted = false, style }: { width?: number; painted?: boolean; style?: CSSProperties }) {
+  const bands = painted ? [HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky, HAPPY.pink] : [HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky]
+  const step = painted ? 13 : 11
+  const stroke = painted ? 13 : 8
   return (
     <svg viewBox="0 0 200 100" width={width} height={width / 2} aria-hidden style={{ display: 'block', ...style }}>
-      {[HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky].map((c, i) => (
-        <path key={c} d={`M ${20 + i * 11} 100 A ${80 - i * 11} ${80 - i * 11} 0 0 1 ${180 - i * 11} 100`} fill="none" stroke={c} strokeWidth="8" strokeLinecap="round" />
+      {bands.map((c, i) => (
+        <path key={c} d={`M ${step + i * step} 100 A ${100 - step - i * step} ${100 - step - i * step} 0 0 1 ${200 - step - i * step} 100`} fill="none" stroke={c} strokeWidth={stroke} strokeLinecap={painted ? 'butt' : 'round'} />
       ))}
     </svg>
   )
@@ -143,6 +157,26 @@ export function HappyScatter({ seed = 0, dim = false }: { seed?: number; dim?: b
         )
       })}
     </span>
+  )
+}
+
+/**
+ * The sun's rays: eight short ink dashes around a disc, the masthead sun from
+ * The Happy Newspaper drawn our way. Sits BEHIND a disc (absolute, inset by
+ * the ray length) so today on a calendar reads as the sun without a word.
+ */
+export function SunRays({ size, color = HAPPY.ink, style }: { size: number; color?: string; style?: CSSProperties }) {
+  const rays: string[] = []
+  for (let i = 0; i < 8; i++) {
+    const a = (Math.PI * 2 * i) / 8
+    const x1 = 50 + 40 * Math.cos(a), y1 = 50 + 40 * Math.sin(a)
+    const x2 = 50 + 48 * Math.cos(a), y2 = 50 + 48 * Math.sin(a)
+    rays.push(`M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`)
+  }
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden style={{ display: 'block', ...style }}>
+      <path d={rays.join(' ')} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" />
+    </svg>
   )
 }
 

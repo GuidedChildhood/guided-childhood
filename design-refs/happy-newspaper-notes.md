@@ -83,3 +83,40 @@ KidHomeTiles). The next things worth taking:
    each term, a free class pack to the winner, a donate line for parents to
    fund more. Cheap goodwill and a list of schools. For Justin to decide,
    not built.
+
+## 14 September 2026: the two reference screenshots, and what they changed
+
+Justin sent two more shots and said "reference images". Read from them:
+
+1. **The News for Schools page.** A white page. A big flat sun yellow disc
+   with a drawn envelope on it (red heart seal, three motion dashes). Under
+   it, grey centred body copy. Then a big flat soft pink disc with the drawn
+   post box, the paper going in, and a yellow ribbon lettered FREE HAPPY
+   NEWS across it. Nothing patterned, nothing tinted behind the discs. The
+   disc IS the decoration.
+2. **The subscription page.** The paper's own front: a painted rainbow
+   (red, orange, yellow, green, blue, pink, thick painted bands) rising over
+   a pale yellow ground, the paper lying on it at a tilt, the name lettered
+   in black over a big sun yellow disc. The sun logo in the corner has
+   short black dashes for rays.
+
+What landed today, against those two:
+
+- The polka dot sky from the morning's Kenji pass is gone. A dotted ground
+  is exactly what the page does not do; it is white, and the colour is in
+  the discs. (`KidWeekCalendar`, `KidSchoolWeek`, the week page, the ask
+  page.)
+- Every day on a child calendar is a disc: butter with the Planet Friend on
+  it for a done day, the soft pink with the sun's rays for today, dashed
+  white for a day to come, pale for a quiet day gone. The count is a butter
+  burst. `HAPPY.pink` (#F9CFD9) and `SunRays` joined the kit.
+- The week page opens with a masthead: pale butter card, the painted
+  rainbow rising out of the corner (`RainbowArc painted`, our five bands),
+  the title over a butter sun disc, the Friend on a white plate
+  (`KidWeekMasthead`).
+- The sticker book leads with die cut stickers on white discs, the how one
+  tap behind.
+
+Still ours to draw, never theirs: the lettering stays Nunito 900, the
+rainbow is our coral, butter, green, sky and pink, the drawings are the
+Planet Friends.
