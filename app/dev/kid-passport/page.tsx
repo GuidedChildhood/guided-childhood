@@ -32,6 +32,11 @@ function have(rule: KidSticker['rule']): number {
     case 'stamp': return rule.n === 1 ? LESSONS : 0
     case 'lessons': return LESSONS
     case 'sorted': return 0
+    // The three day counters (14 September 2026): outside earned once, the
+    // jobs mid ladder, the timer a week in.
+    case 'outside': return 1
+    case 'jobs': return 4
+    case 'timer': return 7
   }
 }
 function need(rule: KidSticker['rule']): number {
@@ -92,6 +97,7 @@ export default function KidPassportFixture() {
           childName="Alfie"
           stickers={FIXTURE}
           celebrateStickers={q.get('cheer') === '1' ? ['sorted-car'] : []}
+          daily={{ total: 12, week: ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((letter, i) => ({ letter, earned: i < 3, isToday: i === 3 })) }}
           passportCode="GC-1JZX-KKXD"
           stageId={1}
         />

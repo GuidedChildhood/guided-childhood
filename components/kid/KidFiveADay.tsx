@@ -106,6 +106,29 @@ function DaySticker({ earned, size = 34 }: { earned: boolean; size?: number }) {
   )
 }
 
+// EACH DAY DONE, SHOWN. Justin, 14 September 2026: "each day done shows
+// clearly done." The only always visible week row read job ticks, so one
+// tick drew a full day. This one reads the day's own row and sits under the
+// five a day in both its states, so a finished Tuesday is still a finished
+// Tuesday on Thursday.
+function WeekDone({ week }: { week: { letter: string; earned: boolean; isToday: boolean }[] }) {
+  return (
+    <div data-week-done style={{ display: 'flex', justifyContent: 'space-between', gap: 4, marginTop: 10 }}>
+      {week.map((d, i) => (
+        <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flex: 1 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, color: d.isToday ? 'var(--ink)' : 'var(--ink-muted)' }}>{d.letter}</span>
+          <span aria-label={d.earned ? 'day done' : d.isToday ? 'today' : 'not done'} style={{
+            width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 'var(--text-sm)', fontWeight: 900, color: d.earned ? '#fff' : 'var(--ink-light)',
+            background: d.earned ? 'var(--retro-green)' : '#fff',
+            border: d.earned ? '2px solid var(--retro-green)' : d.isToday ? '2px solid var(--terracotta)' : '2px solid var(--border)',
+          }}>{d.earned ? '✓' : ''}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function KidFiveADay({
   token,
   childName,
@@ -118,7 +141,13 @@ export default function KidFiveADay({
   onDayComplete,
   initialState = null,
   theme,
+  onStateChange,
+  weekDone = null,
 }: {
+  /** The screen listens so the Today tab can say what is left (14 September 2026). */
+  onStateChange?: (s: { left: number; total: number; complete: boolean; opened: boolean }) => void
+  /** This week's full days, Monday to Sunday, from the day's own row. Always drawn when given. */
+  weekDone?: { letter: string; earned: boolean; isToday: boolean }[] | null
   token: string
   childName?: string
   /** Whether every job due today is ticked, which is step one's own condition. */
@@ -153,7 +182,7 @@ export default function KidFiveADay({
   /** Jobs completes on this screen, so the parent scrolls the list into view. */
   onOpenJobs: () => void
   /** Fired once when the fifth step lands, for the celebration. */
-  onDayComplete?: (streak: number, day: { steps: StepKey[]; done: StepKey[]; completedDays?: number }) => void
+  onDayComplete?: (streak: number, day: { steps: StepKey[]; done: StepKey[]; completedDays?: number; sticker?: boolean }) => void
   /**
    * A ready made day, for the ref fixtures only. When set, the card renders
    * it and never calls /api/kid/day, which no fixture can answer. Production
@@ -170,6 +199,12 @@ export default function KidFiveADay({
 }) {
   const t = theme ?? resolveTheme(null)
   const [state, setState] = useState<DayState | null>(initialState)
+  useEffect(() => {
+    if (!onStateChange) return
+    const total = state?.steps.length ?? 0
+    const left = state ? state.steps.filter(k => !state.done.includes(k)).length : 0
+    onStateChange({ left, total, complete: !!state?.complete, opened: total > 0 })
+  }, [state, onStateChange])
   const [busy, setBusy] = useState<StepKey | null>(null)
   // The step whose sheet is open. A self tick step opens this instead of
   // ticking, which is the whole of the "flashed off as soon as clicked" fix.
@@ -205,7 +240,7 @@ export default function KidFiveADay({
       // is one replay of a good thing.
       if (d.complete && !celebratedToday(d.day)) {
         rememberCelebrated(d.day)
-        onDayComplete?.(d.streak, { steps: d.steps, done: d.done ?? d.steps })
+        onDayComplete?.(d.streak, { steps: d.steps, done: d.done ?? d.steps, sticker: !!d.sticker })
       }
     } catch { /* the card simply does not show, or keeps what it had */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -249,7 +284,7 @@ export default function KidFiveADay({
       if (t.ticked) playKidSound('star')
       if (t.justCompleted) {
         rememberCelebrated(before?.day)
-        onDayComplete?.(t.streak, { steps: t.steps.length > 0 ? t.steps : (before?.steps ?? []), done: t.done })
+        onDayComplete?.(t.streak, { steps: t.steps.length > 0 ? t.steps : (before?.steps ?? []), done: t.done, sticker: !!(t as { sticker?: boolean }).sticker })
       }
     }
     window.addEventListener(KID_DAY_EVENT, onTick)
@@ -306,7 +341,7 @@ export default function KidFiveADay({
           // Remembered here too, so coming back to the list does not replay a
           // takeover the child has just watched.
           rememberCelebrated(state?.day)
-          onDayComplete?.(d.streak, { steps: state?.steps ?? [], done: d.done })
+          onDayComplete?.(d.streak, { steps: state?.steps ?? [], done: d.done, sticker: !!d.sticker })
         }
       }
     } catch {
@@ -326,6 +361,7 @@ export default function KidFiveADay({
   // same room it took while it still needed doing. A tap reopens the list.
   if (state.complete && !openAnyway) {
     return (
+      <>
       <button
         onClick={() => { playKidSound('tap'); setOpenAnyway(true) }}
         style={{
@@ -357,6 +393,12 @@ export default function KidFiveADay({
           Show ›
         </span>
       </button>
+      {weekDone && (
+        <div style={{ margin: '-8px 0 16px', padding: '0 16px 12px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderTop: 'none', borderRadius: '0 0 var(--radius-card) var(--radius-card)' }}>
+          <WeekDone week={weekDone} />
+        </div>
+      )}
+      </>
     )
   }
 
@@ -387,6 +429,7 @@ export default function KidFiveADay({
           background: t.hex, borderRadius: 'var(--radius-pill)', transition: 'width 0.35s ease',
         }} />
       </div>
+      {weekDone && <div style={{ margin: '-6px 0 12px' }}><WeekDone week={weekDone} /></div>}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {/* Done steps first, as slim ticked lines: the climb so far. */}

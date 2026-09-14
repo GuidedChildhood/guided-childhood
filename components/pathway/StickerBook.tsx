@@ -12,7 +12,7 @@ import HappyIcon from '@/components/kid/HappyIcon'
 
 function Tile({ s }: { s: StickerState }) {
   const art = stickerArt(s)
-  const showCount = !s.earned && (s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak' || s.rule.kind === 'lessons' || s.rule.kind === 'sorted' || s.rule.kind === 'stamp')
+  const showCount = !s.earned && (s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak' || s.rule.kind === 'lessons' || s.rule.kind === 'sorted' || s.rule.kind === 'stamp' || s.rule.kind === 'timer' || s.rule.kind === 'jobs' || s.rule.kind === 'outside')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, textAlign: 'center' }}>
       <div

@@ -26,7 +26,7 @@ export default function KidDayDoneFixture() {
     <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', fontFamily: 'var(--font-body)' }}>
       {open ? (
         <KidDayDone
-          day={{ streak: Number(q.get('run') ?? 4), completedDays: Number(q.get('days') ?? 7), steps }}
+          day={{ streak: Number(q.get('run') ?? 4), completedDays: Number(q.get('days') ?? 7), steps, sticker: q.get('sticker') !== '0' }}
           childName={q.get('name') ?? 'Alfie'}
           buddy={q.get('buddy') ?? 'bloop'}
           weekStrip={q.get('week') === '1'}

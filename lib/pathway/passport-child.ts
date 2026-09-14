@@ -1,5 +1,6 @@
 import type { createClient } from '@/lib/supabase/server'
 import { getStarBanks } from '@/lib/quests/bank'
+import { readStickerNews } from '@/lib/stickers/latest'
 
 // The child's half of a passport page.
 //
@@ -52,6 +53,12 @@ export type PassportChildRead = {
    * thing the journey runs on is missing its first page.
    */
   deal: PassportDeal | null
+  /**
+   * The child's catalogue stickers: how many they hold, and the names written
+   * in the last seven days. Justin, 14 September 2026: "all daily stickers
+   * towards achievement are populated on parent's and child's passport."
+   */
+  stickers: { total: number; recent: string[] }
 }
 
 export type PassportDeal = {
@@ -79,12 +86,12 @@ export async function readPassportChild(
   childId: string | null,
   ageBand: string | null,
 ): Promise<PassportChildRead> {
-  const empty: PassportChildRead = { daysDone: 0, stars: null, timerDays: 0, parentRunsTimer: parentRunsTimerFor(ageBand), deal: null }
+  const empty: PassportChildRead = { daysDone: 0, stars: null, timerDays: 0, parentRunsTimer: parentRunsTimerFor(ageBand), deal: null, stickers: { total: 0, recent: [] } }
   if (!childId) return empty
 
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
 
-  const [daysRes, banks, sessionsRes, dealRes] = await Promise.all([
+  const [daysRes, banks, sessionsRes, dealRes, news] = await Promise.all([
     // completed_at is the honest column: `done` is a running list of what has
     // been ticked today and a day with four of five in it is not a day done.
     // See migration 134, which separates the two on purpose.
@@ -99,6 +106,7 @@ export async function readPassportChild(
     supabase.from('family_agreements').select('signed_by_parent, signed_by_child, agreed_date, review_date')
       .eq('user_id', userId).limit(1).maybeSingle()
       .then(r => r, () => ({ data: null })),
+    readStickerNews(supabase, childId),
   ])
 
   const rows = (sessionsRes as { data?: { started_at?: string | null }[] | null }).data ?? []
@@ -114,6 +122,7 @@ export async function readPassportChild(
     stars: banks[0]?.balance ?? null,
     timerDays: days.size,
     parentRunsTimer: parentRunsTimerFor(ageBand),
+    stickers: { total: news.total, recent: news.recent.map(r => r.name) },
     deal: dealRow
       ? {
           signed: !!dealRow.signed_by_parent && !!dealRow.signed_by_child,

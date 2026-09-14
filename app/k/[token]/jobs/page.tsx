@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { readKidJobs } from '@/lib/kid/jobs-read'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import KidJobsScreen from './KidJobsScreen'
+import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // The child's jobs page: the do these jobs list, and the pay back message
 // when gifted screen time is still owed.
@@ -50,6 +51,7 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
   const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
 
   return (
+    <>
     <KidJobsScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
@@ -65,5 +67,7 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
       todayTicks={jobs.todayTicks}
       giftStarsOwed={giftStarsOwed}
     />
+    <KidTodayReturn token={token} />
+    </>
   )
 }

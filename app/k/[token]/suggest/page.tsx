@@ -4,6 +4,7 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
 import { resolveTheme } from '@/lib/kid/theme'
 import KidBackLink from '@/components/kid/KidBackLink'
+import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // Ask for a job: the child's own page for pitching a quest to their grown up.
 //
@@ -75,6 +76,7 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
 
         <KidAskForJob token={token} initialAsks={asks} childName={childName || undefined} theme={theme} ageBand={(child?.age_band as string | null) ?? null} />
       </div>
+      <KidTodayReturn token={token} />
     </div>
   )
 }

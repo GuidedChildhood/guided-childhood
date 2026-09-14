@@ -148,6 +148,8 @@ export default function PassportBook({
     parentRunsTimer?: boolean
     /** Where the family deal stands, null when none has been started. */
     deal?: { signed: boolean; agreedDate: string | null; reviewDate: string | null } | null
+    /** The child's catalogue stickers, for the line under the cells. */
+    stickers?: { total: number; recent: string[] } | null
   } | null
   /** Does this child have the app? Without it there is nowhere to send. */
   onApp?: boolean
@@ -977,6 +979,7 @@ export default function PassportBook({
                     timerDays={childRead.timerDays}
                     parentRunsTimer={childRead.parentRunsTimer ?? false}
                     deal={childRead.deal ?? null}
+                    stickers={childRead.stickers ?? null}
                     readOnly={readOnly}
                     onApp={onApp && !readOnly}
                     ink={theme.text}

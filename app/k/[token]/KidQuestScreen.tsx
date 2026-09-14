@@ -51,6 +51,9 @@ import KidPassport from '@/components/kid/KidPassport'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
+import KidStickerLand from '@/components/kid/KidStickerLand'
+import type { DailyStickers } from '@/components/kid/KidStickers'
+import type { TodayTab } from '@/components/kid/KidTabBar'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { friendsFromStreaks, isFriendMoment, streakCurrency, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
@@ -107,7 +110,10 @@ export default function KidQuestScreen({
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
+  dailyStickers = null,
 }: {
+  /** This week's daily stickers and the total, for the book's Every day page and the week row. */
+  dailyStickers?: DailyStickers | null
   /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
   planetTier?: 1 | 2 | 3 | null
   token: string
@@ -503,6 +509,27 @@ export default function KidQuestScreen({
       .filter(c => keys.has(`friend-${c.key}`))
       .sort((a, b) => b.stageId - a.stageId)[0] ?? null
   })
+
+  // ── EVERY OTHER STICKER LANDS TOO (14 September 2026) ────────────────────
+  //
+  // The Friends had the rocket; First Lesson, First Sheet, the timer, the
+  // jobs and the outside days had a pop that only fired inside the passport.
+  // Anything owed a celebration that is not a Friend lands here, on open, one
+  // at a time. KidStickerLand marks them seen on show, so the book's own pop
+  // gets the rest of the list and never repeats these.
+  const [landing, setLanding] = useState(() =>
+    stickers.filter(s => celebrateStickers.includes(s.key) && s.earned && s.rule.kind !== 'friend'))
+  const landedKeys = useRef(new Set(landing.map(s => s.key)))
+  const bookCelebrate = celebrateStickers.filter(k => !landedKeys.current.has(k))
+
+  // What is left today, from the five a day, for the Today entry on the bar.
+  const [todayTab, setTodayTab] = useState<TodayTab>(() => ({
+    left: fiveADayInitial ? fiveADayInitial.steps.filter(k => !fiveADayInitial.done.includes(k)).length : 0,
+    total: fiveADayInitial?.steps.length ?? 0,
+    complete: !!fiveADayInitial?.complete,
+    opened: (fiveADayInitial?.steps.length ?? 0) > 0,
+  }))
+  const onTodayState = useCallback((t: TodayTab) => setTodayTab(t), [])
 
   // THE LIVE COUNT.
   //
@@ -1194,7 +1221,9 @@ export default function KidQuestScreen({
     try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual' } catch { /* fine */ }
 
     const settle = () => {
-      if (!allDone) { document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
+      // The day, not the jobs. allDone is the jobs flag, and a child with four
+      // of five left was being dropped onto Lessons on open (14 September 2026).
+      if (!allDone || !todayTab.complete) { document.getElementById('kid-five')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
       if (totalNewLessons > 0) { setTab('lessons'); goToTab('lessons'); return }
       if (newPrint > 0) { setTab('print'); goToTab('print'); return }
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -1202,6 +1231,9 @@ export default function KidQuestScreen({
     // Two frames, so the restored scroll has already happened and the list has
     // laid out. Racing it means landing on an anchor that then moves.
     requestAnimationFrame(() => requestAnimationFrame(settle))
+    // todayTab.complete is read once on settle and deliberately not a
+    // dependency: the effect is the open of the page, not every tick.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seenHydrated, allDone, totalNewLessons, newPrint, goToTab])
 
   const hasWatch = adventures.length > 0
@@ -1530,8 +1562,10 @@ export default function KidQuestScreen({
             // once a star week, and the Friend arrival follows it on the
             // days a Friend is earned (see the close handler below).
             if (streakDueThisWeek) markStreakWeekSeen()
-            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [] })
+            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
           }}
+          onStateChange={onTodayState}
+          weekDone={dailyStickers?.week ?? null}
         />
 
         {/* What a grown up sent, straight after the five a day. These two
@@ -1944,10 +1978,24 @@ export default function KidQuestScreen({
             token={token}
             childName={childName}
             stickers={stickers}
-            celebrateStickers={celebrateStickers}
+            celebrateStickers={bookCelebrate}
+            daily={dailyStickers}
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}
+          />
+        )}
+
+        {/* A sticker lands: the child's Friend, the sticker big, why it came,
+            and the flight into the passport. Under the Friend arrival, which
+            is rarer and wins if both are due on the same open. */}
+        {landing.length > 0 && !arrival && (
+          <KidStickerLand
+            token={token}
+            stickers={landing}
+            buddy={chosenBuddy}
+            onClose={() => setLanding([])}
+            onOpenBook={() => { setLanding([]); setPassportOpen(true) }}
           />
         )}
 
@@ -2141,6 +2189,8 @@ export default function KidQuestScreen({
           current={tab}
           badges={{ lessons: totalNewLessons, print: newPrint }}
           onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
+          today={todayTab}
+          onToday={() => { setTab('quests'); setActiveLesson(null); playKidSound('tap'); goToTab('quests') }}
         />
 
         {tab === 'quests' && (<>

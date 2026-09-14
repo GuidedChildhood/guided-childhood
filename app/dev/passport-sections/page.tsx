@@ -86,7 +86,7 @@ const mkStamps = (mode: 'mixed' | 'full' | 'empty'): Stamp[] => [1, 2, 3, 4, 5].
   ],
 }))
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ stage?: string; full?: string; empty?: string; notimer?: string; readonly?: string; foundation?: string; deal?: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ stage?: string; full?: string; empty?: string; notimer?: string; readonly?: string; foundation?: string; deal?: string; stickers?: string }> }) {
   const sp = await searchParams
   const mode = sp.full === '1' ? 'full' : sp.empty === '1' ? 'empty' : 'mixed'
   const stage = Number(sp.stage) || null
@@ -109,6 +109,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           // ?foundation=1 is Andy at four to seven: the parent runs the timer,
           // so the fourth cell reads the deal and the timer nudge stays off.
           parentRunsTimer: sp.foundation === '1',
+          // ?stickers=0 for a child with none yet; default a book with two new this week.
+          stickers: sp.stickers === '0' ? { total: 0, recent: [] } : { total: 9, recent: ['First Lesson', 'Fresh Air'] },
           // ?deal=none|draft|due|ok, the four states of the deal line.
           deal: sp.deal === 'none' ? null
             : sp.deal === 'draft' ? { signed: false, agreedDate: null, reviewDate: null }

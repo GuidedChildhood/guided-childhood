@@ -1,6 +1,7 @@
 'use client'
 
 import { notFound } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
 import { Ribbon } from '@/components/kid/HappyNewsBits'
@@ -26,11 +27,17 @@ const tiles: HomeTile[] = [
 ]
 
 export default function KidHomeFixture() {
+  // Read on the client after mount, the way the other fixtures do, so the
+  // page still prerenders (useSearchParams would want a Suspense boundary).
+  const [sp, setSp] = useState<{ today: string | null }>({ today: null })
+  useEffect(() => { setSp({ today: new URLSearchParams(window.location.search).get('today') }) }, [])
   if (process.env.NODE_ENV === 'production') notFound()
   return (
     <div style={{ minHeight: '100dvh', background: '#3B3F47', padding: '16px 16px 40px' }}>
       <div style={{ maxWidth: 460, margin: '0 auto' }}>
-        <KidTabBar current="quests" onSelect={noop} badges={{ lessons: 2, print: 0 }} />
+        {/* ?today=done|going|fresh: the Today entry's three states (14 September 2026). */}
+        <KidTabBar current="quests" onSelect={noop} badges={{ lessons: 2, print: 0 }} onToday={noop}
+          today={sp.today === 'done' ? { left: 0, total: 5, complete: true, opened: true } : sp.today === 'fresh' ? { left: 0, total: 0, complete: false, opened: false } : { left: 3, total: 5, complete: false, opened: true }} />
         <KidAskBanner ask={{ id: 'a', device: 'tv', minutes: 10, status: 'pending' }} blockingJobs={[]} nudges={[{ id: 'n', message: 'Nearly there. One more job and the TV is yours.' }]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
         <KidAskBanner ask={{ id: 'b', device: 'tv', minutes: 30, status: 'approved' }} blockingJobs={[]} outstandingJobs={['Tidy my room']} nudges={[]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
         <StreakBar completedStreaks={1} earnedStages={0} />

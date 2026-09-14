@@ -14837,3 +14837,48 @@ Decided, and built on the same PR as the morning's deal work (1073):
 
 Guard `scripts/check-deal-in-the-loop.mjs`, seventeen rules, seven
 mutations caught, wired. No migration.
+
+## 14 September 2026, afternoon: stickers that land, and the keepsakes that match them
+
+Justin, two messages after the passport walkthrough: the first badge should
+say congratulations and point at the printed passport and sticker sheet
+(buy and add as they go, or print when complete); every daily sticker should
+be on both passports; the child's book should pay the timer, jobs and time
+outside; a big Planet Friend pop with the sticker going into the passport;
+parents told what was earned and why; a Duolingo style way back to today on
+every tab; the sheet in the shop must be the platform's stickers; an image of
+the passport print out; and supplier research for the passport, the sheet
+and the plush.
+
+Decided, and built on PR 1073 (plan: plans/2026-09-14-stickers-that-land-plan.md):
+
+- **Three new sticker kinds**: timer (1, 7, 30 days the timer ran), jobs
+  (1, 10, 50 approved), outside (1, 10, 30 days with the move step). Nine
+  stickers, all ratcheted, read on the same reconcile. The book is thirty
+  stickers plus the family's sorted stamps.
+- **The daily sticker is in the book**: an Every day page with this week's
+  seven and the total. The day done screen names the sticker it paid.
+- **A sticker lands** (`components/kid/KidStickerLand.tsx`): every owed non
+  Friend sticker takes the home screen on open, the child's own Friend beside
+  it, one line saying what they did, the flight into a small passport, one
+  way out into the book. Seen on show. The child's load now writes the book
+  before reading what is owed, which closes the race that hid the sticker on
+  the very load it was earned.
+- **Parents are told, and told why**: a push at the write (child's load only,
+  only when the write landed), the first ever sticker carrying the passport
+  line; a Home card saying the same with the two doors; the passport strip's
+  stickers line (total, new this week, the way to the book at `#stickers`).
+- **Today on every tab**: a Today entry first on the child's bar (count left,
+  green tick when done), a way back pill on six sub pages, the week of full
+  days under the five a day from the day's own row, and the open load only
+  auto switches tabs when the DAY is done, not the jobs.
+- **Keepsakes**: the sticker sheet card draws the real catalogue; the passport
+  card opens an A6 print out page built from the child's real stamps and
+  stickers, which is also the file a printer receives; the Now button stays
+  off the shop.
+- **Suppliers**: plans/2026-09-14-keepsakes-suppliers-research.md. Every
+  figure is tagged; the sandbox could not open supplier pages, so each needs
+  one click before it goes in an email.
+
+Guard `scripts/check-stickers-land.mjs`, fourteen rules, six mutations
+caught, wired. No migration.

@@ -92,7 +92,7 @@ function Tile({ s }: { s: KidSticker }) {
             <span style={{ display: 'block', height: '100%', borderRadius: 'var(--radius-pill)', width: `${Math.round((have / need) * 100)}%`, background: s.colour }} />
           </span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-            {have} of {need}{s.rule.kind === 'sorted' ? ' stars' : s.rule.kind === 'stamp' || s.rule.kind === 'lessons' ? ' lessons' : ''}
+            {have} of {need}{s.rule.kind === 'sorted' ? ' stars' : s.rule.kind === 'stamp' || s.rule.kind === 'lessons' ? ' lessons' : s.rule.kind === 'timer' || s.rule.kind === 'outside' ? ' days' : s.rule.kind === 'jobs' ? ' jobs' : ''}
           </span>
         </>
       )}
@@ -100,10 +100,17 @@ function Tile({ s }: { s: KidSticker }) {
   )
 }
 
-export default function KidStickers({ token, stickers, celebrate }: {
+/** This week's daily stickers and the all time count, for the Every day page. */
+export type DailyStickers = {
+  total: number
+  week: { letter: string; earned: boolean; isToday: boolean }[]
+}
+
+export default function KidStickers({ token, stickers, celebrate, daily = null }: {
   token: string
   stickers: KidSticker[]
   celebrate: string[]
+  daily?: DailyStickers | null
 }) {
   // The new stickers to celebrate this visit, held so a dismiss cannot lose
   // them before they are marked seen.
@@ -187,6 +194,15 @@ export default function KidStickers({ token, stickers, celebrate }: {
       note: 'Five stars from your grown up stamps it',
       of: stickers.filter(s => s.rule.kind === 'sorted'),
     },
+    // OFF SCREEN AND ON THE TIMER. Justin, 14 September 2026: stars "when
+    // they use timer, complete jobs, outside especially, offline especially".
+    // The three things a week is actually made of, on one page, outside first.
+    {
+      name: 'Off screen, on the timer',
+      how: 'Time outside is the Move about step on your five a day. A job counts when your grown up approves it. The timer counts every day you use it for your screen time.',
+      note: 'Outside pays best. It always will',
+      of: stickers.filter(s => s.rule.kind === 'outside' || s.rule.kind === 'jobs' || s.rule.kind === 'timer'),
+    },
     {
       name: 'Lessons',
       how: 'Every lesson you pass counts here, and every one fills the stamp for your stage too.',
@@ -248,6 +264,50 @@ export default function KidStickers({ token, stickers, celebrate }: {
             {earnedCount} of {stickers.length} collected
           </span>
         </div>
+
+        {/* EVERY DAY. The daily sticker (migration 284) lived on today's card
+            and vanished at midnight. Justin, 14 September 2026: "make sure all
+            daily stickers towards achievement are populated on parent's and
+            child's passport." This week's seven, and the total, in the book. */}
+        {daily && (
+          <div data-daily-page style={{ background: '#FFFCF3', borderRadius: 10, padding: '12px 11px 13px', boxShadow: '0 2px 0 rgba(0,0,0,0.18)' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#2A1F14', letterSpacing: '-0.01em' }}>
+                Every day
+              </span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#9A8A6A', whiteSpace: 'nowrap' }}>
+                {daily.total} day sticker{daily.total === 1 ? '' : 's'}
+              </span>
+            </div>
+            <div style={{ background: '#F4ECD9', borderRadius: 9, padding: '10px 11px', marginBottom: 12 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#A08247', display: 'block', marginBottom: 6 }}>
+                How it works
+              </span>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: '#6B5C42', lineHeight: 1.5, margin: 0 }}>
+                Finish your five a day and a gold star lands here for that day. Full days are what bring the Planet Friends home.
+              </p>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
+              {daily.week.map((d, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1 }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: d.isToday ? '#2A1F14' : '#9A8A6A' }}>{d.letter}</span>
+                  <span aria-label={d.earned ? 'sticker earned' : 'no sticker'} style={{
+                    width: 38, height: 38, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 'var(--text-lg)', lineHeight: 1,
+                    background: d.earned ? '#fff' : 'rgba(26,26,46,0.05)',
+                    border: d.earned ? '2.5px solid #C99A28' : d.isToday ? '2px dashed #C99A28' : '2px dashed rgba(26,26,46,0.16)',
+                    boxShadow: d.earned ? '0 3px 0 #C99A28' : 'none',
+                    transform: d.earned ? `rotate(${(i % 2 ? 1 : -1) * 6}deg)` : 'none',
+                    filter: d.earned ? 'none' : 'grayscale(1)', opacity: d.earned ? 1 : 0.5,
+                  }}><span aria-hidden>⭐</span></span>
+                </div>
+              ))}
+            </div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: '#9A8A6A', lineHeight: 1.4, margin: '11px 0 0', textAlign: 'center' }}>
+              One a day. Nobody can take a day back off you
+            </p>
+          </div>
+        )}
 
         {pages.map(page => (
           <div key={page.name} style={{ background: '#FFFCF3', borderRadius: 10, padding: '12px 11px 13px', boxShadow: '0 2px 0 rgba(0,0,0,0.18)' }}>
