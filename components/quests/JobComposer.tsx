@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 import { scheduleLabel } from '@/lib/quests/due'
+import { STAR_MINUTES } from '@/lib/quests/templates'
+import { assessJobLoad } from '@/lib/quests/job-load'
 import DayPicker from '@/components/quests/DayPicker'
 
 // Write your own job, one question at a time.
@@ -120,6 +122,9 @@ export default function JobComposer({
   autoFocus = false,
   help,
   countToday,
+  ageBand = null,
+  childName = null,
+  starMinutes = STAR_MINUTES,
   pendingTitle = null,
   onPendingUsed,
   onSeeWaiting,
@@ -129,7 +134,7 @@ export default function JobComposer({
    * Given the trimmed title and how often it should repeat. The caller still
    * owns everything else a job becomes, the stars and the emoji.
    */
-  onAdd: (title: string, schedule: Schedule, band: JobBand | null, scheduleDays: number[] | null) => void
+  onAdd: (title: string, schedule: Schedule, band: JobBand | null, scheduleDays: number[] | null, familyJob: boolean) => void
   placeholder?: string
   /** The input sits on white cards in the add panel and on cream further down. */
   tone?: 'white' | 'cream'
@@ -145,6 +150,21 @@ export default function JobComposer({
    * the ninth is being typed rather than in a help page nobody opens.
    */
   countToday?: number
+  /**
+   * The child's age band and name, for the first week line.
+   *
+   * Justin, 14 September 2026: "can we say when they have added the
+   * recommended amount of tasks that this is maybe enough for the first
+   * week, let your child get used to the agreement, then add life tasks."
+   * The nudge used to be a flat five for every age. The sweet spot is three
+   * jobs at four to seven and six at thirteen plus (lib/quests/job-load.ts),
+   * so the line now reads the real number for this child and says what the
+   * first week is for. Without an age band it falls back to the old five.
+   */
+  ageBand?: string | null
+  childName?: string | null
+  /** This child's star rate, so the worth line prices the star the timer will honour. */
+  starMinutes?: number
   /**
    * A title chosen outside this component, which starts the same questions.
    *
@@ -184,7 +204,20 @@ export default function JobComposer({
   // deciding whether to add another.
   // The answers themselves, not a sentence about them, so the confirmation can
   // show them back in the colours they were chosen in.
-  const [last, setLast] = useState<{ title: string; when: WhenKey; band: JobBand | 'auto' } | null>(null)
+  const [last, setLast] = useState<{ title: string; when: WhenKey; band: JobBand | 'auto'; familyJob: boolean } | null>(null)
+  // WHAT THE JOB IS WORTH, decided while the questions run.
+  //
+  // Justin, 14 September 2026: "we need to give a note when they add a job
+  // that it can add screen time or just mark as family task." A job has always
+  // been able to be a family job (belonging, no stars: migration 223), but the
+  // only place to say so was a chip on the list AFTER it landed, so every job
+  // arrived priced and a parent who wanted "help lay the table" to be simply
+  // what we do in this house had to go and unprice it. The worth row sits
+  // under the running heading through both questions: what a star is worth in
+  // minutes, and one chip to make it a family job instead. Off by default,
+  // because stars for screen time is the deal the product is built on; the
+  // chip is the exception, named in the moment it is easiest to choose.
+  const [familyJob, setFamilyJob] = useState(false)
   // True once anything has been added, so the repeat answer can be offered as
   // the same as last time rather than asked from cold.
   const [addedBefore, setAddedBefore] = useState(false)
@@ -208,10 +241,24 @@ export default function JobComposer({
 
   const ready = title.trim().length > 0
 
-  // Five is where a child's list stops reading as a plan and starts reading
-  // as a chore chart. Said once, gently, and never enforced.
-  const COMFORTABLE = 5
+  // Where a child's list stops reading as a plan and starts reading as a
+  // chore chart: the age's sweet spot when we know the age (three at four to
+  // seven, up to six at thirteen plus), five when we do not. Said once,
+  // gently, and never enforced.
+  const COMFORTABLE = ageBand ? assessJobLoad(ageBand, []).maxJobs : 5
   const many = typeof countToday === 'number' && countToday >= COMFORTABLE
+  const who = childName && childName !== 'Your child' ? childName : 'your child'
+  // The first week line. At the sweet spot it is not "too many", it is
+  // enough to start: the deal is new, the child is learning that jobs turn
+  // into stars and stars into time, and a list that grows before that has
+  // landed is a list that gets ignored. Life jobs come once the routine holds.
+  const enoughLine = (
+    <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
+      {ageBand
+        ? <>That is {countToday} jobs today, about right for this age. Probably enough for the first week: let {who} get used to the deal, then add the life jobs.</>
+        : <>That is {countToday} jobs today. Plenty of families run three or four and find they get done. Add more if it suits you, this is only a nudge.</>}
+    </p>
+  )
 
   function startWith(t: string) {
     setDraft(t)
@@ -222,6 +269,7 @@ export default function JobComposer({
   function finish(chosenBand: JobBand | 'auto') {
     const t = draft.trim()
     if (!t) { setStep('what'); return }
+    const asFamily = familyJob
     // Certain days with nothing ticked falls back to every day, so a parent who
     // taps the chip and then changes their mind never adds a job that is due
     // on no day at all and quietly never appears.
@@ -230,10 +278,12 @@ export default function JobComposer({
       when === 'days' ? 'daily' : when,
       chosenBand === 'auto' ? null : chosenBand,
       when === 'days' && days.length ? days : null,
+      asFamily,
     )
-    setLast({ title: t, when, band: chosenBand })
+    setLast({ title: t, when, band: chosenBand, familyJob: asFamily })
     setAddedBefore(true)
     setDraft('')
+    setFamilyJob(false)
     setStep('added')
     // The schedule is not reset: a parent adding three school day jobs answers
     // How often once and taps straight past it after that. The band has no
@@ -313,12 +363,7 @@ export default function JobComposer({
             Next
           </button>
         </div>
-        {many && (
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
-            That is {countToday} jobs today. Plenty of families run three or four and
-            find they get done. Add more if it suits you, this is only a nudge.
-          </p>
-        )}
+        {many && enoughLine}
         {help && (
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
             {help}
@@ -354,6 +399,30 @@ export default function JobComposer({
     </button>
   )
 
+  // The worth row: a star is minutes, and the one chip that makes this a
+  // family job instead. Under the heading on both questions, so the choice is
+  // there the whole way through and never a question of its own.
+  const worthRow = (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', margin: '-4px 0 12px' }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: familyJob ? 'var(--ink-muted)' : 'var(--ink-soft)', textDecoration: familyJob ? 'line-through' : 'none' }}>
+        ⭐ Worth 1 star, that is {starMinutes} min of screen time
+      </span>
+      <button
+        type="button"
+        aria-pressed={familyJob}
+        onClick={() => setFamilyJob(v => !v)}
+        style={{
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+          background: familyJob ? 'var(--tint-green)' : '#fff', color: familyJob ? '#2F8F6B' : 'var(--ink-soft)',
+          border: `1.5px solid ${familyJob ? '#2F8F6B' : 'rgba(26,26,46,0.18)'}`,
+          borderRadius: 'var(--radius-pill)', padding: '4px 11px', cursor: 'pointer',
+        }}
+      >
+        {familyJob ? '❤️ Family job, no stars' : '❤️ Make it a family job'}
+      </button>
+    </div>
+  )
+
   const heading = (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
       <span style={ASIDE}>Adding</span>
@@ -382,6 +451,7 @@ export default function JobComposer({
     return (
       <>
         {heading}
+        {worthRow}
         <p style={QUESTION}>How often?</p>
         {addedBefore && (
           <p style={{ ...ASIDE, margin: '0 0 8px' }}>Same as last time is already picked</p>
@@ -439,6 +509,7 @@ export default function JobComposer({
     return (
       <>
         {heading}
+        {worthRow}
         <p style={QUESTION}>When in the day?</p>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 8px' }}>
           This is when the reminder lands. Tap one and the job goes on the board.
@@ -499,6 +570,11 @@ export default function JobComposer({
                 <>
                   {w && pill(w.label)}
                   {b && pill(b.label)}
+                  {/* What it is worth, in the same pill language: a family
+                      job says so in green, anything else says the star. */}
+                  {last?.familyJob
+                    ? <span key="worth" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', background: 'var(--tint-green)', color: '#2F8F6B', border: '1.5px solid #2F8F6B', borderRadius: 'var(--radius-pill)', padding: '4px 11px' }}>❤️ Family job, no stars</span>
+                    : pill(`⭐ 1 star, ${starMinutes} min`)}
                   {/* Left on work it out, so say what that means rather than
                       showing nothing where a second answer was given. */}
                   {last && last.band === 'auto' && (
@@ -539,12 +615,7 @@ export default function JobComposer({
           </button>
         )}
       </div>
-      {many && (
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '10px 0 0', fontWeight: 600 }}>
-          That is {countToday} jobs today. Plenty of families run three or four and
-          find they get done. Add more if it suits you, this is only a nudge.
-        </p>
-      )}
+      {many && enoughLine}
     </>
   )
 }

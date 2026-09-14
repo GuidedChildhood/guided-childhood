@@ -370,6 +370,16 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
 
                   {included && (
                     <div style={{ padding: '0 18px 16px 62px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {/* TALK IT THROUGH. Justin, 14 September 2026: "discuss
+                          it when building." One question to ask the child
+                          before the option is picked, so the deal is one they
+                          were asked about rather than read. */}
+                      <p data-talk style={{ margin: '0 0 4px', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
+                        <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--terracotta-dark)', display: 'block', marginBottom: 2 }}>
+                          Ask {childName}
+                        </span>
+                        {c.talk}
+                      </p>
                       {c.options.map(opt => {
                         const picked = chosen[c.key] === opt
                         return (

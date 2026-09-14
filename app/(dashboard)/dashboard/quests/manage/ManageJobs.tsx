@@ -256,7 +256,7 @@ export default function ManageJobs({
   // into a tick honestly rather than on hope. A failed add used to look
   // identical to a successful one from here.
   async function add(
-    t: { title: string; emoji: string; stars: number; schedule: string; band?: JobBand | null; schedule_days?: number[] | null },
+    t: { title: string; emoji: string; stars: number; schedule: string; band?: JobBand | null; schedule_days?: number[] | null; is_family_job?: boolean },
     opts: { flash?: boolean } = {},
   ): Promise<boolean> {
     if (busy) return false
@@ -590,6 +590,8 @@ export default function ManageJobs({
             <div style={{ marginBottom: 14 }}>
               <JobComposer
                 countToday={mine.length}
+                ageBand={activeKid?.age_band ?? null}
+                childName={childName ?? null}
                 pendingTitle={pending?.title ?? null}
                 onPendingUsed={() => { /* kept until the add, for its emoji and stars */ }}
                 onSeeWaiting={() => goTab('agree')}
@@ -600,14 +602,16 @@ export default function ManageJobs({
                 // already says "write your own", so the placeholder only has
                 // to give the example.
                 placeholder="Feed the dog, violin"
-                onAdd={(t, when, band, days) => {
+                onAdd={(t, when, band, days, familyJob) => {
                   // A suggestion keeps its own emoji and stars, because play
                   // jobs are worth four and a bare star would quietly halve
                   // them. Anything typed is the plain one star job the help
-                  // text promises.
-                  const meta = pending && pending.title === t ? pending : { emoji: '⭐', stars: 1 }
+                  // text promises. A family job keeps its star value on the
+                  // row (the flag is what stops it paying), so flipping it
+                  // back later restores what it was worth.
+                  const meta = pending && pending.title === t ? pending : { emoji: familyJob ? '🏠' : '⭐', stars: 1 }
                   setPending(null)
-                  add({ title: t, emoji: meta.emoji, stars: meta.stars, schedule: when, band, schedule_days: days }, { flash: false })
+                  add({ title: t, emoji: meta.emoji, stars: meta.stars, schedule: when, band, schedule_days: days, is_family_job: familyJob }, { flash: false })
                 }}
                 // SHORT, because this is the first thing on the page and it
                 // was thirty one words about steps that have not happened yet.
@@ -615,7 +619,7 @@ export default function ManageJobs({
                 // text". The composer asks how often and when in the day on
                 // its own next screens, so saying so in advance is narrating
                 // the flow instead of letting it run.
-                help="Worth one star. You pick how often next."
+                help="Worth one star, or make it a family job. You pick how often next."
               />
             </div>
 

@@ -40,7 +40,9 @@ const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
 // The pending ask, answered in one tap: device and minutes named, yes or not
 // yet. Shared by the screen time card and the locked banner on the quests
 // page, so the answer is always one tap from wherever the parent is looking.
-export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline, starMinutes }: {
+export type FamilyDeal = { lines: string[]; signed: boolean } | null
+
+export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline, starMinutes, deal }: {
   childName: string
   request: { device: DeviceKey; minutes: number; deviceName?: string | null }
   exceedsGuide: boolean
@@ -51,6 +53,13 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
    *  matches what the spend will actually charge. Defaults to the deployment
    *  rate for callers that cannot supply it. */
   starMinutes?: number
+  /**
+   * The family deal at the moment of the yes: the two lines the child is
+   * looking at on their side (when screens go off, how time is earned), or
+   * null when the family has not made one yet. Undefined means the caller
+   * does not know, and nothing is said either way.
+   */
+  deal?: FamilyDeal
 }) {
   return (
     <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-tile)', padding: '11px 13px', marginBottom: '11px' }}>
@@ -64,8 +73,25 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
           before the tap so the parent grants it knowingly. Never a block. */}
       {exceedsGuide && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-          This takes {childName} past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
+          This takes {childName}{' '}past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
         </p>
+      )}
+      {/* The deal, said at the yes. The same two lines the child sees while
+          asking, so the answer and the ask are read against one agreement.
+          No deal yet is not silence: it is the one moment a family is most
+          likely to want one, so it points there. */}
+      {deal !== undefined && (
+        deal && deal.lines.length > 0 ? (
+          <p data-deal style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+            <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>Your deal:</strong> {deal.lines.join(' · ')}{deal.signed ? '' : ' (not signed by both yet)'}.{' '}
+            <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>See it</Link>
+          </p>
+        ) : (
+          <p data-deal style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+            No family deal yet. Asks like this are easier once you have agreed one together.{' '}
+            <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>Make the deal</Link>
+          </p>
+        )
       )}
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: 'var(--radius-tile)', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes ⭐</button>
@@ -84,6 +110,8 @@ function fmt(ms: number): string {
 
 export default function ParentDeviceTime({ userId }: { userId?: string }) {
   const [kids, setKids] = useState<Kid[] | null>(null)
+  // The family deal, from the same feed. Undefined until the first answer.
+  const [deal, setDeal] = useState<FamilyDeal | undefined>(undefined)
   const audioRef = useRef<AudioContext | null>(null)
   // The rising tone is best effort, so the reliable end of timer signal is the
   // push. If notifications are not on yet, offer to turn them on right here
@@ -103,6 +131,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
       const r = await fetch('/api/quests/time/active')
       const d = await r.json()
       setKids(d.children ?? [])
+      if ('deal' in d) setDeal((d.deal as FamilyDeal) ?? null)
     } catch { setKids([]) }
   }
   useEffect(() => {
@@ -193,7 +222,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
         {[...kids]
           .sort((a, b) => (b.request ? 2 : b.session ? 1 : 0) - (a.request ? 2 : a.session ? 1 : 0))
           .map(k => (
-            <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
+            <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} deal={deal} />
           ))}
       </div>
     </div>
@@ -204,7 +233,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
 // jobs left banner only appears for a real parent whose real child has real
 // unticked jobs, which is not a state any fixture could reach through the API,
 // and a layout nobody can look at is a layout nobody has checked.
-export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
+export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange: () => void; onAlarm: () => void; deal?: FamilyDeal }) {
   // The screens this family actually owns, so the grant names one rather than
   // picking an emoji out of four categories. Empty falls back to the four.
   const [pick, setPick] = useState<DevicePick>({ kind: 'tablet', familyDeviceId: null })
@@ -423,7 +452,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
       {/* Today's guide: how much this child has already had against the age
           banded recommendation, so a grant is made with the day in view. A
           soft steer, never a block. */}
-      <DailyGuideLine name={kid.name} usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} sessionsToday={kid.sessionsToday ?? 0} />
+      <DailyGuideLine name={kid.name} usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} sessionsToday={kid.sessionsToday ?? 0} jobsLeft={kid.jobsLeft?.count ?? 0} />
 
       {/* Ask first: the child is waiting on a yes. */}
       {kid.request && (
@@ -435,6 +464,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           onApprove={approveRequest}
           onDecline={declineRequest}
           starMinutes={kid.starMinutes}
+          deal={deal}
         />
       )}
       {/* JOBS LEFT, BEFORE THE TIMER STARTS.
@@ -680,12 +710,23 @@ function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: stri
 // age banded guide, the day's sittings, one plain line, and a warm treat note
 // when the minutes about to be granted would take the child past the guide for
 // the day. Always a soft steer, never a limit that blocks the parent.
-function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, sessionsToday }: {
+export function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, sessionsToday, jobsLeft = 0 }: {
   name: string; usedToday: number; recommended: number; ageBand: string | null; addingMinutes: number; sessionsToday: number
+  /** Jobs due today and not yet done, so the line can say there is room to earn more. */
+  jobsLeft?: number
 }) {
   const g = dailyGuide(ageBand, usedToday)
   if (recommended <= 0) return null
   const willTreat = wouldExceedGuide(ageBand, usedToday, addingMinutes)
+  // Under the guide the line used to say nothing at all, so the bar was a
+  // number without a meaning. Justin, 14 September 2026: both sides need to
+  // know when they are "getting to recommended use and if there is scope to
+  // earn more time". Nearly there from three quarters; and while jobs are
+  // still to do, that they are the way to earn more. Same read as the child's
+  // card, so the two phones agree.
+  const underLine = g.status === 'under' && !willTreat
+    ? `${g.pct >= 75 ? `Nearly at today's guide, ${g.remaining} min left` : `${g.remaining} min of today's guide left`}${jobsLeft > 0 ? `. ${jobsLeft} job${jobsLeft === 1 ? '' : 's'} still to do could earn more` : ''}.`
+    : null
   const accent = g.status === 'over' ? '#C0533E' : g.status === 'reached' ? 'var(--terracotta-dark)' : 'var(--retro-green)'
   return (
     <div style={{ marginBottom: '11px' }}>
@@ -705,8 +746,11 @@ function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, 
           {sessionsToday} session{sessionsToday === 1 ? '' : 's'} today
         </div>
       )}
+      {underLine && (
+        <p data-guide-line style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>{underLine}</p>
+      )}
       {(g.status !== 'under' || willTreat) && (
-        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
+        <p data-guide-line style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
           {g.status === 'over'
             ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
             : g.status === 'reached'

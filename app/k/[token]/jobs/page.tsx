@@ -58,6 +58,9 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
       ageBand={ageBand ?? null}
       quests={jobs.dueQuests.map(q => ({
         id: q.id, title: q.title, emoji: q.emoji, stars: q.stars, blocks_screens: q.blocks_screens,
+        // The flag rides through, so a family job says thank you rather than
+        // pricing itself in stars on this list (the main list already did).
+        is_family_job: Boolean((q as { is_family_job?: boolean | null }).is_family_job),
       }))}
       todayTicks={jobs.todayTicks}
       giftStarsOwed={giftStarsOwed}

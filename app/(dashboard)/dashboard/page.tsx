@@ -1270,6 +1270,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
         childrenInfo={welcomeChildren}
+        newFamily={accountAgeDays <= 7}
         guide={{
           stageNum: stage.id,
           stageName: stage.name,

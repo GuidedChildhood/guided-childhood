@@ -228,7 +228,7 @@ export async function getTodayLoop(
     // it this week" are the same fact, which is the right one: an agreement
     // reopened and left alone is still a review.
     supabase.from('family_agreements')
-      .select('updated_at, created_at, signed_by_parent, signed_by_child')
+      .select('updated_at, created_at, signed_by_parent, signed_by_child, review_date')
       .eq('user_id', userId)
       .order('updated_at', { ascending: false })
       .limit(1)
@@ -322,6 +322,18 @@ export async function getTodayLoop(
   const agreementFreshThisWeek = agreementUpdatedAt
     ? (Date.now() - new Date(agreementUpdatedAt).getTime()) < 7 * 86_400_000
     : false
+  // ── THE REVIEW DATE THEY PICKED IS A REAL DATE (14 September 2026) ────────
+  //
+  // Justin: "we need to agree, to remind". The builder asks for a review date
+  // and prints it on the fridge copy ("We will sit down and review this
+  // together on ..."), and until now nothing in the product noticed the day
+  // arriving. Due means the date has passed and the deal has not been touched
+  // since it: reopening it on or after that day IS the review, the same
+  // reading the weekly clock uses.
+  const agreementReviewDate = agreementSigned ? ((agreementRow as { review_date?: string | null } | null)?.review_date ?? null) : null
+  const agreementReviewDue = !!agreementReviewDate
+    && agreementReviewDate <= today
+    && (!agreementUpdatedAt || agreementUpdatedAt.slice(0, 10) < agreementReviewDate)
 
   // How much of the passport is still on the parent to move. Null means there
   // is no passport to read yet, and the rung stays off the road entirely.
@@ -652,14 +664,31 @@ export async function getTodayLoop(
     // can bear, because a daily rung about a document is furniture within a
     // fortnight.
     //
-    // Only for families who HAVE one. Making one is a setup step and already
-    // has a rung; this is the review, and a rung asking a family to review a
-    // thing they have never made is two asks wearing one hat.
-    ...(agreementUpdatedAt ? [{
+    // ── MAKE IT, THEN REVIEW IT (14 September 2026) ────────────────────────
+    //
+    // Making one used to be a setup step with its own rung. It left setup on
+    // 18 August (it put parents off before they had seen the product), and
+    // since then the only ask to make one was the offer card on the quests
+    // page, snoozable and easy to never see. Justin: the agreement "determines
+    // how jobs, device time is all agreed", so a family with a job and no deal
+    // is running the star system on a rule nobody wrote down.
+    //
+    // So the same slot carries two asks, never both: MAKE THE DEAL once there
+    // is a job and no signed agreement, then THE DEAL weekly once it is signed,
+    // reading REVIEW THE DEAL on the day the review date they picked arrives.
+    // A recommendation, never the lead: nothing on the road is blocked by it,
+    // because the deal is a conversation and conversations do not happen on
+    // demand.
+    ...(anyQuests && !agreementSigned ? [{
       key: 'agreement' as const,
-      label: 'The deal',
+      label: 'Make the deal',
       href: withChild('/dashboard/agreement?from=today'),
-      done: agreementFreshThisWeek,
+      done: false,
+    }] : agreementUpdatedAt ? [{
+      key: 'agreement' as const,
+      label: agreementReviewDue ? 'Review the deal' : 'The deal',
+      href: withChild('/dashboard/agreement?from=today'),
+      done: agreementFreshThisWeek && !agreementReviewDue,
     }] : []),
     {
       key: 'script',

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { isDeviceKind, toFamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
+import { sendEmail } from '@/lib/email'
+import { CONTACT } from '@/lib/content/contact'
 
 // The family's own device list. Read it, add to it when something new arrives
 // in the house, rename it, retire it when it is sold or broken.
@@ -53,6 +55,14 @@ export async function POST(req: NextRequest) {
   // Adding nothing is a real answer: a family with no devices to list has
   // still told us, and should stop being asked.
   const incoming: unknown[] = Array.isArray(body.devices) ? body.devices : [body]
+  // A device we do not list, named by the parent. Justin, 14 September 2026:
+  // "Other, please add, that messages hello@". The name and the kind go to
+  // the contact inbox so the catalogue grows from real homes. Nothing that
+  // identifies the family travels with it: no name, no email, no id.
+  const others = incoming
+    .map(d => d as { label?: unknown; kind?: unknown; other?: unknown })
+    .filter(d => d.other === true && typeof d.label === 'string' && d.label.trim() && isDeviceKind(d.kind))
+    .map(d => ({ label: String(d.label).trim().slice(0, 60), kind: String(d.kind) }))
   const rows = incoming
     .map(d => d as { label?: unknown; kind?: unknown; guideKey?: unknown; shared?: unknown })
     .filter(d => typeof d.label === 'string' && d.label.trim().length > 0 && isDeviceKind(d.kind))
@@ -91,7 +101,25 @@ export async function POST(req: NextRequest) {
     await supabase.from('profiles').update({ devices_asked_at: new Date().toISOString() }).eq('id', user.id)
   }
 
+  // Best effort and after the save, so a mail hiccup can never cost a family
+  // their device. Sent to the contact inbox, which is where Justin reads.
+  if (others.length > 0) {
+    try {
+      await sendEmail({
+        to: CONTACT.email,
+        subject: `A device we do not list: ${others.map(o => o.label).join(', ')}`,
+        html: `<p>A family added a device that is not in the add a device list.</p><ul>${others.map(o => `<li><strong>${escapeHtml(o.label)}</strong> (${escapeHtml(o.kind)})</li>`).join('')}</ul><p>Worth a suggestion chip and a guide if it comes up again. No family details are attached to this note.</p>`,
+        kind: 'operational',
+        key: 'device-other',
+      })
+    } catch { /* the device is saved either way */ }
+  }
+
   return NextResponse.json({ ok: true, devices: added })
+}
+
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string))
 }
 
 export async function PATCH(req: NextRequest) {

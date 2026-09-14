@@ -6,6 +6,7 @@ import { questDueToday } from '@/lib/quests/due'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
+import { dealLinesFrom } from '@/lib/content/agreement-clauses'
 
 // What the parent's screen time card needs in one call: each child, their star
 // balance, and their live device session if one is running. Scoped to the
@@ -201,7 +202,25 @@ export async function GET() {
     }
   } catch { /* no planet yet, nothing to ask */ }
 
+  // THE DEAL, FOR THE YES. Justin, 14 September 2026: the agreement has to be
+  // there "at the time they ask to use the device so it all ties in". One
+  // family agreement per account, so it rides once at the top rather than on
+  // every child. Fails soft to null, and null is itself a message: the yes
+  // box says there is no deal yet and points at making one.
+  let deal: { lines: string[]; signed: boolean } | null = null
+  try {
+    const { data: row } = await supabase
+      .from('family_agreements')
+      .select('bedroom_rule_time, bedroom_rule_location, extra_agreements, signed_by_parent, signed_by_child')
+      .eq('user_id', user.id).maybeSingle()
+    if (row) {
+      const lines = dealLinesFrom(row).map(l => l.text)
+      deal = { lines, signed: Boolean(row.signed_by_parent && row.signed_by_child) }
+    }
+  } catch { /* informational only */ }
+
   return NextResponse.json({
+    deal,
     children: kids.map(c => {
       const ageBand = (c as { age_band?: string | null }).age_band ?? null
       return {
