@@ -22,8 +22,11 @@ export async function generateMetadata({ params }: { params: Promise<{ stage: st
 // passport, the top row printed upside down so the fold works
 // (lib/passport-print.ts, ZINE_TOP and ZINE_BOTTOM, with a page number on
 // every panel so a teacher can check it before a class does). Sheet B is
-// the stickers: one per lesson on the page, one per area, the stage stamp,
-// and the fold steps. The words on the area panels are the `I can` line of
+// the stickers: one per lesson on the page, numbered to match the ring
+// beside that lesson's line on its area panel, the stage stamp, and the fold
+// steps. One sticker per ring, the same number on both, so a Reception child
+// matches them without reading a lesson title (the Reception teacher pass,
+// 14 September 2026). The words on the area panels are the `I can` line of
 // every lesson on the page, read from the lesson rows, so the passport says
 // what the scheme teaches and nothing it does not.
 
@@ -34,15 +37,14 @@ type Row = { module_id: string; title: string; key_stage: string; single_action_
 function Panel({ n, upside, friend, children }: { n: number; upside: boolean; friend: Friend; children: React.ReactNode }) {
   return (
     <div style={{ position: 'relative', border: '1px dotted var(--ink-muted)', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, transform: upside ? 'rotate(180deg)' : 'none', padding: '5mm 5mm 4mm', display: 'flex', flexDirection: 'column' }}>
+      {/* The number sits in its own 6mm strip under the content, so nothing on the panel can run into it. */}
+      <div style={{ position: 'absolute', inset: 0, transform: upside ? 'rotate(180deg)' : 'none', padding: '4.5mm 5mm 8mm', display: 'flex', flexDirection: 'column' }}>
         {children}
-        <span style={{ ...mono, fontSize: '7px', color: 'var(--ink-light)', position: 'absolute', right: '4mm', bottom: '3mm', letterSpacing: '0.1em' }}>{n} of 8 · {friend.name}</span>
+        <span style={{ ...mono, fontSize: '7px', color: 'var(--ink-muted)', position: 'absolute', right: '4mm', bottom: '2.5mm', letterSpacing: '0.1em', lineHeight: 1 }}>{n} of 8</span>
       </div>
     </div>
   )
 }
-
-const trimTitle = (t: string) => (t.length > 40 ? `${t.slice(0, 38).trim()}…` : t)
 
 export default async function PassportPrintPage({ params }: { params: Promise<{ stage: string }> }) {
   const { stage } = await params
@@ -75,7 +77,7 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
   // The eight faces, in reading order.
   const faces: Record<number, React.ReactNode> = {
     1: (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', background: friend.soft, margin: '-5mm -5mm -4mm', padding: '5mm 5mm 4mm' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%', background: friend.soft, margin: '-4.5mm -5mm -8mm', padding: '4.5mm 5mm 8mm' }}>
         <span style={small}>My digital passport · page {STAGE_NUMBER[edition.stage]} of 5</span>
         <FriendArt friend={friend} mood="wave" size={young ? 34 : 26} />
         <span style={{ ...display, fontSize: young ? '21px' : '18px', lineHeight: 1.1, marginTop: '2mm' }}>{page.page}</span>
@@ -102,7 +104,7 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
     7: (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', height: '100%' }}>
         <span style={small}>The stamp</span>
-        <div style={{ margin: '2mm 0' }}><Stamp friend={friend} label="" size={young ? 34 : 30} hint="Stick here" /></div>
+        <div style={{ margin: '2mm 0' }}><Stamp friend={friend} label="" size={young ? 34 : 30} ghost /></div>
         <p style={{ ...body, fontSize: young ? '11px' : '9.5px' }}>{edition.stamp}</p>
         {edition.signed ? (
           <div style={{ marginTop: 'auto', width: '100%', textAlign: 'left' }}>
@@ -128,23 +130,31 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
       </div>
     ),
   }
+  const ringMm = young ? 15 : 12
   AREA_ORDER.forEach((a, i) => {
     const list = byArea[a]
     faces[3 + i] = (
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <span style={small}><span aria-hidden>{AREA_EMOJI[a]}</span> {AREAS[a].name}</span>
-        <div style={{ display: 'flex', gap: '3mm', alignItems: 'flex-start', marginTop: '2mm' }}>
-          <Stamp friend={friend} label="" size={young ? 26 : 22} hint={list.length ? 'Sticker' : 'At home'} />
-          <div style={{ flex: '1 1 auto', minWidth: 0 }}>
-            <span style={{ ...display, fontSize: young ? '13px' : '11px' }}>{list.length ? edition.prove : ''}</span>
-            {list.length === 0 && <p style={{ ...body, color: 'var(--ink-soft)' }}>{edition.athome}</p>}
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2mm' }}>
+          {young && <FriendArt friend={friend} mood="thinking" size={9} />}
+          <span style={{ ...small, flex: '1 1 auto' }}>{young ? '' : <span aria-hidden>{AREA_EMOJI[a]} </span>}{AREAS[a].name}</span>
         </div>
-        <ul style={{ margin: '2mm 0 0', paddingLeft: '4mm', listStyle: 'disc' }}>
-          {list.map(l => (
-            <li key={l.moduleId} style={{ ...body, fontSize: young ? '11px' : '9.5px', marginBottom: '1mm' }}>{icanLine(l.ican || l.title)}</li>
-          ))}
-        </ul>
+        {list.length ? (
+          <>
+            <span style={{ ...display, fontSize: young ? '13px' : '11px', marginTop: '1.5mm' }}>{edition.prove}</span>
+            {/* One ring per lesson, numbered like its sticker, beside the line it proves. */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: young ? '2mm' : '1.5mm', marginTop: '1.5mm' }}>
+              {list.map(l => (
+                <div key={l.moduleId} style={{ display: 'flex', alignItems: 'center', gap: '2.5mm' }}>
+                  <Stamp friend={friend} label="" size={ringMm} n={l.n} inline />
+                  <span style={{ ...body, fontSize: young ? '11px' : '9.5px', lineHeight: 1.3, flex: '1 1 auto', minWidth: 0 }}>{icanLine(l.ican || l.title)}</span>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p style={{ ...body, color: 'var(--ink-soft)', marginTop: '2mm' }}>{edition.athome}</p>
+        )}
       </div>
     )
   })
@@ -182,15 +192,13 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
             <FriendArt friend={friend} mood="happy" size={18} />
             <div style={{ flex: '1 1 auto' }}>
               <span style={{ ...mono, color: friend.ink }}>Stickers for the {page.page} page · {edition.years}</span>
-              <h2 style={{ ...display, fontSize: 'var(--text-lg)', marginTop: '2px' }}>Cut out, stick in the ring</h2>
-              <p style={{ ...text, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '2px' }}>Print on sticker paper, or on plain paper and glue. One sticker per lesson, one per area, and {friend.name} for the stamp when the page is full.</p>
+              <h2 style={{ ...display, fontSize: 'var(--text-lg)', marginTop: '2px' }}>Cut out, match the number, stick it in the ring</h2>
+              <p style={{ ...text, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '2px' }}>Print on sticker paper, or on plain paper and glue. One sticker per lesson, numbered like the ring it fills, and {friend.name} for the stamp when every ring is full.</p>
             </div>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3mm 4mm', alignItems: 'flex-start' }}>
-            {lessons.map(l => <Sticker key={l.moduleId} friend={friend} label={trimTitle(l.title)} size={young ? 38 : 34} mood="happy" />)}
-            {AREA_ORDER.map(a => <Sticker key={a} friend={friend} label={AREAS[a].short} size={young ? 38 : 34} mood="thinking" />)}
-            <Sticker friend={friend} label={`${page.page} stamp`} size={46} mood="happy" />
-            {[0, 1, 2].map(i => <Sticker key={`star${i}`} friend={friend} label="Well done" size={young ? 34 : 30} star />)}
+            {lessons.map(l => <Sticker key={l.moduleId} friend={friend} n={l.n} label={AREAS[l.area ?? 'safe'].name} size={young ? 42 : 36} mood="happy" plain={!young} />)}
+            <Sticker friend={friend} label={`${page.page} stamp`} size={young ? 56 : 48} mood="happy" />
           </div>
           <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr auto', gap: '6mm', alignItems: 'center', border: '1.5px solid var(--ink-light)', borderRadius: '14px', padding: '3mm 5mm' }}>
             <div>
