@@ -421,6 +421,34 @@ if (!/data-mission-href/.test(missionUi) || !/const Row = r\.href \? 'a' : 'div'
 else if (!/href: done \? null : missionHref/.test(read('lib/kid/mission.ts'))) problems.push('M: a finished objective still offers a door, which sends a child to do a thing they have already done')
 else ok.push('M: a row is an anchor when it leads somewhere and a plain row when it does not')
 
+// ── N: the child's bar fits, says what is waiting, and leads with the jobs ──
+// Justin, 14 September 2026, from his phone: "tabs here misaligned and we
+// should have printables and update on jobs eg waiting on parents to do etc,
+// also can make balance hidden behind tab as a bit messy."
+//
+// Three faults in one screenshot. The bar overflowed its own edge because four
+// flex:1 tabs with no minWidth cannot shrink below their longest label
+// ("Printables" wants 103px; at 360 the four together want 19px more than the
+// bar has, and it cleared 390 by 7px, which any larger text setting spends).
+// The bar said nothing about the asks a child had sitting with their grown up.
+// And the Quests tab opened on a balance dial rather than on the jobs.
+if (!/minWidth: 0/.test(tabBar) || !(tabBar.match(/minWidth: 0/g) || []).length >= 2) problems.push('N: a tab cannot shrink, so the longest label decides the width of the bar and it runs off the edge')
+else if (!/const LABEL = 'clamp\(/.test(tabBar) || !/fontSize: LABEL/.test(tabBar)) problems.push('N: the tab labels do not give way before the bar does')
+else if (!/whiteSpace: 'nowrap'/.test(tabBar)) problems.push('N: a tab label can wrap, which makes the bar two rows tall rather than narrower')
+else ok.push('N: the tab labels shrink and the bar keeps its edges at any width or text size')
+
+// The CONDITION, not just the attribute: a badge behind a branch that can
+// never be true still leaves its markup in the file, which is how the first
+// version of this rule passed a mutation that switched it off.
+if (!/data-waiting-badge/.test(tabBar) || !/badges\.waiting/.test(tabBar) || !/key === 'quests' && waiting > 0 && \(/.test(tabBar)) problems.push('N: the bar never says how many of this child\'s asks a grown up still has')
+else if (!/waiting: waitingOnGrownUp/.test(screen) || !/const waitingOnGrownUp =/.test(screen)) problems.push('N: the screen does not count what is waiting on the grown up')
+else if (!/Math\.max\(asks\.filter\(a => a\.status === 'pending'\)\.length, asksPendingTotal\)/.test(screen)) problems.push('N: the waiting count uses the loaded window rather than the real head count, so an older idea stops being counted')
+else ok.push('N: the jobs tab carries what is waiting on a grown up, counted the way the cap counts it')
+
+if (/<BalanceInsight/.test(screen)) problems.push('N: the balance dial is back on the jobs tab, so a child opening their jobs meets a gauge before a job')
+else if (!/<BalanceInsight/.test(balancePage)) problems.push('N: the balance dial is on neither screen, so it has been lost rather than moved')
+else ok.push('N: the dial leads the balance page and the jobs tab leads with the jobs')
+
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')
   for (const p of problems) console.error('  ' + p)

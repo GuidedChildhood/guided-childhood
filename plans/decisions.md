@@ -15567,3 +15567,62 @@ an error the destructure discarded, and with exactly one sibling row this child
 simply inherited their brother's pass. No family has two rows on one lesson
 yet, so nothing on record is wrong. It would have fired the first time two
 children in one house did the same lesson, which is the ordinary case here.
+
+## 14 September 2026: the child's tab bar, what is waiting, and the dial in the wrong place
+
+Justin, from his phone: "tabs here misaligned and we should have printables and
+update on jobs eg waiting on parents to do etc, also can make balance hidden
+behind tab as a bit messy." Three faults in one screenshot.
+
+### The bar ran off its own edge
+
+Four tabs, each `flex: 1`, with no `minWidth`. A flex item's default min width
+is AUTO, so it will not shrink below its own content: the longest label decided
+the width of the bar rather than the bar deciding the size of the label.
+Measured, "Printables" wants 103px, and at 360 the four together want 19px more
+than the bar has. It cleared 390 by 7px, which is why it looked fine on a
+desktop and broken on a phone: any larger text setting in iOS spends that 7px
+immediately.
+
+`minWidth: 0` lets a tab shrink, and the LABEL gives way first, at
+`clamp(0.72rem, 3.4vw, var(--text-md))` and never wrapping. The icon, the tap
+target and the chunky edges are untouched, because those are the parts a thumb
+and an eye need. Measured after: 0 overflow at 360, 390 and 430, and still 0
+with the root font forced to 20px to stand in for iOS larger text.
+
+### The bar never said what was waiting
+
+A child who had pitched an idea or asked for screen time had no way to see that
+from the bar, so they kept opening the tab to check or assumed nothing had
+happened. The Quests tab now carries a count of their own asks sitting with
+their grown up, from the same head count the ask cap uses, so the bar and the
+ask row cannot disagree.
+
+Three marks, deliberately different, because they mean different things:
+
+| Mark | Means |
+| --- | --- |
+| White with an ink ring, on Today | how many of the five are left |
+| Butter with an ink ring and a white outer ring | yours, and someone else has it |
+| Red | new, and it is for you |
+
+The white outer ring is not decoration: a butter badge on a butter bar is the
+same colour as its ground when that tab is not the chosen one, and only the
+ring would read.
+
+### The jobs tab opened on a dial
+
+`BalanceInsight` led the Quests tab: a child opened their jobs and met a gauge,
+a headline, a green chip and a DiGi paragraph before a single job. It is a good
+card in the wrong place, because it is a reflection ON the day and that tab is
+the doing of it.
+
+It leads the balance page now, which is where the rest of balance already lives
+(the stars, the minutes, the guide) and which the five a day's own Check my
+balance row opens. Nothing is hidden: it is one tap from the row that was
+always the way in.
+
+- Guard `check-stickers-land.mjs` section N, six mutations caught. One of them
+  slipped the first time: the rule tested for the badge's markup, which is
+  still in the file when the badge sits behind a branch that can never be true,
+  so it now tests the condition.
