@@ -85,6 +85,7 @@ export default function KidPrintablesFixture() {
         <KidPrintables
           token={token}
           childName="Alfie"
+          tallyColor={theme.inkSoft}
           printables={printablesForStage(stage)}
           asks={[{ id: 'a1', title: 'Please can I do the My Reading Bucket List printable', emoji: '📚', status: 'added' }]}
           submitAsk={(title, emoji) => setLog(l => [...l, `${emoji} ${title}`])}

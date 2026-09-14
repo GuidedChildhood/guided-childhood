@@ -2,6 +2,12 @@
 
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
 import { KidSchoolBanner } from '@/app/k/[token]/KidQuestScreen'
+import { DEFAULT_ACCENT, resolveTheme } from '@/lib/kid/theme'
+
+// The ground a real child stands on. Justin, 14 September 2026, made Paper the
+// default theme, so a fixture still painted the old anthracite was showing a
+// screen that no longer exists. Ask the theme rather than naming a colour.
+const T = resolveTheme(DEFAULT_ACCENT)
 
 // Layout fixture for the child's week from school.
 //
@@ -45,16 +51,16 @@ const QUIET: KidWeekItem[] = [
 
 export default function RefKidWeek() {
   return (
-    <main style={{ background: 'var(--kid-bg)', minHeight: '100vh', padding: '24px 16px 60px', fontFamily: 'var(--font-body)' }}>
+    <main style={{ background: T.bg, minHeight: '100vh', padding: '24px 16px 60px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <p style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-          letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '0 0 16px',
+          letterSpacing: '0.2em', textTransform: 'uppercase', color: T.inkMuted, margin: '0 0 16px',
         }}>
           Reference · the child’s week from school
         </p>
 
-        <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '0 0 8px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: T.inkSoft, fontWeight: 700, margin: '0 0 8px' }}>
           A busy week with today ticked off, two child added items, and the add button
         </p>
         {/* The token is a well formed fake: it draws the add button and the
@@ -62,13 +68,13 @@ export default function RefKidWeek() {
             save, which is itself a state worth seeing. */}
         <KidSchoolWeek items={BUSY} childName="Teo" token="000000000000000000" />
 
-        <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '34px 0 8px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: T.inkSoft, fontWeight: 700, margin: '34px 0 8px' }}>
           One thing all week, and six empty days
         </p>
         <KidSchoolWeek items={QUIET} childName="Teo" token="000000000000000000" />
 
         {/* The two ways in, from the child's home screen. */}
-        <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '34px 0 8px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: T.inkSoft, fontWeight: 700, margin: '34px 0 8px' }}>
           The banner, with something due today
         </p>
         <KidSchoolBanner
@@ -80,7 +86,7 @@ export default function RefKidWeek() {
           ]}
         />
 
-        <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '26px 0 8px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: T.inkSoft, fontWeight: 700, margin: '26px 0 8px' }}>
           Nothing today, but the week is still worth a look
         </p>
         <KidSchoolBanner token="000000000000000000" weekCount={3} items={[]} />

@@ -53,6 +53,7 @@ import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import KidStickerLand from '@/components/kid/KidStickerLand'
 import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import KidWeekMasthead from '@/components/kid/KidWeekMasthead'
 import { buildMission } from '@/lib/kid/mission'
 import type { DailyStickers } from '@/components/kid/KidStickers'
 import type { TodayTab } from '@/components/kid/KidTabBar'
@@ -1350,6 +1351,7 @@ export default function KidQuestScreen({
       {activeGame && (
         <QuestGamePlayer
           game={activeGame}
+          theme={theme}
           onComplete={() => recordGame(activeGame)}
           onClose={() => setActiveGame(null)}
         />
@@ -1454,26 +1456,36 @@ export default function KidQuestScreen({
             the corner so a child (or a grown up) can turn the sounds off any
             time. The eyebrow greets by the child's own clock, mounted after
             first paint so the server and the first client render agree. */}
-        <div style={{ position: 'relative', textAlign: 'center', marginBottom: '18px' }}>
-          <button
-            onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
-            aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
-            style={{
-              position: 'absolute', top: 0, right: 0, width: 40, height: 40, borderRadius: '50%',
-              background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
-              cursor: 'pointer', fontSize: 'var(--text-lg)', lineHeight: 1, color: 'var(--ink)',
-            }}
-          >
-            {soundOn ? '🔊' : '🔇'}
-          </button>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkSoft, marginBottom: 6 }}>
-            {greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
-          </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
-            Go {childName}!
-          </h1>
-          {/* Make it mine now lives as its own tile in the grid below, with
-              everything else that is not a to do. */}
+        {/* THE MASTHEAD. Justin, 14 September 2026, with Jonny's week page
+            open: "the front page has the similar design as the calendar
+            page, as looks great." So the greeting is the same masthead the
+            week page opens with: the painted rainbow, the white sheet with
+            the name over a sun disc, the child's own Friend on a plate, and
+            the little sound switch in the corner. The line under the name is
+            the day in one breath. Make it mine lives as its own tile below. */}
+        <div data-home-masthead style={{ width: '100%', maxWidth: 560 }}>
+          <KidWeekMasthead
+            kicker={greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
+            title={`Go ${childName}!`}
+            sub={todayTab.complete
+              ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
+              : todayTab.total > 0
+                ? `${todayTab.left} of your five to go.`
+                : 'Your five for today are just below.'}
+            friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+            corner={
+              <button
+                onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
+                aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
+                style={{
+                  width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)',
+                  boxShadow: '0 2px 0 var(--ink)', cursor: 'pointer', fontSize: 'var(--text-base)', lineHeight: 1, color: 'var(--ink)',
+                }}
+              >
+                {soundOn ? '🔊' : '🔇'}
+              </button>
+            }
+          />
         </div>
 
         {/* The fate of their screen time ask, right under the greeting so it

@@ -113,6 +113,14 @@ function luminance(colour: string): number {
 // none looks heavier than the others. The accent stays a deeper tone so rings
 // and card edges still read on white.
 const BASE: Record<string, { name: string; hex: string; hexDark: string; bg: string; dark: boolean }> = {
+  // THE PAPER PAGE, the default since 14 September 2026. Justin, with Jonny's
+  // week page open: "having the calendar, which I love the design of ... the
+  // front page has the similar design as the calendar page, as looks great."
+  // The calendar page is The Happy Newspaper's page: a white ground, ink lines,
+  // white cards with ink edges, colour in the discs and the rainbow. So the
+  // child's home is that page now, the butter accent on it. Graphite stays in
+  // the map for any child who chose it; it is simply no longer the default.
+  paper:    { name: 'Paper',    hex: '#EDC35F', hexDark: '#C99A28', bg: '#F9F8F6', dark: false },
   graphite: { name: 'Graphite', hex: '#E7A33E', hexDark: '#B87D26', bg: 'linear-gradient(180deg, #4C5057 0%, #34373D 100%)', dark: true },
   ocean:    { name: 'Ocean',    hex: '#2E8B9E', hexDark: '#216875', bg: 'linear-gradient(180deg, #DCEEF6 0%, #C6E0EE 100%)', dark: false },
   grass:    { name: 'Grass',    hex: '#57A06A', hexDark: '#3F7A4F', bg: 'linear-gradient(180deg, #E1F1E6 0%, #CBE7D4 100%)', dark: false },
@@ -127,13 +135,14 @@ const BASE: Record<string, { name: string; hex: string; hexDark: string; bg: str
   midnight: { name: 'Midnight', hex: '#6FA8DC', hexDark: '#4E82B2', bg: 'linear-gradient(180deg, #2C3A57 0%, #202B40 100%)', dark: true },
 }
 
-export const DEFAULT_ACCENT = 'graphite'
+export const DEFAULT_ACCENT = 'paper'
 
 // The eight the picker offers: one clean choice from each part of the
 // spectrum plus a dark, so the row is a proper rainbow with no two the same
 // family. The other named colours stay in the map above so a child who already
 // picked one keeps it, they are just no longer offered as fresh duplicates.
-export const PICKER_ACCENTS = ['coral', 'peach', 'sunshine', 'mint', 'sky', 'lavender', 'bubblegum', 'midnight']
+// Paper first, so a child who tried a colour can come back to the page.
+export const PICKER_ACCENTS = ['paper', 'coral', 'peach', 'sunshine', 'mint', 'sky', 'lavender', 'bubblegum', 'midnight']
 
 // The foreground half, derived rather than typed out twelve times. The dark
 // values are exactly what the sub pages already hardcoded, so a child on the
