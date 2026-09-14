@@ -47,9 +47,11 @@ export default function DevAddJob() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>Add a job</h2>
           <JobComposer
             countToday={board.length}
+            ageBand={age}
+            childName="Alfie"
             placeholder="Feed the dog, violin"
-            help="Worth one star. You pick how often next."
-            onAdd={t => setLog(l => [...l, `typed: ${t}`])}
+            help="Worth one star, or make it a family job. You pick how often next."
+            onAdd={(t, when, band, days, familyJob) => { setBoard(b => [...b, t]); setLog(l => [...l, `typed: ${t} · ${when} · ${band ?? 'auto'} · ${familyJob ? 'family job' : '1 star'}`]) }}
           />
         </section>
         <JobPicker

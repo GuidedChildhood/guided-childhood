@@ -64,3 +64,9 @@ parent-timer fixture for the yes box and guide line).
 
 The agreement builder itself, the star rate, and any change to what the
 guide numbers are. Copy only where the surfaces already exist.
+
+## Built, 14 September 2026
+
+All five, in PR 1073. Guard check-deal-ties-together.mjs (sixteen rules,
+mutation tested), fixtures walked at both widths. See decisions.md.
+

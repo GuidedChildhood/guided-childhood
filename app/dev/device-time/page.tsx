@@ -33,11 +33,11 @@ export default function DeviceTimeFixture() {
     <div style={{ minHeight: '100dvh', background: '#3B3F47', padding: '10px 16px 40px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: 460, margin: '0 auto' }}>
         {label('Idle, stars in the bank')}
-        <DeviceTimeCard token="000000000000000000" balanceStars={6} initialSession={null} usedTodayMinutes={20} recommendedMinutes={90} deviceTrust="ask" outstandingJobs={['Tidy my room']} outstandingMinutes={10} />
+        <DeviceTimeCard token="000000000000000000" balanceStars={6} initialSession={null} usedTodayMinutes={20} recommendedMinutes={90} deviceTrust="ask" outstandingJobs={['Tidy my room']} outstandingMinutes={10} dealLines={['7pm on school nights, later at weekends', 'Stars from quests buy screen minutes, one star is five minutes']} />
         {label('Idle, no stars')}
         <DeviceTimeCard token="000000000000000000" balanceStars={0} initialSession={null} usedTodayMinutes={0} recommendedMinutes={90} deviceTrust="ask" outstandingJobs={['Tidy my room', 'Feed the cat']} outstandingMinutes={15} />
         {label('Picking, two stars short')}
-        <DeviceTimeCard token="000000000000000000" balanceStars={2} initialSession={null} usedTodayMinutes={0} recommendedMinutes={90} deviceTrust="ask" startPicking outstandingJobs={['Tidy my room']} outstandingMinutes={10} />
+        <DeviceTimeCard token="000000000000000000" balanceStars={2} initialSession={null} usedTodayMinutes={70} recommendedMinutes={90} deviceTrust="ask" startPicking outstandingJobs={['Tidy my room']} outstandingMinutes={10} dealLines={['7pm on school nights, later at weekends', 'Stars from quests buy screen minutes, one star is five minutes']} />
       </div>
     </div>
   )

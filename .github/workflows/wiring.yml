@@ -132,6 +132,12 @@ jobs:
       # expired or unsigned token. Runs the real helper against fake auth
       # answers. See the header of check-session-check.mjs.
       - run: node --experimental-strip-types scripts/check-session-check.mjs
+      # The deal ties together: a job says what it is worth at add time and
+      # can be a family job, the list says when the first week is full by
+      # age, the agreement is at the ask and at the yes, both sides are told
+      # about the guide, and DiGi knows a first hello. See the header of
+      # check-deal-ties-together.mjs.
+      - run: node --experimental-strip-types scripts/check-deal-ties-together.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

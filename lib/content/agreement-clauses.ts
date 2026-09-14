@@ -168,3 +168,37 @@ export function recommendedType(stageId: string | null): string {
   }
   return map[stageId ?? ''] ?? 'first-phone'
 }
+
+// ── THE DEAL AT ASK TIME ─────────────────────────────────────────────────────
+//
+// Justin, 14 September 2026: "we need to build in the family agreement at the
+// time they ask to use the device so it all ties in." The agreement was built,
+// signed and printed, and then lived on its own page; the one moment a family
+// actually needs it, a child asking for screen time and a parent deciding, never
+// showed it. These are the two clauses that moment is about: when screens go
+// off, and how time is earned. Read from the saved row's legacy text columns,
+// which every agreement has, so it works for one built before the structured
+// clauses existed. Used by the child's device time card and the parent's yes box.
+export type DealLine = { key: 'screens-off' | 'earn-time' | 'device-sleep'; text: string }
+
+export function dealLinesFrom(row: {
+  bedroom_rule_time?: string | null
+  bedroom_rule_location?: string | null
+  extra_agreements?: string | null
+} | null | undefined): DealLine[] {
+  if (!row) return []
+  const out: DealLine[] = []
+  const off = (row.bedroom_rule_time ?? '').trim()
+  if (off) out.push({ key: 'screens-off', text: off })
+  // The extra clauses are saved as "Title: option" lines. The earn time one
+  // is the line that prices the ask, so it comes first among them.
+  const extras = (row.extra_agreements ?? '').split('\n').map(l => l.trim()).filter(Boolean)
+  const earn = extras.find(l => l.startsWith(`${EARN_TIME.title}:`))
+  if (earn) out.push({ key: 'earn-time', text: earn.slice(EARN_TIME.title.length + 1).trim() })
+  if (out.length < 2) {
+    const sleep = (row.bedroom_rule_location ?? '').trim()
+    if (sleep) out.push({ key: 'device-sleep', text: sleep })
+  }
+  return out.slice(0, 2)
+}
+

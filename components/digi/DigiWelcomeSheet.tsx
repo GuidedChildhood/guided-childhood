@@ -63,8 +63,23 @@ export type WelcomeGuide = {
  *  without its cover and Home flashes underneath it. */
 export const SETUP_SEEN_KEY = 'gc_digi_setup_seen'
 
-export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo: ChildInfo[]; guide?: WelcomeGuide | null }) {
+export default function DigiWelcomeSheet({ childrenInfo, guide, newFamily = false }: {
+  childrenInfo: ChildInfo[]
+  guide?: WelcomeGuide | null
+  /**
+   * The account is under a week old, from Home. Justin, 14 September 2026:
+   * "the first ever intro is DiGi and it says welcome back, but the first
+   * time should acknowledge and know it is the first time." The sheet counts
+   * greetings in this browser; on its first one for a new family it says
+   * hello rather than welcome back. Both signals are needed: a new browser
+   * on an old account is a return, and an old browser never reaches a first.
+   */
+  newFamily?: boolean
+}) {
   const [step, setStep] = useState(0)
+  // True only on the very first greeting of a new family, decided when the
+  // sheet claims the day, before the count moves.
+  const [firstHello, setFirstHello] = useState(false)
   const router = useRouter()
   const [show, setShow] = useState(false)
   const [entered, setEntered] = useState(false)
@@ -131,6 +146,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
       // then, add one age relevant social media insight for one named child, so
       // it stays a gentle check rather than a lecture every day.
       const seen = count + 1
+      if (count === 0 && newFamily) setFirstHello(true)
       localStorage.setItem('gc_welcome_count', String(seen))
       if (seen > 3 && seen % 3 === 0 && childrenInfo.length > 0) {
         const child = childrenInfo[Math.floor(seen / 3) % childrenInfo.length]
@@ -229,7 +245,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           fontSize: 'clamp(1.9rem, 7vw, 2.4rem)', lineHeight: 1.08, letterSpacing: '-0.03em',
           margin: '0 0 16px',
         }}>
-          {step === 0 && <>Hey, it&apos;s DiGi.<br />Welcome back.</>}
+          {step === 0 && (firstHello ? <>Hey, it&apos;s DiGi.<br />Lovely to meet you.</> : <>Hey, it&apos;s DiGi.<br />Welcome back.</>)}
           {step === 1 && (guide?.setup
             ? <>Let us finish setting you up.</>
             : <>Today, one thing.</>)}
@@ -240,7 +256,9 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)',
           fontSize: 'var(--text-lg)', lineHeight: 1.55, margin: 0,
         }}>
-          I know life does not pause for {names}. What is on your mind today? Bring me up to speed and I will point us at the next small thing.
+          {firstHello
+            ? <>I am your guide here: the research, the words to use, and the next small thing to try for {names}. Tell me what is going on at home and we start there.</>
+            : <>I know life does not pause for {names}. What is on your mind today? Bring me up to speed and I will point us at the next small thing.</>}
         </p>
         )}
 

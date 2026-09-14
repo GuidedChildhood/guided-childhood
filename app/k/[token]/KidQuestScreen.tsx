@@ -97,7 +97,7 @@ import type { Stamp as KidBookStamp } from '@/components/pathway/PassportStamps'
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
   adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false, coreMinutesLeft = 0, protectedLine = null,
-  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
+  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], dealLines = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [], hasReminders = false,
@@ -127,6 +127,8 @@ export default function KidQuestScreen({
   sheetsDone?: number
   sheetStars?: number
   agreementItems?: { title: string; body: string }[]
+  /** The two deal lines the device time card shows at ask time (lib/content/agreement-clauses.ts). */
+  dealLines?: string[]
   agreementSigned?: boolean
   // The age based timer contract: which wording fits this child, whether the
   // database can hold the acceptance yet (migration 080), and when it was
@@ -1815,6 +1817,7 @@ export default function KidQuestScreen({
                 outstandingMinutes={quests.filter(q => !ticks[q.id]).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
                 ageBand={ageBand}
+                dealLines={dealLines}
                 deviceTrust={trust}
                 onAsked={a => {
                   setScreenAsk({ id: a.id, device: a.device, minutes: a.minutes, status: 'pending' })

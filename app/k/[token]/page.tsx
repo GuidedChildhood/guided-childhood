@@ -13,6 +13,7 @@ import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { getTimeSettings, getCoreUsedToday, checkProtectedWindow, PROTECTED_CHILD_LINE } from '@/lib/quests/time-tiers'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
+import { dealLinesFrom } from '@/lib/content/agreement-clauses'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
@@ -761,6 +762,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     add('Our extra promises', agreementRow.extra_agreements as string | null)
   }
   const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
+  // The two lines the device time card says back at the moment of asking.
+  const dealLines = dealLinesFrom(agreementRow as Parameters<typeof dealLinesFrom>[0]).map(l => l.text)
 
   let contractAgreedAt: string | null = null
   let contractReady = false
@@ -930,6 +933,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       token={token}
       agreementItems={agreementItems}
       agreementSigned={agreementSigned}
+      dealLines={dealLines}
       childName={childRes.data?.name ?? 'Superstar'}
       passportCode={(childRes.data as { passport_code?: string | null } | null)?.passport_code ?? null}
       planetTier={PLANET_FRIENDS_LIVE ? tierFor(dob ?? null, ageBand ?? null) : null}
