@@ -145,7 +145,21 @@ export default function KidFiveADay({
   onStateChange,
   weekDone = null,
   weekFriend = null,
+  asksPending = 0,
+  jobsLeft = [],
 }: {
+  /**
+   * Ideas already waiting on the grown up. Justin, 14 September 2026, with
+   * the ask row stuck at four of five: "one of child's tasks is add job but
+   * not letting me and not clearing." The suggest page caps pending ideas at
+   * five and the day at five, so a child whose grown up has not answered yet
+   * could never tick the row and never finish the day. An idea already with
+   * the grown up IS the ask done: the row ticks itself the way the jobs row
+   * does, and says so.
+   */
+  asksPending?: number
+  /** The jobs still to tick today, by name, so the jobs row says which. */
+  jobsLeft?: string[]
   /** The screen listens so the Today tab can say what is left (14 September 2026). */
   onStateChange?: (s: { left: number; total: number; complete: boolean; opened: boolean }) => void
   /** This week's full days, Monday to Sunday, from the day's own row. Always drawn when given. */
@@ -307,6 +321,14 @@ export default function KidFiveADay({
     void mark('jobs', true, jobsProgress && jobsProgress.total === 0 ? 'No jobs today' : null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, jobsAllDone])
+
+  // Ask for a job, when an idea is already with the grown up. See asksPending.
+  useEffect(() => {
+    if (!state || asksPending <= 0) return
+    if (!state.steps.includes('ask') || state.done.includes('ask')) return
+    void mark('ask', true, 'Idea already with your grown up')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, asksPending])
 
   // Move about, when the board already carries a job that IS moving about.
   //
@@ -524,9 +546,12 @@ export default function KidFiveADay({
                         : key === 'jobs' && jobsProgress && jobsProgress.total > 0
                           // Where they are up to, not a generic instruction. A
                           // child who has done four of six is told so, and the
-                          // number is the reason to tap.
-                          ? `${jobsProgress.done} of ${jobsProgress.total} done. Tap to see the rest`
-                          : def.hint}
+                          // jobs still to do are NAMED (14 September 2026), so
+                          // the five a day points at the board's own jobs.
+                          ? `${jobsProgress.done} of ${jobsProgress.total} done. Still to do: ${jobsLeft.slice(0, 3).join(', ')}${jobsLeft.length > 3 ? ` and ${jobsLeft.length - 3} more` : ''}`
+                          : key === 'ask' && asksPending > 0
+                            ? `Your idea is with your grown up. That counts`
+                            : def.hint}
                   </span>
                 )}
               </span>

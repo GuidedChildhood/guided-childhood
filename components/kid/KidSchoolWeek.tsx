@@ -388,8 +388,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               aria-label={aria}
               style={{
                 width: 44, height: 44, borderRadius: 'var(--radius-tile)', cursor: 'pointer',
-                background: '#fff', border: '2px solid var(--border)',
-                boxShadow: '0 3px 0 var(--border)',
+                background: '#fff', border: '2px solid var(--ink)',
+                boxShadow: '0 3px 0 var(--ink)',
                 fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1,
               }}
             >
@@ -412,12 +412,15 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               onClick={() => setPicked(d.dateIso)}
               aria-label={d.long}
               aria-current={isOpen ? 'date' : undefined}
+              // The Kenji note (14 September 2026): chunky white tiles with an
+              // ink edge and a ledge, the open day filled butter, today edged
+              // coral, a day gone by quiet. Never a yellow chip on yellow.
               style={{
                 flex: 1, minWidth: 0, padding: '8px 1px 7px', cursor: 'pointer',
-                borderRadius: 'var(--radius-tile)', textAlign: 'center',
-                background: isOpen ? 'var(--terracotta)' : '#fff',
-                border: `2px solid ${isOpen || d.isToday ? 'var(--terracotta)' : 'var(--border)'}`,
-                boxShadow: isOpen ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                borderRadius: 12, textAlign: 'center',
+                background: isOpen ? 'var(--terracotta)' : d.isPast ? 'rgba(255,255,255,0.6)' : '#fff',
+                border: `2px solid ${d.isToday && !isOpen ? '#E5734B' : isOpen || !d.isPast ? 'var(--ink)' : 'rgba(26,26,46,0.18)'}`,
+                boxShadow: isOpen ? '0 3px 0 var(--ink)' : d.isPast ? 'none' : `0 3px 0 ${d.isToday ? '#E5734B' : 'var(--ink)'}`,
               }}
             >
               {/* Three letters, not one. Two Ts and two Ss in a row of seven is
@@ -440,8 +443,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
                 {d.date ? d.date.getDate() : '·'}
               </span>
               <span aria-hidden style={{
-                display: 'block', width: 6, height: 6, borderRadius: '50%', margin: '4px auto 0',
-                background: hasSomething ? (isOpen ? 'var(--ink)' : 'var(--terracotta)') : 'transparent',
+                display: 'block', width: 7, height: 7, borderRadius: '50%', margin: '4px auto 0',
+                background: hasSomething ? (isOpen ? 'var(--ink)' : '#E5734B') : 'transparent',
               }} />
             </button>
           )
@@ -450,8 +453,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
 
       {/* The chosen day, big enough to read from across a room */}
       <div style={{
-        background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
-        boxShadow: '0 5px 0 var(--border)', padding: '16px 16px 18px',
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: 'var(--radius-card)',
+        boxShadow: '0 5px 0 var(--ink)', padding: '16px 16px 18px',
       }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -581,8 +584,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
             width: '100%', cursor: 'pointer', marginTop: 12, padding: '15px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             color: 'var(--ink)', background: 'var(--terracotta)',
-            border: 'none', borderRadius: 'var(--radius-btn)',
-            boxShadow: '0 5px 0 var(--terracotta-dark)',
+            border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)',
+            boxShadow: '0 5px 0 var(--ink)',
           }}
         >
           ＋ Add to {open.isToday ? 'today' : open.long}

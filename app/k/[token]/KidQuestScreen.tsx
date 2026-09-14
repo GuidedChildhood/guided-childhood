@@ -1551,6 +1551,8 @@ export default function KidQuestScreen({
           theme={theme}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
+          jobsLeft={quests.filter(q => !ticks[q.id]).map(q => q.title)}
+          asksPending={asks.filter(a => a.status === 'pending').length}
           newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}

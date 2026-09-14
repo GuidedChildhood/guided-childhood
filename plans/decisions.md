@@ -14943,3 +14943,25 @@ a count pill, one line under. Used under the five a day (full days), on the
 book's Every day page (daily stickers) and on the balance card (quest days),
 each with its own tone. The Kenji move is the dotted sky and the character
 on the tile; the palette, the ribbon and the plates are ours.
+
+## 14 September 2026, evening: the ask row cannot get stuck, and the week page leaves the yellow
+
+Justin, with Jonny's home at four of five ("one of child's tasks is add job
+but not letting me and not clearing; maybe if too many jobs there to do it
+should be highlighting the platform jobs to do as part of the five, and once
+done they can then add; bit of a token loop") and Jonny's week page, a slab
+of butter with the back link under the clock.
+
+- **An idea already with the grown up IS the ask done.** The suggest page
+  caps pending ideas at five and the day at five, so a child whose grown up
+  had not answered could never tick Ask for a job and never finish the day.
+  The row ticks itself when any idea is pending, the way the jobs row does
+  when the board is clear, and says "Your idea is with your grown up. That
+  counts." The jobs row now names the jobs still to do, so the five points
+  at the board's own jobs first.
+- **The child's week page** sits on the same dotted sky as the week row,
+  with their Friend on a plate beside the title, chunky white day tiles with
+  ink edges and ledges (open day butter, today coral), the chosen day in an
+  ink edged card, and the back link clear of the status bar. The chips keep
+  Google's calendar colours on their washes, which is what a light ground was
+  always for. Fixture `/dev/kid-school-week`.
