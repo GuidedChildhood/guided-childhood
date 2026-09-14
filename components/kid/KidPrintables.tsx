@@ -66,7 +66,7 @@ const KIND_CHIPS: { key: 'all' | Printable['kind']; label: string }[] = [
 
 export default function KidPrintables({
   token, childName, printables, asks, submitAsk, printablesUnlocked, sheetsDone, sheetStars, onHappyNews,
-  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)', onStepTicked, dealFacts,
+  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'var(--ink-soft)', onStepTicked, dealFacts,
 }: {
   token: string
   childName: string
@@ -84,7 +84,16 @@ export default function KidPrintables({
   openKey?: string | null
   /** A print just landed one of today's five: the home screen walks the child back to the day. */
   onStepTicked?: (tick: PrintableTick) => void
-  /** Text straight on the child's background, from their theme. */
+  /**
+   * Text straight on the child's background, from their theme.
+   *
+   * The fallback is ink, not white. It used to be white at 86 percent, written
+   * when every child stood on the anthracite gradient, and that turned into
+   * near white on near white the day Paper became the default. The real tab
+   * always passes theme.inkSoft, so only a caller that leaves it out was ever
+   * at risk, but a default that is only right on one theme is a trap waiting
+   * for the next caller.
+   */
   tallyColor?: string
   /** What the app already knows about this child's deal, written onto the drawn sheets. */
   dealFacts?: DealFacts

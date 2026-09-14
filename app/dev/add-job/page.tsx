@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import JobPicker, { type PickerJob } from '@/components/quests/JobPicker'
 import JobComposer from '@/components/quests/JobComposer'
+import JobGuideCard from '@/components/quests/JobGuideCard'
+import { jobGuide } from '@/lib/quests/job-guide'
 
 // The add a job screen, with fixture data, so it can be screenshotted and
 // tapped through without a parent session. ?age=4-7 picks the stage, ?app=0
@@ -23,8 +25,27 @@ export default function DevAddJob() {
     setAge(params.get('age') ?? '8-10')
     setHasApp(params.get('app') !== '0')
     setFail(params.get('fail') === '1')
+    // ?board=12 seeds twelve daily jobs on the board, the state Justin hit on
+    // 14 September 2026; ?weeks=2 says two weeks went well. The guide card
+    // reads both.
+    const n = Number(params.get('board') ?? '1')
+    if (Number.isFinite(n) && n > 1) setBoard(Array.from({ length: n }, (_, i) => i === 0 ? 'Homework before screens' : `Seeded job ${i + 1}`))
+    const w = Number(params.get('weeks') ?? '0')
+    if (Number.isFinite(w) && w > 0) {
+      // Four ticks inside each week, Monday to Thursday, so a week reads as
+      // going well whatever today's weekday is.
+      const monday = new Date(); monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7))
+      const dates: string[] = []
+      for (let k = 0; k < w; k++) for (let d = 0; d < 4; d++) {
+        const x = new Date(monday); x.setDate(monday.getDate() - k * 7 + d)
+        dates.push(`${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`)
+      }
+      setApproved(dates)
+    }
   }, [])
   const [board, setBoard] = useState<string[]>(['Homework before screens'])
+  const [approved, setApproved] = useState<string[]>([])
+  const guide = jobGuide(age, board.length, approved)
   const [log, setLog] = useState<string[]>([])
 
   async function onAdd(job: PickerJob) {
@@ -47,6 +68,7 @@ export default function DevAddJob() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>Add a job</h2>
           <JobComposer
             countToday={board.length}
+            comfortable={guide.guide}
             ageBand={age}
             childName="Alfie"
             placeholder="Feed the dog, violin"
@@ -54,6 +76,7 @@ export default function DevAddJob() {
             onAdd={(t, when, band, days, familyJob) => { setBoard(b => [...b, t]); setLog(l => [...l, `typed: ${t} · ${when} · ${band ?? 'auto'} · ${familyJob ? 'family job' : '1 star'}`]) }}
           />
         </section>
+        <JobGuideCard guide={guide} childName="Alfie" onSeeJobs={() => setLog(l => [...l, 'trim: see their jobs'])} />
         <JobPicker
           childName="Alfie"
           ageBand={age}

@@ -7,6 +7,8 @@ import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import KidStepSheet from '@/components/kid/KidStepSheet'
 import { Ribbon } from '@/components/kid/HappyNewsBits'
 import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import KidMission from '@/components/kid/KidMission'
+import type { MissionRow } from '@/lib/kid/mission'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 
@@ -145,6 +147,7 @@ export default function KidFiveADay({
   onStateChange,
   weekDone = null,
   weekFriend = null,
+  mission = null,
   asksPending = 0,
   jobsLeft = [],
 }: {
@@ -166,6 +169,8 @@ export default function KidFiveADay({
   weekDone?: { letter: string; earned: boolean; isToday: boolean }[] | null
   /** The child's own Planet Friend, on every full day of the week row. */
   weekFriend?: { name: string; img: string } | null
+  /** What the five are for: the next sticker on each objective (lib/kid/mission.ts). Drawn under the week. */
+  mission?: MissionRow[] | null
   token: string
   childName?: string
   /** Whether every job due today is ticked, which is step one's own condition. */
@@ -424,6 +429,11 @@ export default function KidFiveADay({
           <WeekDone week={weekDone} friend={weekFriend} />
         </div>
       )}
+      {mission && mission.length > 0 && (
+        <div data-mission-site="done" style={{ margin: '-6px 0 16px' }}>
+          <KidMission rows={mission} />
+        </div>
+      )}
       </>
     )
   }
@@ -456,6 +466,7 @@ export default function KidFiveADay({
         }} />
       </div>
       {weekDone && <div style={{ margin: '-4px 0 14px' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
+      {mission && mission.length > 0 && <div data-mission-site="open" style={{ margin: '-4px 0 14px' }}><KidMission rows={mission} compact /></div>}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {/* Done steps first, as slim ticked lines: the climb so far. */}

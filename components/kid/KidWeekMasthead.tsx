@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { HAPPY, RainbowArc, StarShape } from '@/components/kid/HappyNewsBits'
 
 // The masthead on the child's week page.
@@ -16,10 +17,14 @@ import { HAPPY, RainbowArc, StarShape } from '@/components/kid/HappyNewsBits'
 //
 // Shared by the real page and the fixture so the two cannot drift.
 
-export default function KidWeekMasthead({ title, sub, friend }: {
+export default function KidWeekMasthead({ title, sub, friend, kicker, corner }: {
   title: string
   sub: string
   friend: { name: string; img: string }
+  /** A small mono line above the title on the sheet: the greeting on the home. */
+  kicker?: string
+  /** Something to sit in the top right corner over the rainbow: the home's sound switch. */
+  corner?: ReactNode
 }) {
   return (
     <div data-week-masthead style={{
@@ -30,7 +35,9 @@ export default function KidWeekMasthead({ title, sub, friend }: {
       {/* The rainbow, painted across the top and cropped by the card, the way
           the paper's photo crops it. */}
       <RainbowArc painted width={360} style={{ position: 'absolute', left: '-6%', top: -12, width: '112%', height: 'auto' }} />
-      <span aria-hidden style={{ position: 'absolute', right: 12, top: 10 }}><StarShape size={14} color={HAPPY.coral} /></span>
+      {corner
+        ? <span style={{ position: 'absolute', right: 10, top: 10, zIndex: 1 }}>{corner}</span>
+        : <span aria-hidden style={{ position: 'absolute', right: 12, top: 10 }}><StarShape size={14} color={HAPPY.coral} /></span>}
 
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
         {/* The sheet: white, ink edged, a touch of tilt, the name over the sun. */}
@@ -40,6 +47,11 @@ export default function KidWeekMasthead({ title, sub, friend }: {
           transform: 'rotate(-1.5deg)', overflow: 'hidden',
         }}>
           <span aria-hidden style={{ position: 'absolute', left: -14, top: -16, width: 74, height: 74, borderRadius: '50%', background: HAPPY.butter }} />
+          {kicker && (
+            <p data-masthead-kicker style={{ position: 'relative', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 3px' }}>
+              {kicker}
+            </p>
+          )}
           <h1 style={{
             position: 'relative', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.55rem, 6.4vw, 2rem)',
             letterSpacing: '-0.02em', lineHeight: 1.05, margin: 0, color: HAPPY.ink,

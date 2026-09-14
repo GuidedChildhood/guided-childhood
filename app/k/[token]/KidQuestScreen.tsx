@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import type { DrawnKey } from '@/components/printables/drawn'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
@@ -53,6 +53,8 @@ import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import KidStickerLand from '@/components/kid/KidStickerLand'
 import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import KidWeekMasthead from '@/components/kid/KidWeekMasthead'
+import { buildMission } from '@/lib/kid/mission'
 import type { DailyStickers } from '@/components/kid/KidStickers'
 import type { TodayTab } from '@/components/kid/KidTabBar'
 import type { KidSticker } from '@/components/kid/KidStickers'
@@ -547,6 +549,15 @@ export default function KidQuestScreen({
   // more. The server read still wins on the next load.
   const [liveStreaks, setLiveStreaks] = useState(completedStreaks)
   const [liveDays, setLiveDays] = useState(completedDays)
+  // THE WEEK ROW MOVES THE MOMENT THE DAY LANDS. Justin, 14 September 2026,
+  // with Today is done above a week row still saying finish today: the row
+  // was the server's read from before the last tick. Today is marked done
+  // here on the transition; the server read still wins on the next load.
+  const [week, setWeek] = useState(dailyStickers?.week ?? null)
+  useEffect(() => { setWeek(dailyStickers?.week ?? null) }, [dailyStickers])
+  const markTodayDone = useCallback(() => {
+    setWeek(w => (w ? w.map(d => (d.isToday ? { ...d, earned: true } : d)) : w))
+  }, [])
 
   // FINISHING A DAY DOES NOT ALWAYS ADD ONE.
   //
@@ -574,6 +585,11 @@ export default function KidQuestScreen({
     setLiveStreaks(next)
     return next
   }, [liveDays, jobStreaks])
+
+  // THE MISSION: the next sticker on each objective, read off the book the
+  // screen already holds. The friend row takes the live full days so it moves
+  // with the day. See lib/kid/mission.ts.
+  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks }), [stickers, liveStreaks])
 
   // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
   //
@@ -1335,6 +1351,7 @@ export default function KidQuestScreen({
       {activeGame && (
         <QuestGamePlayer
           game={activeGame}
+          theme={theme}
           onComplete={() => recordGame(activeGame)}
           onClose={() => setActiveGame(null)}
         />
@@ -1439,26 +1456,36 @@ export default function KidQuestScreen({
             the corner so a child (or a grown up) can turn the sounds off any
             time. The eyebrow greets by the child's own clock, mounted after
             first paint so the server and the first client render agree. */}
-        <div style={{ position: 'relative', textAlign: 'center', marginBottom: '18px' }}>
-          <button
-            onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
-            aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
-            style={{
-              position: 'absolute', top: 0, right: 0, width: 40, height: 40, borderRadius: '50%',
-              background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
-              cursor: 'pointer', fontSize: 'var(--text-lg)', lineHeight: 1, color: 'var(--ink)',
-            }}
-          >
-            {soundOn ? '🔊' : '🔇'}
-          </button>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkSoft, marginBottom: 6 }}>
-            {greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
-          </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
-            Go {childName}!
-          </h1>
-          {/* Make it mine now lives as its own tile in the grid below, with
-              everything else that is not a to do. */}
+        {/* THE MASTHEAD. Justin, 14 September 2026, with Jonny's week page
+            open: "the front page has the similar design as the calendar
+            page, as looks great." So the greeting is the same masthead the
+            week page opens with: the painted rainbow, the white sheet with
+            the name over a sun disc, the child's own Friend on a plate, and
+            the little sound switch in the corner. The line under the name is
+            the day in one breath. Make it mine lives as its own tile below. */}
+        <div data-home-masthead style={{ width: '100%', maxWidth: 560 }}>
+          <KidWeekMasthead
+            kicker={greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
+            title={`Go ${childName}!`}
+            sub={todayTab.complete
+              ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
+              : todayTab.total > 0
+                ? `${todayTab.left} of your five to go.`
+                : 'Your five for today are just below.'}
+            friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+            corner={
+              <button
+                onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
+                aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
+                style={{
+                  width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)',
+                  boxShadow: '0 2px 0 var(--ink)', cursor: 'pointer', fontSize: 'var(--text-base)', lineHeight: 1, color: 'var(--ink)',
+                }}
+              >
+                {soundOn ? '🔊' : '🔇'}
+              </button>
+            }
+          />
         </div>
 
         {/* The fate of their screen time ask, right under the greeting so it
@@ -1567,11 +1594,13 @@ export default function KidQuestScreen({
             // once a star week, and the Friend arrival follows it on the
             // days a Friend is earned (see the close handler below).
             if (streakDueThisWeek) markStreakWeekSeen()
+            markTodayDone()
             setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
           }}
           onStateChange={onTodayState}
-          weekDone={dailyStickers?.week ?? null}
+          weekDone={week}
           weekFriend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+          mission={mission}
         />
 
         {/* What a grown up sent, straight after the five a day. These two
@@ -1988,7 +2017,7 @@ export default function KidQuestScreen({
             childName={childName}
             stickers={stickers}
             celebrateStickers={bookCelebrate}
-            daily={dailyStickers ? { ...dailyStickers, friend: { name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img } } : null}
+            daily={dailyStickers ? { ...dailyStickers, total: liveDays, week: week ?? dailyStickers.week, friend: { name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img } } : null}
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}

@@ -6,6 +6,12 @@ import KidPassport from '@/components/kid/KidPassport'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { STICKERS, sortedSticker, stickerArt } from '@/lib/stickers/catalog'
+import { DEFAULT_ACCENT, resolveTheme } from '@/lib/kid/theme'
+
+// The ground a real child stands on. Justin, 14 September 2026, made Paper the
+// default theme, so a fixture still painted the old anthracite was showing a
+// screen that no longer exists. Ask the theme rather than naming a colour.
+const T = resolveTheme(DEFAULT_ACCENT)
 
 // Dev only fixture: the child's passport with every page, and the sorted win.
 //
@@ -86,7 +92,7 @@ export default function KidPassportFixture() {
   }, [])
   if (!q) return null
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: T.bg, fontFamily: 'var(--font-body)' }}>
       {win && (
         <KidWinPop token="0123456789abcdef01" wins={[SORTED_WIN]} onDone={() => setWin(false)} onOpenBook={() => { setWin(false); setOpen(true) }} />
       )}

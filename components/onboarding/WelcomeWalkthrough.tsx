@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 're
 import gsap from 'gsap'
 import Celebration from '@/components/ui/Celebration'
 import WorryIcon, { type WorryIconName } from '@/components/onboarding/WorryIcon'
+import { DEFAULT_ACCENT, resolveTheme } from '@/lib/kid/theme'
 
 // The first welcome: a celebration, then the day, one card at a time.
 //
@@ -231,6 +232,14 @@ function SceneDigi() {
   )
 }
 
+// The child's app as their parent will actually see it over their shoulder.
+//
+// Justin, 14 September 2026, made Paper the default theme, so the anthracite
+// card this mock used to draw was a screen that no longer exists. A parent
+// shown a dark app and handed a cream one has been told a small lie on the
+// very first screen, so the mock asks the theme the same way the real app does.
+const KID = resolveTheme(DEFAULT_ACCENT)
+
 function SceneChild({ name }: { name: string }) {
   const done = (label: string) => (
     <div data-rise style={{ display: 'flex', alignItems: 'center', gap: 10, opacity: 0.7 }}>
@@ -239,21 +248,21 @@ function SceneChild({ name }: { name: string }) {
     </div>
   )
   return (
-    <div style={{ width: '100%', maxWidth: 330, background: 'var(--kid-bg)', borderRadius: 'var(--radius-card)', padding: 16, display: 'flex', flexDirection: 'column', gap: 12, color: '#fff' }}>
+    <div style={{ width: '100%', maxWidth: 330, background: KID.bg, border: `1.5px solid ${KID.panelBorder}`, borderRadius: 'var(--radius-card)', padding: 16, display: 'flex', flexDirection: 'column', gap: 12, color: KID.ink, boxShadow: `0 5px 0 ${KID.shadow}` }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>{name}&rsquo;s five for today</div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', opacity: 0.8 }}>2 of 5</div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: KID.inkMuted }}>2 of 5</div>
       </div>
-      <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'rgba(255,255,255,0.15)', overflow: 'hidden' }}><div style={{ width: '40%', height: '100%', background: BUTTER, borderRadius: 'var(--radius-pill)' }} /></div>
+      <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}><div style={{ width: '40%', height: '100%', background: KID.hex, borderRadius: 'var(--radius-pill)' }} /></div>
       {done('Tidy my room')}
       {done('A lesson')}
-      <div data-rise style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', border: `2px solid #EDC35F`, borderRadius: 'var(--radius-tile)', padding: '10px 12px', boxShadow: '0 4px 0 #C99A28' }}>
-        <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Star size={18} /></div>
+      <div data-rise style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `2px solid ${KID.hex}`, borderRadius: 'var(--radius-tile)', padding: '10px 12px', boxShadow: `0 4px 0 ${KID.hexDark}` }}>
+        <div style={{ width: 30, height: 30, borderRadius: '50%', background: KID.hex, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Star size={18} /></div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>Check my balance</div>
-          <div style={{ fontSize: 'var(--text-sm)', opacity: 0.8 }}>12 stars = 60 minutes this week</div>
+          <div style={{ fontSize: 'var(--text-sm)', color: KID.inkSoft }}>12 stars = 60 minutes this week</div>
         </div>
-        <div style={{ fontWeight: 900, opacity: 0.6 }}>›</div>
+        <div style={{ fontWeight: 900, color: KID.inkMuted }}>&rsaquo;</div>
       </div>
     </div>
   )
