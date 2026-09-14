@@ -76,7 +76,10 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   // On the DiGi chat the page has its own bottom compose bar, so the floating
   // action would sit on top of the Send button. Hide it there: the parent is
   // already talking to DiGi.
-  const hideFab = pathname?.startsWith('/dashboard/digi')
+  // And off the keepsakes shop (14 September 2026): Justin's screenshot had
+  // the button sat on top of a product's own copy, and a shop page has its
+  // basket bar at the foot already.
+  const hideFab = pathname?.startsWith('/dashboard/digi') || pathname?.startsWith('/dashboard/keepsakes')
   const [open, setOpen] = useState(false)
   const [entered, setEntered] = useState(false)
   const [mounted, setMounted] = useState(false)

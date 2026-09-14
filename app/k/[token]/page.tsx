@@ -14,6 +14,7 @@ import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { getTimeSettings, getCoreUsedToday, checkProtectedWindow, PROTECTED_CHILD_LINE } from '@/lib/quests/time-tiers'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { dealLinesFrom } from '@/lib/content/agreement-clauses'
+import { promisesFrom } from '@/lib/content/agreement-promises'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
@@ -232,7 +233,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // always there to read, not only on the parent side.
     supabase
       .from('family_agreements')
-      .select('family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child')
+      .select('agreement_type, clauses, family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child, review_date')
       .eq('user_id', link.user_id)
       .maybeSingle(),
 
@@ -408,7 +409,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // as one wave, and the page has waited exactly twice after finding the link.
   const [
     missionTitles, banks, holidayBank, tierSettingsRes, stageLessonRes,
-    brief, schoolQuestRes, passportBuilt, stickerRead,
+    brief, schoolQuestRes, passportBuilt, stickerRead, dailyWeekRes,
   ] = await Promise.all([
     starLessonTitles(supabase, (missionRows ?? []).map(m => m.lesson_id)),
     // The star bank (earned ever, spent as screen time, what is left). Age
@@ -481,17 +482,30 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // Both reads fail soft, so a family on an older database simply sees no book.
     // They are one soft group because the old try wrapped them together: either
     // failing cleared all three lists, and it still does.
-    soft(Promise.all([
-      getStickerBook(supabase, link.user_id, { id: link.child_id, age_band: ageBand ?? null }),
-      // Both halves of the flag, because the child app needs each for a
-      // different thing: what is still owed a celebration, and what has already
-      // had one. Without the second, a Friend earned on the live path could be
-      // celebrated again on another device, which is the thing Justin actually
-      // saw. One read, two lists.
-      supabase
-        .from('earned_stickers').select('sticker_key, celebrated')
-        .eq('child_id', link.child_id),
-    ])),
+    // ── IN ORDER, NOT IN PARALLEL (14 September 2026) ──────────────────────
+    //
+    // These two used to run side by side, and the seen read usually finished
+    // before the book had written the sticker it just derived, so the load a
+    // sticker was earned on was the one load that could not celebrate it. It
+    // showed up next time, on a day it meant less. The book writes first now,
+    // and tells the parent (notify) on the child's own load only.
+    soft(getStickerBook(supabase, link.user_id, { id: link.child_id, age_band: ageBand ?? null }, { notify: { childName: childRes.data?.name ?? null } })
+      .then(async book => [
+        book,
+        // Both halves of the flag, because the child app needs each for a
+        // different thing: what is still owed a celebration, and what has
+        // already had one. Without the second, a Friend earned on the live path
+        // could be celebrated again on another device, which is the thing
+        // Justin actually saw. One read, two lists.
+        await supabase
+          .from('earned_stickers').select('sticker_key, celebrated')
+          .eq('child_id', link.child_id),
+      ] as const)),
+    // This week's daily stickers, for the Every day page and the week row
+    // under the five a day. Both read the one column migration 284 wrote.
+    soft(supabase
+      .from('kid_days').select('day, sticker_awarded_at, completed_at')
+      .eq('child_id', link.child_id).gte('day', new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10))),
   ])
 
   // ── EVERYTHING BELOW IS SHAPING, NO MORE WAITING ────────────────────────────
@@ -747,20 +761,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
 
   // Only the sections the family actually filled in show, in child friendly words.
   const agreementRow = agreementRes.data
-  const agreementItems: { title: string; body: string }[] = []
-  if (agreementRow) {
-    const add = (title: string, body?: string | null) => {
-      const t = (body ?? '').trim()
-      if (t) agreementItems.push({ title, body: t })
-    }
-    add('What matters to us', agreementRow.family_values as string | null)
-    const bedtime = [agreementRow.bedroom_rule_time, agreementRow.bedroom_rule_location]
-      .map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
-    add('Phones at bedtime', bedtime)
-    add('Apps and social media', agreementRow.social_media_terms as string | null)
-    add('If something goes wrong', agreementRow.when_things_go_wrong as string | null)
-    add('Our extra promises', agreementRow.extra_agreements as string | null)
-  }
+  // ONE READER (14 September 2026): the same promises the fridge sheet and
+  // the parent's copy print, each with its icon and its why, so the deal on
+  // the phone is the deal on the wall.
+  const agreementItems: { title: string; body: string; emoji?: string; why?: string | null }[] =
+    promisesFrom(agreementRow as Parameters<typeof promisesFrom>[0]).map(p => ({ title: p.title, body: p.body, emoji: p.emoji, why: p.why }))
   const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
   // Each side on its own, so the child's Our deal can offer their own I agree
   // when it is their signature that is missing (14 September 2026).
@@ -902,6 +907,20 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     }
   }
 
+  // ── THIS WEEK'S DAILY STICKERS, MONDAY TO SUNDAY ─────────────────────────
+  //
+  // The same seven the day done screen draws, but from the day's own row
+  // (kid_days.sticker_awarded_at) rather than from job ticks, so a day where
+  // the child ticked one job and stopped is not drawn as a full day. Days
+  // ahead are drawn empty so the week keeps its shape.
+  const dailyRows = ((dailyWeekRes as { data?: { day: string; sticker_awarded_at?: string | null; completed_at?: string | null }[] | null } | null)?.data ?? [])
+  const stickerDays = new Set(dailyRows.filter(r => r.sticker_awarded_at || r.completed_at).map(r => String(r.day)))
+  const dailyWeek = Array.from({ length: 7 }, (_, i) => {
+    const off = sinceMonday - i
+    return { letter: 'MTWTFSS'[i], earned: off >= 0 && stickerDays.has(dayStr(off)), isToday: off === 0 }
+  })
+  const dailyStickers = { total: completedDays, week: dailyWeek }
+
   let streakWeekSeen: string | null = null
   if (streakWeekSeenRes && !streakWeekSeenRes.error) {
     streakWeekSeen = (streakWeekSeenRes.data as { streak_week_seen?: string | null } | null)?.streak_week_seen ?? null
@@ -922,6 +941,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       <KidQuestScreen
       familyDevices={familyDevices}
       stickers={kidStickers}
+      dailyStickers={dailyStickers}
       celebrateStickers={celebrateStickers}
       celebratedStickers={celebratedStickers}
       streakWeekSeen={streakWeekSeen}

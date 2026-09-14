@@ -26,7 +26,7 @@ const ACTIONS = [
 
 export default function SchoolWeekFixture() {
   return (
-    <div style={{ background: 'var(--cream)', minHeight: '100dvh', padding: '30px 20px' }}>
+    <div style={{ background: 'radial-gradient(circle at 12px 10px, #E5734B55 3px, transparent 3.5px), radial-gradient(circle at 36px 30px, #EDC35F88 3px, transparent 3.5px), var(--tint-blue, #D8E8F8)', backgroundSize: '48px 40px, 48px 40px, auto', minHeight: '100dvh', padding: '30px 20px' }}>
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
         <FoldSection label="School reminders" count={ACTIONS.length} open>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

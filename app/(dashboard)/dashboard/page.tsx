@@ -55,6 +55,8 @@ import MonthlyShopSheet from '@/components/shop/MonthlyShopSheet'
 import DigiWelcomeSheet, { SETUP_SEEN_KEY } from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import ChildDayStrip from '@/components/daily/ChildDayStrip'
+import StickerNewsCard from '@/components/home/StickerNewsCard'
+import { readStickerNews } from '@/lib/stickers/latest'
 import { readTodayState } from '@/lib/kid/today-state'
 import CatchupCard from '@/components/daily/CatchupCard'
 import { rollVisit, getCatchup } from '@/lib/pathway/catchup'
@@ -248,7 +250,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // used to trail behind it as their own awaits (the holiday flags, the child's
   // day, the family handover, the free time answers) need only user.id or the
   // selected child's id, so they ride here and cost no extra round trip.
-  const [nudgeFacts, familyRegion, visit, schoolHolidayRes, childDay, familyHandover, timeRowsRes] = await Promise.all([
+  const [nudgeFacts, familyRegion, visit, schoolHolidayRes, childDay, familyHandover, stickerNews, timeRowsRes] = await Promise.all([
     readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string),
       Object.fromEntries(allKids.map(k => [k.id as string, (k.age_band as string | null) ?? null]))),
     getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
@@ -298,6 +300,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // the old behaviour, because a Home page that stops rendering over a nudge
     // check is a far worse bug than a nudge.
     getFamilyHandover(supabase, user.id).catch(() => null),
+    // What the child earned this week, for the news card. Fails soft inside.
+    readStickerNews(supabase, child?.id ?? null),
     // The free time question, answered per child (6 September 2026). A
     // child_time_settings row exists once the parent has picked, and "none"
     // writes one too.
@@ -1192,6 +1196,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           themselves, and because it is one line: putting it under four steps
           means it is read last or not at all. See ChildDayStrip for why it names
           what is left rather than only counting it. */}
+      {/* Good news first: what they earned this week and why, with the
+          passport doors on the first one (14 September 2026). */}
+      {hasKidLink && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} childId={child?.id ?? null} />

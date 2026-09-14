@@ -6,6 +6,7 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import KidStepSheet from '@/components/kid/KidStepSheet'
 import { Ribbon } from '@/components/kid/HappyNewsBits'
+import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 
@@ -106,6 +107,29 @@ function DaySticker({ earned, size = 34 }: { earned: boolean; size?: number }) {
   )
 }
 
+// EACH DAY DONE, SHOWN. Justin, 14 September 2026: "each day done shows
+// clearly done." The only always visible week row read job ticks, so one
+// tick drew a full day. This one reads the day's own row and sits under the
+// five a day in both its states, so a finished Tuesday is still a finished
+// Tuesday on Thursday. Drawn by KidWeekCalendar since the Kenji note the
+// same afternoon: the child's Friend on every full day, never a yellow tick.
+function WeekDone({ week, friend }: { week: { letter: string; earned: boolean; isToday: boolean }[]; friend: { name: string; img: string } | null }) {
+  const today = week.findIndex(d => d.isToday)
+  const days = week.map((d, i) => ({ letter: d.letter, done: d.earned, isToday: d.isToday, ahead: today >= 0 && i > today }))
+  const n = week.filter(d => d.earned).length
+  return (
+    <div data-week-done style={{ marginTop: 10 }}>
+      <KidWeekCalendar
+        days={days}
+        friend={friend}
+        title="My week"
+        count={{ n, word: n === 1 ? 'full day' : 'full days' }}
+        line={n === 0 ? 'A fresh week. Finish today and your Friend lands here.' : n >= 5 ? `${n} full days. Your Friend is everywhere!` : `${n} full day${n === 1 ? '' : 's'} so far. Keep going.`}
+      />
+    </div>
+  )
+}
+
 export default function KidFiveADay({
   token,
   childName,
@@ -118,7 +142,30 @@ export default function KidFiveADay({
   onDayComplete,
   initialState = null,
   theme,
+  onStateChange,
+  weekDone = null,
+  weekFriend = null,
+  asksPending = 0,
+  jobsLeft = [],
 }: {
+  /**
+   * Ideas already waiting on the grown up. Justin, 14 September 2026, with
+   * the ask row stuck at four of five: "one of child's tasks is add job but
+   * not letting me and not clearing." The suggest page caps pending ideas at
+   * five and the day at five, so a child whose grown up has not answered yet
+   * could never tick the row and never finish the day. An idea already with
+   * the grown up IS the ask done: the row ticks itself the way the jobs row
+   * does, and says so.
+   */
+  asksPending?: number
+  /** The jobs still to tick today, by name, so the jobs row says which. */
+  jobsLeft?: string[]
+  /** The screen listens so the Today tab can say what is left (14 September 2026). */
+  onStateChange?: (s: { left: number; total: number; complete: boolean; opened: boolean }) => void
+  /** This week's full days, Monday to Sunday, from the day's own row. Always drawn when given. */
+  weekDone?: { letter: string; earned: boolean; isToday: boolean }[] | null
+  /** The child's own Planet Friend, on every full day of the week row. */
+  weekFriend?: { name: string; img: string } | null
   token: string
   childName?: string
   /** Whether every job due today is ticked, which is step one's own condition. */
@@ -153,7 +200,7 @@ export default function KidFiveADay({
   /** Jobs completes on this screen, so the parent scrolls the list into view. */
   onOpenJobs: () => void
   /** Fired once when the fifth step lands, for the celebration. */
-  onDayComplete?: (streak: number, day: { steps: StepKey[]; done: StepKey[]; completedDays?: number }) => void
+  onDayComplete?: (streak: number, day: { steps: StepKey[]; done: StepKey[]; completedDays?: number; sticker?: boolean }) => void
   /**
    * A ready made day, for the ref fixtures only. When set, the card renders
    * it and never calls /api/kid/day, which no fixture can answer. Production
@@ -170,6 +217,12 @@ export default function KidFiveADay({
 }) {
   const t = theme ?? resolveTheme(null)
   const [state, setState] = useState<DayState | null>(initialState)
+  useEffect(() => {
+    if (!onStateChange) return
+    const total = state?.steps.length ?? 0
+    const left = state ? state.steps.filter(k => !state.done.includes(k)).length : 0
+    onStateChange({ left, total, complete: !!state?.complete, opened: total > 0 })
+  }, [state, onStateChange])
   const [busy, setBusy] = useState<StepKey | null>(null)
   // The step whose sheet is open. A self tick step opens this instead of
   // ticking, which is the whole of the "flashed off as soon as clicked" fix.
@@ -205,7 +258,7 @@ export default function KidFiveADay({
       // is one replay of a good thing.
       if (d.complete && !celebratedToday(d.day)) {
         rememberCelebrated(d.day)
-        onDayComplete?.(d.streak, { steps: d.steps, done: d.done ?? d.steps })
+        onDayComplete?.(d.streak, { steps: d.steps, done: d.done ?? d.steps, sticker: !!d.sticker })
       }
     } catch { /* the card simply does not show, or keeps what it had */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -249,7 +302,7 @@ export default function KidFiveADay({
       if (t.ticked) playKidSound('star')
       if (t.justCompleted) {
         rememberCelebrated(before?.day)
-        onDayComplete?.(t.streak, { steps: t.steps.length > 0 ? t.steps : (before?.steps ?? []), done: t.done })
+        onDayComplete?.(t.streak, { steps: t.steps.length > 0 ? t.steps : (before?.steps ?? []), done: t.done, sticker: !!(t as { sticker?: boolean }).sticker })
       }
     }
     window.addEventListener(KID_DAY_EVENT, onTick)
@@ -268,6 +321,14 @@ export default function KidFiveADay({
     void mark('jobs', true, jobsProgress && jobsProgress.total === 0 ? 'No jobs today' : null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, jobsAllDone])
+
+  // Ask for a job, when an idea is already with the grown up. See asksPending.
+  useEffect(() => {
+    if (!state || asksPending <= 0) return
+    if (!state.steps.includes('ask') || state.done.includes('ask')) return
+    void mark('ask', true, 'Idea already with your grown up')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, asksPending])
 
   // Move about, when the board already carries a job that IS moving about.
   //
@@ -306,7 +367,7 @@ export default function KidFiveADay({
           // Remembered here too, so coming back to the list does not replay a
           // takeover the child has just watched.
           rememberCelebrated(state?.day)
-          onDayComplete?.(d.streak, { steps: state?.steps ?? [], done: d.done })
+          onDayComplete?.(d.streak, { steps: state?.steps ?? [], done: d.done, sticker: !!d.sticker })
         }
       }
     } catch {
@@ -326,6 +387,7 @@ export default function KidFiveADay({
   // same room it took while it still needed doing. A tap reopens the list.
   if (state.complete && !openAnyway) {
     return (
+      <>
       <button
         onClick={() => { playKidSound('tap'); setOpenAnyway(true) }}
         style={{
@@ -357,6 +419,12 @@ export default function KidFiveADay({
           Show ›
         </span>
       </button>
+      {weekDone && (
+        <div style={{ margin: '-6px 0 16px' }}>
+          <WeekDone week={weekDone} friend={weekFriend} />
+        </div>
+      )}
+      </>
     )
   }
 
@@ -387,6 +455,7 @@ export default function KidFiveADay({
           background: t.hex, borderRadius: 'var(--radius-pill)', transition: 'width 0.35s ease',
         }} />
       </div>
+      {weekDone && <div style={{ margin: '-4px 0 14px' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {/* Done steps first, as slim ticked lines: the climb so far. */}
@@ -477,9 +546,12 @@ export default function KidFiveADay({
                         : key === 'jobs' && jobsProgress && jobsProgress.total > 0
                           // Where they are up to, not a generic instruction. A
                           // child who has done four of six is told so, and the
-                          // number is the reason to tap.
-                          ? `${jobsProgress.done} of ${jobsProgress.total} done. Tap to see the rest`
-                          : def.hint}
+                          // jobs still to do are NAMED (14 September 2026), so
+                          // the five a day points at the board's own jobs.
+                          ? `${jobsProgress.done} of ${jobsProgress.total} done. Still to do: ${jobsLeft.slice(0, 3).join(', ')}${jobsLeft.length > 3 ? ` and ${jobsLeft.length - 3} more` : ''}`
+                          : key === 'ask' && asksPending > 0
+                            ? `Your idea is with your grown up. That counts`
+                            : def.hint}
                   </span>
                 )}
               </span>

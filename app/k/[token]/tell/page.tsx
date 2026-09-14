@@ -4,6 +4,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { resolveTheme } from '@/lib/kid/theme'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import KidBackLink from '@/components/kid/KidBackLink'
+import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // Telling a grown up: the child's own page, and the other half of the scripts
 // library.
@@ -258,6 +259,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
           </p>
         </div>
       </div>
+      <KidTodayReturn token={token} />
     </div>
   )
 }

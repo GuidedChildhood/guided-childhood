@@ -1,6 +1,6 @@
 'use client'
 
-import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
+import KidStickers, { type KidSticker, type DailyStickers } from '@/components/kid/KidStickers'
 import PassportBook from '@/components/pathway/PassportBook'
 import type { Stamp } from '@/components/pathway/PassportStamps'
 
@@ -25,8 +25,10 @@ import type { Stamp } from '@/components/pathway/PassportStamps'
 
 export default function KidPassport({
   onClose, token, childName, stickers, celebrateStickers, passportCode = null, stageId = null,
-  book = null,
+  book = null, daily = null,
 }: {
+  /** This week's daily stickers and the total, for the Every day page. */
+  daily?: DailyStickers | null
   onClose: () => void
   token: string
   childName: string
@@ -156,7 +158,7 @@ export default function KidPassport({
           </div>
         )}
 
-        <KidStickers token={token} stickers={stickers} celebrate={celebrateStickers} />
+        <KidStickers token={token} stickers={stickers} celebrate={celebrateStickers} daily={daily} />
       </div>
     </div>
   )

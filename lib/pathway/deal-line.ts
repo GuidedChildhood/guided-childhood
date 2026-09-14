@@ -7,7 +7,15 @@
 // can run the real function (a .tsx cannot be stripped and imported by node),
 // and so the road or an email can say the same line without a second copy.
 
-export type StripDeal = { signed: boolean; agreedDate: string | null; reviewDate: string | null }
+export type StripDeal = {
+  signed: boolean
+  agreedDate: string | null
+  reviewDate: string | null
+  /** The deal was written for a younger stage than the child is on now. */
+  outgrown?: boolean
+  /** The label of the type it was written for, for the outgrown line. */
+  typeLabel?: string | null
+}
 
 function niceDate(iso: string): string {
   const d = new Date(iso.length === 10 ? `${iso}T12:00:00` : iso)
@@ -32,6 +40,15 @@ export function dealLine(deal: StripDeal | null, childName: string | null, child
     }
   }
   const agreed = deal.agreedDate ? `Agreed on ${niceDate(deal.agreedDate)}.` : 'Agreed together.'
+  // Outgrown comes before due: a deal for the wrong age is wrong every day,
+  // not only on the review date.
+  if (deal.outgrown) {
+    return {
+      text: `${agreed} It was written for ${deal.typeLabel ?? 'a younger stage'} and ${them === 'them' ? 'they have' : `${them} has`} moved on.`,
+      cta: 'Update it together',
+      href: `/dashboard/agreement?from=passport${child}`,
+    }
+  }
   if (deal.reviewDate && deal.reviewDate <= today) {
     return {
       text: `${agreed} The review was due ${niceDate(deal.reviewDate)}.`,

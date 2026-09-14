@@ -6,6 +6,8 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
 import KidTermPreview from '@/components/kid/KidTermPreview'
 import { buildTermPreview } from '@/lib/learning/term-preview'
+import { buddyFor } from '@/lib/kid/buddy'
+import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
 
 // The child's own week from school.
 //
@@ -36,8 +38,9 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
   if (!link) notFound()
 
   const { data: child } = await supabase
-    .from('children').select('name, date_of_birth').eq('id', link.child_id).maybeSingle()
+    .from('children').select('name, date_of_birth, buddy').eq('id', link.child_id).maybeSingle()
   const name = child?.name && child.name !== 'Your child' ? (child.name as string) : null
+  const buddy = buddyFor((child as { buddy?: string | null } | null)?.buddy ?? null)
 
   // What is coming at school, in the child's words. Null outside a holiday and
   // the first week back, and null without a birthday, so most of the year this
@@ -128,26 +131,46 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
     // Scoped to THIS page rather than changed on the --kid-bg token, which five
     // other child pages also use and which Justin has not asked about. A colour
     // token is the wrong place to make a one page decision.
-    <div style={{ minHeight: '100dvh', background: 'var(--butter)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    // ── THE DOTTED SKY, NOT THE SOLID BUTTER (14 September 2026) ──────────
+    //
+    // Justin, with four Kenji screenshots: "Child calendar does not look great
+    // in yellow. Redesign in super fun happy news style like the Kenji shop
+    // but our Planet Friends." The whole page was a slab of butter. It is the
+    // pastel sky scattered with coral and butter dots now, the same ground as
+    // the child's week row, with their own Friend on a plate beside the title.
+    // The chips inside keep Google's real calendar colours on their washes,
+    // which is what the light ground was always for.
+    //
+    // Padding clears the status bar: the back link sat under the clock.
+    <div style={{
+      minHeight: '100dvh', fontFamily: 'var(--font-body)',
+      background: `radial-gradient(circle at 12px 10px, ${HAPPY.coral}55 3px, transparent 3.5px), radial-gradient(circle at 36px 30px, ${HAPPY.butter}88 3px, transparent 3.5px), var(--tint-blue, #D8E8F8)`,
+      backgroundSize: '48px 40px, 48px 40px, auto',
+      padding: 'calc(18px + env(safe-area-inset-top)) 16px 50px',
+    }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <Link
           href={`/k/${token}`}
           style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em',
-            // Ink, for the same reason as the jobs screen's back link: on the
-            // butter ground this page has always asked for, ink muted reads
-            // 2.07 to 1. The fixture does not render this link, so it was
-            // fixed from the source rather than from a screenshot.
-            color: 'var(--ink)', textDecoration: 'none', marginBottom: 16,
+            display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-display)',
+            fontSize: 'var(--text-base)', fontWeight: 800,
+            color: 'var(--ink)', textDecoration: 'none', marginBottom: 14,
+            background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-pill)',
+            padding: '7px 14px 7px 10px', boxShadow: `0 3px 0 ${HAPPY.ink}`,
           }}
         >
-          ← Back
+          ‹ Back
         </Link>
 
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: 'var(--ink)' }}>
-          {name ? `${name}'s week` : 'Your week'}
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0, color: 'var(--ink)' }}>
+            {name ? `${name}'s week` : 'Your week'}
+          </h1>
+          <Plate size={72} tint={HAPPY.butterLt}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={buddy.img} alt={buddy.name} width={56} height={56} style={{ width: 56, height: 56, objectFit: 'contain', display: 'block' }} />
+          </Plate>
+        </div>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
           School things and your own reminders, on the day they land. Tap a day to see it.
         </p>
@@ -162,8 +185,8 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
             themselves, an empty week is an invitation, not a dead end. */}
         {items.length === 0 && (
           <div style={{
-            background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
-            boxShadow: '0 5px 0 rgba(0,0,0,0.25)', padding: '20px 18px', marginBottom: 16,
+            background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)',
+            boxShadow: `0 5px 0 ${HAPPY.ink}`, padding: '20px 18px', marginBottom: 16,
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.3 }}>
               Nothing from school yet

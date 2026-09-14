@@ -28,6 +28,9 @@ function have(rule: KidSticker['rule']): number {
     case 'stamp': return STAMPS
     case 'lessons': return 1
     case 'sorted': return 3
+    case 'outside': return 1
+    case 'jobs': return 4
+    case 'timer': return 7
   }
 }
 function need(rule: KidSticker['rule']): number {

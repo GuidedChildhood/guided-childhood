@@ -26,6 +26,13 @@
 //   E. Every clause carries a question to ask the child, with no dashes,
 //      and the builder shows it once the clause is in.
 //   F. DiGi's family state drops the timer clause at four to seven.
+//   H. (14 September 2026, the review) One reader for the promises, on the
+//      child's app, the fridge sheet and the A4 copy. Every deal type carries
+//      two or three lines of science with a source, none naming a living
+//      clinician. A deal written for a younger stage reads as outgrown on the
+//      passport and as Update the deal on the road. No earned time clause at
+//      four to seven. The fridge sheet prints the promises, the science, the
+//      signatures and the review date.
 //
 //   node --experimental-strip-types scripts/check-deal-in-the-loop.mjs
 
@@ -52,11 +59,20 @@ const familyState = read('lib/digi/family-state.ts')
 const probe = `
 import { parentRunsTimerFor } from './lib/pathway/passport-child.ts'
 import { dealLine } from './lib/pathway/deal-line.ts'
-import { CLAUSES_BY_TYPE, AGREEMENT_TYPES } from './lib/content/agreement-clauses.ts'
+import { CLAUSES_BY_TYPE, AGREEMENT_TYPES, SCIENCE_BY_TYPE } from './lib/content/agreement-clauses.ts'
+import { promisesFrom, dealOutgrown } from './lib/content/agreement-promises.ts'
 const today = '2026-09-14'
 const seen = new Map()
 for (const list of Object.values(CLAUSES_BY_TYPE)) for (const c of list) seen.set(c.key, c.talk)
+const structured = promisesFrom({ agreement_type: 'tablet-games', clauses: { 'screens-off': '7pm', 'money': 'One gift card a month' } })
+const legacy = promisesFrom({ agreement_type: null, clauses: null, bedroom_rule_time: '7pm', extra_agreements: 'How screen time is earned: Stars buy minutes\\nScreens at the table: none at meals' })
 console.log(JSON.stringify({
+  science: Object.fromEntries(Object.entries(SCIENCE_BY_TYPE).map(([k, v]) => [k, v.map(x => [x.claim.length, x.source])])),
+  firstScreensKeys: CLAUSES_BY_TYPE['first-screens'].map(c => c.key),
+  structured: structured.map(p => [p.key, p.emoji, !!p.why]),
+  legacy: legacy.map(p => [p.key, p.emoji, !!p.why]),
+  outgrown: [dealOutgrown('first-screens', 'builder'), dealOutgrown('first-phone', 'builder'), dealOutgrown('tablet-games', 'builder'), dealOutgrown(null, 'builder')],
+  outgrownLine: dealLine({ signed: true, agreedDate: '2026-03-01', reviewDate: '2026-12-01', outgrown: true, typeLabel: 'First screens' }, 'Andy', 'c1', today),
   bands: ['4-7', '8-10', '11-13', '13-15', '16+', null].map(b => parentRunsTimerFor(b)),
   none: dealLine(null, 'Andy', 'c1', today),
   draft: dealLine({ signed: false, agreedDate: null, reviewDate: null }, 'Andy', 'c1', today),
@@ -80,7 +96,7 @@ if (o) {
   if (JSON.stringify(o.bands) === JSON.stringify([true, false, false, false, false, false])) ok.push('A: the parent runs the timer at four to seven and nowhere else')
   else problems.push(`A: parentRunsTimerFor answers ${JSON.stringify(o.bands)} for 4-7, 8-10, 11-13, 13-15, 16+, null`)
 }
-if (!/from\('family_agreements'\)\.select\('signed_by_parent, signed_by_child, agreed_date, review_date'\)/.test(childRead)) problems.push('A: the child read does not read the deal row')
+if (!/from\('family_agreements'\)\.select\('signed_by_parent, signed_by_child, agreed_date, review_date, agreement_type'\)/.test(childRead)) problems.push('A: the child read does not read the deal row')
 else if (!/signed: !!dealRow\.signed_by_parent && !!dealRow\.signed_by_child/.test(childRead)) problems.push('A: the deal is not signed by BOTH in the child read')
 else if (!/parentRunsTimer: parentRunsTimerFor\(ageBand\)/.test(childRead)) problems.push('A: the child read does not carry parentRunsTimer')
 else ok.push('A: the child read carries the deal (signed by both, agreed on, review) and the age flag')
@@ -111,9 +127,9 @@ if (!/parentRunsTimer=\{childRead\.parentRunsTimer \?\? false\}/.test(book) || !
 else ok.push('B: the book passes the age flag, the deal and readOnly to the strip')
 
 // ── C: the road ─────────────────────────────────────────────────────────────
-if (!/select\('updated_at, created_at, signed_by_parent, signed_by_child, review_date'\)/.test(road)) problems.push('C: the road does not read the review date')
+if (!/select\('updated_at, created_at, signed_by_parent, signed_by_child, review_date, agreement_type'\)/.test(road)) problems.push('C: the road does not read the review date')
 else if (!/\.\.\.\(anyQuests && !agreementSigned \? \[\{\s*key: 'agreement' as const,\s*label: 'Make the deal',[\s\S]{0,200}?done: false,/.test(road)) problems.push('C: the road does not ask a family with a job and no signed deal to make one')
-else if (!/label: agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementFreshThisWeek && !agreementReviewDue/.test(road)) problems.push('C: the weekly rung does not become the review on the review date')
+else if (!/agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementFreshThisWeek && !agreementReviewDue/.test(road)) problems.push('C: the weekly rung does not become the review on the review date')
 else if (!/agreementReviewDate <= today/.test(road) || !/agreementUpdatedAt\.slice\(0, 10\) < agreementReviewDate/.test(road)) problems.push('C: review due is not "date passed and not touched since"')
 else ok.push('C: the road asks for the deal once there is a job, and for the review when its date comes')
 if (/leadKey[\s\S]{0,600}'agreement'/.test(road)) problems.push('C: the agreement became the day\'s lead; it is a recommendation, never the one tick')
@@ -144,6 +160,41 @@ if (!/talk: string/.test(clausesSrc)) problems.push('E: Clause has no talk field
 if (!/Ask \{childName\}[\s\S]{0,200}?\{c\.talk\}/.test(builder)) problems.push('E: the builder does not show the question once the clause is in')
 else if (!/\{included && \([\s\S]{0,400}?data-talk/.test(builder)) problems.push('E: the question shows before the clause is in')
 else ok.push('E: the builder asks the child\'s question once the clause is in')
+
+// ── H: the review, 14 September 2026 ────────────────────────────────────────
+if (o) {
+  const types = ['first-screens', 'tablet-games', 'first-phone', 'social-ready', 'independent']
+  const thin = types.filter(t => !o.science[t] || o.science[t].length < 2 || o.science[t].some(([len, src]) => len < 40 || !src))
+  const clinicians = /Kennedy|Knibbs|Damour|Atkins|Siegel|Hughes|Haidt|Twenge/
+  const named = types.flatMap(t => (o.science[t] ?? []).map(([, src]) => src)).filter(src => clinicians.test(src))
+  if (thin.length) problems.push(`H: deal types with thin or unsourced science: ${thin.join(', ')}`)
+  else if (named.length) problems.push(`H: a living clinician or an unreferenced author is named as a source: ${named.join(' | ')}`)
+  else ok.push('H: every deal type carries sourced science, and no clinician is named')
+  if (o.firstScreensKeys.includes('earn-time')) problems.push('H: the four to seven deal puts the earned time trade in writing again')
+  else ok.push('H: no earned time clause at four to seven')
+  const okStructured = JSON.stringify(o.structured) === JSON.stringify([['screens-off', '🌙', true], ['money', '💷', true]])
+  const okLegacy = o.legacy.length === 3 && o.legacy[0][0] === 'screens-off' && o.legacy[1][0] === 'earn-time' && o.legacy[2][0] === 'meals' && o.legacy.every(p => p[2])
+  if (!okStructured) problems.push(`H: the promises reader misreads structured clauses (${JSON.stringify(o.structured)})`)
+  else if (!okLegacy) problems.push(`H: the promises reader misreads a legacy row (${JSON.stringify(o.legacy)})`)
+  else ok.push('H: one promises reader, structured and legacy, each with its icon and why')
+  if (JSON.stringify(o.outgrown) !== JSON.stringify([true, false, false, false])) problems.push(`H: outgrown answers ${JSON.stringify(o.outgrown)} for behind, ahead, level, unknown`)
+  else if (!/written for First screens/.test(o.outgrownLine.text) || !/Update it together/.test(o.outgrownLine.cta)) problems.push(`H: the outgrown deal line reads "${o.outgrownLine.text}"`)
+  else ok.push('H: a deal written for a younger stage reads as outgrown, only when behind')
+}
+if (!/label: agreementOutgrown \? 'Update the deal' : agreementReviewDue \? 'Review the deal' : 'The deal'/.test(road) || !/done: agreementFreshThisWeek && !agreementReviewDue && !agreementOutgrown/.test(road)) problems.push('H: the road does not say Update the deal for an outgrown one')
+else ok.push('H: the road says Update the deal when the child has moved on')
+const sheet = read('components/deal/FamilyDealSheet.tsx')
+const kidDeal = read('app/k/[token]/deal/page.tsx')
+const parentDeal = read('app/(dashboard)/dashboard/quests/deal/page.tsx')
+const a4 = read('app/(dashboard)/dashboard/agreement/print/page.tsx')
+if (!/data-promises/.test(sheet) || !/data-science/.test(sheet) || !/data-signatures/.test(sheet) || !/data-review/.test(sheet)) problems.push('H: the fridge sheet is missing the promises, the science, the signatures or the review date')
+else if (!/promises=\{promises\}/.test(kidDeal) || !/from\('family_agreements'\)/.test(kidDeal) || !/science=\{scienceForType/.test(kidDeal)) problems.push('H: the child\'s fridge door does not read the agreement')
+else if (!/promises=\{promisesFrom\(agreement\)\}/.test(parentDeal) || !/science=\{scienceForType/.test(parentDeal)) problems.push('H: the parent\'s fridge door does not read the agreement')
+else if (!/promisesFrom\(agreement\)/.test(a4) || !/data-science/.test(a4)) problems.push('H: the A4 copy does not use the promises reader or carry the science')
+else if (!/promisesFrom\(agreementRow/.test(kidPage) || !/data-why/.test(kidScreen)) problems.push('H: the child\'s app does not use the promises reader or show the why')
+else ok.push('H: the promises and the science are on the child\'s app, both fridge doors and the A4 copy')
+if (!/data-science/.test(builder) || !/scienceForType\(type\.key\)/.test(builder)) problems.push('H: the builder does not show the science before the signatures')
+else ok.push('H: the builder shows the science before the signatures')
 
 // ── F: DiGi ─────────────────────────────────────────────────────────────────
 if (!/\$\{state\.child\.parentRunsTimer \? '' : `, the device timer used on/.test(familyState)) problems.push('F: DiGi still tells a four to seven family about the child\'s timer days')

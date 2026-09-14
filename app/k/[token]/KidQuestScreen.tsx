@@ -51,6 +51,10 @@ import KidPassport from '@/components/kid/KidPassport'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
+import KidStickerLand from '@/components/kid/KidStickerLand'
+import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import type { DailyStickers } from '@/components/kid/KidStickers'
+import type { TodayTab } from '@/components/kid/KidTabBar'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { friendsFromStreaks, isFriendMoment, streakCurrency, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
@@ -107,7 +111,10 @@ export default function KidQuestScreen({
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
+  dailyStickers = null,
 }: {
+  /** This week's daily stickers and the total, for the book's Every day page and the week row. */
+  dailyStickers?: DailyStickers | null
   /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
   planetTier?: 1 | 2 | 3 | null
   token: string
@@ -127,7 +134,7 @@ export default function KidQuestScreen({
   // The same numbers the parent's off screen total is built from.
   sheetsDone?: number
   sheetStars?: number
-  agreementItems?: { title: string; body: string }[]
+  agreementItems?: { title: string; body: string; emoji?: string; why?: string | null }[]
   /** The two deal lines the device time card shows at ask time (lib/content/agreement-clauses.ts). */
   dealLines?: string[]
   agreementSigned?: boolean
@@ -503,6 +510,27 @@ export default function KidQuestScreen({
       .filter(c => keys.has(`friend-${c.key}`))
       .sort((a, b) => b.stageId - a.stageId)[0] ?? null
   })
+
+  // ── EVERY OTHER STICKER LANDS TOO (14 September 2026) ────────────────────
+  //
+  // The Friends had the rocket; First Lesson, First Sheet, the timer, the
+  // jobs and the outside days had a pop that only fired inside the passport.
+  // Anything owed a celebration that is not a Friend lands here, on open, one
+  // at a time. KidStickerLand marks them seen on show, so the book's own pop
+  // gets the rest of the list and never repeats these.
+  const [landing, setLanding] = useState(() =>
+    stickers.filter(s => celebrateStickers.includes(s.key) && s.earned && s.rule.kind !== 'friend'))
+  const landedKeys = useRef(new Set(landing.map(s => s.key)))
+  const bookCelebrate = celebrateStickers.filter(k => !landedKeys.current.has(k))
+
+  // What is left today, from the five a day, for the Today entry on the bar.
+  const [todayTab, setTodayTab] = useState<TodayTab>(() => ({
+    left: fiveADayInitial ? fiveADayInitial.steps.filter(k => !fiveADayInitial.done.includes(k)).length : 0,
+    total: fiveADayInitial?.steps.length ?? 0,
+    complete: !!fiveADayInitial?.complete,
+    opened: (fiveADayInitial?.steps.length ?? 0) > 0,
+  }))
+  const onTodayState = useCallback((t: TodayTab) => setTodayTab(t), [])
 
   // THE LIVE COUNT.
   //
@@ -1194,7 +1222,9 @@ export default function KidQuestScreen({
     try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual' } catch { /* fine */ }
 
     const settle = () => {
-      if (!allDone) { document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
+      // The day, not the jobs. allDone is the jobs flag, and a child with four
+      // of five left was being dropped onto Lessons on open (14 September 2026).
+      if (!allDone || !todayTab.complete) { document.getElementById('kid-five')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
       if (totalNewLessons > 0) { setTab('lessons'); goToTab('lessons'); return }
       if (newPrint > 0) { setTab('print'); goToTab('print'); return }
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -1202,6 +1232,9 @@ export default function KidQuestScreen({
     // Two frames, so the restored scroll has already happened and the list has
     // laid out. Racing it means landing on an anchor that then moves.
     requestAnimationFrame(() => requestAnimationFrame(settle))
+    // todayTab.complete is read once on settle and deliberately not a
+    // dependency: the effect is the open of the page, not every tick.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seenHydrated, allDone, totalNewLessons, newPrint, goToTab])
 
   const hasWatch = adventures.length > 0
@@ -1518,6 +1551,8 @@ export default function KidQuestScreen({
           theme={theme}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
+          jobsLeft={quests.filter(q => !ticks[q.id]).map(q => q.title)}
+          asksPending={asks.filter(a => a.status === 'pending').length}
           newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
@@ -1530,8 +1565,11 @@ export default function KidQuestScreen({
             // once a star week, and the Friend arrival follows it on the
             // days a Friend is earned (see the close handler below).
             if (streakDueThisWeek) markStreakWeekSeen()
-            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [] })
+            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
           }}
+          onStateChange={onTodayState}
+          weekDone={dailyStickers?.week ?? null}
+          weekFriend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
         />
 
         {/* What a grown up sent, straight after the five a day. These two
@@ -1702,7 +1740,9 @@ export default function KidQuestScreen({
               minutesReady={bankBalance * STAR_MINUTES}
               unlocked={allDone && quests.length > 0 && bankBalance > 0}
               rule={TIMER_RULE}
-              onUseTime={() => { setDeviceOpen(true); setPickNow(bankBalance > 0); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
+              // The ask has its own page now (14 September 2026): three taps
+              // on the dotted sky. A live timer still opens the card here.
+              onUseTime={() => { playKidSound('tap'); if (liveSession) { setDeviceOpen(true); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } else { window.location.assign(`/k/${token}/ask`) } }}
               tiles={tiles}
               onFriends={() => { setShowIntro(true); playKidSound('tap') }}
               tellHref={token ? `/k/${token}/tell` : null}
@@ -1810,6 +1850,7 @@ export default function KidQuestScreen({
               <DeviceTimeCard
                 key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
                 startPicking={pickNow}
+                askHref={`/k/${token}/ask`}
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
                 holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
                 coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}
@@ -1843,7 +1884,7 @@ export default function KidQuestScreen({
               />
               {weekChart.some(d => d.count > 0) && (
                 <div style={{ marginTop: '12px' }}>
-                  <KidWeekChart data={weekChart} weekStars={weekStars} />
+                  <KidWeekChart data={weekChart} weekStars={weekStars} friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }} />
                 </div>
               )}
             </div>
@@ -1944,10 +1985,24 @@ export default function KidQuestScreen({
             token={token}
             childName={childName}
             stickers={stickers}
-            celebrateStickers={celebrateStickers}
+            celebrateStickers={bookCelebrate}
+            daily={dailyStickers ? { ...dailyStickers, friend: { name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img } } : null}
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}
+          />
+        )}
+
+        {/* A sticker lands: the child's Friend, the sticker big, why it came,
+            and the flight into the passport. Under the Friend arrival, which
+            is rarer and wins if both are due on the same open. */}
+        {landing.length > 0 && !arrival && (
+          <KidStickerLand
+            token={token}
+            stickers={landing}
+            buddy={chosenBuddy}
+            onClose={() => setLanding([])}
+            onOpenBook={() => { setLanding([]); setPassportOpen(true) }}
           />
         )}
 
@@ -2141,6 +2196,8 @@ export default function KidQuestScreen({
           current={tab}
           badges={{ lessons: totalNewLessons, print: newPrint }}
           onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
+          today={todayTab}
+          onToday={() => { setTab('quests'); setActiveLesson(null); playKidSound('tap'); goToTab('quests') }}
         />
 
         {tab === 'quests' && (<>
@@ -2696,7 +2753,7 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
   bankBalance: number
   goalRedeemed: boolean
-  agreementItems?: { title: string; body: string }[]
+  agreementItems?: { title: string; body: string; emoji?: string; why?: string | null }[]
   agreementSigned?: boolean
   /** The parent's signature on its own, so the child's agree can say whether the deal is now agreed by both. */
   agreementParentSigned?: boolean
@@ -2807,13 +2864,18 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
                       aria-expanded={open}
                       style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', cursor: 'pointer', padding: '13px 15px', textAlign: 'left' }}
                     >
-                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="deal" size={18} color="var(--terracotta-dark)" /></span>
+                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-md)', lineHeight: 1 }}>{it.emoji ? <span aria-hidden>{it.emoji}</span> : <KidIcon name="deal" size={18} color="var(--terracotta-dark)" />}</span>
                       <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{it.title}</span>
                       <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
                     </button>
                     {open && (
                       <div style={{ padding: '0 15px 14px 59px', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>
                         {it.body}
+                        {it.why && (
+                          <span data-why style={{ display: 'block', marginTop: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                            Why: {it.why}
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -3236,44 +3298,32 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
   )
 }
 
-function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
+function KidWeekChart({ data, weekStars, friend }: { data: { label: string; count: number; today: boolean }[]; weekStars: number; friend: { name: string; img: string } | null }) {
   // A child reads a week best as a simple row of days they showed up on, the
-  // Duolingo and Finch way: a filled gold star for every day with a quest, an
-  // empty circle for a quiet day, today ringed. No bar heights to decode, no
-  // floating numbers. The framing is days shown up, never a day missed, so it
-  // celebrates the habit and never nags.
+  // Duolingo and Finch way: a day with a quest is a day their Friend sits on,
+  // a quiet day is quiet, today wears the coral edge. No bar heights to
+  // decode, no floating numbers. The framing is days shown up, never a day
+  // missed, so it celebrates the habit and never nags. It was a butter circle
+  // with a butter star until the Kenji note (14 September 2026); the row is
+  // KidWeekCalendar now, the same one under the five a day and in the book.
   const activeDays = data.filter(d => d.count > 0).length
   const headline =
     activeDays === 0 ? 'A fresh week, let us go!'
     : activeDays >= 6 ? `Amazing, ${activeDays} days this week!`
     : activeDays >= 3 ? `Great going, ${activeDays} days this week`
     : `${activeDays} day${activeDays === 1 ? '' : 's'} this week, keep it up`
+  const today = data.findIndex(d => d.today)
   return (
-    <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '12px' }}>
-        {headline}
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
-        {data.map((d, i) => {
-          const active = d.count > 0
-          return (
-            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-              <div style={{
-                width: 34, height: 34, borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
-                background: active ? 'var(--terracotta)' : 'var(--cream)',
-                border: active ? 'none' : '2px dashed var(--ink-light)',
-                boxShadow: d.today ? '0 0 0 3px var(--terracotta-lt)' : 'none',
-                color: '#fff', fontWeight: 800,
-              }}>
-                {active ? '⭐' : ''}
-              </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: d.today ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>{d.label}</span>
-            </div>
-          )
-        })}
-      </div>
-      <div style={{ marginTop: '13px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '10px' }}>
+    <div style={{ marginBottom: '14px' }}>
+      <KidWeekCalendar
+        days={data.map((d, i) => ({ letter: d.label, done: d.count > 0, isToday: d.today, ahead: today >= 0 && i > today }))}
+        friend={friend}
+        title="Quest days"
+        count={{ n: activeDays, of: 7, word: 'days' }}
+        line={headline}
+        tone="green"
+      />
+      <div style={{ marginTop: '10px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '10px' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           ⭐ {weekStars} stars earned = {weekStars * STAR_MINUTES} minutes of screen time
         </span>

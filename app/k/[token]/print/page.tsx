@@ -10,6 +10,7 @@ import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { dealFactsFrom } from '@/lib/printables/deal-facts'
 import type { DrawnSpec } from '@/components/printables/drawn'
 import { missionSheetFor } from '@/lib/printables/mission-sheets'
+import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // The child's print page. See lib/kid/print-anywhere for why it exists:
 // inside an installed iOS app window.print() does nothing, so every print
@@ -91,5 +92,5 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
 
   if (!job) notFound()
 
-  return <KidPrintPage job={job} token={token} />
+  return <><KidPrintPage job={job} token={token} /><KidTodayReturn token={token} /></>
 }

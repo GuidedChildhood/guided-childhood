@@ -144,6 +144,12 @@ jobs:
       # phone, and every clause carries a question to ask the child. See the
       # header of check-deal-in-the-loop.mjs.
       - run: node --experimental-strip-types scripts/check-deal-in-the-loop.mjs
+      # Stickers that land: the timer, the jobs and time outside pay the
+      # book, every owed sticker lands on the child's home with the why, the
+      # parent is pushed with the why, Today sits on the child's bar, and the
+      # sheet in the shop is the real catalogue. See the header of
+      # check-stickers-land.mjs.
+      - run: node --experimental-strip-types scripts/check-stickers-land.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

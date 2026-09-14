@@ -14901,3 +14901,159 @@ Decided, and built on the same PR as the morning's deal work (1073):
 
 Guard `scripts/check-deal-in-the-loop.mjs`, seventeen rules, seven
 mutations caught, wired. No migration.
+
+## 14 September 2026, afternoon: stickers that land, and the keepsakes that match them
+
+Justin, two messages after the passport walkthrough: the first badge should
+say congratulations and point at the printed passport and sticker sheet
+(buy and add as they go, or print when complete); every daily sticker should
+be on both passports; the child's book should pay the timer, jobs and time
+outside; a big Planet Friend pop with the sticker going into the passport;
+parents told what was earned and why; a Duolingo style way back to today on
+every tab; the sheet in the shop must be the platform's stickers; an image of
+the passport print out; and supplier research for the passport, the sheet
+and the plush.
+
+Decided, and built on PR 1073 (plan: plans/2026-09-14-stickers-that-land-plan.md):
+
+- **Three new sticker kinds**: timer (1, 7, 30 days the timer ran), jobs
+  (1, 10, 50 approved), outside (1, 10, 30 days with the move step). Nine
+  stickers, all ratcheted, read on the same reconcile. The book is thirty
+  stickers plus the family's sorted stamps.
+- **The daily sticker is in the book**: an Every day page with this week's
+  seven and the total. The day done screen names the sticker it paid.
+- **A sticker lands** (`components/kid/KidStickerLand.tsx`): every owed non
+  Friend sticker takes the home screen on open, the child's own Friend beside
+  it, one line saying what they did, the flight into a small passport, one
+  way out into the book. Seen on show. The child's load now writes the book
+  before reading what is owed, which closes the race that hid the sticker on
+  the very load it was earned.
+- **Parents are told, and told why**: a push at the write (child's load only,
+  only when the write landed), the first ever sticker carrying the passport
+  line; a Home card saying the same with the two doors; the passport strip's
+  stickers line (total, new this week, the way to the book at `#stickers`).
+- **Today on every tab**: a Today entry first on the child's bar (count left,
+  green tick when done), a way back pill on six sub pages, the week of full
+  days under the five a day from the day's own row, and the open load only
+  auto switches tabs when the DAY is done, not the jobs.
+- **Keepsakes**: the sticker sheet card draws the real catalogue; the passport
+  card opens an A6 print out page built from the child's real stamps and
+  stickers, which is also the file a printer receives; the Now button stays
+  off the shop.
+- **Suppliers**: plans/2026-09-14-keepsakes-suppliers-research.md. Every
+  figure is tagged; the sandbox could not open supplier pages, so each needs
+  one click before it goes in an email.
+
+Guard `scripts/check-stickers-land.mjs`, fourteen rules, six mutations
+caught, wired. No migration.
+
+## 14 September 2026, late afternoon: the agreement reviewed against its own science
+
+Justin, with the builder's first step on his phone: review the agreements
+for "super top design for child print outs", "wired in with children",
+"refer to regularly, advise of needing updating, print out and live on both
+apps", and "matches best science, age, and what we have fully researched
+from child experts". Review: plans/2026-09-14-agreement-review.md.
+
+Decided, on PR 1073:
+
+- **One reader for the promises** (`lib/content/agreement-promises.ts`),
+  used by the child's app, both fridge doors and the A4 copy. Structured
+  clauses first, legacy columns for older rows, each promise with its icon,
+  its why and its table question. Three readers had drifted into three
+  versions of one row.
+- **The child's fridge sheet prints the agreement.** It never had: it
+  printed the jobs and the timer rule. Now the promises lead with their
+  whys, the child's Planet Friend is on it, then the stars, the timer rule,
+  the jobs, the goal, the science with sources, signatures with names when
+  signed, and the review date.
+- **The science lives on the deal** (`SCIENCE_BY_TYPE`): two or three
+  sourced lines per type, every one from the product's own research bank,
+  shown in the builder before the signatures and on every print. Naming
+  rule from migration 123 kept: never a living clinician. The guard fails
+  on a clinician's name.
+- **Outgrown**: a deal written for a younger stage reads "update it
+  together" on the passport and "Update the deal" on the road. Only when
+  behind; ahead is a family who knew what they were doing.
+- **Two corrections the research bank forced**: no earned time clause in
+  the four to seven deal (digi/04-stages: screen time is never framed as a
+  reward at that age; the stars still run, the deal does not write the
+  trade down for a five year old), and the earned time why line stops
+  leaning on the retired verb. The clause title stays because legacy rows
+  are matched on it.
+- **Honest line on every deal**: the one randomised trial of family media
+  plans (Moreno, JAMA Pediatrics 2021) found no effect of the plan itself;
+  the bedroom rule carries the weight (Carter, JAMA Pediatrics 2016), so it
+  leads the science on every type and the rest is the conversation.
+- The Now button straddles the tab bar instead of floating a full circle
+  over the page. The recommended pill no longer wraps.
+
+Guard check-deal-in-the-loop grew to 24 rules; five review mutations caught.
+
+## 14 September 2026, evening: the child's week, drawn with the Friend
+
+Justin, with four Kenji screenshots (the chick and the bunny on a dotted sky,
+the gem rewards board, the boba blind boxes): "Child calendar does not look
+great in yellow. Redesign in super fun happy news style like the Kenji shop
+but our Planet Friends."
+
+Three week rows had grown on the child's side and all three were yellow on
+yellow. One component now, `components/kid/KidWeekCalendar.tsx`: a pastel
+ground scattered with coral and butter dots, seven chunky tiles with ink
+edges and ledges, the child's own Planet Friend sitting on every done day
+with a green tick, today in a coral edge with a TODAY tag, days ahead dotted,
+a quiet past day simply quiet (no red, no loss language). A ribbon heading,
+a count pill, one line under. Used under the five a day (full days), on the
+book's Every day page (daily stickers) and on the balance card (quest days),
+each with its own tone. The Kenji move is the dotted sky and the character
+on the tile; the palette, the ribbon and the plates are ours.
+
+## 14 September 2026, evening: the ask row cannot get stuck, and the week page leaves the yellow
+
+Justin, with Jonny's home at four of five ("one of child's tasks is add job
+but not letting me and not clearing; maybe if too many jobs there to do it
+should be highlighting the platform jobs to do as part of the five, and once
+done they can then add; bit of a token loop") and Jonny's week page, a slab
+of butter with the back link under the clock.
+
+- **An idea already with the grown up IS the ask done.** The suggest page
+  caps pending ideas at five and the day at five, so a child whose grown up
+  had not answered could never tick Ask for a job and never finish the day.
+  The row ticks itself when any idea is pending, the way the jobs row does
+  when the board is clear, and says "Your idea is with your grown up. That
+  counts." The jobs row now names the jobs still to do, so the five points
+  at the board's own jobs first.
+- **The child's week page** sits on the same dotted sky as the week row,
+  with their Friend on a plate beside the title, chunky white day tiles with
+  ink edges and ledges (open day butter, today coral), the chosen day in an
+  ink edged card, and the back link clear of the status bar. The chips keep
+  Google's calendar colours on their washes, which is what a light ground was
+  always for. Fixture `/dev/kid-school-week`.
+
+## 14 September 2026, evening: ask for screen time has its own page
+
+Justin, with the balance card open on Jonny's phone: "when we ask for screen
+time on the child's app it needs to be a much clearer, simpler designed
+page: very simple to select device and time, then make sure it pops up and
+pushes on the parent's app, then come back and you can start on the child's
+app, doing checks on outstanding etc. This device time must be super fun, a
+mix between Kenji and Happy News styling, all wired in to record work, make
+sure it has the right amount, and the earn part: do jobs, outside."
+
+The flow was wired (the ask pushes the grown up, the yes box pops on their
+Home, the approved ask starts from the child's banner, every block is
+recorded and capped at the guide). It lived as a dense card folded inside
+the balance panel. Now `/k/[token]/ask` (`components/kid/KidAskScreenTime`):
+three taps on the dotted sky with the Friend. What screen (chunky tiles of
+the family's own devices). How long (four chips, the cost in stars said
+plainly, short or past the guide named, never a wall). Sent: the page polls
+the status route every eight seconds and turns into Start the moment the
+grown up says yes, and while they wait the jobs still to do (with the
+minutes they pay) and the five a day's outside step sit right there to earn
+more. Before screens jobs are named once at the top. Use my time on the
+home and the balance page's door both open it; a live timer still opens the
+card on the home. Every read fails soft; every decision stays on the server.
+
+Also fixed today's failing wiring check: three links on the Home sticker
+card had the child query variable right after the path, which the link
+checker read as a dead route. The query now starts in the literal.

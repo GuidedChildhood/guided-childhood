@@ -48,6 +48,8 @@ export type DayDoneInput = {
   completedDays: number
   /** Today's five, in the order they were shown. */
   steps: StepKey[]
+  /** The daily sticker the day just paid (migration 284). The screen names it. */
+  sticker?: boolean
 }
 
 type Line = { kind: 'offline' | 'device' | 'learning'; text: string }
@@ -220,6 +222,18 @@ export default function KidDayDone({
               ? 'One more full day and a new Friend comes home.'
               : `${toReward} more full days and a new Friend comes home.`}
         </p>
+
+        {/* THE STICKER IT PAID. The day wrote sticker_awarded_at in the same
+            statement as completed_at and this screen never said so; a child
+            found a gold star on a card with no idea where it came from. */}
+        {day.sticker && (
+          <div className="gc-dd-rise" data-day-sticker style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: '2px solid var(--terracotta-dark)', borderRadius: 'var(--radius-pill)', padding: '8px 16px 8px 10px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+            <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, transform: 'rotate(-8deg)', display: 'inline-block' }}>⭐</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+              Today's sticker is in your passport
+            </span>
+          </div>
+        )}
 
         {/* Three tiles, Duolingo's row: the run, the full days, the next Friend. */}
         <div style={{ display: 'flex', gap: 8, width: '100%', marginTop: 4 }}>

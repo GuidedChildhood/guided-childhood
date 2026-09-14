@@ -4,7 +4,8 @@ import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { isStageStamped } from '@/lib/pathway/stamped'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { childWorries, type ChildWorry } from '@/lib/concerns/sorted'
-import { STICKERS, sortedSticker, type Sticker } from './catalog'
+import { STICKERS, sortedSticker, stickerWhy, type Sticker } from './catalog'
+import { sendPush } from '@/lib/push/send'
 
 // The sticker book, read for one child. Earning is reconciled on read from the
 // real numbers so it can never disagree with the rest of the app: sticker
@@ -49,6 +50,12 @@ type Ctx = {
   lessons: number
   /** Each stage's lessons, by stage number 1 to 5, for the stamp tiles. */
   stages: Record<number, StageLessons>
+  /** Distinct days the device timer ran for this child. */
+  timerDays: number
+  /** Jobs a grown up approved for this child, all time. */
+  jobsDone: number
+  /** Days with the move step (time outside) done, all time. */
+  outsideDays: number
 }
 
 /** How far along this sticker is, in whatever it is counted in. */
@@ -65,6 +72,9 @@ function progressFor(rule: Sticker['rule'], ctx: Ctx): number {
     // counts the lessons of its stage, so a child sees the page filling.
     case 'stamp': return ctx.stages[rule.n]?.done ?? 0
     case 'lessons': return ctx.lessons
+    case 'timer': return ctx.timerDays
+    case 'jobs': return ctx.jobsDone
+    case 'outside': return ctx.outsideDays
     // Sorted stamps are built below from the worries themselves.
     case 'sorted': return 0
   }
@@ -111,10 +121,16 @@ async function creditsFor(supabase: SupabaseClient, childId: string): Promise<nu
   return data.reduce((sum, r) => sum + (Number(r.credits) || 0), 0)
 }
 
+export type StickerBookOpts = {
+  /** Set by the child's own load: push the parent about anything newly written. */
+  notify?: { childName: string | null }
+}
+
 export async function getStickerBook(
   supabase: SupabaseClient,
   userId: string,
   child: { id: string; age_band: string | null },
+  opts?: StickerBookOpts,
 ): Promise<StickerBook> {
   // The star bank is no longer read here at all. It was the cumulative lifetime
   // total, which is the number the weekly reset exists to stop handing out, and
@@ -122,7 +138,7 @@ export async function getStickerBook(
   //
   // Nor is the age band. That was the age rule, and killing it is the whole
   // point of this pass: see the note on the friend rule in catalog.ts.
-  const [credits, sheets, streaks, stages, lessons, worries, owned] = await Promise.all([
+  const [credits, sheets, streaks, stages, lessons, worries, owned, timerDays, jobsDone, outsideDays] = await Promise.all([
     creditsFor(supabase, child.id),
     countSheets(supabase, userId, child.id),
     streaksFor(supabase, child.id),
@@ -130,12 +146,15 @@ export async function getStickerBook(
     lessonsFor(supabase, userId, child.id),
     childWorries(supabase, userId, child.id),
     ownedKeys(supabase, child.id),
+    timerDaysFor(supabase, child.id),
+    jobsDoneFor(supabase, child.id),
+    outsideDaysFor(supabase, child.id),
   ])
   // Friends come from completed days only. The stages sit alongside them and
   // feed their own tier rather than being folded in: they used to be read by
   // user_id, the parent's stage progress, and adding that here is what let a
   // grown up finishing lessons hand every child in the house a Planet Friend.
-  const ctx: Ctx = { credits, sheets, streaks, lessons, stages, friends: earnedFriends(streaks) }
+  const ctx: Ctx = { credits, sheets, streaks, lessons, stages, friends: earnedFriends(streaks), timerDays, jobsDone, outsideDays }
 
   const toPersist: { user_id: string; child_id: string; sticker_key: string; reason: string }[] = []
   const stickers: StickerState[] = STICKERS.map(s => {
@@ -169,7 +188,11 @@ export async function getStickerBook(
     // Keeping it keyed on the RULE rather than on reason 'stage' matters: this
     // fixes the class, so the next currency we get wrong corrects itself on the
     // next read instead of needing a migration and a year of nobody noticing.
+    // The three day counters ratchet too: a device_sessions row can be
+    // cleared by a retired device, a tick can be rejected later, and a
+    // sticker a child was shown must not come back off the page.
     const ratchet = s.rule.kind === 'credits' || s.rule.kind === 'sheets'
+      || s.rule.kind === 'timer' || s.rule.kind === 'jobs' || s.rule.kind === 'outside'
     return { ...s, earned: (ratchet && owned.has(s.key)) || derived, have: Math.min(have, need), need }
   })
 
@@ -197,15 +220,76 @@ export async function getStickerBook(
 
   // Make the newly earned permanent. Idempotent and best effort: the derived
   // earning above already shows the sticker even if this write cannot run yet.
+  let written = false
   if (toPersist.length) {
     try {
-      await supabase
+      const { error } = await supabase
         .from('earned_stickers')
         .upsert(toPersist, { onConflict: 'child_id,sticker_key', ignoreDuplicates: true })
+      written = !error
     } catch { /* pre migration 101 */ }
   }
 
+  // ── THE PARENT IS TOLD, AND TOLD WHY (14 September 2026) ─────────────────
+  //
+  // Justin: "letting parents know stickers earned and why", and on the first
+  // one, "congratulations, they have earned a sticker, it will be added to
+  // their passport: purchase one with stickers and add as they go, or print
+  // when complete." Only the child's own load asks for this (opts.notify), so
+  // a parent opening the report never pushes themselves. Best effort, after
+  // the write, and only when the write landed, so the push and the row agree.
+  if (written && opts?.notify) {
+    const name = opts.notify.childName ?? 'Your child'
+    const fresh = stickers.filter(s => toPersist.some(t => t.sticker_key === s.key))
+    const firstEver = owned.size === 0
+    const first = fresh[0]
+    if (first) {
+      const why = stickerWhy(first, 'parent', name)
+      const title = firstEver
+        ? `${name} earned their first sticker 🏅`
+        : fresh.length > 1
+          ? `${name} earned ${fresh.length} stickers 🏅`
+          : `${name} earned ${first.name} 🏅`
+      const body = firstEver
+        ? `${first.name}: ${why} It is in their passport now. Order the printed passport and sticker sheet and add them as they go, or print it when it is complete.`
+        : fresh.length > 1
+          ? `${fresh.map(s => s.name).join(', ')}. ${why} All in their passport now.`
+          : `${why} It is in their passport now.`
+      try {
+        await sendPush({ userId, title, body, url: firstEver ? '/dashboard/keepsakes' : '/dashboard/pathway#stickers' })
+      } catch { /* the sticker still landed */ }
+    }
+  }
+
   return { stickers, earnedCount: stickers.filter(s => s.earned).length, total: stickers.length }
+}
+
+/** Distinct days the timer ran for this child. Fails soft to zero. */
+async function timerDaysFor(supabase: SupabaseClient, childId: string): Promise<number> {
+  try {
+    const { data } = await supabase.from('device_sessions').select('started_at').eq('child_id', childId).limit(2000)
+    return new Set((data ?? []).map(r => String(r.started_at ?? '').slice(0, 10)).filter(Boolean)).size
+  } catch { return 0 }
+}
+
+/** Jobs a grown up approved for this child, all time. Fails soft to zero. */
+async function jobsDoneFor(supabase: SupabaseClient, childId: string): Promise<number> {
+  try {
+    const { count } = await supabase
+      .from('quest_ticks').select('id', { count: 'exact', head: true })
+      .eq('child_id', childId).eq('status', 'approved')
+    return count ?? 0
+  } catch { return 0 }
+}
+
+/** Days this child ticked the move step (time outside). Fails soft to zero. */
+async function outsideDaysFor(supabase: SupabaseClient, childId: string): Promise<number> {
+  try {
+    const { count } = await supabase
+      .from('kid_days').select('id', { count: 'exact', head: true })
+      .eq('child_id', childId).contains('done', ['move'])
+    return count ?? 0
+  } catch { return 0 }
 }
 
 async function countSheets(supabase: SupabaseClient, userId: string, childId: string): Promise<number> {

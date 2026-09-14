@@ -88,7 +88,7 @@ const WHEN_WRONG: Clause = {
 const EARN_TIME: Clause = {
   key: 'earn-time',
   title: 'How screen time is earned',
-  why: 'Time that is earned is time nobody argues about. Quests make it automatic.',
+  why: 'Time that is planned together is time nobody argues about. Jobs make it automatic, and a small core is always theirs.',
   talk: 'Which jobs feel fair to you for earning screen time, and which feel like too much?',
   options: [
     'Stars from quests buy screen minutes, one star is five minutes',
@@ -167,7 +167,12 @@ const KEEP_TALKING: Clause = {
 }
 
 export const CLAUSES_BY_TYPE: Record<string, Clause[]> = {
-  'first-screens': [SCREENS_OFF, DEVICE_SLEEP, ASK_FIRST, EARN_TIME, MEALS, WHEN_WRONG],
+  // No earned time clause at four to seven (14 September 2026). The stage
+  // guide (digi/04-stages.md) is explicit that at this age screen time is
+  // never framed as a reward or a privilege, because framing makes it more
+  // desirable; the jobs and stars still run, the deal simply does not put the
+  // trade in writing for a five year old. The parent runs the timer here.
+  'first-screens': [SCREENS_OFF, DEVICE_SLEEP, ASK_FIRST, MEALS, WHEN_WRONG],
   'tablet-games':  [SCREENS_OFF, DEVICE_SLEEP, ASK_FIRST, MONEY, EARN_TIME, WHEN_WRONG],
   'first-phone':   [SCREENS_OFF, DEVICE_SLEEP, ANSWER_CALL, KINDNESS, EARN_TIME, MONEY, WHEN_WRONG],
   'social-ready':  [SOCIAL_APPS, KINDNESS, SCREENS_OFF, DEVICE_SLEEP, MONEY, WHEN_WRONG],
@@ -220,3 +225,59 @@ export function dealLinesFrom(row: {
   return out.slice(0, 2)
 }
 
+// ── WHY WE AGREED THIS: THE SCIENCE PER DEAL (14 September 2026) ────────────
+//
+// Justin, reviewing the agreement: it should match "best science by age and
+// what we have fully researched from child experts". Every line below is
+// already in the product's own research bank (the DiGi situations bank,
+// migration 263; the expert knowledge rows, 042 and 072; the verified
+// briefings of August and September 2026) and is quoted here with its source,
+// so a parent asked "why" at the table can say where it came from. The
+// naming rule from migration 123 holds: bodies, published studies and the
+// academics the homepage already cites; never a living clinician's name next
+// to advice.
+//
+// One honest line sits on every deal: the promise carrying the weight is
+// where devices sleep. The one randomised trial of family media plans as a
+// whole (Moreno et al, JAMA Pediatrics 2021, 1,520 families) found no effect
+// of the plan on its own; the bedroom rule is where the evidence is strongest
+// (Carter et al, JAMA Pediatrics 2016, 125,198 children). The rest of the
+// deal is the conversation, and that is what it is for.
+export type DealScience = { claim: string; source: string }
+
+const BEDROOM: DealScience = {
+  claim: 'Where devices sleep is the promise that does most of the work. A device in the bedroom at night roughly doubles the odds of too little sleep, even when it is not used.',
+  source: 'Carter and colleagues, JAMA Pediatrics 2016, 125,198 children',
+}
+
+export const SCIENCE_BY_TYPE: Record<string, DealScience[]> = {
+  'first-screens': [
+    BEDROOM,
+    { claim: 'At this age an adult beside the child, naming what is on the screen, does more than any time limit. Watching together teaches judgement that a filter cannot.', source: 'Internet Matters and UKCIS guidance for the early years' },
+    { claim: 'The hard moment is the end, not the start. Endings set by the device itself went far better than a parent calling time, and a spoken two minute warning made it worse.', source: 'Hiniker and colleagues, CHI 2016' },
+  ],
+  'tablet-games': [
+    BEDROOM,
+    { claim: 'Real money arrives at this age, a full stage before the phone: 53 percent of UK children who play online games spend money in them, and a third of recent spenders often regret it.', source: 'Ofcom, Children\'s Online Experiences 2026' },
+    { claim: 'Structure beats willpower. On unstructured days, sleep, movement and screen habits slide in about four studies out of five, which is why the deal names when, not just how much.', source: 'Brazendale and colleagues, the structured days hypothesis, 2017' },
+  ],
+  'first-phone': [
+    BEDROOM,
+    { claim: 'Expect the first phone to show up in sleep before anywhere else. Twelve year olds with a phone had 1.6 times the odds of too little sleep, and a first phone in the following year raised those odds by half.', source: 'Barzilay and colleagues, Pediatrics 2025, 10,588 children' },
+    { claim: 'Eleven to thirteen is the window when a child\'s wellbeing is most sensitive to social media use, for girls especially, which is why the phone deal talks about apps before there are any.', source: 'Orben, Przybylski, Blakemore and Kievit, Nature Communications 2022, 17,409 UK young people' },
+  ],
+  'social-ready': [
+    BEDROOM,
+    { claim: 'Thirteen is the age a child can consent to their own data under UK law. It is a data line, not a readiness line, so the deal is decided app by app rather than by a birthday.', source: 'UK GDPR, and Ofcom on children\'s social media use' },
+    { claim: 'From spring 2027 the UK bars under sixteens from the main social apps. Messaging apps sit outside it, and a ban removes the view rather than the risk, which is why this deal keeps the conversation open.', source: 'UK Government announcement, 15 June 2026' },
+  ],
+  'independent': [
+    { claim: 'The bedroom rule never goes away, it adapts: by sixteen it is devices off at midnight rather than devices in the kitchen. Sleep is still the thing screens take first.', source: 'UK Chief Medical Officers\' advice to families' },
+    { claim: 'Strict rules stop working past fourteen. Across 57 studies, restriction had a near zero effect and in older teens tracked slightly more problem use, so this deal has fewer promises and more talking.', source: 'Collier and colleagues 2016; Lukavska and colleagues 2022' },
+    { claim: 'A young person who can say what technology gives them and what it costs them is the prepared one. At sixteen the goal is literacy, not compliance.', source: 'The Guided Childhood stage guide, built on the digital literacy research it cites' },
+  ],
+}
+
+export function scienceForType(typeKey: string | null | undefined): DealScience[] {
+  return SCIENCE_BY_TYPE[typeKey ?? ''] ?? []
+}

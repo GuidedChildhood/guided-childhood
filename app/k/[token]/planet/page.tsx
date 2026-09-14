@@ -4,6 +4,7 @@ import { resolveTheme } from '@/lib/kid/theme'
 import { loadHomeView } from '@/lib/planet/server'
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { planetVisible } from '@/lib/planet/flag'
+import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // My planet: Planet Friends on the child link. Same trust model as every
 // child screen: no account, no login, the token scopes everything to one
@@ -45,6 +46,7 @@ export default async function KidPlanetPage({ params, searchParams }: { params: 
   const view = await loadHomeView(supabase, link.user_id as string, link.child_id as string, child ?? {})
 
   return (
+    <>
     <PlanetFriends
       token={token}
       initial={view}
@@ -53,5 +55,7 @@ export default async function KidPlanetPage({ params, searchParams }: { params: 
       initialWhere={go}
       preview={sp?.preview ?? null}
     />
+    <KidTodayReturn token={token} />
+    </>
   )
 }

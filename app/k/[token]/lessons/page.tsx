@@ -10,6 +10,7 @@ import { newPlanets, type Home } from '@/lib/planet/logic'
 import { MAP_LINES } from '@/lib/planet/world'
 import { PLANET_FRIENDS_LIVE } from '@/lib/planet/flag'
 import { PLANET_WORDS } from '@/lib/planet/universe'
+import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // My lessons: the child's own list of the age right stage lessons from the
 // family library, opened from their quest link. No account, no login; the
@@ -172,6 +173,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
   } catch { /* the map says it on the next open */ }
 
   return (
+    <>
     <KidLessonList
       planetLine={planetLine}
       theme={resolveTheme(child?.accent as string | null)}
@@ -184,5 +186,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
       checkHref={`/k/${token}/quiz`}
       checkPassed={stageCheckPassed}
     />
+    <KidTodayReturn token={token} />
+    </>
   )
 }
