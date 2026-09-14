@@ -14925,3 +14925,21 @@ Decided, on PR 1073:
   over the page. The recommended pill no longer wraps.
 
 Guard check-deal-in-the-loop grew to 24 rules; five review mutations caught.
+
+## 14 September 2026, evening: the child's week, drawn with the Friend
+
+Justin, with four Kenji screenshots (the chick and the bunny on a dotted sky,
+the gem rewards board, the boba blind boxes): "Child calendar does not look
+great in yellow. Redesign in super fun happy news style like the Kenji shop
+but our Planet Friends."
+
+Three week rows had grown on the child's side and all three were yellow on
+yellow. One component now, `components/kid/KidWeekCalendar.tsx`: a pastel
+ground scattered with coral and butter dots, seven chunky tiles with ink
+edges and ledges, the child's own Planet Friend sitting on every done day
+with a green tick, today in a coral edge with a TODAY tag, days ahead dotted,
+a quiet past day simply quiet (no red, no loss language). A ribbon heading,
+a count pill, one line under. Used under the five a day (full days), on the
+book's Every day page (daily stickers) and on the balance card (quest days),
+each with its own tone. The Kenji move is the dotted sky and the character
+on the tile; the palette, the ribbon and the plates are ours.

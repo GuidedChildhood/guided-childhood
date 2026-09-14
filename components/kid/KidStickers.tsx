@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import type { StickerRule } from '@/lib/stickers/catalog'
+import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
 
 // The child's own sticker book, at the foot of their path. The collection fills
 // up as they earn stars, finish printables and grow, earned bright and locked
@@ -104,6 +105,8 @@ function Tile({ s }: { s: KidSticker }) {
 export type DailyStickers = {
   total: number
   week: { letter: string; earned: boolean; isToday: boolean }[]
+  /** The child's own Planet Friend, on every done day of the row. */
+  friend?: { name: string; img: string } | null
 }
 
 export default function KidStickers({ token, stickers, celebrate, daily = null }: {
@@ -284,28 +287,24 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
                 How it works
               </span>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: '#6B5C42', lineHeight: 1.5, margin: 0 }}>
-                Finish your five a day and a gold star lands here for that day. Full days are what bring the Planet Friends home.
+                Finish your five a day and your Friend lands on that day. Full days are what bring the Planet Friends home.
               </p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
-              {daily.week.map((d, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1 }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: d.isToday ? '#2A1F14' : '#9A8A6A' }}>{d.letter}</span>
-                  <span aria-label={d.earned ? 'sticker earned' : 'no sticker'} style={{
-                    width: 38, height: 38, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 'var(--text-lg)', lineHeight: 1,
-                    background: d.earned ? '#fff' : 'rgba(26,26,46,0.05)',
-                    border: d.earned ? '2.5px solid #C99A28' : d.isToday ? '2px dashed #C99A28' : '2px dashed rgba(26,26,46,0.16)',
-                    boxShadow: d.earned ? '0 3px 0 #C99A28' : 'none',
-                    transform: d.earned ? `rotate(${(i % 2 ? 1 : -1) * 6}deg)` : 'none',
-                    filter: d.earned ? 'none' : 'grayscale(1)', opacity: d.earned ? 1 : 0.5,
-                  }}><span aria-hidden>⭐</span></span>
-                </div>
-              ))}
-            </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: '#9A8A6A', lineHeight: 1.4, margin: '11px 0 0', textAlign: 'center' }}>
-              One a day. Nobody can take a day back off you
-            </p>
+            {/* The Kenji note (14 September 2026): the child's Friend on every
+                done day, on a dotted sky, never a yellow star on cream. */}
+            {(() => {
+              const today = daily.week.findIndex(d => d.isToday)
+              const n = daily.week.filter(d => d.earned).length
+              return (
+                <KidWeekCalendar
+                  days={daily.week.map((d, i) => ({ letter: d.letter, done: d.earned, isToday: d.isToday, ahead: today >= 0 && i > today }))}
+                  friend={daily.friend ?? null}
+                  title="This week"
+                  count={{ n, word: n === 1 ? 'day' : 'days' }}
+                  line="One a day. Nobody can take a day back off you"
+                />
+              )
+            })()}
           </div>
         )}
 

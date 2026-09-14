@@ -97,7 +97,7 @@ export default function KidPassportFixture() {
           childName="Alfie"
           stickers={FIXTURE}
           celebrateStickers={q.get('cheer') === '1' ? ['sorted-car'] : []}
-          daily={{ total: 12, week: ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((letter, i) => ({ letter, earned: i < 3, isToday: i === 3 })) }}
+          daily={{ total: 12, week: ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((letter, i) => ({ letter, earned: i < 3, isToday: i === 3 })), friend: { name: 'Bloop', img: '/digi-squad/friends/bloop.png' } }}
           passportCode="GC-1JZX-KKXD"
           stageId={1}
         />

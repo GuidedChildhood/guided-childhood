@@ -109,6 +109,14 @@ if (!/data-daily-page/.test(kidStickers) || !/daily\.week\.map/.test(kidStickers
 else if (!/data-day-sticker/.test(dayDone) || !/Today's sticker is in your passport/.test(dayDone)) problems.push('E: the day done screen does not name the sticker it paid')
 else ok.push('E: the daily sticker is in the book and named on the day done screen')
 
+// ── E2: the week is one calendar, with the Friend on it (the Kenji note) ────
+const weekCal = read('components/kid/KidWeekCalendar.tsx')
+const fiveADay = read('components/kid/KidFiveADay.tsx')
+if (!/data-week-calendar/.test(weekCal) || !/friend\.img/.test(weekCal)) problems.push('E2: the week calendar does not put the Friend on a done day')
+else if (!/<KidWeekCalendar/.test(fiveADay) || !/<KidWeekCalendar/.test(kidStickers) || !/<KidWeekCalendar/.test(screen)) problems.push('E2: the five a day, the book and the balance card do not share the one week calendar')
+else if (/'⭐'/.test(kidStickers.match(/data-daily-page[\s\S]{0,3000}/)?.[0] ?? '')) problems.push('E2: the Every day page still draws a yellow star per day')
+else ok.push('E2: one week calendar, the child\'s Friend on every done day, on the five a day, the book and the balance card')
+
 // ── F: today on every tab ───────────────────────────────────────────────────
 if (!/data-today-tab/.test(tabBar) || !/today\.complete \? 'done' : today\.opened \? 'going' : 'fresh'/.test(tabBar)) problems.push('F: the bar has no Today entry with its three states')
 else if (!/today=\{todayTab\}/.test(screen) || !/onToday=\{\(\) => \{ setTab\('quests'\)/.test(screen)) problems.push('F: the screen does not feed the Today entry or send it home')
