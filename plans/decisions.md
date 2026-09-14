@@ -15057,3 +15057,39 @@ card on the home. Every read fails soft; every decision stays on the server.
 Also fixed today's failing wiring check: three links on the Home sticker
 card had the child query variable right after the path, which the link
 checker read as a dead route. The query now starts in the literal.
+## 14 September 2026, Monday, the print kit after the design council (session 0u09q9)
+
+Two critics read the rendered sheets: a Reception teacher and a Head of PSHE
+with a print designer's eye. Six findings changed the kit; the rest were
+fixture artefacts (the local render fixture had no quote or starter text for
+module 01, production has both) or already fixed.
+
+- Reception pupil pages were the Year 10 layout with a bigger Pebble. Now a
+  verdict card at Reception is three faces in crayon sized circles to point
+  at and colour (`BigChoice` in the kit), no tick boxes, no writing line, and
+  the drawing box runs to the foot of the page. The EYFS teacher notes already
+  called it "the circle sheet with faces"; the sheet now is one.
+- The register ran backwards on the cover: Sextortion set smaller than a
+  Reception title inside the same shrunken card. Years 7 up now open on an
+  editorial cover: the title at up to 56px, one accent rule, the friend as a
+  mark, no card, and no emoji on the rundown.
+- The teacher one pager is one page: dense boxes, a size down, and the
+  safeguarding note first, above the objective, because "brief the DSL before
+  this lesson" cannot be the first line of page two.
+- The footer is pinned to the foot of the A4 sheet (PrintSheet at 268mm), so a
+  short page no longer reads as a web page printed; labels and the footer are
+  ink muted, not pale grey, and answers on the key are ink at 800, so a black
+  and white copy keeps them.
+- The passport sticker sheet had eleven stickers for five rings, named
+  differently on each. Now one sticker per lesson and one ring per lesson,
+  matched by number on both, the stamp sticker on a ghost of the friend, no
+  Well done stars, and the older editions' stickers are plain type on the
+  disc with the area name, never a smiling face over a serious topic. The
+  booklet's last page carries the sticker's number instead of a ring nothing
+  fills.
+- The start card prints only when there is a last lesson to remember, and the
+  words to say fall back to the module's tool when a deck has no quote.
+
+Guard `scripts/check-print-kit.mjs` holds the Reception faces, the
+safeguarding order, the sheet height, the start card gate and the numbered
+match. No migration.

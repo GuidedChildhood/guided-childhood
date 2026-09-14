@@ -6,8 +6,8 @@ import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import PrintButton from '@/components/PrintButton'
-import { worksheetItems, hasAnswerKey } from '@/lib/worksheet'
-import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, Number, CutLine } from '@/components/print/kit'
+import { worksheetItems, hasAnswerKey, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
+import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
@@ -89,6 +89,19 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   const page = placement && placement !== 'after' ? PASSPORT_STAGES[placement] : null
   const teacherFooter = `${lesson.title} · teacher sheet`
   const pupilFooter = `${lesson.title} · photocopy per pupil`
+  // Teacher sheets are read at a desk, not held by a child: a size down and a
+  // tighter box, so the one pager is one page (the Head of PSHE pass, 14
+  // September 2026: a one pager that runs to two sheets is not a one pager).
+  const tt: React.CSSProperties = { ...text, fontSize: '12.5px', lineHeight: 1.42 }
+  // The parent note goes home on one side of one sheet: a size down from the
+  // pupil pages and tighter boxes, the friend at 26mm.
+  const pt: React.CSSProperties = { ...text, fontSize: 'var(--text-sm)', lineHeight: 1.5 }
+  // Verdict cards in sheets that each fit at the register's own size, so
+  // every sheet keeps its footer at its foot (lib/worksheet.ts, splitSheets).
+  const itemSheets = splitSheets(items, SHEET_CAPACITY[reg.key])
+  // A start card needs a question to remember. The first lesson of the scheme
+  // has no last lesson, and a heading over an empty box helps nobody.
+  const startCard = retrieval && retrieval.question?.trim() ? retrieval : null
 
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff', color: 'var(--ink)' }}>
@@ -100,29 +113,32 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
       {/* Sheet 1: the teacher one pager. */}
       <PrintSheet footer={teacherFooter}>
         <FriendHeader friend={friend} register={reg} small mood="thinking" eyebrow={`${eyebrow} · Teacher one pager`} title={lesson.title} sub={`Action outcome: ${lesson.single_action_outcome}`} />
-        <div style={{ display: 'grid', gridTemplateColumns: notes.timing ? '1fr 1fr' : '1fr', gap: '0 12px' }}>
-          {notes.learning_objective && <Box label="Objective"><p style={text}>{notes.learning_objective}</p></Box>}
-          {notes.timing && <Box label="Timing"><p style={text}>{notes.timing}</p></Box>}
+        {/* The safeguarding note comes first. On a sextortion lesson, "brief
+            the DSL before this lesson" is the one line a teacher must read
+            before anything else on the sheet. */}
+        {dsl.note && <Box dense label="Safeguarding note" style={{ borderColor: 'var(--coral)', borderWidth: '2px' }}><p style={tt}>{dsl.note}</p></Box>}
+        <div style={{ display: 'grid', gridTemplateColumns: notes.timing ? '1fr 1fr' : '1fr', gap: '0 10px' }}>
+          {notes.learning_objective && <Box dense label="Objective"><p style={tt}>{notes.learning_objective}</p></Box>}
+          {notes.timing && <Box dense label="Timing"><p style={tt}>{notes.timing}</p></Box>}
         </div>
-        <Box label="Statutory coverage (for your records and the subject lead)">
-          <p style={text}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
-          <p style={{ ...text, marginTop: '4px' }}>Education for a Connected World strand{(lesson.efcw_strands ?? []).length === 1 ? '' : 's'}: {(lesson.efcw_strands ?? []).join(', ')} · Evidence anchor: {lesson.evidence_anchor}</p>
+        <Box dense label="Statutory coverage (for your records and the subject lead)">
+          <p style={tt}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
+          <p style={{ ...tt, marginTop: '3px' }}>Education for a Connected World strand{(lesson.efcw_strands ?? []).length === 1 ? '' : 's'}: {(lesson.efcw_strands ?? []).join(', ')} · Evidence anchor: {lesson.evidence_anchor}</p>
         </Box>
         {notes.misconceptions && notes.misconceptions.length > 0 && (
-          <Box label="Misconceptions to expect">
+          <Box dense label="Misconceptions to expect">
             {notes.misconceptions.map((m, i) => (
-              <p key={i} style={{ ...text, display: 'flex', gap: '8px', marginTop: i ? '4px' : 0 }}><span style={{ color: friend.accent, fontWeight: 900 }}>•</span><span>{m}</span></p>
+              <p key={i} style={{ ...tt, display: 'flex', gap: '8px', marginTop: i ? '3px' : 0 }}><span style={{ color: friend.accent, fontWeight: 900 }}>•</span><span>{m}</span></p>
             ))}
           </Box>
         )}
         {notes.differentiation && (
-          <Box label="Differentiation">
-            {notes.differentiation.support && <p style={text}><strong>Support:</strong> {notes.differentiation.support}</p>}
-            {notes.differentiation.stretch && <p style={{ ...text, marginTop: '4px' }}><strong>Stretch:</strong> {notes.differentiation.stretch}</p>}
+          <Box dense label="Differentiation">
+            {notes.differentiation.support && <p style={tt}><strong>Support:</strong> {notes.differentiation.support}</p>}
+            {notes.differentiation.stretch && <p style={{ ...tt, marginTop: '3px' }}><strong>Stretch:</strong> {notes.differentiation.stretch}</p>}
           </Box>
         )}
-        {dsl.note && <Box label="Safeguarding note" style={{ borderColor: 'var(--coral)' }}><p style={text}>{dsl.note}</p></Box>}
-        {notes.paper_fallback && <Box label="No screen? No problem"><p style={text}>{notes.paper_fallback}</p></Box>}
+        {notes.paper_fallback && <Box dense label="No screen? No problem"><p style={tt}>{notes.paper_fallback}</p></Box>}
       </PrintSheet>
 
       {/* Sheet 2: the tool bookmarks, four to a sheet. */}
@@ -147,20 +163,30 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
       </PrintSheet>
 
       {/* Sheet 3: the worksheet, photocopy per pupil. */}
-      <PrintSheet footer={pupilFooter}>
-        <FriendHeader friend={friend} register={reg} mood="thinking" eyebrow={`${eyebrow} · Worksheet`} title={worksheetTitle} sub={worksheetDirections} nameLine="Name" />
-        {items.map(it => (
+      {itemSheets.map((sheet, si) => (
+      <PrintSheet key={si} footer={pupilFooter}>
+        {si === 0
+          ? <FriendHeader friend={friend} register={reg} mood="thinking" eyebrow={`${eyebrow} · Worksheet`} title={worksheetTitle} sub={worksheetDirections} nameLine="Name" friendMm={young ? 34 : undefined} />
+          : <FriendStrip friend={friend} register={reg} eyebrow={`${eyebrow} · Worksheet · ${worksheetTitle} · sheet ${si + 1} of ${itemSheets.length}`} />}
+        {sheet.map(it => (
           <Box key={it.n} radius={reg.radius}>
             <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
               <Number n={it.n} friend={friend} size={young ? 34 : 28} />
               <p style={{ ...text, fontSize: reg.body, fontWeight: 700, paddingTop: '4px' }}>{it.item}</p>
             </div>
-            <TickRow options={verdictOptions} friend={friend} big={young} />
-            <div style={{ ...mono, marginTop: '10px' }}>{it.stem ?? 'Because'}</div>
-            <WriteLines n={young ? 2 : 1} height={reg.lineHeight} />
+            {young ? (
+              <BigChoice options={verdictOptions} friend={friend} />
+            ) : (
+              <>
+                <TickRow options={verdictOptions} friend={friend} />
+                <div style={{ ...mono, marginTop: '10px' }}>{it.stem ?? 'Because'}</div>
+                <WriteLines n={1} height={reg.lineHeight} />
+              </>
+            )}
           </Box>
         ))}
       </PrintSheet>
+      ))}
 
       {/* Sheet 4: the answer key. Teacher copy, one only, never photocopied.
           The teaching point matters more than the verdict here: knowing item 4
@@ -170,16 +196,16 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         <PrintSheet footer={teacherFooter}>
           <FriendStrip friend={friend} register={reg} eyebrow="Teacher copy · one only · do not photocopy" />
           <h2 style={{ ...display, fontSize: 'var(--text-xl)', marginBottom: '6px' }}>Answer key: {worksheetTitle}</h2>
-          <p style={{ ...text, color: 'var(--ink-soft)' }}>
+          <p style={{ ...tt, color: 'var(--ink-soft)' }}>
             Keep this beside you while they work. The line under each answer is what to say
             when a child has it the other way round, and it is worth saying even when they
             have it right.
           </p>
           {items.map(it => (
-            <Box key={it.n}>
-              <p style={{ ...text, fontWeight: 700 }}>{it.n}. {it.item}</p>
-              {it.expected_verdict && <p style={{ ...text, marginTop: '6px', fontWeight: 800, color: 'var(--green-dark)' }}>Answer: {it.expected_verdict}</p>}
-              {it.teaching_point && <p style={{ ...text, marginTop: '4px' }}>{it.teaching_point}</p>}
+            <Box key={it.n} dense>
+              <p style={{ ...tt, fontWeight: 700 }}>{it.n}. {it.item}</p>
+              {it.expected_verdict && <p style={{ ...tt, marginTop: '4px', fontWeight: 800, color: 'var(--ink)' }}>Answer: {it.expected_verdict}</p>}
+              {it.teaching_point && <p style={{ ...tt, marginTop: '3px' }}>{it.teaching_point}</p>}
             </Box>
           ))}
         </PrintSheet>
@@ -187,16 +213,16 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
 
       {/* Sheet 5: the start and exit cards, photocopy per pupil, cut in half. */}
       <PrintSheet footer={pupilFooter}>
-        <FriendStrip friend={friend} register={reg} eyebrow="Photocopy per pupil · cut in half · start and end of lesson" />
-        {retrieval && (
+        <FriendStrip friend={friend} register={reg} eyebrow={startCard ? 'Photocopy per pupil · cut in half · start and end of lesson' : 'Photocopy per pupil · end of lesson'} />
+        {startCard && (
           <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
               <FriendArt friend={friend} mood="thinking" size={reg.markMm} />
               <div style={{ ...mono, color: friend.ink }}>Start card · remember last lesson</div>
             </div>
-            <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{retrieval.question}</p>
+            <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{startCard.question}</p>
             <div style={{ marginTop: '8px' }}>
-              {(retrieval.options ?? []).map((o, i) => (
+              {(startCard.options ?? []).map((o, i) => (
                 <p key={i} style={{ ...text, fontSize: reg.body, display: 'flex', gap: '10px', alignItems: 'center', marginTop: '4px' }}>
                   <span style={{ width: '16px', height: '16px', border: '1.5px solid var(--ink)', borderRadius: '4px', flexShrink: 0 }} />
                   <span><strong>{String.fromCharCode(65 + i)}.</strong> {o.text}</span>
@@ -205,7 +231,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             </div>
           </div>
         )}
-        <CutLine />
+        {startCard && <CutLine />}
         <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
             <FriendArt friend={friend} mood="happy" size={reg.markMm} />
@@ -229,35 +255,35 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
 
       {/* Sheet 6: the parent note. Photocopy per pupil, goes home. */}
       <PrintSheet footer={`${lesson.title} · goes home`} last>
-        <FriendHeader friend={friend} register={reg} mood="wave" eyebrow={`Goes home · ${eyebrow} · with ${friend.name}`} title={parent.headline ?? 'What we taught today'} />
-        {parent.taught && <p style={{ ...text, fontSize: 'var(--text-md)' }}>{parent.taught}</p>}
+        <FriendHeader friend={friend} register={reg} mood="wave" eyebrow={`Goes home · ${eyebrow} · with ${friend.name}`} title={parent.headline ?? 'What we taught today'} friendMm={26} />
+        {parent.taught && <p style={{ ...pt, fontSize: 'var(--text-base)' }}>{parent.taught}</p>}
         {/* The module's own tool, from the same fallback chain as sheet one. */}
-        <Box label={tool.heading} friend={friend} tint>
+        <Box label={tool.heading} friend={friend} tint dense>
           {tool.lines.map((l, i) => (
-            <p key={i} style={{ ...text, fontWeight: 700, marginTop: i ? '2px' : 0 }}>{/^\d/.test(l) ? '' : `${i + 1}. `}{l}</p>
+            <p key={i} style={{ ...pt, fontWeight: 700, marginTop: i ? '2px' : 0 }}>{/^\d/.test(l) ? '' : `${i + 1}. `}{l}</p>
           ))}
         </Box>
-        {parent.try_this && <Box label="Try this at home"><p style={text}>{parent.try_this}</p></Box>}
-        {parent.family_question && <Box label="Dinner table question"><p style={{ ...text, fontWeight: 700 }}>{parent.family_question}</p></Box>}
+        {parent.try_this && <Box label="Try this at home" dense><p style={pt}>{parent.try_this}</p></Box>}
+        {parent.family_question && <Box label="Dinner table question" dense><p style={{ ...pt, fontWeight: 700 }}>{parent.family_question}</p></Box>}
         {/* Both halves of the school to home bridge, in reading order: the
             passport line says what the family is part of, the home code lets
             them act on it. */}
         {(parent.passport || page) && (
-          <Box label="The passport" friend={friend}>
-            {parent.passport && <p style={text}>{parent.passport}</p>}
-            {page && area && <p style={{ ...text, marginTop: parent.passport ? '4px' : 0 }}>Today filled the <strong>{page.page}</strong> page: <strong>{AREAS[area].name}</strong>.</p>}
+          <Box label="The passport" friend={friend} dense>
+            {parent.passport && <p style={pt}>{parent.passport}</p>}
+            {page && area && <p style={{ ...pt, marginTop: parent.passport ? '4px' : 0 }}>Today filled the <strong>{page.page}</strong> page: <strong>{AREAS[area].name}</strong>.</p>}
           </Box>
         )}
         {homeCode && (
-          <div className="gc-avoid-break" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 16px', border: `2px solid ${friend.accent}`, borderRadius: '16px', padding: '12px 16px', marginTop: '10px' }}>
-            <div style={{ flex: '1 1 auto' }}>
+          <div className="gc-avoid-break" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 16px', border: `2px solid ${friend.accent}`, borderRadius: '16px', padding: '10px 14px', marginTop: '8px' }}>
+            <div style={{ flex: '1 1 200px' }}>
               <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>On the Guided Childhood app at home?</div>
-              <p style={text}>Enter this code on the Lessons page and your child&rsquo;s passport records what we covered today.</p>
+              <p style={pt}>Enter this code on the Lessons page and your child&rsquo;s passport records what we covered today.</p>
             </div>
             <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '0.14em', color: 'var(--ink)', background: friend.soft, border: `1.5px solid ${friend.accent}`, borderRadius: '12px', padding: '10px 14px', whiteSpace: 'nowrap' }}>{homeCode}</div>
           </div>
         )}
-        <p style={{ ...text, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '14px' }}>Guided Childhood Schools · no login needed, nothing to sign up for. This note is yours.</p>
+        <p style={{ ...text, fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '10px' }}>No login needed, nothing to sign up for. This note is yours.</p>
         <PrintBrandFooter />
       </PrintSheet>
     </main>
