@@ -33,7 +33,15 @@ export default async function KidWeekFixture({ searchParams }: { searchParams: P
         { key: 'outside-1', name: 'Fresh Air', emoji: '🌳', colour: '#2F8F6B', earned: true, rule: { kind: 'outside', n: 1 }, have: 1, need: 1 },
         { key: 'outside-10', name: 'Outdoor Ten', emoji: '🌳', colour: '#2F8F6B', earned: false, rule: { kind: 'outside', n: 10 }, have: 1, need: 10 },
         { key: 'timer-7', name: 'Timer Week', emoji: '⏱️', colour: '#2E6F8E', earned: false, rule: { kind: 'timer', n: 7 }, have: 6, need: 7 },
-      ])} />
+      ], { token: '0123456789abcdef01' })} />
+      {/* The same three rows with the balance objective on an OUTSIDE sticker
+          rather than the timer, which is the case that has no door: it is
+          ticked on the Move about row of the five a day above. */}
+      <KidMission rows={buildMission([
+        { key: 'friend-pebble', name: 'Pebble', art: '/digi-squad/friends/pebble.png', colour: '#EDC35F', earned: false, rule: { kind: 'friend', n: 1, streaks: 2 }, have: 1, need: 2 },
+        { key: 'lessons-5', name: 'Five Lessons', emoji: '📚', colour: '#2E6F8E', earned: false, rule: { kind: 'lessons', n: 5 }, have: 1, need: 5 },
+        { key: 'outside-1', name: 'Fresh Air', emoji: '🌳', colour: '#2F8F6B', earned: false, rule: { kind: 'outside', n: 1 }, have: 0, need: 1 },
+      ], { token: '0123456789abcdef01' })} />
       <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: 14 }}>
         <p style={{ margin: '0 0 8px', fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Compact, inside another card</p>
         <KidWeekCalendar days={week([1, 3], 4)} friend={friend} compact />

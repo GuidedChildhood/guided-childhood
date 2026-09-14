@@ -54,7 +54,7 @@ export default function KidHomeFixture() {
           corner={<button aria-label="Turn sounds off" style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 2px 0 var(--ink)', fontSize: 'var(--text-base)', lineHeight: 1 }}>🔊</button>}
         />
         {/* ?today=done|going|fresh: the Today entry's three states (14 September 2026). */}
-        <KidTabBar current="quests" onSelect={noop} badges={{ lessons: 2, print: 0 }} onToday={noop}
+        <KidTabBar current="quests" onSelect={noop} badges={{ lessons: 2, print: 0, waiting: 2 }} onToday={noop}
           today={sp.today === 'done' ? { left: 0, total: 5, complete: true, opened: true } : sp.today === 'fresh' ? { left: 0, total: 0, complete: false, opened: false } : { left: 3, total: 5, complete: false, opened: true }} />
         <KidAskBanner ask={{ id: 'a', device: 'tv', minutes: 10, status: 'pending' }} blockingJobs={[]} nudges={[{ id: 'n', message: 'Nearly there. One more job and the TV is yours.' }]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
         <KidAskBanner ask={{ id: 'b', device: 'tv', minutes: 30, status: 'approved' }} blockingJobs={[]} outstandingJobs={['Tidy my room']} nudges={[]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />

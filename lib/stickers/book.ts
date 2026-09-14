@@ -283,11 +283,56 @@ async function jobsDoneFor(supabase: SupabaseClient, childId: string): Promise<n
 }
 
 /** Days this child ticked the move step (time outside). Fails soft to zero. */
+/**
+ * Days this child ticked Move about, all time.
+ *
+ * ── THE ARGUMENT IS A JSON STRING, AND IT HAS TO BE ─────────────────────────
+ *
+ * This read `.contains('done', ['move'])` until 14 September 2026 and returned
+ * 0 for every child on every call, silently, since the day it shipped.
+ *
+ * `kid_days.done` is JSONB (migration 134). Handed an ARRAY, postgrest-js
+ * serialises a POSTGRES ARRAY LITERAL (PostgrestFilterBuilder.contains: the
+ * Array.isArray branch emits `cs.{move}`), which reaches Postgres as
+ * `done @> '{move}'`. Confirmed against the live database, that is not an
+ * error we get told about, it is:
+ *
+ *   ERROR 22P02: invalid input syntax for type json, Token "move" is invalid
+ *
+ * supabase-js RETURNS errors rather than throwing them, so `count` came back
+ * null, `count ?? 0` handed back 0, and the catch below never fired. Nothing
+ * was ever logged. A failing query that looks exactly like an honest zero.
+ *
+ * Handed a STRING, the same method passes it through untouched, so the JSON
+ * form below reaches Postgres as `done @> '["move"]'` and actually matches.
+ *
+ * ── WHAT IT COST ────────────────────────────────────────────────────────────
+ *
+ * outsideDays fed three stickers (Fresh Air, Outdoor Ten, Wild Thirty), so
+ * none of them could EVER be earned by anybody. Worse, the mission picks the
+ * objective with the least left to do, and an outside sticker stuck one day
+ * short beats every timer sticker forever, so "Balanced screens" was pinned on
+ * "Fresh Air, 0 of 1 days" permanently. That is the row Justin was looking at
+ * when he asked whether these link up.
+ *
+ * The parent saw the same false zero from the same function, so the two apps
+ * never disagreed. They agreed on a number that was never true.
+ *
+ * The other three `.contains` calls in this repo are all on real text[]
+ * columns, where the array form is the correct one. This was the only JSONB
+ * one, which is why nothing else broke and why nothing caught it.
+ */
 async function outsideDaysFor(supabase: SupabaseClient, childId: string): Promise<number> {
   try {
-    const { count } = await supabase
+    const { count, error } = await supabase
       .from('kid_days').select('id', { count: 'exact', head: true })
-      .eq('child_id', childId).contains('done', ['move'])
+      .eq('child_id', childId).contains('done', JSON.stringify(['move']))
+    // Never swallow this one again. A count that fails is a sticker a child
+    // earned and did not get, so it is worth a line in the log.
+    if (error) {
+      console.error('outsideDaysFor failed', error.message)
+      return 0
+    }
     return count ?? 0
   } catch { return 0 }
 }

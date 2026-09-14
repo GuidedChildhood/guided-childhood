@@ -12,6 +12,8 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 import MarkStepOnArrival from '@/components/kid/MarkStepOnArrival'
 import { WaitingNote, TodayJobs } from '@/components/kid/BalanceToday'
 import { resolveTheme } from '@/lib/kid/theme'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import BalanceInsight from '@/components/celebrate/BalanceInsight'
 
 // Check my balance, as a page that exists.
 //
@@ -55,6 +57,10 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
   // The colour the child chose in Make it mine, rather than the anthracite
   // default this screen used to be pinned to.
   const theme = resolveTheme(child?.accent as string | null)
+  // The dial's ideas are written per stage, the same way the quest screen
+  // resolves it. Stage 2 when the band is missing, which is what that screen
+  // has always fallen back to.
+  const stageId = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
   const today = new Date().toISOString().slice(0, 10)
   const [banks, usedMap, region, questsRes, ticksRes] = await Promise.all([
     getStarBanks(supabase, link.user_id, [link.child_id], { [link.child_id]: (child?.age_band as string | null) ?? null }),
@@ -112,6 +118,21 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: 'var(--ink)' }}>
           {name ? `${name}'s balance` : 'Your balance'}
         </h1>
+
+        {/* The dial, moved here from the top of the Quests tab on 14 September
+            2026. Justin: "can make balance hidden behind tab as a bit messy."
+            It was the first thing a child met when they opened their jobs,
+            which is the wrong order: this is a reflection on the day and that
+            tab is the doing of it. Here it leads the page it belongs to, above
+            the numbers it is a picture of. */}
+        <div style={{ margin: '4px 0 14px' }}>
+          <BalanceInsight
+            stageId={stageId}
+            usedTodayMinutes={usedToday}
+            recommendedMinutes={guide}
+            balanceStars={balance}
+          />
+        </div>
         {/* The one door that matters from here (14 September 2026): asking
             has its own page, three taps. The balance stays the record. */}
         <Link href={`/k/${token}/ask`} data-ask-door style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 'var(--radius-card)', padding: '14px 16px', margin: '10px 0 16px', boxShadow: '0 5px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>

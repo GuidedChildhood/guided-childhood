@@ -28,7 +28,6 @@ import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSoun
 import { getDeviceId } from '@/lib/push/device-id'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
-import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
@@ -589,7 +588,16 @@ export default function KidQuestScreen({
   // THE MISSION: the next sticker on each objective, read off the book the
   // screen already holds. The friend row takes the live full days so it moves
   // with the day. See lib/kid/mission.ts.
-  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks }), [stickers, liveStreaks])
+  // The token goes in so each row knows where the work is actually done, and
+  // so a row with nowhere to send them stays a plain row (lib/kid/mission.ts).
+  // What this child has asked for and not heard back on: their job ideas, and
+  // a live screen time ask. Counted the way the cap counts them (a head count
+  // from the server, never just the window this page happened to load), so a
+  // child with five old ideas sees five.
+  const waitingOnGrownUp = Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)
+    + (screenAsk?.status === 'pending' ? 1 : 0)
+
+  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks, token }), [stickers, liveStreaks, token])
 
   // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
   //
@@ -2225,18 +2233,27 @@ export default function KidQuestScreen({
             taller. Same three tabs, same sticky behaviour. */}
         <KidTabBar
           current={tab}
-          badges={{ lessons: totalNewLessons, print: newPrint }}
+          // The same count the ask row uses, so the bar and the row cannot
+          // disagree about how many of this child's asks a grown up still has.
+          badges={{ lessons: totalNewLessons, print: newPrint, waiting: waitingOnGrownUp }}
           onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
           today={todayTab}
           onToday={() => { setTab('quests'); setActiveLesson(null); playKidSound('tap'); goToTab('quests') }}
         />
 
         {tab === 'quests' && (<>
-        {/* The balance insight surface: a bigger, brighter, character led card
-            that teaches why balance is worth it, rotating a fresh idea daily,
-            grounded in the science bank. Replaces the old single tip line. */}
+        {/* THE BALANCE DIAL IS NOT HERE ANY MORE (14 September 2026).
+            Justin, from his phone: "can make balance hidden behind tab as a bit
+            messy." It led this tab: a child opened Quests to do their jobs and
+            met a gauge, a headline, a green chip and a DiGi paragraph before a
+            single job. It is a good card in the wrong place, because it is a
+            reflection on the day and this tab is the doing of it.
 
-        <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
+            It lives on the balance screen now, which is where the rest of
+            balance already is (the minutes, the timer, the week) and which the
+            five a day's own Check my balance row opens. Nothing is lost and
+            nothing is hidden: it is one tap from the row that was always the
+            way in. */}
 
         {/* The jobs themselves live in the ONE Today list above, ticked in one
             flow with Learn and Move, so nothing about today repeats down here.
