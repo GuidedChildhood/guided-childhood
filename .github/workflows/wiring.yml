@@ -138,6 +138,12 @@ jobs:
       # about the guide, and DiGi knows a first hello. See the header of
       # check-deal-ties-together.mjs.
       - run: node --experimental-strip-types scripts/check-deal-ties-together.mjs
+      # The deal is the root: the passport reads it (and scores it instead of
+      # the timer at four to seven), the road asks for it once there is a job
+      # and for its review on the review date, the child agrees on their own
+      # phone, and every clause carries a question to ask the child. See the
+      # header of check-deal-in-the-loop.mjs.
+      - run: node --experimental-strip-types scripts/check-deal-in-the-loop.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

@@ -25,7 +25,14 @@ export const AGREEMENT_TYPES: AgreementTypeDef[] = [
 export type Clause = {
   key: string
   title: string
+  /** The science in one line: why this clause is in the deal at all. */
   why: string
+  /**
+   * The question to ask the child at the table, once the clause is in.
+   * Justin, 14 September 2026: "discuss it when building." A deal a child
+   * was asked about is a deal they keep; one read to them is a rule.
+   */
+  talk: string
   options: string[]
 }
 
@@ -33,6 +40,7 @@ const SCREENS_OFF: Clause = {
   key: 'screens-off',
   title: 'When screens go off at night',
   why: 'Sleep is the single biggest thing screens take. This one clause protects it.',
+  talk: 'What time do you think screens should go off, and what would you rather do with the last bit of the evening?',
   options: [
     'Thirty minutes before bed, every night',
     'One hour before bed, every night',
@@ -45,6 +53,7 @@ const DEVICE_SLEEP: Clause = {
   key: 'device-sleep',
   title: 'Where devices sleep',
   why: 'A device in the bedroom overnight gets used overnight. Grown ups follow this one too.',
+  talk: 'Where should everyone\'s devices sleep, grown ups included? Pick the spot together.',
   options: [
     'Every device charges in the kitchen overnight',
     'Every device charges in the hallway overnight',
@@ -57,6 +66,7 @@ const ASK_FIRST: Clause = {
   key: 'ask-first',
   title: 'New apps and games',
   why: 'Asking first is not about permission, it is about choosing together.',
+  talk: 'What is a new game or app you would like to try soon? Let us look at it together and decide.',
   options: [
     'We always ask before downloading anything new',
     'We install new apps and games together',
@@ -68,6 +78,7 @@ const WHEN_WRONG: Clause = {
   key: 'when-wrong',
   title: 'When something goes wrong online',
   why: 'The promise that makes every other clause work: telling us is always safe.',
+  talk: 'If something online ever made you feel bad, who would you tell first, and what do you think should happen next?',
   options: [
     'Tell a grown up straight away and nobody is in trouble',
     'Screenshot it, show us, we sort it out together, no drama',
@@ -78,6 +89,7 @@ const EARN_TIME: Clause = {
   key: 'earn-time',
   title: 'How screen time is earned',
   why: 'Time that is earned is time nobody argues about. Quests make it automatic.',
+  talk: 'Which jobs feel fair to you for earning screen time, and which feel like too much?',
   options: [
     'Stars from quests buy screen minutes, one star is five minutes',
     'A set daily amount, plus quest stars for extra',
@@ -89,6 +101,7 @@ const MEALS: Clause = {
   key: 'meals',
   title: 'Screens at the table',
   why: 'One screen free meal a day is where families actually talk.',
+  talk: 'Which meal should be our screen free one, and what should we talk about at it?',
   options: [
     'No screens at meals, grown ups too',
     'Phones sleep in a basket during dinner',
@@ -99,6 +112,7 @@ const MONEY: Clause = {
   key: 'money',
   title: 'Spending in games',
   why: 'In game shops are built to catch kids. This clause takes the pressure off.',
+  talk: 'What would you do if a game asked you to buy something? What should we do together?',
   options: [
     'Never spend real money without asking first',
     'Pocket money only, agreed before buying',
@@ -110,6 +124,7 @@ const ANSWER_CALL: Clause = {
   key: 'answer-call',
   title: 'Answering when we call',
   why: 'The phone is for staying close. This is the deal that keeps it.',
+  talk: 'If we call or text, how quickly do you think you should answer, and when would that be hard?',
   options: [
     'Always answer or ring straight back',
     'Reply within fifteen minutes when out',
@@ -120,6 +135,7 @@ const KINDNESS: Clause = {
   key: 'kindness',
   title: 'How we behave online',
   why: 'Written down once, it settles a hundred future situations.',
+  talk: 'What does being kind online look like? Has anyone ever not been kind to you on there?',
   options: [
     'We never write what we would not say to a face',
     'We never join a pile on, even with people we do not like',
@@ -131,6 +147,7 @@ const SOCIAL_APPS: Clause = {
   key: 'social-apps',
   title: 'Which apps and on what terms',
   why: 'App by app beats a blanket yes or no. Readiness, not birthdays.',
+  talk: 'Which apps do your friends use, and which one would you like to talk about first?',
   options: [
     'Each new app is agreed together before it is installed',
     'Accounts stay private and we hold the passwords for now',
@@ -142,6 +159,7 @@ const KEEP_TALKING: Clause = {
   key: 'keep-talking',
   title: 'We keep talking',
   why: 'At this age the agreement IS the conversation.',
+  talk: 'What would make it easy to tell us about something online, and what would make it hard?',
   options: [
     'One honest chat a week about how online life is going',
     'Big decisions get talked through before they are made',

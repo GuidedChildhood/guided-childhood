@@ -14800,3 +14800,40 @@ any other device. The route tells hello@ the name and the kind, nothing
 that identifies the family, so the catalogue grows from real homes. Rule G
 on the same guard.
 
+
+## 14 September 2026: the deal is the root of the loop
+
+Justin, from the Monday walkthrough, with Andy's Foundation passport reading
+Timer days 0: "Andy prob won't use timer at this age. Can we also see where
+best to add in family agreement as this determines how jobs, device time is
+all agreed and passports and device all stem from that, and we need to agree,
+to remind, maybe print, appears on child phone, discuss it when building."
+
+Decided, and built on the same PR as the morning's deal work (1073):
+
+- **The passport reads the deal, at every age.** One line under the child's
+  own numbers says where it stands with one door: make it, finish it, review
+  it, print it (`lib/pathway/deal-line.ts`, read in `passport-child.ts`).
+  At four to seven the fourth cell is the deal instead of Timer days and the
+  timer nudge stays off: the timer is the parent's at that age, so a zero
+  against the child's name was scoring a thing they cannot do. DiGi's family
+  state drops the timer clause there too. The child's copy of the book keeps
+  the words and loses the door.
+- **The road asks for it once there is a job.** "Make the deal" appears in
+  the agreement slot for a family with a job and no signed agreement, never
+  as the lead. Once signed the weekly rung stays, and reads "Review the deal"
+  when the review date they picked has passed without the deal being
+  reopened. The review date was printed on the fridge copy and read by
+  nothing until now.
+- **The child agrees on their own phone.** `app/api/kid/deal-agree`, token
+  scoped, only ever sets the child's signature, stamps agreed_date only when
+  the parent has signed. "Our family deal" offers I agree when the promises
+  are there and the child has not signed. The parent's builder still has the
+  box, so a family with no child phone is not stuck.
+- **Talk it through while building.** Every clause carries one question to
+  ask the child, shown once the clause is in, under the science why.
+- Setup stays at four steps: the 18 August decision holds. The deal is asked
+  for at the first job, not before the parent has seen the product.
+
+Guard `scripts/check-deal-in-the-loop.mjs`, seventeen rules, seven
+mutations caught, wired. No migration.

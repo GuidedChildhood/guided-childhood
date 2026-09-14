@@ -762,6 +762,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     add('Our extra promises', agreementRow.extra_agreements as string | null)
   }
   const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
+  // Each side on its own, so the child's Our deal can offer their own I agree
+  // when it is their signature that is missing (14 September 2026).
+  const agreementParentSigned = Boolean(agreementRow?.signed_by_parent)
+  const agreementChildSigned = Boolean(agreementRow?.signed_by_child)
   // The two lines the device time card says back at the moment of asking.
   const dealLines = dealLinesFrom(agreementRow as Parameters<typeof dealLinesFrom>[0]).map(l => l.text)
 
@@ -933,6 +937,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       token={token}
       agreementItems={agreementItems}
       agreementSigned={agreementSigned}
+      agreementParentSigned={agreementParentSigned}
+      agreementChildSigned={agreementChildSigned}
       dealLines={dealLines}
       childName={childRes.data?.name ?? 'Superstar'}
       passportCode={(childRes.data as { passport_code?: string | null } | null)?.passport_code ?? null}

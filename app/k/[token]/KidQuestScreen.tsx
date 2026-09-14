@@ -99,6 +99,7 @@ export default function KidQuestScreen({
   adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false, coreMinutesLeft = 0, protectedLine = null,
   usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], dealLines = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
+  agreementParentSigned = false, agreementChildSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [], hasReminders = false,
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
@@ -130,6 +131,9 @@ export default function KidQuestScreen({
   /** The two deal lines the device time card shows at ask time (lib/content/agreement-clauses.ts). */
   dealLines?: string[]
   agreementSigned?: boolean
+  /** Each side on its own, so Our deal can offer the child their own I agree. */
+  agreementParentSigned?: boolean
+  agreementChildSigned?: boolean
   // The age based timer contract: which wording fits this child, whether the
   // database can hold the acceptance yet (migration 080), and when it was
   // agreed. Null agreed_at with a ready database means the first run gate
@@ -1888,6 +1892,8 @@ export default function KidQuestScreen({
             goalRedeemed={goalRedeemed}
             agreementItems={agreementItems}
             agreementSigned={agreementSigned}
+            agreementParentSigned={agreementParentSigned}
+            agreementChildSigned={agreementChildSigned}
             contractRule={contractRule(contractLevel, trust)}
             contractAgreedAt={contractAgreedAt}
             token={token}
@@ -2684,7 +2690,7 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // by, in their own words. How it works, the exchange rate, a good amount of
 // screen a day, and what they are saving for right now. No dashes, no rules
 // shouted, just the deal they can keep an eye on any time.
-function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false, contractRule, contractAgreedAt = null, token }: {
+export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false, agreementParentSigned = false, agreementChildSigned = false, contractRule, contractAgreedAt = null, token }: {
   onClose: () => void
   recommendedMinutes: number
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
@@ -2692,6 +2698,10 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
   goalRedeemed: boolean
   agreementItems?: { title: string; body: string }[]
   agreementSigned?: boolean
+  /** The parent's signature on its own, so the child's agree can say whether the deal is now agreed by both. */
+  agreementParentSigned?: boolean
+  /** The child's own signature. When false and the promises are there, the child gets I agree. */
+  agreementChildSigned?: boolean
   // The timer rule this child agreed on their first run, read only here once
   // it is locked in. The child never edits it from their side.
   contractRule?: string
@@ -2701,6 +2711,35 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
 }) {
   // Which agreed promise is open to read. One at a time keeps the deal tidy.
   const [openPromise, setOpenPromise] = useState<number | null>(null)
+  // ── THE CHILD'S OWN I AGREE (14 September 2026) ─────────────────────────
+  //
+  // Justin: "we need to agree ... appears on child phone". The promises were
+  // on the phone; the child's signature was a box the parent ticked for them
+  // in the builder. Their tap, on their screen, posts to the token scoped
+  // deal-agree route and the line under turns green the same instant. Held
+  // locally too, so a slow save never shows the button twice.
+  const [childAgreed, setChildAgreed] = useState(agreementChildSigned || agreementSigned)
+  const [agreeing, setAgreeing] = useState(false)
+  const [agreeFailed, setAgreeFailed] = useState(false)
+  const bothAgreed = agreementSigned || (childAgreed && agreementParentSigned)
+  const agree = async () => {
+    if (agreeing || !token) return
+    setAgreeing(true)
+    setAgreeFailed(false)
+    try {
+      const res = await fetch('/api/kid/deal-agree', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data?.ok) throw new Error('agree failed')
+      setChildAgreed(true)
+    } catch {
+      setAgreeFailed(true)
+    } finally {
+      setAgreeing(false)
+    }
+  }
   const rows: { icon: KidIconName; iconColor: string; tint: string; title: string; body: string }[] = [
     { icon: 'jobs', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
     { icon: 'star', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
@@ -2781,11 +2820,34 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
                 )
               })}
             </div>
-            {agreementSigned && (
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '10px 2px 0', textAlign: 'center' }}>
+            {bothAgreed ? (
+              <p data-deal-agreed style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '10px 2px 0', textAlign: 'center' }}>
                 ✓ You and your grown up agreed this together
               </p>
-            )}
+            ) : childAgreed ? (
+              <p data-deal-agreed style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '10px 2px 0', textAlign: 'center' }}>
+                ✓ You agreed. Your grown up signs on their side.
+              </p>
+            ) : token ? (
+              <div data-deal-agree style={{ marginTop: '12px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
+                  Your turn. Read the promises, then say if you agree.
+                </p>
+                <button
+                  type="button"
+                  onClick={agree}
+                  disabled={agreeing}
+                  style={{ width: '100%', marginTop: '10px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '13px', cursor: agreeing ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                >
+                  {agreeing ? 'Saving' : 'I agree ✓'}
+                </button>
+                {agreeFailed && (
+                  <p style={{ fontSize: 'var(--text-sm)', color: '#B93B3F', margin: '8px 0 0', lineHeight: 1.45 }}>
+                    That did not save. Have another go in a moment.
+                  </p>
+                )}
+              </div>
+            ) : null}
           </div>
         )}
 
