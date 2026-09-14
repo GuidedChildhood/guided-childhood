@@ -242,6 +242,9 @@ jobs:
       # back out to Mailchimp, /pilot open and in the sitemap, and the pilot
       # word the same at both ends of the letterbox. See check-pilot-door.mjs.
       - run: node --experimental-strip-types scripts/check-pilot-door.mjs
+      # The character voices: one friend per card and lesson, no retired
+      # cast in the manifest or the intro lines. See check-character-voices.mjs.
+      - run: node scripts/check-character-voices.mjs
       # The buying documents: terms, privacy notice and DPA exist, are open
       # and linked, carry no dash, name the same providers, and read every
       # company fact from shared/legal.ts (13 September 2026).

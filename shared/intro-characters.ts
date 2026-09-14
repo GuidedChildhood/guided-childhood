@@ -52,7 +52,7 @@ export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
   orbit: {
     key: 'orbit',
     clip: CDN + 'hf_20260723_193939_2cf82ba4-819a-46f7-80a7-da7d97765a73.mp4',
-    line: 'Ready to be the boss of your screen? Let us learn the trick together.',
+    line: 'Big question today, and by the end you will have your own answer. Let us go.',
     accent: '#4C9FD6',
   },
   // Nova, steady and calm, hosts the KS4 modules, which carry the heaviest

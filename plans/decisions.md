@@ -15120,3 +15120,35 @@ locked on tap. The whole scheme for a term (13 September) is withdrawn.
 
 Guard `scripts/check-pilot-door.mjs` holds the shape and the wall. No
 migration. Plan: `plans/2026-09-14-pilot-two-lessons-plan.md`.
+
+## 14 September 2026, Monday, the character voices made consistent (session 0u09q9)
+
+Justin: "make sure the character voices are consistent, not to confuse
+kids." An audit of every spoken line in all 25 lessons against
+digi-squad/README.md and the register ladder found the lessons coherent by
+key stage and the following not:
+
+- The curriculum map's manifest named a different friend from the lesson
+  on nine modules (the map said Orbit for Year 1, the lesson is Pebble; the
+  map said Cosmo for Years 7 to 9, the lessons are Orbit). The database was
+  the consistent side every time; the manifest now matches it, and
+  `scripts/check-character-voices.mjs` holds the friend key to the first
+  friend the cast line names.
+- Orbit fronted one KS2 lesson (ks2-09, the makers lesson) with no handover
+  between two Bloop lessons. It is Bloop's now, in every field. DiGi still
+  closes. No clips were rendered for it, so no credits are involved.
+- Orbit and Nova were still written as the retired fox: "Orbit the fox",
+  "a fox's pockets", "street smart", "a little sly". Retired in six lines.
+  Bloop wore Sofia's cape and Oliver's coral in two scripts; corrected.
+- The same friend was "he", "she" and "it" across slides. The name is used
+  instead; the star breath keeps its "it".
+- The sixth form said hello twice (Cosmo on the title, DiGi introducing
+  itself next). The title is DiGi's, with a line that is not a hello. The
+  four calm register lessons also said "Hello. I am DiGi." twice; the
+  arrival now opens on its question.
+- Orbit's default intro line was the KS1 "boss of your screen" line on six
+  KS3 lessons; it asks a big question now.
+
+Migration 301 applied to production on 14 September; the file in the tree
+is what ran. Two calls Justin may reverse: ks2-09 to Bloop, and DiGi rather
+than Cosmo on the sixth form title.
