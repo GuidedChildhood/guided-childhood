@@ -112,6 +112,19 @@ else if (!/if \(count === 0 && newFamily\) setFirstHello\(true\)/.test(sheet)) p
 else if (!/newFamily=\{accountAgeDays <= 7\}/.test(home)) problems.push('F: Home does not tell the sheet the account is new')
 else ok.push('F: DiGi says hello on the first greeting of a new family, and welcome back after')
 
+// ── G: something else, and hello@ hears about it ────────────────────────────
+//
+// Justin, 14 September 2026, on the add a device list: "should we have Other,
+// please add, that messages hello@". The picker names it, the route saves it
+// like any device and tells the contact inbox, with nothing that identifies
+// the family.
+const screens = read('components/devices/YourScreens.tsx')
+const devRoute = read('app/api/devices/family/route.ts')
+if (!/Something else/.test(screens) || !/other: isOther/.test(screens) || !/What kind of thing is it\?/.test(screens)) problems.push('G: the screens picker has no Something else door that names the kind')
+else if (!/d\.other === true/.test(devRoute) || !/to: CONTACT\.email/.test(devRoute) || !/kind: 'operational'/.test(devRoute)) problems.push('G: the device route does not tell hello@ about a device we do not list')
+else if (/user\.email|user\.id/.test(devRoute.slice(devRoute.indexOf('const others'), devRoute.indexOf('const rows'))) || /others\.map\(o => o\.label\)[\s\S]{0,400}user\./.test(devRoute)) problems.push('G: the note to hello@ carries something that identifies the family')
+else ok.push('G: a device we do not list can be named, is saved, and hello@ hears the name and the kind only')
+
 if (problems.length > 0) {
   console.error('check-deal-ties-together FAILED\n')
   for (const p of problems) console.error('  ' + p)

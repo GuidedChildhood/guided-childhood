@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
+import type { DeviceKind } from '@/lib/quests/device-time'
 import GuideBody from './GuideBody'
 import type { DeviceGuide } from '@/app/(dashboard)/dashboard/devices/DeviceList'
 import {
@@ -69,6 +70,18 @@ export default function YourScreens({
   const [picking, setPicking] = useState(false)
   const [query, setQuery] = useState('')
   const [showRetired, setShowRetired] = useState(false)
+  // SOMETHING ELSE. Justin, 14 September 2026, on the add a device list: "should
+  // we have Other, please add, that messages hello@". Fourteen names cover most
+  // houses and not every house. A parent with a Steam Deck or a Meta Quest used
+  // to reach "Nothing matching" and a pointer to the bottom of the page. Now
+  // they name it, say what kind of thing it is (so the timer and the guides
+  // still work), and it lands on their list like any other device. The route
+  // tells hello@ what was named, so the catalogue grows from real homes rather
+  // than guesses, and the next family finds it in the list.
+  const [other, setOther] = useState(false)
+  const [otherLabel, setOtherLabel] = useState('')
+  const [otherKind, setOtherKind] = useState<DeviceKind | null>(null)
+  const [otherAdded, setOtherAdded] = useState<string | null>(null)
   // Suggestions a parent has waved away this visit. Not persisted: a dismissed
   // suggestion is "not today", not "never", and a family that buys a Switch in
   // October should see it offered again.
@@ -84,7 +97,7 @@ export default function YourScreens({
     } catch { setDevices([]) }
   }
 
-  async function add(label: string, kind: string, guideKey: string | null) {
+  async function add(label: string, kind: string, guideKey: string | null, isOther = false) {
     if (busy) return
     setBusy(true)
     try {
@@ -94,10 +107,30 @@ export default function YourScreens({
         // adding for Tray showed Jody's list too. A device is a per child
         // label since migration 217, so Tray's Smart TV and Jody's Smart TV
         // are two rows with two setups and two timers.
-        body: JSON.stringify({ markAsked: true, child_id: currentChildId(), devices: [{ label, kind, guideKey }] }),
+        // `other` marks a device we do not list, so the route can tell hello@.
+        body: JSON.stringify({ markAsked: true, child_id: currentChildId(), devices: [{ label, kind, guideKey, other: isOther }] }),
       })
       await load()
     } finally { setBusy(false) }
+  }
+
+  function startOther() {
+    setOther(true)
+    setOtherLabel(query.trim())
+    setOtherKind(null)
+    setOtherAdded(null)
+  }
+
+  async function addOther() {
+    const label = otherLabel.trim()
+    if (!label || !otherKind || busy) return
+    await add(label, otherKind, null, true)
+    setOtherAdded(label)
+    setOther(false)
+    setOtherLabel('')
+    setOtherKind(null)
+    setPicking(false)
+    setQuery('')
   }
 
   async function patch(id: string, body: Record<string, unknown>) {
@@ -398,16 +431,96 @@ export default function YourScreens({
               </button>
             ))}
           </div>
-          {pickList.length === 0 && (
+          {pickList.length === 0 && !other && (
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 10px' }}>
-              Nothing matching. Every guide we publish is at the bottom of this page, and DiGi can walk you through anything that is not listed.
+              Nothing matching. Name it below and it goes on the list.
             </p>
           )}
-          <button type="button" onClick={() => { setPicking(false); setQuery('') }} style={{ ...LINK_BTN, marginBottom: 4 }}>
+          {/* Something else: the door for the device we do not list. */}
+          {!other ? (
+            <button
+              type="button"
+              disabled={busy}
+              onClick={startOther}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10,
+                border: '2px dashed var(--ink)', borderRadius: 'var(--radius-pill)',
+                background: 'var(--cream)', padding: '8px 13px', cursor: busy ? 'default' : 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
+              }}
+            >
+              <span aria-hidden>➕</span> Something else
+            </button>
+          ) : (
+            <div data-other style={{ background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '12px 13px', marginBottom: 10 }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }}>
+                What is it?
+              </p>
+              <input
+                className="input"
+                value={otherLabel}
+                onChange={e => setOtherLabel(e.target.value)}
+                placeholder="Steam Deck, Meta Quest, a kids tablet"
+                maxLength={60}
+                style={{ marginBottom: 10, fontSize: 'var(--text-md)' }}
+              />
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 7px' }}>
+                What kind of thing is it?
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 12 }}>
+                {(Object.keys(KIND_LABEL) as DeviceKind[]).map(k => {
+                  const on = otherKind === k
+                  return (
+                    <button
+                      key={k}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => setOtherKind(k)}
+                      style={{
+                        border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
+                        background: on ? 'var(--terracotta)' : '#fff', padding: '7px 12px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
+                        boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                      }}
+                    >
+                      {KIND_LABEL[k]}
+                    </button>
+                  )
+                })}
+              </div>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  disabled={busy || !otherLabel.trim() || !otherKind}
+                  onClick={addOther}
+                  style={{
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'var(--edge)',
+                    borderRadius: 'var(--radius-tile)', padding: '10px 18px',
+                    cursor: busy || !otherLabel.trim() || !otherKind ? 'default' : 'pointer',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+                    boxShadow: 'var(--lift)', opacity: busy || !otherLabel.trim() || !otherKind ? 0.5 : 1,
+                  }}
+                >
+                  Add it
+                </button>
+                <button type="button" onClick={() => setOther(false)} style={LINK_BTN}>Back</button>
+              </div>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '10px 0 0' }}>
+                We will hear about it too, so it gets its own guide and the next family finds it in the list.
+              </p>
+            </div>
+          )}
+          <button type="button" onClick={() => { setPicking(false); setQuery(''); setOther(false) }} style={{ ...LINK_BTN, marginBottom: 4 }}>
             Cancel
           </button>
         </div>
       ) : (
+        <>
+        {otherAdded && (
+          <p data-other-added style={{ fontSize: 'var(--text-base)', color: 'var(--retro-green)', fontWeight: 700, lineHeight: 1.45, margin: '0 0 10px' }}>
+            ✓ {otherAdded} is on the list. Thanks, we have been told so it gets its own guide.
+          </p>
+        )}
         <button
           type="button"
           onClick={() => setPicking(true)}
@@ -420,6 +533,7 @@ export default function YourScreens({
         >
           + Add a device
         </button>
+        </>
       )}
 
       {retired.length > 0 && (

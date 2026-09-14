@@ -14791,3 +14791,12 @@ the deal not reaching the row) and wired into CI. Walked on the fixtures at
 the name) is the pattern for the worth row; GoHenry's Add a task for the
 amount chips we already have. Nothing copied, the finish is ours.
 
+**Something else on the device list** (same PR, same morning). Justin, on
+the add a device list: "should we have Other, please add, that messages
+hello@". Fourteen names cover most houses and not every house. The picker
+now has a Something else door: name it, say what kind of thing it is (so
+the timer and the guides still work), Add it, and it lands on the list like
+any other device. The route tells hello@ the name and the kind, nothing
+that identifies the family, so the catalogue grows from real homes. Rule G
+on the same guard.
+
