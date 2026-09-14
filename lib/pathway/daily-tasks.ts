@@ -8,6 +8,7 @@ import { currentStagePassportSections, type CurrentStageChild } from '@/lib/path
 import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
 import { readTonight } from '@/lib/pathway/tonight'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
+import { dealOutgrown } from '@/lib/content/agreement-promises'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -228,7 +229,7 @@ export async function getTodayLoop(
     // it this week" are the same fact, which is the right one: an agreement
     // reopened and left alone is still a review.
     supabase.from('family_agreements')
-      .select('updated_at, created_at, signed_by_parent, signed_by_child, review_date')
+      .select('updated_at, created_at, signed_by_parent, signed_by_child, review_date, agreement_type')
       .eq('user_id', userId)
       .order('updated_at', { ascending: false })
       .limit(1)
@@ -334,6 +335,11 @@ export async function getTodayLoop(
   const agreementReviewDue = !!agreementReviewDate
     && agreementReviewDate <= today
     && (!agreementUpdatedAt || agreementUpdatedAt.slice(0, 10) < agreementReviewDate)
+  // And the deal written for a younger child (14 September 2026): a First
+  // screens deal on a child who is now on Builder is wrong every day, so the
+  // rung says update, whatever the review date.
+  const agreementOutgrown = agreementSigned
+    && dealOutgrown((agreementRow as { agreement_type?: string | null } | null)?.agreement_type, child?.stage_id ?? null)
 
   // How much of the passport is still on the parent to move. Null means there
   // is no passport to read yet, and the rung stays off the road entirely.
@@ -686,9 +692,9 @@ export async function getTodayLoop(
       done: false,
     }] : agreementUpdatedAt ? [{
       key: 'agreement' as const,
-      label: agreementReviewDue ? 'Review the deal' : 'The deal',
+      label: agreementOutgrown ? 'Update the deal' : agreementReviewDue ? 'Review the deal' : 'The deal',
       href: withChild('/dashboard/agreement?from=today'),
-      done: agreementFreshThisWeek && !agreementReviewDue,
+      done: agreementFreshThisWeek && !agreementReviewDue && !agreementOutgrown,
     }] : []),
     {
       key: 'script',

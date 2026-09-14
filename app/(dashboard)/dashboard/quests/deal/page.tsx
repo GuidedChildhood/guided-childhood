@@ -7,6 +7,9 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { contractLevelFor, contractRule } from '@/lib/content/kid-contract'
 import { pickChild } from '@/lib/children/select'
+import { promisesFrom, agreementTypeLabel } from '@/lib/content/agreement-promises'
+import { scienceForType } from '@/lib/content/agreement-clauses'
+import { buddyFor } from '@/lib/kid/buddy'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,11 +37,17 @@ export default async function ParentDealPrintPage({ searchParams }: { searchPara
   const child = pickChild((children ?? []) as never[], childParam) as
     { id: string; name: string; age_band: string | null; device_trust: string | null } | null
 
-  const [questsRes, goalRes, linkRes] = await Promise.all([
+  const [questsRes, goalRes, linkRes, agreementRes] = await Promise.all([
     supabase.from('family_quests').select('title, emoji, stars, child_id').eq('user_id', user.id).eq('active', true).order('created_at'),
     child ? supabase.from('star_goals').select('title, stars_needed').eq('child_id', child.id).is('achieved_at', null).maybeSingle() : Promise.resolve({ data: null }),
     child ? supabase.from('kid_links').select('agreed_at').eq('child_id', child.id).maybeSingle() : Promise.resolve({ data: null }),
+    // The agreement itself, so the promises are on the sheet (14 September 2026).
+    supabase.from('family_agreements')
+      .select('agreement_type, clauses, family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child, review_date')
+      .eq('user_id', user.id).maybeSingle(),
   ])
+  const agreement = (agreementRes.data ?? null) as Parameters<typeof promisesFrom>[0] & { signed_by_parent?: boolean | null; signed_by_child?: boolean | null; review_date?: string | null } | null
+  const buddy = buddyFor((child as { buddy?: string | null } | null)?.buddy ?? null)
 
   // A quest with no child set belongs to everyone, so it stays on the sheet.
   const quests: DealQuest[] = (questsRes.data ?? [])
@@ -73,6 +82,13 @@ export default async function ParentDealPrintPage({ searchParams }: { searchPara
         agreedDate={formatDate(agreedAt)}
         quests={quests}
         goal={goalRow?.title ? { title: goalRow.title, starsNeeded: goalRow.stars_needed ?? 0 } : null}
+        promises={promisesFrom(agreement)}
+        typeLabel={agreementTypeLabel(agreement?.agreement_type)}
+        reviewDate={agreement?.review_date ? formatDate(`${agreement.review_date}T12:00:00`) : null}
+        signedByParent={!!agreement?.signed_by_parent}
+        signedByChild={!!agreement?.signed_by_child}
+        friend={{ name: buddy.name, img: buddy.img }}
+        science={scienceForType(agreement?.agreement_type ?? null)}
       />
     </div>
   )

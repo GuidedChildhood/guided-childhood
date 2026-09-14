@@ -14882,3 +14882,46 @@ Decided, and built on PR 1073 (plan: plans/2026-09-14-stickers-that-land-plan.md
 
 Guard `scripts/check-stickers-land.mjs`, fourteen rules, six mutations
 caught, wired. No migration.
+
+## 14 September 2026, late afternoon: the agreement reviewed against its own science
+
+Justin, with the builder's first step on his phone: review the agreements
+for "super top design for child print outs", "wired in with children",
+"refer to regularly, advise of needing updating, print out and live on both
+apps", and "matches best science, age, and what we have fully researched
+from child experts". Review: plans/2026-09-14-agreement-review.md.
+
+Decided, on PR 1073:
+
+- **One reader for the promises** (`lib/content/agreement-promises.ts`),
+  used by the child's app, both fridge doors and the A4 copy. Structured
+  clauses first, legacy columns for older rows, each promise with its icon,
+  its why and its table question. Three readers had drifted into three
+  versions of one row.
+- **The child's fridge sheet prints the agreement.** It never had: it
+  printed the jobs and the timer rule. Now the promises lead with their
+  whys, the child's Planet Friend is on it, then the stars, the timer rule,
+  the jobs, the goal, the science with sources, signatures with names when
+  signed, and the review date.
+- **The science lives on the deal** (`SCIENCE_BY_TYPE`): two or three
+  sourced lines per type, every one from the product's own research bank,
+  shown in the builder before the signatures and on every print. Naming
+  rule from migration 123 kept: never a living clinician. The guard fails
+  on a clinician's name.
+- **Outgrown**: a deal written for a younger stage reads "update it
+  together" on the passport and "Update the deal" on the road. Only when
+  behind; ahead is a family who knew what they were doing.
+- **Two corrections the research bank forced**: no earned time clause in
+  the four to seven deal (digi/04-stages: screen time is never framed as a
+  reward at that age; the stars still run, the deal does not write the
+  trade down for a five year old), and the earned time why line stops
+  leaning on the retired verb. The clause title stays because legacy rows
+  are matched on it.
+- **Honest line on every deal**: the one randomised trial of family media
+  plans (Moreno, JAMA Pediatrics 2021) found no effect of the plan itself;
+  the bedroom rule carries the weight (Carter, JAMA Pediatrics 2016), so it
+  leads the science on every type and the rest is the conversation.
+- The Now button straddles the tab bar instead of floating a full circle
+  over the page. The recommended pill no longer wraps.
+
+Guard check-deal-in-the-loop grew to 24 rules; five review mutations caught.

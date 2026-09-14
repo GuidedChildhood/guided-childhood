@@ -14,6 +14,7 @@ import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { getTimeSettings, getCoreUsedToday, checkProtectedWindow, PROTECTED_CHILD_LINE } from '@/lib/quests/time-tiers'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { dealLinesFrom } from '@/lib/content/agreement-clauses'
+import { promisesFrom } from '@/lib/content/agreement-promises'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
@@ -232,7 +233,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // always there to read, not only on the parent side.
     supabase
       .from('family_agreements')
-      .select('family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child')
+      .select('agreement_type, clauses, family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child, review_date')
       .eq('user_id', link.user_id)
       .maybeSingle(),
 
@@ -760,20 +761,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
 
   // Only the sections the family actually filled in show, in child friendly words.
   const agreementRow = agreementRes.data
-  const agreementItems: { title: string; body: string }[] = []
-  if (agreementRow) {
-    const add = (title: string, body?: string | null) => {
-      const t = (body ?? '').trim()
-      if (t) agreementItems.push({ title, body: t })
-    }
-    add('What matters to us', agreementRow.family_values as string | null)
-    const bedtime = [agreementRow.bedroom_rule_time, agreementRow.bedroom_rule_location]
-      .map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
-    add('Phones at bedtime', bedtime)
-    add('Apps and social media', agreementRow.social_media_terms as string | null)
-    add('If something goes wrong', agreementRow.when_things_go_wrong as string | null)
-    add('Our extra promises', agreementRow.extra_agreements as string | null)
-  }
+  // ONE READER (14 September 2026): the same promises the fridge sheet and
+  // the parent's copy print, each with its icon and its why, so the deal on
+  // the phone is the deal on the wall.
+  const agreementItems: { title: string; body: string; emoji?: string; why?: string | null }[] =
+    promisesFrom(agreementRow as Parameters<typeof promisesFrom>[0]).map(p => ({ title: p.title, body: p.body, emoji: p.emoji, why: p.why }))
   const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
   // Each side on its own, so the child's Our deal can offer their own I agree
   // when it is their signature that is missing (14 September 2026).

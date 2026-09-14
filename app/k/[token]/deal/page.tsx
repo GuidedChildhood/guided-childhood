@@ -6,6 +6,9 @@ import PrintButton from '@/components/agreement/PrintButton'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { contractLevelFor, contractRule } from '@/lib/content/kid-contract'
+import { promisesFrom, agreementTypeLabel } from '@/lib/content/agreement-promises'
+import { scienceForType } from '@/lib/content/agreement-clauses'
+import { buddyFor } from '@/lib/kid/buddy'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,8 +37,8 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
     .maybeSingle()
   if (!link) notFound()
 
-  const [childRes, questsRes, goalRes] = await Promise.all([
-    supabase.from('children').select('name, age_band, device_trust').eq('id', link.child_id).maybeSingle(),
+  const [childRes, questsRes, goalRes, agreementRes] = await Promise.all([
+    supabase.from('children').select('name, age_band, device_trust, buddy').eq('id', link.child_id).maybeSingle(),
     // THIS CHILD'S JOBS, plus the shared ones. It had no child filter at all,
     // so the deal a child printed and put on their wall listed their sibling's
     // jobs, at their sibling's star rates, under their own name. On the child's
@@ -47,9 +50,17 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
     supabase.from('family_quests').select('title, emoji, stars').eq('user_id', link.user_id).eq('active', true)
       .or(`child_id.is.null,child_id.eq.${link.child_id}`).order('created_at'),
     supabase.from('star_goals').select('title, stars_needed, achieved_at').eq('child_id', link.child_id).is('achieved_at', null).maybeSingle(),
+    // THE AGREEMENT ITSELF (14 September 2026). This sheet printed the jobs
+    // and the timer rule and never read the promises the family had signed.
+    supabase.from('family_agreements')
+      .select('agreement_type, clauses, family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child, review_date')
+      .eq('user_id', link.user_id).maybeSingle(),
   ])
 
-  const child = childRes.data as { name?: string; age_band?: string | null; device_trust?: string | null } | null
+  const child = childRes.data as { name?: string; age_band?: string | null; device_trust?: string | null; buddy?: string | null } | null
+  const agreement = (agreementRes.data ?? null) as Parameters<typeof promisesFrom>[0] & { signed_by_parent?: boolean | null; signed_by_child?: boolean | null; review_date?: string | null } | null
+  const promises = promisesFrom(agreement)
+  const buddy = buddyFor(child?.buddy ?? null)
   const ageBand = child?.age_band ?? null
 
   // The agreed date lives on the link, written when the child accepted the
@@ -92,6 +103,13 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
         agreedDate={formatDate(agreedAt)}
         quests={quests}
         goal={goalRow?.title ? { title: goalRow.title, starsNeeded: goalRow.stars_needed ?? 0 } : null}
+        promises={promises}
+        typeLabel={agreementTypeLabel(agreement?.agreement_type)}
+        reviewDate={agreement?.review_date ? formatDate(`${agreement.review_date}T12:00:00`) : null}
+        signedByParent={!!agreement?.signed_by_parent}
+        signedByChild={!!agreement?.signed_by_child}
+        friend={{ name: buddy.name, img: buddy.img }}
+        science={scienceForType(agreement?.agreement_type ?? null)}
       />
     </div>
   )

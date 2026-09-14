@@ -115,6 +115,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           deal: sp.deal === 'none' ? null
             : sp.deal === 'draft' ? { signed: false, agreedDate: null, reviewDate: null }
             : sp.deal === 'due' ? { signed: true, agreedDate: '2026-08-01', reviewDate: '2026-09-01' }
+            : sp.deal === 'outgrown' ? { signed: true, agreedDate: '2026-03-01', reviewDate: '2026-12-01', outgrown: true, typeLabel: 'First screens' }
             : { signed: true, agreedDate: '2026-09-01', reviewDate: '2026-10-01' },
         }}
         // ?readonly=1 is the child's copy of the book: the four areas stay,

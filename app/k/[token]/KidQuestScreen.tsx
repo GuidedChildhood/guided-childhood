@@ -133,7 +133,7 @@ export default function KidQuestScreen({
   // The same numbers the parent's off screen total is built from.
   sheetsDone?: number
   sheetStars?: number
-  agreementItems?: { title: string; body: string }[]
+  agreementItems?: { title: string; body: string; emoji?: string; why?: string | null }[]
   /** The two deal lines the device time card shows at ask time (lib/content/agreement-clauses.ts). */
   dealLines?: string[]
   agreementSigned?: boolean
@@ -2746,7 +2746,7 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
   bankBalance: number
   goalRedeemed: boolean
-  agreementItems?: { title: string; body: string }[]
+  agreementItems?: { title: string; body: string; emoji?: string; why?: string | null }[]
   agreementSigned?: boolean
   /** The parent's signature on its own, so the child's agree can say whether the deal is now agreed by both. */
   agreementParentSigned?: boolean
@@ -2857,13 +2857,18 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
                       aria-expanded={open}
                       style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', cursor: 'pointer', padding: '13px 15px', textAlign: 'left' }}
                     >
-                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="deal" size={18} color="var(--terracotta-dark)" /></span>
+                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-md)', lineHeight: 1 }}>{it.emoji ? <span aria-hidden>{it.emoji}</span> : <KidIcon name="deal" size={18} color="var(--terracotta-dark)" />}</span>
                       <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{it.title}</span>
                       <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
                     </button>
                     {open && (
                       <div style={{ padding: '0 15px 14px 59px', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>
                         {it.body}
+                        {it.why && (
+                          <span data-why style={{ display: 'block', marginTop: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                            Why: {it.why}
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>

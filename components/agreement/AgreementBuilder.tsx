@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
 import { londonNow } from '@/lib/time/london'
 import Link from 'next/link'
-import { AGREEMENT_TYPES, CLAUSES_BY_TYPE, recommendedType, type Clause } from '@/lib/content/agreement-clauses'
+import { AGREEMENT_TYPES, CLAUSES_BY_TYPE, recommendedType, scienceForType, type Clause } from '@/lib/content/agreement-clauses'
 import HappyIcon from '@/components/kid/HappyIcon'
 
 // The agreement wizard: choose the TYPE for where your child is (their
@@ -303,7 +303,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                         {t.label}
                       </span>
                       {isRec && (
-                        <span style={{ ...mono, fontSize: 'var(--text-sm)', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-pill)', padding: '4px 10px' }}>
+                        <span style={{ ...mono, fontSize: 'var(--text-xs)', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-pill)', padding: '4px 10px', whiteSpace: 'nowrap' }}>
                           Recommended for {childName}
                         </span>
                       )}
@@ -448,6 +448,20 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                 </div>
               </div>
             ))}
+            {/* WHY WE AGREED THIS. The science the deal rests on, named, read
+                together before the signatures (14 September 2026). */}
+            {scienceForType(type.key).length > 0 && (
+              <div data-science style={{ margin: '14px 0 4px', background: 'var(--cream)', border: '1.5px dashed var(--ink)', borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
+                <div style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginBottom: '6px' }}>Why we agreed this</div>
+                <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {scienceForType(type.key).map((sci, i) => (
+                    <li key={i} style={{ fontSize: 'var(--text-base)', lineHeight: 1.5, color: 'var(--ink)' }}>
+                      {sci.claim} <span style={{ color: 'var(--ink-muted)' }}>({sci.source})</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div style={{ paddingTop: '14px' }}>
               <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: '8px' }}>We look at this again on</div>
               <input

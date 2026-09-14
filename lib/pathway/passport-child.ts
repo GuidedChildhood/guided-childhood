@@ -1,6 +1,8 @@
 import type { createClient } from '@/lib/supabase/server'
 import { getStarBanks } from '@/lib/quests/bank'
 import { readStickerNews } from '@/lib/stickers/latest'
+import { dealOutgrown, agreementTypeLabel } from '@/lib/content/agreement-promises'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 
 // The child's half of a passport page.
 //
@@ -66,6 +68,9 @@ export type PassportDeal = {
   signed: boolean
   agreedDate: string | null
   reviewDate: string | null
+  /** Written for a younger stage than the child is on now (14 September 2026). */
+  outgrown: boolean
+  typeLabel: string | null
 }
 
 /** Ages four to seven: the parent runs the screens, so the timer is theirs. */
@@ -103,7 +108,7 @@ export async function readPassportChild(
       .eq('user_id', userId).eq('child_id', childId).gte('started_at', weekAgo)
       .then(r => r, () => ({ data: [] })),
     // One deal per family by design, so it is read by the parent, not the child.
-    supabase.from('family_agreements').select('signed_by_parent, signed_by_child, agreed_date, review_date')
+    supabase.from('family_agreements').select('signed_by_parent, signed_by_child, agreed_date, review_date, agreement_type')
       .eq('user_id', userId).limit(1).maybeSingle()
       .then(r => r, () => ({ data: null })),
     readStickerNews(supabase, childId),
@@ -115,7 +120,10 @@ export async function readPassportChild(
   // restarted it twice.
   const days = new Set(rows.map(r => (r.started_at ?? '').slice(0, 10)).filter(Boolean))
 
-  const dealRow = (dealRes as { data?: { signed_by_parent?: boolean | null; signed_by_child?: boolean | null; agreed_date?: string | null; review_date?: string | null } | null }).data ?? null
+  const dealRow = (dealRes as { data?: { signed_by_parent?: boolean | null; signed_by_child?: boolean | null; agreed_date?: string | null; review_date?: string | null; agreement_type?: string | null } | null }).data ?? null
+  // The stage's key, not its number: recommendedType speaks in keys.
+  const STAGE_KEYS = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
+  const stageId = ageBand ? STAGE_KEYS[getStageFromAgeBand(ageBand as AgeBand).id - 1] ?? null : null
 
   return {
     daysDone: (daysRes as { count?: number | null }).count ?? 0,
@@ -128,6 +136,8 @@ export async function readPassportChild(
           signed: !!dealRow.signed_by_parent && !!dealRow.signed_by_child,
           agreedDate: dealRow.agreed_date ?? null,
           reviewDate: dealRow.review_date ?? null,
+          outgrown: dealOutgrown(dealRow.agreement_type, stageId),
+          typeLabel: agreementTypeLabel(dealRow.agreement_type),
         }
       : null,
   }
