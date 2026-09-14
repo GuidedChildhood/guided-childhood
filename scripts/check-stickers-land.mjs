@@ -24,6 +24,9 @@
 //   G. The parent side: the passport strip has the stickers line, Home has
 //      the news card with the passport doors on the first, the sheet card
 //      draws the real catalogue, and the print out page exists at A6.
+//   I. The week row moves the moment the day lands, the week is keyed by the
+//      London day the store uses, and the five a day carries the mission:
+//      the next sticker on each objective, under the week, in both views.
 //   H. The lunchtime round (14 September 2026): home counts pending ideas the
 //      way the cap counts them, no window; the ask page has a door to the
 //      jobs when it is full; no polka dot ground anywhere on the child side,
@@ -197,6 +200,43 @@ else if (!/<details data-how style=/.test(kidStickers) || !/<HowItWorks note=\{p
 else if (!/data-book-cover/.test(kidStickers) || !/daily\?\.friend && \(/.test(kidStickers) || !/<Burst size=\{52\}/.test(kidStickers)) problems.push('H: the cover has no Friend sticker or no count burst')
 else if (!/daily\?\.friend && \(/.test(passport) || !/<Plate size=\{54\}/.test(passport)) problems.push('H: the passport title has no Friend on a plate')
 else ok.push('H: the book leads with die cut stickers, the how is a tap away, the Friend is on the cover and the title')
+
+// ── I: the week moves with the day, and the five carry the mission ──────────
+// Justin, 14 September 2026, 13:07, with Today is done above a week row that
+// still said finish today: "we need to know this is working right and every
+// day works and adds together, and that the five a day have a mission over
+// time to achieve our objectives of balanced device use and understanding
+// online safety lessons."
+const missionProbe = `
+import { buildMission, nextOn } from './lib/kid/mission.ts'
+const S = (key, kind, n, have, need, earned, extra = {}) => ({ key, name: key, colour: '#000', earned, rule: { kind, n, ...extra }, have, need })
+const book = [
+  S('pebble', 'friend', 1, 1, 2, false, { streaks: 2 }), S('bloop', 'friend', 2, 1, 10, false, { streaks: 10 }),
+  S('lessons-1', 'lessons', 1, 3, 1, true), S('lessons-5', 'lessons', 5, 3, 5, false), S('stamp-1', 'stamp', 1, 3, 12, false),
+  S('outside-1', 'outside', 1, 1, 1, true), S('outside-10', 'outside', 10, 1, 10, false), S('timer-7', 'timer', 7, 6, 7, false),
+]
+const rows = buildMission(book)
+const live = buildMission(book, { fullDays: 2 })
+const allDone = buildMission([S('pebble', 'friend', 1, 2, 2, true, { streaks: 2 })])
+console.log(JSON.stringify({ keys: rows.map(r => r.key), titles: rows.map(r => r.title), lines: rows.map(r => r.line), liveFriend: live[0].line, liveDone: live[0].done, allDone: allDone[0].done, none: nextOn([], 'safety') }))
+`
+const mrun = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', missionProbe], { encoding: 'utf8' })
+if (mrun.status !== 0) problems.push(`I: the mission probe could not run: ${(mrun.stderr || '').split('\n').slice(0, 3).join(' ')}`)
+else {
+  const r = JSON.parse(mrun.stdout.trim().split('\n').pop())
+  if (r.keys.join() !== 'friend,safety,balance') problems.push(`I: the mission is not friend, safety, balance (${r.keys.join()})`)
+  else if (r.titles[0] !== 'Bring pebble home' || r.titles[1] !== 'lessons-5' || r.titles[2] !== 'timer-7') problems.push(`I: the mission does not pick the next sticker with the least left (${r.titles.join(' | ')})`)
+  else if (r.lines.join(' | ') !== '1 of 2 full days | 3 of 5 lessons | 6 of 7 days') problems.push(`I: the mission lines are wrong (${r.lines.join(' | ')})`)
+  else if (r.liveFriend !== 'Done' || r.liveDone !== true) problems.push('I: the friend row does not take the live full days')
+  else if (r.allDone !== true || r.none !== null) problems.push('I: an all earned objective is not done, or an empty book is not null')
+  else ok.push('I: the mission picks the next sticker on each objective and moves with the live full days')
+}
+if (!/const \[week, setWeek\] = useState\(dailyStickers\?\.week \?\? null\)/.test(screen) || !/markTodayDone\(\)/.test(screen) || !/weekDone=\{week\}/.test(screen)) problems.push('I: the week row does not move the moment the day lands')
+else if (!/total: liveDays, week: week \?\? dailyStickers\.week/.test(screen)) problems.push('I: the passport\'s Every day page does not take the live week and total')
+else if (!/const todayUk = ukToday\(\)/.test(kidPage) || !/const dayStr = dayStrUk/.test(kidPage) || !/\.gte\('day', dayStrUk\(6\)\)/.test(kidPage) || /new Date\(Date\.now\(\) - o \* 86400000\)\.toISOString\(\)/.test(kidPage)) problems.push('I: the week is not keyed by the London day the store uses')
+else if (!/mission=\{mission\}/.test(screen) || !/buildMission\(stickers, \{ fullDays: liveStreaks \}\)/.test(screen)) problems.push('I: the screen does not hand the mission to the five a day')
+else if (!/data-mission-site="done"/.test(fiveADay) || !/data-mission-site="open"/.test(fiveADay) || !/<KidMission rows=\{mission\}/.test(fiveADay)) problems.push('I: the mission is not under the week in both views of the five a day')
+else ok.push('I: the week row moves with the day, keyed by the London day, and the mission sits under it in both views')
 
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')

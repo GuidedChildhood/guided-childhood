@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { ukToday } from '@/lib/kid/five-a-day'
 import type { DrawnKey } from '@/components/printables/drawn'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { readKidJobs } from '@/lib/kid/jobs-read'
@@ -79,6 +80,13 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const today = new Date().toISOString().slice(0, 10)
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
   const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
+  // THE CHILD'S DAY IS THE LONDON DAY. The day store keys kid_days by
+  // ukToday(), so every read of that table has to build its keys the same
+  // way. A UTC key drifts one day late from 11pm in British Summer Time, and
+  // a day finished then would draw as not done on the week row. Anchored at
+  // noon UTC so a date shift never crosses midnight.
+  const todayUk = ukToday()
+  const dayStrUk = (o: number) => { const d = new Date(`${todayUk}T12:00:00Z`); d.setUTCDate(d.getUTCDate() - o); return d.toISOString().slice(0, 10) }
 
   // A read that may throw (a table or column that lands with a later migration,
   // a dropped connection) resolves to null instead, so it can sit inside a
@@ -517,7 +525,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     // under the five a day. Both read the one column migration 284 wrote.
     soft(supabase
       .from('kid_days').select('day, sticker_awarded_at, completed_at')
-      .eq('child_id', link.child_id).gte('day', new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10))),
+      .eq('child_id', link.child_id).gte('day', dayStrUk(6))),
   ])
 
   // ── EVERYTHING BELOW IS SHAPING, NO MORE WAITING ────────────────────────────
@@ -553,7 +561,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // ticked, ending today or yesterday. Pending counts, because the tick
   // is the child's act; approval is the parent's.
   const tickDays = new Set((streakTicksRes.data ?? []).map(t => String(t.tick_date)))
-  const dayStr = (o: number) => new Date(Date.now() - o * 86400000).toISOString().slice(0, 10)
+  const dayStr = dayStrUk
   let streakDays = 0
   if (tickDays.has(dayStr(0)) || tickDays.has(dayStr(1))) {
     let offset = tickDays.has(dayStr(0)) ? 0 : 1

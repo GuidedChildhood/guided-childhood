@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import type { DrawnKey } from '@/components/printables/drawn'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
@@ -53,6 +53,7 @@ import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import KidStickerLand from '@/components/kid/KidStickerLand'
 import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import { buildMission } from '@/lib/kid/mission'
 import type { DailyStickers } from '@/components/kid/KidStickers'
 import type { TodayTab } from '@/components/kid/KidTabBar'
 import type { KidSticker } from '@/components/kid/KidStickers'
@@ -547,6 +548,15 @@ export default function KidQuestScreen({
   // more. The server read still wins on the next load.
   const [liveStreaks, setLiveStreaks] = useState(completedStreaks)
   const [liveDays, setLiveDays] = useState(completedDays)
+  // THE WEEK ROW MOVES THE MOMENT THE DAY LANDS. Justin, 14 September 2026,
+  // with Today is done above a week row still saying finish today: the row
+  // was the server's read from before the last tick. Today is marked done
+  // here on the transition; the server read still wins on the next load.
+  const [week, setWeek] = useState(dailyStickers?.week ?? null)
+  useEffect(() => { setWeek(dailyStickers?.week ?? null) }, [dailyStickers])
+  const markTodayDone = useCallback(() => {
+    setWeek(w => (w ? w.map(d => (d.isToday ? { ...d, earned: true } : d)) : w))
+  }, [])
 
   // FINISHING A DAY DOES NOT ALWAYS ADD ONE.
   //
@@ -574,6 +584,11 @@ export default function KidQuestScreen({
     setLiveStreaks(next)
     return next
   }, [liveDays, jobStreaks])
+
+  // THE MISSION: the next sticker on each objective, read off the book the
+  // screen already holds. The friend row takes the live full days so it moves
+  // with the day. See lib/kid/mission.ts.
+  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks }), [stickers, liveStreaks])
 
   // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
   //
@@ -1567,11 +1582,13 @@ export default function KidQuestScreen({
             // once a star week, and the Friend arrival follows it on the
             // days a Friend is earned (see the close handler below).
             if (streakDueThisWeek) markStreakWeekSeen()
+            markTodayDone()
             setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
           }}
           onStateChange={onTodayState}
-          weekDone={dailyStickers?.week ?? null}
+          weekDone={week}
           weekFriend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+          mission={mission}
         />
 
         {/* What a grown up sent, straight after the five a day. These two
@@ -1988,7 +2005,7 @@ export default function KidQuestScreen({
             childName={childName}
             stickers={stickers}
             celebrateStickers={bookCelebrate}
-            daily={dailyStickers ? { ...dailyStickers, friend: { name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img } } : null}
+            daily={dailyStickers ? { ...dailyStickers, total: liveDays, week: week ?? dailyStickers.week, friend: { name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img } } : null}
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}

@@ -15207,3 +15207,28 @@ little warning and advice, not blocked."
   the guard fails if it ever checks the guide.
 - Guard `check-job-guide.mjs`, three rules with a probe on the maths, five
   mutations caught. Fixture `/dev/add-job?board=12&age=11-13`, `?weeks=1`.
+
+## 14 September 2026: the week row moves with the day, and the five carry a mission
+
+Justin, 13:07, with Jonny's home reading Today is done, 5 of 5, above a
+week row that still said "A fresh week. Finish today": "we need to know this
+is working right and every day works and adds together, and that the five a
+day have a mission over time to achieve our objectives of balanced device
+use and understanding online safety lessons."
+
+- **Why the row lagged**: the week came from the server's read at page load
+  and never moved when the fifth step ticked on the phone; the Today is done
+  card is local state. Now the screen holds the week, marks today done on
+  the transition, and the passport's Every day page takes the live week and
+  total. The server read still wins on the next load.
+- **A second, quieter fault**: the week's day keys were UTC dates while the
+  day store keys `kid_days` by the London day. From 11pm in summer time a
+  finished day would draw as not done for an hour. `dayStrUk` now builds
+  every key from `ukToday()`, the query window included.
+- **The mission** (`lib/kid/mission.ts`, `KidMission`): under the week in
+  both views of the five a day, three rows, one per objective, each the next
+  sticker with the least left: a Friend for full days (every day adds up),
+  lessons then the stage stamp (safe and smart online), days outside and on
+  the timer (balanced screens). The friend row takes the live full days. The
+  line under the ribbon says it in one breath.
+- Guard `check-stickers-land.mjs` section I, mutation tested four ways.
