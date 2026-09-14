@@ -122,6 +122,7 @@ export default function JobComposer({
   autoFocus = false,
   help,
   countToday,
+  comfortable,
   ageBand = null,
   childName = null,
   starMinutes = STAR_MINUTES,
@@ -150,6 +151,8 @@ export default function JobComposer({
    * the ninth is being typed rather than in a help page nobody opens.
    */
   countToday?: number
+  /** The daily jobs guide's number for this child, so the composer and the guide card never disagree. */
+  comfortable?: number
   /**
    * The child's age band and name, for the first week line.
    *
@@ -245,8 +248,13 @@ export default function JobComposer({
   // chore chart: the age's sweet spot when we know the age (three at four to
   // seven, up to six at thirteen plus), five when we do not. Said once,
   // gently, and never enforced.
-  const COMFORTABLE = ageBand ? assessJobLoad(ageBand, []).maxJobs : 5
+  const COMFORTABLE = typeof comfortable === 'number' ? comfortable : ageBand ? assessJobLoad(ageBand, []).maxJobs : 5
   const many = typeof countToday === 'number' && countToday >= COMFORTABLE
+  // Past the guide, the line stops saying "about right", because it is not,
+  // and points at the guide card under the composer, which says why and what
+  // to do. Justin, 14 September 2026: the composer was telling him twelve
+  // jobs were about right for the age.
+  const past = typeof countToday === 'number' && countToday > COMFORTABLE
   const who = childName && childName !== 'Your child' ? childName : 'your child'
   // The first week line. At the sweet spot it is not "too many", it is
   // enough to start: the deal is new, the child is learning that jobs turn
@@ -254,7 +262,9 @@ export default function JobComposer({
   // landed is a list that gets ignored. Life jobs come once the routine holds.
   const enoughLine = (
     <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
-      {ageBand
+      {past
+        ? <>That is {countToday} jobs today, past the guide of {COMFORTABLE} for now. The note below says why, and nothing is blocked.</>
+        : ageBand
         ? <>That is {countToday} jobs today, about right for this age. Probably enough for the first week: let {who} get used to the deal, then add the life jobs.</>
         : <>That is {countToday} jobs today. Plenty of families run three or four and find they get done. Add more if it suits you, this is only a nudge.</>}
     </p>
