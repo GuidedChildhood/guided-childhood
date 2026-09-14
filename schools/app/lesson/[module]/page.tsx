@@ -8,7 +8,9 @@ import { PASSPORT_STAGES, PLACEMENT_BY_KEY_STAGE } from '@gc/shared/passport-sta
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
 import PassportPage from '@gc/shared/components/PassportPage'
 import { isTasterModule } from '@/lib/taster'
-import { hasLicence } from '@/lib/licence'
+import { currentAccess } from '@/lib/licence'
+import { pilotModulesFor } from '@/lib/pilot'
+import PilotStrip from '@/components/PilotStrip'
 import TasterBar from '@/app/taster/TasterBar'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
@@ -150,7 +152,10 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
   // The sales bar, and only for somebody who is not already paying for this.
   // isTasterModule first so the cookie is never read on the other twenty two,
   // which are gated anyway and would be paying a crypto verify for nothing.
-  const showTaster = isTasterModule(moduleId) && !(await hasLicence())
+  const access = isTasterModule(moduleId) ? await currentAccess() : await currentAccess()
+  const showTaster = isTasterModule(moduleId) && !access
+  // The pilot strip: a pilot school on one of its two lessons.
+  const showPilot = access?.tier === 'pilot' && pilotModulesFor(access.phase).includes(moduleId)
   const parent = lesson.parent_note ?? {}
   const dsl = lesson.dsl_note ?? {}
 
@@ -705,6 +710,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             earns the email, so it comes first and the form follows it (the
             schools review, 13 September 2026). */}
         {showTaster && <div style={{ marginTop: '28px' }}><TasterBar moduleId={moduleId} moduleTitle={lesson.title} /></div>}
+        {showPilot && <div style={{ marginTop: '28px' }}><PilotStrip /></div>}
 
         <div style={{ marginTop: '28px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>

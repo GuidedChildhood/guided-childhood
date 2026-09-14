@@ -6,7 +6,7 @@ import { COMPANY } from '@gc/shared/legal'
 import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
 import SiteNav from '@/components/SiteNav'
-import { hasLicence } from '@/lib/licence'
+import { navAccess } from '@/lib/licence'
 import { PILOT_PATH } from '@/lib/links'
 import { PILOT_PLACES } from '@/lib/pilot'
 import { TASTER_MODULES } from '@/lib/taster'
@@ -265,7 +265,7 @@ const EVIDENCE = [
 export default async function SchoolsPage() {
   const totalModules = MODULES.length
   // The header shows a licensed school its two rooms and a stranger the door.
-  const licensed = await hasLicence()
+  const nav = await navAccess()
   // The smallest annual price, read from the bands rather than typed here, so
   // the strip can never disagree with the pricing page.
   const fromPrice = PRICING_BANDS.filter(b => !b.onApplication).map(b => b.price)[0] ?? '£495'
@@ -310,7 +310,7 @@ export default async function SchoolsPage() {
       <HomeReveals />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <SiteNav licensed={licensed} />
+      <SiteNav {...nav} />
 
       {/* ── HERO ── */}
       <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(48px, 6.5vw, 96px) clamp(20px, 4vw, 40px) clamp(64px, 8vw, 120px)', position: 'relative', overflow: 'hidden' }}>

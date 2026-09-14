@@ -54,7 +54,7 @@ export const TERMS: LegalDoc = {
     ]),
     section(6, 'pilot', 'The free pilot', [
       `We offer a free one term pilot to the first ${PILOT_PLACES} schools that ask, one code per school. A pilot carries no charge, no purchase order and no obligation to buy.`,
-      `The pilot opens everything a licence opens. When the term ends the code stops unless the School takes a licence, and nothing needs cancelling or returning, because we hold no pupil data and no School data other than your contact details.`,
+      `The pilot opens two lessons matched to the phase the School teaches, with their printables, and the Hub. The rest of the scheme stays visible on the curriculum map and opens with a licence. When the term ends the code stops unless the School takes a licence, and nothing needs cancelling or returning, because we hold no pupil data and no School data other than your contact details.`,
       `We may end a pilot early if the code is shared outside the School or the materials are used outside section 3.`,
     ]),
     section(7, 'service', 'What the Service is, and what it is not', [

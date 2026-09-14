@@ -175,7 +175,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Real, pretend, or made by a computer',
     outcome: 'I can spot that a picture might not be real.',
     blurb: 'Photos and videos can be changed or made up, and AI can make pictures.',
-    character: 'orbit', castLine: 'Orbit with DiGi Junior',
+    character: 'pebble', castLine: 'Pebble with DiGi Junior',
     // Dropped online_safety on 8 September. This deck teaches the three kinds
     // of picture and the detective question, and its own statutory hook says
     // EfCW managing online information. It is media literacy, not safety, and
@@ -214,7 +214,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Privacy and digital reputation',
     outcome: 'I can decide what not to share.',
     blurb: 'What is private, what lasts, and your digital footprint.',
-    character: 'pebble', castLine: 'Pebble', dsl: true,
+    character: 'bloop', castLine: 'Bloop', dsl: true,
     rshe: ['online_safety'],
   },
   {
@@ -222,7 +222,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Being kind and safe with others online',
     outcome: 'I know three things to do if someone is unkind online.',
     blurb: 'Group chats, fallout, and never being a bystander to online bullying.',
-    character: 'pebble', castLine: 'Pebble with Orbit', dsl: true,
+    character: 'bloop', castLine: 'Bloop', dsl: true,
     rshe: ['respectful_relationships', 'online_safety', 'mental_wellbeing'],
   },
   {
@@ -230,7 +230,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'My work and other people’s work',
     outcome: 'I can credit work that is not mine.',
     blurb: 'Owning what you make, using what others made, and where AI content comes from.',
-    character: 'orbit', castLine: 'Orbit',
+    character: 'bloop', castLine: 'Bloop',
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
@@ -257,7 +257,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
     blurb: 'The honest, mixed evidence on screens and mood, and agency over habits.',
-    character: 'nova', castLine: 'Nova with DiGi', dsl: true,
+    character: 'orbit', castLine: 'Orbit with DiGi', dsl: true,
     rshe: ['mental_wellbeing', 'online_safety'],
   },
   {
@@ -265,7 +265,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Social media, group chats and the workarounds',
     outcome: 'I can explain the risk behind a workaround I might be tempted by.',
     blurb: 'How platforms work, VPNs and borrowed accounts, and why the rules exist.',
-    character: 'cosmo', castLine: 'Cosmo', dsl: true,
+    character: 'orbit', castLine: 'Orbit', dsl: true,
     rshe: ['online_safety', 'illegal_online', 'respectful_relationships'],
   },
   {
@@ -273,7 +273,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Misinformation, deepfakes and AI content',
     outcome: 'I can run three checks before I believe or share something.',
     blurb: 'Spotting manufactured content with three checks that take under a minute.',
-    character: 'orbit', castLine: 'Orbit with a Cosmo cameo', dsl: true,
+    character: 'orbit', castLine: 'Orbit', dsl: true,
     rshe: ['deepfakes_ai', 'online_safety'],
   },
   {
@@ -281,7 +281,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Scams, fraud and money online',
     outcome: 'I can spot a scam’s three tells.',
     blurb: 'Phishing, fake offers, get rich hype and account theft.',
-    character: 'cosmo', castLine: 'Cosmo',
+    character: 'orbit', castLine: 'Orbit',
     rshe: ['scams_financial', 'illegal_online', 'online_safety'],
   },
   {
@@ -329,7 +329,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Manipulation and persuasion',
     outcome: 'I can name the technique being used on me.',
     blurb: 'Dark patterns, engineered outrage, and who profits.',
-    character: 'cosmo', castLine: 'Cosmo',
+    character: 'nova', castLine: 'Nova',
     rshe: ['online_safety', 'mental_wellbeing', 'gambling'],
   },
   {
@@ -361,7 +361,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Readiness at 16: the ban world',
     outcome: 'I can plan how I will handle full access when it arrives.',
     blurb: 'The ban removes the apps, it does not build judgement. This module does.',
-    character: 'cosmo', castLine: 'Cosmo with DiGi', crown: true,
+    character: 'nova', castLine: 'Nova with DiGi', crown: true,
     rshe: ['online_safety', 'mental_wellbeing', 'illegal_online'],
   },
   {
