@@ -113,12 +113,22 @@ export function WavyRule({ color = HAPPY.ink, style }: { color?: string; style?:
   )
 }
 
-/** A soft rainbow arc, four bands, for behind a friend or a headline. */
-export function RainbowArc({ width = 160, style }: { width?: number; style?: CSSProperties }) {
+/**
+ * A soft rainbow arc, four bands, for behind a friend or a headline.
+ *
+ * `painted` is the masthead version, from the second of Justin's two Happy
+ * Newspaper references on 14 September 2026: thick painted bands, the pink
+ * in the set, rising over a pale yellow ground behind the paper's name.
+ * Five bands, wide strokes, square ends, so it reads as paint not as a line.
+ */
+export function RainbowArc({ width = 160, painted = false, style }: { width?: number; painted?: boolean; style?: CSSProperties }) {
+  const bands = painted ? [HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky, HAPPY.pink] : [HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky]
+  const step = painted ? 13 : 11
+  const stroke = painted ? 13 : 8
   return (
     <svg viewBox="0 0 200 100" width={width} height={width / 2} aria-hidden style={{ display: 'block', ...style }}>
-      {[HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky].map((c, i) => (
-        <path key={c} d={`M ${20 + i * 11} 100 A ${80 - i * 11} ${80 - i * 11} 0 0 1 ${180 - i * 11} 100`} fill="none" stroke={c} strokeWidth="8" strokeLinecap="round" />
+      {bands.map((c, i) => (
+        <path key={c} d={`M ${step + i * step} 100 A ${100 - step - i * step} ${100 - step - i * step} 0 0 1 ${200 - step - i * step} 100`} fill="none" stroke={c} strokeWidth={stroke} strokeLinecap={painted ? 'butt' : 'round'} />
       ))}
     </svg>
   )

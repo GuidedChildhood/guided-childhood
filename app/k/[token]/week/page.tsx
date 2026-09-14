@@ -4,10 +4,11 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { isChildVisible } from '@/lib/school/child-items'
 import { getFamilyRegion } from '@/lib/learning/region'
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
+import KidWeekMasthead from '@/components/kid/KidWeekMasthead'
 import KidTermPreview from '@/components/kid/KidTermPreview'
 import { buildTermPreview } from '@/lib/learning/term-preview'
 import { buddyFor } from '@/lib/kid/buddy'
-import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
+import { HAPPY } from '@/components/kid/HappyNewsBits'
 
 // The child's own week from school.
 //
@@ -165,18 +166,11 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
           ‹ Back
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0, color: 'var(--ink)' }}>
-            {name ? `${name}'s week` : 'Your week'}
-          </h1>
-          <Plate size={72} tint={HAPPY.butterLt}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={buddy.img} alt={buddy.name} width={56} height={56} style={{ width: 56, height: 56, objectFit: 'contain', display: 'block' }} />
-          </Plate>
-        </div>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
-          School things and your own reminders, on the day they land. Tap a day to see it.
-        </p>
+        <KidWeekMasthead
+          title={name ? `${name}'s week` : 'Your week'}
+          sub="School things and your own reminders, on the day they land. Tap a day to see it."
+          friend={{ name: buddy.name, img: buddy.img }}
+        />
 
         {/* The shape of the next few months, above the week rather than inside
             a day: it does not start on a Tuesday, and putting it on one would

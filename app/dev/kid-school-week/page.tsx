@@ -1,9 +1,10 @@
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
-import { HAPPY, Plate } from '@/components/kid/HappyNewsBits'
+import { HAPPY } from '@/components/kid/HappyNewsBits'
+import KidWeekMasthead from '@/components/kid/KidWeekMasthead'
 import { buddyFor } from '@/lib/kid/buddy'
 
-// Dev fixture: the child's own week page, on the dotted sky with their Friend
-// (14 September 2026, the Kenji note). Mirrors app/k/[token]/week/page.tsx,
+// Dev fixture: the child's own week page, on the white page with the painted
+// rainbow masthead and their Friend (14 September 2026, the Happy News note). Mirrors app/k/[token]/week/page.tsx,
 // which needs a real link; this needs nothing. No token, so no add button.
 
 export const dynamic = 'force-dynamic'
@@ -28,16 +29,11 @@ export default function KidSchoolWeekFixture() {
     }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)', marginBottom: 14, background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-pill)', padding: '7px 14px 7px 10px', boxShadow: `0 3px 0 ${HAPPY.ink}` }}>‹ Back</span>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0, color: 'var(--ink)' }}>Jonny&apos;s week</h1>
-          <Plate size={72} tint={HAPPY.butterLt}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={buddy.img} alt={buddy.name} width={56} height={56} style={{ width: 56, height: 56, objectFit: 'contain', display: 'block' }} />
-          </Plate>
-        </div>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
-          School things and your own reminders, on the day they land. Tap a day to see it.
-        </p>
+        <KidWeekMasthead
+          title="Jonny's week"
+          sub="School things and your own reminders, on the day they land. Tap a day to see it."
+          friend={{ name: buddy.name, img: buddy.img }}
+        />
         <KidSchoolWeek items={ITEMS} childName="Jonny" region="uk" />
       </div>
     </div>
