@@ -159,6 +159,13 @@ jobs:
       # to find the last one (14 September 2026, the child's Ask for screen
       # time page). This is the cheap way.
       - run: node --experimental-strip-types scripts/check-client-boundary.mjs
+
+      # JSONB columns filtered with an array literal. postgrest-js sends a
+      # Postgres array literal, Postgres rejects it as invalid json, and
+      # supabase-js RETURNS that error rather than throwing, so the count
+      # reads as an honest zero. It cost three stickers no child could earn
+      # (14 September 2026). tsc cannot see it; only the database can.
+      - run: node --experimental-strip-types scripts/check-jsonb-contains.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

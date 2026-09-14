@@ -49,6 +49,25 @@ export type MissionRow = {
   colour: string
   /** Every sticker on this objective is earned. */
   done: boolean
+  /** The rule behind the next sticker, so the row knows what the work IS. */
+  kind: StickerRule['kind']
+  /**
+   * Where a child goes to actually do it, or null when the doing is already
+   * on the screen this row sits under.
+   *
+   * Justin, 14 September 2026, looking at the rows: "checking if here we can
+   * link them to actually do it." A row that names a target and cannot be
+   * tapped is a scoreboard, and the whole point of the mission was to draw the
+   * line from today to the objective.
+   *
+   * Null is a real answer and used twice. The friend row counts FULL DAYS, and
+   * a full day is finished in the five a day directly above this card, so a
+   * link would walk a child away from the thing they were about to do. The
+   * outside sticker is the same: it is ticked on the Move about row of that
+   * same list. Sending them somewhere would be worse than sending them
+   * nowhere, so those rows stay quiet rather than pretending.
+   */
+  href: string | null
 }
 
 const OBJECTIVE: Record<MissionKey, string> = {
@@ -87,7 +106,25 @@ export function nextOn(stickers: readonly MissionSticker[], key: MissionKey): Mi
   })[0]
 }
 
-export function buildMission(stickers: readonly MissionSticker[], opts: { fullDays?: number } = {}): MissionRow[] {
+/**
+ * Where the work behind a sticker is actually done, for the child whose token
+ * this is. Null when it is done on the five a day itself (see MissionRow.href).
+ *
+ * Every destination here is one the five a day already uses, so the mission
+ * row and the step row lead to the same place rather than to two ideas of it:
+ * lessons go straight to the next unpassed one (`?next=1`), never the shelf.
+ */
+export function missionHref(kind: StickerRule['kind'], token: string | null): string | null {
+  if (!token) return null
+  if (kind === 'lessons' || kind === 'stamp') return `/k/${token}/lessons?next=1`
+  if (kind === 'timer') return `/k/${token}/balance`
+  return null
+}
+
+export function buildMission(
+  stickers: readonly MissionSticker[],
+  opts: { fullDays?: number; token?: string | null } = {},
+): MissionRow[] {
   const rows: MissionRow[] = []
   for (const key of ['friend', 'safety', 'balance'] as MissionKey[]) {
     const s = nextOn(stickers, key)
@@ -108,6 +145,9 @@ export function buildMission(stickers: readonly MissionSticker[], opts: { fullDa
       emoji: s.emoji ?? (key === 'friend' ? '🪐' : key === 'safety' ? '📚' : '🌳'),
       colour: s.colour,
       done,
+      kind: s.rule.kind,
+      // A finished objective has nothing left to do, so it stops being a door.
+      href: done ? null : missionHref(s.rule.kind, opts.token ?? null),
     })
   }
   return rows

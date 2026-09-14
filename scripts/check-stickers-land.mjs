@@ -103,7 +103,14 @@ if (o) {
 // ── B: the book ─────────────────────────────────────────────────────────────
 if (!/case 'timer': return ctx\.timerDays/.test(book) || !/case 'jobs': return ctx\.jobsDone/.test(book) || !/case 'outside': return ctx\.outsideDays/.test(book)) problems.push('B: the book does not read the three counters')
 else if (!/\|\| s\.rule\.kind === 'timer' \|\| s\.rule\.kind === 'jobs' \|\| s\.rule\.kind === 'outside'/.test(book)) problems.push('B: the three counters do not ratchet')
-else if (!/\.eq\('status', 'approved'\)/.test(book) || !/\.contains\('done', \['move'\]\)/.test(book)) problems.push('B: jobs must count approved ticks and outside must count the move step')
+// The move count must be asked for as JSON, never as an array. This rule used
+// to assert the array form, which is to say it held the bug in place: kid_days
+// .done is JSONB, postgrest-js turns an array into a Postgres array literal,
+// and Postgres answers "invalid input syntax for type json" while supabase-js
+// returns that error rather than throwing, so the count read as an honest
+// zero for every child from the day it shipped. See the note in book.ts and
+// scripts/check-jsonb-contains.mjs.
+else if (!/\.eq\('status', 'approved'\)/.test(book) || !/\.contains\('done', JSON\.stringify\(\['move'\]\)\)/.test(book)) problems.push('B: jobs must count approved ticks, and outside must ask for the move step as JSON rather than an array')
 else ok.push('B: the book reads approved jobs, timer days and outside days, and ratchets them')
 if (!/if \(written && opts\?\.notify\)/.test(book)) problems.push('B: the parent push is not gated on the write landing and the child\'s load asking')
 else if (!/earned their first sticker/.test(book) || !/Order the printed passport and sticker sheet/.test(book)) problems.push('B: the first sticker push does not say the passport line')
@@ -249,7 +256,7 @@ else {
 if (!/const \[week, setWeek\] = useState\(dailyStickers\?\.week \?\? null\)/.test(screen) || !/markTodayDone\(\)/.test(screen) || !/weekDone=\{week\}/.test(screen)) problems.push('I: the week row does not move the moment the day lands')
 else if (!/total: liveDays, week: week \?\? dailyStickers\.week/.test(screen)) problems.push('I: the passport\'s Every day page does not take the live week and total')
 else if (!/const todayUk = ukToday\(\)/.test(kidPage) || !/const dayStr = dayStrUk/.test(kidPage) || !/\.gte\('day', dayStrUk\(6\)\)/.test(kidPage) || /new Date\(Date\.now\(\) - o \* 86400000\)\.toISOString\(\)/.test(kidPage)) problems.push('I: the week is not keyed by the London day the store uses')
-else if (!/mission=\{mission\}/.test(screen) || !/buildMission\(stickers, \{ fullDays: liveStreaks \}\)/.test(screen)) problems.push('I: the screen does not hand the mission to the five a day')
+else if (!/mission=\{mission\}/.test(screen) || !/buildMission\(stickers, \{ fullDays: liveStreaks, token \}\)/.test(screen)) problems.push('I: the screen does not hand the mission to the five a day')
 else if (!/data-mission-site="done"/.test(fiveADay) || !/data-mission-site="open"/.test(fiveADay) || !/<KidMission rows=\{mission\}/.test(fiveADay)) problems.push('I: the mission is not under the week in both views of the five a day')
 else ok.push('I: the week row moves with the day, keyed by the London day, and the mission sits under it in both views')
 
@@ -383,6 +390,36 @@ const road = read('components/pathway/SocialRoadNova.tsx')
 if (!/repeat\(auto-fit, minmax\(14px, 1fr\)\)/.test(road)) problems.push('L: the social road marks have no width floor, so a longer curriculum smears them into a band')
 else if (/flex: 1, height: isNext/.test(road)) problems.push('L: the social road marks still share whatever width is left')
 else ok.push('L: the social road marks hold a 14px floor and wrap, so the marks survive the curriculum growing')
+
+// ── M: a mission row is a door only where there is somewhere to go ──────────
+// Justin, 14 September 2026: "checking if here we can link them to actually do
+// it." Two halves, and the second is the one worth guarding. The lessons and
+// timer rows must LEAD somewhere, and the full days and outside rows must NOT:
+// both are earned on the five a day directly above the card, so a link would
+// walk a child away from the thing they were about to do.
+const missionUi = read('components/kid/KidMission.tsx')
+const doorProbe = `
+import { missionHref } from './lib/kid/mission.ts'
+const T = '0123456789abcdef01'
+const out = {}
+for (const k of ['friend', 'lessons', 'stamp', 'outside', 'timer', 'jobs']) out[k] = missionHref(k, T)
+out.noToken = missionHref('lessons', null)
+console.log(JSON.stringify(out))
+`
+const drun = spawnSync(process.execPath, ['--experimental-strip-types', '--import', './scripts/lib/ts-resolve.mjs', '--input-type=module', '-e', doorProbe], { encoding: 'utf8' })
+if (drun.status !== 0) problems.push(`M: the mission door probe could not run: ${(drun.stderr || '').split('\n').slice(0, 3).join(' ')}`)
+else {
+  const d = JSON.parse(drun.stdout.trim().split('\n').pop())
+  const T = '0123456789abcdef01'
+  if (d.lessons !== `/k/${T}/lessons?next=1` || d.stamp !== `/k/${T}/lessons?next=1`) problems.push(`M: the lessons objective does not lead to the next unpassed lesson (${d.lessons})`)
+  else if (d.timer !== `/k/${T}/balance`) problems.push(`M: the timer objective does not lead to the balance screen (${d.timer})`)
+  else if (d.friend !== null || d.outside !== null) problems.push('M: a row earned on the five a day is linking away from it, which sends a child off the screen they were about to finish')
+  else if (d.noToken !== null) problems.push('M: a mission row builds a link without a token, so it would point at /k/null')
+  else ok.push('M: lessons and the timer lead somewhere real, and the rows earned on the five a day stay put')
+}
+if (!/data-mission-href/.test(missionUi) || !/const Row = r\.href \? 'a' : 'div'/.test(missionUi)) problems.push('M: the mission rows are not doors, so a child cannot act on what they say')
+else if (!/href: done \? null : missionHref/.test(read('lib/kid/mission.ts'))) problems.push('M: a finished objective still offers a door, which sends a child to do a thing they have already done')
+else ok.push('M: a row is an anchor when it leads somewhere and a plain row when it does not')
 
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')

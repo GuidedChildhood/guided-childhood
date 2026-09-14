@@ -15481,3 +15481,89 @@ asking the router, because it renders when something has already gone wrong and
 the URL is the one thing that cannot have failed. No email address: a child
 cannot action it and it is the grown up's to deal with. `tokenFromPath` is
 exported and checked against every real child route.
+
+## 14 September 2026: the mission rows became doors, and the answer to "does it sync" turned up a dead query
+
+Justin, looking at the mission card: "checking if here we can link them to
+actually do it and just checking syncs with adult app so all can be seen
+tracked."
+
+### It links now
+
+A row that names a target and cannot be tapped is a scoreboard, and the mission
+exists to draw the line from today's five to the objective, so the line should
+be walkable. `MissionRow` gained `kind` and `href`, and `KidMission` renders a
+row as an anchor when there is somewhere real to go.
+
+Not every row is a door, and that is the design rather than an omission:
+
+| Objective | Next sticker | Where it goes |
+| --- | --- | --- |
+| Safe and smart online | lessons, stamp | the next UNPASSED lesson (`?next=1`), the same destination the five a day's lesson row uses |
+| Balanced screens | timer | the balance screen |
+| Balanced screens | outside | nowhere: it is ticked on the Move about row of the list directly above |
+| Every full day adds up | friend | nowhere: a full day is finished on that same list |
+
+Linking the last two would walk a child AWAY from the thing they were about to
+do. A door that goes nowhere useful is worse than no door, so those rows stay
+plain and keep their chevron off.
+
+### It does sync, and the audit says so with evidence
+
+Twenty seven agents traced every objective from the child's screen to the
+parent's and tried to break the claim. Twenty five candidate gaps were refuted.
+The parent reads the SAME `getStickerBook` on `/dashboard/pathway` through
+`IsItWorkingReport`, with the same targets, counts and bars; every parent page
+is dynamically rendered per request, so a lesson passed now is on the parent's
+next page view with nothing to press. The child's app and the parent's app do
+not hold two copies of the truth. They hold one.
+
+### But one of the numbers was never true
+
+`lib/stickers/book.ts` counted days outside with
+`.contains('done', ['move'])`. `kid_days.done` is JSONB. Handed an ARRAY,
+postgrest-js serialises a POSTGRES ARRAY LITERAL, so the filter reached
+Postgres as `done @> '{move}'`. Run against the live database that is not a
+miss, it is an error:
+
+```
+ERROR 22P02: invalid input syntax for type json, Token "move" is invalid
+```
+
+supabase-js RETURNS errors rather than throwing, so `count` came back null,
+`count ?? 0` handed back a confident 0, and the `catch` never fired. Nothing
+was ever logged. **A broken query that is indistinguishable from an honest
+zero.**
+
+It cost more than one row. `outsideDays` fed three stickers, so Fresh Air,
+Outdoor Ten and Wild Thirty could never be earned by anybody. And because the
+mission picks the objective with the least left to do, an outside sticker stuck
+one day short beats every timer sticker forever, so "Balanced screens" was
+pinned on "Fresh Air, 0 of 1 days" permanently. That is the exact row in
+Justin's screenshot.
+
+The parent saw the same false zero from the same function, so the two apps
+never disagreed. They agreed on a number that was never true, which is the one
+failure mode a shared read path is supposed to prevent and the one it cannot.
+
+- Fixed by passing JSON: `.contains('done', JSON.stringify(['move']))`. The
+  same method passes a STRING through untouched, so it now reaches Postgres as
+  `done @> '["move"]'`. Verified against the live database on synthetic rows:
+  one match out of three, no error.
+- The error is no longer swallowed. A count that fails is a sticker a child
+  earned and did not get, so it gets a line in the log.
+- Guard `check-jsonb-contains.mjs`: reads the jsonb columns straight out of the
+  migrations and fails on any `.contains('<jsonb column>', [...])`. Clean on 5
+  calls against 74 jsonb columns, catches the bug when put back, and leaves the
+  four legitimate `text[]` calls alone.
+
+### And one more, found on the way
+
+`app/api/kid/lesson-complete/route.ts` read the prior pass filtered by
+`user_id` and `lesson_id` but NOT `child_id`, while the upsert beside it
+conflicts on all four. A family with two children holds one row per child, so
+the read matched every sibling at once: `maybeSingle` on more than one row is
+an error the destructure discarded, and with exactly one sibling row this child
+simply inherited their brother's pass. No family has two rows on one lesson
+yet, so nothing on record is wrong. It would have fired the first time two
+children in one house did the same lesson, which is the ordinary case here.

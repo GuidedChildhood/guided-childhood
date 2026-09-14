@@ -589,7 +589,9 @@ export default function KidQuestScreen({
   // THE MISSION: the next sticker on each objective, read off the book the
   // screen already holds. The friend row takes the live full days so it moves
   // with the day. See lib/kid/mission.ts.
-  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks }), [stickers, liveStreaks])
+  // The token goes in so each row knows where the work is actually done, and
+  // so a row with nowhere to send them stays a plain row (lib/kid/mission.ts).
+  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks, token }), [stickers, liveStreaks, token])
 
   // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
   //
