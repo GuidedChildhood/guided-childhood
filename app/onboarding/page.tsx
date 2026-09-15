@@ -7,7 +7,7 @@ import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/Birthda
 import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from '@/lib/quests/screen-balance'
 import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
-import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { enablePush } from '@/lib/push/enable'
 import { TRIAL_DAYS } from '@/lib/access'
 import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 import WorryPicker from '@/components/onboarding/WorryPicker'
@@ -19,12 +19,6 @@ import { getDeviceId } from '@/lib/push/device-id'
 // first check in, and setup no longer asks anybody for money.
 type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'tour'
 
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = atob(base64)
-  return Uint8Array.from(rawData, c => c.charCodeAt(0))
-}
 
 
 // The worries themselves live in lib/onboarding/worries.ts, with the rule for
@@ -847,25 +841,25 @@ export default function OnboardingPage() {
   if (screen === 'tour') {
     const goNext = () => router.push('/dashboard')
 
+    // The walkthrough's own turn on step, through the shared path.
+    //
+    // This was a third hand written copy of the subscribe sequence and it had
+    // its own fault: the save's Response was never read, so a 500 still
+    // returned true and told a brand new parent their notifications were on
+    // with nothing stored against their account. enablePush checks it, heals a
+    // rotated VAPID key, and answers honestly.
     async function enableNotifications(): Promise<boolean> {
-      if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false
-      const perm = await Notification.requestPermission()
-      if (perm !== 'granted') return false
-      const reg = await navigator.serviceWorker.register('/sw.js')
-      await navigator.serviceWorker.ready
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      const result = await enablePush(async subscription => {
+        const { data: { user } } = await supabase.auth.getUser()
+        return fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          // deviceId so this browser keeps ONE row instead of gaining another
+          // every time the push service rotates its endpoint. See migration 166.
+          body: JSON.stringify({ subscription, userId: user?.id, deviceId: getDeviceId() }),
+        })
       })
-      const { data: { user } } = await supabase.auth.getUser()
-      await fetch('/api/push/subscribe', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        // deviceId so this browser keeps ONE row instead of gaining another
-        // every time the push service rotates its endpoint. See migration 166.
-        body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id, deviceId: getDeviceId() }),
-      })
-      return true
+      return result.ok
     }
 
     return (

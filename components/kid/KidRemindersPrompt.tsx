@@ -61,11 +61,22 @@ export default function KidRemindersPrompt({
   state,
   onEnable,
   childName,
+  error = null,
 }: {
   /** 'offer' can subscribe right now. 'ios' needs the Home Screen first. */
   state: 'offer' | 'ios'
   onEnable: () => void
   childName?: string
+  /**
+   * What went wrong last time they tapped, in words a child can read.
+   *
+   * Before this the whole enable path ended in `catch { setRemindState
+   * ('hidden') }`: every failure took the card off the screen, so tapping Yes
+   * please and nothing happening was indistinguishable from tapping Yes please
+   * and it working. A child cannot tell an adult what went wrong if the app
+   * never says.
+   */
+  error?: string | null
 }) {
   const [steps, setSteps] = useState(false)
   const [gone, setGone] = useState(false)
@@ -127,6 +138,17 @@ export default function KidRemindersPrompt({
           </p>
         </div>
       </div>
+
+      {error && (
+        <p role="alert" style={{
+          margin: '13px 0 0', padding: '11px 13px', boxSizing: 'border-box',
+          background: '#FDE8E0', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+          fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)',
+          color: 'var(--ink)', lineHeight: 1.45, overflowWrap: 'anywhere',
+        }}>
+          {error}
+        </p>
+      )}
 
       {/* Two real buttons. Both wear the house shape (16px, a 2px ink edge, a
           0 5px 0 ink ledge), so Not now is a choice a child can see and take
