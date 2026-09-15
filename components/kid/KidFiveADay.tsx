@@ -414,7 +414,8 @@ export default function KidFiveADay({
           <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: 2 }}>
             {doneCount} of {total}
           </span>
-          {state.streak > 0 && (
+    
+      {state.streak > 0 && (
             <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
               🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
             </span>
@@ -443,13 +444,20 @@ export default function KidFiveADay({
       background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '16px 16px 12px', marginBottom: '16px', boxShadow: 'var(--lift)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
+      {/* WRAPS RATHER THAN RUNS OFF THE EDGE.
+          The ribbon will not shrink (its text is nowrap and it carries 22px of
+          padding either side) and the counter and sticker are flexShrink 0, so
+          at a larger text setting the three of them wanted more than the card
+          has: measured 12px of sideways scroll on the whole page at 390 with
+          the root font at 20px. Wrapping lets the count drop to its own line,
+          which is the only part that can move. */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
         {/* The one ribbon heading on the screen (the Happy Newspaper pass):
             the five a day is the heading that matters, so it gets the banner. */}
         <Ribbon tone={state.complete ? 'green' : 'butter'}>
           {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
         </Ribbon>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, marginLeft: 'auto' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
             {doneCount} of {total}
           </span>
@@ -465,47 +473,21 @@ export default function KidFiveADay({
           background: t.hex, borderRadius: 'var(--radius-pill)', transition: 'width 0.35s ease',
         }} />
       </div>
-      {weekDone && <div style={{ margin: '-4px 0 14px' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
-      {mission && mission.length > 0 && <div data-mission-site="open" style={{ margin: '-4px 0 14px' }}><KidMission rows={mission} compact /></div>}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {/* Done steps first, as slim ticked lines: the climb so far. */}
-        {state.steps.filter(key => state.done.includes(key)).map(key => {
-          const def = STEPS[key]
-          return (
-            <div key={key} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '6px 10px', opacity: 0.68,
-            }}>
-              <span style={{
-                width: 26, height: 26, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 'var(--text-sm)', fontWeight: 900, lineHeight: 1, color: '#fff',
-                background: 'var(--retro-green)', border: 'var(--edge)',
-              }}>
-                ✓
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                // "No jobs today" is a fact, not a chore the child crossed off,
-                // so it does not wear the strikethrough the real ones earn.
-                color: 'var(--ink-muted)',
-                textDecoration: key === 'jobs' && jobsProgress?.total === 0 ? 'none' : 'line-through',
-                lineHeight: 1.2,
-              }}>
-                {key === 'reading' && readingMinutes
-                  ? `${readingMinutes} minutes reading`
-                  : key === 'jobs' && jobsProgress?.total === 0
-                    // Justin, from the child app: "there is no jobs so should
-                    // know that." The row says so instead of pretending a job
-                    // list was finished.
-                    ? 'No jobs today, this one is free'
-                    : def.label}
-              </span>
-            </div>
-          )
-        })}
-
+        {/* THE ONE LIVE STEP, NAMED SO A CHILD KNOWS IT IS THE WAY IN.
+            The row was already a real button with an ink edge and a chevron.
+            What it never had was a word saying "this is the thing", so a card
+            headed "Your five for today, 1 of 5" showed a number and a bar and
+            then left a child to work out for themselves that the bordered row
+            was where the day happens. One eyebrow does that. */}
+        <p style={{
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+          margin: '0 2px 2px',
+        }}>
+          {doneCount === 0 ? 'Start here' : 'Do this next'}
+        </p>
         {/* The ONE live step. The next appears when this lands. */}
         {(() => {
           const key = state.steps.find(k => !state.done.includes(k))
@@ -640,7 +622,71 @@ export default function KidFiveADay({
             {total - doneCount - 1} more to come. The next appears when this one is done.
           </p>
         )}
+
+        {/* THE CLIMB SO FAR, UNDER THE NEXT THING, NOT ABOVE IT.
+            These used to come first, which pushed the one live step further
+            down the card with every step a child finished: by the fourth the
+            thing to do was four rows below the heading that named it. The
+            next action now holds one place, directly under the bar, and the
+            ticked ones gather beneath it. */}
+        {doneCount > 0 && (
+          <p style={{
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+            margin: '10px 2px 0',
+          }}>
+            Done today
+          </p>
+        )}
+        {state.steps.filter(key => state.done.includes(key)).map(key => {
+          const def = STEPS[key]
+          return (
+            <div key={key} style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '6px 10px', opacity: 0.68,
+            }}>
+              <span style={{
+                width: 26, height: 26, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 'var(--text-sm)', fontWeight: 900, lineHeight: 1, color: '#fff',
+                background: 'var(--retro-green)', border: 'var(--edge)',
+              }}>
+                ✓
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                // "No jobs today" is a fact, not a chore the child crossed off,
+                // so it does not wear the strikethrough the real ones earn.
+                color: 'var(--ink-muted)',
+                textDecoration: key === 'jobs' && jobsProgress?.total === 0 ? 'none' : 'line-through',
+                lineHeight: 1.2,
+              }}>
+                {key === 'reading' && readingMinutes
+                  ? `${readingMinutes} minutes reading`
+                  : key === 'jobs' && jobsProgress?.total === 0
+                    // Justin, from the child app: "there is no jobs so should
+                    // know that." The row says so instead of pretending a job
+                    // list was finished.
+                    ? 'No jobs today, this one is free'
+                    : def.label}
+              </span>
+            </div>
+          )
+        })}
+
       </div>
+
+      {/* CONTEXT BELOW THE ACTION.
+          Justin, 15 September 2026, from his phone: "not sure how to do the 5 a
+          day, please make it super clear from Your five for today the click
+          through flow." The heading said five for today and then a child met a
+          week calendar and a three row mission panel before anything they could
+          tap: roughly a screen and a half of reading before the first action.
+          Both of these are worth keeping, they are why the day matters, but
+          they answer "how is it going" and the child is asking "what do I do".
+          So they moved under the steps. */}
+      {weekDone && <div style={{ margin: '14px 0 0' }}><WeekDone week={weekDone} friend={weekFriend} /></div>}
+      {mission && mission.length > 0 && <div data-mission-site="open" style={{ margin: '14px 0 0' }}><KidMission rows={mission} compact /></div>}
 
       {state.streak > 0 && (
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
