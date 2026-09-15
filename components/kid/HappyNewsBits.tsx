@@ -194,21 +194,53 @@ export function StarShape({ size = 16, color = HAPPY.butter, style }: { size?: n
  * above, the headline in Nunito 900, and a scatter of smiley dots. The
  * right hand slot takes a Burst or a Sticker (the tally, the star count).
  */
-export function HappyMasthead({ kicker, title, sub, right, style }: {
-  kicker?: string; title: string; sub?: string; right?: ReactNode; style?: CSSProperties
+export function HappyMasthead({ kicker, title, sub, right, tone = 'butter', style }: {
+  kicker?: string; title: string; sub?: string; right?: ReactNode
+  /**
+   * 'butter' is the solid block. 'paper' is the newspaper itself: white stock,
+   * ink type, colour kept for the marks on it.
+   *
+   * Justin, 15 September 2026, from the child's pitch screen: "first page works
+   * but too much yellow, use design like happy news." He is right about the
+   * source: The Happy Newspaper is PAPER with colour printed on it, not a
+   * yellow field with words on top. A whole screen of butter also leaves the
+   * butter buttons nothing to stand out from.
+   *
+   * Paper also stops the headline strangling itself. In butter tone the text
+   * column shares a fixed row with `right`, so a sticker beside it squeezes the
+   * words into a narrow ribbon: on a 390px phone "Got a quest idea?" broke over
+   * three lines and its subtitle over seven, which is what made that card fill
+   * the screen. Paper lets the row wrap and the text keep its full width.
+   */
+  tone?: 'butter' | 'paper'
+  style?: CSSProperties
 }) {
+  const paper = tone === 'paper'
   return (
     <div style={{
       position: 'relative', overflow: 'hidden',
-      background: HAPPY.butter, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      background: paper ? '#fff' : HAPPY.butter, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '16px 16px 15px', boxShadow: 'var(--lift-deep)', color: HAPPY.ink,
       ...style,
     }}>
       <HappyScatter dim />
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12, flexWrap: paper ? 'wrap' : 'nowrap' }}>
+        {/* On paper the column keeps a floor, so when `right` cannot fit beside
+            it the row WRAPS and the sticker drops below, instead of the words
+            being squeezed into a ribbon. flexWrap alone does nothing while the
+            column is free to shrink to nothing. */}
+        <div style={{ flex: 1, minWidth: paper ? 240 : 0 }}>
           {kicker && (
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+              letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4,
+              // On paper the kicker is the printed mark: a butter chip, so the
+              // warmth stays without flooding the card.
+              ...(paper ? {
+                display: 'inline-block', background: HAPPY.butter, border: 'var(--edge)',
+                borderRadius: 'var(--radius-pill)', padding: '3px 10px', marginBottom: 8,
+              } : null),
+            }}>
               {kicker}
             </div>
           )}
@@ -216,7 +248,7 @@ export function HappyMasthead({ kicker, title, sub, right, style }: {
             {title}
           </div>
           {sub && (
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, marginTop: 6, maxWidth: 260 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, marginTop: 6, maxWidth: paper ? 'none' : 260 }}>
               {sub}
             </div>
           )}
