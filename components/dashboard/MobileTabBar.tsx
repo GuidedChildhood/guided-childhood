@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
+import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 
 // The mobile bottom bar: Home, DiGi, Lessons, Quests, Scripts, Passport. The
 // two most asked for destinations, Scripts and Quests, are real tabs rather
@@ -110,6 +111,31 @@ function MobileTabBarInner({ pendingAsks = 0, digiWord = 0, childId = null }: { 
   // the tapped tab optimistically and light it the instant a finger lifts,
   // then hand back to the real route once it catches up.
   const [pending, setPending] = useState<string | null>(null)
+
+  // THE RED NUMBER HAS TO RECOUNT WHEN YOU ANSWER SOMETHING.
+  //
+  // Justin, 15 September 2026, with a screenshot of this bar: "not sure why one
+  // red warning on parent quest here?" It was showing 1 while the board right
+  // underneath it said "0 Waiting on you", and the database agreed with the
+  // board: no tick, no pitch, no printable pending on that account.
+  //
+  // The badge was not wrong about the data, it was wrong about WHEN. This bar
+  // lives in the dashboard LAYOUT and its count is computed on the server
+  // there; the board lives in the page. Answering something on the board
+  // updates the page and leaves the layout exactly as it was rendered, so the
+  // number stayed at whatever it had been until a full reload.
+  //
+  // gc:notifs-changed already exists and is already fired by everything that
+  // clears one of these (the board, the printables confirm, manage jobs). It
+  // simply had two listeners and this was not one of them. So it listens now,
+  // and router.refresh re-runs the layout's count. No new mechanism, and the
+  // bell, the summary and this badge all move on the same beat.
+  const router = useRouter()
+  useEffect(() => {
+    const onChange = () => router.refresh()
+    window.addEventListener(NOTIFS_CHANGED_EVENT, onChange)
+    return () => window.removeEventListener(NOTIFS_CHANGED_EVENT, onChange)
+  }, [router])
   const routeActive = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href
