@@ -2266,11 +2266,31 @@ export default function KidQuestScreen({
             labels a size up in full ink, the icons bigger, the tap targets
             taller. Same three tabs, same sticky behaviour. */}
         <KidTabBar
-          current={tab}
+          // TODAY IS THE DAY. QUESTS IS THE JOBS.
+          //
+          // Justin, 15 September 2026, from this screen: "on the bottom tabs
+          // home does not go to home and light up, and Quests should go to the
+          // jobs quest place."
+          //
+          // Both complaints were one fault. The five a day lives in the tab
+          // called 'quests', so standing on the day lit QUESTS, and Today, the
+          // thing the child was actually looking at, could never light at all.
+          // Two names for one screen, and the wrong one winning.
+          //
+          // The internal tab state is untouched: 'quests' is still the key for
+          // the day's own content. Only what the bar SAYS about it changes, so
+          // nothing about how this screen renders is rewired.
+          current={tab === 'quests' ? 'today' : tab}
           // The same count the ask row uses, so the bar and the row cannot
           // disagree about how many of this child's asks a grown up still has.
           badges={{ lessons: totalNewLessons, print: newPrint, waiting: waitingOnGrownUp }}
-          onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
+          onSelect={key => {
+            playKidSound('tap')
+            // Quests is a PLACE now, not a tab on this screen: the jobs a
+            // grown up has sent, which is what a child means by their quests.
+            if (key === 'quests') { window.location.assign(`/k/${token}/jobs`); return }
+            setTab(key); setActiveLesson(null); goToTab(key)
+          }}
           today={todayTab}
           onToday={() => { setTab('quests'); setActiveLesson(null); playKidSound('tap'); goToTab('quests') }}
         />

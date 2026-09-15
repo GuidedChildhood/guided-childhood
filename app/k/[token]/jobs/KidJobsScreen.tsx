@@ -210,9 +210,30 @@ export default function KidJobsScreen({
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.3 }}>
               No jobs today
             </p>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-              When your grown up sends one, it lands here. You can pitch your own idea from your home screen any time.
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
+              When your grown up sends one, it lands here. Until then, you can ask for one yourself.
             </p>
+            {/* THE ASK, NOT DIRECTIONS TO IT.
+                Justin, 15 September 2026: "if first time it should just ask to
+                request jobs." This card used to end with "you can pitch your own
+                idea from your home screen any time", which tells a child to go
+                somewhere else and find something. On a first ever day, when
+                there are no jobs at all, this screen IS the moment to ask, so
+                the ask is a button on it. */}
+            <a
+              href={`/k/${token}/suggest`}
+              onClick={() => playKidSound('tap')}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                padding: '15px 20px', textDecoration: 'none',
+                borderRadius: 'var(--radius-btn)', border: 'var(--edge)',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800,
+                fontSize: 'var(--text-md)', boxShadow: 'var(--lift-deep)',
+              }}
+            >
+              Ask for a job
+            </a>
           </div>
         ) : (
           <KidTodayList

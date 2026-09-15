@@ -71,8 +71,11 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // new had to be invented for it, and nothing on the home screen changes.
 export default function KidScreenChrome({ token, current, today = null, children }: {
   token: string
-  /** Which tab this screen belongs under, lit in the bar. */
-  current: KidTab
+  /**
+   * Which entry this screen belongs under, lit in the bar. 'today' for a
+   * screen that is part of the child's day, 'quests' for the jobs.
+   */
+  current: KidTab | 'today'
   /**
    * What is left of the day, for the bar's Today entry. Null leaves the bar as
    * three tabs, which is right for a screen that cannot cheaply know the day.

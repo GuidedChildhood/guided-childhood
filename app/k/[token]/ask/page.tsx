@@ -96,7 +96,7 @@ export default async function KidAskPage({ params }: { params: Promise<{ token: 
   }
 
   return (
-    <KidScreenChrome token={token} current="quests" today={todayTab}>
+    <KidScreenChrome token={token} current="today" /* a five a day step: asking for screen time */ today={todayTab}>
     <KidAskScreenTime
       token={token}
       childName={child?.name && child.name !== 'Your child' ? child.name : 'Superstar'}
