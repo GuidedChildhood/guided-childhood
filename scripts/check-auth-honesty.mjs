@@ -21,31 +21,79 @@
 // A fifth way in will be written one day, and it will be written by somebody
 // who has never seen placeholder.supabase.co.
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { join } from 'node:path'
 
-// Every screen that calls Supabase auth from the browser.
-const SCREENS = [
+// ── THE LIST FINDS ITSELF (15 September 2026) ───────────────────────────────
+//
+// This used to be four hardcoded paths, and the note above already knew the
+// problem with that: "a fifth way in will be written one day, and it will be
+// written by somebody who has never seen placeholder.supabase.co." A fixed list
+// cannot see a fifth door, and it goes red when a door legitimately CLOSES.
+//
+// It went red for the second reason today. /signup became a redirect to
+// /starter-pack, so it stopped calling Supabase auth and the list said a way in
+// had gone missing. That is the guard doing its job and asking a fair question,
+// and deleting the entry would have answered it by making the guard smaller.
+//
+// So the rule is stated the way it was always meant: ANY file that calls
+// Supabase auth from the browser obeys the two rules, whoever writes it and
+// wherever they put it. A door that closes simply stops matching. A fifth door
+// is covered the moment it is written.
+//
+// MUST_EXIST keeps the guard honest in the other direction: if a refactor left
+// nothing calling auth at all, a scan would find zero files and pass happily.
+// These three are the ways in that have to keep existing.
+const MUST_EXIST = [
   'app/(auth)/login/LoginForm.tsx',
-  'app/(auth)/signup/page.tsx',
   'app/(auth)/forgot-password/page.tsx',
   'app/(marketing)/starter-pack/page.tsx',
 ]
 
-const AUTH_CALL = /supabase\.auth\.(signUp|signInWithPassword|resetPasswordForEmail|signInWithOtp)\(/
+// ANY receiver, not one named `supabase`.
+//
+// This used to read /supabase\.auth\.(...)/, which only matched a client stored
+// in a variable spelled exactly "supabase". That was survivable while the list
+// of doors was hardcoded. Now the list is discovered, the pattern IS the list:
+// a door that writes `const s = createClient()` would simply never be found,
+// and would pass by being invisible. Mutation tested with exactly that shape.
+const AUTH_CALL = /\.auth\s*\.\s*(signUp|signInWithPassword|resetPasswordForEmail|signInWithOtp)\s*\(/
 
+function walk(dir, out = []) {
+  let entries
+  try { entries = readdirSync(dir) } catch { return out }
+  for (const name of entries) {
+    if (name === 'node_modules' || name === '.next' || name.startsWith('.')) continue
+    const full = join(dir, name)
+    let st
+    try { st = statSync(full) } catch { continue }
+    if (st.isDirectory()) walk(full, out)
+    else if (/\.(tsx?|jsx?)$/.test(name)) out.push(full)
+  }
+  return out
+}
+
+const ROOT = process.cwd()
 const fails = []
 const ok = []
 
+// Every file that actually calls it, found rather than remembered.
+const SCREENS = ['app', 'components']
+  .flatMap(r => walk(join(ROOT, r)))
+  .filter(f => AUTH_CALL.test(readFileSync(f, 'utf8')))
+  .map(f => f.replace(ROOT + '/', ''))
+
+for (const must of MUST_EXIST) {
+  if (!SCREENS.includes(must)) {
+    fails.push(`${must} no longer calls Supabase auth. That is one of the ways into an account, so either it moved (fix MUST_EXIST) or a door has gone.`)
+  }
+}
+if (SCREENS.length === 0) {
+  fails.push('nothing in app/ or components/ calls Supabase auth, so this guard is not looking at anything')
+}
+
 for (const file of SCREENS) {
-  let src
-  try { src = readFileSync(file, 'utf8') } catch {
-    fails.push(`${file} is listed here and does not exist. Either it moved, in which case fix this list, or a way into an account has gone.`)
-    continue
-  }
-  if (!AUTH_CALL.test(src)) {
-    fails.push(`${file} no longer calls Supabase auth. If the call moved, the guard has to follow it.`)
-    continue
-  }
+  const src = readFileSync(join(ROOT, file), 'utf8')
   const configured = /isSupabaseConfigured\(\)/.test(src)
   const translated = /networkAuthMessage\(/.test(src)
   if (!configured) fails.push(`${file} calls Supabase auth without asking isSupabaseConfigured() first. On a build with no NEXT_PUBLIC variables it will blame the person typing.`)
