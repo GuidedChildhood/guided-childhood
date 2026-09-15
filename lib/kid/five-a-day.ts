@@ -432,6 +432,34 @@ export function pickDay(
   return [...FIXED_FIRST.filter(can), ...middle, ...FIXED_LAST.filter(can)]
 }
 
+/** A lesson and the daily quiz are one objective: learn one thing today. */
+const LEARNING: StepKey[] = ['lesson', 'quiz']
+
+/**
+ * Which of today's steps a completed thing actually lands on.
+ *
+ * A child can pass a lesson on a day whose five asked for the quiz, or the
+ * other way round. Both are the same objective, so either face lands the one
+ * the day is holding, and the day ticks. Anything outside that pair is
+ * returned unchanged, so the caller refuses it exactly as it always did: a
+ * stale tab must never complete a step it was never shown.
+ *
+ * It lives here, beside STEPS and dayComplete, because it is a fact about what
+ * a day's steps MEAN. lib/kid/day-store.ts is only the writer that acts on it.
+ * Keeping it in this module also keeps it reachable without node_modules,
+ * which is what lets the guard below run the real thing.
+ *
+ * Exported so the rule can be exercised for real rather than described: see
+ * scripts/check-learning-step.mjs, which runs THIS function rather than a copy
+ * of it. A guard that reimplements the thing it guards proves nothing (learned
+ * on 14 September 2026, recorded in plans/decisions.md).
+ */
+export function stepForToday(step: StepKey, steps: StepKey[]): StepKey {
+  if (steps.includes(step)) return step
+  if (!LEARNING.includes(step)) return step
+  return LEARNING.find(k => k !== step && steps.includes(k)) ?? step
+}
+
 /** Did the whole day land? The streak is this and nothing else. */
 export function dayComplete(steps: StepKey[], done: StepKey[]): boolean {
   return steps.length > 0 && steps.every(s => done.includes(s))

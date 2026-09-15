@@ -33,7 +33,7 @@
 
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { stepForToday } from '../lib/kid/day-store.ts'
+import { stepForToday } from '../lib/kid/five-a-day.ts'
 
 const ROOT = process.cwd()
 const problems = []

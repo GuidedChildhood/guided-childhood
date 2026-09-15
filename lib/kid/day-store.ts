@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { pickDay, dayComplete, ukToday, STEPS, type StepKey, type StageNum } from '@/lib/kid/five-a-day'
+import { pickDay, dayComplete, ukToday, stepForToday, STEPS, type StepKey, type StageNum } from '@/lib/kid/five-a-day'
 import { grantDayMinutes, MINUTES_PER_COMPLETED_DAY } from '@/lib/quests/holiday-daily'
 import { sendPush } from '@/lib/push/send'
 
@@ -235,26 +235,6 @@ export interface MarkResult {
  * result entirely: none of them are ticking as their main job, and a child who
  * has just passed a quiz must never see a failure about a checklist.
  */
-/** A lesson and the daily quiz are one objective: learn one thing today. */
-const LEARNING: StepKey[] = ['lesson', 'quiz']
-
-/**
- * Which of today's steps a completed thing actually lands on.
- *
- * Exported so the rule can be exercised for real rather than described: see
- * scripts/check-learning-step.mjs, which runs THIS function rather than a copy
- * of it. A guard that reimplements the thing it guards proves nothing (learned
- * on 14 September 2026, recorded in plans/decisions.md).
- *
- * Returns the step to mark, or the original when today has neither face, in
- * which case the caller refuses as it always did.
- */
-export function stepForToday(step: StepKey, steps: StepKey[]): StepKey {
-  if (steps.includes(step)) return step
-  if (!LEARNING.includes(step)) return step
-  return LEARNING.find(k => k !== step && steps.includes(k)) ?? step
-}
-
 export async function markStep(
   admin: Admin,
   userId: string,
