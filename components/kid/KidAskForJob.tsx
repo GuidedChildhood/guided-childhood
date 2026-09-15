@@ -188,6 +188,7 @@ export default function KidAskForJob({
   return (
     <div>
       <HappyMasthead
+        tone="paper"
         kicker="Pitch a job"
         title="Got a quest idea?"
         sub="Tap one, or write your own. Your grown up says yes and it turns into a real quest with stars."

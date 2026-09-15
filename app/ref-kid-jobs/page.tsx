@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import KidJobsScreen from '@/app/k/[token]/jobs/KidJobsScreen'
 
 // Layout fixture for the child's jobs page (the do these jobs list and the
@@ -23,6 +24,15 @@ const QUESTS = [
 ]
 
 export default function RefKidJobs() {
+  // ?empty=1 shows the first ever day, when a grown up has sent nothing yet.
+  // That is the state Justin flagged as too big, so it needs to be lookable at.
+  //
+  // Read in an effect, not during render: this is a client component, so
+  // touching window while rendering makes the server and the client disagree
+  // and Next reports a hydration error.
+  const [empty, setEmpty] = useState(false)
+  useEffect(() => { setEmpty(new URLSearchParams(window.location.search).has('empty')) }, [])
+
   return (
     <KidJobsScreen
       token="000000000000000000"
@@ -30,7 +40,7 @@ export default function RefKidJobs() {
       buddy="digi"
       stageId={2}
       ageBand="8-10"
-      quests={QUESTS}
+      quests={empty ? [] : QUESTS}
       todayTicks={[{ quest_id: 'a', status: 'pending' }]}
       giftStarsOwed={6}
     />
