@@ -66,13 +66,28 @@ a child waiting on somebody else is exactly who benefits from a way across.
 Justin's standing instruction here is *"don't rewire what we have as this may
 break it"*, so all four are additive.
 
-**1. The bar has no URL contract, and this is the actual work.**
-`KidTabBar` takes `onSelect: (tab) => void`. On the home that callback flips
-in page state and scrolls. On any other route there is no local tab to flip, so
-it has to navigate to the home AND land on the chosen tab. The home has no way
-to be told which tab to open: `goToTab` only scrolls to `#kid-tab-content`.
-So the home needs to read a `?tab=` parameter on arrival. That is the new
-thing; everything else is plumbing.
+**1. ~~The bar has no URL contract, and this is the actual work.~~ It already
+had one.**
+Corrected while building, 15 September. `KidQuestScreen` has read `?tab=` since
+the printables step was wired:
+
+```
+const [tab, setTab] = useState(() => {
+  const t = new URLSearchParams(window.location.search).get('tab')
+  return t === 'print' || t === 'lessons' ? t : 'quests'
+})
+```
+
+So a tab on another screen is a plain navigation home carrying the tab to open.
+Nothing had to be invented and the home screen is untouched. What I called the
+main work was already done, which made this smaller than planned.
+
+**1b. What the real work turned out to be: the Today pill.**
+Five of these screens carried `KidTodayReturn`, a SECOND fixed element at the
+same `zIndex: 60`, anchored to the same corner, with no portal and no unzoom.
+Justin photographed it drifting over a lesson title on 15 September. The bar
+already carries a Today entry doing the same job, so on those five the bar
+replaces the pill rather than stacking with it. Justin chose this on the day.
 
 **2. The zoom trap, which has already bitten twice.**
 `shared/tokens.css` zooms `body` by 1.07. A fixed element inside a zoomed

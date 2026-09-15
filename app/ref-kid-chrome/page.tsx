@@ -11,6 +11,9 @@ import KidScreenChrome from '@/components/kid/KidScreenChrome'
 // clear of the last control on a long page, is body unzoomed so the bar has no
 // zoomed ancestor to drift against on an iPhone, and does it stay off paper.
 //
+// A part done day is passed in, so the Today entry renders the way it does on
+// the five screens where it replaced the KidTodayReturn pill.
+//
 // So this renders the REAL KidScreenChrome around a page tall enough to scroll,
 // ending in a button at the very bottom, which is the thing a fixed bar covers
 // when the padding is wrong. 404s in production via middleware, like every
@@ -22,7 +25,7 @@ const TOKEN = '000000000000000000'
 
 export default function RefKidChrome() {
   return (
-    <KidScreenChrome token={TOKEN} current="quests">
+    <KidScreenChrome token={TOKEN} current="quests" today={{ left: 3, total: 4, complete: false, opened: true }}>
       <div style={{
         minHeight: '100dvh', background: 'var(--cream)',
         padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))',

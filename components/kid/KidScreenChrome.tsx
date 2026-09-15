@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import KidTabBar, { type KidTab } from './KidTabBar'
+import KidTabBar, { type KidTab, type TodayTab } from './KidTabBar'
 import { playKidSound } from '@/lib/sound/kidSounds'
 
 // The three tabs, on a child screen that is not the home screen.
@@ -48,7 +48,15 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // badge: it teaches a child the red numbers mean nothing. That is the exact bug
 // fixed on the parent's Quests tab the same morning (scripts/check-badge-truth.mjs).
 //
-// No `today` pill either, for the same reason: it needs the day's real counts.
+// The Today entry IS rendered, and it is the reason this is safe to put on the
+// five screens that carried KidTodayReturn. That pill was a second fixed thing
+// at the same zIndex as this bar, anchored to the same corner, and Justin
+// photographed it sitting on top of a lesson title. The bar's own Today entry
+// says the same thing in the same place and is anchored properly, so the pill
+// goes rather than the two of them fighting over the floor.
+//
+// Its counts are cheap in a way the badges are not: readTodayState is two
+// queries the screen can make on the server and it fails soft to an empty day.
 //
 // ── THE TAB IS CARRIED IN THE URL, WHICH ALREADY WORKED ────────────────────
 //
@@ -61,10 +69,15 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 //
 // So a tab here is a plain navigation home carrying the tab to open. Nothing
 // new had to be invented for it, and nothing on the home screen changes.
-export default function KidScreenChrome({ token, current, children }: {
+export default function KidScreenChrome({ token, current, today = null, children }: {
   token: string
   /** Which tab this screen belongs under, lit in the bar. */
   current: KidTab
+  /**
+   * What is left of the day, for the bar's Today entry. Null leaves the bar as
+   * three tabs, which is right for a screen that cannot cheaply know the day.
+   */
+  today?: TodayTab | null
   children: React.ReactNode
 }) {
   const router = useRouter()
@@ -91,6 +104,13 @@ export default function KidScreenChrome({ token, current, children }: {
           router.push(key === 'quests' ? `/k/${token}` : `/k/${token}?tab=${key}`)
         }}
         badges={{ lessons: 0, print: 0 }}
+        today={today}
+        onToday={() => {
+          playKidSound('tap')
+          // Straight to the five a day itself, which is where the home screen's
+          // own Today entry goes, rather than the top of the home screen.
+          router.push(`/k/${token}#kid-five`)
+        }}
       />
     </div>
   )

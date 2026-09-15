@@ -92,7 +92,14 @@ export default function KidPrintPage({ job, token }: {
   const total = tick ? tick.steps.length : 0
 
   return (
-    <div className="kid-print-root" style={{ minHeight: '100dvh', background: '#fff', fontFamily: 'var(--font-body)' }}>
+    <div className="kid-print-root" style={{
+      minHeight: '100dvh', background: '#fff', fontFamily: 'var(--font-body)',
+      // Room for the fixed tab bar, which is portalled to body and so takes no
+      // space in the flow. The bar hides itself under @media print, so this
+      // padding is the only thing that reaches paper, and a blank strip at the
+      // foot of a sheet is invisible on a white page.
+      paddingBottom: 'calc(96px + env(safe-area-inset-bottom, 0px))',
+    }}>
       <style>{`@media print {
         .kid-print-bar { display: none !important; }
         /* Nothing but the sheet takes any room on paper. The page's own

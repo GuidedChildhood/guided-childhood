@@ -120,6 +120,33 @@ function walk(dir, out = []) {
 // control on the page sits under the bar.
 const CLEARS = /padding[^;\n]*calc\(\s*9[0-9]px\s*\+\s*env\(safe-area-inset-bottom/
 
+// The padding belongs on the screen's SCROLLING ROOT, and that is often not the
+// file that mounts the chrome: jobs, lessons and printables are server pages
+// that hand their whole body to a client component, and the root div lives
+// there. So the clearance counts if it is in the mounting file or in any local
+// component that file renders.
+function localImports(src, fromRel) {
+  const out = []
+  for (const m of src.matchAll(/from\s+'(@\/[^']+|\.[^']+)'/g)) {
+    const spec = m[1]
+    let rel
+    if (spec.startsWith('@/')) rel = spec.slice(2)
+    else {
+      const dir = fromRel.split('/').slice(0, -1)
+      for (const part of spec.split('/')) {
+        if (part === '.') continue
+        else if (part === '..') dir.pop()
+        else dir.push(part)
+      }
+      rel = dir.join('/')
+    }
+    for (const ext of ['.tsx', '.ts']) {
+      try { statSync(join(ROOT, rel + ext)); out.push(rel + ext); break } catch { /* not a local file */ }
+    }
+  }
+  return out
+}
+
 const users = []
 for (const file of [...walk(join(ROOT, 'app')), ...walk(join(ROOT, 'components'))]) {
   const rel = file.replace(ROOT + '/', '')
@@ -127,9 +154,14 @@ for (const file of [...walk(join(ROOT, 'app')), ...walk(join(ROOT, 'components')
   const src = strip(readFileSync(file, 'utf8'))
   if (!/<KidScreenChrome/.test(src)) continue
   users.push(rel)
-  if (!CLEARS.test(src)) {
+  const here = CLEARS.test(src)
+  const inChild = here ? null : localImports(src, rel).find(r => {
+    const c = read(r)
+    return c !== null && CLEARS.test(c)
+  })
+  if (!here && !inChild) {
     problems.push(
-      `${rel} mounts KidScreenChrome but never pads for it. The bar is fixed and portalled to body, so it takes up no room in the flow: without a bottom padding of about 96px plus the safe area inset, this screen's last control sits underneath the bar and a child cannot tap it.`,
+      `${rel} mounts KidScreenChrome but nothing it renders pads for it. The bar is fixed and portalled to body, so it takes up no room in the flow: without a bottom padding of about 96px plus the safe area inset on this screen's scrolling root, its last control sits underneath the bar and a child cannot tap it.`,
     )
   }
 }

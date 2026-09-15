@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
 import { resolveTheme } from '@/lib/kid/theme'
 import KidBackLink from '@/components/kid/KidBackLink'
-import KidTodayReturn from '@/components/kid/KidTodayReturn'
 
 // Ask for a job: the child's own page for pitching a quest to their grown up.
 //
@@ -58,8 +59,19 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
   // default this page was pinned to.
   const theme = resolveTheme(child?.accent as string | null)
 
+  // The bar's Today entry, which is what replaces the KidTodayReturn pill that
+  // used to float here. Two cheap reads that fail soft to an empty day.
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
-    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <KidScreenChrome token={token} current="quests" today={todayTab}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
           <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-base)" />
@@ -76,7 +88,7 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
 
         <KidAskForJob token={token} initialAsks={asks} childName={childName || undefined} theme={theme} ageBand={(child?.age_band as string | null) ?? null} />
       </div>
-      <KidTodayReturn token={token} />
     </div>
+    </KidScreenChrome>
   )
 }

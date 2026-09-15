@@ -152,9 +152,26 @@ if (!/data-today-tab/.test(tabBar) || !/today\.complete \? 'done' : today\.opene
 else if (!/today=\{todayTab\}/.test(screen) || !/onToday=\{\(\) => \{ setTab\('quests'\)/.test(screen)) problems.push('F: the screen does not feed the Today entry or send it home')
 else if (!/if \(!allDone \|\| !todayTab\.complete\)/.test(screen)) problems.push('F: the open load auto switches tabs on the jobs flag rather than the day')
 else ok.push('F: Today sits on the bar with the count left, and the open load waits for the day')
+// Every screen a child can wander onto keeps a way back to the day. The RULE is
+// unchanged; what satisfies it now comes in two shapes.
+//
+// It used to be KidTodayReturn on all six: a pill, position fixed, zIndex 60,
+// anchored bottom centre. On 15 September 2026 Justin photographed that pill
+// sitting on top of a lesson title, which is the zoom drift the tab bar was
+// portalled to escape, and it shared a zIndex and a corner with the new bar.
+//
+// So the five screens that took the tab bar get their way back from the bar's
+// own Today entry, fed a real count by KidScreenChrome, and the pill is gone
+// from them. The planet keeps the pill, because it is immersive and takes no
+// bar. Either satisfies this rule; neither being present does not.
 const subPages = ['jobs', 'lessons', 'planet', 'suggest', 'tell', 'print']
-const missing = subPages.filter(p => !/<KidTodayReturn token=\{token\} \/>/.test(read(`app/k/[token]/${p}/page.tsx`)))
-if (missing.length) problems.push(`F: no way back to today on ${missing.join(', ')}`)
+const missing = subPages.filter(p => {
+  const src = read(`app/k/[token]/${p}/page.tsx`)
+  const pill = /<KidTodayReturn token=\{token\} \/>/.test(src)
+  const barToday = /<KidScreenChrome[^>]*today=\{todayTab\}/.test(src)
+  return !pill && !barToday
+})
+if (missing.length) problems.push(`F: no way back to today on ${missing.join(', ')}: neither the KidTodayReturn pill nor a KidScreenChrome carrying today={todayTab}`)
 else ok.push(`F: the way back to today is on all ${subPages.length} sub pages`)
 
 // ── F2: the ask row cannot get stuck, and the week page is off the yellow ───
