@@ -112,6 +112,50 @@ if (list === null) {
   ok.push('a Stage 1 family is told, on the screen itself, that lessons happen here together')
 }
 
+// ── 5. AND THE HAND OVER CARD OFFERS, IT DOES NOT INSTRUCT ──────────────
+//
+// Justin approved the wording on 15 September 2026: an option, not the only
+// way in.
+//
+// The share card led with a code to scan on the child's own device. For a four
+// year old that device does not exist, so the one route the card showed was
+// the one that family cannot take, and a grown up reading it concludes their
+// child is locked out of their own side.
+//
+// Nothing about the handover is rewired by this: the QR still works and the
+// shared tablet still installs. What must hold is that at 4 to 7 the card says
+// the phone in the parent's hand is where this happens, and the code reads as
+// the other option. If ageBand stops reaching this component, or the card
+// stops varying on it, the screen is back to telling a Stage 1 family the one
+// thing they cannot do.
+const share = read('components/quests/ChildLinkShare.tsx')
+if (share === null) {
+  problems.push('components/quests/ChildLinkShare.tsx is gone, so the card that hands a child their side is somewhere this guard cannot see')
+} else if (!/const noDevice = ageBand === '4-7'/.test(share)) {
+  // NOT a bare search for the band. This component has read ageBand '4-7'
+  // since long before any of this, to pick co view as the saved default, so a
+  // guard that only looked for the band would be satisfied by the code it is
+  // supposed to be watching over. It is the Stage 1 branch itself that has to
+  // be there.
+  problems.push(
+    "components/quests/ChildLinkShare.tsx no longer derives its Stage 1 branch from ageBand '4-7', so a four year old's family is shown a code to scan with a device that child does not own, as the only way in. Under eight the parent's phone IS the child's app.",
+  )
+} else if (!/\{noDevice && \(/.test(share)) {
+  problems.push(
+    'components/quests/ChildLinkShare.tsx knows the child is Stage 1 and does nothing with it before the code. The phone already in the parent\'s hand has to lead, or the card still reads as a handover to a device that does not exist.',
+  )
+} else if (!/noDevice\s*\?/.test(share)) {
+  problems.push(
+    "components/quests/ChildLinkShare.tsx no longer changes the code's own words for a Stage 1 family, so the QR still tells a parent to scan with their four year old's device",
+  )
+} else if (!/<ChildLinkShare[^>]*ageBand=/.test(read('app/(dashboard)/dashboard/quests/QuestManager.tsx') ?? '')) {
+  problems.push(
+    'the Quests share tab renders ChildLinkShare without passing ageBand, so the card cannot tell a four year old from a fourteen year old and falls back to the handover wording for both',
+  )
+} else {
+  ok.push('the hand over card offers a Stage 1 family the phone in their hand first, and the code as the other option')
+}
+
 if (problems.length > 0) {
   console.error('check-co-watch FAILED\n')
   for (const p of problems) console.error('  ' + p)
