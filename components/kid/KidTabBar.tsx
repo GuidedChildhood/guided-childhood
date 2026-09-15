@@ -106,6 +106,15 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
   useEffect(() => { setMounted(true) }, [])
 
   const bar = (
+    <>
+    {/* A NAVIGATION BAR MUST NEVER REACH PAPER.
+        Printing is not a side feature of the child's app: the bucket list, the
+        star chart, the family deal and the whole printables shelf exist to come
+        out on paper and go on a fridge. This bar is fixed, so without this rule
+        it prints across the bottom of every one of those sheets. It was already
+        true on the home screen, where a printable opens as an overlay over this
+        same bar; it simply had not been noticed yet. */}
+    <style>{`@media print { [data-kid-tabs-fixed] { display: none !important; } }`}</style>
     <div
       id="kid-tabs"
       data-kid-tabs-fixed
@@ -210,6 +219,7 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
         )
       })}
     </div>
+    </>
   )
 
   // Before hydration there is no document to portal into, so the bar renders

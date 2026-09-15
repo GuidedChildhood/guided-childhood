@@ -131,7 +131,7 @@ export default function KidJobsScreen({
   }, [token])
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--butter)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--butter)', padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       {/* The list's tick animations, the same frames the home screen defines.
           Without them a finished row here would simply vanish. */}
       <style>{`

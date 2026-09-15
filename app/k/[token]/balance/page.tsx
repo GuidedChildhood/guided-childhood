@@ -14,6 +14,7 @@ import { WaitingNote, TodayJobs } from '@/components/kid/BalanceToday'
 import { resolveTheme } from '@/lib/kid/theme'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
 
 // Check my balance, as a page that exists.
 //
@@ -107,7 +108,11 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    // The tabs, so a child on their balance can reach Lessons or Printables
+    // without going home first. The bottom padding clears the bar, which is
+    // fixed and portalled to body and so takes up no room in the flow.
+    <KidScreenChrome token={token} current="quests">
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       {/* Reading it IS the step. See the note in MarkStepOnArrival. */}
       <MarkStepOnArrival token={token} step="balance" />
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
@@ -235,5 +240,6 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
         </Link>
       </div>
     </div>
+    </KidScreenChrome>
   )
 }

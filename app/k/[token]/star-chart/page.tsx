@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
 import StarChartBuilder from '@/app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
@@ -79,10 +81,19 @@ export default async function KidStarChartPage({ params }: { params: Promise<{ t
     { start: second, label: formatWeekBeginning(second), name: startsTomorrow ? 'The one after' : 'Next week' },
   ]
 
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
+    <KidScreenChrome token={token} current="print" today={todayTab}>
     // A light surface, because the sheet is white paper and the anthracite
     // child background would swallow its edges.
-    <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)', paddingBottom: 'calc(96px + env(safe-area-inset-bottom, 0px))' }}>
       <StarChartBuilder
         variant="kid"
         yourJobs={yourJobs}
@@ -96,5 +107,6 @@ export default async function KidStarChartPage({ params }: { params: Promise<{ t
         defaultRate={kidRate}
       />
     </div>
+    </KidScreenChrome>
   )
 }

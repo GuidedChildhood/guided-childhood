@@ -89,7 +89,7 @@ export default function KidHomework({
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <Link href={`/k/${token}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: t.inkMuted, textDecoration: 'none', marginBottom: 16 }}>
           ← Back

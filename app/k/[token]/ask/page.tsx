@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import KidAskScreenTime from '@/components/kid/KidAskScreenTime'
 // Server safe by construction: a named export of a 'use client' module is a
 // client reference on the server, and calling one throws. See the note in
@@ -87,7 +88,15 @@ export default async function KidAskPage({ params }: { params: Promise<{ token: 
   const buddy = buddyFor(child?.buddy ?? null)
   const askRow = (askRes?.data ?? null) as { id: string; device: string; minutes: number; status: string } | null
 
+  const todayTab = {
+    left: today.left,
+    total: today.steps.length,
+    complete: today.complete,
+    opened: today.done.length > 0,
+  }
+
   return (
+    <KidScreenChrome token={token} current="quests" today={todayTab}>
     <KidAskScreenTime
       token={token}
       childName={child?.name && child.name !== 'Your child' ? child.name : 'Superstar'}
@@ -106,5 +115,6 @@ export default async function KidAskPage({ params }: { params: Promise<{ token: 
       dealLines={dealLinesFrom(agreementRes?.data ?? null).map(l => l.text)}
       initialAsk={askRow ? { id: String(askRow.id), device: String(askRow.device), minutes: Number(askRow.minutes), status: String(askRow.status) } : null}
     />
+    </KidScreenChrome>
   )
 }

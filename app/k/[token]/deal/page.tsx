@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import FamilyDealSheet, { type DealQuest } from '@/components/deal/FamilyDealSheet'
 import PrintButton from '@/components/agreement/PrintButton'
 import { STAR_MINUTES } from '@/lib/quests/templates'
@@ -79,8 +81,17 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
 
   const goalRow = goalRes.data as { title?: string; stars_needed?: number } | null
 
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 48px', background: '#fff', minHeight: '100dvh' }}>
+    <KidScreenChrome token={token} current="print" today={todayTab}>
+    <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px calc(96px + env(safe-area-inset-bottom, 0px))', background: '#fff', minHeight: '100dvh' }}>
       <style>{`
         @media print {
           .no-print { display: none !important; }
@@ -112,5 +123,6 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
         science={scienceForType(agreement?.agreement_type ?? null)}
       />
     </div>
+    </KidScreenChrome>
   )
 }
