@@ -32,7 +32,7 @@ import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { scheduleLabel } from '@/lib/quests/due'
-import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
+import { isMoveJob, readingMinutesFor, dayWord, stepsPerDay, type StageNum } from '@/lib/kid/five-a-day'
 import KidDayDone, { type DayDoneInput } from '@/components/kid/KidDayDone'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
@@ -1511,8 +1511,8 @@ export default function KidQuestScreen({
             sub={todayTab.complete
               ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
               : todayTab.total > 0
-                ? `${todayTab.left} of your five to go.`
-                : 'Your five for today are just below.'}
+                ? `${todayTab.left} of your ${dayWord(todayTab.total)} to go.`
+                : `Your ${dayWord(stepsPerDay(stageId as StageNum))} for today are just below.`}
             friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
             corner={
               <button

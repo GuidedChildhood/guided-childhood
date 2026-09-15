@@ -320,6 +320,31 @@ export function stepsPerDay(stage: StageNum): number {
   return STAGE_DAY[stage].count
 }
 
+const WORD: Record<number, string> = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six' }
+
+/**
+ * The day's length as a WORD, because the child's screens say it out loud.
+ *
+ * Justin, 15 September 2026, with Teo's home screen: the greeting read "3 of
+ * your five to go" and the card directly under it read "Your five for today,
+ * 1 of 4". Two numbers on one screen that did not agree.
+ *
+ * The maths was right the whole time. One of four done leaves three to go, and
+ * the card's counter reads the real state. What was wrong was the WORD: "five"
+ * was typed into both the greeting and the card's ribbon, and a Stage 1 child
+ * gets FOUR (STAGE_DAY above drops homework and maths for four to seven year
+ * olds, deliberately). So the app told a six year old twice that four was five.
+ *
+ * stepsPerDay right above this was written for exactly this and never had a
+ * single caller. It has one now, and so does this.
+ *
+ * Falls back to the digits for any count outside the small set, which is
+ * honest rather than clever: "7" reads better than a word nobody expected.
+ */
+export function dayWord(count: number): string {
+  return WORD[count] ?? String(count)
+}
+
 /**
  * The pool the middle two are drawn from, so the day is not identical.
  *
