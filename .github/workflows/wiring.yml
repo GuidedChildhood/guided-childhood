@@ -184,6 +184,21 @@ jobs:
       # 2026). /signup redirects now; this fails the build if a second form or
       # a link to it comes back, or if either door stops writing a ChallengeId.
       - run: node --experimental-strip-types scripts/check-one-door.mjs
+
+      # The red badge on the parent's Quests tab recounts when a parent answers
+      # something. It showed 1 while the board under it said 0 and the database
+      # agreed with the board (15 September 2026): the count lives in the LAYOUT
+      # and answering happens in the PAGE, so the number stayed at whatever it
+      # was last rendered as. gc:notifs-changed existed and the bar was simply
+      # not listening, and the pitch path was not firing it at all.
+      - run: node --experimental-strip-types scripts/check-badge-truth.mjs
+
+      # The child's tab bar is fixed to the floor so a child can always
+      # navigate. It was sticky to the TOP and rendered 2,250 lines down the
+      # home screen, so on opening the app it was not on screen at all
+      # (Justin, 15 September 2026). Fixed means portalled out of the zoomed
+      # page, or it drifts up an iPhone as you scroll.
+      - run: node --experimental-strip-types scripts/check-kid-tabbar.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

@@ -1340,12 +1340,28 @@ export default function KidQuestScreen({
   }
 
   return (
-    <div style={{
+    <div className="gc-kid-page" style={{
       minHeight: '100dvh', background: theme.bg,
       display: 'flex', flexDirection: 'column', alignItems: 'center',
-      padding: '22px 16px 40px',
+      // The bottom pad clears the fixed tab bar, which is portalled to body and
+      // so takes no space in the flow. 77px is the bar at its real height plus
+      // the home indicator inset; without this the last card on the longest
+      // screen in the product sits underneath it and cannot be reached.
+      padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))',
       fontFamily: 'var(--font-body)',
     }}>
+      {/* THE ZOOM COMES OFF BODY WHILE THIS SCREEN IS MOUNTED.
+          shared/tokens.css zooms body by 1.07. A FIXED element under a zoomed
+          ancestor drifts up an iPhone as you scroll, which is what happened to
+          the parent's bar twice in one morning (.bottom-tab-bar, globals.css).
+          The child's bar is portalled to body, so unzooming body is enough to
+          leave it with no zoomed ancestor at all; this page zooms itself
+          instead, so everything here looks exactly as it did. */}
+      <style>{`
+        body { zoom: 1; }
+        .gc-kid-page { zoom: 1.07; }
+        [data-kid-tabs-fixed] .kid-tab-label { font-size: 0.78rem; }
+      `}</style>
       {/* First open ever: meet the Planet Friend for this child's stage, then
           the whole family they can earn. Overlays the app until they tap through. */}
       {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => {

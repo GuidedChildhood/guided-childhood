@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 
 // The child's sticky Quests, Lessons, Printables bar, on a butter surface.
@@ -72,15 +74,48 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
     ['lessons', 'Lessons', 'lessons', badges.lessons],
     ['print', 'Printables', 'printables', badges.print],
   ]
-  return (
+  // FIXED TO THE BOTTOM, THE WAY THE PARENT'S BAR IS.
+  //
+  // Justin, 15 September 2026, with a photo of this bar: "maybe as with the
+  // parents app we should fix these tabs to the bottom of the child's app so
+  // they can always navigate."
+  //
+  // It was `position: sticky, top: 0`, and it is rendered 2,250 lines down
+  // KidQuestScreen, under the five a day, the mission, the tiles and six more
+  // blocks. Sticky to the TOP only sticks once you have scrolled the thing to
+  // the top, so on opening the app a child never saw it at all: the only way to
+  // reach Lessons or Printables was to scroll most of a screen looking for a
+  // bar you had to already know was there.
+  //
+  // ── WHY A PORTAL, AND WHY BODY LOSES ITS ZOOM ───────────────────────────
+  //
+  // shared/tokens.css zooms body by 1.07. On an iPhone, Safari positions a
+  // FIXED element inside a zoomed ancestor against the unzoomed viewport while
+  // laying it out in zoomed coordinates, so it drifts further up the screen the
+  // further you scroll. That is exactly what happened to the parent's bar
+  // twice in one morning (see .bottom-tab-bar in app/globals.css), and the cure
+  // there was to stop zooming the ancestors of fixed things.
+  //
+  // Same cure here, in the smallest form that works. The bar is portalled to
+  // body so it has no zoomed ancestor, body is unzoomed while this screen is
+  // mounted, and the child's own content is zoomed on itself instead, so the
+  // page looks exactly as it did. The bar is then sized in REAL pixels to what
+  // 1.07 used to make it, because a zoomed fixed box paints out of step with
+  // where it is laid out.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+
+  const bar = (
     <div
       id="kid-tabs"
+      data-kid-tabs-fixed
       style={{
-        position: 'sticky', top: 0, zIndex: 30,
+        position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 60,
         display: 'flex', gap: 4, background: 'var(--terracotta)',
-        border: 'var(--edge)', borderRadius: 'var(--radius-card)',
-        padding: 5, marginBottom: 16, scrollMarginTop: 12,
-        boxShadow: 'var(--lift), 0 10px 24px rgba(26,26,46,0.16)',
+        border: 'var(--edge)', borderRadius: 'var(--radius-card) var(--radius-card) 0 0',
+        padding: '5px 5px calc(5px + env(safe-area-inset-bottom, 0px))',
+        margin: 0, scrollMarginTop: 12, boxSizing: 'border-box',
+        boxShadow: '0 -6px 20px rgba(26,26,46,0.16)',
       }}
     >
       {today && (
@@ -104,13 +139,13 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
           Today
           {today.complete ? (
             <span style={{
-              position: 'absolute', top: -7, right: -4, minWidth: 20, height: 20, padding: '0 5px',
+              position: 'absolute', top: 1, right: 0, minWidth: 20, height: 20, padding: '0 5px',
               borderRadius: 'var(--radius-pill)', background: '#fff', color: 'var(--retro-green)', border: '2px solid var(--retro-green)',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 900, lineHeight: '16px', textAlign: 'center',
             }}>✓</span>
           ) : today.opened && today.left > 0 ? (
             <span style={{
-              position: 'absolute', top: -7, right: -4, minWidth: 20, height: 20, padding: '0 5px',
+              position: 'absolute', top: 1, right: 0, minWidth: 20, height: 20, padding: '0 5px',
               borderRadius: 'var(--radius-pill)', background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)',
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '16px', textAlign: 'center',
             }}>{today.left}</span>
@@ -146,7 +181,7 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
                 data-waiting-badge={waiting}
                 aria-label={`${waiting} waiting for your grown up`}
                 style={{
-                  position: 'absolute', top: -7, right: -4, minWidth: 20, height: 20, padding: '0 5px',
+                  position: 'absolute', top: 1, right: 0, minWidth: 20, height: 20, padding: '0 5px',
                   borderRadius: 'var(--radius-pill)', background: 'var(--terracotta)', color: 'var(--ink)',
                   border: '2px solid var(--ink)',
                   // A white ring outside the ink edge, so a butter badge still
@@ -163,7 +198,7 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
             )}
             {dot > 0 && (
               <span style={{
-                position: 'absolute', top: -7, right: -4, minWidth: 20, height: 20, padding: '0 5px',
+                position: 'absolute', top: 1, right: 0, minWidth: 20, height: 20, padding: '0 5px',
                 borderRadius: 'var(--radius-pill)', background: '#E5484D', color: '#fff', border: '2px solid #fff',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '16px',
                 textAlign: 'center',
@@ -176,4 +211,9 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
       })}
     </div>
   )
+
+  // Before hydration there is no document to portal into, so the bar renders
+  // in place for that one frame rather than disappearing from the server HTML.
+  if (!mounted) return bar
+  return createPortal(bar, document.body)
 }
