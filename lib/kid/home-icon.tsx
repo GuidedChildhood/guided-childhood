@@ -37,16 +37,35 @@ import { characterByKey } from '@/lib/content/stage-characters'
 // an unreadable buddy or a database that is simply not there costs a family the
 // distinction and never the icon.
 
-const DIGI = { art: 'public/digi-squad/DiGi-star.svg', colour: '#173C46' }
+// EVERY PIECE OF ART THIS READS LIVES UNDER ONE FOLDER, AND THAT IS LOAD BEARING.
+//
+// The first cut built the whole path from a variable, `path.join(process.cwd(),
+// art)`. Turbopack's file tracer cannot follow that, so rather than guess it
+// traced THE ENTIRE PROJECT into this route's bundle. Locally that is a
+// warning and the build still passes. On Vercel the function then exceeds the
+// size limit and the deployment fails outright, which is exactly what happened
+// on the first push of this change while every other check was green.
+//
+// Scoping the join to a fixed subfolder and varying only the leaf is the fix
+// Next itself names in that warning, and the folder segments have to be
+// LITERALS at the call site. A `const ART_ROOT = ['public', 'digi-squad']`
+// spread into path.join reads as dynamic to the analyser and is no better than
+// the variable it replaced: it still matched 12,591 files. So the two segments
+// are written out at each read below, and `file` is the only part that varies.
+const DIGI = { file: 'DiGi-star.svg', colour: '#173C46' }
 
-/** The art and the ground for whatever buddy is saved on a child. */
-export function iconArtFor(buddy: string | null | undefined): { art: string; colour: string } {
+/** The art file (under public/digi-squad) and the ground for whatever buddy is saved. */
+export function iconArtFor(buddy: string | null | undefined): { file: string; colour: string } {
   const { key } = buddyFor(buddy)
   const character = characterByKey(key)
   // characterByKey misses for 'digi', which is not a Planet Friend, and for a
   // key saved before a rename. Both land on the star.
   if (!character) return DIGI
-  return { art: path.join('public', character.cutout.replace(/^\//, '')), colour: character.colour }
+  // The cutouts are all /digi-squad/friends/<name>.png, so this is the leaf
+  // under ART_ROOT and nothing above it can be varied by a database value.
+  const file = character.cutout.replace(/^\/digi-squad\//, '')
+  if (file === character.cutout) return DIGI
+  return { file, colour: character.colour }
 }
 
 /**
@@ -57,15 +76,15 @@ export function iconArtFor(buddy: string | null | undefined): { art: string; col
  * The art is local for exactly that reason (see stage-characters.ts).
  */
 export async function renderHomeIcon(buddy: string | null | undefined, size: number) {
-  const { art, colour } = iconArtFor(buddy)
+  const { file, colour } = iconArtFor(buddy)
   let src: string
   try {
-    const file = await fs.readFile(path.join(process.cwd(), art))
-    const mime = art.endsWith('.svg') ? 'image/svg+xml' : 'image/png'
-    src = `data:${mime};base64,${file.toString('base64')}`
+    const bytes = await fs.readFile(path.join(process.cwd(), 'public', 'digi-squad', file))
+    const mime = file.endsWith('.svg') ? 'image/svg+xml' : 'image/png'
+    src = `data:${mime};base64,${bytes.toString('base64')}`
   } catch {
-    const file = await fs.readFile(path.join(process.cwd(), DIGI.art))
-    src = `data:image/svg+xml;base64,${file.toString('base64')}`
+    const bytes = await fs.readFile(path.join(process.cwd(), 'public', 'digi-squad', 'DiGi-star.svg'))
+    src = `data:image/svg+xml;base64,${bytes.toString('base64')}`
   }
   // THREE QUARTERS, AND NOT MORE, because the manifest declares these
   // `maskable`. Android crops a maskable icon to whatever shape the launcher
