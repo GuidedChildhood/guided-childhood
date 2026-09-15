@@ -6,6 +6,7 @@ import { pickDay } from '@/lib/kid/five-a-day'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import KidDayDone from '@/components/kid/KidDayDone'
 import { resolveTheme } from '@/lib/kid/theme'
+import type { MissionRow } from '@/lib/kid/mission'
 
 // Fixture reference page for the five a day card and the streak takeover, so
 // both can be screenshotted without a database. Not linked from anywhere,
@@ -27,6 +28,25 @@ import { resolveTheme } from '@/lib/kid/theme'
 // The component takes initialState now precisely so this page can render the
 // REAL KidFiveADay: a fixture that renders less than production certifies
 // nothing.
+
+
+// Monday gone, today Tuesday, the rest of the week ahead: the shape Justin's
+// screenshot showed, so the reference and the phone agree.
+const WEEK = [
+  { letter: 'M', earned: false, isToday: false },
+  { letter: 'T', earned: false, isToday: true },
+  { letter: 'W', earned: false, isToday: false },
+  { letter: 'T', earned: false, isToday: false },
+  { letter: 'F', earned: false, isToday: false },
+  { letter: 'S', earned: false, isToday: false },
+  { letter: 'S', earned: false, isToday: false },
+]
+
+const MISSION: MissionRow[] = [
+  { key: 'friend', objective: 'Every full day adds up', title: 'Bring Pebble home', line: '0 of 2 full days', have: 0, need: 2, art: '/digi-squad/friends/pebble.png', emoji: '🪨', colour: '#EDC35F', done: false, kind: 'friend', href: null },
+  { key: 'safety', objective: 'Safe and smart online', title: 'First Lesson', line: '0 of 1 lessons', have: 0, need: 1, art: null, emoji: '📚', colour: '#4B9CE5', done: false, kind: 'lessons', href: '/k/000000000000000000/lessons?next=1' },
+  { key: 'balance', objective: 'Balanced screens', title: 'Fresh Air', line: '0 of 1 days', have: 0, need: 1, art: null, emoji: '🌳', colour: '#2E7D5A', done: false, kind: 'outside', href: null },
+]
 
 function Fixture() {
   const params = useSearchParams()
@@ -60,6 +80,16 @@ function Fixture() {
           moveJobs={null}
           theme={theme}
           onOpenJobs={() => {}}
+          // The week row and the mission, which the real screen always passes
+          // and this fixture never did. Without them the card here was three
+          // blocks shorter than the one on Justin's phone, which is exactly
+          // the difference he was pointing at on 15 September 2026: the two
+          // context panels that sat between the heading and the first thing
+          // a child can tap. They are drawn under the steps now, and this
+          // fixture shows that.
+          weekDone={WEEK}
+          weekFriend={{ name: 'Pebble', img: '/digi-squad/friends/pebble.png' }}
+          mission={MISSION}
           initialState={{ day: '2026-08-03', steps, done, complete, streak: complete ? 5 : 4, sticker: view === 'sticker' }}
         />
       </div>

@@ -7,12 +7,6 @@ import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { KID_HOME_SEEN_KEY } from '@/components/kid/KidBackLink'
 import { useRouter } from 'next/navigation'
 
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = atob(base64)
-  return Uint8Array.from(rawData, c => c.charCodeAt(0))
-}
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
 import type { StarBank } from '@/lib/quests/bank'
@@ -28,7 +22,7 @@ import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSoun
 import { getDeviceId } from '@/lib/push/device-id'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
-import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { enablePush } from '@/lib/push/enable'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
@@ -255,6 +249,8 @@ export default function KidQuestScreen({
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
   const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
+  // What went wrong turning them on, in words, so a failure is never silence.
+  const [remindError, setRemindError] = useState<string | null>(null)
   const [showWelcome, setShowWelcome] = useState(false)
   // The welcome greets by the child's clock. Null until mounted so the server
   // render and the first client render agree, then the real hour arrives.
@@ -972,28 +968,49 @@ export default function KidQuestScreen({
     } catch { /* best effort, the next load reconciles */ }
   }
 
+  // TURNING REMINDERS ON, THE WAY THE PARENT APP ALREADY DID IT.
+  //
+  // Justin, 15 September 2026: "it says when instructions to add to home
+  // screen to then click quest and it will ask for notifications but it is
+  // not working."
+  //
+  // It was not. This function used to await the service worker registration
+  // and then serviceWorker.ready BEFORE calling Notification.requestPermission,
+  // and those two awaits spend the tap: iOS only opens the permission sheet
+  // while the page still holds the user activation from the press. So the
+  // sheet never appeared. Then the bare `catch { setRemindState('hidden') }`
+  // around it took the card off the screen, so the child tapped Yes please,
+  // saw nothing happen, and lost the button as well.
+  //
+  // lib/push/enable.ts now owns the order, shared with the parent's card, and
+  // a failure comes back as a sentence the child can read instead of silence.
   async function enableReminders() {
-    try {
-      const reg = await navigator.serviceWorker.register('/sw.js')
-      await navigator.serviceWorker.ready
-      const perm = await Notification.requestPermission()
-      if (perm !== 'granted') { setRemindState('hidden'); return }
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-      })
-      await fetch('/api/quests/push-subscribe', {
+    setRemindError(null)
+    const result = await enablePush(
+      sub => fetch('/api/quests/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // deviceId so this phone keeps ONE row instead of gaining another every
         // time the push service rotates its endpoint. Teo had five, and four of
         // them still delivered, which is why every reminder arrived four times.
         // See migration 166.
-        body: JSON.stringify({ token, subscription: sub.toJSON(), deviceId: getDeviceId() }),
-      })
+        body: JSON.stringify({ token, subscription: sub, deviceId: getDeviceId() }),
+      }),
+      endpoint => fetch('/api/quests/push-subscribe', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, endpoint }),
+      }),
+    )
+    if (result.ok) {
       localStorage.setItem('gc_kid_reminders', '1')
       setRemindState('on')
-    } catch { setRemindState('hidden') }
+      return
+    }
+    // An iPhone that has not been installed yet is not a failure, it is the
+    // step before. Send them to the how to rather than to an apology.
+    if (result.reason === 'ios-needs-install') { setRemindState('ios'); return }
+    setRemindError(result.message)
   }
 
   // Ticking a job moved to the jobs page (KidJobsScreen) with the list
@@ -1720,6 +1737,7 @@ export default function KidQuestScreen({
             difference between the feature working and not existing. */}
         {(remindState === 'offer' || remindState === 'ios') && (
           <KidRemindersPrompt
+            error={remindError}
             state={remindState}
             onEnable={() => { playKidSound('tap'); enableReminders() }}
             childName={childName}

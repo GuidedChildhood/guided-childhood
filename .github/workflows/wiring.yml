@@ -166,6 +166,24 @@ jobs:
       # reads as an honest zero. It cost three stickers no child could earn
       # (14 September 2026). tsc cannot see it; only the database can.
       - run: node --experimental-strip-types scripts/check-jsonb-contains.mjs
+
+      # Notification.requestPermission must be the first await after the tap.
+      # The child's Yes please awaited the service worker twice before asking,
+      # which spends the user activation, so iOS never opened the permission
+      # sheet: a child tapped it, nothing happened, and a bare catch took the
+      # card off the screen as well (15 September 2026). There were three hand
+      # written copies of the sequence, two of them wrong in different ways.
+      # One owner now, lib/push/enable.ts, and this fails the build on a
+      # second caller or on an await creeping back in front of the ask.
+      - run: node --experimental-strip-types scripts/check-push-gesture.mjs
+
+      # One way to create an account. There were two, only one advertised, and
+      # the unadvertised one never asked the time question, so DiGi was told
+      # "not specified" and sized its advice to nobody. The two also wrote
+      # different vocabularies into onboarding_answers.challenge (15 September
+      # 2026). /signup redirects now; this fails the build if a second form or
+      # a link to it comes back, or if either door stops writing a ChallengeId.
+      - run: node --experimental-strip-types scripts/check-one-door.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

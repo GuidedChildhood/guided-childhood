@@ -449,6 +449,38 @@ if (/<BalanceInsight/.test(screen)) problems.push('N: the balance dial is back o
 else if (!/<BalanceInsight/.test(balancePage)) problems.push('N: the balance dial is on neither screen, so it has been lost rather than moved')
 else ok.push('N: the dial leads the balance page and the jobs tab leads with the jobs')
 
+// ── O. THE FIVE A DAY LEADS WITH THE THING TO DO ────────────────────────────
+//
+// Justin, 15 September 2026, from his phone, on the child's home: "not sure
+// how to do the 5 a day, please make it super clear from Your five for today
+// the click through flow."
+//
+// The card was headed "Your five for today, 1 of 5" and then, before anything
+// a child could tap, drew the week calendar and the three row mission panel:
+// on a 390 phone roughly a screen and a half of reading between the heading
+// and the first action. The ticked steps came before the live one too, so the
+// thing to do slid further down the card with every step a child finished.
+//
+// The order is the whole fix, so the order is what this pins. Every anchor
+// below is REAL CODE with the comments stripped out first, because a rule that
+// can be satisfied by a comment mentioning the right words proves nothing.
+const fiveCode = fiveADay.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ')
+
+const liveAt = fiveCode.indexOf('state.steps.find(k => !state.done.includes(k))')
+const doneAt = fiveCode.indexOf('state.steps.filter(key => state.done.includes(key))')
+const weekAt = fiveCode.lastIndexOf('<WeekDone week={weekDone}')
+const missionAt = fiveCode.lastIndexOf('data-mission-site="open"')
+
+if (liveAt === -1) problems.push('O: the one live step is gone from the five a day')
+else if (weekAt === -1 || missionAt === -1) problems.push('O: the week row or the mission is no longer drawn on the open card')
+else if (liveAt > weekAt || liveAt > missionAt) problems.push('O: the week row or the mission is drawn ABOVE the live step again, so a child meets a screen and a half of reading before the first thing they can tap')
+else if (doneAt === -1) problems.push('O: the ticked steps are gone, so the climb so far is not shown')
+else if (liveAt > doneAt) problems.push('O: the ticked steps are back above the live step, so the thing to do moves further down the card with every step finished')
+else ok.push('O: the five a day draws the live step first, then the climb, then the week and the mission')
+
+if (!/'Start here'/.test(fiveCode) || !/'Do this next'/.test(fiveCode)) problems.push('O: the live step is not named, so the card shows a count and a bar and leaves a child to guess which row is the way in')
+else ok.push('O: the live step says Start here on a fresh day and Do this next after')
+
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')
   for (const p of problems) console.error('  ' + p)
