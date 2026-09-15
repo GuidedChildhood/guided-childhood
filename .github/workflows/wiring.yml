@@ -199,6 +199,14 @@ jobs:
       # (Justin, 15 September 2026). Fixed means portalled out of the zoomed
       # page, or it drifts up an iPhone as you scroll.
       - run: node --experimental-strip-types scripts/check-kid-tabbar.mjs
+
+      # A lesson and the daily quiz are one objective, and the day counts
+      # either. Teo passed a lesson on a day whose learning step was the quiz:
+      # the passport counted it, markStep refused silently, and the day never
+      # moved (15 September 2026, read from the live rows). This guard RUNS the
+      # real rule rather than describing it, and fails if anything outside that
+      # one pair is allowed to stand in for another step.
+      - run: node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-learning-step.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a

@@ -235,6 +235,26 @@ export interface MarkResult {
  * result entirely: none of them are ticking as their main job, and a child who
  * has just passed a quiz must never see a failure about a checklist.
  */
+/** A lesson and the daily quiz are one objective: learn one thing today. */
+const LEARNING: StepKey[] = ['lesson', 'quiz']
+
+/**
+ * Which of today's steps a completed thing actually lands on.
+ *
+ * Exported so the rule can be exercised for real rather than described: see
+ * scripts/check-learning-step.mjs, which runs THIS function rather than a copy
+ * of it. A guard that reimplements the thing it guards proves nothing (learned
+ * on 14 September 2026, recorded in plans/decisions.md).
+ *
+ * Returns the step to mark, or the original when today has neither face, in
+ * which case the caller refuses as it always did.
+ */
+export function stepForToday(step: StepKey, steps: StepKey[]): StepKey {
+  if (steps.includes(step)) return step
+  if (!LEARNING.includes(step)) return step
+  return LEARNING.find(k => k !== step && steps.includes(k)) ?? step
+}
+
 export async function markStep(
   admin: Admin,
   userId: string,
@@ -250,12 +270,55 @@ export async function markStep(
 ): Promise<MarkResult> {
   const { day, row } = await loadDay(admin, userId, childId, available)
   const steps = row.steps as StepKey[]
-  const already = (row.done as StepKey[]).includes(step)
-  const base = { day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false, holidayMinutes: 0, already, sticker: !!row.sticker_awarded_at }
+
+  // ── THE DAY'S LEARNING STEP, WHICHEVER FACE IT WORE TODAY ──────────────────
+  //
+  // Justin, 15 September 2026: "did a lesson and showed updating in passport but
+  // did not come off the 5 per day jobs?"
+  //
+  // He was right that it made no sense, and the cause was not where either of us
+  // looked. Teo's day that morning was jobs, quiz, balance, ask. He passed a
+  // LESSON, the passport counted it correctly, and this function refused the
+  // tick because `lesson` was not one of today's four. Checked against the live
+  // rows: lesson_completions passed at 09:40:29, kid_days still done ["jobs"],
+  // last written 09:34:58. The refusal was right by the old rule and wrong for
+  // the child, who had been sent at that lesson by the mission row on their own
+  // home screen ("First Lesson, Safe and smart online").
+  //
+  // A lesson and the daily quiz are one objective wearing two faces: learn one
+  // thing today. The pool picks whichever, and a child cannot know which face
+  // today wore before they start. So a pass on either lands the day's learning
+  // step. Justin's call, 15 September 2026: "count it, they are the same
+  // objective."
+  //
+  // This is NOT a general loosening. It is one named pair, and everything else
+  // still has to be part of today, so a stale tab cannot complete a day it was
+  // never shown.
+  const target = stepForToday(step, steps)
 
   // A step that is not part of today is not marked done. Without this a stale
   // tab from yesterday could complete a day it was never shown.
-  if (!steps.includes(step)) return { ...base, ok: false, reason: 'not-part-of-today' }
+  //
+  // Said out loud now. This returned ok:false silently and markStepQuietly only
+  // logs a THROW, so a refusal was invisible: the child's day simply did not
+  // move and nothing anywhere said why. That is the same shape as the JSONB
+  // count that read as an honest zero for a month.
+  if (!steps.includes(target)) {
+    console.warn(`five a day: refused "${step}" for child ${childId} on ${day}: today is [${steps.join(', ')}]`)
+    return {
+      day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false,
+      holidayMinutes: 0, already: (row.done as StepKey[]).includes(step), sticker: !!row.sticker_awarded_at,
+      ok: false, reason: 'not-part-of-today',
+    }
+  }
+  step = target
+
+  // Computed AFTER the swap, deliberately: on a day whose learning step is the
+  // quiz, a child who has already done it and then passes a lesson has already
+  // landed that step, and `already` has to say so rather than report on the
+  // face they did not do.
+  const already = (row.done as StepKey[]).includes(step)
+  const base = { day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false, holidayMinutes: 0, already, sticker: !!row.sticker_awarded_at }
 
   const done = Array.from(new Set([...(row.done as StepKey[]), step]))
   const complete = dayComplete(steps, done)
