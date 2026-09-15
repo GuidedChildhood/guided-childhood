@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import BucketBuilder from '@/app/(dashboard)/dashboard/printables/builder/BucketBuilder'
 
 // The child's own bucket list builder.
@@ -34,10 +36,19 @@ export default async function KidBucketPage({ params }: { params: Promise<{ toke
     .from('children').select('name').eq('id', link.child_id).maybeSingle()
   const name = child?.name && child.name !== 'Your child' ? (child.name as string) : ''
 
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
+    <KidScreenChrome token={token} current="print" today={todayTab}>
     // A light surface, the star chart builder's rule: the sheet is white
     // paper and the anthracite child background would swallow its edges.
-    <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)', paddingBottom: 'calc(96px + env(safe-area-inset-bottom, 0px))' }}>
       <BucketBuilder
         variant="kid"
         kidToken={token}
@@ -46,5 +57,6 @@ export default async function KidBucketPage({ params }: { params: Promise<{ toke
         backLabel="Printables"
       />
     </div>
+    </KidScreenChrome>
   )
 }

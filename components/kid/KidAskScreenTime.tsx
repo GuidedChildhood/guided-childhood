@@ -160,7 +160,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
   const ground: React.CSSProperties = {
     minHeight: '100dvh', fontFamily: 'var(--font-body)',
     background: HAPPY.cream,
-    padding: 'calc(18px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom))',
+    padding: 'calc(18px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom, 0px))',
   }
   const card: React.CSSProperties = {
     background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-card)', boxShadow: `0 5px 0 ${HAPPY.ink}`,
