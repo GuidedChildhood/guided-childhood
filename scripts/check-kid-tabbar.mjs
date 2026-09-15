@@ -62,6 +62,33 @@ else if (!/body\s*\{\s*zoom:\s*1;?\s*\}/.test(screen)) {
   ok.push('the child screen unzooms body, zooms itself, and pads for the bar')
 }
 
+// ── NOTHING SCROLLS TO THE BAR, BECAUSE IT NO LONGER MARKS A PLACE ─────────
+//
+// Justin, minutes after the bar went to the floor: "new tabs at bottom not
+// linking to right pages." Six callers in KidQuestScreen said
+// `getElementById('kid-tabs').scrollIntoView()` to mean "go to the tab I just
+// chose", and that only ever worked because the bar sat in the flow directly
+// above the content. A FIXED element is always in view, so scrollIntoView on it
+// does nothing at all: the tab changed underneath and the child stayed looking
+// at the top of the home screen.
+//
+// Measured before and after on the real screen: before, tapping Lessons left
+// scrollY at 605 and the content 1,896px below the fold; after, it lands the
+// content 13px from the top.
+//
+// The bar is a CONTROL now. #kid-tab-content is the place.
+if (screen !== null) {
+  if (/getElementById\(\s*['"]kid-tabs['"]\s*\)/.test(screen)) {
+    problems.push("something scrolls to #kid-tabs again. That is the fixed bar, which is always in view, so scrollIntoView on it does nothing and the tab appears not to navigate at all. Scroll to #kid-tab-content instead.")
+  } else if (!/id="kid-tab-content"/.test(screen)) {
+    problems.push('#kid-tab-content is gone, so the callers that move a child to the tab they chose have nothing to aim at')
+  } else if (!/getElementById\(\s*['"]kid-tab-content['"]\s*\)/.test(screen) && !/'kid-tab-content'/.test(screen)) {
+    problems.push('the content anchor exists but nothing scrolls to it, so choosing a tab leaves the child where they were')
+  } else {
+    ok.push('every caller scrolls to the tab content, not to the fixed bar')
+  }
+}
+
 if (problems.length > 0) {
   console.error('check-kid-tabbar FAILED\n')
   for (const p of problems) console.error('  ' + p)
