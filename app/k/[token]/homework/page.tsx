@@ -103,7 +103,7 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
   }
 
   return (
-    <KidScreenChrome token={token} current="quests" today={todayTab}>
+    <KidScreenChrome token={token} current="today" /* a five a day step: writing down what was set */ today={todayTab}>
     <KidHomework
       theme={resolveTheme(child?.accent as string | null)}
       token={token}

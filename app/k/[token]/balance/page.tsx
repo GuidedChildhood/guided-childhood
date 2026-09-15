@@ -111,7 +111,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
     // The tabs, so a child on their balance can reach Lessons or Printables
     // without going home first. The bottom padding clears the bar, which is
     // fixed and portalled to body and so takes up no room in the flow.
-    <KidScreenChrome token={token} current="quests">
+    <KidScreenChrome token={token} current="today" /* a five a day step: the child reads their own balance */>
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       {/* Reading it IS the step. See the note in MarkStepOnArrival. */}
       <MarkStepOnArrival token={token} step="balance" />

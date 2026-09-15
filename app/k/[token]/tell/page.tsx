@@ -108,7 +108,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
   }
 
   return (
-    <KidScreenChrome token={token} current="quests" today={todayTab}>
+    <KidScreenChrome token={token} current="today" /* reached from the day’s own tile grid, not from the jobs */ today={todayTab}>
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>

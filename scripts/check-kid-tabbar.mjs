@@ -89,6 +89,61 @@ if (screen !== null) {
   }
 }
 
+// ── EACH NAME MEANS ONE THING: TODAY IS THE DAY, QUESTS IS THE JOBS ─────────
+//
+// Justin, 15 September 2026, from the child's home: "on the bottom tabs home
+// does not go to home and light up, and Quests should go to the jobs quest
+// place. And if first time it should just ask to request jobs."
+//
+// One fault underneath the first two. The five a day lives in the tab keyed
+// 'quests', so a child standing ON the day lit QUESTS, while Today, the thing
+// they were actually looking at, had no lit state at all and could never light.
+// Two names for one screen, and the wrong one winning.
+//
+// None of this is visible to a typecheck: a bar that lights nothing, or lights
+// the wrong entry, is perfectly valid React.
+const barSrc = read('components/kid/KidTabBar.tsx')
+if (barSrc !== null) {
+  if (!/current === 'today'/.test(barSrc)) {
+    problems.push(
+      "the Today entry has no lit state again. It is the entry a child is standing on whenever the five a day is showing, so without this the bar lights Quests for the day and Today never lights at all, which is what Justin photographed.",
+    )
+  } else {
+    ok.push('the Today entry lights like a tab, so standing on the day lights Today')
+  }
+}
+if (screen !== null) {
+  if (!/current=\{tab === 'quests' \? 'today' : tab\}/.test(screen)) {
+    problems.push(
+      "the child's home no longer tells the bar that its day tab is Today. Its internal key for the five a day is 'quests', so passing that straight through lights the Quests entry while the child is looking at their day.",
+    )
+  } else {
+    ok.push('the home lights Today while the five a day is showing')
+  }
+  if (!/key === 'quests'[\s\S]{0,160}\/jobs/.test(screen)) {
+    problems.push(
+      "tapping Quests on the home no longer goes to the jobs. Quests is a place, the jobs a grown up has sent, not a second name for the day.",
+    )
+  } else {
+    ok.push('Quests goes to the jobs')
+  }
+}
+
+// A first ever day has no jobs at all, and that screen is the moment to ask for
+// one rather than to describe where the asking lives.
+const jobsScreen = read('app/k/[token]/jobs/KidJobsScreen.tsx')
+if (jobsScreen !== null) {
+  if (!/quests\.length === 0/.test(jobsScreen)) {
+    problems.push('the jobs screen has no empty state, so a child with no jobs sees nothing at all')
+  } else if (!/\/suggest/.test(jobsScreen)) {
+    problems.push(
+      "the jobs screen's empty state does not offer the ask. It used to end with \"you can pitch your own idea from your home screen any time\", which sends a child somewhere else to find something. On a first day this screen IS the moment to ask.",
+    )
+  } else {
+    ok.push('a child with no jobs is offered the ask on the spot, not directions to it')
+  }
+}
+
 if (problems.length > 0) {
   console.error('check-kid-tabbar FAILED\n')
   for (const p of problems) console.error('  ' + p)

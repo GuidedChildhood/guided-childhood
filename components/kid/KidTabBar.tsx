@@ -49,7 +49,18 @@ const LABEL = 'clamp(0.72rem, 3.4vw, var(--text-md))'
 export type TodayTab = { left: number; total: number; complete: boolean; opened: boolean }
 
 export default function KidTabBar({ current, onSelect, badges, today = null, onToday }: {
-  current: KidTab
+  /**
+   * Which entry is lit. 'today' lights the Today entry, for the screen showing
+   * the five a day.
+   *
+   * Justin, 15 September 2026, from the child's home: "on the bottom tabs home
+   * does not go to home and light up, and Quests should go to the jobs quest
+   * place." Both were the same fault: Today and Quests MEANT the same thing.
+   * The home's five a day lived inside the Quests tab, so standing on the day
+   * lit Quests, and Today, which is what the child was actually looking at,
+   * could never light at all. Now Today is the day and Quests is the jobs.
+   */
+  current: KidTab | 'today'
   onSelect: (tab: KidTab) => void
   /**
    * Red counts on lessons and printables, the moment something NEW is waiting
@@ -136,10 +147,15 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
           aria-label={today.complete ? 'Today is done' : `${today.left} of ${today.total} left today`}
           style={{
             position: 'relative', flex: '1 1 0', minWidth: 0, padding: '11px 2px', borderRadius: 'var(--radius-tile)', cursor: 'pointer',
-            border: '2px solid transparent',
+            // Lit exactly like the three tabs are, because it IS one: the same
+            // white tile, ink edge and lift. A day already finished keeps its
+            // green, so a child standing on a done day sees a lit green tile
+            // rather than losing the tick to the highlight.
+            border: current === 'today' ? 'var(--edge)' : '2px solid transparent',
+            boxShadow: current === 'today' ? 'var(--lift)' : 'none',
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: LABEL, whiteSpace: 'nowrap',
-            background: today.complete ? 'var(--retro-green)' : 'transparent',
+            background: today.complete ? 'var(--retro-green)' : current === 'today' ? '#fff' : 'transparent',
             color: today.complete ? '#fff' : 'var(--ink)',
             transition: 'background 0.15s',
           }}
