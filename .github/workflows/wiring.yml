@@ -203,6 +203,10 @@ jobs:
       # lesson player or the stage check, always with room made for the fixed
       # bar, and never printed onto a child's sheet.
       - run: node scripts/check-kid-chrome.mjs
+      # A lesson co watched on the parent's device counts for the child it was
+      # done with: the player names them, and their day is ticked through the
+      # same function the child's own lesson uses.
+      - run: node scripts/check-co-watch.mjs
 
       # A lesson and the daily quiz are one objective, and the day counts
       # either. Teo passed a lesson on a day whose learning step was the quiz:

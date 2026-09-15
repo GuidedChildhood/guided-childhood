@@ -9,11 +9,62 @@ build that in."*
 Decided the same day, in three answers:
 
 1. A passed lesson counts for the day's learning step whichever face today wore.
-   **Built and shipped** in this PR.
+   **Built and shipped** (#1087).
 2. A lesson done together on the parent's device **should** tick the child's five
-   a day. Not built yet, and the reason is below.
+   a day. **Built**, 15 September, and smaller than this plan expected. See the
+   correction below.
 3. Under about eight the parent's app is the home for lessons, and the child's
    app is an **optional add on** for a shared iPad, with an override to install it.
+   Still to do.
+
+## Correction: this plan was out of date on its own central claim
+
+Written before the code was read properly. What it says below about the parent's
+route is **half wrong**, and the half that is wrong made the job look bigger
+than it was.
+
+`/api/lessons/complete` has accepted a `child_id` and scoped the completion to
+that child since migration 213, on Justin's decision of 18 August: *"lessons are
+child related not family."* And `MarkLessonDone`, the tick on the parent's
+lesson page, already sends the open child.
+
+What was actually missing was narrower, and it was two things:
+
+- The **full lesson player** on that same page passed no `completeBody`, so
+  playing a lesson through to the end wrote a household row while ticking the
+  same lesson off with the checkbox recorded it against the child. Two paths on
+  one screen disagreeing.
+- **Neither** parent path ticked the child's five a day. The child's own route
+  has done so since the lesson step was wired.
+
+Both fixed on 15 September. The player now posts the child the page has already
+resolved, and the route ticks that child's day through `markStepQuietly`, the
+same function the child's own lesson uses.
+
+## The question that is NOT asked, and why
+
+This plan proposed *"Who did this with you?"* at the end of every parent led
+lesson. **Justin's call, 15 September: do not build it.**
+
+The app already knows. A parent opened that child to reach the lesson, and the
+page uses it for the send button and the reading ahead notice. Asking at the end
+would be asking for an answer we are already holding, and a tap for every parent
+on every lesson to catch a case that is the exception. With no child open it
+stays an honest household row, exactly as before, so nothing regresses.
+
+## Stars: the same as any lesson
+
+Also decided 15 September. A co watched lesson earns exactly what the child's
+own lesson earns, not a reduced version.
+
+The instinct to pay it less ("a lesson a grown up mostly read is a different
+kind of earning") is wrong for the age this exists for. Under eight, co watching
+is not a lesser way of doing a lesson, it is the **intended** way, so paying it
+differently would punish precisely the children the design is for. It also comes
+out right for free by routing through the same function, rather than a second
+scoring path that is free to drift.
+
+## What the ORIGINAL plan said, kept for the record
 
 ## Why point 2 is not a one line change
 
@@ -60,9 +111,13 @@ changes is that it stops being presented as the only way in for a four year old.
 - Whether the "who did this with you" question appears for every parent or only
   for families with a child under eight.
 
-## Guard, when built
+## Guards
 
-The pair rule shipped today is protected by `scripts/check-learning-step.mjs`,
-which runs the real `stepForToday`. The co watch write will need its own: a
-parent led completion with a named child must tick that child's day, and a
-completion with no child named must not tick anybody's.
+The pair rule is protected by `scripts/check-learning-step.mjs`, which runs the
+real `stepForToday`.
+
+The co watch write is protected by `scripts/check-co-watch.mjs`: the parent's
+player must name the child, a passed lesson with a child named must tick that
+child's day, one with no child named must tick nobody's, and both routes must
+tick through the one function so the two can never drift apart. Five mutations,
+five caught.

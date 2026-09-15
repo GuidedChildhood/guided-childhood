@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { recordSurfaceEvents } from '@/lib/events/record'
 import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { markStepQuietly } from '@/lib/kid/day-store'
 
 // The pass mark for the end of lesson check: at least 70 percent of the
 // choice questions right. A lesson with no choice slides passes on finishing.
@@ -108,6 +110,39 @@ export async function POST(req: NextRequest) {
       await supabase.from('lesson_pass_by')
         .insert({ user_id: user.id, lesson_id, who: 'parent', child_id: forChild })
     } catch { /* already recorded, or pre migration 162 */ }
+  }
+
+  // A CO WATCHED LESSON TICKS THAT CHILD'S DAY.
+  //
+  // Justin, 15 September 2026: "the lessons for younger ages cannot be on the
+  // app as they probably will not have an app, and younger cannot read, so it
+  // needs to be co watched on the parent's app."
+  //
+  // The child's own route has ticked the day since the lesson step was wired
+  // (app/api/kid/lesson-complete). This one never did, so a lesson a grown up
+  // did sitting next to a four year old counted in the passport and left the
+  // five a day untouched: the same shape of bug as the silent refusal fixed in
+  // #1087, and just as invisible, because both screens were telling the truth
+  // about different things.
+  //
+  // ONLY WITH A CHILD NAMED. forChild is null when no child was open, which is
+  // an honest household row and nobody's day to tick.
+  //
+  // Through markStepQuietly, the SAME path the child's own lesson takes, so the
+  // stars, the streak and the daily sticker are earned identically. A lesson a
+  // grown up read aloud is not a lesser lesson: for the ages this exists for it
+  // is the intended way to do one, and a second scoring path here would be free
+  // to drift from the one the child's app uses.
+  //
+  // It also inherits the lesson and quiz pairing from #1087, so a co watched
+  // lesson lands the quiz step on a day that asked for the quiz.
+  //
+  // The admin client, because kid_days is the child's table and this request is
+  // authenticated as the parent. Quiet by design: a parent who has just
+  // finished a lesson with their child must never see a failure about a
+  // checklist.
+  if (passed && forChild) {
+    await markStepQuietly(createAdminClient(), user.id, forChild, 'lesson')
   }
 
   // The learning stream (migration 238), best effort beside the real ledger.
