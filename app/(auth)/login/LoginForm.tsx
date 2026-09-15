@@ -140,8 +140,11 @@ export default function LoginForm() {
         </div>
 
         <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
+          {/* The one door. This was the only link to /signup anywhere in the
+              product, and /signup is now a redirect to exactly this, so the
+              link points at the real thing rather than through a bounce. */}
           New here?{' '}
-          <Link href="/signup" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/starter-pack" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
             Start your pathway
           </Link>
         </p>

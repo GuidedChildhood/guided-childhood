@@ -1,188 +1,42 @@
-'use client'
-import { useState, useEffect } from 'react'
-import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE, networkAuthMessage } from '@/lib/supabase/client'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import ProviderButtons from '@/components/auth/ProviderButtons'
+import { redirect } from 'next/navigation'
 
-export default function SignupPage() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+// ONE DOOR. This one sends you to it.
+//
+// Justin, 15 September 2026: "a yes to one door but the best designed door, so
+// fluid flows, and as a top expert app would advise." And, in the same breath,
+// "don't rewire what we have though as this may break it."
+//
+// So this is the part that needs no rewiring at all. There were two ways to
+// create an account and they left families with different things:
+//
+//   /starter-pack   three questions about your child, a personalised reveal,
+//                   then email and password at the END. Asks how much time you
+//                   have, which DiGi caps its advice to. Every advert, every
+//                   marketing page, the site header and the emails point here.
+//
+//   /signup         name, email and password first, then a four screen wizard.
+//                   Never asked the time question. Linked from exactly ONE
+//                   place in the whole product: the "New here?" line under the
+//                   login form, which is how Justin arrived on it.
+//
+// A parent who came through here had no time budget on record, so DiGi was
+// told "not specified" and sized its advice to nobody (app/api/digi/route.ts).
+// That is not a worse looking form, it is a worse product for that family.
+//
+// Rather than merge the two flows, which IS the rewiring, this door simply
+// closes and points at the good one. Nothing inside either flow moves.
+//
+// Nothing is lost by coming this way: /starter-pack carries the same
+// ProviderButtons, so Google sign up still works, and the email typed here
+// rides along in the query string so nobody types it twice. The wizard at
+// /onboarding is untouched and still reached by anyone part way through setup
+// (app/(dashboard)/dashboard/page.tsx redirects there while onboarding_complete
+// is false), so a family mid setup today finishes exactly as before.
 
-  // Prefill from the starter pack (?email=) so the account is created against
-  // the same address the pathway was saved to. Read from the URL directly so
-  // no Suspense boundary is needed for useSearchParams.
-  useEffect(() => {
-    try {
-      const fromUrl = new URLSearchParams(window.location.search).get('email')
-      const fromStore = localStorage.getItem('gc_starter_email')
-      const prefill = fromUrl ?? fromStore
-      if (prefill) setEmail(prefill)
-      // Name is captured at the very start of the pathway now, so carry it
-      // through and never ask for it twice.
-      const savedName = localStorage.getItem('gc_starter_name')
-      if (savedName) setName(savedName)
-    } catch {}
-  }, [])
-
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
-  const router = useRouter()
-
-  async function handleSignup(e: React.FormEvent) {
-    e.preventDefault()
-    if (password.length < 8) { setError('Password must be at least 8 characters.'); return }
-    setError('')
-    setAlreadyRegistered(false)
-
-    // Same guard as the login form and the starter pack. A build without the
-    // NEXT_PUBLIC variables points at a domain that does not exist, and nothing
-    // anyone types can fix that.
-    if (!isSupabaseConfigured()) { setError(NOT_CONFIGURED_MESSAGE); return }
-
-    setLoading(true)
-    const supabase = createClient()
-
-    const { error: signupError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-
-    if (signupError) {
-      if (signupError.message.toLowerCase().includes('already registered') || signupError.message.toLowerCase().includes('already been registered')) {
-        setAlreadyRegistered(true)
-        setLoading(false)
-        return
-      }
-      // A fetch that never landed is not an answer about this email address.
-      setError(networkAuthMessage(signupError.message) ?? signupError.message)
-      setLoading(false)
-      return
-    }
-
-    // Do NOT write to profiles or clear localStorage here.
-    // signUp may return a user object before the session is established (email confirm pending),
-    // so an upsert here fails silently against RLS. /onboarding owns the write once a
-    // real session exists, and it clears localStorage after a confirmed DB write.
-    router.push('/onboarding')
-  }
-
-  return (
-    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', background: '#fff' }}>
-      <div style={{ width: '100%', maxWidth: '420px' }}>
-        <Link href="/" style={{ display: 'block', marginBottom: '32px', textAlign: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink)' }}>Guided Childhood</span>
-        </Link>
-
-        <div className="card">
-          <div style={{ marginBottom: '28px' }}>
-            <p className="eyebrow" style={{ marginBottom: '8px' }}>Free to start</p>
-            <h1 style={{ fontSize: 'var(--text-2xl)', marginBottom: '4px' }}>Save your pathway</h1>
-            <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>Your child's stage is already set. Create your free account to save it.</p>
-          </div>
-
-          {alreadyRegistered ? (
-            /* ── Already has an account ── */
-            <div>
-              <div style={{
-                padding: '20px',
-                background: '#f9fafb',
-                border: '1.5px solid #e5e7eb',
-                borderRadius: 'var(--radius-tile)',
-                marginBottom: '16px',
-              }}>
-                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 6 }}>
-                  We found your account.
-                </p>
-                <p style={{ fontSize: 'var(--text-md)', color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
-                  {email} already has an account. Sign in to continue, your pathway is saved and waiting for you.
-                </p>
-              </div>
-              <Link
-                href={`/login?email=${encodeURIComponent(email)}`}
-                style={{
-                  display: 'block', textAlign: 'center', width: '100%',
-                  padding: '16px 28px',
-                  background: 'var(--terracotta)', color: 'var(--ink)',
-                  borderRadius: 'var(--radius-btn)', textDecoration: 'none',
-                  fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)',
-                  letterSpacing: '0.08em', textTransform: 'uppercase',
-                  boxShadow: '0 5px 0 var(--terracotta-dark)',
-                  marginBottom: 14,
-                }}
-              >
-                Sign in to your account
-              </Link>
-              <button
-                onClick={() => { setAlreadyRegistered(false); setPassword('') }}
-                style={{ display: 'block', width: '100%', background: 'none', border: 'none', color: '#9ca3af', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', cursor: 'pointer', textAlign: 'center', padding: '8px 0', letterSpacing: '0.06em' }}
-              >
-                Use a different email instead
-              </button>
-            </div>
-          ) : (
-            /* ── Sign up form ── */
-            <>
-            {/* One tap first, the three fields after, per the Mobbin sweep.
-                Setup is where a provider account lands, the same place the
-                password path goes. Draws nothing until one is switched on. */}
-            <ProviderButtons redirectTo="/onboarding" />
-
-            <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                  Your name
-                </label>
-                <input className="input" type="text" placeholder="First name" value={name} onChange={e => setName(e.target.value)} required />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                  Email
-                </label>
-                <input className="input" type="email" placeholder="you@email.com" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                  Password
-                </label>
-                <input className="input" type="password" placeholder="At least 8 characters" value={password} onChange={e => setPassword(e.target.value)} required autoComplete="new-password" />
-              </div>
-
-              {error && (
-                <div style={{ padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)' }}>
-                  {error}
-                </div>
-              )}
-
-              <button type="submit" className="btn btn-gold" disabled={loading}>
-                {loading ? 'Creating account...' : 'Create free account'}
-              </button>
-
-              <p style={{ textAlign: 'center', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55 }}>
-                By creating an account you agree to our{' '}
-                <Link href="/terms" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Terms</Link>
-                {' '}and{' '}
-                <Link href="/privacy" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</Link>.
-                No card required.
-              </p>
-            </form>
-            </>
-          )}
-        </div>
-
-        <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
-          Already have an account?{' '}
-          <Link href="/login" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Sign in</Link>
-        </p>
-      </div>
-    </div>
-  )
+export default async function SignupPage({ searchParams }: {
+  searchParams: Promise<{ email?: string }>
+}) {
+  const { email } = await searchParams
+  const to = email ? `/starter-pack?email=${encodeURIComponent(email)}` : '/starter-pack'
+  redirect(to)
 }

@@ -11,7 +11,8 @@ import { enablePush } from '@/lib/push/enable'
 import { TRIAL_DAYS } from '@/lib/access'
 import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 import WorryPicker from '@/components/onboarding/WorryPicker'
-import { WORRIES, WORRIES_KEY, namedWorries, toWorryIds } from '@/lib/onboarding/worries'
+import { WORRIES, WORRIES_KEY, namedWorries, toWorryIds, challengeFor } from '@/lib/onboarding/worries'
+import type { TimeCommitmentId } from '@/lib/content/stages'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
 
@@ -130,6 +131,17 @@ function DigiSpeech({ text }: { text: string }) {
     </div>
   )
 }
+
+// The time budget a parent is assumed to have when nobody asked them.
+//
+// The starter pack asks this directly and DiGi caps its advice to the answer
+// ("Daily time this parent committed to at signup", app/api/digi/route.ts).
+// This door never had the question, and wrote null, so DiGi was told "not
+// specified" and sized its advice to nobody. Ten minutes is the middle of the
+// three offered and the one most parents pick, so it is the honest assumption
+// rather than an invented promise either way. It is a default, not an answer:
+// the moment a parent tells us otherwise, theirs wins.
+const DEFAULT_TIME: TimeCommitmentId = '10min'
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -314,7 +326,25 @@ export default function OnboardingPage() {
         // challenges, the whole list, alongside the single one everything else
         // reads: a parent who picks two worries at sign up gets both on their
         // first check in (lib/concerns/baseline), not only the first.
-        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, challenges, challenge_other: challengeOther.trim() || null, feeling: null, timeCommitment: timeCommitment ?? null },
+        // TWO VOCABULARIES WERE GOING INTO ONE COLUMN.
+        //
+        // `challenges` holds the parent's own WORRY ids (wont_put_down,
+        // bedtime_screens, mood_after_screens...). `challenge` is read all over
+        // the product as a ChallengeId, the six keys the pathway content is
+        // authored against (lib/content/stages.ts), and the starter pack door
+        // has always written a real one via challengeFor(). This door wrote the
+        // raw worry id instead, so the same column held two different
+        // vocabularies depending on which way in a family came.
+        //
+        // Nothing is visibly broken today only because the two lookup tables
+        // that matter were widened to accept both. But lib/content/stages.ts
+        // types challengeActions as Partial<Record<ChallengeId, string>>, so
+        // the next reader written against the type it says it is returns
+        // nothing for half of our parents, silently.
+        //
+        // One map, already imported, already used by the other door. The
+        // parent's own worries stay in `challenges` untouched.
+        onboarding_answers: { ageBand, challenge: challengeFor(challenges[0]), challenges, challenge_other: challengeOther.trim() || null, feeling: null, timeCommitment: timeCommitment ?? DEFAULT_TIME },
         onboarding_complete: true,
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
