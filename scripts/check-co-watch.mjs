@@ -96,6 +96,22 @@ if (kid === null) {
   ok.push('the child\'s route and the parent\'s route tick through the one function, so a co watched lesson earns exactly what the child\'s own does')
 }
 
+// ── 4. UNDER EIGHT, THE PARENT'S SCREEN SAYS SO ────────────────────────────
+//
+// A four year old has no phone and cannot read a slide. Without this line a
+// parent of a Stage 1 child is left waiting for something to happen on a
+// child's app that does not exist, which is the confusion Justin named.
+const list = read('app/(dashboard)/dashboard/lessons/page.tsx')
+if (list === null) {
+  problems.push('app/(dashboard)/dashboard/lessons/page.tsx is gone, so the screen that carries the age line is somewhere this guard cannot see')
+} else if (!/childStageNum === 1/.test(list)) {
+  problems.push(
+    "the parent's Lessons screen no longer says anything different for a Stage 1 child. Under eight this screen IS the lesson, and without saying so a parent waits for a child's app that a four year old does not have.",
+  )
+} else {
+  ok.push('a Stage 1 family is told, on the screen itself, that lessons happen here together')
+}
+
 if (problems.length > 0) {
   console.error('check-co-watch FAILED\n')
   for (const p of problems) console.error('  ' + p)

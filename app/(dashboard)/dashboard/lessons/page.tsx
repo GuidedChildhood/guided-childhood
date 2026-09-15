@@ -179,6 +179,36 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
         <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.6, marginBottom: '14px' }}>
           Films to watch with {childName}, and lessons you lead. Switch between them below.
         </p>
+
+        {/* THE AGE LINE: UNDER EIGHT, THIS SCREEN IS THE LESSON.
+            Justin, 15 September 2026: "the lessons for younger ages cannot be
+            on the app as they probably will not have an app, and younger cannot
+            read, so it needs to be co watched on the parent's app."
+            A four year old has no phone and cannot read a slide, so for Stage 1
+            the honest instruction is to sit down together HERE, not to wonder
+            why nothing is happening on a child's app that does not exist. Said
+            once, at the top, only for the age it applies to. */}
+        {childStageNum === 1 && (
+          <div style={{
+            display: 'flex', gap: 12, alignItems: 'flex-start',
+            background: 'var(--butter-lt)', border: 'var(--edge)',
+            borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)',
+            padding: '14px 16px', marginBottom: '16px',
+          }}>
+            <span aria-hidden style={{ fontSize: '1.4rem', lineHeight: 1.1 }}>👀</span>
+            <div>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', margin: '0 0 4px', lineHeight: 1.3 }}>
+                Do these together, on your phone
+              </p>
+              <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.55, margin: 0 }}>
+                {childName} is too young to read a lesson alone, so this screen is
+                where they happen. Sit together, read it out loud, and ask the
+                questions yourself. It still counts on their day and still earns
+                their stars.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <LessonsBrowser
