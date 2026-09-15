@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { renderHomeIcon, buddyForToken } from '@/lib/kid/home-icon'
+import { renderHomeIcon, childIconKeys } from '@/lib/kid/home-icon'
 
 // The same icon at the two sizes a web app manifest asks for.
 //
@@ -24,5 +24,6 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
   // render an 8000 square image on our bill.
   if (!ALLOWED.has(size)) return new NextResponse('Not found', { status: 404 })
   if (!/^[0-9a-f]{18}$/.test(token)) return new NextResponse('Not found', { status: 404 })
-  return renderHomeIcon(await buddyForToken(token), size)
+  const { buddy, ageBand } = await childIconKeys(token)
+  return renderHomeIcon(buddy, size, ageBand)
 }

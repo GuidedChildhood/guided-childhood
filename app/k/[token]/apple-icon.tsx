@@ -1,4 +1,4 @@
-import { renderHomeIcon, buddyForToken } from '@/lib/kid/home-icon'
+import { renderHomeIcon, childIconKeys } from '@/lib/kid/home-icon'
 
 // The Home Screen icon for a child's quest page: their own Planet Friend on
 // that Friend's colour, so on a tablet two children share, the two icons are
@@ -18,5 +18,6 @@ export const contentType = 'image/png'
 
 export default async function AppleIcon({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
-  return renderHomeIcon(await buddyForToken(token), size.width)
+  const { buddy, ageBand } = await childIconKeys(token)
+  return renderHomeIcon(buddy, size.width, ageBand)
 }

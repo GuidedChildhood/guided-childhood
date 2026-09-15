@@ -43,8 +43,23 @@ if (lib === null) {
   problems.push(
     `${LIB} no longer draws the Friend's own art and colour, so the icons stop differing from each other even though a buddy is still being read`,
   )
+} else if (!/stageForBand\(/.test(lib) || !/characterForStage\(/.test(lib)) {
+  // ── THE AGE FALLBACK IS THE FEATURE, NOT A NICETY ────────────────────────
+  //
+  // Checked against the live database before this shipped: of 40 children, ONE
+  // had a buddy saved, and that one was a key from the squad the Planet
+  // Friends replaced. Resolving on the chosen buddy ALONE is therefore correct
+  // code that does nothing: every child lands on the same star and a shared
+  // tablet is back to two identical tiles.
+  //
+  // Every child has an age band (40 of 40), so that is what actually carries
+  // this. Losing it would not break a build or a test, it would quietly return
+  // the product to the bug.
+  problems.push(
+    `${LIB} no longer falls back to the Friend of the child's age band. Almost no child has ever picked a buddy, so without the age this resolves every child to the same star and two children on one tablet are identical again, which is the entire bug this file exists to fix.`,
+  )
 } else {
-  ok.push('a child\'s Home Screen icon is their own Friend, on that Friend\'s colour')
+  ok.push('a child\'s icon is the Friend they chose, or the Friend of their age when they never chose one')
 }
 
 // ── 2. AND IT STILL CARRIES NO NAME ─────────────────────────────────────────
@@ -79,12 +94,29 @@ if (apple === null) {
   problems.push(`${APPLE} is gone, so iOS has no icon for a child's app`)
 } else if (!/renderHomeIcon\(/.test(apple)) {
   problems.push(`${APPLE} no longer renders through the shared renderer, so the icon on an iPhone can drift from the one in the manifest`)
-} else if (lib && !/catch/.test(lib.split('buddyForToken')[1] ?? '')) {
+} else if (lib && !/catch/.test(lib.split('childIconKeys')[1] ?? '')) {
   problems.push(
     `the buddy lookup in ${LIB} no longer fails soft. It runs when a child taps their Home Screen icon, so a database that is briefly unreachable would give them a broken tile they cannot fix and cannot describe.`,
   )
 } else {
   ok.push('a database that cannot be reached costs a family the difference between two icons, never the icon itself')
+}
+
+// ── 4. AND THE AGE ACTUALLY REACHES THE RENDERER ────────────────────────────
+//
+// Reading the band and then not passing it is the silent version of not having
+// it: every call falls to the star and nothing says so.
+for (const rel of [APPLE, 'app/k/[token]/home-icon/[px]/route.tsx']) {
+  const src = read(rel)
+  if (src === null) {
+    problems.push(`${rel} is gone, so one of the two surfaces that draws a child's icon cannot be checked`)
+  } else if (!/childIconKeys\(/.test(src) || !/ageBand/.test(src)) {
+    problems.push(
+      `${rel} no longer passes the child's age band to renderHomeIcon, so it falls back to the star for every child who never picked a Friend, which today is all of them`,
+    )
+  } else {
+    ok.push(`${rel.split('/').slice(-2).join('/')} hands the renderer both the chosen Friend and the age`)
+  }
 }
 
 if (problems.length > 0) {

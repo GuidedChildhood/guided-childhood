@@ -12,7 +12,11 @@ import { renderHomeIcon } from '@/lib/kid/home-icon'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_req: Request, { params }: { params: Promise<{ buddy: string }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ buddy: string }> }) {
   const { buddy } = await params
-  return renderHomeIcon(buddy, 180)
+  // ?band= drives the age fallback, which is the path EVERY child in the
+  // database takes today (none of them has a current buddy saved), so it is
+  // the one that actually has to be looked at.
+  const band = new URL(req.url).searchParams.get('band')
+  return renderHomeIcon(band ? null : buddy, 180, band)
 }

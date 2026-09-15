@@ -2,7 +2,9 @@ import { ImageResponse } from 'next/og'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { buddyFor } from '@/lib/kid/buddy'
-import { characterByKey } from '@/lib/content/stage-characters'
+import { characterByKey, characterForStage } from '@/lib/content/stage-characters'
+import { stageForBand } from '@/lib/children/age'
+import type { AgeBand } from '@/lib/content/stages'
 
 // ONE ICON PER CHILD, ON A TABLET THE FAMILY SHARES.
 //
@@ -54,18 +56,56 @@ import { characterByKey } from '@/lib/content/stage-characters'
 // are written out at each read below, and `file` is the only part that varies.
 const DIGI = { file: 'DiGi-star.svg', colour: '#173C46' }
 
-/** The art file (under public/digi-squad) and the ground for whatever buddy is saved. */
-export function iconArtFor(buddy: string | null | undefined): { file: string; colour: string } {
+// THE AGE IS THE FALLBACK, NOT THE STAR, AND THAT IS THE WHOLE FEATURE.
+//
+// The first cut fell back to DiGi whenever no Planet Friend was saved, which
+// read as safe and was in fact inert. Checked against the live database before
+// this shipped: of 40 children, ONE had a buddy saved at all, and that one was
+// `sofia`, a key from the squad that the Planet Friends replaced. So every
+// child alive would have resolved to the same star, two of them on one tablet
+// would have been identical again, and the feature would have been correct in
+// the code and absent on the device.
+//
+// Every child HAS an age band (40 of 40), and the band already maps to a
+// stage, and each stage already owns a Friend. So a child who never picked
+// anything still gets the Friend of their own stage: a six year old gets
+// Pebble on gold, a twelve year old gets Orbit on blue, with nothing to choose
+// and nothing to set up.
+//
+// Order: what the child chose, then what their age gives them, then the star.
+const STAGE_NUM: Record<string, number> = {
+  foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
+}
+
+/** The art file (under public/digi-squad) and the ground for a child's icon. */
+export function iconArtFor(
+  buddy: string | null | undefined,
+  ageBand?: string | null,
+): { file: string; colour: string } {
   const { key } = buddyFor(buddy)
-  const character = characterByKey(key)
   // characterByKey misses for 'digi', which is not a Planet Friend, and for a
-  // key saved before a rename. Both land on the star.
+  // key saved before a rename, which is every saved buddy in the database
+  // today. Both fall through to the age.
+  const chosen = characterByKey(key)
+  const character = chosen ?? forBand(ageBand)
   if (!character) return DIGI
   // The cutouts are all /digi-squad/friends/<name>.png, so this is the leaf
-  // under ART_ROOT and nothing above it can be varied by a database value.
+  // under public/digi-squad and nothing above it varies with a database value.
   const file = character.cutout.replace(/^\/digi-squad\//, '')
   if (file === character.cutout) return DIGI
   return { file, colour: character.colour }
+}
+
+/** The Friend that belongs to a child's age band. Undefined if the band is not one we know. */
+function forBand(ageBand: string | null | undefined) {
+  if (!ageBand) return undefined
+  try {
+    const stage = stageForBand(ageBand as AgeBand)
+    const num = STAGE_NUM[stage]
+    return num ? characterForStage(num) : undefined
+  } catch {
+    return undefined
+  }
 }
 
 /**
@@ -75,8 +115,8 @@ export function iconArtFor(buddy: string | null | undefined): { file: string; co
  * and an image one network hop away is an image that is sometimes not there.
  * The art is local for exactly that reason (see stage-characters.ts).
  */
-export async function renderHomeIcon(buddy: string | null | undefined, size: number) {
-  const { file, colour } = iconArtFor(buddy)
+export async function renderHomeIcon(buddy: string | null | undefined, size: number, ageBand?: string | null) {
+  const { file, colour } = iconArtFor(buddy, ageBand)
   let src: string
   try {
     const bytes = await fs.readFile(path.join(process.cwd(), 'public', 'digi-squad', file))
@@ -109,20 +149,24 @@ export async function renderHomeIcon(buddy: string | null | undefined, size: num
   )
 }
 
-/** The buddy saved on the child a link token belongs to. Never throws. */
-export async function buddyForToken(token: string): Promise<string | null> {
-  if (!/^[0-9a-f]{18}$/.test(token)) return null
+/** The buddy and age band of the child a link token belongs to. Never throws. */
+export async function childIconKeys(token: string): Promise<{ buddy: string | null; ageBand: string | null }> {
+  const none = { buddy: null, ageBand: null }
+  if (!/^[0-9a-f]{18}$/.test(token)) return none
   try {
     const { createAdminClient } = await import('@/lib/supabase/admin')
     const supabase = createAdminClient()
     const { data: link } = await supabase
       .from('kid_links').select('child_id').eq('token', token).maybeSingle()
-    if (!link?.child_id) return null
+    if (!link?.child_id) return none
     const { data: child } = await supabase
-      .from('children').select('buddy').eq('id', link.child_id).maybeSingle()
-    return (child?.buddy as string | null) ?? null
+      .from('children').select('buddy, age_band').eq('id', link.child_id).maybeSingle()
+    return {
+      buddy: (child?.buddy as string | null) ?? null,
+      ageBand: (child?.age_band as string | null) ?? null,
+    }
   } catch {
     // No service key, no row, no network: the star, exactly as before.
-    return null
+    return none
   }
 }
