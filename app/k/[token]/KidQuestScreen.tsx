@@ -32,7 +32,7 @@ import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { scheduleLabel } from '@/lib/quests/due'
-import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
+import { isMoveJob, readingMinutesFor, dayWord, stepsPerDay, type StageNum } from '@/lib/kid/five-a-day'
 import KidDayDone, { type DayDoneInput } from '@/components/kid/KidDayDone'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
@@ -407,10 +407,10 @@ export default function KidQuestScreen({
       const deep = new URLSearchParams(window.location.search).get('tab')
       if (deep === 'games') {
         setTab('lessons'); setLessonTab('games')
-        setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+        setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 300)
       } else if (deep === 'print') {
         setTab('print')
-        setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+        setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 300)
       } else if (deep === 'five') {
         // Back from a builder whose print just landed one of today's five:
         // the day itself, with the next step lit (see fiveADayHref).
@@ -1116,7 +1116,7 @@ export default function KidQuestScreen({
   const goToTab = useCallback((key: 'quests' | 'lessons' | 'print') => {
     // Quests goes to the five a day, which is the day itself now the separate
     // Today list has folded into the jobs page.
-    const id = key === 'quests' ? 'kid-five' : 'kid-tabs'
+    const id = key === 'quests' ? 'kid-five' : 'kid-tab-content'
     // Next frame, so the tab's content has rendered and the anchor is where it
     // will actually be rather than where it was a moment ago.
     requestAnimationFrame(() => {
@@ -1511,8 +1511,8 @@ export default function KidQuestScreen({
             sub={todayTab.complete
               ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
               : todayTab.total > 0
-                ? `${todayTab.left} of your five to go.`
-                : 'Your five for today are just below.'}
+                ? `${todayTab.left} of your ${dayWord(todayTab.total)} to go.`
+                : `Your ${dayWord(stepsPerDay(stageId as StageNum))} for today are just below.`}
             friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
             corner={
               <button
@@ -1789,7 +1789,7 @@ export default function KidQuestScreen({
             // Games, on the front. Justin, 2 September 2026: "where do games
             // appear?" They lived only as a sub tab of Lessons, so a child
             // had to know to look there. Only when the stage has any.
-            ...(hasGames ? [{ front: true, icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
+            ...(hasGames ? [{ front: true, icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
             // Planet Friends, the digital toy, on the front. Justin, 2 September
             // 2026: "can't see the new game?" It sat at the bottom of the Games
             // sub tab, under every game, and was hidden at 10 plus. Every age
@@ -1806,7 +1806,7 @@ export default function KidQuestScreen({
               onClick: () => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) },
             },
             // Printables: a tap opens the printables tab.
-            { icon: 'print', label: 'Printables', sub: 'Colour and do', tint: CRAYON.coral, onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
+            { icon: 'print', label: 'Printables', sub: 'Colour and do', tint: CRAYON.coral, onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
           ]
           return (
             <KidHomeTiles
@@ -1948,11 +1948,11 @@ export default function KidQuestScreen({
                 // when this stage actually has some.
                 onPrintables={() => {
                   setTab('print'); setActiveLesson(null); playKidSound('tap')
-                  setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
                 }}
                 onGames={hasGames ? () => {
                   setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap')
-                  setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
                 } : undefined}
               />
               {weekChart.some(d => d.count > 0) && (
@@ -2274,6 +2274,18 @@ export default function KidQuestScreen({
           today={todayTab}
           onToday={() => { setTab('quests'); setActiveLesson(null); playKidSound('tap'); goToTab('quests') }}
         />
+
+        {/* WHERE A TAB'S CONTENT STARTS, which is what the six callers below
+            actually mean when they say "go to the tabs".
+            Justin, 15 September 2026: "new tabs at bottom not linking to right
+            pages." They stopped the moment the bar became fixed. Every one of
+            those callers scrolled to #kid-tabs, the BAR, which worked only
+            because the bar used to sit in the flow directly above the content.
+            A fixed element is always in view, so scrollIntoView on it does
+            nothing at all: the tab changed underneath and the child stayed
+            looking at the top of the home screen.
+            The bar is a control now, not a position. This is the position. */}
+        <div id="kid-tab-content" aria-hidden style={{ width: '100%', scrollMarginTop: 12 }} />
 
         {tab === 'quests' && (<>
         {/* THE BALANCE DIAL IS NOT HERE ANY MORE (14 September 2026).

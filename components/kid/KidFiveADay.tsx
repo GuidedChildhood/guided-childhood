@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
+import { STEPS, type StepKey, dayWord } from '@/lib/kid/five-a-day'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import KidStepSheet from '@/components/kid/KidStepSheet'
@@ -455,7 +455,14 @@ export default function KidFiveADay({
         {/* The one ribbon heading on the screen (the Happy Newspaper pass):
             the five a day is the heading that matters, so it gets the banner. */}
         <Ribbon tone={state.complete ? 'green' : 'butter'}>
-          {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
+          {/* The real number, not the word "five".
+              Justin, 15 September 2026, on Teo's home screen: the greeting said
+              "3 of your five to go" and this ribbon said "Your five for today"
+              while the counter beside it said "1 of 4". The counter was right:
+              a Stage 1 child gets FOUR, because lib/kid/five-a-day drops
+              homework and maths for four to seven year olds on purpose. The
+              maths was never wrong, the word was, and it was typed in twice. */}
+          {state.complete ? 'Today is done! 🎉' : `Your ${dayWord(total)} for today`}
         </Ribbon>
         <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, marginLeft: 'auto' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>

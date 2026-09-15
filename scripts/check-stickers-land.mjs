@@ -481,6 +481,38 @@ else ok.push('O: the five a day draws the live step first, then the climb, then 
 if (!/'Start here'/.test(fiveCode) || !/'Do this next'/.test(fiveCode)) problems.push('O: the live step is not named, so the card shows a count and a bar and leaves a child to guess which row is the way in')
 else ok.push('O: the live step says Start here on a fresh day and Do this next after')
 
+// ── P. THE DAY SAYS ITS REAL NUMBER ─────────────────────────────────────────
+//
+// Justin, 15 September 2026, with Teo's home screen: the greeting read "3 of
+// your five to go" and the card directly under it read "Your five for today,
+// 1 of 4". Two numbers on one screen that did not agree.
+//
+// The maths was right the whole time: one of four done leaves three to go, and
+// the counter reads the real state. What was wrong was the WORD. "five" was
+// typed into the greeting and into the card's ribbon, and a Stage 1 child gets
+// FOUR, because lib/kid/five-a-day drops homework and maths for four to seven
+// year olds on purpose. So a six year old was told twice that four was five.
+//
+// stepsPerDay had been written for exactly this ("for a caller that needs to
+// say it out loud") and had no callers at all.
+//
+// Neither the count nor the word is visible to a typecheck: both are strings
+// and numbers that happen to disagree.
+const fiveCopy = fiveADay.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ')
+const homeCopy = screen.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/.*$/gm, ' ')
+
+if (/'Your five for today'/.test(fiveCopy) || /"Your five for today"/.test(fiveCopy)) {
+  problems.push('P: the five a day ribbon hardcodes the word five again. A Stage 1 child gets four, so it has to say the real number.')
+} else if (!/dayWord\(/.test(fiveCopy)) {
+  problems.push('P: the five a day ribbon does not use dayWord, so its heading can drift from its own counter')
+} else if (/of your five to go/.test(homeCopy)) {
+  problems.push('P: the child home greeting hardcodes "of your five to go" again, so it contradicts the card right underneath it for every Stage 1 child')
+} else if (!/dayWord\(/.test(homeCopy)) {
+  problems.push('P: the child home greeting does not use dayWord')
+} else {
+  ok.push('P: the greeting and the ribbon both say the day\'s real number, so a four step day never calls itself five')
+}
+
 if (problems.length > 0) {
   console.error('check-stickers-land FAILED\n')
   for (const p of problems) console.error('  ' + p)
