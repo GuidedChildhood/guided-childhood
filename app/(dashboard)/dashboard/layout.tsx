@@ -100,12 +100,21 @@ export default async function DashboardLayout({ children }: { children: React.Re
           icons), and the setup bar, install prompt and NOW sheet keep their
           rem type at the same size with px paddings a shade tighter. Fixed
           things INSIDE main are as they were. See .bottom-tab-bar in
-          globals.css. */}
+          globals.css.
+
+          THE LABEL SIZE IS A TOKEN, NOT 0.75rem (16 September 2026). It used
+          to be the literal, and at 0,2,0 this rule quietly beat every
+          `.tab-item` step down in globals.css, which sits at 0,1,0. So the
+          label stayed 12px at 320px as well as at 430, and grew without limit
+          with the iOS text dial, which is how "Passport" ended up off the
+          side of Justin's phone. --tab-label-size is defined once in
+          globals.css, capped against vw so the dial cannot lift it, and both
+          rules now say the same thing. */}
       <style>{`
         body { zoom: 1; }
         .gc-dash > main, .gc-dash > header { zoom: 1.07; }
         .gc-dash > .bottom-tab-bar { height: calc(77px + env(safe-area-inset-bottom, 0px)); }
-        .gc-dash .tab-item { font-size: 0.75rem; }
+        .gc-dash .tab-item { font-size: var(--tab-label-size); }
         .gc-dash .tab-item svg { width: 26px; height: 26px; }
       `}</style>
       {/* Desktop top nav */}

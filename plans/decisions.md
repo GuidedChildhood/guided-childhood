@@ -312,3 +312,63 @@ Guard `check-lesson-tracker.mjs` in CI, six mutations caught. Its pupil data
 rule strips comments before testing, because every file here explains at
 length that there is no register and a rule that could not tell the
 explanation from the thing would push us to stop explaining.
+
+## 16 September 2026: screens rest, the job board, the approve warning, and Moment (session p37w5v)
+
+Four merges from the device time lane, in order.
+
+**Screens rest defaults moved an hour earlier** (PR #1095). The old default ran
+right up to bedtime, which is the hour the light does the damage. Also fixed:
+the time pickers wrote every intermediate keystroke to the live row, so a
+half typed `09:57` could land. They commit on blur now.
+
+**The job board row rebuilt, with drawn icons** (PR #1095). 24 new Happy News
+icons and `lib/quests/job-icon.ts` mapping emoji and words to them. Built from
+the live `family_quests` table, not the template file, so every emoji a real
+family uses is covered.
+
+**The approve path warns, never blocks** (PR #1098). Justin chose warn over
+stop: "Screens are meant to be resting right now. Saying yes still works."
+Non negotiable 1 holds, a pathway not a gate.
+
+**The Now button becomes Moment, and lifts clear** (PR #1100). It was
+`position: absolute` inside a flex bar, so it sat on Passport at every width.
+Now `bottom: calc(100% + 8px)`, measured from the bar's top edge, with page
+padding grown to match. Renamed because the button also writes to the concerns
+ledger, which "Now" never said. Proved against production: three of the four
+moments ever raised show the full flagged, checked, resolved loop.
+
+**1043 words of superfluous copy cut from eleven parent screens** (PR #1100).
+A second adversarial pass found seven cuts that took real understanding with
+them, and all seven are back. Guard `check-tab-bar-clear.mjs` added, 77 total.
+
+## 16 September 2026, afternoon: the tab bar, the films tab, and the Stage 2 scripts (session p37w5v)
+
+**The text size dial was breaking the tab bar** (PR #1101). Every size in that row
+was rem, which follows the iOS dial, and the row is six fixed columns that cannot
+grow. Worse, the dashboard layout carried its own `.gc-dash .tab-item` font rule
+that outranked globals.css, so the sizes measured back in September had never
+applied on a dashboard route. One token now, `--tab-label-size`, capped with min()
+against vw. Measured: 7 of 16 width and text size combinations were clean before,
+16 of 16 after.
+
+**"Nothing written for this stage yet" was the wrong word** (PR #1101). Ten films
+exist, all Stage 1, so there really is none at a teenager's stage. But nothing has
+been FILMED while 39 lessons are written for that stage. Justin chose: make the
+Stage 2 films where a parent and child still watch together, and above that say
+what the format is for rather than apologise. Keyed off a fixed age
+(`CO_WATCH_MAX_STAGE`), never off which films happen to exist.
+
+**The tab counts were frozen on one stage** (PR #1101). Both counts were pinned to
+the child's own stage, so every age chip read the same number while the list
+changed underneath. The library is 141 lessons, not the 39 the tab showed.
+
+**Five Stage 2 film scripts written** (PR #1101). 2.1 What we keep private online,
+2.2 Spot the trick, 2.3 Screens and sleep, 2.4 Why stopping feels hard, 2.5 Mean
+messages. Each reviewed by three lenses, cut to the Stage 1 runtime, then repaired:
+15 must restore findings, several safeguarding. Measured rather than guessed, Mabel
+reads at 131 words a minute, so the five are about 35 minutes of animation.
+
+**One substitution awaiting Justin.** The films system doc names the fifth Stage 2
+film as "What social media really is", which is not a Stage 2 lesson in the
+database. Substituted Mean messages, which is.

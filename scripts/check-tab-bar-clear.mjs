@@ -16,10 +16,37 @@
 // this was never a tuning problem. Nudging the offset is how this class of bug
 // comes back on the next phone size.
 //
-// So the button is a flex child now: the bar reserves it a column and lays the
-// tabs out in what is left. Nothing can overlap anything, because nothing is
-// out of flow. This guard holds that, and nothing else, because that is the
-// property the bug turned on.
+// The first fix made it a flex child. Justin asked the better question,
+// "wouldn't it have been better just to lift a little higher so above passport
+// tab", so it lifts instead: bottom: calc(100% + 8px), measured from the BAR'S
+// TOP EDGE rather than from the floor, with the page's own padding grown to
+// match so nothing runs underneath it.
+//
+// ── AND THE SECOND HALF, THE SAME DAY ───────────────────────────────────────
+//
+// Justin sent another photo of the same bar, this time with "Passport" cut off
+// at the right edge and the Moment label running out through its ring. Two
+// causes, both invisible in the markup:
+//
+//   1. Every size in that row was rem, and rem follows the iOS text size dial
+//      (shared/tokens.css sets `html { font: -apple-system-body }` on purpose).
+//      The row is six fixed columns, so a label that grows does not wrap or
+//      scroll, it paints over the edge of the phone. Measured on the harness
+//      with the old sizes: 9 of 16 width and text size combinations overflowed,
+//      and at 390px with the dial at 150 per cent "Passport" needed 72.8px in a
+//      64.3px column.
+//
+//   2. The dashboard layout carries its own `.gc-dash .tab-item` font rule in
+//      an inline style block. At 0,2,0 it outranks every `.tab-item` rule in
+//      globals.css at 0,1,0, so the careful step downs measured at 430, 393,
+//      375, 360 and 320 had never applied on a single dashboard route since the
+//      day they were written. Dead code, and nothing said so.
+//
+// So the size is one token, --tab-label-size, capped with min() against vw,
+// which the dial cannot lift, and every rule that sizes the row reads it.
+//
+// This guard holds those properties and nothing else, because they are what
+// the two bugs turned on.
 //
 // Node builtins only: the concern-guards job runs no npm ci.
 
@@ -88,9 +115,71 @@ if (btn) {
   }
 }
 
+// ── THE ROW CANNOT BE STRETCHED BY THE TEXT DIAL ───────────────────────────
+//
+// Three files size this row and all three must read the same token, or one of
+// them silently wins and the other two become the dead code described above.
+const HARNESS = 'app/dev/tab-bar/page.tsx'
+
+if (css) {
+  const token = css.match(/--tab-label-size:\s*([^;]+);/)
+  if (!token) {
+    fail.push(`${CSS}: --tab-label-size is gone. It is the one place the tab label size is decided, and without it the layout's own rule silently wins and the step downs here become dead code.`)
+  } else {
+    const v = token[1].trim()
+    if (!/\bmin\s*\(/.test(v)) {
+      fail.push(`${CSS}: --tab-label-size is "${v}" with no min(). A bare rem follows the iOS text size dial, and this row is six fixed columns that cannot grow, so the label gets painted over the edge of the phone. Measured: 9 of 16 width and text size combinations overflowed before the cap.`)
+    }
+    if (!/\dvw/.test(v)) {
+      fail.push(`${CSS}: --tab-label-size is "${v}" with no vw. The ceiling has to be in a unit the text dial cannot move, and vw is the only one tied to the room the row actually has. A px ceiling would fit a 430 phone and overflow a 320 one.`)
+    }
+  }
+
+  // The Moment label sits in a circle that is a fixed 52px at every width, so
+  // its ceiling is a flat px rather than a share of the viewport.
+  const fabRule = css.match(/\.bottom-tab-bar\s+\.rightnow-fab\s*\{([\s\S]*?)\}/)
+  if (fabRule) {
+    const body = fabRule[1].replace(/\/\*[\s\S]*?\*\//g, '')
+    const fs = body.match(/font-size:\s*([^;]+);/)
+    if (!fs) {
+      fail.push(`${CSS}: the Moment button sets no font-size inside the bar, so it inherits the 0.5625rem meant for the bigger floating circle and the word runs out through the ring.`)
+    } else if (!/\bmin\s*\(/.test(fs[1])) {
+      fail.push(`${CSS}: the Moment label is "${fs[1].trim()}" with no min(). Measured with a bare rem: 54.6px of label in a 52px circle at 150 per cent text, 72.8px at 200. The circle does not grow with the dial, so the label must not either.`)
+    }
+  }
+}
+
+// The layout: the rule that actually wins, so it must defer to the token.
+{
+  const layoutSrc = read(LAYOUT)
+  const rule = layoutSrc.match(/\.gc-dash\s+\.tab-item\s*\{\s*font-size:\s*([^;}]+)/)
+  if (!rule) {
+    fail.push(`${LAYOUT}: the ".gc-dash .tab-item" font rule is gone. It is not a spare copy: the layout takes body zoom off the shell and sizes this row in real pixels instead, so without it the labels shrink by a fourteenth.`)
+  } else if (!/var\(--tab-label-size\)/.test(rule[1])) {
+    fail.push(`${LAYOUT}: ".gc-dash .tab-item" sets font-size to "${rule[1].trim()}" rather than var(--tab-label-size). At 0,2,0 this rule beats everything in globals.css, so a literal here is not a second opinion, it is the only one that counts, and it is how the label stayed 12px at 320px as well as at 430.`)
+  }
+}
+
+// The harness: it exists to be the layout, and a harness that is only nearly
+// the layout reports green about a screen nobody has.
+{
+  const harness = read(HARNESS)
+  if (harness) {
+    const rule = harness.match(/\.gc-dash\s+\.tab-item\s*\{\s*font-size:\s*([^;}]+)/)
+    if (!rule) {
+      fail.push(`${HARNESS}: the harness no longer sizes .tab-item, so it is measuring globals.css alone while a real phone gets the layout's rule instead. That gap is exactly why the overflow passed here and failed on Justin's phone.`)
+    } else if (!/var\(--tab-label-size\)/.test(rule[1])) {
+      fail.push(`${HARNESS}: the harness sizes the label as "${rule[1].trim()}" rather than var(--tab-label-size). It has to mirror the layout line for line or it is measuring a bar that does not ship.`)
+    }
+    if (!/RightNowButton/.test(harness)) {
+      fail.push(`${HARNESS}: the Moment button is not mounted. It is the one control that sits ON the bar, and without it this harness cannot see the label running out of its own ring, which is half of what Justin photographed.`)
+    }
+  }
+}
+
 if (fail.length) {
   console.error('check-tab-bar-clear: something is sitting on a tab\n')
   for (const f of fail) console.error('  ' + f + '\n')
   process.exit(1)
 }
-console.log("check-tab-bar-clear: the Moment button clears the bar, and page content clears the button.")
+console.log("check-tab-bar-clear: the Moment button clears the bar, page content clears the button, and no label can be stretched off the edge by the text dial.")

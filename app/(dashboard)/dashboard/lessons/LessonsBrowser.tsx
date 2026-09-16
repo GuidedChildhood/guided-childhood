@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { chunky } from '@/components/scripts/card-system'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
@@ -176,6 +177,55 @@ export default function LessonsBrowser({
   // are guidance about when something LANDS best, not a lock on the door.
   const watchFallback = watchForStage.length === 0 && watchItems.length > 0
   const watchShown = watchFallback ? watchItems : watchForStage
+
+  // ── WHO THE FILMS ARE ACTUALLY FOR (16 September 2026) ────────────────────
+  //
+  // Justin, with a screenshot of this tab on his 13 to 15 year old: "getting
+  // this message, is it true? I'm sure we have lessons, if not let's build
+  // them."
+  //
+  // Half true, and the half that was wrong was the word. Checked against the
+  // live database: ten films exist and every one of them is Stage 1, so there
+  // genuinely is none at her stage. But her Lessons tab holds 39 real lessons,
+  // and the old line said "Nothing WRITTEN for this stage yet", which reads as
+  // the product having nothing for her at all. Nothing has been FILMED. Plenty
+  // has been written.
+  //
+  // He chose the honest shape rather than forty more films: make the ones that
+  // suit a sofa, and for the older stages say plainly what this format is for
+  // instead of apologising for a gap that is not a gap. A fourteen year old
+  // does not sit down to watch an illustrated film with their mum, and
+  // pretending we owe them one is how a product loses a parent's trust about
+  // everything else it says.
+  //
+  // So the copy is computed from the films that actually exist, not written
+  // in. The day Stage 2 lands, this paragraph re reads itself: filmAges picks
+  // up "4 to 10", and a Stage 2 child stops seeing the fallback at all.
+  const filmStageNums = [...new Set(watchItems.map(w => w.stageNum))].sort((a, b) => a - b)
+  const filmAges = (() => {
+    const first = STAGE_LIST.find(s => s.num === filmStageNums[0])
+    const last = STAGE_LIST.find(s => s.num === filmStageNums[filmStageNums.length - 1])
+    if (!first || !last) return ''
+    const from = first.ages.split(' to ')[0]
+    const to = last.ages.replace(' and up', '').split(' to ').pop()
+    return from === to ? `age ${from}` : `ages ${from} to ${to}`
+  })()
+  // ── WHERE THE CO WATCH YEARS END ─────────────────────────────────────────
+  //
+  // Stage 2, ages 8 to 10. This is a fact about children and sofas, NOT about
+  // what we happen to have filmed, and the difference matters: keyed off the
+  // films that exist, a Stage 2 child would be told they are past a format
+  // that suits them perfectly, purely because we have not made their films
+  // yet. Keyed off the age, a Stage 2 child gets the warm catch up until
+  // those films land, and a Stage 4 child gets the truth.
+  //
+  // Justin chose exactly this on 16 September, offered forty films or this:
+  // make the Stage 2 ones, where a parent and child still watch together, and
+  // for Stage 3 and up stop calling it a missing film. A fourteen year old
+  // does not sit down to an illustrated film with their mum.
+  const CO_WATCH_MAX_STAGE = 2
+  const pastTheFilmYears = watchFallback && childStageNum > CO_WATCH_MAX_STAGE
+  const lessonsAtChildStage = libraryItems.filter(l => l.stageNum === childStageNum).length
   const libForStage = libraryItems.filter(l => inStage(l.stageNum))
 
   // Group stage keyed items (videos, lessons) by stage for the All ages
@@ -194,13 +244,33 @@ export default function LessonsBrowser({
   )
   const stageChips = STAGE_LIST.filter(s => stagesWith.has(s.num))
 
-  // The counts are this child's: how many films and lessons are at their
-  // stage, not the size of the whole library. A stage with nothing at it
-  // shows the total, which is what the list falls back to.
-  const countFor = (n: number, total: number) => (n > 0 ? n : total)
+  // ── THE NUMBER IS WHAT THIS TAB WILL SHOW YOU RIGHT NOW ──────────────────
+  //
+  // Justin, 16 September 2026, looking at "Lessons 39" on his 13 to 15 year
+  // old: "it says 39 lessons, is that just for his age? I'm sure more total
+  // lessons. Also when we click the tab for other age ranges the lesson count
+  // should change."
+  //
+  // Right on both, and they were the same fault. The counts were pinned to
+  // childStageNum and computed once, so they never moved when a parent tapped
+  // a stage chip: All ages read 39, Stage 1 read 39, every chip read 39, while
+  // the list underneath changed every time. A number that contradicts the list
+  // it sits above teaches a parent to stop believing the numbers.
+  //
+  // And 39 IS just his stage. Counted in the live database on the day he
+  // asked: 24 at Stage 1, 27 at Stage 2, 26 at Stage 3, 39 at Stage 4, 25 at
+  // Stage 5, so 141 in all. A parent who reads 39 as the whole library is
+  // being shown roughly a quarter of what they pay for.
+  //
+  // So each tab now counts the list it is about to render, through the same
+  // stage filter the list uses. All ages shows the real total, a chip shows
+  // that stage, and the two can never disagree. Watch together counts
+  // watchShown rather than the raw stage match, because that is the array it
+  // draws: past the co watch years the stage match is zero while ten films are
+  // on screen, and a 0 above ten tiles is the same lie in the other direction.
   const TABS: { key: View; icon: HappyIconName; label: string; count: number }[] = [
-    { key: 'together', icon: 'lessons', label: 'Watch together', count: countFor(watchItems.filter(w => w.stageNum === childStageNum).length, watchItems.length) },
-    { key: 'library', icon: 'read', label: 'Lessons', count: countFor(libraryItems.filter(l => l.stageNum === childStageNum).length, libraryItems.length) },
+    { key: 'together', icon: 'lessons', label: 'Watch together', count: watchShown.length },
+    { key: 'library', icon: 'read', label: 'Lessons', count: libForStage.length },
   ]
 
   return (
@@ -290,15 +360,64 @@ export default function LessonsBrowser({
             watch on the sofa or send to their phone. */}
         {view === 'together' && (
           <>
-            <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-              The illustrated films that already live on {childName}&apos;s phone. Watch one together here, or send it for them to watch on their own. First watch earns 10 stars.
-            </p>
-            {watchFallback && (
+            {/* The promise only holds for a child the films are for. Above a
+                card explaining they are written for someone younger it reads as
+                the page arguing with itself, so past the co watch years the
+                card speaks alone. */}
+            {!pastTheFilmYears && (
+              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
+                The illustrated films that already live on {childName}&apos;s phone. Watch one together here, or send it for them to watch on their own. First watch earns 10 stars.
+              </p>
+            )}
+
+            {/* Past the film years: say what this format is for, and point at
+                the thing that IS for this child, by its real number. Never an
+                apology for a gap, because for a teenager it is not a gap. */}
+            {pastTheFilmYears && (
+              <div style={{
+                background: 'var(--tint-blue)', border: 'var(--edge)', boxShadow: 'var(--lift)',
+                borderRadius: 'var(--radius-card)', padding: '15px 16px', margin: '0 0 18px',
+              }}>
+                <p style={{
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)',
+                  color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em', margin: '0 0 8px',
+                }}>
+                  These films are made for the early years
+                </p>
+                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
+                  Every one is written for {filmAges}, when sitting down together is how this lands.
+                  {' '}{childName} is past that, and the work at their stage is the lessons you lead.
+                  {lessonsAtChildStage > 0
+                    ? ` There are ${lessonsAtChildStage} of them waiting.`
+                    : ''}
+                </p>
+                {lessonsAtChildStage > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => { setView('library'); setStage(childStageNum) }}
+                    style={{
+                      ...chunky('butter'), fontSize: 'var(--text-base)',
+                    }}
+                  >
+                    See {childName}&apos;s {lessonsAtChildStage} lessons
+                  </button>
+                )}
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '12px 0 0' }}>
+                  The films are still below if you fancy an evening with one, or if there is a younger one in the house.
+                </p>
+              </div>
+            )}
+
+            {/* Still inside the film years, just not filmed yet. A Stage 2
+                child really is well served by a Stage 1 film, so this stays the
+                warm catch up it always was, with the one word corrected: the
+                lessons ARE written, they are not filmed. */}
+            {watchFallback && !pastTheFilmYears && (
               <p style={{
                 fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 16px', fontWeight: 600,
                 background: 'var(--tint-blue)', borderRadius: 'var(--radius-tile)', padding: '13px 15px',
               }}>
-                Nothing written for this stage yet, so here is everything else. An earlier film {childName} never saw is still worth an evening, and the ages are about when something lands best rather than a rule.
+                Nothing filmed for this stage yet, so here is every film we have. An earlier one {childName} never saw is still worth an evening, and the ages are about when something lands best rather than a rule.
               </p>
             )}
             {watchShown.length === 0 ? (
