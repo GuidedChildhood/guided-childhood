@@ -4,6 +4,11 @@ import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 // Layout fixture for today's path on Home. Add ?done=1 for the finished day,
 // which is the case that now folds to a single line. 404s in production via
 // middleware, like every other ref-* page.
+//
+// ?clear=1 is the state Justin reported on 16 September: Quests settled with
+// nothing owed, which used to paint a green tick for a family who had not
+// touched their jobs in a week. It has to be visibly NOT a tick and visibly
+// not skipped either, and that is a thing you can only judge by looking.
 
 const STEPS: Omit<TodayLoopTask, 'done'>[] = [
   { key: 'checkin', label: 'Check in', href: '/dashboard/checkin' },
@@ -18,13 +23,20 @@ const STEPS: Omit<TodayLoopTask, 'done'>[] = [
 
 export default async function RefTodayPath({
   searchParams,
-}: { searchParams: Promise<{ done?: string }> }) {
-  const { done } = await searchParams
+}: { searchParams: Promise<{ done?: string; clear?: string }> }) {
+  const { done, clear } = await searchParams
   const allDone = done === '1'
+  const showClear = clear === '1'
 
   const tasks: TodayLoopTask[] = [
-    ...STEPS.map((s, i) => ({ ...s, done: allDone || i === 0 })),
-    { key: 'done', label: 'Done', href: '/dashboard', done: allDone },
+    ...STEPS.map((s, i) => {
+      // The check in is ticked, the road is open, and Quests is settled with
+      // nothing owed. Three states on one screen, which is the only way to see
+      // whether they actually read as three different things.
+      if (showClear && s.key === 'quests') return { ...s, label: 'All clear', done: false, clear: true }
+      return { ...s, done: allDone || i === 0 }
+    }),
+    { key: 'done' as const, label: 'Done', href: '/dashboard', done: allDone },
   ]
 
   return (

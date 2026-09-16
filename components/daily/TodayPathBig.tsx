@@ -103,12 +103,27 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // with what is still open.
   const [openAnyway, setOpenAnyway] = useState(false)
 
-  const firstOpen = tasks.findIndex(t => !t.done)
+  // ── SETTLED IS NOT THE SAME AS DONE ───────────────────────────────────────
+  //
+  // A rung can be finished with nothing owed WITHOUT the parent having acted
+  // today: Quests, when the jobs are set and the approval queue is empty. That
+  // rung carries `clear` (see lib/pathway/daily-tasks.ts for why).
+  //
+  // The road's FLOW asks a different question from the road's TICK. For flow,
+  // "is anything outstanding here", a clear rung is behind you: it must not
+  // become the current step, must not hold the walked line back, and must not
+  // stop the day completing, because an empty queue is not a failure and
+  // should never cost a family their streak.
+  //
+  // For the tick, "did you do this", a clear rung is NOT done, and that is the
+  // whole point. Only `task.done` paints the green tick.
+  const settled = (t: TodayLoopTask) => t.done || !!t.clear
+  const firstOpen = tasks.findIndex(t => !settled(t))
   const allDone = firstOpen === -1
   const currentIndex = allDone ? tasks.length - 1 : firstOpen
   const steps = tasks.filter(t => t.key !== 'done')
-  const doneCount = steps.filter(t => t.done).length
-  const investedMinutes = steps.filter(t => t.done).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
+  const doneCount = steps.filter(settled).length
+  const investedMinutes = steps.filter(settled).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
   // ── ONE TICK KEEPS THE STREAK, THE PATHWAY EARNS THE CELEBRATION ──────────
   //
   // Justin, 1 September 2026: "only have to click one tick per day but have
@@ -454,6 +469,9 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           const x = MEANDER[i % MEANDER.length]
           const isCurrent = i === currentIndex && !allDone
           const isDoneNode = task.done
+          // Settled with nothing owed, but not acted on today. Its own
+          // look: full strength so it never reads as skipped, and no tick.
+          const isClearNode = !task.done && !!task.clear
           const showCallout = isCurrent && pressure
           // DiGi sits on whichever side of the current node has the room.
           const digiOnRight = x <= 0
@@ -480,7 +498,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                 <Connector
                   fromX={MEANDER[(i - 1) % MEANDER.length]}
                   toX={x}
-                  walked={tasks[i - 1].done}
+                  walked={settled(tasks[i - 1])}
                 />
               )}
 
@@ -578,7 +596,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                 )}
                 <Link
                   href={task.href}
-                  aria-label={isDoneNode ? `${task.label}, done` : isCurrent ? `${task.label}, up next` : task.label}
+                  aria-label={isDoneNode ? `${task.label}, done` : isClearNode ? `${task.label}, nothing waiting` : isCurrent ? `${task.label}, up next` : task.label}
                   style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
                     textDecoration: 'none', width: 'fit-content', margin: '0 auto',
@@ -600,9 +618,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                         border: '2.5px solid var(--ink)',
                         boxShadow: isCurrent
                           ? 'var(--lift-deep), 0 0 0 6px var(--terracotta-lt)'
-                          : 'var(--lift-deep)',
+                          // A soft green ring, not a green fill and not a
+                          // tick. Enough to read as settled at a glance, not
+                          // enough to be mistaken for "I did this today".
+                          : isClearNode
+                            ? `var(--lift-deep), 0 0 0 5px ${GREEN}2E`
+                            : 'var(--lift-deep)',
                         fontSize: 'var(--text-2xl)',
-                        opacity: !isDoneNode && !isCurrent ? 0.55 : 1,
+                        // A clear rung reads at FULL strength. Fading it
+                        // with the road ahead would say skipped, and it
+                        // was not skipped: there was nothing owed.
+                        opacity: !isDoneNode && !isCurrent && !isClearNode ? 0.55 : 1,
                       }}
                     >
                       {isDoneNode ? (
@@ -635,7 +661,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                   <span style={{
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)',
                     fontWeight: isCurrent ? 900 : 700,
-                    color: isCurrent ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
+                    color: isCurrent || isClearNode ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
                     textAlign: 'center', lineHeight: 1.3,
                   }}>
                     {task.label}

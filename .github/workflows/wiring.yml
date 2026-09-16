@@ -208,6 +208,7 @@ jobs:
       # same function the child's own lesson uses.
       - run: node scripts/check-co-watch.mjs
       - run: node scripts/check-home-icon.mjs
+      - run: node scripts/check-today-tick.mjs
 
       # A lesson and the daily quiz are one objective, and the day counts
       # either. Teo passed a lesson on a day whose learning step was the quiz:
