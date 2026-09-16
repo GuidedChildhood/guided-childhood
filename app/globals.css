@@ -111,7 +111,12 @@
   /* "Moment" is twice the length of the "Now" this replaced, and at the old
      9px with wide tracking it sat flush against the ring on both sides.
      Measured: 43px of label inside 46px of usable circle. */
-  font-size: 0.5rem;
+  /* Capped in px, not scaled by vw like the tab labels above, because this
+     circle is a fixed 52px at every width: the label's room does not change
+     with the viewport, only with the text dial. min() honours a parent who has
+     made their text SMALLER and refuses to let the dial push "Moment" out
+     through the ring. */
+  font-size: min(0.5rem, 8px);
   letter-spacing: 0.01em;
 }
 
@@ -183,12 +188,67 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    steps down a size so it fits with room around it rather than to the pixel.
    After this: 44.5px in 57px at 360, 39.5px in 51px at 320. */
 .tab-item { min-width: 0; }
+
+/* ── ONE PLACE THE TAB LABEL SIZE IS DECIDED ─────────────────────────────
+
+   A token, not a literal, because this is not the only rule that sets it. The
+   dashboard layout carries its own `.gc-dash .tab-item { font-size: ... }` in
+   an inline style block (app/(dashboard)/dashboard/layout.tsx), added on
+   2 September when body zoom came off the shell, and at 0,2,0 it outranks
+   every `.tab-item` rule in this file at 0,1,0.
+
+   Which meant the two careful step downs below, measured in a real browser at
+   430, 393, 375, 360 and 320, had not applied on a single dashboard route
+   since the day they were written. They were dead code, and nothing said so.
+   That is the other half of the Passport Justin photographed: the label was
+   12px at 320 as well as at 430.
+
+   Both rules now read this token, so there is one number and changing it
+   changes the bar everywhere, including the dev/tab-bar harness. */
+:root { --tab-label-size: min(0.75rem, 2.8vw); }
+
+/* ── THE LABEL GETS A CEILING THE TEXT DIAL CANNOT LIFT (16 September 2026) ──
+
+   Justin, with a screenshot from his phone: "Passport" cut off at the right
+   edge and the Moment label running past its circle.
+
+   The three font sizes below used to be plain rem, and rem follows the iOS
+   text size dial, because shared/tokens.css sets `html { font: -apple-system-body }`
+   on purpose so the whole app honours a parent who has nudged their text up.
+   Everything else on every page can grow: a paragraph reflows, a card gets
+   taller, the page scrolls. This row cannot. It is six columns in a fixed
+   width, so a label that grows past its column does not wrap or scroll, it
+   is painted over the edge of the phone. That is the Passport Justin
+   photographed, and it is why the breakpoints below never caught it: they key
+   on VIEWPORT WIDTH, and the text dial does not change the viewport width at
+   all. 390px at 100 per cent text and 390px at 200 per cent are the same
+   screen to a media query and two different rows to a parent.
+
+   So the size is now the SMALLER of what we want and what fits: min() against
+   vw, which is immune to the dial. 2.8vw is the measured-good ratio, taken
+   from the widths this row was already checked at, so nothing changes at
+   default text:
+
+     430px  min(12px, 12.0px) = 12.0px   the full size, as before
+     390px  min(12px, 10.9px) = 10.9px   was 11px
+     360px  min(12px, 10.1px) = 10.1px   was 11px, and 44.5px of Passport in 57px
+     320px  min(12px,  9.0px) =  9.0px   was 10px
+
+   And at any text size above default it holds at the same number rather than
+   growing, at every width.
+
+   The honest cost: a parent who raises their text size gets bigger text
+   everywhere in the app except these six labels. That is a real loss and it is
+   the lesser one. The label is the second thing in each tab, under a 24px icon
+   that does not shrink and beside an aria-current, and a small word that is
+   there beats a bigger word that is off the side of the screen. */
+.tab-item { font-size: var(--tab-label-size); }
 @media (max-width: 420px) {
   .bottom-tab-bar { padding-left: 2px; padding-right: 2px; }
-  .tab-item { font-size: 0.6875rem; padding: 6px 1px; gap: 2px; }
+  .tab-item { padding: 6px 1px; gap: 2px; }
 }
 @media (max-width: 345px) {
-  .tab-item { font-size: 0.625rem; letter-spacing: -0.012em; }
+  .tab-item { letter-spacing: -0.012em; }
 }
 .tab-item svg { width: 24px; height: 24px; }
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
 import OpenAtTheTop from '@/components/dashboard/OpenAtTheTop'
+import RightNowButton from '@/components/rightnow/RightNowButton'
 
 // Dev harness for the dashboard shell: the bottom tab bar and the come back
 // in at the top rule. It exists because of a bug class the ref-* fixtures
@@ -28,6 +29,20 @@ import OpenAtTheTop from '@/components/dashboard/OpenAtTheTop'
 //
 // The text scale slider below reproduces the second one, which is why the bug
 // shows on a real phone and not in a browser at defaults.
+//
+// ── THIS BLOCK MUST MIRROR THE DASHBOARD LAYOUT, LINE FOR LINE ─────────────
+//
+// It is the whole point of the harness. On 16 September this file carried
+// `font-size: 0.75rem` while the layout carried the same literal, and both
+// were wrong in the same way, so the harness agreed with production and the
+// bug was invisible in both. Then the fix went into globals.css only, and
+// because the layout's `.gc-dash .tab-item` outranks it, the harness (with its
+// own copy removed) passed while a real phone still clipped Passport. A
+// harness that is nearly the layout is worse than no harness, because it
+// reports green about a screen nobody has.
+//
+// Everything that decides this row's size is now the --tab-label-size token
+// in globals.css, and all three places read it.
 
 export default function TabBarHarness() {
   const [scale, setScale] = useState(100)
@@ -69,7 +84,7 @@ export default function TabBarHarness() {
       body { zoom: 1; }
       .gc-dash > main, .gc-dash > header { zoom: 1.07; }
       .gc-dash > .bottom-tab-bar { height: calc(77px + env(safe-area-inset-bottom, 0px)); }
-      .gc-dash .tab-item { font-size: 0.75rem; }
+      .gc-dash .tab-item { font-size: var(--tab-label-size); }
       .gc-dash .tab-item svg { width: 26px; height: 26px; }
     `}</style>
     <main style={{ flex: 1, minHeight: '200vh', padding: '20px 16px calc(88px + env(safe-area-inset-bottom))' }}>
@@ -84,7 +99,7 @@ export default function TabBarHarness() {
         Text size {scale} percent
       </label>
       <input
-        type="range" min={90} max={140} step={5} value={scale}
+        type="range" min={90} max={200} step={5} value={scale}
         onChange={e => setScale(Number(e.target.value))}
         style={{ width: '100%', marginBottom: 16 }}
       />
@@ -102,6 +117,15 @@ export default function TabBarHarness() {
     </main>
 
       <MobileTabBar pendingAsks={2} />
+
+      {/* The Moment button, the real component, portalled into the bar exactly
+          as the dashboard layout does it. It was missing from this harness
+          until 16 September, which is why the last pass measuring this row had
+          to inject a stand in element by hand: the one control that sits ON the
+          bar was the one thing the bar's own harness did not have. Its label
+          rides the same text dial as the tabs and its circle is a fixed 52px,
+          so it is the other thing that can be pushed out of its own edge. */}
+      <RightNowButton variant="fab" />
     </div>
   )
 }
