@@ -48,6 +48,12 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // badge: it teaches a child the red numbers mean nothing. That is the exact bug
 // fixed on the parent's Quests tab the same morning (scripts/check-badge-truth.mjs).
 //
+// ONE badge does come through, and only because the same rule allows it: the
+// `waiting` count, which a screen passes in having already read those rows on
+// the server for its own page. It is this request's truth, not a stale guess,
+// which is the whole objection above. A screen that knows nothing passes
+// nothing and the bar is exactly as it was. See the prop's own note below.
+//
 // The Today entry IS rendered, and it is the reason this is safe to put on the
 // five screens that carried KidTodayReturn. That pill was a second fixed thing
 // at the same zIndex as this bar, anchored to the same corner, and Justin
@@ -69,7 +75,7 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 //
 // So a tab here is a plain navigation home carrying the tab to open. Nothing
 // new had to be invented for it, and nothing on the home screen changes.
-export default function KidScreenChrome({ token, current, today = null, children }: {
+export default function KidScreenChrome({ token, current, today = null, waiting = 0, children }: {
   token: string
   /**
    * Which entry this screen belongs under, lit in the bar. 'today' for a
@@ -81,6 +87,20 @@ export default function KidScreenChrome({ token, current, today = null, children
    * three tabs, which is right for a screen that cannot cheaply know the day.
    */
   today?: TodayTab | null
+  /**
+   * How many of this child's own asks are still with their grown up, for the
+   * Quests badge. Zero, the default, keeps the bar exactly as it was.
+   *
+   * This is the ONE exception to the no badges rule above, and it earns it the
+   * same way the Today entry does: the screen passing it has already read the
+   * rows on the server, so the number is this request's truth rather than a
+   * guess held over from another page. Justin, 16 September 2026, with two
+   * photos of the child app: "the quest tab has a 2 first image but when I
+   * click on quests there is none?" The badge is on the home screen, the tap
+   * lands on the jobs page, and the count disappeared on arrival, which reads
+   * as the number having been made up. See components/kid/KidWaitingAsks.
+   */
+  waiting?: number
   children: React.ReactNode
 }) {
   const router = useRouter()
@@ -106,7 +126,7 @@ export default function KidScreenChrome({ token, current, today = null, children
           // a bare link keeps the URL a child might share or bookmark clean.
           router.push(key === 'quests' ? `/k/${token}` : `/k/${token}?tab=${key}`)
         }}
-        badges={{ lessons: 0, print: 0 }}
+        badges={{ lessons: 0, print: 0, waiting }}
         today={today}
         onToday={() => {
           playKidSound('tap')
