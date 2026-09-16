@@ -455,6 +455,39 @@ export default function StarterPackPage() {
       setSavingEmail(false)
       return
     }
+
+    // ── THE SIGNUP THAT SUCCEEDS AND IS NOT A SIGNUP ────────────────────────
+    //
+    // Found 16 September 2026, the day after Google sign in went live, while
+    // answering Justin's question: "what happens if they went to register
+    // again with same email?"
+    //
+    // Supabase will not tell the browser that an address is taken, because
+    // that would let a stranger probe which emails have accounts here. Their
+    // own FAQ: "If you try to create an email account after previously signing
+    // up with OAuth using the same email, you'll receive an obfuscated user
+    // response with no verification email sent."
+    //
+    // Obfuscated means a user object and NO ERROR, so the branch above cannot
+    // see it. What happened instead is worse than a wrong message. There is no
+    // session either, so the next block ran, and the parent was told CHECK
+    // YOUR EMAIL for a message Supabase had just decided not to send. They sit
+    // waiting for it, and the account they already have is the one thing
+    // nobody mentions.
+    //
+    // The tell is identities: a genuinely new signup comes back with one, a
+    // parent who already exists comes back with an empty array. It is the only
+    // signal the browser gets, and it must be read BEFORE the session check.
+    //
+    // Both branches stay. The error above is what fires when email
+    // confirmation is off, this is what fires when it is on, and which of
+    // those is true is a dashboard setting nobody here controls.
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+      setEmailError('That email already has an account. Sign in and your pathway is waiting. If you started with Google, use that button rather than a password.')
+      setSavingEmail(false)
+      return
+    }
+
     await captureLead({})
 
     // With confirmation off a session exists now, so the answers are written

@@ -101,6 +101,46 @@ for (const file of SCREENS) {
   if (configured && translated) ok.push(`${file.split('/').pop()} checks the build and translates a dead fetch`)
 }
 
+// ── RULE THREE: A SIGNUP THAT SUCCEEDS AND IS NOT A SIGNUP ──────────────────
+//
+// Added 16 September 2026. The two rules above are about a request that never
+// landed. This one is about a request that landed and lied politely.
+//
+// Supabase answers a signup for an address that ALREADY EXISTS with a user
+// object and no error, so a stranger cannot probe which emails have accounts
+// here. Every error branch in every door is therefore skipped. In the starter
+// pack the consequence was not a wrong message but a false promise: no error
+// and no session, so the flow fell through to its confirmation screen and told
+// the parent to check their email for a message Supabase had just decided not
+// to send.
+//
+// The empty identities array is the only signal the browser gets.
+//
+// Discovered, not listed, in the spirit of the block at the top of this file:
+// any door that calls signUp obeys this, including the fifth one nobody has
+// written yet. Doors that only sign people IN are not asked, since they never
+// create anything.
+//
+// Comments are stripped before testing. The first version of this rule
+// searched the file for the word "identities" and PASSED against a mutation
+// that had gutted the check and left this paragraph standing, which is exactly
+// the failure a guard exists to prevent.
+const strip = src => src
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/(^|[^:])\/\/.*$/gm, '$1')
+
+const SIGNUP_CALL = /\.auth\s*\.\s*signUp\s*\(/
+
+for (const file of SCREENS) {
+  const src = strip(readFileSync(join(ROOT, file), 'utf8'))
+  if (!SIGNUP_CALL.test(src)) continue
+  if (!/identities\s*(\?\.|\.)\s*length/.test(src)) {
+    fails.push(`${file} calls signUp and never tests data.user.identities.length. Supabase returns NO error when the address already exists, so without that test a parent who already has an account is told nothing true: in the starter pack they are told to check an email that was never sent.`)
+  } else {
+    ok.push(`${file.split('/').pop()} spots an address that already has an account, which Supabase will not error about`)
+  }
+}
+
 // The helper itself has to keep covering every browser's wording. Chrome says
 // one thing, Firefox another, Safari a third, and a guard that only knew
 // Chrome's would have passed the day Justin opened it on his phone.

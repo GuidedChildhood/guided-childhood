@@ -14960,12 +14960,24 @@ to be edited.
 happens if they went to register again with same email". Supabase answers a
 signup for an address that already exists with an obfuscated user and NO error,
 so a stranger cannot probe which emails have accounts. Every error branch in
-`app/(auth)/signup/page.tsx` was therefore skipped and the "We found your
-account" screen, written and styled and correct, was unreachable in production.
-The parent filled in the form, was pushed to /onboarding, bounced to /login by
-middleware, and asked for a password they never set because they had used
-Google. Fixed by testing `data.user.identities.length === 0`, which is the only
-tell the browser gets. Rule added to `scripts/check-auth-honesty.mjs`.
+every door is therefore skipped.
+
+In `app/(marketing)/starter-pack/page.tsx`, which is now the only door, the
+consequence was not a wrong message but a false promise. No error and no
+session, so the flow fell through to its confirmation branch and told the
+parent to CHECK THEIR EMAIL for a message Supabase had just decided not to
+send. They wait for it, and the account they already have is the one thing
+nobody mentions. Fixed by testing `data.user.identities.length === 0` before
+the session check, which is the only tell the browser gets.
+
+**And the near miss is the lesson, not the bug.** This was first written
+against `app/(auth)/signup/page.tsx` on a branch cut before 15 September. On
+main that file had already become a redirect to the starter pack (the one door
+change, 6af13f02), so the fix was correct, guarded, mutation tested, and landing
+on a file no parent reaches. It was caught only by fetching origin/main before
+pushing, which the multi session rules in CLAUDE.md ask for and which is easy
+to treat as a formality on a branch with no conflicts. The conflict was not in
+the diff. It was in the assumption about which file mattered.
 
 The first version of that rule searched the file for the word "identities" and
 PASSED against a mutation that had deleted the check and left the comment
