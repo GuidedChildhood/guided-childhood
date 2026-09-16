@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { resolveTheme } from '@/lib/kid/theme'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
@@ -95,8 +97,19 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
 
   const label = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' as const }
 
+  // The bar's Today entry, which is what replaces the KidTodayReturn pill that
+  // used to float here. Two cheap reads that fail soft to an empty day.
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
-    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
+    <KidScreenChrome token={token} current="today" /* reached from the day’s own tile grid, not from the jobs */ today={todayTab}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
           <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-base)" />
@@ -259,5 +272,6 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
         </div>
       </div>
     </div>
+    </KidScreenChrome>
   )
 }

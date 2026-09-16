@@ -189,6 +189,24 @@ export default async function LessonDetailPage({ params, searchParams }: {
           lessonSource="lesson"
           slides={slides}
           backHref={lessonsBackHref}
+          // WHO THE GROWN UP SAT DOWN WITH.
+          //
+          // Justin, 15 September 2026: the lessons for the youngest cannot live
+          // on the child's app, because a four year old has no phone and cannot
+          // read, so they are co watched here on the parent's.
+          //
+          // The page has already resolved which child this lesson is open FOR
+          // (the ?child= parameter, used by the send button and the reading
+          // ahead notice above). It simply was not reaching the completion, so
+          // playing a lesson to the end wrote a household row with no child on
+          // it, while the Mark done tick on the same screen recorded it against
+          // the child. Two paths on one screen disagreeing.
+          //
+          // So no new question is asked at the end. A parent who opened Alma to
+          // do this lesson has already said who it was for, and the answer we
+          // are holding is better than one we make them tap for. With no child
+          // open it stays the household row, exactly as before.
+          completeBody={child?.id ? { child_id: child.id } : undefined}
           digiPrompt={lesson.digi_prompt}
           badges={badgesFor(lesson.stage_id, lesson.category)}
           // Inside the player, not above it: the player is fixed inset 0 and

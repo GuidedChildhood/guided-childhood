@@ -5,6 +5,8 @@ import PrintButton from '@/components/agreement/PrintButton'
 import PrintFit from '@/components/agreement/PrintFit'
 import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { getChildren } from '@/lib/children/server'
+import { promisesFrom, agreementTypeLabel } from '@/lib/content/agreement-promises'
+import { scienceForType } from '@/lib/content/agreement-clauses'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,14 +30,19 @@ export default async function AgreementPrintPage({ searchParams }: { searchParam
   if (!agreement) redirect('/dashboard/agreement')
 
   const childName = child?.name ?? 'Our child'
+  // ONE READER FOR THE PROMISES (14 September 2026). This page laid the six
+  // legacy paragraphs out as columns; the child's app and the fridge sheet
+  // read the same row two other ways. lib/content/agreement-promises is the
+  // one list now, each promise with its icon and its one line of why, so the
+  // signed copy says what the app says.
+  const promises = promisesFrom(agreement)
+  const values = (agreement.family_values ?? '').trim()
   const sections = [
-    { title: 'What screens are for in our family', body: agreement.family_values },
-    { title: 'When screens stop', body: agreement.bedroom_rule_time },
-    { title: 'Where devices sleep', body: agreement.bedroom_rule_location },
-    { title: 'Social media', body: agreement.social_media_terms },
-    { title: 'When things go wrong', body: agreement.when_things_go_wrong },
-    { title: 'Our extra agreements', body: agreement.extra_agreements },
-  ].filter(s => s.body && s.body.trim().length > 0)
+    ...(values ? [{ key: 'values', emoji: '🏡', title: 'What screens are for in our family', body: values, why: null as string | null }] : []),
+    ...promises.map(p => ({ key: p.key, emoji: p.emoji, title: p.title, body: p.body, why: p.why })),
+  ]
+  const science = scienceForType(agreement.agreement_type)
+  const typeLabel = agreementTypeLabel(agreement.agreement_type)
 
   return (
     <div className="ag-page">
@@ -90,6 +97,15 @@ export default async function AgreementPrintPage({ searchParams }: { searchParam
           font-size: var(--text-md); color: var(--ink); line-height: 1.7; margin: 0;
           overflow-wrap: break-word;
         }
+
+        .ag-section-why {
+          font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-muted);
+          line-height: 1.45; margin: 4px 0 0;
+        }
+        .ag-science { background: var(--cream); border: 1.5px dashed var(--ink); border-radius: 12px; padding: 10px 14px; }
+        .ag-science-list { margin: 0; padding: 0 0 0 16px; }
+        .ag-science-list li { font-size: var(--text-sm); line-height: 1.45; color: var(--ink); margin: 0 0 4px; }
+        .ag-science-source { color: var(--ink-muted); }
 
         .ag-signatures {
           display: flex; gap: 24px; flex-wrap: wrap; break-inside: avoid;
@@ -224,12 +240,24 @@ export default async function AgreementPrintPage({ searchParams }: { searchParam
           )}
         </div>
 
-        {sections.map((section, i) => (
-          <div key={i} className="ag-section">
-            <div className="ag-section-title">{section.title}</div>
+        {sections.map(section => (
+          <div key={section.key} className="ag-section">
+            <div className="ag-section-title"><span aria-hidden>{section.emoji}</span> {section.title}</div>
             <p className="ag-section-body">{section.body}</p>
+            {section.why && <p className="ag-section-why">Why: {section.why}</p>}
           </div>
         ))}
+
+        {science.length > 0 && (
+          <div className="ag-section ag-science" data-science>
+            <div className="ag-section-title">Why we agreed this{typeLabel ? ` · ${typeLabel}` : ''}</div>
+            <ul className="ag-science-list">
+              {science.map((sci, i) => (
+                <li key={i}>{sci.claim} <span className="ag-science-source">({sci.source})</span></li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Signatures */}
         <div className="ag-signatures">

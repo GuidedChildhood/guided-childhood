@@ -98,7 +98,7 @@ export default function KidAskForJob({
     const clean = title.replace(/\s+/g, ' ').trim().slice(0, 60)
     if (clean.length < 3 || busy) return
     if (pending >= MAX_PENDING) {
-      say('Lots of ideas already waiting! Ask again once your grown up answers.')
+      say('Your grown up already has five of your ideas. While they answer, a job on your board pays stars today.')
       return
     }
     setBusy(true)
@@ -188,6 +188,7 @@ export default function KidAskForJob({
   return (
     <div>
       <HappyMasthead
+        tone="paper"
         kicker="Pitch a job"
         title="Got a quest idea?"
         sub="Tap one, or write your own. Your grown up says yes and it turns into a real quest with stars."
@@ -323,6 +324,28 @@ export default function KidAskForJob({
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.5, margin: '10px 0 0' }}>
               {pending === 1 ? 'One idea is' : `${pending} ideas are`} with your grown up. They get a message on their phone, so it is not lost.
             </p>
+          )}
+          {/* AT THE CAP, A DOOR. Justin, 14 September 2026: "we either need to
+              be able to add a job or do a job outstanding". Five ideas waiting
+              is the grown up's turn, not the child's, so this page stops being
+              a wall and points at the board, where a job pays stars today. The
+              ask step on the five a day already counts an idea that is with
+              the grown up, so nothing here is holding the day up. */}
+          {pending >= MAX_PENDING && (
+            <a
+              href={`/k/${token}/jobs`}
+              data-jobs-door
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                marginTop: 12, padding: '12px 14px', textDecoration: 'none',
+                background: HAPPY.butter, color: HAPPY.ink, border: `2px solid ${HAPPY.ink}`,
+                borderRadius: 'var(--radius-btn)', boxShadow: `0 4px 0 ${HAPPY.ink}`,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2,
+              }}
+            >
+              <span>Five is the most that fit. Do a job while you wait</span>
+              <span aria-hidden>›</span>
+            </a>
           )}
         </div>
       )}

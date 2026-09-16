@@ -29,8 +29,9 @@ export async function GET() {
 
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
   const monthAgoIso = new Date(Date.now() - 30 * 86400000).toISOString()
+  const fourWeeksAgo = new Date(Date.now() - 28 * 86400000).toISOString().slice(0, 10)
 
-  const [childrenRes, questsRes, retiredRes, ticksRes, pendingRes, goalsRes, linksRes, requestsRes, spendsRes] = await Promise.all([
+  const [childrenRes, questsRes, retiredRes, ticksRes, pendingRes, goalsRes, linksRes, requestsRes, spendsRes, approvedRes] = await Promise.all([
     // select * so the optional phone column (migration 030) is included
     // when present and its absence never breaks the whole board
     supabase.from('children').select('*').eq('parent_id', user.id).order('created_at'),
@@ -66,6 +67,12 @@ export async function GET() {
       .gte('created_at', monthAgoIso).order('created_at', { ascending: false }),
     supabase.from('star_spends').select('*').eq('user_id', user.id)
       .order('created_at', { ascending: false }).limit(20),
+    // Four weeks of agreed ticks, child and day only, for the daily jobs
+    // guide (lib/quests/job-guide.ts): a week with four or more agreed ticks
+    // went well, and every week that went well lifts the guide by one. The
+    // seven day history above is for the board; this is the build up.
+    supabase.from('quest_ticks').select('child_id, tick_date').eq('user_id', user.id)
+      .eq('status', 'approved').gte('tick_date', fourWeeksAgo),
   ])
 
   // Merge the windowed history with every still pending tick, deduped by id.
@@ -114,6 +121,7 @@ export async function GET() {
   return NextResponse.json({
     children,
     quests: questsRes.data ?? [],
+    recentApproved: approvedRes.data ?? [],
     // Deduped by title per child, because a job added and removed three times
     // should offer itself back once, not three times.
     previous: (() => {

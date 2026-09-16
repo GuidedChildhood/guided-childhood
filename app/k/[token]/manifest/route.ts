@@ -23,6 +23,10 @@ import { NextResponse } from 'next/server'
 // their name being printed on a device that might be shared or handed on. The
 // Children's Code data minimisation point, applied to the one bit of the
 // product that literally lives on their phone.
+//
+// Which leaves the ICON to tell two children apart on a tablet they share, and
+// it now does: the Friend they chose, on that Friend's colour. See
+// lib/kid/home-icon.tsx for why that is the right half to vary.
 
 export async function GET(_req: Request, { params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
@@ -45,9 +49,19 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
     orientation: 'portrait',
     background_color: '#2E2818',
     theme_color: '#2E2818',
+    // THIS CHILD'S FRIEND, NOT THE COMPANY MARK.
+    //
+    // These pointed at the parent app's logo, so an Android or desktop install
+    // put the Guided Childhood mark on a child's Home Screen while an iPhone
+    // install (apple-icon.tsx) put DiGi there. On a tablet two children share,
+    // it also meant two identical icons with no way to tell whose is whose,
+    // which is the shared device case in lib/kid/home-icon.tsx.
+    //
+    // Still no name on it: the picture is the Friend the child chose, which
+    // identifies nothing to anyone holding the tablet.
     icons: [
-      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'maskable any' },
-      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable any' },
+      { src: `${base}/home-icon/192`, sizes: '192x192', type: 'image/png', purpose: 'maskable any' },
+      { src: `${base}/home-icon/512`, sizes: '512x512', type: 'image/png', purpose: 'maskable any' },
     ],
     lang: 'en-GB',
     dir: 'ltr',

@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import { isSchoolHoliday, holidayOn } from '@/lib/learning/holidays'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { nextTermTarget } from '@/lib/learning/term'
@@ -92,7 +94,16 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
     }
   }
 
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
+    <KidScreenChrome token={token} current="today" /* a five a day step: writing down what was set */ today={todayTab}>
     <KidHomework
       theme={resolveTheme(child?.accent as string | null)}
       token={token}
@@ -101,5 +112,6 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
       holidayTitle={onHoliday ? holidayTitle : null}
       coming={coming}
     />
+    </KidScreenChrome>
   )
 }

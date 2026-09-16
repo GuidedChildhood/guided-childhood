@@ -40,7 +40,7 @@ export default function KidLessonList({
   const doneCount = items.filter(i => i.done).length
   const t = theme ?? resolveTheme(null)
   return (
-    <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', gap: '10px' }}>
           <KidBackLink href={backHref} color={t.inkSoft} />

@@ -388,8 +388,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               aria-label={aria}
               style={{
                 width: 44, height: 44, borderRadius: 'var(--radius-tile)', cursor: 'pointer',
-                background: '#fff', border: '2px solid var(--border)',
-                boxShadow: '0 3px 0 var(--border)',
+                background: '#fff', border: '2px solid var(--ink)',
+                boxShadow: '0 3px 0 var(--ink)',
                 fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1,
               }}
             >
@@ -400,11 +400,19 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
       </div>
 
       {/* The seven days, as a strip. The dot is the whole point: a child can see
-          which days have something without reading a word. */}
-      <div style={{ display: 'flex', gap: 5, marginBottom: 16 }}>
+          which days have something without reading a word.
+
+          Justin, 14 September 2026, with The Happy Newspaper page: white
+          ground, big flat colour discs, ink lines. So every day is a DISC now,
+          the same discs as the week calendar on the home screen. The open day
+          is butter with an ink ledge, today is the pink disc with a coral edge,
+          a day gone by is pale and quiet, a day to come is white with an ink
+          line. Never a yellow chip on yellow, never a dotted sky. */}
+      <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
         {days.map(d => {
           const isOpen = d.dateIso !== '' && d.dateIso === open?.dateIso
           const hasSomething = d.list.some(x => !x.done && !x.held)
+          const disc = 44
           return (
             <button
               key={d.short}
@@ -412,12 +420,10 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               onClick={() => setPicked(d.dateIso)}
               aria-label={d.long}
               aria-current={isOpen ? 'date' : undefined}
+              data-day={isOpen ? 'open' : d.isToday ? 'today' : d.isPast ? 'quiet' : 'ahead'}
               style={{
-                flex: 1, minWidth: 0, padding: '8px 1px 7px', cursor: 'pointer',
-                borderRadius: 'var(--radius-tile)', textAlign: 'center',
-                background: isOpen ? 'var(--terracotta)' : '#fff',
-                border: `2px solid ${isOpen || d.isToday ? 'var(--terracotta)' : 'var(--border)'}`,
-                boxShadow: isOpen ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                flex: 1, minWidth: 0, padding: 0, cursor: 'pointer', background: 'transparent', border: 'none',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
               }}
             >
               {/* Three letters, not one. Two Ts and two Ss in a row of seven is
@@ -426,22 +432,26 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
               <span style={{
                 display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                 fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase',
-                color: isOpen ? 'var(--ink)' : 'var(--ink-muted)',
+                color: d.isToday ? '#E5734B' : isOpen ? 'var(--ink)' : 'var(--ink-muted)',
               }}>
                 {d.short}
               </span>
-              {/* A day gone by is dimmed by colour rather than opacity, so it
-                  reads as past instead of as unloaded. */}
-              <span style={{
-                display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
-                fontSize: 'var(--text-md)', lineHeight: 1.15, marginTop: 1,
+              <span aria-hidden style={{
+                width: disc, height: disc, borderRadius: '50%', boxSizing: 'border-box',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: isOpen ? 'var(--terracotta)' : d.isToday ? '#F9CFD9' : d.isPast ? '#F3F1EC' : '#fff',
+                border: `2px solid ${isOpen ? 'var(--ink)' : d.isToday ? '#E5734B' : d.isPast ? 'rgba(26,26,46,0.1)' : 'var(--ink)'}`,
+                boxShadow: isOpen ? '0 3px 0 var(--ink)' : d.isToday ? '0 3px 0 #E5734B' : 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1,
+                // A day gone by is dimmed by colour rather than opacity, so it
+                // reads as past instead of as unloaded.
                 color: isOpen ? 'var(--ink)' : d.isPast ? 'var(--ink-light, #A8A5A0)' : 'var(--ink)',
               }}>
                 {d.date ? d.date.getDate() : '·'}
               </span>
               <span aria-hidden style={{
-                display: 'block', width: 6, height: 6, borderRadius: '50%', margin: '4px auto 0',
-                background: hasSomething ? (isOpen ? 'var(--ink)' : 'var(--terracotta)') : 'transparent',
+                display: 'block', width: 7, height: 7, borderRadius: '50%',
+                background: hasSomething ? (isOpen ? 'var(--ink)' : '#E5734B') : 'transparent',
               }} />
             </button>
           )
@@ -450,8 +460,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
 
       {/* The chosen day, big enough to read from across a room */}
       <div style={{
-        background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
-        boxShadow: '0 5px 0 var(--border)', padding: '16px 16px 18px',
+        background: '#fff', border: '2px solid var(--ink)', borderRadius: 'var(--radius-card)',
+        boxShadow: '0 5px 0 var(--ink)', padding: '16px 16px 18px',
       }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -581,8 +591,8 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
             width: '100%', cursor: 'pointer', marginTop: 12, padding: '15px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             color: 'var(--ink)', background: 'var(--terracotta)',
-            border: 'none', borderRadius: 'var(--radius-btn)',
-            boxShadow: '0 5px 0 var(--terracotta-dark)',
+            border: '2px solid var(--ink)', borderRadius: 'var(--radius-btn)',
+            boxShadow: '0 5px 0 var(--ink)',
           }}
         >
           ＋ Add to {open.isToday ? 'today' : open.long}

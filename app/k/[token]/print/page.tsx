@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import { getPrintable } from '@/lib/printables/registry'
 import { unpackFromUrl } from '@/lib/kid/print-anywhere'
 import KidPrintPage, { type PrintJob } from '@/components/kid/KidPrintPage'
@@ -91,5 +93,17 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
 
   if (!job) notFound()
 
-  return <KidPrintPage job={job} token={token} />
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
+  return (
+    <KidScreenChrome token={token} current="print" today={todayTab}>
+      <KidPrintPage job={job} token={token} />
+    </KidScreenChrome>
+  )
 }

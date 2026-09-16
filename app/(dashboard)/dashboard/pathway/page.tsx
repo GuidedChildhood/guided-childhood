@@ -604,6 +604,9 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           <div style={{ padding: '2px 0 14px' }}>
             <WhatIsWorkingLink />
             <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
+            {/* #stickers: where the push, the Home card and the passport strip
+                send a parent to see the child's book (14 September 2026). */}
+            <div id="stickers" style={{ scrollMarginTop: '84px' }} />
             <IsItWorkingReport childParam={childParam} parentReport={weekReport} />
             {primaryChild?.name && (
               <FiveADayReport

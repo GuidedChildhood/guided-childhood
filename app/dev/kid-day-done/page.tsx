@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
 import KidDayDone from '@/components/kid/KidDayDone'
 import type { StepKey } from '@/lib/kid/five-a-day'
+import { DEFAULT_ACCENT, resolveTheme } from '@/lib/kid/theme'
+
+// The ground a real child stands on. Justin, 14 September 2026, made Paper the
+// default theme, so a fixture still painted the old anthracite was showing a
+// screen that no longer exists. Ask the theme rather than naming a colour.
+const T = resolveTheme(DEFAULT_ACCENT)
 
 // Dev only fixture: the Day done screen, every voice.
 //
@@ -23,10 +29,10 @@ export default function KidDayDoneFixture() {
   if (!q) return null
   const steps = (q.get('steps') ?? 'jobs,printable,lesson,balance,ask').split(',') as StepKey[]
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: T.bg, fontFamily: 'var(--font-body)' }}>
       {open ? (
         <KidDayDone
-          day={{ streak: Number(q.get('run') ?? 4), completedDays: Number(q.get('days') ?? 7), steps }}
+          day={{ streak: Number(q.get('run') ?? 4), completedDays: Number(q.get('days') ?? 7), steps, sticker: q.get('sticker') !== '0' }}
           childName={q.get('name') ?? 'Alfie'}
           buddy={q.get('buddy') ?? 'bloop'}
           weekStrip={q.get('week') === '1'}

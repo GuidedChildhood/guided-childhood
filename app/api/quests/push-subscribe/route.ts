@@ -77,3 +77,37 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
+
+// FORGET AN ENDPOINT THIS CHILD IS ABOUT TO UNSUBSCRIBE FROM.
+//
+// The shared enable path (lib/push/enable.ts) heals a VAPID key rotation by
+// dropping a subscription made with an older public key and subscribing fresh.
+// Without this handler that cleanup had nowhere to go, so the stale row stayed
+// in the table and every future send fanned out to an endpoint the push
+// service now rejects with a 403.
+//
+// Scoped by the link token exactly as the POST is, so a caller can only ever
+// delete a row belonging to the child whose token they hold.
+export async function DELETE(req: NextRequest) {
+  const { token, endpoint } = await req.json().catch(() => ({}))
+  if (!token || typeof token !== 'string' || !/^[0-9a-f]{18}$/.test(token) || typeof endpoint !== 'string' || !endpoint) {
+    return NextResponse.json({ error: 'bad request' }, { status: 400 })
+  }
+
+  const supabase = createAdminClient()
+  const { data: link } = await supabase
+    .from('kid_links')
+    .select('user_id, child_id')
+    .eq('token', token)
+    .maybeSingle()
+  if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const { error } = await supabase
+    .from('push_subscriptions')
+    .delete()
+    .eq('user_id', link.user_id)
+    .eq('child_id', link.child_id)
+    .eq('endpoint', endpoint)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}

@@ -122,6 +122,7 @@ jobs:
       # one tap list became a 3554px page. Each of those lines was added by
       # somebody being helpful, so nothing but a check keeps them off.
       - run: node scripts/check-job-picker.mjs
+      - run: node --experimental-strip-types scripts/check-job-guide.mjs
       # Every way into an account tells the truth about why it failed. The
       # starter pack showed a new customer the words "Failed to fetch", which is
       # Chrome's name for a request that died in the browser, and the fault it
@@ -144,6 +145,78 @@ jobs:
       # phone, and every clause carries a question to ask the child. See the
       # header of check-deal-in-the-loop.mjs.
       - run: node --experimental-strip-types scripts/check-deal-in-the-loop.mjs
+      # Stickers that land: the timer, the jobs and time outside pay the
+      # book, every owed sticker lands on the child's home with the why, the
+      # parent is pushed with the why, Today sits on the child's bar, and the
+      # sheet in the shop is the real catalogue. See the header of
+      # check-stickers-land.mjs.
+      - run: node --experimental-strip-types scripts/check-stickers-land.mjs
+
+      # The client boundary. A server file that CALLS a named export of a
+      # 'use client' module crashes on every request, and neither tsc nor
+      # next build can see it: the import type checks, and a force-dynamic
+      # route is never rendered at build time. It took a founder on a phone
+      # to find the last one (14 September 2026, the child's Ask for screen
+      # time page). This is the cheap way.
+      - run: node --experimental-strip-types scripts/check-client-boundary.mjs
+
+      # JSONB columns filtered with an array literal. postgrest-js sends a
+      # Postgres array literal, Postgres rejects it as invalid json, and
+      # supabase-js RETURNS that error rather than throwing, so the count
+      # reads as an honest zero. It cost three stickers no child could earn
+      # (14 September 2026). tsc cannot see it; only the database can.
+      - run: node --experimental-strip-types scripts/check-jsonb-contains.mjs
+
+      # Notification.requestPermission must be the first await after the tap.
+      # The child's Yes please awaited the service worker twice before asking,
+      # which spends the user activation, so iOS never opened the permission
+      # sheet: a child tapped it, nothing happened, and a bare catch took the
+      # card off the screen as well (15 September 2026). There were three hand
+      # written copies of the sequence, two of them wrong in different ways.
+      # One owner now, lib/push/enable.ts, and this fails the build on a
+      # second caller or on an await creeping back in front of the ask.
+      - run: node --experimental-strip-types scripts/check-push-gesture.mjs
+
+      # One way to create an account. There were two, only one advertised, and
+      # the unadvertised one never asked the time question, so DiGi was told
+      # "not specified" and sized its advice to nobody. The two also wrote
+      # different vocabularies into onboarding_answers.challenge (15 September
+      # 2026). /signup redirects now; this fails the build if a second form or
+      # a link to it comes back, or if either door stops writing a ChallengeId.
+      - run: node --experimental-strip-types scripts/check-one-door.mjs
+
+      # The red badge on the parent's Quests tab recounts when a parent answers
+      # something. It showed 1 while the board under it said 0 and the database
+      # agreed with the board (15 September 2026): the count lives in the LAYOUT
+      # and answering happens in the PAGE, so the number stayed at whatever it
+      # was last rendered as. gc:notifs-changed existed and the bar was simply
+      # not listening, and the pitch path was not firing it at all.
+      - run: node --experimental-strip-types scripts/check-badge-truth.mjs
+
+      # The child's tab bar is fixed to the floor so a child can always
+      # navigate. It was sticky to the TOP and rendered 2,250 lines down the
+      # home screen, so on opening the app it was not on screen at all
+      # (Justin, 15 September 2026). Fixed means portalled out of the zoomed
+      # page, or it drifts up an iPhone as you scroll.
+      - run: node --experimental-strip-types scripts/check-kid-tabbar.mjs
+      # The tabs on the screens that are not the home screen: never on a
+      # lesson player or the stage check, always with room made for the fixed
+      # bar, and never printed onto a child's sheet.
+      - run: node scripts/check-kid-chrome.mjs
+      # A lesson co watched on the parent's device counts for the child it was
+      # done with: the player names them, and their day is ticked through the
+      # same function the child's own lesson uses.
+      - run: node scripts/check-co-watch.mjs
+      - run: node scripts/check-home-icon.mjs
+      - run: node scripts/check-today-tick.mjs
+
+      # A lesson and the daily quiz are one objective, and the day counts
+      # either. Teo passed a lesson on a day whose learning step was the quiz:
+      # the passport counted it, markStep refused silently, and the day never
+      # moved (15 September 2026, read from the live rows). This guard RUNS the
+      # real rule rather than describing it, and fails if anything outside that
+      # one pair is allowed to stand in for another step.
+      - run: node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-learning-step.mjs
       # A child now opens the same book their parent keeps. The slots may show
       # the shape of the work and never the contents of an adult's notes, and
       # nothing on a child's screen may link to a shop. Neither fails a
@@ -236,10 +309,17 @@ jobs:
       # back out to Mailchimp, /pilot open and in the sitemap, and the pilot
       # word the same at both ends of the letterbox. See check-pilot-door.mjs.
       - run: node --experimental-strip-types scripts/check-pilot-door.mjs
+      # The character voices: one friend per card and lesson, no retired
+      # cast in the manifest or the intro lines. See check-character-voices.mjs.
+      - run: node scripts/check-character-voices.mjs
       # The buying documents: terms, privacy notice and DPA exist, are open
       # and linked, carry no dash, name the same providers, and read every
       # company fact from shared/legal.ts (13 September 2026).
       - run: node scripts/check-schools-legal.mjs
+      # The print kit: the Planet Friend on every printable sheet, one
+      # worksheet reader for both data shapes, and the passport print out's
+      # fold order intact (14 September 2026).
+      - run: node scripts/check-print-kit.mjs
       # The source copy of ks3-22, held to every rule the scheme has learned:
       # cycle anchoring, cycle minutes, the four minute passive ceiling, an
       # honest timing string, the contract keys, and a teacher script on every

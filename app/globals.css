@@ -77,8 +77,15 @@
    where the fixed version used to be (78px plus the inset from the floor). */
 .bottom-tab-bar .rightnow-fab {
   position: absolute;
-  right: 16px;
-  bottom: calc(100% + 6px);
+  right: 12px;
+  /* Straddling the bar's top edge rather than floating a full circle above
+     it. Justin, 14 September 2026, two screenshots: the button sat on a
+     product's price and on "Recommended for Andy". Half in the bar, it
+     covers about 26px of the page instead of 66px, and the page's own
+     bottom padding already clears that. */
+  bottom: calc(100% - 28px);
+  width: 54px;
+  height: 54px;
 }
 
 /* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE
@@ -1012,7 +1019,9 @@ html[data-gc-hold='parent'] body::before {
 }
 html[data-gc-hold='kid'] body::before {
   content: ''; position: fixed; inset: 0; z-index: 2147483000;
-  background: var(--kid-bg);
+  /* The paper page, the child's default since 14 September 2026 (lib/kid/theme.ts).
+     A dark cover in front of a white page is the flash this cover exists to stop. */
+  background: #F9F8F6;
 }
 
 /* ── A SCREEN WITH NO WAY AROUND IT ─────────────────────────────────────────

@@ -139,6 +139,11 @@ export default function QuestBoard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'request_decide', request_id: askId, decision, stars: 2, schedule: 'once' }),
       })
+      // A pitched idea counts in the tab badge exactly as a ticked job does, so
+      // answering one has to tell the same listeners. This was the half of the
+      // stale red number that the approve path already handled and this one did
+      // not: say yes or no to an idea and the badge kept counting it.
+      try { window.dispatchEvent(new Event('gc:notifs-changed')) } catch { /* SSR */ }
       if (decision === 'added') load()
     } catch { load() }
   }

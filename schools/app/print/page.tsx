@@ -1,6 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
+import { friendFor, FriendArt } from '@/components/print/kit'
 
 // THE PRINT ROOM: every printable for every live module in one place.
 // Paper pack, pupil booklets, and named quizzes per class. No Canva,
@@ -40,6 +41,7 @@ const SHEETS: { path: string; label: string }[] = [
   { path: '/overview', label: 'Overview' },
   { path: '/starter-quiz', label: 'Starter' },
   { path: '/exit-quiz', label: 'Exit' },
+  { path: '/record', label: 'Record' },
 ]
 
 export const revalidate = 3600
@@ -69,12 +71,24 @@ export default async function PrintRoomPage() {
           knowledge organiser, the unit overview, and the two quizzes with their answer versions one tap away.
         </p>
 
+        <Link href="/print/passport" style={{ display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '16px 20px', marginBottom: '28px', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
+          <div style={{ display: 'flex' }}>
+            {(['pebble', 'bloop', 'orbit', 'nova'] as const).map((k, i) => <span key={k} style={{ marginLeft: i ? '-10px' : 0 }}><FriendArt friend={{ key: k, ...CHARACTERS[k] }} mood="wave" size={11} /></span>)}
+          </div>
+          <div style={{ flex: '1 1 auto' }}>
+            <div style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>New · print, fold, cut, stick</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', lineHeight: 1.2 }}>The passport print out</div>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>One sheet folds into a passport, one sheet of stickers fills it. Four editions, Reception to Year 11.</div>
+          </div>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>Open →</span>
+        </Link>
         {byStage.map(({ ks, rows }) => {
           const meta = KEY_STAGE_META[ks as KeyStage]
           return (
             <section key={ks} style={{ marginBottom: '28px' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
-                {meta.label} <span style={{ fontWeight: 700, fontSize: '0.8em', color: 'var(--ink-muted)' }}>{meta.years}</span>
+              <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
+                <FriendArt friend={friendFor(null, ks)} mood="wave" size={9} />
+                <span>{meta.label} <span style={{ fontWeight: 700, fontSize: '0.8em', color: 'var(--ink-muted)' }}>{meta.years}</span></span>
               </h2>
               <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '12px 6px 6px', overflowX: 'auto', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
                 <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: '640px' }}>
@@ -87,12 +101,11 @@ export default async function PrintRoomPage() {
                   <tbody>
                     {rows.map(l => {
                       const manifest = manifestByModule.get(l.module_id)
-                      const ch = manifest ? CHARACTERS[manifest.character] : null
                       return (
                         <tr key={l.module_id}>
                           <td style={{ ...cell, minWidth: '220px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              {ch && <span aria-hidden style={{ fontSize: 'var(--text-md)' }}>{ch.emblem}</span>}
+                              {manifest && <FriendArt friend={{ key: manifest.character, ...CHARACTERS[manifest.character] }} mood="happy" size={8} />}
                               <span>
                                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, lineHeight: 1.25 }}>
                                   {manifest ? `M${String(manifest.n).padStart(2, '0')} ` : ''}{l.title}

@@ -1,26 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { enablePush, pushSupport } from '@/lib/push/enable'
 import { getDeviceId } from '@/lib/push/device-id'
 
 interface Props {
   userId: string
   stage?: string
-}
-
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = atob(base64)
-  return Uint8Array.from(rawData, c => c.charCodeAt(0))
-}
-
-// Byte compare two keys, to tell an existing push subscription's key from the
-// current one after a VAPID rotation.
-function sameBytes(a: Uint8Array, b: Uint8Array) {
-  if (a.length !== b.length) return false
-  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false
-  return true
 }
 
 
@@ -225,88 +210,52 @@ export default function PushPrompt({ userId, stage }: Props) {
     }
   }
 
+  // TURNING IT ON, THROUGH THE SHARED PATH.
+  //
+  // This sequence used to live here in full, and it was the correct one: ask
+  // first, straight off the tap, then register, then heal a rotated VAPID key,
+  // then check the save. The CHILD app had its own copy that did none of that,
+  // which is why a child tapping Yes please got nothing (Justin, 15 September
+  // 2026). Two copies of one sequence is how a fix on one side never reaches
+  // the other, so it moved to lib/push/enable.ts and both call it.
+  //
+  // Nothing about what a parent sees changes. The behaviour below is the same
+  // behaviour, in one place, with the child now getting it too.
   async function enable() {
     setStatus('asking')
     setEnableError(null)
-    try {
-      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-        setStatus('unsupported')
-        return
-      }
-
-      const perm = await Notification.requestPermission()
-      if (perm !== 'granted') {
-        setStatus('denied')
-        setEnableError('Notifications are blocked for this app. Open your phone settings for Guided Childhood and allow notifications, then try again.')
-        return
-      }
-
-      // A stale or missing service worker registration is the most common
-      // reason subscribe throws. ready can hang if the worker never
-      // registered, so nudge a registration first.
-      if (!(await navigator.serviceWorker.getRegistration())) {
-        try { await navigator.serviceWorker.register('/sw.js') } catch { /* the ready below will surface it */ }
-      }
-      const reg = await navigator.serviceWorker.ready
-
-      // Self heal a VAPID key rotation. If a subscription already exists but
-      // was made with a different public key than the one baked in now, the
-      // push service will later reject sends with a 403 invalid JWT, and the
-      // browser refuses to re-subscribe with a new key over the old one. So
-      // detect the mismatch, drop the stale subscription, and subscribe fresh
-      // with the current key. Without this a parent is stuck until they find
-      // the Reset link.
-      const currentKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-      let sub = await reg.pushManager.getSubscription()
-      if (sub) {
-        const existingKey = sub.options?.applicationServerKey
-        const matches = !!existingKey && sameBytes(new Uint8Array(existingKey), currentKey)
-        if (!matches) {
-          try {
-            await fetch('/api/push/subscribe', {
-              method: 'DELETE',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ endpoint: sub.endpoint }),
-            })
-          } catch { /* best effort */ }
-          await sub.unsubscribe()
-          sub = null
-        }
-      }
-      if (!sub) {
-        sub = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: currentKey,
-        })
-      }
-
-      const res = await fetch('/api/push/subscribe', {
+    const result = await enablePush(
+      subscription => fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         // deviceId so this browser keeps ONE row instead of gaining another
         // every time the push service rotates its endpoint. See migration 166.
-        body: JSON.stringify({ subscription: sub.toJSON(), userId, stage, deviceId: getDeviceId() }),
-      })
-      if (!res.ok) {
-        setStatus('idle')
-        setEnableError('Turned on here, but saving it to your account failed. Try once more.')
-        return
-      }
+        body: JSON.stringify({ subscription, userId, stage, deviceId: getDeviceId() }),
+      }),
+      endpoint => fetch('/api/push/subscribe', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ endpoint }),
+      }),
+    )
 
+    if (result.ok) {
       // This device is now genuinely subscribed, so record both facts. Without
       // this the screen would keep showing "on another device, not this one"
       // immediately after successfully turning it on here.
-      setEndpoint(sub.endpoint)
+      setEndpoint(result.endpoint)
       setThisDevice(true)
       setStatus('granted')
-      return sub.endpoint
-    } catch (err) {
-      // Never die silently: show what actually went wrong so it is fixable
-      // rather than a dead button.
-      setStatus('idle')
-      const msg = err instanceof Error ? err.message : String(err)
-      setEnableError(`Could not turn on notifications: ${msg.slice(0, 160)}. On iPhone this needs the app added to your home screen first.`)
+      return result.endpoint
     }
+
+    if (result.reason === 'unsupported') { setStatus('unsupported'); return }
+    // An iPhone in a plain Safari tab is not an unsupported phone, it is a
+    // phone one step from working, so it keeps the card and gets the steps.
+    if (result.reason === 'ios-needs-install') { setStatus('idle'); setEnableError(result.message); return }
+    if (result.reason === 'denied') { setStatus('denied'); setEnableError(result.message); return }
+    setStatus('idle')
+    setEnableError(result.message)
   }
 
   // The browser can say permission is granted while the actual
@@ -526,6 +475,37 @@ export default function PushPrompt({ userId, stage }: Props) {
             {enableError}
           </p>
         )}
+      </div>
+    )
+  }
+
+  // AN IPHONE IN A SAFARI TAB IS NOT AN UNSUPPORTED PHONE.
+  //
+  // Apple only exposes the Push API to a web app added to the Home Screen, so
+  // in a plain Safari tab 'PushManager' in window is false and this component
+  // set status to 'unsupported' and then rendered NOTHING. A parent on the one
+  // platform that needs an extra step was told nothing at all, while the child
+  // app, on the same phone, showed them how. That is backwards.
+  //
+  // So the same offer as the child gets: name the step, then the button works.
+  const support = pushSupport()
+  const iosNeedsInstall = status === 'unsupported' && !support.ok && support.reason === 'ios-needs-install'
+
+  if (iosNeedsInstall) {
+    return (
+      <div style={{
+        background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+        padding: '16px 18px', margin: '0 0 16px', boxShadow: 'var(--lift)',
+      }}>
+        <p style={{
+          margin: '0 0 6px', fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2,
+        }}>
+          Add this to your Home Screen first
+        </p>
+        <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
+          On an iPhone, notifications only work once the app is on your Home Screen. Tap the Share button at the bottom of Safari, the square with the arrow pointing up, then Add to Home Screen. Open it from the new icon and this will be here waiting.
+        </p>
       </div>
     )
   }

@@ -7,11 +7,12 @@ import BirthdayFields, { bandFrom, dobFrom } from '@/components/children/Birthda
 import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from '@/lib/quests/screen-balance'
 import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
-import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { enablePush } from '@/lib/push/enable'
 import { TRIAL_DAYS } from '@/lib/access'
 import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 import WorryPicker from '@/components/onboarding/WorryPicker'
-import { WORRIES, WORRIES_KEY, namedWorries, toWorryIds } from '@/lib/onboarding/worries'
+import { WORRIES, WORRIES_KEY, namedWorries, toWorryIds, challengeFor } from '@/lib/onboarding/worries'
+import type { TimeCommitmentId } from '@/lib/content/stages'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
 
@@ -19,12 +20,6 @@ import { getDeviceId } from '@/lib/push/device-id'
 // first check in, and setup no longer asks anybody for money.
 type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'tour'
 
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = atob(base64)
-  return Uint8Array.from(rawData, c => c.charCodeAt(0))
-}
 
 
 // The worries themselves live in lib/onboarding/worries.ts, with the rule for
@@ -136,6 +131,17 @@ function DigiSpeech({ text }: { text: string }) {
     </div>
   )
 }
+
+// The time budget a parent is assumed to have when nobody asked them.
+//
+// The starter pack asks this directly and DiGi caps its advice to the answer
+// ("Daily time this parent committed to at signup", app/api/digi/route.ts).
+// This door never had the question, and wrote null, so DiGi was told "not
+// specified" and sized its advice to nobody. Ten minutes is the middle of the
+// three offered and the one most parents pick, so it is the honest assumption
+// rather than an invented promise either way. It is a default, not an answer:
+// the moment a parent tells us otherwise, theirs wins.
+const DEFAULT_TIME: TimeCommitmentId = '10min'
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -320,7 +326,25 @@ export default function OnboardingPage() {
         // challenges, the whole list, alongside the single one everything else
         // reads: a parent who picks two worries at sign up gets both on their
         // first check in (lib/concerns/baseline), not only the first.
-        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, challenges, challenge_other: challengeOther.trim() || null, feeling: null, timeCommitment: timeCommitment ?? null },
+        // TWO VOCABULARIES WERE GOING INTO ONE COLUMN.
+        //
+        // `challenges` holds the parent's own WORRY ids (wont_put_down,
+        // bedtime_screens, mood_after_screens...). `challenge` is read all over
+        // the product as a ChallengeId, the six keys the pathway content is
+        // authored against (lib/content/stages.ts), and the starter pack door
+        // has always written a real one via challengeFor(). This door wrote the
+        // raw worry id instead, so the same column held two different
+        // vocabularies depending on which way in a family came.
+        //
+        // Nothing is visibly broken today only because the two lookup tables
+        // that matter were widened to accept both. But lib/content/stages.ts
+        // types challengeActions as Partial<Record<ChallengeId, string>>, so
+        // the next reader written against the type it says it is returns
+        // nothing for half of our parents, silently.
+        //
+        // One map, already imported, already used by the other door. The
+        // parent's own worries stay in `challenges` untouched.
+        onboarding_answers: { ageBand, challenge: challengeFor(challenges[0]), challenges, challenge_other: challengeOther.trim() || null, feeling: null, timeCommitment: timeCommitment ?? DEFAULT_TIME },
         onboarding_complete: true,
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
@@ -847,25 +871,25 @@ export default function OnboardingPage() {
   if (screen === 'tour') {
     const goNext = () => router.push('/dashboard')
 
+    // The walkthrough's own turn on step, through the shared path.
+    //
+    // This was a third hand written copy of the subscribe sequence and it had
+    // its own fault: the save's Response was never read, so a 500 still
+    // returned true and told a brand new parent their notifications were on
+    // with nothing stored against their account. enablePush checks it, heals a
+    // rotated VAPID key, and answers honestly.
     async function enableNotifications(): Promise<boolean> {
-      if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false
-      const perm = await Notification.requestPermission()
-      if (perm !== 'granted') return false
-      const reg = await navigator.serviceWorker.register('/sw.js')
-      await navigator.serviceWorker.ready
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      const result = await enablePush(async subscription => {
+        const { data: { user } } = await supabase.auth.getUser()
+        return fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          // deviceId so this browser keeps ONE row instead of gaining another
+          // every time the push service rotates its endpoint. See migration 166.
+          body: JSON.stringify({ subscription, userId: user?.id, deviceId: getDeviceId() }),
+        })
       })
-      const { data: { user } } = await supabase.auth.getUser()
-      await fetch('/api/push/subscribe', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        // deviceId so this browser keeps ONE row instead of gaining another
-        // every time the push service rotates its endpoint. See migration 166.
-        body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id, deviceId: getDeviceId() }),
-      })
-      return true
+      return result.ok
     }
 
     return (

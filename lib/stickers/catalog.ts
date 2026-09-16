@@ -51,6 +51,17 @@ export type StickerRule =
   // time from the concerns table rather than listed here, because the worries
   // are the family's own. `n` is always 5: the stars it takes.
   | { kind: 'sorted'; n: 5 }
+  // ── THE THREE THAT PAY THE DAY ITSELF (14 September 2026) ────────────────
+  //
+  // Justin: the child's book "should display a bit more life and give them
+  // stars when they use timer, complete jobs, outside especially, offline
+  // especially." Until now the book paid lessons, saving, sheets and full
+  // days, and the three things a family actually fights about in a week
+  // earned nothing in it. Days the timer ran, jobs a grown up approved, and
+  // days with time outside. All three only ever go up, so they ratchet.
+  | { kind: 'timer'; n: number }
+  | { kind: 'jobs'; n: number }
+  | { kind: 'outside'; n: number }
 
 export type Sticker = {
   key: string
@@ -131,6 +142,20 @@ export const STICKERS: Sticker[] = [
   { key: 'lessons-1', name: 'First Lesson', emoji: '📚', colour: '#2E6F8E', earn: 'Pass your first lesson', rule: { kind: 'lessons', n: 1 } },
   { key: 'lessons-5', name: 'Five Lessons', emoji: '📚', colour: '#2E6F8E', earn: 'Pass 5 lessons', rule: { kind: 'lessons', n: 5 } },
   { key: 'lessons-10', name: 'Ten Lessons', emoji: '🎓', colour: '#7A5CC0', earn: 'Pass 10 lessons', rule: { kind: 'lessons', n: 10 } },
+
+  // Off screen and on the timer. Justin, 14 September 2026: stars "when they
+  // use timer, complete jobs, outside especially, offline especially". The
+  // outside ladder is the generous one on purpose: it is the behaviour the
+  // whole product exists to grow.
+  { key: 'outside-1',  name: 'Fresh Air',     emoji: '🌳', colour: '#2F8F6B', earn: 'One day with time outside',    rule: { kind: 'outside', n: 1 } },
+  { key: 'outside-10', name: 'Outdoor Ten',   emoji: '🌳', colour: '#2F8F6B', earn: '10 days with time outside',    rule: { kind: 'outside', n: 10 } },
+  { key: 'outside-30', name: 'Wild Thirty',   emoji: '🏕️', colour: '#1F6B4E', earn: '30 days with time outside',    rule: { kind: 'outside', n: 30 } },
+  { key: 'jobs-1',     name: 'First Job',     emoji: '📋', colour: '#C99A28', earn: 'One job approved',             rule: { kind: 'jobs', n: 1 } },
+  { key: 'jobs-10',    name: 'Ten Jobs',      emoji: '🧹', colour: '#C99A28', earn: '10 jobs approved',             rule: { kind: 'jobs', n: 10 } },
+  { key: 'jobs-50',    name: 'Fifty Jobs',    emoji: '🏆', colour: '#D4600A', earn: '50 jobs approved',             rule: { kind: 'jobs', n: 50 } },
+  { key: 'timer-1',    name: 'First Timer',   emoji: '⏱️', colour: '#2E6F8E', earn: 'One day using the timer',      rule: { kind: 'timer', n: 1 } },
+  { key: 'timer-7',    name: 'Timer Week',    emoji: '⏱️', colour: '#2E6F8E', earn: '7 days using the timer',       rule: { kind: 'timer', n: 7 } },
+  { key: 'timer-30',   name: 'Timer Master',  emoji: '🎯', colour: '#1F5A78', earn: '30 days using the timer',      rule: { kind: 'timer', n: 30 } },
 ]
 
 /** The sticker key for a sorted worry, one per concern. */
@@ -169,4 +194,26 @@ export function sortedSticker(concern: { id: string; label: string }): Sticker {
 // BalanceInsight. The sticker book was the only one that did not.
 export function stickerArt(s: Sticker): string | null {
   return s.friendKey ? (characterByKey(s.friendKey)?.cutout ?? null) : null
+}
+
+// ── WHY IT CAME, IN ONE LINE (14 September 2026) ─────────────────────────────
+//
+// The landing moment and the parent's push both say what the child DID, not
+// what the rule is called. "Pass 5 lessons" is the earn line for a locked
+// tile; "You passed five lessons" is what you say to the child who just did.
+export function stickerWhy(s: Pick<Sticker, 'rule' | 'earn' | 'name'>, who: 'child' | 'parent' = 'child', childName = 'they'): string {
+  const you = who === 'child' ? 'You' : childName
+  const n = 'n' in s.rule ? s.rule.n : 0
+  switch (s.rule.kind) {
+    case 'lessons': return n === 1 ? `${you} passed a lesson.` : `${you} passed ${n} lessons.`
+    case 'sheets': return n === 1 ? `${you} finished a printable at the table.` : `${you} finished ${n} printables.`
+    case 'credits': return `${you} saved ${n} half hours of screen time ${who === 'child' ? 'you' : 'they'} had earned.`
+    case 'streak': return `${you} showed up ${n} days in a row.`
+    case 'stamp': return `${you} finished a whole stage of the passport.`
+    case 'timer': return n === 1 ? `${you} used the timer for screen time.` : `${you} used the timer on ${n} days.`
+    case 'jobs': return n === 1 ? `${you} did a job and a grown up approved it.` : `${you} did ${n} jobs, all approved.`
+    case 'outside': return n === 1 ? `${you} spent time outside, off screens.` : `${you} spent time outside on ${n} days.`
+    case 'friend': return `${you} finished enough full days to bring ${s.name} home.`
+    case 'sorted': return who === 'child' ? 'Your grown up gave it five stars. That was you.' : `${s.name} reached five stars at your check in.`
+  }
 }

@@ -24,6 +24,21 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
   const [pending, setPending] = useState<'own' | 'coview' | null>(null)
   const youngest = pending ? pending === 'coview' : savedYoungest
 
+  // STAGE 1 IS NOT A HANDOVER.
+  //
+  // Justin, 15 September 2026: "the lessons for younger ages cannot be on the
+  // app as they probably will not have an app, and younger cannot read, so it
+  // needs to be co watched on the parent's app."
+  //
+  // A four year old has no phone, and this card led with a code to scan on a
+  // device they do not own, so the only route it showed was one that family
+  // cannot take. Nothing here is rewired: the QR still works, the shared
+  // tablet still installs, co view is still the saved default for this band.
+  // What changes is which of them reads as the way in. Their side becomes the
+  // choice it always was, and their lessons live on the phone in the parent's
+  // hand.
+  const noDevice = ageBand === '4-7'
+
   function choose(m: 'own' | 'coview') {
     setPending(m)
     onSetMode?.(m)
@@ -73,16 +88,34 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
     fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
   }
 
+  // Co view for the youngest, who have no device of their own.
+  const coView = (
+    <a href={url} target="_blank" rel="noopener noreferrer" style={{ ...btn, width: '100%', justifyContent: 'center', background: 'var(--terracotta)', border: 'none', color: 'var(--ink)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontWeight: 800, fontSize: 'var(--text-md)', marginBottom: '12px' }}>
+      👀 Open {childName}&apos;s app here and use it together
+    </a>
+  )
+
   return (
     <div style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '22px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         Share to {childName}
       </div>
 
+      {/* Stage 1 leads with the phone already in the parent's hand. The code
+          below it is then plainly the other option rather than the door. */}
+      {noDevice && (
+        <>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+            At four to seven, this mostly happens right here on your phone. Lessons are read together, and {childName} taps their own jobs off while you hold it.
+          </p>
+          {coView}
+        </>
+      )}
+
       {/* The QR is the hero: the fastest hand over there is. */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', background: 'var(--cream)', borderRadius: 'var(--radius-btn)', padding: '18px 16px 16px', marginBottom: '14px' }}>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', textAlign: 'center', lineHeight: 1.3, margin: 0 }}>
-          Scan with {childName}&apos;s device
+          {noDevice ? 'Or put it on a tablet they share' : `Scan with ${childName}'s device`}
         </p>
         {qr ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -91,7 +124,9 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
           <div style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: 'var(--radius-btn)', background: '#fff', border: 'var(--edge)' }} />
         )}
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 280 }}>
-          Point {childName}&apos;s camera at this and their app opens. No typing, nothing to install.
+          {noDevice
+            ? `Only if you want to. Point a family tablet's camera at this and ${childName}'s side opens on it too, with the same jobs and the same stars.`
+            : `Point ${childName}'s camera at this and their app opens. No typing, nothing to install.`}
         </p>
       </div>
 
@@ -109,12 +144,7 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
         </div>
       )}
 
-      {/* Co-view for the youngest, who have no device of their own. */}
-      {youngest && (
-        <a href={url} target="_blank" rel="noopener noreferrer" style={{ ...btn, width: '100%', justifyContent: 'center', background: 'var(--terracotta)', border: 'none', color: 'var(--ink)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontWeight: 800, fontSize: 'var(--text-md)', marginBottom: '12px' }}>
-          👀 Open {childName}&apos;s app here and use it together
-        </a>
-      )}
+      {youngest && !noDevice && coView}
 
       {/* THE THREE NAMED CHANNELS, under the hero.
 

@@ -26,7 +26,7 @@ const ACTIONS = [
 
 export default function SchoolWeekFixture() {
   return (
-    <div style={{ background: 'var(--cream)', minHeight: '100dvh', padding: '30px 20px' }}>
+    <div style={{ background: '#F9F8F6', minHeight: '100dvh', padding: '30px 20px' }}>
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
         <FoldSection label="School reminders" count={ACTIONS.length} open>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

@@ -320,6 +320,31 @@ export function stepsPerDay(stage: StageNum): number {
   return STAGE_DAY[stage].count
 }
 
+const WORD: Record<number, string> = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six' }
+
+/**
+ * The day's length as a WORD, because the child's screens say it out loud.
+ *
+ * Justin, 15 September 2026, with Teo's home screen: the greeting read "3 of
+ * your five to go" and the card directly under it read "Your five for today,
+ * 1 of 4". Two numbers on one screen that did not agree.
+ *
+ * The maths was right the whole time. One of four done leaves three to go, and
+ * the card's counter reads the real state. What was wrong was the WORD: "five"
+ * was typed into both the greeting and the card's ribbon, and a Stage 1 child
+ * gets FOUR (STAGE_DAY above drops homework and maths for four to seven year
+ * olds, deliberately). So the app told a six year old twice that four was five.
+ *
+ * stepsPerDay right above this was written for exactly this and never had a
+ * single caller. It has one now, and so does this.
+ *
+ * Falls back to the digits for any count outside the small set, which is
+ * honest rather than clever: "7" reads better than a word nobody expected.
+ */
+export function dayWord(count: number): string {
+  return WORD[count] ?? String(count)
+}
+
 /**
  * The pool the middle two are drawn from, so the day is not identical.
  *
@@ -405,6 +430,34 @@ export function pickDay(
   }
 
   return [...FIXED_FIRST.filter(can), ...middle, ...FIXED_LAST.filter(can)]
+}
+
+/** A lesson and the daily quiz are one objective: learn one thing today. */
+const LEARNING: StepKey[] = ['lesson', 'quiz']
+
+/**
+ * Which of today's steps a completed thing actually lands on.
+ *
+ * A child can pass a lesson on a day whose five asked for the quiz, or the
+ * other way round. Both are the same objective, so either face lands the one
+ * the day is holding, and the day ticks. Anything outside that pair is
+ * returned unchanged, so the caller refuses it exactly as it always did: a
+ * stale tab must never complete a step it was never shown.
+ *
+ * It lives here, beside STEPS and dayComplete, because it is a fact about what
+ * a day's steps MEAN. lib/kid/day-store.ts is only the writer that acts on it.
+ * Keeping it in this module also keeps it reachable without node_modules,
+ * which is what lets the guard below run the real thing.
+ *
+ * Exported so the rule can be exercised for real rather than described: see
+ * scripts/check-learning-step.mjs, which runs THIS function rather than a copy
+ * of it. A guard that reimplements the thing it guards proves nothing (learned
+ * on 14 September 2026, recorded in plans/decisions.md).
+ */
+export function stepForToday(step: StepKey, steps: StepKey[]): StepKey {
+  if (steps.includes(step)) return step
+  if (!LEARNING.includes(step)) return step
+  return LEARNING.find(k => k !== step && steps.includes(k)) ?? step
 }
 
 /** Did the whole day land? The streak is this and nothing else. */

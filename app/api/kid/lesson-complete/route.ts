@@ -63,10 +63,23 @@ export async function POST(req: NextRequest) {
   const passedNow = totalQ === 0 || correctQ / totalQ >= PASS_MARK
 
   // A pass is never downgraded: keep the best passed score on record.
+  //
+  // Scoped to the CHILD, not just the family. The upsert below conflicts on
+  // (user_id, child_id, lesson_id, lesson_source), so a family with two
+  // children holds one row per child for the same lesson. Reading without
+  // child_id matched every sibling's row at once, and maybeSingle on more than
+  // one row is an error the destructure discarded, so the prior pass silently
+  // vanished; with exactly one sibling row it was worse, and this child
+  // inherited their brother's pass.
+  //
+  // No family has two rows on one lesson yet (checked 14 September 2026), so
+  // nothing on record is wrong. It would have fired the first time two
+  // children in one house did the same lesson, which is the ordinary case here.
   const { data: existing } = await supabase
     .from('lesson_completions')
     .select('score, passed')
     .eq('user_id', link.user_id)
+    .eq('child_id', link.child_id)
     .eq('lesson_id', lesson_id)
     .eq('lesson_source', 'lesson')
     .maybeSingle()

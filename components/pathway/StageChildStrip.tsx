@@ -54,6 +54,7 @@ export default function StageChildStrip({
   timerDays,
   parentRunsTimer = false,
   deal = null,
+  stickers = null,
   readOnly = false,
   onApp,
   ink,
@@ -70,6 +71,8 @@ export default function StageChildStrip({
   parentRunsTimer?: boolean
   /** Where the family deal stands. Null when none has been started. */
   deal?: StripDeal | null
+  /** The child's catalogue stickers: the count, and the names new this week. */
+  stickers?: { total: number; recent: string[] } | null
   /** The child's copy of the book: no links into the parent's dashboard. */
   readOnly?: boolean
   onApp: boolean
@@ -156,6 +159,25 @@ export default function StageChildStrip({
       {timerDays === 0 && !parentRunsTimer && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
           The device timer has not been used this week, so screen balance has nothing to read.
+        </p>
+      )}
+
+      {/* THE STICKERS LINE. What the child has earned in their own book, on
+          the parent's page for the first time (14 September 2026). Names the
+          week's new ones so a parent can say them at teatime. */}
+      {stickers && (
+        <p data-stickers-line style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
+          🏅 {stickers.total === 0
+            ? `No stickers in ${them === 'them' ? 'their' : `${them}'s`} book yet. The first comes with the first full day, lesson or job.`
+            : `${stickers.total} sticker${stickers.total === 1 ? '' : 's'} in ${them === 'them' ? 'their' : `${them}'s`} book.${stickers.recent.length > 0 ? ` New this week: ${stickers.recent.slice(0, 3).join(', ')}.` : ''}`}
+          {!readOnly && stickers.total > 0 && (
+            <>
+              {' '}
+              <Link href={`/dashboard/pathway${childId ? `?child=${childId}` : ''}#stickers`} style={{ color: ink, fontWeight: 800, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                See the book ›
+              </Link>
+            </>
+          )}
         </p>
       )}
 

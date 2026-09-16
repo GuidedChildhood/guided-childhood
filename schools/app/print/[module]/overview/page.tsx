@@ -4,6 +4,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { parseSlides, PHASE_LABELS, type LessonSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { friendFor, printRegister, FriendHeader, PrintSheet } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
@@ -64,21 +65,19 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
   const slides = parseSlides(lesson.slides) ?? []
   const notes = (lesson.teacher_notes ?? {}) as TeacherNotes
   const totalMinutes = slides.reduce((n, s) => n + (s.minutes ?? 0), 0)
+  // The friend as a mark on a teacher sheet, and its colour on the table
+  // (the print kit, 14 September 2026).
+  const friend = friendFor((lesson as { character_cast?: string | null }).character_cast, lesson.key_stage)
+  const reg = printRegister(lesson.key_stage)
 
   return (
-    <main style={{ maxWidth: '760px', margin: '0 auto', background: '#fff', color: 'var(--ink)', padding: '24px 8px 60px' }}>
-      <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+    <main style={{ maxWidth: '760px', margin: '0 auto', background: '#fff', color: 'var(--ink)', padding: '0 8px 40px' }}>
+      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', padding: '20px 0 0', marginBottom: '8px' }}>
         <Link href="/print" style={{ ...mono, textDecoration: 'none' }}>← Print room</Link>
         <PrintButton />
       </div>
-
-      <div style={mono}>{lesson.key_stage} · {lesson.year_band} · Unit overview · for planning and the subject lead</div>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', margin: '4px 0 4px' }}>{lesson.title}</h1>
-      <p style={{ ...body, marginBottom: '4px' }}>
-        <strong>Outcome:</strong> {lesson.single_action_outcome}
-        {lesson.character_cast ? <> · <strong>Cast:</strong> {lesson.character_cast}</> : null}
-        {totalMinutes ? <> · <strong>~{totalMinutes} minutes</strong> in {slides.length} slides</> : null}
-      </p>
+      <PrintSheet footer={`${lesson.title} · unit overview`} last>
+      <FriendHeader friend={friend} register={reg} small mood="thinking" eyebrow={`${lesson.key_stage} · ${lesson.year_band} · Unit overview · for planning and the subject lead`} title={lesson.title} sub={`Outcome: ${lesson.single_action_outcome}${lesson.character_cast ? ` · Cast: ${lesson.character_cast}` : ''}${totalMinutes ? ` · about ${totalMinutes} minutes in ${slides.length} slides` : ''}`} />
       {notes.timing && <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: '14px' }}>{notes.timing}</p>}
 
       {/* The table scrolls inside its own frame on a phone; the page itself never scrolls sideways. */}
@@ -87,7 +86,7 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
         <thead>
           <tr>
             {['#', 'Phase', 'Kind', 'What happens', 'Min'].map(h => (
-              <th key={h} style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)' }}>{h}</th>
+              <th key={h} style={{ textAlign: 'left', padding: '6px 8px', borderBottom: `2px solid ${friend.accent}`, background: friend.soft, color: friend.ink, fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)' }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -111,6 +110,7 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
         Full resources for this module: paper pack, pupil booklets, knowledge organiser and named quizzes,
         all in the print room. Generated from the live lesson on {new Date().toLocaleDateString('en-GB')}.
       </p>
+      </PrintSheet>
     </main>
   )
 }

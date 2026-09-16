@@ -25,7 +25,7 @@ const LICENSED = [
   { href: '/hub', label: 'The Hub' },
 ]
 
-export default function SiteNav({ licensed = false }: { licensed?: boolean }) {
+export default function SiteNav({ licensed = false, pilot = false }: { licensed?: boolean; pilot?: boolean }) {
   const pathname = usePathname()
   const links = licensed ? [OPEN[0], OPEN[1], ...LICENSED, OPEN[2], OPEN[3]] : OPEN
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
@@ -49,7 +49,7 @@ export default function SiteNav({ licensed = false }: { licensed?: boolean }) {
         </div>
         <div className="gc-nav-side">
           {licensed ? (
-            <span className="gc-nav-licensed">Licensed<span className="gc-nav-licensed-long"> school</span></span>
+            <span className="gc-nav-licensed">{pilot ? 'Pilot' : 'Licensed'}<span className="gc-nav-licensed-long"> school</span></span>
           ) : (
             <>
               <Link href="/unlock" className="gc-nav-code">I have a school code</Link>

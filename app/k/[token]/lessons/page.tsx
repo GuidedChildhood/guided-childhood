@@ -1,5 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
@@ -171,7 +173,18 @@ export default async function KidLessonsPage({ params, searchParams }: {
     }
   } catch { /* the map says it on the next open */ }
 
+  // The bar's Today entry, which is what replaces the KidTodayReturn pill that
+  // used to float here. Two cheap reads that fail soft to an empty day.
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
+    <KidScreenChrome token={token} current="lessons" today={todayTab}>
     <KidLessonList
       planetLine={planetLine}
       theme={resolveTheme(child?.accent as string | null)}
@@ -184,5 +197,6 @@ export default async function KidLessonsPage({ params, searchParams }: {
       checkHref={`/k/${token}/quiz`}
       checkPassed={stageCheckPassed}
     />
+    </KidScreenChrome>
   )
 }

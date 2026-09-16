@@ -6,6 +6,12 @@ import KidPassport from '@/components/kid/KidPassport'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { STICKERS, sortedSticker, stickerArt } from '@/lib/stickers/catalog'
+import { DEFAULT_ACCENT, resolveTheme } from '@/lib/kid/theme'
+
+// The ground a real child stands on. Justin, 14 September 2026, made Paper the
+// default theme, so a fixture still painted the old anthracite was showing a
+// screen that no longer exists. Ask the theme rather than naming a colour.
+const T = resolveTheme(DEFAULT_ACCENT)
 
 // Dev only fixture: the child's passport with every page, and the sorted win.
 //
@@ -32,6 +38,11 @@ function have(rule: KidSticker['rule']): number {
     case 'stamp': return rule.n === 1 ? LESSONS : 0
     case 'lessons': return LESSONS
     case 'sorted': return 0
+    // The three day counters (14 September 2026): outside earned once, the
+    // jobs mid ladder, the timer a week in.
+    case 'outside': return 1
+    case 'jobs': return 4
+    case 'timer': return 7
   }
 }
 function need(rule: KidSticker['rule']): number {
@@ -81,7 +92,7 @@ export default function KidPassportFixture() {
   }, [])
   if (!q) return null
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: T.bg, fontFamily: 'var(--font-body)' }}>
       {win && (
         <KidWinPop token="0123456789abcdef01" wins={[SORTED_WIN]} onDone={() => setWin(false)} onOpenBook={() => { setWin(false); setOpen(true) }} />
       )}
@@ -92,6 +103,7 @@ export default function KidPassportFixture() {
           childName="Alfie"
           stickers={FIXTURE}
           celebrateStickers={q.get('cheer') === '1' ? ['sorted-car'] : []}
+          daily={{ total: 12, week: ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((letter, i) => ({ letter, earned: i < 3, isToday: i === 3 })), friend: { name: 'Bloop', img: '/digi-squad/friends/bloop.png' } }}
           passportCode="GC-1JZX-KKXD"
           stageId={1}
         />

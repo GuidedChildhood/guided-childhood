@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
+import { readTodayState } from '@/lib/kid/today-state'
 import { readKidJobs } from '@/lib/kid/jobs-read'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import KidJobsScreen from './KidJobsScreen'
@@ -49,7 +51,18 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
   const ageBand = childRes.data?.age_band as AgeBand | undefined
   const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
 
+  // The bar's Today entry, which is what replaces the KidTodayReturn pill that
+  // used to float here. Two cheap reads that fail soft to an empty day.
+  const todayState = await readTodayState(supabase, link.child_id)
+  const todayTab = {
+    left: todayState.left,
+    total: todayState.steps.length,
+    complete: todayState.complete,
+    opened: todayState.done.length > 0,
+  }
+
   return (
+    <KidScreenChrome token={token} current="quests" today={todayTab}>
     <KidJobsScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
@@ -65,5 +78,6 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
       todayTicks={jobs.todayTicks}
       giftStarsOwed={giftStarsOwed}
     />
+    </KidScreenChrome>
   )
 }

@@ -29,6 +29,10 @@ export const HAPPY = {
   sky: '#4B9CE5',
   ink: '#1A1A2E',
   cream: '#F9F8F6',
+  // The soft pink disc The Happy Newspaper sits its post box on. Justin,
+  // 14 September 2026, with that page: the calendar is white ground and big
+  // colour discs, not a dotted sky. Today's disc is this pink.
+  pink: '#F9CFD9',
 } as const
 
 export type HappyAccent = 'butter' | 'coral' | 'green' | 'sky'
@@ -109,12 +113,22 @@ export function WavyRule({ color = HAPPY.ink, style }: { color?: string; style?:
   )
 }
 
-/** A soft rainbow arc, four bands, for behind a friend or a headline. */
-export function RainbowArc({ width = 160, style }: { width?: number; style?: CSSProperties }) {
+/**
+ * A soft rainbow arc, four bands, for behind a friend or a headline.
+ *
+ * `painted` is the masthead version, from the second of Justin's two Happy
+ * Newspaper references on 14 September 2026: thick painted bands, the pink
+ * in the set, rising over a pale yellow ground behind the paper's name.
+ * Five bands, wide strokes, square ends, so it reads as paint not as a line.
+ */
+export function RainbowArc({ width = 160, painted = false, style }: { width?: number; painted?: boolean; style?: CSSProperties }) {
+  const bands = painted ? [HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky, HAPPY.pink] : [HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky]
+  const step = painted ? 13 : 11
+  const stroke = painted ? 13 : 8
   return (
     <svg viewBox="0 0 200 100" width={width} height={width / 2} aria-hidden style={{ display: 'block', ...style }}>
-      {[HAPPY.coral, HAPPY.butter, HAPPY.green, HAPPY.sky].map((c, i) => (
-        <path key={c} d={`M ${20 + i * 11} 100 A ${80 - i * 11} ${80 - i * 11} 0 0 1 ${180 - i * 11} 100`} fill="none" stroke={c} strokeWidth="8" strokeLinecap="round" />
+      {bands.map((c, i) => (
+        <path key={c} d={`M ${step + i * step} 100 A ${100 - step - i * step} ${100 - step - i * step} 0 0 1 ${200 - step - i * step} 100`} fill="none" stroke={c} strokeWidth={stroke} strokeLinecap={painted ? 'butt' : 'round'} />
       ))}
     </svg>
   )
@@ -146,6 +160,26 @@ export function HappyScatter({ seed = 0, dim = false }: { seed?: number; dim?: b
   )
 }
 
+/**
+ * The sun's rays: eight short ink dashes around a disc, the masthead sun from
+ * The Happy Newspaper drawn our way. Sits BEHIND a disc (absolute, inset by
+ * the ray length) so today on a calendar reads as the sun without a word.
+ */
+export function SunRays({ size, color = HAPPY.ink, style }: { size: number; color?: string; style?: CSSProperties }) {
+  const rays: string[] = []
+  for (let i = 0; i < 8; i++) {
+    const a = (Math.PI * 2 * i) / 8
+    const x1 = 50 + 40 * Math.cos(a), y1 = 50 + 40 * Math.sin(a)
+    const x2 = 50 + 48 * Math.cos(a), y2 = 50 + 48 * Math.sin(a)
+    rays.push(`M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`)
+  }
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden style={{ display: 'block', ...style }}>
+      <path d={rays.join(' ')} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 /** A five point star, filled, ink edged. */
 export function StarShape({ size = 16, color = HAPPY.butter, style }: { size?: number; color?: string; style?: CSSProperties }) {
   return (
@@ -160,21 +194,53 @@ export function StarShape({ size = 16, color = HAPPY.butter, style }: { size?: n
  * above, the headline in Nunito 900, and a scatter of smiley dots. The
  * right hand slot takes a Burst or a Sticker (the tally, the star count).
  */
-export function HappyMasthead({ kicker, title, sub, right, style }: {
-  kicker?: string; title: string; sub?: string; right?: ReactNode; style?: CSSProperties
+export function HappyMasthead({ kicker, title, sub, right, tone = 'butter', style }: {
+  kicker?: string; title: string; sub?: string; right?: ReactNode
+  /**
+   * 'butter' is the solid block. 'paper' is the newspaper itself: white stock,
+   * ink type, colour kept for the marks on it.
+   *
+   * Justin, 15 September 2026, from the child's pitch screen: "first page works
+   * but too much yellow, use design like happy news." He is right about the
+   * source: The Happy Newspaper is PAPER with colour printed on it, not a
+   * yellow field with words on top. A whole screen of butter also leaves the
+   * butter buttons nothing to stand out from.
+   *
+   * Paper also stops the headline strangling itself. In butter tone the text
+   * column shares a fixed row with `right`, so a sticker beside it squeezes the
+   * words into a narrow ribbon: on a 390px phone "Got a quest idea?" broke over
+   * three lines and its subtitle over seven, which is what made that card fill
+   * the screen. Paper lets the row wrap and the text keep its full width.
+   */
+  tone?: 'butter' | 'paper'
+  style?: CSSProperties
 }) {
+  const paper = tone === 'paper'
   return (
     <div style={{
       position: 'relative', overflow: 'hidden',
-      background: HAPPY.butter, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+      background: paper ? '#fff' : HAPPY.butter, border: 'var(--edge)', borderRadius: 'var(--radius-card)',
       padding: '16px 16px 15px', boxShadow: 'var(--lift-deep)', color: HAPPY.ink,
       ...style,
     }}>
       <HappyScatter dim />
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12, flexWrap: paper ? 'wrap' : 'nowrap' }}>
+        {/* On paper the column keeps a floor, so when `right` cannot fit beside
+            it the row WRAPS and the sticker drops below, instead of the words
+            being squeezed into a ribbon. flexWrap alone does nothing while the
+            column is free to shrink to nothing. */}
+        <div style={{ flex: 1, minWidth: paper ? 240 : 0 }}>
           {kicker && (
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+              letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4,
+              // On paper the kicker is the printed mark: a butter chip, so the
+              // warmth stays without flooding the card.
+              ...(paper ? {
+                display: 'inline-block', background: HAPPY.butter, border: 'var(--edge)',
+                borderRadius: 'var(--radius-pill)', padding: '3px 10px', marginBottom: 8,
+              } : null),
+            }}>
               {kicker}
             </div>
           )}
@@ -182,7 +248,7 @@ export function HappyMasthead({ kicker, title, sub, right, style }: {
             {title}
           </div>
           {sub && (
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, marginTop: 6, maxWidth: 260 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', lineHeight: 1.35, marginTop: 6, maxWidth: paper ? 'none' : 260 }}>
               {sub}
             </div>
           )}

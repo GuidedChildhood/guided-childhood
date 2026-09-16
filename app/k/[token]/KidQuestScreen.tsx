@@ -1,18 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import type { DrawnKey } from '@/components/printables/drawn'
 import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { KID_HOME_SEEN_KEY } from '@/components/kid/KidBackLink'
 import { useRouter } from 'next/navigation'
 
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = atob(base64)
-  return Uint8Array.from(rawData, c => c.charCodeAt(0))
-}
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
 import type { StarBank } from '@/lib/quests/bank'
@@ -28,8 +22,7 @@ import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSoun
 import { getDeviceId } from '@/lib/push/device-id'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
-import BalanceInsight from '@/components/celebrate/BalanceInsight'
-import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { enablePush } from '@/lib/push/enable'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
@@ -39,7 +32,7 @@ import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { scheduleLabel } from '@/lib/quests/due'
-import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
+import { isMoveJob, readingMinutesFor, dayWord, stepsPerDay, type StageNum } from '@/lib/kid/five-a-day'
 import KidDayDone, { type DayDoneInput } from '@/components/kid/KidDayDone'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
@@ -51,6 +44,12 @@ import KidPassport from '@/components/kid/KidPassport'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
+import KidStickerLand from '@/components/kid/KidStickerLand'
+import KidWeekCalendar from '@/components/kid/KidWeekCalendar'
+import KidWeekMasthead from '@/components/kid/KidWeekMasthead'
+import { buildMission } from '@/lib/kid/mission'
+import type { DailyStickers } from '@/components/kid/KidStickers'
+import type { TodayTab } from '@/components/kid/KidTabBar'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { friendsFromStreaks, isFriendMoment, streakCurrency, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
@@ -97,7 +96,7 @@ import type { Stamp as KidBookStamp } from '@/components/pathway/PassportStamps'
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
   adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false, coreMinutesLeft = 0, protectedLine = null,
-  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], dealLines = [], printablesUnlocked = true, activeSession = null,
+  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], asksPendingTotal = 0, dealLines = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
   agreementParentSigned = false, agreementChildSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
@@ -107,7 +106,10 @@ export default function KidQuestScreen({
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null, kidBook = null,
+  dailyStickers = null,
 }: {
+  /** This week's daily stickers and the total, for the book's Every day page and the week row. */
+  dailyStickers?: DailyStickers | null
   /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
   planetTier?: 1 | 2 | 3 | null
   token: string
@@ -127,7 +129,7 @@ export default function KidQuestScreen({
   // The same numbers the parent's off screen total is built from.
   sheetsDone?: number
   sheetStars?: number
-  agreementItems?: { title: string; body: string }[]
+  agreementItems?: { title: string; body: string; emoji?: string; why?: string | null }[]
   /** The two deal lines the device time card shows at ask time (lib/content/agreement-clauses.ts). */
   dealLines?: string[]
   agreementSigned?: boolean
@@ -186,6 +188,8 @@ export default function KidQuestScreen({
   usedTodayMinutes?: number
   recommendedMinutes?: number
   requests?: KidAsk[]
+  /** Every pending ask, however old: the number the cap counts. See the page. */
+  asksPendingTotal?: number
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
   // The screens this family owns, so the timer picker names one instead of
@@ -245,6 +249,8 @@ export default function KidQuestScreen({
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
   const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
+  // What went wrong turning them on, in words, so a failure is never silence.
+  const [remindError, setRemindError] = useState<string | null>(null)
   const [showWelcome, setShowWelcome] = useState(false)
   // The welcome greets by the child's clock. Null until mounted so the server
   // render and the first client render agree, then the real hour arrives.
@@ -401,10 +407,10 @@ export default function KidQuestScreen({
       const deep = new URLSearchParams(window.location.search).get('tab')
       if (deep === 'games') {
         setTab('lessons'); setLessonTab('games')
-        setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+        setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 300)
       } else if (deep === 'print') {
         setTab('print')
-        setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+        setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 300)
       } else if (deep === 'five') {
         // Back from a builder whose print just landed one of today's five:
         // the day itself, with the next step lit (see fiveADayHref).
@@ -504,6 +510,27 @@ export default function KidQuestScreen({
       .sort((a, b) => b.stageId - a.stageId)[0] ?? null
   })
 
+  // ── EVERY OTHER STICKER LANDS TOO (14 September 2026) ────────────────────
+  //
+  // The Friends had the rocket; First Lesson, First Sheet, the timer, the
+  // jobs and the outside days had a pop that only fired inside the passport.
+  // Anything owed a celebration that is not a Friend lands here, on open, one
+  // at a time. KidStickerLand marks them seen on show, so the book's own pop
+  // gets the rest of the list and never repeats these.
+  const [landing, setLanding] = useState(() =>
+    stickers.filter(s => celebrateStickers.includes(s.key) && s.earned && s.rule.kind !== 'friend'))
+  const landedKeys = useRef(new Set(landing.map(s => s.key)))
+  const bookCelebrate = celebrateStickers.filter(k => !landedKeys.current.has(k))
+
+  // What is left today, from the five a day, for the Today entry on the bar.
+  const [todayTab, setTodayTab] = useState<TodayTab>(() => ({
+    left: fiveADayInitial ? fiveADayInitial.steps.filter(k => !fiveADayInitial.done.includes(k)).length : 0,
+    total: fiveADayInitial?.steps.length ?? 0,
+    complete: !!fiveADayInitial?.complete,
+    opened: (fiveADayInitial?.steps.length ?? 0) > 0,
+  }))
+  const onTodayState = useCallback((t: TodayTab) => setTodayTab(t), [])
+
   // THE LIVE COUNT.
   //
   // completedStreaks is read on the server when the page loads, and a child who
@@ -517,6 +544,15 @@ export default function KidQuestScreen({
   // more. The server read still wins on the next load.
   const [liveStreaks, setLiveStreaks] = useState(completedStreaks)
   const [liveDays, setLiveDays] = useState(completedDays)
+  // THE WEEK ROW MOVES THE MOMENT THE DAY LANDS. Justin, 14 September 2026,
+  // with Today is done above a week row still saying finish today: the row
+  // was the server's read from before the last tick. Today is marked done
+  // here on the transition; the server read still wins on the next load.
+  const [week, setWeek] = useState(dailyStickers?.week ?? null)
+  useEffect(() => { setWeek(dailyStickers?.week ?? null) }, [dailyStickers])
+  const markTodayDone = useCallback(() => {
+    setWeek(w => (w ? w.map(d => (d.isToday ? { ...d, earned: true } : d)) : w))
+  }, [])
 
   // FINISHING A DAY DOES NOT ALWAYS ADD ONE.
   //
@@ -544,6 +580,20 @@ export default function KidQuestScreen({
     setLiveStreaks(next)
     return next
   }, [liveDays, jobStreaks])
+
+  // THE MISSION: the next sticker on each objective, read off the book the
+  // screen already holds. The friend row takes the live full days so it moves
+  // with the day. See lib/kid/mission.ts.
+  // The token goes in so each row knows where the work is actually done, and
+  // so a row with nowhere to send them stays a plain row (lib/kid/mission.ts).
+  // What this child has asked for and not heard back on: their job ideas, and
+  // a live screen time ask. Counted the way the cap counts them (a head count
+  // from the server, never just the window this page happened to load), so a
+  // child with five old ideas sees five.
+  const waitingOnGrownUp = Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)
+    + (screenAsk?.status === 'pending' ? 1 : 0)
+
+  const mission = useMemo(() => buildMission(stickers, { fullDays: liveStreaks, token }), [stickers, liveStreaks, token])
 
   // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
   //
@@ -918,28 +968,49 @@ export default function KidQuestScreen({
     } catch { /* best effort, the next load reconciles */ }
   }
 
+  // TURNING REMINDERS ON, THE WAY THE PARENT APP ALREADY DID IT.
+  //
+  // Justin, 15 September 2026: "it says when instructions to add to home
+  // screen to then click quest and it will ask for notifications but it is
+  // not working."
+  //
+  // It was not. This function used to await the service worker registration
+  // and then serviceWorker.ready BEFORE calling Notification.requestPermission,
+  // and those two awaits spend the tap: iOS only opens the permission sheet
+  // while the page still holds the user activation from the press. So the
+  // sheet never appeared. Then the bare `catch { setRemindState('hidden') }`
+  // around it took the card off the screen, so the child tapped Yes please,
+  // saw nothing happen, and lost the button as well.
+  //
+  // lib/push/enable.ts now owns the order, shared with the parent's card, and
+  // a failure comes back as a sentence the child can read instead of silence.
   async function enableReminders() {
-    try {
-      const reg = await navigator.serviceWorker.register('/sw.js')
-      await navigator.serviceWorker.ready
-      const perm = await Notification.requestPermission()
-      if (perm !== 'granted') { setRemindState('hidden'); return }
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-      })
-      await fetch('/api/quests/push-subscribe', {
+    setRemindError(null)
+    const result = await enablePush(
+      sub => fetch('/api/quests/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // deviceId so this phone keeps ONE row instead of gaining another every
         // time the push service rotates its endpoint. Teo had five, and four of
         // them still delivered, which is why every reminder arrived four times.
         // See migration 166.
-        body: JSON.stringify({ token, subscription: sub.toJSON(), deviceId: getDeviceId() }),
-      })
+        body: JSON.stringify({ token, subscription: sub, deviceId: getDeviceId() }),
+      }),
+      endpoint => fetch('/api/quests/push-subscribe', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, endpoint }),
+      }),
+    )
+    if (result.ok) {
       localStorage.setItem('gc_kid_reminders', '1')
       setRemindState('on')
-    } catch { setRemindState('hidden') }
+      return
+    }
+    // An iPhone that has not been installed yet is not a failure, it is the
+    // step before. Send them to the how to rather than to an apology.
+    if (result.reason === 'ios-needs-install') { setRemindState('ios'); return }
+    setRemindError(result.message)
   }
 
   // Ticking a job moved to the jobs page (KidJobsScreen) with the list
@@ -1045,7 +1116,7 @@ export default function KidQuestScreen({
   const goToTab = useCallback((key: 'quests' | 'lessons' | 'print') => {
     // Quests goes to the five a day, which is the day itself now the separate
     // Today list has folded into the jobs page.
-    const id = key === 'quests' ? 'kid-five' : 'kid-tabs'
+    const id = key === 'quests' ? 'kid-five' : 'kid-tab-content'
     // Next frame, so the tab's content has rendered and the anchor is where it
     // will actually be rather than where it was a moment ago.
     requestAnimationFrame(() => {
@@ -1194,7 +1265,9 @@ export default function KidQuestScreen({
     try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual' } catch { /* fine */ }
 
     const settle = () => {
-      if (!allDone) { document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
+      // The day, not the jobs. allDone is the jobs flag, and a child with four
+      // of five left was being dropped onto Lessons on open (14 September 2026).
+      if (!allDone || !todayTab.complete) { document.getElementById('kid-five')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
       if (totalNewLessons > 0) { setTab('lessons'); goToTab('lessons'); return }
       if (newPrint > 0) { setTab('print'); goToTab('print'); return }
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -1202,6 +1275,9 @@ export default function KidQuestScreen({
     // Two frames, so the restored scroll has already happened and the list has
     // laid out. Racing it means landing on an anchor that then moves.
     requestAnimationFrame(() => requestAnimationFrame(settle))
+    // todayTab.complete is read once on settle and deliberately not a
+    // dependency: the effect is the open of the page, not every tick.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seenHydrated, allDone, totalNewLessons, newPrint, goToTab])
 
   const hasWatch = adventures.length > 0
@@ -1264,12 +1340,28 @@ export default function KidQuestScreen({
   }
 
   return (
-    <div style={{
+    <div className="gc-kid-page" style={{
       minHeight: '100dvh', background: theme.bg,
       display: 'flex', flexDirection: 'column', alignItems: 'center',
-      padding: '22px 16px 40px',
+      // The bottom pad clears the fixed tab bar, which is portalled to body and
+      // so takes no space in the flow. 77px is the bar at its real height plus
+      // the home indicator inset; without this the last card on the longest
+      // screen in the product sits underneath it and cannot be reached.
+      padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))',
       fontFamily: 'var(--font-body)',
     }}>
+      {/* THE ZOOM COMES OFF BODY WHILE THIS SCREEN IS MOUNTED.
+          shared/tokens.css zooms body by 1.07. A FIXED element under a zoomed
+          ancestor drifts up an iPhone as you scroll, which is what happened to
+          the parent's bar twice in one morning (.bottom-tab-bar, globals.css).
+          The child's bar is portalled to body, so unzooming body is enough to
+          leave it with no zoomed ancestor at all; this page zooms itself
+          instead, so everything here looks exactly as it did. */}
+      <style>{`
+        body { zoom: 1; }
+        .gc-kid-page { zoom: 1.07; }
+        [data-kid-tabs-fixed] .kid-tab-label { font-size: 0.78rem; }
+      `}</style>
       {/* First open ever: meet the Planet Friend for this child's stage, then
           the whole family they can earn. Overlays the app until they tap through. */}
       {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => {
@@ -1300,6 +1392,7 @@ export default function KidQuestScreen({
       {activeGame && (
         <QuestGamePlayer
           game={activeGame}
+          theme={theme}
           onComplete={() => recordGame(activeGame)}
           onClose={() => setActiveGame(null)}
         />
@@ -1404,26 +1497,36 @@ export default function KidQuestScreen({
             the corner so a child (or a grown up) can turn the sounds off any
             time. The eyebrow greets by the child's own clock, mounted after
             first paint so the server and the first client render agree. */}
-        <div style={{ position: 'relative', textAlign: 'center', marginBottom: '18px' }}>
-          <button
-            onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
-            aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
-            style={{
-              position: 'absolute', top: 0, right: 0, width: 40, height: 40, borderRadius: '50%',
-              background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
-              cursor: 'pointer', fontSize: 'var(--text-lg)', lineHeight: 1, color: 'var(--ink)',
-            }}
-          >
-            {soundOn ? '🔊' : '🔇'}
-          </button>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkSoft, marginBottom: 6 }}>
-            {greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
-          </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
-            Go {childName}!
-          </h1>
-          {/* Make it mine now lives as its own tile in the grid below, with
-              everything else that is not a to do. */}
+        {/* THE MASTHEAD. Justin, 14 September 2026, with Jonny's week page
+            open: "the front page has the similar design as the calendar
+            page, as looks great." So the greeting is the same masthead the
+            week page opens with: the painted rainbow, the white sheet with
+            the name over a sun disc, the child's own Friend on a plate, and
+            the little sound switch in the corner. The line under the name is
+            the day in one breath. Make it mine lives as its own tile below. */}
+        <div data-home-masthead style={{ width: '100%', maxWidth: 560 }}>
+          <KidWeekMasthead
+            kicker={greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
+            title={`Go ${childName}!`}
+            sub={todayTab.complete
+              ? `Today is done. ${liveDays} full day${liveDays === 1 ? '' : 's'} so far.`
+              : todayTab.total > 0
+                ? `${todayTab.left} of your ${dayWord(todayTab.total)} to go.`
+                : `Your ${dayWord(stepsPerDay(stageId as StageNum))} for today are just below.`}
+            friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+            corner={
+              <button
+                onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
+                aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
+                style={{
+                  width: 38, height: 38, borderRadius: '50%', background: '#fff', border: '2px solid var(--ink)',
+                  boxShadow: '0 2px 0 var(--ink)', cursor: 'pointer', fontSize: 'var(--text-base)', lineHeight: 1, color: 'var(--ink)',
+                }}
+              >
+                {soundOn ? '🔊' : '🔇'}
+              </button>
+            }
+          />
         </div>
 
         {/* The fate of their screen time ask, right under the greeting so it
@@ -1509,7 +1612,7 @@ export default function KidQuestScreen({
             bar, one number, and it now counts completed days rather than only
             the jobs run, so the five a day directly under it is visibly what
             moves it. */}
-        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+        <StreakBar completedStreaks={completedStreaks} />
 
         <div id="kid-five" style={{ scrollMarginTop: 96 }} />
         <KidFiveADay
@@ -1518,6 +1621,8 @@ export default function KidQuestScreen({
           theme={theme}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
+          jobsLeft={quests.filter(q => !ticks[q.id]).map(q => q.title)}
+          asksPending={Math.max(asks.filter(a => a.status === 'pending').length, asksPendingTotal)}
           newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
@@ -1530,8 +1635,13 @@ export default function KidQuestScreen({
             // once a star week, and the Friend arrival follows it on the
             // days a Friend is earned (see the close handler below).
             if (streakDueThisWeek) markStreakWeekSeen()
-            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [] })
+            markTodayDone()
+            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [], sticker: !!day?.sticker })
           }}
+          onStateChange={onTodayState}
+          weekDone={week}
+          weekFriend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }}
+          mission={mission}
         />
 
         {/* What a grown up sent, straight after the five a day. These two
@@ -1643,6 +1753,7 @@ export default function KidQuestScreen({
             difference between the feature working and not existing. */}
         {(remindState === 'offer' || remindState === 'ios') && (
           <KidRemindersPrompt
+            error={remindError}
             state={remindState}
             onEnable={() => { playKidSound('tap'); enableReminders() }}
             childName={childName}
@@ -1678,7 +1789,7 @@ export default function KidQuestScreen({
             // Games, on the front. Justin, 2 September 2026: "where do games
             // appear?" They lived only as a sub tab of Lessons, so a child
             // had to know to look there. Only when the stage has any.
-            ...(hasGames ? [{ front: true, icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
+            ...(hasGames ? [{ front: true, icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
             // Planet Friends, the digital toy, on the front. Justin, 2 September
             // 2026: "can't see the new game?" It sat at the bottom of the Games
             // sub tab, under every game, and was hidden at 10 plus. Every age
@@ -1695,14 +1806,16 @@ export default function KidQuestScreen({
               onClick: () => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) },
             },
             // Printables: a tap opens the printables tab.
-            { icon: 'print', label: 'Printables', sub: 'Colour and do', tint: CRAYON.coral, onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
+            { icon: 'print', label: 'Printables', sub: 'Colour and do', tint: CRAYON.coral, onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
           ]
           return (
             <KidHomeTiles
               minutesReady={bankBalance * STAR_MINUTES}
               unlocked={allDone && quests.length > 0 && bankBalance > 0}
               rule={TIMER_RULE}
-              onUseTime={() => { setDeviceOpen(true); setPickNow(bankBalance > 0); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
+              // The ask has its own page now (14 September 2026): three taps
+              // on the dotted sky. A live timer still opens the card here.
+              onUseTime={() => { playKidSound('tap'); if (liveSession) { setDeviceOpen(true); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } else { window.location.assign(`/k/${token}/ask`) } }}
               tiles={tiles}
               onFriends={() => { setShowIntro(true); playKidSound('tap') }}
               tellHref={token ? `/k/${token}/tell` : null}
@@ -1810,6 +1923,7 @@ export default function KidQuestScreen({
               <DeviceTimeCard
                 key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
                 startPicking={pickNow}
+                askHref={`/k/${token}/ask`}
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
                 holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
                 coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}
@@ -1834,16 +1948,16 @@ export default function KidQuestScreen({
                 // when this stage actually has some.
                 onPrintables={() => {
                   setTab('print'); setActiveLesson(null); playKidSound('tap')
-                  setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
                 }}
                 onGames={hasGames ? () => {
                   setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap')
-                  setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                  setTimeout(() => document.getElementById('kid-tab-content')?.scrollIntoView({ behavior: 'smooth' }), 120)
                 } : undefined}
               />
               {weekChart.some(d => d.count > 0) && (
                 <div style={{ marginTop: '12px' }}>
-                  <KidWeekChart data={weekChart} weekStars={weekStars} />
+                  <KidWeekChart data={weekChart} weekStars={weekStars} friend={{ name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img }} />
                 </div>
               )}
             </div>
@@ -1944,10 +2058,24 @@ export default function KidQuestScreen({
             token={token}
             childName={childName}
             stickers={stickers}
-            celebrateStickers={celebrateStickers}
+            celebrateStickers={bookCelebrate}
+            daily={dailyStickers ? { ...dailyStickers, total: liveDays, week: week ?? dailyStickers.week, friend: { name: BUDDY_MAP[chosenBuddy].name, img: BUDDY_MAP[chosenBuddy].img } } : null}
             passportCode={passportCode}
             stageId={stageId}
             book={kidBook}
+          />
+        )}
+
+        {/* A sticker lands: the child's Friend, the sticker big, why it came,
+            and the flight into the passport. Under the Friend arrival, which
+            is rarer and wins if both are due on the same open. */}
+        {landing.length > 0 && !arrival && (
+          <KidStickerLand
+            token={token}
+            stickers={landing}
+            buddy={chosenBuddy}
+            onClose={() => setLanding([])}
+            onOpenBook={() => { setLanding([]); setPassportOpen(true) }}
           />
         )}
 
@@ -2138,17 +2266,60 @@ export default function KidQuestScreen({
             labels a size up in full ink, the icons bigger, the tap targets
             taller. Same three tabs, same sticky behaviour. */}
         <KidTabBar
-          current={tab}
-          badges={{ lessons: totalNewLessons, print: newPrint }}
-          onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
+          // TODAY IS THE DAY. QUESTS IS THE JOBS.
+          //
+          // Justin, 15 September 2026, from this screen: "on the bottom tabs
+          // home does not go to home and light up, and Quests should go to the
+          // jobs quest place."
+          //
+          // Both complaints were one fault. The five a day lives in the tab
+          // called 'quests', so standing on the day lit QUESTS, and Today, the
+          // thing the child was actually looking at, could never light at all.
+          // Two names for one screen, and the wrong one winning.
+          //
+          // The internal tab state is untouched: 'quests' is still the key for
+          // the day's own content. Only what the bar SAYS about it changes, so
+          // nothing about how this screen renders is rewired.
+          current={tab === 'quests' ? 'today' : tab}
+          // The same count the ask row uses, so the bar and the row cannot
+          // disagree about how many of this child's asks a grown up still has.
+          badges={{ lessons: totalNewLessons, print: newPrint, waiting: waitingOnGrownUp }}
+          onSelect={key => {
+            playKidSound('tap')
+            // Quests is a PLACE now, not a tab on this screen: the jobs a
+            // grown up has sent, which is what a child means by their quests.
+            if (key === 'quests') { window.location.assign(`/k/${token}/jobs`); return }
+            setTab(key); setActiveLesson(null); goToTab(key)
+          }}
+          today={todayTab}
+          onToday={() => { setTab('quests'); setActiveLesson(null); playKidSound('tap'); goToTab('quests') }}
         />
 
-        {tab === 'quests' && (<>
-        {/* The balance insight surface: a bigger, brighter, character led card
-            that teaches why balance is worth it, rotating a fresh idea daily,
-            grounded in the science bank. Replaces the old single tip line. */}
+        {/* WHERE A TAB'S CONTENT STARTS, which is what the six callers below
+            actually mean when they say "go to the tabs".
+            Justin, 15 September 2026: "new tabs at bottom not linking to right
+            pages." They stopped the moment the bar became fixed. Every one of
+            those callers scrolled to #kid-tabs, the BAR, which worked only
+            because the bar used to sit in the flow directly above the content.
+            A fixed element is always in view, so scrollIntoView on it does
+            nothing at all: the tab changed underneath and the child stayed
+            looking at the top of the home screen.
+            The bar is a control now, not a position. This is the position. */}
+        <div id="kid-tab-content" aria-hidden style={{ width: '100%', scrollMarginTop: 12 }} />
 
-        <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
+        {tab === 'quests' && (<>
+        {/* THE BALANCE DIAL IS NOT HERE ANY MORE (14 September 2026).
+            Justin, from his phone: "can make balance hidden behind tab as a bit
+            messy." It led this tab: a child opened Quests to do their jobs and
+            met a gauge, a headline, a green chip and a DiGi paragraph before a
+            single job. It is a good card in the wrong place, because it is a
+            reflection on the day and this tab is the doing of it.
+
+            It lives on the balance screen now, which is where the rest of
+            balance already is (the minutes, the timer, the week) and which the
+            five a day's own Check my balance row opens. Nothing is lost and
+            nothing is hidden: it is one tap from the row that was always the
+            way in. */}
 
         {/* The jobs themselves live in the ONE Today list above, ticked in one
             flow with Learn and Move, so nothing about today repeats down here.
@@ -2696,7 +2867,7 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
   bankBalance: number
   goalRedeemed: boolean
-  agreementItems?: { title: string; body: string }[]
+  agreementItems?: { title: string; body: string; emoji?: string; why?: string | null }[]
   agreementSigned?: boolean
   /** The parent's signature on its own, so the child's agree can say whether the deal is now agreed by both. */
   agreementParentSigned?: boolean
@@ -2807,13 +2978,18 @@ export function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goa
                       aria-expanded={open}
                       style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', cursor: 'pointer', padding: '13px 15px', textAlign: 'left' }}
                     >
-                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="deal" size={18} color="var(--terracotta-dark)" /></span>
+                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-md)', lineHeight: 1 }}>{it.emoji ? <span aria-hidden>{it.emoji}</span> : <KidIcon name="deal" size={18} color="var(--terracotta-dark)" />}</span>
                       <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{it.title}</span>
                       <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
                     </button>
                     {open && (
                       <div style={{ padding: '0 15px 14px 59px', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>
                         {it.body}
+                        {it.why && (
+                          <span data-why style={{ display: 'block', marginTop: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                            Why: {it.why}
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -2946,7 +3122,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
             reading what each locked Friend costs is exactly who wants to know
             how close the next one is. */}
         <div style={{ marginBottom: '18px' }}>
-          <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+          <StreakBar completedStreaks={completedStreaks} />
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your background</div>
@@ -3236,44 +3412,32 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
   )
 }
 
-function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
+function KidWeekChart({ data, weekStars, friend }: { data: { label: string; count: number; today: boolean }[]; weekStars: number; friend: { name: string; img: string } | null }) {
   // A child reads a week best as a simple row of days they showed up on, the
-  // Duolingo and Finch way: a filled gold star for every day with a quest, an
-  // empty circle for a quiet day, today ringed. No bar heights to decode, no
-  // floating numbers. The framing is days shown up, never a day missed, so it
-  // celebrates the habit and never nags.
+  // Duolingo and Finch way: a day with a quest is a day their Friend sits on,
+  // a quiet day is quiet, today wears the coral edge. No bar heights to
+  // decode, no floating numbers. The framing is days shown up, never a day
+  // missed, so it celebrates the habit and never nags. It was a butter circle
+  // with a butter star until the Kenji note (14 September 2026); the row is
+  // KidWeekCalendar now, the same one under the five a day and in the book.
   const activeDays = data.filter(d => d.count > 0).length
   const headline =
     activeDays === 0 ? 'A fresh week, let us go!'
     : activeDays >= 6 ? `Amazing, ${activeDays} days this week!`
     : activeDays >= 3 ? `Great going, ${activeDays} days this week`
     : `${activeDays} day${activeDays === 1 ? '' : 's'} this week, keep it up`
+  const today = data.findIndex(d => d.today)
   return (
-    <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '12px' }}>
-        {headline}
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
-        {data.map((d, i) => {
-          const active = d.count > 0
-          return (
-            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-              <div style={{
-                width: 34, height: 34, borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
-                background: active ? 'var(--terracotta)' : 'var(--cream)',
-                border: active ? 'none' : '2px dashed var(--ink-light)',
-                boxShadow: d.today ? '0 0 0 3px var(--terracotta-lt)' : 'none',
-                color: '#fff', fontWeight: 800,
-              }}>
-                {active ? '⭐' : ''}
-              </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: d.today ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>{d.label}</span>
-            </div>
-          )
-        })}
-      </div>
-      <div style={{ marginTop: '13px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '10px' }}>
+    <div style={{ marginBottom: '14px' }}>
+      <KidWeekCalendar
+        days={data.map((d, i) => ({ letter: d.label, done: d.count > 0, isToday: d.today, ahead: today >= 0 && i > today }))}
+        friend={friend}
+        title="Quest days"
+        count={{ n: activeDays, of: 7, word: 'days' }}
+        line={headline}
+        tone="green"
+      />
+      <div style={{ marginTop: '10px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '10px' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           ⭐ {weekStars} stars earned = {weekStars * STAR_MINUTES} minutes of screen time
         </span>

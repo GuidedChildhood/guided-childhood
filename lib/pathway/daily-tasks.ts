@@ -8,6 +8,7 @@ import { currentStagePassportSections, type CurrentStageChild } from '@/lib/path
 import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
 import { readTonight } from '@/lib/pathway/tonight'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
+import { dealOutgrown } from '@/lib/content/agreement-promises'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -31,6 +32,30 @@ export interface TodayLoopTask {
    * green tick is never a mystery (Justin, 5 September 2026).
    */
   note?: string
+  /**
+   * NOTHING TO DO HERE, WHICH IS NOT THE SAME AS I DID IT.
+   *
+   * Justin, 16 September 2026, looking at his own road: "Quests seem to be
+   * updated on today but haven't done it yet today?" He was right, and the
+   * database agreed: four jobs set on the tenth, nothing waiting, nothing
+   * ticked today, and the rung green.
+   *
+   * It went green on `anyQuests && questsWaiting === 0`, and neither half is
+   * scoped to today. The reasoning was sound on its own (with an empty queue
+   * there really is nothing to do, and inventing a tap would be busywork) but
+   * it broke what a tick MEANS on this road. Every other rung here is today's,
+   * so one rung that can be green from last week turns a green tick into two
+   * different claims a parent cannot tell apart. It is the same rule Justin
+   * set on 13 August about the check in: "just looking at the check in is not
+   * enough to tick it off."
+   *
+   * So the honest bit is kept and the claim is dropped. `done` now means the
+   * parent acted TODAY. `clear` means the step is settled with nothing owed,
+   * and it renders as its own quiet state rather than as a tick. The day still
+   * completes on a clear rung, because an empty queue is not a failure and
+   * should never cost a family their streak.
+   */
+  clear?: boolean
   /**
    * The day's ONE tick. Justin, 1 September 2026: "only have to click one
    * tick per day but have other recommended." Exactly one task carries this
@@ -147,6 +172,9 @@ export async function getTodayLoop(
     { count: questCount },
     { count: ticksWaiting },
     { count: asksWaiting },
+    { count: ticksApprovedToday },
+    { count: asksDecidedToday },
+    { count: questsMadeToday },
     { data: scoredToday },
     { data: agreementRow },
     passportRead,
@@ -197,6 +225,18 @@ export async function getTodayLoop(
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
     supabase.from('quest_ticks').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
     supabase.from('quest_requests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
+    // ── AND DID THEY ACTUALLY DO ANY OF IT TODAY ───────────────────────────
+    //
+    // The three ways a parent moves their quests: approving a tick the child
+    // sent, answering a job the child pitched, or writing a new one. Any of
+    // the three is a real action today and earns the tick. Head counts in the
+    // wave that was already going, so this costs no extra round trip.
+    //
+    // approved_at and decided_at rather than created_at, deliberately: the row
+    // is created when the CHILD acts, and this rung is about the parent.
+    supabase.from('quest_ticks').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('approved_at', dayStart),
+    supabase.from('quest_requests').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('decided_at', dayStart),
+    supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', dayStart),
     // ── DID THEY ACTUALLY MOVE THE SCALE TODAY ─────────────────────────────
     //
     // Justin, 13 August 2026: "just looking at the check in is not enough to
@@ -228,7 +268,7 @@ export async function getTodayLoop(
     // it this week" are the same fact, which is the right one: an agreement
     // reopened and left alone is still a review.
     supabase.from('family_agreements')
-      .select('updated_at, created_at, signed_by_parent, signed_by_child, review_date')
+      .select('updated_at, created_at, signed_by_parent, signed_by_child, review_date, agreement_type')
       .eq('user_id', userId)
       .order('updated_at', { ascending: false })
       .limit(1)
@@ -290,6 +330,9 @@ export async function getTodayLoop(
 
   const anyQuests = (questCount ?? 0) > 0
   const questsWaiting = (ticksWaiting ?? 0) + (asksWaiting ?? 0)
+  // Approving, answering or writing. Any one of the three is the parent moving
+  // their quests today, and that is what a green tick on this road claims.
+  const questsActedToday = (ticksApprovedToday ?? 0) + (asksDecidedToday ?? 0) + (questsMadeToday ?? 0) > 0
 
   // The agreement's weekly clock. updated_at is written on every save, so a
   // family who opened it and changed nothing still reads as reviewed, which is
@@ -334,6 +377,11 @@ export async function getTodayLoop(
   const agreementReviewDue = !!agreementReviewDate
     && agreementReviewDate <= today
     && (!agreementUpdatedAt || agreementUpdatedAt.slice(0, 10) < agreementReviewDate)
+  // And the deal written for a younger child (14 September 2026): a First
+  // screens deal on a child who is now on Builder is wrong every day, so the
+  // rung says update, whatever the review date.
+  const agreementOutgrown = agreementSigned
+    && dealOutgrown((agreementRow as { agreement_type?: string | null } | null)?.agreement_type, child?.stage_id ?? null)
 
   // How much of the passport is still on the parent to move. Null means there
   // is no passport to read yet, and the rung stays off the road entirely.
@@ -686,9 +734,9 @@ export async function getTodayLoop(
       done: false,
     }] : agreementUpdatedAt ? [{
       key: 'agreement' as const,
-      label: agreementReviewDue ? 'Review the deal' : 'The deal',
+      label: agreementOutgrown ? 'Update the deal' : agreementReviewDue ? 'Review the deal' : 'The deal',
       href: withChild('/dashboard/agreement?from=today'),
-      done: agreementFreshThisWeek && !agreementReviewDue,
+      done: agreementFreshThisWeek && !agreementReviewDue && !agreementOutgrown,
     }] : []),
     {
       key: 'script',
@@ -712,12 +760,22 @@ export async function getTodayLoop(
     // tell a parent different things about their own quests.
     {
       key: 'quests',
-      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : 'Quests',
+      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : questsActedToday ? 'Quests' : 'All clear',
       href: !anyQuests ? withChild('/dashboard/quests') : `${withChild('/dashboard/quests')}#quest-board`,
-      // Nothing waiting and jobs already set is a genuinely finished step.
-      // No jobs at all is never done, because that is the thing the whole star
-      // system runs on and a tick against it would be a lie.
-      done: anyQuests && questsWaiting === 0,
+      // ── THREE STATES, BECAUSE THERE ARE THREE THINGS TO SAY ──────────────
+      //
+      // This used to be `anyQuests && questsWaiting === 0`, which put a green
+      // tick on a road for a family who had not touched their jobs in a week.
+      // See the `clear` note on TodayLoopTask for the whole reasoning.
+      //
+      //   done   the parent approved, answered or wrote something TODAY
+      //   clear  jobs are set and nothing is owed, so there is nothing to do
+      //   open   no jobs at all, or something is waiting on them
+      //
+      // No jobs at all is neither done NOR clear, because that is the thing
+      // the whole star system runs on and letting it settle would bury it.
+      done: questsActedToday,
+      clear: anyQuests && questsWaiting === 0 && !questsActedToday,
     },
     // ── THE PASSPORT, AFTER THE QUESTS ─────────────────────────────────────
     //

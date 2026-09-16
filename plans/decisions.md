@@ -14647,6 +14647,70 @@ week card down to name and button), then the researchers file behind a
 switch with the evals run before it flips, then local session verification
 in middleware as its own PR.
 
+## 14 September 2026, Monday, the print kit and the passport print out (session 0u09q9)
+
+Justin, with the print room open: "run the best design agents over the
+print outs like booklet etc and make them print formatted with Planet
+Friends colour print outs, also making a super amazing print out finish for
+children and teachers to be amazed at. And should we have somewhere a print
+out of the passport for them as a task to cut out, print, attach stickers
+etc, with words that reflect what they should know each stage, super simple,
+super fun and more engaging the older the level."
+
+**The kit, and the friend on every sheet.** Every printable in the schools
+app now draws through `schools/components/print/kit.tsx`. The signature is
+one thing: the key stage's Planet Friend is on the page, in colour, doing
+something on that page. It waves on a cover, thinks beside a question, is
+proud on a finished record, and holds the ring a passport sticker goes in.
+Colour comes from the friend (its tint as the band, its accent on rules
+and chips, its ink for words on the tint), body text is always ink, and
+every box keeps an ink border, so a black and white photocopy keeps the
+structure and a colour print keeps the joy. No new art: the cutouts and the
+fifteen expression stills already on the CDN carry all of it, so nothing
+spent a credit.
+
+**The register in print is the wall's ladder.** `printRegister(keyStage)`
+decides the sizes from `shared/friend-register.ts`: a Reception sheet gets
+one idea a page, a friend at 60mm on the cover, stars to colour and boxes to
+draw in; a Year 11 sheet gets an editorial grid, quiet colour and the friend
+as an 18mm mark. Chosen by key stage, never per page.
+
+**On the kit:** the pupil booklet, the paper pack (the teacher one pager,
+the tool bookmarks, the worksheet, the answer key, the start and exit cards,
+the parent note with the passport line and the home code as a chip), the
+knowledge organiser, the learning record with real stars to colour, both
+quizzes, the unit overview and the print room. The renders found two data
+bugs the plain sheets had hidden: the four JSON authored modules carry
+worksheet cards as `{ stem, text }` and printed as empty cards, so
+`schools/lib/worksheet.ts` reads both shapes and the answer key prints only
+where a verdict exists; and the EYFS objective slide has no gains list.
+
+**The passport print out.** `/print/passport` lists four editions, one per
+page the school scheme fills: First steps (Pebble), Good habits (Bloop),
+Making choices (Orbit) and Ready at sixteen (Nova). Each is two landscape
+sheets. Sheet A is the passport: eight panels on one side of one A4, folded
+and cut into a booklet the size of a real passport, the top row printed
+upside down as 5 4 3 2 and the bottom row 6 7 8 1 with the cover bottom
+right, a page number on every panel so a teacher checks the fold before a
+class does, the cut marked across the two middle panels only. The four
+areas each have a ring for a sticker and the words of what a child on this
+page should know: the `I can` line of every lesson on the page, read from
+the lesson rows, never typed. Sheet B is the stickers: one per lesson, one
+per area, the stage stamp, three stars, and the fold in four steps with the
+layout drawn beside it. The ladder holds here too: First steps has huge
+rings and stars to colour, Ready at sixteen calls its areas tests and ends
+with a signature and a date.
+
+**Explorer and KS5.** The Asking questions page has no school lesson (every
+KS3 module sits on Making choices, as `shared/passport-stages.ts` already
+decided), so it is filled at home and has no edition. Years 12 and 13 are
+past the passport by design, and the index says so.
+
+**Held in CI.** `scripts/check-print-kit.mjs`: every sheet draws through the
+kit and places the friend, both worksheet readers are the one reader, the
+fold places the eight pages once each with the cover bottom right, the four
+editions each have a friend, the print room and the hub passport page link
+the print out, and there is no dash in the kit's or the passport's words.
 ## 13 September 2026, night: DiGi reads in ten seconds
 
 The second of the recommendation PRs, items one, two and five.
@@ -14960,3 +15024,727 @@ should not pick either up as unfinished work. The Monday task
 domain half is deleted from it because that job is done, and it now surfaces
 these two, plus a check that the first real payment behaved, on the day a
 parent actually pays.
+## 14 September 2026, afternoon: stickers that land, and the keepsakes that match them
+
+Justin, two messages after the passport walkthrough: the first badge should
+say congratulations and point at the printed passport and sticker sheet
+(buy and add as they go, or print when complete); every daily sticker should
+be on both passports; the child's book should pay the timer, jobs and time
+outside; a big Planet Friend pop with the sticker going into the passport;
+parents told what was earned and why; a Duolingo style way back to today on
+every tab; the sheet in the shop must be the platform's stickers; an image of
+the passport print out; and supplier research for the passport, the sheet
+and the plush.
+
+Decided, and built on PR 1073 (plan: plans/2026-09-14-stickers-that-land-plan.md):
+
+- **Three new sticker kinds**: timer (1, 7, 30 days the timer ran), jobs
+  (1, 10, 50 approved), outside (1, 10, 30 days with the move step). Nine
+  stickers, all ratcheted, read on the same reconcile. The book is thirty
+  stickers plus the family's sorted stamps.
+- **The daily sticker is in the book**: an Every day page with this week's
+  seven and the total. The day done screen names the sticker it paid.
+- **A sticker lands** (`components/kid/KidStickerLand.tsx`): every owed non
+  Friend sticker takes the home screen on open, the child's own Friend beside
+  it, one line saying what they did, the flight into a small passport, one
+  way out into the book. Seen on show. The child's load now writes the book
+  before reading what is owed, which closes the race that hid the sticker on
+  the very load it was earned.
+- **Parents are told, and told why**: a push at the write (child's load only,
+  only when the write landed), the first ever sticker carrying the passport
+  line; a Home card saying the same with the two doors; the passport strip's
+  stickers line (total, new this week, the way to the book at `#stickers`).
+- **Today on every tab**: a Today entry first on the child's bar (count left,
+  green tick when done), a way back pill on six sub pages, the week of full
+  days under the five a day from the day's own row, and the open load only
+  auto switches tabs when the DAY is done, not the jobs.
+- **Keepsakes**: the sticker sheet card draws the real catalogue; the passport
+  card opens an A6 print out page built from the child's real stamps and
+  stickers, which is also the file a printer receives; the Now button stays
+  off the shop.
+- **Suppliers**: plans/2026-09-14-keepsakes-suppliers-research.md. Every
+  figure is tagged; the sandbox could not open supplier pages, so each needs
+  one click before it goes in an email.
+
+Guard `scripts/check-stickers-land.mjs`, fourteen rules, six mutations
+caught, wired. No migration.
+
+## 14 September 2026, late afternoon: the agreement reviewed against its own science
+
+Justin, with the builder's first step on his phone: review the agreements
+for "super top design for child print outs", "wired in with children",
+"refer to regularly, advise of needing updating, print out and live on both
+apps", and "matches best science, age, and what we have fully researched
+from child experts". Review: plans/2026-09-14-agreement-review.md.
+
+Decided, on PR 1073:
+
+- **One reader for the promises** (`lib/content/agreement-promises.ts`),
+  used by the child's app, both fridge doors and the A4 copy. Structured
+  clauses first, legacy columns for older rows, each promise with its icon,
+  its why and its table question. Three readers had drifted into three
+  versions of one row.
+- **The child's fridge sheet prints the agreement.** It never had: it
+  printed the jobs and the timer rule. Now the promises lead with their
+  whys, the child's Planet Friend is on it, then the stars, the timer rule,
+  the jobs, the goal, the science with sources, signatures with names when
+  signed, and the review date.
+- **The science lives on the deal** (`SCIENCE_BY_TYPE`): two or three
+  sourced lines per type, every one from the product's own research bank,
+  shown in the builder before the signatures and on every print. Naming
+  rule from migration 123 kept: never a living clinician. The guard fails
+  on a clinician's name.
+- **Outgrown**: a deal written for a younger stage reads "update it
+  together" on the passport and "Update the deal" on the road. Only when
+  behind; ahead is a family who knew what they were doing.
+- **Two corrections the research bank forced**: no earned time clause in
+  the four to seven deal (digi/04-stages: screen time is never framed as a
+  reward at that age; the stars still run, the deal does not write the
+  trade down for a five year old), and the earned time why line stops
+  leaning on the retired verb. The clause title stays because legacy rows
+  are matched on it.
+- **Honest line on every deal**: the one randomised trial of family media
+  plans (Moreno, JAMA Pediatrics 2021) found no effect of the plan itself;
+  the bedroom rule carries the weight (Carter, JAMA Pediatrics 2016), so it
+  leads the science on every type and the rest is the conversation.
+- The Now button straddles the tab bar instead of floating a full circle
+  over the page. The recommended pill no longer wraps.
+
+Guard check-deal-in-the-loop grew to 24 rules; five review mutations caught.
+
+## 14 September 2026, evening: the child's week, drawn with the Friend
+
+Justin, with four Kenji screenshots (the chick and the bunny on a dotted sky,
+the gem rewards board, the boba blind boxes): "Child calendar does not look
+great in yellow. Redesign in super fun happy news style like the Kenji shop
+but our Planet Friends."
+
+Three week rows had grown on the child's side and all three were yellow on
+yellow. One component now, `components/kid/KidWeekCalendar.tsx`: a pastel
+ground scattered with coral and butter dots, seven chunky tiles with ink
+edges and ledges, the child's own Planet Friend sitting on every done day
+with a green tick, today in a coral edge with a TODAY tag, days ahead dotted,
+a quiet past day simply quiet (no red, no loss language). A ribbon heading,
+a count pill, one line under. Used under the five a day (full days), on the
+book's Every day page (daily stickers) and on the balance card (quest days),
+each with its own tone. The Kenji move is the dotted sky and the character
+on the tile; the palette, the ribbon and the plates are ours.
+
+## 14 September 2026, evening: the ask row cannot get stuck, and the week page leaves the yellow
+
+Justin, with Jonny's home at four of five ("one of child's tasks is add job
+but not letting me and not clearing; maybe if too many jobs there to do it
+should be highlighting the platform jobs to do as part of the five, and once
+done they can then add; bit of a token loop") and Jonny's week page, a slab
+of butter with the back link under the clock.
+
+- **An idea already with the grown up IS the ask done.** The suggest page
+  caps pending ideas at five and the day at five, so a child whose grown up
+  had not answered could never tick Ask for a job and never finish the day.
+  The row ticks itself when any idea is pending, the way the jobs row does
+  when the board is clear, and says "Your idea is with your grown up. That
+  counts." The jobs row now names the jobs still to do, so the five points
+  at the board's own jobs first.
+- **The child's week page** sits on the same dotted sky as the week row,
+  with their Friend on a plate beside the title, chunky white day tiles with
+  ink edges and ledges (open day butter, today coral), the chosen day in an
+  ink edged card, and the back link clear of the status bar. The chips keep
+  Google's calendar colours on their washes, which is what a light ground was
+  always for. Fixture `/dev/kid-school-week`.
+
+## 14 September 2026, evening: ask for screen time has its own page
+
+Justin, with the balance card open on Jonny's phone: "when we ask for screen
+time on the child's app it needs to be a much clearer, simpler designed
+page: very simple to select device and time, then make sure it pops up and
+pushes on the parent's app, then come back and you can start on the child's
+app, doing checks on outstanding etc. This device time must be super fun, a
+mix between Kenji and Happy News styling, all wired in to record work, make
+sure it has the right amount, and the earn part: do jobs, outside."
+
+The flow was wired (the ask pushes the grown up, the yes box pops on their
+Home, the approved ask starts from the child's banner, every block is
+recorded and capped at the guide). It lived as a dense card folded inside
+the balance panel. Now `/k/[token]/ask` (`components/kid/KidAskScreenTime`):
+three taps on the dotted sky with the Friend. What screen (chunky tiles of
+the family's own devices). How long (four chips, the cost in stars said
+plainly, short or past the guide named, never a wall). Sent: the page polls
+the status route every eight seconds and turns into Start the moment the
+grown up says yes, and while they wait the jobs still to do (with the
+minutes they pay) and the five a day's outside step sit right there to earn
+more. Before screens jobs are named once at the top. Use my time on the
+home and the balance page's door both open it; a live timer still opens the
+card on the home. Every read fails soft; every decision stays on the server.
+
+Also fixed today's failing wiring check: three links on the Home sticker
+card had the child query variable right after the path, which the link
+checker read as a dead route. The query now starts in the literal.
+
+## 14 September 2026: the fifth step unblocked, the calendar on the white page, the sticker book leads with stickers
+
+Justin, 12:30, five screenshots: the ask page refusing a sixth idea while the
+five for today sat at 4 of 5, Jonny's week and the sticker book on the blue
+dotted ground, and The Happy Newspaper page as the reference.
+
+- **Why the fifth step stuck**: three readers counted pending ideas three
+  ways. The API cap counts every pending ask; the ask page reads a fortnight;
+  home read a WEEK and eight rows and handed that to the five a day. Five
+  ideas older than a week made home count zero, so the ask row never ticked
+  itself and the ask page refused the sixth. Home now has a windowless head
+  count of pending asks, the number the cap uses. At the cap the ask page
+  points at the jobs board with a door. The ideas were with the parent all
+  along (QuestBoard, "Add it", a cross); nothing added there.
+- **The calendar is the Happy Newspaper page, small**: white ground, every
+  day a disc, the Friend on a butter disc for a done day, today the pink disc
+  with the sun's rays, ahead dashed, a quiet past day pale and unremarked.
+  The count is a butter burst. The polka dot sky from the morning's Kenji pass
+  is gone from every child surface (week calendar, Jonny's week, the ask page)
+  and the guard refuses it back. `HAPPY.pink` and `SunRays` join the kit.
+- **The sticker book leads with stickers**: die cut tiles (white disc, ink
+  edge, hard shadow, a small tilt each way), locked ones pale silhouettes with
+  the cost under. The 6 August rule, every page says how it works, holds: the
+  one line note stays first, the paragraph sits behind a native details, one
+  tap. The Friend is on the cover as a sticker and on the passport title on a
+  plate.
+- Guard: check-stickers-land.mjs section H, five rules, mutation tested.
+## 14 September 2026, Monday, the print kit after the design council (session 0u09q9)
+
+Two critics read the rendered sheets: a Reception teacher and a Head of PSHE
+with a print designer's eye. Six findings changed the kit; the rest were
+fixture artefacts (the local render fixture had no quote or starter text for
+module 01, production has both) or already fixed.
+
+- Reception pupil pages were the Year 10 layout with a bigger Pebble. Now a
+  verdict card at Reception is three faces in crayon sized circles to point
+  at and colour (`BigChoice` in the kit), no tick boxes, no writing line, and
+  the drawing box runs to the foot of the page. The EYFS teacher notes already
+  called it "the circle sheet with faces"; the sheet now is one.
+- The register ran backwards on the cover: Sextortion set smaller than a
+  Reception title inside the same shrunken card. Years 7 up now open on an
+  editorial cover: the title at up to 56px, one accent rule, the friend as a
+  mark, no card, and no emoji on the rundown.
+- The teacher one pager is one page: dense boxes, a size down, and the
+  safeguarding note first, above the objective, because "brief the DSL before
+  this lesson" cannot be the first line of page two.
+- The footer is pinned to the foot of the A4 sheet (PrintSheet at 268mm), so a
+  short page no longer reads as a web page printed; labels and the footer are
+  ink muted, not pale grey, and answers on the key are ink at 800, so a black
+  and white copy keeps them.
+- The passport sticker sheet had eleven stickers for five rings, named
+  differently on each. Now one sticker per lesson and one ring per lesson,
+  matched by number on both, the stamp sticker on a ghost of the friend, no
+  Well done stars, and the older editions' stickers are plain type on the
+  disc with the area name, never a smiling face over a serious topic. The
+  booklet's last page carries the sticker's number instead of a ring nothing
+  fills.
+- The start card prints only when there is a last lesson to remember, and the
+  words to say fall back to the module's tool when a deck has no quote.
+
+Guard `scripts/check-print-kit.mjs` holds the Reception faces, the
+safeguarding order, the sheet height, the start card gate and the numbered
+match. No migration.
+
+## 14 September 2026, Monday, the pilot is two lessons (session 0u09q9)
+
+Justin on /pilot: "shouldn't the free pilot only include one lesson, as we
+need to get paying customers from it", then "I think pilot should be 2
+lessons". Taken as: a pilot code opens two lessons matched to the phase the
+school teaches, plus the Hub; everything else stays visible on the map and
+locked on tap. The whole scheme for a term (13 September) is withdrawn.
+
+- Pilot codes are their own env list, `SCHOOLS_PILOT_CODES`, entries as
+  `code:phase` (primary, secondary, post16, all_through; a bare code means
+  all through). Licence codes stay in `SCHOOLS_ACCESS_CODES`. The cookie is
+  unchanged; the tier and the phase are looked up on every request.
+- The sets, one list in `schools/lib/pilot.ts`: primary ks1-03 and ks2-06;
+  secondary ks3-24 and ks4-15; post16 ks4-19 and ks5-20; all through is
+  primary plus secondary. None carries a DSL note. Justin can swap any.
+- A pilot code reaches its two lessons in the four teacher shapes, the class
+  wall for them, the print room index, the passport print out and the whole
+  Hub. A third lesson lands on /unlock with the pilot message naming the two
+  and the prices. The map marks "In your pilot" and "Full scheme"; the nav
+  chip says Pilot school, never Licensed.
+- Every promise updated: /pilot, the pilot letter, the terms section 6, the
+  unlock page, the pricing page, the cron email to Justin (which list, which
+  shape), the env template. The free sample lesson stays open as before.
+
+Guard `scripts/check-pilot-door.mjs` holds the shape and the wall. No
+migration. Plan: `plans/2026-09-14-pilot-two-lessons-plan.md`.
+
+## 14 September 2026, Monday, the character voices made consistent (session 0u09q9)
+
+Justin: "make sure the character voices are consistent, not to confuse
+kids." An audit of every spoken line in all 25 lessons against
+digi-squad/README.md and the register ladder found the lessons coherent by
+key stage and the following not:
+
+- The curriculum map's manifest named a different friend from the lesson
+  on nine modules (the map said Orbit for Year 1, the lesson is Pebble; the
+  map said Cosmo for Years 7 to 9, the lessons are Orbit). The database was
+  the consistent side every time; the manifest now matches it, and
+  `scripts/check-character-voices.mjs` holds the friend key to the first
+  friend the cast line names.
+- Orbit fronted one KS2 lesson (ks2-09, the makers lesson) with no handover
+  between two Bloop lessons. It is Bloop's now, in every field. DiGi still
+  closes. No clips were rendered for it, so no credits are involved.
+- Orbit and Nova were still written as the retired fox: "Orbit the fox",
+  "a fox's pockets", "street smart", "a little sly". Retired in six lines.
+  Bloop wore Sofia's cape and Oliver's coral in two scripts; corrected.
+- The same friend was "he", "she" and "it" across slides. The name is used
+  instead; the star breath keeps its "it".
+- The sixth form said hello twice (Cosmo on the title, DiGi introducing
+  itself next). The title is DiGi's, with a line that is not a hello. The
+  four calm register lessons also said "Hello. I am DiGi." twice; the
+  arrival now opens on its question.
+- Orbit's default intro line was the KS1 "boss of your screen" line on six
+  KS3 lessons; it asks a big question now.
+
+Migration 301 applied to production on 14 September; the file in the tree
+is what ran. Two calls Justin may reverse: ks2-09 to Bloop, and DiGi rather
+than Cosmo on the sixth form title.
+
+## 14 September 2026, Monday, the pilot set approved and Cosmo deferred (session 0u09q9)
+
+Justin, on the three calls in the voice work: "happy with your recommendations
+but do remind me once live schools you re do cosmo." And, on the env var:
+"I don't have any schools yet."
+
+**Approved, unchanged.** The two pilot lessons per phase as built. DiGi rather
+than Cosmo on the sixth form title. The makers lesson (ks2-09) on Bloop.
+
+**Deferred with a trigger.** Cosmo written properly into the two KS5 lessons,
+once the first school is live. Specced the same day while the detail was fresh:
+`plans/2026-09-14-cosmo-at-sixth-form-spec.md`. Zero credits, migration 302
+free, half a day once two decisions are made (whether the title keeps
+migration 301's lines, and whether the nine year Pebble callback ships at all,
+given no sixth former has come up through the scheme). The reminder lives on
+three surfaces and is removed by the pull request that does the work: THE-STORY
+section 12, review.md section 7, and the pilot note the cron emails Justin the
+moment a pilot row lands, which is the only one that reaches him at the moment
+it matters.
+
+**Two live defects the sweep found, fixed here.** Both were fallout from that
+morning's own change, which is worth recording plainly.
+
+- The schools home page cast strip had gone stale in the same commit that
+  corrected the manifest. Three of its six hand written lines described
+  lessons that now belong to other friends, and Cosmo was still being sold in
+  the retired fox's own words, "Street smart", hours after the fox was pulled
+  out of every lesson. The strip is now computed: it shows only a friend the
+  curriculum actually gives a module to, so it cannot drift again, and Cosmo
+  drops off today and comes back on his own the day the manifest gives him the
+  sixth form. A face on the front page that fronts no lesson is a claim with
+  no proof path.
+- `scripts/check-character-voices.mjs` could not have caught it for two
+  separate reasons: rule 2 read only the manifest and the intro lines, not the
+  home page, and its regex had no `/i` flag, so the capitalised phrase on the
+  page would have passed even in a file it read. Both fixed, and the rule now
+  also holds the computed cast. Four mutations tested, all four caught.
+
+**Reported, not touched.** CLAUDE.md's CONTEXT ROUTING block names ten paths
+that do not exist in this repo: docs/01, 02, 05, 07, 08, 09 and 11, schools/01,
+digi/01-philosophy.md and research/01. There is no docs directory at all. Every
+session is routed to nothing on those lines. Not fixed here, because what
+replaced them is a guess and a wrong guess in the routing file is worse than an
+obvious gap. Justin's call, and quick once he says what they became.
+## 14 September 2026: the daily jobs guide, start small and build up, advice not a block
+
+Justin, 13:04, with the Top picks tab showing twelve jobs on Jonny's board:
+"It allowed me to add 12 jobs. Can we only allow recommended daily jobs and
+build up as they get better at doing them, so they are not overwhelmed. A
+little warning and advice, not blocked."
+
+- The sweet spot per age already lived in `lib/quests/job-load.ts` (three a
+  day at four to seven, up to six from thirteen; NHS, NSPCC, the chores
+  research). The composer said a gentle word at that number; the tile picker
+  never consulted it, so twelve went in silently.
+- `lib/quests/job-guide.ts`: start (two at four to ten, three from eleven),
+  ceiling (the age's sweet spot), and a guide that climbs one for every week
+  that went well (four or more ticks agreed in it, the last four weeks with
+  this one included), never past the ceiling. Status room, at, over against
+  the jobs due today.
+- `JobGuideCard` on the Add a job tab between the composer and the picker:
+  headline, advice in Justin's voice, the sources, "Nothing is blocked", a
+  door to trim. Over is the alert red on a rose wash (on the parent side
+  `--coral` is an alias for butter, so the warning uses `--alert`). The
+  composer's word reads the same number and stops calling twelve "about
+  right". `/api/quests` returns four weeks of agreed ticks for the count.
+- **Nothing is enforced**: the add route takes every add it took before, and
+  the guard fails if it ever checks the guide.
+- Guard `check-job-guide.mjs`, three rules with a probe on the maths, five
+  mutations caught. Fixture `/dev/add-job?board=12&age=11-13`, `?weeks=1`.
+
+## 14 September 2026: the week row moves with the day, and the five carry a mission
+
+Justin, 13:07, with Jonny's home reading Today is done, 5 of 5, above a
+week row that still said "A fresh week. Finish today": "we need to know this
+is working right and every day works and adds together, and that the five a
+day have a mission over time to achieve our objectives of balanced device
+use and understanding online safety lessons."
+
+- **Why the row lagged**: the week came from the server's read at page load
+  and never moved when the fifth step ticked on the phone; the Today is done
+  card is local state. Now the screen holds the week, marks today done on
+  the transition, and the passport's Every day page takes the live week and
+  total. The server read still wins on the next load.
+- **A second, quieter fault**: the week's day keys were UTC dates while the
+  day store keys `kid_days` by the London day. From 11pm in summer time a
+  finished day would draw as not done for an hour. `dayStrUk` now builds
+  every key from `ukToday()`, the query window included.
+- **The mission** (`lib/kid/mission.ts`, `KidMission`): under the week in
+  both views of the five a day, three rows, one per objective, each the next
+  sticker with the least left: a Friend for full days (every day adds up),
+  lessons then the stage stamp (safe and smart online), days outside and on
+  the timer (balanced screens). The friend row takes the live full days. The
+  line under the ribbon says it in one breath.
+- Guard `check-stickers-land.mjs` section I, mutation tested four ways.
+
+## 14 September 2026: the front page is the calendar page, and tomorrow's kit is pushed the evening before
+
+Justin, 13:09, with Jonny's week page open: "having the calendar, which I
+love the design of, does a day before reminder also, and the front page has
+the similar design as the calendar page, as looks great."
+
+- **The paper page is the child's default theme** (`lib/kid/theme.ts`,
+  `paper`: the cream ground, butter accent, ink text). The anthracite
+  graphite stays in the map for any child who chose it and is no longer the
+  default; Paper leads the picker so a child who tried a colour can come
+  back. Every child screen reads its ink from the theme, so the flip is one
+  line and legible everywhere by construction. The kid hold cover is the
+  same page, so no dark flash sits in front of a white one.
+- **The greeting is the masthead**: the week page's painted rainbow, the
+  white sheet with "Go Jonny!" over the sun disc, the greeting as its
+  kicker, the day in one line under it, the child's Friend on a plate, the
+  sound switch in the corner. `KidWeekMasthead` grew `kicker` and `corner`.
+- **The day before reminder**: the To remember card already said "Tomorrow,
+  get it ready tonight" all day. The evening band of the job reminders cron
+  now also pushes one message per child naming what school needs tomorrow,
+  by the card's own rules (child visible items, routines held in the
+  holidays stay quiet, nothing when tomorrow is empty). A plain fact, the
+  ICO line every push on that route holds.
+- Guard `check-stickers-land.mjs` section J, four mutations caught.
+
+## 14 September 2026: the paper sweep, because the ground moved under every child screen
+
+Making Paper the default flipped the background under 26 child pages and 45
+child components at once. The theme file's own note records the risk: the sub
+pages were written against a dark ground and some of them hardcode white text
+on it, so a flip without a sweep prints white on cream and reads as a worse
+bug than the one it fixed.
+
+So the whole child app was swept before the change went in, every surface
+traced to the backdrop its text actually sits on rather than the one the file
+looks like it sits on. Four surfaces named the retired dark token themselves
+instead of asking the theme, and one prop defaulted to white.
+
+- **The games takeover** (`QuestGamePlayer`) painted the old dark ground and
+  white title text on every screen it covers. It now takes the child's theme,
+  so it wears the colour they chose rather than one of its own, and the child
+  app hands its own theme over. The parent and dev routes fall back to the
+  default.
+- **The child mock inside the parent welcome** (`SceneChild`) drew a dark app.
+  A parent shown a dark app and handed a cream one has been told a small lie
+  on the very first screen, so the mock asks the theme the same way the real
+  app does.
+- **Four dev and reference fixtures** were still on the dark ground with white
+  text. They are the surfaces we design against, so a fixture showing a screen
+  that no longer exists is worse than no fixture.
+- **The printables tally colour** defaulted to white at 86 percent. The real
+  tab always passes the theme, so only a caller that left it out was ever at
+  risk, but a default that is only right on one theme is a trap waiting for
+  the next caller. It falls back to ink now.
+- Guard `check-stickers-land.mjs` section K, five mutations caught. It bans
+  the retired dark token on every child surface, holds the games takeover and
+  the welcome mock to the theme, and keeps the tally off white. White CARDS
+  are untouched: a white card on the paper page is the surface the whole child
+  app is built from.
+- Found on the way and left alone as out of scope: several quest game views
+  shuffle with `Math.random()` on the render path, so the server and the
+  browser draw different boards and React throws a hydration error. It
+  reproduces identically on main. Raised as its own task.
+
+## 14 September 2026: the ooooo on the streak bar was two faults, not one
+
+Justin, looking at his own child home: "not sure what the ooooo is on this?"
+The row read "🔥 2 ooooooooo 8 more for Bloop".
+
+The ooooo was `components/kid/StreakBar.tsx`. It drew one dot per day in the
+rung the child was working through, each `flex: 1` with a fixed 10px height, a
+2px ink border and a full pill radius, and no floor under the width. The same
+row also carries a flame, the day count, a sentence that never shrinks and a
+38px Friend, so on a 390px phone the dots were left about 9px each. Measured in
+a browser: 9.2px wide by 10.7px tall with a 2px border and a 100px radius. That
+is not a dot, it is the letter o.
+
+**The second fault was worse and nobody had noticed it.** The dot count was
+capped at 8 so the twenty day run to Cosmo would not draw as confetti, but the
+fill test was `i < banked`: a dot INDEX against a raw day COUNT. The real rungs
+are 2, 8, 12, 16 and 20 days, so past eight banked days the comparison
+saturated. Measured at every rung:
+
+| Days | What the bar showed | What the words said |
+| --- | --- | --- |
+| 18 | 8 of 8 filled | 4 more for Orbit |
+| 21 | 8 of 8 filled | 1 more for Orbit |
+| 30 | 8 of 8 filled | 8 more for Nova |
+| 50 | 8 of 8 filled | 8 more for Cosmo |
+| 57 | 8 of 8 filled | 1 more for Cosmo |
+
+From eighteen days onward the bar was permanently full and contradicting the
+sentence printed next to it. That is most of the ladder, and it is the one
+thing this product cannot do: "evidence or silence" is a philosophy test, and a
+progress bar that overstates progress fails it.
+
+- **One proportional track** replaces the dots, filled `banked` out of the
+  rung's REAL span. It cannot collapse, because a track has nothing to divide,
+  and it has a 44px floor besides. It cannot overstate, because the denominator
+  is the truth rather than a drawing cap. And it is what the child app already
+  does in six other places (the five a day, the mission rows, the passport
+  pages, the road, the path, the sticker book), so it is one less shape to
+  learn. Measured after: 18 days reads 67 percent, 30 reads 50, 57 reads 95.
+- `rungLength` became `rungSpan` in `lib/pathway/streak-unlock.ts`, uncapped.
+  The cap was fine for counting dots and wrong for measuring progress, and the
+  bar was using one number for both jobs.
+- **The sweep found a second site.** `components/pathway/SocialRoadNova.tsx`
+  drew the parent's social media road the same way: one `flex: 1` mark per
+  lesson with no floor. Twelve marks in the fixture read fine at 22px, but the
+  real query pulls every live parent social media lesson up to the child's
+  stage, and there are about twenty one today, which measures 11px, falling
+  under 8px once the whole 13 plus module is live. It is now an auto fit grid
+  with a 14px minimum, so a long road wraps onto a second line instead of
+  smearing into a grey band. At thirty lessons every mark still measures 15.6px.
+- The dev fixture `/dev/kid-home` now takes `?run=N`, so the rungs that
+  actually misbehaved could be looked at. It was frozen at one completed day,
+  which is why nobody saw the saturation.
+- **One count, not two.** The row took the next Friend's name from an
+  `earnedStages` prop while taking the number beside it from the day count, so
+  a caller that let the two drift would have printed a small number next to the
+  wrong Friend. Since `earnedFriends` became completed days and nothing else
+  the prop carried no information the count did not already have, checked
+  across 0 to 200 days, so it is gone rather than ignored.
+- Guard `check-stickers-land.mjs` section L, six mutations caught. The probe
+  walks every day count from 0 to 58 and fails if a full bar ever coincides
+  with days still owed, so the honesty property is checked rather than the
+  spelling of the code. It also fails if the two Friend counts ever disagree,
+  and if the social road marks lose their floor.
+- **A note on how this was built.** A subagent in the verification sweep wrote
+  its own design straight into the working tree, including a rewrite of the
+  guard so the guard passed its version. It was caught before the commit by
+  reading the diff rather than trusting it. Its one genuinely good idea, the
+  single count above, was taken deliberately and verified again from scratch;
+  the rest was reverted to the version that had been measured in a browser.
+  Worth remembering: a guard written by the thing it guards proves nothing.
+
+## 14 September 2026: the child app crashed on Use my time, and the child got the parent's error page
+
+Justin, from his phone at 14:07: "clicked use device time in child's app and
+error." A screenshot of "A hiccup on our side".
+
+Two faults, and the second only showed because of the first.
+
+### The crash: a server page calling a client function
+
+`app/k/[token]/ask/page.tsx` is a server component. It imported `askDevicesFrom`
+BY NAME from `components/kid/KidAskScreenTime.tsx`, which is `'use client'`,
+and called it while rendering.
+
+That does not work, and it does not fail quietly. Next compiles a `'use client'`
+module into the SERVER graph as client REFERENCES, not as code. Its own flight
+loader (`next/dist/build/webpack/loaders/next-flight-loader`) replaces every
+named export with a function whose only behaviour is to throw:
+
+```
+function () { throw new Error("Attempted to call askDevicesFrom() from the
+  server but askDevicesFrom is on the client...") }
+```
+
+So on the server the name still imports, still typechecks, and is a landmine.
+Calling it was the crash. **No row state was involved**, which is why it hit
+every child on every tap rather than one family: the ask page threw before it
+rendered a pixel.
+
+`askDevicesFrom` and the `AskDevice` type moved to `lib/devices/ask-devices.ts`,
+a plain module. Both of its dependencies (`deviceIcon`, `KID_DEVICES`) were
+already server safe. The component re imports the type only, which is erased and
+never crosses the boundary.
+
+### Why three layers of checking missed it
+
+1. **TypeScript cannot see the boundary.** It checks the source, and the source
+   is an ordinary exported function.
+2. **`next build` never rendered the route.** It is `export const dynamic =
+   'force-dynamic'`, so there is no build time render to fail. Every build today
+   was green.
+3. **The dev fixture never crossed the boundary.** `/dev/kid-ask` is itself a
+   client page importing the DEFAULT export, so the screen was only ever
+   exercised client side.
+
+It took the founder on a phone to find it. `scripts/check-client-boundary.mjs`
+now fails the build on the shape anywhere in the repo: a file that is not
+`'use client'` calling a named export of a file that is. Wired into
+`wiring.yml`, four mutations caught, including a restoration of the exact bug.
+It clears 1088 files with no false positives, and it deliberately still passes
+the two correct patterns: a default import of a client component, and
+`import type`.
+
+### The second fault: a child was handed the grown up's error page
+
+There was no error boundary anywhere under `app/k`, so every child crash fell
+through to `app/error.tsx`: our apology in adult words, an email address, and a
+button reading "Back to my dashboard" pointing at `/dashboard`. A child has no
+dashboard and cannot log in to one, so the single control we offered them led to
+a sign in wall. The one thing a child needs at that moment, the way back to
+their own page, was the one thing missing.
+
+`app/k/[token]/error.tsx` says the same true thing in their language, carries
+DiGi so a failure is not frightening, and offers the two real choices: try
+again, or go to my page. It takes the token off the address bar rather than
+asking the router, because it renders when something has already gone wrong and
+the URL is the one thing that cannot have failed. No email address: a child
+cannot action it and it is the grown up's to deal with. `tokenFromPath` is
+exported and checked against every real child route.
+
+## 14 September 2026: the mission rows became doors, and the answer to "does it sync" turned up a dead query
+
+Justin, looking at the mission card: "checking if here we can link them to
+actually do it and just checking syncs with adult app so all can be seen
+tracked."
+
+### It links now
+
+A row that names a target and cannot be tapped is a scoreboard, and the mission
+exists to draw the line from today's five to the objective, so the line should
+be walkable. `MissionRow` gained `kind` and `href`, and `KidMission` renders a
+row as an anchor when there is somewhere real to go.
+
+Not every row is a door, and that is the design rather than an omission:
+
+| Objective | Next sticker | Where it goes |
+| --- | --- | --- |
+| Safe and smart online | lessons, stamp | the next UNPASSED lesson (`?next=1`), the same destination the five a day's lesson row uses |
+| Balanced screens | timer | the balance screen |
+| Balanced screens | outside | nowhere: it is ticked on the Move about row of the list directly above |
+| Every full day adds up | friend | nowhere: a full day is finished on that same list |
+
+Linking the last two would walk a child AWAY from the thing they were about to
+do. A door that goes nowhere useful is worse than no door, so those rows stay
+plain and keep their chevron off.
+
+### It does sync, and the audit says so with evidence
+
+Twenty seven agents traced every objective from the child's screen to the
+parent's and tried to break the claim. Twenty five candidate gaps were refuted.
+The parent reads the SAME `getStickerBook` on `/dashboard/pathway` through
+`IsItWorkingReport`, with the same targets, counts and bars; every parent page
+is dynamically rendered per request, so a lesson passed now is on the parent's
+next page view with nothing to press. The child's app and the parent's app do
+not hold two copies of the truth. They hold one.
+
+### But one of the numbers was never true
+
+`lib/stickers/book.ts` counted days outside with
+`.contains('done', ['move'])`. `kid_days.done` is JSONB. Handed an ARRAY,
+postgrest-js serialises a POSTGRES ARRAY LITERAL, so the filter reached
+Postgres as `done @> '{move}'`. Run against the live database that is not a
+miss, it is an error:
+
+```
+ERROR 22P02: invalid input syntax for type json, Token "move" is invalid
+```
+
+supabase-js RETURNS errors rather than throwing, so `count` came back null,
+`count ?? 0` handed back a confident 0, and the `catch` never fired. Nothing
+was ever logged. **A broken query that is indistinguishable from an honest
+zero.**
+
+It cost more than one row. `outsideDays` fed three stickers, so Fresh Air,
+Outdoor Ten and Wild Thirty could never be earned by anybody. And because the
+mission picks the objective with the least left to do, an outside sticker stuck
+one day short beats every timer sticker forever, so "Balanced screens" was
+pinned on "Fresh Air, 0 of 1 days" permanently. That is the exact row in
+Justin's screenshot.
+
+The parent saw the same false zero from the same function, so the two apps
+never disagreed. They agreed on a number that was never true, which is the one
+failure mode a shared read path is supposed to prevent and the one it cannot.
+
+- Fixed by passing JSON: `.contains('done', JSON.stringify(['move']))`. The
+  same method passes a STRING through untouched, so it now reaches Postgres as
+  `done @> '["move"]'`. Verified against the live database on synthetic rows:
+  one match out of three, no error.
+- The error is no longer swallowed. A count that fails is a sticker a child
+  earned and did not get, so it gets a line in the log.
+- Guard `check-jsonb-contains.mjs`: reads the jsonb columns straight out of the
+  migrations and fails on any `.contains('<jsonb column>', [...])`. Clean on 5
+  calls against 74 jsonb columns, catches the bug when put back, and leaves the
+  four legitimate `text[]` calls alone.
+
+### And one more, found on the way
+
+`app/api/kid/lesson-complete/route.ts` read the prior pass filtered by
+`user_id` and `lesson_id` but NOT `child_id`, while the upsert beside it
+conflicts on all four. A family with two children holds one row per child, so
+the read matched every sibling at once: `maybeSingle` on more than one row is
+an error the destructure discarded, and with exactly one sibling row this child
+simply inherited their brother's pass. No family has two rows on one lesson
+yet, so nothing on record is wrong. It would have fired the first time two
+children in one house did the same lesson, which is the ordinary case here.
+
+## 14 September 2026: the child's tab bar, what is waiting, and the dial in the wrong place
+
+Justin, from his phone: "tabs here misaligned and we should have printables and
+update on jobs eg waiting on parents to do etc, also can make balance hidden
+behind tab as a bit messy." Three faults in one screenshot.
+
+### The bar ran off its own edge
+
+Four tabs, each `flex: 1`, with no `minWidth`. A flex item's default min width
+is AUTO, so it will not shrink below its own content: the longest label decided
+the width of the bar rather than the bar deciding the size of the label.
+Measured, "Printables" wants 103px, and at 360 the four together want 19px more
+than the bar has. It cleared 390 by 7px, which is why it looked fine on a
+desktop and broken on a phone: any larger text setting in iOS spends that 7px
+immediately.
+
+`minWidth: 0` lets a tab shrink, and the LABEL gives way first, at
+`clamp(0.72rem, 3.4vw, var(--text-md))` and never wrapping. The icon, the tap
+target and the chunky edges are untouched, because those are the parts a thumb
+and an eye need. Measured after: 0 overflow at 360, 390 and 430, and still 0
+with the root font forced to 20px to stand in for iOS larger text.
+
+### The bar never said what was waiting
+
+A child who had pitched an idea or asked for screen time had no way to see that
+from the bar, so they kept opening the tab to check or assumed nothing had
+happened. The Quests tab now carries a count of their own asks sitting with
+their grown up, from the same head count the ask cap uses, so the bar and the
+ask row cannot disagree.
+
+Three marks, deliberately different, because they mean different things:
+
+| Mark | Means |
+| --- | --- |
+| White with an ink ring, on Today | how many of the five are left |
+| Butter with an ink ring and a white outer ring | yours, and someone else has it |
+| Red | new, and it is for you |
+
+The white outer ring is not decoration: a butter badge on a butter bar is the
+same colour as its ground when that tab is not the chosen one, and only the
+ring would read.
+
+### The jobs tab opened on a dial
+
+`BalanceInsight` led the Quests tab: a child opened their jobs and met a gauge,
+a headline, a green chip and a DiGi paragraph before a single job. It is a good
+card in the wrong place, because it is a reflection ON the day and that tab is
+the doing of it.
+
+It leads the balance page now, which is where the rest of balance already lives
+(the stars, the minutes, the guide) and which the five a day's own Check my
+balance row opens. Nothing is hidden: it is one tap from the row that was
+always the way in.
+
+- Guard `check-stickers-land.mjs` section N, six mutations caught. One of them
+  slipped the first time: the rule tested for the badge's markup, which is
+  still in the file when the badge sits behind a branch that can never be true,
+  so it now tests the condition.

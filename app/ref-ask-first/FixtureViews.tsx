@@ -81,11 +81,21 @@ export default function FixtureViews({ view }: { view: string }) {
     )
   }
 
-  if (view === 'share') {
+  if (view === 'share' || view === 'share-young') {
+    // share-young is the Stage 1 card: a four year old with no device of their
+    // own, where the phone in the parent's hand leads and the code below it is
+    // the shared tablet option rather than the door.
+    const young = view === 'share-young'
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '28px 16px', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-body)' }}>
         <div style={{ width: 'min(100%, 540px)' }}>
-          <ChildLinkShare token="000000000000000000" childName="Alfie" ageBand="8-10" useMode="own" onSetMode={noop} />
+          <ChildLinkShare
+            token="000000000000000000"
+            childName={young ? 'Teo' : 'Alfie'}
+            ageBand={young ? '4-7' : '8-10'}
+            useMode={young ? 'coview' : 'own'}
+            onSetMode={noop}
+          />
         </div>
       </div>
     )

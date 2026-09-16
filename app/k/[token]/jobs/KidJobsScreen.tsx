@@ -9,6 +9,7 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 import { buddyFor } from '@/lib/kid/buddy'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { assessJobLoad } from '@/lib/quests/job-load'
+import { HAPPY } from '@/components/kid/HappyNewsBits'
 
 // The jobs page's client half: the real KidTodayList (the exact component the
 // home screen used to render, in its jobs only shape), wired to the same tick
@@ -131,7 +132,18 @@ export default function KidJobsScreen({
   }, [token])
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--butter)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{
+      minHeight: '100dvh',
+      // PAPER, NOT A YELLOW FIELD.
+      //
+      // Justin, 15 September 2026, with this screen: "too much yellow, use
+      // design like happy news." It was a full butter ground, which also left
+      // the butter tab bar and the butter buttons nothing to stand out from:
+      // everything the child is meant to tap was the same colour as the floor.
+      // The Happy Newspaper is paper with colour printed on it.
+      background: HAPPY.cream,
+      padding: '22px 16px calc(96px + env(safe-area-inset-bottom, 0px))', fontFamily: 'var(--font-body)',
+    }}>
       {/* The list's tick animations, the same frames the home screen defines.
           Without them a finished row here would simply vanish. */}
       <style>{`
@@ -204,15 +216,39 @@ export default function KidJobsScreen({
 
         {quests.length === 0 ? (
           <div style={{
-            background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-card)',
-            boxShadow: '0 5px 0 var(--border)', padding: '20px 18px',
+            // Sized to what it says. It was a full width slab with 20px of
+            // padding and a heading two steps up from its own sentence, so an
+            // empty day looked like the biggest thing on the screen.
+            background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--lift)', padding: '16px 16px 15px', maxWidth: 420,
           }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.3 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 4px', lineHeight: 1.3 }}>
               No jobs today
             </p>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-              When your grown up sends one, it lands here. You can pitch your own idea from your home screen any time.
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
+              When your grown up sends one, it lands here. Until then, you can ask for one yourself.
             </p>
+            {/* THE ASK, NOT DIRECTIONS TO IT.
+                Justin, 15 September 2026: "if first time it should just ask to
+                request jobs." This card used to end with "you can pitch your own
+                idea from your home screen any time", which tells a child to go
+                somewhere else and find something. On a first ever day, when
+                there are no jobs at all, this screen IS the moment to ask, so
+                the ask is a button on it. */}
+            <a
+              href={`/k/${token}/suggest`}
+              onClick={() => playKidSound('tap')}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                padding: '12px 18px', textDecoration: 'none',
+                borderRadius: 'var(--radius-btn)', border: 'var(--edge)',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800,
+                fontSize: 'var(--text-base)', boxShadow: 'var(--lift)',
+              }}
+            >
+              Ask for a job
+            </a>
           </div>
         ) : (
           <KidTodayList

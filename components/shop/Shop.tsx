@@ -7,6 +7,9 @@ import { canBuy, characterForKey, formatPence, lockedReason, MAX_QTY, type Produ
 import { shopArt } from '@/lib/shop/art'
 import { currentChildId } from '@/lib/children/current'
 import HappyIcon from '@/components/kid/HappyIcon'
+import Link from 'next/link'
+import StickerBadge from '@/components/pathway/StickerBadge'
+import { STICKERS, stickerArt } from '@/lib/stickers/catalog'
 
 // The keepsake shop. The physical end of the same pathway: a passport printed
 // from the stamps a child actually earned, and the Planet Friends as things you
@@ -277,8 +280,50 @@ function Card({
               Printed for {childName}, from their real stamps.
             </p>
           )}
+          {/* THE PRINT OUT, TO LOOK AT. Justin, 14 September 2026: "image of
+              passport print out." The preview is the real booklet, A6, built
+              from this child's stamps and stickers, and it is the same page a
+              printer receives. */}
+          {product.kind === 'passport' && (
+            <Link href={`/dashboard/keepsakes/passport-print${typeof window !== 'undefined' && currentChildId() ? `?child=${currentChildId()}` : ''}`} data-print-preview style={{ display: 'inline-block', marginTop: 10, color: 'var(--terracotta-dark)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              See the print out, page by page ›
+            </Link>
+          )}
         </div>
       </div>
+
+      {/* THE SHEET IS THE CATALOGUE. Justin, 14 September 2026: "make sure
+          stickers reflect the stickers required in the platform." The copy
+          said six characters and five stamps; the app hands out twenty one
+          plus the family's own sorted stamps. Every one of them is on the
+          sheet, drawn by the same badge the book draws, so what a child peels
+          off is what they earned on screen. */}
+      {product.kind === 'stickers' && (
+        <div data-sheet-catalogue style={{ marginTop: 14 }}>
+          <p style={{ margin: '0 0 8px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            Every sticker they can earn in the app · {STICKERS.length} on the sheet
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(58px, 1fr))', gap: '10px 4px', justifyItems: 'center' }}>
+            {STICKERS.map(st => {
+              const art = stickerArt(st)
+              return (
+                <div key={st.key} title={`${st.name}: ${st.earn}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, width: 58 }}>
+                  <span style={{ width: 46, height: 46, borderRadius: '50%', background: '#fff', border: `2.5px solid ${st.colour}`, boxShadow: `0 3px 0 ${st.colour}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    {art
+                      // eslint-disable-next-line @next/next/no-img-element
+                      ? <img src={art} alt={st.name} width={38} height={38} style={{ width: 38, height: 38, objectFit: 'contain' }} />
+                      : <StickerBadge s={{ ...st, earned: true }} size={36} />}
+                  </span>
+                  <span style={{ fontSize: 9, fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.15, letterSpacing: '0.02em' }}>{st.name}</span>
+                </div>
+              )
+            })}
+          </div>
+          <p style={{ margin: '10px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45 }}>
+            Plus DiGi, and a blank sorted stamp for each worry you fix together.
+          </p>
+        </div>
+      )}
 
       {/* Six across on one line, even on a 390 wide phone. Note the sums have
           to allow for the global zoom of 1.07 on body, which shrinks the usable
