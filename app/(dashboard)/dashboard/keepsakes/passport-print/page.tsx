@@ -11,6 +11,7 @@ import { stickerArt } from '@/lib/stickers/catalog'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import { characterForStage } from '@/lib/content/stage-characters'
 import PrintButton from './PrintButton'
+import { STAGE_IDS, STAGE_COLOURS, BURGUNDY, GOLD } from '@/lib/pathway/passport-print-style'
 
 // The printed passport, page by page, at A6.
 //
@@ -28,13 +29,8 @@ import PrintButton from './PrintButton'
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'The printed passport · Guided Childhood' }
 
-const STAGE_IDS: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
 const STAGE_NAMES = ['Foundation', 'Builder', 'Explorer', 'Shaper', 'Independent']
 const STAGE_AGES = ['Ages 4 to 7', 'Ages 8 to 10', 'Ages 11 to 13', 'Ages 13 to 15', 'Age 16 and up']
-const STAGE_COLOURS = ['#EDC35F', '#2F8F6B', '#2E6F8E', '#7A5CC0', '#D4600A']
-
-const BURGUNDY = 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)'
-const GOLD = '#EDC35F'
 
 export default async function PassportPrintPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
@@ -87,6 +83,16 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
         </h1>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px', maxWidth: '52ch' }}>
           This is the A6 booklet as it prints today: {stampedCount} of 5 pages stamped and {earned.length} sticker{earned.length === 1 ? '' : 's'} earned. It is built from the real stamps, so it changes as {childName} does. Order it and this is the file the printer gets.
+        </p>
+        {/* SAY WHOSE FILE THIS IS. A6 at one page per sheet is right for the
+            printer who binds the keepsake and wrong for a parent at a home
+            printer: most will not do A6, and the ones that try scale it onto
+            A4 with an enormous margin. The zine is the one to press print on. */}
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px', maxWidth: '52ch' }}>
+          It is sized for a commercial printer rather than the one in your house.{' '}
+          <Link href={`/dashboard/keepsakes/passport-print/zine${child ? `?child=${child.id}` : ''}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            To fold one tonight on plain A4, use the one sheet version.
+          </Link>
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
           <PrintButton />

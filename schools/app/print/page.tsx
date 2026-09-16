@@ -78,7 +78,7 @@ export default async function PrintRoomPage() {
           <div style={{ flex: '1 1 auto' }}>
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>New · print, fold, cut, stick</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', lineHeight: 1.2 }}>The passport print out</div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>One sheet folds into a passport, one sheet of stickers fills it. Four editions, Reception to Year 11.</div>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>One sheet folds into a passport, one sheet of stickers fills it. One per child, four editions, Reception to Year 11.</div>
           </div>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>Open →</span>
         </Link>

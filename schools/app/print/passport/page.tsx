@@ -32,6 +32,12 @@ export default function PassportPrintIndex() {
           pages are the lessons&rsquo; own, so the passport promises exactly what the scheme teaches. Print in colour
           if you can; it photocopies clean in black and white.
         </p>
+        {/* One passport per child, not one for the wall. The name goes on by
+            hand because the schools app holds no pupil record and the data
+            processing agreement is written on that. */}
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.6, maxWidth: '640px', margin: '-14px 0 26px' }}>
+          Print one per child. A class of thirty is thirty of each sheet. Every child writes their own name on the front, which is why we never ask you for a class list.
+        </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
           {EDITIONS.map(e => {
             const friend: Friend = { key: e.friend, ...CHARACTERS[e.friend] }
@@ -57,6 +63,18 @@ export default function PassportPrintIndex() {
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.6, marginTop: '22px', maxWidth: '640px' }}>
           Years 12 and 13 sit after the passport: the journey it records is the road to sixteen, and those years are past it. The Asking questions page is filled at home, in the app.
         </p>
+        {/* The paid version, offered after the free one and never instead of
+            it. A school that has folded the paper passport knows what the
+            bound one is worth, and no lesson is ever blocked on our stock. */}
+        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '20px 22px', marginTop: '26px', maxWidth: '640px' }}>
+          <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '8px' }}>Want them printed and bound?</div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, margin: '0 0 12px' }}>
+            We can supply proper booklets with the pages already printed, and sticker sheets to fill them. Ask for a quote and we reply within two working days with a price and a lead time.
+          </p>
+          <Link href="/supplies" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            Ask for a quote ›
+          </Link>
+        </div>
       </div>
     </main>
   )

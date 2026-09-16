@@ -84,14 +84,12 @@ export const editionFor = (stage: string): Edition | undefined => EDITIONS.find(
  *  middle crease from the folded edge to the first crease, unfold, fold the
  *  long way and push the ends together. Page numbers on every panel let a
  *  teacher check it before a class does. */
-export const ZINE_TOP: number[] = [5, 4, 3, 2]
-export const ZINE_BOTTOM: number[] = [6, 7, 8, 1]
+// The imposition and the fold moved to shared on 16 September 2026, when the
+// parents app started folding the child's own passport the same way. Re
+// exported here so every existing import keeps working and there is still
+// only one place the fold is described.
+export { ZINE_TOP, ZINE_BOTTOM, ZINE_PANELS, FOLD_STEPS } from '@gc/shared/zine'
 
-export const FOLD_STEPS = [
-  'Fold the sheet in half the long way, so the top row meets the bottom row, and open it again.',
-  'Fold it in half the short way, then fold each end back to the middle. You now have eight rectangles.',
-  'Fold it in half the short way again. Cut along the middle crease from the folded edge as far as the first crease, and no further.',
-  'Open it out, fold it the long way again, and push the two ends towards each other. The middle opens up. Fold it closed with the cover on the outside.',
-]
-
-export const AREA_EMOJI: Record<AreaKey, string> = { safe: '🛡️', balance: '⚖️', ai: '🤖', social: '💬' }
+// Moved beside AREAS on 16 September 2026, when the parents app started
+// printing the four areas too. Re exported so existing imports keep working.
+export { AREA_EMOJI } from '@gc/shared/passport-areas'

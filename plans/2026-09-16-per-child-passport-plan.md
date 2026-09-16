@@ -264,4 +264,44 @@ Items 1 to 4 are a day. Item 5 is a day on its own.
 7. **Sticker sheets: same supplier as the parent sheets?** Vograce already makes
    those. *My answer: yes, one supplier, one artwork standard, better unit price.*
 
-Nothing in this plan gets built without your yes.
+## Built, 16 September 2026
+
+Justin: "yes build and quote form." Five of the six items shipped. What
+follows is what the code actually does, so a later session reads the outcome
+rather than the proposal.
+
+| | Built | Where |
+|---|---|---|
+| 1 | Print one per child, said on both passport print pages | `schools/app/print/passport/` |
+| 2 | A QR and the `/home-code/[code]` route | `schools/lib/qr.ts`, `app/(marketing)/home-code/[code]` |
+| 3 | The fill animation when a code lands at home | `components/lessons/SchoolCodeCard.tsx` |
+| 4 | Migration 302 and the quote form | `schools/app/supplies/` |
+| 5 | The child's passport as a foldable zine | `components/pathway/PassportZineSheet.tsx` |
+| 6 | Typed class list | Not built, by the plan's own recommendation |
+
+Three things changed from the plan while building, each for a reason worth
+keeping:
+
+- **The signed out door is the starter pack, not signup with a return.** The
+  signup page carries no `next` and teaching it one would have pulled in the
+  onboarding flow. A parent who has never heard of us meets the product's own
+  front door instead, and a parent who already has an account goes through
+  login, which already carries `next`.
+- **The zine's layout became its own component.** `PassportZineSheet` takes
+  finished numbers and does no reads, which is what lets `ref-passport-zine`
+  check eight panels, an upside down row and a slit at both sizes without a
+  login. Same job `ref-passport-book` already does.
+- **The fold moved to `shared/zine.ts`.** Both apps fold the same passport now,
+  so the imposition is described once.
+
+A guard holds the parts that would fail quietly: `check-passport-bridge.mjs`,
+nineteen rules, in CI.
+
+## Still open
+
+- The five commercial answers at the foot of this plan. The form works and
+  Justin can reply to a school by hand today; what it cannot do yet is quote a
+  number, because there is no supplier.
+- The typed class list, which waits for a teacher to ask.
+- The `£14` A6 file is unchanged and still the printer's file. Nothing about
+  it was touched beyond a line saying so and a link to the foldable one.

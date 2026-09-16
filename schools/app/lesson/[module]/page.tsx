@@ -11,6 +11,9 @@ import { isTasterModule } from '@/lib/taster'
 import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import PilotStrip from '@/components/PilotStrip'
+import TrackerPanel from '@/components/tracker/TrackerPanel'
+import { LessonOpened } from '@/components/tracker/signals'
+import { neighbours, shapeOf } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
@@ -224,6 +227,11 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {/* A grid, not a wrapped row: on a phone eight pills of eight widths
             read as a mess, and two tidy columns read as a menu (the schools
             review, 13 September 2026). Teach spans the row on its own. */}
+        {/* OPENING THIS PAGE IS THE SIGNAL. Reading the lesson is what this
+            page is for, and looking at it is exactly what the NEXT lesson's
+            starter recalls, so one component writes both. Renders nothing. */}
+        <LessonOpened moduleId={lesson.module_id} {...neighbours(lesson.module_id)} />
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px', marginBottom: '14px' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px', gridColumn: '1 / -1' }}>
             Teach this lesson
@@ -710,6 +718,14 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             earns the email, so it comes first and the form follows it (the
             schools review, 13 September 2026). */}
         {showTaster && <div style={{ marginTop: '28px' }}><TasterBar moduleId={moduleId} moduleTitle={lesson.title} /></div>}
+        <div style={{ marginTop: '28px' }}>
+          <TrackerPanel
+            moduleId={lesson.module_id}
+            shape={shapeOf(lesson.module_id, notes.i_can)}
+            runHref={`/lesson/${lesson.module_id}/run`}
+          />
+        </div>
+
         {showPilot && <div style={{ marginTop: '28px' }}><PilotStrip /></div>}
 
         <div style={{ marginTop: '28px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>

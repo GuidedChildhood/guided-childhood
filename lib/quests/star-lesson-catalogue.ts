@@ -64,6 +64,21 @@ export function getStarLessonByHomeCode(supabase: SupabaseClient, homeCode: stri
   )
 }
 
+// Lesson ids for a set of MODULE ids, the other direction: the passport page
+// is a list of module ids (shared/passport-areas) and lesson_completions
+// stores lesson uuids, so filling one from the other needs this map. Same one
+// door rule as everything above, which is why it lives here rather than in
+// the caller.
+export async function starLessonIdsByModule(supabase: SupabaseClient, moduleIds: string[]) {
+  if (moduleIds.length === 0) return new Map<string, string>()
+  const rows = await firstHit<{ id: string; module_id: string }[]>(supabase, from =>
+    from('school_lessons').select('id, module_id').in('module_id', moduleIds),
+  )
+  // Keyed by lesson id, because the caller reads completions and needs to get
+  // back to the module.
+  return new Map((rows ?? []).map(r => [r.id, r.module_id]))
+}
+
 // Titles for a set of lesson ids: the replacement for the old
 // school_lessons(title) join on the kid page, which cannot survive the FK
 // drop (PostgREST embeds ride foreign keys). One extra query, cached by

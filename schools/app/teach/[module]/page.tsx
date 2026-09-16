@@ -1,6 +1,6 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
-import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import TrackedPlayer from '@/components/tracker/TrackedPlayer'
 import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
 import { isTasterModule } from '@/lib/taster'
@@ -127,7 +127,11 @@ export default async function TeachLessonPage({
             they arrived through, and on the pack at the end. */}
         {showTaster && <TasterStrip />}
         {showPilot && <PilotStrip compact />}
-        <LessonPlayer
+        {/* The player, wrapped so the two signals a classroom actually gives
+            off are recorded: the board is ready the moment this route opens,
+            and you taught it when the deck reaches its finish. */}
+        <TrackedPlayer
+          moduleId={lesson.module_id}
           lessonId={lesson.id}
           lessonSource="school_lesson"
           slides={slides}

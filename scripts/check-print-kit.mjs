@@ -72,16 +72,25 @@ for (const file of ['schools/app/print/[module]/page.tsx', 'schools/app/print/[m
 }
 
 // 3. The passport print out.
+//
+// The fold itself moved to shared/zine.ts on 16 September 2026, when the
+// parents app started folding the child's own passport the same way. These
+// rules follow it there: two apps, one description of the fold, and this is
+// the check that the description is still sane.
+const fold = read('shared/zine.ts')
 const words = read('schools/lib/passport-print.ts')
-const top = [...words.matchAll(/ZINE_TOP: number\[\] = \[([^\]]+)\]/g)][0]?.[1]
-const bottom = [...words.matchAll(/ZINE_BOTTOM: number\[\] = \[([^\]]+)\]/g)][0]?.[1]
+const top = [...fold.matchAll(/ZINE_TOP: number\[\] = \[([^\]]+)\]/g)][0]?.[1]
+const bottom = [...fold.matchAll(/ZINE_BOTTOM: number\[\] = \[([^\]]+)\]/g)][0]?.[1]
 const panels = `${top ?? ''},${bottom ?? ''}`.split(',').map(s => Number(s.trim())).filter(n => !Number.isNaN(n)).sort((a, b) => a - b)
 if (panels.join(',') !== '1,2,3,4,5,6,7,8') fail(`the fold must place the eight pages once each, found ${panels.join(',')}`)
-if (!/ZINE_BOTTOM: number\[\] = \[[^\]]*\b1\]/.test(words)) fail('the cover (page 1) must sit bottom right, upright')
+if (!/ZINE_BOTTOM: number\[\] = \[[^\]]*\b1\]/.test(fold)) fail('the cover (page 1) must sit bottom right, upright')
+// The schools app must still get its fold from there rather than growing a
+// second copy, which is the failure this move could otherwise introduce.
+if (!/from '@gc\/shared\/zine'/.test(words)) fail('the schools app no longer takes its fold from shared/zine.ts')
 for (const stage of ['foundation', 'builder', 'shaper', 'independent']) {
   if (!new RegExp(`stage: '${stage}', friend: '[a-z]+'`).test(words)) fail(`the ${stage} edition has no friend`)
 }
-if ((words.match(/^  '/gm) ?? []).length < 4 && !/FOLD_STEPS = \[/.test(words)) fail('the fold steps are missing')
+if (!/FOLD_STEPS = \[/.test(fold) || (fold.match(/^  'Fold|^  'Open/gm) ?? []).length < 3) fail('the fold steps are missing')
 const stagePage = read('schools/app/print/passport/[stage]/page.tsx')
 for (const piece of ['ZINE_TOP.map', 'ZINE_BOTTOM.map', "rotate(180deg)", 'single_action_outcome', '<Sticker', '<Stamp', 'A4 landscape']) {
   if (!stagePage.includes(piece)) fail(`the passport sheet lost ${piece}`)

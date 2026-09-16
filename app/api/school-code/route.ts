@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarLessonByHomeCode } from '@/lib/quests/star-lesson-catalogue'
+import { normaliseHomeCode, passportFillFor } from '@/lib/school/home-code'
 
 // Redeem a home code (migration 230): the code printed on the parent note
 // sheet a class lesson sends home. Entering it credits the module to this
@@ -14,19 +15,6 @@ import { getStarLessonByHomeCode } from '@/lib/quests/star-lesson-catalogue'
 // Deliberately NOT counted toward stage stamps: a school module is credit,
 // not a stage lesson, and lib/pathway/progress.ts counts stamps from stage
 // lessons only. This row is the record, surfaced wherever school work shows.
-
-// Crockford normalisation, the same forgiveness as /verify: case never
-// matters, I and L read as 1, O reads as 0, the HOME prefix is optional.
-function normaliseHomeCode(raw: string): string | null {
-  const cleaned = raw
-    .toUpperCase()
-    .replace(/[\s-]/g, '')
-    .replace(/^HOME/, '')
-    .replace(/O/g, '0')
-    .replace(/[IL]/g, '1')
-  if (!/^[0-9A-HJKMNP-TV-Z]{4}$/.test(cleaned)) return null
-  return `HOME-${cleaned}`
-}
 
 export async function POST(req: NextRequest) {
   const { code, child_id } = await req.json()
@@ -79,10 +67,26 @@ export async function POST(req: NextRequest) {
     )
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  // WHAT THE PASSPORT PAGE LOOKED LIKE BEFORE THIS CODE. The card at home
+  // draws the page and plays the same fill the classroom wall plays, which
+  // needs the before state as well as the after: a ring that jumps is a
+  // number changing, a ring that sweeps is a child's page filling.
+  //
+  // After the upsert on purpose, and `before` excludes today's module, so a
+  // parent entering the same code twice sees the page it already had rather
+  // than a second helping of the same animation.
+  const moduleId = lesson.module_id ?? null
+  const fill = moduleId
+    ? await passportFillFor(supabase, admin, user.id, forChild, moduleId)
+    : null
+
   return NextResponse.json({
     ok: true,
     title: lesson.title,
     yearBand: lesson.year_band ?? null,
     alreadyDone: !!existing,
+    moduleId,
+    placement: fill?.placement ?? null,
+    before: fill?.before ?? [],
   })
 }

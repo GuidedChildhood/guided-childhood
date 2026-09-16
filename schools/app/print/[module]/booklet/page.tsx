@@ -6,6 +6,7 @@ import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf, pageModules } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import PrintButton from '@/components/PrintButton'
+import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendStrip, PrintSheet, Box, WriteLines, BigBox, TickRow, BigChoice, Number, ColourStar } from '@/components/print/kit'
 
@@ -69,6 +70,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
   // The home code (migration 230): this is the sheet that goes home in a bag,
   // which makes it the one the code belongs on.
   const homeCode = (lesson as { home_code?: string | null }).home_code ?? null
+  const qr = homeCode ? await homeCodeQr(homeCode, 92) : null
 
   const friend = friendFor(lesson.character_cast, lesson.key_stage)
   const reg = printRegister(lesson.key_stage)
@@ -214,9 +216,17 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         )}
         {homeCode && (
           <Box label="For a grown up" radius={reg.radius}>
-            <p style={{ ...text, fontSize: 'var(--text-base)' }}>
-              On the Guided Childhood app at home? Enter <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>{homeCode}</strong>{' '}on the Lessons page and this lesson goes onto your child&rsquo;s own passport.
-            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+              {qr && (
+                <div aria-hidden style={{ flexShrink: 0, lineHeight: 0, background: '#fff', border: '1.5px solid var(--border)', borderRadius: '8px', padding: '3px' }} dangerouslySetInnerHTML={{ __html: qr }} />
+              )}
+              <p style={{ ...text, fontSize: 'var(--text-base)', flex: '1 1 200px', minWidth: 0 }}>
+                {qr ? 'Point your phone at the square, or go to ' : 'Go to '}
+                <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>{homeCodeLabel(homeCode)}</strong>{' '}
+                and this lesson goes onto your child&rsquo;s own passport. Code{' '}
+                <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>{homeCode}</strong>.
+              </p>
+            </div>
           </Box>
         )}
 

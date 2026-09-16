@@ -337,6 +337,18 @@ jobs:
       # one of the four agreed areas, and the school side's copy of the
       # parents app's area model has not drifted from the original.
       - run: node scripts/check-passport-areas.mjs
+      # The school to home bridge, and the promises around it. Every rule in
+      # here guards something that fails QUIETLY: a parent note that lost its
+      # QR still prints, a price on the supplies page still renders, a second
+      # copy of the zine fold still folds until the two copies disagree.
+      # Header of check-passport-bridge.mjs.
+      - run: node scripts/check-passport-bridge.mjs
+      # The lesson tracker's contract. Every rule guards the thing that would
+      # turn a green tick back into a form: a row moved into the automatic
+      # block without a detector, a tick stored rather than computed, the
+      # passport fact copied instead of read, or a pupil field appearing at
+      # all. Strip types because it imports the model it checks.
+      - run: node --experimental-strip-types scripts/check-lesson-tracker.mjs
       # Every safeguarding flagged module has a staff briefing, and every page
       # counts them from the manifest rather than by hand. Header of
       # check-flagged-briefings.mjs.
