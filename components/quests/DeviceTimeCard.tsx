@@ -994,7 +994,7 @@ export default function DeviceTimeCard({
                 : corePot > 0
                 ? `You have ${maxMinutes} minutes to use now, ${corePot} of them free time`
                 : `You have ${maxMinutes} minutes to use now`)
-              : 'No minutes ready yet. You can still ask, or do a job to earn some'}
+              : 'No minutes ready yet. You can still ask your grown up, or do a job to earn some'}
           </span>
         </span>
         <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0, fontWeight: 900 }}>›</span>

@@ -615,6 +615,10 @@ export default function SettingsPage() {
               )}
             </div>
 
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 12px' }}>
+              This opens Stripe&apos;s secure page, where your card details are kept.
+            </p>
+
             {/* A BUTTON, NOT A LINK, and this was a dead control.
                 It was <a href="/api/stripe/portal">, which is a GET. That route
                 only exports POST, so every tap returned 405 Method Not Allowed

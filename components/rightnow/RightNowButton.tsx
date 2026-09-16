@@ -505,7 +505,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   What is happening right now?
                 </h2>
                 <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
-                  Pick the moment and the calm words appear.
+                  Pick the moment and the calm words appear. We keep it, and ask tomorrow how it went.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                   {orderedSituations().map(s => (

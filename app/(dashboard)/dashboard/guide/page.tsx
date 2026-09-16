@@ -114,7 +114,7 @@ export default function GuidePage() {
           Not sure where to start?
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
-          Everything else grows from there.
+          Start with today’s practice. Everything else grows from there.
         </p>
         <Link href="/dashboard/daily" style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '13px 24px', textDecoration: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
           Start today’s practice

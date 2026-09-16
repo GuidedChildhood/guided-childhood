@@ -1919,7 +1919,7 @@ function buildDigiFollowup(stageId: number, childName: string | null): string {
   const messages: Record<number, string> = {
     1: `${name.charAt(0).toUpperCase() + name.slice(1)} is not being difficult. Structure does the work that willpower cannot. One consistent boundary this week is worth more than five conversations.`,
     2: `At this stage the fix is almost always structural, not a new conversation. Think about the environment first: what needs to change before you say anything?`,
-    3: `Tracking it for one more week will give you a clearer picture before you say anything to ${name}. Curiosity before action.`,
+    3: `Track what you noticed for one more week. It will give you a clearer picture before you say anything to ${name}. Curiosity before action.`,
     4: `How you responded to what you noticed will shape whether ${name} comes to you with the next thing. Openness over interrogation.`,
     5: `What you noticed is worth holding lightly. One open question today is better than ten closed ones.`,
   }

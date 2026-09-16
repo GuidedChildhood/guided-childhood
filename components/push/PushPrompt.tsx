@@ -503,7 +503,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           Add this to your Home Screen first
         </p>
         <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
-          Tap the Share button at the bottom of Safari, the square with the arrow pointing up, then Add to Home Screen. Open it from the new icon.
+          On an iPhone, check ins only work once the app is on your Home Screen. Tap the Share button at the bottom of Safari, the square with the arrow pointing up, then Add to Home Screen. Open it from the new icon.
         </p>
       </div>
     )

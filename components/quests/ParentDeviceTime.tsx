@@ -652,7 +652,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
       )}
       {mode === 'gift' && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
-          The gift starts now and {minutesToStars(minutes, kid.starMinutes)} star{minutesToStars(minutes, kid.starMinutes) === 1 ? '' : 's'} of jobs pay it back later.
+          The gift starts now and {minutesToStars(minutes, kid.starMinutes)} star{minutesToStars(minutes, kid.starMinutes) === 1 ? '' : 's'} of jobs pay it back later. The next job they finish settles it.
         </p>
       )}
 
