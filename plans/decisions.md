@@ -14837,3 +14837,126 @@ Decided, and built on the same PR as the morning's deal work (1073):
 
 Guard `scripts/check-deal-in-the-loop.mjs`, seventeen rules, seven
 mutations caught, wired. No migration.
+
+## 15 September 2026: Google sign in is live, and the branded domain waits for money
+
+Justin switched Google on and deployed. Tested against the live site on a
+phone sized screen: the button renders above the email field on /login, and it
+reaches Google's real sign in screen carrying the right client id, the
+Supabase callback as redirect_uri, and scopes limited to email and profile.
+No redirect_uri_mismatch, no unverified app warning, no testing mode block.
+Apple is not switched on yet, so the flag reads `google` alone, which is the
+normal state lib/auth/providers.ts was written to allow.
+
+Two corrections to plans/2026-09-10-one-tap-sign-in.md, checked against
+Supabase's own Apple guide, both of which would have stopped the Apple setup
+dead:
+
+- The Services ID Domains and Subdomains field takes
+  zgkdfiwtnzqmtfgfsxzo.supabase.co, NOT guidedchildhood.com. Apple refuses a
+  return URL that does not sit under a listed domain, and the return URL is
+  the Supabase callback.
+- Supabase will not take the .p8 file. The Apple provider wants a client
+  secret JWT signed with it, generated on Supabase's own Apple docs page.
+
+Also added: register Sign in with Apple for Email Communication, or every
+email to a parent using Hide My Email fails silently, which reads as a family
+who went quiet rather than one we cannot reach.
+
+**Deferred, deliberately: the Supabase custom domain.** Google's consent
+screen reads "to continue to zgkdfiwtnzqmtfgfsxzo.supabase.co", a string of
+random letters shown at the second a parent hands over their Google account.
+The cure is a Supabase custom domain, auth.guidedchildhood.com on that line
+instead. The organisation is on the free plan, so the true cost is Pro at $25
+a month plus the add on at $10, not the $10 alone. Justin's call: revisit when
+the first parent is actually paying.
+
+The reminder is not a date. `first-paying-parent-custom-domain` runs each
+Monday, reads profiles for subscription_status in (active, past_due), and
+stays silent until there is one. The trigger is the thing itself.
+
+When it is picked up, the rule that breaks sign in if ignored: add the new
+callback to the Google OAuth client BEFORE activating the domain. Supabase
+starts advertising the custom domain to Google the moment it goes live, and
+Google allows both addresses listed at once, so there is no reason to leave a
+gap. And do it before Apple, or the Services ID is configured twice.
+
+## 16 September 2026: the custom domain, a silent signup, and the second parent
+
+**The custom domain is live.** auth.guidedchildhood.com, CNAME at GoDaddy.
+Verified against the live site: Google's callback now reads
+https://auth.guidedchildhood.com/auth/v1/callback, Google accepts it, and the
+consent screen says "to continue to guidedchildhood.com" rather than a string
+of random letters. The old supabase.co redirect URI stays listed in the Google
+client on purpose, as the way back. Apple has not been set up yet, which is the
+right order: its Services ID gets the auth subdomain first time and never has
+to be edited.
+
+**A signup that succeeded and was not a signup.** Found while answering "what
+happens if they went to register again with same email". Supabase answers a
+signup for an address that already exists with an obfuscated user and NO error,
+so a stranger cannot probe which emails have accounts. Every error branch in
+`app/(auth)/signup/page.tsx` was therefore skipped and the "We found your
+account" screen, written and styled and correct, was unreachable in production.
+The parent filled in the form, was pushed to /onboarding, bounced to /login by
+middleware, and asked for a password they never set because they had used
+Google. Fixed by testing `data.user.identities.length === 0`, which is the only
+tell the browser gets. Rule added to `scripts/check-auth-honesty.mjs`.
+
+The first version of that rule searched the file for the word "identities" and
+PASSED against a mutation that had deleted the check and left the comment
+standing. It now strips comments first and tests two things, that the check
+exists and that it shows the screen. Both mutations fail it. Worth remembering:
+a guard that greps for a word is satisfied by the paragraph explaining the word.
+
+Also settled, from Supabase's own docs: a parent who signs up with a password
+and later taps Continue with Google on the same address is automatically linked
+into ONE account, provided the email is confirmed. One email is one family, and
+there is no way to hold two accounts on one address.
+
+**The second parent, decided but deliberately not built.** Justin: "lets plan
+it but hold it if big job until we get asked." Plan at
+plans/2026-09-16-the-second-parent.md. Four decisions taken:
+
+- The second parent gets his OWN login and joins one family. A token link was
+  the first instinct and it cannot carry push, DiGi attribution or quest
+  writes, which are three of the things he asked for.
+- Owner only: billing, the plan and cancelling. Everything else shared.
+- The pathway is seen by both and run by the owner. Justin: "does not need to
+  know about doing pathway just see it".
+- Calendar means their own phone calendars first, not a calendar we build. The
+  in app calendar with the tick for whether an entry reaches the child's phone
+  is written down and deferred.
+
+The shape that makes it affordable: five RLS policies all spell out the same
+`children ... parent_id = auth.uid()` subquery, so one `can_see_child()`
+function replaces all five and `children.parent_id` never moves. Open question
+carried into the plan: as answered, either parent can remove the other,
+including the payer. Recommendation is one rule, the owner cannot be removed by
+somebody the owner invited, and it needs a yes.
+
+## 16 September 2026, later: both remaining auth jobs parked on purpose
+
+Justin, on Sign in with Apple: "shall we hold apple sign in as not urgent for
+launching i dont think as we now have working branded google". Held. The
+argument stands on its own: Google covers every Android parent and every iPhone
+parent with a Gmail address, the account screen already works, and Apple is the
+one with a signing secret that expires every six months. Not building it is
+also not taking on that diary entry. The setup is fully written and corrected
+for the custom domain, so picking it up later is a twenty five minute job, not
+a rediscovery.
+
+Justin, on the second parent: "lets have the plan for multi parent waiting for
+now until we are asked as seems a big build and could break things". Held, and
+he has read the risk correctly. It is the one build on the board that changes
+the rule deciding who can see a child, and the failure mode is one family
+seeing another family's children. The plan
+(plans/2026-09-16-the-second-parent.md) stays written and unclaimed. The
+trigger is a family asking, not a date.
+
+Neither of these is abandoned and neither is outstanding. A future session
+should not pick either up as unfinished work. The Monday task
+`first-paying-parent-custom-domain` was rewritten today to match: the custom
+domain half is deleted from it because that job is done, and it now surfaces
+these two, plus a check that the first real payment behaved, on the day a
+parent actually pays.

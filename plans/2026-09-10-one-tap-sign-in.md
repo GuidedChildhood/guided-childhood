@@ -127,8 +127,9 @@ our own address in here gets a redirect_uri_mismatch and no explanation.
    application.
 5. Authorised redirect URIs: paste the callback address above. This is the
    field that matters.
-6. Authorised JavaScript origins: https://www.guidedchildhood.com and
-   https://app.guidedchildhood.com.
+6. Authorised JavaScript origins: https://www.guidedchildhood.com. Not
+   app.guidedchildhood.com, which lib/config/site.ts retired on 11 August:
+   the marketing pages and the dashboard are one host now.
 7. Create, then copy the Client ID and the Client secret.
 8. Supabase, project zgkdfiwtnzqmtfgfsxzo, Authentication, Sign In and
    Providers, Google. Turn it on, paste both, Save.
@@ -148,15 +149,46 @@ signing key rather than a client secret, and THE KEY EXPIRES EVERY SIX MONTHS,
 so this is a diary entry as well as a setup: sign in with Apple simply stops
 working on the day it lapses, for everybody who used it.
 
-11. Certificates, Identifiers and Profiles, Identifiers. Make an App ID first,
-    then a Services ID (this is the one that acts as the client id).
-12. On the Services ID, enable Sign In with Apple, then Configure. Domain
-    guidedchildhood.com. Return URL: the callback address above.
+CORRECTED 14 September 2026, against Supabase's own Apple guide. Two steps
+below were wrong as first written and both would have stopped the setup dead,
+so they are fixed here rather than left to be discovered in the console.
+
+11. Certificates, Identifiers and Profiles, Identifiers. Make an App ID first
+    (com.guidedchildhood.app), tick Sign In with Apple in its Capabilities, and
+    leave the server to server notification endpoint EMPTY: Supabase does not
+    accept those. Then a Services ID (com.guidedchildhood.web), which is the
+    one that acts as the client id.
+12. On the Services ID, enable Sign In with Apple, then Configure. Primary App
+    ID is the one from step 11. Domains and Subdomains:
+
+        zgkdfiwtnzqmtfgfsxzo.supabase.co
+
+    NOT guidedchildhood.com, which is what this plan said until today. Apple
+    checks that every Return URL sits under a domain listed in that same box,
+    and the Return URL is the Supabase callback, so our own domain is refused
+    with nothing useful said about why. Return URL: the callback address above.
 13. Keys, then make a new key with Sign In with Apple enabled. Download the .p8
-    ONCE, because Apple never shows it again. Note the Key ID and the Team ID.
-14. Supabase, same providers screen, Apple. Turn it on and give it the Services
-    ID, the Team ID, the Key ID and the contents of the .p8.
-15. Change NEXT_PUBLIC_AUTH_PROVIDERS to google,apple in Vercel and redeploy.
+    ONCE, because Apple never shows it again. Note the Key ID and the Team ID
+    (top right of the console).
+14. Supabase will not take the .p8. The Apple provider wants a client secret
+    JWT signed with it, and the generator for that is on Supabase's own Apple
+    page, docs/guides/auth/social-login/auth-apple#configuration-web-oauth. It
+    runs in the browser and nothing leaves it, but it does not work in Safari.
+    Feed it the Team ID, the Key ID, the Services ID and the .p8 contents, then
+    on the providers screen give Apple the Services ID as the Client ID and
+    that token as the Secret Key.
+15. Apple Developer, Services, Sign in with Apple for Email Communication:
+    register guidedchildhood.com and the address we send from. Parents who
+    choose Hide My Email get a relay address, and without this every email we
+    send them fails silently, which reads as a family who went quiet rather
+    than one we cannot reach.
+16. Change NEXT_PUBLIC_AUTH_PROVIDERS to google,apple in Vercel and redeploy.
+
+The step 14 token is the thing that expires. Six months is Apple's maximum,
+there is no warning email, and on the day it lapses sign in stops for every
+parent who used it, locked out of an account they pay for by a password they
+never set. Regenerating is step 14 again with the same .p8, about four minutes.
+The diary entry is the real work.
 
 ### How to know it worked
 
