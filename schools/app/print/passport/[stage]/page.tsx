@@ -169,6 +169,14 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
           <Link href="/print/passport" style={{ ...mono, textDecoration: 'none' }}>← The passport print out</Link>
           <h1 style={{ ...display, fontSize: 'var(--text-xl)', marginTop: '6px' }}>{page.page} · {edition.years} · with {friend.name}</h1>
           <p style={{ ...text, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '4px' }}>Two landscape sheets: the passport to fold and cut, and the stickers. Print in colour if you can; it photocopies clean in black and white.</p>
+          {/* THE CLASS SET LINE. Without it a teacher reads this as a display
+              item for the wall and prints one. It is a passport per child,
+              with the child's own name written on the front, which is why
+              panel 1 carries a rule and not a printed name: the schools app
+              holds no pupil data and never will. */}
+          <p style={{ ...text, fontSize: 'var(--text-sm)', fontWeight: 700, color: friend.ink, marginTop: '6px' }}>
+            Print one per child. A class of thirty is thirty of each sheet, and every child writes their own name on the front.
+          </p>
         </div>
         <PrintButton label="Print both sheets" />
       </div>

@@ -6,6 +6,7 @@ import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import PrintButton from '@/components/PrintButton'
+import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, hasAnswerKey, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
 
@@ -79,6 +80,9 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   const verdictOptions = notes.worksheet?.verdict_options ?? ['Believe', 'Pause', 'Do not share']
   const commitmentStem = notes.commitment_stem ?? 'My commitment: the next time I see a shocking post I will...'
   const homeCode = (lesson as { home_code?: string | null }).home_code ?? null
+  // The QR is generated here, server side, so the sheet ships no client
+  // JavaScript and a QR is never a spinner on a page being photocopied.
+  const qr = homeCode ? await homeCodeQr(homeCode, 118) : null
 
   const friend = friendFor((lesson as { character_cast?: string | null }).character_cast, lesson.key_stage)
   const reg = printRegister(lesson.key_stage)
@@ -274,11 +278,19 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
             {page && area && <p style={{ ...pt, marginTop: parent.passport ? '4px' : 0 }}>Today filled the <strong>{page.page}</strong> page: <strong>{AREAS[area].name}</strong>.</p>}
           </Box>
         )}
+        {/* BOTH WAYS IN, because a parent in a kitchen with a book bag has a
+            phone in their hand and not our app. The QR is the fast one; the
+            code stays printed because a photocopy can smudge a QR and because
+            a parent who already has the app just types it. */}
         {homeCode && (
           <div className="gc-avoid-break" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 16px', border: `2px solid ${friend.accent}`, borderRadius: '16px', padding: '10px 14px', marginTop: '8px' }}>
-            <div style={{ flex: '1 1 200px' }}>
-              <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>On the Guided Childhood app at home?</div>
-              <p style={pt}>Enter this code on the Lessons page and your child&rsquo;s passport records what we covered today.</p>
+            {qr && (
+              <div aria-hidden style={{ flexShrink: 0, lineHeight: 0, background: '#fff', border: `1.5px solid ${friend.accent}`, borderRadius: '10px', padding: '4px' }} dangerouslySetInnerHTML={{ __html: qr }} />
+            )}
+            <div style={{ flex: '1 1 180px', minWidth: 0 }}>
+              <div style={{ ...mono, color: friend.ink, marginBottom: '4px' }}>Put this on your child&rsquo;s passport</div>
+              <p style={pt}>{qr ? 'Point your phone at the square. ' : ''}It opens your child&rsquo;s own record of what they are learning about being safe and sharp online, and adds today&rsquo;s lesson to it. Free to start, nothing shared back with us.</p>
+              <p style={{ ...pt, marginTop: '4px', color: 'var(--ink-muted)' }}>Or go to <strong style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>{homeCodeLabel(homeCode)}</strong></p>
             </div>
             <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xl)', letterSpacing: '0.14em', color: 'var(--ink)', background: friend.soft, border: `1.5px solid ${friend.accent}`, borderRadius: '12px', padding: '10px 14px', whiteSpace: 'nowrap' }}>{homeCode}</div>
           </div>

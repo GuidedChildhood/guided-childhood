@@ -15,6 +15,13 @@ import { schoolLetter } from '@/lib/email/school-letters'
 // tracked in confirmed_at, migration 299), and a school that has just
 // pressed the button is waiting for that one, so it runs every fifteen
 // minutes now (vercel.json).
+//
+// Since 16 September 2026 it also empties the SUPPLIES letterbox
+// (schools.supply_requests, migration 302): a school asking for printed
+// passport books and sticker sheets. A second table, because a supplies
+// request carries items, counts and a delivery address that the invoice
+// table has no columns for, but the SAME cron, because a second job to
+// forward a second kind of letter would be a second thing to watch.
 
 export const dynamic = 'force-dynamic'
 
@@ -76,7 +83,12 @@ async function handler(request: Request) {
     .order('created_at')
     .limit(20)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  if (!requests || requests.length === 0) return NextResponse.json({ ok: true, sent: 0 })
+  // An empty invoice pile is not an empty postbag: the supplies letterbox is
+  // a separate table and has to be emptied whether or not anyone bought a
+  // licence this quarter hour.
+  if (!requests || requests.length === 0) {
+    return NextResponse.json({ ok: true, sent: 0, supplies: await notifySupplies(supabase) })
+  }
 
   let sent = 0
   let confirmed = 0
@@ -129,7 +141,66 @@ async function handler(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, sent, confirmed })
+  const supplies = await notifySupplies(supabase)
+
+  return NextResponse.json({ ok: true, sent, confirmed, supplies })
+}
+
+// THE SUPPLIES LETTERBOX (migration 302).
+//
+// No confirmation letter to the school, on purpose: the reply IS the
+// product here. A school that asks for a quote wants a price from a person,
+// and an automated "we have your request" in front of that is one more email
+// and no more information. The form already says two working days.
+//
+// Fails soft: a supplies send that throws must never cost the invoice run
+// above, which is the one with money in it.
+async function notifySupplies(supabase: ReturnType<typeof createAdminClient>): Promise<number> {
+  try {
+    const { data: rows } = await supabase
+      .schema('schools')
+      .from('supply_requests')
+      .select('id, school_name, contact_name, email, want, key_stages, book_count, sticker_count, delivery_address, po_number, notes, created_at')
+      .is('notified_at', null)
+      .order('created_at')
+      .limit(20)
+    if (!rows || rows.length === 0) return 0
+
+    let sent = 0
+    for (const r of rows) {
+      const items = [
+        r.want !== 'stickers' && r.book_count ? `${r.book_count} passport book${r.book_count === 1 ? '' : 's'}` : null,
+        r.want !== 'books' && r.sticker_count ? `${r.sticker_count} sticker sheet${r.sticker_count === 1 ? '' : 's'}` : null,
+      ].filter(Boolean).join(' and ')
+
+      const result = await sendEmail({
+        to: FOUNDER_EMAIL,
+        subject: `School supplies quote: ${r.school_name}`,
+        kind: 'operational',
+        key: 'school-supply-request',
+        html: `
+          <h2 style="margin:0 0 12px">${esc(r.school_name)} wants ${esc(items || r.want)}</h2>
+          <table style="border-collapse:collapse;font-size:15px;line-height:1.7">
+            <tr><td style="padding-right:16px;color:#888">Wants</td><td><strong>${esc(items || r.want)}</strong></td></tr>
+            ${r.key_stages ? `<tr><td style="padding-right:16px;color:#888">Years</td><td>${esc(r.key_stages)}</td></tr>` : ''}
+            <tr><td style="padding-right:16px;color:#888">Contact</td><td>${esc(r.contact_name)} · ${esc(r.email)}</td></tr>
+            ${r.delivery_address ? `<tr><td style="padding-right:16px;color:#888;vertical-align:top">Deliver to</td><td>${esc(r.delivery_address).replace(/\n/g, '<br>')}</td></tr>` : ''}
+            ${r.po_number ? `<tr><td style="padding-right:16px;color:#888">PO number</td><td><strong>${esc(r.po_number)}</strong></td></tr>` : ''}
+            ${r.notes ? `<tr><td style="padding-right:16px;color:#888">Notes</td><td>${esc(r.notes)}</td></tr>` : ''}
+          </table>
+          <p style="margin-top:16px">A QUOTE, not an order. Nothing is charged and the school has been told it decides after seeing a price. Reply within two working days with the unit price, the lead time and the postage. No supplier is signed yet, so if this is the first one, it is the request that tells you the volume to quote against.</p>
+        `,
+      })
+      if (result.ok) {
+        await supabase.schema('schools').from('supply_requests')
+          .update({ notified_at: new Date().toISOString() }).eq('id', r.id)
+        sent++
+      }
+    }
+    return sent
+  } catch {
+    return 0
+  }
 }
 
 export const GET = withHeartbeat('/api/cron/invoice-requests', handler)
