@@ -37,43 +37,79 @@ from the row and never hardcoded:
 A second checklist page would be a second thing to keep in step with every
 migration. The step list is right already. It just forgets.
 
-## The steps, and which ones tick themselves
+## The panel, copied from the pattern
 
-Ten steps, each one applicable only where the lesson row says so, so a
-module with no safeguarding note never shows a safeguarding step and can
-still reach a full tick.
+Justin, 16 September 2026, with a screenshot of Meta's "You're following best
+practices" panel: like this, that auto ticks as they go.
 
-**Before**
+That is the right reference and the anatomy is worth copying exactly:
 
-1. **Read the lesson.** Objective, misconceptions, what they need first. *Manual.*
-2. **Look back.** What the last lesson left, and what this starter recalls. *Manual, and only where a previous module exists in the key stage.* This is the step Justin named that the run sheet does not have yet.
-3. **Brief the safeguarding lead.** *Manual. Only on flagged modules.*
-4. **Print and photocopy.** *Ticks itself when the print pack is opened.*
-5. **Open it on the board.** *Ticks itself when the player is opened.*
+- A green filled circle with a white tick, one per row.
+- A **bold claim in the past tense**, stating the thing as done. Not "print
+  the pack" but "Your pack is printed".
+- A **grey line underneath saying why it matters**, one sentence. This is the
+  half people skip and it is why the panel feels like help rather than
+  nagging.
+- A heading that is a verdict about the teacher, not a title. "You are ready
+  to teach this."
+- A quiet link at the foot to the fuller thing, which for us is the run sheet.
 
-**During**
+**Why that panel works, and the rule it sets for us.** Every row in it is
+machine checked. Meta never asks you to confirm anything, so nothing on it
+can be wrong, and a person reads six green ticks and believes them. The
+moment one row needs a human to tap it, the whole panel becomes a form, and a
+green tick stops being evidence. So the rule this sets: **a green tick is only
+ever awarded for something the product can see for itself.**
 
-6. **Teach it.** *Ticks itself when the player reaches the finish.*
+## What the product can actually see
 
-**After**
+Which is more than the first draft of this plan assumed. Two signals were
+missing:
 
-7. **Fill the passport page.** *Already ticks itself.* The passport beat writes to the device memory that exists today.
-8. **Parent notes into book bags.** The home code goes home with them. *Manual.*
-9. **The learning record.** Each child colours the star they reached, you colour yours. *Manual. Only where the lesson has `i can` statements.*
-10. **Log the coverage.** Class and date, for the subject lead's file. *Manual.* This is the "registration" step, and the section below is the important part of it.
+- **Printing is observable.** `window.addEventListener('beforeprint')` fires
+  for the print button and for a browser print from the keyboard alike, so
+  "printed" is a real signal rather than a guess from a page visit. The
+  packs, the record and the quizzes each have their own route, so each one
+  ticks its own row.
+- **Finishing is observable.** The player already holds a `finished` state,
+  so "you taught it" needs no new concept, only a write when it flips.
 
-**Four of the ten tick themselves.** That is the difference between a tracker
-teachers use and a form they abandon. Never ask a teacher to tell the product
-something the product already knows.
+That takes the auto rows from four to seven of nine.
+
+**Ticks itself, every one in the past tense:**
+
+1. **You have read the lesson.** The prep page opened. *Knowing the misconceptions before the room says them is the difference between a lesson and a reading.*
+2. **You have looked back.** The lesson before this one opened, or already taught. *This starter recalls it, so the class is warmer when you begin.*
+3. **The pack is printed.** `beforeprint` on the pack route. *One photocopy run and the whole lesson can be taught with no screen.*
+4. **The learning record is printed.** Only where the lesson has `i can` statements. *The assessment is the conversation about the gap.*
+5. **The board is ready.** The player opened. *Open it before they come in, not while thirty children watch you type.*
+6. **You taught it.** The player reached the finish. *Recorded here, with the date, for your own record.*
+7. **The class filled the passport page.** Already written by the passport beat. *The page fills at school and at home, and this screen keeps its own count.*
+
+**Yours, because we cannot see them.** Kept in a separate block under a
+different heading, with outlined circles rather than filled green ticks, and
+worded as a reminder rather than a judgement:
+
+8. **Brief the safeguarding lead.** Flagged modules only. *So they know why a child may come to them this week.*
+9. **Parent notes into book bags.** *The home code travels on that note, which is the whole bridge to home.*
+
+Tapping those two turns them green, and the panel says in one line that these
+two are a teacher's word rather than the product's. That is the honest
+version of the pattern, and it is better than pretending.
 
 ## The green tick is computed, never a button
 
-No "mark this lesson done" control. The tick appears when every applicable
-step is ticked, and it disappears if one is untasked. A tick a teacher can
-award themselves is a tick that proves nothing to a subject lead, which is
-the whole reason it exists.
+No "mark this lesson done" control. The big tick appears when every row that
+applies is green, and it goes if one is untasked. A tick a teacher can award
+themselves proves nothing to a subject lead, which is the reason it exists.
 
-Three states: not started, a ring reading "3 of 9", and the green tick.
+Three states, matching the pattern: the rows as they fill, a ring reading
+"5 of 9", and the green tick with the date.
+
+**Rows that are not yet true are shown, not hidden.** This is the one place
+to depart from Meta, which simply omits what you have not done. A teacher
+needs the list of what is left, so a row that is not yet true sits in grey
+with its circle empty and stays in its running order.
 
 ## What "registration" can and cannot mean
 
@@ -138,6 +174,9 @@ a rule read from the lesson row rather than hardcoded; the tick is computed
 from the steps and never stored as its own flag; no field anywhere can hold a
 child's name; the passport step reads the existing memory rather than copying
 it; every surface that shows the memory carries the words about what it is.
+And the rule the pattern sets: **every row in the green ticked block has a
+machine signal behind it**, so a row can never be moved from the teacher's
+block into the automatic one without a real detector to back it.
 Mutation tested, as the last two guards were.
 
 ## Size and order
