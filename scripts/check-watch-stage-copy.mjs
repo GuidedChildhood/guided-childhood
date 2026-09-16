@@ -92,6 +92,39 @@ if (src) {
   }
 }
 
+// ── THE TAB NUMBERS FOLLOW THE CHIP ──────────────────────────────────────
+//
+// Justin, the same afternoon, on "Lessons 39": "is that just for his age? I'm
+// sure more total lessons. Also when we click the tab for other age ranges
+// the lesson count should change."
+//
+// It was, and it did not. Both counts were pinned to childStageNum and
+// computed once, so All ages read 39, Stage 1 read 39, every chip read 39,
+// while the list underneath changed every time. And 39 really was one stage:
+// counted live that day, 24 + 27 + 26 + 39 + 25 = 141 across the library, so
+// a parent reading 39 as the whole thing saw roughly a quarter of what they
+// pay for.
+//
+// Each tab counts the array it is about to draw, through the same filter the
+// list uses, so the number and the list can never disagree.
+if (src) {
+  const tabs = copy.match(/const\s+TABS[\s\S]{0,600}?\n\s*\]/)
+  if (!tabs) {
+    fail.push(`${SRC}: the TABS list is gone, so there is no way to check what the numbers beside "Watch together" and "Lessons" are counting.`)
+  } else {
+    const block = tabs[0]
+    if (/childStageNum/.test(block)) {
+      fail.push(`${SRC}: a tab count is computed from childStageNum. Pinned to the child's own stage it cannot move when a parent taps another age chip, which is exactly what Justin hit: every chip read 39 while the list below changed each time.`)
+    }
+    if (!/count:\s*libForStage\.length/.test(block)) {
+      fail.push(`${SRC}: the Lessons count is not libForStage.length. It has to count the very array the list renders, or the number above the list and the list itself can drift apart, and the number is the one a parent believes.`)
+    }
+    if (!/count:\s*watchShown\.length/.test(block)) {
+      fail.push(`${SRC}: the Watch together count is not watchShown.length. Past the co watch years the raw stage match is zero while ten films are on screen, so anything else puts a 0 above ten tiles.`)
+    }
+  }
+}
+
 // No dashes, house rule 4, in the copy this guard is about.
 const DASHES = /[‐-―−]/
 for (const line of copy.split('\n')) {

@@ -38,9 +38,22 @@ const watchItems: WatchItem[] = FILMS.map((f, i) => ({
   journeyStep: i + 1, duration: '10 min', done: false,
 }))
 
-// Enough lessons at each stage to render the real counts. Only the stage and
-// the count matter to the block this fixture exists for.
-const STAGE_LESSON_COUNTS: Record<number, number> = { 1: 17, 2: 19, 3: 18, 4: 39, 5: 17 }
+// The real per stage totals, counted in the live database on 16 September
+// 2026: the parent lessons plus the AI modules, which is exactly what
+// libraryItems holds in production.
+//
+//   Stage 1  17 lessons +  7 modules = 24
+//   Stage 2  19 lessons +  8 modules = 27
+//   Stage 3  18 lessons +  8 modules = 26
+//   Stage 4  31 lessons +  8 modules = 39
+//   Stage 5  17 lessons +  8 modules = 25
+//                                   ---
+//                                     141
+//
+// 141 is the number Justin was missing when the tab read 39 at every chip.
+// Seeded here rather than invented so the counts this page shows are the
+// counts a parent sees, and so All ages reads 141 here as it does live.
+const STAGE_LESSON_COUNTS: Record<number, number> = { 1: 24, 2: 27, 3: 26, 4: 39, 5: 25 }
 
 function lessonsFor(stageNum: number): LibraryItem[] {
   return Array.from({ length: STAGE_LESSON_COUNTS[stageNum] ?? 0 }, (_, i) => ({

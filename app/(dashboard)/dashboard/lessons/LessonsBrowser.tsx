@@ -244,13 +244,33 @@ export default function LessonsBrowser({
   )
   const stageChips = STAGE_LIST.filter(s => stagesWith.has(s.num))
 
-  // The counts are this child's: how many films and lessons are at their
-  // stage, not the size of the whole library. A stage with nothing at it
-  // shows the total, which is what the list falls back to.
-  const countFor = (n: number, total: number) => (n > 0 ? n : total)
+  // ── THE NUMBER IS WHAT THIS TAB WILL SHOW YOU RIGHT NOW ──────────────────
+  //
+  // Justin, 16 September 2026, looking at "Lessons 39" on his 13 to 15 year
+  // old: "it says 39 lessons, is that just for his age? I'm sure more total
+  // lessons. Also when we click the tab for other age ranges the lesson count
+  // should change."
+  //
+  // Right on both, and they were the same fault. The counts were pinned to
+  // childStageNum and computed once, so they never moved when a parent tapped
+  // a stage chip: All ages read 39, Stage 1 read 39, every chip read 39, while
+  // the list underneath changed every time. A number that contradicts the list
+  // it sits above teaches a parent to stop believing the numbers.
+  //
+  // And 39 IS just his stage. Counted in the live database on the day he
+  // asked: 24 at Stage 1, 27 at Stage 2, 26 at Stage 3, 39 at Stage 4, 25 at
+  // Stage 5, so 141 in all. A parent who reads 39 as the whole library is
+  // being shown roughly a quarter of what they pay for.
+  //
+  // So each tab now counts the list it is about to render, through the same
+  // stage filter the list uses. All ages shows the real total, a chip shows
+  // that stage, and the two can never disagree. Watch together counts
+  // watchShown rather than the raw stage match, because that is the array it
+  // draws: past the co watch years the stage match is zero while ten films are
+  // on screen, and a 0 above ten tiles is the same lie in the other direction.
   const TABS: { key: View; icon: HappyIconName; label: string; count: number }[] = [
-    { key: 'together', icon: 'lessons', label: 'Watch together', count: countFor(watchItems.filter(w => w.stageNum === childStageNum).length, watchItems.length) },
-    { key: 'library', icon: 'read', label: 'Lessons', count: countFor(libraryItems.filter(l => l.stageNum === childStageNum).length, libraryItems.length) },
+    { key: 'together', icon: 'lessons', label: 'Watch together', count: watchShown.length },
+    { key: 'library', icon: 'read', label: 'Lessons', count: libForStage.length },
   ]
 
   return (
