@@ -120,15 +120,20 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
   // and the steps they did not reach simply wait for tomorrow. Never a guilt.
   const [minutes, setMinutes] = useState(dailyMinutes)
 
-  const firstOpen = tasks.findIndex(t => !t.done)
+  // Settled, not done: a rung can be finished with nothing owed without the
+  // parent having acted today (Quests with an empty queue). The big road reads
+  // it exactly this way, and the two surfaces must never tell a parent
+  // different things about the same day. See lib/pathway/daily-tasks.ts.
+  const settled = (t: TodayLoopTask) => t.done || !!t.clear
+  const firstOpen = tasks.findIndex(t => !settled(t))
   const allDone = firstOpen === -1
   const currentIndex = allDone ? tasks.length - 1 : firstOpen
   // The Done flag is the finish line, not a step: count real steps only.
   const steps = tasks.filter(t => t.key !== 'done')
-  const doneCount = steps.filter(t => t.done).length
+  const doneCount = steps.filter(settled).length
   // Minutes actually invested: the summed weight of the steps ticked so far,
   // so the day only reads done once roughly the chosen minutes have been spent.
-  const investedMinutes = steps.filter(t => t.done).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
+  const investedMinutes = steps.filter(settled).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
   // The day is done once those minutes reach the budget, or every step is
   // ticked. Anything left after that is optional bonus, never a debt.
   const dayDone = investedMinutes >= minutes || (steps.length > 0 && doneCount === steps.length)
@@ -340,12 +345,15 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
             const look = NODE_LOOK[task.key]
             const isCurrent = i === currentIndex && pressure
             const isDoneNode = task.done
+            // Nothing owed, but not acted on today: never a tick, never
+            // greyed out either.
+            const isClearNode = !task.done && !!task.clear
             return (
               <Link
                 key={task.key}
                 href={task.href}
                 data-path-node
-                aria-label={isDoneNode ? `${task.label}, done` : isCurrent ? `${task.label}, up next` : task.label}
+                aria-label={isDoneNode ? `${task.label}, done` : isClearNode ? `${task.label}, nothing waiting` : isCurrent ? `${task.label}, up next` : task.label}
                 style={{
                   flex: 1,
                   display: 'flex',
@@ -382,7 +390,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                         : '2.5px solid var(--border)',
                       boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
                       fontSize: 'var(--text-lg)',
-                      filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.55)' : 'none',
+                      filter: !isDoneNode && !isCurrent && !isClearNode ? 'grayscale(1) opacity(0.55)' : 'none',
                     }}
                   >
                     {isDoneNode ? (
@@ -402,7 +410,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                   fontWeight: isCurrent ? 700 : 600,
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
-                  color: isCurrent ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
+                  color: isCurrent || isClearNode ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
                   textAlign: 'center',
                   lineHeight: 1.35,
                   maxWidth: '100%',
