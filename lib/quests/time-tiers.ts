@@ -149,6 +149,20 @@ export const PROTECTED_CHILD_LINE: Record<ProtectedReason, string> = {
   school: 'Screens rest during school time. I know you want it now. Home time is coming.',
 }
 
+// The warning a parent reads in passing, BEFORE they tap yes on a child's ask.
+// PROTECTED_PARENT_LINE above explains an ask that ALREADY came to them; this
+// is the shorter thing said while the decision is still theirs to make, where
+// a whole explanation would read as an error rather than a heads up.
+//
+// Written as a clause that "right now" completes, so the card does not have to
+// bend a noun into a sentence. The first draft stored "their screens rest" and
+// rendered "It is their screens rest right now", which is not English.
+export const PROTECTED_REASON_LABEL: Record<ProtectedReason, string> = {
+  bedtime: 'Screens are meant to be resting',
+  mealtime: 'It is a mealtime',
+  school: 'It is school hours',
+}
+
 export const PROTECTED_PARENT_LINE: Record<ProtectedReason, string> = {
   bedtime: 'It is inside their bedtime window, so it came to you instead of starting.',
   mealtime: 'It is inside a mealtime window, so it came to you instead of starting.',

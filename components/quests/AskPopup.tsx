@@ -29,6 +29,8 @@ type Kid = {
   starMinutes?: number
   session: { id: string } | null
   request: { id: string; device: string; minutes: number; deviceName?: string | null } | null
+  /** Set when this moment is inside one of the child's protected windows. */
+  protectedNow?: { reason: 'bedtime' | 'mealtime' | 'school'; label: string } | null
   /** Planet Friends: the child asked to wake the Friends early, or says a mission is done. */
   planet?: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null; missionKey?: string | null } | null
 }
@@ -144,6 +146,33 @@ export default function AskPopup({ initial }: {
                 </div>
               </div>
             </div>
+            {/* ── THE WARNING, BEFORE THE YES ─────────────────────────
+                Justin, 16 September 2026, asked for this and drew the line
+                himself: "warn me, never stop me."
+
+                A child starting a timer themselves already gets warned, and so
+                does a parent starting one for them. Approving the child's ask
+                was the only door with no warning on it, and it is the one most
+                likely to be tapped without looking: the ask arrives at five to
+                nine, the parent is doing something else, the yes lands at ten
+                past, and nothing said a word.
+
+                It sits ABOVE the buttons rather than after the tap, because a
+                warning that arrives once the timer is running and the stars
+                are spent is not a warning, it is a receipt.
+
+                Yes stays one tap. We never block a parent. */}
+            {asking.protectedNow ? (
+              <div style={{
+                display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12,
+                background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta-dark)',
+                borderRadius: 'var(--radius-btn)', padding: '10px 12px',
+              }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.4 }}>
+                  {asking.protectedNow.label} right now. Saying yes still works.
+                </span>
+              </div>
+            ) : null}
             <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
               <button onClick={() => answer('approved')} disabled={busy} style={{ ...chunky('butter', 'lg'), flex: 1, opacity: busy ? 0.6 : 1 }}>
                 Yes ⭐

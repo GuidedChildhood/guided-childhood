@@ -7,6 +7,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { dealLinesFrom } from '@/lib/content/agreement-clauses'
+import { getTimeSettings, checkProtectedWindow, PROTECTED_REASON_LABEL } from '@/lib/quests/time-tiers'
 
 // What the parent's screen time card needs in one call: each child, their star
 // balance, and their live device session if one is running. Scoped to the
@@ -105,6 +106,14 @@ export async function GET() {
     const id = (row as { family_device_id?: string | null } | null | undefined)?.family_device_id
     return id ? deviceNameById.get(String(id)) ?? null : null
   }
+
+  // Each child's time settings, age band defaults applied, for the protected
+  // window check below. One read for the whole family, and it fails soft: on a
+  // database short of migration 223 this comes back empty and the cards simply
+  // carry no warning, which is what they did before today.
+  const tierBy = await getTimeSettings(supabase, user.id,
+    kids.map(c => ({ id: c.id as string, age_band: (c as { age_band?: string | null }).age_band ?? null })),
+  ).catch(() => new Map())
 
   const bankBy = new Map(banks.map(b => [b.child_id, b.balance]))
   // What one star buys THIS child (migration 225), for the parent card's copy.
@@ -223,7 +232,31 @@ export async function GET() {
     deal,
     children: kids.map(c => {
       const ageBand = (c as { age_band?: string | null }).age_band ?? null
+      // ── IS IT A PROTECTED WINDOW RIGHT NOW? ───────────────────────
+      //
+      // Justin, 16 September 2026, choosing between warn, ignore and block:
+      // "warn me, never stop me."
+      //
+      // A child starting a timer themselves gets warned. A parent starting one
+      // for them gets warned. Approving the child's pending ask was the only
+      // door with no warning on it, and it is the one most likely to be tapped
+      // without looking: their ask arrives at five to nine, the parent is doing
+      // something else, and the yes lands at ten past.
+      //
+      // It belongs on the FEED rather than on the approve route because the
+      // warning has to arrive before the tap. A route can only answer after
+      // the yes, by which point the timer is running and the stars are spent.
+      // Every card polling this feed gets the line for free.
+      //
+      // It never blocks. The yes stays one tap.
+      const guard = (() => {
+        const settings = tierBy.get(c.id as string)
+        if (!settings) return null
+        const check = checkProtectedWindow(settings)
+        return check.protected ? { reason: check.reason, label: PROTECTED_REASON_LABEL[check.reason] } : null
+      })()
       return {
+        protectedNow: guard,
         id: c.id,
         name: c.name,
         trust: readTrust((c as { device_trust?: string }).device_trust),
