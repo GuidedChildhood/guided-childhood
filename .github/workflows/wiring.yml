@@ -210,6 +210,7 @@ jobs:
       - run: node scripts/check-home-icon.mjs
       - run: node scripts/check-today-tick.mjs
       - run: node scripts/check-screens-rest.mjs
+      - run: node scripts/check-job-row.mjs
 
       # A lesson and the daily quiz are one objective, and the day counts
       # either. Teo passed a lesson on a day whose learning step was the quiz:

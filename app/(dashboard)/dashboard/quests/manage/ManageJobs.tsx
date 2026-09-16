@@ -11,6 +11,7 @@ import JobPicker from '@/components/quests/JobPicker'
 import type { JobBand } from '@/lib/quests/job-time'
 import SentToast from '@/components/ui/SentToast'
 import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
+import JobBoardRow from '@/components/quests/JobBoardRow'
 
 // Add a job, on its own page, with the three jobs of this page split into
 // three tabs.
@@ -79,30 +80,6 @@ const LINK_BTN: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   color: 'var(--terracotta)', letterSpacing: '0.04em', padding: '6px 4px',
 }
-// ── THE TWO SETTINGS ON A JOB, AS BUTTONS ──────────────────────────────────
-//
-// Justin, 10 September 2026, with the jobs board: "steps need to have hover
-// explanation and look better as actual buttons".
-//
-// "Make it a family job" and "Add steps" were LINK_BTN: bare mono text in
-// ink-muted with no border and no background, sitting under the job title. They
-// are the two most interesting things you can do to a job and they read as grey
-// captions, which is why nobody presses them.
-//
-// They are pills now, and each carries a title so hovering says what it does.
-// The words alone cannot: "family job" is our idea, not a phrase a parent
-// arrives knowing, and "steps" says nothing about the child's card.
-//
-// on: this setting is applied, so the pill is filled in its own colour.
-const CHIP_BTN = (on: boolean, tint: string, ink: string): React.CSSProperties => ({
-  display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0,
-  background: on ? tint : '#fff',
-  border: `1.5px solid ${on ? ink : 'var(--border)'}`,
-  borderRadius: 'var(--radius-pill)', padding: '5px 11px', cursor: 'pointer',
-  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-  letterSpacing: '0.02em', color: on ? ink : 'var(--ink-soft)',
-  lineHeight: 1.3, whiteSpace: 'nowrap',
-})
 
 // A quiet line for a tab with nothing in it. An empty tab has to say so in
 // words, because an empty panel reads as a page that failed to load.
@@ -796,92 +773,28 @@ export default function ManageJobs({
               Add the first one
             </button>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-              {mine.map(q => (
-                <div key={q.id} style={{ border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
-                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
-                    {q.title}
-                  </span>
-                  {/* A family job never shows a price: contribution is
-                      belonging, and the bank pays it nothing. */}
-                  <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: q.is_family_job ? '#2F8F6B' : 'var(--terracotta-dark)' }}>
-                    {q.is_family_job ? 'Family ❤️' : `⭐${q.stars}`}
-                  </span>
-                  {/* Only when they have the app. Offering to buzz a phone that
-                      does not exist is a button that can only disappoint. */}
-                  {hasApp && (
-                    <button
-                      onClick={() => remind(q.title)}
-                      disabled={busy}
-                      title={`Buzz ${name}'s phone about this one`}
-                      style={{ ...LINK_BTN, color: pinged === q.title ? '#2F8F6B' : 'var(--terracotta)' }}
-                    >
-                      {pinged === q.title ? 'Sent ✓' : 'Remind'}
-                    </button>
-                  )}
-                  <button onClick={() => remove(q.id)} disabled={busy} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
-                    Remove
-                  </button>
-                </div>
-                {/* The Dr Becky layer, quiet under each job. A family job is
-                    one everyone does because they belong here, no stars. Steps
-                    chunk a big job into little ticks on the child's card, and
-                    the stars stay on the whole job, never per step. */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
-                  <button
-                    onClick={() => updateJob(q.id, { is_family_job: !q.is_family_job })}
-                    disabled={busy}
-                    aria-pressed={!!q.is_family_job}
-                    title={q.is_family_job
-                      ? `A family job. ${name} does it because they live here, and it pays no stars. Tap to put the stars back.`
-                      : 'Some jobs are not for stars. A family job is one everybody does because they belong here, and it pays nothing.'}
-                    style={CHIP_BTN(!!q.is_family_job, 'var(--tint-green)', '#2F8F6B')}
-                  >
-                    {q.is_family_job ? '❤️ Family job, no stars' : '❤️ Make it a family job'}
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (stepsOpen === q.id) { setStepsOpen(null); return }
-                      setStepsDraft((q.steps ?? []).join('\n'))
-                      setStepsOpen(q.id)
-                    }}
-                    disabled={busy}
-                    aria-expanded={stepsOpen === q.id}
-                    title={`Break a big job into little ticks on ${name}'s own card. The stars stay on the whole job, never one per step.`}
-                    style={CHIP_BTN((q.steps?.length ?? 0) > 0, 'var(--terracotta-lt)', 'var(--terracotta-dark)')}
-                  >
-                    {(q.steps?.length ?? 0) > 0 ? `✎ Steps · ${q.steps?.length}` : '✎ Add steps'}
-                  </button>
-                </div>
-                {stepsOpen === q.id && (
-                  <div style={{ marginTop: 6 }}>
-                    <textarea
-                      value={stepsDraft}
-                      onChange={e => setStepsDraft(e.target.value)}
-                      rows={4}
-                      placeholder={'One step per line, up to five.\nClothes in the basket\nBooks on the shelf\nFloor clear'}
-                      style={{ width: '100%', borderRadius: 11, border: 'var(--edge)', padding: '8px 10px', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-body)', color: 'var(--ink)', resize: 'vertical' }}
-                    />
-                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '4px 0 6px' }}>
-                      Little ticks that chunk the job on their card. The stars stay on the whole job, never per step.
-                    </p>
-                    <button
-                      onClick={async () => {
-                        const steps = stepsDraft.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 5)
-                        await updateJob(q.id, { steps: steps.length ? steps : null })
-                        setStepsOpen(null)
-                      }}
-                      disabled={busy}
-                      className="btn btn-gold"
-                      style={{ padding: '8px 14px', fontSize: 'var(--text-sm)' }}
-                    >
-                      Save steps
-                    </button>
-                  </div>
-                )}
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {/* 10 rather than the 7 these rows used to sit at. Each card now
+                  casts a hard 4px ink shadow, and at 7 the shadow of one lands
+                  on the edge of the next, which reads as a printing error. */}
+              {mine.map((q, i) => (
+                <JobBoardRow
+                  key={q.id}
+                  job={q}
+                  index={i}
+                  childName={name}
+                  hasApp={hasApp}
+                  busy={busy}
+                  pinged={pinged}
+                  stepsOpen={stepsOpen === q.id}
+                  stepsDraft={stepsDraft}
+                  setStepsOpen={open => setStepsOpen(open ? q.id : null)}
+                  setStepsDraft={setStepsDraft}
+                  onToggleFamily={() => updateJob(q.id, { is_family_job: !q.is_family_job })}
+                  onSaveSteps={async steps => { await updateJob(q.id, { steps }); setStepsOpen(null) }}
+                  onRemind={() => remind(q.title)}
+                  onRemove={() => remove(q.id)}
+                />
               ))}
             </div>
           )}
