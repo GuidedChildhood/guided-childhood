@@ -581,8 +581,8 @@ export default function DeviceTimeCard({
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
             {endedByGuide
-              ? 'That is the healthy amount for today. Your stars are safe for tomorrow, and there is plenty of good stuff to do right now.'
-              : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.`}
+              ? 'That is the healthy amount for today. Your stars are safe for tomorrow.'
+              : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Earn more stars to unlock more.`}
           </p>
           {/* The jobs still waiting, named, with what they are worth. Not a
               telling off: the next block of time is sitting right there in
@@ -637,7 +637,7 @@ export default function DeviceTimeCard({
             ask, and the yes is what starts the timer. */}
         {asksFirst && (
           <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
-            This asks your grown up. They get a ping, and when they say yes your timer starts.
+            This asks your grown up. When they say yes your timer starts.
           </p>
         )}
         {/* Our deal, at the moment it is about to be used: the family's own
@@ -704,7 +704,7 @@ export default function DeviceTimeCard({
               What are you doing on it?
             </div>
             <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
-              Homework counts differently to watching, so this is worth a tap.
+              Homework counts differently to watching.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px' }}>
               {ACTIVITIES.map(a => {
@@ -923,7 +923,7 @@ export default function DeviceTimeCard({
           {reachedGuide && (
             <>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
-                That is the healthy amount for your age. Want more? Ask your grown up for a treat.
+                Want more? Ask your grown up for a treat.
               </p>
               <div style={{ marginTop: '10px' }}>
                 <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
@@ -954,7 +954,7 @@ export default function DeviceTimeCard({
                 <div style={{ height: '100%', width: `${weekPct}%`, borderRadius: 'var(--radius-pill)', background: weekPct >= 100 ? 'var(--retro-green)' : 'var(--gold, #EDC35F)', transition: 'width 0.5s ease' }} />
               </div>
               <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.4, margin: '5px 0 0' }}>
-                Yours to spread across the week. A big Saturday means a lighter Tuesday.
+                Yours to spread across the week.
               </p>
             </div>
           )}
@@ -990,11 +990,11 @@ export default function DeviceTimeCard({
                 : asksFirst
                 // "minutes of stars" stops being true the moment the holiday
                 // bank is part of the number, so it says where it came from.
-                ? `Pick your screen and how long. You have ${maxMinutes} minutes ${corePot > 0 ? 'ready, your free time included' : holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
+                ? `You have ${maxMinutes} minutes ${corePot > 0 ? 'ready, your free time included' : holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
                 : corePot > 0
                 ? `You have ${maxMinutes} minutes to use now, ${corePot} of them free time`
                 : `You have ${maxMinutes} minutes to use now`)
-              : 'No minutes ready yet. You can still ask, your grown up decides. Or do a job to earn some'}
+              : 'No minutes ready yet. You can still ask, or do a job to earn some'}
           </span>
         </span>
         <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0, fontWeight: 900 }}>›</span>

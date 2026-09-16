@@ -27,7 +27,7 @@ export type Kid = { id: string; name: string; balance: number; starMinutes?: num
 // jobs pay back later, or a free bonus with no strings at all.
 const GRANT_MODES: { key: 'stars' | 'gift' | 'bonus'; label: string; hint: string }[] = [
   { key: 'stars', label: 'Spend their stars', hint: 'The default. Earned time, the deal as agreed.' },
-  { key: 'gift', label: 'Gift it', hint: 'Starts now, no stars spent. Jobs pay it back later, framed as saying thanks.' },
+  { key: 'gift', label: 'Gift it', hint: 'Starts now, no stars spent. Jobs pay it back later.' },
   { key: 'bonus', label: 'Free bonus', hint: 'A treat with no strings. Spends nothing, owes nothing.' },
 ]
 
@@ -73,7 +73,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
           before the tap so the parent grants it knowingly. Never a block. */}
       {exceedsGuide && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-          This takes {childName}{' '}past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
+          This takes {childName}{' '}past today&apos;s healthy amount for their age, so it goes down as a treat.
         </p>
       )}
       {/* The deal, said at the yes. The same two lines the child sees while
@@ -88,7 +88,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
           </p>
         ) : (
           <p data-deal style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-            No family deal yet. Asks like this are easier once you have agreed one together.{' '}
+            No family deal yet.{' '}
             <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>Make the deal</Link>
           </p>
         )
@@ -178,7 +178,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Screen time</span>
       </div>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
-        Set device time for each child. It spends their stars, or give a bonus for a treat. You both get the alarm when it is up.
+        Set device time for each child. You both get the alarm when it is up.
       </p>
       {/* No label of our own above this.
           It used to carry a mono "Turn on the timer alarm" heading, printed
@@ -648,14 +648,11 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
               Check the jobs
             </Link>
           </div>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
-            A week that keeps running short usually means the board is light. Adding a job is what keeps the balance healthy.
-          </p>
         </div>
       )}
       {mode === 'gift' && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
-          The gift starts now and {minutesToStars(minutes, kid.starMinutes)} star{minutesToStars(minutes, kid.starMinutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
+          The gift starts now and {minutesToStars(minutes, kid.starMinutes)} star{minutesToStars(minutes, kid.starMinutes) === 1 ? '' : 's'} of jobs pay it back later.
         </p>
       )}
 
@@ -674,11 +671,11 @@ function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: stri
   const heaviest = week[0]
   const band = bandLabelFor(ageBand)
   const advice: Record<DeviceKey, string> = {
-    console: `Gaming carries most of ${name}'s screen time. At age ${band} what the sessions displace matters more than the clock, so keep sleep, movement and real mates first, and let jobs on the quest board earn the play.`,
-    tv: `TV carries most of ${name}'s screen time. At age ${band} what the watching displaces matters more than the clock, so keep play and sleep in first place, and let jobs on the quest board earn the sittings.`,
-    phone: `The phone carries most of ${name}'s screen time. At age ${band} shorter sittings with real breaks work best, so let jobs on the quest board earn each one.`,
-    tablet: `The tablet carries most of ${name}'s screen time. At age ${band} the balance matters more than the clock, so keep making and moving around it, and let jobs on the quest board earn the sittings.`,
-    computer: `The computer carries most of ${name}'s screen time. At age ${band} it is worth knowing how much of it is making and how much is watching, so keep the sittings earned on the quest board either way.`,
+    console: `Gaming carries most of ${name}'s screen time. At age ${band} keep sleep, movement and real mates first.`,
+    tv: `TV carries most of ${name}'s screen time. At age ${band} keep play and sleep in first place.`,
+    phone: `The phone carries most of ${name}'s screen time. At age ${band} shorter sittings with real breaks work best.`,
+    tablet: `The tablet carries most of ${name}'s screen time. At age ${band} keep making and moving around it.`,
+    computer: `The computer carries most of ${name}'s screen time. At age ${band} it is worth knowing how much is making and how much is watching.`,
   }
   return (
     <div style={{ marginTop: '12px', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '11px 13px' }}>
@@ -755,7 +752,7 @@ export function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMi
             ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
             : g.status === 'reached'
             ? `They have had their recommended time today. More is a treat, your call.`
-            : `This takes ${name} past today's healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.`}
+            : `This takes ${name} past today's healthy amount for their age, so it goes down as a treat.`}
         </p>
       )}
     </div>

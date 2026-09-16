@@ -571,9 +571,7 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-        Free time is always theirs, no stars needed, so the screen never becomes the prize. We suggest
-        starting below the daily guide for their age, on purpose, so the quests have somewhere real to add
-        to and the last stretch is earned. Bedtime and mealtimes stay protected whatever you pick.
+        Free time is always theirs, no stars needed, so the screen never becomes the prize. Bedtime and mealtimes stay protected whatever you pick.
       </p>
       {childList.map(c => {
         const name = c.name && c.name !== 'Your child' ? c.name : 'Your child'
@@ -621,7 +619,7 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
               <strong style={{ color: 'var(--ink)' }}>
                 We suggest {base}m to start, with stars earning the rest up to {guide}m.
               </strong>{' '}
-              {guide}m is the daily guide for their age, not a limit anyone has proved. Stars never take
+              {guide}m is the daily guide for their age. Stars never take
               them past it.
             </p>
 
@@ -632,8 +630,7 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
           agree is the honest part rather than something to tidy away. */}
       <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: 0 }}>
         Where the guides come from: {SCREEN_GUIDE_SOURCES.map(g => `${g.body} ${g.year}`).join(', ')}. They do
-        not all agree, and the RCPCH looked and said there is no single safe limit, so we give you a place to
-        start and the balance to judge it by.
+        not all agree, and the RCPCH says there is no single safe limit.
       </p>
 
       {/* Point three: encouraged, never required. Nothing is blocked if a
@@ -642,8 +639,7 @@ function CoreTimeStep({ childList }: { childList: SetupChild[] }) {
           we can honestly promise, which is a balance worth looking at. */}
       <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
         When they ask for their time through the app rather than just picking up the tablet, we can show you
-        both halves of the day: what went on a screen and what did not. That is the picture worth having, and
-        it is the one that makes the balance mean something. Nothing stops working if you would rather not.
+        both halves of the day: what went on a screen and what did not. Nothing stops working if you would rather not.
       </p>
 
       {failed && (
@@ -867,8 +863,7 @@ function OtherChildren() {
               What is going on with {name.trim() || 'them'}
             </span>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: '0 0 8px', lineHeight: 1.5 }}>
-              Up to three, most pressing first. These become their check in, so
-              it asks about them rather than about their brother or sister.
+              Up to three, most pressing first. These become their check in.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
               {WORRIES.map(w => {
@@ -978,9 +973,6 @@ function OtherChildren() {
             color: 'var(--ink)', margin: '0 0 4px',
           }}>
             {added.length === 1 ? `${added[0]} is added` : `${added.join(', ')} are added`}
-          </p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-            Add another above if there is one more, or say that is everyone.
           </p>
           <button
             onClick={done}
@@ -1112,8 +1104,7 @@ function HomeScreenHow() {
           reaching a parent and not. */}
       {installed ? (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
-          You are already in the app rather than a browser tab, so this one is
-          done. Ticking it now.
+          You are already in the app, so this one is done. Ticking it now.
         </p>
       ) : (<>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 2px', fontWeight: 600 }}>
@@ -1257,7 +1248,7 @@ function AllDone({ checkInDone }: { checkInDone: boolean }) {
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {checkInDone
           ? 'That is the one time work behind you, and today\u2019s check in is already done. Nothing else is waiting on you today.'
-          : 'That is the one time work behind you. First thing today is the check in, about thirty seconds, and it is what everything else is built on.'}
+          : 'That is the one time work behind you. First thing today is the check in, about thirty seconds.'}
       </p>
       {/* STRAIGHT TO THE PROPER CHECK IN. Justin: "takes them to start today and
           leads them through agreed loop ... first today which is check in and

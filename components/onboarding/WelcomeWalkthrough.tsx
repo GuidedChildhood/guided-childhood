@@ -380,21 +380,21 @@ function cardsFor(name: string): Card[] {
     {
       key: 'home', eyebrow: 'Every day · Ten minutes',
       headline: 'Open the app. Do one thing.',
-      body: 'Home picks today’s one clear thing for you: a check in, a moment, the words for tonight. Never a list, never a lecture.',
+      body: 'Home picks today’s one clear thing for you: a check in, a moment, the words for tonight.',
       why: 'A plan you can keep beats a plan you admire.',
       scene: <SceneHome />,
     },
     {
       key: 'checkin', eyebrow: 'Every day · Two minutes',
       headline: 'Rate how the worries went.',
-      body: 'Two worries to start, five stars each. Your first check in is the baseline. From then on you watch the number move.',
+      body: 'Two worries to start, five stars each. Your first check in is the baseline.',
       why: 'Nobody can tell what is working until someone counts.',
       scene: <SceneCheckIn />,
     },
     {
       key: 'moments', eyebrow: 'When something happens',
       headline: 'Tap the moment that went wrong.',
-      body: 'The bedtime battle, the tablet at tea, the meltdown when it went off. Tap it and it joins your worries, so the list grows with your actual week rather than staying whatever you ticked at setup.',
+      body: 'It joins your worries, so the list grows with your actual week.',
       why: 'The argument you had today is the one worth solving.',
       scene: <SceneMoments />,
     },
@@ -408,7 +408,7 @@ function cardsFor(name: string): Card[] {
     {
       key: 'digi', eyebrow: 'Any time · How DiGi works',
       headline: 'DiGi never says yes or no.',
-      body: 'Tell DiGi what happened. It knows your family, your worries and the research, and answers with where you are, the next step and the words. Never a ban, never a free pass.',
+      body: 'Tell DiGi what happened. It knows your family, your worries and the research, and answers with where you are, the next step and the words.',
       why: 'A rule teaches nothing. A pathway does.',
       scene: <SceneDigi />,
     },
@@ -444,15 +444,15 @@ const WORRIES_CARD = (worries: NonNullable<Props['worries']>): Card => ({
   headline: worries.length === 1
     ? 'This is what we start on.'
     : `These ${COUNT_WORD[worries.length] ?? worries.length} are what we start on.`,
-  body: 'They are already your first check in, waiting on Home. Rate them tonight and that rating becomes the baseline everything after is measured against.',
-  why: 'You can add another the day it happens. Nothing here has to be right first time.',
+  body: 'They are already your first check in, waiting on Home. Rate them tonight.',
+  why: 'You can add another the day it happens.',
   scene: <SceneWorries worries={worries} />,
 })
 
 const REMIND_CARD = (name: string): Card => ({
   key: 'remind', eyebrow: 'One nudge a day',
   headline: 'Want a nudge before bedtime?',
-  body: `One reminder before the moment that usually goes wrong, and ${name}’s week on a Sunday. No spam. It stops the second it stops helping.`,
+  body: `One reminder before the moment that usually goes wrong, and ${name}’s week on a Sunday. It stops the second it stops helping.`,
   why: 'The plan you just saw happens tonight, not next week.',
   scene: <SceneRemind name={name} />, sceneBg: 'var(--cream)',
 })
@@ -556,7 +556,7 @@ export default function WelcomeWalkthrough({ childName, onFinish, onEnableNotifi
             {name} is on the team.
           </h1>
           <p data-part style={{ fontSize: 'var(--text-md)', lineHeight: 1.5, color: 'var(--ink-soft)', textAlign: 'center', maxWidth: 320, marginTop: -6, textWrap: 'pretty' }}>
-            Ten minutes a day, the two of you, and a phone that arrives when they are ready for it. Here is how a day works.
+            Ten minutes a day, the two of you, and a phone that arrives when they are ready for it.
           </p>
         </div>
         <div style={{ padding: '12px 20px 28px', position: 'relative', maxWidth: 480, width: '100%', margin: '0 auto' }}>

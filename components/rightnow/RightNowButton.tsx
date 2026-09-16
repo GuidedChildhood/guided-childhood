@@ -505,7 +505,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   What is happening right now?
                 </h2>
                 <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
-                  Pick the moment and the calm words appear: what to say, what not to say. It gets remembered too, so tomorrow we ask how it went and DiGi knows the story.
+                  Pick the moment and the calm words appear.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                   {orderedSituations().map(s => (
@@ -545,7 +545,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   Tell me what is happening
                 </h2>
                 <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
-                  One line is enough. DiGi writes the calm words for this exact moment, for your child&rsquo;s age.
+                  One line is enough. DiGi writes the words for your child&rsquo;s age.
                 </p>
                 <textarea
                   value={customInput}
@@ -598,9 +598,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
                       Browse every moment
                     </span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', marginTop: '1px' }}>
-                      Pick the exact one from the full library
-                    </span>
                   </span>
                   <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0, color: 'var(--ink-muted)' }}>→</span>
                 </Link>
@@ -627,14 +624,14 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 </h2>
                 {!script && !failed && (
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em', margin: '-8px 0 14px' }}>
-                    While the words come, breathe out slowly once. You first, then them.
+                    Breathe out slowly once. You first, then them.
                   </p>
                 )}
 
                 {failed ? (
                   <div style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '20px', marginBottom: '16px' }}>
                     <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
-                      We could not load the script just now. DiGi can talk you through this exact moment instead, and it already knows what is happening.
+                      We could not load the script just now. DiGi can talk you through it instead.
                     </p>
                   </div>
                 ) : (
@@ -690,7 +687,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                       <HappyIcon name="print" size={26} />
                     </span>
                     <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
-                      Need something fun to reach for? Printables for offline ideas
+                      Printables for offline ideas
                     </span>
                     <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--terracotta-dark)' }}>→</span>
                   </Link>

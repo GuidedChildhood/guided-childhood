@@ -726,7 +726,7 @@ export default function QuestManager() {
         The deal: quests earn stars
       </h1>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
-        Real chores and jobs, agreed with you, that earn stars. No phone needed: print the sheet, or tick them off here yourself.
+        Real chores and jobs, agreed with you, that earn stars.
       </p>
 
       {/* Child picker plus add another, right here, never back to onboarding */}
@@ -1042,9 +1042,7 @@ export default function QuestManager() {
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '3px' }}>
                   The offline pack
                 </div>
-                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
-                  Four things to print, tap any one to open it ready for the printer.
-                </p>
+
                 {/* ── THE WORDS FELL OUT OF THESE TILES (10 September 2026) ──
                     Justin, with the pack on his phone: "some design issues here
                     where text comes outside box."
@@ -1147,7 +1145,7 @@ export default function QuestManager() {
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink)', opacity: 0.75, lineHeight: 1.45, marginTop: '2px' }}>
                   {youngChild
                     ? 'At this age quests work best on paper, done with you. No phone needed. Print the sheet for the fridge.'
-                    : 'Send their own private quest page by message. It opens like a mini app, nothing to install.'}
+                    : 'Send their own private quest page by message.'}
                 </span>
               </span>
               <span style={{ color: 'var(--ink)', opacity: 0.7, fontSize: 'var(--text-lg)', flexShrink: 0 }}>→</span>
@@ -1180,7 +1178,7 @@ export default function QuestManager() {
                 {child.name} pitched these quests
               </div>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                Their own ideas, from their quest page. Set the stars, say yes, and it lands on their list.
+                Their own ideas, from their quest page.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').map(a => {
@@ -1518,7 +1516,7 @@ export default function QuestManager() {
                   childName={child?.name ?? null}
                   autoFocus={addOpenedByParent}
                   onAdd={(t, when, band, days, familyJob) => addQuest({ title: t, emoji: familyJob ? '🏠' : '⭐', stars: 1, schedule: when, band, schedule_days: days, is_family_job: familyJob })}
-                  help="Worth one star, or make it a family job. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
+                  help="Worth one star, or make it a family job. The stars and days can be changed later."
                 />
               </div>
             )}
@@ -1750,7 +1748,7 @@ export default function QuestManager() {
               Routines
             </div>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-              Add a whole moment of the week: the school morning, the bedtime wind down, the weekend reset. Open one to see its jobs and untick anything you do not want, then add the rest. Each lands on the right days, and you can edit or remove any of them after.
+              Add a whole moment of the week: the school morning, the bedtime wind down, the weekend reset.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '10px' }}>
               {ROUTINE_PACKS.map(pack => {
@@ -2204,9 +2202,7 @@ export default function QuestManager() {
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
               Hand the quests over
             </div>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
-              Older kids get their own private page, sent by message. Little ones get the printed sheet for the fridge.
-            </p>
+
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {link ? (
                 <button
@@ -2462,7 +2458,7 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
           {childName}&apos;s games · {label.name} · {label.ages}
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
-          These are {childName}&apos;s games, already on their quest link and matched to their stage. Every one teaches something real and pays stars into their bank. Preview any to see what they will play, or send one to nudge them to play it now.
+          These are {childName}&apos;s games, already on their quest link and matched to their stage.
         </p>
       </div>
 

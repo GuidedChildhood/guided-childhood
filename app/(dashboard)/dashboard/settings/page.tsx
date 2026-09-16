@@ -441,7 +441,7 @@ export default function SettingsPage() {
                 placeholder="Football, singing, crafts..."
               />
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
-                DiGi turns this into a for you tip on their pathway: enjoy a little on the screen, then go and do the real thing.
+                DiGi turns this into a for you tip on their pathway.
               </p>
             </div>
             )}
@@ -464,7 +464,7 @@ export default function SettingsPage() {
                   onChange={e => patchForm(kid.id, { monthOnly: e.target.checked, dob: form.dob.slice(0, e.target.checked ? 7 : 10) })}
                 />
                 <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
-                  Rather not give the exact day? Month and year is plenty, we work from that.
+                  Month and year only.
                 </span>
               </label>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
@@ -592,7 +592,7 @@ export default function SettingsPage() {
             </>
           ) : (
             <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 0, lineHeight: 1.55 }}>
-              {trialDaysLeftNow === 1 ? 'Your last free day.' : `${trialDaysLeftNow} free days left.`} No card was taken, so nothing is charged on {trialEndLabel} and there is nothing here to cancel. The app waits until you join.
+              {trialDaysLeftNow === 1 ? 'Your last free day.' : `${trialDaysLeftNow} free days left.`} No card was taken, so nothing is charged on {trialEndLabel} and there is nothing here to cancel.
             </p>
           )}
         </section>
@@ -614,9 +614,7 @@ export default function SettingsPage() {
                 </span>
               )}
             </div>
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
-              Manage your subscription, update payment details, or download invoices through Stripe's secure billing portal.
-            </p>
+
             {/* A BUTTON, NOT A LINK, and this was a dead control.
                 It was <a href="/api/stripe/portal">, which is a GET. That route
                 only exports POST, so every tap returned 405 Method Not Allowed
@@ -664,8 +662,7 @@ export default function SettingsPage() {
         <section id="billing" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '22px', marginBottom: '24px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your plan</h2>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            Change your card, see your invoices, or cancel. One tap to Stripe's own page and there is no
-            retention maze. Everything your family has done is kept, and it all comes back if you join again.
+            Change your card, see your invoices, or cancel. Everything your family has done is kept if you come back.
           </p>
           <button
             onClick={openBilling}
