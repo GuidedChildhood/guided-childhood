@@ -6,6 +6,8 @@ import { bestJobsFor, KIND_TINT, type BestJob } from '@/lib/quests/best-jobs'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import { HAPPY, HappyMasthead, Sticker, StarShape } from '@/components/kid/HappyNewsBits'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { jobIconFor } from '@/lib/quests/job-icon'
 
 // The child pitches their own job.
 //
@@ -228,7 +230,7 @@ export default function KidAskForJob({
                     background: justSent ? '#fff' : idea.tint, border: `2px solid ${HAPPY.ink}`,
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, lineHeight: 1,
                   }}>
-                    {justSent ? '✓' : idea.emoji}
+                    {justSent ? '✓' : <HappyIcon name={jobIconFor(idea.emoji, idea.title)} size={26} />}
                   </span>
                   <span style={{ position: 'absolute', top: 8, right: 8 }}>
                     <Sticker accent={justSent ? 'white' : 'butter'} rotate={7} size="sm">
@@ -306,7 +308,7 @@ export default function KidAskForJob({
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {asks.slice(0, 8).map(a => (
               <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 'var(--radius-btn)', padding: '11px 12px', boxShadow: `0 3px 0 ${HAPPY.ink}` }}>
-                <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{a.emoji}</span>
+                <span aria-hidden style={{ flexShrink: 0, display: 'inline-flex' }}><HappyIcon name={jobIconFor(a.emoji, a.title)} size={22} /></span>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: HAPPY.ink, lineHeight: 1.25 }}>{a.title}</span>
                 <span style={{ flexShrink: 0 }}>
                   {a.status === 'added'

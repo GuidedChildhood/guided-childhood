@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { jobIconFor } from '@/lib/quests/job-icon'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The two pieces of the child's balance page that have to agree with each other.
@@ -88,8 +90,8 @@ export function TodayJobs({
           const settled = approved || pending
           const row = (
             <>
-              <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0, opacity: approved ? 0.55 : 1 }}>
-                {approved ? '✓' : pending ? '⏳' : q.emoji}
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0, opacity: approved ? 0.55 : 1, display: 'inline-flex', alignItems: 'center' }}>
+                {approved ? '✓' : pending ? '⏳' : <HappyIcon name={jobIconFor(q.emoji, q.title)} size={20} />}
               </span>
               <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35, textDecoration: approved ? 'line-through' : 'none', opacity: approved ? 0.55 : 1 }}>
                 {q.title}

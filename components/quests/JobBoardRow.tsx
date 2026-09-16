@@ -1,5 +1,8 @@
 'use client'
 
+import HappyIcon from '@/components/kid/HappyIcon'
+import { jobIconFor } from '@/lib/quests/job-icon'
+
 // ── ONE JOB ON THE CHILD'S BOARD, IN THE HAPPY NEWS FINISH ─────────────────
 //
 // Justin, 16 September 2026, with the board open on his phone:
@@ -54,9 +57,15 @@ export type BoardJob = {
 const ROW_TINTS = ['var(--tint-butter)', 'var(--tint-blue)', 'var(--tint-rose)', 'var(--tint-amber)']
 const FAMILY_TINT = 'var(--tint-green)'
 
-// The white circle plate the job's icon sits on. A bare emoji on a coloured
-// card reads as a stray character; the same emoji on a plate reads as designed,
-// and it is the plate the child app, the calendar and the tiles already wear.
+// The white circle plate the job's icon sits on. It carries a DRAWN icon from
+// the house set, never the phone emoji stored on the row.
+//
+// Justin, 16 September 2026, with The Happy Newspaper held up beside the
+// board: "colours are right but the icons could be more happy news style like
+// attached." The emoji was another company's artwork sitting inside our plate,
+// in another company's style, drawn differently on every device a family owns.
+// The stored emoji is still the key that picks the drawing (lib/quests/job-icon)
+// so nothing in the database changes and nothing a family typed is lost.
 const PLATE: React.CSSProperties = {
   width: 42, height: 42, borderRadius: '50%', background: '#fff', border: 'var(--edge)',
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -149,7 +158,7 @@ export default function JobBoardRow({
           a line of their own can never crowd anything, and the title below
           them gets the whole card to wrap in. */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 9 }}>
-        <span aria-hidden style={PLATE}>{job.emoji}</span>
+        <span aria-hidden style={PLATE}><HappyIcon name={jobIconFor(job.emoji, job.title)} size={27} /></span>
         {/* A family job never shows a price: contribution is belonging, and
             the bank pays it nothing. */}
         <span style={WORTH_PILL(family)}>

@@ -17,6 +17,9 @@
 // stays with each consumer, because the parent dashboard and the child app
 // wear different chrome.
 
+import HappyIcon from '@/components/kid/HappyIcon'
+import { jobIconFor } from '@/lib/quests/job-icon'
+
 export type SheetJob = { emoji: string; text: string; stars: number }
 
 // Eleven rows fills an A4 page with the header and the footer row, and leaves
@@ -137,7 +140,7 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
             {picked.map((job, r) => (
               <tr key={job.text}>
                 <td style={{ border: '1px solid var(--border)', padding: '6px 10px', background: r % 2 ? 'var(--cream)' : '#fff' }}>
-                  <span style={{ fontSize: 'var(--text-md)', marginRight: 7 }}>{job.emoji}</span>
+                  <span aria-hidden style={{ marginRight: 7, display: 'inline-flex', verticalAlign: 'middle' }}><HappyIcon name={jobIconFor(job.emoji, job.text)} size={20} /></span>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{job.text}</span>
                 </td>
                 {DAYS.map((d, i) => (

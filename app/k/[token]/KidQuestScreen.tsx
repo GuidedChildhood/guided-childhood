@@ -27,6 +27,7 @@ import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
 import HappyIcon from '@/components/kid/HappyIcon'
+import { jobIconFor } from '@/lib/quests/job-icon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import { missionSheetFor } from '@/lib/printables/mission-sheets'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
@@ -2388,7 +2389,7 @@ export default function KidQuestScreen({
             </p>
             {laterQuests.map((q, i) => (
               <p key={i} style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', margin: '0 0 4px', lineHeight: 1.5 }}>
-                {q.emoji} {q.title}
+                <HappyIcon name={jobIconFor(q.emoji, q.title)} size={18} /> {q.title}
                 <span style={{ color: 'var(--ink-light)' }}>
                   {/* The words the parent chose, not a guess from the
                       schedule column. Written out longhand this had no case

@@ -1,6 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import HappyIcon from '@/components/kid/HappyIcon'
+import { jobIconFor } from '@/lib/quests/job-icon'
 import { BEST_JOBS, JOB_KINDS, KIND_TINT, kindForTitle, type BestJob, type JobKind } from '@/lib/quests/best-jobs'
 import { QUEST_TEMPLATES } from '@/lib/quests/templates'
 import { AGE_BAND_TO_STAGE, STAGE_LABELS, type StageKey } from '@/lib/quests/game-picks'
@@ -215,10 +217,13 @@ export default function JobPicker({
             flexShrink: 0, width: 40, height: 40, borderRadius: 'var(--radius-tile)',
             background: done ? '#fff' : tint.bg, border: `1.5px solid ${done ? '#CFE0D8' : tint.border}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 21, lineHeight: 1,
             animation: justAdded ? 'gcJobTilePop 0.45s cubic-bezier(0.22,1.2,0.36,1)' : undefined,
           }}>
-            {job.emoji}
+            {/* The drawn icon, not the stored emoji. A parent picks the job
+                here and then sees it on the board and on the child's phone,
+                and it has to be the same picture all three times or it stops
+                reading as the same job. */}
+            <HappyIcon name={jobIconFor(job.emoji, job.title)} size={24} />
           </span>
 
           {/* TWO SHORT LINES, NOT FIVE.
