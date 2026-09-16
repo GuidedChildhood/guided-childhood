@@ -6,6 +6,7 @@ import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import PrintButton from '@/components/PrintButton'
+import { MarkOnPrint } from '@/components/tracker/signals'
 import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, hasAnswerKey, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
@@ -109,6 +110,10 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
 
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff', color: 'var(--ink)' }}>
+      {/* The pack is the one printable a whole lesson can be taught from, so its
+            row is the heaviest on the checklist.
+            `beforeprint`, so ctrl P counts as much as our button. */}
+      <MarkOnPrint moduleId={moduleId} step="pack" />
       <div className="no-print" style={{ padding: '20px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
         <span style={mono}>Paper pack · print one, photocopy per pupil where marked</span>
         <PrintButton label="Print the pack" />

@@ -15700,3 +15700,80 @@ Still open, and named on the plan: the five commercial answers (what is in the
 box, who packs thirty, school or parent, supplier for the stickers, and the
 price itself). The form works and a school can be answered by hand today; what
 it cannot do is quote a number, because there is no supplier.
+
+## 16 September 2026: four answers, and the tracker gets built (session 0u09q9)
+
+Justin answered the questions the per child passport work left open, and took
+the recommended option on all four.
+
+1. **The lesson tracker is built, and its roll up lives at `/hub/tracker`.**
+   The Hub is where a subject lead already goes for compliance things, so a
+   coverage record belongs beside the RSHE mapping. The curriculum map stays
+   the teaching map: a green tick there would read as a recommendation rather
+   than a record.
+2. **The printed passport books are PRE PRINTED**, five pages ready to fill.
+   A blank book is a notebook. The pages are the product, and they are the
+   same pages a parent folds at home.
+3. **A print on demand supplier ships direct to the school.** No packing, no
+   cash tied up, and a school can be quoted within a week of a supplier being
+   found. Thinner margin than buying a run, which is the right trade at zero
+   schools. What this still needs is one quote from a UK booklet printer.
+4. **School first, parent later.** The schools quote form is the only door for
+   now. A school has a purchase order and buys thirty; a parent already has
+   the £14 keepsake in the shop and the free foldable covers everyone else.
+   Nothing was added to the parents shop.
+
+Decisions 2, 3 and 4 needed no code: `/supplies` already says pre printed and
+five pages, already quotes rather than prices, and already exists only on the
+schools side. They are recorded here because the next session should not
+re-open them.
+
+### What the tracker actually is
+
+Seven of its nine rows tick themselves, which is the whole point. Justin's
+reference was Meta's "You're following best practices" panel, and that panel
+is believable because every row in it is machine checked. The moment one row
+needs a human to tap it, the panel becomes a form and a green tick stops being
+evidence.
+
+The seven signals, each written at the moment the thing happens:
+
+| Row | What ticks it |
+|---|---|
+| You have read the lesson | the lesson page opened |
+| You have looked back | the previous lesson's page opened, or it is already taught |
+| The pack is printed | `beforeprint` on the pack route |
+| The learning record is printed | `beforeprint` on the record route |
+| The board is ready | the teach route opened |
+| You taught it | the player reached its finish, through a new `onFinish` prop |
+| The class filled the passport page | read from `shared/schools-taught`, never stored twice |
+
+`beforeprint` rather than a click on our own button, because a teacher who
+presses ctrl P has printed it just as much. A cancelled print dialog still
+ticks, and that is the failure we accept: the alternative leaves a row grey
+after a real printer run.
+
+**Look back is ticked on the PREVIOUS lesson's page**, not on the page that
+benefits from it. That is the only honest way to observe it: the act of
+looking back happens where you look.
+
+The two rows we cannot see (brief the safeguarding lead, parent notes into
+book bags) sit in their own block with outlined circles, and the panel says in
+one line that they are a teacher's word rather than the product's.
+
+**The tick is computed and there is deliberately no way to store it.** A tick
+a teacher can award themselves proves nothing to a subject lead.
+
+**Which rows apply is read, never listed.** Three facts come from the manifest
+(passport page, safeguarding flag, is there a lesson before it) and one from
+the row (`i can` statements). A lesson that gains `i can` statements gains its
+learning record row on the next deploy with nobody editing anything.
+
+The honest limit, on every surface that shows it: this screen only, this
+browser, no child named, a different laptop shows nothing. `/hub/tracker`
+prints as a coverage sheet for the file before anybody clears it.
+
+Guard `check-lesson-tracker.mjs` in CI, six mutations caught. Its pupil data
+rule strips comments before testing, because every file here explains at
+length that there is no register and a rule that could not tell the
+explanation from the thing would push us to stop explaining.

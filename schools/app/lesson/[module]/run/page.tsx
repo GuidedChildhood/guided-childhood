@@ -6,6 +6,8 @@ import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { parseSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSlide } from '@gc/shared/lesson-slides'
 import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
+import TrackerPanel from '@/components/tracker/TrackerPanel'
+import { shapeOf } from '@/lib/tracker'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
 //
@@ -189,6 +191,14 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
         }}>
           By the end: &ldquo;{lesson.single_action_outcome}&rdquo;
         </p>
+
+        {/* THE TRACKER, FIRST, because it answers the question a teacher opens
+            this page with: what is left. The rows below stay printable squares
+            for the clipboard; this panel is the memory, on screen only. */}
+        <TrackerPanel
+          moduleId={lesson.module_id}
+          shape={shapeOf(lesson.module_id, notes.i_can)}
+        />
 
         {/* ── BEFORE ── */}
         <section style={{ ...card, marginBottom: '16px' }}>

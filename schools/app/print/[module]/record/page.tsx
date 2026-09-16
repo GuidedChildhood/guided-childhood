@@ -1,6 +1,7 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import PrintButton from '@/components/PrintButton'
+import { MarkOnPrint } from '@/components/tracker/signals'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { friendFor, printRegister, mono, display, text, FriendHeader, PrintSheet, Box, WriteLines, ColourStar } from '@/components/print/kit'
@@ -59,6 +60,10 @@ export default async function LearningRecordPage({ params }: { params: Promise<{
 
   return (
     <main style={{ background: '#fff', color: 'var(--ink)', padding: '0 8px 40px', maxWidth: '740px', margin: '0 auto' }}>
+      {/* The learning record, where the lesson has `i can` statements. Its row
+            only exists on those lessons.
+            `beforeprint`, so ctrl P counts as much as our button. */}
+      <MarkOnPrint moduleId={moduleId} step="record" />
       <div className="no-print" style={{ padding: '20px 0 0', display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
         <PrintButton label="Print the record" />
       </div>

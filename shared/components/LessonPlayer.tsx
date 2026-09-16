@@ -965,6 +965,7 @@ export default function LessonPlayer({
   character,
   register = 'playful',
   passport = null,
+  onFinish,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -1034,6 +1035,21 @@ export default function LessonPlayer({
   // as this screen now holds it (shared/schools-taught) and prints the code.
   // Absent on the parent app, where the passport is the child's own book.
   passport?: { placement: PassportPlacement | null; moduleId: string; homeCode?: string | null } | null
+  /**
+   * Called once when the deck reaches its finish.
+   *
+   * THE SCHOOLS TRACKER'S ONE HONEST SIGNAL FOR "YOU TAUGHT IT". This app
+   * passes `completeEndpoint` null because a school code tells us the school
+   * and never the teacher, so there is nobody to write a completion against,
+   * and the early return above means nothing at all was observable. The
+   * parents app does not pass this and keeps writing its completion the way
+   * it always has.
+   *
+   * Fired before that return, so it runs whether or not a completion is
+   * posted, and wrapped by the caller rather than here: the player should not
+   * know what a tracker is.
+   */
+  onFinish?: () => void
 }) {
   const projector = projectorProp ?? classMode
   // The friend's tokens, or the terracotta the player has always worn. Text
@@ -1197,6 +1213,9 @@ export default function LessonPlayer({
     if (isLast) {
       setFinished(true)
       setDigiMood(passed ? 'happy' : 'speak')
+      // Before the early return, so a school that records no completion still
+      // gets the one signal its tracker can honestly claim.
+      try { onFinish?.() } catch { /* a tracker must never break a lesson */ }
       if (completeEndpoint === null) return
       // A failed run still writes the completion, with passed false, so the
       // record is honest and the retake can upgrade it to a pass.
@@ -1222,7 +1241,7 @@ export default function LessonPlayer({
     setSettled(false)
     setIndex(i => i + 1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLast, passed, completeEndpoint, lessonId, lessonSource, choiceCount, completeBody])
+  }, [isLast, passed, completeEndpoint, lessonId, lessonSource, choiceCount, completeBody, onFinish])
 
   const goBack = useCallback(() => {
     if (index === 0) return

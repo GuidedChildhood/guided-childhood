@@ -62,6 +62,11 @@ const DOCS = [
     body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
+    href: '/hub/tracker', emoji: '✅', accent: 'var(--green-dark)',
+    title: 'Lesson tracker',
+    body: 'Every lesson and whether it is done, ticking itself as you read, print, teach and finish. Prints as a coverage sheet for your file. It records that a lesson was delivered, never who was in the room.',
+  },
+  {
     href: '/hub/passport', emoji: '🛂', accent: 'var(--gold-dark)',
     title: 'The passport, page by page',
     body: 'The five pages of the passport to sixteen and how far this screen has taken your classes through them. Counted here and nowhere else: no pupil, no login, no upload.',

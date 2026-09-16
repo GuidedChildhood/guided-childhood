@@ -194,3 +194,38 @@ splits into four pushes that each stand alone:
 - No accounts, no per child record, no attendance. That is the staffroom.
 - No server state. Bridge b, the 29 August rule, still holds.
 - No second checklist. The run sheet is the checklist.
+
+
+## Built, 16 September 2026
+
+Justin: build it, roll up at `/hub/tracker`. All four pushes shipped.
+
+| | Built | Where |
+|---|---|---|
+| 1 | The memory and the step model | `shared/schools-progress.ts` |
+| 2 | The four detectors | `schools/components/tracker/signals.tsx`, `TrackedPlayer.tsx` |
+| 3 | The panel, on the run sheet and the prep page | `schools/components/tracker/TrackerPanel.tsx` |
+| 4 | The roll up and the coverage print | `schools/app/hub/tracker/` |
+
+Three things changed from the plan while building, each for a reason:
+
+- **The run sheet's own tick boxes stayed printable squares.** The plan's
+  table said they would become live controls, and then the Meta section
+  established that a tick is only awarded for a machine signal. Making the
+  body boxes live would have put the same fact in two interactive places and
+  let a teacher award themselves five of the seven automatic rows. The panel
+  is the working checklist; the squares are the clipboard.
+- **The player gained an `onFinish` prop.** It passes `completeEndpoint` null
+  for schools and returned early, so nothing at all was observable. `onFinish`
+  fires before that return, the parents app does not pass it, and a thin
+  wrapper in the schools app does the knowing so the player never learns what
+  a tracker is.
+- **`dslRequired` comes from the manifest, not the row.** `FLAGGED_MODULES`
+  already carries it, so the roll up needs one query for `i can` rather than
+  one per lesson.
+
+## Still open
+
+- The staffroom, which is when these same rows get accounts behind them and
+  become a real record rather than a screen's memory. After the first pilot
+  signs, as before.
