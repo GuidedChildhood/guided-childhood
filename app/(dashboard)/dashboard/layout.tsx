@@ -195,7 +195,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Main content */}
       {/* Clear the fixed bottom bar and the phone's own home indicator, so the
           last card on a page is never tucked under the tabs. */}
-      <main style={{ flex: 1, paddingBottom: 'calc(88px + env(safe-area-inset-bottom))' }}>
+      {/* 132px, not 88px. The bar is 72 and the Moment button now floats
+          clear above it: 8px of gap plus a 52px circle, so the last 60px above
+          the bar belong to the button. At 88 a page's own content ran under it,
+          which is what Justin photographed on 14 September when it landed on a
+          product's price and on "Recommended for Andy". The extra 44px is dead
+          space at the very bottom of a scroll, which is the cheapest thing on
+          the page to spend. */}
+      <main style={{ flex: 1, paddingBottom: 'calc(132px + env(safe-area-inset-bottom))' }}>
         {/* The way back from a welcome card action, above the page it sent them
             to. One place for every destination. useSearchParams needs the
             boundary, and the bar is nothing until the param is there anyway. */}
