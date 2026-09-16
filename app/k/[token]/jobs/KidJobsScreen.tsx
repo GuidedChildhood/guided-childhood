@@ -10,6 +10,7 @@ import { buddyFor } from '@/lib/kid/buddy'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { assessJobLoad } from '@/lib/quests/job-load'
 import { HAPPY } from '@/components/kid/HappyNewsBits'
+import KidWaitingAsks, { type WaitingAsk } from '@/components/kid/KidWaitingAsks'
 
 // The jobs page's client half: the real KidTodayList (the exact component the
 // home screen used to render, in its jobs only shape), wired to the same tick
@@ -18,6 +19,7 @@ import { HAPPY } from '@/components/kid/HappyNewsBits'
 
 export default function KidJobsScreen({
   token, childName, buddy, stageId, ageBand = null, quests, todayTicks, giftStarsOwed,
+  waiting = [],
 }: {
   token: string
   childName: string
@@ -28,6 +30,13 @@ export default function KidJobsScreen({
   quests: TodayQuest[]
   todayTicks: { quest_id: string; status: string }[]
   giftStarsOwed: number
+  /**
+   * The child's own asks still sitting with their grown up: pitched job ideas
+   * and a live screen time ask. This is exactly what the Quests badge counts,
+   * and this page is where that badge lands, so it has to be visible here or
+   * the number is a lie. See components/kid/KidWaitingAsks.
+   */
+  waiting?: WaitingAsk[]
 }) {
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
@@ -214,6 +223,12 @@ export default function KidJobsScreen({
           Tick a job when it is done in real life. Your grown up approves it and the stars are yours.
         </p>
 
+        {/* The asks first, because they are the reason a child tapped a badge
+            to get here. A job a grown up has sent is something to DO; an ask
+            is something already done and waiting, and burying it under an
+            empty list is what made the number look made up. */}
+        <KidWaitingAsks asks={waiting} />
+
         {quests.length === 0 ? (
           <div style={{
             // Sized to what it says. It was a full width slab with 20px of
@@ -226,7 +241,13 @@ export default function KidJobsScreen({
               No jobs today
             </p>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
-              When your grown up sends one, it lands here. Until then, you can ask for one yourself.
+              {/* A child with asks already waiting must not be told to go and
+                  ask, which is what this sentence said to every child however
+                  many they had outstanding. The ask cap counts those asks, so
+                  the invitation could even be refused a moment later. */}
+              {waiting.length > 0
+                ? `When your grown up sends one, it lands here. ${waiting.length === 1 ? 'Your ask above is' : `Your ${waiting.length} asks above are`} still with them.`
+                : 'When your grown up sends one, it lands here. Until then, you can ask for one yourself.'}
             </p>
             {/* THE ASK, NOT DIRECTIONS TO IT.
                 Justin, 15 September 2026: "if first time it should just ask to

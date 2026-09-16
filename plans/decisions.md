@@ -372,3 +372,11 @@ reads at 131 words a minute, so the five are about 35 minutes of animation.
 **One substitution awaiting Justin.** The films system doc names the fifth Stage 2
 film as "What social media really is", which is not a Stage 2 lesson in the
 database. Substituted Mean messages, which is.
+
+**A badge has to land on what it counts** (PR #1102). The child's Quests badge
+counts their own pending asks; tapping it opened a page listing only jobs a grown
+up had sent, so Justin's 2 became "No jobs today" and the badge itself vanished on
+arrival. Verified in the live data first: one pitched job, one live screen ask,
+both real. The jobs page now reads those rows the way the home screen counts them
+and shows them, and the bar keeps the count. Guard, 14 mutations, two of which
+only became real checks after mutating them.

@@ -215,6 +215,7 @@ jobs:
       - run: node scripts/check-approve-warning.mjs
       - run: node scripts/check-tab-bar-clear.mjs
       - run: node scripts/check-watch-stage-copy.mjs
+      - run: node scripts/check-kid-ask-visible.mjs
 
       # A lesson and the daily quiz are one objective, and the day counts
       # either. Teo passed a lesson on a day whose learning step was the quiz:

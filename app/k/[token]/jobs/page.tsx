@@ -4,6 +4,8 @@ import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import { readTodayState } from '@/lib/kid/today-state'
 import { readKidJobs } from '@/lib/kid/jobs-read'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { isAskLive } from '@/lib/quests/device-time'
+import type { WaitingAsk } from '@/components/kid/KidWaitingAsks'
 import KidJobsScreen from './KidJobsScreen'
 
 // The child's jobs page: the do these jobs list, and the pay back message
@@ -33,10 +35,45 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
     .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
   if (!link) notFound()
 
-  const [childRes, jobs] = await Promise.all([
+  const [childRes, jobs, pitchedRes, screenAskRes] = await Promise.all([
     supabase.from('children').select('name, age_band, buddy').eq('id', link.child_id).maybeSingle(),
     readKidJobs(supabase, link.user_id, link.child_id),
+    // THE ASKS THE QUESTS BADGE IS COUNTING.
+    //
+    // Counted here the way the home screen counts them, or the bar and this
+    // page disagree about the same child on the same afternoon. That means
+    // every pending ask with no time window (the ask cap in
+    // app/api/quests/request counts every pending row, and Justin's 14
+    // September note records a child whose ideas were older than a week and
+    // therefore invisible), and a screen time ask only while it is still live
+    // by the twelve hour rule the child's banner already uses.
+    supabase.from('quest_requests')
+      .select('id, title, emoji')
+      .eq('child_id', link.child_id)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: false }),
+    supabase.from('device_requests')
+      .select('id, device, minutes, status, created_at')
+      .eq('child_id', link.child_id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
   ])
+
+  // Fails soft to nothing waiting: a read that errors must not invent asks,
+  // and must not stop a child reaching their jobs.
+  const waiting: WaitingAsk[] = []
+  if (!pitchedRes.error) {
+    for (const row of pitchedRes.data ?? []) {
+      waiting.push({ kind: 'job', id: String(row.id), title: String(row.title), emoji: String(row.emoji ?? '') })
+    }
+  }
+  if (!screenAskRes.error && screenAskRes.data) {
+    const ask = screenAskRes.data
+    if (String(ask.status) === 'pending' && isAskLive(String(ask.status), String(ask.created_at))) {
+      waiting.push({ kind: 'screen', id: String(ask.id), device: String(ask.device), minutes: Number(ask.minutes) })
+    }
+  }
 
   // Stars still owed in jobs from gifted screen time: the pay back message.
   // Fails soft to zero, same as the home screen's read of the same table.
@@ -62,7 +99,7 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
   }
 
   return (
-    <KidScreenChrome token={token} current="quests" today={todayTab}>
+    <KidScreenChrome token={token} current="quests" today={todayTab} waiting={waiting.length}>
     <KidJobsScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
@@ -77,6 +114,7 @@ export default async function KidJobsPage({ params }: { params: Promise<{ token:
       }))}
       todayTicks={jobs.todayTicks}
       giftStarsOwed={giftStarsOwed}
+      waiting={waiting}
     />
     </KidScreenChrome>
   )
