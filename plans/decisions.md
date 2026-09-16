@@ -312,3 +312,32 @@ Guard `check-lesson-tracker.mjs` in CI, six mutations caught. Its pupil data
 rule strips comments before testing, because every file here explains at
 length that there is no register and a rule that could not tell the
 explanation from the thing would push us to stop explaining.
+
+## 16 September 2026: screens rest, the job board, the approve warning, and Moment (session p37w5v)
+
+Four merges from the device time lane, in order.
+
+**Screens rest defaults moved an hour earlier** (PR #1095). The old default ran
+right up to bedtime, which is the hour the light does the damage. Also fixed:
+the time pickers wrote every intermediate keystroke to the live row, so a
+half typed `09:57` could land. They commit on blur now.
+
+**The job board row rebuilt, with drawn icons** (PR #1095). 24 new Happy News
+icons and `lib/quests/job-icon.ts` mapping emoji and words to them. Built from
+the live `family_quests` table, not the template file, so every emoji a real
+family uses is covered.
+
+**The approve path warns, never blocks** (PR #1098). Justin chose warn over
+stop: "Screens are meant to be resting right now. Saying yes still works."
+Non negotiable 1 holds, a pathway not a gate.
+
+**The Now button becomes Moment, and lifts clear** (PR #1100). It was
+`position: absolute` inside a flex bar, so it sat on Passport at every width.
+Now `bottom: calc(100% + 8px)`, measured from the bar's top edge, with page
+padding grown to match. Renamed because the button also writes to the concerns
+ledger, which "Now" never said. Proved against production: three of the four
+moments ever raised show the full flagged, checked, resolved loop.
+
+**1043 words of superfluous copy cut from eleven parent screens** (PR #1100).
+A second adversarial pass found seven cuts that took real understanding with
+them, and all seven are back. Guard `check-tab-bar-clear.mjs` added, 77 total.
