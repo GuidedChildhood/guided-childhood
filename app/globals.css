@@ -71,21 +71,50 @@
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
-/* The NOW button rides on the bar rather than floating on its own fixed
+/* The Moment button rides on the bar rather than floating on its own fixed
    position, which drifts on an iPhone for the reason above. It is portalled
    into the bar by RightNowButton and sits just above its top edge, exactly
-   where the fixed version used to be (78px plus the inset from the floor). */
+   where the fixed version used to be (78px plus the inset from the floor).
+
+   ── IT IS A MEMBER OF THE ROW, NOT A THING ON TOP OF IT (16 Sept 2026) ────
+
+   Justin, with a screenshot of the bar: "Now button sits on top of Passport?"
+
+   It did, at every width, and it always had. The bar is display: flex, and
+   this button was position: absolute with right: 12px, which takes it out of
+   the flow entirely and parks it wherever 12px from the right happens to
+   land. Measured on the dev harness: at 390 it covered 54px of Passport's
+   64px, at 430 it covered 54px of 72px, and at 360 it covered Passport AND
+   clipped the edge of Scripts. There was no width at which it did not sit on
+   a tab.
+
+   The old fix would be to nudge the offset, which is how this class of bug
+   comes back. So it is a flex child now: the bar reserves it a column and
+   lays the six tabs out in what is left, and nothing can overlap anything
+   because nothing is out of flow.
+
+   position: relative with a negative top keeps that reserved column while
+   still lifting the circle above the bar's edge, the same 26px Justin
+   accepted on 14 September ("covers about 26px of the page instead of 66px").
+   A transform would do the same visually and would be overwritten by the
+   :active press below, so relative it is. */
 .bottom-tab-bar .rightnow-fab {
-  position: absolute;
-  right: 12px;
-  /* Straddling the bar's top edge rather than floating a full circle above
-     it. Justin, 14 September 2026, two screenshots: the button sat on a
-     product's price and on "Recommended for Andy". Half in the bar, it
-     covers about 26px of the page instead of 66px, and the page's own
-     bottom padding already clears that. */
-  bottom: calc(100% - 28px);
-  width: 54px;
-  height: 54px;
+  position: relative;
+  top: -26px;
+  right: auto;
+  bottom: auto;
+  flex: 0 0 auto;
+  /* Off the screen edge, so the circle reads as a button on the bar rather
+     than something half fallen off the side of the phone. */
+  margin-right: 8px;
+  width: 52px;
+  height: 52px;
+  /* "Moment" is twice the length of the "Now" this replaced, and at the old
+     9px with wide tracking it sat flush against the ring on both sides.
+     Measured: 43px of label inside 46px of usable circle. Smaller and tighter
+     gives it room to breathe without shrinking below what a parent can read. */
+  font-size: 0.5rem;
+  letter-spacing: 0.01em;
 }
 
 /* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE
