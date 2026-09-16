@@ -2,7 +2,6 @@
 
 import { deviceLabel } from '@/lib/quests/device-time'
 import HappyIcon from '@/components/kid/HappyIcon'
-import { Sticker } from '@/components/kid/HappyNewsBits'
 import { CRAYON } from '@/components/printables/drawn/crayon'
 
 // WHAT THE QUESTS BADGE IS COUNTING, ON THE PAGE THE BADGE OPENS.
@@ -78,6 +77,9 @@ export default function KidWaitingAsks({ asks }: { asks: WaitingAsk[] }) {
           ) : (
             <Well tint={CRAYON.butter}>{ask.emoji || '⭐'}</Well>
           )}
+          {/* No per row badge. Every row here is in the same state and the
+              heading above has already said it, so a pill on each one adds
+              nothing except the look of a button a child can press. */}
           <span style={{
             flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800,
             fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3,
@@ -86,7 +88,6 @@ export default function KidWaitingAsks({ asks }: { asks: WaitingAsk[] }) {
               ? `${ask.minutes} minutes on the ${deviceLabel(ask.device)}`
               : ask.title}
           </span>
-          <Sticker accent="white" rotate={-3} size="sm">⏳</Sticker>
         </div>
       ))}
     </div>
