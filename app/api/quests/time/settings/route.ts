@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { getTimeSettings } from '@/lib/quests/time-tiers'
+import { getTimeSettings, defaultBedtimeFor } from '@/lib/quests/time-tiers'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 
 // The parent sets a child's three tier time: the core baseline (unconditional
 // daily minutes, 0 means off), the bedtime window, and the mealtime and
@@ -29,6 +30,12 @@ export async function GET(req: NextRequest) {
   const s = map.get(childId)
   const toHm = (m: number | null) => m === null ? null
     : `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`
+  // The card also needs the two things it cannot work out on its own: the
+  // window this child's AGE starts them on, so "use the guide" can put it
+  // back, and the healthy daily total for the band, so a parent choosing free
+  // time is not choosing blind. Both are read only context, never saved.
+  const band = (child as { age_band?: string | null }).age_band ?? null
+  const guide = defaultBedtimeFor(band)
   return NextResponse.json({
     coreMinutesDaily: s?.coreMinutesDaily ?? 0,
     bedtimeStart: toHm(s?.bedtimeStartMin ?? null),
@@ -36,6 +43,9 @@ export async function GET(req: NextRequest) {
     protectMealtimes: s?.protectMealtimes ?? false,
     protectSchoolHours: s?.protectSchoolHours ?? false,
     starMinutes: s?.starMinutes ?? 5,
+    ageBand: band,
+    guideBedtime: guide,
+    guideDailyMinutes: recommendedDailyMinutes(band),
   })
 }
 

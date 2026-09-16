@@ -33,15 +33,43 @@ export type ChildTimeSettings = {
   starMinutes: number
 }
 
-// Bedtime defaults by age band, applied when the family has no row or left the
-// bedtime null. Parent adjustable, and 16 plus has none, because at that age
-// the system is meant to be handing the balance over, not holding it.
+// SCREENS REST AN HOUR BEFORE BED, NOT AT BED.
+//
+// Justin, 16 September 2026: "I thought screen times were recommended not
+// right up to bedtime? As light affects sleep, so surely the recommended is
+// much before bedtime?"
+//
+// He was right, and the product was already saying so somewhere else. DiGi's
+// weekly plan offers the step "Screens down an hour before <child>'s bed" and
+// calls it "one of the clearest levers in the evidence for better sleep"
+// (lib/digi/weekly-plan.ts). These defaults started AT the typical bedtime, so
+// the two halves of our own advice disagreed, and the setting was the half a
+// family actually lives by.
+//
+// The values below are the typical bedtime for the band MINUS an hour, which
+// is the interval the sleep guidance converges on. 16 plus still has none,
+// because at that age the system is meant to be handing the balance over
+// rather than holding it.
+//
+//   band     typical bed    screens rest from
+//   4-7      19:00          18:00
+//   8-10     20:00          19:00
+//   11-13    21:00          20:00
+//   13-15    22:00          21:00
+//
+// Parent adjustable throughout: this is where a family STARTS, never a rule
+// imposed on them, and the card offers a one tap way back to it.
 const DEFAULT_BEDTIME: Record<string, { start: string; end: string } | null> = {
-  '4-7': { start: '19:00', end: '07:00' },
-  '8-10': { start: '20:00', end: '07:00' },
-  '11-13': { start: '21:00', end: '07:00' },
-  '13-15': { start: '22:00', end: '07:00' },
+  '4-7': { start: '18:00', end: '07:00' },
+  '8-10': { start: '19:00', end: '07:00' },
+  '11-13': { start: '20:00', end: '07:00' },
+  '13-15': { start: '21:00', end: '07:00' },
   '16+': null,
+}
+
+/** The screens rest window a child's age starts them on, for the card's reset. */
+export function defaultBedtimeFor(ageBand: string | null | undefined): { start: string; end: string } | null {
+  return DEFAULT_BEDTIME[ageBand ?? ''] ?? null
 }
 
 // Fixed advisory windows when the mealtime toggle is on. Deliberately not
