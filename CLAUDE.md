@@ -4,7 +4,11 @@ Read THE-STORY.md at the start of every session. It is the whole picture:
 philosophy, product map, business model, what exists and where it lives.
 (It replaces the old guided-childhood-build/README.md pointer, which named a
 directory that no longer exists in this repo.)
-Re-read /plans/decisions.md after any compaction.
+Re-read /plans/decisions.md after any compaction. It is an index plus the last
+couple of days in full. The full text of every past decision is in the monthly
+archives at /plans/decisions-archive/. Never load an archive whole: each one
+opens with an index giving the line number of every entry, so one decision is a
+`sed -n` away and a search across all of them is one `grep`.
 
 ## CONTEXT ROUTING — load only what the task needs
 
@@ -30,6 +34,29 @@ Re-read /plans/decisions.md after any compaction.
 - Marketing pages            → docs/06 + docs/09 (delivery model)
 - Ban resilience             → docs/11 (social_media_law config flag)
 - UX flow / onboarding       → design-refs/good-inside-notes.md (copy structure, not brand)
+
+## CONTEXT BUDGET — what a session pays before it starts
+
+Every session reads CLAUDE.md, THE-STORY.md and the decisions index before it
+does any work, and carries them on every turn after that. On 16 September 2026
+the decisions log had reached 1 MB, roughly 250,000 tokens, so a session spent a
+quarter of a million tokens before the first question. That is what was reaching
+the daily model limit by the afternoon.
+
+- `npm run context-guard` prints what a session start costs and fails if any of
+  those files is over budget. Run it before pushing a change that touches them.
+- `npm run roll-decisions` moves decisions older than two days into the month
+  archive and rebuilds the index. Nothing is deleted. Run it at session end.
+- A decision entry is under a dozen lines: what was decided, the one reason
+  worth knowing, and the PR number where the detail lives. The reasoning belongs
+  in the code comments and the pull request body, which is what the reporting
+  rule below has always said.
+- Detail that only some tasks need belongs in a skill or a doc that loads on
+  demand, never in CLAUDE.md.
+- Reserve the deep model for work that needs it. A copy change, a layout pass or
+  a guard script is Sonnet work, and `/model sonnet` draws on a different limit.
+  That is a Claude Code setting for the session, nothing to do with DIGI_MODEL,
+  which stays claude-fable-5-1 for DiGi.
 
 ## REVIEW STANDARD
 
@@ -123,4 +150,5 @@ Inside (the simplicity, big text, swipe to discard, DiGi comes up first).
 
 Monday: new session → read CLAUDE.md + decisions.md → write week-N-plan.md → approve → build
 Daily: check /plans/, update decisions.md with anything decided
-Friday: layout + console check → push → Vercel deploy
+Session end: `npm run roll-decisions` so the log stays an index, not a 1 MB file
+Friday: layout + console check → `npm run context-guard` → push → Vercel deploy

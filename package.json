@@ -39,7 +39,9 @@
     "pathway-notes-guard": "node scripts/check-pathway-notes.mjs",
     "age-up-guard": "node scripts/check-children-age-up.mjs",
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
-    "module-contract": "node scripts/check-module-contract.mjs"
+    "module-contract": "node scripts/check-module-contract.mjs",
+    "roll-decisions": "node scripts/roll-decisions.mjs",
+    "context-guard": "node scripts/check-context-budget.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",
