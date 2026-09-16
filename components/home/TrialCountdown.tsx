@@ -11,9 +11,10 @@ import Link from 'next/link'
 // (fake scarcity, guilt copy, hidden endings) are exactly what this product
 // exists to argue against:
 //
-//   1. THE COUNTDOWN IS REAL. Days while days are the truthful unit, then a
-//      live hours and minutes clock inside the last day. It counts to the
-//      actual trial_ends_at, never to midnight theatre.
+//   1. THE COUNTDOWN IS REAL. Days while days are the truthful unit, then
+//      hours and minutes IN WORDS inside the last day. It counts to the
+//      actual trial_ends_at, never to midnight theatre, and it is never
+//      punctuated like a clock (see timeLeftWords below for why that matters).
 //   2. THE EVIDENCE IS THEIRS. The strongest close is what their own four
 //      days already built: jobs ticked, the streak. Numbers from their real
 //      week, never invented, shown only when they are not zero.
@@ -34,7 +35,34 @@ import Link from 'next/link'
 // founder places to somebody who declined one four days ago. planChoice is why
 // it knows.
 
-function pad(n: number): string { return String(n).padStart(2, '0') }
+// HOW LONG IS LEFT, IN WORDS.
+//
+// Justin, 16 September 2026, with a photo of this banner reading "Free days
+// end in 22:27": "the English is not right here if we are giving a time".
+//
+// He is right, and it is worse than clumsy. 22:27 in mono with a colon is the
+// shape of a CLOCK, so a parent reads it as twenty seven minutes past ten at
+// night and works out they have until bedtime. They actually had most of a
+// day. The one number on this card that decides whether somebody pays is the
+// one that can be read as its own opposite.
+//
+// A duration is never punctuated like a time of day. It gets its units said
+// out loud, which is also how anybody would say it in the kitchen.
+//
+// Minutes are dropped above three hours on purpose: at twenty two hours the
+// twenty seven minutes are noise, and a number that precise about something
+// this far off reads as pressure rather than information.
+export function timeLeftWords(msLeft: number): string {
+  if (msLeft <= 0) return 'less than a minute'
+  const totalMinutes = Math.floor(msLeft / 60_000)
+  if (totalMinutes < 1) return 'less than a minute'
+  const h = Math.floor(totalMinutes / 60)
+  const m = totalMinutes % 60
+  if (h === 0) return `${m} ${m === 1 ? 'minute' : 'minutes'}`
+  const hours = `${h} ${h === 1 ? 'hour' : 'hours'}`
+  if (h >= 3 || m === 0) return hours
+  return `${hours} and ${m} ${m === 1 ? 'minute' : 'minutes'}`
+}
 
 export default function TrialCountdown({
   trialEndsAt,
@@ -125,16 +153,17 @@ export default function TrialCountdown({
     )
   }
 
-  // Inside the last day: the live clock. Hours and minutes, once a minute.
+  // Inside the last day: how long is left, in words, refreshed once a minute.
   if (msLeft !== null) {
-    const h = Math.floor(msLeft / 3_600_000)
-    const m = Math.floor((msLeft % 3_600_000) / 60_000)
+    const left = timeLeftWords(msLeft)
     return (
       <div style={{ background: 'var(--terracotta-lt)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '14px 18px', marginBottom: '18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-            ⏳ Free days end in{' '}
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{h}:{pad(m)}</span>
+            {/* "Your", because it is this family's trial and not a shop
+                wide sale, and the whole phrase in the display face: the mono
+                numerals were half of what made it look like a clock. */}
+            ⏳ Your free days end in {left}
           </span>
           {!isFounderPath && (
             <Link href="/dashboard/upgrade" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
