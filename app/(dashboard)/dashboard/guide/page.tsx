@@ -9,12 +9,12 @@ import Link from 'next/link'
 const HOW_IT_WORKS: { emoji: string; title: string; body: string; href: string; cta: string }[] = [
   {
     emoji: '🌱', title: 'The daily practice, ten minutes',
-    body: 'Each day gives you one small thing: a moment, the words for it, a quick check in. Small enough to keep, big enough to change the week. This is the habit everything hangs on.',
+    body: 'Each day gives you one small thing: a moment, the words for it, a quick check in. Small enough to keep, big enough to change the week.',
     href: '/dashboard/daily', cta: 'Do today’s practice',
   },
   {
     emoji: '🗺️', title: 'The pathway to 16',
-    body: 'One plan that turns 16 from a cliff edge into a gentle ramp. The settings relax as your child earns it, one stage at a time, all the way to independence.',
+    body: 'One plan that turns 16 from a cliff edge into a gentle ramp: the settings relax as your child earns it, one stage at a time.',
     href: '/dashboard/pathway', cta: 'See the pathway',
   },
   {
@@ -24,17 +24,17 @@ const HOW_IT_WORKS: { emoji: string; title: string; body: string; href: string; 
   },
   {
     emoji: '⭐', title: 'Quests and games that earn screen time',
-    body: 'Everyday jobs, real play and quick learning games earn stars, and stars buy the screen time you agree. Play pays the most, on purpose, so earned time already did its job.',
+    body: 'Everyday jobs, real play and quick learning games earn stars, and stars buy the screen time you agree. Play pays the most, on purpose.',
     href: '/dashboard/quests', cta: 'Set up quests',
   },
   {
     emoji: '💬', title: 'Scripts for the hard moments',
-    body: 'The exact words for the meltdown, the handover, the first phone conversation. Word for word, ready for tonight, so you are never caught without something to say.',
+    body: 'The exact words for the meltdown, the handover, the first phone conversation. Ready for tonight.',
     href: '/dashboard/scripts', cta: 'Find the words',
   },
   {
     emoji: '◎', title: 'DiGi, for the eleven at night question',
-    body: 'A real answer for your child and your stage, never a lecture and never a list of links. DiGi reads the moments you have flagged and helps you with the one that matters now.',
+    body: 'A real answer for your child and your stage. DiGi reads the moments you have flagged and helps you with the one that matters now.',
     href: '/dashboard/digi', cta: 'Ask DiGi',
   },
 ]
@@ -56,7 +56,7 @@ export default function GuidePage() {
         How Guided Childhood works
       </h1>
       <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-lg)', lineHeight: 1.7, marginBottom: '28px', maxWidth: '62ch' }}>
-        Ten minutes a day, and a childhood ready for the phone rather than broken by it. Here is everything you have, what each part is for, and where to start.
+        Ten minutes a day, and a childhood ready for the phone rather than broken by it.
       </p>
 
       {/* How it works, the parts and what they are for */}
@@ -85,7 +85,7 @@ export default function GuidePage() {
           Every lesson, 4 to 16
         </h2>
         <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.55, margin: 0 }}>
-          The whole journey, mapped to your child’s stage. Co watched at the start, on their own as they grow, each one building the judgement that makes independence at 16 a step, not a fall.
+          The whole journey, mapped to your child’s stage.
         </p>
       </div>
 
@@ -114,7 +114,7 @@ export default function GuidePage() {
           Not sure where to start?
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
-          Start with today’s ten minute practice. Everything else grows from there.
+          Start with today’s practice. Everything else grows from there.
         </p>
         <Link href="/dashboard/daily" style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 'var(--radius-tile)', padding: '13px 24px', textDecoration: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
           Start today’s practice

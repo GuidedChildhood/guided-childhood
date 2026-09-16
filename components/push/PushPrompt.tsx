@@ -145,9 +145,9 @@ export default function PushPrompt({ userId, stage }: Props) {
         // appear within seconds" for something that cannot appear is the
         // false success this whole card exists to avoid.
         surface === 'desktop-safari-tab'
-          ? 'Sent, but Safari only shows these once Guided Childhood is added to your Dock. Use File then Add to Dock, open it from there, and it will work. On your phone it already works with no extra step.'
+          ? 'Sent, but Safari only shows these once Guided Childhood is added to your Dock.'
           : surface === 'desktop-tab'
-            ? 'Sent. If nothing appears, your computer is holding it back rather than us: check notifications are allowed for this browser in your system settings, and that Do Not Disturb is off. On your phone it works with no extra step.'
+            ? 'Sent. If nothing appears, your computer is holding it back rather than us.'
             : aimed
               ? 'Sent to this device. It should appear within seconds.'
               : 'Sent to every device you have turned this on for. It should appear within seconds.')
@@ -354,9 +354,9 @@ export default function PushPrompt({ userId, stage }: Props) {
             explain there and a warning would only invent a worry. */}
         {surface === 'desktop-safari-tab' && (
           <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-            On your phone these work with no extra step. Safari on a Mac is the
-            exception: it only shows them once Guided Childhood is added to your
-            Dock, with File then Add to Dock. Open it from the Dock and test again.
+            On your phone these work with no extra step. Safari on a Mac only
+            shows them once Guided Childhood is added to your Dock, with File
+            then Add to Dock. Open it from the Dock and test again.
           </p>
         )}
         {surface === 'desktop-tab' && (
@@ -374,10 +374,9 @@ export default function PushPrompt({ userId, stage }: Props) {
             when the app was never allowed to notify. */}
         {surface === 'desktop-installed' && (
           <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-            On your phone these work with no extra step. On a computer they
-            still pass through the system settings, so if nothing appears,
-            check Guided Childhood is allowed to notify and that Do Not Disturb
-            or Focus is off.
+            On your phone these work with no extra step. On a computer, if
+            nothing appears, check Guided Childhood is allowed to notify and
+            that Do Not Disturb or Focus is off.
           </p>
         )}
         {testResult && (
@@ -450,7 +449,7 @@ export default function PushPrompt({ userId, stage }: Props) {
         fontSize: '.82rem', color: 'var(--ink-soft)', fontWeight: 600,
       }}>
         <p style={{ margin: '0 0 10px', lineHeight: 1.55 }}>
-          Check ins are on for {accountDevices === 1 ? 'another device' : `${accountDevices} of your devices`}, but not this one. Notifications only reach the devices you turn them on for, so this one will stay silent until you do.
+          Check ins are on for {accountDevices === 1 ? 'another device' : `${accountDevices} of your devices`}, but not this one. Notifications only reach the devices you turn them on for.
         </p>
         {!blocked ? (
           <button
@@ -504,7 +503,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           Add this to your Home Screen first
         </p>
         <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
-          On an iPhone, notifications only work once the app is on your Home Screen. Tap the Share button at the bottom of Safari, the square with the arrow pointing up, then Add to Home Screen. Open it from the new icon and this will be here waiting.
+          On an iPhone, check ins only work once the app is on your Home Screen. Tap the Share button at the bottom of Safari, the square with the arrow pointing up, then Add to Home Screen. Open it from the new icon.
         </p>
       </div>
     )
@@ -570,7 +569,7 @@ export default function PushPrompt({ userId, stage }: Props) {
         lineHeight: 1.6,
         marginBottom: '10px',
       }}>
-        Three gentle nudges a day: morning, after school, bedtime. The moments your child faces screens, so you are ready with the words. This is the thing that keeps the habit alive.
+        Three gentle nudges a day: morning, after school, bedtime. The moments your child faces screens, so you are ready with the words.
       </p>
       <p style={{
         fontSize: '.72rem',

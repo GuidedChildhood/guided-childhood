@@ -1798,7 +1798,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 A minute for you, {firstName}
               </div>
               <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
-                How have you been this month? Not your child. You.
+                How have you been this month?
               </div>
             </div>
             <span style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
@@ -1838,7 +1838,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             {stage.id <= 2
-              ? 'The bedroom rule is the single most effective structural protection at this stage. If it is not in place, this is the week.'
+              ? 'If the bedroom rule is not in place, this is the week.'
               : stage.id === 3
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
               : 'The weekly check in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
@@ -1902,7 +1902,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker. First 50 members only.
+            All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
             Claim founder rate
@@ -1917,11 +1917,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 function buildDigiFollowup(stageId: number, childName: string | null): string {
   const name = (childName && childName !== 'Your child') ? childName : 'your child'
   const messages: Record<number, string> = {
-    1: `The pattern you described is very common at this stage. ${name.charAt(0).toUpperCase() + name.slice(1)} is not being difficult. Structure does the work that willpower cannot. One consistent boundary this week is worth more than five conversations.`,
-    2: `What you noticed matters. At this stage the fix is almost always structural, not a new conversation. Think about the environment first: what needs to change before you say anything?`,
-    3: `The mood signal you picked up on is real and it matters. Tracking it for one more week will give you a clearer picture before you say anything to ${name}. Curiosity before action.`,
-    4: `Trust is the only currency at Stage 4. How you responded to what you noticed will shape whether ${name} comes to you with the next thing. Openness over interrogation.`,
-    5: `At this stage you are building the relationship that outlasts the rules. What you noticed is worth holding lightly. One open question today is better than ten closed ones.`,
+    1: `${name.charAt(0).toUpperCase() + name.slice(1)} is not being difficult. Structure does the work that willpower cannot. One consistent boundary this week is worth more than five conversations.`,
+    2: `At this stage the fix is almost always structural, not a new conversation. Think about the environment first: what needs to change before you say anything?`,
+    3: `Track what you noticed for one more week. It will give you a clearer picture before you say anything to ${name}. Curiosity before action.`,
+    4: `How you responded to what you noticed will shape whether ${name} comes to you with the next thing. Openness over interrogation.`,
+    5: `What you noticed is worth holding lightly. One open question today is better than ten closed ones.`,
   }
   return messages[stageId] ?? messages[3]
 }

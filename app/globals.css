@@ -71,21 +71,48 @@
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
-/* The NOW button rides on the bar rather than floating on its own fixed
+/* The Moment button rides on the bar rather than floating on its own fixed
    position, which drifts on an iPhone for the reason above. It is portalled
-   into the bar by RightNowButton and sits just above its top edge, exactly
-   where the fixed version used to be (78px plus the inset from the floor). */
+   into the bar by RightNowButton.
+
+   ── IT CLEARS THE BAR ENTIRELY (16 September 2026) ───────────────────────
+
+   Justin, with a screenshot: "Now button sits on top of Passport?" Then, on
+   the first fix: "wouldn't it have been better just to lift a little higher so
+   above passport tab."
+
+   It sat on Passport at every width, because it was absolute with right: 12px
+   while the bar is flex, so it parked wherever twelve pixels from the right
+   landed. Measured: 54px of Passport's 64px at 390, 54px of 72px at 430, and
+   at 360 it took Passport and the edge of Scripts too.
+
+   The first fix made it a flex child, which removed the overlap but spent 52px
+   of the row on it. Justin's call is the better one for the tabs: lift it
+   clear, give the six tabs their full width back, and deal with the reason it
+   was lowered in the first place rather than living with it.
+
+   That reason was real. Justin, 14 September, with two screenshots: raised
+   clear, it sat on a product's price and on "Recommended for Andy". Lowering
+   it stopped that and created the tab overlap instead, which is a trade, not a
+   fix.
+
+   So both halves move. The button clears the bar's top edge completely, and
+   the dashboard's main padding grows to clear the button (see the layout).
+   Nothing is traded: the tabs are whole, and no page content sits under it.
+
+   bottom is measured from the bar's own top edge, so the circle can never
+   reach back down onto a tab however the bar is sized. */
 .bottom-tab-bar .rightnow-fab {
   position: absolute;
   right: 12px;
-  /* Straddling the bar's top edge rather than floating a full circle above
-     it. Justin, 14 September 2026, two screenshots: the button sat on a
-     product's price and on "Recommended for Andy". Half in the bar, it
-     covers about 26px of the page instead of 66px, and the page's own
-     bottom padding already clears that. */
-  bottom: calc(100% - 28px);
-  width: 54px;
-  height: 54px;
+  bottom: calc(100% + 8px);
+  width: 52px;
+  height: 52px;
+  /* "Moment" is twice the length of the "Now" this replaced, and at the old
+     9px with wide tracking it sat flush against the ring on both sides.
+     Measured: 43px of label inside 46px of usable circle. */
+  font-size: 0.5rem;
+  letter-spacing: 0.01em;
 }
 
 /* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE

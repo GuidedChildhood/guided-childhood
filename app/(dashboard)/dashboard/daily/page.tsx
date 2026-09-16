@@ -270,12 +270,12 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
 
     const opener =
       review.reason === 'did-not-work'
-        ? `${greeting}, ${firstName}. You told us this one did not work.${when} That is worth coming back to rather than leaving behind, so here is what it was trying to do:`
+        ? `${greeting}, ${firstName}. You told us this one did not work.${when} Here is what it was trying to do:`
       : review.reason === 'flagged'
         ? `${greeting}, ${firstName}. This came up again in your check in, and you already have the words for it.${when} The thinking behind them:`
       : review.reason === 'rotation'
-        ? `${greeting}, ${firstName}. One from your own shelf, number ${(dayIndex % review.total) + 1} of ${review.total}.${when} Thirty seconds on why it works, because the why is what makes it yours:`
-        : `${greeting}, ${firstName}. Last time you reached for the words for this one. Worth thirty seconds on why they do the heavy lifting, because the why is what makes them yours:`
+        ? `${greeting}, ${firstName}. One from your own shelf, number ${(dayIndex % review.total) + 1} of ${review.total}.${when} Why it works:`
+        : `${greeting}, ${firstName}. Last time you reached for the words for this one. Why they work:`
 
     cards.push({
       id: 'review',
@@ -306,7 +306,7 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
     type: 'focus',
     eyebrow: 'Today\'s focus',
     headline: 'One thing, nothing else',
-    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${named(stageChallenge)}${challengeExplainer ? `\n\n${challengeExplainer.text}` : ''}\n\nThat is the whole ask. Small, doable, and it compounds.`,
+    body: `If today gets busy, hold onto this:\n\n${named(stageChallenge)}${challengeExplainer ? `\n\n${challengeExplainer.text}` : ''}`,
     accent: 'var(--terracotta)',
     icon: '◈',
     action: { label: 'Make it official in your family agreement', href: '/dashboard/agreement' },
@@ -325,7 +325,7 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
       type: 'watchfor',
       eyebrow: 'Tell us what today looked like',
       headline: 'What actually happened today?',
-      body: `We do not know your family yet, and rather than guess at what to put in front of you, it is worth thirty seconds telling us.\n\nTap whatever came up today, even the small things. Tomorrow this card is about that, and the day after it is about whatever moved.`,
+      body: `We do not know your family yet.\n\nTap whatever came up today, even the small things. Tomorrow this card is about that.`,
       accent: 'var(--terracotta)',
       icon: '△',
       action: { label: 'Pick from the timeline', href: '/dashboard/moments' },
@@ -337,7 +337,7 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
       : momentTopicSource === 'signup' ? 'From what you told us when you joined'
       : 'Watch for this today'
     const opener =
-      momentTopicSource === 'yesterday' ? 'You flagged this one yesterday, so let us walk in ready today.'
+      momentTopicSource === 'yesterday' ? 'Let us walk in ready today.'
       : momentTopicSource === 'concern' ? 'This is one you are working on, so here is today\'s version of it.'
       : momentTopicSource === 'signup' ? 'You named this when you joined, so this is where we start.'
       : 'Every family knows this one, yours included.'
@@ -408,7 +408,7 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
     eyebrow: 'Daily practice',
     headline: alreadyDone ? 'Already done today' : 'You\'re done for today',
     body: alreadyDone
-      ? 'You have already completed today\'s practice. Come back tomorrow to keep the streak going.'
+      ? 'Come back tomorrow to keep the streak going.'
       : streak > 0
       ? `${streak} week streak and counting. See you tomorrow.`
       : 'Practice done. Come back tomorrow and build the habit.',

@@ -362,12 +362,12 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             <span style={{
               display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px',
-            }}>Help now</span>
+            }}>Add a moment</span>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', margin: '0 0 5px', letterSpacing: '-0.01em', lineHeight: 1.2, color: 'var(--ink)' }}>
               Mid meltdown? This button.
             </span>
             <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: 'var(--text-base)', lineHeight: 1.55, margin: 0, color: 'var(--ink-soft)' }}>
-              When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
+              When a hard moment is happening, tap Moment, pick what it is, and the calm words appear. It is remembered too, so tomorrow we ask how it went.
             </span>
           </span>
           <div className="rightnow-hint-arrow" style={{
@@ -384,9 +384,9 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
       {/* Desktop trigger: the tab bar is hidden above 768px, so the same
           sheet opens from a floating pill portalled to body */}
       {mounted && createPortal(
-        <button type="button" onClick={openSheet} aria-label="Right now help" className="rightnow-desktop no-print gc-chrome">
+        <button type="button" onClick={openSheet} aria-label="Add a moment" className="rightnow-desktop no-print gc-chrome">
           <BoltIcon />
-          Help now
+          Add a moment
         </button>,
         document.body
       )}
@@ -397,7 +397,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
         <button
           type="button"
           onClick={openSheet}
-          aria-label="Right now help"
+          aria-label="Add a moment"
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -433,13 +433,13 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             textTransform: 'uppercase',
             color: 'var(--terracotta-dark)',
           }}>
-            Help now
+            Moment
           </span>
         </button>
       )}
 
       {/* Floating action, mobile: now that the bottom bar carries five real
-          tabs, Help now lives as a thumb reachable button just above the bar.
+          tabs, the Moment button lives as a thumb reachable button on the bar.
           One tap to the same sheet. Hidden on desktop, which uses the pill. */}
       {/* Into the tab bar when there is one, so the button rides the sticky
           bar instead of drifting on its own fixed position (see .bottom-tab-bar
@@ -448,11 +448,11 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
         <button
           type="button"
           onClick={openSheet}
-          aria-label="Right now help"
+          aria-label="Add a moment"
           className="rightnow-fab no-print"
         >
           <BoltIcon />
-          <span>Now</span>
+          <span>Moment</span>
         </button>,
         (document.querySelector('.bottom-tab-bar') ?? document.body),
       )}
@@ -464,7 +464,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
           className="rightnow-sheet"
           role="dialog"
           aria-modal="true"
-          aria-label="Right now"
+          aria-label="Add a moment"
           style={{
             position: 'fixed',
             inset: 0,
@@ -499,13 +499,13 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             {!picked ? (
               <>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
-                  Right now
+                  This moment
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 4px' }}>
                   What is happening right now?
                 </h2>
                 <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
-                  Pick the moment and the calm words appear: what to say, what not to say. It gets remembered too, so tomorrow we ask how it went and DiGi knows the story.
+                  Pick the moment and the calm words appear. We keep it, and ask tomorrow how it went.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                   {orderedSituations().map(s => (
@@ -539,13 +539,13 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             ) : customMode ? (
               <>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
-                  Right now
+                  This moment
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 4px' }}>
                   Tell me what is happening
                 </h2>
                 <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
-                  One line is enough. DiGi writes the calm words for this exact moment, for your child&rsquo;s age.
+                  One line is enough. DiGi writes the words for your child&rsquo;s age.
                 </p>
                 <textarea
                   value={customInput}
@@ -598,9 +598,6 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
                       Browse every moment
                     </span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', marginTop: '1px' }}>
-                      Pick the exact one from the full library
-                    </span>
                   </span>
                   <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0, color: 'var(--ink-muted)' }}>→</span>
                 </Link>
@@ -627,14 +624,14 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 </h2>
                 {!script && !failed && (
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em', margin: '-8px 0 14px' }}>
-                    While the words come, breathe out slowly once. You first, then them.
+                    Breathe out slowly once. You first, then them.
                   </p>
                 )}
 
                 {failed ? (
                   <div style={{ background: 'var(--white)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)', padding: '20px', marginBottom: '16px' }}>
                     <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
-                      We could not load the script just now. DiGi can talk you through this exact moment instead, and it already knows what is happening.
+                      We could not load the script just now. DiGi can talk you through it instead.
                     </p>
                   </div>
                 ) : (
@@ -690,7 +687,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                       <HappyIcon name="print" size={26} />
                     </span>
                     <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
-                      Need something fun to reach for? Printables for offline ideas
+                      Printables for offline ideas
                     </span>
                     <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--terracotta-dark)' }}>→</span>
                   </Link>
