@@ -1251,6 +1251,23 @@ export default function PassportBook({
       </Link>
       )}
 
+      {/* THE FREE ONE, UNDER THE PAID ONE AND NEVER INSTEAD OF IT. One sheet
+          of A4 folds into a passport the size of a real one, with this
+          child's real stamps on it. A parent who has folded that knows what
+          the bound one is worth in a way a photograph never tells them, and
+          nobody has to wait for the post to hold their child's record.
+          Same reader rule as the shop link above: a child's screen never
+          sees either. */}
+      {!readOnly && (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '10px 0 0', textAlign: 'center' }}>
+          Or{' '}
+          <Link href="/dashboard/keepsakes/passport-print/zine" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: 2 }}>
+            fold one tonight from a sheet of A4
+          </Link>
+          {' '}and see the whole book before you buy it.
+        </p>
+      )}
+
       {allEarned && (
         <div style={{
           marginTop: '14px', background: 'var(--deep-teal)', borderRadius: 'var(--radius-tile)',

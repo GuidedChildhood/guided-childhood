@@ -91,13 +91,20 @@ export default function SupplyForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+      {/* The radio itself is visually hidden so the whole card is the target,
+          which means the CARD has to show focus or a keyboard user cannot see
+          where they are. Inline styles cannot express :focus-within, so this
+          one rule earns a style tag. */}
+      <style>{`
+        .gc-want:focus-within { outline: 3px solid var(--terracotta-dark); outline-offset: 2px; }
+      `}</style>
       <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
         <legend style={{ ...label, marginBottom: '10px' }}>What do you need?</legend>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
           {WANT_OPTIONS.map(o => {
             const on = want === o.key
             return (
-              <label key={o.key} style={{
+              <label key={o.key} className="gc-want" style={{
                 display: 'block', cursor: 'pointer', borderRadius: '14px', padding: '12px 14px',
                 border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: on ? 'var(--cream)' : '#fff', minHeight: '44px',

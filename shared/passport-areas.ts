@@ -43,6 +43,13 @@ export const AREAS: Record<AreaKey, { name: string; short: string }> = {
   social:  { name: 'Social media ready', short: 'Social ready' },
 }
 
+// The mark beside an area's name on paper. Printed rather than decorative:
+// on a folded passport panel there is no room for a legend, and a Reception
+// child matches a shape before they read a label. It sits here beside AREAS
+// because both apps print the four areas now, the class edition on panel 2
+// and the child's own book on its inside cover.
+export const AREA_EMOJI: Record<AreaKey, string> = { safe: '🛡️', balance: '⚖️', ai: '🤖', social: '💬' }
+
 // The stage each area starts at, the parents app's AREA_START. Social media
 // readiness begins at 11 because the judgement is built before any account
 // exists. A page that carries a school lesson in an area anyway shows it: the

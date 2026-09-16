@@ -15626,3 +15626,77 @@ always the way in.
   slipped the first time: the rule tested for the badge's markup, which is
   still in the file when the badge sits behind a branch that can never be true,
   so it now tests the condition.
+## 16 September 2026: the per child passport, and the code gets a front door (session 0u09q9)
+
+Justin asked how per child passports actually work, how they auto update, how
+to show that happening, how to print one per child, how to print like a book,
+and how a school orders blank books and stickers. He then said: "yes build and
+quote form."
+
+Plan: `plans/2026-09-16-per-child-passport-plan.md`.
+
+**The correction he was right to ask for.** There are two passports and they
+are different objects. The child's record lives in the parents app, keyed to a
+child row, and already prints per child. `/hub/passport` counts LESSONS TAUGHT
+ON A SCREEN, never children, because the schools app holds no pupil data and
+the data processing agreement is written on that. Per child therefore splits
+in two, and both halves already existed: the record at home, the object in
+class, one A4 per child with the name written by hand.
+
+**Most of the rest existed too, and was not joined up.** The home code
+(migration 230) already writes a completion against one named child. The fill
+animation already lived in `shared/components/PassportPage`, tuned by age,
+reduced motion respected, and played on the classroom wall only. The zine
+imposition already folded eight panels from one A4. What was missing was joins.
+
+- **The code has a front door.** The parent note and the pupil booklet carry a
+  QR beside the code, rendered server side as SVG, black on white because it
+  gets photocopied before anybody points a phone at it. It opens
+  `/home-code/[code]`, which redirects a signed in parent straight to the card
+  with the code prefilled, and offers a signed out one the starter pack or
+  login with `?next`. Its own route rather than a query on `/join`, because
+  every CTA on `/join` routes to `/starter-pack` (non negotiable 9) and a code
+  arriving there would either break that rule or be swallowed by it.
+- **No text message, and that is a decision rather than a gap.** Texting a
+  parent means the schools app holds parent contact data, which ends the
+  promise the DPA rests on. The code on paper with a QR does the same job.
+- **The page fills in front of them.** The card draws that child's real page
+  and plays the same fill the wall plays. The label under it says it is the
+  SCHOOL half, because this ring counts school modules and the book's ring
+  counts the whole stage: two fractions with the same shape, so the card names
+  which one it is rather than letting a parent assume.
+- **The zine at home, saddle stitch for the keepsake.** The A6 file is nine
+  pages at one per sheet, which is right for the printer who binds the £14
+  keepsake and wrong for a home printer. A new route folds the child's real
+  passport from one sheet of A4: five stages plus three covers is exactly
+  eight panels. The free one sells the paid one; a parent who has folded the
+  paper passport knows what a bound one is worth.
+- **The fold moved to `shared/zine.ts`.** Both apps fold the same passport, so
+  the imposition is described once. Two copies of a fold is two things that can
+  drift, and a drifted fold is thirty ruined sheets in a classroom.
+- **Migration 302, `schools.supply_requests`, and `/supplies` is a QUOTE form.**
+  No price, no card, no purchase order demanded. There is no supplier and no
+  landed cost yet, and a price on a school page is a promise finance holds you
+  to. It earns its own table where the draw, the taster and the pilot did not:
+  those are leads for the same product and fit the invoice columns exactly,
+  while supplies carries items, counts and a delivery address that would
+  otherwise live in a free text note nobody can total. Same cron, though, not a
+  second job.
+- **No typed class list**, by the plan's own recommendation. It is safe if the
+  names never leave the browser, but a box that looks like it collects
+  children's names costs more in questions than it saves in time. It waits for
+  a teacher to ask.
+
+Guard `check-passport-bridge.mjs`, nineteen rules, in CI, five mutations
+caught. Every rule guards something that fails QUIETLY: a parent note that lost
+its QR still prints, a price on the supplies page still renders, a second copy
+of the zine fold still folds until the two copies disagree.
+
+`check-print-kit.mjs` caught the fold move and was repointed at
+`shared/zine.ts`, with a new rule holding the schools app to re-exporting it
+rather than growing its own copy.
+
+Still open, and named on the plan: the five commercial answers (what is in the
+box, who packs thirty, school or parent, supplier for the stickers, and the
+price itself). The form works and a school can be answered by hand today; what
+it cannot do is quote a number, because there is no supplier.

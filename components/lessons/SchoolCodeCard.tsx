@@ -176,6 +176,10 @@ export default function SchoolCodeCard({ childId, childName }: {
           {landed.placement && landed.moduleId && (
             <>
               <PassportPage
+                // Remount per code, so a second code redeemed on the same
+                // page plays its own fill. Without it the effect's `isFilled`
+                // never changes and the second one lands silently.
+                key={landed.moduleId}
                 placement={landed.placement}
                 moduleId={landed.moduleId}
                 taught={landed.before}
