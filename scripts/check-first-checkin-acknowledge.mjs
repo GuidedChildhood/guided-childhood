@@ -42,7 +42,6 @@ const LOADER = 'lib/checkin/today.ts'
 const PAGE = 'app/(dashboard)/dashboard/checkin/page.tsx'
 const CARD = 'components/daily/ConcernAcknowledge.tsx'
 const CONFIRM = 'app/api/checkin/confirm/route.ts'
-const STARTERS = 'app/api/checkin/starters/route.ts'
 const MIGRATION = 'supabase/migrations/304_first_checkin_acknowledge.sql'
 
 const fail = []
@@ -132,21 +131,28 @@ if (card) {
   if (/concern-check|score|rating|stars/i.test(bare)) {
     fail.push(`${CARD}: the acknowledgement screen mentions a score, a rating or the check in API. It has one job, which is to show a parent their own words back. The moment it posts a number it becomes the thing it replaced.`)
   }
-  // BOTH CALLS, COUNTED. The starters route is called twice, once to add and
-  // once to remove, and a plain "does the path appear" check passed happily
-  // with one of them pointed at a route that does not exist: half the screen
-  // silently dead, the guard green. Caught in mutation testing.
-  const startersCalls = (bare.match(/\/api\/checkin\/starters/g) ?? []).length
-  if (!/\/api\/checkin\/confirm/.test(bare) || startersCalls < 2 || !/action:\s*'sorted'/.test(bare) || !/action:\s*'add'/.test(bare)) {
-    fail.push(`${CARD}: the card no longer calls confirm and BOTH starters actions. Confirm is what makes tomorrow the first real check in; already sorted and add are what make this screen worth stopping on rather than a notice to tap past.`)
+  // ── AND IT DOES NOT ASK THEM TO CURATE THE LIST EITHER ───────────────────
+  //
+  // Justin, 17 September 2026, on the version that had an Already fine chip on
+  // every row and an Add another box: "they have only just raised the concerns
+  // on the set up ... surely the very first check in just confirms they are
+  // here on the check in tracker and we will track each day and provide
+  // solutions?"
+  //
+  // A parent reaches this screen about forty seconds after typing those worries
+  // into the sign up question. Nobody marks as already fine a thing they named
+  // as hard less than a minute ago, and being asked to is the app admitting it
+  // was not listening. One button, and out of the way.
+  if (/checkin\/starters|action:\s*'sorted'|action:\s*'add'|Already fine|Add another|Not us/.test(bare)) {
+    fail.push(`${CARD}: the editing controls are back on day one. The worries on this screen are under a minute old and they are the parent's own words, so asking them to prune or top up the list reads as the app not having heard them. Confirming is the whole job.`)
   }
-  // NOTHING ON THIS SCREEN DELETES. Justin, 17 September 2026: "surely not us
-  // is a bad option? Should be let's fix or fixed?" A worry a family has
-  // already sorted is the best news in the account, and the first version of
-  // this screen threw it away. Resting keeps it, and lets it come back on its
-  // own if it recurs.
-  if (/action:\s*'remove'/.test(bare) || /Not us/.test(bare)) {
-    fail.push(`${CARD}: the delete is back. "Not us" judged the family rather than the situation, and deleting threw away the one row that says a family had already fixed something. Resting says the same thing and keeps the record, and it can be undone by tapping again.`)
+  if (!/\/api\/checkin\/confirm/.test(bare)) {
+    fail.push(`${CARD}: the card no longer calls the confirm route, so nothing records that the list was seen and the parent meets this screen again tomorrow instead of their first real check in.`)
+  }
+  // BOTH HALVES OF WHAT HAPPENS NEXT. Tracking on its own is a spreadsheet, and
+  // the reason a parent signed up is the other half.
+  if (!/give you something to\s*\n?\s*try|give you something to try/.test(bare)) {
+    fail.push(`${CARD}: the screen promises to track but not to help. A parent did not come here for a chart, and this line is the only place on day one where the product says what it is actually for.`)
   }
 }
 
@@ -159,23 +165,6 @@ if (confirm) {
   }
   if (/first_checkin_at/.test(bare)) {
     fail.push(`${CONFIRM}: the confirm route touches first_checkin_at. That column means "they have given us a reading", and lib/checkin/today.ts keys the review filter off it. Setting it here switches that filter on before any reading exists and deletes the family's baseline on the day they sign up. That bug has already been fixed twice.`)
-  }
-}
-
-const starters = read(STARTERS)
-if (starters) {
-  const bare = code(starters)
-  if (!/concerns_confirmed_at/.test(bare) || !/status:\s*409/.test(bare)) {
-    fail.push(`${STARTERS}: add and remove are not refused once the list is confirmed. Remove DELETES the row, which is honest on day one and catastrophic a fortnight later: it would throw away every reading, the weekly email's comparison and any passport stamp earned from it.`)
-  }
-  if (!/\.eq\('user_id',\s*user\.id\)/.test(bare)) {
-    fail.push(`${STARTERS}: the write is not scoped to the signed in parent in the query itself. Row level security is the floor, not the whole wall.`)
-  }
-  if (/\.delete\(\)/.test(bare)) {
-    fail.push(`${STARTERS}: this route deletes a concern. It used to, and it was the only irreversible button in the product, sitting on a screen a parent meets in their first two minutes next to a list the app itself guessed at. Already sorted rests the row instead: off the check in, kept in the record, back on its own if it recurs.`)
-  }
-  if (/score/.test(bare)) {
-    fail.push(`${STARTERS}: a score is being written on day one. Resting through a status rather than a top band reading is the whole point: the first real number lands tomorrow with a day of watching behind it, rather than being invented here to make a row disappear.`)
   }
 }
 
@@ -196,7 +185,7 @@ if (migration) {
 }
 
 // ── 8. NO DASHES, HOUSE RULE ────────────────────────────────────────────────
-for (const file of [CARD, PAGE, LOADER, CONFIRM, STARTERS, MIGRATION]) {
+for (const file of [CARD, PAGE, LOADER, CONFIRM, MIGRATION]) {
   const src = read(file)
   const dashes = src.match(/[‐-―−]/g)
   if (dashes) {

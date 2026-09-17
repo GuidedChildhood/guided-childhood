@@ -4,11 +4,9 @@ import ConcernAcknowledge from '@/components/daily/ConcernAcknowledge'
 // without an account. Same job as ref-baseline-checkin, and the middleware
 // 404s every /ref- route in production.
 //
-// ONE KNOWN NOISE ON THIS FIXTURE: tapping Already fine posts to the real
-// route, which 401s because there is no session here, so the row reverts and
-// the card says so. That is the failure path working, and it is worth seeing.
-// To look at the sorted state, stub /api/checkin/starters in the browser
-// rather than putting a demo mode into the component.
+// The only action on this screen is Start tracking, which posts to the real
+// confirm route and 401s here because there is no session. That is the failure
+// path, and the card says so rather than pretending it saved.
 //
 // TWO CHILDREN AND AN AWKWARD LIST, deliberately. One child with seven worries
 // is the case Justin actually hit, and a second child is what proves the
@@ -49,7 +47,7 @@ export default function RefCheckInAcknowledge() {
           Today · first thing
         </p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4.5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'var(--ink)', margin: '0 0 14px' }}>
-          Heard. Here is what we start on
+          Heard. These are on your tracker
         </h1>
         <ConcernAcknowledge groups={GROUPS} />
       </div>

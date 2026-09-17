@@ -3,91 +3,48 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-// DAY ONE READS THE LIST BACK. IT DOES NOT ASK FOR A SCORE.
+// DAY ONE CONFIRMS. IT DOES NOT RATE, AND IT DOES NOT ASK THEM TO CURATE.
 //
-// Justin, 17 September 2026, having signed up a fresh account and gone through
-// his own first check in: "first check in with 5 star rating ... it's just to
-// acknowledge first concerns raised so seems overkill to ask them to do a check
-// in maybe we should just acknowledge they are added to solve first and are on
-// next day".
+// Justin, 17 September 2026, on the first version of this screen: "the check in
+// still does not make sense as we are proposing to only change the first check
+// in as they have only just raised the concerns on the set up? So surely the
+// very first check in just confirms they are here on the check in tracker and
+// we will track each day and provide solutions?"
 //
-// What the live data said about that account: seven concerns written fifteen
-// seconds after it existed, then all seven rated between 20:59:29 and 21:00:04.
-// Seven ratings in thirty five seconds, every one the same score, from a parent
-// who had not yet watched one day with any of those worries in mind.
+// He is right, and it is the second thing this screen got wrong.
 //
-// The cost is not the thirty five seconds. That reading becomes the baseline
-// the weekly email compares against, the one the passport stamp is earned from,
-// and the one behind every "is it getting better" sentence in the product. We
-// were anchoring the instrument on a number taken before there was anything to
-// read. Moving the first rating to day two does not lose the baseline, it gets
-// a real one.
+// THE FIRST WAS RATING. Measured on his own account: seven concerns written
+// fifteen seconds after it existed, then all seven rated between 20:59:29 and
+// 21:00:04. Seven ratings in thirty five seconds, every one the same score,
+// from a parent who had not watched one day with any of those worries in mind.
+// That number is what the weekly email, the passport stamp and every "is it
+// getting better" sentence are measured against.
 //
-// SO THIS SCREEN HAS ONE JOB: show a parent that the thing they typed two
-// minutes ago was heard, let them fix the list while they are looking at it,
-// and say when the asking starts.
+// THE SECOND WAS ASKING THEM TO EDIT THE LIST. The replacement screen showed
+// the same worries with a chip on each row to mark it already fine, and a box
+// to add more. But a parent reaches this screen roughly forty seconds after
+// typing those worries into the sign up question. Nobody marks as "already
+// fine" a thing they named as hard less than a minute ago, and being asked to
+// is the app admitting it was not really listening. The one legitimate case,
+// the two starters topped up for a family who named nothing we could map, is
+// answered by the ordinary rule anyway: say it is going great and it rests.
+//
+// So this screen has ONE job now. Show a parent their own words back, say the
+// worries are on the tracker, say what happens next in both halves that matter
+// (we ask how each one is going, and we give you something to try), and get out
+// of the way. One button.
 
 export type AckChild = { id: string; name: string | null; concerns: { id: string; label: string }[] }
 
 // `groups` rather than `children`, which in a React component means something
 // else entirely and would read as the contents of the card rather than the
 // families in it.
-export default function ConcernAcknowledge({ groups: initial }: { groups: AckChild[] }) {
+export default function ConcernAcknowledge({ groups }: { groups: AckChild[] }) {
   const router = useRouter()
-  const [groups, setGroups] = useState(initial)
-  const [sorted, setSorted] = useState<Set<string>>(new Set())
-  const [adding, setAdding] = useState<string | null>(null)
-  const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
   const [failed, setFailed] = useState<string | null>(null)
 
   const total = groups.reduce((n, g) => n + g.concerns.length, 0)
-  // What is actually being started on, which is everything the parent has not
-  // marked as already fine. The heading has to move when they tap, or the
-  // screen is telling them a number they have just corrected.
-  const working = total - sorted.size
-
-  // ── ALREADY FINE, AND YOU CAN CHANGE YOUR MIND ───────────────────────────
-  //
-  // Justin, 17 September 2026: "surely not us is a bad option? Should be let's
-  // fix or fixed?"
-  //
-  // The old button said "Not us" and deleted the row. Both halves were wrong.
-  // "Not us" judged the family rather than describing the situation, and a
-  // worry a family has ALREADY SORTED is the best news in the account, not
-  // something to throw away. So the row stays, rests, and says so, and tapping
-  // again brings it back, because the first two minutes of an account is the
-  // worst possible place for the only irreversible button in the product.
-  //
-  // The list is "let's fix" by default. That is what the heading says and what
-  // untapped means, so the only control a row needs is the exception.
-  async function toggleSorted(childId: string, id: string, on: boolean) {
-    setFailed(null)
-    const before = sorted
-    setSorted(s => { const next = new Set(s); if (on) next.add(id); else next.delete(id); return next })
-    const res = await fetch('/api/checkin/starters', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'sorted', id, on }),
-    }).catch(() => null)
-    if (!res?.ok) { setSorted(before); setFailed('That did not save. Try again in a moment.') }
-  }
-
-  async function add(childId: string) {
-    const typed = text.trim()
-    if (!typed || busy) return
-    setBusy(true); setFailed(null)
-    const res = await fetch('/api/checkin/starters', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'add', text: typed, childId }),
-    }).catch(() => null)
-    setBusy(false)
-    if (!res?.ok) { setFailed('That did not save. Try again in a moment.'); return }
-    setText(''); setAdding(null)
-    // Refreshed rather than pushed into state, because the server decides what
-    // the worry is finally called: "wont get of the swich" comes back as
-    // Coming off screens, on the row that already has scripts written for it.
-    router.refresh()
-  }
 
   async function confirm() {
     if (busy) return
@@ -105,14 +62,13 @@ export default function ConcernAcknowledge({ groups: initial }: { groups: AckChi
         boxShadow: 'var(--lift)', padding: '20px 18px 18px', marginBottom: 14,
       }}>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
-          {working === 0
-            ? 'Nothing left on the list. Add anything that is still hard.'
-            : working === 1 ? 'This is the one we start on.' : `These are the ${working} we start on.`}
-          {' '}Tap anything you have already sorted, and add anything missing.
+          {total === 1
+            ? 'This is on your tracker now.'
+            : `These ${total} are on your tracker now.`}
         </p>
 
         {groups.map(g => (
-          <div key={g.id} style={{ marginBottom: 16 }}>
+          <div key={g.id} style={{ marginBottom: 14 }}>
             {groups.length > 1 && (
               <p style={{
                 fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
@@ -122,89 +78,25 @@ export default function ConcernAcknowledge({ groups: initial }: { groups: AckChi
               </p>
             )}
 
-            {g.concerns.map(c => {
-              const done = sorted.has(c.id)
-              return (
-                <div key={c.id} style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '10px 0', borderTop: '2px dotted rgba(26,26,46,0.15)',
+            {/* Read only, on purpose. See the note at the top: these words are
+                under a minute old and they are the parent's own. */}
+            {g.concerns.map(c => (
+              <div key={c.id} style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '10px 0', borderTop: '2px dotted rgba(26,26,46,0.15)',
+              }}>
+                <span aria-hidden style={{
+                  width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+                  background: 'var(--retro-green-dark)',
+                }} />
+                <span style={{
+                  flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3,
                 }}>
-                  <span style={{
-                    flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800,
-                    fontSize: 'var(--text-md)', lineHeight: 1.3,
-                    color: done ? 'var(--ink-muted)' : 'var(--ink)',
-                    textDecoration: done ? 'line-through' : 'none',
-                  }}>
-                    {c.label}
-                  </span>
-                  {/* One control, and it is the exception. Everything untapped
-                      is what we start on, which the heading says out loud, so a
-                      second chip saying "let's fix" on every row would be a
-                      button for doing nothing. */}
-                  <button
-                    type="button"
-                    onClick={() => toggleSorted(g.id, c.id, !done)}
-                    aria-pressed={done}
-                    aria-label={done ? `Put ${c.label} back on the list` : `${c.label} is already sorted`}
-                    style={{
-                      flexShrink: 0, cursor: 'pointer', padding: '7px 12px',
-                      border: 'var(--edge)', borderRadius: 'var(--radius-pill, 999px)',
-                      // --sage is a pale TINT (#E8F0EE), so white on it came out
-                      // washed. --retro-green-dark carries white at about 5.6
-                      // to 1, which clears AA for text this size, and it is the
-                      // same green the check in already uses for a stamp.
-                      background: done ? 'var(--retro-green-dark)' : '#fff',
-                      color: done ? '#fff' : 'var(--ink-soft)',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-                    }}
-                  >
-                    {done ? 'Sorted' : 'Already fine'}
-                  </button>
-                </div>
-              )
-            })}
-
-            {adding === g.id ? (
-              <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                <input
-                  autoFocus
-                  value={text}
-                  onChange={e => setText(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') add(g.id) }}
-                  placeholder="What else is hard?"
-                  style={{
-                    flex: 1, minWidth: 0, padding: '11px 12px', border: 'var(--edge)',
-                    borderRadius: 'var(--radius-tile)', fontSize: 'var(--text-base)',
-                    fontFamily: 'var(--font-body)', color: 'var(--ink)', background: 'var(--cream)',
-                  }}
-                />
-                <button
-                  type="button" onClick={() => add(g.id)} disabled={busy || !text.trim()}
-                  style={{
-                    padding: '11px 16px', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
-                    background: 'var(--butter)', color: 'var(--ink)', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                    boxShadow: '0 4px 0 var(--butter-dark, rgba(26,26,46,0.35))',
-                    opacity: busy || !text.trim() ? 0.5 : 1,
-                  }}
-                >
-                  Add
-                </button>
+                  {c.label}
+                </span>
               </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => { setAdding(g.id); setText('') }}
-                style={{
-                  marginTop: 10, padding: '10px 14px', border: 'var(--edge)',
-                  borderRadius: 'var(--radius-tile)', background: '#fff', color: 'var(--ink)',
-                  cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: 'var(--text-base)',
-                }}
-              >
-                Add another
-              </button>
-            )}
+            ))}
           </div>
         ))}
 
@@ -215,11 +107,12 @@ export default function ConcernAcknowledge({ groups: initial }: { groups: AckChi
         )}
       </div>
 
-      {/* WHAT HAPPENS NEXT, SAID BEFORE THEY TAP. The old first check in asked
-          for seven scores and never told a parent what any of it was for. */}
+      {/* BOTH HALVES OF THE PROMISE. Tracking on its own is a spreadsheet. The
+          reason a parent is here is the second sentence, and the old version of
+          this line only said the first. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
-        From tomorrow we ask how each one went, a few at a time, and show you whether it is moving. Anything new can be
-        added any day.
+        From tomorrow we check in on {total === 1 ? 'it' : 'them'} each day, a few at a time, and give you something to
+        try. You will see whether each one is moving.
       </p>
 
       <button
@@ -232,7 +125,7 @@ export default function ConcernAcknowledge({ groups: initial }: { groups: AckChi
           opacity: busy ? 0.6 : 1,
         }}
       >
-        {busy ? 'Saving' : 'Start on these'}
+        {busy ? 'Saving' : 'Start tracking'}
       </button>
     </div>
   )
