@@ -1077,7 +1077,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // page on its day or when something is due, because where it sits is what
   // makes it a habit, and it still reads the same schoolWaitingToday as the what
   // next rotation so the two can never disagree.
-  // Has this account already said not now to the school offer? Migration 304,
+  // Has this account already said not now to the school offer? Migration 305,
   // read on its own and guarded, because migrations run by hand here and naming
   // a missing column fails the whole query it is part of. An error reads as not
   // dismissed, which is the safe direction: the card's own device level check
@@ -1087,7 +1087,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     const { data, error } = await supabase
       .from('profiles').select('school_promo_dismissed_at').eq('id', user.id).maybeSingle()
     if (!error && data?.school_promo_dismissed_at) schoolPromoDismissed = true
-  } catch { /* pre 304: nobody has been able to say no across devices yet */ }
+  } catch { /* pre 305: nobody has been able to say no across devices yet */ }
 
   // ── THE OFFER GETS THE SAME SLOT AS THE THING IT OFFERS ─────────────────
   //
