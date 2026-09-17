@@ -3,7 +3,7 @@ import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendPush } from '@/lib/push/send'
-import { isHeldForHolidays } from '@/lib/school/child-items'
+import { CHILD_KINDS, isHeldForHolidays } from '@/lib/school/child-items'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
 
@@ -38,10 +38,11 @@ export const maxDuration = 60
 // notice is worth having when the alternative is finding out at the door.
 const WINDOW_MINUTES = 75
 
-// What a child can act on themselves, matching the morning cron exactly: kit,
-// events and homework. Never a payment, never a plain notice. A child cannot
-// pay for the trip and telling them about it only hands them a worry.
-const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
+// What a child can act on themselves is CHILD_KINDS, imported rather than
+// retyped: kit, events and homework, never a payment and never a plain notice.
+// A child cannot pay for the trip and telling them about it only hands them a
+// worry. This comment used to say "matching the morning cron exactly", which is
+// a promise a copy cannot keep.
 
 const KIND_EMOJI: Record<string, string> = {
   kit: '🎒', payment: '💷', homework: '📖', event: '📅', deadline: '⏰', notice: '📌',

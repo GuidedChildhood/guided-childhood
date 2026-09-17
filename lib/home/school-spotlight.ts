@@ -44,6 +44,49 @@ export function schoolTakesTheTop(openActions: number, now: Date = new Date()): 
   return londonDayOfWeek(now) === SCHOOL_SPOTLIGHT_DOW
 }
 
+/** What, if anything, sits in the top slot of Home for school today. */
+export type SchoolTopSlot = 'block' | 'promo' | 'none'
+
+/**
+ * WHO takes the top of Home today, as one decision rather than two.
+ *
+ * Justin, 17 September 2026, on the school card sitting at the end of a long
+ * scroll: "where shall we make users aware of service". The answer is the slot
+ * that already exists. A family who uses school gets the real block at the top
+ * one day a week; a family who does not gets the offer in the same slot, on the
+ * same day, so they meet the feature in the exact place it will live once they
+ * turn it on. Discovery and the thing discovered share an address.
+ *
+ * WHY THIS IS ONE FUNCTION AND NOT TWO BOOLEANS. It was two, briefly, and a
+ * test across the week caught them agreeing: on the spotlight day with nothing
+ * waiting, both returned true, so an eligible family would have got the school
+ * line AND the offer stacked at the top. Home saying one thing in two places is
+ * a bug Justin has caught here before, and two booleans a caller has to combine
+ * correctly is how it comes back. One function can only return one answer.
+ *
+ * The order of the rules, and each one earns its place:
+ *  1. Anything actually waiting and the real block wins, whatever day it is. A
+ *     parent with a deadline today must see the deadline, never an advert for
+ *     the feature that would have caught it.
+ *  2. Otherwise, on the spotlight day, an eligible family gets the offer. Not
+ *     the block: "School alerts, nothing due today" sitting above an offer to
+ *     set up school alerts is two lines arguing with each other.
+ *  3. Otherwise, on the spotlight day, the block.
+ *  4. Any other day, nothing takes the top and both sit in their usual places.
+ *
+ * `promoEligible` is the caller's business: past the Setup Quest, no connection
+ * yet, and not already declined. This decides only who gets the slot.
+ */
+export function schoolTopSlot(
+  openActions: number,
+  promoEligible: boolean,
+  now: Date = new Date(),
+): SchoolTopSlot {
+  if (openActions > 0) return 'block'
+  if (londonDayOfWeek(now) !== SCHOOL_SPOTLIGHT_DOW) return 'none'
+  return promoEligible ? 'promo' : 'block'
+}
+
 /** Today's date in London, as the YYYY-MM-DD that school_actions stores. */
 export function londonToday(now: Date = new Date()): string {
   // en-CA formats as YYYY-MM-DD, which is the one locale that gives an ISO date

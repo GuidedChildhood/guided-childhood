@@ -18,6 +18,13 @@ import { preparePhoto } from '@/lib/school/photo'
 // rule in the world catches those, and a parent holding one is the exact moment
 // this is useful.
 //
+// THE PITCH NAMES NEITHER THE LETTER NOR CLASSDOJO ANY MORE. The school page
+// carries a routing line above this card (an email, forward it; a letter or an
+// app message, snap it), and this card used to open by listing the same two
+// cases. Six lines of a phone screen saying ClassDojo twice is the "one thing
+// in two places" bug in miniature. The line above decides WHICH; this card says
+// what happens next.
+//
 // WHY IT SHOWS WHAT IT FOUND BEFORE SAVING, when the email path does not.
 // The email path runs while the parent is somewhere else, so it saves and then
 // tells them. Here the parent is standing in the kitchen holding the letter,
@@ -195,7 +202,7 @@ export default function SchoolCatch() {
       </h2>
       {pitching && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-          A letter from the book bag, a note in the reading record, a screenshot of an email. Take a picture and the kit days, payments and deadlines come out of it as reminders.
+          Take the picture, or pick a screenshot you already have. The kit days, payments and deadlines come out of it as reminders, the night before and again in the morning.
         </p>
       )}
 
@@ -208,7 +215,7 @@ export default function SchoolCatch() {
               disabled={reading}
               style={{ ...primaryButton, cursor: reading ? 'wait' : 'pointer' }}
             >
-              {reading ? 'Reading it...' : '📷  Take a picture'}
+              {reading ? 'Reading it...' : '📷  Photo or screenshot'}
             </button>
             <button
               onClick={() => setMode(m => (m === 'paste' ? 'idle' : 'paste'))}
@@ -218,14 +225,24 @@ export default function SchoolCatch() {
               Or paste the text
             </button>
           </div>
-          {/* capture is a hint, not a lock: on a phone it opens the camera, and
-              anywhere else it opens the picker, which is what a parent with a
-              screenshot on a laptop needs. */}
+          {/* NO capture ATTRIBUTE, AND THAT IS THE WHOLE POINT.
+              Justin, 17 September 2026: "take a picture is flawed as it opens a
+              camera which is good if a physical letter but it does not let you
+              screenshot an email."
+              Correct, and the earlier comment here claimed otherwise. capture
+              is not a hint on a phone: iOS and Android honour it and go
+              straight to the camera, so the photo library never opens and a
+              screenshot already sitting in Photos is unreachable. Without it,
+              the tap raises the system sheet (Photo Library, Take Photo, Choose
+              File) and both routes are one tap away.
+              This matters more than a paper letter, because a ClassDojo,
+              Arbor or Seesaw message lives inside an app and cannot be
+              forwarded to anything. A screenshot is the only way in for those,
+              and they are a large share of what a school actually sends. */}
           <input
             ref={fileRef}
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={onFile}
             style={{ display: 'none' }}
           />

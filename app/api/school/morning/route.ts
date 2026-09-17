@@ -3,7 +3,7 @@ import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendPush } from '@/lib/push/send'
-import { isHeldForHolidays } from '@/lib/school/child-items'
+import { CHILD_KINDS, isHeldForHolidays } from '@/lib/school/child-items'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
 
@@ -106,7 +106,6 @@ async function handler(req: NextRequest) {
     }
   }
 
-  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
   const byUser = new Map<string, string[]>()
   for (const a of allItems) {
     const who = a.child_id ? nameOf.get(a.child_id) : null

@@ -106,6 +106,29 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
         />
       </div>
 
+      {/* WHICH WAY IN, IN ONE LINE.
+          Justin, 17 September 2026, thinking through the actual moment: "really
+          they see a school email then wonder how to remember or deal with it?
+          So what is best to create working flow."
+          The honest answer is that it depends where the thing is, and the tap
+          counts are not close. Looking at an email on your phone, forwarding is
+          Forward, the address autocompletes after the first time, Send. Doing
+          the same thing by screenshot means two buttons, leaving the mail app,
+          finding the photo again in here, and about seven taps. The other way
+          round for a letter or a ClassDojo message, which have no forward
+          button at all.
+          The cards below are ordered by how much setup they need, which is the
+          right order for a parent who has never used either. This line is for
+          the parent standing there holding the thing, and it is the only place
+          the product says which is which. */}
+      <p style={{
+        color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.6,
+        margin: '0 0 16px', maxWidth: '46ch',
+      }}>
+        <strong style={{ color: 'var(--ink)' }}>An email?</strong> Forward it, straight from your inbox.{' '}
+        <strong style={{ color: 'var(--ink)' }}>A letter, or a message in an app like ClassDojo?</strong> Snap it.
+      </p>
+
       {/* TWO WAYS IN, EASIEST FIRST.
           Snap it needs nothing set up at all and also catches the paper that
           forwarding can never reach, so it leads. The letterbox is the one that

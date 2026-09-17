@@ -482,6 +482,36 @@ case for this feature and the API cannot read it.
 restricted scope needing an annual paid third party security assessment, and it
 breaks the line that makes a nervous parent say yes.
 
+## 17 September 2026, the school offer moves to where people actually look
+
+**Justin: "where shall we make users aware of service as end of long home page
+scroll"** (PR to follow #1109). It sat at line 1673 of a 1958 line Home, so
+almost nobody found it. The lift mechanism already existed and was already
+approved: the real school block takes the top of Home on its day each week. It
+was simply gated on already having school.
+
+**So the offer takes the same slot on the same day.** Discovery and the thing
+discovered share an address, which means the first time a parent uses it they
+already know where to look.
+
+**One decision, not two booleans.** The first cut had schoolTakesTheTop and a
+new promoTakesTheTop, and a test across the week caught them AGREEING on the
+spotlight day with nothing waiting, which would have stacked the school line and
+the offer at the top together. Replaced with schoolTopSlot returning block,
+promo or none, so one function can only give one answer. The existing
+check-school-spotlight guard covers it, including a sweep of every day by
+eligibility by waiting count.
+
+**A real deadline always beats the advert.** Anything waiting gives the block
+the top, whatever day it is.
+
+**The card leads with the photo now.** It said "forward the school's emails" and
+"set it up in one minute", which sells the harder route and calls it work. Out
+of date copy in a place nobody reads is survivable; at the top of Home it is not.
+
+**And "not now" travels with the person (migration 304).** Dismissal was
+localStorage, right at the bottom of a page and wrong at the top: decline on the
+phone, open the laptop, meet it again the same morning.
 ## 17 September 2026 — 302 and 303 were both missing, and both were load bearing
 
 Main ran to 303 and the ledger stopped at 301. Probed live, both were genuinely

@@ -410,3 +410,14 @@ jobs:
       # thinking model rejects a turn with its reasoning removed. Runs the real
       # stream reader over a synthetic thinking turn.
       - run: node --experimental-strip-types scripts/check-digi-turn.mjs
+
+      # What reaches a child's phone is decided in ONE place. kit, events and
+      # homework are the child's own business; payments, deadlines and notices
+      # never are unless a grown up sends that one item. The owning file says it
+      # was pulled out of line because "written twice it would drift, and the
+      # way it would drift is a payment reminder appearing on a nine year old's
+      # phone", and on 17 September 2026 it was written four times: there, and
+      # inline in each of the three reminder crons. They still agreed, so
+      # nothing had broken, and nothing would have gone red on the day they
+      # stopped. A comment cannot hold a rule in one place.
+      - run: node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-child-kinds.mjs

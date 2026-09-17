@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { schoolReminderEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
-import { isHeldForHolidays } from '@/lib/school/child-items'
+import { CHILD_KINDS, isHeldForHolidays } from '@/lib/school/child-items'
 import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
 import type { Region } from '@/lib/learning/holidays'
 
@@ -159,7 +159,6 @@ async function handler(req: NextRequest) {
   // household's, never a sibling's. An item with no child reaches every child,
   // which is what a row from before migration 215 means. Keyed by user AND
   // child so the send below can target one child's devices.
-  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
   const childItems = (dueTomorrow ?? []).filter(a => a.kind && CHILD_KINDS.has(a.kind)) as RemindItem[]
   const involved = new Map<string, Set<string | null>>()
   for (const a of childItems) {

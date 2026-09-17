@@ -25,7 +25,7 @@ import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
+import { schoolTopSlot, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
 import PassportPeek from '@/components/home/PassportPeek'
 import IssueOfTheWeek from '@/components/home/IssueOfTheWeek'
@@ -1077,7 +1077,38 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // page on its day or when something is due, because where it sits is what
   // makes it a habit, and it still reads the same schoolWaitingToday as the what
   // next rotation so the two can never disagree.
-  const schoolOnTop = schoolTakesTheTop(schoolWaitingToday)
+  // Has this account already said not now to the school offer? Migration 304,
+  // read on its own and guarded, because migrations run by hand here and naming
+  // a missing column fails the whole query it is part of. An error reads as not
+  // dismissed, which is the safe direction: the card's own device level check
+  // still stops it nagging anyone who has waved it away on this device.
+  let schoolPromoDismissed = false
+  try {
+    const { data, error } = await supabase
+      .from('profiles').select('school_promo_dismissed_at').eq('id', user.id).maybeSingle()
+    if (!error && data?.school_promo_dismissed_at) schoolPromoDismissed = true
+  } catch { /* pre 304: nobody has been able to say no across devices yet */ }
+
+  // ── THE OFFER GETS THE SAME SLOT AS THE THING IT OFFERS ─────────────────
+  //
+  // Justin, 17 September 2026: the school card sits at the end of a long home
+  // page scroll, so where do we make people aware of it. Answer: the slot that
+  // already exists. A family who uses school gets the real block at the top on
+  // its day; a family who does not gets the offer there, on the same day, so
+  // they meet the feature in the exact place it lives once they turn it on.
+  //
+  // WHO gets the slot is one decision in one place, schoolTopSlot, rather than
+  // two booleans this page has to combine. An earlier cut of this change had
+  // two, and a test across the week caught them both returning true on the
+  // spotlight day, which would have stacked the school line and the offer at
+  // the top together.
+  //
+  // Eligibility is the same set of conditions the card has always had: past the
+  // Setup Quest, no connection yet, and not already declined.
+  const promoEligible = !firstRun && !hasSchoolConnection && setupComplete && !schoolPromoDismissed
+  const topSlot = schoolTopSlot(schoolWaitingToday, promoEligible)
+  const schoolOnTop = topSlot === 'block'
+  const promoOnTop = topSlot === 'promo'
   const schoolBlock = (
     <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
       <QuietLine
@@ -1097,6 +1128,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* Its day at the top, or a school deadline actually waiting. */}
       {schoolOnTop && schoolBlock}
+
+      {/* And for a family who has not got school going yet, the offer takes the
+          same slot on the same day. Never both: promoTakesTheTop returns false
+          the moment anything is actually waiting, so a real deadline always
+          wins the top of Home over an advert for the feature that would have
+          caught it. */}
+      {promoOnTop && <SchoolPromoCard dismissed={schoolPromoDismissed} />}
 
       {/* ── THE CLOCK LEADS THE PAGE (19 August 2026) ─────────────────────────
           Justin: "make sure this countdown to the free 4 days is on the top of
@@ -1664,13 +1702,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           schoolBlock above for the whole reasoning. */}
       {!schoolOnTop && schoolBlock}
 
-      {/* School email promo, once the Setup Quest is behind them.
+      {/* School offer, in its usual place on every day that is not its day.
           It used to also appear while school was the CURRENT setup step. School
           stopped being a setup step on 14 August 2026 and became a rotation item
-          under Today, so the only condition left is the one that always did the
-          real work: do not put this in front of a family who are still setting
-          up. */}
-      {!firstRun && !hasSchoolConnection && setupComplete && <SchoolPromoCard />}
+          under Today, so the condition that always did the real work is: do not
+          put this in front of a family who are still setting up.
+          It MOVES rather than being drawn twice, the same rule the school block
+          itself keeps, because Home saying one thing in two places is a bug
+          Justin has caught here before. */}
+      {promoEligible && !promoOnTop && <SchoolPromoCard dismissed={schoolPromoDismissed} />}
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (
