@@ -355,6 +355,13 @@ jobs:
       # Chrome ships with background graphics off. Neither is visible to a
       # typecheck or a screenshot. Header of check-passport-print-geometry.
       - run: node scripts/check-passport-print-geometry.mjs
+      # Day one acknowledges, it does not ask for a number. Measured on a real
+      # account 17 September 2026: seven ratings in thirty five seconds, ninety
+      # seconds after sign up, every one the same score, and that reading is
+      # what the weekly email and the passport stamp are measured against. The
+      # guard holds the day one branch, the cap of three per day, longest
+      # unasked first, and the confirmation staying off first_checkin_at.
+      - run: node scripts/check-first-checkin-acknowledge.mjs
       # The lesson tracker's contract. Every rule guards the thing that would
       # turn a green tick back into a form: a row moved into the automatic
       # block without a detector, a tick stored rather than computed, the
