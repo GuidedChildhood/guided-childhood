@@ -23,7 +23,7 @@ import Link from 'next/link'
 //
 // Dismissal was a localStorage key, which was right at the bottom of the page
 // and is wrong at the top: decline on the phone on Sunday morning, open the
-// laptop, meet it again. So "not now" writes to the account (migration 304) and
+// laptop, meet it again. So "not now" writes to the account (migration 305) and
 // the device key stays as the instant local answer, which also covers the
 // window before that migration has been run by hand.
 

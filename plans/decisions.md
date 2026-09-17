@@ -509,7 +509,7 @@ the top, whatever day it is.
 "set it up in one minute", which sells the harder route and calls it work. Out
 of date copy in a place nobody reads is survivable; at the top of Home it is not.
 
-**And "not now" travels with the person (migration 304).** Dismissal was
+**And "not now" travels with the person (migration 305).** Dismissal was
 localStorage, right at the bottom of a page and wrong at the top: decline on the
 phone, open the laptop, meet it again the same morning.
 ## 17 September 2026 — 302 and 303 were both missing, and both were load bearing
@@ -551,3 +551,22 @@ The backfill is what stops that, so it cannot land a moment later.
 Verified: 17 rated and 17 confirmed, zero mismatches, zero established families
 reading as day one, 11 genuinely new. Nothing was broken before this, because
 that same guarded read treats a missing column as confirmed.
+
+## 18 September 2026 — two sessions both took 304, so the promo dismissal is 305
+
+`304_school_promo_dismissal.sql` renumbered to **305**. `304_first_checkin_acknowledge.sql`
+merged first and keeps the number. Both columns are already on production, so
+this is a file numbering fix and nothing to run. Detail in the PR.
+
+**It reached main red.** PR 1109's `wiring` job had already failed with
+`BROKEN migration 304, 1 new`, and the PR was merged on that commit, so main
+carried two 304s and a red wiring check until this.
+
+**The claim rule works, the read of it did not.** CLAUDE.md says check the
+highest number on origin/main AND in every open PR at claim time. Both sessions
+checked `supabase/migrations/` only.
+
+**And it is why three commits got no CI at all.** A `pull_request` run builds the
+merge commit first, so an unmergeable PR gets no run and pushes land silently.
+That looks exactly like Actions being broken and was misreported here as exactly
+that. Read the PR's own `mergeable_state` before blaming the platform.

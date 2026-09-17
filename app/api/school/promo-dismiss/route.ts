@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/server'
 // their phone meets it again on the laptop the same morning. Asking twice after
 // someone has said no is how a good feature earns a bad reputation.
 //
-// Migration 304. Written here rather than through a general settings route
+// Migration 305. Written here rather than through a general settings route
 // because there is no general settings route, and inventing one for a single
 // nullable timestamp would be the bigger change.
 
@@ -23,7 +23,7 @@ export async function POST() {
     .update({ school_promo_dismissed_at: new Date().toISOString() })
     .eq('id', user.id)
 
-  // Reported honestly, and the card hides locally either way. Migration 304
+  // Reported honestly, and the card hides locally either way. Migration 305
   // runs by hand, so before it has the column this fails, and a parent who
   // tapped "not now" should still get what they asked for on this device
   // rather than a card that refuses to go away.

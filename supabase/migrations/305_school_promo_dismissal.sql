@@ -1,4 +1,4 @@
--- Guided Childhood — Migration 304
+-- Guided Childhood — Migration 305
 -- The school promo remembers a "not now" against the ACCOUNT, not the device.
 --
 -- Justin, 17 September 2026, agreeing the card should take the top of Home one
