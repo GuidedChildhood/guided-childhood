@@ -67,7 +67,8 @@ import HappyIcon from '@/components/kid/HappyIcon'
 //                               on Today, which is where the characters live
 //                               daily.
 //   The journey block        -> the one next task rail says the single next
-//                               step; #working-on lands on the rail.
+//                               step, at #next-step. It is NOT #working-on:
+//                               that belongs to the list of moments below.
 //   The DiGi reassurance and
 //   help cards               -> DiGi closes the Today loop every day and sits
 //                               on the tab bar; two more cards here were the
@@ -479,9 +480,25 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         <PathwayIntro kidLabel={kidLabel} childCount={children.length} />
 
         {/* ── BAND TWO: WHAT TO DO RIGHT NOW ─────────────────────────────────
-            Exactly one task lit. #working-on lands here because this rail IS
-            what we are working on. */}
-        <div id="working-on" style={{ scrollMarginTop: '84px' }}>
+            Exactly one task lit.
+
+            THIS IS NOT #working-on, AND IT USED TO BE. Justin, 17 September
+            2026, on the passport: "the bit after devices is moments, clicking
+            it does not take to moments outstanding?" Right, and the reason is
+            that this rail took an id that already belonged to something else.
+
+            IsItWorkingReport further down this page has carried
+            id="working-on" since 8 August, when Justin asked for exactly this
+            link: "this should take you to the actual 5 moments then back to
+            page." Two elements with one id is not a tie, it is a win for
+            whichever comes first in the document, and that is this one. So the
+            passport's "7 to resolve" scrolled a parent to the next step rail
+            instead of their seven, and a fix made six weeks ago was undone by
+            an id rather than by a decision.
+
+            The rail is the next step. The list of moments is the moments.
+            scripts/check-moments-anchor.mjs now holds them apart. */}
+        <div id="next-step" style={{ scrollMarginTop: '84px' }}>
           <NextOnTheApplication strands={strands} checkHref={checkHref} />
         </div>
 

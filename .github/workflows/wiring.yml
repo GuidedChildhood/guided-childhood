@@ -362,6 +362,12 @@ jobs:
       # guard holds the day one branch, the cap of three per day, longest
       # unasked first, and the confirmation staying off first_checkin_at.
       - run: node scripts/check-first-checkin-acknowledge.mjs
+      # "7 to resolve" has to land on the seven. Fixed on 8 August by pointing
+      # the passport's moments row at the list of the parent's own concerns,
+      # then quietly undone when another section took the same anchor id: two
+      # elements with one id is a win for whichever is first in the document.
+      # The guard holds the link and, more importantly, the id being unique.
+      - run: node scripts/check-moments-anchor.mjs
       # The lesson tracker's contract. Every rule guards the thing that would
       # turn a green tick back into a form: a row moved into the automatic
       # block without a detector, a tick stored rather than computed, the
