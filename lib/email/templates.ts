@@ -1715,3 +1715,38 @@ export function paidWholeFamilyEmail(params: {
     ),
   }
 }
+
+// THE LETTERBOX ADDRESS, SENT TO THE PARENT WHO JUST ASKED FOR IT.
+//
+// The hardest step of school email forwarding is not understanding it, it is
+// getting a nineteen character random address off our screen and into the mail
+// app where it is actually needed. Copy and paste across two apps on a phone is
+// where this feature was losing people.
+//
+// So we send them the address instead. Now it is in the inbox they already
+// have open, on the laptop as well as the phone, and forwarding a school email
+// to it is a normal forward rather than a transcription job. The address is
+// plain text in the body on purpose, selectable, not hidden behind a button.
+//
+// Transactional: they pressed a button ten seconds ago and are waiting for it.
+export function schoolLetterboxEmail(params: {
+  forwardAddress: string
+  unsubscribe: string
+}): EmailContent {
+  const { forwardAddress, unsubscribe } = params
+  return {
+    subject: `Your private school address: ${forwardAddress}`,
+    html: wrapper(
+      heading('Here is your letterbox.') +
+      p('This is your family\'s private address. Anything you forward to it, DiGi reads for the things you actually have to do, and turns them into reminders in the app.') +
+      `<div style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:18px;margin:0 0 20px;text-align:center">
+        <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:15px;font-weight:700;color:${INK};word-break:break-all">${forwardAddress}</div>
+      </div>` +
+      p('<strong>The fastest way to try it:</strong> find any email from school, hit forward, and send it here. That is the whole test. You should see the kit days, payments and deadlines land in the app within a minute.') +
+      p('Once you have seen it work, you can set a rule in your email so school messages come here on their own and you never think about it again. That part is easier on a laptop and takes about five minutes.') +
+      button('Open my school page', `${APP}/dashboard/school`) +
+      p(`<span style="color:${INK_MUTED};font-size:14px">Only forwarded mail reaches us. We never see your inbox, and we keep the reminders rather than the emails.</span>`),
+      unsubscribe
+    ),
+  }
+}

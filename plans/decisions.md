@@ -380,3 +380,30 @@ arrival. Verified in the live data first: one pitched job, one live screen ask,
 both real. The jobs page now reads those rows the way the home screen counts them
 and shows them, and the bar keeps the count. Guard, 14 mutations, two of which
 only became real checks after mutating them.
+
+## 17 September 2026, the letterbox is unparked and setup stops asking
+
+**The MX was live, so the flags came off** (PR #1105). `SCHOOL_EMAIL_FORWARDING_LIVE`
+and `SCHOOL_LINK_LIVE` are both true. `in.guidedchildhood.com` resolves to Resend's
+inbound host, checked.
+
+**Setup was the reason it was parked, so it was rebuilt in the same change.** The old
+way in asked for the school's name AND a comma separated list of its sender addresses
+before it would hand over an address. Nobody knows what address ParentPay sends from,
+so the first screen of the feature was a question its own user cannot answer. Worse,
+the Home promo card pointed at /dashboard/school, which carried no setup at all, only
+a dashed box saying coming soon, while the real form sat greyed out in Settings.
+
+**The rule now: nothing is asked before something is given.** The address is minted on
+one tap with no form, gets emailed to the parent (the hard step was moving a random
+address into the mail app, not understanding it), and the first ask is to forward one
+email, which takes ten seconds and proves it works. The school name and its senders are
+read off that first email and confirmed with one tap. The automatic Gmail rule is
+offered afterwards and never blocks anything.
+
+**Migration 303.** school_name nullable, plus first_email_at, last_email_at,
+emails_caught and learned_domain, so the screen can say "nothing yet" honestly and then
+celebrate. Arrivals are stamped before extraction on purpose: a newsletter with nothing
+to do in it still answers the only question a parent is asking, which is did that work.
+
+**One way in, not two.** The Settings card is now a pointer to /dashboard/school.
