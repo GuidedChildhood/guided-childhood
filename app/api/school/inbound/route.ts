@@ -116,6 +116,54 @@ async function fetchInboundBody(emailId: string | null): Promise<string> {
   }
 }
 
+/**
+ * Record that a real school email reached this family's address.
+ *
+ * Written for the setup screen, which has one question to answer and it is not
+ * "how many actions did DiGi find". A parent who has just pasted their address
+ * into Gmail is asking "did that work", and a newsletter with nothing to do in
+ * it answers that question just as well as a PE kit reminder does. So this is
+ * stamped for every email that clears the sender allowlist, whether or not the
+ * extraction found anything, because the alternative is a screen that says
+ * nothing yet to a parent whose forwarding is working perfectly.
+ *
+ * It also learns the sender's domain, which is the thing we used to make the
+ * parent type in before they were allowed an address at all.
+ *
+ * Best effort throughout. Migration 303 runs by hand, and none of this is worth
+ * failing a real email over: an error here costs a status line, not a reminder.
+ * The counter is a read then a write rather than an atomic increment, which can
+ * lose a count when two school emails land in the same instant. That is the
+ * right trade for a number that exists to tell a parent it is working.
+ */
+async function recordArrival(
+  supabase: ReturnType<typeof createAdminClient>,
+  token: string,
+  conn: { school_name: string | null; learned_domain?: string | null; emails_caught?: number | null },
+  fromAddress: string,
+) {
+  try {
+    const domain = fromAddress.split('@')[1]?.trim().toLowerCase() || null
+    const now = new Date().toISOString()
+    const patch: Record<string, unknown> = {
+      last_email_at: now,
+      emails_caught: (conn.emails_caught ?? 0) + 1,
+    }
+    if (!conn.learned_domain && domain) patch.learned_domain = domain
+    // first_email_at is the one that must never move, so it is only written
+    // when the row has not got one. Filtering on null rather than reading it
+    // back means a second email cannot overwrite the first one's timestamp.
+    await supabase.from('school_connections')
+      .update({ ...patch, first_email_at: now })
+      .eq('forward_token', token)
+      .is('first_email_at', null)
+    await supabase.from('school_connections')
+      .update(patch)
+      .eq('forward_token', token)
+      .not('first_email_at', 'is', null)
+  } catch { /* the status line goes stale, the email still lands */ }
+}
+
 async function extract(subject: string, body: string, schoolName: string) {
   const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
   for (const model of models) {
@@ -168,6 +216,10 @@ export async function POST(req: NextRequest) {
   if (!token) return NextResponse.json({ ok: true, skipped: 'no token' })
 
   const supabase = createAdminClient()
+  // The arrival columns land with migration 303 and migrations run by hand, so
+  // naming them in this select would fail the whole lookup until it has run,
+  // which would drop real school emails on the floor. Read separately, guarded,
+  // and a failure simply means we cannot stamp the status line.
   const { data: conn } = await supabase
     .from('school_connections')
     .select('user_id, school_name, sender_addresses')
@@ -175,6 +227,16 @@ export async function POST(req: NextRequest) {
     .eq('active', true)
     .maybeSingle()
   if (!conn) return NextResponse.json({ ok: true, resolvedToken: false, skipped: 'unknown token' })
+
+  let arrival: { learned_domain: string | null; emails_caught: number } | null = null
+  try {
+    const { data, error } = await supabase
+      .from('school_connections')
+      .select('learned_domain, emails_caught')
+      .eq('forward_token', token)
+      .maybeSingle()
+    if (!error && data) arrival = data as { learned_domain: string | null; emails_caught: number }
+  } catch { /* pre 303, nothing to stamp */ }
 
   // Gmail forwarding verification email: catch it before the sender
   // allowlist (Google is never an allowlisted school sender), store the
@@ -222,8 +284,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: 'sender not allowlisted' })
   }
 
-  const items = (await extract(subject, body, conn.school_name)).slice(0, 5)
-  if (items.length === 0) return NextResponse.json({ ok: true, actions: 0 })
+  // Stamped here, before the extraction, because this is the point at which we
+  // know a real school email got through. See recordArrival for why that is not
+  // the same question as whether it contained anything to do.
+  await recordArrival(supabase, token, { ...conn, ...(arrival ?? {}) }, from)
+
+  // The school's name is optional now: an address is handed out before anyone
+  // has been asked anything. Until the parent confirms it, the sender's domain
+  // is a better prompt for the extractor than an empty string, and a truthful
+  // one for the parent to read back.
+  const schoolLabel = conn.school_name?.trim() || from.split('@')[1] || 'your school'
+
+  const items = (await extract(subject, body, schoolLabel)).slice(0, 5)
+  if (items.length === 0) return NextResponse.json({ ok: true, actions: 0, arrival: true })
 
   const valid = items.filter(i => ['kit', 'payment', 'homework', 'event', 'deadline', 'notice'].includes(i.kind) && i.title)
   if (valid.length === 0) return NextResponse.json({ ok: true, actions: 0 })
@@ -233,7 +306,7 @@ export async function POST(req: NextRequest) {
     detail: i.detail?.slice(0, 300) ?? null, due_date: i.due_date || null,
   })))
 
-  const promptTitle = valid.length === 1 ? valid[0].title : `${valid.length} things from ${conn.school_name}`
+  const promptTitle = valid.length === 1 ? valid[0].title : `${valid.length} things from ${schoolLabel}`
   await supabase.from('digi_prompts').insert({
     user_id: conn.user_id,
     kind: 'school',
