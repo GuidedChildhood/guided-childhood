@@ -67,9 +67,11 @@ covers it. The resource layer adds a fourth of its own, in section 5.
 
 ## 3. Lane boundary with the open work
 
-PR #1105, open in another session, is the school inbox: forwarding school email,
-extracting actions, and a Google Classroom link. It owns anything that reads a
-real school's own communications.
+PR #1105 is the school inbox: forwarding school email, extracting actions, and a
+Google Classroom link. It owns anything that reads a real school's own
+communications. It was open in another session when this plan was written and
+**merged on 17 September**, which unparked the letterbox, so the connection side
+of the boundary below is now live rather than planned.
 
 This lane owns the reference layer: what schemes and resources exist nationally,
 what a year group is taught, what we publish for parents, and what device use
@@ -80,8 +82,14 @@ This lane is what tells them what Sparx Maths is and how long it takes.
 
 No migration number is claimed by this plan. The research artifact is files only.
 Section 6 names the migration slices, and a number gets claimed at build time,
-after checking `supabase/migrations/` and every open PR. Highest on main today is
-302.
+after checking `supabase/migrations/` and every open PR.
+
+**Migration numbers move, so this line is dated on purpose.** When this plan was
+written the highest on main was 302. PR #1105 merged the same afternoon and took
+**303** (`303_school_letterbox_easy_setup.sql`), so slice 1 starts at 304 or
+above. Check again at build time rather than trusting this sentence: the whole
+point of the rule in CLAUDE.md is that the authoritative count is the directory
+plus every open pull request, never a plan.
 
 ---
 
