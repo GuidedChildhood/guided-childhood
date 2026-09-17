@@ -137,8 +137,16 @@ if (card) {
   // with one of them pointed at a route that does not exist: half the screen
   // silently dead, the guard green. Caught in mutation testing.
   const startersCalls = (bare.match(/\/api\/checkin\/starters/g) ?? []).length
-  if (!/\/api\/checkin\/confirm/.test(bare) || startersCalls < 2 || !/action:\s*'remove'/.test(bare) || !/action:\s*'add'/.test(bare)) {
-    fail.push(`${CARD}: the card no longer calls confirm and BOTH starters actions. Confirm is what makes tomorrow the first real check in; add and remove are what make this screen worth stopping on rather than a notice to tap past.`)
+  if (!/\/api\/checkin\/confirm/.test(bare) || startersCalls < 2 || !/action:\s*'sorted'/.test(bare) || !/action:\s*'add'/.test(bare)) {
+    fail.push(`${CARD}: the card no longer calls confirm and BOTH starters actions. Confirm is what makes tomorrow the first real check in; already sorted and add are what make this screen worth stopping on rather than a notice to tap past.`)
+  }
+  // NOTHING ON THIS SCREEN DELETES. Justin, 17 September 2026: "surely not us
+  // is a bad option? Should be let's fix or fixed?" A worry a family has
+  // already sorted is the best news in the account, and the first version of
+  // this screen threw it away. Resting keeps it, and lets it come back on its
+  // own if it recurs.
+  if (/action:\s*'remove'/.test(bare) || /Not us/.test(bare)) {
+    fail.push(`${CARD}: the delete is back. "Not us" judged the family rather than the situation, and deleting threw away the one row that says a family had already fixed something. Resting says the same thing and keeps the record, and it can be undone by tapping again.`)
   }
 }
 
@@ -161,7 +169,13 @@ if (starters) {
     fail.push(`${STARTERS}: add and remove are not refused once the list is confirmed. Remove DELETES the row, which is honest on day one and catastrophic a fortnight later: it would throw away every reading, the weekly email's comparison and any passport stamp earned from it.`)
   }
   if (!/\.eq\('user_id',\s*user\.id\)/.test(bare)) {
-    fail.push(`${STARTERS}: the delete is not scoped to the signed in parent in the query itself. Row level security is the floor, not the whole wall, and a delete is the one verb where being wrong cannot be undone.`)
+    fail.push(`${STARTERS}: the write is not scoped to the signed in parent in the query itself. Row level security is the floor, not the whole wall.`)
+  }
+  if (/\.delete\(\)/.test(bare)) {
+    fail.push(`${STARTERS}: this route deletes a concern. It used to, and it was the only irreversible button in the product, sitting on a screen a parent meets in their first two minutes next to a list the app itself guessed at. Already sorted rests the row instead: off the check in, kept in the record, back on its own if it recurs.`)
+  }
+  if (/score/.test(bare)) {
+    fail.push(`${STARTERS}: a score is being written on day one. Resting through a status rather than a top band reading is the whole point: the first real number lands tomorrow with a day of watching behind it, rather than being invented here to make a row disappear.`)
   }
 }
 

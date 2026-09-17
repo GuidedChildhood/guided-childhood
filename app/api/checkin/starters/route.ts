@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { resolveWorry } from '@/lib/concerns/normalise'
 import { raiseConcern } from '@/lib/concerns/raise'
+import { logConcernEventById } from '@/lib/concerns/events'
 
 // THE DAY ONE LIST, EDITABLE WHILE IT IS STILL DAY ONE.
 //
@@ -16,18 +17,16 @@ import { raiseConcern } from '@/lib/concerns/raise'
 // ── IT ONLY WORKS BEFORE THE LIST IS CONFIRMED ──────────────────────────────
 //
 // Both actions are refused once concerns_confirmed_at is set, and that is a
-// safety rule rather than a tidiness one. Remove here DELETES the row, which is
-// the honest thing to do with a worry that was never meant and has no history
-// yet. The same call a fortnight later would throw away a fortnight of
-// readings, the weekly email's comparison and any passport stamp earned from
-// it. After day one the way to finish with a worry is to say it is going great,
-// which rests it and keeps every reading it ever had.
+// safety rule rather than a tidiness one: after day one, a worry leaves the
+// check in by being rated going great twice, which keeps every reading it ever
+// had. This screen is the one moment where a parent can sort the list before
+// any of that history exists.
 export async function POST(request: Request) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const body = await request.json() as { action?: string; id?: string; text?: string; childId?: string | null }
+  const body = await request.json() as { action?: string; id?: string; on?: boolean; text?: string; childId?: string | null }
   const action = body.action
 
   // The gate. A missing column reads as not confirmed, which is the safe way
@@ -39,13 +38,48 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'The starting list is already confirmed' }, { status: 409 })
   }
 
-  if (action === 'remove') {
+  // ── ALREADY FINE, WHICH IS NOT THE SAME AS NEVER HAPPENED ────────────────
+  //
+  // Justin, 17 September 2026, looking at the day one screen: "surely not us is
+  // a bad option? Should be let's fix or fixed?"
+  //
+  // He is right twice over. "Not us" was a judgement about a family rather than
+  // a statement about a situation, and worse, it DELETED the row. Two things
+  // wrong with that:
+  //
+  //   A worry that was never theirs and a worry they have already sorted both
+  //   end up off the check in, but only one of them is nothing. "We fixed the
+  //   Switch at bedtime last year" is the best news in the account and the old
+  //   button threw it in the bin.
+  //
+  //   Deleting is the only irreversible verb in this product, and it was sitting
+  //   on a screen a parent sees in their first two minutes, next to a list the
+  //   app itself guessed at.
+  //
+  // So it rests the worry instead, which is the rule this product already has
+  // for a thing that is going well: off the check in, kept in the record, and
+  // it comes back on its own if a moment or DiGi raises it again. It is
+  // reversible, because a parent who taps the wrong row should not need us.
+  //
+  // NO SCORE IS WRITTEN. Resting through a status rather than a top band
+  // reading is the whole point of day one: the first real number still lands
+  // tomorrow, with a day of watching behind it, rather than being invented here
+  // to make a row disappear.
+  if (action === 'sorted') {
     if (!body.id) return NextResponse.json({ error: 'id required' }, { status: 400 })
-    // Scoped to this parent by the query as well as by RLS, because a delete is
-    // the one verb where being wrong is not recoverable.
+    const sorted = body.on !== false
+    // Scoped to this parent in the query as well as by RLS. Row level security
+    // is the floor, not the whole wall.
     const { error } = await supabase
-      .from('concerns').delete().eq('id', body.id).eq('user_id', user.id)
-    if (error) return NextResponse.json({ error: 'could not remove' }, { status: 500 })
+      .from('concerns')
+      .update({ status: sorted ? 'resolved' : 'open', last_checked_at: new Date().toISOString() })
+      .eq('id', body.id).eq('user_id', user.id)
+    if (error) return NextResponse.json({ error: 'could not save' }, { status: 500 })
+    // The record of the tap, so the passport's solved side and the weekly email
+    // can tell an already fine from a worked on and fixed.
+    if (sorted) {
+      await logConcernEventById(supabase, user.id, body.id, { event: 'resolved', source: 'onboarding' })
+    }
     return NextResponse.json({ ok: true })
   }
 
@@ -64,5 +98,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, slug, label: worry.label })
   }
 
-  return NextResponse.json({ error: 'action must be add or remove' }, { status: 400 })
+  return NextResponse.json({ error: 'action must be add or sorted' }, { status: 400 })
 }

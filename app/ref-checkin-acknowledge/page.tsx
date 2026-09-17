@@ -4,6 +4,12 @@ import ConcernAcknowledge from '@/components/daily/ConcernAcknowledge'
 // without an account. Same job as ref-baseline-checkin, and the middleware
 // 404s every /ref- route in production.
 //
+// ONE KNOWN NOISE ON THIS FIXTURE: tapping Already fine posts to the real
+// route, which 401s because there is no session here, so the row reverts and
+// the card says so. That is the failure path working, and it is worth seeing.
+// To look at the sorted state, stub /api/checkin/starters in the browser
+// rather than putting a demo mode into the component.
+//
 // TWO CHILDREN AND AN AWKWARD LIST, deliberately. One child with seven worries
 // is the case Justin actually hit, and a second child is what proves the
 // grouping reads as two short lists rather than one wall. A fixture where

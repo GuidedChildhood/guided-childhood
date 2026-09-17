@@ -35,25 +35,41 @@ export type AckChild = { id: string; name: string | null; concerns: { id: string
 export default function ConcernAcknowledge({ groups: initial }: { groups: AckChild[] }) {
   const router = useRouter()
   const [groups, setGroups] = useState(initial)
+  const [sorted, setSorted] = useState<Set<string>>(new Set())
   const [adding, setAdding] = useState<string | null>(null)
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
   const [failed, setFailed] = useState<string | null>(null)
 
   const total = groups.reduce((n, g) => n + g.concerns.length, 0)
+  // What is actually being started on, which is everything the parent has not
+  // marked as already fine. The heading has to move when they tap, or the
+  // screen is telling them a number they have just corrected.
+  const working = total - sorted.size
 
-  async function remove(childId: string, id: string) {
+  // ── ALREADY FINE, AND YOU CAN CHANGE YOUR MIND ───────────────────────────
+  //
+  // Justin, 17 September 2026: "surely not us is a bad option? Should be let's
+  // fix or fixed?"
+  //
+  // The old button said "Not us" and deleted the row. Both halves were wrong.
+  // "Not us" judged the family rather than describing the situation, and a
+  // worry a family has ALREADY SORTED is the best news in the account, not
+  // something to throw away. So the row stays, rests, and says so, and tapping
+  // again brings it back, because the first two minutes of an account is the
+  // worst possible place for the only irreversible button in the product.
+  //
+  // The list is "let's fix" by default. That is what the heading says and what
+  // untapped means, so the only control a row needs is the exception.
+  async function toggleSorted(childId: string, id: string, on: boolean) {
     setFailed(null)
-    // Off the screen first, back if the write refuses. A worry a parent has
-    // just said is not theirs should not sit there arguing while the network
-    // decides.
-    const before = groups
-    setGroups(gs => gs.map(g => g.id === childId ? { ...g, concerns: g.concerns.filter(c => c.id !== id) } : g))
+    const before = sorted
+    setSorted(s => { const next = new Set(s); if (on) next.add(id); else next.delete(id); return next })
     const res = await fetch('/api/checkin/starters', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'remove', id }),
+      body: JSON.stringify({ action: 'sorted', id, on }),
     }).catch(() => null)
-    if (!res?.ok) { setGroups(before); setFailed('That one would not come off. Try again in a moment.') }
+    if (!res?.ok) { setSorted(before); setFailed('That did not save. Try again in a moment.') }
   }
 
   async function add(childId: string) {
@@ -89,8 +105,10 @@ export default function ConcernAcknowledge({ groups: initial }: { groups: AckChi
         boxShadow: 'var(--lift)', padding: '20px 18px 18px', marginBottom: 14,
       }}>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
-          {total === 1 ? 'This is the one we start on.' : `These are the ${total} we start on.`} Have a look, take off
-          anything that is not you, and add anything missing.
+          {working === 0
+            ? 'Nothing left on the list. Add anything that is still hard.'
+            : working === 1 ? 'This is the one we start on.' : `These are the ${working} we start on.`}
+          {' '}Tap anything you have already sorted, and add anything missing.
         </p>
 
         {groups.map(g => (
@@ -104,33 +122,47 @@ export default function ConcernAcknowledge({ groups: initial }: { groups: AckChi
               </p>
             )}
 
-            {g.concerns.map(c => (
-              <div key={c.id} style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                padding: '10px 0', borderTop: '2px dotted rgba(26,26,46,0.15)',
-              }}>
-                <span style={{
-                  flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3,
+            {g.concerns.map(c => {
+              const done = sorted.has(c.id)
+              return (
+                <div key={c.id} style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '10px 0', borderTop: '2px dotted rgba(26,26,46,0.15)',
                 }}>
-                  {c.label}
-                </span>
-                {/* Plain and quiet. Removing is a rare thing to want and it
-                    should never compete with the one button that matters. */}
-                <button
-                  type="button"
-                  onClick={() => remove(g.id, c.id)}
-                  aria-label={`Take ${c.label} off the list`}
-                  style={{
-                    border: 'none', background: 'none', cursor: 'pointer', padding: '6px 8px',
-                    fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
-                    letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-                  }}
-                >
-                  Not us
-                </button>
-              </div>
-            ))}
+                  <span style={{
+                    flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800,
+                    fontSize: 'var(--text-md)', lineHeight: 1.3,
+                    color: done ? 'var(--ink-muted)' : 'var(--ink)',
+                    textDecoration: done ? 'line-through' : 'none',
+                  }}>
+                    {c.label}
+                  </span>
+                  {/* One control, and it is the exception. Everything untapped
+                      is what we start on, which the heading says out loud, so a
+                      second chip saying "let's fix" on every row would be a
+                      button for doing nothing. */}
+                  <button
+                    type="button"
+                    onClick={() => toggleSorted(g.id, c.id, !done)}
+                    aria-pressed={done}
+                    aria-label={done ? `Put ${c.label} back on the list` : `${c.label} is already sorted`}
+                    style={{
+                      flexShrink: 0, cursor: 'pointer', padding: '7px 12px',
+                      border: 'var(--edge)', borderRadius: 'var(--radius-pill, 999px)',
+                      // --sage is a pale TINT (#E8F0EE), so white on it came out
+                      // washed. --retro-green-dark carries white at about 5.6
+                      // to 1, which clears AA for text this size, and it is the
+                      // same green the check in already uses for a stamp.
+                      background: done ? 'var(--retro-green-dark)' : '#fff',
+                      color: done ? '#fff' : 'var(--ink-soft)',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+                    }}
+                  >
+                    {done ? 'Sorted' : 'Already fine'}
+                  </button>
+                </div>
+              )
+            })}
 
             {adding === g.id ? (
               <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
