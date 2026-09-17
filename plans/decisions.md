@@ -380,3 +380,20 @@ arrival. Verified in the live data first: one pitched job, one live screen ask,
 both real. The jobs page now reads those rows the way the home screen counts them
 and shows them, and the bar keeps the count. Guard, 14 mutations, two of which
 only became real checks after mutating them.
+
+**A duration is not a clock** (PR #1104). The trial banner read "Free days end in
+22:27" in mono with a colon, which is the shape of a time of day: a parent could
+read twenty two hours left as twenty seven minutes past ten tonight. It now says
+how long is left in words, floors so it never overstates, and drops the minutes
+above three hours. The guard runs the function rather than reading it, after
+mutation testing showed a name check matching the code's own identifier.
+
+**The printed passport is the whole sheet, and the margin is zero** (PR #1104).
+Measured as a real PDF, both print routes went to the printer 7 per cent too big:
+tokens.css zooms body by 1.07, the dashboard shell moves that onto `.gc-dash >
+main`, zoom applies on paper, and neither print block reset it. The tempting fix,
+insetting the artwork inside a margin, is the wrong one for a zine: the creases
+are the paper's own quarters, so a 285mm sheet throws both quarter folds 4.5mm
+out. Decided: full sheet, margin zero, the safe area held inside the panels, fold
+ticks on the outer edge. The class edition has the same fault and needs its own
+look. Chrome's Background graphics default also had the cover printing white.
