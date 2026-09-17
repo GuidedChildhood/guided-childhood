@@ -368,6 +368,14 @@ jobs:
       # elements with one id is a win for whichever is first in the document.
       # The guard holds the link and, more importantly, the id being unique.
       - run: node scripts/check-moments-anchor.mjs
+      # Agreed counts like done, and never reads like it. Migration 306 gave a
+      # device a third answer, so a family who decided a screen runs on an
+      # agreement rather than on controls can finish a stage without lying in
+      # either direction. Two rules pull opposite ways: every reader counts
+      # status <> not_owned, and every surface says Agreed rather than All set.
+      # Tidying the first into === done would look like a simplification and
+      # would lock the stage again in silence.
+      - run: node scripts/check-devices-agreed.mjs
       # The lesson tracker's contract. Every rule guards the thing that would
       # turn a green tick back into a form: a row moved into the automatic
       # block without a detector, a tick stored rather than computed, the

@@ -8,7 +8,7 @@ import DeviceHub from './DeviceHub'
 import DeviceSweepCard from '@/components/devices/DeviceSweepCard'
 import type { DeviceGuide } from './DeviceList'
 
-type ProgressRow = { device_key: string; status?: string; family_device_id?: string | null }
+type ProgressRow = { device_key: string; status?: string; family_device_id?: string | null; agreed_note?: string | null }
 
 const STAGE_MAP: Record<string, { id: string; label: string }> = {
   '4-7':   { id: 'foundation',  label: 'Foundation · Ages 4 to 7' },
@@ -58,6 +58,15 @@ export default async function DevicesPage({
   // is part of, and migrations here are run by hand. perDevice false means 169
   // has not landed, and the page then behaves exactly as it did before.
   async function readProgress(): Promise<{ rows: ProgressRow[]; perDevice: boolean }> {
+    // agreed_note arrived with 306 and is asked for first, on the same rule:
+    // name it and the whole query fails on an environment that is one migration
+    // behind, so the widest read is tried and each fallback drops one column.
+    const withNote = await supabase
+      .from('device_setup_progress')
+      .select('device_key, status, family_device_id, agreed_note')
+      .eq('user_id', user!.id)
+    if (!withNote.error) return { rows: (withNote.data ?? []) as ProgressRow[], perDevice: true }
+
     const withDevice = await supabase
       .from('device_setup_progress')
       .select('device_key, status, family_device_id')
@@ -89,13 +98,31 @@ export default async function DevicesPage({
   // Before migration 090 there is no status column, so a missing value reads
   // as done, exactly as it did before.
   const guideRows = progress.rows.filter(p => !p.family_device_id)
-  const completedKeys = guideRows.filter(p => (p.status ?? 'done') === 'done').map(p => p.device_key)
+  const completedKeys = guideRows.filter(p => (p.status ?? 'done') !== 'not_owned').map(p => p.device_key)
   const notOwnedKeys = guideRows.filter(p => p.status === 'not_owned').map(p => p.device_key)
   // null, not an empty list, when 169 is not there. The two mean different
   // things downstream: no screens ticked, versus we cannot tell yet.
+  //
+  // A screen is counted when its status is anything but not_owned, which since
+  // 306 means done OR agreed. This is the same rule progress.ts, journey.ts and
+  // passport-sections.ts have always used, and it is what makes an agreed
+  // screen unlock the stage. What differs is only how it READS, which is the
+  // two lists below.
   const doneDeviceIds = progress.perDevice
-    ? progress.rows.filter(p => p.family_device_id && (p.status ?? 'done') === 'done').map(p => p.family_device_id as string)
+    ? progress.rows.filter(p => p.family_device_id && (p.status ?? 'done') !== 'not_owned').map(p => p.family_device_id as string)
     : null
+  // Agreed rather than set up, and the words the family used. The row says
+  // Agreed instead of Settings in place off the back of these, so nobody can
+  // glance at this page and think controls are on when they are not.
+  const agreedDeviceIds = progress.perDevice
+    ? progress.rows.filter(p => p.family_device_id && p.status === 'agreed').map(p => p.family_device_id as string)
+    : null
+  const agreedKeys = guideRows.filter(p => p.status === 'agreed').map(p => p.device_key)
+  const agreedNotes: Record<string, string> = {}
+  for (const row of progress.rows) {
+    if (row.status !== 'agreed' || !row.agreed_note) continue
+    agreedNotes[row.family_device_id ?? row.device_key] = row.agreed_note
+  }
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -154,6 +181,9 @@ export default async function DevicesPage({
         initialCompleted={completedKeys}
         initialNotOwned={notOwnedKeys}
         initialDoneDevices={doneDeviceIds}
+        initialAgreed={agreedKeys}
+        initialAgreedDevices={agreedDeviceIds}
+        initialAgreedNotes={agreedNotes}
       />
     </div>
   )

@@ -88,6 +88,14 @@ export default function YourScreensHarness() {
   const [notOwned, setNotOwned] = useState<Set<string>>(new Set())
   // Screen level: only the iPhone. The iPad has to read as not set up.
   const [doneDevices, setDoneDevices] = useState<Set<string> | null>(new Set(['dev-iphone', 'dev-tv']))
+  // Agreed rather than set up (migration 306). The TV starts here on purpose:
+  // it is the screen a family is most likely to answer this way, and having one
+  // of the three in the agreed state is what makes the three row colours
+  // comparable at a glance, which is the whole point of the fixture.
+  const [agreedDevices, setAgreedDevices] = useState<Set<string>>(new Set(['dev-tv']))
+  const [agreedNotes, setAgreedNotes] = useState<Record<string, string>>({
+    'dev-tv': 'We watch it together in the front room',
+  })
 
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 60px' }}>
@@ -125,6 +133,8 @@ export default function YourScreensHarness() {
             return
           }
           const wasDone = doneDevices.has(d.id)
+          setAgreedDevices(prev => { const n = new Set(prev); n.delete(d.id); return n })
+          setAgreedNotes(prev => { const n = { ...prev }; delete n[d.id]; return n })
           setDoneDevices(prev => {
             const next = new Set(prev)
             if (wasDone) next.delete(d.id); else next.add(d.id)
@@ -138,6 +148,24 @@ export default function YourScreensHarness() {
           })
         }}
         onNotOwned={key => setNotOwned(prev => new Set(prev).add(key))}
+        agreedDevices={agreedDevices}
+        agreedNotes={agreedNotes}
+        onAgreeDevice={(d, note) => {
+          if (!d.guideKey) return
+          // Agreed is a NARROWING of done, never a replacement: the screen
+          // lands in both sets, which is what the real hub does and what makes
+          // the passport count it.
+          setCompleted(prev => new Set(prev).add(d.guideKey as string))
+          setNotOwned(prev => { const n = new Set(prev); n.delete(d.guideKey as string); return n })
+          if (doneDevices) {
+            setDoneDevices(prev => new Set(prev).add(d.id))
+            setAgreedDevices(prev => new Set(prev).add(d.id))
+            setAgreedNotes(prev => ({ ...prev, [d.id]: note }))
+          } else {
+            setAgreedDevices(prev => new Set(prev).add(d.guideKey as string))
+            setAgreedNotes(prev => ({ ...prev, [d.guideKey as string]: note }))
+          }
+        }}
       />
     </div>
   )

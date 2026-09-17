@@ -91,6 +91,7 @@ export async function buildPassportSections(
   let jobsDays: JobsDays = { stars: 0, due: 0, anyRoutine: false }
   let aheadNames: string[] = []
   let homeDeviceCount = 0
+  let anyAgreed = false
 
   if (child?.id) {
     const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
@@ -116,6 +117,12 @@ export async function buildPassportSections(
     // A device counts as ahead only when it is actually set up (owned) and its
     // minimum age is above the child's band, like a smartphone for a young one.
     const doneKeys = new Set((dpRes.data ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
+    // Agreed rather than set up (migration 306). It counts in doneKeys above,
+    // exactly as done does, because that is what lets a family who parents by
+    // talking finish a stage at all. It changes the WORD on the row, because a
+    // passport that says All set over screens with no controls on them would be
+    // telling a parent something that is not true.
+    anyAgreed = (dpRes.data ?? []).some(d => d.status === 'agreed')
     aheadNames = (dgRes.data ?? [])
       .filter(d => doneKeys.has(d.device_key) && (d.min_age as number) > childUpper)
       .map(d => d.name as string)
@@ -176,13 +183,15 @@ export async function buildPassportSections(
         // underneath (list your screens first) plainly contradicted.
         detail: !reached ? 'Ahead'
           : homeDeviceCount === 0 ? 'Add yours'
-          : prog.devicesPct >= 100 ? 'All set'
+          : prog.devicesPct >= 100 ? (anyAgreed ? 'Agreed' : 'All set')
           : prog.devicesPct === 0 ? 'To set up'
           : `${prog.devicesPct}%`,
         href: withOrigin('/dashboard/devices', 'passport'),
-        help: homeDeviceCount > 0
-          ? `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.`
-          : 'List the screens you actually have first, on the Devices page. Until you do this counts every guide we publish rather than your house.',
+        help: homeDeviceCount === 0
+          ? 'List the screens you actually have first, on the Devices page. Until you do this counts every guide we publish rather than your house.'
+          : anyAgreed
+          ? `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Some of these run on what you agreed together rather than on settings, which counts here just the same. Open Devices to read what you agreed, or change it.`
+          : `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.`,
         ...(isCurrent && aheadNames.length > 0
           ? { alert: `${aheadNames.join(', ')} is set up ahead of their age. Worth a look together.` }
           : {}),

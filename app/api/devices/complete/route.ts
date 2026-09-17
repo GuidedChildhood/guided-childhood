@@ -20,7 +20,42 @@ import { createClient } from '@/lib/supabase/server'
 // Migrations here are run by hand, so deployed code has to survive the window
 // where the table is one migration behind it.
 
-const STATUSES = new Set(['done', 'not_owned'])
+// THREE HONEST ANSWERS, NOT TWO.
+//
+// done      the settings walkthrough has been worked through on that screen
+// not_owned we do not have this
+// agreed    we own it, we have talked about it, and we have agreed how it is
+//           used rather than setting controls on it (migration 306)
+//
+// Justin, 17 September 2026: "don't want to force then never able to complete
+// stage of passport." The third one exists because devicesPct is a real gate,
+// and a family who parented well had no way through it that was not a lie in
+// one direction or the other.
+//
+// It counts for the passport exactly as done does, because every reader counts
+// status <> 'not_owned'. What it carries instead is agreed_note, one line in
+// the parent's own words, so the record says a decision was made rather than
+// that a job was skipped.
+const STATUSES = new Set(['done', 'not_owned', 'agreed'])
+
+/** Long enough for a real sentence, short enough to stay a line on a row. */
+const NOTE_MAX = 160
+
+/**
+ * The agreed_note column is missing when 306 has not been run.
+ *
+ * Both missing column checks see the same Postgres code, 42703, so the column
+ * NAME in the message decides first and the code is only the fallback. Without
+ * that order a pre 169 environment would take the note retry, fail again on
+ * family_device_id, and reach the right branch a round trip later.
+ */
+function isMissingNoteColumn(err: { code?: string; message?: string } | null): boolean {
+  if (!err) return false
+  const message = err.message ?? ''
+  if (/family_device_id/.test(message)) return false
+  if (/agreed_note/.test(message)) return true
+  return err.code === '42703' || err.code === 'PGRST204'
+}
 
 /** The column is missing when 169 has not been run. Postgres 42703, PostgREST PGRST204. */
 function isMissingDeviceColumn(err: { code?: string; message?: string } | null): boolean {
@@ -30,12 +65,18 @@ function isMissingDeviceColumn(err: { code?: string; message?: string } | null):
 }
 
 export async function POST(req: NextRequest) {
-  const { device_key, status, family_device_id, child_id } = await req.json()
+  const { device_key, status, family_device_id, child_id, note } = await req.json()
   if (!device_key || typeof device_key !== 'string') {
     return NextResponse.json({ error: 'missing device_key' }, { status: 400 })
   }
   const value = typeof status === 'string' && STATUSES.has(status) ? status : 'done'
   const deviceId = typeof family_device_id === 'string' && family_device_id ? family_device_id : null
+  // Only agreed carries a note. Anything else clears it, so a screen that was
+  // agreed in July and actually set up in September does not keep a line
+  // underneath it saying the controls were never turned on.
+  const agreedNote = value === 'agreed' && typeof note === 'string' && note.trim()
+    ? note.trim().slice(0, NOTE_MAX)
+    : null
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -59,9 +100,19 @@ export async function POST(req: NextRequest) {
   let { error } = await supabase
     .from('device_setup_progress')
     .upsert(
-      { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: null },
+      { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: null, agreed_note: agreedNote },
       { onConflict: 'user_id,child_id,device_key,family_device_id' }
     )
+  // Before 306 there is nowhere to put the note. The status still lands, so the
+  // passport still unlocks, and the words arrive the day the migration is run.
+  if (isMissingNoteColumn(error)) {
+    ;({ error } = await supabase
+      .from('device_setup_progress')
+      .upsert(
+        { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: null },
+        { onConflict: 'user_id,child_id,device_key,family_device_id' }
+      ))
+  }
   if (isMissingDeviceColumn(error)) {
     ;({ error } = await supabase
       .from('device_setup_progress')
@@ -87,12 +138,20 @@ export async function POST(req: NextRequest) {
     .from('family_devices').select('id').eq('id', deviceId).eq('user_id', user.id).maybeSingle()
   if (!owned) return NextResponse.json({ error: 'unknown device' }, { status: 404 })
 
-  const { error: devError } = await supabase
+  let { error: devError } = await supabase
     .from('device_setup_progress')
     .upsert(
-      { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: deviceId },
+      { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: deviceId, agreed_note: agreedNote },
       { onConflict: 'user_id,child_id,device_key,family_device_id' }
     )
+  if (isMissingNoteColumn(devError)) {
+    ;({ error: devError } = await supabase
+      .from('device_setup_progress')
+      .upsert(
+        { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: deviceId },
+        { onConflict: 'user_id,child_id,device_key,family_device_id' }
+      ))
+  }
   if (devError) return NextResponse.json({ error: devError.message }, { status: 500 })
 
   return NextResponse.json({ ok: true, perDevice: true })
@@ -121,12 +180,17 @@ export async function DELETE(req: NextRequest) {
     if (isMissingDeviceColumn(error)) return clearGuide(supabase, user.id, device_key)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+    // Any screen still HOLDING this guide up, which since 306 means done or
+    // agreed, not done alone. Asking for status = 'done' would have treated an
+    // agreed iPhone as nothing, so unticking the iPad would have pulled the
+    // guide row off the board and dropped the stage percentage under a family
+    // who had made a real decision about the other screen.
     const { data: others } = await supabase
       .from('device_setup_progress')
       .select('id')
       .eq('user_id', user.id)
       .eq('device_key', device_key)
-      .eq('status', 'done')
+      .in('status', ['done', 'agreed'])
       .not('family_device_id', 'is', null)
       .limit(1)
     if ((others ?? []).length === 0) {

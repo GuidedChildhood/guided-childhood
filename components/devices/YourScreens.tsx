@@ -46,7 +46,24 @@ type Props = {
   pending: string | null
   onToggleDevice: (device: FamilyDevice, lastForGuide: boolean) => void
   onNotOwned: (key: string) => void
+  /** Screens answered with an agreement rather than settings (migration 306). */
+  agreedDevices: Set<string>
+  /** What was agreed, keyed by screen id where we have one, guide key otherwise. */
+  agreedNotes: Record<string, string>
+  onAgreeDevice: (device: FamilyDevice, note: string) => void
 }
+
+// ── WHAT A FAMILY MIGHT HAVE AGREED ───────────────────────────────────────
+//
+// Three starters, so the note is one tap for most people and still their own
+// words for anyone who wants to type. Every one of them is a real arrangement
+// a family makes rather than a way of saying no controls: the decision is the
+// thing being recorded, and a blank note would make this an override button.
+const AGREED_STARTERS = [
+  'We use it in the front room, not bedrooms',
+  'Screens go on the shelf at bedtime',
+  'They ask before downloading anything new',
+]
 
 const CARD: React.CSSProperties = {
   background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
@@ -61,6 +78,7 @@ const LINK_BTN: React.CSSProperties = {
 
 export default function YourScreens({
   guides, childAge, childName, completed, notOwned, doneDevices, pending, onToggleDevice, onNotOwned,
+  agreedDevices, agreedNotes, onAgreeDevice,
 }: Props) {
   const [devices, setDevices] = useState<FamilyDevice[] | null>(null)
   const [busy, setBusy] = useState(false)
@@ -78,6 +96,11 @@ export default function YourScreens({
   // still work), and it lands on their list like any other device. The route
   // tells hello@ what was named, so the catalogue grows from real homes rather
   // than guesses, and the next family finds it in the list.
+  // Which screen is mid agreement, and the words so far. One at a time, the
+  // same as renaming, because two open note fields on a phone is two things
+  // half done.
+  const [agreeing, setAgreeing] = useState<string | null>(null)
+  const [agreeDraft, setAgreeDraft] = useState('')
   const [other, setOther] = useState(false)
   const [otherLabel, setOtherLabel] = useState('')
   const [otherKind, setOtherKind] = useState<DeviceKind | null>(null)
@@ -166,6 +189,15 @@ export default function YourScreens({
   // unfinished. See deviceIsDone for the fallback before migration 169.
   const isDone = (d: FamilyDevice) => deviceIsDone(d, completed, doneDevices)
   const doneCount = live.filter(isDone).length
+  // Agreed rather than set up. Hoisted rather than worked out per row, because
+  // the summary line above the list has to answer the same question the rows
+  // do: "4 of 4 set up" over two screens a family deliberately left without
+  // controls is the same untruth the row copy exists to avoid, said once at the
+  // top where it is read first.
+  const isAgreedDevice = (d: FamilyDevice) => isDone(d) && (doneDevices
+    ? agreedDevices.has(d.id)
+    : !!d.guideKey && agreedDevices.has(d.guideKey))
+  const agreedCount = live.filter(isAgreedDevice).length
 
   // Is this the last screen still ticked for its guide? The guide row only
   // comes off the board when it is.
@@ -208,8 +240,10 @@ export default function YourScreens({
           The screens in your home
         </h2>
         {live.length > 0 && (
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: doneCount === live.length ? 'var(--retro-green)' : 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-            {doneCount} of {live.length} set up
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: agreedCount > 0 ? 'var(--stage-2-text)' : doneCount === live.length ? 'var(--retro-green)' : 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+            {agreedCount > 0
+              ? `${doneCount} of ${live.length}, ${agreedCount} agreed`
+              : `${doneCount} of ${live.length} set up`}
           </span>
         )}
       </div>
@@ -231,6 +265,12 @@ export default function YourScreens({
             // so two Apple devices do not both sit there spinning. Before 169
             // it is still the guide key, which is what toggling falls back to.
             const waiting = pending === d.id || (!doneDevices && !!d.guideKey && pending === d.guideKey)
+            // Agreed rather than set up. Read per screen where we can, falling
+            // back to the guide before 169, exactly as done does. It is a
+            // narrowing of done, never a replacement for it: an agreed screen
+            // is counted, and it is described honestly.
+            const isAgreed = isAgreedDevice(d)
+            const agreedNote = agreedNotes[d.id] ?? (d.guideKey ? agreedNotes[d.guideKey] : undefined)
 
             return (
               <div key={d.id} style={{
@@ -272,13 +312,30 @@ export default function YourScreens({
                         </span>
                         {/* The status a parent came here to read, on the row,
                             the way every setup checklist worth copying does it. */}
+                        {/* AGREED IS NOT GREEN AND DOES NOT SAY SETTINGS.
+                            It counts the same for the passport, and it must
+                            never read the same on the row, or a parent glancing
+                            down this list would believe controls are on where
+                            they deliberately are not. Gold, its own word, and
+                            the thing they agreed underneath in their own
+                            sentence. */}
                         <span style={{
                           display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                           letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: 2,
-                          color: done ? 'var(--retro-green)' : 'var(--terracotta-dark)',
+                          color: isAgreed ? 'var(--stage-2-text)' : done ? 'var(--retro-green)' : 'var(--terracotta-dark)',
                         }}>
-                          {done ? (d.guideKey ? '✓ Settings in place' : KIND_LABEL[d.kind]) : 'Not set up yet'}
+                          {isAgreed
+                            ? '🤝 Agreed'
+                            : done ? (d.guideKey ? '✓ Settings in place' : KIND_LABEL[d.kind]) : 'Not set up yet'}
                         </span>
+                        {isAgreed && agreedNote && (
+                          <span style={{
+                            display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)',
+                            lineHeight: 1.4, marginTop: 3,
+                          }}>
+                            {agreedNote}
+                          </span>
+                        )}
                       </span>
                       {guide && (
                         <span aria-hidden style={{ fontSize: 'var(--text-md)', color: 'var(--ink-light)', flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
@@ -290,6 +347,7 @@ export default function YourScreens({
                         guide={guide}
                         childAge={childAge}
                         isDone={done}
+                        isAgreed={isAgreed}
                         busy={waiting}
                         onToggle={() => {
                           onToggleDevice(d, lastForGuide(d))
@@ -298,17 +356,114 @@ export default function YourScreens({
                           if (!done) setOpenId(null)
                         }}
                         footer={
-                          <div style={{ display: 'flex', gap: 14, marginTop: 12, flexWrap: 'wrap' }}>
-                            <button type="button" onClick={() => { setEditing(d.id); setDraft(d.label); setOpenId(null) }} style={LINK_BTN}>
-                              Rename
-                            </button>
-                            {/* Not a delete. Sold or broken keeps the row, so
-                                last term's screen time still says which device
-                                it happened on. */}
-                            <button type="button" onClick={() => { patch(d.id, { retired: true }); setOpenId(null) }} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
-                              Gone from the house
-                            </button>
-                          </div>
+                          <>
+                            {/* ── THE WAY THROUGH THAT IS NOT A LIE ──────────
+                                Justin, 17 September 2026: "don't want to force
+                                then never able to complete stage of passport
+                                ... maybe override which just means a note added
+                                device settings agreed but set trust child."
+
+                                Deliberately under the two buttons and in plain
+                                text, not a third button beside them. The
+                                settings are still the recommendation, and this
+                                is the honest answer for a family who has
+                                decided otherwise, not an equal option offered
+                                to somebody who has not decided anything yet.
+
+                                The note is required. A blank one would turn
+                                this into a skip button, and what makes it worth
+                                counting is that a decision was actually made
+                                and written down. */}
+                            {agreeing === d.id ? (
+                              <div style={{
+                                marginTop: 14, padding: '14px 14px 15px', background: '#fff',
+                                border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+                              }}>
+                                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 4px' }}>
+                                  What have you agreed about the {d.label}?
+                                </p>
+                                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 11px' }}>
+                                  One line is plenty. It goes on the row so you can both see what was decided, and it counts
+                                  towards the stage the same as the settings would.
+                                </p>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 11 }}>
+                                  {AGREED_STARTERS.map(t => (
+                                    <button
+                                      key={t}
+                                      type="button"
+                                      onClick={() => setAgreeDraft(t)}
+                                      style={{
+                                        background: agreeDraft === t ? 'var(--terracotta-lt)' : '#fff',
+                                        border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
+                                        padding: '7px 12px', cursor: 'pointer', textAlign: 'left',
+                                        fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3,
+                                      }}
+                                    >
+                                      {t}
+                                    </button>
+                                  ))}
+                                </div>
+                                <input
+                                  className="input"
+                                  value={agreeDraft}
+                                  onChange={e => setAgreeDraft(e.target.value.slice(0, 160))}
+                                  placeholder="Or say it your own way"
+                                  onKeyDown={e => {
+                                    if (e.key === 'Enter' && agreeDraft.trim()) {
+                                      onAgreeDevice(d, agreeDraft.trim()); setAgreeing(null); setAgreeDraft(''); setOpenId(null)
+                                    }
+                                  }}
+                                  style={{ width: '100%', fontSize: 'var(--text-base)', padding: '10px 12px', marginBottom: 11 }}
+                                />
+                                {/* Save full width, Cancel under it. Side by
+                                    side on a 390px phone the button had about
+                                    115px of room after .btn's 28px sides, so
+                                    "Save what we agreed" broke over two lines
+                                    and Cancel sat jammed against the edge. The
+                                    two are not a pair anyway: one is the thing
+                                    you came to do and the other is the way out
+                                    of it. */}
+                                <button
+                                  type="button"
+                                  disabled={!agreeDraft.trim() || waiting}
+                                  onClick={() => { onAgreeDevice(d, agreeDraft.trim()); setAgreeing(null); setAgreeDraft(''); setOpenId(null) }}
+                                  className="btn btn-gold"
+                                  style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)' }}
+                                >
+                                  Save what we agreed
+                                </button>
+                                <p style={{ textAlign: 'center', margin: '9px 0 0' }}>
+                                  <button type="button" onClick={() => { setAgreeing(null); setAgreeDraft('') }} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
+                                    Cancel
+                                  </button>
+                                </p>
+                              </div>
+                            ) : (!done || isAgreed) && (
+                              <p style={{ margin: '12px 0 0', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                                {isAgreed ? 'Changed how you handle this one?' : 'Decided not to put controls on this one?'}{' '}
+                                <button
+                                  type="button"
+                                  onClick={() => { setAgreeing(d.id); setAgreeDraft(agreedNote ?? '') }}
+                                  style={{ ...LINK_BTN, display: 'inline', padding: 0, fontFamily: 'inherit', fontSize: 'var(--text-sm)', letterSpacing: 0, textDecoration: 'underline' }}
+                                >
+                                  {isAgreed ? 'Change what you agreed' : 'Record what you agreed instead'}
+                                </button>
+                                {isAgreed ? '.' : '. It counts the same.'}
+                              </p>
+                            )}
+
+                            <div style={{ display: 'flex', gap: 14, marginTop: 12, flexWrap: 'wrap' }}>
+                              <button type="button" onClick={() => { setEditing(d.id); setDraft(d.label); setOpenId(null) }} style={LINK_BTN}>
+                                Rename
+                              </button>
+                              {/* Not a delete. Sold or broken keeps the row, so
+                                  last term's screen time still says which device
+                                  it happened on. */}
+                              <button type="button" onClick={() => { patch(d.id, { retired: true }); setOpenId(null) }} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
+                                Gone from the house
+                              </button>
+                            </div>
+                          </>
                         }
                       />
                     )}
