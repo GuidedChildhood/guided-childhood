@@ -1,7 +1,7 @@
 import PassportZineSheet, { type ZineStage } from '@/components/pathway/PassportZineSheet'
 import { STAGES } from '@/lib/content/stages'
 import { characterForStage } from '@/lib/content/stage-characters'
-import { STAGE_COLOURS } from '@/lib/pathway/passport-print-style'
+import { STAGE_COLOURS, PASSPORT_PRINT_RESET } from '@/lib/pathway/passport-print-style'
 
 // The fold, with made up numbers, so the fiddly part can be seen at both
 // sizes and saved as a PDF without a login. Same job as ref-passport-book,
@@ -32,7 +32,21 @@ export default function RefPassportZine() {
   })
 
   return (
-    <div style={{ padding: '20px 16px 60px', overflowX: 'auto' }}>
+    <div className="gc-zine" style={{ padding: '20px 16px 60px', overflowX: 'auto' }}>
+      {/* THE SAME PRINT RULES AS THE REAL ROUTE, imported from one place.
+          A fixture that prints under different rules from the page it stands
+          in for cannot catch a print fault, and this one could not: it had no
+          @page rule at all and body kept its 1.07 zoom, so a PDF saved here
+          was not the PDF a family gets. It is the only place either sheet can
+          be measured without a login, which is what scripts/check-print-fit
+          uses it for. */}
+      <style>{`
+        @media print {
+          @page { size: A4 landscape; margin: 0; }
+          ${PASSPORT_PRINT_RESET}
+          .gc-zine { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
+        }
+      `}</style>
       <PassportZineSheet
         childName="Alma Rose"
         passportCode="GC-4K7P"

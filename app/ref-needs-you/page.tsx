@@ -18,7 +18,12 @@ export default function RefNeedsYou() {
       {/* The trial's three registers, mocked: mid trial, the last day clock,
           and the honest close. Real Home shows exactly one. */}
       <TrialCountdown trialEndsAt={new Date(Date.now() + 2.2 * 86400000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
-      <TrialCountdown trialEndsAt={new Date(Date.now() + 3.6 * 3600000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
+      {/* The last day, in its three sentence shapes. Justin photographed this
+          card reading "Free days end in 22:27" on 16 September 2026, which a
+          parent reads as a clock, so all three now have to be lookable at. */}
+      <TrialCountdown trialEndsAt={new Date(Date.now() + 22.45 * 3600000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
+      <TrialCountdown trialEndsAt={new Date(Date.now() + 2.65 * 3600000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
+      <TrialCountdown trialEndsAt={new Date(Date.now() + 27 * 60000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />
       <TrialCountdown trialEndsAt={null} ended trialDays={4} jobsTicked={9} streakCount={4} />
       <TodayCard
         childApp={{ childName: 'Teo' }}

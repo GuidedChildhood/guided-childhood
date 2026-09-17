@@ -1,7 +1,7 @@
 import { ZINE_PANELS } from '@gc/shared/zine'
 import { AREA_ORDER, AREAS, AREA_EMOJI } from '@gc/shared/passport-areas'
 import { BRAND_DOMAIN, LOGO_BARS } from '@gc/shared/brand'
-import { BURGUNDY, GOLD, PAGE_CREAM, PAGE_INK, PAGE_INK_SOFT, PAGE_INK_FAINT } from '@/lib/pathway/passport-print-style'
+import { BURGUNDY_FLAT, GOLD, PAGE_CREAM, PAGE_INK, PAGE_INK_SOFT, PAGE_INK_FAINT } from '@/lib/pathway/passport-print-style'
 
 // THE PASSPORT AS ONE SHEET OF A4: eight panels, one slit, three folds.
 //
@@ -33,6 +33,50 @@ export type ZineStage = {
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }
 const display: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, letterSpacing: '-0.01em' }
 
+// ── THE SAFE AREA, WHICH IS NOT THE PAGE MARGIN ─────────────────────────────
+//
+// The sheet is the whole of the A4 and the page margin is zero, because a
+// zine's creases are the paper's own quarters: inset the artwork by 6mm and
+// every fold moves with it, which is the fault the schools sheet has and
+// nobody has caught there either. So the burgundy runs off the edge the way
+// a bled cover should, and the room a home printer needs is held INSIDE the
+// panels instead, on the four sides that actually meet the paper's edge.
+//
+// A panel in the middle of the sheet has no such edge, so it keeps its 5mm
+// and its words keep their room. Only the outer ring pays.
+//
+// AND THE TOP ROW IS ROTATED 180 DEGREES (shared/zine.ts), so a top row
+// panel's own top is the paper's bottom. The values are worked out in paper
+// space and then swapped for those panels, or the safe area would be held on
+// the wrong side of exactly half the book.
+const EDGE_PAD = '6mm'
+const INNER_PAD = '5mm'
+const SAFE_PAD = 'var(--zp-t) var(--zp-r) var(--zp-b) var(--zp-l)'
+
+/** The four paddings for one cell, in the face's own rotated coordinates. */
+function safeArea(index: number, upside: boolean): React.CSSProperties {
+  const row = index < 4 ? 0 : 1
+  const col = index % 4
+  // In paper space: which sides of this cell are the sheet's own edge.
+  const paper = {
+    top: row === 0 ? EDGE_PAD : INNER_PAD,
+    bottom: row === 1 ? EDGE_PAD : INNER_PAD,
+    left: col === 0 ? EDGE_PAD : INNER_PAD,
+    right: col === 3 ? EDGE_PAD : INNER_PAD,
+  }
+  const face = upside
+    ? { top: paper.bottom, bottom: paper.top, left: paper.right, right: paper.left }
+    : paper
+  return {
+    '--zp-t': face.top, '--zp-r': face.right, '--zp-b': face.bottom, '--zp-l': face.left,
+  } as React.CSSProperties
+}
+
+/** A 4mm fold tick, drawn in from the paper's edge at a crease. */
+function tick(style: React.CSSProperties): React.CSSProperties {
+  return { position: 'absolute', background: PAGE_INK_FAINT, ...style }
+}
+
 export default function PassportZineSheet({
   childName, passportCode, stages, stampedCount, stickerCount,
 }: {
@@ -45,7 +89,7 @@ export default function PassportZineSheet({
   const faces: Record<number, React.ReactNode> = {
     // 1 and 8 are the outside of the folded book: cover and back.
     1: (
-      <div style={{ height: '100%', background: BURGUNDY, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2mm', textAlign: 'center', padding: '5mm', boxShadow: 'inset 0 0 0 2mm rgba(237,195,95,0.35)' }}>
+      <div style={{ height: '100%', background: BURGUNDY_FLAT, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2mm', textAlign: 'center', padding: SAFE_PAD, boxShadow: 'inset 0 0 0 2mm rgba(237,195,95,0.35)' }}>
         <span style={{ ...mono, fontSize: '6.5px', opacity: 0.85 }}>Guided Childhood</span>
         {/* THE LOGO, NOT AN EMOJI. A passport control emoji renders in the
             system's colour font, which puts a blue and white glyph in the
@@ -63,7 +107,7 @@ export default function PassportZineSheet({
       </div>
     ),
     2: (
-      <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '5mm' }}>
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: SAFE_PAD }}>
         <span style={{ ...mono, fontSize: '6.5px', color: PAGE_INK_FAINT }}>This passport belongs to</span>
         <span style={{ ...display, fontSize: '16px', marginTop: '1mm', color: PAGE_INK, lineHeight: 1.1 }}>{childName}</span>
         {passportCode && <span style={{ ...mono, fontSize: '6.5px', color: PAGE_INK_SOFT, marginTop: '0.8mm' }}>№ {passportCode}</span>}
@@ -97,7 +141,7 @@ export default function PassportZineSheet({
       </div>
     ),
     8: (
-      <div style={{ height: '100%', background: BURGUNDY, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5mm', textAlign: 'center', padding: '5mm' }}>
+      <div style={{ height: '100%', background: BURGUNDY_FLAT, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5mm', textAlign: 'center', padding: SAFE_PAD }}>
         <span style={{ ...display, fontSize: '16px', lineHeight: 1.1 }}>{stickerCount}</span>
         <span style={{ ...mono, fontSize: '6.5px', opacity: 0.9 }}>sticker{stickerCount === 1 ? '' : 's'} earned so far</span>
         <p style={{ fontSize: '7.5px', lineHeight: 1.5, opacity: 0.85, margin: '2mm 0 0' }}>
@@ -113,7 +157,7 @@ export default function PassportZineSheet({
     faces[s.n + 2] = (
       <div style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
         <div aria-hidden style={{ height: '3mm', background: s.colour, flexShrink: 0 }} />
-        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', padding: '3mm 5mm 5mm' }}>
+        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', padding: '3mm var(--zp-r) var(--zp-b) var(--zp-l)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2mm' }}>
             <div style={{ minWidth: 0 }}>
               <span style={{ ...mono, fontSize: '6px', color: s.colour, filter: 'brightness(0.8)', display: 'block' }}>Stage {s.n} · {s.ages}</span>
@@ -179,8 +223,8 @@ export default function PassportZineSheet({
         position: 'relative', margin: '0 auto',
       }}
     >
-      {ZINE_PANELS.map(({ n, upside }) => (
-        <div key={`${upside ? 't' : 'b'}${n}`} style={{ position: 'relative', overflow: 'hidden', border: '0.2mm dotted rgba(42,31,20,0.35)', background: PAGE_CREAM, color: PAGE_INK, fontFamily: 'var(--font-body)' }}>
+      {ZINE_PANELS.map(({ n, upside }, i) => (
+        <div key={`${upside ? 't' : 'b'}${n}`} style={{ position: 'relative', overflow: 'hidden', border: '0.2mm dotted rgba(42,31,20,0.35)', background: PAGE_CREAM, color: PAGE_INK, fontFamily: 'var(--font-body)', ...safeArea(i, upside) }}>
           <div style={{ position: 'absolute', inset: 0, transform: upside ? 'rotate(180deg)' : 'none' }}>
             {faces[n]}
           </div>
@@ -194,6 +238,21 @@ export default function PassportZineSheet({
       <div aria-hidden style={{ position: 'absolute', left: '25%', right: '25%', top: '50%', borderTop: '0.5mm dashed rgba(42,31,20,0.8)', transform: 'translateY(-0.25mm)' }} />
       <span aria-hidden style={{ position: 'absolute', left: 'calc(25% - 7mm)', top: '50%', transform: 'translateY(-55%)', fontSize: '14px', background: '#fff', padding: '0 1mm' }}>✂</span>
       <span aria-hidden style={{ position: 'absolute', left: 'calc(50% - 11mm)', top: '50%', transform: 'translateY(-50%)', ...mono, fontSize: '6.5px', background: '#fff', padding: '0 1mm', color: PAGE_INK_SOFT }}>cut here only</span>
+
+      {/* FOLD TICKS ON THE OUTER EDGE. Three creases run down the sheet at the
+          quarters and one across the middle, and they are the paper's own, so
+          a 4mm mark at each one on the outside edge gives a family something
+          to line up against. It is also the insurance against a driver that
+          scales the job anyway: the ticks scale with the artwork, so lining
+          them up still folds a true book. */}
+      {[25, 50, 75].map(pct => (
+        <span key={`v${pct}`} aria-hidden>
+          <span style={tick({ left: `${pct}%`, top: 0, width: '0.3mm', height: '4mm' })} />
+          <span style={tick({ left: `${pct}%`, bottom: 0, width: '0.3mm', height: '4mm' })} />
+        </span>
+      ))}
+      <span aria-hidden style={tick({ left: 0, top: '50%', width: '4mm', height: '0.3mm' })} />
+      <span aria-hidden style={tick({ right: 0, top: '50%', width: '4mm', height: '0.3mm' })} />
     </section>
   )
 }
