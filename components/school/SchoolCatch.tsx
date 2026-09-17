@@ -18,6 +18,13 @@ import { preparePhoto } from '@/lib/school/photo'
 // rule in the world catches those, and a parent holding one is the exact moment
 // this is useful.
 //
+// THE PITCH NAMES NEITHER THE LETTER NOR CLASSDOJO ANY MORE. The school page
+// carries a routing line above this card (an email, forward it; a letter or an
+// app message, snap it), and this card used to open by listing the same two
+// cases. Six lines of a phone screen saying ClassDojo twice is the "one thing
+// in two places" bug in miniature. The line above decides WHICH; this card says
+// what happens next.
+//
 // WHY IT SHOWS WHAT IT FOUND BEFORE SAVING, when the email path does not.
 // The email path runs while the parent is somewhere else, so it saves and then
 // tells them. Here the parent is standing in the kitchen holding the letter,
@@ -195,7 +202,7 @@ export default function SchoolCatch() {
       </h2>
       {pitching && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-          Photograph a letter from the book bag, or pick a screenshot you already took of an email or a ClassDojo message. The kit days, payments and deadlines come out of it as reminders.
+          Take the picture, or pick a screenshot you already have. The kit days, payments and deadlines come out of it as reminders, the night before and again in the morning.
         </p>
       )}
 
