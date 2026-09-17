@@ -9,7 +9,7 @@ import { getStickerBook } from '@/lib/stickers/book'
 import { characterForStage } from '@/lib/content/stage-characters'
 import { STAGES } from '@/lib/content/stages'
 import { FOLD_STEPS } from '@gc/shared/zine'
-import { STAGE_IDS, STAGE_COLOURS } from '@/lib/pathway/passport-print-style'
+import { STAGE_IDS, STAGE_COLOURS, PASSPORT_PRINT_RESET } from '@/lib/pathway/passport-print-style'
 import PassportZineSheet, { type ZineStage } from '@/components/pathway/PassportZineSheet'
 import PrintButton from '../PrintButton'
 
@@ -89,12 +89,18 @@ export default async function PassportZinePage({ searchParams }: { searchParams:
     <div className="gc-zine" style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 16px 60px' }}>
       <style>{`
         @media print {
-          @page { size: A4 landscape; margin: 6mm; }
-          body { background: #fff !important; }
+          /* MARGIN ZERO, AND THE SHEET IS THE WHOLE PAPER. A zine's creases
+             are the paper's own quarters, so insetting the artwork inside a
+             margin moves every fold: a 285mm sheet centred on A4 puts the
+             artwork's quarter 4.5mm away from the paper's. The safe area is
+             held inside the panels instead, and the fold ticks on the outer
+             edge let a family line a crease up even if a driver scales the
+             job. See lib/pathway/passport-print-style.ts for the zoom. */
+          @page { size: A4 landscape; margin: 0; }
+          ${PASSPORT_PRINT_RESET}
           .gc-zine { max-width: none !important; padding: 0 !important; margin: 0 !important; }
           .gc-zine-screen { display: none !important; }
           .gc-zine-wrap { overflow: visible !important; margin: 0 !important; }
-          .bottom-tab-bar, nav, header, [data-rightnow] { display: none !important; }
         }
       `}</style>
 
@@ -120,9 +126,15 @@ export default async function PassportZinePage({ searchParams }: { searchParams:
             <li key={step} style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{step}</li>
           ))}
         </ol>
+        {/* THE ONE SETTING THAT DECIDES WHETHER THIS LOOKS LIKE A PASSPORT.
+            Chrome ships with Background graphics off and buried under More
+            settings, and every colour on this sheet is a CSS background. The
+            print block forces it where the browser allows, and this line is
+            for the browsers that do not. */}
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, marginTop: 12, maxWidth: '60ch' }}>
-          Print it landscape at full size. If your printer offers fit to page, turn that off: the panels are sized to
-          fold, and scaling them moves the creases.
+          Tick background graphics in the print box, or the burgundy cover comes out white. Print it landscape at full
+          size: if your printer offers fit to page, turn that off, because the panels are sized to fold and scaling
+          them moves the creases.
         </p>
       </div>
 
