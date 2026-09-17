@@ -381,6 +381,34 @@ both real. The jobs page now reads those rows the way the home screen counts the
 and shows them, and the bar keeps the count. Guard, 14 mutations, two of which
 only became real checks after mutating them.
 
+## 17 September 2026: the school resources shelf, and a research sweep nothing could verify
+
+**The four asks separated** (PR #1106). Justin asked for the resources schools give
+parents, our own Little Wandle style version, how to balance it with devices, and a
+list of what UK schools use per subject per year. Ask B turned out half built:
+`buildTermPreview` has answered what a child is learning this term since 10 August.
+What it lacks is the resource layer, so a parent reads the strand names and does not
+know the scheme, the method, or that the homework arrives in an app.
+
+**The sweep ran and produced an inventory, not evidence.** Six lanes, roughly 270
+resource rows in `research/uk-school-resources/`. Every page fetch was refused by the
+network egress policy and the search budget ran out at 200, so nothing is verified and
+no statutory line is quoted. The README carries a ten item verification queue. The
+inventory is safe to plan against; no figure in it may reach a parent yet.
+
+**The fourth curriculum rule, added.** We know what schools nationally use, we do not
+know what your school uses, so every resource claim is a likelihood until the parent
+tells us. One tap fixes it and that is the cheapest personalisation in the product.
+
+**Two things recorded as disagreements, not facts.** The 2026 statutory footing for the
+school phone rule (one lane clean, one lane found the dates self contradictory: read
+Commons Library CBP 10241 first) and the White Rose usage figure, where three uncited
+numbers circulate and the lane refused to pick one.
+
+**Best find:** the Teach Computing curriculum, about 500 hours, Key Stage 1 to 4, is
+Open Government Licence and editable, so parent resources can be written from openly
+licensed material for every subject rather than the three we hold objectives for.
+Oak stays as decided on 7 September: the shape, never the content.
 ## 17 September 2026, the letterbox is unparked and setup stops asking
 
 **The MX was live, so the flags came off** (PR #1105). `SCHOOL_EMAIL_FORWARDING_LIVE`
