@@ -15,7 +15,7 @@
 //
 // Usage: node --experimental-strip-types scripts/check-school-spotlight.mjs
 
-import { schoolTakesTheTop, londonDayOfWeek, SCHOOL_SPOTLIGHT_DOW, countWaitingToday, londonToday } from '../lib/home/school-spotlight.ts'
+import { schoolTakesTheTop, schoolTopSlot, londonDayOfWeek, SCHOOL_SPOTLIGHT_DOW, countWaitingToday, londonToday } from '../lib/home/school-spotlight.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -118,6 +118,56 @@ check('a one off with no date is waiting, somebody typed it on purpose',
 check('a mixed list counts only what is waiting',
   countWaitingToday([routine(2), routine(3), oneOff('2026-08-20'), oneOff('2026-08-01')], wed) === 2)
 check('an empty list is zero', countWaitingToday([], wed) === 0)
+
+// ── WHO GETS THE TOP SLOT, WHEN THE FAMILY HAS NOT GOT SCHOOL GOING ─────────
+//
+// Justin, 17 September 2026: the offer sat at the end of a long home page
+// scroll, so it now takes the same weekly slot the real block takes.
+//
+// This is the reason schoolTopSlot exists at all. The first cut of it was two
+// separate booleans and they AGREED on the spotlight day with nothing waiting,
+// which would have stacked the school line and the offer at the top together.
+// Home saying one thing in two places is a bug Justin has caught here before.
+// One function can only return one answer, and these are the cases that hold
+// it to that.
+const ELIGIBLE = true
+const NOT_ELIGIBLE = false
+
+check('Sunday, family without school, the offer takes the top',
+  schoolTopSlot(0, ELIGIBLE, sunday) === 'promo')
+check('Sunday, family with school, the block takes the top',
+  schoolTopSlot(0, NOT_ELIGIBLE, sunday) === 'block')
+
+// The rule that matters most: a real deadline always beats an advert for the
+// feature that would have caught it, eligible or not, whatever day it is.
+check('something due beats the offer, even on Sunday',
+  schoolTopSlot(2, ELIGIBLE, sunday) === 'block')
+for (const [name, d] of [['Monday', monday], ['Wednesday', wednesday], ['Saturday', saturday]]) {
+  check(`${name} with something due gives the block the top`,
+    schoolTopSlot(1, ELIGIBLE, d) === 'block')
+  check(`${name} with nothing due leaves the top alone`,
+    schoolTopSlot(0, ELIGIBLE, d) === 'none')
+}
+
+// Never two things at the top, on any day of the week, for either kind of
+// family. This is the assertion the earlier two boolean version failed.
+for (let i = 0; i < 7; i++) {
+  const d = new Date(sunday.getTime() + i * 86400000)
+  for (const eligible of [true, false]) {
+    for (const waiting of [0, 1, 4]) {
+      const slot = schoolTopSlot(waiting, eligible, d)
+      check(`day ${londonDayOfWeek(d)}, eligible ${eligible}, waiting ${waiting}: exactly one answer`,
+        slot === 'block' || slot === 'promo' || slot === 'none')
+    }
+  }
+}
+
+// And the offer only ever appears for a family who could actually take it up.
+for (let i = 0; i < 7; i++) {
+  const d = new Date(sunday.getTime() + i * 86400000)
+  check(`day ${londonDayOfWeek(d)}: an ineligible family is never shown the offer`,
+    schoolTopSlot(0, NOT_ELIGIBLE, d) !== 'promo')
+}
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)
 process.exit(failures === 0 ? 0 : 1)
