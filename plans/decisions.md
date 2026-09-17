@@ -512,7 +512,8 @@ costing us something today.
 
 ## 18 September 2026 — migration 304 applied, column and backfill together
 
-304 was on main and not in the database. Applied as one statement on purpose:
+304 was on main and not in the database (PR 1111). Applied as one statement on
+purpose:
 the column alone would have shown the day one acknowledgement screen to the 17
 families who have already rated, because once the column exists the guarded read
 in `lib/checkin/today.ts` stops failing and starts returning null. The backfill
