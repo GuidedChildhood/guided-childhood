@@ -195,7 +195,7 @@ export default function SchoolCatch() {
       </h2>
       {pitching && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-          A letter from the book bag, a note in the reading record, a screenshot of an email. Take a picture and the kit days, payments and deadlines come out of it as reminders.
+          Photograph a letter from the book bag, or pick a screenshot you already took of an email or a ClassDojo message. The kit days, payments and deadlines come out of it as reminders.
         </p>
       )}
 
@@ -208,7 +208,7 @@ export default function SchoolCatch() {
               disabled={reading}
               style={{ ...primaryButton, cursor: reading ? 'wait' : 'pointer' }}
             >
-              {reading ? 'Reading it...' : '📷  Take a picture'}
+              {reading ? 'Reading it...' : '📷  Photo or screenshot'}
             </button>
             <button
               onClick={() => setMode(m => (m === 'paste' ? 'idle' : 'paste'))}
@@ -218,14 +218,24 @@ export default function SchoolCatch() {
               Or paste the text
             </button>
           </div>
-          {/* capture is a hint, not a lock: on a phone it opens the camera, and
-              anywhere else it opens the picker, which is what a parent with a
-              screenshot on a laptop needs. */}
+          {/* NO capture ATTRIBUTE, AND THAT IS THE WHOLE POINT.
+              Justin, 17 September 2026: "take a picture is flawed as it opens a
+              camera which is good if a physical letter but it does not let you
+              screenshot an email."
+              Correct, and the earlier comment here claimed otherwise. capture
+              is not a hint on a phone: iOS and Android honour it and go
+              straight to the camera, so the photo library never opens and a
+              screenshot already sitting in Photos is unreachable. Without it,
+              the tap raises the system sheet (Photo Library, Take Photo, Choose
+              File) and both routes are one tap away.
+              This matters more than a paper letter, because a ClassDojo,
+              Arbor or Seesaw message lives inside an app and cannot be
+              forwarded to anything. A screenshot is the only way in for those,
+              and they are a large share of what a school actually sends. */}
           <input
             ref={fileRef}
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={onFile}
             style={{ display: 'none' }}
           />
