@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
+import ConcernAcknowledge from '@/components/daily/ConcernAcknowledge'
 import { getTodayCheckIn } from '@/lib/checkin/today'
 
 export const dynamic = 'force-dynamic'
@@ -45,7 +46,34 @@ export default async function CheckInPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { rows, baseline, queue, childId, childName } = await getTodayCheckIn(supabase, user.id, childParam)
+  const { rows, baseline, queue, childId, childName, acknowledge } = await getTodayCheckIn(supabase, user.id, childParam)
+
+  // ── DAY ONE IS ITS OWN SCREEN, AND IT RETURNS EARLY ──────────────────────
+  //
+  // Justin, 17 September 2026: "it's just to acknowledge first concerns raised
+  // so seems overkill to ask them to do a check in maybe we should just
+  // acknowledge they are added to solve first and are on next day".
+  //
+  // Everything below this line belongs to a reading: the child switcher, last
+  // night's script, the redirect that keeps ?child= honest. None of it applies
+  // to a list you are agreeing to rather than scoring, and every child is shown
+  // at once, so the page stops here rather than threading a second mode through
+  // all of it.
+  if (acknowledge) {
+    return (
+      <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
+        <div style={{ maxWidth: 480, margin: '0 auto', padding: '20px 20px 40px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>
+            Today · first thing
+          </p>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4.5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'var(--ink)', margin: '0 0 14px' }}>
+            Heard. These are on your tracker
+          </h1>
+          <ConcernAcknowledge groups={acknowledge.children} />
+        </div>
+      </div>
+    )
+  }
 
   // Last night's words, unrated. Justin, 5 September 2026, from the loop
   // review: close the loop from words to outcome. A script opened in the last
@@ -135,8 +163,28 @@ export default async function CheckInPage({
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
               All done for today
             </p>
+            {/* ── ANYTHING ELSE TODAY ──────────────────────────────────────
+                Justin, 17 September 2026: "if any more moments to add so we
+                keep addressing the issues and helping until they go away."
+
+                The check in asks about what we already know. This is the only
+                door in the loop for the thing that happened an hour ago and is
+                not on any list yet, and it belongs at the END, when a parent
+                has just been reminded what the app is keeping an eye on. The
+                deck already exists; this is a doorway to it, not a new
+                surface. */}
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-              Nothing is waiting on you. Whatever comes up today, tell DiGi and it will be here tomorrow.
+              Nothing is waiting on you. Did anything else happen today? Add it and we will start working on that one
+              too.
+            </p>
+            <p style={{ margin: '0 0 18px' }}>
+              <Link href="/dashboard/daily" style={{
+                display: 'inline-flex', padding: '12px 20px', background: '#fff',
+                color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', textDecoration: 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              }}>
+                Add something that happened
+              </Link>
             </p>
             <Link href="/dashboard" style={{
               display: 'inline-flex', padding: '12px 20px', background: 'var(--terracotta)',
