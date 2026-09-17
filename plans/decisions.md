@@ -512,3 +512,30 @@ of date copy in a place nobody reads is survivable; at the top of Home it is not
 **And "not now" travels with the person (migration 304).** Dismissal was
 localStorage, right at the bottom of a page and wrong at the top: decline on the
 phone, open the laptop, meet it again the same morning.
+## 17 September 2026 — 302 and 303 were both missing, and both were load bearing
+
+Main ran to 303 and the ledger stopped at 301. Probed live, both were genuinely
+absent: `schools.supply_requests` did not exist, and `school_connections` still
+had `school_name` NOT NULL with none of the four arrival columns.
+
+**302 was failing a school in the open.** `schools/app/supplies/actions.ts`
+inserts into that table when a school asks for printed books or stickers, and
+the insert error path returns "The request did not save." So every school that
+filled in the supplies form got told to email us instead. The cron that passes
+requests to Justin reads the same table. Applied, and verified the way it is
+actually used rather than by reading grants: an insert as the `anon` role lands,
+and a select as `authenticated` returns nothing, because RLS carries an insert
+policy and no read policy. The probe row was deleted; the table is empty.
+
+**303 degrades rather than breaks, by design.** Its author guarded the four
+columns in `app/api/school/connect/route.ts` with a note saying migrations run
+by hand here, so a parent midway through setup still sees the address and the
+screen reads "nothing yet". That guard is why nothing surfaced it. What was dead
+in the meantime: the whole arrival half of the letterbox, the learned domain,
+the caught count, and the easy setup path that creates a connection before the
+school name is known, which the NOT NULL blocked outright.
+
+**The check held up.** Two files on main, neither in the ledger, and unlike the
+13 September run both were real. The order is doing its job: the ledger produced
+the candidates, the live schema decided, and the code grep said which one was
+costing us something today.
