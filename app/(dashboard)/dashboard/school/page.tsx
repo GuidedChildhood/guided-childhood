@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getFamilyRegion } from '@/lib/learning/region'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolLetterbox from '@/components/school/SchoolLetterbox'
+import SchoolCatch from '@/components/school/SchoolCatch'
 import { getChildren } from '@/lib/children/server'
 
 // The school section: your live alerts first (the things you need to know,
@@ -104,6 +105,14 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
           region={region}
         />
       </div>
+
+      {/* TWO WAYS IN, EASIEST FIRST.
+          Snap it needs nothing set up at all and also catches the paper that
+          forwarding can never reach, so it leads. The letterbox is the one that
+          becomes automatic and never needs touching again, so it follows.
+          Justin, 17 September 2026: "Is there a way without having to set up
+          forward?" This order is the answer to that, on the screen. */}
+      <SchoolCatch />
 
       {/* The letterbox, live since 17 September 2026.
           This is where the Home promo card has always pointed, and until now
