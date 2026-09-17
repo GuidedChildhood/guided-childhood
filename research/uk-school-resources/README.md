@@ -38,6 +38,17 @@ stated plainly because the product depends on it:
    official page named by URL but not opened, `[SEARCH INDEX ONLY]` a claim
    resting on a search summary alone.
 
+**Prevalence is the weakest column in every lane, and four publishers
+contradict themselves.** Kapow is reported at both 5,000 and 8,390 schools,
+Charanga at both 62.5 per cent of English primaries and over 5,000 schools,
+real PE at 2,000 now against 5,000 in 2019, and ProjectEVOLVE at both 330 and
+350 plus statements. Where a publisher disagrees with itself the lane files
+print both figures and say so. **Never resolve one of those into a single
+number for copy.** The general rule the sweep earned: a vendor claim read
+through a search index is two removes from evidence, so the maths lane
+deliberately dropped the vendor school counts it had carried in its first draft
+rather than pass them on.
+
 What this folder IS good for right now: the inventory. Which schemes exist, who
 publishes them, which years they cover, whether they need a screen, and what
 each publisher gives parents. That is the part search results attest well, it is
@@ -47,7 +58,7 @@ the part we needed to plan against, and none of it is invented.
 
 ## The findings that change what we build
 
-Twelve, in the order they matter to the product.
+Thirteen, in the order they matter to the product.
 
 **1. The phonics market is a two horse race, so the scheme question is short.**
 Teacher Tapp reports the top two schemes are Read Write Inc and Little Wandle
@@ -197,6 +208,35 @@ and they will want to know what it is. Second, it is the closest thing in the
 English primary system to our own argument, that you do not prepare a child for
 social media by keeping them away from it, and it is worth a proper look rather
 than a line in a table.
+
+**13. Device exposure has four layers and only two put a screen in the child's
+hands.** The wider primary lane sorted it, and this is the shape the device use
+card should take rather than one undifferentiated screen time number:
+
+- **The teacher's screen.** Charanga is delivered entirely on screen, Explorify
+  is a picture on the board. A parent hearing "they use computers in music"
+  is often hearing about the teacher's laptop, and saying so plainly is
+  reassuring and true.
+- **The child's own account.** Purple Mash, Seesaw, Espresso and Discovery
+  Coding, Oddizzi, Natterhub, Scratch, Code.org, Duolingo, and a full Google or
+  Microsoft account. This is the layer that matters to us. Purple Mash is
+  reported as including free home access for every pupil plus a parent portal
+  that is off by default, with parent codes already printed on the login cards,
+  which means a parent can be handed access they never knew they had.
+- **The parent's app, not the child's.** Tapestry, ClassDojo, Seesaw Family and
+  ClassCharts. Worth separating, because a parent counting apps thinks these are
+  their child's screen time and they are not.
+- **Nothing at all.** Barefoot Computing is deliberately unplugged, Empiribox
+  ships physical equipment, Projects on a Page is paper, Opening Worlds is print
+  and talk, most PSHE is discussion, and a knowledge organiser is one side of
+  A4. The teaching of most of the primary curriculum is off screen, and a
+  worried parent deserves to hear that first.
+
+One rule inside the second layer, reported from Google's own help pages: under
+13s must use a managed Education account, and primary users default to under 18
+with services restricted by the school administrator, not by the parent. So the
+answer to "what can my child's school account reach" is set by the school, which
+is exactly the kind of thing our shelf should tell a parent to go and ask.
 
 ### One contradiction worth keeping
 
@@ -354,7 +394,7 @@ in each line.
 | --- | --- | --- |
 | `01-english-and-phonics.md` | Primary phonics, reading, writing, spelling, handwriting | 33 resources plus 8 statutory checkpoints |
 | `02-maths.md` | Primary maths, schemes, practice apps, intervention | 70 |
-| `03-wider-primary.md` | Every other primary subject, plus the platforms schools buy once | see file |
+| `03-wider-primary.md` | Every other primary subject, plus the platforms schools buy once | 74 across 11 subjects |
 | `04-secondary.md` | Years 7 to 11, and the homework infrastructure a parent logs into | 10 verified plus 32 named and not reached |
 | `05-device-exposure.md` | The device use school brings, and what schools send parents | see file |
 | `06-little-wandle-analysis.md` | The structural analysis and the licence position | n/a |
