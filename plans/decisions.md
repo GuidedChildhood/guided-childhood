@@ -451,3 +451,33 @@ are the paper's own quarters, so a 285mm sheet throws both quarter folds 4.5mm
 out. Decided: full sheet, margin zero, the safe area held inside the panels, fold
 ticks on the outer edge. The class edition has the same fault and needs its own
 look. Chrome's Background graphics default also had the cover printing white.
+
+## 17 September 2026, a way in that needs no forwarding at all
+
+**Justin: "Is there a way without having to set up forward?"** (PR #1105). Yes, and
+the best one reaches what forwarding never could. Snap a photo of the letter, or
+paste the text, and the same DiGi extraction that reads forwarded emails reads
+that instead. No address, no rule, no email provider, nothing set up.
+
+**The reason it beats forwarding is the paper.** A large share of primary school
+communication has never been an email: the letter in the book bag, the note in
+the reading record, the trip slip, the sheet by the door at pickup. No forwarding
+rule catches any of it, and a parent holding one is exactly when this is useful.
+
+**One extractor, not two.** The prompt and validation moved out of the inbound
+webhook into `lib/school/extract.ts`, shared by both ways in, so the email path
+and the photo path can never drift. Saving goes through the existing
+POST /api/school/actions, which already owns dedupe and the per child check.
+
+**It shows what it found before saving anything**, unlike the email path. Email
+arrives while the parent is elsewhere; a photo is taken while they are standing
+there holding the letter, which is the one moment they can check a date better
+than we can read it.
+
+**The image is never stored**, same promise as email. iPhone photos are
+downscaled and converted to JPEG in the browser first, because HEIC is the normal
+case for this feature and the API cannot read it.
+
+**Ruled out: reading the inbox via Gmail.** `gmail.readonly` is a Google
+restricted scope needing an annual paid third party security assessment, and it
+breaks the line that makes a nervous parent say yes.

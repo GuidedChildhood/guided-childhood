@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac, timingSafeEqual } from 'crypto'
-import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { extractSchoolItems } from '@/lib/school/extract'
 import { sendPush } from '@/lib/push/send'
 
 // Inbound school email webhook. The email provider POSTs forwarded school
@@ -32,8 +31,6 @@ import { sendPush } from '@/lib/push/send'
 // forwarding-noreply@google.com. We catch that email, store the code and
 // link on the school_connections row, and the setup screen polls
 // /api/school/connect to display them so the parent never leaves the flow.
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 const SVIX_TOLERANCE_SECONDS = 300
 
@@ -164,25 +161,6 @@ async function recordArrival(
   } catch { /* the status line goes stale, the email still lands */ }
 }
 
-async function extract(subject: string, body: string, schoolName: string) {
-  const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
-  for (const model of models) {
-    try {
-      const res = await anthropic.messages.create({
-        model,
-        max_tokens: 600,
-        messages: [{
-          role: 'user',
-          content: `Extract actionable items for a parent from this school email from ${schoolName}. Only real actions a parent must do or remember: kit to bring (coat, PE kit, water bottle, wellies), payments due, homework or practice (times tables, reading), events and trips with dates, deadlines, important notices. Ignore newsletters with no action. Exception: if the email is only a notification that a message, post or update is waiting inside an app (ClassDojo, Tapestry, Seesaw, Arbor, ParentPay and similar) and the content itself is not included, return exactly one notice item telling the parent to check that app, naming the sender if given, for example {"kind":"notice","title":"Check ClassDojo message from Miss Smith","detail":"ClassDojo says a new message is waiting in the app.","due_date":null}. Today is ${new Date().toISOString().slice(0, 10)}.\n\nSubject: ${subject}\n\n${body.slice(0, 4000)}\n\nReturn ONLY a JSON array (empty if no actions): [{"kind":"kit|payment|homework|event|deadline|notice","title":"max 10 words, imperative","detail":"one sentence","due_date":"YYYY-MM-DD or null"}]`,
-        }],
-      })
-      const text = res.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
-      const match = text.match(/\[[\s\S]*\]/)
-      return match ? JSON.parse(match[0]) as { kind: string; title: string; detail?: string; due_date?: string | null }[] : []
-    } catch { /* try next model */ }
-  }
-  return []
-}
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text()
@@ -295,15 +273,15 @@ export async function POST(req: NextRequest) {
   // one for the parent to read back.
   const schoolLabel = conn.school_name?.trim() || from.split('@')[1] || 'your school'
 
-  const items = (await extract(subject, body, schoolLabel)).slice(0, 5)
-  if (items.length === 0) return NextResponse.json({ ok: true, actions: 0, arrival: true })
-
-  const valid = items.filter(i => ['kit', 'payment', 'homework', 'event', 'deadline', 'notice'].includes(i.kind) && i.title)
-  if (valid.length === 0) return NextResponse.json({ ok: true, actions: 0 })
+  // The kind check and the field trimming that used to sit here are inside
+  // extractSchoolItems now, so the photo path gets exactly the same validation
+  // rather than its own copy of it.
+  const valid = (await extractSchoolItems({ schoolName: schoolLabel, subject, body })).slice(0, 5)
+  if (valid.length === 0) return NextResponse.json({ ok: true, actions: 0, arrival: true })
 
   await supabase.from('school_actions').insert(valid.map(i => ({
-    user_id: conn.user_id, kind: i.kind, title: i.title.slice(0, 120),
-    detail: i.detail?.slice(0, 300) ?? null, due_date: i.due_date || null,
+    user_id: conn.user_id, kind: i.kind, title: i.title,
+    detail: i.detail ?? null, due_date: i.due_date || null,
   })))
 
   const promptTitle = valid.length === 1 ? valid[0].title : `${valid.length} things from ${schoolLabel}`
