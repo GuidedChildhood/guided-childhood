@@ -509,3 +509,15 @@ school name is known, which the NOT NULL blocked outright.
 13 September run both were real. The order is doing its job: the ledger produced
 the candidates, the live schema decided, and the code grep said which one was
 costing us something today.
+
+## 18 September 2026 — migration 304 applied, column and backfill together
+
+304 was on main and not in the database. Applied as one statement on purpose:
+the column alone would have shown the day one acknowledgement screen to the 17
+families who have already rated, because once the column exists the guarded read
+in `lib/checkin/today.ts` stops failing and starts returning null. The backfill
+is what stops that, so it cannot land a moment later.
+
+Verified: 17 rated and 17 confirmed, zero mismatches, zero established families
+reading as day one, 11 genuinely new. Nothing was broken before this, because
+that same guarded read treats a missing column as confirmed.
