@@ -216,6 +216,7 @@ jobs:
       - run: node scripts/check-tab-bar-clear.mjs
       - run: node scripts/check-watch-stage-copy.mjs
       - run: node scripts/check-kid-ask-visible.mjs
+      - run: node scripts/check-trial-countdown-words.mjs
 
       # A lesson and the daily quiz are one objective, and the day counts
       # either. Teo passed a lesson on a day whose learning step was the quiz:
@@ -347,6 +348,13 @@ jobs:
       # copy of the zine fold still folds until the two copies disagree.
       # Header of check-passport-bridge.mjs.
       - run: node scripts/check-passport-bridge.mjs
+      # The printed passport has to fit the paper. Measured 16 September
+      # 2026: both print routes went to the printer 7 per cent too big,
+      # because the dashboard shell's 1.07 zoom applies on paper and neither
+      # print block reset it, and the burgundy cover came out white because
+      # Chrome ships with background graphics off. Neither is visible to a
+      # typecheck or a screenshot. Header of check-passport-print-geometry.
+      - run: node scripts/check-passport-print-geometry.mjs
       # The lesson tracker's contract. Every rule guards the thing that would
       # turn a green tick back into a form: a row moved into the automatic
       # block without a detector, a tick stored rather than computed, the

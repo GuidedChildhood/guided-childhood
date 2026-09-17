@@ -11,7 +11,7 @@ import { stickerArt } from '@/lib/stickers/catalog'
 import StickerBadge from '@/components/pathway/StickerBadge'
 import { characterForStage } from '@/lib/content/stage-characters'
 import PrintButton from './PrintButton'
-import { STAGE_IDS, STAGE_COLOURS, BURGUNDY, GOLD } from '@/lib/pathway/passport-print-style'
+import { STAGE_IDS, STAGE_COLOURS, BURGUNDY_FLAT, GOLD, PASSPORT_PRINT_RESET } from '@/lib/pathway/passport-print-style'
 
 // The printed passport, page by page, at A6.
 //
@@ -67,12 +67,11 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
       <style>{`
         @media print {
           @page { size: A6 portrait; margin: 0; }
-          body { background: #fff !important; }
+          ${PASSPORT_PRINT_RESET}
           .gc-passport-print { max-width: none !important; padding: 0 !important; margin: 0 !important; }
           .gc-pp-screen { display: none !important; }
           .gc-pp-pages { display: block !important; }
           .gc-pp-page { box-shadow: none !important; border-radius: 0 !important; page-break-after: always; break-after: page; margin: 0 !important; }
-          .bottom-tab-bar, nav, header, [data-rightnow] { display: none !important; }
         }
       `}</style>
 
@@ -104,7 +103,7 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
 
       <div className="gc-pp-pages" style={{ display: 'flex', flexWrap: 'wrap', gap: 18, justifyContent: 'center' }}>
         {/* COVER */}
-        <div className="gc-pp-page" data-page="cover" style={{ ...page, background: BURGUNDY, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, padding: 24, textAlign: 'center', boxShadow: `inset 0 0 0 3mm rgba(237,195,95,0.35), ${page.boxShadow}` }}>
+        <div className="gc-pp-page" data-page="cover" style={{ ...page, background: BURGUNDY_FLAT, color: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, padding: 24, textAlign: 'center', boxShadow: `inset 0 0 0 3mm rgba(237,195,95,0.35), ${page.boxShadow}` }}>
           <span style={{ ...mono, fontSize: 11, opacity: 0.85 }}>Guided Childhood</span>
           <span style={{ width: 62, height: 62, borderRadius: '50%', border: `3px solid ${GOLD}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30 }} aria-hidden>🛂</span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 24, lineHeight: 1.05, letterSpacing: '-0.01em' }}>Digital Literacy<br />Passport</span>
@@ -212,7 +211,7 @@ export default async function PassportPrintPage({ searchParams }: { searchParams
         </div>
 
         {/* BACK */}
-        <div className="gc-pp-page" data-page="back" style={{ ...page, background: BURGUNDY, color: GOLD, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, textAlign: 'center' }}>
+        <div className="gc-pp-page" data-page="back" style={{ ...page, background: BURGUNDY_FLAT, color: GOLD, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, textAlign: 'center' }}>
           <p style={{ ...mono, fontSize: 10, lineHeight: 1.8, margin: 0 }}>Guided Childhood<br />guidedchildhood.com<br /><span style={{ opacity: 0.7 }}>A staged path from four to sixteen</span></p>
         </div>
       </div>

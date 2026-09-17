@@ -84,6 +84,46 @@ check('nothing is shrunk below readable', fits.every(f => f >= 0.6), `smallest $
 // measuring, and would print off the edge of the paper.
 check('nothing is scaled up', fits.every(f => f <= 1))
 
+// ── THE PASSPORT ZINE: ONE SHEET IN, ONE PAGE OUT ───────────────────────────
+//
+// Justin, 16 September 2026: the printed passport "needs to be premium and
+// ability to print and put together". It could not be printed at all, and it
+// took a real PDF to see it: the A4 sheet came out at 317.8mm by 224.7mm and
+// spilled onto two pages, because the dashboard shell's 1.07 zoom applies on
+// paper as well as on screen. Every number here is measured off the page in
+// print media, not read off the source.
+//
+// /ref-passport-zine renders the real component with made up numbers and now
+// carries the real route's print block, which is what makes it measurable
+// without a login.
+const zine = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+await zine.goto(`${BASE}/ref-passport-zine`, { waitUntil: 'networkidle' })
+await zine.emulateMedia({ media: 'print' })
+await zine.waitForTimeout(800)
+
+const sheet = await zine.evaluate(() => {
+  const el = document.querySelector('section[aria-label*="passport"]')
+  if (!el) return null
+  const r = el.getBoundingClientRect()
+  const mm = px => +(px * (25.4 / 96)).toFixed(2)
+  return { w: mm(r.width), h: mm(r.height), bodyZoom: String(getComputedStyle(document.body).zoom) }
+})
+if (!sheet) {
+  check('the passport sheet renders at all', false, 'no sheet found on /ref-passport-zine')
+} else {
+  // A4 landscape, to a tenth of a millimetre. The margin is zero on purpose:
+  // a zine folds on the paper's own quarters, so the sheet IS the paper and
+  // the safe area is held inside the panels.
+  check('passport sheet is a true A4 landscape',
+    Math.abs(sheet.w - 297) < 0.5 && Math.abs(sheet.h - 210) < 0.5,
+    `${sheet.w} by ${sheet.h}mm`)
+  check('the 1.07 zoom is off on paper', sheet.bodyZoom === '1', `body zoom ${sheet.bodyZoom}`)
+}
+
+const zinePdf = await zine.pdf({ printBackground: true, preferCSSPageSize: true })
+const zinePages = (zinePdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length
+check('one sheet in, one page out', zinePages === 1, `${zinePages} pages`)
+
 await browser.close()
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)
 process.exit(failures === 0 ? 0 : 1)
