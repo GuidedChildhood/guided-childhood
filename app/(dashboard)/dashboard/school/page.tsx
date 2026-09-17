@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { getFamilyRegion } from '@/lib/learning/region'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
+import SchoolLetterbox from '@/components/school/SchoolLetterbox'
 import { getChildren } from '@/lib/children/server'
 
 // The school section: your live alerts first (the things you need to know,
@@ -104,20 +105,12 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
         />
       </div>
 
-      {/* Email forwarding is coming soon: the automatic pull from school emails
-          is being finished alongside the app wrap for Apple. The manual weekly
-          routines above are live and do the everyday job now. */}
-      <div style={{ background: '#fff', border: '2px dashed var(--ink)', borderRadius: 'var(--radius-card)', padding: '20px' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
-          Forward your school emails · coming soon
-        </p>
-        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25, margin: '0 0 8px' }}>
-          Automatic school email reminders are on the way
-        </h3>
-        <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.6, margin: 0 }}>
-          Soon you will forward your school&apos;s emails to a private address and DiGi will pull out the kit days, trips, payments and homework for you, no typing. We are finishing it off alongside the phone app. For now, add your weekly routines above and they will remind you and your child every week.
-        </p>
-      </div>
+      {/* The letterbox, live since 17 September 2026.
+          This is where the Home promo card has always pointed, and until now
+          what it landed on was a dashed box saying the feature was coming. The
+          setup itself lives here rather than in Settings, because this is the
+          page a parent is on when they think about school. */}
+      <SchoolLetterbox />
     </div>
   )
 }
