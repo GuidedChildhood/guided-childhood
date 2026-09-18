@@ -719,3 +719,16 @@ holds the join, because that failure is completely silent.
 A worry at five stars drops out of the strand and its next idea is not marked
 spent. Nothing in the strand can write a prompt card, so the cap stays the
 only door. PR 1116.
+
+## 18 September 2026 — migration 307 applied, before the queue refilled
+
+307 landed on main with #1117 and was not in the database. This one was not
+guarded: the followups cron names `approach, band_at_suggestion` inside its main
+select, and it does not check the error, so a missing column makes `due` null and
+the cron returns "delivered 0" looking healthy. The outcome route would have 500d
+a parent rating a suggestion.
+
+Caught before it cost anything: all 6 follow ups were already delivered and the
+pending queue was empty, so no card was missed in the window. Verified by
+replaying the cron's exact select, which now parses and runs, plus both column
+sets, the comments and the partial strand index.
