@@ -217,6 +217,14 @@ jobs:
       # in both directions: making the check in lead every day would satisfy
       # the first rule and quietly delete lesson, DiGi and passport days.
       - run: node scripts/check-checkin-leads-the-road.mjs
+      # The monthly review reports what MOVED, not just minutes. Measured on
+      # 18 September: 23 worries have reached done across every family and 134
+      # are still being chased, which is the number this email exists to make
+      # visible. The rule that looks like a detail is the one that matters: a
+      # child with no timer run used to be dropped, so a family who never
+      # started one got no email at all, and they are exactly the family whose
+      # worries are the only reason they are here.
+      - run: node scripts/check-monthly-review.mjs
       - run: node scripts/check-screens-rest.mjs
       - run: node scripts/check-job-row.mjs
       - run: node scripts/check-job-icons.mjs

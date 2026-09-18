@@ -13,6 +13,7 @@ import {
 } from '@/lib/email/blocks'
 import { emailFriend } from '@/lib/email/friends'
 import { APP_ORIGIN } from '@/lib/config/site'
+import type { MonthProgress } from '@/lib/email/month-progress'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -730,9 +731,20 @@ export function weeklyReviewEmail(params: {
 /** One child's month, for the monthly balance email. */
 export type MonthlyChild = {
   childLabel: string
-  pace: MonthPace
+  /**
+   * OPTIONAL SINCE 18 SEPTEMBER 2026, and that is the point.
+   *
+   * A child with no logged screen time used to be dropped from this email
+   * entirely, and a family where no child had any got no email at all. That
+   * was right while the email was only about minutes. It is wrong now that it
+   * also reports the worries, because the parent who never runs the timer is
+   * exactly the parent whose worries are the only thing they came here for.
+   */
+  pace?: MonthPace | null
   /** The heaviest device of the month, when there was one. */
   heaviest?: { label: string; minutes: number } | null
+  /** What moved this month: worries, lessons, stages. See lib/email/month-progress. */
+  progress?: MonthProgress | null
 }
 
 // ── EVERY CHILD IN THE ONE EMAIL (18 August 2026) ──────────────────────────
@@ -763,7 +775,47 @@ export function monthlyBalanceEmail(params: {
   const many = children.length > 1
 
   const block = (c: MonthlyChild) => {
-    const { childLabel, pace, heaviest } = c
+    const { childLabel, pace, heaviest, progress } = c
+
+    // ── WHAT MOVED, WHICH IS WHY THEY ARE HERE ───────────────────────────
+    //
+    // Justin, 18 September 2026: the monthly review should show "these have
+    // all progressed" and also summarise "the child's progress and passport
+    // progress".
+    //
+    // Deliberately ABOVE the screen time block. A parent opens this to find
+    // out whether the thing they were worried about is getting better, and
+    // minutes are the supporting detail, not the headline.
+    const progressBlock = progress && (progress.tracked > 0 || progress.moved > 0 || progress.rested > 0 || progress.lessonsPassed > 0 || progress.stagesAwarded > 0)
+      ? `<div style="background:#EDF5F1;border:1px solid #D6E5DF;border-radius:16px;padding:20px 22px;margin:0 0 20px">
+           <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#236F52;margin-bottom:10px">What moved this month</div>
+           <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};line-height:1.4">
+             ${progress.moved > 0 ? `${progress.moved} of the ${progress.tracked + progress.rested} we are working on moved up.` : `${progress.tracked} still being worked on.`}
+             ${progress.rested > 0 ? ` ${progress.rested} reached five stars and stopped being asked about.` : ''}
+           </div>
+           ${progress.biggestMover
+             ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">The biggest change was ${progress.biggestMover.label}, ${progress.biggestMover.from} star${progress.biggestMover.from === 1 ? '' : 's'} to ${progress.biggestMover.to}.</div>`
+             : ''}
+           ${progress.lessonsPassed > 0 || progress.stagesAwarded > 0
+             ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">${[
+                 progress.lessonsPassed > 0 ? `${progress.lessonsPassed} lesson${progress.lessonsPassed === 1 ? '' : 's'} passed` : '',
+                 progress.stagesAwarded > 0 ? `${progress.stagesAwarded} stage${progress.stagesAwarded === 1 ? '' : 's'} stamped on the passport` : '',
+               ].filter(Boolean).join(', ')}.</div>`
+             : ''}
+         </div>`
+      : ''
+
+    // No timer run, no minutes block. Saying nothing is honest; a zero would
+    // be a lie dressed as praise.
+    if (!pace) {
+      return (
+        (many
+          ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};margin:0 0 10px">${childLabel}</div>`
+          : '') +
+        progressBlock +
+        p('No screen time was logged this month, so there is no minutes figure here. Start a timer any day and next month will have one.')
+      )
+    }
 
     const tone = pace.verdict === 'well_over'
       ? { bg: '#FDECEC', border: '#F3C9C9', ink: '#A33A3A' }
@@ -780,6 +832,7 @@ export function monthlyBalanceEmail(params: {
       (many
         ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};margin:0 0 10px">${childLabel}</div>`
         : '') +
+      progressBlock +
       `<div style="background:${tone.bg};border:1px solid ${tone.border};border-radius:16px;padding:20px 22px;margin:0 0 20px">
          <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:${tone.ink};margin-bottom:10px">${pace.headline}</div>
          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;line-height:1;color:${INK};letter-spacing:-0.02em">${pace.average} <span style="font-size:19px;font-weight:800">minutes a day</span></div>
@@ -795,15 +848,27 @@ export function monthlyBalanceEmail(params: {
   }
 
   const first = children[0]
+  const anyPace = children.some(c => !!c.pace)
   return {
+    // The subject names the month rather than the minutes now, because the
+    // email is no longer only about minutes and a child with no timer run has
+    // no headline to borrow.
     subject: many
-      ? `Your family's screen time in ${monthLabel}`
-      : `${first.childLabel}'s screen time in ${monthLabel}: ${first.pace.headline.toLowerCase()}`,
+      ? `Your family's ${monthLabel}: what moved`
+      : `${first.childLabel}'s ${monthLabel}: what moved`,
     html: wrapper(
-      heading(many ? `${monthLabel}, child by child` : `${monthLabel}, in one number`) +
+      heading(many ? `${monthLabel}, child by child` : `${monthLabel}, what moved`) +
       children.map(block).join('') +
-      button('See the full picture', `${APP}/dashboard/stats`) +
-      p(`This is a budget, not a rule. A heavy weekend does not break anything, it just makes the next few days a little lighter. Nothing here is compared against another family, or against each other.`),
+      // ── THE FOOT HAS TO MATCH WHAT IS ACTUALLY IN THE EMAIL ────────────
+      //
+      // Both of these used to assume every email was about minutes. An email
+      // to a family who has never run a timer closed with a paragraph about
+      // budgets and a button to an empty screen time page, which is the small
+      // kind of wrong that tells a reader nobody checked.
+      button(anyPace ? 'See the full picture' : 'See what we are working on', `${APP}${anyPace ? '/dashboard/stats' : '/dashboard/pathway'}`) +
+      (anyPace
+        ? p(`This is a budget, not a rule. A heavy weekend does not break anything, it just makes the next few days a little lighter. Nothing here is compared against another family, or against each other.`)
+        : p(`Nothing here is compared against another family, or against each other. We keep asking about each one until it rests at five stars.`)),
       unsubscribe
     ),
   }

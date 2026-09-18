@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { monthlyBalanceEmail, type MonthlyChild } from '@/lib/email/templates'
 import { buildMonthPace } from '@/lib/balance/pace'
+import { buildMonthProgress, progressWorthSending, EMPTY_PROGRESS } from '@/lib/email/month-progress'
+import { sendPush } from '@/lib/push/send'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import {
@@ -125,11 +127,34 @@ async function handler(req: NextRequest) {
       const lastMonth = inRange(prevStart, monthStart)
       const sum = (list: typeof rows) => list.reduce((n, r) => n + (Number(r.minutes) || 0), 0)
 
+      // ── WHAT MOVED, READ BEFORE ANYTHING IS DECIDED ─────────────────────
+      //
+      // Justin, 18 September 2026: the monthly review should show the worries
+      // "have all progressed" and summarise the child's and the passport's
+      // progress too.
+      //
+      // Allowed to fail on its own. This runs inside the same sixty seconds
+      // that sends the email, and a bad read here must cost a sentence rather
+      // than a family's whole review.
+      const progress = await buildMonthProgress(supabase, profile.id, child.id, monthStart, monthEnd)
+        .catch(() => EMPTY_PROGRESS)
+
       // Nothing logged is not a zero minute month, it is a child nobody ran the
       // timer for. Reporting "0 minutes a day, on track" would be a lie dressed
-      // as praise, so that CHILD is left out of the email rather than invented.
-      // If no child has anything, the family gets no email at all, below.
-      if (thisMonth.length === 0) continue
+      // as praise, so the minutes block is left out rather than invented.
+      //
+      // WHAT CHANGED ON 18 SEPTEMBER: that used to drop the whole CHILD, and a
+      // family where nobody ran a timer got no email at all. Correct while this
+      // was only about minutes. Wrong now, because the parent who never starts
+      // a timer is exactly the parent whose worries are the only reason they
+      // are here. So a child with no minutes but real progress still gets a
+      // block; a child with neither is still left out.
+      if (thisMonth.length === 0) {
+        if (!progressWorthSending(progress)) continue
+        const childLabelOnly = child.name && child.name !== 'Your child' ? child.name : 'your child'
+        blocks.push({ childLabel: childLabelOnly, pace: null, heaviest: null, progress })
+        continue
+      }
 
       const pace = buildMonthPace({
         usedThisMonth: sum(thisMonth),
@@ -152,7 +177,7 @@ async function handler(req: NextRequest) {
       const heaviest = top ? { label: `the ${deviceLabel(top[0]).toLowerCase()}`, minutes: top[1] } : null
 
       const childLabel = child.name && child.name !== 'Your child' ? child.name : 'your child'
-        blocks.push({ childLabel, pace, heaviest })
+        blocks.push({ childLabel, pace, heaviest, progress })
       }
 
       if (blocks.length === 0) { noData += 1; continue }
@@ -163,6 +188,28 @@ async function handler(req: NextRequest) {
       if (result === 'sent') sent += 1
       else if (result === 'failed') failed += 1
       else skipped += 1
+
+      // ── AND A TAP ON THE PHONE WHEN IT LANDS ────────────────────────────
+      //
+      // Justin, 18 September 2026: "by email and PWA saying [the] monthly
+      // email summary is in".
+      //
+      // Only on a genuine send. A push saying the summary is in, for a month
+      // where the email was throttled or failed, sends a parent to look for
+      // something that is not there.
+      //
+      // Parent audience on purpose, which is what leaves child quiet hours
+      // alone: this is a review of a child written for an adult, and it must
+      // never reach the child's device at all.
+      if (result === 'sent') {
+        await sendPush({
+          userId: profile.id,
+          audience: 'parents',
+          title: `Your ${monthLabel} summary is in`,
+          body: 'What moved, what rested, and where the screens went.',
+          url: '/dashboard/stats',
+        }).catch(() => null)
+      }
     } catch {
       failed += 1
       remaining += 1
