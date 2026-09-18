@@ -64,3 +64,20 @@
 }
 .gc-tap:hover { transform: translateY(-2px); }
 .gc-tap:active { transform: translateY(1px); }
+
+/* The loading skeleton's shimmer, and the one place in this app that animates
+   on its own rather than in answer to a person. The reduced motion block above
+   catches it, because that block covers animation-duration as well as
+   transition-duration: a skeleton that pulses forever is exactly the kind of
+   motion somebody turns motion off to escape. */
+@keyframes gc-shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Visible to a screen reader, invisible on screen. The skeleton is eleven grey
+   rectangles and aria-hidden; this is the one word that should be announced. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}

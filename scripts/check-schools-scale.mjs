@@ -33,7 +33,7 @@ const PRINT = ['QuizSheet', 'print/kit', 'print/[module]', 'print/passport/[stag
 // The counts on the day the ratchet was written. Lower these as batches land;
 // never raise them. A raise means the app got less consistent, which is the
 // one thing this file exists to stop.
-const CEILING = { font: 14, padding: 74, gap: 0 }
+const CEILING = { font: 10, padding: 73, gap: 0 }
 
 const files = []
 ;(function walk(d) {
