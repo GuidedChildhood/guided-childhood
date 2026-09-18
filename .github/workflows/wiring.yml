@@ -85,6 +85,10 @@ jobs:
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs
+      # The curriculum map is public and the lessons are not, so every card
+      # must say which doors open. A comment describing that bug did not stop
+      # it shipping; this does.
+      - run: node scripts/check-curriculum-honesty.mjs
       # The daily screen guide and the base under it. Both are just numbers, so
       # nothing else can catch a base that climbs above its own ceiling.
       - run: node scripts/check-screen-guide.mjs
