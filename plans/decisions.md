@@ -772,6 +772,7 @@ The tracker page itself gained `TickDemo`, which plays the seven automatic
 steps with the signal that fires each one, built from `schools-progress.ts` so
 it cannot drift, and excluding the two steps a teacher has to tick because a
 demo that ticked them would claim a detector we do not have. PR 1120.
+
 ## 18 September 2026 — migration 307 applied, before the queue refilled
 
 307 landed on main with #1117 and was not in the database. This one was not
