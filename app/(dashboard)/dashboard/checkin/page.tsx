@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
 import ConcernAcknowledge from '@/components/daily/ConcernAcknowledge'
+import AddMomentHere from '@/components/daily/AddMomentHere'
 import { getTodayCheckIn } from '@/lib/checkin/today'
 
 export const dynamic = 'force-dynamic'
@@ -216,18 +217,28 @@ export default async function CheckInPage({
                 a script or go to work. Now the sentence carries the timing, and
                 the timing is the promise: it joins the list, and the next check
                 in asks about it like everything else. */}
+            {/* ── ADD ANY NEW MOMENTS, IN HIS WORDS ────────────────────────
+                Justin, 18 September 2026: "it should say add any new moments
+                as copy and then [an] add moments [control] so they can add a
+                new moment to go on check in and fall into [the routine] each
+                day until it gets 5 stars."
+
+                Two changes, and the second is the one that matters. The words
+                now name the thing the rest of the product calls a moment,
+                rather than "something that happened", which was a different
+                name for the same object on the one screen that asks for it.
+
+                And the control is HERE rather than a link to the deck. Sending
+                a parent to another page to add the thing they are being asked
+                about is how a question becomes a chore, and the sheet is the
+                same one the Moment button opens everywhere else, so nothing new
+                was invented to do it. */}
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-              {tracking.waiting > 0 ? '' : 'Nothing is waiting on you. '}Did anything else happen today? Add it and it
-              goes on the tracker with the rest, and the next check in will ask how that one is going too.
+              {tracking.waiting > 0 ? '' : 'Nothing is waiting on you. '}Add any new moments from today and they go on
+              the tracker with the rest, then each check in asks how they are going until they reach five stars.
             </p>
             <p style={{ margin: '0 0 18px' }}>
-              <Link href="/dashboard/daily" style={{
-                display: 'inline-flex', padding: '12px 20px', background: '#fff',
-                color: 'var(--ink)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', textDecoration: 'none',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-              }}>
-                Add something that happened
-              </Link>
+              <AddMomentHere />
             </p>
             <Link href="/dashboard" style={{
               display: 'inline-flex', padding: '12px 20px', background: 'var(--terracotta)',

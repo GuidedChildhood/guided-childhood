@@ -40,6 +40,8 @@ import { readFileSync } from 'node:fs'
 
 const LOADER = 'lib/checkin/today.ts'
 const PAGE = 'app/(dashboard)/dashboard/checkin/page.tsx'
+const ADDER = 'components/daily/AddMomentHere.tsx'
+const RIGHTNOW = 'components/rightnow/RightNowButton.tsx'
 const CARD = 'components/daily/ConcernAcknowledge.tsx'
 const CONFIRM = 'app/api/checkin/confirm/route.ts'
 const MIGRATION = 'supabase/migrations/304_first_checkin_acknowledge.sql'
@@ -177,9 +179,45 @@ if (page) {
   if (!/tracking\.waiting > 0 \? '' : 'Nothing is waiting on you\. '/.test(bare)) {
     fail.push(`${PAGE}: the finished screen says "Nothing is waiting on you" whatever is still queued. It is true of today and false of the list, and it is the last thing a parent reads, so with four still to come round it is the sentence that loses their trust in the tracker.`)
   }
-  // The doorway for the thing that happened today and is on no list yet.
-  if (!/Did anything else happen today\?/.test(bare)) {
-    fail.push(`${PAGE}: the finished check in no longer asks whether anything else happened. That question is the only way a new worry joins the list between check ins, which is the half of Justin's ask that keeps the loop going until things go away.`)
+  // ── THE DOORWAY FOR A NEW MOMENT, AND ITS WORDS ──────────────────────────
+  //
+  // Justin, 18 September 2026: "it should say add any new moments as copy and
+  // then [an] add moments [control] so they can add a new moment to go on
+  // check in and fall into [the routine] each day until it gets 5 stars."
+  //
+  // This is the only way a worry that happened an hour ago joins the list
+  // between check ins, so losing it quietly ends the loop that is supposed to
+  // run until things go away.
+  if (!/Add any new moments/.test(bare)) {
+    fail.push(`${PAGE}: the finished check in no longer says to add any new moments. That sentence is the only invitation for the thing that happened this morning and is on no list yet.`)
+  }
+  if (!/until they reach five stars/.test(bare)) {
+    fail.push(`${PAGE}: the invitation no longer says where an added moment ends up. "Add it" without "and we chase it to five stars" is a suggestion box, which is the opposite of what this loop is.`)
+  }
+  if (!/<AddMomentHere \/>/.test(bare)) {
+    fail.push(`${PAGE}: the add control is gone from the check in. Sending a parent to another page to add the thing they were just asked about is how a thirty second job becomes an errand.`)
+  }
+  if (/Add something that happened/.test(bare)) {
+    fail.push(`${PAGE}: the check in is back to linking away to the deck instead of opening the sheet where the question was asked.`)
+  }
+
+  // ── ONE SHEET, ASKED FOR BY NAME ─────────────────────────────────────────
+  //
+  // The obvious way to put an add control on a second page is to render
+  // RightNowButton again there, and it is the wrong way: the sheet, its hint
+  // state, its localStorage key and its share panel would all exist twice on
+  // one page, and two sheets that can both be open is a bug looking for a
+  // Friday.
+  const adder = code(read(ADDER))
+  const rightnow = code(read(RIGHTNOW))
+  if (adder && (!/OPEN_MOMENT_EVENT/.test(adder) || !/dispatchEvent/.test(adder))) {
+    fail.push(`${ADDER}: the add control no longer asks the mounted sheet to open by name.`)
+  }
+  if (adder && /<RightNowButton/.test(adder)) {
+    fail.push(`${ADDER}: the add control renders a SECOND moment sheet rather than opening the one the layout already mounts. Two sheets on one page means two hint states, two share panels and two things that can be open at once.`)
+  }
+  if (rightnow && !/addEventListener\(OPEN_MOMENT_EVENT/.test(rightnow)) {
+    fail.push(`${RIGHTNOW}: the one mounted sheet no longer listens for the open request, so the add control on the check in does nothing at all.`)
   }
 }
 
