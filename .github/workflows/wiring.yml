@@ -247,6 +247,14 @@ jobs:
       # 'devices' reached nothing, and that is the second most common worry on
       # the product.
       - run: node --experimental-strip-types scripts/check-worry-strand.mjs
+      # Home shows ONE card at a time, newest first, which only works while
+      # every card can be cleared. A follow up could not be: its three verdict
+      # buttons render INSTEAD of the row that holds Dismiss, so it sat on top
+      # of everything else and the only way past was to grade advice you may
+      # not have managed to try. It typechecks and it looks finished on the
+      # screen. You only find it by asking "and what if I do not want to
+      # answer", which is not a question a build step knows to ask.
+      - run: node scripts/check-card-can-be-put-down.mjs
       - run: node scripts/check-screens-rest.mjs
       - run: node scripts/check-job-row.mjs
       - run: node scripts/check-job-icons.mjs

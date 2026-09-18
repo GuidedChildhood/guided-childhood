@@ -132,6 +132,7 @@ export default function DigiPrompts() {
             outcomeId={p.outcome_id}
             promptId={p.id}
             onAnswered={() => { setOpen(false); setPrompts(list => list.filter(x => x.id !== p.id)) }}
+            onNotNow={() => { setOpen(false); dismiss(p.id) }}
           />
         ) : (
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -192,8 +193,8 @@ const ANSWERS: { verdict: 'worked' | 'partly' | 'no'; label: string; bg: string;
 ]
 
 function FollowUpAnswer({
-  outcomeId, promptId, onAnswered,
-}: { outcomeId: string; promptId: string; onAnswered: () => void }) {
+  outcomeId, promptId, onAnswered, onNotNow,
+}: { outcomeId: string; promptId: string; onAnswered: () => void; onNotNow: () => void }) {
   const [note, setNote] = useState('')
   const [busy, setBusy] = useState<string | null>(null)
 
@@ -254,6 +255,26 @@ function FollowUpAnswer({
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
         Not really is the most useful answer here. It is how DiGi learns what to suggest you instead.
       </p>
+      {/* ── AND A WAY TO PUT IT DOWN (18 September 2026) ──────────────────────
+          Every other card carries Dismiss in the row beside its link. This
+          branch renders the three answers INSTEAD of that row, so a follow up
+          was the only card in the product with no exit that was not a verdict.
+          Home shows one card at a time, newest first, so one of these sat on
+          top of everything else we had to say and could not be moved.
+          Found on test data, and that is the point: the first real parent to
+          receive one would have met a question they could not put down, with
+          their own good news queued behind it. */}
+      <button
+        onClick={onNotNow}
+        disabled={!!busy}
+        style={{
+          background: 'none', border: 'none', cursor: busy ? 'default' : 'pointer',
+          padding: '12px 0 0', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
+          fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)',
+        }}
+      >
+        Not now
+      </button>
     </div>
   )
 }

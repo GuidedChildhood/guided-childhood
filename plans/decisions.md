@@ -806,3 +806,35 @@ The cartoon fake is now settled policy for the scheme, not a one off. A fake of
 a Planet Friend is the only fake a classroom deck can carry honestly: you
 cannot print a real person's face on a forged post and hand it to thirty
 children. PR 1120.
+
+## 18 September 2026 — the live numbers are one tester, not behaviour
+
+Justin: "we only have me testing app, no live parents, but it is a good rule to
+use the users data to improve once we have real users."
+
+Worth writing down because a session got it wrong today. I read the prompt card
+table (12 of 16 acted on, 0 of 6 follow ups) and the script feedback rows (15 of
+40 answered) as evidence about how parents behave, and built a product
+recommendation on it. Every one of those rows is Justin testing his own product.
+The right reading was that we have not run the experiment at all.
+
+THE RULE. Until launch, treat production rows as proof that a PATH WORKS or
+that a column is empty, never as a measure of what a parent chose. A count is
+evidence of wiring. It is not evidence of behaviour.
+
+What survived the correction is the half that was code rather than data, and
+it was a real defect. See the entry below.
+
+## 18 September 2026 — every card on Home can be put down
+
+A follow up card was the only card in the product with no exit that was not a
+verdict: the Dismiss button lives in the row beside the card's link, and the
+follow up branch renders its three answers INSTEAD of that row. Home shows one
+card at a time, newest first, so a follow up sat on top and blocked everything
+queued behind it. On the test data one was sitting on a celebration from the
+same day, so the good news was stuck behind a question that could not be
+answered or refused.
+
+Nothing caught it: it typechecks and it looks finished on screen. "Not now",
+the same words the alert rows already use, plus
+scripts/check-card-can-be-put-down.mjs in CI.
