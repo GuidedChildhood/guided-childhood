@@ -78,6 +78,29 @@ export type TodayCheckIn = {
   childId: string | null
   childName: string | null
   /**
+   * WHAT IS STILL OURS, SO A CAP DOES NOT READ AS A SHRUG.
+   *
+   * Justin, 18 September 2026: "so how do we deal with more than 3 so users
+   * know we are on it?"
+   *
+   * The cap is right and it created this. A parent with seven worries answers
+   * three, meets "All done for today", and has nothing telling them the other
+   * four are still being worked on. The honest reading of that screen is that
+   * we quietly dropped four of the things they told us, which is the opposite
+   * of the promise the product is built on.
+   *
+   * So the loader hands the page the numbers to say it: how many live worries
+   * this child has that we are still asking about, and how many of those are
+   * waiting for their turn after today's three. The rotation is what makes the
+   * sentence true rather than a comfort: rows are ordered longest unasked
+   * first, so everything comes round and nothing falls off the bottom.
+   *
+   * `resting` is counted separately and deliberately not added to `waiting`. A
+   * worry at five stars has stopped being asked about because it is going well,
+   * and rolling it into "waiting" would turn good news into a backlog.
+   */
+  tracking: { total: number; waiting: number; resting: number }
+  /**
    * DAY ONE, WHICH IS AN ACKNOWLEDGEMENT RATHER THAN A READING.
    *
    * Justin, 17 September 2026, having just signed up and done his own first
@@ -328,6 +351,9 @@ export async function getTodayCheckIn(
       queue: [],
       childId: null,
       childName: null,
+      // Day one says its own thing about the whole list, so there is no cap to
+      // explain and nothing is waiting its turn yet.
+      tracking: { total: rows.length, waiting: 0, resting: 0 },
       acknowledge: { children: withAny.length > 0 ? withAny : [...byChild.values()] },
     }
   }
@@ -453,10 +479,25 @@ export async function getTodayCheckIn(
   // One branch, so the cap cannot be true on one path and absent on the other.
   const asked = mine.slice(0, roomFor(current?.id ?? HOUSEHOLD))
 
+  // What this child still has with us, counted AFTER the slice so the words
+  // match the screen. Everything live and not resting, minus the ones on the
+  // page right now and the ones already answered today.
+  const askKey = current?.id ?? HOUSEHOLD
+  const forThisChild = current
+    ? rows.filter(c => c.child_id === current.id || (!c.child_id && current.id === queue[0]?.id))
+    : hasKids ? [] : rows
+  const restingHere = forThisChild.filter(c => resting.has(c.id)).length
+  const tracking = {
+    total: forThisChild.length + (takenByChild.get(askKey) ?? 0),
+    waiting: Math.max(0, forThisChild.length - restingHere - asked.length),
+    resting: restingHere,
+  }
+
   return {
     acknowledge: null,
     baseline: asked.length > 0 && asked.every(c => freshIds.has(c.id)),
     queue,
+    tracking,
     childId: current?.id ?? null,
     childName: current?.name ?? null,
     rows: asked.map(c => {

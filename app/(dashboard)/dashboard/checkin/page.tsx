@@ -46,7 +46,7 @@ export default async function CheckInPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { rows, baseline, queue, childId, childName, acknowledge } = await getTodayCheckIn(supabase, user.id, childParam)
+  const { rows, baseline, queue, childId, childName, acknowledge, tracking } = await getTodayCheckIn(supabase, user.id, childParam)
 
   // ── DAY ONE IS ITS OWN SCREEN, AND IT RETURNS EARLY ──────────────────────
   //
@@ -132,6 +132,27 @@ export default async function CheckInPage({
             : (baseline ? 'Where things are now' : 'How is it going?')}
         </h1>
 
+        {/* ── THE ONES NOT ON THIS SCREEN ARE STILL OURS ─────────────────
+            Justin, 18 September 2026: "so how do we deal with more than 3 so
+            users know we are on it?"
+
+            The cap is right and it is what created the doubt. A parent who
+            named seven things and is shown three has every reason to think the
+            other four were quietly dropped, and there was nothing on the page
+            saying otherwise.
+
+            The promise is only worth making because the rotation makes it true:
+            rows come back longest unasked first, so everything comes round and
+            nothing falls off the bottom. Said once, here, in the same breath as
+            the number being asked. */}
+        {rows.length > 0 && tracking.waiting > 0 && (
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+            {rows.length} today. The other {tracking.waiting === 1 ? 'one' : tracking.waiting} we are tracking for{' '}
+            {childName ?? 'them'} {tracking.waiting === 1 ? 'comes' : 'come'} round over the next few days, longest
+            unasked first, so nothing gets dropped.
+          </p>
+        )}
+
         {/* Only when there is genuinely a queue. On a one child family this
             whole line is noise about a choice that does not exist. */}
         {queue.length > 1 && (
@@ -161,8 +182,20 @@ export default async function CheckInPage({
             borderRadius: 'var(--radius-card)', padding: '26px 22px', textAlign: 'center',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
-              All done for today
+              {tracking.waiting > 0 ? "That is today's check in done" : 'All done for today'}
             </p>
+            {/* WAITING IS NOT DROPPED, AND THIS IS WHERE THAT GETS SAID.
+                "Nothing is waiting on you" is true of today and false of the
+                list, and this is the screen a parent reads as the final word.
+                With four still to come round, saying nothing is waiting is the
+                sentence that loses their trust in the tracker. */}
+            {tracking.waiting > 0 && (
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+                {tracking.waiting} more {tracking.waiting === 1 ? 'is' : 'are'} on {childName ?? 'their'}
+                {childName ? "'s" : ''} tracker. We are still on {tracking.waiting === 1 ? 'it' : 'those'} and will ask
+                over the next few days, longest unasked first, so nothing gets dropped.
+              </p>
+            )}
             {/* ── ANYTHING ELSE TODAY ──────────────────────────────────────
                 Justin, 17 September 2026: "if any more moments to add so we
                 keep addressing the issues and helping until they go away."
@@ -184,8 +217,8 @@ export default async function CheckInPage({
                 the timing is the promise: it joins the list, and the next check
                 in asks about it like everything else. */}
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-              Nothing is waiting on you. Did anything else happen today? Add it and it goes on the tracker with the
-              rest, and the next check in will ask how that one is going too.
+              {tracking.waiting > 0 ? '' : 'Nothing is waiting on you. '}Did anything else happen today? Add it and it
+              goes on the tracker with the rest, and the next check in will ask how that one is going too.
             </p>
             <p style={{ margin: '0 0 18px' }}>
               <Link href="/dashboard/daily" style={{

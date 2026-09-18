@@ -111,6 +111,22 @@ if (loader) {
   if ((bare.match(/\.slice\(0,\s*roomFor\(/g) ?? []).length !== 1) {
     fail.push(`${LOADER}: the day's questions are sliced in more or fewer than one place. One branch is what makes the cap true on every path.`)
   }
+  // ── A CAP MUST NOT READ AS A SHRUG ────────────────────────────────────────
+  //
+  // Justin, 18 September 2026: "so how do we deal with more than 3 so users
+  // know we are on it?"
+  //
+  // The cap is right and it created this. Three of seven answered, then a
+  // screen saying all done, is a product quietly dropping four of the things a
+  // parent told it. These rules hold the arithmetic behind the sentence that
+  // makes the cap honest, because a promise with a wrong number under it is
+  // worse than no promise at all.
+  if (!/tracking:\s*\{\s*total:\s*number;\s*waiting:\s*number;\s*resting:\s*number\s*\}/.test(bare)) {
+    fail.push(`${LOADER}: the loader no longer tells the page how many worries are waiting their turn, so nothing on screen can say the ones not asked today are still being worked on.`)
+  }
+  if (!/waiting:\s*Math\.max\(0,\s*forThisChild\.length\s*-\s*restingHere\s*-\s*asked\.length\)/.test(bare)) {
+    fail.push(`${LOADER}: the waiting count is no longer the live list minus what is resting and minus what is on screen. Counting a resting worry as waiting turns five stars into a backlog, and forgetting to subtract today's rows tells a parent we owe them more than we do.`)
+  }
   // A worry with no child of its own still spends someone's allowance. Drop it
   // from the count and a household whose worries are all unassigned has a cap
   // that subtracts nothing, which is the same bypass by another door.
@@ -149,6 +165,17 @@ if (page) {
   }
   if (!/<ConcernAcknowledge[\s\S]{0,400}?\n  \}/.test(bare)) {
     fail.push(`${PAGE}: the acknowledgement branch does not return early. Everything below it belongs to a reading, including the child switcher and the redirect that rewrites ?child=, and none of it applies to a list you are agreeing to.`)
+  }
+  // ── THE ONES NOT ASKED TODAY ARE STILL OURS, AND IT HAS TO SAY SO ────────
+  // TWICE, because they are two different screens in a parent's day: the line
+  // above the questions while they answer, and the line after the last one.
+  // Losing either leaves a moment where the cap looks like a shrug, and they
+  // carry the same words on purpose so the promise cannot drift between them.
+  if ((bare.match(/unasked first, so nothing gets dropped/g) ?? []).length < 2) {
+    fail.push(`${PAGE}: the promise that the worries not asked about today come round is missing from one of the two screens that need it, the line above the questions or the line after the last one. With a cap of three and a parent who named seven, that sentence is the whole difference between a short day and a product that forgets.`)
+  }
+  if (!/tracking\.waiting > 0 \? '' : 'Nothing is waiting on you\. '/.test(bare)) {
+    fail.push(`${PAGE}: the finished screen says "Nothing is waiting on you" whatever is still queued. It is true of today and false of the list, and it is the last thing a parent reads, so with four still to come round it is the sentence that loses their trust in the tracker.`)
   }
   // The doorway for the thing that happened today and is on no list yet.
   if (!/Did anything else happen today\?/.test(bare)) {
