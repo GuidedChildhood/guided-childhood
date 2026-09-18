@@ -662,3 +662,14 @@ rather than a design one. Named in the plan rather than buried.
 
 Detail in PR 1115, plans/2026-09-18-schools-motion-batch-3.md and
 plans/2026-09-18-schools-states-batch-4.md.
+## 18 September 2026 — migration 306 applied, the note the feature exists for
+
+305 was already applied (as school_promo_dismissal_305). 306 was not:
+`device_setup_progress.agreed_note` did not exist. Both readers fall back when
+the column is missing, so a family choosing "agreed" still got the passport
+credit, and only the line explaining what they agreed was silently dropped.
+That line is the whole point of the third answer, so it was worth applying now
+rather than waiting.
+
+Verified: column is text with the comment word for word, 13 rows, no check
+constraint on status (so 'agreed' needed no DDL, as the file says).
