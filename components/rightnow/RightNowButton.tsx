@@ -31,6 +31,9 @@ const SITUATIONS = [
   { key: 'something-else', label: 'Something else',                 image: null,                       emoji: '✨', slot: 'any' },
 ] as const
 
+/** Asked for by name so the sheet can live in one place. See the listener below. */
+export const OPEN_MOMENT_EVENT = 'gc:open-moment'
+
 type SituationKey = (typeof SITUATIONS)[number]['key']
 
 // The situation most likely happening right now leads the grid: morning
@@ -122,6 +125,27 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   }, [open])
 
   useEffect(() => { setMounted(true) }, [])
+
+  // ── ONE SHEET, OPENABLE FROM ANYWHERE ─────────────────────────────────────
+  //
+  // Justin, 18 September 2026, on the check in: "add moments [control] so they
+  // can add a new moment to go on check in."
+  //
+  // The obvious way is to render this component again where it is wanted, and
+  // it is the wrong way: the sheet, its hint state, its localStorage key and
+  // its share panel would all exist twice on one page, and two sheets that can
+  // both be open is a bug looking for a Friday.
+  //
+  // So the sheet stays mounted once in the dashboard layout, and anything that
+  // wants it asks by name. AddMomentHere dispatches this; nothing else needs to
+  // know how the sheet works.
+  useEffect(() => {
+    const open = () => openSheet()
+    window.addEventListener(OPEN_MOMENT_EVENT, open)
+    return () => window.removeEventListener(OPEN_MOMENT_EVENT, open)
+    // openSheet only resets state, so it never needs to be a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // One time coach mark: explain the button before its first ever use. It waits
   // about a minute after login and until nothing else is up (the welcome sheet
