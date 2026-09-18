@@ -63,11 +63,6 @@ const DOCS = [
     body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
-    href: '/hub/tracker', emoji: '✅', accent: 'var(--green-dark)',
-    title: 'Lesson tracker',
-    body: 'Every lesson and whether it is done, ticking itself as you read, print, teach and finish. Prints as a coverage sheet for your file. It records that a lesson was delivered, never who was in the room.',
-  },
-  {
     href: '/hub/passport', emoji: '🛂', accent: 'var(--gold-dark)',
     title: 'The passport, page by page',
     body: 'The five pages of the passport to sixteen and how far this screen has taken your classes through them. Counted here and nowhere else: no pupil, no login, no upload.',
@@ -103,6 +98,47 @@ export default async function HubPage() {
           the parent pack, data protection and staff briefings. Every document prints from the page,
           and every one regenerates automatically when the curriculum changes, so nothing here can go stale.
         </p>
+
+        {/* THE LEAD. Everything else in the Hub is a document a school reads
+            once and files. The tracker is the only page that produces
+            EVIDENCE, and it was the eighth card in a grid of eleven, which is
+            where a subject lead never found it (Justin, 18 September 2026:
+            "the tracker should be more prominent"). One lead card, then the
+            documents, rather than twelve things of equal weight. */}
+        <Link className="gc-tap" href="/hub/tracker" style={{
+          display: 'block', textDecoration: 'none', marginBottom: 'var(--space-4)',
+          background: '#fff', border: '1px solid var(--border)', borderTop: '4px solid var(--green-dark)',
+          borderRadius: 'var(--radius-card)', padding: 'var(--space-4)',
+          boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 18px 44px -22px rgba(23,60,70,0.34)',
+        }}>
+          <span style={{ ...eyebrow, color: 'var(--green-dark)', display: 'block', marginBottom: '6px' }}>
+            Start here · your coverage record
+          </span>
+          <span style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
+            <span aria-hidden style={{ fontSize: 'var(--text-3xl)', flexShrink: 0, lineHeight: 1 }}>✅</span>
+            <span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '6px' }}>
+                Lesson tracker →
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '12px' }}>
+                Every lesson ticks itself as you read it, print the pack, open the board, reach the finish and
+                fill the passport page. Nothing is tapped by hand, which is why the green is worth something.
+              </span>
+              <span style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+                {[
+                  ['Achieves', 'a printable coverage record of the whole scheme'],
+                  ['Helps', 'answers a deep dive on one page, no spreadsheet'],
+                  ['Never', 'who was in the room. No pupil data, no accounts'],
+                ].map(([k, v]) => (
+                  <span key={k} style={{ display: 'block', flex: '1 1 190px', minWidth: 0 }}>
+                    <span style={{ ...eyebrow, color: 'var(--ink-light)', display: 'block' }}>{k}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{v}</span>
+                  </span>
+                ))}
+              </span>
+            </span>
+          </span>
+        </Link>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-3)' }}>
           {DOCS.map(d => (

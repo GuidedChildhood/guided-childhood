@@ -392,3 +392,50 @@ export const MODULE_COUNT = CURRICULUM.length
  *  mirrored here as `dsl: true` so a page with no database can count them and
  *  scripts/check-flagged-briefings.mjs can hold the staff briefings to them. */
 export const FLAGGED_MODULES = CURRICULUM.filter(m => m.dsl)
+
+/** WHERE A LESSON SITS IN ITS OWN KEY STAGE, which is the number a teacher is
+ *  actually reading when they scan the map.
+ *
+ *  `n` is the BUILD number: the order the twenty five modules were written,
+ *  and the stable key the lesson rows, the print routes and the passport
+ *  stamps are all cut against. It was never a teaching position. But every
+ *  page printed it as `M23` on a card in a per stage list, where a number in
+ *  a list reads as a position, so KS2 ran 04 05 06 07 08 09 23 25, KS3 ran 10
+ *  to 14 then 22 24, and a KS2 passport page numbered eight rings 4, 5, 6, 7,
+ *  8, 9, 23, 25. Justin, 18 September 2026: "why are the lesson numbers out
+ *  of sync?" Because two numbers were doing one job.
+ *
+ *  So the number a teacher READS is computed here from the order of this
+ *  file, per key stage, and `n` stays exactly where it is. Nothing in the
+ *  database moves, no print route changes, and a module keeps its id for
+ *  ever. Add a module in the right place in CURRICULUM and every position on
+ *  every page follows it, which is the other half of the fix: there is no
+ *  second number to remember to update. */
+export type LessonPosition = { index: number; total: number }
+
+const POSITIONS = new Map<string, LessonPosition>()
+for (const stage of KEY_STAGE_ORDER) {
+  const inStage = CURRICULUM.filter(m => m.keyStage === stage)
+  inStage.forEach((m, i) => POSITIONS.set(m.moduleId, { index: i + 1, total: inStage.length }))
+}
+
+export function positionOf(moduleId: string): LessonPosition | null {
+  return POSITIONS.get(moduleId) ?? null
+}
+
+/** The compact chip, under a key stage heading, where the stage is already on
+ *  screen: "3 of 8". No dashes, per the house rule. */
+export function positionLabel(moduleId: string): string {
+  const p = POSITIONS.get(moduleId)
+  return p ? `${p.index} of ${p.total}` : ''
+}
+
+/** The compact code for a list that mixes stages, where "3" alone would be
+ *  four different lessons: "KS3 3". This is the one that replaced `M22` in
+ *  the RSHE matrix, so an inspector reading a row still gets an address, and
+ *  the address is now one a teacher can find on the map. */
+export function positionCode(moduleId: string): string {
+  const p = POSITIONS.get(moduleId)
+  const m = CURRICULUM.find(x => x.moduleId === moduleId)
+  return p && m ? `${m.keyStage} ${p.index}` : ''
+}

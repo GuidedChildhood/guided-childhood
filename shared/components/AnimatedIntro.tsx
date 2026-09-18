@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { introCharacterFor } from '../intro-characters'
+import { introCharacterFor, introHello } from '../intro-characters'
 import DigiCharacter from './DigiCharacter'
 import { WALL } from '../wall-scale'
 
@@ -22,6 +22,7 @@ export default function AnimatedIntro({
   eyebrow,
   character,
   line: lineOverride,
+  promise,
   onStart,
   projector = false,
 }: {
@@ -30,12 +31,19 @@ export default function AnimatedIntro({
   character?: string
   // The lesson's own hello, over the friend's default.
   line?: string
+  // What the class will be able to do by the end, in pupil voice, taken from
+  // the deck's own objective slide. Optional: a deck without one bills the
+  // friend and the title and stops there.
+  promise?: string
   onStart?: () => void
   projector?: boolean
 }) {
   const root = useRef<HTMLDivElement>(null)
   const c = introCharacterFor(character, title)
-  const line = lineOverride ?? c.line
+  // The friend's hello with today's lesson named in the middle of it. A deck
+  // that carries its own line still wins, which is how the DSL modules open
+  // quieter than the rest of the scheme.
+  const line = lineOverride ?? introHello(c, title)
   const [typed, setTyped] = useState('')
 
   useEffect(() => {
@@ -48,9 +56,10 @@ export default function AnimatedIntro({
     const words = el.querySelectorAll('[data-word]')
     const eyebrowEl = el.querySelector('[data-eyebrow]')
     const cta = el.querySelector('[data-cta]')
+    const promiseEl = el.querySelector('[data-promise]')
 
     if (reduce) {
-      gsap.set([frame, bubble, ...words, eyebrowEl, cta].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
+      gsap.set([frame, bubble, ...words, eyebrowEl, promiseEl, cta].filter(Boolean), { opacity: 1, y: 0, scale: 1 })
       setTyped(line)
       return
     }
@@ -63,6 +72,7 @@ export default function AnimatedIntro({
     tl.fromTo(frame, { opacity: 0, scale: 0.85, y: 12 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.5)' }, 0.2)
     tl.fromTo(bubble, { opacity: 0, y: 12, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }, 0.7)
     tl.fromTo(words, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(1.6)' }, 0.9)
+    if (promiseEl) tl.fromTo(promiseEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '>-0.15')
     if (cta) tl.fromTo(cta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '>-0.1')
 
     // Type the character's hello out word by word, starting as the bubble lands
@@ -76,7 +86,7 @@ export default function AnimatedIntro({
 
     return () => { tl.kill(); clearInterval(typer) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, character, line])
+  }, [title, character, line, promise])
 
   const titleWords = title.split(/(\s+)/)
 
@@ -157,6 +167,32 @@ export default function AnimatedIntro({
           w.trim() === '' ? w : <span key={i} data-word style={{ display: 'inline-block', opacity: 0 }}>{w}</span>
         ))}
       </h1>
+
+      {/* BEAT THREE OF FOUR: what you will be able to do by the end.
+          The friend says who is talking and what today is; this says why it is
+          worth the hour, in the pupil's own words, and it is the deck's own
+          objective rather than a second thing to keep in step. */}
+      {promise && (
+        <div data-promise style={{
+          opacity: 0, display: 'inline-flex', alignItems: 'baseline', gap: '10px',
+          flexWrap: 'wrap', justifyContent: 'center',
+          maxWidth: projector ? 900 : 340, margin: projector ? '0 auto clamp(6px, 1.2vh, 12px)' : '0 auto 16px',
+          borderTop: '1px solid rgba(237,195,95,0.28)', paddingTop: projector ? 'clamp(6px, 1.2vh, 12px)' : '12px',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: projector ? WALL.aside : 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', whiteSpace: 'nowrap',
+          }}>
+            By the end
+          </span>
+          <span style={{
+            fontFamily: 'var(--font-body)', fontSize: projector ? WALL.body : 'var(--text-base)', fontWeight: 600,
+            color: 'rgba(255,255,255,0.92)', lineHeight: 1.4, textAlign: 'left',
+          }}>
+            {promise}
+          </span>
+        </div>
+      )}
 
       {onStart && (
         <button

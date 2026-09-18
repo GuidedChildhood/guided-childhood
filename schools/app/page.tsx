@@ -107,7 +107,7 @@ function MapPreview() {
             <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
               <div style={{ background: ch.soft, padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                 <span style={{ fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>{m.keyStage}</span>
               </div>
               <div style={{ padding: '9px 10px 11px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>{m.title}</div>

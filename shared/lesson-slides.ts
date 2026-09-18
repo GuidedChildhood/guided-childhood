@@ -207,6 +207,37 @@ export type ScenarioSlide = SlideBase & {
   meta?: string // "2h · Shared 41,000 times" style line
   text: string // the post body
   image?: string // large emoji standing in for the post image
+  // THE POST'S ACTUAL PHOTO (18 September 2026).
+  //
+  // Justin, watching the sample lesson: "the sample video has bloop talking
+  // and says this is hot and points but no photo we have. a funny photo as if
+  // on instagram with the likes, showing bloop doing something silly."
+  //
+  // He was reading a real hole. ks3-12's video beat has Orbit hold a photo up
+  // and say "this photo got two million shares, it is completely fake", and
+  // the class was never shown any photo at all. An emoji is not a photo, so
+  // `image` could not close it.
+  //
+  // A Planet Friend is the only subject a classroom deck can honestly put in
+  // a fake: you cannot print a real person's face on a forged post and hand
+  // it to thirty children. Ours is provably fake, it is funny, and the laugh
+  // is the teach, because the next post is one they cannot call.
+  //
+  // Drawn from the friend's own cutout art, which FriendPlate already proves
+  // carries a beat: no render pipeline and no credits.
+  picture?: {
+    // A CharacterKey (pebble, bloop, orbit, nova, cosmo). Loose like every
+    // other character field in this file, and resolved at render.
+    friend: string
+    // happy, wave or thinking. Absent keeps the base cutout.
+    mood?: 'happy' | 'wave' | 'thinking'
+    // What the photo shows. REQUIRED, not optional like every other alt in
+    // this file, because the lesson's whole argument rests on this picture
+    // and a pupil who cannot see it must still be in the room.
+    alt: string
+    // The silly, staged around the friend. Two or three, no more.
+    props?: string[]
+  }
   stats?: string // "❤ 89.2K   ↻ 41K   💬 12K" style engagement line
   prompt?: string // the question the class answers about this post
 }

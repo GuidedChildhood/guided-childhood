@@ -2,7 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER, positionOf } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'The year at a glance' }
@@ -53,7 +53,7 @@ export default async function YearPlanPage() {
                     {termModules.length === 0 && <p style={{ ...body, color: 'var(--ink-muted)' }}>Revisit and embed</p>}
                     {termModules.map(m => (
                       <p key={m.moduleId} style={{ ...body, margin: '0 0 6px' }}>
-                        <strong>M{String(m.n).padStart(2, '0')}</strong> {m.title}
+                        <strong>{positionOf(m.moduleId)?.index}.</strong> {m.title}
                       </p>
                     ))}
                   </div>

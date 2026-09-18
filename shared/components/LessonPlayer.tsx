@@ -12,7 +12,7 @@ import { isCharacterKey } from '../intro-characters'
 import type { Register } from '../friend-register'
 import AnimatedIntro from './AnimatedIntro'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
-import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -417,6 +417,57 @@ function StatBlock({ slide, projector }: { slide: StatSlide; projector?: boolean
 // A realistic feed post, the evidence the class investigates. Phone card
 // register: avatar, handle, meta line, body, a big emoji standing in for
 // the image, engagement counts. Deliberately convincing, that is the point.
+// The photo a fake post is built on, drawn rather than filmed.
+//
+// Square, because a feed photo is square and the shape is half of why a card
+// reads as a post. The friend's own soft colour behind their cutout, the props
+// staged at the corners, and the whole thing captioned for anyone who cannot
+// see it. An unknown friend key renders nothing rather than a broken image: a
+// missing photo is what this field exists to fix, but a broken one on a wall
+// in front of thirty children is worse.
+function PostPhoto({ picture, projector, gap }: {
+  picture: NonNullable<ScenarioSlide['picture']>
+  projector?: boolean
+  gap: boolean
+}) {
+  const c = CHARACTERS[picture.friend as CharacterKey]
+  if (!c) return null
+  const art = picture.mood && c.moods ? c.moods[picture.mood] : c.img
+  const props = picture.props ?? []
+  return (
+    <figure style={{ margin: `0 0 ${gap ? '10px' : '0'}` }}>
+      <div style={{
+        position: 'relative', width: '100%', aspectRatio: '1 / 1',
+        maxHeight: room(projector, 'min(42vh, 420px)', '300px'),
+        borderRadius: 'var(--radius-tile)', overflow: 'hidden',
+        background: `radial-gradient(circle at 50% 44%, #fff 0%, ${c.soft} 72%)`,
+        border: `1px solid ${c.accent}33`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={art} alt="" aria-hidden style={{ height: '78%', width: 'auto', objectFit: 'contain', display: 'block' }} />
+        {props.map((emoji, i) => (
+          <span key={i} aria-hidden style={{
+            position: 'absolute',
+            fontSize: room(projector, WALL.emoji, '44px'),
+            // Staggered around the friend rather than in a row: a prop at a
+            // jaunty angle is the whole visual joke.
+            top: ['12%', '58%', '20%'][i % 3],
+            left: ['10%', '74%', '76%'][i % 3],
+            transform: `rotate(${[-14, 12, -8][i % 3]}deg)`,
+          }}>{emoji}</span>
+        ))}
+      </div>
+      <figcaption style={{
+        fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'),
+        color: 'var(--ink-muted)', lineHeight: 1.45, marginTop: '6px',
+      }}>
+        {picture.alt}
+      </figcaption>
+    </figure>
+  )
+}
+
 function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?: boolean }) {
   const isMessage = slide.platform === 'message'
   return (
@@ -445,7 +496,13 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: projector ? 1.45 : 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
           {slide.text}
         </p>
-        {slide.image && (
+        {/* THE PHOTO, when the row carries one. A square plate in the friend's
+            own colour with the friend's cutout in it and the silly staged
+            around them, which is what a feed photo looks like at a glance from
+            the back of a room. Falls through to the emoji for every row
+            written before 18 September 2026, so nothing already on the wall
+            changes. */}
+        {slide.picture ? <PostPhoto picture={slide.picture} projector={projector} gap={!!slide.stats} /> : slide.image && (
           <div style={{
             background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: room(projector, 'clamp(10px, 2vh, 26px) 0', '26px 0'),
             textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
@@ -774,7 +831,7 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, onSettled, projector, seed, tool, register,
+  slide, onAnswered, onSettled, projector, seed, tool, register, promise,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
@@ -784,6 +841,8 @@ function SlideBody({
   tool?: LessonTool
   // The lesson's treatment register, for the character beats.
   register?: Register
+  // The deck's own objective, in pupil voice, for the title slide's billing.
+  promise?: string
 }) {
   switch (slide.type) {
     case 'title':
@@ -791,7 +850,7 @@ function SlideBody({
         <div style={{ padding: '4px 0' }}>
           {/* The animated character intro is the opener: DiGi the star kicks
               off, the title reveals, far cleaner than a busy stock scene. */}
-          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} line={slide.line} projector={projector} />
+          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} line={slide.line} promise={promise} projector={projector} />
           {slide.body && (
             <p data-reveal style={{ fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: room(projector, WALL.column, '420px'), margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}
@@ -1097,6 +1156,16 @@ export default function LessonPlayer({
   const isLast = index === slides.length - 1
   const canContinue = !isChoice || settled
   const hasScripts = teacherView && slides.some(s => s.script)
+
+  // THE INTRO'S PROMISE, read off the deck rather than written twice. The
+  // objective slide already carries the pupil voice outcome ("I can ..."), so
+  // the title slide bills it without anybody maintaining a second copy, and a
+  // deck with no objective simply bills the friend and the title.
+  const promise = useMemo(() => {
+    const o = slides.find(s => s.type === 'objective') as ObjectiveSlide | undefined
+    const out = o?.outcome?.trim()
+    return out ? out.replace(/^I can\s+/i, '').replace(/\.$/, '') : undefined
+  }, [slides])
 
   // The end of lesson check: every choice slide counts towards the score and
   // the pass mark is 70 percent. A deck with no choice slides passes on
@@ -1737,7 +1806,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} />
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 

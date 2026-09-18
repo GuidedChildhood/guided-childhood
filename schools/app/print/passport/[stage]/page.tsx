@@ -64,6 +64,11 @@ export default async function PassportPrintPage({ params }: { params: Promise<{ 
   const lessons = manifest
     .map(m => ({ moduleId: m.moduleId, n: m.n, title: rows.get(m.moduleId)?.title ?? m.title, ican: rows.get(m.moduleId)?.single_action_outcome ?? '', area: areaOf(m.moduleId) }))
     .sort((a, b) => a.n - b.n)
+    // The ring and the sticker that fills it are numbered by where the lesson
+    // sits on THIS page, one upwards, not by the build number it happens to
+    // carry. A KS2 page used to number its eight rings 4, 5, 6, 7, 8, 9, 23
+    // and 25, and a child matching stickers to rings deserves 1 to 8.
+    .map((l, i) => ({ ...l, n: i + 1 }))
   const byArea: Record<AreaKey, typeof lessons> = { safe: [], balance: [], ai: [], social: [] }
   for (const l of lessons) if (l.area) byArea[l.area].push(l)
 

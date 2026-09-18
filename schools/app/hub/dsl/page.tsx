@@ -2,7 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { CURRICULUM } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, positionLabel } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Safeguarding crosswalk' }
@@ -61,7 +61,7 @@ export default async function DslCrosswalkPage() {
           return (
             <div key={m.moduleId} style={{ border: '2px solid var(--coral)', borderRadius: 'var(--radius-tile)', padding: '16px 20px', marginBottom: '14px' }}>
               <div style={{ ...mono, color: 'var(--coral-dark)', marginBottom: '4px' }}>
-                {m.keyStage} · Module {String(m.n).padStart(2, '0')} · {m.yearBand}
+                {m.keyStage} · Lesson {positionLabel(m.moduleId)} · {m.yearBand}
               </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px' }}>
                 {m.title}

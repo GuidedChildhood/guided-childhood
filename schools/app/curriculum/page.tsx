@@ -4,7 +4,7 @@ import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, SPIRAL_BEHAVIOURS } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, SPIRAL_BEHAVIOURS, positionLabel } from '@gc/shared/schools-curriculum'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE CURRICULUM MAP: the whole programme, Reception to Year 13, as
@@ -153,7 +153,7 @@ export default async function CurriculumMapPage() {
                           {m.castLine}
                         </span>
                         <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', color: ch.ink }}>
-                          M{String(m.n).padStart(2, '0')}
+                          Lesson {positionLabel(m.moduleId)}
                         </span>
                       </div>
 
