@@ -74,13 +74,22 @@ export async function getJourney(
   //
   // Without a list it falls back to the age bucketed catalogue, minus anything
   // marked not in our home, which is what this row always showed.
+  //
+  // Counted by status !== 'not_owned', which is what progress.ts and
+  // passport-sections.ts have always used and what this file did NOT. It asked
+  // for status === 'done', and migration 306 added a third value, 'agreed', for
+  // a family who owns a screen and has decided it runs on an agreement rather
+  // than on controls. That would have counted on the passport and not here, so
+  // Home would have said 2 of 3 set up while the passport said All set about
+  // the same three screens. Two surfaces disagreeing about one number is the
+  // bug this codebase keeps coming back to, and it is worse than either answer.
   const guideRows = progress.rows.filter(d => !d.family_device_id)
-  const doneKeys = new Set(guideRows.filter(d => (d.status ?? 'done') === 'done').map(d => d.device_key))
+  const doneKeys = new Set(guideRows.filter(d => (d.status ?? 'done') !== 'not_owned').map(d => d.device_key))
   const notOwnedKeys = new Set(guideRows.filter(d => d.status === 'not_owned').map(d => d.device_key))
   // null, not an empty set, before 169: no screens ticked and cannot tell yet
   // are different answers, and only one of them should blank the passport.
   const doneDeviceIds = progress.perDevice
-    ? new Set(progress.rows.filter(d => d.family_device_id && (d.status ?? 'done') === 'done').map(d => d.family_device_id as string))
+    ? new Set(progress.rows.filter(d => d.family_device_id && (d.status ?? 'done') !== 'not_owned').map(d => d.family_device_id as string))
     : null
   const home = ((familyDevices ?? []) as FamilyDeviceRow[]).map(toFamilyDevice)
   const homeCount = homeSetupCount(home, doneKeys, doneDeviceIds)

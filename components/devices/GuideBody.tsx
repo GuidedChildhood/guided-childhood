@@ -27,6 +27,7 @@ export default function GuideBody({
   guide,
   childAge,
   isDone,
+  isAgreed = false,
   busy,
   onToggle,
   footer,
@@ -34,6 +35,13 @@ export default function GuideBody({
   guide: DeviceGuide
   childAge: number
   isDone: boolean
+  /**
+   * Set up by agreement rather than by settings (migration 306). Counted as
+   * done everywhere, and it must never be DESCRIBED as done: the guide used to
+   * read "Marked as set up" over a screen whose whole point was that nobody had
+   * set anything up on it, which is the row lie moved inside the walkthrough.
+   */
+  isAgreed?: boolean
   busy: boolean
   onToggle: () => void
   /** Anything the surrounding list wants under the buttons, like the escape
@@ -79,10 +87,13 @@ export default function GuideBody({
         <button
           onClick={onToggle}
           disabled={busy}
-          className={isDone ? 'btn btn-outline' : 'btn btn-gold'}
+          className={isDone && !isAgreed ? 'btn btn-outline' : 'btn btn-gold'}
           style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: 'var(--text-base)' }}
         >
-          {isDone ? 'Marked as set up ✓' : 'Mark as set up'}
+          {/* On an agreed screen the settings are still the open action, so the
+              button stays gold and says what it would do. It is an offer, never
+              a nag: the row already counts, and the words below say so. */}
+          {isAgreed ? 'Set the settings up too' : isDone ? 'Marked as set up ✓' : 'Mark as set up'}
         </button>
         <Link
           href={`/dashboard/digi?device=${guide.device_key}&q=${encodeURIComponent(`Can you walk me through setting up ${guide.name} step by step?`)}`}
