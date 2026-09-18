@@ -570,3 +570,34 @@ checked `supabase/migrations/` only.
 merge commit first, so an unmergeable PR gets no run and pushes land silently.
 That looks exactly like Actions being broken and was misreported here as exactly
 that. Read the PR's own `mergeable_state` before blaming the platform.
+
+## 18 September 2026 — the schools app gets one type scale and one spacing scale
+
+Justin asked for the best way to make the schools app look as good as Apple UX.
+The answer: a small number of system rules held everywhere, not page by page
+polish. Five batches, this is the first, and the others are named so nobody
+starts one twice: delete most of the boxes, one motion language, loading and
+empty states, judge on frames.
+
+**What was decided.** The token scale stops at 34px, which is one rung below
+where a page heading starts, so every page invented its own. `shared/page-scale.ts`
+adds four display roles above it (hero, page, section, lead), continuing the
+same ladder rather than sitting beside it, and each role carries size, tracking
+and line height together because at display sizes those are one decision.
+`shared/tokens.css` gains seven spacing rungs, which it never had.
+
+**The one reason worth knowing.** This was a missing rung, not thirty careless
+values. Thirty one off heading clamps across eighteen files, no two agreeing,
+is what a missing rung looks like eighteen times over, and the same diagnosis
+is already written down in shared/wall-scale.ts for the projector.
+
+**Ratchet, not zero.** scripts/check-schools-scale.mjs records the counts and
+fails only when they rise. A guard that demands the impossible on day one is a
+guard someone comments out by Friday. Font 24 to 14, padding 96 to 74, gap 9 to 0.
+
+**Print sheets stay out.** A blind gap sweep reached them and was reverted: they
+measure in millimetres against a physical sheet and a screen ladder has no
+authority there. The print ROOM (/print and /print/passport) is a screen and is
+on the scale.
+
+Detail in PR 1115 and plans/2026-09-18-schools-type-and-space-scale.md.
