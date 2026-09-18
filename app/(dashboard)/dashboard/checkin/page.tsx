@@ -173,9 +173,19 @@ export default async function CheckInPage({
                 has just been reminded what the app is keeping an eye on. The
                 deck already exists; this is a doorway to it, not a new
                 surface. */}
+            {/* WHAT HAPPENS AFTER YOU ADD ONE, SAID PLAINLY.
+                Justin, 18 September 2026: "here should say after add any new
+                something that happened."
+
+                It used to say we would start working on it, which is true and
+                says nothing about when. A parent adding something at nine in
+                the morning has no idea whether they should sit here waiting for
+                a script or go to work. Now the sentence carries the timing, and
+                the timing is the promise: it joins the list, and the next check
+                in asks about it like everything else. */}
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-              Nothing is waiting on you. Did anything else happen today? Add it and we will start working on that one
-              too.
+              Nothing is waiting on you. Did anything else happen today? Add it and it goes on the tracker with the
+              rest, and the next check in will ask how that one is going too.
             </p>
             <p style={{ margin: '0 0 18px' }}>
               <Link href="/dashboard/daily" style={{

@@ -90,6 +90,38 @@ if (loader) {
   if (!/mine\.slice\(0,\s*roomFor\(/.test(bare)) {
     fail.push(`${LOADER}: the rows asked for are not sliced by the room left today. Whatever the cap says, this is the line that decides how many questions a parent actually sees.`)
   }
+  // ── THE CAP MUST NOT HAVE A SECOND, UNCOUNTED PATH ────────────────────────
+  //
+  // This rule exists because the one above passed while the cap was being
+  // walked round in production. Justin, 18 September 2026: "today for Timbotee
+  // it made me do check in twice?" Seven ratings in 49 seconds on a cap of
+  // three, measured on the row.
+  //
+  // The slice was a ternary: roomFor on the branch with a child, plain
+  // DAILY_CAP on the branch without one. A child who had used their three fell
+  // out of the queue, which made `current` null, which took the second branch,
+  // which refilled the page with three more. The cap enforced was the cap
+  // bypassed.
+  //
+  // So: exactly one slice, and DAILY_CAP may only ever appear where the room
+  // is worked out, never as a slice length of its own.
+  if (/slice\(0,\s*DAILY_CAP\)/.test(bare)) {
+    fail.push(`${LOADER}: something slices the day's questions by DAILY_CAP directly instead of by the room left. That is a second path with nothing subtracted, and it is exactly how a family with one child was asked seven questions on a day capped at three.`)
+  }
+  if ((bare.match(/\.slice\(0,\s*roomFor\(/g) ?? []).length !== 1) {
+    fail.push(`${LOADER}: the day's questions are sliced in more or fewer than one place. One branch is what makes the cap true on every path.`)
+  }
+  // A worry with no child of its own still spends someone's allowance. Drop it
+  // from the count and a household whose worries are all unassigned has a cap
+  // that subtracts nothing, which is the same bypass by another door.
+  if (!/const key = r\.child_id \?\? HOUSEHOLD/.test(bare)) {
+    fail.push(`${LOADER}: a worry with no child of its own no longer counts against the household allowance, so those questions are capped against a total that never goes up.`)
+  }
+  // An empty queue means every child is finished or has nothing to answer.
+  // Asking the whole list at that point is the bug above wearing a new coat.
+  if (!/hasKids \? \[\] : answerable/.test(bare)) {
+    fail.push(`${LOADER}: with no child in the queue the loader still falls back to the whole answerable list. An empty queue in a family that HAS children means everybody is done for today, so the answer is to ask nothing, not to ask everybody again.`)
+  }
   if (/\.slice\(0,\s*5\)/.test(bare)) {
     fail.push(`${LOADER}: a hardcoded five is back. That literal is the old per render limit and it is what produced seven ratings in thirty five seconds.`)
   }

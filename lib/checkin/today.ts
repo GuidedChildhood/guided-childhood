@@ -393,10 +393,16 @@ export async function getTodayCheckIn(
   // queue: leaving them in would say "2 left" about questions the page will
   // not ask, which is the same lie as a badge that counts something you cannot
   // reach.
+  //
+  // A worry with no child of its own is counted against HOUSEHOLD, which is the
+  // first child when there is one and a sentinel when there is not. A family
+  // with no children rows still has an allowance, and before this it had none
+  // to count against, which is half of why the cap could be walked round.
+  const HOUSEHOLD = ((kids ?? []) as { id: string }[])[0]?.id ?? '__household__'
   const takenByChild = new Map<string, number>()
   for (const r of ((doneToday ?? []) as { child_id: string | null }[])) {
-    const key = r.child_id ?? ((kids ?? []) as { id: string }[])[0]?.id ?? null
-    if (key) takenByChild.set(key, (takenByChild.get(key) ?? 0) + 1)
+    const key = r.child_id ?? HOUSEHOLD
+    takenByChild.set(key, (takenByChild.get(key) ?? 0) + 1)
   }
   const roomFor = (childId: string) => Math.max(0, DAILY_CAP - (takenByChild.get(childId) ?? 0))
 
@@ -419,13 +425,33 @@ export async function getTodayCheckIn(
   // bookmark never shows an empty page while another child is waiting.
   const current = queue.find(k => k.id === childIdParam) ?? queue[0] ?? null
 
+  // ── AN EMPTY QUEUE MEANS ASK NOTHING, NOT ASK ANYWAY ─────────────────────
+  //
+  // Justin, 18 September 2026, with one child named Timbotee: "today for
+  // Timbotee it made me do check in twice?"
+  //
+  // Measured on the live row rather than guessed: SEVEN ratings between
+  // 09:50:18 and 09:51:07, on a day whose cap is three, for a family with one
+  // child and seven worries. Three, then three, then the last one.
+  //
+  // The cap was subtracted on ONE of the two branches. A child who had used
+  // their three fell out of the queue, which is correct, and `current` then
+  // became null, which sent the slice down the fallback branch: the whole
+  // answerable list, capped at three again, with nothing subtracted. So the
+  // page refilled itself the moment it emptied, and the cap it had just
+  // enforced was what opened the door.
+  //
+  // The fallback exists for a household with no children rows at all, where
+  // there is no queue to be in and the worries belong to nobody in particular.
+  // That case keeps its allowance, counted against HOUSEHOLD like any other.
+  // What it must never mean is "the queue is empty because everybody is
+  // finished, so ask everybody again".
+  const hasKids = ((kids ?? []) as { id: string }[]).length > 0
   const mine = current
     ? answerable.filter(c => c.child_id === current.id || (!c.child_id && current.id === queue[0]?.id))
-    : answerable
-  // Three, less whatever today already took. Not five per render, which is what
-  // let seven ratings happen in thirty five seconds: answering five simply
-  // produced the next two on the following load, so the number meant nothing.
-  const asked = current ? mine.slice(0, roomFor(current.id)) : mine.slice(0, DAILY_CAP)
+    : hasKids ? [] : answerable
+  // One branch, so the cap cannot be true on one path and absent on the other.
+  const asked = mine.slice(0, roomFor(current?.id ?? HOUSEHOLD))
 
   return {
     acknowledge: null,
