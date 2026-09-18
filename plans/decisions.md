@@ -601,3 +601,31 @@ authority there. The print ROOM (/print and /print/passport) is a screen and is
 on the scale.
 
 Detail in PR 1115 and plans/2026-09-18-schools-type-and-space-scale.md.
+
+## 18 September 2026 — batch 2: the shape tokens land, the box sweep is called off
+
+Justin: "Only school service thou sbd bit break wiring." Schools app only, and
+the wiring must survive. Both held.
+
+**What was decided.** The schools app adopts the four shape tokens it had never
+used: 88 radii now read from var(--radius-*), and the 17 borders drawn at 1.5px
+join the 29 at 1px. The SHAPE block was written on 13 September and says "change
+these eight lines and the whole platform moves together"; until today the
+schools app could not move with it, because it used none of them.
+
+**The one reason worth knowing.** Batch 2 was announced as "delete most of the
+boxes" and the measurement killed it. Counting in the rendered DOM gave 33
+nested cards, and printing what they actually were showed all 25 on the
+curriculum page to be the "Ready to teach" link styled as a button, and the
+lesson page's eight to be pills and the passport tiles inside the passport
+card, which is what --radius-tile is for. There is no nested card problem.
+Half the batch was called off rather than filled with work to match its name.
+
+**The rule that kept the wiring.** Never remove an element, only its
+decoration. 22 diff lines carry an href, a form or a submit handler and every
+one of those values is byte identical on both sides. wiring-check: 0 new.
+
+scripts/count-schools-cards.mjs keeps the probe. Its first two answers were
+both wrong, which is why the claim is a script and not a sentence.
+
+Detail in PR 1115 and plans/2026-09-18-schools-shape-batch-2.md.
