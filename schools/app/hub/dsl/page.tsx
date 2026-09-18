@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM } from '@gc/shared/schools-curriculum'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Safeguarding crosswalk' }
 
@@ -31,7 +32,7 @@ export default async function DslCrosswalkPage() {
   })
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
@@ -58,7 +59,7 @@ export default async function DslCrosswalkPage() {
           const db = dbByModule.get(m.moduleId)
           const note = (db?.dsl_note ?? {}) as DslNote
           return (
-            <div key={m.moduleId} style={{ border: '2px solid var(--coral)', borderRadius: '14px', padding: '16px 20px', marginBottom: '14px' }}>
+            <div key={m.moduleId} style={{ border: '2px solid var(--coral)', borderRadius: 'var(--radius-tile)', padding: '16px 20px', marginBottom: '14px' }}>
               <div style={{ ...mono, color: 'var(--coral-dark)', marginBottom: '4px' }}>
                 {m.keyStage} · Module {String(m.n).padStart(2, '0')} · {m.yearBand}
               </div>

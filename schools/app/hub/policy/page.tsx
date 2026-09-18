@@ -3,6 +3,7 @@ import { FLAGGED_MODULES, MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Policy ready text' }
 
@@ -12,13 +13,13 @@ export const metadata = { title: 'Policy ready text' }
 
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7 }
-const block: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 20px', marginBottom: '16px', background: 'var(--cream)' }
+const block: React.CSSProperties = { border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 20px', marginBottom: '16px', background: 'var(--cream)' }
 const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }
 
 export default async function PolicyTextPage() {
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>

@@ -9,8 +9,8 @@ const label: React.CSSProperties = {
   color: 'var(--ink-muted)', marginBottom: '6px',
 }
 const input: React.CSSProperties = {
-  width: '100%', boxSizing: 'border-box', padding: '13px 14px', borderRadius: '12px',
-  border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)',
+  width: '100%', boxSizing: 'border-box', padding: '13px 14px', borderRadius: 'var(--radius-tile)',
+  border: '1px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)',
   fontSize: 'var(--text-md)', color: 'var(--ink)',
 }
 
@@ -29,7 +29,7 @@ export default function DrawForm() {
 
   if (state === 'done') {
     return (
-      <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '28px', textAlign: 'center' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '28px', textAlign: 'center' }}>
         <div style={{ fontSize: '36px', marginBottom: '10px' }}>⭐</div>
         <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '8px' }}>You are in the draw</h3>
         <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.6, margin: 0 }}>
@@ -40,12 +40,12 @@ export default function DrawForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '24px', display: 'grid', gap: '16px' }}>
+    <form onSubmit={onSubmit} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '24px', display: 'grid', gap: 'var(--space-4)' }}>
       <div>
         <label style={label} htmlFor="draw-school">School</label>
         <input id="draw-school" name="school_name" required style={input} placeholder="St Mary's Primary, Leeds" />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="draw-name">Your name</label>
           <input id="draw-name" name="contact_name" required style={input} />

@@ -32,8 +32,8 @@ export default function UnlockForm({ next }: { next: string }) {
     <form
       onSubmit={onSubmit}
       style={{
-        background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
-        padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px',
+        background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
+        padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
         boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
       }}
     >
@@ -64,7 +64,7 @@ export default function UnlockForm({ next }: { next: string }) {
       {error && (
         <div style={{
           padding: '12px 16px', background: 'var(--danger-bg)',
-          border: '1px solid var(--danger-border)', borderRadius: '10px',
+          border: '1px solid var(--danger-border)', borderRadius: 'var(--radius-tile)',
           color: 'var(--danger)', fontFamily: 'var(--font-body)',
           fontSize: 'var(--text-sm)', lineHeight: 1.5,
         }}>

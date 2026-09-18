@@ -2,6 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
 import { friendFor, FriendArt } from '@/components/print/kit'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE PRINT ROOM: every printable for every live module in one place.
 // Paper pack, pupil booklets, and named quizzes per class. No Canva,
@@ -21,7 +22,7 @@ const eyebrow: React.CSSProperties = {
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const cell: React.CSSProperties = {
-  padding: '10px 10px', borderTop: '1px solid var(--border)', verticalAlign: 'middle',
+  padding: 'var(--space-3) var(--space-3)', borderTop: '1px solid var(--border)', verticalAlign: 'middle',
   fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)',
 }
 const head: React.CSSProperties = {
@@ -31,7 +32,7 @@ const sheet: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', minHeight: '40px', padding: '0 12px',
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
   color: 'var(--ink)', textDecoration: 'none', whiteSpace: 'nowrap',
-  border: '1.5px solid var(--border)', borderRadius: '10px', background: '#fff',
+  border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', background: '#fff',
 }
 
 const SHEETS: { path: string; label: string }[] = [
@@ -59,10 +60,10 @@ export default async function PrintRoomPage() {
     .filter(g => g.rows.length > 0)
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '860px', margin: '0 auto' }}>
         <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '4px' }}>Everything on paper, one place</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
           The print room
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '620px', marginBottom: '26px' }}>
@@ -71,7 +72,7 @@ export default async function PrintRoomPage() {
           knowledge organiser, the unit overview, and the two quizzes with their answer versions one tap away.
         </p>
 
-        <Link href="/print/passport" style={{ display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '16px 20px', marginBottom: '28px', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
+        <Link className="gc-tap" href="/print/passport" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', marginBottom: '28px', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
           <div style={{ display: 'flex' }}>
             {(['pebble', 'bloop', 'orbit', 'nova'] as const).map((k, i) => <span key={k} style={{ marginLeft: i ? '-10px' : 0 }}><FriendArt friend={{ key: k, ...CHARACTERS[k] }} mood="wave" size={11} /></span>)}
           </div>
@@ -86,11 +87,11 @@ export default async function PrintRoomPage() {
           const meta = KEY_STAGE_META[ks as KeyStage]
           return (
             <section key={ks} style={{ marginBottom: '28px' }}>
-              <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
+              <h2 style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
                 <FriendArt friend={friendFor(null, ks)} mood="wave" size={9} />
                 <span>{meta.label} <span style={{ fontWeight: 700, fontSize: '0.8em', color: 'var(--ink-muted)' }}>{meta.years}</span></span>
               </h2>
-              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '12px 6px 6px', overflowX: 'auto', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
+              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-3) var(--space-2) var(--space-2)', overflowX: 'auto', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
                 <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: '640px' }}>
                   <thead>
                     <tr>
@@ -104,7 +105,7 @@ export default async function PrintRoomPage() {
                       return (
                         <tr key={l.module_id}>
                           <td style={{ ...cell, minWidth: '220px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                               {manifest && <FriendArt friend={{ key: manifest.character, ...CHARACTERS[manifest.character] }} mood="happy" size={8} />}
                               <span>
                                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, lineHeight: 1.25 }}>

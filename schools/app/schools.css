@@ -25,3 +25,59 @@
 /* The projector teach surface wants the full viewport with no site chrome
    competing; the teach page opts its nav out with this. */
 .teach-shell { min-height: 100vh; background: var(--cream); }
+
+/* THE REDUCED MOTION PROMISE, KEPT FOR THE WHOLE APP.
+
+   shared/tokens.css has carried a prefers-reduced-motion block since August,
+   and it covers exactly one class: .lift. Everything added after it kept
+   moving. .btn transforms under a thumb, .btn-outline changes ground, .input
+   animates its border, the step arrow slides. A teacher who has told their
+   operating system they do not want motion was getting four kinds of it from
+   a page that believed it had honoured the setting.
+
+   This block is in the schools sheet rather than in tokens.css on purpose.
+   Justin, 18 September 2026: "Only school service." The parents app has its
+   own surfaces and its own animation work and it is not this batch's to
+   change, so the promise is kept here, where this sheet is the only one
+   loaded, and the same block is owed to the parents app another day.
+
+   0.01ms rather than none: a duration of zero can stop transitionend from
+   firing, and anything that waits for that event would hang instead of
+   hurrying. This keeps the event and removes the motion. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* A card you can click should answer like a button you can press. The buttons
+   have had .btn's transform since August; the card shaped links never got
+   anything, so a module card was the only thing on the page that did not know
+   it had been pointed at. .lift is the house answer and it already exists;
+   this is a tap target's version of it, for the ones where a 4px rise would
+   drag a whole grid row with it. */
+.gc-tap {
+  transition: transform var(--dur-press) var(--ease), box-shadow var(--dur-press) var(--ease);
+}
+.gc-tap:hover { transform: translateY(-2px); }
+.gc-tap:active { transform: translateY(1px); }
+
+/* The loading skeleton's shimmer, and the one place in this app that animates
+   on its own rather than in answer to a person. The reduced motion block above
+   catches it, because that block covers animation-duration as well as
+   transition-duration: a skeleton that pulses forever is exactly the kind of
+   motion somebody turns motion off to escape. */
+@keyframes gc-shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Visible to a screen reader, invisible on screen. The skeleton is eleven grey
+   rectangles and aria-hidden; this is the one word that should be announced. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}

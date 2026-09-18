@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { FLAGGED_MODULES, MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import PrintButton from '@/components/PrintButton'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 // STAFF INDUCTION: the fifteen minute meeting that starts the scheme.
 // The audit (Report 9) found the onboarding story right for sales but with
@@ -67,7 +68,7 @@ const AGENDA = [
 
 export default function InductionPage() {
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
@@ -85,7 +86,7 @@ export default function InductionPage() {
         </p>
 
         {AGENDA.map((a, i) => (
-          <div key={a.title} style={{ border: '1.5px solid var(--border)', borderRadius: '14px', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
+          <div key={a.title} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
             <div style={{ ...mono, marginBottom: '4px' }}>{i + 1} · {a.minutes}</div>
             <h2 style={h2}>{a.title}</h2>
             <p style={{ ...body, marginBottom: '8px' }}>{a.text}</p>

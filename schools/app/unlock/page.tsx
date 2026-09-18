@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import UnlockForm from './UnlockForm'
+import { PAGE } from '@gc/shared/page-scale'
 
 // The door. Everything except this page, the home page and pricing sits
 // behind it (lib/access.ts holds the list and the reasoning).
@@ -52,18 +53,17 @@ export default async function UnlockPage({
             <p style={{ ...eyebrow, marginBottom: '12px' }}>Pilot schools</p>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 'clamp(1.7rem, 4.5vw, 2.3rem)', letterSpacing: '-0.03em',
-              lineHeight: 1.15, color: 'var(--ink)', marginBottom: '14px',
+              ...PAGE.page, color: 'var(--ink)', marginBottom: 'var(--space-3)',
             }}>
               That one is in<br />the full scheme.
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '16px' }}>
               Your pilot opens {pilotLessons.length === 2 ? 'two lessons' : `${pilotLessons.length} lessons`} for the term, with every printable, and the Hub. The other {MODULE_COUNT - pilotLessons.length} open with a licence.
             </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {pilotLessons.map(m => (
                 <li key={m.moduleId}>
-                  <Link href={`/lesson/${m.moduleId}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 16px', textDecoration: 'none', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
+                  <Link className="gc-tap" href={`/lesson/${m.moduleId}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', textDecoration: 'none', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                     {m.title} <span style={{ fontWeight: 600, color: 'var(--ink-muted)', fontSize: 'var(--text-sm)' }}>· {m.yearBand}</span>
                   </Link>
                 </li>
@@ -81,8 +81,7 @@ export default async function UnlockPage({
             <p style={{ ...eyebrow, marginBottom: '12px' }}>Licensed schools</p>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 'clamp(1.7rem, 4.5vw, 2.3rem)', letterSpacing: '-0.03em',
-              lineHeight: 1.15, color: 'var(--ink)', marginBottom: '14px',
+              ...PAGE.page, color: 'var(--ink)', marginBottom: 'var(--space-3)',
             }}>
               Your school code opens<br />the whole curriculum.
             </h1>
@@ -100,7 +99,7 @@ export default async function UnlockPage({
           <UnlockForm next={destination} />
         ) : (
           <div style={{
-            background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px',
+            background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
             padding: '28px', textAlign: 'center',
           }}>
             <h2 style={{

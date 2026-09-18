@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { EDITIONS } from '@/lib/passport-print'
 import SupplyForm from './SupplyForm'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // PRINTED PASSPORT BOOKS AND STICKER SHEETS, BY QUOTE.
 //
@@ -39,11 +40,11 @@ const body: React.CSSProperties = {
 
 export default function SuppliesPage() {
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '48px 20px 90px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '980px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'start' }}>
         <div>
           <p style={{ ...eyebrow, marginBottom: '12px' }}>Books and stickers</p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 4.6vw, 3rem)', letterSpacing: '-0.03em', lineHeight: 1.08, color: 'var(--ink)', marginBottom: '16px', textWrap: 'balance' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.hero, color: 'var(--ink)', marginBottom: 'var(--space-4)', textWrap: 'balance' }}>
             The printed passport, one per child
           </h1>
           <p style={{ ...body, marginBottom: '18px' }}>
@@ -55,9 +56,9 @@ export default function SuppliesPage() {
             the postage. Nothing is ordered and nothing is charged until you say yes.
           </p>
 
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '20px 22px', marginBottom: '18px' }}>
+          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px 22px', marginBottom: '18px' }}>
             <p style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>What is in a book</p>
-            <ul style={{ ...body, margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <ul style={{ ...body, margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {EDITIONS.map(e => (
                 <li key={e.stage}><strong style={{ color: 'var(--ink)' }}>{e.years}:</strong> {e.strap.toLowerCase()}</li>
               ))}
@@ -65,7 +66,7 @@ export default function SuppliesPage() {
             </ul>
           </div>
 
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '20px 22px' }}>
+          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px 22px' }}>
             <p style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>Free, today, no waiting</p>
             <p style={{ ...body, marginBottom: '12px' }}>
               Every passport prints from your own printer on one sheet of A4. One slit, three folds, and a

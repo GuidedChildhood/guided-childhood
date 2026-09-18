@@ -9,7 +9,7 @@ export default function PrintButton({ label = 'Print this document' }: { label?:
         className="gc-print-btn"
         onClick={() => window.print()}
         style={{
-          padding: '11px 20px', borderRadius: '16px', background: 'var(--gold)',
+          padding: '11px 20px', borderRadius: 'var(--radius-btn)', background: 'var(--gold)',
           color: 'var(--ink)', border: 'none', boxShadow: '0 4px 0 var(--gold-hover)',
           cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
         }}

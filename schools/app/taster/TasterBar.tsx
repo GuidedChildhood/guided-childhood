@@ -4,6 +4,7 @@ import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { useState } from 'react'
 import Link from 'next/link'
 import { captureTasterLead } from './actions'
+import { PAGE } from '@gc/shared/page-scale'
 
 // THE BAR A LICENSED SCHOOL NEVER SEES.
 //
@@ -33,9 +34,9 @@ const eyebrow: React.CSSProperties = {
 export function TasterStrip() {
   return (
     <div style={{
-      background: 'var(--tint-amber)', borderRadius: '14px',
+      background: 'var(--tint-amber)', borderRadius: 'var(--radius-tile)',
       padding: '10px 16px', marginBottom: '18px',
-      display: 'flex', flexWrap: 'wrap', gap: '8px 14px',
+      display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2) var(--space-3)',
       alignItems: 'center', justifyContent: 'center', textAlign: 'center',
     }}>
       <span style={{ ...eyebrow, color: 'var(--stage-1-text)' }}>Free sample lesson</span>
@@ -66,13 +67,12 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
     return (
       <section style={{
         background: 'var(--tint-green)', border: '2px solid var(--retro-green-dark)',
-        borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
+        borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
       }}>
         <p style={{ ...eyebrow, color: 'var(--retro-green-dark)', marginBottom: '10px' }}>That is yours</p>
         <h2 style={{
           fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
-          fontSize: 'clamp(1.25rem, 3.4vw, 1.6rem)', letterSpacing: '-0.02em',
-          lineHeight: 1.2, marginBottom: '10px',
+          ...PAGE.section, marginBottom: 'var(--space-3)',
         }}>
           The pack for this lesson is open now.
         </h2>
@@ -84,7 +84,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
           set for printing. Take them into a lesson and see how it lands. When you want the
           other{' '}{MODULE_COUNT - 1}, the whole staff room runs on one code.
         </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
           <Link href={`/print/${moduleId}`} className="btn btn-gold">Open the printable pack</Link>
           <Link href="/pricing" className="btn btn-outline">See pricing and request an invoice</Link>
         </div>
@@ -95,13 +95,12 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
   return (
     <section style={{
       background: '#fff', border: '2px solid var(--terracotta)',
-      borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
+      borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
     }}>
       <p style={{ ...eyebrow, marginBottom: '10px' }}>Free sample · one of{' '}{MODULE_COUNT}{' '}modules</p>
       <h2 style={{
         fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
-        fontSize: 'clamp(1.3rem, 3.6vw, 1.7rem)', letterSpacing: '-0.02em',
-        lineHeight: 1.2, marginBottom: '10px',
+        ...PAGE.section, marginBottom: 'var(--space-3)',
       }}>
         This whole lesson is yours to teach. Nothing is locked.
       </h2>
@@ -113,9 +112,9 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
         Tell us where to send the printable pack and it opens straight away.
       </p>
 
-      <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
         <input type="hidden" name="module_id" value={moduleId} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
           <div>
             <label style={label} htmlFor="taster_contact_name">Your name</label>
             <input className="input" id="taster_contact_name" name="contact_name" required maxLength={120} placeholder="Sam Carter" />
@@ -125,7 +124,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
             <input className="input" id="taster_school_name" name="school_name" required maxLength={200} placeholder="St Example High" />
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
           <div>
             <label style={label} htmlFor="taster_email">School email</label>
             <input className="input" id="taster_email" name="email" type="email" required maxLength={200} placeholder="s.carter@school.sch.uk" />
@@ -139,14 +138,14 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
         {error && (
           <div style={{
             padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)',
-            borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-body)',
+            borderRadius: 'var(--radius-tile)', color: 'var(--danger)', fontFamily: 'var(--font-body)',
             fontSize: 'var(--text-sm)', lineHeight: 1.5,
           }}>
             {error}
           </div>
         )}
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', alignItems: 'center' }}>
           <button type="submit" className="btn btn-gold" disabled={state === 'sending'}>
             {state === 'sending' ? 'Sending…' : 'Send me the pack'}
           </button>

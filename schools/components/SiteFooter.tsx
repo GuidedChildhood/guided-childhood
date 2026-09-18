@@ -25,7 +25,7 @@ const LINKS: [string, string][] = [
 export default function SiteFooter() {
   return (
     <footer className="no-print" style={{ borderTop: '1px solid var(--border)', background: 'var(--cream)', padding: '28px 20px 44px' }}>
-      <div style={{ maxWidth: '1080px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '16px 32px', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      <div style={{ maxWidth: '1080px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4) var(--space-5)', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div style={{ flex: '1 1 320px', maxWidth: '560px' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 6px' }}>
             Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
@@ -34,7 +34,7 @@ export default function SiteFooter() {
             {LEGAL_LINE} {VAT_LINE}
           </p>
         </div>
-        <nav aria-label="Site" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 20px', maxWidth: '420px' }}>
+        <nav aria-label="Site" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-1) var(--space-4)', maxWidth: '420px' }}>
           {LINKS.map(([href, label]) => (
             <Link key={href} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none', padding: '8px 0' }}>
               {label}

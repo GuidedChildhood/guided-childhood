@@ -217,6 +217,70 @@
   --lift-deep:    0 5px 0 var(--ink);
   --lift-press:   0 2px 0 var(--ink);
   --r:            24px;
+
+  /* ── SPACE (18 September 2026) ──
+     Shape stopped being folklore in September. Space still was.
+
+     Counted across every tsx file in the schools app before this block
+     existed: 104 distinct
+     padding values and 39 distinct gap values. The gaps alone ran 2, 4, 5, 6,
+     8, 9, 10, 12, 14, 16 and 18px, which is eleven steps where a system wants
+     seven, and four of them (8, 10, 12 and 14) accounted for 127 of the uses
+     on their own. That is not four decisions. It is one decision made four
+     ways by four people on four days, and it is most of why the app reads as
+     a collection of pages.
+
+     Seven rungs. The step widens as it climbs, because even spacing reads as
+     a list and widening spacing reads as a hierarchy, which is the whole job.
+
+       1  inside a thing: an icon to its label, a chip to its neighbour
+       2  a tight row: the lines of one idea
+       3  the default. Between related things. Reach for this first
+       4  between groups inside a section
+       5  between sections
+       6  between the bands of a page
+       7  the foot of a page, which is thumb room under the last card
+
+     Rounding to the nearest rung moves nothing a person can see. 9px and 10px
+     both become 8 and 12 and no screenshot tells the difference, which is the
+     test that matters: if collapsing two values changed a layout, they were
+     two decisions and not one. */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  20px;
+  --space-5:  32px;
+  --space-6:  56px;
+  --space-7:  80px;
+
+  /* ── MOTION (18 September 2026) ──
+     Space stopped being folklore this morning. Motion still was.
+
+     The primitives already move: .btn at 0.1s, .btn-outline at 0.1s, .input at
+     0.15s, the step arrow at 0.2s, .lift at 0.28s. Five durations, and one
+     easing curve that only .lift uses while everything else falls back to the
+     browser default. Nobody chose five. Each was chosen once, on its own day,
+     for its own rule.
+
+     Three durations, named by what the thing is doing, because "fast" and
+     "slow" mean nothing next to each other and 0.1 against 0.15 means nothing
+     at all:
+
+       press  the answer to a finger. Under 150ms or it reads as lag
+       hover  a colour or a border changing its mind
+       move   something that travels or grows, where the eye follows a path
+
+     THE VALUES ARE THE ONES ALREADY IN USE, on purpose. press is .btn's 0.1s,
+     hover is .input's 0.15s, move is .lift's 0.28s, and --ease is the curve
+     .lift already carries. So pointing the existing rules at these tokens
+     changes nothing by a single millisecond in either app, which is what makes
+     it safe to do in a batch scoped to the schools app. The step arrow's 0.2s
+     is the one value that fits no rung; it is left alone rather than nudged,
+     because a batch that promised to change nothing should change nothing. */
+  --dur-press: 0.1s;
+  --dur-hover: 0.15s;
+  --dur-move:  0.28s;
+  --ease:      cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -310,7 +374,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   box-shadow: 0 5px 0 var(--terracotta-dark);
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform var(--dur-press), box-shadow var(--dur-press);
   /* Justin, 8 August 2026, on the founder rate button: "text doesn't quite
      fit." It was spilling out of both sides of the button on a phone.
      white-space: nowrap was the cause, and it was a trap set for every button
@@ -373,7 +437,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   cursor: pointer;
   text-decoration: none;
   box-shadow: none;
-  transition: background 0.1s;
+  transition: background var(--dur-press);
   white-space: nowrap;
 }
 .btn-outline:hover { background: var(--terracotta-lt); }
@@ -398,7 +462,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   color: var(--ink);
   background: var(--white);
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color var(--dur-hover);
 }
 .input:focus { border-color: var(--terracotta); }
 .input::placeholder { color: var(--ink-light); }
@@ -459,7 +523,7 @@ h1, h2, h3 { text-wrap: balance; }
 
 /* Cards that respond to the cursor: gentle lift, warm deepened shadow */
 .lift {
-  transition: transform 0.28s cubic-bezier(0.2, 0.6, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.6, 0.2, 1);
+  transition: transform var(--dur-move) var(--ease), box-shadow var(--dur-move) var(--ease);
 }
 .lift:hover {
   transform: translateY(-4px);
@@ -479,4 +543,5 @@ h1, h2, h3 { text-wrap: balance; }
    the dots underneath already say where you are. */
 .swipe-rail { scrollbar-width: none; }
 .swipe-rail::-webkit-scrollbar { display: none; height: 0; }
+
 

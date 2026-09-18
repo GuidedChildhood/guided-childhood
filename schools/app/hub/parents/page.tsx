@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'The parent pack' }
 
@@ -25,7 +26,7 @@ export default async function ParentPackPage() {
   const noteByModule = new Map((lessons ?? []).map(l => [l.module_id, (l.parent_note ?? {}) as ParentNote]))
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
@@ -42,7 +43,7 @@ export default async function ParentPackPage() {
           after each lesson, and the question that comes home so the conversation continues at your table.
         </p>
 
-        <div style={{ border: '2px solid var(--gold)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
+        <div style={{ border: '2px solid var(--gold)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
           <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>Your right to see the materials</p>
           <p style={body}>
             The statutory RSHE guidance, in force from September 2026, gives you the right to know what
@@ -92,7 +93,7 @@ export default async function ParentPackPage() {
               {modules.map(m => {
                 const note = noteByModule.get(m.moduleId)
                 return (
-                  <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '12px 16px', marginBottom: '8px' }}>
+                  <div key={m.moduleId} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', marginBottom: '8px' }}>
                     <p style={{ ...body, fontWeight: 800, marginBottom: '2px' }}>{m.title}</p>
                     <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '4px' }}>{m.blurb}</p>
                     <p style={{ ...body, fontSize: 'var(--text-base)' }}>

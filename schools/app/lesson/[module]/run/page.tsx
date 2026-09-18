@@ -8,6 +8,7 @@ import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-sta
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { shapeOf } from '@/lib/tracker'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
 //
@@ -96,7 +97,7 @@ const body: React.CSSProperties = {
   color: 'var(--ink-soft)', lineHeight: 1.65,
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
+  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
   padding: '22px 24px', boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
   breakInside: 'avoid',
 }
@@ -104,7 +105,7 @@ const card: React.CSSProperties = {
 /** A tick row: an empty square a pen can fill, because this page prints. */
 function TickRow({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+    <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
       <span aria-hidden style={{
         width: '20px', height: '20px', flexShrink: 0, marginTop: '2px',
         border: '2px solid var(--ink-muted)', borderRadius: '6px',
@@ -160,10 +161,10 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
     .filter(p => p.rows.length > 0)
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '36px 20px 90px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
-        <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
           <Link href={`/lesson/${lesson.module_id}`} style={{ ...mono, textDecoration: 'none', color: 'var(--terracotta-dark)' }}>
             ← Back to the lesson
           </Link>
@@ -176,8 +177,8 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
         </div>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontWeight: 900,
-          fontSize: 'clamp(1.6rem, 4.6vw, 2.2rem)', color: 'var(--ink)',
-          letterSpacing: '-0.02em', lineHeight: 1.15, margin: '6px 0 8px',
+          ...PAGE.page, color: 'var(--ink)',
+          margin: 'var(--space-2) 0',
         }}>
           {lesson.title}, start to finish
         </h1>
@@ -218,7 +219,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
           {notes.misconceptions?.length ? (
             <TickRow>
               Read what children usually get wrong, so the wrong answers in the room do not surprise you:
-              <ul style={{ ...body, paddingLeft: '18px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <ul style={{ ...body, paddingLeft: '18px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
                 {notes.misconceptions.map((m, i) => <li key={i}>{m}</li>)}
               </ul>
             </TickRow>
@@ -247,11 +248,11 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
           const phaseMinutes = rows.reduce((t, r) => t + (r.slide.minutes ?? 0), 0)
           return (
             <section key={phase} style={{ ...card, marginBottom: '14px' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: '8px' }}>
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
-                  padding: '5px 12px', borderRadius: '100px',
+                  padding: '5px 12px', borderRadius: 'var(--radius-pill)',
                   background: 'var(--terracotta)', color: '#fff',
                 }}>
                   {PHASE_LABELS[phase]}
@@ -262,7 +263,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               </div>
               {rows.map(({ slide: s, index: i }) => (
                 <div key={i} style={{ borderTop: '1px solid var(--border)', padding: '12px 0', breakInside: 'avoid' }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                     <span style={{ ...mono, color: 'var(--terracotta-dark)' }}>
                       Slide {i + 1} · {TYPE_LABELS[s.type] ?? s.type}{s.minutes ? ` · ~${s.minutes} min` : ''}
                     </span>
@@ -332,7 +333,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
           )}
         </section>
 
-        <div className="no-print" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '24px' }}>
+        <div className="no-print" style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', marginTop: '24px' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>
             Teach this lesson
           </Link>

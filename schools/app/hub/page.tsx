@@ -2,6 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'The Hub' }
 
@@ -91,10 +92,10 @@ const DOCS = [
 export default async function HubPage() {
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
         <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '4px' }}>Compliance, safeguarding and staff support</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
           The Hub
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '580px', marginBottom: '28px' }}>
@@ -103,11 +104,11 @@ export default async function HubPage() {
           and every one regenerates automatically when the curriculum changes, so nothing here can go stale.
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '14px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-3)' }}>
           {DOCS.map(d => (
-            <Link key={d.href} href={d.href} style={{
-              background: '#fff', border: '1px solid var(--border)', borderRadius: '22px',
-              padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: '14px', alignItems: 'flex-start',
+            <Link className="gc-tap" key={d.href} href={d.href} style={{
+              background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
+              padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start',
               boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
             }}>
               <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{d.emoji}</span>

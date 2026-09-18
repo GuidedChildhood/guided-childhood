@@ -40,7 +40,7 @@ export default function HubPassport() {
 
   return (
     <div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '18px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 'var(--space-4)', alignItems: 'start' }}>
         {STAGE_BY_NUMBER.map(placement => {
           const mods = pageModules(placement)
           return (

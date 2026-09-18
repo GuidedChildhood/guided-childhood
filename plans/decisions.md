@@ -571,6 +571,97 @@ merge commit first, so an unmergeable PR gets no run and pushes land silently.
 That looks exactly like Actions being broken and was misreported here as exactly
 that. Read the PR's own `mergeable_state` before blaming the platform.
 
+## 18 September 2026 — the schools app gets one type scale and one spacing scale
+
+Justin asked for the best way to make the schools app look as good as Apple UX.
+The answer: a small number of system rules held everywhere, not page by page
+polish. Five batches, this is the first, and the others are named so nobody
+starts one twice: delete most of the boxes, one motion language, loading and
+empty states, judge on frames.
+
+**What was decided.** The token scale stops at 34px, which is one rung below
+where a page heading starts, so every page invented its own. `shared/page-scale.ts`
+adds four display roles above it (hero, page, section, lead), continuing the
+same ladder rather than sitting beside it, and each role carries size, tracking
+and line height together because at display sizes those are one decision.
+`shared/tokens.css` gains seven spacing rungs, which it never had.
+
+**The one reason worth knowing.** This was a missing rung, not thirty careless
+values. Thirty one off heading clamps across eighteen files, no two agreeing,
+is what a missing rung looks like eighteen times over, and the same diagnosis
+is already written down in shared/wall-scale.ts for the projector.
+
+**Ratchet, not zero.** scripts/check-schools-scale.mjs records the counts and
+fails only when they rise. A guard that demands the impossible on day one is a
+guard someone comments out by Friday. Font 24 to 14, padding 96 to 74, gap 9 to 0.
+
+**Print sheets stay out.** A blind gap sweep reached them and was reverted: they
+measure in millimetres against a physical sheet and a screen ladder has no
+authority there. The print ROOM (/print and /print/passport) is a screen and is
+on the scale.
+
+Detail in PR 1115 and plans/2026-09-18-schools-type-and-space-scale.md.
+
+## 18 September 2026 — batch 2: the shape tokens land, the box sweep is called off
+
+Justin: "Only school service thou sbd bit break wiring." Schools app only, and
+the wiring must survive. Both held.
+
+**What was decided.** The schools app adopts the four shape tokens it had never
+used: 88 radii now read from var(--radius-*), and the 17 borders drawn at 1.5px
+join the 29 at 1px. The SHAPE block was written on 13 September and says "change
+these eight lines and the whole platform moves together"; until today the
+schools app could not move with it, because it used none of them.
+
+**The one reason worth knowing.** Batch 2 was announced as "delete most of the
+boxes" and the measurement killed it. Counting in the rendered DOM gave 33
+nested cards, and printing what they actually were showed all 25 on the
+curriculum page to be the "Ready to teach" link styled as a button, and the
+lesson page's eight to be pills and the passport tiles inside the passport
+card, which is what --radius-tile is for. There is no nested card problem.
+Half the batch was called off rather than filled with work to match its name.
+
+**The rule that kept the wiring.** Never remove an element, only its
+decoration. 22 diff lines carry an href, a form or a submit handler and every
+one of those values is byte identical on both sides. wiring-check: 0 new.
+
+scripts/count-schools-cards.mjs keeps the probe. Its first two answers were
+both wrong, which is why the claim is a script and not a sentence.
+
+Detail in PR 1115 and plans/2026-09-18-schools-shape-batch-2.md.
+
+## 18 September 2026 — batches 3 and 4: motion, and the states that did not exist
+
+**Batch 3, motion.** Four tokens (--dur-press, --dur-hover, --dur-move, --ease),
+set to the values already in use so pointing the four existing rules at them
+moves nothing by a millisecond in either app. The real find: tokens.css has
+carried a prefers-reduced-motion block since August and it covers ONE class,
+.lift. Everything written after it kept moving for a teacher who had asked their
+operating system for less. The block existed, so a grep said the promise was
+kept; only a browser actually asking for reduced motion could tell. The schools
+app now has a block that covers everything, and scripts/check-schools-motion.mjs
+asks a real browser rather than grepping. The parents app is owed the same block.
+
+**Batch 4, the states.** The schools app had no loading.tsx, no error.tsx and no
+not-found.tsx, against 19 notFound() call sites. Nineteen places deliberately
+sent a teacher to a 404 and there was no 404 to send them to, so they landed on
+the Next.js default page in a typeface we do not use. All three now exist: the
+404 names the likely cause and carries the nav, the error page gives no
+technical detail and promises the true thing (nothing of theirs was lost because
+this site never holds anything of theirs), and loading is a skeleton not a
+spinner.
+
+**The one reason worth knowing.** schools/components/ui.ts says "import these,
+do not re invent them" and had invented twelve sizes of its own, because it is a
+.ts and both earlier sweeps globbed .tsx. The one file whose job is to stop
+others improvising was the last one improvising. Off scale font values 14 to 10.
+
+**Found and not fixed, on purpose.** A bad lesson URL renders the new 404 but
+returns HTTP 200, a soft 404. It predates the batch and is a streaming question
+rather than a design one. Named in the plan rather than buried.
+
+Detail in PR 1115, plans/2026-09-18-schools-motion-batch-3.md and
+plans/2026-09-18-schools-states-batch-4.md.
 ## 18 September 2026 — the check in opens every day, the rotation keeps the tick
 
 Justin: "didn't have check in as first thing to do?" Measured: that account had

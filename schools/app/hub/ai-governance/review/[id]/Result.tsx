@@ -113,20 +113,20 @@ export default function Result({ review, onUpdate }: {
   ]
 
   return (
-    <div style={{ display: 'grid', gap: '16px' }}>
+    <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
 
       {/* What the answers suggest, and what the school decided. Two different
           things, shown as two different things. */}
       <div style={panel}>
         <div style={{ ...eyebrow, color: 'var(--green-dark)' }}>What the answers suggest</div>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', margin: '10px 0 4px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', flexWrap: 'wrap', margin: '10px 0 4px' }}>
           <span style={chip(STATUS_RATING[result.suggested])}>{STATUS_LABEL[result.suggested]}</span>
           {pupilFacing && (
             <span style={{ ...eyebrow }}>Reads as: {type.suggested}</span>
           )}
         </div>
         {pupilFacing && (
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '6px 0 0' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '6px 0 0' }}>
             {type.why}
           </p>
         )}
@@ -135,14 +135,14 @@ export default function Result({ review, onUpdate }: {
       {/* Eight ratings, never one score. */}
       <div style={panel}>
         <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '12px' }}>Where it stands, worst first</div>
-        <div style={{ display: 'grid', gap: '10px' }}>
+        <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
           {ordered.map(c => {
             const meta = CATEGORIES.find(x => x.key === c.category)
             return (
               <div key={c.category} style={{
-                border: '1px solid var(--border)', borderRadius: '14px', padding: '12px 14px', background: 'var(--warm)',
+                border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', background: 'var(--warm)',
               }}>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', flexWrap: 'wrap' }}>
                   <strong style={{ ...labelStyle, flex: 1, minWidth: '140px' }}>{meta?.title}</strong>
                   <span style={chip(c.rating)}>{RATING_LABEL[c.rating]}</span>
                 </div>
@@ -150,7 +150,7 @@ export default function Result({ review, onUpdate }: {
                 {c.reasons.length > 0 && (
                   <ul style={{ margin: '8px 0 0', paddingLeft: '18px' }}>
                     {c.reasons.slice(0, 4).map((r, i) => (
-                      <li key={i} style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                      <li key={i} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
                         {r.prompt}
                       </li>
                     ))}
@@ -165,13 +165,13 @@ export default function Result({ review, onUpdate }: {
       {/* The readiness view. Five questions, and none of them is a score. */}
       <div style={panel}>
         <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '12px' }}>Are we ready</div>
-        <div style={{ display: 'grid', gap: '8px' }}>
+        <div style={{ display: 'grid', gap: 'var(--space-2)' }}>
           {readiness.map(r => (
-            <div key={r.q} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-              <span aria-hidden style={{ fontSize: '17px', lineHeight: 1.4 }}>{r.done ? '✓' : '·'}</span>
+            <div key={r.q} style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.4 }}>{r.done ? '✓' : '·'}</span>
               <div>
                 <strong style={labelStyle}>{r.q}</strong>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{r.note}</div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{r.note}</div>
               </div>
             </div>
           ))}
@@ -182,16 +182,16 @@ export default function Result({ review, onUpdate }: {
       {pupilFacing && (teaching.length > 0 || gaps.length > 0) && (
         <div style={panel}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '6px' }}>Teach this before they use it</div>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>
             Each of these came out of an answer above. The lessons already exist in your scheme.
           </p>
 
-          <div style={{ display: 'grid', gap: '12px' }}>
+          <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
             {teaching.map(l => (
-              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{l.risk}</div>
-                <strong style={{ ...labelStyle, fontSize: '16.5px', display: 'block', margin: '6px 0 8px' }}>{l.competency}</strong>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{l.risk}</div>
+                <strong style={{ ...labelStyle, fontSize: 'var(--text-md)', display: 'block', margin: '6px 0 8px' }}>{l.competency}</strong>
+                <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                   {l.modules.map(m => (
                     <Link key={m} href={`/lesson/${m}`} style={{
                       ...btnQuiet, fontSize: '13.5px', padding: '7px 12px', textDecoration: 'none',
@@ -202,10 +202,10 @@ export default function Result({ review, onUpdate }: {
             ))}
 
             {gaps.map(l => (
-              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px', background: 'var(--stage-1)' }}>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{l.risk}</div>
-                <strong style={{ ...labelStyle, fontSize: '16.5px', display: 'block', margin: '6px 0 8px' }}>{l.competency}</strong>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--stage-1-text)', lineHeight: 1.55 }}>{l.gap}</div>
+              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px', background: 'var(--stage-1)' }}>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{l.risk}</div>
+                <strong style={{ ...labelStyle, fontSize: 'var(--text-md)', display: 'block', margin: '6px 0 8px' }}>{l.competency}</strong>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--stage-1-text)', lineHeight: 1.55 }}>{l.gap}</div>
               </div>
             ))}
           </div>
@@ -214,15 +214,15 @@ export default function Result({ review, onUpdate }: {
 
       {/* Policy wording, shown as a suggestion next to what the school has. */}
       <details data-record style={panel}>
-        <summary style={{ ...labelStyle, cursor: 'pointer', fontSize: '16.5px' }}>Suggested policy wording</summary>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '10px 0 14px' }}>
+        <summary style={{ ...labelStyle, cursor: 'pointer', fontSize: 'var(--text-md)' }}>Suggested policy wording</summary>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '10px 0 14px' }}>
           Paste and adapt. This does not replace anything you already have, and nothing here is legal advice.
         </p>
-        <div style={{ display: 'grid', gap: '12px' }}>
+        <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
           {clauses.map(c => (
-            <div key={c.heading} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
+            <div key={c.heading} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
               <strong style={labelStyle}>{c.heading}</strong>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65, margin: '6px 0 8px' }}>{c.body}</p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.65, margin: '6px 0 8px' }}>{c.body}</p>
               <div style={{ ...eyebrow }}>{c.because}</div>
             </div>
           ))}
@@ -231,9 +231,9 @@ export default function Result({ review, onUpdate }: {
 
       {pupilFacing && (
         <details data-record style={panel}>
-          <summary style={{ ...labelStyle, cursor: 'pointer', fontSize: '16.5px' }}>Draft letter to parents</summary>
+          <summary style={{ ...labelStyle, cursor: 'pointer', fontSize: 'var(--text-md)' }}>Draft letter to parents</summary>
           <pre style={{
-            fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7,
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7,
             whiteSpace: 'pre-wrap', margin: '12px 0 0',
           }}>{letter}</pre>
         </details>
@@ -243,7 +243,7 @@ export default function Result({ review, onUpdate }: {
       <div style={panel}>
         <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>Your decision</div>
 
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: '14px' }}>
           {STATUSES.map(s => {
             const on = review.decision === s
             return (
@@ -255,7 +255,7 @@ export default function Result({ review, onUpdate }: {
                   nextReviewOn: review.nextReviewOn ?? defaultNextReview(new Date()),
                 })}
                 style={{
-                  ...btnQuiet, fontSize: '14.5px',
+                  ...btnQuiet, fontSize: 'var(--text-sm)',
                   background: on ? 'var(--ink)' : '#fff', color: on ? '#fff' : 'var(--ink)',
                   borderColor: on ? 'var(--ink)' : 'var(--border)',
                 }}
@@ -274,7 +274,7 @@ export default function Result({ review, onUpdate }: {
           />
         </label>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', marginBottom: '14px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-3)', marginBottom: '14px' }}>
           <label>
             <div style={labelStyle}>Reviewed on</div>
             <input type="date" value={review.reviewedOn ?? ''} onChange={e => onUpdate({ reviewedOn: e.target.value || null })}
@@ -288,26 +288,26 @@ export default function Result({ review, onUpdate }: {
         </div>
 
         <div style={{ ...eyebrow, marginBottom: '8px' }}>Seen by</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-3)' }}>
           {([['dpo', 'Data protection lead'], ['dsl', 'Designated safeguarding lead'], ['slt', 'Senior leadership'], ['governors', 'Governors']] as const).map(([k, l]) => (
             <label key={k}>
-              <div style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}>{l}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>{l}</div>
               <input
                 value={review.signOff[k].name ?? ''}
                 onChange={e => onUpdate({ signOff: { ...review.signOff, [k]: { ...review.signOff[k], name: e.target.value, date: e.target.value ? (review.signOff[k].date ?? new Date().toISOString().slice(0, 10)) : undefined } } })}
                 placeholder="Name"
-                style={{ ...input, marginTop: '6px', fontSize: '15px' }}
+                style={{ ...input, marginTop: '6px', fontSize: 'var(--text-base)' }}
               />
             </label>
           ))}
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '10px 0 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '10px 0 0' }}>
           A typed name and a date, the same as a paper record. This is your school's own note of who saw it,
           not a signature we can verify.
         </p>
       </div>
 
-      <div className="no-print" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+      <div className="no-print" style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
         <button onClick={() => { document.querySelectorAll<HTMLDetailsElement>('details[data-record]').forEach(d => { d.open = true }); window.print() }} style={btnGold}>Print this record</button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER , MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import { parseSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Whole scheme vocabulary' }
 
@@ -34,7 +35,7 @@ export default async function VocabularyPage() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
@@ -62,7 +63,7 @@ export default async function VocabularyPage() {
                 const words = wordsFor(m.moduleId)
                 if (!words.length) return null
                 return (
-                  <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 16px', marginBottom: '8px' }}>
+                  <div key={m.moduleId} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '10px 16px', marginBottom: '8px' }}>
                     <div style={{ ...mono, fontSize: 'var(--text-sm)', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
                     {words.map(w => (
                       <p key={w.word} style={{ ...body, fontSize: 'var(--text-base)', margin: '3px 0' }}>

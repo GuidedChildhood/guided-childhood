@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import DrawForm from './DrawForm'
+import { PAGE } from '@gc/shared/page-scale'
 
 // The free class pack draw. Any UK school can enter, we draw once a term,
 // the winning class gets a printed pack and a term of the lessons for
@@ -25,7 +26,7 @@ export default function DrawPage() {
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'var(--stage-3)', border: '2px solid var(--ink)', margin: '0 auto 18px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56 }} aria-hidden>🎁</div>
           <div style={{ ...eyebrow, marginBottom: '10px' }}>For schools</div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 12px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
             The free class pack draw
           </h1>
           <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.6, margin: 0 }}>
