@@ -48,7 +48,7 @@ export default async function YearPlanPage() {
               </h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
                 {terms.map(({ term, modules: termModules }) => (
-                  <div key={term} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 14px' }}>
+                  <div key={term} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '10px 14px' }}>
                     <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--green-dark)', marginBottom: '6px' }}>{term}</div>
                     {termModules.length === 0 && <p style={{ ...body, color: 'var(--ink-muted)' }}>Revisit and embed</p>}
                     {termModules.map(m => (

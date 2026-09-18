@@ -115,7 +115,7 @@ const body: React.CSSProperties = {
   color: 'var(--ink-soft)', lineHeight: 1.65,
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
+  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
   padding: '22px 24px', boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
 }
 // Every secondary button in the prep row. It was five identical inline copies,
@@ -124,8 +124,8 @@ const card: React.CSSProperties = {
 // pasting the block again.
 const prepBtn: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-  padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
-  color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+  padding: '15px 26px', borderRadius: 'var(--radius-btn)', textDecoration: 'none',
+  color: 'var(--ink)', background: '#fff', border: '1px solid var(--border)',
   boxShadow: '0 5px 0 var(--border)',
 }
 
@@ -288,8 +288,8 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               <span key={p.phase} style={{
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                padding: '6px 12px', borderRadius: '100px',
-                border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
+                padding: '6px 12px', borderRadius: 'var(--radius-pill)',
+                border: '1px solid var(--border)', color: 'var(--ink-soft)',
               }}>
                 {PHASE_LABELS[p.phase as LessonPhase]}{p.minutes ? ` · ${p.minutes} min` : ''}
               </span>
@@ -443,7 +443,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
                 <span key={l} style={{
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                   color: 'var(--ink)', background: 'var(--terracotta-lt)',
-                  border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '7px 16px',
+                  border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '7px 16px',
                 }}>
                   {l}
                 </span>
@@ -642,7 +642,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
-                    marginLeft: '8px', padding: '3px 8px', borderRadius: '100px',
+                    marginLeft: '8px', padding: '3px 8px', borderRadius: 'var(--radius-pill)',
                     border: '1px solid var(--border)', whiteSpace: 'nowrap',
                     background: e.status === 'verify' ? 'var(--terracotta-lt)' : '#fff',
                     color: e.status === 'verify' ? 'var(--terracotta-dark)' : 'var(--ink-muted)',

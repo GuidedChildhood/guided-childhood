@@ -137,7 +137,7 @@ export default async function CpdBriefingsPage() {
         </p>
 
         {BRIEFINGS.map(b => (
-          <div key={b.module} style={{ border: '1.5px solid var(--border)', borderRadius: '14px', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
+          <div key={b.module} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
             <h2 style={h2}>{b.module}</h2>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>What it covers: </span>{b.covers}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The tone to hold: </span>{b.register}</p>

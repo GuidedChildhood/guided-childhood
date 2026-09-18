@@ -50,7 +50,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               background: band.featured ? 'var(--deep-teal)' : '#fff',
               color: band.featured ? '#fff' : 'var(--ink)',
               border: band.featured ? 'none' : '1px solid var(--border)',
-              borderRadius: '20px', padding: '24px 20px',
+              borderRadius: 'var(--radius-card)', padding: '24px 20px',
               display: 'flex', flexDirection: 'column', gap: 'var(--space-1)',
               boxShadow: band.featured ? '0 2px 4px rgba(46,40,24,0.1), 0 30px 55px -30px rgba(46,40,24,0.55)' : '0 1px 2px rgba(46,40,24,0.05)',
             }}>
@@ -92,7 +92,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             the paperwork around the teaching, which is where the work actually
             sits. Two of the three are readable here without a code, because a
             school needs them to evaluate us rather than after it has paid. */}
-        <div style={{ background: 'var(--terracotta-lt)', border: '1px solid var(--border)', borderRadius: '18px', padding: '26px 24px', marginBottom: '48px' }}>
+        <div style={{ background: 'var(--terracotta-lt)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '26px 24px', marginBottom: '48px' }}>
           <p style={{ ...eyebrow, marginBottom: '12px' }}>The honest question</p>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '12px' }}>
             Why pay, when good lessons are free?
@@ -136,7 +136,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
                 </li>
               ))}
             </ul>
-            <div style={{ background: 'var(--terracotta-lt)', borderRadius: '16px', padding: '16px 18px' }}>
+            <div style={{ background: 'var(--terracotta-lt)', borderRadius: 'var(--radius-btn)', padding: '16px 18px' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }}>
                 <strong>Not sure yet?</strong> You do not need a licence to try it. The whole{' '}
                 <Link href="/curriculum" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>curriculum catalogue</Link>{' '}

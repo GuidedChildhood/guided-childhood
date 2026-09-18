@@ -63,7 +63,7 @@ export default async function VocabularyPage() {
                 const words = wordsFor(m.moduleId)
                 if (!words.length) return null
                 return (
-                  <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 16px', marginBottom: '8px' }}>
+                  <div key={m.moduleId} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '10px 16px', marginBottom: '8px' }}>
                     <div style={{ ...mono, fontSize: 'var(--text-sm)', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
                     {words.map(w => (
                       <p key={w.word} style={{ ...body, fontSize: 'var(--text-base)', margin: '3px 0' }}>

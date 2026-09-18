@@ -64,7 +64,7 @@ export default async function CurriculumMapPage() {
 
         {/* How to use the map: three moves, so a first time visitor is never
             guessing what this page is for. */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '18px' }}>
+        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '18px 20px', marginBottom: '18px' }}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>How to use this map</div>
           <ol style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
             {[
@@ -87,7 +87,7 @@ export default async function CurriculumMapPage() {
           <div style={{ ...eyebrow, marginBottom: '8px' }}>Ten behaviours spiral through every stage, deeper each time</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
             {SPIRAL_BEHAVIOURS.map(b => (
-              <span key={b} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px', padding: '5px 12px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>{b}</span>
+              <span key={b} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '5px 12px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>{b}</span>
             ))}
           </div>
         </div>
@@ -95,7 +95,7 @@ export default async function CurriculumMapPage() {
         {/* Jump nav: straight to your key stage. */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: '34px' }}>
           {KEY_STAGE_ORDER.map(ks => (
-            <a key={ks} href={`#${ks.toLowerCase()}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', background: 'var(--terracotta-lt, #FDF4D9)', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '7px 16px', textDecoration: 'none' }}>
+            <a key={ks} href={`#${ks.toLowerCase()}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', background: 'var(--terracotta-lt, #FDF4D9)', border: '1.5px solid var(--terracotta)', borderRadius: 'var(--radius-pill)', padding: '7px 16px', textDecoration: 'none' }}>
               {KEY_STAGE_META[ks].label} · {KEY_STAGE_META[ks].years}
             </a>
           ))}
@@ -130,7 +130,7 @@ export default async function CurriculumMapPage() {
                   return (
                     <div key={m.moduleId} style={{
                       background: '#fff', border: `2px solid ${live ? ch.accent : 'var(--border)'}`,
-                      borderRadius: '20px', overflow: 'hidden', display: 'flex', flexDirection: 'column',
+                      borderRadius: 'var(--radius-card)', overflow: 'hidden', display: 'flex', flexDirection: 'column',
                       boxShadow: live ? `0 5px 0 ${ch.soft}` : 'none',
                       opacity: live ? 1 : 0.82,
                     }}>
@@ -186,7 +186,7 @@ export default async function CurriculumMapPage() {
                               letterSpacing: '0.1em', textTransform: 'uppercase',
                               color: pilotSet.has(m.moduleId) ? 'var(--stage-1-text)' : 'var(--ink-muted)',
                               background: pilotSet.has(m.moduleId) ? 'var(--stage-1)' : 'transparent',
-                              border: `1.5px solid ${pilotSet.has(m.moduleId) ? 'var(--stage-1-bold)' : 'var(--border)'}`, borderRadius: '100px',
+                              border: `1.5px solid ${pilotSet.has(m.moduleId) ? 'var(--stage-1-bold)' : 'var(--border)'}`, borderRadius: 'var(--radius-pill)',
                               padding: '5px 11px',
                             }}>
                               {pilotSet.has(m.moduleId) ? 'In your pilot' : 'Full scheme'}
@@ -197,7 +197,7 @@ export default async function CurriculumMapPage() {
                               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                               letterSpacing: '0.1em', textTransform: 'uppercase',
                               color: 'var(--retro-green-dark)', background: 'var(--tint-green)',
-                              border: '1.5px solid var(--retro-green-dark)', borderRadius: '100px',
+                              border: '1.5px solid var(--retro-green-dark)', borderRadius: 'var(--radius-pill)',
                               padding: '5px 11px',
                             }}>
                               Free sample
@@ -212,13 +212,13 @@ export default async function CurriculumMapPage() {
                             // button on that page for anyone who already has.
                             <Link href={`/lesson/${m.moduleId}`} style={{
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                              color: '#fff', background: ch.accent, borderRadius: '12px',
+                              color: '#fff', background: ch.accent, borderRadius: 'var(--radius-tile)',
                               padding: '8px 14px', textDecoration: 'none',
                             }}>
                               Ready to teach →
                             </Link>
                           ) : (
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '7px 12px' }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '7px 12px' }}>
                               In production
                             </span>
                           )}

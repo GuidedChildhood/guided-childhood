@@ -140,7 +140,7 @@ export default function Result({ review, onUpdate }: {
             const meta = CATEGORIES.find(x => x.key === c.category)
             return (
               <div key={c.category} style={{
-                border: '1px solid var(--border)', borderRadius: '14px', padding: '12px 14px', background: 'var(--warm)',
+                border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 14px', background: 'var(--warm)',
               }}>
                 <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', flexWrap: 'wrap' }}>
                   <strong style={{ ...labelStyle, flex: 1, minWidth: '140px' }}>{meta?.title}</strong>
@@ -188,7 +188,7 @@ export default function Result({ review, onUpdate }: {
 
           <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
             {teaching.map(l => (
-              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
+              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{l.risk}</div>
                 <strong style={{ ...labelStyle, fontSize: 'var(--text-md)', display: 'block', margin: '6px 0 8px' }}>{l.competency}</strong>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
@@ -202,7 +202,7 @@ export default function Result({ review, onUpdate }: {
             ))}
 
             {gaps.map(l => (
-              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px', background: 'var(--stage-1)' }}>
+              <div key={l.id} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px', background: 'var(--stage-1)' }}>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{l.risk}</div>
                 <strong style={{ ...labelStyle, fontSize: 'var(--text-md)', display: 'block', margin: '6px 0 8px' }}>{l.competency}</strong>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--stage-1-text)', lineHeight: 1.55 }}>{l.gap}</div>
@@ -220,7 +220,7 @@ export default function Result({ review, onUpdate }: {
         </p>
         <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
           {clauses.map(c => (
-            <div key={c.heading} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
+            <div key={c.heading} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 15px' }}>
               <strong style={labelStyle}>{c.heading}</strong>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.65, margin: '6px 0 8px' }}>{c.body}</p>
               <div style={{ ...eyebrow }}>{c.because}</div>

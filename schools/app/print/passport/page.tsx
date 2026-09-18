@@ -45,7 +45,7 @@ export default function PassportPrintIndex() {
             const page = PASSPORT_STAGES[e.stage]
             const count = pageModules(e.stage).length
             return (
-              <Link key={e.stage} href={`/print/passport/${e.stage}`} style={{ textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: `2px solid ${friend.accent}`, borderRadius: '20px', padding: 'var(--space-4) var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
+              <Link key={e.stage} href={`/print/passport/${e.stage}`} style={{ textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: `2px solid ${friend.accent}`, borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                   <FriendArt friend={friend} mood="wave" size={16} />
                   <div>
@@ -67,7 +67,7 @@ export default function PassportPrintIndex() {
         {/* The paid version, offered after the free one and never instead of
             it. A school that has folded the paper passport knows what the
             bound one is worth, and no lesson is ever blocked on our stock. */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: 'var(--space-4) var(--space-4)', marginTop: '26px', maxWidth: '640px' }}>
+        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', marginTop: '26px', maxWidth: '640px' }}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '8px' }}>Want them printed and bound?</div>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, margin: '0 0 12px' }}>
             We can supply proper booklets with the pages already printed, and sticker sheets to fill them. Ask for a quote and we reply within two working days with a price and a lead time.

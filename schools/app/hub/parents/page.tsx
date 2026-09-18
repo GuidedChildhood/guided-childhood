@@ -43,7 +43,7 @@ export default async function ParentPackPage() {
           after each lesson, and the question that comes home so the conversation continues at your table.
         </p>
 
-        <div style={{ border: '2px solid var(--gold)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
+        <div style={{ border: '2px solid var(--gold)', borderRadius: 'var(--radius-tile)', padding: '14px 18px', marginBottom: '24px', background: 'var(--cream)' }}>
           <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>Your right to see the materials</p>
           <p style={body}>
             The statutory RSHE guidance, in force from September 2026, gives you the right to know what
@@ -93,7 +93,7 @@ export default async function ParentPackPage() {
               {modules.map(m => {
                 const note = noteByModule.get(m.moduleId)
                 return (
-                  <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '12px 16px', marginBottom: '8px' }}>
+                  <div key={m.moduleId} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', marginBottom: '8px' }}>
                     <p style={{ ...body, fontWeight: 800, marginBottom: '2px' }}>{m.title}</p>
                     <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '4px' }}>{m.blurb}</p>
                     <p style={{ ...body, fontSize: 'var(--text-base)' }}>

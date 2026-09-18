@@ -76,7 +76,7 @@ export default function SupplyForm() {
 
   if (state === 'done') {
     return (
-      <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '28px', textAlign: 'center' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '28px', textAlign: 'center' }}>
         <div style={{ fontSize: '36px', marginBottom: '10px' }} aria-hidden>📦</div>
         <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '8px' }}>
           Request received
@@ -90,7 +90,7 @@ export default function SupplyForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {/* The radio itself is visually hidden so the whole card is the target,
           which means the CARD has to show focus or a keyboard user cannot see
           where they are. Inline styles cannot express :focus-within, so this
@@ -105,7 +105,7 @@ export default function SupplyForm() {
             const on = want === o.key
             return (
               <label key={o.key} className="gc-want" style={{
-                display: 'block', cursor: 'pointer', borderRadius: '14px', padding: '12px 14px',
+                display: 'block', cursor: 'pointer', borderRadius: 'var(--radius-tile)', padding: '12px 14px',
                 border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: on ? 'var(--cream)' : '#fff', minHeight: '44px',
               }}>

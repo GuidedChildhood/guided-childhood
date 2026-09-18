@@ -34,7 +34,7 @@ const eyebrow: React.CSSProperties = {
 export function TasterStrip() {
   return (
     <div style={{
-      background: 'var(--tint-amber)', borderRadius: '14px',
+      background: 'var(--tint-amber)', borderRadius: 'var(--radius-tile)',
       padding: '10px 16px', marginBottom: '18px',
       display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2) var(--space-3)',
       alignItems: 'center', justifyContent: 'center', textAlign: 'center',
@@ -67,7 +67,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
     return (
       <section style={{
         background: 'var(--tint-green)', border: '2px solid var(--retro-green-dark)',
-        borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
+        borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
       }}>
         <p style={{ ...eyebrow, color: 'var(--retro-green-dark)', marginBottom: '10px' }}>That is yours</p>
         <h2 style={{
@@ -95,7 +95,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
   return (
     <section style={{
       background: '#fff', border: '2px solid var(--terracotta)',
-      borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
+      borderRadius: 'var(--radius-card)', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '28px',
     }}>
       <p style={{ ...eyebrow, marginBottom: '10px' }}>Free sample · one of{' '}{MODULE_COUNT}{' '}modules</p>
       <h2 style={{
@@ -138,7 +138,7 @@ export default function TasterBar({ moduleId, moduleTitle }: { moduleId: string;
         {error && (
           <div style={{
             padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)',
-            borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-body)',
+            borderRadius: 'var(--radius-tile)', color: 'var(--danger)', fontFamily: 'var(--font-body)',
             fontSize: 'var(--text-sm)', lineHeight: 1.5,
           }}>
             {error}

@@ -67,7 +67,7 @@ export default async function PilotPage() {
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em',
             textTransform: 'uppercase', color: full ? 'var(--ink-muted)' : 'var(--stage-1-text)',
             background: full ? 'var(--border)' : 'var(--stage-1)', border: `1.5px solid ${full ? 'var(--border)' : 'var(--stage-1-bold)'}`,
-            borderRadius: '100px', padding: '8px 14px', display: 'inline-block', marginBottom: '26px',
+            borderRadius: 'var(--radius-pill)', padding: '8px 14px', display: 'inline-block', marginBottom: '26px',
           }}>
             {left === null
               ? `${PILOT_PLACES} places`

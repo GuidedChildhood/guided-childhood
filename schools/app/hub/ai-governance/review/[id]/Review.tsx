@@ -159,8 +159,8 @@ export default function Review({ id }: { id: string }) {
         <div style={{ ...eyebrow, marginBottom: '8px' }}>
           {result.progress.answered} of {result.progress.total} answered
         </div>
-        <div style={{ height: '6px', background: 'var(--border)', borderRadius: '100px', overflow: 'hidden', marginBottom: '22px' }}>
-          <div style={{ height: '100%', width: `${pct}%`, background: 'var(--gold)', borderRadius: '100px', transition: 'width 0.3s' }} />
+        <div style={{ height: '6px', background: 'var(--border)', borderRadius: 'var(--radius-pill)', overflow: 'hidden', marginBottom: '22px' }}>
+          <div style={{ height: '100%', width: `${pct}%`, background: 'var(--gold)', borderRadius: 'var(--radius-pill)', transition: 'width 0.3s' }} />
         </div>
 
         {saveFailed && (

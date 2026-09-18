@@ -26,7 +26,7 @@ const rule: React.CSSProperties = { borderTop: '1px solid var(--border)', paddin
 
 function Signature({ block }: { block: SignatureBlock }) {
   return (
-    <div className="gc-avoid-break" style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', background: '#fff' }}>
+    <div className="gc-avoid-break" style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '18px 20px', background: '#fff' }}>
       <div style={{ ...mono, marginBottom: '14px' }}>{block.heading}</div>
       {block.lines.map(line => (
         <div key={line.label} style={{ display: 'grid', gridTemplateColumns: '88px 1fr', alignItems: 'end', gap: 'var(--space-3)', marginBottom: '14px' }}>
@@ -52,7 +52,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
         </h1>
         <p style={{ ...mono, margin: '0 0 22px' }}>{versionLine}</p>
 
-        <section aria-label="In plain words" style={{ border: '2px solid var(--terracotta)', background: 'var(--cream)', borderRadius: '20px', padding: '20px 22px 12px', marginBottom: '26px' }}>
+        <section aria-label="In plain words" style={{ border: '2px solid var(--terracotta)', background: 'var(--cream)', borderRadius: 'var(--radius-card)', padding: '20px 22px 12px', marginBottom: '26px' }}>
           <div style={{ ...mono, marginBottom: '8px' }}>In plain words</div>
           {doc.plain.map(p => <p key={p} style={{ ...body, marginBottom: '10px' }}>{p}</p>)}
         </section>

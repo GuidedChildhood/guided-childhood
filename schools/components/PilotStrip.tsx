@@ -17,7 +17,7 @@ const eyebrow: React.CSSProperties = {
 export default function PilotStrip({ compact = false }: { compact?: boolean }) {
   return (
     <div style={{
-      background: 'var(--tint-amber)', borderRadius: '14px',
+      background: 'var(--tint-amber)', borderRadius: 'var(--radius-tile)',
       padding: compact ? '10px 16px' : '14px 18px', marginBottom: compact ? '18px' : 0,
       display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2) var(--space-3)',
       alignItems: 'center', justifyContent: 'center', textAlign: 'center',

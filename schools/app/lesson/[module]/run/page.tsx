@@ -97,7 +97,7 @@ const body: React.CSSProperties = {
   color: 'var(--ink-soft)', lineHeight: 1.65,
 }
 const card: React.CSSProperties = {
-  background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
+  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
   padding: '22px 24px', boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
   breakInside: 'avoid',
 }
@@ -252,7 +252,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
-                  padding: '5px 12px', borderRadius: '100px',
+                  padding: '5px 12px', borderRadius: 'var(--radius-pill)',
                   background: 'var(--terracotta)', color: '#fff',
                 }}>
                   {PHASE_LABELS[phase]}

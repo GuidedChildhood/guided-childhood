@@ -86,7 +86,7 @@ export default function InductionPage() {
         </p>
 
         {AGENDA.map((a, i) => (
-          <div key={a.title} style={{ border: '1.5px solid var(--border)', borderRadius: '14px', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
+          <div key={a.title} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
             <div style={{ ...mono, marginBottom: '4px' }}>{i + 1} · {a.minutes}</div>
             <h2 style={h2}>{a.title}</h2>
             <p style={{ ...body, marginBottom: '8px' }}>{a.text}</p>

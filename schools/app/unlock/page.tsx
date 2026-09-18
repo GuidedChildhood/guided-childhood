@@ -63,7 +63,7 @@ export default async function UnlockPage({
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {pilotLessons.map(m => (
                 <li key={m.moduleId}>
-                  <Link href={`/lesson/${m.moduleId}`} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 16px', textDecoration: 'none', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
+                  <Link href={`/lesson/${m.moduleId}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '12px 16px', textDecoration: 'none', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}>
                     {m.title} <span style={{ fontWeight: 600, color: 'var(--ink-muted)', fontSize: 'var(--text-sm)' }}>· {m.yearBand}</span>
                   </Link>
                 </li>
@@ -99,7 +99,7 @@ export default async function UnlockPage({
           <UnlockForm next={destination} />
         ) : (
           <div style={{
-            background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px',
+            background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)',
             padding: '28px', textAlign: 'center',
           }}>
             <h2 style={{

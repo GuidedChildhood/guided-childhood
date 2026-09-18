@@ -141,7 +141,7 @@ export default function Dashboard() {
             { n: counts.review, label: 'Need a decision' },
             { n: counts.overdue, label: 'Overdue for review' },
           ].map(c => (
-            <div key={c.label} style={{ ...panel, padding: '14px 16px', borderRadius: '16px' }}>
+            <div key={c.label} style={{ ...panel, padding: '14px 16px', borderRadius: 'var(--radius-btn)' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '26px', color: 'var(--ink)', lineHeight: 1 }}>{c.n}</div>
               <div style={{ ...eyebrow, marginTop: '6px' }}>{c.label}</div>
             </div>

@@ -39,7 +39,7 @@ const body: React.CSSProperties = {
 }
 
 const card: React.CSSProperties = {
-  background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
+  background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
   padding: '24px 26px', boxShadow: '0 1px 2px rgba(46,40,24,0.05), 0 24px 50px -30px rgba(46,40,24,0.35)',
 }
 
@@ -319,7 +319,7 @@ export default function PhilosophyPage() {
           <Link href="/curriculum" className="btn btn-gold" style={{ padding: '15px 30px', fontSize: 'var(--text-md)' }}>
             See the curriculum this builds
           </Link>
-          <Link href="/hub/rshe-mapping" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '15px 28px', borderRadius: '16px', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)' }}>
+          <Link href="/hub/rshe-mapping" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '15px 28px', borderRadius: 'var(--radius-btn)', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)' }}>
             Check the statutory mapping
           </Link>
         </div>

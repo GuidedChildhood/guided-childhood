@@ -55,7 +55,7 @@ export default function PilotForm({ full }: { full: boolean }) {
 
   if (state === 'done') {
     return (
-      <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '28px', textAlign: 'center' }}>
+      <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: '28px', textAlign: 'center' }}>
         <div style={{ fontSize: '36px', marginBottom: '10px' }}>⭐</div>
         <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '8px' }}>
           Request received
@@ -71,7 +71,7 @@ export default function PilotForm({ full }: { full: boolean }) {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
         <label style={label} htmlFor="pilot_school_name">School name</label>
         <input className="input" id="pilot_school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-pilot-school' : undefined} />
@@ -120,7 +120,7 @@ export default function PilotForm({ full }: { full: boolean }) {
       </div>
 
       {error && (
-        <div style={{ padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
+        <div style={{ padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: 'var(--radius-tile)', color: 'var(--danger)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
           {error}
         </div>
       )}

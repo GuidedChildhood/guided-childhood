@@ -13,7 +13,7 @@ export const metadata = { title: 'Data protection pack' }
 
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7 }
-const block: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 20px', marginBottom: '14px' }
+const block: React.CSSProperties = { border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '16px 20px', marginBottom: '14px' }
 const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }
 
 export default async function DataProtectionPage() {

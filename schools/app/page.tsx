@@ -104,7 +104,7 @@ function MapPreview() {
         {showcase.map(m => {
           const ch = CHARACTERS[m.character]
           return (
-            <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: '14px', overflow: 'hidden' }}>
+            <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', overflow: 'hidden' }}>
               <div style={{ background: ch.soft, padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                 <span style={{ fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
@@ -147,8 +147,8 @@ function WallAtSixteen() {
     { key: 'cosmo' as const, x: 73, y: 30, size: 62 },
   ]
   return (
-    <div style={{ background: '#fff', borderRadius: '24px', padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)' }}>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '10 / 8', background: 'linear-gradient(180deg, #FBF6EA 0%, #F6EDDA 100%)', borderRadius: '18px', overflow: 'hidden' }}>
+    <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)' }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '10 / 8', background: 'linear-gradient(180deg, #FBF6EA 0%, #F6EDDA 100%)', borderRadius: 'var(--radius-card)', overflow: 'hidden' }}>
 
         {/* The wall, offset brick courses drawn one rectangle at a time */}
         <svg viewBox={`0 0 ${wallW} ${wallH}`} preserveAspectRatio="none" style={{ position: 'absolute', right: 0, top: 0, height: '100%', width: '38%' }} aria-hidden>
@@ -175,7 +175,7 @@ function WallAtSixteen() {
         </svg>
 
         {/* The 16 sign on the wall */}
-        <div style={{ position: 'absolute', right: '12%', top: '10%', background: '#FDF4D9', border: '2px solid #7A5A0E', borderRadius: '10px', padding: '4px 12px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.1rem, 2.6vw, 1.6rem)', color: '#7A5A0E', boxShadow: '0 3px 0 rgba(122,90,14,0.35)', transform: 'rotate(3deg)' }}>
+        <div style={{ position: 'absolute', right: '12%', top: '10%', background: '#FDF4D9', border: '2px solid #7A5A0E', borderRadius: 'var(--radius-tile)', padding: '4px 12px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.1rem, 2.6vw, 1.6rem)', color: '#7A5A0E', boxShadow: '0 3px 0 rgba(122,90,14,0.35)', transform: 'rotate(3deg)' }}>
           16
         </div>
 
@@ -350,7 +350,7 @@ export default async function SchoolsPage() {
               <Link href={PILOT_PATH} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
                 Request a free pilot
               </Link>
-              <Link href="#journey" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '16px 30px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.24)' }}>
+              <Link href="#journey" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '16px 30px', borderRadius: 'var(--radius-btn)', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.24)' }}>
                 See every year
               </Link>
             </div>
@@ -397,7 +397,7 @@ export default async function SchoolsPage() {
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: '20px' }}>
               {['Connect', 'Recall', 'Teach', 'Practise', 'Prove', 'Reflect'].map(ph => (
-                <span key={ph} style={{ background: '#fff', border: '2px solid var(--border)', borderRadius: '100px', padding: '6px 14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>{ph}</span>
+                <span key={ph} style={{ background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '6px 14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>{ph}</span>
               ))}
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px' }}>
@@ -431,7 +431,7 @@ export default async function SchoolsPage() {
               { icon: '🛡️', title: 'Safeguarding built in', body: 'The sensitive modules carry a DSL note, a ten minute staff briefing, and disclosure handling written into the script, calm on every page.' },
               { icon: '📋', title: 'The compliance hub', body: 'The statutory mapping, policy ready text, the parent pack and a data protection pack for your DPO. All of it public or printable.' },
             ].map(f => (
-              <div key={f.title} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '22px', padding: '26px', height: '100%', boxShadow: softShadow }}>
+              <div key={f.title} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '26px', height: '100%', boxShadow: softShadow }}>
                 <div style={{ fontSize: 'var(--text-2xl)', marginBottom: '16px' }}>{f.icon}</div>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '9px' }}>{f.title}</h3>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{f.body}</p>
@@ -457,8 +457,8 @@ export default async function SchoolsPage() {
             {CAST.map(c => {
               const ch = CHARACTERS[c.key]
               return (
-                <div key={c.key} className="fu" style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: '20px', padding: '16px 14px 20px', textAlign: 'center', height: '100%' }}>
-                  <div style={{ width: '100%', aspectRatio: '1', margin: '0 auto 14px', borderRadius: '16px', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div key={c.key} className="fu" style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: 'var(--radius-card)', padding: '16px 14px 20px', textAlign: 'center', height: '100%' }}>
+                  <div style={{ width: '100%', aspectRatio: '1', margin: '0 auto 14px', borderRadius: 'var(--radius-btn)', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                     {c.clip ? (
                       <video src={c.clip} autoPlay muted loop playsInline aria-label={`${ch.name} animated`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : ch.img ? (
@@ -494,7 +494,7 @@ export default async function SchoolsPage() {
               const meta = KEY_STAGE_META[ks]
               const mods = MODULES.filter(m => m.keyStage === ks)
               return (
-                <div key={ks} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '22px', overflow: 'hidden', boxShadow: softShadow }}>
+                <div key={ks} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', overflow: 'hidden', boxShadow: softShadow }}>
                   <div style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 280px) 1fr' }} className="schools-curric-row">
                     <div style={{ background: ESPRESSO, color: '#fff', padding: '26px 24px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                       <div style={{ ...eyebrow(GOLD), fontSize: 'var(--text-sm)' }}>{meta.label}</div>
@@ -512,7 +512,7 @@ export default async function SchoolsPage() {
                         {mods.map(m => {
                           const ch = CHARACTERS[m.character]
                           return (
-                            <div key={m.moduleId} style={{ background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: '14px', padding: '12px 14px' }}>
+                            <div key={m.moduleId} style={{ background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: 'var(--radius-tile)', padding: '12px 14px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: '5px' }}>
                                 <span style={{ fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>
                                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>{m.title}</span>
@@ -553,7 +553,7 @@ export default async function SchoolsPage() {
           </div>
           <div className="schools-evidence-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 'var(--space-4)' }}>
             {EVIDENCE.map(e => (
-              <div key={e.label} className="fu" style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '22px', padding: '26px', height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+              <div key={e.label} className="fu" style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '26px', height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
                 <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)' }}>{e.label}</div>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>{e.title}</h3>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{e.body}</p>
@@ -610,7 +610,7 @@ export default async function SchoolsPage() {
                   { label: 'Connected World', desc: 'All eight UKCIS strands, Reception to Year 13.' },
                   { label: 'No pupil data', desc: 'No pupil accounts, no logins, nothing to breach. One code per school.' },
                 ].map(item => (
-                  <div key={item.label} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', boxShadow: softShadow }}>
+                  <div key={item.label} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '20px', boxShadow: softShadow }}>
                     <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)', marginBottom: '9px' }}>{item.label}</div>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{item.desc}</p>
                   </div>
@@ -643,7 +643,7 @@ export default async function SchoolsPage() {
                   background: band.featured ? ESPRESSO : '#fff',
                   color: band.featured ? '#fff' : 'var(--ink)',
                   border: band.featured ? 'none' : '1px solid var(--border)',
-                  borderRadius: '22px', padding: '26px 22px', height: '100%',
+                  borderRadius: 'var(--radius-card)', padding: '26px 22px', height: '100%',
                   display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', position: 'relative',
                   boxShadow: band.featured ? '0 2px 4px rgba(46,40,24,0.1), 0 40px 70px -34px rgba(46,40,24,0.55)' : softShadow,
                 }}>
@@ -686,7 +686,7 @@ export default async function SchoolsPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {FAQS.map(f => (
-              <details key={f.q} className="fu schools-faq" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '4px 22px', boxShadow: softShadow }}>
+              <details key={f.q} className="fu schools-faq" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '4px 22px', boxShadow: softShadow }}>
                 <summary style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', padding: '16px 0', cursor: 'pointer', listStyle: 'none' }}>
                   {f.q}
                 </summary>
@@ -717,7 +717,7 @@ export default async function SchoolsPage() {
             {/* The second door used to promise a free assembly pack that was
                 never built (plans/master-build-plan.md still has the box
                 unticked). The sample lesson is real, so it stands here. */}
-            <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '17px 34px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
+            <Link href={`/lesson/${TASTER_MODULES[0]}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '17px 34px', borderRadius: 'var(--radius-btn)', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
               Teach the sample lesson first
             </Link>
           </div>

@@ -56,7 +56,7 @@ export default function SuppliesPage() {
             the postage. Nothing is ordered and nothing is charged until you say yes.
           </p>
 
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '20px 22px', marginBottom: '18px' }}>
+          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px 22px', marginBottom: '18px' }}>
             <p style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>What is in a book</p>
             <ul style={{ ...body, margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {EDITIONS.map(e => (
@@ -66,7 +66,7 @@ export default function SuppliesPage() {
             </ul>
           </div>
 
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '20px 22px' }}>
+          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px 22px' }}>
             <p style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '10px' }}>Free, today, no waiting</p>
             <p style={{ ...body, marginBottom: '12px' }}>
               Every passport prints from your own printer on one sheet of A4. One slit, three folds, and a

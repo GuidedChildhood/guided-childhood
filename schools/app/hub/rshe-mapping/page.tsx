@@ -69,7 +69,7 @@ const srOnly: React.CSSProperties = {
   overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0,
 }
 const card: React.CSSProperties = {
-  background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px',
+  background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 'var(--radius-card)',
   padding: '22px 24px',
 }
 
@@ -102,7 +102,7 @@ function Chip({ children, tone = 'name' }: { children: React.ReactNode; tone?: '
       letterSpacing: label ? '0.1em' : 'normal',
       textTransform: label ? 'uppercase' : 'none',
       padding: label ? '4px 9px' : '4px 11px',
-      borderRadius: '100px', lineHeight: 1.5,
+      borderRadius: 'var(--radius-pill)', lineHeight: 1.5,
       border: '1px solid var(--border)', background: '#fff', color: 'var(--ink-soft)',
     }}>
       {children}
