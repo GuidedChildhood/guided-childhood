@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { isVerdict } from '@/lib/digi/outcomes'
+import { bandOf } from '@/lib/digi/approaches'
 
 // The parent answers "how did that go?".
 //
@@ -35,11 +36,40 @@ export async function POST(req: NextRequest) {
     .update({ verdict, parent_note: parentNote, answered_at: new Date().toISOString() })
     .eq('id', outcomeId)
     .eq('user_id', user.id)
-    .select('id, suggestion, trigger, followup_id')
+    .select('id, suggestion, trigger, followup_id, concern_id, band_at_suggestion')
     .maybeSingle()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   if (!row) return NextResponse.json({ error: 'not found' }, { status: 404 })
+
+  // ── THE OTHER HALF OF THE ANSWER (migration 307) ───────────────────────────
+  //
+  // The three taps are what the parent thinks. This is what the worry actually
+  // did, and the two disagree often enough to be worth holding side by side: a
+  // parent can say a thing worked and the rating can still be sitting where it
+  // was, which is the case where the honest next move is another idea rather
+  // than a well done.
+  //
+  // Bands, never raw scores, the rule review.md section 4a holds everywhere.
+  // Best effort and deliberately after the verdict has landed: the verdict is
+  // the thing that had to be saved, and losing the band loses a comparison
+  // where losing the verdict loses the feature.
+  if (row.concern_id) {
+    const { data: latest } = await supabase
+      .from('concern_events')
+      .select('score')
+      .eq('concern_id', row.concern_id)
+      .not('score', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    const score = latest?.score
+    if (typeof score === 'number') {
+      await supabase.from('digi_outcomes')
+        .update({ band_after: bandOf(score) })
+        .eq('id', row.id).eq('user_id', user.id)
+    }
+  }
 
   // Close the card and the follow up behind it. Both are best effort: the
   // verdict is the thing that had to land, and losing a status tidy up is a

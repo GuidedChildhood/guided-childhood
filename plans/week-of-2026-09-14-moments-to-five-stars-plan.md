@@ -106,3 +106,36 @@ Shape to agree before building:
 Strand 4 is the one that needs his call before it is built, because "every
 possible way" has to mean something specific and the wrong reading would turn
 a calm product into one that pesters. Strands 1 to 3 do not need him.
+
+## The DiGi strand (18 September 2026, approved)
+
+Justin: every moment added is caught "until they get 5 stars and marked as
+done", and DiGi "knows it's a goal over days to try every possible scientific
+expert way" to get there. Approved shape: a record per worry of what has been
+tried and what the reading did afterwards, an ordered bank of approaches drawn
+from the research already in `expert_knowledge`, and the existing twice a week
+step in cap kept so it never turns into nagging.
+
+Built by extending what exists, not beside it.
+
+1. **Migration 307.** `approach`, `band_at_suggestion` on `digi_followups`;
+   `approach`, `band_at_suggestion`, `band_after` on `digi_outcomes`, plus the
+   per worry index.
+2. **The record was never being written.** `digi_outcomes.concern_id` has
+   existed since migration 154, indexed and documented. Read live: 6 rows, 0
+   with a worry attached. The followups cron copied `moment_id` and dropped
+   `concern_id`. Fixed, and the two bands ride with it.
+3. **`lib/digi/approaches.ts`**, a reader. The bank per worry, walked in order
+   with what was tried taken out, plus the block DiGi sees.
+4. **`schedule_followup` gains `worry`.** The model names a worry it can read
+   off its own context; the SERVER decides which approach that counts as.
+5. **The restraint.** A worry at silver is out of the block, and its approach
+   is not marked spent. Nothing here writes a prompt card, so the twice a week
+   cap stays the only door DiGi can knock on.
+6. **`scripts/check-worry-strand.mjs`**, 38 rules, 32 of 32 mutations caught,
+   in the `concern-guards` job.
+
+The find worth keeping: `devices` is the topic a phone worry infers, and the
+research bank has zero rows tagged `devices`, it files them under `phone`. So
+`phones-and-messaging`, the second most common worry on the product, would
+have found no research at all. Rule A of the guard holds that join now.

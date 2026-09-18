@@ -40,6 +40,17 @@ export interface ToolContext {
   childId: string | null
   ageBand: string | null
   childName: string | null
+  /**
+   * The live worries DiGi was shown, each with the next approach in the
+   * research bank that this family has not had for it yet.
+   *
+   * The model names a worry; the server decides which approach that counts as.
+   * Deliberately that way round. Asking a model to echo back a key it was
+   * shown is a coin flip that fails silently, where matching a label it can
+   * read off its own context is the sort of thing it does reliably, and a miss
+   * costs one unattributed row rather than a wrong one.
+   */
+  worries?: { id: string; label: string; approach: string | null; band: number | null }[]
 }
 
 export const SEARCH_KNOWLEDGE_TOOL: Anthropic.Tool = {
@@ -153,6 +164,10 @@ export const SCHEDULE_FOLLOWUP_TOOL: Anthropic.Tool = {
       trigger: {
         type: 'string',
         description: 'The moment itself in a few plain words, as the parent described it. "goes straight to the TV before breakfast". Short, because two families describing the same morning need to land near each other.',
+      },
+      worry: {
+        type: 'string',
+        description: 'If this suggestion is for one of the worries listed in EACH WORRY IS A GOAL WORKED OVER DAYS, copy that worry\'s name here exactly as it is written there. That is what attaches their answer to the record of what has been tried for it, so the next idea is a new one. Leave it out when the suggestion is not about any of them.',
       },
     },
     required: ['days', 'question'],
@@ -409,6 +424,19 @@ async function doScheduleFollowup(ctx: ToolContext, arg: Record<string, unknown>
     trigger: cleanTrigger(arg.trigger),
   }
 
+  // Which worry this is for, resolved from the label the model copied back.
+  // Matched loosely on case and spacing only: anything cleverer would start
+  // guessing, and a wrong concern_id is worse than none, because it writes a
+  // false line into the record of what has been tried for that worry.
+  //
+  // The approach and the band come from the server's own strand rather than
+  // from the model, so the key on the row is the key the bank was ordered by
+  // and the band is the one the check in recorded, not the one DiGi inferred.
+  const worryName = typeof arg.worry === 'string' ? arg.worry.trim().toLowerCase().replace(/\s+/g, ' ') : ''
+  const worry = worryName
+    ? (ctx.worries ?? []).find(w => w.label.trim().toLowerCase().replace(/\s+/g, ' ') === worryName) ?? null
+    : null
+
   const { error } = await ctx.supabase.from('digi_followups').insert({
     user_id: ctx.userId,
     child_id: ctx.childId,
@@ -417,6 +445,9 @@ async function doScheduleFollowup(ctx: ToolContext, arg: Record<string, unknown>
     context,
     suggestion,
     situation,
+    concern_id: worry?.id ?? null,
+    approach: worry?.approach ?? null,
+    band_at_suggestion: worry?.band ?? null,
   })
   if (error) return 'That did not schedule. Do not promise the parent a follow up.'
   return `Scheduled for ${dueOn}, ${days} day(s) away. Tell the parent you will check back in, warmly and in your own words.`

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { bandOf } from '@/lib/digi/approaches'
 import { NextResponse } from 'next/server'
 
 // "I tried this." Which is a different sentence from "I opened this."
@@ -85,9 +86,28 @@ export async function POST(request: Request) {
 
   const due = new Date(Date.now() + CHECK_BACK_DAYS * 86_400_000).toISOString().slice(0, 10)
 
+  // Where the worry stands the day they tried something, so that when the
+  // answer comes back a week later there is something to compare it against.
+  // No approach key: this one is the parent's own idea, not a finding out of
+  // the bank, and recording a bank key for it would put a tried mark against
+  // research they were never offered.
+  let bandAtSuggestion: number | null = null
+  if (uuid(concernId)) {
+    const { data: latest } = await supabase
+      .from('concern_events')
+      .select('score')
+      .eq('concern_id', concernId!)
+      .not('score', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    if (typeof latest?.score === 'number') bandAtSuggestion = bandOf(latest.score)
+  }
+
   const { error } = await supabase.from('digi_followups').insert({
     user_id: user.id,
     child_id: childId,
+    band_at_suggestion: bandAtSuggestion,
     moment_id: uuid(momentId) ? momentId : null,
     concern_id: uuid(concernId) ? concernId : null,
     due_on: due,
