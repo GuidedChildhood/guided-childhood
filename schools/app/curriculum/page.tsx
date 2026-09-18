@@ -44,6 +44,12 @@ export default async function CurriculumMapPage() {
   // as the full scheme, still visible, opening with a licence.
   const access = await currentAccess()
   const pilotSet = access?.tier === 'pilot' ? new Set(pilotModulesFor(access.phase)) : null
+  // CAN THIS VISITOR OPEN THIS LESSON. Asked once, here, because the card has
+  // to answer it twice: in the chip and on the button, and those two must
+  // never disagree. The wall itself is in the proxy (schools/proxy.ts) and is
+  // not moved by this; all that changes is whether the page says so.
+  const opens = (moduleId: string) =>
+    isTasterModule(moduleId) || access?.tier === 'licence' || (pilotSet?.has(moduleId) ?? false)
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
@@ -180,16 +186,25 @@ export default async function CurriculumMapPage() {
                               This map is public, so without the chip it is
                               twenty two doors to /unlock and one that opens,
                               with nothing saying which. See lib/taster.ts. */}
-                          {pilotSet && live && !isTasterModule(m.moduleId) && (
+                          {/* Until 18 September this chip rendered only for a
+                              pilot school, so a visitor with NO code saw
+                              twenty four identical gold buttons and every one
+                              of them bounced to /unlock. The comment above
+                              had named that exact failure and the code did it
+                              anyway. Now every card says which it is, to
+                              everybody, the way a price sits on every option
+                              on a shop page. A licensed school gets no chip,
+                              because for them there is nothing to say. */}
+                          {live && !isTasterModule(m.moduleId) && access?.tier !== 'licence' && (
                             <span style={{
                               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                               letterSpacing: '0.1em', textTransform: 'uppercase',
-                              color: pilotSet.has(m.moduleId) ? 'var(--stage-1-text)' : 'var(--ink-muted)',
-                              background: pilotSet.has(m.moduleId) ? 'var(--stage-1)' : 'transparent',
-                              border: `1.5px solid ${pilotSet.has(m.moduleId) ? 'var(--stage-1-bold)' : 'var(--border)'}`, borderRadius: 'var(--radius-pill)',
+                              color: pilotSet?.has(m.moduleId) ? 'var(--stage-1-text)' : 'var(--ink-muted)',
+                              background: pilotSet?.has(m.moduleId) ? 'var(--stage-1)' : 'transparent',
+                              border: `1.5px solid ${pilotSet?.has(m.moduleId) ? 'var(--stage-1-bold)' : 'var(--border)'}`, borderRadius: 'var(--radius-pill)',
                               padding: '5px 11px',
                             }}>
-                              {pilotSet.has(m.moduleId) ? 'In your pilot' : 'Full scheme'}
+                              {pilotSet?.has(m.moduleId) ? 'In your pilot' : pilotSet ? 'Full scheme' : 'Licence needed'}
                             </span>
                           )}
                           {live && isTasterModule(m.moduleId) && (
@@ -210,12 +225,23 @@ export default async function CurriculumMapPage() {
                             // and what to print before they commit a lesson
                             // to it, and Teach this lesson is the first
                             // button on that page for anyone who already has.
+                            // "Ready to teach" is a promise the tap can only
+                            // keep when the visitor can actually open it.
+                            // Everywhere else the tap lands on /unlock, so the
+                            // button says so and goes quiet: solid and in the
+                            // friend's colour for a lesson you have, outlined
+                            // for a door. That also takes twenty four filled
+                            // buttons off the page, which is most of why it
+                            // read as louder than it is.
                             <Link className="gc-tap" href={`/lesson/${m.moduleId}`} style={{
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                              color: '#fff', background: ch.accent, borderRadius: 'var(--radius-tile)',
+                              color: opens(m.moduleId) ? '#fff' : 'var(--ink-soft)',
+                              background: opens(m.moduleId) ? ch.accent : 'transparent',
+                              border: opens(m.moduleId) ? '1px solid transparent' : '1px solid var(--border)',
+                              borderRadius: 'var(--radius-tile)',
                               padding: '8px 14px', textDecoration: 'none',
                             }}>
-                              Ready to teach →
+                              {opens(m.moduleId) ? 'Ready to teach →' : 'Unlock this lesson →'}
                             </Link>
                           ) : (
                             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '7px 12px' }}>
