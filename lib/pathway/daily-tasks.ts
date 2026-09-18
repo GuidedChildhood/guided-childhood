@@ -877,6 +877,44 @@ export async function getTodayLoop(
     }
   }
 
+  // ── THE CHECK IN IS ALWAYS THE FIRST THING ON THE ROAD ───────────────────
+  //
+  // Justin, 18 September 2026: "also didn't have check in as first thing to
+  // do? Maybe the 3 rule has messed it up as he had 7 things."
+  //
+  // The cap had nothing to do with it. That account had completed one day, and
+  // one completed day makes today a LESSON day, so the lesson became the lead
+  // and walked to the front, which pushed the check in down the page. Working
+  // exactly as designed, and wrong to read.
+  //
+  // Two different things were being decided by one setting: which rung is the
+  // day's ONE required tick, and which rung a parent's eye lands on first. The
+  // rotation should own the first and never the second. The check in is the
+  // thirty second habit and the thing every number in this product is measured
+  // from, so a day that opens with anything else is a day the habit competes
+  // for attention it should not have to.
+  //
+  // So the lead is left exactly as the rotation chose it, and the check in is
+  // moved to the front on top of that. On a connect day they are the same rung
+  // and nothing moves. On a lesson day the road reads check in, then the
+  // lesson, then the seam, so the lesson is still the tick that completes the
+  // day and the check in is still the first thing asked of anyone.
+  //
+  // Position only. `lead` is a flag and every reader finds it with .find or
+  // .some rather than by index, including the day's done and the "also today"
+  // seam, so none of them move with this.
+  const checkInIdx = tasks.findIndex(t => t.key === 'checkin')
+  if (checkInIdx >= 0) {
+    // Setup keeps the very front while it is unfinished, the same rule the
+    // lead placement above follows. In practice the check in rung does not
+    // exist while setup does, so this is a guard rather than a live case.
+    const front = tasks[0]?.key === 'setup' ? 1 : 0
+    if (checkInIdx > front) {
+      const [checkIn] = tasks.splice(checkInIdx, 1)
+      tasks.splice(front, 0, checkIn)
+    }
+  }
+
   const lead = tasks.find(t => t.lead)
   tasks.push({
     key: 'done',

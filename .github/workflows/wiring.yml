@@ -209,6 +209,14 @@ jobs:
       - run: node scripts/check-co-watch.mjs
       - run: node scripts/check-home-icon.mjs
       - run: node scripts/check-today-tick.mjs
+      # The check in opens every day, and the rotation still owns the tick.
+      # Justin, 18 September 2026: the check in was not the first thing on the
+      # road. One completed day makes today a lesson day, the lesson led and
+      # walked to the front, and the habit ended up below it. Position and the
+      # day's one tick are now two separate things, and this holds them apart
+      # in both directions: making the check in lead every day would satisfy
+      # the first rule and quietly delete lesson, DiGi and passport days.
+      - run: node scripts/check-checkin-leads-the-road.mjs
       - run: node scripts/check-screens-rest.mjs
       - run: node scripts/check-job-row.mjs
       - run: node scripts/check-job-icons.mjs
