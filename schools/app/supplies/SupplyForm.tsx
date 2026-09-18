@@ -90,7 +90,7 @@ export default function SupplyForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {/* The radio itself is visually hidden so the whole card is the target,
           which means the CARD has to show focus or a keyboard user cannot see
           where they are. Inline styles cannot express :focus-within, so this
@@ -100,7 +100,7 @@ export default function SupplyForm() {
       `}</style>
       <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
         <legend style={{ ...label, marginBottom: '10px' }}>What do you need?</legend>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-3)' }}>
           {WANT_OPTIONS.map(o => {
             const on = want === o.key
             return (
@@ -122,7 +122,7 @@ export default function SupplyForm() {
         </div>
       </fieldset>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 'var(--space-3)' }}>
         {want !== 'stickers' && (
           <div>
             <label style={label} htmlFor="sup_books">How many books</label>
@@ -150,7 +150,7 @@ export default function SupplyForm() {
         {errs.school_name && <p id="err-sup-school" role="alert" style={fieldNote}>{errs.school_name}</p>}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="sup_name">Your name</label>
           <input className="input" id="sup_name" name="contact_name" required maxLength={120} placeholder="Sam Carter" aria-invalid={!!errs.contact_name} aria-describedby={errs.contact_name ? 'err-sup-name' : undefined} />
@@ -169,7 +169,7 @@ export default function SupplyForm() {
         <p style={hint}>The box goes to the school. We never ask for a pupil name or a home address, and the books arrive blank for the children to write their own.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="sup_po">Purchase order number</label>
           <input className="input" id="sup_po" name="po_number" maxLength={80} placeholder="If you already have one" />

@@ -3,6 +3,7 @@ import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Staff briefings' }
 
@@ -117,7 +118,7 @@ const BRIEFINGS = [
 export default async function CpdBriefingsPage() {
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>

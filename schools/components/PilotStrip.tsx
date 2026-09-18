@@ -19,7 +19,7 @@ export default function PilotStrip({ compact = false }: { compact?: boolean }) {
     <div style={{
       background: 'var(--tint-amber)', borderRadius: '14px',
       padding: compact ? '10px 16px' : '14px 18px', marginBottom: compact ? '18px' : 0,
-      display: 'flex', flexWrap: 'wrap', gap: '8px 14px',
+      display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2) var(--space-3)',
       alignItems: 'center', justifyContent: 'center', textAlign: 'center',
     }}>
       <span style={eyebrow}>Your pilot lesson</span>

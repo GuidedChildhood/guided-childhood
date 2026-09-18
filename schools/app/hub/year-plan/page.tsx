@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'The year at a glance' }
 
@@ -17,7 +18,7 @@ const TERMS = ['Autumn', 'Spring', 'Summer']
 export default async function YearPlanPage() {
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
           <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
@@ -45,7 +46,7 @@ export default async function YearPlanPage() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
                 {meta.label} <span style={{ fontWeight: 700, fontSize: '0.8em', color: 'var(--ink-muted)' }}>{meta.years}</span>
               </h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
                 {terms.map(({ term, modules: termModules }) => (
                   <div key={term} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 14px' }}>
                     <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--green-dark)', marginBottom: '6px' }}>{term}</div>

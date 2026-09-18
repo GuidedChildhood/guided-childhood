@@ -5,6 +5,7 @@ import { PILOT_PLACES } from '@/lib/pilot'
 import { pilotPlacesLeft } from '@/lib/pilot-places'
 import { TASTER_MODULES } from '@/lib/taster'
 import PilotForm from './PilotForm'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE PILOT PAGE. Open to the world, the door every "Request a pilot" button
 // on the site goes through (the schools review, decision 2: bring the request
@@ -48,11 +49,11 @@ export default async function PilotPage() {
   ]
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '48px 20px 90px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '980px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'start' }}>
         <div>
           <p style={{ ...eyebrow, marginBottom: '12px' }}>A free one term pilot</p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 4.6vw, 3rem)', letterSpacing: '-0.03em', lineHeight: 1.08, color: 'var(--ink)', marginBottom: '16px', textWrap: 'balance' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.hero, color: 'var(--ink)', marginBottom: 'var(--space-4)', textWrap: 'balance' }}>
             Teach it for a term. Decide after.
           </h1>
           <p style={{ ...body, marginBottom: '14px' }}>
@@ -76,9 +77,9 @@ export default async function PilotPage() {
           </p>
 
           <div style={{ ...eyebrow, color: 'var(--ink-muted)', marginBottom: '10px' }}>What the pilot includes</div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
             {included.map(line => (
-              <li key={line} style={{ ...body, display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+              <li key={line} style={{ ...body, display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
                 <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }}>✓</span>
                 <span>{line}</span>
               </li>

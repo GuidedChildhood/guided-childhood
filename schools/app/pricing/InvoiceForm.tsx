@@ -81,13 +81,13 @@ export default function InvoiceForm({ preselect, prefill }: { preselect?: string
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
         <label style={label} htmlFor="school_name">School name</label>
         <input className="input" id="school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" defaultValue={prefill?.school_name} aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-school_name' : undefined} />
         {errs.school_name && <p id="err-school_name" role="alert" style={fieldNote}>{errs.school_name}</p>}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="band">Band</label>
           <select className="input" id="band" name="band" defaultValue={preselect && PRICING_BANDS.some(b => b.key === preselect) ? preselect : 'primary_small'}>
@@ -103,7 +103,7 @@ export default function InvoiceForm({ preselect, prefill }: { preselect?: string
           <input className="input" id="pupil_count" name="pupil_count" type="number" min={1} max={99999} placeholder="320" />
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="contact_name">Your name</label>
           <input className="input" id="contact_name" name="contact_name" required maxLength={120} placeholder="Sam Headteacher" defaultValue={prefill?.contact_name} aria-invalid={!!errs.contact_name} aria-describedby={errs.contact_name ? 'err-contact_name' : undefined} />

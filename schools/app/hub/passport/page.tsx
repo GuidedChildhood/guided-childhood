@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import HubPassport from './HubPassport'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // /hub/passport: the passport, page by page, with this screen's fill.
 // The explanation lives here in words; the pages and the ticks are the
@@ -14,11 +15,11 @@ export const metadata = { title: 'The passport, page by page' }
 
 export default function HubPassportPage() {
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
         <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
         <div style={{ ...mono, color: 'var(--gold-dark)', margin: '18px 0 4px' }}>Home and school, one passport</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
           The passport, page by page
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>

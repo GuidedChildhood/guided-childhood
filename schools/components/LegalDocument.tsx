@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { COMPANY, LEGAL_LINE } from '@gc/shared/legal'
 import PrintButton from '@/components/PrintButton'
 import type { LegalDoc, SignatureBlock } from '@/lib/legal/types'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 // ONE RENDERER FOR THE THREE LEGAL DOCUMENTS (13 September 2026).
 //
@@ -28,7 +29,7 @@ function Signature({ block }: { block: SignatureBlock }) {
     <div className="gc-avoid-break" style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', background: '#fff' }}>
       <div style={{ ...mono, marginBottom: '14px' }}>{block.heading}</div>
       {block.lines.map(line => (
-        <div key={line.label} style={{ display: 'grid', gridTemplateColumns: '88px 1fr', alignItems: 'end', gap: '10px', marginBottom: '14px' }}>
+        <div key={line.label} style={{ display: 'grid', gridTemplateColumns: '88px 1fr', alignItems: 'end', gap: 'var(--space-3)', marginBottom: '14px' }}>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', paddingBottom: '4px' }}>{line.label}</span>
           <span style={{ borderBottom: '1.5px solid var(--ink)', minHeight: '30px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', paddingBottom: '3px' }}>{line.value ?? ''}</span>
         </div>
@@ -40,9 +41,9 @@ function Signature({ block }: { block: SignatureBlock }) {
 export default function LegalDocument({ doc }: { doc: LegalDoc }) {
   const versionLine = `Version ${doc.version} · ${doc.dated} · ${COMPANY.name}`
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <article style={{ maxWidth: '760px', margin: '0 auto' }}>
-        <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
+        <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: '18px' }}>
           <span style={mono}>{doc.eyebrow}</span>
           <PrintButton />
         </div>
@@ -56,7 +57,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
           {doc.plain.map(p => <p key={p} style={{ ...body, marginBottom: '10px' }}>{p}</p>)}
         </section>
 
-        <nav aria-label="Contents" className="no-print" style={{ marginBottom: '22px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '2px 20px' }}>
+        <nav aria-label="Contents" className="no-print" style={{ marginBottom: '22px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--space-1) var(--space-4)' }}>
           {doc.sections.map(s => (
             <a key={s.id} href={`#${s.id}`} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'none', padding: '6px 0' }}>
               <span style={{ ...mono, marginRight: '8px' }}>{s.n}</span>{s.title}
@@ -77,7 +78,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
             </h2>
             {s.lead && <p style={{ ...body, marginBottom: '14px' }}>{s.lead}</p>}
             {s.clauses.map(c => (
-              <div key={c.n} className="gc-avoid-break" style={{ display: 'grid', gridTemplateColumns: '52px 1fr', gap: '8px', marginBottom: '14px' }}>
+              <div key={c.n} className="gc-avoid-break" style={{ display: 'grid', gridTemplateColumns: '52px 1fr', gap: 'var(--space-2)', marginBottom: '14px' }}>
                 <span style={{ ...mono, paddingTop: '7px' }}>{c.n}</span>
                 <div>
                   <p style={body}>{c.text}</p>
@@ -119,7 +120,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
               Agreed and signed
             </h2>
             <p style={{ ...body, marginBottom: '16px' }}>{doc.signatures.note}</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-3)' }}>
               <Signature block={doc.signatures.left} />
               <Signature block={doc.signatures.right} />
             </div>
@@ -129,7 +130,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
         <footer style={{ borderTop: '1px solid var(--border)', marginTop: '18px', paddingTop: '18px' }}>
           <p style={{ ...mono, margin: '0 0 8px' }}>{versionLine}</p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '0 0 18px' }}>{LEGAL_LINE}</p>
-          <div className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+          <div className="no-print" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
             {doc.related.map(r => (
               <Link key={r.href} href={r.href} className="btn btn-outline">{r.label}</Link>
             ))}

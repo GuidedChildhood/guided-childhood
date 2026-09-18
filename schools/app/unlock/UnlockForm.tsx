@@ -33,7 +33,7 @@ export default function UnlockForm({ next }: { next: string }) {
       onSubmit={onSubmit}
       style={{
         background: '#fff', border: '1px solid var(--border)', borderRadius: '20px',
-        padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px',
+        padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
         boxShadow: '0 1px 2px rgba(46,40,24,0.05)',
       }}
     >

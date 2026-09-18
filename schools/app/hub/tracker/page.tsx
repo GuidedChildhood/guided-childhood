@@ -6,6 +6,7 @@ import { pilotModulesFor } from '@/lib/pilot'
 import { shapeOf } from '@/lib/tracker'
 import PrintButton from '@/components/PrintButton'
 import HubTracker, { type Row } from './HubTracker'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // /hub/tracker: every lesson and its tick, with the pilot's two first.
 //
@@ -55,7 +56,7 @@ export default async function HubTrackerPage() {
   const rest = rows.filter(r => !pilotIds.has(r.moduleId))
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <style>{`@media print { @page { size: A4 portrait; margin: 12mm; } body { background: #fff !important; } .no-print { display: none !important; } }`}</style>
       <div style={{ maxWidth: '820px', margin: '0 auto' }}>
         <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
@@ -64,7 +65,7 @@ export default async function HubTrackerPage() {
         </div>
 
         <div style={{ ...mono, color: 'var(--green-dark)', margin: '18px 0 4px' }}>What is done, and what is left</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.page, color: 'var(--ink)', margin: '0 0 var(--space-3)' }}>
           Lesson tracker
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>

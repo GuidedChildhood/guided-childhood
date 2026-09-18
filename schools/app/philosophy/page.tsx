@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { MODULE_COUNT } from '@gc/shared/schools-curriculum'
 import type { Metadata } from 'next'
+import { PAGE } from '@gc/shared/page-scale'
 
 // THE PHILOSOPHY PAGE, open to the world by design (the open map decision
 // extended, 31 August 2026): a head, a journalist or a hostile expert can
@@ -29,8 +30,7 @@ const eyebrow = (color = 'var(--terracotta-dark)'): React.CSSProperties => ({
 
 const h2: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900,
-  fontSize: 'clamp(1.7rem, 3.4vw, 2.5rem)', letterSpacing: '-0.03em',
-  lineHeight: 1.1, color: 'var(--ink)', marginBottom: '14px',
+  ...PAGE.section, color: 'var(--ink)', marginBottom: 'var(--space-3)',
 }
 
 const body: React.CSSProperties = {
@@ -202,7 +202,7 @@ export default function PhilosophyPage() {
       <div style={{ maxWidth: '880px', margin: '0 auto', padding: '56px 20px 100px' }}>
         {/* Hero */}
         <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '10px' }}>Our philosophy · every claim sourced</p>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2.1rem, 5.5vw, 3.2rem)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)', marginBottom: '18px', maxWidth: '18ch' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, ...PAGE.hero, color: 'var(--ink)', marginBottom: 'var(--space-4)', maxWidth: '18ch' }}>
           Readiness is taught. So we teach it.
         </h1>
         <p style={{ ...body, fontSize: 'var(--text-lg)', marginBottom: '14px' }}>
@@ -216,7 +216,7 @@ export default function PhilosophyPage() {
         <section style={{ marginBottom: '48px' }}>
           <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>First, the law of the land</p>
           <h2 style={h2}>The regulators</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {REGULATORS.map(v => (
               <article key={v.name} style={card}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '2px' }}>{v.name}</h3>
@@ -234,7 +234,7 @@ export default function PhilosophyPage() {
         <section style={{ marginBottom: '48px' }}>
           <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>Then, the evidence, including the parts that cut against us</p>
           <h2 style={h2}>The scientists</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {SCIENTISTS.map(v => (
               <article key={v.name} style={card}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '2px' }}>{v.name}</h3>
@@ -252,7 +252,7 @@ export default function PhilosophyPage() {
         <section style={{ marginBottom: '48px' }}>
           <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>Then, the people in the room with children</p>
           <h2 style={h2}>The practitioners</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {PRACTITIONERS.map(v => (
               <article key={v.name} style={card}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '2px' }}>{v.name}</h3>
@@ -270,9 +270,9 @@ export default function PhilosophyPage() {
         <section style={{ marginBottom: '48px' }}>
           <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>Then, the classrooms that prove the method</p>
           <h2 style={h2}>Built the way the best schools teach</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 'var(--space-3)' }}>
             {SCHOOLS_PROOF.map(s => (
-              <article key={s.title} style={{ ...card, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <article key={s.title} style={{ ...card, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{s.title}</h3>
                 <p style={{ ...body, fontSize: 'var(--text-base)' }}>{s.body}</p>
                 <a href={s.source.href} style={{ ...srcLink, marginTop: 'auto' }} target="_blank" rel="noopener noreferrer">Source: {s.source.label} ↗</a>
@@ -286,7 +286,7 @@ export default function PhilosophyPage() {
           <p style={{ ...eyebrow('var(--green-dark)'), marginBottom: '6px' }}>And finally, us</p>
           <h2 style={h2}>Where we stand</h2>
           <div style={{ ...card, background: 'var(--stage-1, #FDF4D9)', border: '2px solid var(--terracotta)' }}>
-            <ul style={{ margin: 0, paddingLeft: '22px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <ul style={{ margin: 0, paddingLeft: '22px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
               {[
                 'Never allow or deny. Every answer in every lesson is a calibrated pathway, because judgement is the thing being taught.',
                 'Staged, because the science is staged. Skills arrive when the evidence and the frameworks say a child can hold them, not at a marketing age.',
@@ -303,7 +303,7 @@ export default function PhilosophyPage() {
 
         {/* What we never say */}
         <section style={{ marginBottom: '48px' }}>
-          <h2 style={{ ...h2, fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>What we will never tell you</h2>
+          <h2 style={{ ...h2 }}>What we will never tell you</h2>
           <div style={{ ...card, borderStyle: 'dashed' }}>
             <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '10px' }}>
               We will never tell you social media has been proven to cause mental illness, because the researchers we cite say the causal evidence is unsettled. We will never tell you a child who completes this curriculum is safe online, because no curriculum can promise that. And no expert named on this page endorses this product: we cite their published work as the ground we build on, nothing more.
@@ -315,7 +315,7 @@ export default function PhilosophyPage() {
         </section>
 
         {/* CTA */}
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
           <Link href="/curriculum" className="btn btn-gold" style={{ padding: '15px 30px', fontSize: 'var(--text-md)' }}>
             See the curriculum this builds
           </Link>

@@ -82,6 +82,9 @@ jobs:
       # rides here because it is the same shape of check, a thing that cannot
       # fail typechecking and cannot be seen without opening a browser.
       - run: node scripts/check-tokens.mjs
+      # The schools app may not grow a new off scale type or space value.
+      # A ratchet, not a zero: the number may only ever fall.
+      - run: node scripts/check-schools-scale.mjs
       # The daily screen guide and the base under it. Both are just numbers, so
       # nothing else can catch a base that climbs above its own ceiling.
       - run: node scripts/check-screen-guide.mjs

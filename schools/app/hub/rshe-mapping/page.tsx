@@ -3,6 +3,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'RSHE 2025 mapping matrix' }
 
@@ -138,7 +139,7 @@ export default async function RsheMappingPage() {
   const covered = coverage.filter(c => c.count > 0).length
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <style>{`
         /* The grid fits a laptop unscrolled, so sticky works there. Below
            that it becomes a sideways scroller, and sticky is switched off
@@ -193,15 +194,15 @@ export default async function RsheMappingPage() {
             Reception to Year 13. The numbers here are the column numbers in the matrix below.
           </p>
 
-          <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
             {coverage.map(c => (
               <li key={c.key} style={{
-                display: 'flex', gap: '10px', alignItems: 'flex-start',
+                display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start',
                 padding: '10px 0', borderTop: '1px solid var(--border)',
               }}>
                 <span style={{ paddingTop: '2px' }}><TopicNumber n={c.n} /></span>
                 <div style={{
-                  flex: 1, display: 'flex', gap: '6px 14px', alignItems: 'baseline',
+                  flex: 1, display: 'flex', gap: 'var(--space-2) var(--space-3)', alignItems: 'baseline',
                   justifyContent: 'space-between', flexWrap: 'wrap',
                 }}>
                   <span style={{
@@ -210,7 +211,7 @@ export default async function RsheMappingPage() {
                   }}>
                     {c.label}
                   </span>
-                  <span style={{ display: 'flex', gap: '5px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <span style={{ display: 'flex', gap: 'var(--space-1)', alignItems: 'center', flexWrap: 'wrap' }}>
                     <Chip tone="label">{c.count} module{c.count === 1 ? '' : 's'}</Chip>
                     {c.stages.map(s => <Chip key={s} tone="label">{s}</Chip>)}
                   </span>
@@ -348,7 +349,7 @@ export default async function RsheMappingPage() {
           Cs of online risk it now names generative AI, deepfakes, misinformation, disinformation and
           conspiracy theories.
         </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '34px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', marginBottom: '34px' }}>
           {([
             { risk: 'Generative AI and AI chatbots', note: 'seeded in the early years, taught in full at KS3 and KS5', ns: [3, 9, 12, 20] },
             { risk: 'Deepfakes and AI generated images', note: 'real and made up from Reception, the full treatment at KS3', ns: [3, 12] },
@@ -362,7 +363,7 @@ export default async function RsheMappingPage() {
               }}>
                 {row.risk}
               </h3>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: '8px' }}>
                 {row.ns
                   .map(n => CURRICULUM.find(m => m.n === n))
                   .filter(Boolean)
@@ -388,14 +389,14 @@ export default async function RsheMappingPage() {
           The KCSIE and framework anchors each lesson carries, with its Education for a Connected World
           strands.
         </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', marginBottom: '10px' }}>
           {modules.map(m => {
             const db = dbByModule.get(m.moduleId)
             const hooks: string[] = db?.statutory_hooks ?? []
             const strands: number[] = db?.efcw_strands ?? []
             return (
               <div key={m.moduleId} className="gc-avoid-break" style={{ padding: '11px 0', borderTop: '1px solid var(--border)' }}>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline', marginBottom: '7px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'baseline', marginBottom: '7px', flexWrap: 'wrap' }}>
                   <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>
                     {m.keyStage} · M{String(m.n).padStart(2, '0')}
                   </span>
@@ -406,7 +407,7 @@ export default async function RsheMappingPage() {
                     {m.title}
                   </span>
                 </div>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                   {hooks.length > 0
                     ? hooks.map(h => <Chip key={h}>{h}</Chip>)
                     : <span style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>

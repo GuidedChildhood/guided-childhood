@@ -22,6 +22,7 @@ import { BrowserReviewStore, newReview, storageAvailable, toExport, fromExport, 
 import type { Review } from '@gc/shared/ai-governance/types'
 import { chip, STATUS_RATING } from './ratings'
 import { panel, eyebrow, btnGold, btnQuiet, input, label as labelStyle, h1 } from '@/components/ui'
+import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 const store = new BrowserReviewStore()
 const today = () => new Date().toISOString().slice(0, 10)
@@ -100,7 +101,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '32px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '860px', margin: '0 auto' }}>
 
         <Link href="/hub" style={{ ...eyebrow, textDecoration: 'none', display: 'inline-block', marginBottom: '14px' }}>
@@ -122,7 +123,7 @@ export default function Dashboard() {
         {!canStore && (
           <div style={{ ...panel, background: 'var(--stage-1)', marginBottom: '18px' }}>
             <strong style={labelStyle}>This browser will not let us save anything.</strong>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '6px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '6px 0 0' }}>
               Reviews are kept on this device, and this one has storage switched off. You can still work
               through a review and print it, but it will not be here when you come back. Your IT lead can
               usually allow site storage for this address.
@@ -132,7 +133,7 @@ export default function Dashboard() {
 
         {/* The counts, and the one that matters most is last on purpose: a
             school reads left to right and should finish on what needs them. */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px', marginBottom: '22px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-3)', marginBottom: '22px' }}>
           {[
             { n: counts.all, label: 'Tools reviewed' },
             { n: counts.approved, label: 'Approved' },
@@ -147,7 +148,7 @@ export default function Dashboard() {
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '22px' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: '22px' }}>
           <button onClick={addTool} style={btnGold}>Review a tool</button>
           <button onClick={doExport} style={btnQuiet} disabled={!rows.length}>Export all</button>
           <label style={{ ...btnQuiet, display: 'inline-flex', alignItems: 'center' }}>
@@ -159,27 +160,27 @@ export default function Dashboard() {
           </label>
         </div>
         {problem && (
-          <p style={{ fontFamily: 'var(--font-body)', color: 'var(--stage-3-text)', fontSize: '15px', marginBottom: '18px' }}>{problem}</p>
+          <p style={{ fontFamily: 'var(--font-body)', color: 'var(--stage-3-text)', fontSize: 'var(--text-base)', marginBottom: '18px' }}>{problem}</p>
         )}
 
         {reviews === null ? null : ordered.length === 0 ? (
           <div style={{ ...panel, textAlign: 'center', padding: '38px 24px' }}>
             <div style={{ fontSize: '34px', marginBottom: '10px' }} aria-hidden>🔍</div>
-            <strong style={{ ...labelStyle, fontSize: '17px' }}>Nothing reviewed yet.</strong>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '8px auto 0', maxWidth: '420px' }}>
+            <strong style={{ ...labelStyle, fontSize: 'var(--text-md)' }}>Nothing reviewed yet.</strong>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '8px auto 0', maxWidth: '420px' }}>
               Start with whichever AI tool is closest to being put in front of pupils. A first pass takes
               about twenty minutes and you can stop and come back.
             </p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gap: '12px' }}>
+          <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
             {ordered.map(({ review, result, status, overdue }) => (
               <Link
                 key={review.id}
                 href={`/hub/ai-governance/review/${review.id}`}
                 style={{ ...panel, textDecoration: 'none', display: 'block', color: 'inherit' }}
               >
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
                   <div style={{ flex: 1, minWidth: '200px' }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)' }}>
                       {review.product || 'Untitled review'}
@@ -193,8 +194,8 @@ export default function Dashboard() {
                 </div>
 
                 <div style={{
-                  fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)',
-                  marginTop: '10px', display: 'flex', gap: '14px', flexWrap: 'wrap',
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)',
+                  marginTop: '10px', display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap',
                 }}>
                   <span>{result.progress.answered} of {result.progress.total} answered</span>
                   {review.nextReviewOn && (
@@ -210,7 +211,7 @@ export default function Dashboard() {
         )}
 
         <p style={{
-          fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)',
+          fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)',
           lineHeight: 1.6, marginTop: '26px', maxWidth: '620px',
         }}>
           These reviews are kept on this device and are never sent to us. Use Export to put a copy where

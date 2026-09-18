@@ -71,13 +71,13 @@ export default function PilotForm({ full }: { full: boolean }) {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <form onSubmit={onSubmit} noValidate style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       <div>
         <label style={label} htmlFor="pilot_school_name">School name</label>
         <input className="input" id="pilot_school_name" name="school_name" required maxLength={200} placeholder="St Example CE Primary" aria-invalid={!!errs.school_name} aria-describedby={errs.school_name ? 'err-pilot-school' : undefined} />
         {errs.school_name && <p id="err-pilot-school" role="alert" style={fieldNote}>{errs.school_name}</p>}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="pilot_contact_name">Your name</label>
           <input className="input" id="pilot_contact_name" name="contact_name" required maxLength={120} placeholder="Sam Carter" aria-invalid={!!errs.contact_name} aria-describedby={errs.contact_name ? 'err-pilot-name' : undefined} />
@@ -93,7 +93,7 @@ export default function PilotForm({ full }: { full: boolean }) {
         <input className="input" id="pilot_email" name="email" type="email" required maxLength={200} placeholder="s.carter@school.sch.uk" aria-invalid={!!errs.email} aria-describedby={errs.email ? 'err-pilot-email' : undefined} />
         {errs.email && <p id="err-pilot-email" role="alert" style={fieldNote}>{errs.email}</p>}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="pilot_phase">Phase</label>
           <select className="input" id="pilot_phase" name="phase" defaultValue="">

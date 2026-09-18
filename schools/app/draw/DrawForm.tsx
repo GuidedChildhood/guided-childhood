@@ -40,12 +40,12 @@ export default function DrawForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '24px', display: 'grid', gap: '16px' }}>
+    <form onSubmit={onSubmit} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '24px', display: 'grid', gap: 'var(--space-4)' }}>
       <div>
         <label style={label} htmlFor="draw-school">School</label>
         <input id="draw-school" name="school_name" required style={input} placeholder="St Mary's Primary, Leeds" />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
         <div>
           <label style={label} htmlFor="draw-name">Your name</label>
           <input id="draw-name" name="contact_name" required style={input} />

@@ -15,6 +15,7 @@ import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LessonOpened } from '@/components/tracker/signals'
 import { neighbours, shapeOf } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
+import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
 //
@@ -178,7 +179,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
   const videoBeats = slides.filter(s => s.type === 'video') as VideoSlide[]
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '36px 20px 90px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
         <Link href="/curriculum" style={{ ...mono, textDecoration: 'none', color: 'var(--terracotta-dark)' }}>
@@ -191,8 +192,8 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         </div>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontWeight: 900,
-          fontSize: 'clamp(1.7rem, 5vw, 2.4rem)', color: 'var(--ink)',
-          letterSpacing: '-0.02em', lineHeight: 1.15, margin: '6px 0 14px',
+          ...PAGE.page, color: 'var(--ink)',
+          margin: 'var(--space-2) 0 var(--space-3)',
         }}>
           {lesson.title}
         </h1>
@@ -204,8 +205,8 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {notes.essential_question && (
           <p style={{
             fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: 'clamp(1.1rem, 3vw, 1.35rem)', color: 'var(--ink)',
-            lineHeight: 1.35, margin: '0 0 12px',
+            ...PAGE.lead, color: 'var(--ink)',
+            margin: '0 0 var(--space-3)',
           }}>
             {notes.essential_question}
           </p>
@@ -232,7 +233,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             starter recalls, so one component writes both. Renders nothing. */}
         <LessonOpened moduleId={lesson.module_id} {...neighbours(lesson.module_id)} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px', marginBottom: '14px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 'var(--space-3)', marginBottom: '14px' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px', gridColumn: '1 / -1' }}>
             Teach this lesson
           </Link>
@@ -282,7 +283,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {/* The shape of the lesson */}
         <div style={{ ...card, marginBottom: '16px' }}>
           <h2 style={h2}>How the lesson runs</h2>
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: '12px' }}>
             {phases.map(p => (
               <span key={p.phase} style={{
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -306,7 +307,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               line above already states, so the two can never disagree: the
               migration that wrote them checked the sum against it. */}
           {notes.cycles?.length ? (
-            <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
               {notes.cycles.map((c, i) => (
                 <div key={i} style={{
                   borderLeft: '3px solid var(--terracotta)', paddingLeft: '12px',
@@ -383,7 +384,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {notes.prior_knowledge?.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What they need before this</h2>
-            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {notes.prior_knowledge.map((p, i) => <li key={i}>{p}</li>)}
             </ul>
           </div>
@@ -392,7 +393,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {notes.key_learning_points?.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What they will know by the end</h2>
-            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {notes.key_learning_points.map((k, i) => <li key={i}>{k}</li>)}
             </ul>
           </div>
@@ -437,7 +438,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {notes.tool?.lines?.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>{notes.tool.heading ?? 'The tool they leave with'}</h2>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: '8px' }}>
               {notes.tool.lines.map(l => (
                 <span key={l} style={{
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
@@ -457,7 +458,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {notes.misconceptions?.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What children usually get wrong</h2>
-            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {notes.misconceptions.map((m, i) => <li key={i}>{m}</li>)}
             </ul>
           </div>
@@ -467,7 +468,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
         {notes.keywords?.length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>The words we teach</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
               {notes.keywords.map(k => (
                 <p key={k.word} style={body}>
                   <strong style={{ color: 'var(--ink)' }}>{k.word}. </strong>{k.definition}
@@ -728,7 +729,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
         {showPilot && <div style={{ marginTop: '28px' }}><PilotStrip /></div>}
 
-        <div style={{ marginTop: '28px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: '28px', display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
           <Link href={`/teach/${lesson.module_id}`} className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 30px' }}>
             Teach this lesson
           </Link>

@@ -217,6 +217,41 @@
   --lift-deep:    0 5px 0 var(--ink);
   --lift-press:   0 2px 0 var(--ink);
   --r:            24px;
+
+  /* ── SPACE (18 September 2026) ──
+     Shape stopped being folklore in September. Space still was.
+
+     Counted across every tsx file in the schools app before this block
+     existed: 104 distinct
+     padding values and 39 distinct gap values. The gaps alone ran 2, 4, 5, 6,
+     8, 9, 10, 12, 14, 16 and 18px, which is eleven steps where a system wants
+     seven, and four of them (8, 10, 12 and 14) accounted for 127 of the uses
+     on their own. That is not four decisions. It is one decision made four
+     ways by four people on four days, and it is most of why the app reads as
+     a collection of pages.
+
+     Seven rungs. The step widens as it climbs, because even spacing reads as
+     a list and widening spacing reads as a hierarchy, which is the whole job.
+
+       1  inside a thing: an icon to its label, a chip to its neighbour
+       2  a tight row: the lines of one idea
+       3  the default. Between related things. Reach for this first
+       4  between groups inside a section
+       5  between sections
+       6  between the bands of a page
+       7  the foot of a page, which is thumb room under the last card
+
+     Rounding to the nearest rung moves nothing a person can see. 9px and 10px
+     both become 8 and 12 and no screenshot tells the difference, which is the
+     test that matters: if collapsing two values changed a layout, they were
+     two decisions and not one. */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  20px;
+  --space-5:  32px;
+  --space-6:  56px;
+  --space-7:  80px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -479,4 +514,5 @@ h1, h2, h3 { text-wrap: balance; }
    the dots underneath already say where you are. */
 .swipe-rail { scrollbar-width: none; }
 .swipe-rail::-webkit-scrollbar { display: none; height: 0; }
+
 
