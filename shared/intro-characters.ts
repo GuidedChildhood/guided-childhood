@@ -29,8 +29,32 @@ export type IntroCharacter = {
   key: CharacterKey
   // Absent for DiGi: the star is drawn, not filmed.
   clip?: string
-  line: string
+  // The hello, BEFORE the lesson is named. Kept short because it is beat one
+  // of four, not the whole speech.
+  welcome: string
+  // What follows the billing: the send off, in the friend's own register.
+  tail: string
   accent: string
+}
+
+// THE INTRO BILLS THE LESSON IT IS INTRODUCING (18 September 2026).
+//
+// Justin: "the digi intros, can we explain which lesson it is, welcome, still
+// tight, or a great industry leading intro as if you were introducing a lesson
+// to come." Until today every one of the twenty five decks opened on the same
+// generic hello: "Yay, you came back! Today is going to be brilliant." A warm
+// noise, and it never once said what today was.
+//
+// A good course intro gives four things in order: who is talking, what today
+// is, what you will be able to do by the end, and go. Three of the four were
+// already in the deck (the friend, the title, the objective's I can), so the
+// intro can BILL itself from data rather than from twenty five hand written
+// lines that would drift the first time a lesson was retitled.
+//
+// This is the middle two. A deck's own `line` on the title slide still wins,
+// which is how the DSL modules stay quiet.
+export function introHello(c: IntroCharacter, title: string): string {
+  return `${c.welcome} Today: ${title}. ${c.tail}`
 }
 
 export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
@@ -38,21 +62,24 @@ export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
   pebble: {
     key: 'pebble',
     clip: CDN + 'hf_20260723_193943_c175c26c-8f2d-4b14-addf-a51bec570f4a.mp4',
-    line: 'You are doing so well. One more brilliant thing to learn, come on!',
+    welcome: 'You are doing so well.',
+    tail: 'One more brilliant thing to learn, come on!',
     accent: '#E6B93E',
   },
   // Bloop, creative and clever, the habits.
   bloop: {
     key: 'bloop',
     clip: CDN + 'hf_20260723_193941_51b5a9bf-2e6e-4499-8eab-c22442f18ddf.mp4',
-    line: 'Yay, you came back! Today is going to be brilliant. Let us go.',
+    welcome: 'Yay, you came back!',
+    tail: 'This one is going to be brilliant. Let us go.',
     accent: '#7CB342',
   },
   // Orbit, the explorer, the checks and the big questions.
   orbit: {
     key: 'orbit',
     clip: CDN + 'hf_20260723_193939_2cf82ba4-819a-46f7-80a7-da7d97765a73.mp4',
-    line: 'Big question today, and by the end you will have your own answer. Let us go.',
+    welcome: 'Detectives, you are up.',
+    tail: 'Big question in this one, and by the end you will have your own answer.',
     accent: '#4C9FD6',
   },
   // Nova, steady and calm, hosts the KS4 modules, which carry the heaviest
@@ -63,7 +90,8 @@ export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
   nova: {
     key: 'nova',
     clip: CDN + 'hf_20260830_005603_cfd531b3-9541-4de5-a5ec-826f8eeea6a1.mp4',
-    line: 'Good to see you. Today is one that really matters, so let us take it on together.',
+    welcome: 'Good to see you.',
+    tail: 'This is one that really matters, so let us take it on together.',
     accent: '#9B72CF',
   },
   // Cosmo, bright and forward looking, hosts the KS5 modules: AI, data
@@ -71,7 +99,8 @@ export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
   cosmo: {
     key: 'cosmo',
     clip: CDN + 'hf_20260830_005603_76794415-8bc1-45e5-ba88-dd47b7d49c14.mp4',
-    line: 'Big one today: the tools, your rights, and the road ahead. Let us get you ready.',
+    welcome: 'Right then, a big one.',
+    tail: 'The tools, your rights, and the road ahead. Let us get you ready.',
     accent: '#E8873C',
   },
   // DiGi, the golden star, drawn in code. The line is the one the pilot
@@ -80,7 +109,8 @@ export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
   // slide can carry its own `line` where a lesson wants it quieter.
   digi: {
     key: 'digi',
-    line: 'Hello. I am DiGi. I am a machine, and I am quite good at this. Shall we start?',
+    welcome: 'Hello. I am DiGi. I am a machine, and I am quite good at this.',
+    tail: 'Shall we start?',
     accent: '#C99A28',
   },
 }

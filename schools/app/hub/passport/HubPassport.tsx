@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import PassportPage from '@gc/shared/components/PassportPage'
 import { STAGE_BY_NUMBER, pageModules } from '@gc/shared/passport-areas'
 import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
+import { positionOf } from '@gc/shared/schools-curriculum'
 import { clearTaught, markTaught, readTaught, TAUGHT_EVENT, unmarkTaught } from '@gc/shared/schools-taught'
 
 // Every module that fills a page: the KS5 modules sit after the passport and
@@ -69,7 +70,7 @@ export default function HubPassport() {
                             background: done ? 'var(--retro-green)' : '#fff', color: '#fff',
                             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900,
                           }}>{done ? '✓' : ''}</span>
-                          <span style={{ minWidth: 0 }}>{m.n}. {m.title}</span>
+                          <span style={{ minWidth: 0 }}>{positionOf(m.moduleId)?.index}. {m.title}</span>
                         </button>
                       </li>
                     )

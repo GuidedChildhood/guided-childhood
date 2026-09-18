@@ -21,7 +21,11 @@ import { readTaught, TAUGHT_EVENT } from '@gc/shared/schools-taught'
 
 export type Row = {
   moduleId: string
-  n: number
+  // Where the lesson sits in its own key stage, which is the number on the
+  // map and on the passport. The build number `n` is not shown here: this
+  // list is read as a sequence and 09 followed by 23 followed by 25 is not
+  // one (Justin, 18 September 2026).
+  pos: number
   title: string
   keyStage: string
   shape: LessonShape
@@ -57,7 +61,7 @@ function LessonRow({ row, progress, taught }: { row: Row; progress: Progress; ta
       }}>{done ? '✓' : ''}</span>
       <span style={{ flex: '1 1 auto', minWidth: 0 }}>
         <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.25 }}>
-          {row.n}. {row.title}
+          {row.pos}. {row.title}
         </span>
         <span style={{ ...mono, display: 'block', fontSize: 10, color: 'var(--ink-muted)', marginTop: 2 }}>
           {row.keyStage}

@@ -89,6 +89,11 @@ jobs:
       # must say which doors open. A comment describing that bug did not stop
       # it shipping; this does.
       - run: node scripts/check-curriculum-honesty.mjs
+      # `n` is the build number and the display number is a position in the key
+      # stage. They were the same field, so KS2 read 04 05 06 07 08 09 23 25 and
+      # a printed passport numbered eight rings 4 to 25. Silent: every number
+      # was real, only a person reading the list could see it.
+      - run: node scripts/check-lesson-numbers.mjs
       # The daily screen guide and the base under it. Both are just numbers, so
       # nothing else can catch a base that climbs above its own ceiling.
       - run: node scripts/check-screen-guide.mjs

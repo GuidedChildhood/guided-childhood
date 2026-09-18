@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER, positionCode, positionLabel, type KeyStage } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'RSHE 2025 mapping matrix' }
@@ -294,7 +294,7 @@ export default async function RsheMappingPage() {
                           color: 'var(--ink)', lineHeight: 1.35,
                         }}>
                           <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--ink-light)', marginRight: '8px' }}>
-                            M{String(m.n).padStart(2, '0')}
+                            {positionCode(m.moduleId)}
                           </span>
                           {m.title}
                         </th>
@@ -368,7 +368,7 @@ export default async function RsheMappingPage() {
                   .map(n => CURRICULUM.find(m => m.n === n))
                   .filter(Boolean)
                   .map(m => (
-                    <Chip key={m!.moduleId}>M{String(m!.n).padStart(2, '0')} {m!.title}</Chip>
+                    <Chip key={m!.moduleId}>{positionCode(m!.moduleId)} {m!.title}</Chip>
                   ))}
               </div>
               <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: 0 }}>
@@ -398,7 +398,7 @@ export default async function RsheMappingPage() {
               <div key={m.moduleId} className="gc-avoid-break" style={{ padding: '11px 0', borderTop: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'baseline', marginBottom: '7px', flexWrap: 'wrap' }}>
                   <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>
-                    {m.keyStage} · M{String(m.n).padStart(2, '0')}
+                    {m.keyStage} · Lesson {positionLabel(m.moduleId)}
                   </span>
                   <span style={{
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',

@@ -55,8 +55,18 @@ for (const [file, src] of [['shared/schools-curriculum.ts', manifest], ['shared/
 }
 
 // 3. Orbit's own hello.
+//
+// `line` became `welcome` plus `tail` on 18 September 2026, when the intro
+// started billing the lesson in between the two. Same rule, same intent: the
+// friend who hosts the detective years opens on a question, and never on the
+// KS1 hello.
 ok("Orbit's intro line is not the KS1 line", !/boss of your screen/.test(intro))
-ok("Orbit's intro line asks a big question", /orbit: \{[\s\S]*?line: '[^']*question[^']*'/.test(intro))
+ok("Orbit's intro line asks a big question", /orbit: \{[\s\S]*?tail: '[^']*question[^']*'/.test(intro))
+ok('every friend has a welcome and a tail', (intro.match(/welcome: '/g) ?? []).length === FRIENDS.length
+  && (intro.match(/tail: '/g) ?? []).length === FRIENDS.length,
+  'the hello is two halves so the lesson can be named between them')
+ok('the hello names the lesson', /export function introHello\([\s\S]{0,160}Today: \$\{title\}/.test(intro),
+  'without this the intro is a warm noise that never says what today is')
 
 // 4. The migration.
 const MIG = 'supabase/migrations/301_character_voices_consistent.sql'

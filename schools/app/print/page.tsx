@@ -1,6 +1,6 @@
 import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
-import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, type KeyStage } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, type KeyStage, positionOf } from '@gc/shared/schools-curriculum'
 import { friendFor, FriendArt } from '@/components/print/kit'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
@@ -109,7 +109,7 @@ export default async function PrintRoomPage() {
                               {manifest && <FriendArt friend={{ key: manifest.character, ...CHARACTERS[manifest.character] }} mood="happy" size={8} />}
                               <span>
                                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, lineHeight: 1.25 }}>
-                                  {manifest ? `M${String(manifest.n).padStart(2, '0')} ` : ''}{l.title}
+                                  {manifest ? `${positionOf(manifest.moduleId)?.index ?? ''}. ` : ''}{l.title}
                                 </span>
                                 <span style={{ ...eyebrow, fontSize: 'var(--text-xs)' }}>{l.year_band}</span>
                               </span>

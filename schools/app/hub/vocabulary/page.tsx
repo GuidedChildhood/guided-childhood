@@ -2,7 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
-import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER , MODULE_COUNT } from '@gc/shared/schools-curriculum'
+import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER , MODULE_COUNT, positionLabel } from '@gc/shared/schools-curriculum'
 import { parseSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
@@ -64,7 +64,7 @@ export default async function VocabularyPage() {
                 if (!words.length) return null
                 return (
                   <div key={m.moduleId} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '10px 16px', marginBottom: '8px' }}>
-                    <div style={{ ...mono, fontSize: 'var(--text-sm)', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
+                    <div style={{ ...mono, fontSize: 'var(--text-sm)', marginBottom: '4px' }}>Lesson {positionLabel(m.moduleId)} · {m.title}</div>
                     {words.map(w => (
                       <p key={w.word} style={{ ...body, fontSize: 'var(--text-base)', margin: '3px 0' }}>
                         <strong style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)' }}>{w.word}</strong> · {w.definition}
