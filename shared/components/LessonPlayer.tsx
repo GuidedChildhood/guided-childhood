@@ -436,30 +436,51 @@ function PostPhoto({ picture, projector, gap }: {
   const props = picture.props ?? []
   return (
     <figure style={{ margin: `0 0 ${gap ? '10px' : '0'}` }}>
+      {/* SIZED BY HEIGHT, NOT BY WIDTH. A square at the card's full width is a
+          1000px tall photo on the wall, which pushed the likes and the question
+          the class has to answer clean off the bottom of the screen (the 1440
+          frame, 18 September 2026). The height is the budget the slide actually
+          has once the handle, the post text, the likes and the prompt have
+          taken theirs; the aspect ratio gives it its width. */}
       <div style={{
-        position: 'relative', width: '100%', aspectRatio: '1 / 1',
-        maxHeight: room(projector, 'min(42vh, 420px)', '300px'),
+        position: 'relative', height: room(projector, 'clamp(150px, 27vh, 320px)', '210px'),
+        aspectRatio: '1 / 1', margin: '0 auto',
         borderRadius: 'var(--radius-tile)', overflow: 'hidden',
         background: `radial-gradient(circle at 50% 44%, #fff 0%, ${c.soft} 72%)`,
         border: `1px solid ${c.accent}33`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={art} alt="" aria-hidden style={{ height: '78%', width: 'auto', objectFit: 'contain', display: 'block' }} />
-        {props.map((emoji, i) => (
+        <img src={art} alt="" aria-hidden style={{ height: '72%', width: 'auto', objectFit: 'contain', display: 'block' }} />
+        {/* THE PROPS GO IN THE CORNERS, not around the friend. The first pass
+            staggered them by percentage from the top left and at the sizes the
+            plate actually renders the rocket landed across Bloop's face and the
+            moon was clipped by the frame. Anchored to the corner each one is
+            nearest, so shrinking the plate moves them with it. A jaunty angle
+            each, because a prop sitting straight is not a joke. */}
+        {props.slice(0, 3).map((emoji, i) => (
           <span key={i} aria-hidden style={{
             position: 'absolute',
-            fontSize: room(projector, WALL.emoji, '44px'),
-            // Staggered around the friend rather than in a row: a prop at a
-            // jaunty angle is the whole visual joke.
-            top: ['12%', '58%', '20%'][i % 3],
-            left: ['10%', '74%', '76%'][i % 3],
-            transform: `rotate(${[-14, 12, -8][i % 3]}deg)`,
+            fontSize: room(projector, 'clamp(18px, 4vh, 42px)', '26px'),
+            ...[{ top: '7%', left: '7%' }, { bottom: '7%', right: '7%' }, { top: '7%', right: '9%' }][i],
+            transform: `rotate(${[-14, 12, -8][i]}deg)`,
           }}>{emoji}</span>
         ))}
       </div>
-      <figcaption style={{
-        fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'),
+      {/* READ, NOT SHOWN, ON THE WALL. The class can see Bloop; what they
+          cannot see is that this never happened, and that belongs in the
+          teacher's script rather than in forty pixels of caption under a
+          photo. Those forty pixels are the difference between the question
+          this slide asks being on the screen and being under it on a 720
+          projector, which was measured rather than guessed. A screen reader
+          still gets the whole description, which is the only reader that
+          needed it. Inline rather than a class, because this component is
+          shared with the parents app and cannot assume a stylesheet. */}
+      <figcaption style={projector ? {
+        position: 'absolute', width: 1, height: 1, padding: 0, margin: -1,
+        overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0,
+      } : {
+        fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
         color: 'var(--ink-muted)', lineHeight: 1.45, marginTop: '6px',
       }}>
         {picture.alt}
@@ -470,6 +491,21 @@ function PostPhoto({ picture, projector, gap }: {
 
 function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?: boolean }) {
   const isMessage = slide.platform === 'message'
+  // A real photo beside the text on the wall, stacked on a phone. An emoji
+  // standing in for a photo stays stacked everywhere it always was.
+  const sideBySide = !!(projector && slide.picture)
+  const photo = slide.picture
+    ? <PostPhoto picture={slide.picture} projector={projector} gap={!sideBySide && !!slide.stats} />
+    : slide.image
+      ? (
+        <div style={{
+          background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: room(projector, 'clamp(10px, 2vh, 26px) 0', '26px 0'),
+          textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
+        }}>
+          {slide.image}
+        </div>
+      )
+      : null
   return (
     <div>
       <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '14px', textAlign: 'center' }}>
@@ -481,40 +517,40 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
         border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
         padding: room(projector, 'clamp(12px, 1.8vh, 18px) 22px', '16px 18px'), boxShadow: '0 6px 0 var(--border)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-          <div style={{
-            width: '40px', height: '40px', borderRadius: '50%', background: 'var(--stage-2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, WALL.emojiSmall, 'var(--text-xl)'), flexShrink: 0,
-          }}>
-            {slide.avatar}
-          </div>
-          <div>
-            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)' }}>{slide.handle}</div>
-            {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-base)'), color: 'var(--ink-muted)' }}>{slide.meta}</div>}
+        {/* THE POST, IN TWO SHAPES.
+            Stacked everywhere it has ever been stacked. Side by side only on
+            the wall and only when the row carries a real photo, because that
+            is the one case where stacking spends the thing a classroom has
+            least of. A square photo under the text on a 720 projector pushed
+            the question the class has to answer off the bottom of the screen;
+            beside the text it spends the width a wall has in abundance, and
+            the same slide clears the fold by 55px. Measured, not guessed. */}
+        <div style={sideBySide ? { display: 'flex', gap: 'clamp(16px, 2.2vw, 30px)', alignItems: 'center' } : undefined}>
+          {sideBySide && <div style={{ flexShrink: 0 }}>{photo}</div>}
+          <div style={sideBySide ? { minWidth: 0, flex: '1 1 auto' } : undefined}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <div style={{
+                width: '40px', height: '40px', borderRadius: '50%', background: 'var(--stage-2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: room(projector, WALL.emojiSmall, 'var(--text-xl)'), flexShrink: 0,
+              }}>
+                {slide.avatar}
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: room(projector, WALL.title, 'var(--text-md)'), color: 'var(--ink)' }}>{slide.handle}</div>
+                {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.aside, 'var(--text-base)'), color: 'var(--ink-muted)' }}>{slide.meta}</div>}
+              </div>
+            </div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: projector ? 1.45 : 1.7, marginBottom: slide.image || slide.picture || slide.stats ? '12px' : 0 }}>
+              {slide.text}
+            </p>
+            {!sideBySide && photo}
+            {slide.stats && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'), fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+                {slide.stats}
+              </div>
+            )}
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: projector ? 1.45 : 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
-          {slide.text}
-        </p>
-        {/* THE PHOTO, when the row carries one. A square plate in the friend's
-            own colour with the friend's cutout in it and the silly staged
-            around them, which is what a feed photo looks like at a glance from
-            the back of a room. Falls through to the emoji for every row
-            written before 18 September 2026, so nothing already on the wall
-            changes. */}
-        {slide.picture ? <PostPhoto picture={slide.picture} projector={projector} gap={!!slide.stats} /> : slide.image && (
-          <div style={{
-            background: 'var(--stage-2)', borderRadius: 'var(--radius-tile)', padding: room(projector, 'clamp(10px, 2vh, 26px) 0', '26px 0'),
-            textAlign: 'center', fontSize: room(projector, WALL.emoji, '52px'), marginBottom: slide.stats ? '10px' : 0,
-          }}>
-            {slide.image}
-          </div>
-        )}
-        {slide.stats && (
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'), fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
-            {slide.stats}
-          </div>
-        )}
       </div>
       {slide.prompt && (
         <p data-reveal style={{
@@ -831,7 +867,7 @@ function VideoBlock({ slide, projector }: { slide: VideoSlide; projector?: boole
 }
 
 function SlideBody({
-  slide, onAnswered, onSettled, projector, seed, tool, register, promise,
+  slide, onAnswered, onSettled, projector, seed, tool, register, promise, introEyebrow,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
@@ -843,6 +879,8 @@ function SlideBody({
   register?: Register
   // The deck's own objective, in pupil voice, for the title slide's billing.
   promise?: string
+  // The key stage line the owning app can say better than the deck can.
+  introEyebrow?: string
 }) {
   switch (slide.type) {
     case 'title':
@@ -850,7 +888,7 @@ function SlideBody({
         <div style={{ padding: '4px 0' }}>
           {/* The animated character intro is the opener: DiGi the star kicks
               off, the title reveals, far cleaner than a busy stock scene. */}
-          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} line={slide.line} promise={promise} projector={projector} />
+          <AnimatedIntro eyebrow={introEyebrow ?? slide.eyebrow} title={slide.title} character={slide.character} line={slide.line} promise={promise} projector={projector} />
           {slide.body && (
             <p data-reveal style={{ fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: room(projector, WALL.column, '420px'), margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}
@@ -1024,6 +1062,7 @@ export default function LessonPlayer({
   character,
   register = 'playful',
   passport = null,
+  introEyebrow,
   onFinish,
 }: {
   lessonId: string
@@ -1045,6 +1084,16 @@ export default function LessonPlayer({
   completeBody?: Record<string, unknown>
   // Key Stage and Education for a Connected World chips on the intro slide.
   badges?: CurriculumBadges
+  // THE FIRST LINE OF THE FIRST SLIDE, given by the app rather than the deck.
+  //
+  // A title slide's own `eyebrow` is authored text, and across the twenty five
+  // school decks it was: four carried a stale build number ("Module 12" on the
+  // third KS3 lesson), two carried a full stop where the middot belongs, and
+  // nineteen carried nothing at all, so most lessons opened with no key stage
+  // line whatever. The schools app holds the manifest and can say it correctly
+  // for every module, so when it does, it wins. The parents app passes nothing
+  // and its decks keep the eyebrows they were written with.
+  introEyebrow?: string
   // The module's one tool, from teacher_notes.tool. Shown under the question
   // on any choice slide that sets toolStrip, so options naming "check one"
   // have the list to point at. Absent on the parent app lessons, which carry
@@ -1806,7 +1855,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} introEyebrow={introEyebrow} />
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 

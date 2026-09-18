@@ -10,7 +10,7 @@ import PilotStrip from '@/components/PilotStrip'
 import { TasterStrip } from '@/app/taster/TasterBar'
 import { characterKeyFor, registerFor } from '@gc/shared/friend-register'
 import type { PassportPlacement } from '@gc/shared/passport-stages'
-import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { CURRICULUM as MODULE_MANIFEST, positionLabel } from '@gc/shared/schools-curriculum'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
@@ -102,6 +102,16 @@ export default async function TeachLessonPage({
     ? Math.min(Math.round(requested) - 1, slides.length - 1)
     : 0
 
+  // The first line of the first slide, said from the manifest. Key stage, year
+  // band, and the lesson's position in its own key stage, which is the number
+  // the map, the tracker and the passport now all agree on. The row's own
+  // eyebrow is not used on a school lesson: four of the twenty five carried a
+  // build number as though it were a position, and nineteen carried nothing.
+  const entry = MODULE_MANIFEST.find(m => m.moduleId === moduleId)
+  const introEyebrow = entry
+    ? `${entry.keyStage} · ${entry.yearBand} · Lesson ${positionLabel(moduleId)}`
+    : undefined
+
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)' }}>
       <div style={{ maxWidth: WALL.wide, margin: '0 auto', padding: '28px clamp(20px, 4vw, 56px) 0' }}>
@@ -130,7 +140,12 @@ export default async function TeachLessonPage({
         {/* The player, wrapped so the two signals a classroom actually gives
             off are recorded: the board is ready the moment this route opens,
             and you taught it when the deck reaches its finish. */}
+        {/* The first line of the first slide, said from the manifest rather
+            than from the deck: key stage, year band, and where this lesson
+            sits in its own key stage. Four decks carried a stale build number
+            here and nineteen carried nothing at all. */}
         <TrackedPlayer
+          introEyebrow={introEyebrow}
           moduleId={lesson.module_id}
           lessonId={lesson.id}
           lessonSource="school_lesson"

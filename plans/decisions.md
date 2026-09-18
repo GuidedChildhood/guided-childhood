@@ -719,3 +719,56 @@ holds the join, because that failure is completely silent.
 A worry at five stars drops out of the strand and its next idea is not marked
 spent. Nothing in the strand can write a prompt card, so the cap stays the
 only door. PR 1116.
+
+## 18 September 2026, the lesson number a teacher reads is a position
+
+`n` in `shared/schools-curriculum.ts` is the BUILD number, the order the twenty
+five modules were written, and it is the stable key the lesson rows, the print
+routes, the passport stamps and every migration are cut against. It was also
+the number printed on every card, inside per key stage lists, where a number in
+a list reads as a position. So KS2 read 04 05 06 07 08 09 23 25, and a printed
+KS2 passport numbered its eight rings 4, 5, 6, 7, 8, 9, 23 and 25 for a child
+to match stickers to. Justin: "why are the lesson numbers out of sync?"
+
+Decided: `n` never moves, and what is DISPLAYED is computed from the manifest
+order per key stage (`positionOf`, `positionLabel`, `positionCode`). No
+database row, print route or module id changes, and a module added in the right
+place moves every position on every page with it. `check-lesson-numbers.mjs`
+holds it, because every number rendered and only a person reading the list
+could see the fault. PR 1120.
+
+## 18 September 2026, a Planet Friend is the only fake we can print
+
+ks3-12's video beat has Orbit hold a photo up and say "this photo got two
+million shares, it is completely fake", and no photo was ever on the wall. It
+was never filled because you cannot put a real person's face on a forged post
+and hand it to thirty children.
+
+Decided: the fake is one of ours. `ScenarioSlide.picture` draws a post photo
+from a Planet Friend's own cutout art (no credits, cannot drift off model), and
+migration 308 puts a Bloop post straight after the clip. Provably invented,
+funny, and the laugh is the teach: almost nobody shares it because they were
+fooled, they share it because it is fun, and the next post is the one nobody in
+the room can call. The new beat takes its minute from the vote slide so the
+teach total, the cycle minutes and the stated timing all stay true. PR 1120.
+
+## 18 September 2026, the intro bills the lesson, from the deck
+
+Every one of the twenty five decks opened on the same generic hello and never
+said what today was. Rather than write twenty five lines that drift the first
+time a lesson is retitled, the intro is composed: the friend's `welcome` plus
+the lesson title plus the friend's `tail`, with the deck's own objective as the
+"By the end" line under it. The key stage line comes from the manifest too,
+because four decks carried a stale build number there and nineteen carried
+nothing at all. A title slide's own `line` still wins, so the DSL modules stay
+quiet. PR 1120.
+
+## 18 September 2026, the tracker leads the Hub
+
+It is the only page in the Hub that produces evidence rather than a document,
+and it was the eighth card of eleven identical ones. Now the lead card, saying
+what it achieves, why it helps in a deep dive, and what it deliberately is not.
+The tracker page itself gained `TickDemo`, which plays the seven automatic
+steps with the signal that fires each one, built from `schools-progress.ts` so
+it cannot drift, and excluding the two steps a teacher has to tick because a
+demo that ticked them would claim a detector we do not have. PR 1120.
