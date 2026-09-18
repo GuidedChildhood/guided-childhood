@@ -39,7 +39,7 @@ async function handler(request: Request) {
 
   const { data: due } = await admin
     .from('digi_followups')
-    .select('id, user_id, child_id, question, context, suggestion, situation, moment_id')
+    .select('id, user_id, child_id, question, context, suggestion, situation, moment_id, concern_id, approach, band_at_suggestion')
     .eq('status', 'pending')
     .lte('due_on', today)
     .limit(200)
@@ -76,6 +76,21 @@ async function handler(request: Request) {
       // Carried through, so a verdict can be counted back to the moment it was
       // about. Null for an ordinary DiGi suggestion.
       moment_id: f.moment_id ?? null,
+      // ── THE STRAND (18 September 2026, migration 307) ────────────────────
+      //
+      // concern_id has existed on both tables since 154 and this insert has
+      // never written it: read live before the fix, 6 outcome rows, 0 with a
+      // worry attached. So the per worry record of what has been tried was a
+      // column of nulls, and the moment_id line directly above is the tell,
+      // since the two were added in the same migration for the same reason.
+      //
+      // approach and band_at_suggestion ride along because both are facts
+      // about the day the suggestion was made, not the day the card goes out.
+      // Recomputing them here would record the wrong band whenever a family
+      // rated the worry in between, which is most of the time.
+      concern_id: f.concern_id ?? null,
+      approach: f.approach ?? null,
+      band_at_suggestion: f.band_at_suggestion ?? null,
     }).select('id').single()
 
     // One at a time, and the status only moves after the card is safely in.

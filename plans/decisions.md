@@ -607,3 +607,24 @@ rather than waiting.
 
 Verified: column is text with the comment word for word, 13 rows, no check
 constraint on status (so 'agreed' needed no DDL, as the file says).
+
+## 18 September 2026 — every worry is worked over days, and we record what we spent
+
+Justin approved the shape: a record per worry of what has been tried and what
+the reading did afterwards, an ordered bank of approaches from the research we
+already hold, and the twice a week step in cap kept so it never turns into
+nagging. Migration 307.
+
+**The record was never written.** `digi_outcomes.concern_id` has existed since
+migration 154, indexed and documented. Live: 6 rows, 0 with a worry attached.
+The one insert that could write it copied `moment_id` across and dropped it.
+
+**The find worth keeping.** A phone worry infers the topic `devices`, and the
+research bank has zero rows tagged `devices`, it files them under `phone`. So
+`phones-and-messaging`, the second most common worry on the product, would
+have found no research at all. An alias fixes it and rule A of the new guard
+holds the join, because that failure is completely silent.
+
+A worry at five stars drops out of the strand and its next idea is not marked
+spent. Nothing in the strand can write a prompt card, so the cap stays the
+only door. PR 1116.

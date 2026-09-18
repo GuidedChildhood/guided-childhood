@@ -13,6 +13,7 @@ import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition 
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { getTriedAlready, getRatedForSituation } from '@/lib/digi/outcomes'
 import { getRatingShifts } from '@/lib/digi/rating-loop'
+import { getWorryStrand } from '@/lib/digi/approaches'
 import { inferSituation } from '@/lib/digi/situation'
 import { inferIssue } from '@/lib/content/device-issues-match'
 import { lexicalFlags, highestSeverity, hasCrisisLanguage, hasSafeguardingLanguage, CRISIS_OPENER, SAFEGUARDING_OPENER } from '@/lib/digi/safety'
@@ -495,6 +496,11 @@ export async function POST(request: Request) {
     // having no memory at all, because the first is not listening. Dropped
     // with the research on a general message, as it always was.
     getTriedAlready(supabase, user.id),
+    // The strand: per worry, what has been tried, what the rating did after,
+    // and the next approach in the bank that this family has not had yet.
+    // Best effort, like every other block here.
+    getWorryStrand(supabase, user.id, liveConcerns.map(c => ({ id: c.id as string, label: c.label as string, slug: (c as { slug?: string | null }).slug ?? null })), (child?.age_band as string | null) ?? null)
+      .catch(() => ({ block: '', next: new Map<string, { approach: string | null; band: number | null }>() })),
     child?.stage_id
       ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid, childId: child.id ?? null })
       : Promise.resolve(null),
@@ -546,7 +552,7 @@ export async function POST(request: Request) {
     : []
 
   // gather2_ms is now the time round two took BEYOND the lane call.
-  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, recommended, matchingScriptsResult, pathwayPosition, issueScriptsResult, allScriptsResult, allMomentsResult, scoreRowsResult] = await round2
+  const [expertKnowledgeRaw, aggregateWisdomRaw, provenSolutionsRaw, ratedForSituationRaw, triedAlreadyRaw, worryStrand, recommended, matchingScriptsResult, pathwayPosition, issueScriptsResult, allScriptsResult, allMomentsResult, scoreRowsResult] = await round2
 
   // ── THE ISSUE, WITH ITS PATHWAY AND ITS REAL SCRIPTS ──────────────────────
   //
@@ -868,7 +874,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + reflectionGate + laneShape(lane),
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + issueKnowledge + nextStepKnowledge + concernsKnowledge + worryStrand.block + ownWorryKnowledgeBlock + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + horizonsKnowledge + familyMemory + schoolKnowledge + reflectionGate + laneShape(lane),
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -1349,6 +1355,16 @@ When a parent asks whether or for how long their child should use any device, do
                 childId: (child?.id as string | undefined) ?? null,
                 ageBand: (child?.age_band as string | undefined) ?? null,
                 childName: (child?.name as string | undefined) ?? null,
+                // The worries DiGi can name in schedule_followup, each with the
+                // approach it has not tried yet and the band it stands at now.
+                // Resolved server side from the same strand the prompt showed,
+                // so the model only has to name a worry it can see.
+                worries: liveConcerns.map(c => ({
+                  id: c.id as string,
+                  label: c.label as string,
+                  approach: worryStrand.next.get(c.id as string)?.approach ?? null,
+                  band: worryStrand.next.get(c.id as string)?.band ?? null,
+                })),
               }, t.name, t.input),
             }))
           )

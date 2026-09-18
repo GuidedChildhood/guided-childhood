@@ -225,6 +225,16 @@ jobs:
       # started one got no email at all, and they are exactly the family whose
       # worries are the only reason they are here.
       - run: node scripts/check-monthly-review.mjs
+      # Every worry is worked over days until it rests, and the record of what
+      # has been tried is the thing that stops the sixth conversation offering
+      # the first idea again. It guards a JOIN, which is the only kind of
+      # failure nothing else here can see: digi_outcomes.concern_id existed,
+      # indexed and documented, for a month with 0 of 6 rows written, because
+      # the one insert that could write it did not. Rule A holds the other
+      # half, that a worry's topic reaches research the bank actually carries.
+      # 'devices' reached nothing, and that is the second most common worry on
+      # the product.
+      - run: node --experimental-strip-types scripts/check-worry-strand.mjs
       - run: node scripts/check-screens-rest.mjs
       - run: node scripts/check-job-row.mjs
       - run: node scripts/check-job-icons.mjs
