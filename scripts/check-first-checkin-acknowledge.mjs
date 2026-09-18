@@ -40,6 +40,8 @@ import { readFileSync } from 'node:fs'
 
 const LOADER = 'lib/checkin/today.ts'
 const PAGE = 'app/(dashboard)/dashboard/checkin/page.tsx'
+const ADDER = 'components/daily/AddMomentHere.tsx'
+const RIGHTNOW = 'components/rightnow/RightNowButton.tsx'
 const CARD = 'components/daily/ConcernAcknowledge.tsx'
 const CONFIRM = 'app/api/checkin/confirm/route.ts'
 const MIGRATION = 'supabase/migrations/304_first_checkin_acknowledge.sql'
@@ -90,6 +92,54 @@ if (loader) {
   if (!/mine\.slice\(0,\s*roomFor\(/.test(bare)) {
     fail.push(`${LOADER}: the rows asked for are not sliced by the room left today. Whatever the cap says, this is the line that decides how many questions a parent actually sees.`)
   }
+  // ── THE CAP MUST NOT HAVE A SECOND, UNCOUNTED PATH ────────────────────────
+  //
+  // This rule exists because the one above passed while the cap was being
+  // walked round in production. Justin, 18 September 2026: "today for Timbotee
+  // it made me do check in twice?" Seven ratings in 49 seconds on a cap of
+  // three, measured on the row.
+  //
+  // The slice was a ternary: roomFor on the branch with a child, plain
+  // DAILY_CAP on the branch without one. A child who had used their three fell
+  // out of the queue, which made `current` null, which took the second branch,
+  // which refilled the page with three more. The cap enforced was the cap
+  // bypassed.
+  //
+  // So: exactly one slice, and DAILY_CAP may only ever appear where the room
+  // is worked out, never as a slice length of its own.
+  if (/slice\(0,\s*DAILY_CAP\)/.test(bare)) {
+    fail.push(`${LOADER}: something slices the day's questions by DAILY_CAP directly instead of by the room left. That is a second path with nothing subtracted, and it is exactly how a family with one child was asked seven questions on a day capped at three.`)
+  }
+  if ((bare.match(/\.slice\(0,\s*roomFor\(/g) ?? []).length !== 1) {
+    fail.push(`${LOADER}: the day's questions are sliced in more or fewer than one place. One branch is what makes the cap true on every path.`)
+  }
+  // ── A CAP MUST NOT READ AS A SHRUG ────────────────────────────────────────
+  //
+  // Justin, 18 September 2026: "so how do we deal with more than 3 so users
+  // know we are on it?"
+  //
+  // The cap is right and it created this. Three of seven answered, then a
+  // screen saying all done, is a product quietly dropping four of the things a
+  // parent told it. These rules hold the arithmetic behind the sentence that
+  // makes the cap honest, because a promise with a wrong number under it is
+  // worse than no promise at all.
+  if (!/tracking:\s*\{\s*total:\s*number;\s*waiting:\s*number;\s*resting:\s*number\s*\}/.test(bare)) {
+    fail.push(`${LOADER}: the loader no longer tells the page how many worries are waiting their turn, so nothing on screen can say the ones not asked today are still being worked on.`)
+  }
+  if (!/waiting:\s*Math\.max\(0,\s*forThisChild\.length\s*-\s*restingHere\s*-\s*asked\.length\)/.test(bare)) {
+    fail.push(`${LOADER}: the waiting count is no longer the live list minus what is resting and minus what is on screen. Counting a resting worry as waiting turns five stars into a backlog, and forgetting to subtract today's rows tells a parent we owe them more than we do.`)
+  }
+  // A worry with no child of its own still spends someone's allowance. Drop it
+  // from the count and a household whose worries are all unassigned has a cap
+  // that subtracts nothing, which is the same bypass by another door.
+  if (!/const key = r\.child_id \?\? HOUSEHOLD/.test(bare)) {
+    fail.push(`${LOADER}: a worry with no child of its own no longer counts against the household allowance, so those questions are capped against a total that never goes up.`)
+  }
+  // An empty queue means every child is finished or has nothing to answer.
+  // Asking the whole list at that point is the bug above wearing a new coat.
+  if (!/hasKids \? \[\] : answerable/.test(bare)) {
+    fail.push(`${LOADER}: with no child in the queue the loader still falls back to the whole answerable list. An empty queue in a family that HAS children means everybody is done for today, so the answer is to ask nothing, not to ask everybody again.`)
+  }
   if (/\.slice\(0,\s*5\)/.test(bare)) {
     fail.push(`${LOADER}: a hardcoded five is back. That literal is the old per render limit and it is what produced seven ratings in thirty five seconds.`)
   }
@@ -118,9 +168,56 @@ if (page) {
   if (!/<ConcernAcknowledge[\s\S]{0,400}?\n  \}/.test(bare)) {
     fail.push(`${PAGE}: the acknowledgement branch does not return early. Everything below it belongs to a reading, including the child switcher and the redirect that rewrites ?child=, and none of it applies to a list you are agreeing to.`)
   }
-  // The doorway for the thing that happened today and is on no list yet.
-  if (!/Did anything else happen today\?/.test(bare)) {
-    fail.push(`${PAGE}: the finished check in no longer asks whether anything else happened. That question is the only way a new worry joins the list between check ins, which is the half of Justin's ask that keeps the loop going until things go away.`)
+  // ── THE ONES NOT ASKED TODAY ARE STILL OURS, AND IT HAS TO SAY SO ────────
+  // TWICE, because they are two different screens in a parent's day: the line
+  // above the questions while they answer, and the line after the last one.
+  // Losing either leaves a moment where the cap looks like a shrug, and they
+  // carry the same words on purpose so the promise cannot drift between them.
+  if ((bare.match(/unasked first, so nothing gets dropped/g) ?? []).length < 2) {
+    fail.push(`${PAGE}: the promise that the worries not asked about today come round is missing from one of the two screens that need it, the line above the questions or the line after the last one. With a cap of three and a parent who named seven, that sentence is the whole difference between a short day and a product that forgets.`)
+  }
+  if (!/tracking\.waiting > 0 \? '' : 'Nothing is waiting on you\. '/.test(bare)) {
+    fail.push(`${PAGE}: the finished screen says "Nothing is waiting on you" whatever is still queued. It is true of today and false of the list, and it is the last thing a parent reads, so with four still to come round it is the sentence that loses their trust in the tracker.`)
+  }
+  // ── THE DOORWAY FOR A NEW MOMENT, AND ITS WORDS ──────────────────────────
+  //
+  // Justin, 18 September 2026: "it should say add any new moments as copy and
+  // then [an] add moments [control] so they can add a new moment to go on
+  // check in and fall into [the routine] each day until it gets 5 stars."
+  //
+  // This is the only way a worry that happened an hour ago joins the list
+  // between check ins, so losing it quietly ends the loop that is supposed to
+  // run until things go away.
+  if (!/Add any new moments/.test(bare)) {
+    fail.push(`${PAGE}: the finished check in no longer says to add any new moments. That sentence is the only invitation for the thing that happened this morning and is on no list yet.`)
+  }
+  if (!/until they reach five stars/.test(bare)) {
+    fail.push(`${PAGE}: the invitation no longer says where an added moment ends up. "Add it" without "and we chase it to five stars" is a suggestion box, which is the opposite of what this loop is.`)
+  }
+  if (!/<AddMomentHere \/>/.test(bare)) {
+    fail.push(`${PAGE}: the add control is gone from the check in. Sending a parent to another page to add the thing they were just asked about is how a thirty second job becomes an errand.`)
+  }
+  if (/Add something that happened/.test(bare)) {
+    fail.push(`${PAGE}: the check in is back to linking away to the deck instead of opening the sheet where the question was asked.`)
+  }
+
+  // ── ONE SHEET, ASKED FOR BY NAME ─────────────────────────────────────────
+  //
+  // The obvious way to put an add control on a second page is to render
+  // RightNowButton again there, and it is the wrong way: the sheet, its hint
+  // state, its localStorage key and its share panel would all exist twice on
+  // one page, and two sheets that can both be open is a bug looking for a
+  // Friday.
+  const adder = code(read(ADDER))
+  const rightnow = code(read(RIGHTNOW))
+  if (adder && (!/OPEN_MOMENT_EVENT/.test(adder) || !/dispatchEvent/.test(adder))) {
+    fail.push(`${ADDER}: the add control no longer asks the mounted sheet to open by name.`)
+  }
+  if (adder && /<RightNowButton/.test(adder)) {
+    fail.push(`${ADDER}: the add control renders a SECOND moment sheet rather than opening the one the layout already mounts. Two sheets on one page means two hint states, two share panels and two things that can be open at once.`)
+  }
+  if (rightnow && !/addEventListener\(OPEN_MOMENT_EVENT/.test(rightnow)) {
+    fail.push(`${RIGHTNOW}: the one mounted sheet no longer listens for the open request, so the add control on the check in does nothing at all.`)
   }
 }
 

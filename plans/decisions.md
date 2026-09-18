@@ -571,6 +571,31 @@ merge commit first, so an unmergeable PR gets no run and pushes land silently.
 That looks exactly like Actions being broken and was misreported here as exactly
 that. Read the PR's own `mergeable_state` before blaming the platform.
 
+## 18 September 2026 — the check in opens every day, the rotation keeps the tick
+
+Justin: "didn't have check in as first thing to do?" Measured: that account had
+completed one day, and one completed day makes day two a LESSON day, so the
+lesson led and walked to the front. The cap was not involved.
+
+**Position and the day's one tick are now two separate things.** The rotation
+still chooses the lead, so lesson days, DiGi days and passport day are intact.
+The check in is moved to the front on top of that, because it is the thirty
+second habit and what every number is measured from. Guarded in both
+directions: making the check in lead every day would satisfy the first half and
+quietly delete the rotation. PR 1116.
+
+## 18 September 2026 — a cap of three asked seven, and then had to say so
+
+The slice was a ternary: `roomFor` on the branch with a child, plain
+`DAILY_CAP` on the branch without. A child who used their three fell out of the
+queue, which made `current` null, which took the uncapped branch. Three, then
+three, then one. The guard passed throughout: it checked that a slice used
+`roomFor`, never that a second slice did not exist.
+
+**And the cap needed words.** Three of seven answered then "nothing is waiting
+on you" reads as us dropping four things a parent told us. Both screens now say
+what is still tracked and that it comes round, which is only honest because
+rows are ordered longest unasked first. PR 1116.
 ## 18 September 2026 — migration 306 applied, the note the feature exists for
 
 305 was already applied (as school_promo_dismissal_305). 306 was not:
