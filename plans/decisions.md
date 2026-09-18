@@ -785,3 +785,24 @@ Caught before it cost anything: all 6 follow ups were already delivered and the
 pending queue was empty, so no card was missed in the window. Verified by
 replaying the cron's exact select, which now parses and runs, plus both column
 sets, the comments and the partial strand index.
+
+## 18 September 2026 — migration 308 applied, the photo is on the wall
+
+Justin: "Migrate 308 yes a cartoon fake is right."
+
+Applied to production and verified against the live row rather than against the
+migration's own exit code: ks3-12 now holds 33 slides, slide 7 is the
+bloop.official post carrying its picture and its 4.8M likes at one minute, and
+the transfer post behind it dropped to one. Teach phase 29 minutes, cycles 29
+minutes, unchanged either side of the change, which is what keeps the cycle map
+and the stated timing honest. 25 rows in school_lessons_backup_308.
+
+The state check before applying matched the fixture exactly, so the migration's
+four guard conditions could all fire rather than silently no op. That is the
+thing worth repeating: read the live row first, because a guarded migration
+that finds nothing to guard reports success and changes nothing.
+
+The cartoon fake is now settled policy for the scheme, not a one off. A fake of
+a Planet Friend is the only fake a classroom deck can carry honestly: you
+cannot print a real person's face on a forged post and hand it to thirty
+children. PR 1120.
