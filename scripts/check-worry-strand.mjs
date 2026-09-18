@@ -172,10 +172,12 @@ const DATA = {
   ],
   digi_outcomes: [
     { user_id: 'u', concern_id: 'live', suggestion: 'the first idea', verdict: 'no', approach: 'ek:k1', band_at_suggestion: 1, band_after: 1, created_at: '2026-09-10T09:00:00Z' },
+    { user_id: 'u', concern_id: 'live', suggestion: 'the unanswered idea', verdict: null, approach: 'ek:k2', band_at_suggestion: 1, band_after: null, created_at: '2026-09-12T09:00:00Z' },
   ],
   expert_knowledge: [
     { active: true, id: 'k1', finding: 'first', source_name: 'S', topics: ['sleep'], age_bands: ['7-10'], created_at: '2026-01-01' },
     { active: true, id: 'k2', finding: 'second', source_name: 'S', topics: ['sleep'], age_bands: ['7-10'], created_at: '2026-02-01' },
+    { active: true, id: 'k3', finding: 'third', source_name: 'S', topics: ['sleep'], age_bands: ['7-10'], created_at: '2026-03-01' },
   ],
 }
 const from = (name) => {
@@ -215,8 +217,14 @@ if (sp.status !== 0) {
     [/Sleep/.test(b), 'I: a worry still being worked is in the block'],
     [/the first idea/.test(b) && /they said it did not work/.test(b), 'I: what was tried and what the parent said are both carried'],
     [/and the rating held/.test(b), 'I: and what the rating did afterwards, which is the half the parent cannot tell us'],
-    [/NOT TRIED YET/.test(b) && /second/.test(b) && !/NOT TRIED YET, from the research bank: first/.test(b), 'I: the next approach is one this worry has not had'],
-    [out.next.live?.approach === 'ek:k2', 'I: and that approach is what a follow up for this worry would be recorded under'],
+    [/NOT TRIED YET, from the research bank: third/.test(b) && !/NOT TRIED YET, from the research bank: (first|second)/.test(b), 'I: the next approach is one this worry has not had'],
+    // An unanswered suggestion is SPENT, even though it taught us nothing.
+    // getTriedAlready drops those on purpose, and copying that rule here
+    // would empty the strand for every family on the product: read live on
+    // 18 September 2026, all six follow ups ever delivered are unanswered.
+    [/the unanswered idea/.test(b) && /we never heard back/.test(b), 'I: a suggestion nobody came back on is still counted as tried'],
+    [!/NOT TRIED YET, from the research bank: second/.test(b), 'I: and its approach is not offered again as if it were fresh'],
+    [out.next.live?.approach === 'ek:k3', 'I: and that approach is what a follow up for this worry would be recorded under'],
     [!/Biting/.test(b), 'I: a worry with nothing tried and nothing to try is left out rather than listed empty'],
     [/five stars/.test(b) && /over days/i.test(b), 'I: the block says plainly that this is a goal worked over days until five stars'],
     [!/\b(score|out of 10|\/10)\b/i.test(b), 'I: the block never quotes a raw score, only bands in words'],

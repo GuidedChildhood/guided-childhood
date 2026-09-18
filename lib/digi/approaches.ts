@@ -299,6 +299,19 @@ export async function getWorryStrand(
     // nagging, which is the one thing the whole strand has to avoid.
     if ((scores.topRun.get(c.id) ?? 0) >= SILVER_RUN) continue
 
+    // UNANSWERED ATTEMPTS COUNT, and this is where this deliberately differs
+    // from getTriedAlready in lib/digi/outcomes.ts, which filters them out.
+    //
+    // That one is building a cross family evidence base, so a row with no
+    // verdict teaches it nothing and is right to drop. This one is answering
+    // "what have we already spent on this worry", and a suggestion nobody
+    // came back on is spent all the same. Offering it again is the same
+    // mistake either way.
+    //
+    // Not hypothetical: read live on 18 September 2026, all six follow ups
+    // ever delivered are still unanswered. Filter those out to match the
+    // other function and the strand is empty for every family on the
+    // product.
     const tried = (attempts.get(c.id) ?? []).slice(0, STRAND_ATTEMPTS).map(a => {
       const said =
         a.verdict === 'worked' ? 'they said it worked'
