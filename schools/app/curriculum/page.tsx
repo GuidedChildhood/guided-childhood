@@ -210,7 +210,7 @@ export default async function CurriculumMapPage() {
                             // and what to print before they commit a lesson
                             // to it, and Teach this lesson is the first
                             // button on that page for anyone who already has.
-                            <Link href={`/lesson/${m.moduleId}`} style={{
+                            <Link className="gc-tap" href={`/lesson/${m.moduleId}`} style={{
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                               color: '#fff', background: ch.accent, borderRadius: 'var(--radius-tile)',
                               padding: '8px 14px', textDecoration: 'none',

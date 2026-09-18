@@ -45,7 +45,7 @@ export default function PassportPrintIndex() {
             const page = PASSPORT_STAGES[e.stage]
             const count = pageModules(e.stage).length
             return (
-              <Link key={e.stage} href={`/print/passport/${e.stage}`} style={{ textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: `2px solid ${friend.accent}`, borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
+              <Link className="gc-tap" key={e.stage} href={`/print/passport/${e.stage}`} style={{ textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: `2px solid ${friend.accent}`, borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                   <FriendArt friend={friend} mood="wave" size={16} />
                   <div>

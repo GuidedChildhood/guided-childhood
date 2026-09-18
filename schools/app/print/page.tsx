@@ -72,7 +72,7 @@ export default async function PrintRoomPage() {
           knowledge organiser, the unit overview, and the two quizzes with their answer versions one tap away.
         </p>
 
-        <Link href="/print/passport" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', marginBottom: '28px', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
+        <Link className="gc-tap" href="/print/passport" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', textDecoration: 'none', color: 'var(--ink)', background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 'var(--radius-card)', padding: 'var(--space-4) var(--space-4)', marginBottom: '28px', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }}>
           <div style={{ display: 'flex' }}>
             {(['pebble', 'bloop', 'orbit', 'nova'] as const).map((k, i) => <span key={k} style={{ marginLeft: i ? '-10px' : 0 }}><FriendArt friend={{ key: k, ...CHARACTERS[k] }} mood="wave" size={11} /></span>)}
           </div>
