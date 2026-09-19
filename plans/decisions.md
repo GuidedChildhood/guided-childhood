@@ -567,3 +567,29 @@ spacing after it, with all six payloads parsing deep equal.
 Migrations 312, 313 and 314 are generated and NOT yet applied. Nothing is
 claimed as covered until they are live and the evidence check passes against
 production, which is step B6. PR 1125.
+
+## 19 September 2026, the tracker now counts statutory requirements, not lessons
+
+B7. Ticking a lesson used to record that it was delivered and nothing more,
+which is a record of activity rather than of coverage. A deep dive does not
+ask how many lessons were taught, it asks which requirements were met, and the
+honest answer lived on a different page that knew nothing about what this
+school had actually done.
+
+Each row now says what it evidences, a panel above counts it, and the printed
+coverage sheet gained an appendix: every requirement met, in the wording of
+the guidance, with the lesson that taught it. That appendix is the artefact a
+subject lead is actually asked for.
+
+The first draft counted 48 and was wrong, which is worth recording because it
+is the same mistake the audit was written to catch. Counting every requirement
+that names a module swept in the PARTIAL rows, where the lesson teaches only
+some of it, and the BY_DESIGN rows, which the school's own scheme owns and we
+deliberately do not. Both are quiet overclaims. The count is FULL only, 40, and
+the panel says out loud that partly covered requirements are not counted and
+neither are the ones the school owns.
+
+Verified at 390 and 1440 and in print, with a seeded term of five ticked
+lessons: 18 of 40, no overflow, no console errors, appendix print only. The
+two new modules show DONE and evidence nothing, which is correct, because
+their migrations are not applied and their verdicts are still GAP. PR 1125.
