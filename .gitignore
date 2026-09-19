@@ -29,3 +29,4 @@ schools/node_modules/
 schools/.next/
 undefined/
 .ux-shots/
+__pycache__/
