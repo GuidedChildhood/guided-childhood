@@ -593,3 +593,20 @@ Verified at 390 and 1440 and in print, with a seeded term of five ticked
 lessons: 18 of 40, no overflow, no console errors, appendix print only. The
 two new modules show DONE and evidence nothing, which is correct, because
 their migrations are not applied and their verdicts are still GAP. PR 1125.
+## 19 September 2026 — every key the app reads is written down
+
+Setting up a new laptop, the template listed 23 keys and the app read 43.
+
+The two that mattered: `VAPID_EMAIL` and `VAPID_PRIVATE_KEY`. `lib/push/send.ts`
+returns early and sends NOTHING when either is missing, with no error and no
+log, so push stops while everything else carries on looking healthy.
+`EMBEDDING_API_KEY` is the same shape, semantic search silently returning
+nothing for ever and DiGi falling back to keywords without saying so.
+
+That is the class: a missing key does not crash anything, it removes a feature
+quietly, and whoever set the machine up cannot find out.
+
+`scripts/check-env-documented.mjs` in CI, scoped to app/ and lib/. It found two
+I had already miscategorised as script only. The template also now opens with
+`vercel env pull .env.local`, which is the right way to set up a machine
+anyway: one command, every key, nothing carried on a stick and nothing stale.
