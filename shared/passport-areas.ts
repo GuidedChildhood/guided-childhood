@@ -80,6 +80,7 @@ export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'ks2-09-copyright-ownership':               'social',  // making, sharing and owning your work
   'ks2-23-when-a-machine-talks-like-a-friend':'ai',      // a machine that says it likes you
   'ks2-25-stay-the-maker':                    'ai',      // if the computer made it, whose is it
+  'ks2-26-why-thirteen':                      'social',  // the age rule is the door into social media
   'ks3-10-mood-and-screens':                  'balance', // better, worse, or nothing, for a week
   'ks3-11-social-workarounds':                'social',  // the rule and the protection behind it
   'ks3-12-misinfo-deepfakes':                 'ai',      // three checks before you believe or share

@@ -267,6 +267,13 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
+    n: 26, moduleId: 'ks2-26-why-thirteen', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    title: 'Why thirteen?',
+    outcome: 'I can say what the number on an app is protecting.',
+    blurb: 'What an age rule is protecting, and what switches off when it is wrong.',
+    character: 'bloop', castLine: 'Bloop and DiGi',
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
