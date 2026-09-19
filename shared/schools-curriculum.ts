@@ -293,6 +293,20 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['gambling', 'mental_wellbeing', 'scams_financial'],
   },
   {
+    // DiGi only, maximum calm, the same register as sextortion and consent,
+    // because the two halves of this lesson are the two a pupil is least
+    // likely to raise by themselves. It pairs content that promotes self harm
+    // with recruitment into drug supply on purpose: both arrive rather than
+    // being sought, and both are met with the same silence for the same wrong
+    // reason, that being sent a thing implicates you in it.
+    n: 29, moduleId: 'ks4-29-did-not-go-looking', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    title: 'The content you did not go looking for',
+    outcome: 'I know what to do with something I never asked to see, and that I am not in trouble for it.',
+    blurb: 'Why the worst things online arrive rather than get searched for, and the three moves that deal with any of them.',
+    character: 'digi', castLine: 'DiGi only, maximum calm', dsl: true,
+    rshe: ['illegal_online', 'mental_wellbeing', 'online_safety'],
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
