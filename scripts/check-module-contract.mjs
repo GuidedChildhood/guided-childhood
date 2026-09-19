@@ -218,5 +218,25 @@ if (placement === 'after') {
   ok('no old passport digi slide survives', !slides.some(s => s.type === 'digi' && s.heading === 'The passport'))
 }
 
+// 10. the scaffold is one of the three the database allows (19 September 2026)
+//
+// `scaffold` is a three way classification of what a lesson asks a child to
+// DO: notice a mechanism, choose a behaviour, or tell somebody. All 25 live
+// modules carry one of those three, and the column has a CHECK constraint
+// naming them. Nothing in this file knew that, so four new modules were
+// written with the lesson's memorable tool in the field instead ("SHIELD",
+// "NAME IT, SAVE IT, SAY IT"), every local guard passed, and the first thing
+// to object was Postgres, at apply time, after the modules had been written,
+// reviewed, committed and pushed.
+//
+// That is the wrong place to find out. The tool belongs in teacher_notes.tool,
+// which those modules already carried, so the fix cost nothing and the only
+// real loss was the round trip. This rule moves the objection back to the
+// desk. If the constraint ever widens, widen this list in the same commit.
+const SCAFFOLDS = ['NOTICE', 'CHOOSE', 'TELL']
+const scaffold = m.row && m.row.scaffold
+ok(`row.scaffold is one of ${SCAFFOLDS.join(', ')}`, SCAFFOLDS.includes(scaffold),
+   `scaffold is ${JSON.stringify(scaffold)}. The lesson's memorable tool goes in teacher_notes.tool, not here`)
+
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

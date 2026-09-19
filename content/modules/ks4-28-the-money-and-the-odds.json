@@ -6,7 +6,10 @@
     "title": "The money and the odds",
     "year_band": "Years 10 to 11",
     "audience": "teacher",
-    "efcw_strands": [4, 5],
+    "efcw_strands": [
+      4,
+      5
+    ],
     "statutory_hooks": [
       "RSHE 2026 (wellbeing online, the risks related to online gambling and gambling like content within gaming, including the accumulation of debt)",
       "RSHE 2026 (mental wellbeing, that gambling can lead to serious mental health harms including anxiety, depression and suicide, and that some products are more likely to cause these harms than others)",
@@ -16,7 +19,7 @@
     "evidence_anchor": "Three things separate a chance from a purchase: the price is hidden behind a second currency, the margin is published and patient, and the speed of the loop between stake and result is what decides how much harm the product does",
     "single_action_outcome": "I can work out what a chance really costs me, and say when the loop has somebody.",
     "character_cast": "Nova opens on the arithmetic, DiGi closes on the person",
-    "scaffold": "THE PRICE, THE ODDS, THE LOOP",
+    "scaffold": "NOTICE",
     "sort_order": 28
   },
   "slides": [
@@ -91,7 +94,6 @@
       ],
       "script": "Say each word, class repeats. Two to stress test. House edge, because most of the room think it means the casino cheats and it means the opposite: the margin is published and it still wins. Chasing, because it is the one word in this lesson that somebody might use about themselves later, and it needs to arrive as a neutral description rather than an accusation."
     },
-
     {
       "type": "concept",
       "phase": "teach",
@@ -148,7 +150,11 @@
           "text": "480 gems gone, £4.79 spent, and 20 gems sitting there that cannot buy anything at all. The only way to use them is to buy more."
         }
       ],
-      "verdicts": ["Pounds", "Gems", "Never even"],
+      "verdicts": [
+        "Pounds",
+        "Gems",
+        "Never even"
+      ],
       "script": "Walk the three, pointing at each. The verdict chips are the takeaway: pounds go in, gems come out, and the maths is arranged so it never comes out even. Say the penny conversion out loud twice, because it is the single most useful fact in the cycle and it turns every price in every game back into money."
     },
     {
@@ -170,7 +176,6 @@
       "body": "Here is the part worth being exact about. You did not buy an item. You bought a chance at an item, and the price was the same whether the chance came good or not. That is a different kind of purchase from everything else in your life, and people have had a word for it for several hundred years. The word is not an insult and it is not a verdict on anyone who does it. It is just the accurate name for the thing.",
       "script": "Say this one plainly and then leave two seconds of silence. Do not name the word for them, let the room say it. If nobody does, say it yourself without weight: this is gambling, or near enough to it that the same maths applies. The lesson loses the room instantly if this sounds like an accusation, and keeps it if it sounds like a definition."
     },
-
     {
       "type": "concept",
       "phase": "teach",
@@ -227,7 +232,11 @@
           "text": "There is no luck left in the number. What remains is the edge, exactly as published. This is the operator's side of the very same maths."
         }
       ],
-      "verdicts": ["Luck", "Mixed", "Arithmetic"],
+      "verdicts": [
+        "Luck",
+        "Mixed",
+        "Arithmetic"
+      ],
       "script": "Walk the three and land the verdict chips, because they are the cycle in three words. The sentence to repeat is that the operator and the player are doing the same sum from opposite ends, and only one of them is doing it ten thousand times."
     },
     {
@@ -265,7 +274,6 @@
       "meta": "Today · 5 messages",
       "script": "Put it up and say nothing for five seconds. Then one question and no more than three answers: what is missing from this chat? The answer is every losing week. Nobody posts those, so the chat only ever carries wins, and the picture it builds is not a lie anybody told. It is a lie the format tells on its own. Name it as survivorship bias and connect it back to manipulation and persuasion if your class has had that module."
     },
-
     {
       "type": "concept",
       "phase": "teach",
@@ -331,7 +339,11 @@
           "text": "The National Gambling Helpline is free on 0808 8020 133, day or night, and it has no minimum age. There is an NHS clinic in England for this that takes people from thirteen. Childline is free on 0800 1111."
         }
       ],
-      "verdicts": ["Lock it", "Tell someone", "Free help"],
+      "verdicts": [
+        "Lock it",
+        "Tell someone",
+        "Free help"
+      ],
       "script": "Walk the three. Be specific on the middle one: say the actual role and, if you can, the actual name, because a pupil who has to work out who to tell usually tells nobody. On the third, say the no minimum age part out loud, because every pupil in the room assumes a gambling helpline is for adults and that assumption is the barrier. Read both numbers slowly and leave the slide up longer than feels necessary, because somebody is writing one down and will not want to be seen doing it. Worth knowing yourself: Childline does not appear on a bill, and it can still sit in the call history on the handset, which Childline's own advice tells young people to clear."
     },
     {
@@ -344,13 +356,14 @@
       "lookFor": "Strong answers ask what the losing weeks looked like, or whether they could stop for a month and how that question lands. The sharpest answer notices that up £90 is unverifiable and usually means up £90 since the last time they counted.",
       "script": "Ninety seconds, then three answers. Steer away from anything that sounds like a lecture to a friend, because none of them will ever deliver it. The move that works is a question rather than a warning, and the best question in the room is usually could you stop for a month, because of what the answer to it reveals."
     },
-
     {
       "type": "interactive",
       "phase": "practise",
       "minutes": 1,
       "component": "star-breath",
-      "config": { "seconds": 30 },
+      "config": {
+        "seconds": 30
+      },
       "script": "Thirty seconds of star breathing before the sort. The previous two slides sit close to home for part of the room and this pause is doing real work rather than decorating. Say nothing during it."
     },
     {
@@ -360,7 +373,11 @@
       "component": "verdict-sort",
       "caption": "How fast is the loop?",
       "config": {
-        "verdicts": ["Slow loop", "Fast loop", "Talk to someone today"],
+        "verdicts": [
+          "Slow loop",
+          "Fast loop",
+          "Talk to someone today"
+        ],
         "items": [
           {
             "text": "A £1 raffle ticket at the school fair, drawn at four o'clock",
@@ -438,7 +455,6 @@
       ],
       "script": "Whole class. This is the safeguarding check as much as a knowledge check, so watch the room rather than the screen while they answer. Read the correct feedback out loud so the word chasing is the last thing said before the prove questions."
     },
-
     {
       "type": "choice",
       "phase": "prove",
@@ -487,7 +503,6 @@
       ],
       "script": "Same again, answers in, then reveal. The correct option is deliberately the longest and the least satisfying, because it is the true one. If pupils object that it is a fudge, that is the best possible moment to say what a strong link with no proof of cause actually means, and why an honest scheme says it that way round."
     },
-
     {
       "type": "recap",
       "phase": "close",
@@ -562,17 +577,29 @@
         },
         {
           "q": "If an app is free to download, how does it usually make its money?",
-          "options": ["It does not", "From your attention, your data or your purchases", "From donations"],
+          "options": [
+            "It does not",
+            "From your attention, your data or your purchases",
+            "From donations"
+          ],
           "answer": 1
         },
         {
           "q": "What do the odds of something tell you?",
-          "options": ["How likely it is", "How much you would win", "How fast the game is"],
+          "options": [
+            "How likely it is",
+            "How much you would win",
+            "How fast the game is"
+          ],
           "answer": 0
         },
         {
           "q": "Who at school can you tell if something about money at home is worrying you?",
-          "options": ["Nobody, it is private", "Your tutor or the safeguarding lead", "Only a parent"],
+          "options": [
+            "Nobody, it is private",
+            "Your tutor or the safeguarding lead",
+            "Only a parent"
+          ],
           "answer": 1
         }
       ]
@@ -583,7 +610,11 @@
       "questions": [
         {
           "q": "When you pay for a crate, what have you actually bought?",
-          "options": ["The item", "A chance at the item", "Nothing at all"],
+          "options": [
+            "The item",
+            "A chance at the item",
+            "Nothing at all"
+          ],
           "answer": 1
         },
         {
@@ -597,12 +628,20 @@
         },
         {
           "q": "Eight reds in a row. What are the odds on the next spin?",
-          "options": ["Lower, black is due", "Exactly the same", "Higher, red is hot"],
+          "options": [
+            "Lower, black is due",
+            "Exactly the same",
+            "Higher, red is hot"
+          ],
           "answer": 1
         },
         {
           "q": "What is the one question to ask of anything that sells you a chance?",
-          "options": ["How fast is the loop", "How much could I win", "Is it legal"],
+          "options": [
+            "How fast is the loop",
+            "How much could I win",
+            "Is it legal"
+          ],
           "answer": 0
         }
       ]
@@ -655,7 +694,12 @@
       }
     ],
     "tool": "THE PRICE, THE ODDS, THE LOOP. Three questions in that order, for anything that takes money and hands back a chance.",
-    "keywords": ["house edge", "near miss", "chasing", "loot box"],
+    "keywords": [
+      "house edge",
+      "near miss",
+      "chasing",
+      "loot box"
+    ],
     "prior_knowledge": "The direct sequel to manipulation and persuasion at KS4, where the class met dark patterns and followed the money. This is the same skill pointed at the one product category built entirely out of them. At KS2 the scheme met loot boxes once, in the lesson on how games are designed to hold you, so most pupils will have the word and none of them will have the arithmetic.",
     "key_learning_points": [
       "A chance is a different kind of purchase from an item: the price is the same whether it comes good or not.",
@@ -703,17 +747,29 @@
         },
         {
           "q": "If an app is free to download, how does it usually make its money?",
-          "options": ["It does not", "From your attention, your data or your purchases", "From donations"],
+          "options": [
+            "It does not",
+            "From your attention, your data or your purchases",
+            "From donations"
+          ],
           "answer": 1
         },
         {
           "q": "What do the odds of something tell you?",
-          "options": ["How likely it is", "How much you would win", "How fast the game is"],
+          "options": [
+            "How likely it is",
+            "How much you would win",
+            "How fast the game is"
+          ],
           "answer": 0
         },
         {
           "q": "Who at school can you tell if something about money at home is worrying you?",
-          "options": ["Nobody, it is private", "Your tutor or the safeguarding lead", "Only a parent"],
+          "options": [
+            "Nobody, it is private",
+            "Your tutor or the safeguarding lead",
+            "Only a parent"
+          ],
           "answer": 1
         }
       ]
@@ -724,7 +780,11 @@
       "questions": [
         {
           "q": "When you pay for a crate, what have you actually bought?",
-          "options": ["The item", "A chance at the item", "Nothing at all"],
+          "options": [
+            "The item",
+            "A chance at the item",
+            "Nothing at all"
+          ],
           "answer": 1
         },
         {
@@ -738,12 +798,20 @@
         },
         {
           "q": "Eight reds in a row. What are the odds on the next spin?",
-          "options": ["Lower, black is due", "Exactly the same", "Higher, red is hot"],
+          "options": [
+            "Lower, black is due",
+            "Exactly the same",
+            "Higher, red is hot"
+          ],
           "answer": 1
         },
         {
           "q": "What is the one question to ask of anything that sells you a chance?",
-          "options": ["How fast is the loop", "How much could I win", "Is it legal"],
+          "options": [
+            "How fast is the loop",
+            "How much could I win",
+            "Is it legal"
+          ],
           "answer": 0
         }
       ]

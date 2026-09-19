@@ -610,3 +610,28 @@ quietly, and whoever set the machine up cannot find out.
 I had already miscategorised as script only. The template also now opens with
 `vercel env pull .env.local`, which is the right way to set up a machine
 anyway: one command, every key, nothing carried on a stick and nothing stale.
+
+## 19 September 2026, the scaffold column had a vocabulary and nothing local knew
+
+Trying to apply migration 312 to production failed on
+`school_lessons_scaffold_check`. The column is a three way classification of
+what a lesson asks a child to DO, and it allows exactly NOTICE, CHOOSE or
+TELL. All 25 live modules carry one of the three.
+
+All four new modules had the lesson's memorable tool in the field instead:
+SHIELD, NAME IT SAVE IT SAY IT, THE PRICE THE ODDS THE LOOP, STOP IT REPORT
+IT SAY IT. Every local guard passed. The contract check, the typecheck, the
+scale guard and the wiring check all had nothing to say, because none of them
+knew the column had a vocabulary. The first thing to object was Postgres, at
+apply time, four modules and eleven commits after the mistake was made.
+
+The fix cost nothing, which is the annoying part: the tool string was already
+in `teacher_notes.tool` on all four, so the field was simply duplicating it
+into a slot that means something else. Corrected to NOTICE, TELL, NOTICE,
+TELL, and the four migrations regenerated.
+
+The durable fix is rule 10 in `scripts/check-module-contract.mjs`, which
+holds the field to the same three values the database does. Verified both
+ways: it exits 1 on the old value and passes all four corrected modules and
+all 25 live ones. If the constraint ever widens, widen the rule in the same
+commit. PR 1125.

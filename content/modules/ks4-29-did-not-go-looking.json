@@ -6,7 +6,10 @@
     "title": "The content you did not go looking for",
     "year_band": "Years 10 to 11",
     "audience": "teacher",
-    "efcw_strands": [2, 4],
+    "efcw_strands": [
+      2,
+      4
+    ],
     "statutory_hooks": [
       "RSHE 2026 (wellbeing online, the serious risks of viewing content that promotes self harm, suicide or violence, including how to safely report it and how to access support after viewing it)",
       "RSHE 2026 (wellbeing online, the risks of illegal behaviours online, including drug and knife supply and the sale or purchase of illicit drugs)",
@@ -16,7 +19,7 @@
     "evidence_anchor": "Both halves of this lesson arrive rather than being chosen: a feed guesses what will hold you and distress holds people, and a message arrives from someone who half knows you. Being sent a thing is not the same as choosing it",
     "single_action_outcome": "I know what to do with something I never asked to see, and that I am not in trouble for it.",
     "character_cast": "DiGi only, maximum calm",
-    "scaffold": "STOP IT, REPORT IT, SAY IT",
+    "scaffold": "TELL",
     "sort_order": 29
   },
   "slides": [
@@ -91,7 +94,6 @@
       ],
       "script": "Say each word, class repeats. Two to stress test. Normalise, because it is the mechanism in cycle two and most pupils have only met the word in a political sense. Exploitation, because pupils tend to hear it as something that happens to other people somewhere else, and the whole of cycle three depends on them hearing it as something that begins with a perfectly friendly message."
     },
-
     {
       "type": "concept",
       "phase": "teach",
@@ -148,7 +150,11 @@
           "text": "Forwarded by somebody who did not stop to think. The commonest route of all, and the easiest one to break."
         }
       ],
-      "verdicts": ["You did not ask", "You did not choose", "Not yours to carry"],
+      "verdicts": [
+        "You did not ask",
+        "You did not choose",
+        "Not yours to carry"
+      ],
       "script": "Walk the three. Spend longest on the third, because it is the one pupils can do something about tonight: almost everything that circulates in a school does so because somebody forwarded it without thinking for one second. The verdict chips are the through line and they get repeated in the recap."
     },
     {
@@ -170,7 +176,6 @@
       "body": "This is the most important thing in the hour, so it gets said plainly. You are not in trouble for seeing something. You are not in trouble for being sent something. You are not in trouble for not reporting it straight away, or for being three weeks late telling somebody. None of that changes. The only thing that changes anything is passing it on, and that is exactly why the first of the three moves is to stop it with you.",
       "script": "Say this one slowly and say it to the whole room rather than to any part of it. Four sentences, four beats, no hedging and no conditions attached. If you add a qualifier here, somebody who needed it will hear the qualifier and not the sentence. Then pause before moving on."
     },
-
     {
       "type": "concept",
       "phase": "teach",
@@ -248,7 +253,6 @@
       ],
       "script": "Whole class. The third option gets picked honestly by a few and it is worth naming without any mockery: wanting to see is a normal reaction, and it is still the reply that makes everything worse. That is the distinction the whole lesson is teaching."
     },
-
     {
       "type": "concept",
       "phase": "teach",
@@ -314,7 +318,11 @@
           "text": "To one actual person. A report deals with the content. Only a person asks how you are, and that is the half that a report will never do."
         }
       ],
-      "verdicts": ["Stop it", "Report it", "Say it"],
+      "verdicts": [
+        "Stop it",
+        "Report it",
+        "Say it"
+      ],
       "script": "Walk the three and be specific about your own school on the third: the actual role, and the actual name if you can. Say the middle one carefully, because the honest version is what keeps a pupil safe. No app tells somebody who reported them, and every app tells somebody their post came down, so if you were the only person who could see it, in a direct message or a group of four, they may well work it out. Say that out loud and give them the answer to it: if you are worried about being worked out, let an adult make the report instead. Then land the sentence that separates the second move from the third, because most pupils think reporting is the whole job. A report handles the content. A person handles you. You need both."
     },
     {
@@ -327,13 +335,14 @@
       "lookFor": "Most say the third, and the reasons are worth hearing: not wanting a fuss, not wanting a parent told, not wanting to be the one who made it official. Every one of those is a real obstacle rather than an excuse.",
       "script": "Ninety seconds. This is the most useful discussion in the lesson and the temptation is to correct the answers. Do not. Take the obstacles seriously and answer the commonest one directly, which is what happens next, because a pupil who does not know what happens after telling will not tell."
     },
-
     {
       "type": "interactive",
       "phase": "practise",
       "minutes": 1,
       "component": "star-breath",
-      "config": { "seconds": 30 },
+      "config": {
+        "seconds": 30
+      },
       "script": "Thirty seconds of star breathing before the sort. This lesson asks more of a room than any other in the scheme and the pause is doing real work rather than decorating. Say nothing during it."
     },
     {
@@ -343,7 +352,11 @@
       "component": "verdict-sort",
       "caption": "What is this, and what does it need?",
       "config": {
-        "verdicts": ["Report it and move on", "Report it and tell someone", "Tell someone right now"],
+        "verdicts": [
+          "Report it and move on",
+          "Report it and tell someone",
+          "Tell someone right now"
+        ],
         "items": [
           {
             "text": "A violent video auto playing in a feed, seen once and scrolled past",
@@ -421,7 +434,6 @@
       ],
       "script": "Whole class, and read the correct feedback aloud in full. This question exists for the pupil who is doing the sum in their head right now about something from last term, and the answer they need to hear from an adult is that there is no deadline."
     },
-
     {
       "type": "choice",
       "phase": "prove",
@@ -470,7 +482,6 @@
       ],
       "script": "Same again, answers in, then reveal. If this one is weak, the order has not landed, and the order is the part that changes what actually happens."
     },
-
     {
       "type": "recap",
       "phase": "close",
@@ -536,22 +547,38 @@
       "questions": [
         {
           "q": "What decides what appears next in a feed?",
-          "options": ["What you searched for", "A system guessing what will hold you", "The order things were posted"],
+          "options": [
+            "What you searched for",
+            "A system guessing what will hold you",
+            "The order things were posted"
+          ],
           "answer": 1
         },
         {
           "q": "If something online upsets you, what is worth doing first?",
-          "options": ["Send it to a friend to check", "Report it and stop it going further", "Delete the app"],
+          "options": [
+            "Send it to a friend to check",
+            "Report it and stop it going further",
+            "Delete the app"
+          ],
           "answer": 1
         },
         {
           "q": "Who in a school is responsible for safeguarding?",
-          "options": ["Nobody in particular", "The designated safeguarding lead", "The head only"],
+          "options": [
+            "Nobody in particular",
+            "The designated safeguarding lead",
+            "The head only"
+          ],
           "answer": 1
         },
         {
           "q": "If an offer sounds too good for what is being asked, that usually means...",
-          "options": ["You got lucky", "Something has not been mentioned yet", "They like you"],
+          "options": [
+            "You got lucky",
+            "Something has not been mentioned yet",
+            "They like you"
+          ],
           "answer": 1
         }
       ]
@@ -562,7 +589,11 @@
       "questions": [
         {
           "q": "Something distressing appears in your feed. What does it say about you?",
-          "options": ["That you looked at something", "Nothing, it is a guess about attention", "That you were targeted"],
+          "options": [
+            "That you looked at something",
+            "Nothing, it is a guess about attention",
+            "That you were targeted"
+          ],
           "answer": 1
         },
         {
@@ -576,7 +607,11 @@
         },
         {
           "q": "What are the three moves, in order?",
-          "options": ["Stop it, report it, say it", "Report it, say it, stop it", "Say it, stop it, report it"],
+          "options": [
+            "Stop it, report it, say it",
+            "Report it, say it, stop it",
+            "Say it, stop it, report it"
+          ],
           "answer": 0
         },
         {
@@ -638,7 +673,12 @@
       }
     ],
     "tool": "STOP IT, REPORT IT, SAY IT. In that order, because only the first one is on a clock.",
-    "keywords": ["recommender", "normalise", "exploitation", "county lines"],
+    "keywords": [
+      "recommender",
+      "normalise",
+      "exploitation",
+      "county lines"
+    ],
     "prior_knowledge": "Follows the KS3 lesson on online conflict, which taught name it, save it, say it. The shape is deliberately familiar and the content is different: that lesson was about something aimed at a person, this one is about things that arrive without anybody aiming them. If your class has had manipulation and persuasion at KS4, the recommender idea in cycle one is a direct continuation of it.",
     "key_learning_points": [
       "Recommender systems optimise for holding attention, and distressing material holds attention, so it reaches people who never searched for anything.",
@@ -677,22 +717,38 @@
       "questions": [
         {
           "q": "What decides what appears next in a feed?",
-          "options": ["What you searched for", "A system guessing what will hold you", "The order things were posted"],
+          "options": [
+            "What you searched for",
+            "A system guessing what will hold you",
+            "The order things were posted"
+          ],
           "answer": 1
         },
         {
           "q": "If something online upsets you, what is worth doing first?",
-          "options": ["Send it to a friend to check", "Report it and stop it going further", "Delete the app"],
+          "options": [
+            "Send it to a friend to check",
+            "Report it and stop it going further",
+            "Delete the app"
+          ],
           "answer": 1
         },
         {
           "q": "Who in a school is responsible for safeguarding?",
-          "options": ["Nobody in particular", "The designated safeguarding lead", "The head only"],
+          "options": [
+            "Nobody in particular",
+            "The designated safeguarding lead",
+            "The head only"
+          ],
           "answer": 1
         },
         {
           "q": "If an offer sounds too good for what is being asked, that usually means...",
-          "options": ["You got lucky", "Something has not been mentioned yet", "They like you"],
+          "options": [
+            "You got lucky",
+            "Something has not been mentioned yet",
+            "They like you"
+          ],
           "answer": 1
         }
       ]
@@ -703,7 +759,11 @@
       "questions": [
         {
           "q": "Something distressing appears in your feed. What does it say about you?",
-          "options": ["That you looked at something", "Nothing, it is a guess about attention", "That you were targeted"],
+          "options": [
+            "That you looked at something",
+            "Nothing, it is a guess about attention",
+            "That you were targeted"
+          ],
           "answer": 1
         },
         {
@@ -717,7 +777,11 @@
         },
         {
           "q": "What are the three moves, in order?",
-          "options": ["Stop it, report it, say it", "Report it, say it, stop it", "Say it, stop it, report it"],
+          "options": [
+            "Stop it, report it, say it",
+            "Report it, say it, stop it",
+            "Say it, stop it, report it"
+          ],
           "answer": 0
         },
         {
