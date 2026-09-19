@@ -85,10 +85,24 @@ export const CHARACTERS: Record<CharacterKey, {
   },
 }
 
-// The named topics of the DfE RSHE statutory guidance published 15 July
-// 2025, compulsory 1 September 2026. The mapping matrix (/educator/hub)
-// renders module coverage against these. Keys are stable ids, labels are
-// the display wording.
+// SUPERSEDED, 19 September 2026. Kept only so the `rshe` keys on the module
+// rows below still typecheck; nothing renders from it any more.
+//
+// This list was described in the comment it replaces as "the named topics of
+// the DfE RSHE statutory guidance". It was not. The guidance has twenty eight
+// strands and one hundred and ninety five numbered curriculum content items,
+// and this is ten themes someone chose. The whole compliance story rendered
+// from it, so nothing downstream could be more accurate than the list, and the
+// list had never been checked against the document.
+//
+// The audit checked it (GDC_SCHOOLS_2026_COMPLIANCE_AUDIT.md) and found two
+// topics marked as covered that the lessons do not teach. The real mapping now
+// lives in shared/schools-rshe-2026.ts: fifty seven requirements, quoted
+// verbatim, each held to phrases that must appear in the named modules'
+// live slides by scripts/check-rshe-coverage.mjs.
+//
+// Delete this block and the `rshe` field together, once someone has a spare
+// minute and the twenty five module rows can be edited in one pass.
 export const RSHE_2025_TOPICS = [
   { key: 'online_safety', label: 'Online safety and harms' },
   { key: 'respectful_relationships', label: 'Respectful relationships, online and offline' },
