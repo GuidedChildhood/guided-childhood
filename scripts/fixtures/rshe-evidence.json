@@ -12,8 +12,8 @@
   "Regenerate with: npm run rshe-evidence (prints the SQL to run against production)."
  ],
  "generatedAt": "2026-09-19",
- "source": "production schools.school_lessons, 25 modules, 732 slides",
- "pairsChecked": 67,
+ "source": "production schools.school_lessons, after migrations 309, 310 and 311",
+ "pairsChecked": 94,
  "failures": [],
- "requirementsHash": "c5528d4cca58018dde39c0274ee6fb8de3d10a5132aa5e7cf4a291b91d5ae949"
+ "requirementsHash": "2f800d589577d0361dce25fd0226e7dae5918f7422781be223d4c033c86d6524"
 }

@@ -39,7 +39,7 @@ const FIXTURE = path.join(ROOT, 'scripts/fixtures/rshe-evidence.json')
 // THE RATCHET. These are the numbers on the day the guard was written. They
 // come down as lessons land and they never go up. A pull request that raises
 // either one fails here rather than in front of a school.
-const MAX_OUTSTANDING = 33   // PARTIAL + GAP
+const MAX_OUTSTANDING = 11   // PARTIAL + GAP
 const MAX_GAP = 9
 
 let bad = 0
