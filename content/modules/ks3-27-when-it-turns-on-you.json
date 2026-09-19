@@ -1,0 +1,868 @@
+{
+  "module_id": "ks3-27-when-it-turns-on-you",
+  "key_stage": "KS3",
+  "sort_order": 27,
+  "row": {
+    "title": "When it turns on you",
+    "year_band": "Years 7 to 9",
+    "audience": "teacher",
+    "efcw_strands": [
+      2,
+      4
+    ],
+    "statutory_hooks": [
+      "RSHE 2026 (online safety and awareness, technology used in bullying, harassment, stalking and coercive control)",
+      "RSHE 2026 (wellbeing online, identifying harmful behaviours and how to report them)",
+      "RSHE 2026 (respectful relationships, types of bullying and the bystander)",
+      "KCSIE 2026 para 165 conduct (online bullying) and para 160 (recognising and reporting an abusive relationship, including coercive and controlling behaviour)"
+    ],
+    "ailit_domains": [],
+    "evidence_anchor": "Online conflict escalates because three brakes are missing at once: the face that would normally stop you, the privacy that would keep it small, and the forgetting that would let it end",
+    "single_action_outcome": "I can name what is happening, and say the thing that ends it.",
+    "character_cast": "Orbit opens on the escalation, DiGi closes on the one person who can act",
+    "scaffold": "NAME IT, SAVE IT, SAY IT",
+    "sort_order": 27
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "eyebrow": "KS3 · Years 7 to 9",
+      "title": "When it turns on you",
+      "body": "Why a small thing online gets big fast, what the big version is called, and the three moves that end it.",
+      "script": "Settle everyone with this slide up. Read the title and the line under it, then stop. Do not open by asking whether anyone has experienced this, and do not open with a story. Some of this room is living it right now. The lesson works because it is about a mechanism, and anybody who needs it can take what they need without having to say anything."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "heading": "Orbit has been watching",
+      "lines": [
+        "I have watched a hundred group chats go wrong.",
+        "It is never the first message that does the damage.",
+        "It is what happens in the ninety seconds after it."
+      ],
+      "script": "Let Orbit land the frame. The ninety seconds is the idea the whole first cycle unpacks, so do not explain it here. Orbit is the checks and big questions friend and this is exactly their territory: something that looks like a fight is actually a machine, and machines can be understood."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I can name what is happening, and say the thing that ends it.",
+      "why": "Most people know something is wrong long before they can say what it is called. Naming it is what turns a bad feeling into something an adult can act on.",
+      "gains": [
+        "Why online conflict gets bigger than the same thing said out loud",
+        "Four behaviours that have real names, and where the line is on each",
+        "Three moves that end it, and the one person worth telling"
+      ],
+      "script": "Read the outcome and the why at a steady pace. Be clear about what this hour is not: it is not a lesson about being nice, and this class has had plenty of those. It is a lesson about naming and about what actually works, which is a more grown up offer and lands better at this age."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "minutes": 3,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "Someone says the exact same sharp comment to your face and in a group chat of forty people. Why does the second one hurt more?",
+      "lookFor": "More people saw it. It is still there tomorrow. You cannot tell if they were joking. All three are right and all three come back as the three missing brakes.",
+      "script": "Ninety seconds in pairs, timer on screen. Take three answers and write them up in your own words, because you are about to name them as the three missing brakes and it is much stronger if the class supplied them. Keep this abstract: no names, no real examples, and say that before they start."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Four words for today",
+      "words": [
+        {
+          "word": "escalate",
+          "definition": "To get bigger and harder to stop. Online conflict escalates by default, which is a fact about the place rather than about the people."
+        },
+        {
+          "word": "harassment",
+          "definition": "Behaviour aimed at one person that keeps going after they have made it clear they want it to stop. The repeat is what makes it harassment."
+        },
+        {
+          "word": "coercive control",
+          "definition": "Where one person steadily takes another person's choices away. Who they talk to, where they go, what they post. It is a pattern, not a row."
+        },
+        {
+          "word": "bystander",
+          "definition": "Anyone who can see it happening. There is no neutral seat: watching and saying nothing is a choice the machine counts."
+        }
+      ],
+      "script": "Say each word, class repeats it. Two to stress test. Harassment, because the repeat is the thing that makes it a name rather than a bad day, and most pupils think it is about how nasty the comment was. Coercive control, because it is the one they have never been given a name for and several of them have watched it happen to somebody."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🔥",
+      "heading": "Why it gets bigger online",
+      "body": "In a room, an argument has brakes. You see the other person's face go, other people step in, and by Monday it has mostly gone. Online all three brakes are missing at once. No face to stop you, an audience that rewards going further, and a record that means nothing ever finishes. That is not because the people are worse. It is because the brakes are gone.",
+      "script": "This is the hinge of the lesson. Land the three missing brakes slowly and count them on your fingers, then repeat the last line, because it is the one that keeps the room open: nobody in this lesson is being told they are a bad person. The place is built differently and knowing that is the advantage."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "A joke about Sam lands in a chat of forty. Within an hour there are thirty replies. What actually made it grow?",
+      "options": [
+        {
+          "text": "Everyone in the chat genuinely dislikes Sam",
+          "correct": false,
+          "feedback": "Almost never true. Most people in that chat feel uncomfortable and say nothing, which the machine reads as approval."
+        },
+        {
+          "text": "Each reply got a reaction, so the next one went further",
+          "correct": true,
+          "feedback": "That is the engine. Every reply is rewarded by the reaction it gets, so the way to get noticed is to go further than the last one."
+        },
+        {
+          "text": "Sam replied and made it worse",
+          "correct": false,
+          "feedback": "It would have grown either way. Blaming the person it is aimed at is the oldest move there is, and it is wrong here."
+        }
+      ],
+      "script": "Whole class, hands or devices. The third option is the victim blaming trap and some pupils will pick it honestly. Do not mock anyone: use its feedback out loud, name the move as old and common, and go straight on. Do not let this become a discussion of a real chat."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "👥",
+      "heading": "The quiet majority is the whole audience",
+      "body": "Here is the part almost nobody knows. In a pile on, the people sending the messages are usually a handful. Everyone else is reading it, feeling uncomfortable, and doing nothing. To the machine, and to the person it is aimed at, silence and agreement look exactly the same. That is why one person saying this is not funny changes the temperature so fast: it breaks the impression that everybody is in.",
+      "script": "This is the bystander teach and it is the most practical thing in the hour. The key insight is that the silent majority is invisible to the person being targeted, who assumes the whole chat agrees. One dissenting message breaks that, which is why the move is so cheap and so powerful. Say clearly that it does not require anyone to fight."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "whole",
+      "seconds": 60,
+      "prompt": "Why is it so much harder to be the first one to say stop than the second?",
+      "lookFor": "You might become the target. You look serious. Nobody has your back yet. All honest, all worth saying out loud.",
+      "script": "Sixty seconds, whole class. Take three answers and do not fix them, because the honest answer is that going first is genuinely a risk and pretending otherwise loses the room. What you can say truthfully is that the second person costs almost nothing, so if you cannot go first, go second fast. That is a real move and they can all do it."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Three brakes that are missing",
+      "caption": "None of these is about the people. All three are about the place, which is why the same person behaves differently in it.",
+      "steps": [
+        {
+          "title": "No face",
+          "emoji": "🫥",
+          "text": "You cannot see it land. The signal that would normally stop you, someone's expression changing, never arrives."
+        },
+        {
+          "title": "An audience",
+          "emoji": "📣",
+          "text": "Every message is performed for a crowd, and the crowd rewards going further. Going further is how you get noticed."
+        },
+        {
+          "title": "A record",
+          "emoji": "📌",
+          "text": "Nothing fades. It is still there tomorrow, screenshotted, forwarded, and readable by people who were never in the room."
+        }
+      ],
+      "verdicts": [
+        "Not the people",
+        "The place",
+        "So you can plan for it"
+      ],
+      "script": "Walk the three, pointing at each. The verdict chips are the takeaway: it is the place rather than the people, which means it is predictable, which means you can plan for it. That is the difference between this lesson and a poster about kindness."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🏷️",
+      "heading": "Four things with real names",
+      "body": "Once it is bigger than a bad day, it has a name, and the name matters because it is what lets an adult act. Bullying is repeated, aimed at one person, and there is a power difference. Harassment keeps going after someone has made it clear they want it to stop. Stalking is being followed or watched, and online that looks like someone always knowing where you are and who you are with. Coercive control is somebody steadily taking your choices away.",
+      "script": "Slow and clear. You are giving them vocabulary, not a warning. The reason to name these properly is that a pupil who can say this is harassment gets a different response from an adult than a pupil who says someone is being annoying. Say that out loud, because it is the practical reason to learn four definitions."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which of these has crossed into harassment?",
+      "options": [
+        {
+          "text": "One rude comment on a post, then nothing",
+          "correct": false,
+          "feedback": "Unpleasant, and not harassment. One thing is one thing. The name needs the repeat."
+        },
+        {
+          "text": "Messages every day for two weeks after being asked to stop",
+          "correct": true,
+          "feedback": "That is it. Asked to stop, kept going, over and over. The repeat after the ask is the whole definition."
+        },
+        {
+          "text": "A disagreement in a chat where both people said sharp things",
+          "correct": false,
+          "feedback": "That is a row, and rows are not harassment. Both sides being in it is exactly what makes it something else."
+        }
+      ],
+      "script": "This is the check that stops the words being used as insults, which is the real risk of teaching them. The class needs to see that one rude comment is not harassment and a two sided row is not bullying. Precision protects the words so they still work when somebody needs them."
+    },
+    {
+      "type": "scenario",
+      "phase": "teach",
+      "minutes": 2,
+      "platform": "message",
+      "handle": "Alex",
+      "avatar": "💬",
+      "text": "who were you with\n\nsend me a photo of where you are\n\nwhy did it take you 20 mins to reply\n\nI checked, you were online\n\nif you actually cared youd just tell me",
+      "meta": "Today · 5 messages in 8 minutes",
+      "script": "Put this up and say nothing for five seconds. Then ask one question and take no more than three answers: which single message here is the problem? The answer is none of them, and that is the point of the slide. Every message on its own is something a worried friend might send. It is the pattern, five in eight minutes, each one asking for a bit more, that has a name."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "What is actually happening in those messages?",
+      "options": [
+        {
+          "text": "Someone who cares a lot and is a bit anxious",
+          "correct": false,
+          "feedback": "It can look exactly like that from the inside, which is what makes it hard to name. Care does not need to check up on you, and it does not ask you to prove where you are."
+        },
+        {
+          "text": "Coercive control: choices being taken away one at a time",
+          "correct": true,
+          "feedback": "Yes. Who you are with, where you are, how fast you reply. Each one is small and the pattern is the thing with the name."
+        },
+        {
+          "text": "A normal argument",
+          "correct": false,
+          "feedback": "Arguments have two sides. Here only one person is asking and only one person is explaining themselves, which is the shape to notice."
+        }
+      ],
+      "script": "The first option is the important one and some pupils will pick it sincerely, because it is genuinely how it feels from inside. Give that feedback fully and warmly. Care does not need to check up on you is the sentence to leave on the screen. If anything in the room tells you this is live for a pupil, follow it up afterwards under your safeguarding policy, not now."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "⚖️",
+      "heading": "Where a name becomes the law",
+      "body": "Some of this is not only unkind, it is against the law. Harassment is a criminal offence. So is stalking. So is coercive or controlling behaviour in a relationship. You do not need to know which law is which, and nobody expects you to. The useful thing to know is simply that these are real names with real weight behind them, so when you use one to an adult, it is taken seriously.",
+      "script": "Deliver this factually and briefly, then move. The purpose is not legal knowledge, it is weight: a pupil who knows these are offences reports with more confidence and is heard faster. Do not invite questions about charges or punishments, and do not speculate about any real situation."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🧭",
+      "heading": "What actually ends it",
+      "body": "Three moves, in this order, and they work whichever of the four you are looking at. Name it, so you and the adult are talking about the same thing. Save it, because screenshots survive and deleted messages do not. Say it, to one person who can actually do something, rather than to the whole friendship group.",
+      "script": "This is the tool and it should be on the board for the rest of the lesson. It builds directly on the three moves from the KS2 lesson, so if your class did that one, name the link: do not pile on, save the evidence, tell someone becomes name it, save it, say it. Same shape, more precision, because at this age the names matter."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which is the most useful thing to do first, the moment you realise it is a pattern?",
+      "options": [
+        {
+          "text": "Screenshot it, with the date and who sent it visible",
+          "correct": true,
+          "feedback": "Yes, because it is the one that stops being possible later. Messages get deleted, accounts disappear, and the evidence goes with them."
+        },
+        {
+          "text": "Reply and tell them to stop",
+          "correct": false,
+          "feedback": "Worth doing at some point, and it is not first. Do it after you have a record, because the reply is often when things get deleted."
+        },
+        {
+          "text": "Tell everyone in your year what they did",
+          "correct": false,
+          "feedback": "Understandable and it usually makes it bigger. That is the escalation machine from the first half of this lesson, pointed the other way."
+        }
+      ],
+      "script": "The third option is chosen honestly by pupils who feel the injustice of it, so treat that feeling with respect before you correct it. Wanting people to know is fair. Telling everyone feeds exactly the machine they just learned about, and it also makes the adult's job harder."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Where to take it",
+      "caption": "Report inside the app AND tell a person. The app can remove it. Only a person can change what happens next.",
+      "steps": [
+        {
+          "title": "In the app",
+          "emoji": "🚩",
+          "text": "Report and block, usually behind three dots. It logs it with the platform, which matters if it keeps happening."
+        },
+        {
+          "title": "In school",
+          "emoji": "🏫",
+          "text": "Your tutor, head of year, or the safeguarding lead. Every school has one and their whole job is this."
+        },
+        {
+          "title": "Outside",
+          "emoji": "☎️",
+          "text": "Childline on 0800 1111, free and confidential. If someone is in danger right now, 999."
+        }
+      ],
+      "verdicts": [
+        "Report it",
+        "Tell a person",
+        "Keep the evidence"
+      ],
+      "script": "Walk the three. Be specific about your own school on the second one: say the actual role and, if you can, the actual name, because a pupil who has to work out who to tell often tells nobody. The Childline number is worth reading aloud slowly once."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🤝",
+      "heading": "If it is not you",
+      "body": "Most of this room will be a bystander more often than a target. The move is smaller than you think and it is not fighting anyone. Send one message that breaks the impression everybody agrees. Message the person it is aimed at privately, because that is worth more than anything public. And tell an adult, even if you were not involved, because nobody who does that is a snitch. They are the reason it stopped.",
+      "script": "Land the three bystander moves and keep them small, because a big ask gets ignored. One message in the chat, one message privately, one adult. The last line is the one to say properly: they are the reason it stopped. Most pupils want to help and are waiting to be told what helping looks like."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 60,
+      "prompt": "Which of the three bystander moves is the easiest to actually do, and which is the hardest? Why?",
+      "lookFor": "The private message is nearly always named as the easiest and it is the most valuable. Saying something in the chat is usually the hardest. Telling an adult splits the room, which is the conversation worth having.",
+      "script": "Sixty seconds in pairs. Take two answers and then be straight about the adult one, because that is where the real resistance is. Name the snitch worry out loud rather than letting it sit unspoken, and answer it: the person telling an adult is the reason it stopped, and no version of that is snitching."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 1,
+      "component": "star-breath",
+      "config": {
+        "seconds": 30
+      },
+      "script": "Thirty seconds of star breathing before the sort. This lesson sits close to real experience for some of the room and the pause is not decoration here. Say nothing during it."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 5,
+      "component": "verdict-sort",
+      "caption": "Name it",
+      "config": {
+        "verdicts": [
+          "A bad day",
+          "Has a name",
+          "Tell an adult today"
+        ],
+        "items": [
+          {
+            "text": "One sharp comment in a chat, then it moves on",
+            "answer": 0,
+            "why": "One thing is one thing. Unpleasant, and it does not have a name yet."
+          },
+          {
+            "text": "The same person messaging every day for a fortnight after being asked to stop",
+            "answer": 2,
+            "why": "Harassment, and the repeat after the ask is the whole definition. Save the messages and tell someone."
+          },
+          {
+            "text": "Two friends having a row where both said things they regret",
+            "answer": 0,
+            "why": "Rows are two sided. This is a friendship problem rather than a safeguarding one."
+          },
+          {
+            "text": "A partner asking for your location, then getting angry when you are slow to reply",
+            "answer": 2,
+            "why": "Coercive control. Small on its own, and it is the pattern that has the name. This one goes to an adult today."
+          },
+          {
+            "text": "A group chat where eight people pile onto one person's photo",
+            "answer": 1,
+            "why": "A pile on with a name. The bystander move applies here and one message changes the temperature."
+          },
+          {
+            "text": "Someone you blocked making a new account to reach you again",
+            "answer": 2,
+            "why": "Deliberately getting round being blocked is not a misunderstanding. Screenshot it and tell an adult today."
+          }
+        ]
+      },
+      "script": "Five minutes. Read each card, class votes with fingers for one, two or three, then reveal. The first and third cards are deliberately not problems, and that matters: a lesson that turns every disagreement into a safeguarding issue teaches nothing useful. The fourth is the one to take slowly."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "minutes": 5,
+      "heading": "The name it sheet, on paper",
+      "body": "Take one card from the sort that had a name. Write the three moves out for it: what you would name it, what exactly you would save, and who precisely you would say it to.",
+      "script": "Five minutes on the sheet from the pack. Push for precision on the third one: not an adult but a role and, ideally, a name. Vagueness there is the most common reason nothing happens. Circulate and read over shoulders rather than asking anyone to share what they wrote."
+    },
+    {
+      "type": "discussion",
+      "phase": "practise",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 60,
+      "prompt": "Swap sheets. Is your partner's third move specific enough that it would actually happen on a Tuesday?",
+      "lookFor": "An adult and someone at school are too vague. A role, a name, or a place is what makes it real.",
+      "script": "Sixty seconds. This is peer marking on one criterion only: would it actually happen. Take two examples of a vague one being made specific and do not name whose sheet it was."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "What is the strongest reason to screenshot before you reply?",
+      "options": [
+        {
+          "text": "Because it might get deleted the moment you respond",
+          "correct": true,
+          "feedback": "Exactly. A reply is often what makes somebody delete, and once it is gone the adult has your word against theirs."
+        },
+        {
+          "text": "So you can show your friends",
+          "correct": false,
+          "feedback": "That spreads it, which is the machine from the first half working for the wrong side."
+        },
+        {
+          "text": "So you can post it publicly",
+          "correct": false,
+          "feedback": "Understandable, and it turns one problem into two, with you now inside the second one."
+        }
+      ],
+      "script": "Quick one. The point is that the evidence step is time sensitive in a way nothing else in the lesson is, which is why it comes second and not last."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "Exit check. What makes online conflict grow faster than the same thing said out loud?",
+      "options": [
+        {
+          "text": "Three brakes are missing: no face, an audience, and a record",
+          "correct": true,
+          "feedback": "That is the sentence to take home. It is the place, not the people, which is exactly why you can plan for it."
+        },
+        {
+          "text": "People online are nastier than people in real life",
+          "correct": false,
+          "feedback": "Mostly the same people. What changes is what is missing around them."
+        },
+        {
+          "text": "There are more people online",
+          "correct": false,
+          "feedback": "Part of it, the audience, and only one of the three."
+        }
+      ],
+      "script": "Ten seconds of quiet thinking, then vote. If a lot of the room takes the second option, that is worth one more sentence: it is a comforting answer because it makes it somebody else's fault, and it leaves you with no plan."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "Exit check. What are the three moves, in order?",
+      "options": [
+        {
+          "text": "Name it, save it, say it",
+          "correct": true,
+          "feedback": "In that order, and the order matters: naming makes the adult's job possible, and saving stops being possible if you leave it."
+        },
+        {
+          "text": "Say it, name it, save it",
+          "correct": false,
+          "feedback": "Right moves, wrong order. Telling first often triggers the deletion that loses the evidence."
+        },
+        {
+          "text": "Block, delete, forget",
+          "correct": false,
+          "feedback": "Blocking has its place and deleting the evidence is the one thing you should not do. Forgetting is not a plan for a pattern."
+        }
+      ],
+      "script": "Same routine. Finish on the order, because that is the part with real consequences in it and it is the part they will still have in a year."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "What to keep",
+      "points": [
+        "Online conflict grows because three brakes are missing: no face, an audience, and a record. It is the place, not the people.",
+        "In a pile on the senders are few and the silent are many, and to the person in the middle those look the same.",
+        "Four things have real names: bullying, harassment, stalking, coercive control. Harassment and stalking and coercive control are criminal offences.",
+        "Coercive control is a pattern of choices taken away, and from the inside it can feel like being cared about.",
+        "Name it, save it, say it. Save before you reply, and say it to one person who can act."
+      ],
+      "script": "Read the five points steadily. The fourth is the one to leave hanging for a second, because it is the one somebody in the room may need and will not ask about. Then finish on the three moves, which is what you want them repeating at the door."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "character": "orbit",
+      "heading": "Orbit's mission for you",
+      "lines": [
+        "Find out the name of the safeguarding lead in this school.",
+        "Not so you can use it. So that you already have it.",
+        "The worst time to work out who to tell is the day you need to."
+      ],
+      "script": "Let Orbit give the mission, the bubbles appear on their own. If you can, put the actual name and where to find that person on the board as this plays, because a mission they can complete in the next thirty seconds is a mission that gets completed."
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "minutes": 1,
+      "component": "passport-page",
+      "config": {
+        "placement": "builder",
+        "moduleId": "ks3-27-when-it-turns-on-you",
+        "register": "plain",
+        "heading": "The passport",
+        "prompt": "Today filled a little of the Safe online page. Tap to fill it in.",
+        "after": "A full page brings the big check, and the big check earns Orbit's stamp.",
+        "button": "Fill the page"
+      },
+      "script": "The passport page fills as the class taps. This lands on the safe online area, which is where naming a harm and knowing the route to help belongs."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "DiGi closes the mission",
+      "lines": [
+        "You can name four things most adults cannot name.",
+        "And you know the order: name it, save it, say it.",
+        "If any of it was about you today, tell someone before the bell. See you next lesson!"
+      ],
+      "script": "Let DiGi land the ending, the bubbles appear on their own. That last line is deliberate and it is the most important sentence in the lesson. Say nothing over it. Then stay by the door as they leave, because that is when a pupil will tell you, and exit quizzes going out gives them a reason to be last."
+    }
+  ],
+  "video_beats": [],
+  "assessment": {
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "What makes something bullying rather than a one off?",
+          "options": [
+            "It is repeated and aimed at one person",
+            "It happens online",
+            "It is said loudly"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "If something online upsets you, what is the first thing worth doing?",
+          "options": [
+            "Reply straight away",
+            "Screenshot it",
+            "Delete it"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "A bystander is someone who...",
+          "options": [
+            "Started it",
+            "Can see it happening",
+            "Was not there"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who in a school is responsible for safeguarding?",
+          "options": [
+            "Nobody in particular",
+            "The designated safeguarding lead",
+            "The head only"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions on today. Keep this in your book.",
+      "questions": [
+        {
+          "q": "Why does online conflict grow faster?",
+          "options": [
+            "People online are nastier",
+            "Three brakes are missing",
+            "There is more time"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What makes something harassment?",
+          "options": [
+            "It is very rude",
+            "It keeps going after being asked to stop",
+            "More than one person saw it"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Coercive control is...",
+          "options": [
+            "A single big argument",
+            "A pattern of choices being taken away",
+            "Someone being annoying"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What are the three moves, in order?",
+          "options": [
+            "Name it, save it, say it",
+            "Block, delete, forget",
+            "Say it, name it, save it"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    "in_lesson_checks": [
+      "The choice on what made the pile on grow, which is also the victim blaming check",
+      "The choice on what crossed into harassment, which protects the words from becoming insults",
+      "The choice on the five messages, which is the coercive control check and the most important one in the hour"
+    ],
+    "action_commitment": {
+      "stem": "Before the end of today I will find out the name of ______, so I already have it.",
+      "note": "Collected on the learning record. Deliberately a fact finding commitment rather than a promise about behaviour, because it can be completed the same day and it removes the commonest barrier to reporting."
+    },
+    "teacher_judgement": {
+      "secure": "Names the three missing brakes without prompting, distinguishes a row from harassment, and gives a specific person rather than an adult when asked who to tell.",
+      "developing": "Knows the three moves and still describes online conflict as being about people being nastier, which leaves them without a plan.",
+      "needs_support": "Uses the four names loosely as insults, or reads the coercive control scenario as someone caring a lot. The second of those is worth a quiet conversation afterwards."
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned why conflict online grows faster than the same thing said out loud: three brakes are missing, the face that would stop you, the privacy that would keep it small, and the forgetting that would let it end. They learned four behaviours by name, bullying, harassment, stalking and coercive control, including that three of those are criminal offences. And they learned three moves that end it: name it, save it, say it.",
+    "try_this": "Do not ask whether anything is going on. Ask a lighter question instead: what is the fastest a group chat has ever gone wrong that you have seen? It is a story rather than a confession, and it usually tells you more.",
+    "family_question": "What would you actually do first if it happened to a friend? Then: who at school would you tell?",
+    "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is being able to name a harm and knowing the route to help.",
+    "no_login_required": true
+  },
+  "teacher_notes": {
+    "learning_objective": "To explain why online conflict escalates, to name four harmful behaviours precisely, and to use the three moves that end them.",
+    "essential_question": "What is this actually called, and what ends it?",
+    "timing": "63 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 5",
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Why it gets bigger online",
+        "minutes": 10,
+        "outcome": "I can name the three brakes that are missing online, and say why it is the place rather than the people."
+      },
+      {
+        "verb": "Name",
+        "title": "Four things with real names",
+        "minutes": 10,
+        "outcome": "I can tell a bad day from bullying, harassment, stalking and coercive control."
+      },
+      {
+        "verb": "Act",
+        "title": "What actually ends it",
+        "minutes": 10,
+        "outcome": "I can use the three moves in order, and name a person who can act."
+      }
+    ],
+    "tool": "NAME IT, SAVE IT, SAY IT. In that order, because saving stops being possible if you leave it.",
+    "keywords": [
+      "escalate",
+      "harassment",
+      "coercive control",
+      "bystander"
+    ],
+    "prior_knowledge": "The direct secondary sequel to the KS2 lesson on being kind and safe online, where the class met the pile on and the three moves: do not pile on, save the evidence, tell someone who can help. Name it, save it, say it is the same shape with the names added. Say the link out loud if your class did that one.",
+    "key_learning_points": [
+      "Escalation online is structural: no face, an audience that rewards going further, and a permanent record.",
+      "In a pile on the senders are few and the silent are many, and silence is indistinguishable from agreement to the person targeted.",
+      "Bullying needs repetition, a target and a power difference. Harassment needs the repeat after the ask. Stalking is being watched or followed. Coercive control is a pattern of choices removed.",
+      "Harassment, stalking and coercive control are criminal offences, which is why naming them to an adult carries weight.",
+      "Save before you reply, because a reply often triggers deletion."
+    ],
+    "misconceptions": [
+      "That online nastiness proves people are worse than they used to be. It is comforting and it leaves a pupil with no plan, which is why the lesson is built on the three missing brakes instead.",
+      "That the four names are insults to throw at a disagreement. The harassment check exists specifically to stop this, because words used loosely stop working when somebody needs them.",
+      "That coercive control looks like anger. From the inside it often looks like being cared about very intensely, which is exactly why it needs teaching rather than discovering."
+    ],
+    "i_can": "I can name what is happening, and say the thing that ends it.",
+    "commitment_stem": "Before the end of today I will find out the name of ______, so I already have it.",
+    "teacher_tip": "Assume somebody in the room is living one of these right now, and teach accordingly: no real examples, no asking who has experienced it, no volunteering of stories. The lesson is deliberately built so that a pupil who needs it can take everything they need without saying a word. Stand by the door at the end. That is when you will be told.",
+    "equipment": "Projector. The name it sheet from the printed pack, one per pupil. No pupil devices needed. Have the name of your safeguarding lead ready to put on the board.",
+    "paper_fallback": "The whole lesson runs from the printed pack with no screen: the three brakes are a diagram on the pack, the five message scenario is printed for you to read aloud, and the sorting cards are on the back page.",
+    "differentiation": "Stretch: ask why the law names harassment and stalking but has no offence called being unkind, which reaches the repetition and pattern idea from the other direction. Support: teach two of the four names rather than all four, bullying and coercive control, and keep the three moves as the whole takeaway.",
+    "send": "The three brakes work as three pictures and can be taught without the text. The five message scenario is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that a row and bullying are different things, because the sorting cards rely on that distinction.",
+    "passport_stage": "builder",
+    "worksheet": "The name it sheet",
+    "worksheet_items": [
+      "The situation I picked",
+      "What I would name it",
+      "Exactly what I would save, and when",
+      "The person I would say it to, by role or by name"
+    ],
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "What makes something bullying rather than a one off?",
+          "options": [
+            "It is repeated and aimed at one person",
+            "It happens online",
+            "It is said loudly"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "If something online upsets you, what is the first thing worth doing?",
+          "options": [
+            "Reply straight away",
+            "Screenshot it",
+            "Delete it"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "A bystander is someone who...",
+          "options": [
+            "Started it",
+            "Can see it happening",
+            "Was not there"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who in a school is responsible for safeguarding?",
+          "options": [
+            "Nobody in particular",
+            "The designated safeguarding lead",
+            "The head only"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions on today. Keep this in your book.",
+      "questions": [
+        {
+          "q": "Why does online conflict grow faster?",
+          "options": [
+            "People online are nastier",
+            "Three brakes are missing",
+            "There is more time"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What makes something harassment?",
+          "options": [
+            "It is very rude",
+            "It keeps going after being asked to stop",
+            "More than one person saw it"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Coercive control is...",
+          "options": [
+            "A single big argument",
+            "A pattern of choices being taken away",
+            "Someone being annoying"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What are the three moves, in order?",
+          "options": [
+            "Name it, save it, say it",
+            "Block, delete, forget",
+            "Say it, name it, save it"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    "evidence_base": [
+      {
+        "claim": "Online conflict escalates because three properties of the medium remove the brakes a room provides: no facial feedback, a watching audience, and permanence.",
+        "source": "Taught as a structural account of the medium, not as a research finding",
+        "status": "Deliberately makes no claim about prevalence or about trends over time, because those are contested and neither would change what a pupil should do."
+      },
+      {
+        "claim": "Harassment and stalking are criminal offences in England and Wales.",
+        "source": "Protection from Harassment Act 1997",
+        "status": "Stated in the lesson as weight rather than as legal detail. The statute is here for staff, not for pupils."
+      },
+      {
+        "claim": "Controlling or coercive behaviour in an intimate or family relationship is a criminal offence.",
+        "source": "Serious Crime Act 2015, section 76",
+        "status": "Same treatment. The lesson says these are offences and does not name statutes at pupils."
+      },
+      {
+        "claim": "There is no offence of bullying in English law.",
+        "source": "Absence of statute, which is why bullying is a school behaviour matter",
+        "status": "Why the lesson teaches bullying and the other three differently."
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "Is telling a teacher snitching?",
+        "answer": "No. Snitching is getting someone in trouble for something that harms nobody. This is the opposite: it is the thing that stops harm continuing, and the person who does it is the reason it stopped."
+      },
+      {
+        "question": "What if it is my friend doing it?",
+        "answer": "Then you are the one person with real influence, and the private message is the move. You do not have to choose between your friend and the person it is aimed at, because stopping it is good for both of them."
+      },
+      {
+        "question": "What if the adult does nothing?",
+        "answer": "Then tell a different adult, and keep the evidence. That is a real answer rather than a comforting one, and pupils respect being given it."
+      },
+      {
+        "question": "Am I in trouble if I joined in?",
+        "answer": "Coming and saying so is the most useful thing you can do, and it is treated completely differently from being found out."
+      }
+    ],
+    "parent_questions": [
+      {
+        "question": "Does this lesson make my child frightened of relationships?",
+        "answer": "No. It teaches four names and three moves, and the relationship content is about a pattern of choices being removed rather than about relationships being dangerous."
+      },
+      {
+        "question": "Why teach coercive control at thirteen?",
+        "answer": "Because it starts in early relationships and friendships, and because it is the one thing on this list young people are almost never given a name for. A pupil who can name it is far more likely to tell somebody."
+      },
+      {
+        "question": "Will my child be asked to share personal experiences?",
+        "answer": "No. Nothing in the lesson asks for one, and staff are told not to invite them."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Which of these are offences, and which is not",
+        "body": "Harassment and stalking are offences under the Protection from Harassment Act 1997. Controlling or coercive behaviour in an intimate or family relationship is an offence under section 76 of the Serious Crime Act 2015. There is no offence of bullying in English law, which is why this lesson teaches bullying as a school and behaviour matter and the other three as behaviours with legal weight behind them. The lesson tells pupils these are offences without naming statutes, because the weight is the useful part for them and the citation is the useful part for you."
+      },
+      {
+        "heading": "Why the escalation account is structural and not statistical",
+        "body": "The lesson explains escalation through three properties of the medium: the absence of facial feedback, the presence of an audience that rewards going further, and permanence. It makes no claim about prevalence and no claim that online conflict is worse now than it used to be. Both of those are contested, neither would change what a pupil should do, and a scheme that leans on them ages badly. If a parent or a colleague asks for the evidence behind the lesson, the honest answer is that it rests on how the medium works rather than on a trend."
+      },
+      {
+        "heading": "What KCSIE 2026 asks of preventative education here",
+        "body": "KCSIE 2026 names online bullying under conduct at paragraph 165, inside the four areas of online risk. Paragraph 160 sets out what a preventative education programme will tackle and includes recognising and reporting concerns about an abusive relationship, including coercive and controlling behaviour, and the concepts of and laws relating to all forms of sexual harassment and abuse and how to access support. A pupil naming coercive control after this lesson is doing exactly what the guidance asked of them, which is worth remembering when one does."
+      }
+    ]
+  },
+  "dsl_note": {
+    "required": true,
+    "concern_form_linked": true,
+    "note": "Safeguarding flagged, and the likeliest disclosure point in the whole scheme. Three moments carry the highest chance: the five message scenario, the coercive control choice that follows it, and the closing line telling pupils to speak to someone before the bell, which is written to prompt exactly that. Handle any disclosure under your own safeguarding policy and bring it to the DSL the same day. Two specifics worth knowing. A pupil describing a partner or friend monitoring their location, messages or contacts is describing coercive control, and KCSIE 2026 names it at paragraph 160 as something preventative education should cover, which means a pupil naming it is doing what the curriculum asked of them. A pupil disclosing that they have been doing it needs the same day response and the same care, because a young person who comes forward about their own behaviour is the best chance of it stopping. Stand by the door at the end of the lesson."
+  }
+}

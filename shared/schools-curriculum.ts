@@ -274,6 +274,13 @@ export const CURRICULUM: CurriculumModule[] = [
     character: 'bloop', castLine: 'Bloop and DiGi',
   },
   {
+    n: 27, moduleId: 'ks3-27-when-it-turns-on-you', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    title: 'When it turns on you',
+    outcome: 'I can name what is happening, and say the thing that ends it.',
+    blurb: 'Why online conflict escalates, what the four names are, and what ends it.',
+    character: 'orbit', castLine: 'Orbit and DiGi', dsl: true,
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',

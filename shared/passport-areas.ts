@@ -88,6 +88,7 @@ export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'ks3-14-bodies-image-pressure':             'balance', // who edited this, who profits from me feeling worse
   'ks3-22-when-an-ai-acts-like-a-friend':     'ai',      // does it ever have a day of its own
   'ks3-24-is-it-doing-my-thinking':           'ai',      // help that gets you to the work, or does the work
+  'ks3-27-when-it-turns-on-you':              'safe',    // name the harm, save it, say it
   'ks4-15-manipulation-persuasion':           'ai',      // name the technique, follow the money
   'ks4-16-consent-images-law':                'safe',    // consent, the law, and the options afterwards
   'ks4-17-sextortion':                        'safe',    // do not pay, do not keep it secret, report it
