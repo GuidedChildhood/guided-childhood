@@ -860,3 +860,24 @@ names the other three: `check-wall-scale.mjs` rule 4, four mutations, four
 caught. The type was never the problem, since the wall scale is viewport
 relative and floors at 16px on a phone. It only looked enormous because the
 column was 0px and every word took its own line. PR 1123.
+
+## 19 September 2026, the compliance audit: the map was not the territory
+
+Justin asked for a full statutory coverage and lesson audit before any more
+building, with the rule "do not implement changes yet".
+
+Two files, no code touched: `GDC_SCHOOLS_2026_COMPLIANCE_AUDIT.md` and
+`GDC_SCHOOLS_COVERAGE_MATRIX.csv` (65 rows, requirement text verbatim from the
+July 2025 guidance). Every verdict was tested against the live
+`schools.school_lessons` rows, 732 slides, not against module titles.
+
+The finding: `RSHE_2025_TOPICS` is a ten item list of themes, and the real
+guidance has 28 strands and 195 numbered items. Every compliance surface
+renders from that list, so nothing downstream can be more accurate than it.
+Of the 57 requirements this scheme could be expected to teach: 18 FULL,
+28 PARTIAL, 2 INDIRECT, 9 NONE. The nine include the age 13 minimum, bullying
+at secondary, online gambling, and self harm content, which the pricing page
+already implies we teach.
+
+Awaiting approval before anything is implemented. The first fix is copy, not
+curriculum: "line by line" and "every relevant requirement" cannot stand.
