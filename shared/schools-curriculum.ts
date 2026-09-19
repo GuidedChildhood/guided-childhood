@@ -281,6 +281,18 @@ export const CURRICULUM: CurriculumModule[] = [
     character: 'orbit', castLine: 'Orbit and DiGi', dsl: true,
   },
   {
+    // The `gambling` key, taken back from ks4-15 on 19 September 2026. It sat
+    // there for a year on a module that never used the word. This one is the
+    // scheme's whole answer to RSHE 2026's two gambling requirements, and to
+    // the commerce category KCSIE 2026 names at paragraph 165.
+    n: 28, moduleId: 'ks4-28-the-money-and-the-odds', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    title: 'The money and the odds',
+    outcome: 'I can work out what a chance really costs me, and say when the loop has somebody.',
+    blurb: 'The hidden price of a chance, the house edge, and why speed of the loop is the real risk.',
+    character: 'nova', castLine: 'Nova and DiGi', dsl: true,
+    rshe: ['gambling', 'mental_wellbeing', 'scams_financial'],
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',

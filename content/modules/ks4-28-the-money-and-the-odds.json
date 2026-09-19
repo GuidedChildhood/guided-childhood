@@ -1,0 +1,861 @@
+{
+  "module_id": "ks4-28-the-money-and-the-odds",
+  "key_stage": "KS4",
+  "sort_order": 28,
+  "row": {
+    "title": "The money and the odds",
+    "year_band": "Years 10 to 11",
+    "audience": "teacher",
+    "efcw_strands": [4, 5],
+    "statutory_hooks": [
+      "RSHE 2026 (wellbeing online, the risks related to online gambling and gambling like content within gaming, including the accumulation of debt)",
+      "RSHE 2026 (mental wellbeing, that gambling can lead to serious mental health harms including anxiety, depression and suicide, and that some products are more likely to cause these harms than others)",
+      "KCSIE 2026 para 165 commerce (risks such as online gambling) and para 160 (preventative education)"
+    ],
+    "ailit_domains": [],
+    "evidence_anchor": "Three things separate a chance from a purchase: the price is hidden behind a second currency, the margin is published and patient, and the speed of the loop between stake and result is what decides how much harm the product does",
+    "single_action_outcome": "I can work out what a chance really costs me, and say when the loop has somebody.",
+    "character_cast": "Nova opens on the arithmetic, DiGi closes on the person",
+    "scaffold": "THE PRICE, THE ODDS, THE LOOP",
+    "sort_order": 28
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "nova",
+      "eyebrow": "KS4 · Years 10 to 11",
+      "title": "The money and the odds",
+      "body": "Where the money actually goes when a game sells you a chance, who set the odds, and how to tell when the loop has somebody.",
+      "script": "Settle the room with this up. Read the title and the line under it and stop. Do not open by asking who gambles or who buys crates, and do not open with a cautionary story. Some of this room plays these games weekly and at least one of them has a parent who does. The lesson works because it is about how the products are built, which means anybody who needs it can take what they need without having to admit to anything."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "nova",
+      "heading": "Nova has done the sums",
+      "lines": [
+        "I can navigate anywhere. I still cannot beat a coin.",
+        "Nobody can. That is arithmetic, not a skill gap.",
+        "So the question was never can I win. It is what is this costing me."
+      ],
+      "script": "Let Nova set the frame. Nova is the navigator and this is exactly their ground: not a warning, a measurement. The last line is the whole lesson in one sentence, so do not explain it here. It gets unpacked three times over the next half hour."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I can work out what a chance really costs me, and say when the loop has somebody.",
+      "why": "Gambling and the things built to feel like it are designed to be hard to price and easy to keep doing. Both of those are solvable, and neither is solved by being told to be careful.",
+      "gains": [
+        "Where your money goes when a game sells you a chance instead of a thing",
+        "What a house edge is, and why one go is luck and ten thousand goes is arithmetic",
+        "Why two products with identical odds do very different amounts of harm"
+      ],
+      "script": "Read the outcome and the why steadily. Be clear about what this hour is not: nobody is going to be told to stop playing anything. This is a lesson about pricing and about product design, which is a more grown up offer than a warning and it is the only version this age group will actually listen to."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "minutes": 3,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "A game sells 500 gems for £4.99. One crate costs 80 gems. You open six crates and get nothing you wanted. How much real money did you just spend, and how long did that take to work out?",
+      "lookFor": "About £4.79, with 20 gems left over that buy nothing. Very few get there inside ninety seconds, and that is the finding rather than the sum.",
+      "script": "Ninety seconds in pairs, timer on the wall, calculators allowed because the point is not mental arithmetic. Take three answers. Whatever they say, the useful move is to ask how long it took, because the honest answer is longer than buying six of anything else would take. Write £4.79 and 20 gems on the board and leave it there, because the next four slides all point back at it."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Four words for today",
+      "words": [
+        {
+          "word": "house edge",
+          "definition": "The share of everything staked that the operator keeps on average. It is fixed, it is published, and it does not care whether you are lucky today."
+        },
+        {
+          "word": "near miss",
+          "definition": "A result built to look like you almost won. Two matching symbols and the third just above the line. It is not close. It is a loss, styled."
+        },
+        {
+          "word": "chasing",
+          "definition": "Staking again to win back what you just lost. It is the clearest single sign that something has stopped being a game."
+        },
+        {
+          "word": "loot box",
+          "definition": "Paying for a sealed item without knowing what is inside until it opens. Money in, chance out, and the same price either way."
+        }
+      ],
+      "script": "Say each word, class repeats. Two to stress test. House edge, because most of the room think it means the casino cheats and it means the opposite: the margin is published and it still wins. Chasing, because it is the one word in this lesson that somebody might use about themselves later, and it needs to arrive as a neutral description rather than an accusation."
+    },
+
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🪙",
+      "heading": "The price you actually paid",
+      "body": "Buy anything normally and one number tells you what it cost. A game that sells chances puts two conversions in the way. Your pounds become gems, and gems become an opening. By the time you reach the opening, the price is quoted in a currency that exists nowhere else and that nothing outside the game can price. That is not clumsy design. That is the design, and it is worth about a pound extra per purchase to whoever built it.",
+      "script": "This is the hinge of the first cycle. Land the two conversions slowly and point back at the board: £4.99, then 500 gems, then six crates. Do not moralise here. The tone that works is a mechanic lifting a bonnet: here is the part, here is what it does."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Why is the pack 500 gems when a crate costs 80?",
+      "options": [
+        {
+          "text": "Round numbers are simpler for the shop",
+          "correct": false,
+          "feedback": "It does the opposite of simple. A round pack against an awkward item price is exactly what stops you doing the sum in your head."
+        },
+        {
+          "text": "Because 500 never divides evenly into 80, so there is always a leftover that buys nothing",
+          "correct": true,
+          "feedback": "That is the design. Six crates leaves 20 gems stranded, and stranded gems are the reason the next pack gets bought. Nothing about that is an accident."
+        },
+        {
+          "text": "Because gems cost the company nothing to make",
+          "correct": false,
+          "feedback": "True, and not the answer. Gems being free to produce explains the profit. The pack size explains the repeat purchase."
+        }
+      ],
+      "script": "Whole class, hands or devices. Most rooms get this one once the leftover is on the board, and the moment it lands is worth pausing on. Ask whether anybody has ever had a balance they could not spend. Take two answers, no more, and move."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Two conversions and a leftover",
+      "caption": "One real purchase, followed all the way through. Every step is chosen, including the bit at the end that looks like an accident.",
+      "steps": [
+        {
+          "title": "£4.99",
+          "emoji": "💳",
+          "text": "Real money off a real card, and the last moment in the whole chain where the price is in pounds."
+        },
+        {
+          "title": "500 gems",
+          "emoji": "💎",
+          "text": "Now it is priced in a currency with no exchange rate shown anywhere. A gem is worth almost exactly one penny and the game will never tell you that."
+        },
+        {
+          "title": "6 crates, 20 left",
+          "emoji": "📦",
+          "text": "480 gems gone, £4.79 spent, and 20 gems sitting there that cannot buy anything at all. The only way to use them is to buy more."
+        }
+      ],
+      "verdicts": ["Pounds", "Gems", "Never even"],
+      "script": "Walk the three, pointing at each. The verdict chips are the takeaway: pounds go in, gems come out, and the maths is arranged so it never comes out even. Say the penny conversion out loud twice, because it is the single most useful fact in the cycle and it turns every price in every game back into money."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "If every crate showed its price in pounds and pence instead of gems, what would change?",
+      "lookFor": "Most say people would buy fewer, which is the answer and is why it is not done that way. Some will say it would change nothing for them personally. That is worth hearing rather than arguing with.",
+      "script": "Ninety seconds. Take three answers and resist the urge to correct the pupil who says it would make no difference to them, because they may well be right about themselves. The honest version is that it would change the average, not every person, and saying so is what keeps the rest of the lesson credible."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🎲",
+      "heading": "What you actually bought",
+      "body": "Here is the part worth being exact about. You did not buy an item. You bought a chance at an item, and the price was the same whether the chance came good or not. That is a different kind of purchase from everything else in your life, and people have had a word for it for several hundred years. The word is not an insult and it is not a verdict on anyone who does it. It is just the accurate name for the thing.",
+      "script": "Say this one plainly and then leave two seconds of silence. Do not name the word for them, let the room say it. If nobody does, say it yourself without weight: this is gambling, or near enough to it that the same maths applies. The lesson loses the room instantly if this sounds like an accusation, and keeps it if it sounds like a definition."
+    },
+
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🎯",
+      "heading": "The odds, and who set them",
+      "body": "Every game of chance that takes money is built with a margin in it. A roulette wheel has 37 pockets, and a winning single number pays 35 to 1. Those two numbers do not match, and the gap between them is the entire business. It comes out at about 2.7 pence kept from every pound staked, on average, forever. Nobody hides this. It is arithmetic, it is published, and it is the reason the building exists.",
+      "script": "Put the two numbers up and let the class find the gap themselves: 37 pockets, paid as though there were 36. That is the whole idea and it takes ten seconds once they see it. Then say the important half out loud: the operator is not cheating. Cheating would be unnecessary."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "A wheel has landed on red eight times running. What are the odds the next spin is red?",
+      "options": [
+        {
+          "text": "Lower, because black is due",
+          "correct": false,
+          "feedback": "The commonest wrong answer there is, and it has a name: the gambler's fallacy. The wheel has no memory. It does not know what it just did."
+        },
+        {
+          "text": "Exactly the same as on the first spin",
+          "correct": true,
+          "feedback": "Right, and it is the whole point. Nothing accumulates, nothing is owed, and every spin starts from nothing. That is precisely why no system can exist."
+        },
+        {
+          "text": "Higher, because red is running hot",
+          "correct": false,
+          "feedback": "Same mistake, opposite direction. Both answers assume the wheel is keeping track of something. It is not."
+        }
+      ],
+      "script": "Whole class. Expect the room to split and expect confident pupils to be wrong, which is useful. Read the feedback for both wrong answers out loud, because the fact that opposite reasoning leads to opposite wrong answers is what proves the reasoning itself is broken."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Where the edge shows up",
+      "caption": "The margin is invisible in one go and unavoidable over many. That is the whole trick, and it is barely a trick, because nobody is hiding it.",
+      "steps": [
+        {
+          "title": "One go",
+          "emoji": "🍀",
+          "text": "Anything can happen and you may well be up. This is the part the adverts show and the part people tell each other about."
+        },
+        {
+          "title": "A hundred goes",
+          "emoji": "📉",
+          "text": "Luck starts cancelling itself out and the margin starts showing through. Most are down, some are up, and nobody has done anything wrong."
+        },
+        {
+          "title": "Ten thousand goes",
+          "emoji": "🏦",
+          "text": "There is no luck left in the number. What remains is the edge, exactly as published. This is the operator's side of the very same maths."
+        }
+      ],
+      "verdicts": ["Luck", "Mixed", "Arithmetic"],
+      "script": "Walk the three and land the verdict chips, because they are the cycle in three words. The sentence to repeat is that the operator and the player are doing the same sum from opposite ends, and only one of them is doing it ten thousand times."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "A game publishes its drop rate: 1 in 200 for the rare item. You open 200 crates. What have you got?",
+      "options": [
+        {
+          "text": "The rare item, guaranteed",
+          "correct": false,
+          "feedback": "No. 1 in 200 does not mean one in every 200. Open exactly 200 and the chance you got nothing at all is about 37 percent, which is more than a third of players."
+        },
+        {
+          "text": "Probably it, with no guarantee and a real chance of nothing",
+          "correct": true,
+          "feedback": "Correct. Independent chances never add up into a promise, which is why publishing the odds and being fair are two different questions."
+        },
+        {
+          "text": "Two of them, because the chances add up as you go",
+          "correct": false,
+          "feedback": "Chances do not stack like that. Every open is its own event and it knows nothing about the one before it."
+        }
+      ],
+      "script": "This is the hardest question in the lesson and it is worth the time. The 37 percent figure is the one to write up, because it is the moment published odds stop sounding like protection. Stronger classes can be asked where the number comes from; everyone else only needs to know that it is more than a third."
+    },
+    {
+      "type": "scenario",
+      "phase": "teach",
+      "minutes": 2,
+      "platform": "message",
+      "handle": "Group chat",
+      "avatar": "💬",
+      "text": "mate I put a fiver on and got £40 back\n\nliterally free money\n\n4 in a row now\n\nim up like £90 this month\n\nwhy is nobody else doing this",
+      "meta": "Today · 5 messages",
+      "script": "Put it up and say nothing for five seconds. Then one question and no more than three answers: what is missing from this chat? The answer is every losing week. Nobody posts those, so the chat only ever carries wins, and the picture it builds is not a lie anybody told. It is a lie the format tells on its own. Name it as survivorship bias and connect it back to manipulation and persuasion if your class has had that module."
+    },
+
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "⏱️",
+      "heading": "The loop, and how fast it runs",
+      "body": "Two products can carry identical odds and be completely different things to use, and the biggest difference between them is speed. A draw once a week puts seven days between staking and knowing. An online slot puts about two seconds there. Nobody has actually proved that the speed itself is what causes the harm, and it is still the thing the law acts on: since 2025 nobody in Britain may stake more than £5 on one spin of an online slot, and anyone under 25 is capped at £2. A lottery ticket has no cap at all. If you keep one question from this hour, keep this one: how fast is the loop?",
+      "script": "The most important slide in the lesson and the one that hands them a tool rather than a warning. Say the question twice and write it on the board. Do not skip the honest sentence in the middle: the link between speed and harm is strong and it is not proof, and a class this age respects being told the difference far more than being told a tidy rule. The £2 under 25 cap is the line that lands, because it is the law saying out loud that this product is riskier for them specifically."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which of these is built to be hardest to stop?",
+      "options": [
+        {
+          "text": "A lottery ticket bought on Saturday for the Wednesday draw",
+          "correct": false,
+          "feedback": "The slowest loop there is. Days between stake and result, so there is nothing to chase in the moment and the whole thing ends on its own."
+        },
+        {
+          "text": "An online slot that resolves in about two seconds, on a phone, at one in the morning",
+          "correct": true,
+          "feedback": "Fastest loop, no closing time, nobody watching. Same money, entirely different product, and it is legal for over 18s."
+        },
+        {
+          "text": "A raffle at the school fair",
+          "correct": false,
+          "feedback": "One stake, one draw, then it is over. Not everything with odds in it is a danger, and pretending otherwise is how a lesson stops being believed."
+        }
+      ],
+      "script": "Whole class. The third option matters as much as the right answer: read its feedback out loud in full. A scheme that treats a tombola and an online slot as the same thing teaches pupils to discount the whole subject, and this class is old enough to notice."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "💔",
+      "heading": "What it does to a person",
+      "body": "This is the part that usually gets left out. Gambling harm is not mainly about money, and it starts with money. Because the price is hidden and the loss is gradual, it is gone before the feeling of spending arrives, and the gap gets filled by borrowing: from a friend, from a sibling, from a card that is not yours. Then the borrowing has to be hidden too. People describe not sleeping, lying to the people closest to them, and a background dread that never lifts. It is linked with anxiety and with depression, and at its most serious it is linked with suicide. That is why there are NHS clinics for it rather than it being filed under bad habits. None of that makes anybody who plays a game weak. It makes this worth understanding now, while it is still theory.",
+      "script": "Slow right down here and drop your volume rather than raising it. Somebody in most rooms has a parent or an older sibling in this paragraph, which is why the harm is described as things a person does and feels rather than as a diagnosis. Do not ask for examples and do not ask anyone to imagine a family member. Go straight on to the next slide, which is the one that gives them somewhere to put it."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Where to take it",
+      "caption": "For yourself or for somebody else. All three are free, and using any of them is a small thing to do.",
+      "steps": [
+        {
+          "title": "Lock it",
+          "emoji": "🚫",
+          "text": "Every gambling site licensed in Britain has to offer self exclusion, which shuts the account for a set period and cannot be talked out of at midnight."
+        },
+        {
+          "title": "Tell someone",
+          "emoji": "🏫",
+          "text": "Your tutor, head of year, or the safeguarding lead. Money trouble and secrecy at home are safeguarding matters, and they will have met it before."
+        },
+        {
+          "title": "Free help",
+          "emoji": "☎️",
+          "text": "The National Gambling Helpline is free on 0808 8020 133, day or night, and it has no minimum age. There is an NHS clinic in England for this that takes people from thirteen. Childline is free on 0800 1111."
+        }
+      ],
+      "verdicts": ["Lock it", "Tell someone", "Free help"],
+      "script": "Walk the three. Be specific on the middle one: say the actual role and, if you can, the actual name, because a pupil who has to work out who to tell usually tells nobody. On the third, say the no minimum age part out loud, because every pupil in the room assumes a gambling helpline is for adults and that assumption is the barrier. Read both numbers slowly and leave the slide up longer than feels necessary, because somebody is writing one down and will not want to be seen doing it. Worth knowing yourself: Childline does not appear on a bill, and it can still sit in the call history on the handset, which Childline's own advice tells young people to clear."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "A friend tells you they are up £90 this month on a betting app. What would you say, and what would you actually want to know?",
+      "lookFor": "Strong answers ask what the losing weeks looked like, or whether they could stop for a month and how that question lands. The sharpest answer notices that up £90 is unverifiable and usually means up £90 since the last time they counted.",
+      "script": "Ninety seconds, then three answers. Steer away from anything that sounds like a lecture to a friend, because none of them will ever deliver it. The move that works is a question rather than a warning, and the best question in the room is usually could you stop for a month, because of what the answer to it reveals."
+    },
+
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 1,
+      "component": "star-breath",
+      "config": { "seconds": 30 },
+      "script": "Thirty seconds of star breathing before the sort. The previous two slides sit close to home for part of the room and this pause is doing real work rather than decorating. Say nothing during it."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 5,
+      "component": "verdict-sort",
+      "caption": "How fast is the loop?",
+      "config": {
+        "verdicts": ["Slow loop", "Fast loop", "Talk to someone today"],
+        "items": [
+          {
+            "text": "A £1 raffle ticket at the school fair, drawn at four o'clock",
+            "answer": 0,
+            "why": "One stake, one draw, and it finishes by teatime. Not a risk, and calling it one would make everything else in this lesson easier to ignore."
+          },
+          {
+            "text": "An online slot on a phone, spinning every two seconds, at one in the morning",
+            "answer": 1,
+            "why": "The fastest loop, with no closing time and nobody in the room. This is the product that does the most harm, and it is perfectly legal for adults."
+          },
+          {
+            "text": "Opening crates with real money again after telling yourself last week that you had stopped",
+            "answer": 2,
+            "why": "The loop is fast and a promise to yourself just broke. The broken promise is the part that matters, not the amount."
+          },
+          {
+            "text": "Buying a lottery ticket on Saturday for the Wednesday draw",
+            "answer": 0,
+            "why": "Days between stake and result. Slow loop, and the slowness is exactly what makes it a different product rather than a kinder one."
+          },
+          {
+            "text": "Putting more on to win back what went on the last one",
+            "answer": 2,
+            "why": "This is chasing, and it is the clearest warning sign there is. The amount of money involved does not change that."
+          },
+          {
+            "text": "Betting during a match, with the odds changing every thirty seconds",
+            "answer": 1,
+            "why": "Built so there is always another bet and never a natural stopping point. Same sport, completely different thing."
+          }
+        ]
+      },
+      "script": "Five minutes. Read each card, class votes with one, two or three fingers, then reveal. Cards one and four are deliberately not problems and that is load bearing: a lesson that turns every ticket into a warning teaches nothing anybody will use. Card three is the one to take slowly, because it is the only card where the person, rather than the product, is the thing being described."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "minutes": 5,
+      "heading": "The real price sheet, on paper",
+      "body": "Pick a game you play, or one somebody you know plays. Work out in pounds and pence what one of its chances actually costs. Then answer the second half: how fast is its loop, and what would be the first sign it had stopped being a game?",
+      "script": "Five minutes on the sheet from the printed pack. Calculators out, this is arithmetic rather than a memory test. Circulate and read over shoulders instead of asking anybody to share. Push on the last box, because what would be the first sign is a much better question than would you notice, and the answers pupils write there are the ones worth reading afterwards."
+    },
+    {
+      "type": "discussion",
+      "phase": "practise",
+      "minutes": 2,
+      "mode": "fours",
+      "seconds": 120,
+      "prompt": "Should a game have to show the price of a crate in pounds, and the odds, before you open it?",
+      "lookFor": "Almost everyone says yes. The argument worth surfacing is the other one: showing odds has not made much difference where it has been tried, because the problem was never that people lacked the information.",
+      "script": "Two minutes in fours. Take two positions rather than a vote. If nobody raises the counter argument, put it up yourself, because a class that leaves believing a label would fix this has learned something comforting and wrong."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Which of these is the clearest sign something has stopped being a game?",
+      "options": [
+        {
+          "text": "Spending more than you meant to, once",
+          "correct": false,
+          "feedback": "Happens to everybody with everything. Worth noticing, and not a sign on its own."
+        },
+        {
+          "text": "Putting money on again to get back what was just lost",
+          "correct": true,
+          "feedback": "Chasing. It is the clearest single marker there is, and it is the one worth being able to name."
+        },
+        {
+          "text": "Losing several times in a row",
+          "correct": false,
+          "feedback": "That is only the odds doing exactly what the odds do. It tells you nothing about the person at all."
+        }
+      ],
+      "script": "Whole class. This is the safeguarding check as much as a knowledge check, so watch the room rather than the screen while they answer. Read the correct feedback out loud so the word chasing is the last thing said before the prove questions."
+    },
+
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "A game sells 500 gems for £4.99 and a crate costs 80 gems. What is the clearest thing wrong with that pricing?",
+      "options": [
+        {
+          "text": "The gems are too expensive",
+          "correct": false,
+          "feedback": "Maybe, and that is an opinion about value. The question is about how the pricing is built."
+        },
+        {
+          "text": "The pack never divides evenly into crates, so a leftover is guaranteed",
+          "correct": true,
+          "feedback": "That is the design, and once you have seen it you will see it in every game that sells a currency."
+        },
+        {
+          "text": "Nothing is wrong with it",
+          "correct": false,
+          "feedback": "Nothing illegal, which is a different statement. The stranded leftover is deliberate and it exists to sell the next pack."
+        }
+      ],
+      "script": "Devices or hands, no discussion, answers in. This is the pricing half of the lesson proved in one question."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "Two products carry the same odds. One resolves in two seconds, one in four days. What is the honest thing to say about them?",
+      "options": [
+        {
+          "text": "They are the same, because the odds are the same",
+          "correct": false,
+          "feedback": "The odds are only half of what a product is. The gap between staking and knowing is the other half."
+        },
+        {
+          "text": "The fast one is the one the law caps hardest and the one linked with more harm, though speed being the cause is not proven",
+          "correct": true,
+          "feedback": "That is the accurate version, and being able to say it in that shape is worth more than a tidy rule you would have to abandon later."
+        },
+        {
+          "text": "The four day one, because the worry lasts longer",
+          "correct": false,
+          "feedback": "Reasonable thought, wrong answer. Four days is also four days of not being able to stake anything else."
+        }
+      ],
+      "script": "Same again, answers in, then reveal. The correct option is deliberately the longest and the least satisfying, because it is the true one. If pupils object that it is a fudge, that is the best possible moment to say what a strong link with no proof of cause actually means, and why an honest scheme says it that way round."
+    },
+
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "What to keep",
+      "points": [
+        "A chance is not an item. You pay the same whether it comes good or not, and that makes it a different kind of purchase from anything else you buy.",
+        "Two currencies and an awkward pack size are how the price gets hidden. A gem is worth about a penny, and the leftover is deliberate.",
+        "The house edge is published, fixed and patient. One go is luck. Ten thousand goes is arithmetic.",
+        "Nothing is due and nothing is hot. The wheel has no memory, which is exactly why no system can exist.",
+        "Speed is what the law acts on. An online slot is capped at £5 a spin, and £2 if you are under 25. A weekly draw has no cap at all.",
+        "The money goes before the feeling of spending arrives, and that gap is where borrowing starts. Chasing is the sign worth knowing by name, and help is free on 0808 8020 133 at any age."
+      ],
+      "script": "Read the six steadily. Leave a beat after the last one rather than rushing to the mission, because the number is the only thing on this slide somebody in the room may actually need, and a second of silence is what gives them time to write it down."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "character": "nova",
+      "heading": "Nova's mission for you",
+      "lines": [
+        "Pick one game on your phone that sells chances.",
+        "Work out tonight what one of those chances costs in real pennies.",
+        "You do not have to stop playing it. Just stop not knowing."
+      ],
+      "script": "Let Nova give the mission, the bubbles appear on their own. That last line is the reason this mission gets done: it asks for nothing to be given up. A commitment a pupil can complete in four minutes on the bus is a commitment that gets completed."
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "minutes": 1,
+      "component": "passport-page",
+      "config": {
+        "placement": "independent",
+        "moduleId": "ks4-28-the-money-and-the-odds",
+        "register": "plain",
+        "heading": "The passport",
+        "prompt": "Today filled a little of the Healthy balance page. Tap to fill it in.",
+        "after": "A full page brings the big check, and the big check earns Nova's stamp.",
+        "button": "Fill the page"
+      },
+      "script": "The page fills as the class taps. This one lands on healthy balance, which is where knowing what something costs you and knowing when to stop belongs."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "DiGi closes the mission",
+      "lines": [
+        "You can price a thing that was built not to be priced.",
+        "And you have the one question: how fast is the loop?",
+        "If any of today was about somebody you know, that number on the recap is free. See you next lesson!"
+      ],
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Say nothing over the last line. Then stand near the door as they go, because if anybody is going to say something about home, this is the lesson and that is the moment."
+    }
+  ],
+  "video_beats": [],
+  "assessment": {
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "What is a dark pattern?",
+          "options": [
+            "A design that pushes you into a choice you did not mean to make",
+            "A dark mode colour scheme",
+            "A hidden level in a game"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "If an app is free to download, how does it usually make its money?",
+          "options": ["It does not", "From your attention, your data or your purchases", "From donations"],
+          "answer": 1
+        },
+        {
+          "q": "What do the odds of something tell you?",
+          "options": ["How likely it is", "How much you would win", "How fast the game is"],
+          "answer": 0
+        },
+        {
+          "q": "Who at school can you tell if something about money at home is worrying you?",
+          "options": ["Nobody, it is private", "Your tutor or the safeguarding lead", "Only a parent"],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions on today. Keep this in your book.",
+      "questions": [
+        {
+          "q": "When you pay for a crate, what have you actually bought?",
+          "options": ["The item", "A chance at the item", "Nothing at all"],
+          "answer": 1
+        },
+        {
+          "q": "What is the house edge?",
+          "options": [
+            "A welcome bonus for new players",
+            "The share of everything staked that the operator keeps on average",
+            "The best seat in the room"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Eight reds in a row. What are the odds on the next spin?",
+          "options": ["Lower, black is due", "Exactly the same", "Higher, red is hot"],
+          "answer": 1
+        },
+        {
+          "q": "What is the one question to ask of anything that sells you a chance?",
+          "options": ["How fast is the loop", "How much could I win", "Is it legal"],
+          "answer": 0
+        }
+      ]
+    },
+    "in_lesson_checks": [
+      "The choice on eight reds, which is the gambler's fallacy check and the one most often got wrong by the most confident pupils",
+      "The choice on 200 opens at 1 in 200, which separates published odds from a promise and is the hardest question in the hour",
+      "The choice on chasing, which is the safeguarding check as much as a knowledge one, so watch the room rather than the screen"
+    ],
+    "action_commitment": {
+      "stem": "Tonight I will work out what one chance actually costs in real money in ______.",
+      "note": "Collected on the learning record. Deliberately a costing task rather than a promise to stop, because nothing in this lesson asks a pupil to give anything up, and a commitment that can be finished on the bus home is one that gets finished."
+    },
+    "teacher_judgement": {
+      "secure": "Converts a game currency back into pounds without prompting, explains why eight reds changes nothing, and uses speed of the loop rather than amount of money to compare two products.",
+      "developing": "Knows the house edge exists and still talks about being due or about a system, which means the independence idea has not landed and the rest sits on top of that.",
+      "needs_support": "Reads the lesson as being told not to play anything, or cannot convert a currency price back into money. Reteach the two conversions with the gem at a penny before anything else, because every later idea rests on it."
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned how games and betting apps price a chance rather than a thing: pounds become a game currency, the pack never divides evenly into the item, and the leftover that buys nothing is deliberate. They learned what a house edge is and why one go is luck while ten thousand goes is arithmetic. And they learned the question that does the most work, which is how fast is the loop between putting money on and finding out, because speed is what decides how much harm a product does.",
+    "try_this": "Do not ask whether they spend money on games. Ask them to price one instead: how much is one crate in real pennies? It is a maths question rather than a confession, and the answer usually opens the conversation on its own.",
+    "family_question": "What is the most anyone you know has spent on a game without meaning to? Then: how would you even tell?",
+    "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is being able to work out what something really costs and say when it has stopped being a game.",
+    "no_login_required": true
+  },
+  "teacher_notes": {
+    "learning_objective": "To convert a game currency price back into real money, to explain what a house edge is and why it is unbeatable over time, and to compare two products by the speed of the loop between stake and result.",
+    "essential_question": "What is this actually costing me, and how fast is the loop?",
+    "timing": "63 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 5",
+    "cycles": [
+      {
+        "verb": "Price",
+        "title": "The price you actually paid",
+        "minutes": 10,
+        "outcome": "I can turn a game currency price back into pounds and pence, and say what the leftover is for."
+      },
+      {
+        "verb": "Count",
+        "title": "The odds, and who set them",
+        "minutes": 10,
+        "outcome": "I can explain the house edge and say why no system can exist."
+      },
+      {
+        "verb": "Watch",
+        "title": "The loop, and how fast it runs",
+        "minutes": 10,
+        "outcome": "I can compare two products by the speed of the loop, and name the sign that something has stopped being a game."
+      }
+    ],
+    "tool": "THE PRICE, THE ODDS, THE LOOP. Three questions in that order, for anything that takes money and hands back a chance.",
+    "keywords": ["house edge", "near miss", "chasing", "loot box"],
+    "prior_knowledge": "The direct sequel to manipulation and persuasion at KS4, where the class met dark patterns and followed the money. This is the same skill pointed at the one product category built entirely out of them. At KS2 the scheme met loot boxes once, in the lesson on how games are designed to hold you, so most pupils will have the word and none of them will have the arithmetic.",
+    "key_learning_points": [
+      "A chance is a different kind of purchase from an item: the price is the same whether it comes good or not.",
+      "Game currencies hide price behind two conversions, and pack sizes are chosen so a stranded leftover is guaranteed.",
+      "The house edge is published and fixed. A roulette wheel pays 35 to 1 on one of 37 pockets, which keeps about 2.7 pence in every pound staked.",
+      "Random events are independent. Nothing is due, nothing is hot, and that is why no system can exist.",
+      "Published odds are not a promise. At 1 in 200, opening 200 leaves about a 37 percent chance of nothing.",
+      "The speed of the loop is what regulation acts on: online slots are capped at £5 a spin and £2 under 25, while a weekly draw has no cap. The link between speed and harm is strong and it is not proof of cause, and the lesson says so.",
+      "Because the price is hidden and the loss is gradual, the money is gone before the feeling of spending arrives, and the gap gets filled by borrowing that then has to be hidden too.",
+      "Chasing is the clearest single warning sign, and the routes to help are free and have no minimum age."
+    ],
+    "misconceptions": [
+      "That the operator must be cheating. The opposite is the point: the margin is published, which means cheating would be unnecessary. A pupil who believes the game is rigged is still looking for the fair version of it.",
+      "That something is due after a run. The gambler's fallacy survives being explained once, which is why the lesson attacks it from both directions, due and hot, in the same question.",
+      "That published drop rates make a game fair. They make it honest about the odds, which is a different claim, and the 200 opens question exists to separate the two.",
+      "That any activity with odds in it is a danger. The raffle and the weekly lottery ticket are on the sort deliberately, because a scheme that flattens everything into a warning is one this age group discounts entirely."
+    ],
+    "i_can": "I can work out what a chance really costs me, and say when the loop has somebody.",
+    "commitment_stem": "Tonight I will work out what one chance actually costs in real money in ______.",
+    "teacher_tip": "Assume at least one pupil has a parent or older sibling in the harm paragraph, and teach so that pupil never has to say so. That means no asking who gambles, no asking for examples, no imagine a family member. The lesson is built to be about how the products work, so everything a pupil needs can be taken away without a word being said. Stand near the door at the end.",
+    "equipment": "Projector. The real price sheet from the printed pack, one per pupil. Calculators, because the arithmetic is the point rather than the obstacle. Have the name of your safeguarding lead ready to put on the board.",
+    "paper_fallback": "The whole hour runs from the printed pack with no screen: the two conversions are a diagram on the pack, the group chat is printed for you to read aloud, and the sorting cards are on the back page. The only thing needing a calculator is the price sheet.",
+    "differentiation": "Stretch: ask where the 37 percent comes from, which reaches the independence idea through arithmetic rather than through intuition. Support: teach the price cycle in full and take the odds cycle as far as the wheel has no memory, then go straight to the loop question, which is the part that transfers.",
+    "send": "The two conversions work as three pictures and can be taught without the text. The group chat is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that stopped being a game is a description of a pattern rather than a rule about how much money is too much, because the sorting cards depend on that distinction.",
+    "passport_stage": "independent",
+    "worksheet": "The real price sheet",
+    "worksheet_items": [
+      "The game I picked, and what one chance costs in it",
+      "What that is in real pounds and pence",
+      "How fast its loop runs, from putting money on to finding out",
+      "The first sign it would have stopped being a game"
+    ],
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "What is a dark pattern?",
+          "options": [
+            "A design that pushes you into a choice you did not mean to make",
+            "A dark mode colour scheme",
+            "A hidden level in a game"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "If an app is free to download, how does it usually make its money?",
+          "options": ["It does not", "From your attention, your data or your purchases", "From donations"],
+          "answer": 1
+        },
+        {
+          "q": "What do the odds of something tell you?",
+          "options": ["How likely it is", "How much you would win", "How fast the game is"],
+          "answer": 0
+        },
+        {
+          "q": "Who at school can you tell if something about money at home is worrying you?",
+          "options": ["Nobody, it is private", "Your tutor or the safeguarding lead", "Only a parent"],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions on today. Keep this in your book.",
+      "questions": [
+        {
+          "q": "When you pay for a crate, what have you actually bought?",
+          "options": ["The item", "A chance at the item", "Nothing at all"],
+          "answer": 1
+        },
+        {
+          "q": "What is the house edge?",
+          "options": [
+            "A welcome bonus for new players",
+            "The share of everything staked that the operator keeps on average",
+            "The best seat in the room"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Eight reds in a row. What are the odds on the next spin?",
+          "options": ["Lower, black is due", "Exactly the same", "Higher, red is hot"],
+          "answer": 1
+        },
+        {
+          "q": "What is the one question to ask of anything that sells you a chance?",
+          "options": ["How fast is the loop", "How much could I win", "Is it legal"],
+          "answer": 0
+        }
+      ]
+    },
+    "evidence_base": [
+      {
+        "claim": "A single zero roulette wheel has 37 pockets and pays 35 to 1 on a winning number, which gives the operator about 2.7 percent of everything staked.",
+        "source": "Arithmetic. One win in 37 paying 35, against 36 losses, is a loss of one unit in every 37, or 2.70 percent",
+        "status": "Verifiable on the board in ten seconds, which is why it is the example used rather than a figure from a report."
+      },
+      {
+        "claim": "At an independent 1 in 200 chance, opening exactly 200 leaves about a 37 percent chance of getting nothing.",
+        "source": "Arithmetic. 0.995 to the power of 200 is 0.36696",
+        "status": "Also checkable in class. Used in place of any claim about whether published drop rates are fair, which is an argument rather than a fact."
+      },
+      {
+        "claim": "Gambling harm is linked with anxiety, depression and suicide.",
+        "source": "Public Health England, Gambling related harms evidence review, 30 September 2021",
+        "status": "The review found people with gambling problems at least twice as likely to die from suicide as the general population, and states explicitly that most of the evidence has not established causal links. The slide says linked with for that reason. The widely repeated figure of around 400 gambling related suicides a year is a modelled estimate from separate cost work, not an observed count, and it is deliberately not taught."
+      },
+      {
+        "claim": "Products where the gap between stake and result is short are the ones regulators cap hardest, and people who play them show higher rates of gambling problems.",
+        "source": "Harris and Griffiths, The Impact of Speed of Play in Gambling, Journal of Gambling Studies 2018, and the DCMS gambling White Paper, April 2023",
+        "status": "A strong association and a regulatory rationale, NOT a causal finding, and the authors of the review say so themselves. The slide states that out loud. There is also real counter evidence: in the Gambling Commission's own survey the highest problem gambling rate was for betting in person on things like elections, which is a slow product. Faster equals worse is a good question to ask, not a law."
+      },
+      {
+        "claim": "Since 2025 nobody in Britain may stake more than £5 on one spin of an online slot, and anyone under 25 is capped at £2.",
+        "source": "The Gambling Act 2005 (Operating Licence Conditions) (Amendment) Regulations 2025, with Gambling Commission guidance on commencement",
+        "status": "Two separate dates. The £5 limit for all adults began on 9 April 2025 and the £2 limit for those under 25 on 21 May 2025. The regulations say game cycle rather than spin, and they say less than 25 years old. The slide uses the plain words and this entry holds the precise ones."
+      },
+      {
+        "claim": "Every gambling business licensed in Britain has to offer self exclusion, and it cannot be lifted before the period ends.",
+        "source": "Gambling Commission licence conditions and codes of practice, social responsibility code provisions 3.5.3 and 3.5.5",
+        "status": "Confirmed, including that the exclusion cannot be deactivated early. The national online scheme is deliberately NOT named on the pupil slide: its minimum age could not be confirmed against its own terms, and it has been rebranded. Name it only once somebody has read both off the live site."
+      },
+      {
+        "claim": "The National Gambling Helpline is free on 0808 8020 133, open 24 hours, with no minimum age, and an NHS clinic in England takes people from thirteen.",
+        "source": "GamCare, and Central and North West London NHS Foundation Trust",
+        "status": "All verified, and the no minimum age point is the one that matters, because pupils assume a gambling helpline is for adults. Two cautions for staff. GamCare closed its dedicated young people's provision in September 2025, so do not tell a class there is a youth service. And the NHS clinic ages are England only: the National Gambling Clinic takes thirteen to eighteen from anywhere in England, and the National Centre for Gaming Disorders takes thirteen and over."
+      },
+      {
+        "claim": "The belief that a result is due after a run is a named and documented reasoning error.",
+        "source": "Tversky and Kahneman, Judgment under Uncertainty: Heuristics and Biases, Science 1974",
+        "status": "The paper describes the roulette case exactly and explains it as treating chance as self correcting. It is cited here for the mechanism rather than for coining the phrase, which is older than the paper."
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "Are you saying loot boxes are gambling?",
+        "answer": "The lesson says the same maths applies, which is the part that affects a pupil. Whether they are gambling in law is a separate question with a separate answer, and it is in the subject knowledge below so you can give it accurately if you are asked."
+      },
+      {
+        "question": "My uncle won ten grand. So it does work?",
+        "answer": "Somebody wins, always, and the operator plans for it. One person winning ten thousand is entirely compatible with the margin holding, because the margin is an average over everything staked by everybody. The question that actually settles it is what the same room paid in while he was winning."
+      },
+      {
+        "question": "Is it not just up to people what they spend their money on?",
+        "answer": "Yes, and this lesson does not argue with that. It is about being able to see the price, which is the thing the design removes. A choice made without knowing the price is not really the free choice the question is defending."
+      },
+      {
+        "question": "Why teach this if we are all under 18 anyway?",
+        "answer": "Two reasons. The gambling like products inside games have no age gate at all, and the age gate on the rest arrives in a year or two for this class with no warning attached. The whole point of teaching it now is that it is still theory."
+      },
+      {
+        "question": "Is a claw machine gambling then?",
+        "answer": "Legally, yes, and it is the one kind with no minimum age. Machines like coin pushers and claw grabs are category D, which is the only category in British law that children may play, which is why they sit in seaside arcades. Worth saying plainly rather than dodging, because it is where most people in the room first paid money for a chance, and because a scheme that pretends the arcade is not on the same map loses the argument in one sentence."
+      },
+      {
+        "question": "How many people our age actually do this?",
+        "answer": "About three in ten eleven to seventeen year olds have spent their own money on some gambling activity in the last year. Give the breakdown in the same breath, because without it the number tells the wrong story: most of that is arcade machines and bets between friends, and the figure for regulated gambling is about six in a hundred. The honest headline is that a lot of young people pay for chances and only a few are doing what an adult would call gambling."
+      }
+    ],
+    "parent_questions": [
+      {
+        "question": "Does this teach my child how gambling works, in a way that makes it interesting?",
+        "answer": "It teaches why it cannot be beaten, which is the opposite. There are no betting mechanics demonstrated, no odds to compare and nothing that would help anybody place a bet. The maths in the lesson is the maths that shows the outcome is fixed over time."
+      },
+      {
+        "question": "Is my child being told they are doing something wrong by playing games?",
+        "answer": "No, and the lesson goes out of its way not to. Nobody is asked to stop anything and the take home task is to price one purchase, not to give it up. The sorting activity deliberately includes things that are perfectly fine, so the class learns to tell them apart rather than to worry about everything."
+      },
+      {
+        "question": "My family does the lottery. Is that being criticised?",
+        "answer": "No. A weekly draw is on the activity as an example of the slowest loop there is, and the lesson is explicit that not everything with odds in it is a risk. Flattening everything into one warning is exactly what this age group stops listening to."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Why the lesson says the same maths applies rather than saying it is gambling",
+        "body": "Gambling under the Gambling Act 2005 requires a prize of money or money's worth. The Gambling Commission's position is that where items from a loot box stay inside the game and cannot be cashed out, it is unlikely to be a licensable gambling activity, and that where there are readily accessible ways to exchange those items for money or money's worth, those parts of the game are likely to be gambling. That second half is what catches third party skin trading and skin betting sites, which is worth knowing if a pupil raises them. The government looked at this in 2022, found an association between loot box purchasing and problem gambling while noting that no causal relationship had been established, and chose industry measures over legislation. The position had not changed as of 2026. So the lesson makes the claim it can defend anywhere: you paid for a chance rather than an item, the price was the same either way, and every piece of arithmetic behaves identically. If a pupil asks the legal question directly, the honest answer is that the law and the maths are not currently in the same place, and the maths is the part that affects their money."
+      },
+      {
+        "heading": "Why speed is taught as the risk rather than the amount of money",
+        "body": "Comparing products by how much somebody spends puts the focus on the person and produces a lesson about willpower, which nobody acts on. Comparing them by the speed of the loop puts the focus on the product, which is fairer and more useful: it explains why a weekly draw and a two second spin are different things despite identical odds, and it hands the pupil a test they can run on something they have never seen. It also returns the right answer for a raffle, which is what makes pupils willing to trust it. Be straight about the evidence, because the lesson is. Reviews of speed of play find faster games are preferred and rated more exciting, especially by problem gamblers, and the authors describe the relationship as largely correlational. Regulation acts on it anyway: the B2 machine stake was cut from £100 to £2 in April 2019 and online slots were capped in 2025. And there is untidy evidence in the other direction, because the highest problem gambling rate in the Gambling Commission's own survey was for betting in person on non sports events such as elections, which is a slow product. If a pupil pushes on this, that exception is the best thing in the hour to give them."
+      },
+      {
+        "heading": "What the harm slide does and does not claim",
+        "body": "The harm slide describes what people report: not sleeping, lying to people close to them, borrowing that has to be hidden, and persistent dread. It says gambling harm is linked with anxiety, with depression and, at its most serious, with suicide. The source is Public Health England's 2021 evidence review, which found people with gambling problems at least twice as likely to die from suicide as the general population and stated plainly that most of the evidence has not established causal links. The slide carries no prevalence figure by choice. In particular, do not use the figure of around 400 gambling related suicides a year that circulates widely: it is a modelled estimate from separate cost work rather than an observed count. If you are asked whether gambling causes depression, the accurate answer is that the two occur together far more often than chance would predict and that untangling which came first is genuinely difficult."
+      },
+      {
+        "heading": "The numbers you will be asked for, and the one that is not what it looks like",
+        "body": "Two questions come up every time. How many people our age gamble, and is an arcade machine gambling. On the first, the Gambling Commission's Young People and Gambling survey for 2025 found three in ten eleven to seventeen year olds had spent their own money on some gambling activity in the previous twelve months. Give the composition with it or the number misleads: most of that is arcade gaming machines at 21 percent and bets between friends or family at 14 percent, and only about 6 percent had spent their own money on regulated forms of gambling. A separate figure of 49 percent that circulates is wider experience of gambling, not own money spend, and the two must never be merged. On the second question, the answer is yes and it is the surprising one: coin pushers and claw grabs are category D gaming machines, and category D is the one category in British law with no minimum age at all, which is why children can legally play them. That is where most people's first experience of paying for a chance actually happened. On debt, which the statutory requirement names, there is no reliable UK figure for how many under eighteens end up in debt this way, so the lesson teaches the mechanism and puts no number on it."
+      },
+      {
+        "heading": "What KCSIE 2026 asks of preventative education here",
+        "body": "KCSIE 2026 sets out four areas of online risk at paragraph 165: content, contact, conduct and commerce. Online gambling sits under commerce, alongside scams and financial harm, and paragraph 160 asks that schools deliver preventative education covering the risks pupils face online. This module is the scheme's answer to the commerce category, which until now was covered for scams and not for gambling."
+      }
+    ]
+  },
+  "dsl_note": {
+    "required": true,
+    "concern_form_linked": true,
+    "note": "Safeguarding flagged, and the disclosures this lesson prompts are usually about somebody else rather than about the pupil. Gambling harm in a household is a safeguarding matter: it can mean money going missing, meals not happening, a parent absent or unpredictable, and a child carrying a secret they have been told to keep. A pupil describing any of that is describing neglect or emotional harm and it goes to the DSL the same day under your own policy. Two moments carry the highest chance: the slide on what gambling harm does to a person, which is written quietly for exactly that reason, and the sorting card about breaking a promise to yourself, which is the only card that describes a person rather than a product. Debt is the other route. A pupil who owes money, to a person or to an app, may be being exploited by whoever they owe it to, and that is a criminal exploitation concern rather than a money one. Do not ask the class any question that requires a pupil to disclose. Stand near the door at the end of the lesson."
+  }
+}

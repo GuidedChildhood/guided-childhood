@@ -94,6 +94,7 @@ export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'ks4-17-sextortion':                        'safe',    // do not pay, do not keep it secret, report it
   'ks4-18-radicalisation-misogyny':           'ai',      // who wants me angry, what happens if I keep watching
   'ks4-19-readiness-at-16':                   'social',  // the first week of full access, planned
+  'ks4-28-the-money-and-the-odds':            'balance', // know what it costs, know when to stop
   'ks5-20-ai-mastery-data-rights':            'ai',      // use it like a professional, check it like an editor
   'ks5-21-digital-identity-future-work':      'social',  // what is still worth paying you for
 }
