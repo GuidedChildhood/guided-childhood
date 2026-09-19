@@ -1,0 +1,19 @@
+{
+ "_comment": [
+  "ATTESTATION, NOT A CACHE.",
+  "Every evidence phrase in shared/schools-rshe-2026.ts was run against the live",
+  "schools.school_lessons rows in production on the date below, as a case",
+  "insensitive substring test scoped to that requirement's own modules. This file",
+  "records the result and a hash of what was tested.",
+  "scripts/check-rshe-coverage.mjs recomputes the hash from the data module. If",
+  "anyone adds a phrase, changes a module list or edits a requirement without",
+  "re-running the production check, the hash moves and CI fails. That is the point:",
+  "a coverage claim cannot be edited into existence.",
+  "Regenerate with: npm run rshe-evidence (prints the SQL to run against production)."
+ ],
+ "generatedAt": "2026-09-19",
+ "source": "production schools.school_lessons, 25 modules, 732 slides",
+ "pairsChecked": 67,
+ "failures": [],
+ "requirementsHash": "c5528d4cca58018dde39c0274ee6fb8de3d10a5132aa5e7cf4a291b91d5ae949"
+}

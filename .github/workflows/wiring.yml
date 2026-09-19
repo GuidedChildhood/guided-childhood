@@ -94,6 +94,12 @@ jobs:
       # a printed passport numbered eight rings 4 to 25. Silent: every number
       # was real, only a person reading the list could see it.
       - run: node scripts/check-lesson-numbers.mjs
+      # The statutory audit, as an exit code. Holds the fifty seven September
+      # 2026 requirements to the lessons that claim to teach them, refuses to
+      # let a gap point at a lesson, and ratchets: coverage may only improve.
+      # The evidence attestation means a coverage claim cannot be edited into
+      # existence, it has to be checked against what is really in production.
+      - run: node scripts/check-rshe-coverage.mjs
       # The daily screen guide and the base under it. Both are just numbers, so
       # nothing else can catch a base that climbs above its own ceiling.
       - run: node scripts/check-screen-guide.mjs
