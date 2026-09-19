@@ -860,3 +860,21 @@ names the other three: `check-wall-scale.mjs` rule 4, four mutations, four
 caught. The type was never the problem, since the wall scale is viewport
 relative and floors at 16px on a phone. It only looked enormous because the
 column was 0px and every word took its own line. PR 1123.
+
+## 19 September 2026 — every key the app reads is written down
+
+Setting up a new laptop, the template listed 23 keys and the app read 43.
+
+The two that mattered: `VAPID_EMAIL` and `VAPID_PRIVATE_KEY`. `lib/push/send.ts`
+returns early and sends NOTHING when either is missing, with no error and no
+log, so push stops while everything else carries on looking healthy.
+`EMBEDDING_API_KEY` is the same shape, semantic search silently returning
+nothing for ever and DiGi falling back to keywords without saying so.
+
+That is the class: a missing key does not crash anything, it removes a feature
+quietly, and whoever set the machine up cannot find out.
+
+`scripts/check-env-documented.mjs` in CI, scoped to app/ and lib/. It found two
+I had already miscategorised as script only. The template also now opens with
+`vercel env pull .env.local`, which is the right way to set up a machine
+anyway: one command, every key, nothing carried on a stick and nothing stale.
