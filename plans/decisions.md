@@ -881,3 +881,28 @@ already implies we teach.
 
 Awaiting approval before anything is implemented. The first fix is copy, not
 curriculum: "line by line" and "every relevant requirement" cannot stand.
+
+## 19 September 2026, the audit's second pass: KCSIE 2026 arrived
+
+Justin sent the real KCSIE 2026 (split by part, with PDF page markers) and a
+clean markdown conversion of the RSHE guidance, then asked "do you have enough".
+
+Yes. Three things settled that the first pass had to flag as unverified.
+
+The RSHE extraction is now double sourced: my PDF extraction and the markdown
+conversion independently give 28 strands and 195 items with identical wording.
+"Compulsory on 1 September 2026" is verified, not from the RSHE body, which
+carries no commencement date, but from KCSIE 2026 para 159, "revised for
+introduction September 2026". The Hub's KCSIE sentence is true, with two
+wording fixes: the five risks sit INSIDE the four areas of risk (para 165), not
+alongside them, and the fourth C is commerce.
+
+The finding that got worse: seven of the nine gaps are named by KCSIE too.
+Online gambling and self harm are both in para 165. Online bullying is in
+conduct. A gap named by the curriculum guidance and the safeguarding guidance
+is a different kind of gap.
+
+The finding that got better: five per module KCSIE hooks are now verified by
+paragraph, including the one ks2-23 and ks3-22 carry, which turns out to be
+KCSIE's own words: contact risk includes "generative AI applications that
+simulate this". PR 1125.

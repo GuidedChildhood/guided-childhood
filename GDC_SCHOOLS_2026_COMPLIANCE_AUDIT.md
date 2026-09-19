@@ -3,6 +3,7 @@
 **Date:** 19 September 2026
 **Scope:** the 25 module schools scheme as it stands in production, audited against the English statutory requirements that bite on 1 September 2026.
 **Status:** audit only. No application code, database row, route, component or wiring has been changed.
+**Revision:** second pass. The first pass could not obtain KCSIE 2026 and said so. KCSIE 2026 has now been read in full and every claim that depended on it is settled below, by paragraph number.
 
 Every number in this document was produced by querying the live `schools.school_lessons` table in production (732 slides across 25 modules, 666,157 characters of lesson text) and by reading the schools application source. Where something is absent, the absence was established by a word boundary search across all 732 slides, and the search is quoted so it can be re run. Where something could not be verified, it says so rather than guessing.
 
@@ -26,33 +27,51 @@ Three findings decide everything else.
 
 ## 2. Source and status table
 
-The user supplied the primary material for this audit because every UK government domain is blocked by this environment's network policy (`www.gov.uk`, `assets.publishing.service.gov.uk` and `www.legislation.gov.uk` all return 000 to curl and EGRESS_BLOCKED to WebFetch). The provenance of each source is recorded honestly below, including what could not be checked.
+The user supplied the primary material for this audit because every UK government domain is blocked by this environment's network policy (`www.gov.uk`, `assets.publishing.service.gov.uk` and `www.legislation.gov.uk` all return 000 to curl and EGRESS_BLOCKED to WebFetch). The provenance of each source is recorded honestly below, including what still could not be checked.
 
 | Source | What it actually is | Status | Does it create teaching requirements? | How it was obtained |
 |---|---|---|---|---|
-| **Relationships Education, Relationships and Sex Education (RSE) and Health Education**, DfE, July 2025 | Statutory guidance issued under s80A Education Act 2002 and s403 Education Act 1996. Schools **must have regard to it**. The subjects themselves are compulsory under the Children and Social Work Act 2017 regulations. | **STATUTORY CURRICULUM** | **Yes.** 195 numbered curriculum content items across 28 strands. | Full PDF supplied by the user and text extracted here (47 pages, 109,020 characters). |
-| **Keeping Children Safe in Education** (Part one style material) | Statutory safeguarding guidance for schools and colleges. | **STATUTORY SAFEGUARDING** | **No.** It creates duties on staff, the DSL, governors and systems. | Condensed text supplied by the user. **The full KCSIE 2026 document was not available to this audit.** |
-| **Teaching online safety in schools**, DfE | The document states in its own words: "This **non statutory** guidance outlines how schools can ensure their pupils understand how to stay safe and behave online as part of existing curriculum requirements" and "**There are no additional teaching requirements.**" | **NON STATUTORY ADVICE** | **No.** Explicitly none. | Full text supplied by the user. |
+| **Relationships Education, Relationships and Sex Education (RSE) and Health Education**, DfE, July 2025 | Statutory guidance issued under s80A Education Act 2002 and s403 Education Act 1996. Schools **must have regard to it**. The subjects themselves are compulsory under the Children and Social Work Act 2017 regulations. | **STATUTORY CURRICULUM** | **Yes.** 195 numbered curriculum content items across 28 strands. | Supplied twice and cross checked: the official PDF, text extracted here (47 pages), and an independent markdown conversion. **Both give 28 strands and 195 items with identical wording on every item checked.** |
+| **Keeping Children Safe in Education 2026**, DfE, in force September 2026 | Statutory safeguarding guidance for schools and colleges. | **STATUTORY SAFEGUARDING** | **No**, but it is not silent on teaching: para 160 sets out what a preventative education programme "will tackle, at an age-appropriate stage", and para 165 defines the four areas of online risk. | Full document supplied, split by part with PDF page markers. Cited by paragraph number throughout this audit. |
+| **Sharing nudes and semi-nudes: advice for education settings**, UKCIS with the NPCC, February 2024 | Advice on responding to incidents, plus a section on educating children (section 3). | **NON STATUTORY ADVICE** | **No.** It states its own status: "This advice is non-statutory." | Full text supplied. **Note its currency: it cites the 2019 RSHE guidance, so it predates the July 2025 revision.** |
+| **Teaching online safety in schools**, DfE | The document states in its own words: "This **non statutory** guidance outlines how schools can ensure their pupils understand how to stay safe and behave online as part of existing curriculum requirements" and "**There are no additional teaching requirements.**" | **NON STATUTORY ADVICE** | **No.** Explicitly none. | Full text supplied. |
 | **Education for a Connected World** (UKCIS) | A non statutory framework of eight strands. | **NON STATUTORY FRAMEWORK** | No. | Already encoded per module in `efcw_strands`. |
-| **National curriculum for computing** | Statutory for maintained schools. Contains online safety content at all key stages. | **STATUTORY CURRICULUM** | Yes, but **not audited here**: the primary document was not available and this audit will not paraphrase a statutory document from memory. | Not obtained. |
+| **National curriculum for computing** | Statutory for maintained schools. Contains online safety content at all key stages. | **STATUTORY CURRICULUM** | Yes, but **still not audited**: the primary document was not obtained and this audit will not paraphrase a statutory document from memory. | Not obtained. |
 | **Filtering and monitoring standards** | Technical standards referenced by KCSIE. | **TECHNICAL STANDARD** | No. | Not obtained. |
 
-### Two provenance corrections to make on the site
+### Provenance, now settled
 
-1. The mapping page states the guidance "was published on **15 July 2025**". The PDF cover carries only "**July 2025**". The day of the month is not in the document body. Either cite the GOV.UK publication page as the source of the date, or drop the day.
-2. The mapping page and the home page state the guidance "**becomes compulsory on 1 September 2026**". The document body contains **no commencement date at all**. The 1 September 2026 date comes from the GOV.UK publication this PDF was downloaded from (the file is named "for intro 1 September 2026"). The claim is almost certainly right, but its evidence is the publication page, not the guidance text, and the audit trail should say so.
+1. **"Becomes compulsory on 1 September 2026" is verified.** Not from the RSHE document body, which carries no commencement date, but from a second statutory document: **KCSIE 2026 para 159** states that in teaching these subjects "schools must have regard to the statutory guidance, which can be found here **(revised for introduction September 2026)**". Cite that, and the claim is unimpeachable.
+2. **"Published on 15 July 2025" is still unverified.** The PDF cover carries only "July 2025" and neither document body gives the day. Either cite the GOV.UK publication page or drop the day. This is the one provenance detail still outstanding, and it is trivial.
 
-### What this audit could not verify
+### The KCSIE sentence on the mapping page: verified, with two corrections
 
-- **KCSIE 2026 content.** The Hub states that KCSIE 2026 "now names generative AI, deepfakes, misinformation, disinformation and conspiracy theories" alongside the four Cs. That sentence could not be checked against the primary document. It should be treated as unverified until someone reads KCSIE 2026 and confirms it, because it appears on a page a DSL will read.
-- **The computing national curriculum.** Several modules carry a `Computing` statutory hook. Those hooks are unverified.
-- **Any claim resting on the Online Safety Act or the Children's Wellbeing and Schools Act 2026.** Two modules carry these as hooks. Not verified here.
+The Hub currently says KCSIE 2026 "now names generative AI, deepfakes, misinformation, disinformation and conspiracy theories" **alongside** the four Cs. Every one of those five is genuinely in KCSIE 2026. Two details are wrong and both are easy to fix:
+
+- They are named **inside** the four areas of risk, not alongside them. Para 165: **content** includes "misinformation, disinformation (including fake news) and conspiracy theories"; **contact** includes "harmful online interaction with other users **or generative AI applications that simulate this**"; **conduct** includes "making, sending and receiving explicit images, **including those generated using AI**".
+- **Deepfakes are not in para 165.** They appear in the definitions section ("digitally altered or wholly generated using artificial intelligence, including what are sometimes described as 'deepfakes' or 'deep nudes'") and in **para 160**, which says a preventative education programme will tackle "understanding online harms such as sharing images, **the prevalence of deepfakes, pornography and misogynistic influencers** and when and where to seek help".
+- The fourth C in KCSIE 2026 is **commerce**: "risks such as **online gambling**, inappropriate advertising, phishing and or financial scams."
+
+### Five per module KCSIE hooks are now verified rather than asserted
+
+| Module | Hook it carries | Now verified against |
+|---|---|---|
+| ks2-23, ks3-22 (AI as a friend) | "KCSIE 2026 (AI simulating harmful interaction as a contact risk)" | **para 165 contact**, word for word: "or generative AI applications that simulate this" |
+| ks4-16 (consent, images, law) | "UK law on under 18 images" | **para 165 conduct**: explicit images "including those generated using AI", plus the definitions section on deepfakes and deep nudes |
+| ks3-12 (deepfakes) | "KCSIE 2026 content risks" | **para 160**: "the prevalence of deepfakes" |
+| ks3-14 (bodies, image, pressure) | "RSHE 2026 (body image, pornography)" | **para 160**: "pornography"; **para 165 content**: "pornography" |
+| ks4-18 (radicalisation, misogyny) | "Prevent; KCSIE; RSHE (misogyny)" | **para 160**: "misogynistic influencers"; Annex C records "further references to misogyny" added in 2026 |
+
+### What this audit still could not verify
+
+- **The computing national curriculum.** Several modules carry a `Computing` hook. Still unverified.
+- **The Online Safety Act and the Children's Wellbeing and Schools Act 2026.** Two modules carry these as hooks. Still unverified. KCSIE 2026's own Annex C refers to "the Children's Wellbeing and Schools **Bill**", so check the commencement position before any page calls it an Act.
 
 ---
 
 ## 3. Complete statutory coverage matrix
 
-The full matrix is `GDC_SCHOOLS_COVERAGE_MATRIX.csv`, one row per requirement, 65 rows, 14 columns, with the requirement text quoted verbatim from the statutory guidance.
+The full matrix is `GDC_SCHOOLS_COVERAGE_MATRIX.csv`, one row per requirement, 65 rows, 15 columns, with the requirement text quoted verbatim from the statutory guidance and a column recording where KCSIE 2026 names the same harm.
 
 *A note for whoever edits that file: the `requirement_text_verbatim` column is quoted government text and contains hyphens (face-to-face, under-age, bi-directional). Leave them. The house rule about dashes governs our copy, not a quotation from a statutory document, and altering quoted text would break the audit trail.*
 
@@ -99,9 +118,25 @@ Plus **8 rows** marked NOT A LESSON REQUIREMENT: duties no scheme of work can di
 | RSHE-S-WO-6 | Risks of illegal behaviours online including drug and knife supply | Secondary | Zero hits anywhere for `knife`, `county lines`, `illicit`, drug supply |
 | RSHE-S-WO-7 | Content promoting self harm, suicide or violence, how to report it, how to get support after viewing | Secondary | **Zero hits anywhere in 732 slides for `self harm` or `suicide`** |
 
+### Seven of the nine are named by both statutory documents
+
+This is the finding that hardens everything else. The CSV carries a column, `also_named_by_kcsie_2026`, recording where KCSIE 2026 independently names the same harm. **Thirty five of the 57 requirements have a KCSIE anchor. Seven of the nine gaps do.**
+
+| Gap | RSHE requires it | KCSIE 2026 also names it |
+|---|---|---|
+| Why services are age restricted | Wellbeing online, primary, item 5 | para 165 **commerce**: "risks such as online gambling, inappropriate advertising, phishing and or financial scams" |
+| Bullying, harassment, stalking, coercive control | Online safety, secondary, item 10 | para 165 **conduct**: "online bullying"; para 160: "how to recognise and report concerns about an abusive relationship, including coercive and controlling behaviour" |
+| Harmful behaviours online and how to report | Wellbeing online, secondary, item 3 | para 160: "the concepts of, and laws relating to all forms of sexual harassment, and abuse, and how to access support" |
+| Types of bullying at secondary | Respectful relationships, secondary, item 6 | para 165 **conduct**: "online bullying" |
+| Online gambling and gambling like content | Wellbeing online, secondary, item 4 | para 165 **commerce**: "risks such as online gambling" |
+| Gambling and mental health harms | Mental wellbeing, secondary, item 8 | para 165 **commerce**: "risks such as online gambling" |
+| Self harm, suicide and violent content | Wellbeing online, secondary, item 7 | para 165 **content**: "self-harm, suicide, extreme sexual or physical violence" |
+
+A gap named by one statutory document is a curriculum gap. A gap named by the curriculum guidance **and** the safeguarding guidance is the kind a DSL notices.
+
 ### The pattern behind the gaps
 
-Seven of the nine missing requirements are secondary, and four of those seven are taught well at KS2 and then dropped. **Bullying, gambling, and the mechanics of loot boxes all end at Year 6.** A school buying the secondary scheme is buying a scheme with no bullying content in it, and the statutory guidance requires bullying content at secondary.
+Seven of the nine missing requirements are secondary, and four of those seven are taught well at KS2 and then dropped. **Bullying, gambling, and the mechanics of loot boxes all end at Year 6.** A school buying the secondary scheme is buying a scheme with no bullying content in it, and both statutory documents name bullying at secondary.
 
 ### Three places where the current matrix marks coverage that the lessons do not deliver
 
@@ -116,7 +151,7 @@ These are the ones that would embarrass the product in front of a PSHE lead who 
 Eighteen FULL verdicts, and several of them are better than the requirement asks for:
 
 - **Deepfakes and AI content** (ks3-12): 33 slides, a sourced detection study, and identification taught as a skill rather than a warning.
-- **Images, consent and the law** (ks4-16): 38 slides across the scheme touch the law; Report Remove is taught by name, described accurately as free and confidential, with the line that a pupil will not be in trouble for asking for help.
+- **Images, consent and the law** (ks4-16): 38 slides across the scheme touch the law; Report Remove is taught by name in 15 slides, described accurately as free and confidential, with the line that a pupil will not be in trouble for asking for help. **NCMEC's Take It Down is also named**, which the UKCIS nudes advice recommends and which most schemes miss. CEOP and the National Crime Agency appear in 11 slides across ks4-17 and ks4-18.
 - **Sextortion** (ks4-17): the script, the countdown, the order to tell nobody, and three lifelines. This is a hard topic handled calmly.
 - **Scams and fraud** (ks3-13): fraud taught as a criminal offence rather than bad luck.
 - **AI companions** (ks2-23, ks3-22) and **cognitive offloading** (ks3-24, ks2-25): these are ahead of the statutory requirement, which only asks that pupils know AI chatbots can create fake intimacy or give harmful advice. The scheme teaches the mechanism.
@@ -355,16 +390,16 @@ Every school facing claim, classified.
 
 | Claim | Where | Suggested fix |
 |---|---|---|
-| "published on 15 July 2025" | mapping page | Cite the GOV.UK page, or write "July 2025" |
-| "becomes compulsory on 1 September 2026" | mapping page, home | True per GOV.UK, but the guidance body carries no date. Cite the publication page |
-| "KCSIE 2026 now names generative AI, deepfakes, misinformation, disinformation and conspiracy theories" | mapping page | Unverified against the primary document. Verify or remove |
-| "mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands" | home, curriculum | The EfCW half is **true and verified** (the union of `efcw_strands` across the manifest is exactly {1..8}). The RSHE and KCSIE halves need the qualification above |
-| "Statutory ground: [hooks]" per module | `hub/dsl` | The hooks are free text prose, not a controlled mapping. Say "the anchors this lesson was written against" |
+| "published on 15 July 2025" | mapping page | **The only provenance point still open.** Cite the GOV.UK page, or write "July 2025". Neither document body gives the day |
+| "KCSIE 2026 now names generative AI, deepfakes, misinformation, disinformation and conspiracy theories **alongside** the four Cs" | mapping page | **Now verified, with two wording fixes.** All five are in KCSIE 2026, but they sit **inside** the four areas of risk (para 165), not alongside them, and deepfakes are in para 160 and the definitions rather than para 165. The fourth C is **commerce** |
+| "mapped to the statutory RSHE guidance, KCSIE 2026 and all eight Education for a Connected World strands" | home, curriculum | The EfCW half is **true and verified** (the union of `efcw_strands` across the manifest is exactly {1..8}). The KCSIE half is now defensible per module for five modules (see section 2). The RSHE half needs the mapping rebuilt first |
+| "Statutory ground: [hooks]" per module | `hub/dsl` | Five hooks are now verified by paragraph. The rest are free text prose, not a controlled mapping. Either cite the paragraph or say "the anchors this lesson was written against" |
 | "What evidence does it give us for Ofsted?" | `hub/faq` | The answer is good and honest already. Add that delivery is not recorded in the platform, which the answer nearly says |
 
 ### SAFE TO CLAIM (supported today)
 
 - "No product can make a school compliant, and we will not pretend otherwise." **This is the best sentence on the site.**
+- "The guidance becomes compulsory on 1 September 2026." **Now verified**, citing KCSIE 2026 para 159, which calls the RSHE guidance "revised for introduction September 2026".
 - "{N} modules, Reception to Year 13" with N computed from the manifest.
 - "Covers all eight Education for a Connected World strands." **Verified.**
 - "No pupil logins, no pupil names, no tracking, no profiling, no advertising." Verified in code: the schools app holds no pupil data, no teacher accounts and no session.
@@ -394,7 +429,7 @@ No page claims DfE approval, Ofsted approval, accreditation or endorsement. **Th
 9. **Only a KS3 lesson is free.** Primary schools cannot see the product at their own age. *Commercial.*
 10. **No reviewed date or guidance version anywhere in the Hub.** An inspection file needs both. *Evidence quality.*
 
-Two more worth naming below the line: illegal supply online (statutory, zero), and privacy and location settings as settings rather than judgement (statutory at both phases, one slide).
+Three more worth naming below the line: illegal supply online (statutory, zero); privacy and location settings as settings rather than judgement (statutory at both phases, one slide); and the two missing clauses inside ks4-16, which are **the cheapest high value fix in the whole scheme**. That module already teaches the image law well. What it does not say is that the offence covers imagery created using AI, and that sharing indecent images of people over 18 without consent is also a crime. Both are confirmed absent by query. Both are named by the RSHE guidance and by KCSIE 2026 (para 165 conduct, and the definitions section on deepfakes and deep nudes). Two slides in a module that is already strong.
 
 ---
 
@@ -408,7 +443,7 @@ Kept deliberately small. None of these touches a lesson's teaching.
 4. **Fix the two incomplete assessment blocks** (ks2-25, ks3-24) so every module carries the same five part contract. One migration.
 5. **Add ks2-06 to the taster** so a primary school can see a primary lesson. One line.
 6. **Add a reviewed date and a source version** to the mapping page. One hour.
-7. **Verify or remove the KCSIE 2026 sentence.** Someone needs to read KCSIE 2026.
+7. **Correct the KCSIE sentence's two wording errors.** ~~Someone needs to read KCSIE 2026.~~ Done: the document has been read and the claim is verified. What remains is one sentence saying the five risks are named **inside** the four areas rather than alongside them, that the fourth C is **commerce**, and that deepfakes come from para 160.
 
 **Not on this list, deliberately:** writing the missing lessons. A pilot can open with a mapping that names its gaps honestly. It cannot open with a mapping that claims coverage it does not have.
 
@@ -416,7 +451,8 @@ Kept deliberately small. None of these touches a lesson's teaching.
 
 ## 13. After the pilot
 
-1. **A secondary bullying, harassment and coercive control module** at KS3. This closes three statutory requirements and the biggest progression break in the scheme.
+0. **Two slides inside ks4-16**, closing the AI generated imagery clause and the over 18 without consent clause. This is small enough to do before the pilot if there is an hour spare, and it is the highest value per slide in the scheme.
+1. **A secondary bullying, harassment and coercive control module** at KS3. This closes three statutory requirements and the biggest progression break in the scheme, and KCSIE 2026 names online bullying under conduct and coercive control in para 160.
 2. **A secondary gambling module**, or a gambling strand inside an existing KS4 module. Closes two requirements.
 3. **The age 13 content at KS2**, taught the GDC way: what the rule protects, what switches off when you get round it. ks3-11 already has the pattern.
 4. **Self harm and suicide content**, which needs care, a clinical read and a DSL note before it is written.
@@ -480,7 +516,7 @@ Nothing below has been started. This is a proposal awaiting approval.
 
 **Step 5, verify (half a day).** Run every guard by exit code, typecheck, and render the changed pages at 390 and 1440 in Chrome DevTools before declaring anything done.
 
-**Step 6, the KCSIE read.** Someone obtains KCSIE 2026 and confirms or removes the sentence on the mapping page.
+**Step 6, done.** KCSIE 2026 has been obtained and read. The mapping page's KCSIE claim is verified and needs only the two wording corrections in section 10. The one outstanding source is the computing national curriculum, which matters for the `Computing` hooks on four modules and can be checked after the pilot opens.
 
 **Then, and only then, the pilot opens.** Lesson writing for the nine gaps is post pilot work and should be sequenced by the ranking in section 13.
 
@@ -494,7 +530,7 @@ Nothing below has been started. This is a proposal awaiting approval.
 
 **C. What is partially covered.** Twenty eight requirements. In almost every case the scheme teaches the judgement and misses a named clause: privacy settings as settings, public versus private spaces, the AI generated imagery clause in the image law, pornography's effect on behaviour, conspiracy theories, search engines, data rights as rights. Every one is named in the CSV.
 
-**D. What is missing.** Nine requirements with no coverage: the age 13 minimum, why services are age restricted, bullying and harassment and coercive control at secondary (three requirements), online gambling at secondary (two requirements), illegal supply online, and content promoting self harm or suicide. Seven of the nine are secondary, and four are strands that are taught well at KS2 and then stop.
+**D. What is missing.** Nine requirements with no coverage: the age 13 minimum, why services are age restricted, bullying and harassment and coercive control at secondary (three requirements), online gambling at secondary (two requirements), illegal supply online, and content promoting self harm or suicide. Seven of the nine are secondary, four are strands taught well at KS2 that then stop, and **seven of the nine are named by KCSIE 2026 as well as by the RSHE guidance**, which is the difference between a curriculum gap and one a DSL will ask about.
 
 **E. What cannot be solved by lessons.** Eight duties, in the CSV and in section 8: the safeguarding policy, DSL arrangements, staff training and KCSIE reading, filtering and monitoring, incident recording, the RSE policy and parent consultation, the DPIA, and governor assurance. No scheme of work touches any of them, and the Hub should show them on the same screen as the coverage so the line is never blurred.
 
