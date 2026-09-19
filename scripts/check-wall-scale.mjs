@@ -14,6 +14,13 @@
 //      its own and most picked too small: body, options and diagram steps at
 //      18 to 24px against a 40px floor, and title, objective and keywords with
 //      no projector branch at all.
+//   4. `projector` was used as if it were a WIDTH. The post photo went beside
+//      the post text whenever `projector` was set, and the teach route sets it
+//      on every device, so a teacher opening a lesson on their phone got the
+//      wall layout: a 292px card with a 244px photo pinned inside it, a text
+//      column exactly 0px wide, and the handle rendered outside the card
+//      (19 September 2026). `projector` says which INSTRUMENT this is. It has
+//      never said how wide the glass is, and only a media query can.
 //
 // None of those could fail a typecheck, a test or a health check. They are all
 // the same shape of bug: a number that is legal, renders fine on a laptop, and
@@ -142,6 +149,36 @@ for (const [n, c] of cases.entries()) {
   if (!aware && (/fontSize/.test(body) || delegates)) {
     note('shared/components/LessonPlayer.tsx', player.slice(0, from).split('\n').length,
       `case '${c[1]}' renders text but never mentions projector, so it ships at phone size on a wall`)
+  }
+}
+
+// RULE 4: the post layout asks the viewport, not the flag.
+//
+// Cheap to state and impossible to get wrong by accident: the stylesheet
+// exists, it carries a max-width query for the row, and the row is not laid
+// out from an inline `display: flex` chosen by a JavaScript boolean.
+{
+  const player = await readFile('shared/components/LessonPlayer.tsx', 'utf8')
+  const line = needle => player.slice(0, player.indexOf(needle)).split('\n').length
+  const F = 'shared/components/LessonPlayer.tsx'
+
+  if (!/const POST_CSS = `/.test(player)) {
+    note(F, 1, 'POST_CSS is gone: the post photo layout is no longer driven by a stylesheet')
+  } else {
+    const css = player.slice(player.indexOf('const POST_CSS = `'), player.indexOf('`\n\nfunction ScenarioBlock'))
+    if (!/@media \(max-width:/.test(css)) {
+      note(F, line('const POST_CSS'), 'POST_CSS carries no max-width query, so a phone gets the wall layout again')
+    }
+    if (!/\.gc-postrow \{ display: block; \}/.test(css.replace(/\s+/g, ' ').replace(/\{ /g, '{ ')) &&
+        !/\.gc-postrow \{\s*display:\s*block/.test(css)) {
+      note(F, line('const POST_CSS'), 'the narrow branch does not stack .gc-postrow, which is the whole fix')
+    }
+  }
+  if (/display: 'flex'[^}]*\}\s*:\s*undefined\}>\s*\{\s*(?:sideBySide|wallPost)/.test(player)) {
+    note(F, line('display: \'flex\''), 'the post row is laid out from a JavaScript boolean again, which cannot know the width')
+  }
+  if (/sideBySide/.test(player)) {
+    note(F, line('sideBySide'), 'sideBySide is back: the name claims to know a width that only CSS can')
   }
 }
 
