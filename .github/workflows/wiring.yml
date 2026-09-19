@@ -255,6 +255,11 @@ jobs:
       # screen. You only find it by asking "and what if I do not want to
       # answer", which is not a question a build step knows to ask.
       - run: node scripts/check-card-can-be-put-down.mjs
+      # A key the app reads and the template does not mention is the quietest
+      # failure we have: push sent nothing without VAPID_PRIVATE_KEY, and
+      # semantic search returned nothing without EMBEDDING_API_KEY, both with
+      # no error and no log. The template was 23 keys against 43 in the code.
+      - run: node scripts/check-env-documented.mjs
       - run: node scripts/check-screens-rest.mjs
       - run: node scripts/check-job-row.mjs
       - run: node scripts/check-job-icons.mjs
