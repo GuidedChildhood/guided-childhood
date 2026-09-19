@@ -838,3 +838,25 @@ answered or refused.
 Nothing caught it: it typechecks and it looks finished on screen. "Not now",
 the same words the alert rows already use, plus
 scripts/check-card-can-be-put-down.mjs in CI.
+
+## 19 September 2026, `projector` is an instrument, not a width
+
+Justin, on a phone: "bloop lands on moon not showing right on mobile."
+
+The post photo went beside the post text whenever `projector` was set, and the
+teach route sets it on every device. So a teacher opening a lesson on their
+phone got the wall layout: a 292px card with a 244px photo pinned inside it,
+a text column measured at exactly **0px**, and the handle rendered outside the
+card. Reproduced at 390 and 430 before touching anything, fine from 768 up.
+
+Decided: a layout that depends on width is decided by a media query, never by
+a flag. `POST_CSS` stacks the row below 900px and relaxes the card from 70vw to
+460px there; 1024 and above render byte identically to before, which is how we
+know the wall did not move. The card's width had to move into the stylesheet
+too, because an inline maxWidth wins over any class trying to relax it.
+
+This is the fourth bug of its family, so it went into the guard that already
+names the other three: `check-wall-scale.mjs` rule 4, four mutations, four
+caught. The type was never the problem, since the wall scale is viewport
+relative and floors at 16px on a phone. It only looked enormous because the
+column was 0px and every word took its own line. PR 1123.

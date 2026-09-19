@@ -489,13 +489,40 @@ function PostPhoto({ picture, projector, gap }: {
   )
 }
 
+// THE POST'S OWN STYLESHEET, and the reason it is a stylesheet.
+//
+// The photo goes beside the text on a wall and under it on a phone. The first
+// version asked `projector` which of those it was, and `projector` is not a
+// width: the teach route passes it on every device, so a teacher opening the
+// lesson on their phone got the wall layout. At 390 the card is 70vw (292px)
+// with a 244px photo pinned inside it, which left the text column exactly 0px
+// wide and pushed the handle outside the card (Justin, 19 September 2026:
+// "bloop lands on moon not showing right on mobile").
+//
+// A media query asks the real question. It also means no flash and no
+// hydration guess: the server and the browser agree, and the browser is the
+// one that knows how wide it is. The card's width lives here too, because an
+// inline maxWidth would win over any class that tried to relax it.
+const POST_CSS = `
+.gc-postcard { max-width: min(1000px, 70vw); }
+.gc-postrow { display: flex; gap: clamp(16px, 2.2vw, 30px); align-items: center; }
+.gc-postrow > .gc-postpic { flex: 0 0 auto; }
+.gc-postrow > .gc-postbody { min-width: 0; flex: 1 1 auto; }
+@media (max-width: 900px) {
+  .gc-postcard { max-width: min(460px, 100%); }
+  .gc-postrow { display: block; }
+  .gc-postrow > .gc-postpic { margin-bottom: 12px; }
+}`
+
 function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?: boolean }) {
   const isMessage = slide.platform === 'message'
-  // A real photo beside the text on the wall, stacked on a phone. An emoji
-  // standing in for a photo stays stacked everywhere it always was.
-  const sideBySide = !!(projector && slide.picture)
+  // A real photo on the projector layout. Whether it sits BESIDE the text or
+  // under it is decided by POST_CSS from the actual viewport width, not from
+  // here. An emoji standing in for a photo stays stacked everywhere it always
+  // was, and the phone player is untouched.
+  const wallPost = !!(projector && slide.picture)
   const photo = slide.picture
-    ? <PostPhoto picture={slide.picture} projector={projector} gap={!sideBySide && !!slide.stats} />
+    ? <PostPhoto picture={slide.picture} projector={projector} gap={!wallPost && !!slide.stats} />
     : slide.image
       ? (
         <div style={{
@@ -508,26 +535,26 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
       : null
   return (
     <div>
+      {wallPost && <style>{POST_CSS}</style>}
       <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '14px', textAlign: 'center' }}>
         {slide.label ?? 'Evidence'}
       </div>
-      <div data-reveal style={{
-        maxWidth: room(projector, 'min(1000px, 70vw)', '440px'), margin: '0 auto',
+      <div data-reveal className={wallPost ? 'gc-postcard' : undefined} style={{
+        ...(wallPost ? null : { maxWidth: room(projector, 'min(1000px, 70vw)', '440px') }), margin: '0 auto',
         background: isMessage ? 'var(--stage-1)' : '#fff',
         border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)',
         padding: room(projector, 'clamp(12px, 1.8vh, 18px) 22px', '16px 18px'), boxShadow: '0 6px 0 var(--border)',
       }}>
         {/* THE POST, IN TWO SHAPES.
-            Stacked everywhere it has ever been stacked. Side by side only on
-            the wall and only when the row carries a real photo, because that
-            is the one case where stacking spends the thing a classroom has
-            least of. A square photo under the text on a 720 projector pushed
-            the question the class has to answer off the bottom of the screen;
-            beside the text it spends the width a wall has in abundance, and
-            the same slide clears the fold by 55px. Measured, not guessed. */}
-        <div style={sideBySide ? { display: 'flex', gap: 'clamp(16px, 2.2vw, 30px)', alignItems: 'center' } : undefined}>
-          {sideBySide && <div style={{ flexShrink: 0 }}>{photo}</div>}
-          <div style={sideBySide ? { minWidth: 0, flex: '1 1 auto' } : undefined}>
+            Stacked everywhere it has ever been stacked, and side by side only
+            where there is genuinely room, which POST_CSS decides from the
+            viewport rather than from a flag. Stacking is what a square photo
+            needs on a phone; beside the text is what it needs on a wall, where
+            a photo under the text pushed the question the class has to answer
+            off the bottom of a 720 projector. Both measured, not guessed. */}
+        <div className={wallPost ? 'gc-postrow' : undefined}>
+          {wallPost && <div className="gc-postpic">{photo}</div>}
+          <div className={wallPost ? 'gc-postbody' : undefined}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
               <div style={{
                 width: '40px', height: '40px', borderRadius: '50%', background: 'var(--stage-2)',
@@ -543,7 +570,7 @@ function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?:
             <p style={{ fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.body, 'var(--text-lg)'), color: 'var(--ink)', lineHeight: projector ? 1.45 : 1.7, marginBottom: slide.image || slide.picture || slide.stats ? '12px' : 0 }}>
               {slide.text}
             </p>
-            {!sideBySide && photo}
+            {!wallPost && photo}
             {slide.stats && (
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: room(projector, WALL.aside, 'var(--text-sm)'), fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
                 {slide.stats}
