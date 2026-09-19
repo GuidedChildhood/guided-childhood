@@ -171,10 +171,12 @@ export default async function RsheMappingPage() {
           RSHE 2025 mapping matrix
         </h1>
         <p style={{ ...body, maxWidth: '640px', marginBottom: '6px' }}>
-          The revised RSHE statutory guidance was published on 15 July 2025 and becomes compulsory on
-          1 September 2026. The matrix below maps every Guided Childhood module to the guidance topics
-          it substantively teaches, including the newly named content: harms of pornography, misogynistic
-          online cultures and incel groups, deepfakes, online gambling, and illegal online behaviours.
+          The revised RSHE statutory guidance was published in July 2025 and comes into force on
+          1 September 2026, a date confirmed by Keeping Children Safe in Education 2026, which calls it
+          &ldquo;revised for introduction September 2026&rdquo; at paragraph 159. The matrix below maps every
+          Guided Childhood module to the guidance topics it substantively teaches, including the newly
+          named content: harms of pornography, misogynistic online cultures and incel groups, and
+          deepfakes.
         </p>
         <p style={{ ...body, color: 'var(--ink-muted)', marginBottom: '24px', maxWidth: '640px' }}>
           Honesty note: a module is marked only where it substantively teaches the topic. This scheme is a
@@ -345,16 +347,20 @@ export default async function RsheMappingPage() {
           KCSIE 2026, and where this scheme teaches it
         </h2>
         <p style={{ ...body, color: 'var(--ink-muted)', maxWidth: '640px', marginBottom: '14px' }}>
-          Keeping Children Safe in Education 2026 is in force from 1 September 2026. Alongside the four
-          Cs of online risk it now names generative AI, deepfakes, misinformation, disinformation and
-          conspiracy theories.
+          Keeping Children Safe in Education 2026 is in force from 1 September 2026. Its four areas of
+          online risk are content, contact, conduct and commerce (paragraph 165), and generative AI,
+          misinformation, disinformation and conspiracy theories are named inside them: contact now
+          covers &ldquo;generative AI applications that simulate&rdquo; harmful interaction, and conduct now
+          covers explicit images &ldquo;including those generated using AI&rdquo;. Deepfakes are named separately,
+          in the definitions and at paragraph 160, which sets out what a preventative education
+          programme will tackle.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', marginBottom: '34px' }}>
           {([
             { risk: 'Generative AI and AI chatbots', note: 'seeded in the early years, taught in full at KS3 and KS5', ns: [3, 9, 12, 20] },
             { risk: 'Deepfakes and AI generated images', note: 'real and made up from Reception, the full treatment at KS3', ns: [3, 12] },
             { risk: 'Misinformation and disinformation', note: 'foundations at KS1, taught substantively at KS3, applied to persuasion at KS4', ns: [3, 12, 15] },
-            { risk: 'Conspiracy theories', note: 'how false things spread at KS3, the communities that weaponise them at KS4', ns: [12, 18] },
+            { risk: 'Conspiracy theories', note: 'not yet taught by name. The mechanism false things travel on is taught at KS3 and the communities that weaponise belief at KS4, and a conspiracy strand is being written into the KS3 module', ns: [12, 18] },
           ] as { risk: string; note: string; ns: number[] }[]).map(row => (
             <div key={row.risk} style={{ ...card, padding: '16px 18px' }} className="gc-avoid-break">
               <h3 style={{

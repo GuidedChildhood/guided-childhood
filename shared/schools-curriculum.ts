@@ -330,7 +330,13 @@ export const CURRICULUM: CurriculumModule[] = [
     outcome: 'I can name the technique being used on me.',
     blurb: 'Dark patterns, engineered outrage, and who profits.',
     character: 'nova', castLine: 'Nova',
-    rshe: ['online_safety', 'mental_wellbeing', 'gambling'],
+    // `gambling` was removed on 19 September 2026. The audit checked the live
+    // slides and this module contains no gambling teaching at all: the word
+    // does not appear in it, and the only gambling slide in the whole scheme is
+    // one KS2 loot box slide in ks2-05. The module teaches persuasion and dark
+    // patterns brilliantly and a tick in the gambling column was still a lie.
+    // The KS4 gambling module now being written takes the key back.
+    rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
     n: 16, moduleId: 'ks4-16-consent-images-law', keyStage: 'KS4', yearBand: 'Years 10 to 11',

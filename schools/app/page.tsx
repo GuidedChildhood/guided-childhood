@@ -66,7 +66,7 @@ import { PAGE } from '@gc/shared/page-scale'
 const FAQS = [
   {
     q: 'Does this meet the new statutory RSHE guidance?',
-    a: 'Yes. The guidance published in July 2025 becomes compulsory on 1 September 2026, and every module is mapped to it line by line, including the newly named areas. The full mapping matrix is public on this site, so you can check the coverage before you spend a penny.',
+    a: 'The guidance published in July 2025 comes into force on 1 September 2026, and every module is mapped to the requirements it teaches, requirement by requirement, including the newly named areas. The matrix names what it does not cover as well as what it does, because a scheme that claimed everything would be lying to you. It is public on this site, so you can check the coverage before you spend a penny.',
   },
   {
     q: 'What about KCSIE 2026?',
