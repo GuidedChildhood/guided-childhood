@@ -79,9 +79,16 @@ function ago(iso: string | null): string {
   return days === 1 ? 'yesterday' : `${days} days ago`
 }
 
+// THE DOOR LANDS HERE. The reminders card above this on /dashboard/school
+// has a "Get my forwarding address" button, and until 20 September 2026 it
+// linked to /dashboard/school, which is the page it was already on: a tap did
+// nothing, and Justin said so. The card scrolls to this id instead.
+export const LETTERBOX_ID = 'school-letterbox'
+
 const cardStyle: React.CSSProperties = {
   background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
   borderRadius: 'var(--radius-card)', padding: '22px',
+  scrollMarginTop: 16,
 }
 
 const eyebrowStyle: React.CSSProperties = {
@@ -267,7 +274,7 @@ export default function SchoolLetterbox() {
   // ── STATE A: no address yet. One button, nothing to fill in. ───────────────
   if (!conn) {
     return (
-      <div style={cardStyle}>
+      <div id={LETTERBOX_ID} style={cardStyle}>
         <p style={eyebrowStyle}>School emails</p>
         <h2 style={headingStyle}>Let DiGi catch the school emails</h2>
         <p style={bodyStyle}>
@@ -296,7 +303,7 @@ export default function SchoolLetterbox() {
   const needsSchoolConfirm = caught && !conn.school_name && Boolean(conn.learned_domain)
 
   return (
-    <div style={cardStyle}>
+    <div id={LETTERBOX_ID} style={cardStyle}>
       <p style={eyebrowStyle}>School emails</p>
 
       {/* ── THE ARRIVAL, WHEN IT HAPPENS WHILE THEY WATCH ────────────────── */}
