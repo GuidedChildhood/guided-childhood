@@ -385,3 +385,18 @@ in `scripts/check-rshe-coverage.mjs` is at zero and zero, where it stays.
 Two limits stand, in the audit's new top section: this does not make a school
 compliant, because the eight non teaching duties are the school's, and it
 covers 57 of the 195 items, never all of them. PR 1125.
+
+## 20 September 2026, the council runs on all 29 and five slides come inside the ceiling
+
+The lesson council's counted checks had not been run since the four new
+modules landed. Run over all 29 on a fixture of the production rows: prose
+9.81, blocks 9.68, engagement 9.41, passport 10, all above the floor. The one
+place the new four sat below the other 25 was five KS4 concept slides at 120
+to 165 words against the measured 105 word ceiling.
+
+Justin's decision: trim. Migration 318 rewrites the five bodies to 103 words
+or fewer, moving nothing off the wall except into the teacher script on the
+same slide, guarded by heading and by the body it expects to find, and proved
+by the same string hash the module tools use. The attestation still holds at
+147 of 147, and prose is 9.95 after it. The council fixture run does not move
+the ratchet; the next live run will. PR to follow on this branch.
