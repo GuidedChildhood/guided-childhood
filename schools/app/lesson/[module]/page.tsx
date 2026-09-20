@@ -13,6 +13,8 @@ import { pilotModulesFor } from '@/lib/pilot'
 import PilotStrip from '@/components/PilotStrip'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LessonOpened } from '@/components/tracker/signals'
+import { LeadLine } from '@/components/YourSchoolLead'
+import { asList } from '@/lib/notes'
 import { neighbours, shapeOf } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
@@ -47,8 +49,10 @@ type TeacherNotes = {
   // 268. See research/2026-09-07-oak-and-common-sense-source-mining.md.
   essential_question?: string
   cycles?: Cycle[]
-  prior_knowledge?: string[]
-  key_learning_points?: string[]
+  // Lists, read through asList: a row that carries prose here renders it as
+  // one entry rather than taking the page down (20 September 2026).
+  prior_knowledge?: string[] | string
+  key_learning_points?: string[] | string
   teacher_tip?: string
   equipment?: string
   // The two quiz banks (migration 269). Only their presence is read here;
@@ -66,7 +70,7 @@ type TeacherNotes = {
   paper_fallback?: string
   tool?: { heading?: string; lines?: string[]; strapline?: string }
   // The three "I can" statements the child colours on the learning record.
-  i_can?: string[]
+  i_can?: string[] | string
   // The four fields the coverage audit of 8 September found missing, added by
   // migration 273. Together they are the difference between a lesson plan and
   // a teacher who understands the subject: what to know BEFORE teaching, what
@@ -245,7 +249,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </Link>
           {/* Only offered where the three statements have been written, so a
               module that is not ready cannot hand out a blank sheet. */}
-          {(notes.i_can?.length ?? 0) > 0 && (
+          {asList(notes.i_can).length > 0 && (
             <Link href={`/print/${lesson.module_id}/record`} className="btn" style={prepBtn}>
               Print the learning record
             </Link>
@@ -381,20 +385,20 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           </div>
         ) : null}
 
-        {notes.prior_knowledge?.length ? (
+        {asList(notes.prior_knowledge).length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What they need before this</h2>
             <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-              {notes.prior_knowledge.map((p, i) => <li key={i}>{p}</li>)}
+              {asList(notes.prior_knowledge).map((p, i) => <li key={i}>{p}</li>)}
             </ul>
           </div>
         ) : null}
 
-        {notes.key_learning_points?.length ? (
+        {asList(notes.key_learning_points).length ? (
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What they will know by the end</h2>
             <ul style={{ ...body, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-              {notes.key_learning_points.map((k, i) => <li key={i}>{k}</li>)}
+              {asList(notes.key_learning_points).map((k, i) => <li key={i}>{k}</li>)}
             </ul>
           </div>
         ) : null}
@@ -665,6 +669,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             <p style={body}>
               {dsl.note ?? 'Tell your designated safeguarding lead that this module is being taught this week, so they know why a child may come to them afterwards.'}
             </p>
+            {/* Who that is, on this screen, or where to type it. The name
+                lives in the browser (shared/schools-your-school), never here. */}
+            <p style={{ ...body, marginTop: 'var(--space-2)' }}><LeadLine /></p>
             <Link href="/hub/dsl" style={{ ...mono, color: 'var(--terracotta-dark)', textDecoration: 'none', display: 'inline-block', marginTop: '10px' }}>
               The DSL briefing →
             </Link>

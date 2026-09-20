@@ -679,7 +679,9 @@
       "exploitation",
       "county lines"
     ],
-    "prior_knowledge": "Follows the KS3 lesson on online conflict, which taught name it, save it, say it. The shape is deliberately familiar and the content is different: that lesson was about something aimed at a person, this one is about things that arrive without anybody aiming them. If your class has had manipulation and persuasion at KS4, the recommender idea in cycle one is a direct continuation of it.",
+    "prior_knowledge": [
+      "Follows the KS3 lesson on online conflict, which taught name it, save it, say it. The shape is deliberately familiar and the content is different: that lesson was about something aimed at a person, this one is about things that arrive without anybody aiming them. If your class has had manipulation and persuasion at KS4, the recommender idea in cycle one is a direct continuation of it."
+    ],
     "key_learning_points": [
       "Recommender systems optimise for holding attention, and distressing material holds attention, so it reaches people who never searched for anything.",
       "Being sent something is not the same as choosing it, and no pupil is in trouble for having seen, received, or not yet reported anything.",
@@ -695,12 +697,17 @@
       "That reporting is the whole job. A report deals with the content and never asks how the person is, which is why the third move exists as a separate move.",
       "That recruitment looks threatening from the outside. It looks like a favour and then like a job, and it is friendly for exactly as long as it needs to be."
     ],
-    "i_can": "I know what to do with something I never asked to see, and that I am not in trouble for it.",
+    "i_can": [
+      "I know what to do with something I never asked to see, and that I am not in trouble for it."
+    ],
     "commitment_stem": "Before the end of today I will find out the name of ______, so that I already have it.",
     "teacher_tip": "Assume several pupils in the room have already seen something they have never told anybody about, and teach so that none of them has to say so today. That means no asking who has seen what, no invitations to share, and no stories of your own. Keep the promise DiGi makes on the second slide for the whole hour. Stand by the door at the end, because this is the lesson in the scheme most likely to produce a disclosure and it will come as somebody hanging back.",
     "equipment": "Projector. The three moves sheet from the printed pack, one per pupil. No pupil devices needed. Have the name of your safeguarding lead ready to put on the board, and know your own school's process before you teach this.",
     "paper_fallback": "The whole hour runs from the printed pack with no screen: the two doors are a diagram on the pack, the message exchange is printed for you to read aloud, and the sorting cards are on the back page.",
-    "differentiation": "Stretch: ask why a system that nobody designed to do harm ends up here anyway, which reaches optimisation from the inside. Support: teach cycle one and the three moves in full and take cycle three only as far as money out of proportion to the task, which is the part that transfers.",
+    "differentiation": {
+      "support": "teach cycle one and the three moves in full and take cycle three only as far as money out of proportion to the task, which is the part that transfers.",
+      "stretch": "ask why a system that nobody designed to do harm ends up here anyway, which reaches optimisation from the inside."
+    },
     "send": "The two doors work as three pictures and can be taught without the text. The message exchange is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that you are not in trouble is a complete statement rather than one with unstated conditions, because a literal reader will otherwise supply the conditions themselves.",
     "passport_stage": "independent",
     "worksheet": "The three moves sheet",

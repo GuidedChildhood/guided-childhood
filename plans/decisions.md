@@ -400,3 +400,60 @@ same slide, guarded by heading and by the body it expects to find, and proved
 by the same string hash the module tools use. The attestation still holds at
 147 of 147, and prose is 9.95 after it. The council fixture run does not move
 the ratchet; the next live run will. PR to follow on this branch.
+
+## 20 September 2026, the safeguarding lead's name is typed once, on the device
+
+Every lesson can teach that there is a grown up in the building whose actual
+job is safeguarding. None of them can say who, and the KS2 slide migration 316
+added asks the teacher to say the name out loud and write it on the board.
+Justin's decision: type it once. A "your school" box on the Hub takes the
+lead's name and where to find them.
+
+It lives in the browser like the tracker and the passport fill, is never sent
+to us, and is shown under any slide whose words name the safeguarding lead (the
+KS2 slide, the KS3 and KS4 choices that list who to tell), on the flagged
+lessons' prep page and run sheet, and on the printed teacher sheet when it is
+printed from a screen that knows it. The privacy notice's sentence about what
+stays on the device now names it, and the legal set is re dated. PR 1128.
+
+## 20 September 2026, the four new lessons' home pages were crashing, and the shape is now decided at the desk
+
+Rendering the panel found it: the four modules written on 19 September
+carried prior_knowledge and i_can as prose and differentiation as one string,
+where the other 25 carry two lists and a { support, stretch } object. The
+lesson home page maps over prior_knowledge, so it crashed on all four in
+production, "That page did not load" on the page a teacher opens first. A day
+live before it was seen.
+
+Three fixes, all in PR 1128. Migration 319 puts the four rows in shape, the
+same words in lists and an object, guarded by the exact strings it expects and
+proved by hash. The pages read every list through `schools/lib/notes.ts`, so
+prose renders as one entry rather than taking the page down. And the module
+contract gained rule 11, which refuses the shape, proven both ways: it fails
+the old files and passes the fixed ones.
+
+The lesson: a guard that only checks what somebody thought to check, and a
+render that only visits the pages somebody thought to visit. The four new
+lessons' home pages were never rendered before they shipped. Every new
+module's prep page, run sheet and pack get rendered before its migration is
+applied from now on.
+
+## 20 September 2026, correction: the council's fixture was stale, and twelve older slides are over the wall ceiling
+
+The two entries above that give prose as 9.81 and 9.95 were measured on a
+fixture whose copies of the 25 older modules predate migrations 309 to 316.
+The same rule run on the production table gives prose 9.52: 357 of 375
+within the ceiling, 18 over. Six are EYFS and KS1 slides over the decoding
+ceiling since before the audit. Twelve are KS2 to KS4 concept slides that
+yesterday's appended clauses pushed past the measured 105 word projector
+ceiling, to between 106 and 207 words: ks4-17 s7 and s13, ks4-16 s7, s16 and
+s20, ks3-12 s10, ks3-11 s19, ks4-18 s11, ks2-07 s11, ks3-14 s15, ks2-08 s18,
+ks2-06 s7. A live council run would show the ratchet going backwards from its
+9.78 floor.
+
+Not fixed yet, because the fix changes where a statutory clause is taught:
+the recommendation is to carry each appended clause in the teacher's script,
+which the attestation reads and the teacher says word for word, rather than
+on the wall, so no slide, minute or claim moves. Justin's call. Until then
+the council is only trusted against production or a fixture pulled the same
+day, and the audit's top section says so.

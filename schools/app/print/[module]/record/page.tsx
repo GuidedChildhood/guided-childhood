@@ -5,6 +5,7 @@ import { MarkOnPrint } from '@/components/tracker/signals'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
 import { friendFor, printRegister, mono, display, text, FriendHeader, PrintSheet, Box, WriteLines, ColourStar } from '@/components/print/kit'
+import { asList } from '@/lib/notes'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ module: s
 
 export const revalidate = 3600
 
-type TeacherNotes = { i_can?: string[] }
+type TeacherNotes = { i_can?: string[] | string }
 type Lesson = {
   module_id: string
   title: string
@@ -50,7 +51,7 @@ export default async function LearningRecordPage({ params }: { params: Promise<{
     .maybeSingle()
   const lesson = data as Lesson | null
   if (!lesson) notFound()
-  const statements = lesson.teacher_notes?.i_can ?? []
+  const statements = asList(lesson.teacher_notes?.i_can)
   if (statements.length === 0) notFound()
 
   const friend = friendFor(lesson.character_cast, lesson.key_stage)
