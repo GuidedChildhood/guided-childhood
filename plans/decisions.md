@@ -635,3 +635,17 @@ holds the field to the same three values the database does. Verified both
 ways: it exits 1 on the old value and passes all four corrected modules and
 all 25 live ones. If the constraint ever widens, widen the rule in the same
 commit. PR 1125.
+
+## 20 September 2026, daily sweep, four backup tables with no RLS at all
+
+The Supabase advisor sweep found migrations 309, 310, 311 and 316 each
+backed up schools.school_lessons before rewriting it, the way every
+migration since 308 does, but dropped the `enable row level security` line
+308 set the pattern with. Four of roughly forty backup tables had no RLS and
+no policy, meaning PostgREST could actually serve them, not just the safe
+"RLS on, nothing granted" state every sibling backup table sits in.
+
+Migration 317 enables RLS on those four, no policy added, matching every
+other backup table. Verified on the live database: all four now show
+relrowsecurity = true. Schema check, cron heartbeats and required columns
+were all green; nothing else from today's sweep needed a fix.
