@@ -241,9 +241,9 @@ export function MockKidApp({ kid }: { kid: string }) {
   // the page.
   return (
     <Stage tint="var(--tint-blue)" pad={14}>
-      <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: 6, display: 'flex', gap: 4, marginBottom: 10 }}>
+      <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', padding: 6, display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
         {['Quests', 'Lessons', 'Printables'].map((t, i) => (
-          <span key={t} style={{ flex: 1, textAlign: 'center', padding: '8px 0', borderRadius: 'var(--radius-tile)', background: i === 0 ? 'var(--terracotta)' : 'transparent', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK }}>{t}</span>
+          <span key={t} style={{ flex: '1 1 5em', minWidth: 0, textAlign: 'center', padding: '8px 0', borderRadius: 'var(--radius-tile)', background: i === 0 ? 'var(--terracotta)' : 'transparent', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: INK }}>{t}</span>
         ))}
       </div>
       <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)', boxShadow: 'var(--lift)', padding: '14px 16px', marginBottom: 10 }}>

@@ -203,11 +203,13 @@ export default function KidAskForJob({
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: t.inkMuted, margin: '0 0 10px' }}>
             Best ones first{childName ? `, ${childName}` : ''}
           </p>
-          {/* minmax(0, 1fr) rather than 1fr: a grid item's default min width
-              is auto, so a long word would hold the track open. Words are
+          {/* Two across while two fit, one across at Larger Text. The track
+              floor is 9em, which is two columns at the normal root and one
+              once the iOS dial has pushed "Homework" past half the width; the
+              45% keeps it at two rather than three on a wide screen. Words are
               never broken in half; the tile is a column, so the title has the
               whole width to wrap on spaces. */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 10, marginBottom: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, max(9em, 45%)), 1fr))', gap: 10, marginBottom: 12 }}>
             {shown.map(idea => {
               const justSent = idea.title === sentTitle
               return (

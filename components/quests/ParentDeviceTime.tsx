@@ -567,10 +567,10 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
         <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />
       </div>
 
-      <div style={{ display: 'flex', gap: '6px', marginBottom: '10px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
         {MINUTE_PRESETS.map(m => (
           <button key={m} onClick={() => setMinutes(m)} aria-pressed={minutes === m} style={{
-            flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
+            flex: '1 1 3em', padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             background: minutes === m ? 'var(--terracotta-lt)' : '#fff',
             color: minutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',

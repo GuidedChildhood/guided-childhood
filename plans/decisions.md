@@ -510,3 +510,17 @@ stickers, the device tiles, the shop. 21 remain on the list.
 The fix is always the same shape and never the same line: let the row wrap,
 let the chip shrink, size a badge in em, drop a two column grid to one when
 the words are wide. Never stop the text scaling.
+
+## 20 September 2026 — the Larger Text list is empty
+
+Justin: "Do 21." The remaining 21 screens on `scripts/larger-text-baseline.json`
+are fixed, plus two the sharper guard then exposed, and the list is `{}`. Any screen that breaks at Larger Text from here
+fails CI as a regression; nothing is grandfathered.
+
+Two things worth knowing beyond the usual wrap and shrink fixes. First, the
+CSS minifier folds `min(0.5625rem, 9px)` to `0.5625rem` because the two are
+equal at a 16px root, so the Moment button's cap from PR 1129 never reached
+the built stylesheet; the rem now goes through a `var()`, which cannot be
+folded. Second, the guard now judges what the eye can see: an element's right
+edge is cut down to every ancestor that clips, so a chip row that scrolls
+sideways on purpose and a star sweep hidden inside a card no longer count.

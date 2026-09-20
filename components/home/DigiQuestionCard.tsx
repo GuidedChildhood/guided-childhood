@@ -68,7 +68,7 @@ export default function DigiQuestionCard({ question, childId }: { question: stri
                   onChange={e => setText(e.target.value)}
                   placeholder="One sentence is plenty"
                   aria-label="Your answer"
-                  style={{ flex: '1 1 180px', minHeight: 44, padding: '8px 12px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', outline: 'none', boxSizing: 'border-box' }}
+                  style={{ flex: '1 1 180px', minWidth: 0, minHeight: 44, padding: '8px 12px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', outline: 'none', boxSizing: 'border-box' }}
                 />
                 <button type="submit" disabled={state === 'saving' || !text.trim()} style={{
                   minHeight: 44, padding: '8px 16px', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', cursor: text.trim() ? 'pointer' : 'not-allowed',

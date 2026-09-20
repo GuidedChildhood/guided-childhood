@@ -304,8 +304,8 @@ export default function LearningYear({
       {/* The term itself. */}
       {tab === 'term' && v.subjects.map(sub => (
         <div key={sub.subject} style={CARD}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: 0, letterSpacing: '-0.02em' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '0 10px', flexWrap: 'wrap', marginBottom: 4 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: 0, letterSpacing: '-0.02em', minWidth: 0 }}>
               {sub.label}
             </h2>
             <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>

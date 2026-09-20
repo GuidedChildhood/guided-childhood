@@ -820,7 +820,7 @@ export default function ManageJobs({
           than clipping. At 390 that is about 110px a column, which the shorter
           labels fit in two lines. The arrows go: there is no room for one and a
           centred label reads better without it. */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8, alignItems: 'stretch' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, max(5.5em, 30%)), 1fr))', gap: 8, marginTop: 8, alignItems: 'stretch' }}>
         {[
           { href: '/dashboard/quests/routines', label: 'Week routine' },
           { href: '/dashboard/quests/timer', label: 'Screen timer' },

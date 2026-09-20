@@ -947,7 +947,7 @@ export default function QuestManager() {
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
               Hand it to {child.name}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 10em), 1fr))', gap: '10px', marginBottom: '14px' }}>
               {([['phone', 'tell', 'To their phone', 'A private page, sent by you'], ['paper', 'print', 'The offline pack', 'Print it, tick it off here']] as const).map(([mode, icon, title, sub]) => (
                 <button
                   key={mode}
@@ -1089,7 +1089,9 @@ export default function QuestManager() {
 
           {/* The front door: four big labelled buttons with an icon and a line
               of what each is for, so a parent knows exactly where to go. */}
-          <div id="quest-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '18px', scrollMarginTop: '80px' }}>
+          {/* Two across at the normal root, one across at Larger Text: a 10em
+              track is half a phone at 16px and the whole of one at 40px. */}
+          <div id="quest-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 10em), 1fr))', gap: '8px', marginBottom: '18px', scrollMarginTop: '80px' }}>
             {TABS.map(t => {
               const on = tab === t.key
               return (
@@ -1281,7 +1283,7 @@ export default function QuestManager() {
                   onClick={() => addBeforeScreens(chip.slice(chip.indexOf(' ') + 1))}
                   style={{
                     background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
-                    padding: '8px 14px', cursor: 'pointer',
+                    padding: '8px 14px', cursor: 'pointer', maxWidth: '100%', textAlign: 'left',
                     fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
                   }}
                 >
@@ -1375,7 +1377,7 @@ export default function QuestManager() {
                 background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
                 padding: '8px 14px', cursor: 'pointer', textDecoration: 'none',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                color: 'var(--ink)', whiteSpace: 'nowrap',
+                color: 'var(--ink)', maxWidth: '100%', textAlign: 'left',
               }
               const go = (id: string) => {
                 try {
@@ -1956,12 +1958,12 @@ export default function QuestManager() {
                   const when = new Date(`${t.tick_date}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
                   return (
                     <div key={`${t.quest_id}-${t.tick_date}-${i}`} style={{
-                      display: 'flex', alignItems: 'center', gap: '11px',
+                      display: 'flex', alignItems: 'center', gap: '4px 11px', flexWrap: 'wrap',
                       padding: '10px 13px', borderRadius: 'var(--radius-tile)',
                       background: 'var(--tint-green)', border: 'var(--edge)',
                     }}>
                       <Plate emoji={q?.emoji ?? '⭐'} size={30} radius={9} />
-                      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+                      <span style={{ flex: '1 1 8em', minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                         {q?.title ?? 'Completed quest'}
                       </span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', flexShrink: 0 }}>

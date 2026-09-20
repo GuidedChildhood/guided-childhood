@@ -325,7 +325,7 @@ export default function StarChartBuilder({
             Or add one of ours
           </div>
         )}
-        <div style={{ display: 'grid', gap: 12, marginBottom: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 12, marginBottom: 12 }}>
           {POOL.map(group => (
             <div key={group.group} style={{ background: 'var(--cream)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '15px 16px' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 11 }}>
@@ -344,7 +344,7 @@ export default function StarChartBuilder({
                         border: `2px solid ${on ? 'var(--terracotta)' : 'var(--ink)'}`,
                         background: on ? 'var(--terracotta-lt)' : '#fff',
                         fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
-                        display: 'inline-flex', alignItems: 'center', gap: 7,
+                        display: 'inline-flex', alignItems: 'center', gap: 7, maxWidth: '100%', textAlign: 'left',
                       }}
                     >
                       <span aria-hidden>{job.emoji}</span>

@@ -108,13 +108,14 @@ export default function QrHandoverModal({ token, childName, onClose }: {
     },
   ]
 
-  // nowrap matters: at 390 "Printed chart" wrapped to two lines and the two
-  // doors stopped being the same height, which reads as one being the lesser
-  // of the two. They are not.
+  // The two doors are always the same height, which matters: at 390 "Printed
+  // chart" once wrapped and the shorter door read as the lesser of the two.
+  // That used to be done with nowrap, which at Larger Text pushed "On paper"
+  // clean off the phone. The flex row stretches both tabs to the taller one,
+  // so they can wrap and still match.
   const doorTab = (key: Door): React.CSSProperties => ({
-    flex: 1, padding: '11px 6px', borderRadius: 'var(--radius-tile)', cursor: 'pointer', border: 'none',
+    flex: '1 1 0', minWidth: 0, padding: '11px 6px', borderRadius: 'var(--radius-tile)', cursor: 'pointer', border: 'none',
     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-    whiteSpace: 'nowrap',
     color: door === key ? 'var(--ink)' : 'var(--ink-soft)',
     background: door === key ? '#fff' : 'transparent',
     boxShadow: 'none',
@@ -212,7 +213,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
               Or send it to them
             </div>
 
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
               {channels.map(c => (
                 <a
                   key={c.key}
@@ -220,7 +221,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                   target={c.key === 'whatsapp' ? '_blank' : undefined}
                   rel={c.key === 'whatsapp' ? 'noopener noreferrer' : undefined}
                   style={{
-                    flex: 1, display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
+                    flex: '1 1 5em', minWidth: 0, display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
                     background: c.bg, color: c.fg, borderRadius: '15px', padding: '13px 6px', textDecoration: 'none',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     boxShadow: c.shadow, border: c.key === 'email' ? 'var(--edge)' : 'none',

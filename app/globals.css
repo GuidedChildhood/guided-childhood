@@ -116,7 +116,8 @@
      with the viewport, only with the text dial. min() honours a parent who has
      made their text SMALLER and refuses to let the dial push "Moment" out
      through the ring. */
-  font-size: min(0.5rem, 8px);
+  --fab-label: 0.5rem;
+  font-size: min(var(--fab-label), 8px);
   letter-spacing: 0.01em;
 }
 
@@ -1031,8 +1032,14 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   font-family: var(--font-body);
   /* Capped, like the tab bar's copy of this button above. The circle is a
      fixed 60px and rem follows the Larger Text dial, so an uncapped label
-     grew past its own circle. */
-  font-size: min(0.5625rem, 9px);
+     grew past its own circle.
+     The rem goes through a variable on purpose. Written as a plain
+     min(0.5625rem, 9px) the CSS minifier folded it to 0.5625rem, since the
+     two are equal at a 16px root, and the cap was gone from the built
+     stylesheet: measured at Larger Text, the label computed to 22.5px and
+     ran 8px off the phone. A var() cannot be folded. */
+  --fab-label: 0.5625rem;
+  font-size: min(var(--fab-label), 9px);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;

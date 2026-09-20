@@ -63,13 +63,27 @@ for (const d of readdirSync('app/dev')) if (existsSync(join('app/dev', d, 'page.
 for (const d of readdirSync('app')) if (d.startsWith('ref-') && existsSync(join('app', d, 'page.tsx'))) fixtures.push(`/${d}`)
 const routes = fixtures.filter(r => !(r in NOT_A_PHONE)).sort()
 
+// What the eye can see, not what the DOM holds. A chip row that scrolls
+// sideways on purpose, or a star sweep hidden inside a card's overflow, has
+// rects past the phone's edge and nothing printing through anything: the
+// right edge is cut down to every ancestor that clips before it is judged.
 const measure = (page) => page.evaluate((tol) => {
   const vw = document.documentElement.clientWidth
+  const clipRight = new Map()
+  const clipOf = (el) => {
+    if (!el || el === document.documentElement) return Infinity
+    if (clipRight.has(el)) return clipRight.get(el)
+    const own = getComputedStyle(el).overflowX
+    const mine = own === 'visible' ? Infinity : el.getBoundingClientRect().right
+    const v = Math.min(mine, clipOf(el.parentElement))
+    clipRight.set(el, v)
+    return v
+  }
   let worst = 0, first = ''
   for (const e of document.querySelectorAll('body *')) {
     const r = e.getBoundingClientRect()
     if (r.width === 0) continue
-    const over = r.right - vw
+    const over = Math.min(r.right, clipOf(e.parentElement)) - vw
     if (over > tol && over > worst) { worst = Math.round(over); first = (e.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40) }
   }
   return { worst, first }
