@@ -679,7 +679,9 @@
       "protection",
       "shield"
     ],
-    "prior_knowledge": "Builds directly on the privacy lesson, where Bloop introduced the shield for what not to share, and on the gaming lesson, where the class met paying for a random chance. Neither is required. If your class has done them, name them out loud, because the continuity does real work here.",
+    "prior_knowledge": [
+      "Builds directly on the privacy lesson, where Bloop introduced the shield for what not to share, and on the gaming lesson, where the class met paying for a random chance. Neither is required. If your class has done them, name them out loud, because the continuity does real work here."
+    ],
     "key_learning_points": [
       "The age answer sorts a user into child or adult, and the two get different versions of the same app.",
       "Thirteen is a data protection age, not a maturity age, which is why it does not bend for a sensible child.",
@@ -692,12 +694,17 @@
       "That the age rule is a judgement about whether this particular child is sensible. Answer the true part of the objection first: they may well be fine, and the rule was never measuring that.",
       "That lying about your age is wrong mainly because lying is wrong. The lesson deliberately does not run on that, because a child who only hears do not lie learns nothing about what was lost."
     ],
-    "i_can": "I can say what the number on an app is protecting.",
+    "i_can": [
+      "I can say what the number on an app is protecting."
+    ],
     "commitment_stem": "Tonight I will find the number on ______, and tell ______ what it is protecting.",
     "teacher_tip": "Some children in the room already have accounts they are too young for, and some of their parents set them up. Nothing in this lesson requires anybody to admit that and nothing in it blames a family. Teach the mechanism, not the compliance. If a child says they have one, a neutral good to know and a move on is the right response in front of the class, and a quiet word afterwards if anything concerns you.",
     "equipment": "Projector. The shield sheet from the printed pack, one per child. No pupil devices needed.",
     "paper_fallback": "The whole lesson runs from the printed pack with no screen: the four protections are a diagram on the pack, the sorting cards are on the back page, and the birthday box is described in the run sheet for you to read aloud.",
-    "differentiation": "Stretch: ask why a company might prefer people to get the age wrong, which is the sharpest question in the lesson and some Year 6 pupils will reach it unaided. Support: focus on two of the four protections rather than all four, and use the hand up flat gesture as the memory hook.",
+    "differentiation": {
+      "support": "focus on two of the four protections rather than all four, and use the hand up flat gesture as the memory hook.",
+      "stretch": "ask why a company might prefer people to get the age wrong, which is the sharpest question in the lesson and some Year 6 pupils will reach it unaided."
+    },
     "send": "The four protections are named with one picture each and can be taught as four pictures without the text. The shield gesture gives a non verbal route into the recall. Pre teach shield with a physical object if that helps, and keep the birthday box slide up for longer than the script suggests, because the scrolling year is the whole idea in one image.",
     "passport_stage": "builder",
     "worksheet": "The shield sheet",

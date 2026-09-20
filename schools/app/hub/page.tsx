@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
+import YourSchoolPanel from './YourSchoolPanel'
 
 export const metadata = { title: 'The Hub' }
 
@@ -139,6 +140,15 @@ export default async function HubPage() {
             </span>
           </span>
         </Link>
+
+        {/* THE ONE THING ONLY THE SCHOOL CAN SAY. The lessons teach that
+            there is somebody in this building whose job is safeguarding;
+            the school supplies the name, once, on this screen, and the
+            slide that asks for it, the prep pages and the printed teacher
+            sheet carry it from then on (Justin, 20 September 2026). Second
+            card, after the record and before the documents, because it is
+            the only other thing here a school DOES rather than reads. */}
+        <YourSchoolPanel />
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-3)' }}>
           {DOCS.map(d => (

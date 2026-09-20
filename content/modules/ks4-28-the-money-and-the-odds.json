@@ -280,7 +280,7 @@
       "minutes": 2,
       "emoji": "⏱️",
       "heading": "The loop, and how fast it runs",
-      "body": "Two products can carry identical odds and be completely different things to use, and the biggest difference between them is speed. A draw once a week puts seven days between staking and knowing. An online slot puts about two seconds there. Nobody has actually proved that the speed itself is what causes the harm, and it is still the thing the law acts on: since 2025 nobody in Britain may stake more than £5 on one spin of an online slot, and anyone under 25 is capped at £2. A lottery ticket has no cap at all. If you keep one question from this hour, keep this one: how fast is the loop?",
+      "body": "Two products can carry identical odds and be different to use, and the difference is speed. A weekly draw puts seven days between staking and knowing. An online slot puts about two seconds there. Nobody has proved the speed itself causes the harm, and it is still what the law acts on: since 2025 nobody in Britain may stake more than £5 on one online slot spin, and under 25s are capped at £2. A lottery ticket has no cap. If you keep one question from this hour, keep this one: how fast is the loop?",
       "script": "The most important slide in the lesson and the one that hands them a tool rather than a warning. Say the question twice and write it on the board. Do not skip the honest sentence in the middle: the link between speed and harm is strong and it is not proof, and a class this age respects being told the difference far more than being told a tidy rule. The £2 under 25 cap is the line that lands, because it is the law saying out loud that this product is riskier for them specifically."
     },
     {
@@ -313,8 +313,8 @@
       "minutes": 2,
       "emoji": "💔",
       "heading": "What it does to a person",
-      "body": "This is the part that usually gets left out. Gambling harm is not mainly about money, and it starts with money. Because the price is hidden and the loss is gradual, it is gone before the feeling of spending arrives, and the gap gets filled by borrowing: from a friend, from a sibling, from a card that is not yours. Then the borrowing has to be hidden too. People describe not sleeping, lying to the people closest to them, and a background dread that never lifts. It is linked with anxiety and with depression, and at its most serious it is linked with suicide. That is why there are NHS clinics for it rather than it being filed under bad habits. None of that makes anybody who plays a game weak. It makes this worth understanding now, while it is still theory.",
-      "script": "Slow right down here and drop your volume rather than raising it. Somebody in most rooms has a parent or an older sibling in this paragraph, which is why the harm is described as things a person does and feels rather than as a diagnosis. Do not ask for examples and do not ask anyone to imagine a family member. Go straight on to the next slide, which is the one that gives them somewhere to put it."
+      "body": "Gambling harm starts with money and is not mainly about money. Because the price is hidden, the loss is gone before the feeling of spending arrives, and the gap gets filled by borrowing, which has to be hidden too. People describe not sleeping, lying to those closest to them, and a dread that never lifts. It is linked with anxiety and with depression, and at its worst with suicide. That is why the NHS has clinics for it. None of that makes anybody who plays weak. It makes this worth understanding now, while it is still theory.",
+      "script": "Slow right down here and drop your volume rather than raising it. Somebody in most rooms has a parent or an older sibling in this paragraph, which is why the harm is described as things a person does and feels rather than as a diagnosis. Do not ask for examples and do not ask anyone to imagine a family member. Go straight on to the next slide, which is the one that gives them somewhere to put it. The borrowing in that paragraph is from a friend, a sibling, or a card that is not theirs, and the clinics exist because this is treated as a health problem rather than filed under bad habits. Both can be said out loud if the room needs them."
     },
     {
       "type": "diagram",
@@ -700,7 +700,9 @@
       "chasing",
       "loot box"
     ],
-    "prior_knowledge": "The direct sequel to manipulation and persuasion at KS4, where the class met dark patterns and followed the money. This is the same skill pointed at the one product category built entirely out of them. At KS2 the scheme met loot boxes once, in the lesson on how games are designed to hold you, so most pupils will have the word and none of them will have the arithmetic.",
+    "prior_knowledge": [
+      "The direct sequel to manipulation and persuasion at KS4, where the class met dark patterns and followed the money. This is the same skill pointed at the one product category built entirely out of them. At KS2 the scheme met loot boxes once, in the lesson on how games are designed to hold you, so most pupils will have the word and none of them will have the arithmetic."
+    ],
     "key_learning_points": [
       "A chance is a different kind of purchase from an item: the price is the same whether it comes good or not.",
       "Game currencies hide price behind two conversions, and pack sizes are chosen so a stranded leftover is guaranteed.",
@@ -717,12 +719,17 @@
       "That published drop rates make a game fair. They make it honest about the odds, which is a different claim, and the 200 opens question exists to separate the two.",
       "That any activity with odds in it is a danger. The raffle and the weekly lottery ticket are on the sort deliberately, because a scheme that flattens everything into a warning is one this age group discounts entirely."
     ],
-    "i_can": "I can work out what a chance really costs me, and say when the loop has somebody.",
+    "i_can": [
+      "I can work out what a chance really costs me, and say when the loop has somebody."
+    ],
     "commitment_stem": "Tonight I will work out what one chance actually costs in real money in ______.",
     "teacher_tip": "Assume at least one pupil has a parent or older sibling in the harm paragraph, and teach so that pupil never has to say so. That means no asking who gambles, no asking for examples, no imagine a family member. The lesson is built to be about how the products work, so everything a pupil needs can be taken away without a word being said. Stand near the door at the end.",
     "equipment": "Projector. The real price sheet from the printed pack, one per pupil. Calculators, because the arithmetic is the point rather than the obstacle. Have the name of your safeguarding lead ready to put on the board.",
     "paper_fallback": "The whole hour runs from the printed pack with no screen: the two conversions are a diagram on the pack, the group chat is printed for you to read aloud, and the sorting cards are on the back page. The only thing needing a calculator is the price sheet.",
-    "differentiation": "Stretch: ask where the 37 percent comes from, which reaches the independence idea through arithmetic rather than through intuition. Support: teach the price cycle in full and take the odds cycle as far as the wheel has no memory, then go straight to the loop question, which is the part that transfers.",
+    "differentiation": {
+      "support": "teach the price cycle in full and take the odds cycle as far as the wheel has no memory, then go straight to the loop question, which is the part that transfers.",
+      "stretch": "ask where the 37 percent comes from, which reaches the independence idea through arithmetic rather than through intuition."
+    },
     "send": "The two conversions work as three pictures and can be taught without the text. The group chat is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that stopped being a game is a description of a pattern rather than a rule about how much money is too much, because the sorting cards depend on that distinction.",
     "passport_stage": "independent",
     "worksheet": "The real price sheet",

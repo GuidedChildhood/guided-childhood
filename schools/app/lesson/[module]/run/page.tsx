@@ -7,7 +7,9 @@ import { parseSlides, PHASE_ORDER, PHASE_LABELS, type LessonPhase, type LessonSl
 import { PASSPORT_STAGES, type PassportPlacement } from '@gc/shared/passport-stages'
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
+import { LeadLine } from '@/components/YourSchoolLead'
 import { shapeOf } from '@/lib/tracker'
+import { asList } from '@/lib/notes'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
@@ -43,7 +45,7 @@ type TeacherNotes = {
   differentiation?: { support?: string; stretch?: string }
   paper_fallback?: string
   tool?: { heading?: string; lines?: string[]; strapline?: string }
-  i_can?: string[]
+  i_can?: string[] | string
   worksheet?: { title?: string }
   // Which passport page this lesson fills (migration 277), or 'after' for the
   // sixth form modules that sit past sixteen. shared/passport-stages.ts.
@@ -210,7 +212,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             {' '}and photocopy per pupil: the worksheet, the start and end cards, and the parent note.
             The answer key in the pack is yours alone, one copy, never photocopied.
           </TickRow>
-          {(notes.i_can?.length ?? 0) > 0 && (
+          {asList(notes.i_can).length > 0 && (
             <TickRow>
               <Link href={`/print/${lesson.module_id}/record`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Print the learning record</Link>
               , one per pupil, for the end of the lesson or later in the week.
@@ -228,6 +230,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
             <TickRow>
               <strong>Tell your safeguarding lead</strong> this module runs this week, so they know why a
               child may come to them afterwards. {dsl.note ?? ''} <Link href="/hub/dsl" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>The DSL briefing</Link>.
+              {' '}<LeadLine />
             </TickRow>
           )}
           <TickRow>
@@ -315,7 +318,7 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               The passport line on the note: &ldquo;{parent.passport}&rdquo;
             </p>
           )}
-          {(notes.i_can?.length ?? 0) > 0 && (
+          {asList(notes.i_can).length > 0 && (
             <TickRow>
               The learning record: each child colours the star they think they reached, you colour
               yours, and the conversation about the gap is the assessment.

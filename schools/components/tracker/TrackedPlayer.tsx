@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { markStep } from '@gc/shared/schools-progress'
+import { useYourSchool } from '@/components/YourSchoolLead'
 
 // The player, with the two signals a classroom actually gives off.
 //
@@ -21,5 +22,10 @@ type PlayerProps = React.ComponentProps<typeof LessonPlayer>
 export default function TrackedPlayer({ moduleId, ...props }: PlayerProps & { moduleId: string }) {
   useEffect(() => { markStep(moduleId, 'board') }, [moduleId])
   const onFinish = useCallback(() => { markStep(moduleId, 'taught') }, [moduleId])
-  return <LessonPlayer {...props} onFinish={onFinish} />
+  // The safeguarding lead this screen was told about, for the slides that
+  // ask who to tell. Same reasoning as the tracker: the route cannot read
+  // the browser and the player should not know what a Hub is, so the
+  // knowing lives here.
+  const schoolLead = useYourSchool()
+  return <LessonPlayer {...props} schoolLead={schoolLead} onFinish={onFinish} />
 }

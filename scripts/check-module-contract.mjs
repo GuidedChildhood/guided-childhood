@@ -238,5 +238,26 @@ const scaffold = m.row && m.row.scaffold
 ok(`row.scaffold is one of ${SCAFFOLDS.join(', ')}`, SCAFFOLDS.includes(scaffold),
    `scaffold is ${JSON.stringify(scaffold)}. The lesson's memorable tool goes in teacher_notes.tool, not here`)
 
+// 11. the teacher notes carry the shapes the pages read (20 September 2026)
+//
+// The four modules written on 19 September carried prior_knowledge, i_can and
+// differentiation as prose, where the other twenty five carry two lists and a
+// { support, stretch } object. Every local guard passed, the migrations
+// applied, and the lesson home page then crashed on all four in production
+// ("notes.prior_knowledge.map is not a function"), which a teacher meets as
+// "That page did not load" on the page they open first. A render against a
+// fixture found it a day later, which is a day late. The pages now tolerate a
+// string, and this rule refuses one, so the shape is decided here rather than
+// at the first click.
+const notes = m.teacher_notes || {}
+for (const k of ['prior_knowledge', 'i_can', 'key_learning_points', 'misconceptions']) {
+  const v = notes[k]
+  ok(`teacher_notes.${k} is a list of strings`, v === undefined || (Array.isArray(v) && v.every(x => typeof x === 'string')),
+     `${k} is ${Array.isArray(v) ? 'a list with a non string entry' : typeof v}. The pages map over it, so prose goes in as a one entry list`)
+}
+ok('teacher_notes.differentiation is { support, stretch }', notes.differentiation === undefined ||
+   (notes.differentiation && typeof notes.differentiation === 'object' && !Array.isArray(notes.differentiation)),
+   `differentiation is ${typeof notes.differentiation}. Split the prose on its Support and Stretch labels`)
+
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)
