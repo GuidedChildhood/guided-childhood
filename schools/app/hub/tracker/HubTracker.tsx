@@ -205,11 +205,18 @@ export default function HubTracker({ pilot, rest, pilotPhase }: {
         <div aria-hidden style={{ height: 8, borderRadius: 999, background: 'var(--butter-lt)', marginTop: 12, overflow: 'hidden' }}>
           <div style={{ width: `${pct}%`, height: '100%', background: 'var(--retro-green)' }} />
         </div>
+        {/* Two versions of the same sentence, chosen by the data. On 19
+            September only 40 of the 57 were taught in full and the other 17
+            needed explaining; on 20 September all 57 were, and a line about
+            requirements "your own scheme owns" would have been describing rows
+            that no longer exist. The counts decide, so neither version can go
+            stale on its own. Spaces around expressions are written as {' '}:
+            text that runs on to a second line after one loses its leading
+            space in the transform. */}
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '10px 0 0' }}>
-          Nothing here is typed in. A requirement counts when a lesson that the audit found teaching it in full
-          goes green on this screen. Partly covered requirements are not counted here and neither are the ones
-          your own scheme owns. The mapping page has all {RSHE_2026.length}, which lesson covers each one, and
-          what is still yours to teach.
+          {CAN_EVIDENCE === RSHE_2026.length
+            ? <>Nothing here is typed in. A requirement counts when a lesson that the audit found teaching it in full goes green on this screen. Every one of the {RSHE_2026.length}{' '}is taught in full, so every one can be evidenced here. The mapping page has all {RSHE_2026.length}{' '}and which lesson covers each one.</>
+            : <>Nothing here is typed in. A requirement counts when a lesson that the audit found teaching it in full goes green on this screen. Partly covered requirements are not counted here and neither are the ones your own scheme owns. The mapping page has all {RSHE_2026.length}, which lesson covers each one, and what is still yours to teach.</>}
         </p>
         <Link className="no-print" href="/hub/rshe-mapping" style={{ ...mono, color: 'var(--green-dark)', textDecoration: 'none', display: 'inline-block', marginTop: 10 }}>
           See the full mapping →

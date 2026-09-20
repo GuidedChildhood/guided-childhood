@@ -93,11 +93,25 @@ writing in the scheme: no method detail, ever, the support routes named, and
 the register that the rest of the scheme already uses, which is that the child
 is never in trouble for telling.
 
+**Done, 20 September.** All four in production as migrations 312 to 315,
+carried in hash verified chunks and each recorded in the migration history as
+an executable assertion of its own hash. In the end all four carry a DSL flag,
+not two: bullying and coercive control at KS3 and gambling harm at KS4 both
+earned one once the disclosure points were written. 29 modules, 856 slides.
+
 ### B6. Re-audit, and prove it
 
 Regenerate the CSV and the audit document from the new state. Every number
 recomputed from production, not edited by hand. Run every guard by exit code.
 Render the changed pages at 390 and 1440 in Chrome DevTools.
+
+**Done, 20 September.** 57 of 57 FULL. 147 evidence phrases attested against
+production, 0 not found, hash in the fixture, ratchet at 0 and 0. Every guard
+green by exit code, both typechecks green. The mapping page and the tracker
+rendered at 390 and 1440 against a 29 module fixture whose four new rows are
+the same JSON production holds. The audit document carries a dated section at
+the top recording all of this and the limits that still stand; nothing below
+it was edited.
 
 ## What is NOT in this plan
 

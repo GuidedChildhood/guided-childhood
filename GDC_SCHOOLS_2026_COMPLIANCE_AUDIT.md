@@ -4,8 +4,55 @@
 **Scope:** the 25 module schools scheme as it stands in production, audited against the English statutory requirements that bite on 1 September 2026.
 **Status:** audit only. No application code, database row, route, component or wiring has been changed.
 **Revision:** second pass. The first pass could not obtain KCSIE 2026 and said so. KCSIE 2026 has now been read in full and every claim that depended on it is settled below, by paragraph number.
+**Re-audit:** 20 September 2026. Every gap this document names is closed, and the closure is proved against production rather than asserted. The section immediately below records it. Nothing beneath that section has been edited, because it is the record of what was found.
 
 Every number in this document was produced by querying the live `schools.school_lessons` table in production (732 slides across 25 modules, 666,157 characters of lesson text) and by reading the schools application source. Where something is absent, the absence was established by a word boundary search across all 732 slides, and the search is quoted so it can be re run. Where something could not be verified, it says so rather than guessing.
+
+---
+
+## Re-audit, 20 September 2026: what was done about it, and the proof
+
+This section was added the day after the audit below, when the work it asked for was finished. The method is the same: every number here was produced by querying the live `schools.school_lessons` table in production, and the queries are in the repository so they can be re run.
+
+**Production on 20 September 2026:** 29 modules, 856 slides, 15 safeguarding flagged. The 25 module scheme audited below gained four modules, and five existing modules gained fourteen sentences.
+
+**The 57 requirements: 57 taught, 0 part taught, 0 not covered, 0 handed to the school's own scheme.**
+
+That sentence is not a claim, it is a test result. Every one of the 57 is held to short phrases that must appear in the named module's live slide text. On 20 September, 147 such phrases were run against the production table as a case insensitive substring test scoped to each requirement's own modules: **147 checked, 0 not found.** The hash of exactly what was tested is recorded in `scripts/fixtures/rshe-evidence.json`, and `scripts/check-rshe-coverage.mjs` fails continuous integration if the data module ever drifts from it. The same guard carries a ratchet, set on 19 September to 11 outstanding and 9 gaps. It is now set to 0 and 0, and it only ever comes down.
+
+### What closed what
+
+| Migration | What it did | Requirements closed |
+|---|---|---|
+| 309, 310, 311 | Named clauses appended to existing slides on 19 September, no slide added, no minute changed | Took the count taught in full from 18 to 40 |
+| 312, `ks2-26-why-thirteen` | KS2, 31 slides. The age rule as a mechanism: thirteen is a data protection age, four protections are wired to the number, games and gambling sites carry numbers with different jobs | RSHE-P-OSA-3, RSHE-P-WO-5 |
+| 313, `ks3-27-when-it-turns-on-you` | KS3, 31 slides. Why conflict escalates online, four behaviours by their real names including coercive control, name it save it say it, the bystander's three moves | RSHE-S-OSA-9, RSHE-S-OSA-10, RSHE-S-WO-3, RSHE-S-RR-6 |
+| 314, `ks4-28-the-money-and-the-odds` | KS4, 31 slides. The price a game currency hides, the house edge, the speed of the loop, what gambling harm does to a person, and where to take it | RSHE-S-WO-4, RSHE-S-MW-8 |
+| 315, `ks4-29-did-not-go-looking` | KS4, 31 slides. Content that arrives unasked: self harm and violent content, drug and knife supply, you are not in trouble, stop it report it say it | RSHE-S-WO-7, RSHE-S-WO-6, the violence half of RSHE-S-OSA-8, the law half of RSHE-S-BS-11 |
+| 316 | Fourteen sentences across ks1-02, ks2-08, ks4-16, ks4-17 and ks4-18, no slide added, no minute changed | The six rows this document's successor marked as belonging to the school's own scheme: RSHE-P-GW-9, RSHE-S-RR-9, RSHE-S-BS-1, RSHE-S-BS-2, RSHE-S-BS-11, RSHE-S-BS-16. Justin's decision on 19 September was to teach all six, framed through the online context |
+
+Migrations 312 to 315 were carried into production in hash verified chunks, because a module migration is forty to seventy thousand characters and the channel available could not carry that in one statement reliably. Each one's entry in the migration history is an executable assertion that recomputes the hash on the server and raises if a single character differs. All four hold.
+
+KCSIE 2026 now independently names the same harm for 36 of the 57 requirements, one more than on 19 September, because RSHE-S-WO-6 (drug and knife supply) is anchored to paragraph 165 contact.
+
+### What is still not claimed, and will not be
+
+- **This does not make a school compliant.** The eight rows marked NOT A LESSON REQUIREMENT in the matrix stand exactly as written: staff reading and training under KCSIE, recording and referral, filtering and monitoring, the RSE policy, the DPIA and governor assurance are the school's, and no scheme of work discharges them.
+- **This scheme teaches no sex education.** Consent is now taught in full, in all contexts including online as the guidance words it, and that is relationships education. The parental right to request withdrawal does not bite on any lesson here.
+- **It covers the digital and online requirements, 57 of the 195, never all of them.** The guidance has 28 strands. This is the online safety and digital literacy spine and sits inside a school's wider provision.
+- **The national curriculum for computing is still not audited**, for the reason given in section 2: the document was not obtained and this audit does not paraphrase a statutory document from memory.
+- **"Published on 15 July 2025" is still unverified.** Neither document body carries the day.
+- **The lesson quality judgements in section 6 were not re run.** The four new modules pass the same module contract as the other twenty five, and were built on the same Rosenshine arc with the same scripted, paper fallback, DSL noted shape, and that is the extent of the claim.
+
+### How to re run this
+
+```
+npm run rshe-generate            # rebuilds the data module and the CSV from scripts/rshe/
+npm run rshe-evidence            # prints the SQL; run it against production
+node scripts/check-rshe-coverage.mjs
+```
+
+A TOTAL row with zero failures means every claim holds. Anything else means a lesson no longer says what the data module claims it says, and the claim is what is wrong.
 
 ---
 
