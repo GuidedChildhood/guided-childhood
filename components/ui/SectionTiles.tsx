@@ -196,9 +196,11 @@ export default function SectionTiles({
                   background: t.bg, border: 'var(--edge)',
                   color: 'var(--ink)',
                 }),
-                borderRadius: 'var(--radius-pill)', padding: '3px 10px',
+                borderRadius: 'var(--radius-pill)', padding: '0.25em 0.8em',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                whiteSpace: 'nowrap',
+                // Never wider than its row. It was nowrap, and at Larger Text a
+                // badge on its own line still ran off the phone.
+                maxWidth: '100%',
                 // Never shrink, and never clip. The row wraps instead, so a
                 // badge always reads in full at whatever width it needs.
                 //

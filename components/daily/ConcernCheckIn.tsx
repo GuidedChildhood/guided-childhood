@@ -533,11 +533,11 @@ export default function ConcernCheckIn({
           {words === 'yes' ? 'Noted. That is the loop closing.' : words === 'somewhat' ? 'Noted. Sort of counts.' : 'Noted. They are there when you need them.'}
         </p>
       )}
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap', marginBottom: '8px' }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '.12em', textTransform: 'uppercase',
-          color: 'var(--stage-2-text)',
+          color: 'var(--stage-2-text)', minWidth: 0,
         }}>
           {baseline ? 'Where things are now' : 'Still on the list'}
         </div>

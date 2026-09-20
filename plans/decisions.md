@@ -485,3 +485,28 @@ which the attestation reads and the teacher says word for word, rather than
 on the wall, so no slide, minute or claim moves. Justin's call. Until then
 the council is only trusted against production or a fixture pulled the same
 day, and the audit's top section says so.
+
+## 20 September 2026 — every screen has to survive Larger Text
+
+Justin, with Larger Text on on his own iPhone: "just checking that this needs
+to work even when user changes text size on their phone." It does. It did not.
+
+The root follows the iOS Dynamic Type dial on purpose (`shared/tokens.css`,
+`font: -apple-system-body`), and that stays. What was never done is building
+the layouts to survive it: the type is rem, the pill padding, fixed buttons and
+`flexShrink: 0` chips are px, so text grows and containers do not.
+
+Measured, not guessed: every dev and ref fixture rendered at phone width at
+16px and at 40px root. **44 of 145 were clean at normal size and broken at
+Larger Text.** Print sheets that are wide by design are not counted.
+
+`scripts/check-larger-text.mjs` runs in the browser job and holds the known
+list in `scripts/larger-text-baseline.json`, which only gets shorter: a screen
+not on the list that breaks fails CI, and a screen on the list that is fixed
+also fails until it is taken off. The first pass fixed 23, mostly the screens a
+family touches daily: the road, the check in, the passport, the balance, the
+stickers, the device tiles, the shop. 21 remain on the list.
+
+The fix is always the same shape and never the same line: let the row wrap,
+let the chip shrink, size a badge in em, drop a two column grid to one when
+the words are wide. Never stop the text scaling.

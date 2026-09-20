@@ -95,7 +95,7 @@ export function Sticker({ children, accent = 'butter', rotate = -6, size = 'md',
       display: 'inline-flex', alignItems: 'center', gap: 5,
       background: bg, color: fg, border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
       padding: pad, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: fs,
-      letterSpacing: '0.02em', lineHeight: 1.1, whiteSpace: 'nowrap',
+      letterSpacing: '0.02em', lineHeight: 1.1, maxWidth: '100%', textAlign: 'center',
       transform: `rotate(${rotate}deg)`, boxShadow: `2px 3px 0 ${HAPPY.ink}`,
       ...style,
     }}>

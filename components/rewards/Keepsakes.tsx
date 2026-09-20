@@ -83,7 +83,7 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
       <div style={card}>
         <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
           <span aria-hidden style={PLATE}><HappyIcon name="passport" size={36} /></span>
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
               The printed passport
             </div>

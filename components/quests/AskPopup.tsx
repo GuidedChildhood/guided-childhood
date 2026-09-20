@@ -173,11 +173,11 @@ export default function AskPopup({ initial }: {
                 </span>
               </div>
             ) : null}
-            <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+            <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
               <button onClick={() => answer('approved')} disabled={busy} style={{ ...chunky('butter', 'lg'), flex: 1, opacity: busy ? 0.6 : 1 }}>
                 Yes ⭐
               </button>
-              <button onClick={() => answer('declined')} disabled={busy} style={{ ...chunky('white', 'lg'), flexShrink: 0, opacity: busy ? 0.6 : 1 }}>
+              <button onClick={() => answer('declined')} disabled={busy} style={{ ...chunky('white', 'lg'), minWidth: 0, opacity: busy ? 0.6 : 1 }}>
                 Not now
               </button>
             </div>
@@ -266,11 +266,11 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
                 </div>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+            <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
               <button onClick={() => answer('approved')} disabled={busy} style={{ ...chunky('butter', 'lg'), flex: 1, opacity: busy ? 0.6 : 1 }}>
                 Yes 🪐
               </button>
-              <button onClick={() => answer('declined')} disabled={busy} style={{ ...chunky('white', 'lg'), flexShrink: 0, opacity: busy ? 0.6 : 1 }}>
+              <button onClick={() => answer('declined')} disabled={busy} style={{ ...chunky('white', 'lg'), minWidth: 0, opacity: busy ? 0.6 : 1 }}>
                 Not now
               </button>
             </div>

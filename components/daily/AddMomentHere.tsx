@@ -24,7 +24,7 @@ export default function AddMomentHere() {
       type="button"
       onClick={() => window.dispatchEvent(new Event(OPEN_MOMENT_EVENT))}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 20px',
+        display: 'inline-flex', alignItems: 'center', gap: 8, padding: '0.75em 1.25em', maxWidth: '100%', flexWrap: 'wrap', justifyContent: 'center', lineHeight: 1.25,
         background: '#fff', color: 'var(--ink)', border: 'var(--edge)',
         borderRadius: 'var(--radius-tile)', cursor: 'pointer',
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',

@@ -305,7 +305,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                   color: 'var(--ink)',
                   border: celebrating ? 'none' : '1.5px solid var(--terracotta)',
                   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-                  padding: '5px 10px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
+                  padding: '0.35em 0.75em', borderRadius: 'var(--radius-pill)', maxWidth: 'calc(100vw - 32px)', textAlign: 'center', lineHeight: 1.25,
                   boxShadow: '0 3px 10px rgba(237,195,95,0.35)',
                   marginBottom: '2px', transition: 'background 0.3s',
                 }}>
