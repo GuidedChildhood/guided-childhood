@@ -42,12 +42,14 @@ const SECTION_MARK: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 10, padding: '2px 4px 10px',
 }
 const SECTION_LINE: React.CSSProperties = {
-  flex: 1, height: 0, borderTop: '1.5px dashed rgba(26,26,46,0.16)',
+  flex: '1 1 0', minWidth: '1em', height: 0, borderTop: '1.5px dashed rgba(26,26,46,0.16)',
 }
+// The words may wrap: at Larger Text "After today · no rush" is wider than
+// the phone, and the dashed lines either side keep at least an em each.
 const SECTION_TEXT: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-  letterSpacing: '0.12em', textTransform: 'uppercase',
-  color: 'var(--terracotta-dark)', whiteSpace: 'nowrap',
+  letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center',
+  color: 'var(--terracotta-dark)', minWidth: 0,
 }
 
 type Stone =

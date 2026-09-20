@@ -144,7 +144,9 @@ export default function FamilyDealSheet({
       {/* THE THREE RULES, compact: how the stars work. */}
       <div style={{ marginBottom: 18, breakInside: 'avoid' }}>
         <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: 8 }}>How the stars work</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+        {/* Three across on paper and at the normal root, stacked once Larger
+            Text makes a 7em column wider than a third of a phone. */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 7em), 1fr))', gap: 8 }}>
           {rules.map(r => (
             <div key={r.n} className="ds-card" style={{ ...card, padding: '12px 12px', boxShadow: 'none', borderWidth: 1.5 }}>
               <span style={{ display: 'inline-flex', width: 26, height: 26, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', marginBottom: 6 }}>{r.n}</span>
@@ -179,13 +181,15 @@ export default function FamilyDealSheet({
           <div className="ds-card" style={{ ...card, padding: '4px 16px', boxShadow: 'none', borderWidth: 1.5 }}>
             {quests.map((q, i) => (
               <div key={i} style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px 12px', flexWrap: 'wrap',
                 padding: '9px 0', borderTop: i === 0 ? 'none' : '2px dotted rgba(26,26,46,0.18)',
               }}>
-                <span style={{ fontSize: 'var(--text-md)', fontWeight: 600 }}>
+                <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, minWidth: 0 }}>
                   {q.emoji ? `${q.emoji} ` : ''}{q.title}
                 </span>
-                <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+                {/* The rate drops under the title when Larger Text leaves no
+                    room beside it. */}
+                <span style={{ ...mono, fontSize: 'var(--text-xs)', color: 'var(--terracotta-dark)', marginLeft: 'auto', textAlign: 'right' }}>
                   {q.stars} {q.stars === 1 ? 'star' : 'stars'} · {q.stars * starMinutes} min
                 </span>
               </div>

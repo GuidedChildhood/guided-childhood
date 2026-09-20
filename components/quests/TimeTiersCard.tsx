@@ -97,11 +97,11 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
               : `${s.guideDailyMinutes} minutes`} a day in total. Free time is the part that is always theirs; the rest is earned on top.
           </p>
         ) : null}
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '11px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '11px' }}>
           {CORE_PRESETS.map(m => (
             <button key={m} disabled={busy} onClick={() => save({ ...s, coreMinutesDaily: m })}
               aria-pressed={s.coreMinutesDaily === m} style={{
-                flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
+                flex: '1 1 3em', padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 background: s.coreMinutesDaily === m ? 'var(--terracotta-lt)' : '#fff',
                 color: s.coreMinutesDaily === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
@@ -114,11 +114,11 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '6px' }}>
           ONE STAR BUYS
         </div>
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '11px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '11px' }}>
           {RATE_PRESETS.map(m => (
             <button key={m} disabled={busy} onClick={() => save({ ...s, starMinutes: m })}
               aria-pressed={s.starMinutes === m} style={{
-                flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
+                flex: '1 1 3em', padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 background: s.starMinutes === m ? 'var(--terracotta-lt)' : '#fff',
                 color: s.starMinutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
@@ -155,7 +155,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
               setDraftStart(null)
               if (v && v !== s.bedtimeStart) save({ ...s, bedtimeStart: v, bedtimeEnd: bedtimeOff || !s.bedtimeEnd ? '07:00' : s.bedtimeEnd })
             }}
-            style={{ flex: 1, padding: '7px 9px', borderRadius: '11px', border: 'var(--edge)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
+            style={{ flex: '1 1 0', minWidth: 0, padding: '7px 9px', borderRadius: '11px', border: 'var(--edge)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
           <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', fontWeight: 600 }}>to</span>
           <input type="time" value={bedtimeOff ? '' : (draftEnd ?? s.bedtimeEnd ?? '')} disabled={busy}
             onChange={e => setDraftEnd(e.target.value)}
@@ -164,7 +164,7 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
               setDraftEnd(null)
               if (v && v !== s.bedtimeEnd) save({ ...s, bedtimeEnd: v })
             }}
-            style={{ flex: 1, padding: '7px 9px', borderRadius: '11px', border: 'var(--edge)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
+            style={{ flex: '1 1 0', minWidth: 0, padding: '7px 9px', borderRadius: '11px', border: 'var(--edge)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', background: '#fff' }} />
         </div>
         {/* Screens rest an hour BEFORE bed, which is what the guidance says
             and what DiGi's weekly plan has always told this parent. The button

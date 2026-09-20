@@ -91,13 +91,13 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
       </div>
 
       {!settled && (
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {([['yes', '👍 It helped'], ['somewhat', '🤏 Sort of'], ['no', '👎 Not really']] as [Worked, string][]).map(([w, label]) => (
             <button
               key={w}
               onClick={() => rate(w)}
               disabled={saving}
-              style={{ ...chunky('white'), flex: 1, padding: '12px 6px', cursor: saving ? 'default' : 'pointer', opacity: saving ? 0.7 : 1 }}
+              style={{ ...chunky('white'), flex: '1 1 6em', minWidth: 0, padding: '12px 6px', cursor: saving ? 'default' : 'pointer', opacity: saving ? 0.7 : 1 }}
             >
               {label}
             </button>

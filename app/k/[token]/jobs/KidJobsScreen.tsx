@@ -330,7 +330,9 @@ export default function KidJobsScreen({
                 <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
                   {q.title}
-                  <span style={{ color: 'var(--ink-muted)', fontWeight: 700, whiteSpace: 'nowrap' }}> · {q.is_family_job ? 'family job ❤️' : `${q.stars} ⭐`}</span>
+                  {/* The space lives outside the nowrap span so the suffix can
+                      drop to the next line as one piece at Larger Text. */}
+                  {' '}<span style={{ color: 'var(--ink-muted)', fontWeight: 700, whiteSpace: 'nowrap' }}>· {q.is_family_job ? 'family job ❤️' : `${q.stars} ⭐`}</span>
                 </span>
                 <button
                   onClick={() => { playKidSound('tap'); setPromoted(prev => new Set(prev).add(q.id)) }}

@@ -102,7 +102,7 @@ export default function KidHomeTiles({ minutesReady, unlocked, rule, onUseTime, 
 
       {/* The grid: picture first, words under, the Math Games shape. Three
           tiles, then More. */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, max(9em, 45%)), 1fr))', gap: 12 }}>
         {first.map(t => (
           <button key={t.label} className="kid-tile" onClick={t.onClick} style={{ ...EDGE, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '18px 12px 16px', textAlign: 'center', color: INK }}>
             <Well tint={t.tint}><HappyIcon name={t.icon} size={46} /></Well>
