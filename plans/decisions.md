@@ -457,3 +457,21 @@ which the attestation reads and the teacher says word for word, rather than
 on the wall, so no slide, minute or claim moves. Justin's call. Until then
 the council is only trusted against production or a fixture pulled the same
 day, and the audit's top section says so.
+
+## 20 September 2026, the schools home page moves: the wall builds itself and a lesson opens as you scroll
+
+Justin asked for the home page at the Apple bar with slick animation and no
+wiring changes. Decided: the motion is the product's own story told once, not
+decoration. The Wall at Sixteen draws itself on arrival in three seconds from
+the art the lessons use (road, bricks, friends in age order, sign, door,
+passport), a pinned board turns through the six phases, read from the shared
+phase list, as the reader's steps pass it, and the two radial glow blobs go.
+Every route, link, form and price band is untouched, the server still sends
+the finished page, and reduced motion sees it still.
+
+Found on the way: a jump to an anchor (the hero's "See every year") left the
+section blank for two seconds, because the reveal staggered everything the
+jump had passed. Fixed in the schools HomeReveals: what is above the screen
+appears at once, only what is on the screen rises. The parents home page's
+copy of that reveal has the same shape and is outside this lane. PR to follow
+on this branch.
