@@ -27,7 +27,7 @@
 import { readFileSync } from 'node:fs'
 
 const MAP = 'lib/quests/job-icon.ts'
-const SET = 'components/kid/HappyIcon.tsx'
+const SET = 'shared/components/HappyIcon.tsx'
 
 // The six places a job is drawn for a family. Each names why it is on the
 // list, because "wire it in everywhere" is only a rule if everywhere is

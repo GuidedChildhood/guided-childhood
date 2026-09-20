@@ -287,5 +287,18 @@ slides.forEach((s, i) => {
 ok('the half time breath is led by a friend', breaths.some(s => FRIENDS.includes(s.config && s.config.character)),
    `${breaths.length} star breath(s), none naming a friend. The half time beat wants character, register, heading and prompt in its config`)
 
+// 13. the friend arrives and hands over the mission (20 September 2026)
+//
+// Every lesson opens on its friend and closes with the friend's mission
+// before DiGi's last word (migration 296). Rule 8 checked a beat's friend
+// only when a beat existed, so a module with no beats at all would pass. The
+// arrival is a digi slide naming the friend in the starter phase, or a film
+// (ks3-12 arrives on its pilot beats); the mission is a digi slide naming the
+// friend in the close phase. plans/character-appearances-plan.md says why.
+const arrival = slides.some(s => (s.type === 'digi' && FRIENDS.includes(s.character) && s.phase === 'starter') || (s.type === 'video' && s.phase === 'starter'))
+const mission = slides.some(s => s.type === 'digi' && FRIENDS.includes(s.character) && s.phase === 'close')
+ok('the friend arrives in the starter phase', arrival, 'no digi slide naming a friend, and no film, in the starter phase')
+ok('the friend hands over the mission in the close phase', mission, 'no digi slide naming a friend in the close phase')
+
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

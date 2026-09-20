@@ -495,3 +495,30 @@ counts the eyebrow label on a title slide, because the label and the title
 alone were thirteen words and the early years titles could never pass; and
 contract rule 12 keeps every star breath at four seconds and the half time
 one the friend's. PR 1130.
+
+## 20 September 2026, the friends get a plan, the icons get a second home, and the computing map exists
+
+Justin: "can we use happy news icons on lessons, since we have icons", "can we
+keep seeing appearances from characters, and how to plan that", and the
+computing programme of study text. Three things, all in PR 1130.
+
+The Happy News drawn icon set and its palette move to shared, with the two
+parents app files re-exporting so a colour is still stated once. Six lesson
+objects join it (lock, magnifier, shield, compass, letters, access) and the
+schools Hub tiles wear drawn icons on crayon discs instead of fourteen emoji.
+The wall keeps its emoji for now: the review agents propose an icon per slide
+once the rubric says what a picture on a slide is for.
+
+plans/character-appearances-plan.md says where every friend appears in every
+lesson today and what to build next: the friend's reaction after each check,
+Cosmo's debut on the two KS5 lessons, the friend on the exit card. Contract
+rule 13 refuses a lesson whose friend does not arrive and hand over the
+mission.
+
+shared/schools-computing-pos.ts is the national curriculum for computing's
+subject content, verbatim: 3 statements taught in full, 3 in progress with
+the missing clause named (keeping personal information private at KS1,
+search skills at KS2, making artefacts at KS3), 19 the school's computing
+scheme. Every taught claim held to phrases checked on production (30 of 30)
+and by scripts/check-computing-coverage.mjs in CI. /hub/computing-mapping
+shows it.
