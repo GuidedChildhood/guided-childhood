@@ -231,7 +231,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
         {step === 'device' && (
           <div style={card}>
             <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', margin: '0 0 12px', color: HAPPY.ink }}>What screen?</h1>
-            <div data-devices style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
+            <div data-devices style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 9em), 1fr))', gap: 10 }}>
               {devices.map(d => (
                 <button
                   key={d.id ?? d.kind}
@@ -264,7 +264,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
             {asksActivity(device.kind) && (
               <div style={{ margin: '10px 0 4px' }}>
                 <p style={{ margin: '0 0 8px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: HAPPY.ink }}>What are you doing on it?</p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 9em), 1fr))', gap: 8 }}>
                   {ACTIVITIES.map(a => (
                     <button key={a.key} type="button" onClick={() => setActivity(a.key)} aria-pressed={activity === a.key} style={{
                       display: 'flex', alignItems: 'center', gap: 8, minHeight: 50, padding: '8px 10px', borderRadius: 12, cursor: 'pointer',
@@ -277,7 +277,7 @@ export default function KidAskScreenTime(seed: AskSeed) {
                 </div>
               </div>
             )}
-            <div data-minutes style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, margin: '12px 0 12px' }}>
+            <div data-minutes style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 4.5em), 1fr))', gap: 8, margin: '12px 0 12px' }}>
               {PRESETS.map(p => {
                 const on = minutes === p
                 return (

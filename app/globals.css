@@ -1029,7 +1029,10 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 26px rgba(0,0,0,0.16);
   cursor: pointer;
   font-family: var(--font-body);
-  font-size: 0.5625rem;
+  /* Capped, like the tab bar's copy of this button above. The circle is a
+     fixed 60px and rem follows the Larger Text dial, so an uncapped label
+     grew past its own circle. */
+  font-size: min(0.5625rem, 9px);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;

@@ -655,7 +655,7 @@ export default function DeviceTimeCard({
             ))}
           </div>
         )}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 9em), 1fr))', gap: '9px', marginBottom: '16px' }}>
           {(homeDevices.length > 0
             ? homeDevices.map(d => ({ key: d.id, label: d.label, emoji: deviceIcon(d), kind: d.kind, homeId: d.id }))
             : KID_DEVICES.map(d => ({ key: d.key, label: d.label, emoji: d.emoji, kind: d.key, homeId: null }))
@@ -706,7 +706,7 @@ export default function DeviceTimeCard({
             <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
               Homework counts differently to watching.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 9em), 1fr))', gap: '9px' }}>
               {ACTIVITIES.map(a => {
                 const on = activity === a.key
                 return (

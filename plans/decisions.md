@@ -386,6 +386,34 @@ Two limits stand, in the audit's new top section: this does not make a school
 compliant, because the eight non teaching duties are the school's, and it
 covers 57 of the 195 items, never all of them. PR 1125.
 
+## 20 September 2026 — the layouts have to survive Larger Text
+
+Justin, from his phone: "this needs redesigning as text not reading right."
+His screenshots had "How this works" with "warded em" printed across it, and
+"Spelling test" written through the MONDAY pill.
+
+**Not a wrapping bug, and not a mistake to undo.** `shared/tokens.css` sets
+`html { font: -apple-system-body }` on purpose, so the rem type scale follows
+the iOS Dynamic Type dial. A parent on Larger Text genuinely gets the type at
+up to two and a half times the size. That is the accessible choice and it
+stays. What never happened is building the layouts to survive it: the type is
+rem, the pill padding, the 40px buttons and the flexShrink 0 chips are px.
+
+Reproduced at `html { font-size: 40px }` on /ref-school-card and it fell apart
+exactly as his phone did. Fixed by letting things wrap rather than by stopping
+the scaling: the fold value drops below its label, a reminder title takes its
+own line, the tick and cross move as a pair, the step badges are em.
+
+**This is not only that card.** Every screen uses these tokens, so the same
+shape of fault is waiting anywhere a fixed pill sits beside rem text.
+
+Second thing, same card: the "Send a test" button called
+/api/school/remind/test, which tests whether this PHONE buzzes, inside a box
+titled Forwarded emails. It looked like it was testing the forwarding and
+silently was not. The steps were never missing either, /dashboard/school has
+minted the address and shown it with Copy since 17 September, and nothing
+pointed at it. Three numbered steps after Tripsy, a real door, and the phone
+test named for what it does.
 ## 20 September 2026, the council runs on all 29 and five slides come inside the ceiling
 
 The lesson council's counted checks had not been run since the four new
@@ -457,3 +485,28 @@ which the attestation reads and the teacher says word for word, rather than
 on the wall, so no slide, minute or claim moves. Justin's call. Until then
 the council is only trusted against production or a fixture pulled the same
 day, and the audit's top section says so.
+
+## 20 September 2026 — every screen has to survive Larger Text
+
+Justin, with Larger Text on on his own iPhone: "just checking that this needs
+to work even when user changes text size on their phone." It does. It did not.
+
+The root follows the iOS Dynamic Type dial on purpose (`shared/tokens.css`,
+`font: -apple-system-body`), and that stays. What was never done is building
+the layouts to survive it: the type is rem, the pill padding, fixed buttons and
+`flexShrink: 0` chips are px, so text grows and containers do not.
+
+Measured, not guessed: every dev and ref fixture rendered at phone width at
+16px and at 40px root. **44 of 145 were clean at normal size and broken at
+Larger Text.** Print sheets that are wide by design are not counted.
+
+`scripts/check-larger-text.mjs` runs in the browser job and holds the known
+list in `scripts/larger-text-baseline.json`, which only gets shorter: a screen
+not on the list that breaks fails CI, and a screen on the list that is fixed
+also fails until it is taken off. The first pass fixed 23, mostly the screens a
+family touches daily: the road, the check in, the passport, the balance, the
+stickers, the device tiles, the shop. 21 remain on the list.
+
+The fix is always the same shape and never the same line: let the row wrap,
+let the chip shrink, size a badge in em, drop a two column grid to one when
+the words are wide. Never stop the text scaling.

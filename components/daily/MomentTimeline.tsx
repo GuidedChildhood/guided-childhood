@@ -129,6 +129,7 @@ function MomentTile({
         // footprint and wrapped rows grid up level, whatever the label length.
         minHeight: '28px',
         textAlign: 'center',
+        overflowWrap: 'anywhere',
         color: selected ? 'var(--ink)' : 'var(--ink-soft)',
         transition: 'color 0.5s ease',
       }}>
@@ -228,7 +229,7 @@ export default function MomentTimeline({
       <Link
         href="/dashboard/moments"
         style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap',
           marginTop: '4px', marginLeft: '64px', padding: '12px 16px',
           background: 'var(--cream)', border: 'var(--edge)',
           borderRadius: 'var(--radius-tile)', textDecoration: 'none',

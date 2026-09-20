@@ -1,0 +1,86 @@
+{
+  "/dev/add-moment-here": {
+    "px": 8,
+    "at": "Moment"
+  },
+  "/dev/ask-for-job": {
+    "px": 57,
+    "at": "Empty or load the dishwasher"
+  },
+  "/dev/deal-sheet": {
+    "px": 197,
+    "at": "2 stars · 10 min"
+  },
+  "/dev/digi-question": {
+    "px": 264,
+    "at": ""
+  },
+  "/dev/planet-coins": {
+    "px": 95,
+    "at": "Ask DiGi"
+  },
+  "/dev/quest-handover": {
+    "px": 156,
+    "at": "RewardsPrizes to save for"
+  },
+  "/dev/share-sheet": {
+    "px": 249,
+    "at": "🖨️ On paper"
+  },
+  "/dev/timer-short": {
+    "px": 241,
+    "at": ""
+  },
+  "/ref-application": {
+    "px": 46,
+    "at": "Healthy"
+  },
+  "/ref-code-fill": {
+    "px": 78,
+    "at": "Page 2 of 5"
+  },
+  "/ref-job-board": {
+    "px": 148,
+    "at": "❤️ Make it a family job"
+  },
+  "/ref-kid-five": {
+    "px": 94,
+    "at": "Your five for today"
+  },
+  "/ref-kid-home": {
+    "px": 107,
+    "at": ""
+  },
+  "/ref-kid-jobs": {
+    "px": 109,
+    "at": "· 1 ⭐"
+  },
+  "/ref-kid-path": {
+    "px": 127,
+    "at": "After today · no rush"
+  },
+  "/ref-kid-suggest": {
+    "px": 57,
+    "at": "Empty or load the dishwasher"
+  },
+  "/ref-kid-today": {
+    "px": 124,
+    "at": ""
+  },
+  "/ref-learning-year": {
+    "px": 365,
+    "at": "Homework"
+  },
+  "/ref-reveal": {
+    "px": 121,
+    "at": "Printables"
+  },
+  "/ref-script-premium": {
+    "px": 101,
+    "at": "Ask DiGi about this"
+  },
+  "/ref-watch-stages": {
+    "px": 204,
+    "at": "Lessons39"
+  }
+}

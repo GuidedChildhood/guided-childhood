@@ -337,7 +337,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
             {doneCount} of {steps.length} done{streakCount > 0 ? ` · ${streakCount} day streak` : ''}
           </span>
         </span>
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
+        <span aria-hidden style={{ minWidth: 0, textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
           Show ›
         </span>
       </button>
@@ -598,7 +598,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                   href={task.href}
                   aria-label={isDoneNode ? `${task.label}, done` : isClearNode ? `${task.label}, nothing waiting` : isCurrent ? `${task.label}, up next` : task.label}
                   style={{
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', minWidth: 0, maxWidth: `calc(100% - ${2 * Math.abs(x)}px)`, overflowWrap: 'anywhere',
                     textDecoration: 'none', width: 'fit-content', margin: '0 auto',
                     transform: `translateX(${x}px)`, position: 'relative', zIndex: 1,
                   }}
@@ -683,7 +683,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     transform: `translateX(calc(-50% + ${x}px))`,
                     background: 'var(--terracotta)', color: 'var(--ink)',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-                    padding: '5px 11px', borderRadius: 'var(--radius-pill)', whiteSpace: 'nowrap',
+                    padding: '0.35em 0.8em', borderRadius: 'var(--radius-pill)',
+                    // Wraps, and never wider than the phone. It was nowrap, and at
+                    // Larger Text a centred chip that will not wrap runs off both
+                    // sides at once.
+                    maxWidth: 'calc(100vw - 32px)', textAlign: 'center', lineHeight: 1.25,
                     border: 'var(--edge)', boxShadow: 'var(--lift)', zIndex: 3,
                   }}>
                     {celebrating} done, lovely 🎉

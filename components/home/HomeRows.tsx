@@ -35,7 +35,7 @@ function SlimRow({ href, icon, tint, title, meta, badge, urgent }: {
         </span>
         {badge && (
           <span style={{
-            fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 900, flexShrink: 0,
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 900, minWidth: 0,
             background: urgent ? '#E5484D' : 'var(--terracotta)', color: urgent ? '#fff' : 'var(--ink)',
             border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px 10px',
           }}>{badge}</span>

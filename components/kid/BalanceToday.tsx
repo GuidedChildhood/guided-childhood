@@ -96,7 +96,7 @@ export function TodayJobs({
               <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35, textDecoration: approved ? 'line-through' : 'none', opacity: approved ? 0.55 : 1 }}>
                 {q.title}
               </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: approved ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
+              <span style={{ minWidth: 0, textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: approved ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
                 {pending ? 'waiting on a yes' : `${q.stars * starMinutes} min`}
               </span>
               {!settled && (
