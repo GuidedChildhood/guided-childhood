@@ -83,10 +83,6 @@ const mono: React.CSSProperties = {
 const reduced = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-// The pin below the nav on a phone, in pixels, matched to the space-2 the
-// stylesheet below uses for the same gap.
-const PHONE_PIN_GAP = 8
-
 // WHAT THE BOARD SHOWS BETWEEN THE TWO FRIENDS: the product's own furniture,
 // from its own tokens. The start card, the presenter bar the script lives
 // in, the talk task clock, and the three states an answer can be in, coloured
@@ -157,7 +153,9 @@ export default function LessonOpens() {
   // is always one whose title the reader can see, never the one hidden
   // behind the board. The nav is sticky and two rows tall on a phone, so its
   // height is measured rather than guessed and handed to the stylesheet as
-  // --nav-h for the pin. All of it is rebuilt on resize.
+  // --nav-h for the pin, and the board's pinned height is measured with the
+  // cream ground the stylesheet gives it on a phone. All of it is rebuilt on
+  // resize.
   useEffect(() => {
     const el = root.current
     if (!el) return
@@ -168,7 +166,7 @@ export default function LessonOpens() {
       el.style.setProperty('--nav-h', `${navH}px`)
       let line = window.innerHeight * 0.55
       if (window.matchMedia('(max-width: 860px)').matches && board.current) {
-        const pinnedBottom = navH + PHONE_PIN_GAP + board.current.getBoundingClientRect().height
+        const pinnedBottom = navH + board.current.getBoundingClientRect().height
         line = Math.min(pinnedBottom + 150, window.innerHeight - 60)
       }
       const crossed = new Set<number>()
@@ -304,7 +302,11 @@ export default function LessonOpens() {
         .schools-board-pos { display: none; }
         @media (max-width: 860px) {
           .schools-lesson-opens { grid-template-columns: 1fr; gap: var(--space-4); }
-          .schools-lesson-board { order: 1; top: calc(var(--nav-h, 92px) + var(--space-2)); z-index: 2; }
+          /* Pinned flush under the nav on a cream ground of its own, so the
+             steps passing beneath never show through the gap above the card
+             or around its corners. The ground is part of the pinned height
+             the effect above measures. */
+          .schools-lesson-board { order: 1; top: var(--nav-h, 92px); z-index: 2; background: var(--cream); padding: var(--space-2) 0 var(--space-3); }
           .schools-lesson-steps { order: 2; }
           .schools-board-strip { display: none; }
           .schools-board-pos { display: block; }
