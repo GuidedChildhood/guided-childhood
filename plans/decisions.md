@@ -30,29 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-17 | 187 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-18 | 204 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-06 · 6 September 2026: the Space Port opens at stage 2, Moonbase School keeps its growth key · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the audit's stage three, Justin's eight answers · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the registered company, from the register · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the perfect lessons wave (migrations 265 to 267) · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026, evening: the town and the hide and seek, designed and waiting on the go · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: Planet Friends hidden from the app until it is good · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026: Oak and Common Sense read from the live sites, and the lesson contract lands · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026, afternoon: Oak phase 2, the quizzes and the two surfaces · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026 — the two reference accounts, torn down (no migration) · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026 — section 6 approved, the four days change shape (no migration) · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026, later: Oak phase 3, and the cycle map bug the QA found · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026, evening: the classroom was never in classroom mode · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026 — the video beats get a way in, and half of them turn out to be silent · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026 — the RSHE mapping matrix answers the question it is opened with · `plans/decisions-archive/2026-09.md`
-- 2026-09-07 · 7 September 2026 — the lesson animations, and the retired cast that keeps regenerating · `plans/decisions-archive/2026-09.md`
-- 2026-09-08 · 8 September 2026 — the perfect lesson standard, and three matrix claims that were padding · `plans/decisions-archive/2026-09.md`
-- 2026-09-08 · 8 September 2026 — the audit applied, and a correction to my own number · `plans/decisions-archive/2026-09.md`
 - 2026-09-08 · 8 September 2026 — the four teacher fields, made real on ks3-14 (migration 273) · `plans/decisions-archive/2026-09.md`
 - 2026-09-08 · 8 September 2026 — the setup worries, wired end to end · `plans/decisions-archive/2026-09.md`
 - 2026-09-08 · 8 September 2026 — the repeat picker, and the readers that ignored it · `plans/decisions-archive/2026-09.md`
@@ -156,311 +139,27 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-17 · 17 September 2026, a way in that needs no forwarding at all · `plans/decisions-archive/2026-09.md`
 - 2026-09-17 · 17 September 2026, the school offer moves to where people actually look · `plans/decisions-archive/2026-09.md`
 - 2026-09-17 · 17 September 2026 — 302 and 303 were both missing, and both were load bearing · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — migration 304 applied, column and backfill together · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — two sessions both took 304, so the promo dismissal is 305 · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — the schools app gets one type scale and one spacing scale · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — batch 2: the shape tokens land, the box sweep is called off · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — batches 3 and 4: motion, and the states that did not exist · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — the check in opens every day, the rotation keeps the tick · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — a cap of three asked seven, and then had to say so · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — migration 306 applied, the note the feature exists for · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — every worry is worked over days, and we record what we spent · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026, the lesson number a teacher reads is a position · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026, a Planet Friend is the only fake we can print · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026, the intro bills the lesson, from the deck · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026, the tracker leads the Hub · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — migration 307 applied, before the queue refilled · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — migration 308 applied, the photo is on the wall · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — the live numbers are one tester, not behaviour · `plans/decisions-archive/2026-09.md`
+- 2026-09-18 · 18 September 2026 — every card on Home can be put down · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 18 September 2026 — migration 304 applied, column and backfill together
-
-304 was on main and not in the database (PR 1111). Applied as one statement on
-purpose: the column alone would have shown the day one acknowledgement screen to
-the 17 families who have already rated, because once the column exists the
-guarded read in `lib/checkin/today.ts` stops failing and starts returning null.
-The backfill is what stops that, so it cannot land a moment later.
-
-Verified: 17 rated and 17 confirmed, zero mismatches, zero established families
-reading as day one, 11 genuinely new. Nothing was broken before this, because
-that same guarded read treats a missing column as confirmed.
-
-## 18 September 2026 — two sessions both took 304, so the promo dismissal is 305
-
-`304_school_promo_dismissal.sql` renumbered to **305**. `304_first_checkin_acknowledge.sql`
-merged first and keeps the number. Both columns are already on production, so
-this is a file numbering fix and nothing to run. Detail in the PR.
-
-**It reached main red.** PR 1109's `wiring` job had already failed with
-`BROKEN migration 304, 1 new`, and the PR was merged on that commit, so main
-carried two 304s and a red wiring check until this.
-
-**The claim rule works, the read of it did not.** CLAUDE.md says check the
-highest number on origin/main AND in every open PR at claim time. Both sessions
-checked `supabase/migrations/` only.
-
-**And it is why three commits got no CI at all.** A `pull_request` run builds the
-merge commit first, so an unmergeable PR gets no run and pushes land silently.
-That looks exactly like Actions being broken and was misreported here as exactly
-that. Read the PR's own `mergeable_state` before blaming the platform.
-
-## 18 September 2026 — the schools app gets one type scale and one spacing scale
-
-Justin asked for the best way to make the schools app look as good as Apple UX.
-The answer: a small number of system rules held everywhere, not page by page
-polish. Five batches, this is the first, and the others are named so nobody
-starts one twice: delete most of the boxes, one motion language, loading and
-empty states, judge on frames.
-
-**What was decided.** The token scale stops at 34px, which is one rung below
-where a page heading starts, so every page invented its own. `shared/page-scale.ts`
-adds four display roles above it (hero, page, section, lead), continuing the
-same ladder rather than sitting beside it, and each role carries size, tracking
-and line height together because at display sizes those are one decision.
-`shared/tokens.css` gains seven spacing rungs, which it never had.
-
-**The one reason worth knowing.** This was a missing rung, not thirty careless
-values. Thirty one off heading clamps across eighteen files, no two agreeing,
-is what a missing rung looks like eighteen times over, and the same diagnosis
-is already written down in shared/wall-scale.ts for the projector.
-
-**Ratchet, not zero.** scripts/check-schools-scale.mjs records the counts and
-fails only when they rise. A guard that demands the impossible on day one is a
-guard someone comments out by Friday. Font 24 to 14, padding 96 to 74, gap 9 to 0.
-
-**Print sheets stay out.** A blind gap sweep reached them and was reverted: they
-measure in millimetres against a physical sheet and a screen ladder has no
-authority there. The print ROOM (/print and /print/passport) is a screen and is
-on the scale.
-
-Detail in PR 1115 and plans/2026-09-18-schools-type-and-space-scale.md.
-
-## 18 September 2026 — batch 2: the shape tokens land, the box sweep is called off
-
-Justin: "Only school service thou sbd bit break wiring." Schools app only, and
-the wiring must survive. Both held.
-
-**What was decided.** The schools app adopts the four shape tokens it had never
-used: 88 radii now read from var(--radius-*), and the 17 borders drawn at 1.5px
-join the 29 at 1px. The SHAPE block was written on 13 September and says "change
-these eight lines and the whole platform moves together"; until today the
-schools app could not move with it, because it used none of them.
-
-**The one reason worth knowing.** Batch 2 was announced as "delete most of the
-boxes" and the measurement killed it. Counting in the rendered DOM gave 33
-nested cards, and printing what they actually were showed all 25 on the
-curriculum page to be the "Ready to teach" link styled as a button, and the
-lesson page's eight to be pills and the passport tiles inside the passport
-card, which is what --radius-tile is for. There is no nested card problem.
-Half the batch was called off rather than filled with work to match its name.
-
-**The rule that kept the wiring.** Never remove an element, only its
-decoration. 22 diff lines carry an href, a form or a submit handler and every
-one of those values is byte identical on both sides. wiring-check: 0 new.
-
-scripts/count-schools-cards.mjs keeps the probe. Its first two answers were
-both wrong, which is why the claim is a script and not a sentence.
-
-Detail in PR 1115 and plans/2026-09-18-schools-shape-batch-2.md.
-
-## 18 September 2026 — batches 3 and 4: motion, and the states that did not exist
-
-**Batch 3, motion.** Four tokens (--dur-press, --dur-hover, --dur-move, --ease),
-set to the values already in use so pointing the four existing rules at them
-moves nothing by a millisecond in either app. The real find: tokens.css has
-carried a prefers-reduced-motion block since August and it covers ONE class,
-.lift. Everything written after it kept moving for a teacher who had asked their
-operating system for less. The block existed, so a grep said the promise was
-kept; only a browser actually asking for reduced motion could tell. The schools
-app now has a block that covers everything, and scripts/check-schools-motion.mjs
-asks a real browser rather than grepping. The parents app is owed the same block.
-
-**Batch 4, the states.** The schools app had no loading.tsx, no error.tsx and no
-not-found.tsx, against 19 notFound() call sites. Nineteen places deliberately
-sent a teacher to a 404 and there was no 404 to send them to, so they landed on
-the Next.js default page in a typeface we do not use. All three now exist: the
-404 names the likely cause and carries the nav, the error page gives no
-technical detail and promises the true thing (nothing of theirs was lost because
-this site never holds anything of theirs), and loading is a skeleton not a
-spinner.
-
-**The one reason worth knowing.** schools/components/ui.ts says "import these,
-do not re invent them" and had invented twelve sizes of its own, because it is a
-.ts and both earlier sweeps globbed .tsx. The one file whose job is to stop
-others improvising was the last one improvising. Off scale font values 14 to 10.
-
-**Found and not fixed, on purpose.** A bad lesson URL renders the new 404 but
-returns HTTP 200, a soft 404. It predates the batch and is a streaming question
-rather than a design one. Named in the plan rather than buried.
-
-Detail in PR 1115, plans/2026-09-18-schools-motion-batch-3.md and
-plans/2026-09-18-schools-states-batch-4.md.
-
-## 18 September 2026 — the check in opens every day, the rotation keeps the tick
-
-Justin: "didn't have check in as first thing to do?" Measured: that account had
-completed one day, and one completed day makes day two a LESSON day, so the
-lesson led and walked to the front. The cap was not involved.
-
-**Position and the day's one tick are now two separate things.** The rotation
-still chooses the lead, so lesson days, DiGi days and passport day are intact.
-The check in is moved to the front on top of that, because it is the thirty
-second habit and what every number is measured from. Guarded in both
-directions: making the check in lead every day would satisfy the first half and
-quietly delete the rotation. PR 1116.
-
-## 18 September 2026 — a cap of three asked seven, and then had to say so
-
-The slice was a ternary: `roomFor` on the branch with a child, plain
-`DAILY_CAP` on the branch without. A child who used their three fell out of the
-queue, which made `current` null, which took the uncapped branch. Three, then
-three, then one. The guard passed throughout: it checked that a slice used
-`roomFor`, never that a second slice did not exist.
-
-**And the cap needed words.** Three of seven answered then "nothing is waiting
-on you" reads as us dropping four things a parent told us. Both screens now say
-what is still tracked and that it comes round, which is only honest because
-rows are ordered longest unasked first. PR 1116.
-
-## 18 September 2026 — migration 306 applied, the note the feature exists for
-
-305 was already applied (as school_promo_dismissal_305). 306 was not:
-`device_setup_progress.agreed_note` did not exist. Both readers fall back when
-the column is missing, so a family choosing "agreed" still got the passport
-credit, and only the line explaining what they agreed was silently dropped.
-That line is the whole point of the third answer, so it was worth applying now
-rather than waiting.
-
-Verified: column is text with the comment word for word, 13 rows, no check
-constraint on status (so 'agreed' needed no DDL, as the file says).
-
-## 18 September 2026 — every worry is worked over days, and we record what we spent
-
-Justin approved the shape: a record per worry of what has been tried and what
-the reading did afterwards, an ordered bank of approaches from the research we
-already hold, and the twice a week step in cap kept so it never turns into
-nagging. Migration 307.
-
-**The record was never written.** `digi_outcomes.concern_id` has existed since
-migration 154, indexed and documented. Live: 6 rows, 0 with a worry attached.
-The one insert that could write it copied `moment_id` across and dropped it.
-
-**The find worth keeping.** A phone worry infers the topic `devices`, and the
-research bank has zero rows tagged `devices`, it files them under `phone`. So
-`phones-and-messaging`, the second most common worry on the product, would
-have found no research at all. An alias fixes it and rule A of the new guard
-holds the join, because that failure is completely silent.
-
-A worry at five stars drops out of the strand and its next idea is not marked
-spent. Nothing in the strand can write a prompt card, so the cap stays the
-only door. PR 1116.
-
-## 18 September 2026, the lesson number a teacher reads is a position
-
-`n` in `shared/schools-curriculum.ts` is the BUILD number, the order the twenty
-five modules were written, and it is the stable key the lesson rows, the print
-routes, the passport stamps and every migration are cut against. It was also
-the number printed on every card, inside per key stage lists, where a number in
-a list reads as a position. So KS2 read 04 05 06 07 08 09 23 25, and a printed
-KS2 passport numbered its eight rings 4, 5, 6, 7, 8, 9, 23 and 25 for a child
-to match stickers to. Justin: "why are the lesson numbers out of sync?"
-
-Decided: `n` never moves, and what is DISPLAYED is computed from the manifest
-order per key stage (`positionOf`, `positionLabel`, `positionCode`). No
-database row, print route or module id changes, and a module added in the right
-place moves every position on every page with it. `check-lesson-numbers.mjs`
-holds it, because every number rendered and only a person reading the list
-could see the fault. PR 1120.
-
-## 18 September 2026, a Planet Friend is the only fake we can print
-
-ks3-12's video beat has Orbit hold a photo up and say "this photo got two
-million shares, it is completely fake", and no photo was ever on the wall. It
-was never filled because you cannot put a real person's face on a forged post
-and hand it to thirty children.
-
-Decided: the fake is one of ours. `ScenarioSlide.picture` draws a post photo
-from a Planet Friend's own cutout art (no credits, cannot drift off model), and
-migration 308 puts a Bloop post straight after the clip. Provably invented,
-funny, and the laugh is the teach: almost nobody shares it because they were
-fooled, they share it because it is fun, and the next post is the one nobody in
-the room can call. The new beat takes its minute from the vote slide so the
-teach total, the cycle minutes and the stated timing all stay true. PR 1120.
-
-## 18 September 2026, the intro bills the lesson, from the deck
-
-Every one of the twenty five decks opened on the same generic hello and never
-said what today was. Rather than write twenty five lines that drift the first
-time a lesson is retitled, the intro is composed: the friend's `welcome` plus
-the lesson title plus the friend's `tail`, with the deck's own objective as the
-"By the end" line under it. The key stage line comes from the manifest too,
-because four decks carried a stale build number there and nineteen carried
-nothing at all. A title slide's own `line` still wins, so the DSL modules stay
-quiet. PR 1120.
-
-## 18 September 2026, the tracker leads the Hub
-
-It is the only page in the Hub that produces evidence rather than a document,
-and it was the eighth card of eleven identical ones. Now the lead card, saying
-what it achieves, why it helps in a deep dive, and what it deliberately is not.
-The tracker page itself gained `TickDemo`, which plays the seven automatic
-steps with the signal that fires each one, built from `schools-progress.ts` so
-it cannot drift, and excluding the two steps a teacher has to tick because a
-demo that ticked them would claim a detector we do not have. PR 1120.
-
-## 18 September 2026 — migration 307 applied, before the queue refilled
-
-307 landed on main with #1117 and was not in the database. This one was not
-guarded: the followups cron names `approach, band_at_suggestion` inside its main
-select, and it does not check the error, so a missing column makes `due` null and
-the cron returns "delivered 0" looking healthy. The outcome route would have 500d
-a parent rating a suggestion.
-
-Caught before it cost anything: all 6 follow ups were already delivered and the
-pending queue was empty, so no card was missed in the window. Verified by
-replaying the cron's exact select, which now parses and runs, plus both column
-sets, the comments and the partial strand index.
-
-## 18 September 2026 — migration 308 applied, the photo is on the wall
-
-Justin: "Migrate 308 yes a cartoon fake is right."
-
-Applied to production and verified against the live row rather than against the
-migration's own exit code: ks3-12 now holds 33 slides, slide 7 is the
-bloop.official post carrying its picture and its 4.8M likes at one minute, and
-the transfer post behind it dropped to one. Teach phase 29 minutes, cycles 29
-minutes, unchanged either side of the change, which is what keeps the cycle map
-and the stated timing honest. 25 rows in school_lessons_backup_308.
-
-The state check before applying matched the fixture exactly, so the migration's
-four guard conditions could all fire rather than silently no op. That is the
-thing worth repeating: read the live row first, because a guarded migration
-that finds nothing to guard reports success and changes nothing.
-
-The cartoon fake is now settled policy for the scheme, not a one off. A fake of
-a Planet Friend is the only fake a classroom deck can carry honestly: you
-cannot print a real person's face on a forged post and hand it to thirty
-children. PR 1120.
-
-## 18 September 2026 — the live numbers are one tester, not behaviour
-
-Justin: "we only have me testing app, no live parents, but it is a good rule to
-use the users data to improve once we have real users."
-
-Worth writing down because a session got it wrong today. I read the prompt card
-table (12 of 16 acted on, 0 of 6 follow ups) and the script feedback rows (15 of
-40 answered) as evidence about how parents behave, and built a product
-recommendation on it. Every one of those rows is Justin testing his own product.
-The right reading was that we have not run the experiment at all.
-
-THE RULE. Until launch, treat production rows as proof that a PATH WORKS or
-that a column is empty, never as a measure of what a parent chose. A count is
-evidence of wiring. It is not evidence of behaviour.
-
-What survived the correction is the half that was code rather than data, and
-it was a real defect. See the entry below.
-
-## 18 September 2026 — every card on Home can be put down
-
-A follow up card was the only card in the product with no exit that was not a
-verdict: the Dismiss button lives in the row beside the card's link, and the
-follow up branch renders its three answers INSTEAD of that row. Home shows one
-card at a time, newest first, so a follow up sat on top and blocked everything
-queued behind it. On the test data one was sitting on a celebration from the
-same day, so the good news was stuck behind a question that could not be
-answered or refused.
-
-Nothing caught it: it typechecks and it looks finished on screen. "Not now",
-the same words the alert rows already use, plus
-scripts/check-card-can-be-put-down.mjs in CI.
 
 ## 19 September 2026, `projector` is an instrument, not a width
 
@@ -593,6 +292,7 @@ Verified at 390 and 1440 and in print, with a seeded term of five ticked
 lessons: 18 of 40, no overflow, no console errors, appendix print only. The
 two new modules show DONE and evidence nothing, which is correct, because
 their migrations are not applied and their verdicts are still GAP. PR 1125.
+
 ## 19 September 2026 — every key the app reads is written down
 
 Setting up a new laptop, the template listed 23 keys and the app read 43.
@@ -635,3 +335,39 @@ holds the field to the same three values the database does. Verified both
 ways: it exits 1 on the old value and passes all four corrected modules and
 all 25 live ones. If the constraint ever widens, widen the rule in the same
 commit. PR 1125.
+
+## 20 September 2026, a module reaches production in hash verified chunks
+
+There is no database password in the build container and no migration step in
+CI, so a new module reaches production by being pasted through the Supabase
+tool, and a module migration is forty to seventy thousand characters with the
+slides as one thirty thousand character literal. Retyping that is the least
+reliable step in the pipeline, and what it corrupts is lesson text on a wall.
+
+So the module is cut up. `scripts/module-to-chunks.mjs` turns the JSON into
+statements under five thousand characters, applied in order.
+`scripts/module-string-hash.mjs` then proves the row arrived: every string in
+the module hashed, sorted and hashed again, computed locally and on the
+server, and the two match or the module did not arrive. Its `--assert` mode
+prints that proof as a migration, so 312 to 315 sit in the remote history as
+executable assertions rather than as absent. All four hold.
+
+The tool earned its keep on the first run: ks2-25 differs from its JSON file
+by two strings, migration 296's pause beat, applied and never written back.
+Production is the source of truth for a module amended in place. PR 1125.
+
+## 20 September 2026, the audit is closed: 57 of 57, proved against production
+
+The 19 September audit found 18 of 57 digital requirements taught in full.
+Migrations 309 to 311 took that to 40. Migrations 312 to 316, four new modules
+and fourteen appended sentences, take it to 57, with 0 part taught, 0 not
+covered and 0 handed to the school's own scheme.
+
+The claim is a test result. 147 evidence phrases, read out of the exact slide
+text now in production, were run against the live table: 147 checked, 0 not
+found. The hash is in `scripts/fixtures/rshe-evidence.json` and the ratchet
+in `scripts/check-rshe-coverage.mjs` is at zero and zero, where it stays.
+
+Two limits stand, in the audit's new top section: this does not make a school
+compliant, because the eight non teaching duties are the school's, and it
+covers 57 of the 195 items, never all of them. PR 1125.

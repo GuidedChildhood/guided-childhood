@@ -164,9 +164,13 @@ export default async function RsheMappingPage() {
           <h2 style={h2}>What this scheme teaches, requirement by requirement</h2>
           <p style={{ ...body, color: 'var(--ink-soft)', marginBottom: '6px' }}>
             The {RSHE_2026_COUNTS.total} digital and online requirements of the statutory guidance, in its
-            own words and its own order. {RSHE_2026_COUNTS.full} are taught, {RSHE_2026_COUNTS.partial} are
-            part taught with the missing clause named, {RSHE_2026_COUNTS.gap} are not covered, and
-            {' '}{RSHE_2026_COUNTS.byDesign} belong to your wider RSE rather than to a digital literacy spine.
+            own words and its own order.
+            {/* The spaces around the counts are written out as {' '}. Text
+                that runs on to a second line after an expression loses its
+                leading space in the transform, which rendered as "57are". */}
+            {RSHE_2026_COUNTS.full === RSHE_2026_COUNTS.total
+              ? <>{' '}All {RSHE_2026_COUNTS.total}{' '}are taught, and every one of those claims is held to phrases that must appear in the named module&rsquo;s slides.</>
+              : <>{' '}{RSHE_2026_COUNTS.full}{' '}are taught, {RSHE_2026_COUNTS.partial}{' '}are part taught with the missing clause named, {RSHE_2026_COUNTS.gap}{' '}are not covered, and {RSHE_2026_COUNTS.byDesign}{' '}belong to your wider RSE rather than to a digital literacy spine.</>}
           </p>
           <p style={{ ...body, color: 'var(--ink-muted)', marginBottom: 0, fontSize: 'var(--text-sm)' }}>
             The guidance as a whole runs to {RSHE_2026_SOURCE.itemsInGuidance} numbered items across
@@ -202,7 +206,7 @@ export default async function RsheMappingPage() {
             { risk: 'Generative AI and AI chatbots', note: 'seeded in the early years, taught in full at KS3 and KS5', ns: [3, 9, 12, 20] },
             { risk: 'Deepfakes and AI generated images', note: 'real and made up from Reception, the full treatment at KS3', ns: [3, 12] },
             { risk: 'Misinformation and disinformation', note: 'foundations at KS1, taught substantively at KS3, applied to persuasion at KS4', ns: [3, 12, 15] },
-            { risk: 'Conspiracy theories', note: 'not yet taught by name. The mechanism false things travel on is taught at KS3 and the communities that weaponise belief at KS4, and a conspiracy strand is being written into the KS3 module', ns: [12, 18] },
+            { risk: 'Conspiracy theories', note: 'taught by name at KS3 as a third shape with its own tell, a claim built so that evidence against it counts as proof of the cover up, and applied at KS4 to the communities that weaponise belief', ns: [12, 18] },
           ] as { risk: string; note: string; ns: number[] }[]).map(row => (
             <div key={row.risk} style={{ ...card, padding: '16px 18px' }} className="gc-avoid-break">
               <h3 style={{
