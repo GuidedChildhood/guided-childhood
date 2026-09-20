@@ -36,11 +36,12 @@ const DATA = path.join(ROOT, 'shared/schools-rshe-2026.ts')
 const MANIFEST = path.join(ROOT, 'shared/schools-curriculum.ts')
 const FIXTURE = path.join(ROOT, 'scripts/fixtures/rshe-evidence.json')
 
-// THE RATCHET. These are the numbers on the day the guard was written. They
-// come down as lessons land and they never go up. A pull request that raises
-// either one fails here rather than in front of a school.
-const MAX_OUTSTANDING = 11   // PARTIAL + GAP
-const MAX_GAP = 9
+// THE RATCHET. These were 11 and 9 on the day the guard was written, 19
+// September 2026. They came down to zero the next day, when migrations 312 to
+// 316 closed every gap the audit found, and they never go up. A pull request
+// that raises either one fails here rather than in front of a school.
+const MAX_OUTSTANDING = 0   // PARTIAL + GAP
+const MAX_GAP = 0
 
 let bad = 0
 const fail = (rule, detail) => { bad++; console.error(`  FAIL ${rule}\n       ${detail}`) }

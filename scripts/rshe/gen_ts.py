@@ -63,7 +63,7 @@ HEAD = """// THE SEPTEMBER 2026 STATUTORY REQUIREMENTS, AS DATA.
 // statutory document, and editing quoted text breaks the audit trail.
 //
 // `kcsie` records where Keeping Children Safe in Education 2026 names the same
-// harm, by paragraph. Thirty five of the fifty seven have one. A requirement
+// harm, by paragraph. Thirty six of the fifty seven have one. A requirement
 // named by the curriculum guidance AND the safeguarding guidance is the kind a
 // DSL asks about, which is why the column exists.
 //
@@ -110,8 +110,8 @@ export const RSHE_2026_SOURCE = {
    *  and online safety spine and covers the online part of it, never all 195. */
   itemsInGuidance: 195,
   strandsInGuidance: 28,
-  reviewed: '2026-09-19',
-  reviewedBy: 'Full coverage audit against the live schools.school_lessons rows',
+  reviewed: '2026-09-20',
+  reviewedBy: 'Full coverage audit against the live schools.school_lessons rows on 19 September 2026, re-run on 20 September after migrations 312 to 316 closed every gap it found',
 } as const
 
 """

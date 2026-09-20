@@ -30,6 +30,7 @@ A = {
  "RSHE-S-WO-3":  "para 165 conduct: online bullying; para 160: the concepts of, and laws relating to all forms of sexual harassment, and abuse, and how to access support",
  "RSHE-S-WO-4":  "para 165 commerce: risks such as online gambling",
  "RSHE-S-WO-5":  "para 165 content: misinformation, disinformation (including fake news) and conspiracy theories",
+ "RSHE-S-WO-6":  "para 165 contact: adults posing as children or young adults with the intention to groom or exploit them for sexual, criminal, financial or other purposes",
  "RSHE-S-WO-7":  "para 165 content: self-harm, suicide, extreme sexual or physical violence",
  "RSHE-S-MW-8":  "para 165 commerce: risks such as online gambling",
  "RSHE-S-RR-6":  "para 165 conduct: online bullying",
