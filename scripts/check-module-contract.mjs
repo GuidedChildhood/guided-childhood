@@ -300,5 +300,24 @@ const mission = slides.some(s => s.type === 'digi' && FRIENDS.includes(s.charact
 ok('the friend arrives in the starter phase', arrival, 'no digi slide naming a friend, and no film, in the starter phase')
 ok('the friend hands over the mission in the close phase', mission, 'no digi slide naming a friend in the close phase')
 
+// 14. every keyword carries the meaning the wall draws (20 September 2026, migration 321)
+//
+// Eight lessons written since 11 September stored each keyword's meaning under
+// "definition". The keywords slide draws w.meaning and the vocabulary page maps
+// w.meaning, so those classes saw the words and nothing under them, and the
+// council's blocks check, which reads meaning too, measured the gap as nothing
+// to count. A keywords slide is three or four words each with a meaning a
+// pupil can read, under the field name the player reads.
+slides.forEach((s, i) => {
+  if (s.type !== 'keywords') return
+  const ws = Array.isArray(s.words) ? s.words : []
+  ok(`slide ${i} (keywords) carries words`, ws.length > 0)
+  ws.forEach((w, k) => {
+    ok(`slide ${i} (keywords) word ${k + 1} has a word`, typeof w.word === 'string' && w.word.trim().length > 0)
+    ok(`slide ${i} (keywords) word ${k + 1} "${w.word}" has a meaning the wall draws`, typeof w.meaning === 'string' && w.meaning.trim().length > 0,
+       w.definition !== undefined ? 'the meaning is stored under "definition", which nothing renders' : 'no meaning')
+  })
+})
+
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

@@ -47,7 +47,7 @@ function bank(tn, a, name) {
   return null
 }
 // A short answer item has no options by design; everything else needs two.
-const needsOptions = qq => !/^(short_answer|open|free_text|match)/.test(String(qq.format))
+const needsOptions = qq => !/^(short_answer|open|free_text|match|fill_blank)/.test(String(qq.format))
 
 function check(m) {
   const out = [] // { check, slide?, detail }
@@ -137,14 +137,179 @@ function check(m) {
   }
 
   // C11 · the retrieval starter and the exit quiz, four to six each, with a why
-  for (const name of ['starter_quiz', 'exit_quiz']) {
-    const b = bank(tn, a, name === 'starter_quiz' ? 'starter_quiz' : 'exit_quiz') ?? bank(tn, a, name === 'starter_quiz' ? 'retrieval_starter' : 'exit_quiz')
+  const starter = bank(tn, a, 'starter_quiz') ?? bank(tn, a, 'retrieval_starter')
+  for (const [name, b] of [['starter_quiz', starter], ['exit_quiz', exit]]) {
     if (!b) { f('C11', `no ${name} bank in teacher_notes or assessment`); continue }
     if (b.length < 4 || b.length > 6) f('C11', `${name} has ${b.length} question(s); four to six is the shape`)
     b.forEach((qq, k) => {
       if (needsOptions(qq) && (!qq.options || qq.options.length < 2)) f('C11', `${name} question ${k + 1} (${qq.format}) has ${(qq.options || []).length} option(s)`)
       if (!String(qq.why ?? '').trim()) f('C11', `${name} question ${k + 1} carries no teaching point or why, so the printed answer sheet cannot say why`)
     })
+  }
+
+  // ── the evidence checks the report made measurable (scripts/lesson-rubric.md, section B) ──
+  const text = s => [s.title, s.heading, s.body, s.caption, s.prompt, s.question, s.lookFor, s.outcome, s.why, ...(s.lines || []), ...(s.points || []), ...(s.gains || []), ...(s.options || []).map(o => o.text), ...(s.steps || []).map(x => `${x.title || ''} ${x.text || ''}`), ...(s.words || []).map(w => `${w.word || ''} ${w.meaning || ''}`)].filter(Boolean).join(' ')
+  const responds = s => ['choice', 'discussion', 'tryit', 'interactive', 'scenario', 'quote'].includes(s.type) || (s.type === 'diagram' && (s.verdicts || []).length > 0)
+  const graphemes = s => [...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(String(s ?? ''))].filter(g => g.segment.trim()).length
+  const keywordsSlide = slides.find(s => s.type === 'keywords')
+  const kwords = (keywordsSlide?.words || []).map(w => String(w.word || '').toLowerCase()).filter(Boolean)
+
+  slides.forEach((s, i) => {
+    const n = i + 1
+    const isTeach = s.type === 'concept' || s.type === 'diagram'
+    // E1 · one idea, named in the heading
+    if (isTeach) { const w = words(s.heading); if (w < 3 || w > 10) f('E1', `heading is ${w} words; 3 to 10 names one idea`, n) }
+    // E2 · nothing the lesson does not use
+    if (s.type === 'concept' && s.emoji && graphemes(s.emoji) > 1) f('E2', `concept carries ${graphemes(s.emoji)} emoji; at most one`, n)
+    // E3 · do not read the labels over the picture
+    if (s.type === 'diagram') {
+      const labels = [...(s.steps || []).map(x => x.text || ''), s.caption || ''].map(t => t.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean))
+      const sw = String(s.script || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean)
+      for (const lab of labels) {
+        if (lab.length < 8) continue
+        for (let k = 0; k + 8 <= lab.length; k++) {
+          const run = lab.slice(k, k + 8).join(' ')
+          if (sw.join(' ').includes(run)) { f('E3', `the script reads a label aloud over the picture: "${run}"`, n); break }
+        }
+      }
+      // E4 · labels live inside the thing they label
+      ;(s.steps || []).forEach((x, k) => { if (!String(x.title ?? '').trim() || !String(x.text ?? '').trim()) f('E4', `step ${k + 1} lacks a title or text`, n) })
+      // E5 · words and picture arrive together
+      if (!/\b(point|points|pointing|walk|walks|tap|taps|touch|touches|trace|follow|one at a time|each step|step by step)\b/i.test(String(s.script || ''))) f('E5', 'the diagram script never tells the teacher to point at or walk the steps', n)
+      // E15 · a structure, not a decoration
+      if ((s.steps || []).filter(x => String(x.text ?? '').trim()).length < 2) f('E15', 'a diagram with fewer than two steps with text is a decoration', n)
+    }
+    // E6 · short segments. The report's calibration is one or two minutes; the
+    // scheme's teach slides are written at two to four, so the house line is
+    // three for a concept and four for a diagram, and anything past that is
+    // a segment to split.
+    if (s.type === 'concept' && Number(s.minutes) > 3) f('E6', `a concept slide runs ${s.minutes} minutes; past three, split the segment`, n)
+    if (s.type === 'diagram' && Number(s.minutes) > 4) f('E6', `a diagram slide runs ${s.minutes} minutes; past four, split the segment`, n)
+    // E40 · the friend voices the struggle first: the arrival beat carries a
+    // question or a first person line before its last line
+    if (s.type === 'digi' && s.phase === 'starter' && (s.lines || []).length > 1) {
+      const opening = (s.lines || []).slice(0, -1)
+      if (!opening.some(l => /\?/.test(String(l)) || /\b(I|I'm|I’m|I've|I’ve|me|my|we|us|our)\b/.test(String(l)))) f('E40', 'the arrival beat neither asks a question nor speaks in the first person before its last line', n)
+    }
+    // E14 · never read this while I explain that
+    if (/\b(while I (explain|talk|read)|as I explain|read this while)\b/i.test(String(s.script || ''))) f('E14', 'the script asks the class to read while the teacher says something else', n)
+    // E20, E21 · everyone answers, and three seconds first
+    if (s.type === 'choice') {
+      if (!/\b(fingers?|cards?|whiteboards?|hands?( up| or devices| down| in the air)?|devices|show me|thumbs|vote|cold call|stand (up|on)|everyone|all of you|whole class|number keys?|keycaps?|1, 2 or 3|a, b,? (or )?c|one, two or three|hold up|letter)\b/i.test(String(s.script || ''))) f('E20', 'the choice script never says how everyone answers at once', n)
+    }
+    if (s.type === 'choice' || s.type === 'discussion') {
+      if (!/\b((\d+|five|ten|fifteen|twenty|thirty|forty|sixty) seconds|count (to|of) (three|3|five|5|ten|10)|thinking time|think(ing)? (first|time|on your own|silently|before|quietly)|silent(ly)? (think|thought)|let them think|give (them|it) (a moment|a second|time|three)|wait|pause|hands down|no hands|silence|quiet|a minute|one minute|two minutes)\b/i.test(String(s.script || ''))) f('E21', 'no think pause before answers are taken', n)
+    }
+    // E26, E27 · the item
+    if (s.type === 'choice') {
+      const opts = s.options || []
+      if (opts.length < 2 || opts.length > 4) f('E26', `${opts.length} options; two to four, three by default`, n)
+      const all = opts.map(o => String(o.text || '').toLowerCase())
+      if (all.some(t => /\b(all|none) of the above\b/.test(t))) f('E27', 'an option is "all of the above" or "none of the above"', n)
+      if (/\b(which|what)\b[^.?!]*\b(is not|isn't|isn’t|does not|doesn't|doesn’t|never|except|NOT)\b/.test(String(s.question || ''))) f('E27', `a negative stem: ${JSON.stringify(String(s.question).slice(0, 70))}`, n)
+      // E29 · feedback about the answer, never the child
+      opts.forEach((o, k) => { if (/\b(well done|good job|clever|brilliant|excellent|silly|naughty|lazy|stupid|shame on|you should know)\b/i.test(String(o.feedback || ''))) f('E29', `option ${k + 1} feedback praises or blames the child: ${JSON.stringify(String(o.feedback).slice(0, 60))}`, n) })
+    }
+    // E38 · no attention span claim
+    if (/attention span/i.test(lower(s))) f('E38', 'the slide or its script asserts an attention span', n)
+    // E39 · the pause changes the activity and claims nothing
+    if (s.type === 'interactive' && s.component === 'star-breath' && s.config?.character) {
+      if (!/\b(partner|neighbour|pair|stand|stretch|tell|write|arms|shoulders|move|turn to)\b/i.test(String(s.config.prompt || ''))) f('E39', 'the half time breath prompt has no movement or pair talk in it', n)
+      if (/\b(calm(s|er)? (you|them|the class) down|improves? (attention|focus|concentration|wellbeing)|makes? (you|them) (calm|focus))\b/i.test(lower(s))) f('E39', 'the breath claims a benefit no study found', n)
+    }
+    // E47 · safe distance, on the wall
+    if (/\b(have you ever|has anyone (here )?(ever )?|hands up if you have|who here has)\b/i.test([s.prompt, s.question].filter(Boolean).join(' '))) f('E47', 'the wall asks a child to disclose', n)
+  })
+
+  // E27 · the correct option is the longest in at most half the items. (The
+  // authored position is not checked: the player shuffles options per run.)
+  const choices = slides.filter(s => s.type === 'choice' && (s.options || []).length >= 2)
+  if (choices.length >= 4) {
+    const longest = choices.filter(s => { const o = s.options; const c = o.find(x => x.correct); return c && o.every(x => String(x.text).length <= String(c.text).length) }).length
+    if (longest > choices.length / 2) f('E27', `the correct option is the longest in ${longest} of ${choices.length} choices; a class learns to pick the long one`)
+  }
+
+  // E7, E12 · names before mechanism, one new term per slide
+  const firstTeach = slides.findIndex(s => s.phase === 'teach')
+  const kwIndex = slides.findIndex(s => s.type === 'keywords')
+  if (kwIndex >= 0 && firstTeach >= 0 && kwIndex > firstTeach) f('E7', `the keywords slide (${kwIndex + 1}) comes after the first teach slide (${firstTeach + 1})`, kwIndex + 1)
+  if (kwords.length) {
+    const teachProse = slides.filter(s => s.phase === 'teach').map(text).join(' ').toLowerCase()
+    for (const w of kwords) if (!teachProse.includes(w)) f('E7', `the keyword "${w}" never appears in teach phase prose`)
+    const seen = new Set()
+    slides.forEach((s, i) => {
+      if (s.type !== 'concept') return
+      const fresh = kwords.filter(w => !seen.has(w) && text(s).toLowerCase().includes(w))
+      fresh.forEach(w => seen.add(w))
+      if (fresh.length > 1) f('E12', `this concept slide is the first appearance of ${fresh.length} keywords (${fresh.join(', ')}); one new term per slide`, i + 1)
+    })
+  }
+
+  // E11 · small steps with a response after each
+  let run = 0, from = 0
+  slides.forEach((s, i) => {
+    if (responds(s) || s.phase !== 'teach') { run = 0; from = i + 1; return }
+    run++
+    if (run === 3) f('E11', `three teach slides in a row without a response (from slide ${from + 1})`, i + 1)
+  })
+
+  // E17, E43, E45 · the arc's minutes and shapes
+  const phaseMins = p => slides.filter(s => s.phase === p).reduce((n, s) => n + (Number(s.minutes) || 0), 0)
+  // (The starter phase here holds the title, the arrival, the objective and
+  // the keywords as well as the review, so Rosenshine's five to eight minutes
+  // is not tested against the whole phase; the retrieval beat's presence is.)
+  if (!slides.some(s => s.phase === 'starter' && (s.type === 'choice' || s.type === 'discussion'))) f('E17', 'the starter has no choice or discussion to retrieve with')
+  const firstConcept = slides.findIndex(s => s.type === 'concept')
+  if (!slides.some((s, i) => s.type === 'discussion' && s.phase === 'starter' && String(s.lookFor || '').trim() && (firstConcept < 0 || i < firstConcept))) f('E43', 'no starter discussion with a lookFor before the first concept: the lesson does not start where they are')
+  const pr = phaseMins('practise')
+  if (pr < 5) f('E45', `the practise phase runs ${pr} minutes; the behaviour needs five`)
+  if (!slides.some(s => s.phase === 'practise' && (s.type === 'interactive' || s.type === 'tryit'))) f('E45', 'no interactive or try it in the practise phase')
+
+  // E18 · mixed retrieval formats
+  if (starter) {
+    const mc = starter.some(qq => (qq.options || []).length >= 3)
+    const open = starter.some(qq => /^(short_answer|open|free_text|fill_blank)/.test(String(qq.format)))
+    if (starter.length < 3 || !mc || !open) f('E18', `the starter quiz has ${starter.length} item(s)${mc ? '' : ', no multiple choice item'}${open ? '' : ', no open or fill the blank item'}`)
+  }
+
+  // E19 · a hinge in every cycle
+  const cycles = Array.isArray(tn.cycles) ? tn.cycles.length : 0
+  const teachChoices = slides.filter(s => s.type === 'choice' && s.phase === 'teach').length
+  if (cycles && teachChoices < cycles) f('E19', `${teachChoices} choice(s) in the teach phase for ${cycles} cycles; every cycle wants a hinge`)
+
+  // E24 · a short recap
+  const recapSlide = slides.find(s => s.type === 'recap')
+  if (recapSlide) { const p = (recapSlide.points || []).length; if (p < 3 || p > 5) f('E24', `the recap has ${p} points; three to five`) }
+  else f('E24', 'no recap slide')
+
+  // E25 · the teacher thinks aloud once
+  if (!slides.some(s => s.phase === 'teach' && /\b(I would|I'd|I’d|I notice|I would notice|what I (see|notice|ask|do) first|my first thought|here is what I|watch me|let me show you how I)\b/i.test(String(s.script || '')))) f('E25', 'no teach script models a thought aloud')
+
+  // E30 · every hard question has a written answer
+  const hq = Array.isArray(tn.hard_questions) ? tn.hard_questions : []
+  if (!hq.length) f('E30', 'teacher_notes.hard_questions is empty')
+  hq.forEach((h, k) => { const has = typeof h === 'string' ? h.trim().length > 20 : (String(h.question ?? h.q ?? '').trim() && String(h.answer ?? h.a ?? '').trim()); if (!has) f('E30', `hard question ${k + 1} has no written answer`) })
+
+  // E41 · what would the friend do, in the primary lessons
+  if (young) {
+    const friend = (slides.find(s => s.type === 'title') || {}).character
+    if (friend && !slides.some(s => (s.phase === 'practise' || s.type === 'discussion') && new RegExp(`\\b${friend}\\b`, 'i').test([s.prompt, s.question, s.body, s.heading].filter(Boolean).join(' ')))) f('E41', `no practise or discussion prompt asks what ${friend} would do or has the child tell ${friend}`)
+  }
+
+  // E46, E48 · sequenced, hooked to the statute and to home
+  if (words(tn.prior_knowledge) < 8) f('E46', 'teacher_notes.prior_knowledge does not name what came before')
+  const row = m.row || {}
+  if (!(row.statutory_hooks || []).length) f('E48', 'row.statutory_hooks is empty')
+  if (!(row.efcw_strands || []).length) f('E48', 'row.efcw_strands is empty')
+  for (const k of ['headline', 'taught', 'try_this', 'family_question', 'passport']) if (!String((m.parent_note || {})[k] ?? '').trim()) f('E48', `parent_note.${k} is empty`)
+
+  // E50 · the adjustments owed in advance, specific. send and differentiation
+  // are objects keyed by need (eal, send, stretch, support); each value is
+  // held to the floor on its own.
+  const flat = (label, v) => typeof v === 'string' ? [[label, v]] : (v && typeof v === 'object') ? Object.entries(v).map(([k, x]) => [`${label}.${k}`, typeof x === 'string' ? x : JSON.stringify(x)]) : [[label, '']]
+  for (const [label, v] of [...flat('send', tn.send), ...flat('paper_fallback', tn.paper_fallback), ...flat('differentiation', tn.differentiation)]) {
+    if (words(v) < 20) f('E50', `teacher_notes.${label} is ${words(v)} words; the adjustment owed in advance needs to be specific`)
+    if (/\bas needed\b/i.test(String(v || ''))) f('E50', `teacher_notes.${label} says "as needed", which is not an adjustment`)
   }
   return out
 }
