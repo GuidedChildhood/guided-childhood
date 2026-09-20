@@ -9,15 +9,26 @@
 // build a batch that any instrument would reject.
 //
 // WHAT ONE EDIT IS
-//   { "slide": 7, "path": "options/1/feedback", "check": "R14", "severity": "must",
-//     "problem": "why", "expect": "the exact current text", "new": "the exact new text" }
+//   { "slide": 7, "ident": "choice:Which one is the safe move?", "path": "options/1/feedback",
+//     "check": "R14", "severity": "must", "problem": "why",
+//     "expect_start": "Not quite. The", "new": "the exact new text" }
 //   slide is the 1 based position on the wall. path is a slash path inside the
 //   slide to ONE string leaf (body, heading, script, options/1/text, steps/2/text,
 //   config/prompt, points/0, lines/1, words/2/meaning). Structure never changes
 //   here: no slide is added, moved or removed, no key is created.
 //
+//   THE CURRENT TEXT COMES FROM THE FILE, NOT FROM THE REVIEWER. A model
+//   retyping a fifteen hundred character script as `expect` is the least
+//   reliable step imaginable, so the guard text is read from the module file,
+//   which the string hash has already proved equal to production. The reviewer
+//   proves it looked at the right slide two cheaper ways instead: `ident`, the
+//   slide's type and heading (or title, question, prompt, component), and
+//   `expect_start`, the opening of the text it is replacing. A full `expect`
+//   is still accepted and, when given, must match exactly.
+//
 // WHAT IS CHECKED BEFORE A LINE OF SQL IS WRITTEN, on the local module JSON
-//   1. the path resolves to a string and it equals `expect`, character for character
+//   1. the path resolves to a string; `ident` and `expect_start` (or `expect`)
+//      match the file, character for character
 //   2. `new` is not empty and carries no dash (the module contract's own rule 5)
 //   3. after every edit the slide is inside its wall ceiling (the council's own rule)
 //   4. after every edit the module still carries every phrase the RSHE and the
@@ -103,16 +114,20 @@ for (const f of files) {
     const pos = Number(e.slide) - 1
     const slide = m.slides[pos]
     if (!slide) { fail(id, `${tag}: no slide ${e.slide}`); continue }
-    if (typeof e.path !== 'string' || !e.path || typeof e.expect !== 'string' || typeof e.new !== 'string') { fail(id, `${tag}: path, expect and new must be strings`); continue }
+    if (typeof e.path !== 'string' || !e.path || typeof e.new !== 'string') { fail(id, `${tag}: path and new must be strings`); continue }
     const segs = e.path.split('/').map(s => (/^\d+$/.test(s) ? Number(s) : s))
     const cur = getAt(slide, segs)
     if (typeof cur !== 'string') { fail(id, `${tag}: the path does not reach a string (${typeof cur})`); continue }
-    if (cur !== e.expect) { fail(id, `${tag}: expect does not match the file. File has: ${JSON.stringify(cur.slice(0, 80))}…`); continue }
+    const identNow = ident(slide)               // as the server will see it at this point in the batch
+    if (typeof e.ident === 'string' && e.ident !== identNow) { fail(id, `${tag}: ident ${JSON.stringify(e.ident)} is not the file's ${JSON.stringify(identNow)}`); continue }
+    if (typeof e.expect === 'string' && cur !== e.expect) { fail(id, `${tag}: expect does not match the file. File has: ${JSON.stringify(cur.slice(0, 80))}…`); continue }
+    if (typeof e.expect_start === 'string' && !cur.startsWith(e.expect_start)) { fail(id, `${tag}: expect_start ${JSON.stringify(e.expect_start)} is not how the file's text begins: ${JSON.stringify(cur.slice(0, 80))}…`); continue }
+    if (typeof e.expect !== 'string' && typeof e.expect_start !== 'string' && typeof e.ident !== 'string') { fail(id, `${tag}: give ident, expect_start or expect so the edit proves it looked at the right text`); continue }
     if (!e.new.trim()) { fail(id, `${tag}: new is empty`); continue }
-    if (e.new === e.expect) { fail(id, `${tag}: new equals expect, nothing to do`); continue }
+    if (e.new === cur) { fail(id, `${tag}: new equals the current text, nothing to do`); continue }
     const d = e.new.match(DASH)
     if (d) { fail(id, `${tag}: a dash in the new text at "…${e.new.slice(Math.max(0, d.index - 20), d.index + 20)}…"`); continue }
-    const identNow = ident(slide)               // as the server will see it at this point in the batch
+    e.expect = cur
     setAt(slide, segs, e.new)
     const prose = checkProse([{ key_stage: m.key_stage, module_id: id, slides: [slide] }])
     if (prose.fails.length) { fail(id, `${tag}: slide over its wall ceiling after the edit (${prose.fails[0].words} words, ceiling ${prose.fails[0].ceiling})`); continue }
