@@ -12,7 +12,7 @@ import { CHARACTERS } from '@gc/shared/schools-curriculum'
 // in the lesson's own phase order, read from the shared phase list so the
 // words on this page can never differ from the strip on the wall. A board
 // frame sits beside them on a desk, and pinned above them on a phone, and
-// turns to the current step as it crosses a band of the screen.
+// turns to the current step as its title crosses a line on the screen.
 //
 // Every line below is true of the product as it ships: the friend beats
 // (migration 296), the start card (269), one idea per slide with the script
@@ -145,13 +145,19 @@ export default function LessonOpens() {
   const face = useRef<HTMLDivElement>(null)
   const first = useRef(true)
 
-  // Which step is in charge. On a desk it is the one nearest the middle of
-  // the screen. On a phone the board is pinned under the nav and the steps
-  // pass beneath it, so the band that turns the board starts below the
-  // board's bottom edge: otherwise the step in charge would be the one
-  // hidden behind it. The nav is sticky and two rows tall on a phone, so its
-  // height is measured rather than guessed, and handed to the stylesheet as
-  // --nav-h for the board's pin point. All of it is rebuilt on resize.
+  // Which step is in charge: the last one whose top edge has crossed a line
+  // on the screen. The observer's root is the screen above that line, so a
+  // step joins the set once its top crosses the line and leaves it once its
+  // bottom has gone off the top, and the highest number in the set is in
+  // charge. Scrolling up hands charge back at the same place it was taken.
+  //
+  // On a desk the line is just past the middle of the screen. On a phone the
+  // board is pinned under the nav and the steps pass beneath it, so the line
+  // sits a title's height below the board's bottom edge: the step in charge
+  // is always one whose title the reader can see, never the one hidden
+  // behind the board. The nav is sticky and two rows tall on a phone, so its
+  // height is measured rather than guessed and handed to the stylesheet as
+  // --nav-h for the pin. All of it is rebuilt on resize.
   useEffect(() => {
     const el = root.current
     if (!el) return
@@ -160,22 +166,23 @@ export default function LessonOpens() {
       io?.disconnect()
       const navH = Math.round(document.querySelector('.gc-nav')?.getBoundingClientRect().height ?? 64)
       el.style.setProperty('--nav-h', `${navH}px`)
-      let rootMargin = '-40% 0px -45% 0px'
+      let line = window.innerHeight * 0.55
       if (window.matchMedia('(max-width: 860px)').matches && board.current) {
         const pinnedBottom = navH + PHONE_PIN_GAP + board.current.getBoundingClientRect().height
-        const top = Math.min(Math.round(pinnedBottom + 12), Math.max(0, window.innerHeight - 120))
-        const bottom = Math.max(0, Math.round(window.innerHeight - top - 150))
-        rootMargin = `-${top}px 0px -${bottom}px 0px`
+        line = Math.min(pinnedBottom + 150, window.innerHeight - 60)
       }
+      const crossed = new Set<number>()
       io = new IntersectionObserver(
         entries => {
           for (const e of entries) {
-            if (!e.isIntersecting) continue
             const i = Number((e.target as HTMLElement).dataset.step)
-            if (Number.isFinite(i)) setActive(i)
+            if (!Number.isFinite(i)) continue
+            if (e.isIntersecting) crossed.add(i)
+            else crossed.delete(i)
           }
+          if (crossed.size) setActive(Math.max(...Array.from(crossed)))
         },
-        { rootMargin, threshold: 0 },
+        { rootMargin: `0px 0px -${Math.round(window.innerHeight - line)}px 0px`, threshold: 0 },
       )
       rows.current.forEach(r => r && io!.observe(r))
     }
@@ -213,9 +220,9 @@ export default function LessonOpens() {
         }}>
           {/* The strip the wall itself carries, so a head sees the shape of
               a lesson before they have seen a lesson. On a phone the strip
-              gives way to one line of position, and the step's own label
-              sits right under the board. */}
-          <div className="schools-board-strip" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+              gives way to one line of position (the stylesheet below decides
+              which shows, so neither carries an inline display). */}
+          <div className="schools-board-strip" style={{ flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
             {ORDERED.map((s, i) => (
               <span key={s.phase} style={{
                 ...mono, padding: 'var(--space-1) 0',
@@ -258,8 +265,8 @@ export default function LessonOpens() {
         </div>
       </div>
 
-      {/* THE STEPS. Each is its own idea with air around it, so one passes the
-          band at a time. */}
+      {/* THE STEPS. Each is its own idea with air around it, so one crosses
+          the line at a time. */}
       <ol className="schools-lesson-steps" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}>
         {ORDERED.map((s, i) => (
           <li
@@ -293,6 +300,7 @@ export default function LessonOpens() {
         }
         .schools-lesson-board { position: sticky; top: calc(var(--nav-h, 64px) + var(--space-6)); order: 2; }
         .schools-lesson-steps { order: 1; }
+        .schools-board-strip { display: flex; }
         .schools-board-pos { display: none; }
         @media (max-width: 860px) {
           .schools-lesson-opens { grid-template-columns: 1fr; gap: var(--space-4); }

@@ -473,5 +473,4 @@ Found on the way: a jump to an anchor (the hero's "See every year") left the
 section blank for two seconds, because the reveal staggered everything the
 jump had passed. Fixed in the schools HomeReveals: what is above the screen
 appears at once, only what is on the screen rises. The parents home page's
-copy of that reveal has the same shape and is outside this lane. PR to follow
-on this branch.
+copy of that reveal has the same shape and is outside this lane. PR 1130.
