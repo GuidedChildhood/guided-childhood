@@ -162,8 +162,16 @@ export default function LessonOpens() {
     let io: IntersectionObserver | null = null
     const build = () => {
       io?.disconnect()
-      const navH = Math.round(document.querySelector('.gc-nav')?.getBoundingClientRect().height ?? 64)
-      el.style.setProperty('--nav-h', `${navH}px`)
+      const nav = document.querySelector('.gc-nav')
+      // The nav's height on the screen, in viewport pixels.
+      const navH = Math.round(nav?.getBoundingClientRect().height ?? 64)
+      // The board's own pixels are not the viewport's: tokens.css zooms the
+      // body by 1.07, and a length in the stylesheet is multiplied by that
+      // on its way to the screen. Pinning at the measured 95px put the board
+      // 7px low (the probe, 20 September 2026), so the pin is the measured
+      // height divided by the zoom the board actually sits under.
+      const zoom = (el as HTMLElement & { currentCSSZoom?: number }).currentCSSZoom ?? 1
+      el.style.setProperty('--nav-h', `${Math.round(navH / zoom)}px`)
       let line = window.innerHeight * 0.55
       if (window.matchMedia('(max-width: 860px)').matches && board.current) {
         const pinnedBottom = navH + board.current.getBoundingClientRect().height
