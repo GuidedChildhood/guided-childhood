@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
 import { SCHOOL_EMAIL_FORWARDING_LIVE } from '@/lib/config/school'
@@ -431,26 +432,101 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           The test button lives on in git and comes back with it. */}
       {SCHOOL_EMAIL_FORWARDING_LIVE && (
         <FoldSection label="How this works" value="Forwarded emails">
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
-            Kit days, payments and deadlines DiGi pulls from your forwarded school emails, plus anything you add. They show here every time you open the app, and as a reminder on your phone if notifications are on.
-          </p>
-          <button
-            onClick={sendTest}
-            disabled={testing}
+          {/* ── THREE STEPS, A DOOR, AND AN HONEST BUTTON ──────────────────
+              Justin, 20 September 2026: "it says about forwarding emails but
+              not easy to see how, when you click send test it does not
+              clearly say how to set up and steps."
+
+              He is right twice over, and the second one was a real mix up.
+              This box was titled Forwarded emails, described forwarding, and
+              its only button called /api/school/remind/test, which tests
+              whether this PHONE buzzes. Two different things sharing a box,
+              so the button looked like it was testing the forwarding and
+              silently was not.
+
+              The steps themselves were never missing either. /dashboard/school
+              already mints the address, shows it in a box with Copy inside it
+              and walks the whole setup. Nothing here pointed at it, so the
+              explainer was a description of a feature with no way in.
+
+              Numbered rows after Tripsy's Add Reservations via Email: the
+              step, what it is, and the one that carries the address saying so
+              plainly. Every row is its own line and the numbers are em sized,
+              so it holds at any text size. */}
+          <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '12px' }}>
+            {[
+              ['Get your address', 'We make you a private one. Nobody else can use it.'],
+              ['Forward the school email', 'Straight from your inbox, or set your email to do it every time.'],
+              ['DiGi reads it for you', 'Kit days, payments and deadlines land in this list on their own.'],
+            ].map(([title, detail], i) => (
+              <li key={title} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <span aria-hidden style={{
+                  flexShrink: 0,
+                  // em, not px: the circle grows with the text inside it, so
+                  // Larger Text cannot squeeze the number out of its own badge.
+                  width: '1.9em', height: '1.9em', borderRadius: '50%',
+                  background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
+                  border: 'var(--edge)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
+                }}>
+                  {i + 1}
+                </span>
+                <span style={{ minWidth: 0 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>
+                    {title}
+                  </span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
+                    {detail}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          {/* The door. This is the whole point of the section and it was the
+              one thing missing from it. */}
+          <Link
+            href="/dashboard/school"
             style={{
-              marginTop: '12px',
-              background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
-              padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
-              fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
+              // flex, not inline-flex, and allowed to wrap: at Larger Text
+              // the label is wider than the phone and an inline pill just
+              // lets it run out of its own rounded edge.
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexWrap: 'wrap', gap: '8px', marginTop: '16px', textAlign: 'center',
+              background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+              border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-pill)',
+              padding: '0.7em 1.2em',
+              fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, lineHeight: 1.3,
             }}
           >
-            {testing ? 'Sending...' : 'Send a test'}
-          </button>
-          {testResult && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
-              {testResult}
+            Get my forwarding address
+            <span aria-hidden>&rarr;</span>
+          </Link>
+
+          {/* A DIFFERENT THING, SAID SO. The button is fine, its old label was
+              not: it tests the phone in your hand, never the forwarding. */}
+          <div style={{ marginTop: '18px', paddingTop: '14px', borderTop: 'var(--edge)' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+              Separately, these reminders can buzz your phone. Check this one is set up to get them.
             </p>
-          )}
+            <button
+              onClick={sendTest}
+              disabled={testing}
+              style={{
+                background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
+                padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
+                fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
+              }}
+            >
+              {testing ? 'Sending...' : 'Test this phone'}
+            </button>
+            {testResult && (
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
+                {testResult}
+              </p>
+            )}
+          </div>
         </FoldSection>
       )}
       {/* Actions row: wraps cleanly on a phone and a laptop. */}
@@ -601,8 +677,22 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                 new Date(nowMs), region,
               )
               return (
+              // THE TITLE GETS ITS OWN LINE (20 September 2026).
+              //
+              // This row used to be one wrapping flex line holding the day
+              // pill, the title, three or four chips and the buttons, with
+              // the title on flex 1 and everything else on flexShrink 0. It
+              // reads fine at 16px and falls apart the moment a parent turns
+              // Larger Text on: the type scale is rem, the pill padding is
+              // px, so the title grows two and a half times inside a row that
+              // does not. Justin's screenshot had "Spelling test" printed
+              // through the MONDAY pill and the school time chip.
+              //
+              // A column fixes it at every size, and it is the better layout
+              // anyway: the thing the reminder is ABOUT gets a full line, and
+              // the day, the kind and the actions sit under it as detail.
               <div key={a.id} style={{
-                display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
+                display: 'flex', alignItems: 'center', gap: '8px', rowGap: '8px', padding: '12px 14px',
                 flexWrap: 'wrap',
                 borderRadius: 'var(--radius-tile)', background: held ? 'var(--cream)' : 'var(--tint-sage)', border: 'var(--edge)',
                 opacity: held ? 0.75 : 1,
@@ -613,7 +703,7 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                 }}>
                   {WEEKDAY_NAME[a.recurs_weekday ?? 0]}
                 </span>
-                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+                <span style={{ flex: '1 1 100%', minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>
                   {a.title}
                   {/* Whose routine. Justin, 19 August 2026: "the parent can see
                       the name of the child in the reminder." */}
@@ -658,11 +748,11 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
                     reminders (and the notifications bell on its day). Delete
                     ends it for good, Edit fixes it in place. */}
                 {!held && (clearedIds.has(a.id) ? (
-                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>Cleared for today ✓</span>
+                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', minWidth: 0 }}>Cleared for today ✓</span>
                 ) : (
                   <button
                     onClick={() => clearForToday(a.id)}
-                    style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-pill)', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
+                    style={{ background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-pill)', padding: '0.4em 0.9em', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--terracotta-dark)', minWidth: 0, lineHeight: 1.3 }}
                   >
                     Clear for today ✓
                   </button>

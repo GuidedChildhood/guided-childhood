@@ -63,13 +63,28 @@ export default function FoldSection({
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
         style={{
+          // WRAPS RATHER THAN COLLIDES (20 September 2026).
+          //
+          // The type scale is rem and this padding is px, so a parent with
+          // Larger Text on gets the label at two and a half times the size in
+          // a row built for the small one. With nowrap the value printed
+          // straight through the label: Justin's screenshot showed "How this
+          // works" with "warded em" written across it.
+          //
+          // Wrapping is the whole fix. The value drops onto its own line when
+          // the two no longer fit, which is the only outcome that stays
+          // readable at every text size.
           width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+          flexWrap: 'wrap',
           background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
           padding: '14px 16px',
         }}
       >
         <span style={{
-          flex: 1, minWidth: 0,
+          // flexBasis in ch rather than 0: it keeps the label and the value on
+          // one line while they fit, and pushes the value onto its own line
+          // the moment the label needs more than about half the row.
+          flex: '1 1 14ch', minWidth: 0,
           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           color: 'var(--ink)', lineHeight: 1.3,
         }}>
@@ -81,7 +96,11 @@ export default function FoldSection({
             out whether anything happened. */}
         {value && (
           <span style={{
-            flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)',
+            // NOT flexShrink 0. A value that refuses to give ground is what
+            // squeezed the label down to one word a line and then printed
+            // over it.
+            flexShrink: 1, minWidth: 0,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)',
             fontWeight: 700, color: 'var(--ink-soft)',
           }}>
             {value}

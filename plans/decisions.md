@@ -385,3 +385,32 @@ in `scripts/check-rshe-coverage.mjs` is at zero and zero, where it stays.
 Two limits stand, in the audit's new top section: this does not make a school
 compliant, because the eight non teaching duties are the school's, and it
 covers 57 of the 195 items, never all of them. PR 1125.
+
+## 20 September 2026 — the layouts have to survive Larger Text
+
+Justin, from his phone: "this needs redesigning as text not reading right."
+His screenshots had "How this works" with "warded em" printed across it, and
+"Spelling test" written through the MONDAY pill.
+
+**Not a wrapping bug, and not a mistake to undo.** `shared/tokens.css` sets
+`html { font: -apple-system-body }` on purpose, so the rem type scale follows
+the iOS Dynamic Type dial. A parent on Larger Text genuinely gets the type at
+up to two and a half times the size. That is the accessible choice and it
+stays. What never happened is building the layouts to survive it: the type is
+rem, the pill padding, the 40px buttons and the flexShrink 0 chips are px.
+
+Reproduced at `html { font-size: 40px }` on /ref-school-card and it fell apart
+exactly as his phone did. Fixed by letting things wrap rather than by stopping
+the scaling: the fold value drops below its label, a reminder title takes its
+own line, the tick and cross move as a pair, the step badges are em.
+
+**This is not only that card.** Every screen uses these tokens, so the same
+shape of fault is waiting anywhere a fixed pill sits beside rem text.
+
+Second thing, same card: the "Send a test" button called
+/api/school/remind/test, which tests whether this PHONE buzzes, inside a box
+titled Forwarded emails. It looked like it was testing the forwarding and
+silently was not. The steps were never missing either, /dashboard/school has
+minted the address and shown it with Copy since 17 September, and nothing
+pointed at it. Three numbered steps after Tripsy, a real door, and the phone
+test named for what it does.

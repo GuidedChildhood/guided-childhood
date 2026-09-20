@@ -248,13 +248,24 @@ export default function SchoolWeek({
                       setting one word per line down a column two centimetres
                       across. The chips are worth less than the name of the
                       thing, so they go underneath it. */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                  {/* AND THE BUTTONS GO UNDERNEATH TOO, WHEN THEY HAVE TO
+                      (20 September 2026). The note above moved the chips off
+                      this line and stopped at the buttons, which are 40px
+                      squares that never shrink. The page opts into iOS Dynamic
+                      Type on purpose (shared/tokens.css sets the root from
+                      -apple-system-body), so a parent on Larger Text gets the
+                      title at two and a half times the size in the strip that
+                      is left beside them: Justin's screenshot read "Readi" and
+                      then the delete cross, straight through the words.
+                      Wrapping is the fix. While the title fits it keeps its
+                      line; when it cannot, the buttons drop below it. */}
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', flexWrap: 'wrap', rowGap: '6px' }}>
                     <span aria-hidden style={{
                       width: 9, height: 9, borderRadius: '50%', flexShrink: 0, marginTop: '6px',
                       background: KIND_DOT[a.kind] ?? 'var(--border)',
                     }} />
                     <span style={{
-                      flex: 1, minWidth: 0, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
+                      flex: '1 1 7ch', minWidth: 0, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
                       lineHeight: 1.3, textDecoration: cleared ? 'line-through' : 'none',
                     }}>
                       {a.title}
@@ -263,6 +274,10 @@ export default function SchoolWeek({
                   {/* Mark as done, and end it for good. Both on the item, both
                       always visible, because this screen is opened once a week
                       and a hidden verb is a verb nobody finds. */}
+                  {/* The pair moves as one. Left as siblings they wrapped
+                      independently, so at normal size the tick sat up beside
+                      the name and the cross dropped onto a line of its own. */}
+                  <span style={{ display: 'flex', gap: '6px', flexShrink: 0, marginLeft: 'auto' }}>
                   <button
                     type="button"
                     onClick={() => onClear(a)}
@@ -270,7 +285,7 @@ export default function SchoolWeek({
                     aria-label={cleared ? 'Done' : canClear ? 'Mark as done' : 'Comes round on its own day'}
                     title={cleared ? 'Done' : canClear ? 'Mark as done' : 'You can tick this off on the day itself'}
                     style={{
-                      flexShrink: 0, width: 40, height: 40, borderRadius: '11px',
+                      flexShrink: 0, width: 44, height: 44, borderRadius: '11px',
                       cursor: cleared || !canClear ? 'default' : 'pointer',
                       background: cleared ? 'var(--retro-green)' : '#fff',
                       border: cleared ? 'none' : 'var(--edge)',
@@ -286,13 +301,14 @@ export default function SchoolWeek({
                     aria-label={weekly ? `Delete the ${a.title} routine` : `Delete ${a.title}`}
                     title={weekly ? 'Delete this routine for good' : 'Delete'}
                     style={{
-                      flexShrink: 0, width: 40, height: 40, borderRadius: '11px', cursor: 'pointer',
+                      flexShrink: 0, width: 44, height: 44, borderRadius: '11px', cursor: 'pointer',
                       background: '#fff', border: 'var(--edge)',
                       color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1,
                     }}
                   >
                     ✕
                   </button>
+                  </span>
                   </div>
 
                   {/* When, whether it comes back, and whether they get it too.
