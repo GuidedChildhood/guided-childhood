@@ -588,3 +588,16 @@ the built stylesheet; the rem now goes through a `var()`, which cannot be
 folded. Second, the guard now judges what the eye can see: an element's right
 edge is cut down to every ancestor that clips, so a chip row that scrolls
 sideways on purpose and a star sweep hidden inside a card no longer count.
+
+## 20 September 2026 — the school card's door goes somewhere, and the phone switch is on the page
+
+Justin, from his phone: "link to forwarding doesn't work and it should have how
+to turn check in here when clicked and says not turned on."
+
+Both were true. The card lives on /dashboard/school and its door linked to
+/dashboard/school, the page it was already on, so a tap did nothing; it now
+scrolls to the letterbox card further down (`LETTERBOX_ID`). And the phone
+test's "tap Turn on check ins" named a button that only exists on Home, so
+the card now carries the switch itself, through the shared `enablePush`, and
+re-runs the test the moment it succeeds. Rule reaffirmed: never tell a parent
+to tap something that is not on the screen in front of them.

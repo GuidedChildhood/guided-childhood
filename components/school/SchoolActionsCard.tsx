@@ -6,6 +6,9 @@ import { currentChildId } from '@/lib/children/current'
 import { SCHOOL_EMAIL_FORWARDING_LIVE } from '@/lib/config/school'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
+import { LETTERBOX_ID } from './SchoolLetterbox'
+import { enablePush } from '@/lib/push/enable'
+import { getDeviceId } from '@/lib/push/device-id'
 import FoldSection from '@/components/dashboard/FoldSection'
 import SchoolAddSheet, { type NewReminder } from './SchoolAddSheet'
 import { isHeldForHolidays } from '@/lib/school/child-items'
@@ -152,6 +155,11 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
+  // The test came back saying this phone is not on. That is the moment to
+  // offer the switch, right here, rather than name a button on another page.
+  const [needsPhone, setNeedsPhone] = useState(false)
+  const [enabling, setEnabling] = useState(false)
+  const [enableError, setEnableError] = useState<string | null>(null)
   // Which week the calendar is showing. 0 is this one, and the arrows walk it.
   // The day whose "+ Add" was tapped, and therefore the sheet that is open.
   // Null is closed.
@@ -330,9 +338,47 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
     } catch { /* non blocking */ } finally { setSendingId(null) }
   }
 
+  // TURNING THIS PHONE ON, HERE.
+  //
+  // Justin, 20 September 2026, holding the phone the test had just said was
+  // not set up: the message told him to "tap Turn on check ins", and there
+  // was no such button on this page. It lives on Home, inside the push card.
+  // A parent following the instruction on the screen in front of them found
+  // nothing to tap, which is worse than no instruction at all.
+  //
+  // So the switch is here, through lib/push/enable.ts like every other
+  // caller, with nothing awaited before it (the tap has to still be live when
+  // the permission sheet is asked for, see scripts/check-push-gesture.mjs).
+  // When it works the test runs again by itself, so the parent sees the buzz
+  // land without a third tap.
+  const turnOnHere = async () => {
+    setEnabling(true)
+    setEnableError(null)
+    const result = await enablePush(
+      subscription => fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ subscription, deviceId: getDeviceId() }),
+      }),
+      endpoint => fetch('/api/push/subscribe', {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ endpoint }),
+      }),
+    )
+    setEnabling(false)
+    if (result.ok) {
+      setNeedsPhone(false)
+      await sendTest()
+      return
+    }
+    setEnableError(result.message)
+  }
+
   const sendTest = async () => {
     setTesting(true)
     setTestResult(null)
+    setNeedsPhone(false)
     try {
       const res = await fetch('/api/school/remind/test', { method: 'POST' })
       const data = await res.json()
@@ -349,10 +395,12 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
         // and there is nothing to report about them.
         const phoneHint = data.hasApple
           ? ''
-          : ' If the phone in your hand stayed quiet, that phone is not turned on yet. Open this page on the phone itself, tap Turn on check ins, and on iPhone add it to your home screen first, then test again.'
+          : ' If the phone in your hand stayed quiet, that phone is not turned on yet. Turn it on below, on the phone itself.'
         setTestResult(landed + phoneHint)
+        if (!data.hasApple) setNeedsPhone(true)
       } else if (data.reason) {
-        setTestResult('No device is set up to get these yet. On the phone you want the reminders on, open this page, tap Turn on check ins, then test again. On iPhone, add the app to your home screen first, then turn them on.')
+        setTestResult('No phone is set up to get these yet. Turn them on below, on the phone you want them on.')
+        setNeedsPhone(true)
       } else if (data.allFailed) {
         // The case that used to read as "something went wrong". There ARE
         // devices on file, every one of them refused, and that is almost
@@ -364,8 +412,9 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           ? ` We have cleared ${data.removed === 1 ? 'the one device' : `the ${data.removed} devices`} that had gone for good, so turning them on again on this phone will stick.`
           : ''
         setTestResult(
-          `Nothing accepted it. We have ${data.devices === 1 ? 'one device' : `${data.devices} devices`} on file for you and every one refused, which usually means notifications got turned off again, or this app was removed from the home screen and added back.${cleaned} On the phone you want them on, tap Turn on check ins, then test again.`
+          `Nothing accepted it. We have ${data.devices === 1 ? 'one device' : `${data.devices} devices`} on file for you and every one refused, which usually means notifications got turned off again, or this app was removed from the home screen and added back.${cleaned} Turn them on again below, on the phone you want them on.`
         )
+        setNeedsPhone(true)
       } else if (data.errors?.length) {
         // Anything else the push service said. Shown rather than swallowed,
         // because the code is the only thing that tells us which of us has
@@ -487,7 +536,17 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
           {/* The door. This is the whole point of the section and it was the
               one thing missing from it. */}
           <Link
-            href="/dashboard/school"
+            href={`/dashboard/school#${LETTERBOX_ID}`}
+            // On /dashboard/school the letterbox is further down this same
+            // page, so the door scrolls to it. Anywhere else the href carries
+            // the parent there and the hash lands them on the right card.
+            onClick={e => {
+              const el = document.getElementById(LETTERBOX_ID)
+              if (!el) return
+              e.preventDefault()
+              const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+              el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+            }}
             style={{
               // flex, not inline-flex, and allowed to wrap: at Larger Text
               // the label is wider than the phone and an inline pill just
@@ -525,6 +584,27 @@ export default function SchoolActionsCard({ actions: initial, childName, kids = 
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
                 {testResult}
               </p>
+            )}
+            {needsPhone && (
+              <div style={{ marginTop: '12px' }}>
+                <button
+                  onClick={turnOnHere}
+                  disabled={enabling}
+                  style={{
+                    display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center',
+                    background: 'var(--terracotta)', color: 'var(--ink)',
+                    border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-pill)',
+                    padding: '0.7em 1.2em', cursor: enabling ? 'wait' : 'pointer',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, lineHeight: 1.3,
+                    maxWidth: '100%',
+                  }}
+                >
+                  {enabling ? 'Turning on...' : 'Turn on check ins on this phone'}
+                </button>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
+                  {enableError ?? 'On iPhone, add the app to your Home Screen first (tap Share, then Add to Home Screen), open it from there, and tap this.'}
+                </p>
+              </div>
             )}
           </div>
         </FoldSection>
