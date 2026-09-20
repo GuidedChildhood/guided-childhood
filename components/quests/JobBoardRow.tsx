@@ -120,7 +120,9 @@ const CHIP_BTN = (on: boolean, tint: string, ink: string): React.CSSProperties =
   borderRadius: 'var(--radius-pill)', padding: '5px 11px', cursor: 'pointer',
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.02em', color: on ? ink : 'var(--ink-soft)',
-  lineHeight: 1.3, whiteSpace: 'nowrap',
+  // No nowrap: at Larger Text "Make it a family job" is wider than the card,
+  // and a chip that wraps to two lines is still a chip.
+  lineHeight: 1.3, maxWidth: '100%', textAlign: 'left',
 })
 
 export default function JobBoardRow({
@@ -157,7 +159,7 @@ export default function JobBoardRow({
       {/* The plate and the worth, small, ABOVE the title. Two short objects on
           a line of their own can never crowd anything, and the title below
           them gets the whole card to wrap in. */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 9 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px 9px', marginBottom: 9, flexWrap: 'wrap' }}>
         <span aria-hidden style={PLATE}><HappyIcon name={jobIconFor(job.emoji, job.title)} size={27} /></span>
         {/* A family job never shows a price: contribution is belonging, and
             the bank pays it nothing. */}

@@ -22,6 +22,7 @@
     "age-guard": "node scripts/check-lesson-age-gate.mjs",
     "rung-guard": "node scripts/check-rung-truth.mjs",
     "wall-contrast-guard": "node scripts/check-wall-contrast.mjs",
+    "larger-text-guard": "node scripts/check-larger-text.mjs",
     "age-day-guard": "node --experimental-strip-types scripts/check-day-by-age.mjs",
     "governance-test": "node --experimental-strip-types scripts/ai-governance.test.mjs",
     "answer-beat-test": "node --experimental-strip-types scripts/answer-beat.test.mjs",

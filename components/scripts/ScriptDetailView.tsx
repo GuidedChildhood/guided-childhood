@@ -224,7 +224,7 @@ export default function ScriptDetailView({
           </div>
           <Link
             href={`/dashboard/digi?q=${encodeURIComponent(`I need help with the script: ${script.title}. My situation: `)}`}
-            style={{ ...chunky('butter'), flexShrink: 0 }}
+            style={{ ...chunky('butter'), maxWidth: '100%', boxSizing: 'border-box' }}
           >
             Ask DiGi about this
           </Link>

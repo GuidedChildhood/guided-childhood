@@ -160,7 +160,7 @@ export default function PassportPage({
     }}>
       <div>
       {/* The page header: the book's name, and which page this is */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '2px 8px', flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: ink, opacity: 0.75 }}>
           The passport
         </span>
@@ -229,9 +229,9 @@ export default function PassportPage({
               background: '#fff', border: `${today ? 2.5 : 1.5}px solid ${ink}`, borderRadius: 'var(--radius-tile)',
               padding: '7px 9px 8px', opacity: a.started ? 1 : 0.45, minWidth: 0, position: 'relative',
             }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', columnGap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', columnGap: 10, flexWrap: 'wrap' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.2, minWidth: 0 }}>{a.short}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ink, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ink, whiteSpace: 'nowrap', flexShrink: 0, marginLeft: 'auto' }}>
                   {a.started ? (a.total > 0 ? `${a.done} of ${a.total}` : 'none yet') : 'later'}
                 </span>
               </div>

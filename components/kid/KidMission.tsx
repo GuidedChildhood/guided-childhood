@@ -78,11 +78,11 @@ export default function KidMission({ rows, compact = false }: { rows: MissionRow
                   : <span style={{ fontSize: 18, lineHeight: 1 }}>{r.emoji}</span>}
               </span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 }}>
+                <span style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: HAPPY.ink, lineHeight: 1.2, minWidth: 0 }}>
                     {r.title}
                   </span>
-                  <span data-mission-line style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: r.done ? HAPPY.green : 'var(--ink-muted)' }}>
+                  <span data-mission-line style={{ minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: r.done ? HAPPY.green : 'var(--ink-muted)' }}>
                     {r.line}
                   </span>
                 </span>

@@ -112,14 +112,14 @@ export default function BalanceZone({
         {/* The two contributors, straight from the readings the product
             already makes: what moves the marker, one status word each. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px 9px', flexWrap: 'wrap', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
             <span aria-hidden>⭐</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Jobs</span>
             <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: jobsOk ? 'var(--retro-green)' : 'var(--terracotta-dark)' }}>
               {jobsLine}
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px 9px', flexWrap: 'wrap', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
             <span aria-hidden>📱</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Screens</span>
             <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: screensOk ? 'var(--retro-green)' : 'var(--terracotta-dark)' }}>

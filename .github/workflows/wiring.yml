@@ -63,6 +63,12 @@ jobs:
           # presenter bar carry labels only a teacher reads, and a label only
           # a teacher reads still has to clear AA.
           GC_WALL_QUERY='&teacher=1' npm run wall-contrast-guard
+          # Every screen survives Larger Text. The root follows the iOS
+          # Dynamic Type dial on purpose (shared/tokens.css), and 44 screens
+          # were clean at normal size and broken at the top of the dial. This
+          # renders every fixture both ways and holds the known list in
+          # scripts/larger-text-baseline.json, which only ever gets shorter.
+          npm run larger-text-guard
 
   # The two guards on the join between what a parent answers and what the
   # daily check in asks about.

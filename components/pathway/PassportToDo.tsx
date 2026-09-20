@@ -124,7 +124,7 @@ export default function PassportToDo({
           and the one step to start with, never a nag. */}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, flexWrap: 'wrap', marginBottom: 3 }}>
         <span style={{
-          flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)',
           background: '#fff', border: 'var(--edge)', borderRadius: 9, padding: '3px 9px',
         }}>

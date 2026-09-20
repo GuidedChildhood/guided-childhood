@@ -43,7 +43,7 @@ export default function JobGuideCard({ guide, childName, onSeeJobs }: {
           {over ? 'A word before the next one' : 'The daily guide'}
         </span>
         <span data-guide-count style={{
-          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap',
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)',
         }}>
           {guide.count} of {guide.guide} a day{guide.guide < guide.ceiling ? ` · up to ${guide.ceiling}` : ''}
         </span>

@@ -68,7 +68,7 @@ export default function WorryPicker({
   const commit = () => { if (draft.trim() !== savedOther) onOther?.(draft.trim()) }
   return (
     <div>
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 9em), 1fr))', gap: '10px', alignItems: 'stretch' }}>
       {WORRIES.map(w => {
         const on = selected.includes(w.id)
         const first = primary === w.id

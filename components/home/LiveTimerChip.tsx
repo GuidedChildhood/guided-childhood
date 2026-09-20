@@ -101,7 +101,7 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
             <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {deviceEmoji(k.session!.device)} {k.name} has time running
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: '#236F52', fontVariantNumeric: 'tabular-nums' }}>
+            <span style={{ minWidth: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: '#236F52', fontVariantNumeric: 'tabular-nums' }}>
               {fmt(new Date(k.session!.ends_at).getTime() - now)}
             </span>
             <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>

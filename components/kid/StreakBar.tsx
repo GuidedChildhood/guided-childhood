@@ -64,7 +64,7 @@ export default function StreakBar({ completedStreaks = 0 }: { completedStreaks?:
   return (
     <div style={{
       background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
-      padding: '7px 12px 7px 8px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8,
+      padding: '7px 12px 7px 8px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: '4px 8px', flexWrap: 'wrap',
       boxShadow: 'var(--lift)',
     }}>
       {/* The flame, drawn (the Happy Newspaper pass), and the count beside it. */}
@@ -102,7 +102,7 @@ export default function StreakBar({ completedStreaks = 0 }: { completedStreaks?:
               transition: 'width 0.35s ease',
             }} />
           </span>
-          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+          <span style={{ minWidth: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
             {toNext === 1 ? <><b>1</b> more for <b>{next!.name}</b>!</> : <><b>{toNext}</b> more for <b>{next!.name}</b></>}
           </span>
         </>

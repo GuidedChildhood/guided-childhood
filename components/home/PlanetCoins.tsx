@@ -111,7 +111,7 @@ export default function PlanetCoins({ featured }: { featured: number }) {
           only setting that is tidy on a phone AND on a laptop. */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
         gap: '6px',
       }}>
         {PLANETS.map((p, i) => (
@@ -121,7 +121,7 @@ export default function PlanetCoins({ featured }: { featured: number }) {
             style={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px',
               textDecoration: 'none', padding: '9px 4px 10px', borderRadius: 'var(--radius-btn)',
-              background: 'transparent',
+              background: 'transparent', minWidth: 0,
             }}
           >
             {/* The tinted disc is what makes it read as a coin rather than a
@@ -149,7 +149,7 @@ export default function PlanetCoins({ featured }: { featured: number }) {
             </span>
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-              color: 'var(--ink)', textAlign: 'center', lineHeight: 1.2,
+              color: 'var(--ink)', textAlign: 'center', lineHeight: 1.2, maxWidth: '100%', overflowWrap: 'anywhere',
             }}>
               {p.short}
             </span>

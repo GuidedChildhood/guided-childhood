@@ -145,7 +145,7 @@ function HowItWorks({ note, steps, how }: { note: string; steps?: string[]; how?
         <span>{note}</span>
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em',
-          textTransform: 'uppercase', color: '#A08247', whiteSpace: 'nowrap',
+          textTransform: 'uppercase', color: '#A08247',
         }}>How it works ›</span>
       </summary>
       <div style={{ background: '#F4ECD9', borderRadius: 9, padding: '10px 11px', marginTop: 8, display: 'flex', flexDirection: 'column', gap: 7 }}>
@@ -344,7 +344,7 @@ export default function KidStickers({ token, stickers, celebrate, daily = null }
               }}>
                 My sticker book
               </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(237,195,95,0.68)', whiteSpace: 'nowrap', marginTop: 2 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(237,195,95,0.68)', marginTop: 2 }}>
                 {earnedCount} of {stickers.length} collected
               </span>
             </div>

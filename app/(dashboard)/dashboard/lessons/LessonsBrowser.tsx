@@ -283,7 +283,9 @@ export default function LessonsBrowser({
         background: 'rgba(249,248,246,0.86)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
         borderBottom: 'var(--edge)',
       }}>
-        <div style={{ display: 'flex', gap: '6px', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px' }}>
+        {/* The two views sit side by side and stack at Larger Text, where
+            "Watch together" with its count is wider than half a phone. */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-pill)', padding: '4px' }}>
           {TABS.map(t => {
             const on = view === t.key
             return (
@@ -291,7 +293,7 @@ export default function LessonsBrowser({
                 key={t.key}
                 onClick={() => { setView(t.key); if (t.key === 'library') setStage(childStageNum) }}
                 style={{
-                  flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  flex: '1 1 8em', minWidth: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                   padding: '9px 8px', borderRadius: 'var(--radius-pill)', cursor: 'pointer', border: 'none',
                   background: on ? 'var(--deep-teal)' : 'transparent',
                   color: on ? '#fff' : 'var(--ink-soft)',
@@ -475,7 +477,7 @@ export default function LessonsBrowser({
                         })()}
                       </div>
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                        <Link href={`/dashboard/lessons/together/${w.code}${childId ? `?child=${childId}` : ''}`} style={{ flex: 1, textAlign: 'center', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+                        <Link href={`/dashboard/lessons/together/${w.code}${childId ? `?child=${childId}` : ''}`} style={{ flex: '1 1 8em', minWidth: 0, textAlign: 'center', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
                           {w.done ? 'Watch again ↻' : '▶ Watch together'}
                         </Link>
                         <LessonSendButton childId={childId} childName={childName} title={w.title} />
@@ -810,7 +812,7 @@ function ProgressLessonsBanner({
             border: 'var(--edge)', borderRadius: '11px', padding: '8px 12px',
             cursor: childId && sendState !== 'sending' ? 'pointer' : 'default',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
-            whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,
+            maxWidth: '100%', opacity: childId ? 1 : 0.55,
           }}
         >
           {sendLabel}

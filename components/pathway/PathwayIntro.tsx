@@ -95,7 +95,7 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
       <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
       {/* Smaller than it was. At 2.5rem on a 390 wide phone this heading alone
           took two lines and a fifth of the viewport. */}
-      <h1 style={{ fontSize: 'clamp(1.6rem, 5.2vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '7px' }}>
+      <h1 style={{ fontSize: 'clamp(1.6rem, 5.2vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '7px', overflowWrap: 'anywhere' }}>
         The pathway to 16
       </h1>
       <p style={{ color: 'var(--ink)', fontSize: 'var(--text-md)', lineHeight: 1.5, maxWidth: '580px', fontWeight: 600, margin: 0 }}>

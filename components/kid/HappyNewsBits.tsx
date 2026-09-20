@@ -86,7 +86,7 @@ export function Sticker({ children, accent = 'butter', rotate = -6, size = 'md',
       display: 'inline-flex', alignItems: 'center', gap: 5,
       background: bg, color: fg, border: 'var(--edge)', borderRadius: 'var(--radius-pill)',
       padding: pad, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: fs,
-      letterSpacing: '0.02em', lineHeight: 1.1, whiteSpace: 'nowrap',
+      letterSpacing: '0.02em', lineHeight: 1.1, maxWidth: '100%', textAlign: 'center',
       transform: `rotate(${rotate}deg)`, boxShadow: `2px 3px 0 ${HAPPY.ink}`,
       ...style,
     }}>
@@ -288,13 +288,15 @@ export function Ribbon({ children, tone = 'butter' }: { children: ReactNode; ton
   const fill = tone === 'green' ? HAPPY.green : HAPPY.butter
   const fg = tone === 'green' ? '#fff' : HAPPY.ink
   return (
-    <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 40, padding: '0 22px' }}>
+    <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 40, padding: '0.2em 22px', maxWidth: '100%', boxSizing: 'border-box' }}>
       <svg aria-hidden viewBox="0 0 200 40" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
         <path d="M 12 6 Q 100 0 188 6 L 184 34 Q 100 40 16 34 Z" fill={fill} stroke={HAPPY.ink} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
         <path d="M 12 6 L 3 20 L 16 34" fill={fill} stroke={HAPPY.ink} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
         <path d="M 188 6 L 197 20 L 184 34" fill={fill} stroke={HAPPY.ink} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
       </svg>
-      <span style={{ position: 'relative', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: fg, letterSpacing: '-0.01em', whiteSpace: 'nowrap', lineHeight: 1 }}>
+      {/* No nowrap: the drawn banner scales to its contents, so two lines of
+          Larger Text get a taller banner rather than words past its ends. */}
+      <span style={{ position: 'relative', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: fg, letterSpacing: '-0.01em', lineHeight: 1.1, textAlign: 'center' }}>
         {children}
       </span>
     </span>
