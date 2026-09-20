@@ -362,9 +362,13 @@
       "minutes": 1,
       "component": "star-breath",
       "config": {
-        "seconds": 30
+        "seconds": 4,
+        "character": "nova",
+        "register": "still",
+        "heading": "Half time",
+        "prompt": "Two slow breaths: in as Nova grows, out as Nova shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet."
       },
-      "script": "Thirty seconds of star breathing before the sort. The previous two slides sit close to home for part of the room and this pause is doing real work rather than decorating. Say nothing during it."
+      "script": "Half time. Two breaths with the whole room, in as Nova grows and out as Nova shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. The previous two slides sit close to home for part of the room and this pause is doing real work rather than decorating. Say nothing during the breaths. Then straight into the sort."
     },
     {
       "type": "interactive",

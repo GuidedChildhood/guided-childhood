@@ -474,3 +474,24 @@ section blank for two seconds, because the reveal staggered everything the
 jump had passed. Fixed in the schools HomeReveals: what is above the screen
 appears at once, only what is on the screen rises. The parents home page's
 copy of that reveal has the same shape and is outside this lane. PR 1130.
+
+## 20 September 2026, the eighteen slides come inside the ceiling, and the four new breaths get their friend
+
+Justin: "yes fix slides". Migration 320 moves the twelve September clauses off
+the wall and into the teacher's script, word for word, introduced as "Say
+this, as written" and sitting between the teacher's own notes and the delivery
+notes that came with them, so the wall keeps one idea and the teacher still
+says every sentence. The six early years slides get one short line each and
+carry the old one in the script the same way. The four half time breaths in
+the 19 September lessons get their friend, a heading, the half time words and
+a four second breath; they had a thirty second one, which the player renders
+as one breath in that lasts half a minute. Every write was guarded by its
+exact current text and every proof held on apply: 147 of 147 phrases, prose
+375 of 375 on production (10.00, from 9.52), hashes equal to the four module
+files.
+
+Two instrument changes, both explained in the files: the council no longer
+counts the eyebrow label on a title slide, because the label and the title
+alone were thirteen words and the early years titles could never pass; and
+contract rule 12 keeps every star breath at four seconds and the half time
+one the friend's. PR 1130.

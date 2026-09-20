@@ -342,9 +342,13 @@
       "minutes": 1,
       "component": "star-breath",
       "config": {
-        "seconds": 30
+        "seconds": 4,
+        "character": "orbit",
+        "register": "level",
+        "heading": "Half time",
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet."
       },
-      "script": "Thirty seconds of star breathing before the sort. This lesson sits close to real experience for some of the room and the pause is not decoration here. Say nothing during it."
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. This lesson sits close to real experience for some of the room and the pause is not decoration here. Say nothing during the breaths. Then straight into the sort."
     },
     {
       "type": "interactive",
