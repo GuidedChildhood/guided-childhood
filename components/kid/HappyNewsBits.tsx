@@ -20,20 +20,11 @@ import type { CSSProperties, ReactNode } from 'react'
 
 // The four cheerful accents the child app already scatters as confetti in
 // HappyScene, plus butter. One accent per sticker, rotated across a screen.
-export const HAPPY = {
-  butter: '#EDC35F',
-  butterDark: '#C99A28',
-  butterLt: '#FEF7E0',
-  coral: '#E5734B',
-  green: '#2E7D5A',
-  sky: '#4B9CE5',
-  ink: '#1A1A2E',
-  cream: '#F9F8F6',
-  // The soft pink disc The Happy Newspaper sits its post box on. Justin,
-  // 14 September 2026, with that page: the calendar is white ground and big
-  // colour discs, not a dotted sky. Today's disc is this pink.
-  pink: '#F9CFD9',
-} as const
+import { HAPPY } from '@gc/shared/happy-news'
+// The palette itself lives in shared/happy-news.ts since 20 September 2026,
+// where the schools app can draw it too; everything here still reads HAPPY
+// and everything that imported it from here still can.
+export { HAPPY }
 
 export type HappyAccent = 'butter' | 'coral' | 'green' | 'sky'
 

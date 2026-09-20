@@ -106,6 +106,10 @@ jobs:
       # The evidence attestation means a coverage claim cannot be edited into
       # existence, it has to be checked against what is really in production.
       - run: node scripts/check-rshe-coverage.mjs
+      # The computing map, the same way: the national curriculum for
+      # computing's subject content, three statements taught and held to
+      # phrases in the lessons, the rest named as the school's own scheme.
+      - run: node scripts/check-computing-coverage.mjs
       # The daily screen guide and the base under it. Both are just numbers, so
       # nothing else can catch a base that climbs above its own ceiling.
       - run: node scripts/check-screen-guide.mjs

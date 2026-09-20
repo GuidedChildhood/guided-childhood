@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
+import HappyIcon, { type HappyIconName } from '@gc/shared/components/HappyIcon'
+import { CRAYON, type CrayonName } from '@gc/shared/happy-news'
 import YourSchoolPanel from './YourSchoolPanel'
 
 export const metadata = { title: 'The Hub' }
@@ -17,73 +19,103 @@ const eyebrow: React.CSSProperties = {
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 
-const DOCS = [
+// THE DRAWN ICONS (20 September 2026). The tiles drew fourteen emoji, which
+// is another company's artwork in another company's style, rendering
+// differently on every laptop in a staffroom. Justin: "can we use happy news
+// icons on lessons, since we have icons". Each tile now carries one of the
+// house's own drawn icons on a crayon disc with an ink edge, the same finish
+// the parents app gives its passport and its jobs board. The disc colours
+// rotate through the crayon box so the grid reads as a cheerful scatter and
+// never as a category the head has to decode.
+type Doc = { href: string; icon: HappyIconName; disc: CrayonName; accent: string; title: string; body: string }
+
+const DOCS: Doc[] = [
   {
-    href: '/hub/rshe-mapping', emoji: '📋', accent: 'var(--green-dark)',
+    href: '/hub/rshe-mapping', icon: 'quiz', disc: 'butter', accent: 'var(--green-dark)',
     title: 'RSHE 2025 mapping matrix',
     body: 'Every module mapped to the named topics of the statutory guidance that becomes compulsory on 1 September 2026, plus KCSIE 2026 and Education for a Connected World. The document your PSHE lead files.',
   },
   {
-    href: '/hub/policy', emoji: '📜', accent: 'var(--green-dark)',
+    href: '/hub/computing-mapping', icon: 'magnifier', disc: 'sky', accent: 'var(--green-dark)',
+    title: 'The computing curriculum map',
+    body: 'Every statement of the national curriculum for computing, with the safety and digital literacy ones this scheme teaches held to phrases in the lessons, and the rest named honestly as your computing scheme’s.',
+  },
+  {
+    href: '/hub/policy', icon: 'read', disc: 'coral', accent: 'var(--green-dark)',
     title: 'Policy ready text',
     body: 'Paragraphs written to paste straight into your published RSE and online safety policy, including the parental transparency wording the 2025 guidance requires.',
   },
   {
-    href: '/hub/parents', emoji: '👪', accent: 'var(--gold-dark)',
+    href: '/hub/parents', icon: 'friends', disc: 'green', accent: 'var(--gold-dark)',
     title: 'The parent pack',
     body: 'The whole programme explained for parents, module by module, with our transparency promise: parents can view any material on request, and our licence explicitly permits it. Built for your consultation.',
   },
   {
-    href: '/hub/data-protection', emoji: '🔒', accent: 'var(--deep-teal, #173C46)',
+    href: '/hub/data-protection', icon: 'lock', disc: 'teal', accent: 'var(--deep-teal, #173C46)',
     title: 'Data protection pack',
     body: 'What we hold (almost nothing), why, and for how long. Written for your DPO: data minimisation by design, age differentiated notes per phase, and the DPIA support your records need.',
   },
   {
-    href: '/hub/ai-governance', emoji: '🔍', accent: 'var(--deep-teal, #173C46)',
+    href: '/hub/ai-governance', icon: 'magnifier', disc: 'pink', accent: 'var(--deep-teal, #173C46)',
     title: 'AI governance',
     body: 'Check an AI product before pupils or staff are asked to use it. Ten sections, a rating on each of eight things that matter, suggested policy wording, a draft letter to parents, and the lessons that teach whatever the review turns up.',
   },
   {
-    href: '/hub/dsl', emoji: '🛡️', accent: 'var(--coral-dark)',
+    href: '/hub/dsl', icon: 'shield', disc: 'butter', accent: 'var(--coral-dark)',
     title: 'Safeguarding crosswalk',
     body: 'The DSL view: every safeguarding flagged module, its statutory hook and its disclosure guidance on one page, ready to reference from your safeguarding policy.',
   },
   {
-    href: '/hub/cpd', emoji: '🎓', accent: 'var(--coral-dark)',
+    href: '/hub/cpd', icon: 'homework', disc: 'sky', accent: 'var(--coral-dark)',
     title: 'Staff briefings',
     body: `Ten minute briefings for all ${FLAGGED_MODULES.length} safeguarding flagged modules: what the lesson covers, the tone to hold, disclosure handling, and what to watch for in the room.`,
   },
   {
-    href: '/hub/induction', emoji: '🧭', accent: 'var(--coral-dark)',
+    href: '/hub/induction', icon: 'compass', disc: 'coral', accent: 'var(--coral-dark)',
     title: 'The fifteen minute induction',
     body: 'One staff meeting that starts the scheme: how a lesson runs, the print room, the flagged modules, disclosures, and the no pupil data ground rule. Run it from the projector.',
   },
   {
-    href: '/hub/year-plan', emoji: '🗓️', accent: 'var(--green-dark)',
+    href: '/hub/year-plan', icon: 'calendar', disc: 'green', accent: 'var(--green-dark)',
     title: 'The year at a glance',
     body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
-    href: '/hub/passport', emoji: '🛂', accent: 'var(--gold-dark)',
+    href: '/hub/passport', icon: 'passport', disc: 'teal', accent: 'var(--gold-dark)',
     title: 'The passport, page by page',
     body: 'The five pages of the passport to sixteen and how far this screen has taken your classes through them. Counted here and nowhere else: no pupil, no login, no upload.',
   },
   {
-    href: '/hub/vocabulary', emoji: '🔤', accent: 'var(--gold-dark)',
+    href: '/hub/vocabulary', icon: 'letters', disc: 'pink', accent: 'var(--gold-dark)',
     title: 'Whole scheme vocabulary',
     body: 'Every keyword from every module with its pupil facing definition, in teaching order. For display walls and planning.',
   },
   {
-    href: '/hub/faq', emoji: '💬', accent: 'var(--ink-muted)',
+    href: '/hub/faq', icon: 'tell', disc: 'butter', accent: 'var(--ink-muted)',
     title: 'Common questions',
     body: 'The answers heads, governors and parents ask for most, in plain words.',
   },
   {
-    href: '/hub/accessibility', emoji: '♿', accent: 'var(--deep-teal, #173C46)',
+    href: '/hub/accessibility', icon: 'access', disc: 'sky', accent: 'var(--deep-teal, #173C46)',
     title: 'Accessibility statement',
     body: 'How the player and the printed materials reach every learner, what we support today, and what we are still improving. Honest, dated, and updated as the product moves.',
   },
 ]
+
+// The disc: a crayon fill under an ink edge, the drawn icon on top. Sized in
+// em so a head on Larger Text gets a bigger disc rather than a squeezed one.
+function Disc({ icon, disc }: { icon: HappyIconName; disc: CrayonName }) {
+  return (
+    <span aria-hidden style={{
+      flexShrink: 0, width: '2.9em', height: '2.9em', borderRadius: '50%',
+      background: CRAYON[disc], border: '2px solid var(--ink)', boxSizing: 'border-box',
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: '0 3px 0 var(--ink)',
+    }}>
+      <HappyIcon name={icon} size={30} />
+    </span>
+  )
+}
 
 export default async function HubPage() {
 
@@ -157,7 +189,7 @@ export default async function HubPage() {
               padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start',
               boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
             }}>
-              <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{d.emoji}</span>
+              <Disc icon={d.icon} disc={d.disc} />
               <span>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
                   {d.title} →

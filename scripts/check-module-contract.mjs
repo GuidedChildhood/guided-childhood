@@ -259,5 +259,46 @@ ok('teacher_notes.differentiation is { support, stretch }', notes.differentiatio
    (notes.differentiation && typeof notes.differentiation === 'object' && !Array.isArray(notes.differentiation)),
    `differentiation is ${typeof notes.differentiation}. Split the prose on its Support and Stretch labels`)
 
+// 12. every star breath breathes in time, and the half time one is the friend's (20 September 2026)
+//
+// Since migration 296 every lesson pauses at half time on a star breath the
+// module's own friend leads: a four second breath, a heading, and the half
+// time words under it. The four modules written on 19 September shipped the
+// breath with none of that and a thirty second cycle, which the player renders
+// as one breath in that lasts half a minute. Rule 8 checked the friend's name
+// only when one was given, so a breath with no friend passed.
+//
+// A lesson can carry other star breaths (the Reception settle at the start,
+// the KS1 calm bodies practice, the KS4 panic lever), and those are DiGi
+// Junior's with no words needed. So: every breath is four seconds; a breath
+// that names a friend carries the heading, the words and the register; and
+// the module carries at least one friend led breath, the half time beat.
+// (ks3-12, older than the contract, carries its pause as film instead.)
+const breaths = slides.filter(s => s.type === 'interactive' && s.component === 'star-breath')
+slides.forEach((s, i) => {
+  if (s.type !== 'interactive' || s.component !== 'star-breath') return
+  const c = s.config || {}
+  ok(`slide ${i} (star breath) breathes for four seconds`, c.seconds === undefined || c.seconds === 4, `seconds is ${JSON.stringify(c.seconds)}, one breath in and one out, not a stopwatch`)
+  if (c.character === undefined) return
+  ok(`slide ${i} (star breath) carries a heading`, typeof c.heading === 'string' && c.heading.trim().length > 0)
+  ok(`slide ${i} (star breath) carries the half time words`, typeof c.prompt === 'string' && c.prompt.trim().length > 20)
+  ok(`slide ${i} (star breath) names its register`, ['bouncy', 'playful', 'level', 'still'].includes(c.register), `register is ${JSON.stringify(c.register)}`)
+})
+ok('the half time breath is led by a friend', breaths.some(s => FRIENDS.includes(s.config && s.config.character)),
+   `${breaths.length} star breath(s), none naming a friend. The half time beat wants character, register, heading and prompt in its config`)
+
+// 13. the friend arrives and hands over the mission (20 September 2026)
+//
+// Every lesson opens on its friend and closes with the friend's mission
+// before DiGi's last word (migration 296). Rule 8 checked a beat's friend
+// only when a beat existed, so a module with no beats at all would pass. The
+// arrival is a digi slide naming the friend in the starter phase, or a film
+// (ks3-12 arrives on its pilot beats); the mission is a digi slide naming the
+// friend in the close phase. plans/character-appearances-plan.md says why.
+const arrival = slides.some(s => (s.type === 'digi' && FRIENDS.includes(s.character) && s.phase === 'starter') || (s.type === 'video' && s.phase === 'starter'))
+const mission = slides.some(s => s.type === 'digi' && FRIENDS.includes(s.character) && s.phase === 'close')
+ok('the friend arrives in the starter phase', arrival, 'no digi slide naming a friend, and no film, in the starter phase')
+ok('the friend hands over the mission in the close phase', mission, 'no digi slide naming a friend in the close phase')
+
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

@@ -23,11 +23,24 @@ export default function HomeReveals() {
     ScrollTrigger.batch(els, {
       start: 'top 88%',
       once: true,
-      onEnter: batch =>
-        gsap.to(batch, {
-          opacity: 1, y: 0, duration: 0.7, stagger: 0.09,
-          ease: 'power3.out', clearProps: 'opacity,transform',
-        }),
+      // A jump hands one batch everything it passed: the hero's "See every
+      // year" link, a hash in the address, a fast flick. Staggering the lot
+      // left the section a head had jumped TO blank for two seconds, because
+      // what was on the screen came last in the queue behind twenty things
+      // already above it (probe, 20 September 2026). So what is already
+      // above the screen simply appears, and only what is on the screen
+      // rises, the whole batch under way within half a second.
+      onEnter: batch => {
+        const above = batch.filter(el => el.getBoundingClientRect().bottom <= 0)
+        const seen = batch.filter(el => el.getBoundingClientRect().bottom > 0)
+        if (above.length) gsap.set(above, { clearProps: 'opacity,transform' })
+        if (seen.length) {
+          gsap.to(seen, {
+            opacity: 1, y: 0, duration: 0.7, stagger: Math.min(0.09, 0.5 / seen.length),
+            ease: 'power3.out', clearProps: 'opacity,transform',
+          })
+        }
+      },
     })
 
     document.querySelectorAll<HTMLElement>('.stat-num[data-count]').forEach(el => {

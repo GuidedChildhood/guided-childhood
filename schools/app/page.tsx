@@ -5,6 +5,8 @@ import { INTRO_CHARACTERS } from '@gc/shared/intro-characters'
 import { COMPANY } from '@gc/shared/legal'
 import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
+import HeroWall from '@/components/home/HeroWall'
+import LessonOpens from '@/components/home/LessonOpens'
 import SiteNav from '@/components/SiteNav'
 import { navAccess } from '@/lib/licence'
 import { PILOT_PATH } from '@/lib/links'
@@ -123,99 +125,10 @@ function MapPreview() {
   )
 }
 
-// THE WALL AT SIXTEEN: the hero visual, asked for by Justin on 31 August
-// after two rounds ("the character is covered too much, maybe a small
-// brick wall representing the wall at 16"). It draws the whole pitch in
-// one picture: the ban builds a wall at sixteen, the curriculum is the
-// road that walks a child up to it, and the passport is what opens the
-// door when they arrive. Drawn in SVG and DOM, no stock art, no AI image,
-// so it stays crisp at any size. The five Planet Friends walk the road in
-// age order using the same cutout art the lessons use.
-function WallAtSixteen() {
-  const BRICK = '#C97B54'
-  const MORTAR = '#A85E3D'
-  const rows = 8
-  const wallW = 190
-  const wallH = 250
-  const bh = wallH / rows
-  // The five friends in stage order, youngest at the start of the road.
-  const walkers = [
-    { key: 'pebble' as const, x: 4, y: 76, size: 46 },
-    { key: 'bloop' as const, x: 22, y: 66, size: 50 },
-    { key: 'orbit' as const, x: 40, y: 54, size: 54 },
-    { key: 'nova' as const, x: 57, y: 42, size: 58 },
-    { key: 'cosmo' as const, x: 73, y: 30, size: 62 },
-  ]
-  return (
-    <div style={{ background: '#fff', borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)' }}>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '10 / 8', background: 'linear-gradient(180deg, #FBF6EA 0%, #F6EDDA 100%)', borderRadius: 'var(--radius-card)', overflow: 'hidden' }}>
-
-        {/* The wall, offset brick courses drawn one rectangle at a time */}
-        <svg viewBox={`0 0 ${wallW} ${wallH}`} preserveAspectRatio="none" style={{ position: 'absolute', right: 0, top: 0, height: '100%', width: '38%' }} aria-hidden>
-          <rect x="0" y="0" width={wallW} height={wallH} fill={MORTAR} />
-          {Array.from({ length: rows }).map((_, r) => {
-            const offset = r % 2 === 0 ? 0 : -34
-            return Array.from({ length: 5 }).map((_, c) => (
-              <rect
-                key={`${r}-${c}`}
-                x={offset + c * 68 + 3}
-                y={r * bh + 3}
-                width={62}
-                height={bh - 6}
-                rx={3}
-                fill={BRICK}
-              />
-            ))
-          })}
-          {/* The door: gold, arched, slightly open with warm light inside */}
-          <path d={`M ${wallW * 0.30} ${wallH} L ${wallW * 0.30} ${wallH * 0.52} Q ${wallW * 0.50} ${wallH * 0.36} ${wallW * 0.70} ${wallH * 0.52} L ${wallW * 0.70} ${wallH} Z`} fill="#7A5A0E" />
-          <path d={`M ${wallW * 0.33} ${wallH} L ${wallW * 0.33} ${wallH * 0.54} Q ${wallW * 0.50} ${wallH * 0.40} ${wallW * 0.67} ${wallH * 0.54} L ${wallW * 0.67} ${wallH} Z`} fill="#EDC35F" />
-          <path d={`M ${wallW * 0.36} ${wallH} L ${wallW * 0.36} ${wallH * 0.56} Q ${wallW * 0.50} ${wallH * 0.44} ${wallW * 0.60} ${wallH * 0.55} L ${wallW * 0.60} ${wallH} Z`} fill="#FEF08A" opacity="0.85" />
-          <circle cx={wallW * 0.62} cy={wallH * 0.78} r="4" fill="#7A5A0E" />
-        </svg>
-
-        {/* The 16 sign on the wall */}
-        <div style={{ position: 'absolute', right: '12%', top: '10%', background: '#FDF4D9', border: '2px solid #7A5A0E', borderRadius: 'var(--radius-tile)', padding: '4px 12px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.1rem, 2.6vw, 1.6rem)', color: '#7A5A0E', boxShadow: '0 3px 0 rgba(122,90,14,0.35)', transform: 'rotate(3deg)' }}>
-          16
-        </div>
-
-        {/* The rising dashed road, start of the journey to the door */}
-        <svg viewBox="0 0 100 80" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden>
-          <path d="M -2 76 C 25 74, 45 62, 66 44 S 82 30, 88 26" fill="none" stroke="#C99A28" strokeWidth="2.6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.75" />
-        </svg>
-
-        {/* The five friends walking the road in age order */}
-        {walkers.map((wk, i) => {
-          const ch = CHARACTERS[wk.key]
-          return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={wk.key}
-              src={ch.img}
-              alt={ch.name}
-              style={{
-                position: 'absolute', left: `${wk.x}%`, top: `${wk.y}%`,
-                width: `${wk.size}px`, height: 'auto',
-                filter: 'drop-shadow(0 4px 6px rgba(46,40,24,0.28))',
-                zIndex: 5 + i,
-              }}
-            />
-          )
-        })}
-
-        {/* The passport, waiting at the door */}
-        <div style={{ position: 'absolute', right: '26%', top: '46%', background: '#7C2D3E', border: '2px solid #EDC35F', borderRadius: '7px', padding: '5px 7px 6px', transform: 'rotate(-7deg)', boxShadow: '0 4px 8px rgba(46,40,24,0.3)', zIndex: 20 }}>
-          <div style={{ fontSize: 'var(--text-sm)', textAlign: 'center', lineHeight: 1 }}>⭐</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '6.5px', fontWeight: 700, letterSpacing: '0.1em', color: '#EDC35F', marginTop: '3px' }}>PASSPORT</div>
-        </div>
-      </div>
-
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--ink-muted)', textAlign: 'center', margin: '14px 0 0' }}>
-        The ban builds a wall at sixteen. We build the road, and the passport opens the door.
-      </p>
-    </div>
-  )
-}
+// The hero picture lives in components/home/HeroWall.tsx since 20 September
+// 2026, where it builds itself on arrival (plans/week-of-2026-09-21-schools-
+// home-apple-plan.md). The pitch it draws is unchanged: the ban builds a wall
+// at sixteen, the curriculum is the road, the passport opens the door.
 
 // The faces, each carrying the corner of digital life they actually teach.
 //
@@ -324,7 +237,11 @@ export default async function SchoolsPage() {
   ]
 
   return (
-    <div style={{ background: 'var(--cream)', overflowX: 'hidden' }}>
+    <div style={{ background: 'var(--cream)', overflowX: 'clip' }}>
+      {/* overflow-x CLIP, not hidden. Hidden makes this div a scroll container
+          for position: sticky, so the lesson board (components/home/LessonOpens)
+          scrolled away with the page instead of staying beside its steps; clip
+          stops sideways scroll without doing that. */}
       <HomeReveals />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -332,8 +249,6 @@ export default async function SchoolsPage() {
 
       {/* ── HERO ── */}
       <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(48px, 6.5vw, 96px) clamp(20px, 4vw, 40px) clamp(64px, 8vw, 120px)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-140px', right: '-100px', width: '620px', height: '620px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.22) 0%, transparent 62%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '-200px', left: '-140px', width: '520px', height: '520px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,240,138,0.09) 0%, transparent 68%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1160px', margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center' }} className="schools-hero-grid">
           <Reveal>
             <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>For schools, heads and PSHE leads</p>
@@ -359,7 +274,7 @@ export default async function SchoolsPage() {
             </p>
           </Reveal>
           <Reveal delay={0.12} y={34}>
-            <WallAtSixteen />
+            <HeroWall />
           </Reveal>
         </div>
       </section>
@@ -384,43 +299,39 @@ export default async function SchoolsPage() {
         </div>
       </section>
 
-      {/* ── SEE A LESSON OPEN ── the real product moment ── */}
+      {/* ── A LESSON OPENS ── the real product moment, as you scroll ── */}
       <section style={{ padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)' }}>
-        <div style={{ maxWidth: '1160px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center' }} className="schools-hero-grid">
-          <div className="fu">
+        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+          <div className="fu" style={{ marginBottom: 'clamp(28px, 4vw, 48px)' }}>
             <p style={{ ...eyebrow(), marginBottom: '14px' }}>This is a real lesson opening</p>
-            <h2 style={{ ...h2, maxWidth: '520px', marginBottom: '18px' }}>
+            <h2 style={{ ...h2, maxWidth: '760px', marginBottom: '18px' }}>
               A friend at the door, then a lesson with a spine.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px', marginBottom: '18px' }}>
-              Every lesson opens with a character animated from our own art, then runs the same six phases in the same order, the shape the strongest teaching research keeps arriving at: retrieval first, small steps, guided practice, and every child proving it before the close.
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: '20px' }}>
-              {['Connect', 'Recall', 'Teach', 'Practise', 'Prove', 'Reflect'].map(ph => (
-                <span key={ph} style={{ background: '#fff', border: '2px solid var(--border)', borderRadius: 'var(--radius-pill)', padding: '6px 14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>{ph}</span>
-              ))}
-            </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px' }}>
-              Under the slides sits a word for word script, the misconceptions to expect, the differentiation both ways, and a run sheet that walks any teacher through the whole lesson, no specialist knowledge needed.
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px' }}>
+              Every lesson runs the same six phases in the same order, the shape the strongest teaching research keeps arriving at: retrieval first, small steps, guided practice, and the class proving it before the close. Scroll, and watch one open.
             </p>
           </div>
-          <div className="fu">
-            <MapPreview />
-          </div>
+          <LessonOpens />
         </div>
       </section>
 
       {/* ── ONE LESSON, EVERYTHING ── */}
       <section style={{ padding: '0 clamp(20px, 4vw, 40px) clamp(72px, 10vw, 130px)' }}>
         <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
-          <div className="fu">
-            <p style={{ ...eyebrow(), marginBottom: '14px' }}>One lesson, everything in it</p>
-            <h2 style={{ ...h2, maxWidth: '760px', marginBottom: '18px' }}>
-              A teacher opens one page. The whole lesson is already there.
-            </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '48px' }}>
-              No hunting through a portal. No prep the night before. Everything a non specialist needs to teach it well, generated from the lesson itself and updated the moment the world changes.
-            </p>
+          {/* The map preview sits beside the promise, so the six real modules
+              are the picture for "everything is already there". It used to
+              carry the lesson opening section's right column. */}
+          <div className="fu schools-hero-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center', marginBottom: '48px' }}>
+            <div>
+              <p style={{ ...eyebrow(), marginBottom: '14px' }}>One lesson, everything in it</p>
+              <h2 style={{ ...h2, maxWidth: '760px', marginBottom: '18px' }}>
+                A teacher opens one page. The whole lesson is already there.
+              </h2>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px' }}>
+                No hunting through a portal. No prep the night before. Everything a non specialist needs to teach it well, generated from the lesson itself and updated the moment the world changes.
+              </p>
+            </div>
+            <MapPreview />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-4)' }}>
             {[
@@ -701,7 +612,6 @@ export default async function SchoolsPage() {
 
       {/* ── FINAL CTA ── */}
       <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '720px', height: '720px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.16) 0%, transparent 62%)', pointerEvents: 'none' }} />
         <div className="fu" style={{ maxWidth: '660px', margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <div style={{ fontSize: '44px', marginBottom: '18px' }}>⭐</div>
           <h2 style={{ fontFamily: 'var(--font-display)', ...PAGE.hero, fontWeight: 900, marginBottom: 'var(--space-4)', color: '#fff' }}>

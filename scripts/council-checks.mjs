@@ -144,7 +144,14 @@ export const MAX_PASSIVE_MINUTES = 4
 // half sits at 4.30. Two checks, two scores, never one number.
 export const ON_THE_WALL = {
   // prose: read while the teacher talks
-  title:   { prose: ['title', 'eyebrow', 'body'] },
+  // The eyebrow is not counted (20 September 2026). It is the label over the
+  // title, "KS1 · Years 1 to 2 · Module 2", set in mono at aside size for the
+  // teacher, and its separators were being counted as words a child decodes.
+  // With it in, the three early years title slides could never come inside
+  // the 12 word ceiling whatever the body said, because the label alone with
+  // the title was 13 words. The title and the line under it are what the
+  // wall says; they are what the ceiling is for.
+  title:   { prose: ['title', 'body'] },
   concept: { prose: ['heading', 'body'] },
   tryit:   { prose: ['heading', 'body'] },
   recap:   { prose: ['heading'], blocks: s => s.points ?? [] },

@@ -341,9 +341,13 @@
       "minutes": 1,
       "component": "star-breath",
       "config": {
-        "seconds": 30
+        "seconds": 4,
+        "character": "digi",
+        "register": "still",
+        "heading": "Half time",
+        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet."
       },
-      "script": "Thirty seconds of star breathing before the sort. This lesson asks more of a room than any other in the scheme and the pause is doing real work rather than decorating. Say nothing during it."
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. This lesson asks more of a room than any other in the scheme and the pause is doing real work rather than decorating. Say nothing during the breaths. Then straight into the sort."
     },
     {
       "type": "interactive",

@@ -344,9 +344,13 @@
       "minutes": 1,
       "component": "star-breath",
       "config": {
-        "seconds": 30
+        "seconds": 4,
+        "character": "bloop",
+        "register": "playful",
+        "heading": "Half time · everyone together",
+        "prompt": "Two breaths: in as Bloop grows, out as Bloop shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet."
       },
-      "script": "Thirty seconds of star breathing before the sorting task. This lesson runs on one idea repeated, which is tiring in a different way from a busy lesson, so the pause earns its place here."
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. This lesson runs on one idea repeated, which is tiring in a different way from a busy lesson, so the pause earns its place here. Then straight into the sorting task."
     },
     {
       "type": "interactive",
