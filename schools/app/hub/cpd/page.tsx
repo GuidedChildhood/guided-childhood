@@ -90,6 +90,14 @@ const BRIEFINGS = [
     line: 'The line that carries the lesson: it can be good company, and it is still a product.',
   },
   {
+    module: 'M27 · When it turns on you (KS3, Years 7 to 9)',
+    covers: 'Why online conflict escalates when the same words said out loud would not: no face to stop you, an audience that rewards going further, and a record that means nothing ends. Then four behaviours named precisely, bullying, harassment, stalking and coercive control, with three of them criminal offences. Then the three moves: name it, save it, say it, in that order, because a reply often triggers the deletion that loses the evidence.',
+    register: 'Not a lesson about being nice, and this class has had plenty of those. It is about naming and about what works, which is a more grown up offer and lands better. Never ask who has experienced any of it, never invite a story, and use no real examples. The lesson is built so a pupil living one of these can take everything they need without saying a word.',
+    watchFor: 'This is the likeliest disclosure point in the scheme. Three moments carry the highest chance: the five message scenario, the coercive control choice that follows it, and the closing line telling pupils to speak to somebody before the bell, which is written to prompt exactly that. Stand by the door at the end. That is when you will be told.',
+    disclosure: 'Handle under your safeguarding policy and bring it to the DSL the same day. A pupil describing a partner or friend monitoring their location, messages or contacts is describing coercive control, which KCSIE 2026 names at paragraph 160 as something preventative education should cover. A pupil disclosing that they have been doing it needs the same day response and the same care, because a young person coming forward about their own behaviour is the best chance of it stopping.',
+    line: 'The line that carries the lesson: it is the place, not the people, which is what makes it predictable and therefore plannable.',
+  },
+  {
     module: 'M16 · Consent, images and the law (KS4, Years 10 to 11)',
     covers: 'Consent as ongoing and revocable, the UK law on under 18 images (including self images), pressure and coercion, and Report Remove as the confidential route out.',
     register: 'Straight talking and calm. Treat them as the near adults they are. The law section is factual, not threatening: the point is options, not fear.',
@@ -112,6 +120,22 @@ const BRIEFINGS = [
     watchFor: 'Defensive reactions from pupils who recognise content they enjoy. Do not condemn the pupil, examine the technique. Concerning views expressed in the room are information, not a verdict: note them, do not debate them to destruction.',
     disclosure: 'The Prevent duty applies. Concerns about radicalisation follow your Prevent and safeguarding routes, not classroom debate. Record in your school system.',
     line: 'The line that carries the lesson: who wants me angry, and what do they get if I stay angry?',
+  },
+  {
+    module: 'M28 · The money and the odds (KS4, Years 10 to 11)',
+    covers: 'Three questions rather than a warning. The price: two conversions hide what a chance costs, and a pack that never divides evenly into the item guarantees a stranded leftover. The odds: 37 pockets paying 35 to 1 is the house edge, published and patient, and the wheel has no memory. The loop: speed between stake and result is what the law acts on, which is why online slots are capped and a weekly draw is not. Debt is taught as the mechanism, because the money is gone before the feeling of spending arrives.',
+    register: 'Nobody is told to stop playing anything. It is a lesson about pricing and product design, which is a more grown up offer than a warning and the only version this age group listens to. Do not ask who gambles or who buys crates, and do not open with a cautionary story. Some of the room plays these weekly and at least one has a parent who does.',
+    watchFor: 'Disclosures here are usually about somebody else rather than the pupil. The two moments that carry the most are the slide on what gambling harm does to a person, written quietly for that reason, and the sorting card about breaking a promise to yourself, which is the only card describing a person rather than a product.',
+    disclosure: 'Gambling harm in a household is a safeguarding matter: money going missing, meals not happening, a parent absent or unpredictable, and a child carrying a secret they have been told to keep. That is neglect or emotional harm and it goes to the DSL the same day. Debt is the other route, and a pupil who owes money to a person may be being exploited by whoever they owe it to, which is a criminal exploitation concern rather than a money one.',
+    line: 'The line that carries the lesson: one go is luck, ten thousand goes is arithmetic, and the question is how fast is the loop.',
+  },
+  {
+    module: 'M29 · The content you did not go looking for (KS4, Years 10 to 11)',
+    covers: 'Two halves that arrive rather than being searched for: content promoting self harm, suicide or violence, and the friendly offer that begins recruitment into drug supply. Why a feed sends what nobody asked for, an accurate account of what viewing does and does not do, what helps afterwards with the free routes named, and the three moves, stop it, report it, say it, of which only the first is on a clock.',
+    register: 'Written to Samaritans guidance on safe portrayal: no method is named or described anywhere, and nothing harmful is shown. DiGi promises on the second slide that nobody will be asked to share anything, and that promise has to hold for the full hour, so do not improvise a question later that asks for an experience. Read your own school process before teaching it.',
+    watchFor: 'Alongside M27 this is the likeliest disclosure point in the scheme, and four moments are written to invite one safely: the slide stating nobody is in trouble for having seen something, the message exchange about not being able to stop seeing it, the slide on a young person already in drug supply, and the practise question about having told nobody for two weeks.',
+    disclosure: 'Same day, under your policy. Three specifics. Repeated involuntary re seeing, sleep loss or persistent distress after viewing needs a conversation now, not wait and see. A pupil carrying, storing or selling for somebody is describing child criminal exploitation, which KCSIE 2026 treats as abuse; note that a school is not a first responder for the National Referral Mechanism, so it routes through you to children’s social care or the police. And a pupil disclosing their own self harm or thoughts of suicide follows your policy immediately, without a promise of confidentiality being given first.',
+    line: 'The line that carries the lesson: you are not in trouble for what arrived, and passing it on is the only thing that changes that.',
   },
 ]
 

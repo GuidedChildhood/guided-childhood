@@ -41,7 +41,10 @@
     "cycle-anchors": "node scripts/check-cycle-anchors.mjs",
     "module-contract": "node scripts/check-module-contract.mjs",
     "roll-decisions": "node scripts/roll-decisions.mjs",
-    "context-guard": "node scripts/check-context-budget.mjs"
+    "context-guard": "node scripts/check-context-budget.mjs",
+    "rshe-guard": "node scripts/check-rshe-coverage.mjs",
+    "rshe-evidence": "node scripts/rshe-evidence.mjs",
+    "rshe-generate": "python3 scripts/rshe/gen_ts.py && python3 scripts/rshe/mkcsv2.py"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

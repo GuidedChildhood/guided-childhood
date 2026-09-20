@@ -85,10 +85,24 @@ export const CHARACTERS: Record<CharacterKey, {
   },
 }
 
-// The named topics of the DfE RSHE statutory guidance published 15 July
-// 2025, compulsory 1 September 2026. The mapping matrix (/educator/hub)
-// renders module coverage against these. Keys are stable ids, labels are
-// the display wording.
+// SUPERSEDED, 19 September 2026. Kept only so the `rshe` keys on the module
+// rows below still typecheck; nothing renders from it any more.
+//
+// This list was described in the comment it replaces as "the named topics of
+// the DfE RSHE statutory guidance". It was not. The guidance has twenty eight
+// strands and one hundred and ninety five numbered curriculum content items,
+// and this is ten themes someone chose. The whole compliance story rendered
+// from it, so nothing downstream could be more accurate than the list, and the
+// list had never been checked against the document.
+//
+// The audit checked it (GDC_SCHOOLS_2026_COMPLIANCE_AUDIT.md) and found two
+// topics marked as covered that the lessons do not teach. The real mapping now
+// lives in shared/schools-rshe-2026.ts: fifty seven requirements, quoted
+// verbatim, each held to phrases that must appear in the named modules'
+// live slides by scripts/check-rshe-coverage.mjs.
+//
+// Delete this block and the `rshe` field together, once someone has a spare
+// minute and the twenty five module rows can be edited in one pass.
 export const RSHE_2025_TOPICS = [
   { key: 'online_safety', label: 'Online safety and harms' },
   { key: 'respectful_relationships', label: 'Respectful relationships, online and offline' },
@@ -253,6 +267,46 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
+    n: 26, moduleId: 'ks2-26-why-thirteen', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    title: 'Why thirteen?',
+    outcome: 'I can say what the number on an app is protecting.',
+    blurb: 'What an age rule is protecting, and what switches off when it is wrong.',
+    character: 'bloop', castLine: 'Bloop and DiGi',
+  },
+  {
+    n: 27, moduleId: 'ks3-27-when-it-turns-on-you', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    title: 'When it turns on you',
+    outcome: 'I can name what is happening, and say the thing that ends it.',
+    blurb: 'Why online conflict escalates, what the four names are, and what ends it.',
+    character: 'orbit', castLine: 'Orbit and DiGi', dsl: true,
+  },
+  {
+    // The `gambling` key, taken back from ks4-15 on 19 September 2026. It sat
+    // there for a year on a module that never used the word. This one is the
+    // scheme's whole answer to RSHE 2026's two gambling requirements, and to
+    // the commerce category KCSIE 2026 names at paragraph 165.
+    n: 28, moduleId: 'ks4-28-the-money-and-the-odds', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    title: 'The money and the odds',
+    outcome: 'I can work out what a chance really costs me, and say when the loop has somebody.',
+    blurb: 'The hidden price of a chance, the house edge, and why speed of the loop is the real risk.',
+    character: 'nova', castLine: 'Nova and DiGi', dsl: true,
+    rshe: ['gambling', 'mental_wellbeing', 'scams_financial'],
+  },
+  {
+    // DiGi only, maximum calm, the same register as sextortion and consent,
+    // because the two halves of this lesson are the two a pupil is least
+    // likely to raise by themselves. It pairs content that promotes self harm
+    // with recruitment into drug supply on purpose: both arrive rather than
+    // being sought, and both are met with the same silence for the same wrong
+    // reason, that being sent a thing implicates you in it.
+    n: 29, moduleId: 'ks4-29-did-not-go-looking', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    title: 'The content you did not go looking for',
+    outcome: 'I know what to do with something I never asked to see, and that I am not in trouble for it.',
+    blurb: 'Why the worst things online arrive rather than get searched for, and the three moves that deal with any of them.',
+    character: 'digi', castLine: 'DiGi only, maximum calm', dsl: true,
+    rshe: ['illegal_online', 'mental_wellbeing', 'online_safety'],
+  },
+  {
     n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
@@ -330,7 +384,13 @@ export const CURRICULUM: CurriculumModule[] = [
     outcome: 'I can name the technique being used on me.',
     blurb: 'Dark patterns, engineered outrage, and who profits.',
     character: 'nova', castLine: 'Nova',
-    rshe: ['online_safety', 'mental_wellbeing', 'gambling'],
+    // `gambling` was removed on 19 September 2026. The audit checked the live
+    // slides and this module contains no gambling teaching at all: the word
+    // does not appear in it, and the only gambling slide in the whole scheme is
+    // one KS2 loot box slide in ks2-05. The module teaches persuasion and dark
+    // patterns brilliantly and a tick in the gambling column was still a lie.
+    // The KS4 gambling module now being written takes the key back.
+    rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
     n: 16, moduleId: 'ks4-16-consent-images-law', keyStage: 'KS4', yearBand: 'Years 10 to 11',

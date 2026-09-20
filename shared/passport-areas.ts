@@ -80,6 +80,7 @@ export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'ks2-09-copyright-ownership':               'social',  // making, sharing and owning your work
   'ks2-23-when-a-machine-talks-like-a-friend':'ai',      // a machine that says it likes you
   'ks2-25-stay-the-maker':                    'ai',      // if the computer made it, whose is it
+  'ks2-26-why-thirteen':                      'social',  // the age rule is the door into social media
   'ks3-10-mood-and-screens':                  'balance', // better, worse, or nothing, for a week
   'ks3-11-social-workarounds':                'social',  // the rule and the protection behind it
   'ks3-12-misinfo-deepfakes':                 'ai',      // three checks before you believe or share
@@ -87,11 +88,14 @@ export const SCHOOL_MODULE_AREA: Record<string, AreaKey> = {
   'ks3-14-bodies-image-pressure':             'balance', // who edited this, who profits from me feeling worse
   'ks3-22-when-an-ai-acts-like-a-friend':     'ai',      // does it ever have a day of its own
   'ks3-24-is-it-doing-my-thinking':           'ai',      // help that gets you to the work, or does the work
+  'ks3-27-when-it-turns-on-you':              'safe',    // name the harm, save it, say it
   'ks4-15-manipulation-persuasion':           'ai',      // name the technique, follow the money
   'ks4-16-consent-images-law':                'safe',    // consent, the law, and the options afterwards
   'ks4-17-sextortion':                        'safe',    // do not pay, do not keep it secret, report it
   'ks4-18-radicalisation-misogyny':           'ai',      // who wants me angry, what happens if I keep watching
   'ks4-19-readiness-at-16':                   'social',  // the first week of full access, planned
+  'ks4-28-the-money-and-the-odds':            'balance', // know what it costs, know when to stop
+  'ks4-29-did-not-go-looking':                'safe',    // name what arrived, know the route to help
   'ks5-20-ai-mastery-data-rights':            'ai',      // use it like a professional, check it like an editor
   'ks5-21-digital-identity-future-work':      'social',  // what is still worth paying you for
 }

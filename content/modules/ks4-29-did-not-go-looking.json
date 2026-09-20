@@ -1,0 +1,929 @@
+{
+  "module_id": "ks4-29-did-not-go-looking",
+  "key_stage": "KS4",
+  "sort_order": 29,
+  "row": {
+    "title": "The content you did not go looking for",
+    "year_band": "Years 10 to 11",
+    "audience": "teacher",
+    "efcw_strands": [
+      2,
+      4
+    ],
+    "statutory_hooks": [
+      "RSHE 2026 (wellbeing online, the serious risks of viewing content that promotes self harm, suicide or violence, including how to safely report it and how to access support after viewing it)",
+      "RSHE 2026 (wellbeing online, the risks of illegal behaviours online, including drug and knife supply and the sale or purchase of illicit drugs)",
+      "KCSIE 2026 para 165 content (self harm, suicide, extreme sexual or physical violence) and contact (adults seeking to engage a child for a criminal purpose)"
+    ],
+    "ailit_domains": [],
+    "evidence_anchor": "Both halves of this lesson arrive rather than being chosen: a feed guesses what will hold you and distress holds people, and a message arrives from someone who half knows you. Being sent a thing is not the same as choosing it",
+    "single_action_outcome": "I know what to do with something I never asked to see, and that I am not in trouble for it.",
+    "character_cast": "DiGi only, maximum calm",
+    "scaffold": "TELL",
+    "sort_order": 29
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "digi",
+      "eyebrow": "KS4 · Years 10 to 11",
+      "title": "The content you did not go looking for",
+      "body": "Why the worst things online arrive rather than get searched for, what they cost to look at, and the three moves that deal with any of them.",
+      "script": "Settle the room with this up. Read the title and the line under it, then stop. Do not ask who has seen something they wish they had not, and do not tell a story of your own. Assume several people in this room are carrying one already. The whole lesson is built so that every one of them can take what they need without saying a single word, and the opening is the first promise of that."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "digi",
+      "heading": "DiGi starts gently",
+      "lines": [
+        "Some things online you go and find.",
+        "Some things find you. Those are the ones worth a plan.",
+        "Nothing today is going to ask you to tell anyone anything."
+      ],
+      "script": "Let DiGi set the frame, the bubbles appear on their own. The third line is a promise and it has to be kept for the whole hour, so do not improvise a question later that asks anybody to share an experience. That promise is what makes the room safe enough to actually learn in."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I know what to do with something I never asked to see, and that I am not in trouble for it.",
+      "why": "Most people who see something bad online tell nobody, and the commonest reason is a quiet belief that being sent it makes it partly theirs. That belief is wrong, and it is the thing that keeps people alone with it.",
+      "gains": [
+        "Why a feed sends you things you never searched for, and why a message arrives from someone who half knows you",
+        "What looking at this material actually does, said accurately rather than dramatically",
+        "Three moves that work on any of it, and exactly where each one goes"
+      ],
+      "script": "Read the outcome and the why steadily and land the why hard, because it is the sentence that gives somebody in the room permission to speak to you later. Say plainly what this hour is not: it is not a warning about what is out there, because they have already seen what is out there. It is what to do about it."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "minutes": 3,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "Think about the last thing you saw online that you did not choose to see. Not what it was, and nobody is going to ask. Just this: how did it reach you? A feed, a message, a group, or somebody showing you their phone?",
+      "lookFor": "Four routes, and almost all of it lands in those four. The useful pattern is that only one of them, somebody showing you a phone, involves a decision by the person seeing it.",
+      "script": "Ninety seconds. Say the boundary out loud before they start and say it twice: not what it was, only how it arrived. Take four answers and write only the routes on the board, never the content. If a pupil starts describing something, cut in warmly and redirect to the route. Doing that once early protects the whole lesson."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Four words for today",
+      "words": [
+        {
+          "word": "recommender",
+          "definition": "The system that chooses what appears next in a feed. It is not a list of what you asked for. It is a guess about what will keep you there."
+        },
+        {
+          "word": "normalise",
+          "definition": "To make something come to seem ordinary by seeing it often. It happens without permission and without being noticed, which is what makes it worth knowing about."
+        },
+        {
+          "word": "exploitation",
+          "definition": "Being used by somebody who is getting something out of you. The offer usually looks like an opportunity first, and it is meant to."
+        },
+        {
+          "word": "county lines",
+          "definition": "Drug supply organised across areas using young people to carry and sell. Recruitment often starts as a friendly message about easy money."
+        }
+      ],
+      "script": "Say each word, class repeats. Two to stress test. Normalise, because it is the mechanism in cycle two and most pupils have only met the word in a political sense. Exploitation, because pupils tend to hear it as something that happens to other people somewhere else, and the whole of cycle three depends on them hearing it as something that begins with a perfectly friendly message."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🛰️",
+      "heading": "Why it found you",
+      "body": "A feed is not a list of what you asked for. It is a guess about what will hold you, built out of what people the system thinks are like you stopped scrolling for. Distress stops people scrolling. Anger stops people scrolling. So a system that is only trying to hold attention will find its way to some of the worst things to see, without anyone deciding that it should. That is worth understanding precisely, because the alternative explanation most people reach for is that they must have done something to deserve it.",
+      "script": "The hinge of the lesson. Land the middle sentence slowly: distress holds attention, so a system optimising for attention ends up here without malice and without neutrality. Then land the last sentence twice, because the belief that it is somehow your fault is the exact thing that stops a pupil telling anybody."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "You have never searched for anything like it, and it turns up in your feed anyway. What is the most likely explanation?",
+      "options": [
+        {
+          "text": "You must have clicked on something without realising",
+          "correct": false,
+          "feedback": "This is the answer most people reach for and it is the one that makes them feel responsible. You do not have to have clicked on anything at all."
+        },
+        {
+          "text": "The system learned that content like it holds people, and you fit a pattern it recognised",
+          "correct": true,
+          "feedback": "That is the mechanism, and it is common. A 2026 study of more than 32,000 pupils aged 11 to 18 in England found about a third had seen self harm content in the past month, and most of them said they had not gone looking for it."
+        },
+        {
+          "text": "Somebody reported your account",
+          "correct": false,
+          "feedback": "Reporting does not work like that, and nothing you are sent is a punishment for something. The feed is a guess, not a verdict."
+        }
+      ],
+      "script": "Whole class. Expect the first option to be popular and read its feedback in full, because it is the belief the lesson exists to correct. Nobody should leave this room thinking a feed is a judgement about them."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Two doors and a hallway",
+      "caption": "Three ways it reaches you. Only one of them involved a decision by you, and even that one was somebody else's idea.",
+      "steps": [
+        {
+          "title": "The feed",
+          "emoji": "📱",
+          "text": "No sender at all. A guess about what will hold you, and there is nobody on the other end who chose you specifically."
+        },
+        {
+          "title": "The message",
+          "emoji": "✉️",
+          "text": "There is a sender, and it is often somebody you half know, or somebody who found you through somebody you know. That is deliberate."
+        },
+        {
+          "title": "The group",
+          "emoji": "👥",
+          "text": "Forwarded by somebody who did not stop to think. The commonest route of all, and the easiest one to break."
+        }
+      ],
+      "verdicts": [
+        "You did not ask",
+        "You did not choose",
+        "Not yours to carry"
+      ],
+      "script": "Walk the three. Spend longest on the third, because it is the one pupils can do something about tonight: almost everything that circulates in a school does so because somebody forwarded it without thinking for one second. The verdict chips are the through line and they get repeated in the recap."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "Is there a real difference between going and finding something, and being shown it? Does the difference change anything about how you should feel afterwards?",
+      "lookFor": "Most land on yes, there is a difference, and then struggle to say why it should change how they feel. That struggle is the point and it is worth naming rather than resolving.",
+      "script": "Ninety seconds. Take three answers and do not close it down neatly, because the honest answer is that people feel responsible for things that arrived anyway, and telling them not to does not work. What works is the next slide, which gives them the fact rather than the reassurance."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🫱",
+      "heading": "You are not in trouble",
+      "body": "This is the most important thing in the hour, so it gets said plainly. You are not in trouble for seeing something. You are not in trouble for being sent something. You are not in trouble for not reporting it straight away, or for being three weeks late telling somebody. None of that changes. The only thing that changes anything is passing it on, and that is exactly why the first of the three moves is to stop it with you.",
+      "script": "Say this one slowly and say it to the whole room rather than to any part of it. Four sentences, four beats, no hedging and no conditions attached. If you add a qualifier here, somebody who needed it will hear the qualifier and not the sentence. Then pause before moving on."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🌫️",
+      "heading": "What it does to look",
+      "body": "Being accurate about this matters more than being frightening about it. Most people who see this content are not harmed by it, and saying flatly that it makes people go and do things is both too simple and the reason people stay quiet about what they have seen. What repeated exposure does do is quieter: it wears down the shock, and a thing seen often enough starts to seem more ordinary than it is. That matters most for somebody who is already struggling, because for them ordinary is the dangerous word.",
+      "script": "Slow and level. This slide is carrying the statutory requirement and it is also the slide that could do harm if it is delivered dramatically, so keep your voice completely flat. The sentence to land is the last one: the risk is not that looking causes anything, it is that repetition makes a serious thing look ordinary, and that lands hardest on whoever was already having a bad year."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which of these is the most accurate thing to say about seeing this kind of content?",
+      "options": [
+        {
+          "text": "It makes people go and do it",
+          "correct": false,
+          "feedback": "Too simple, and the belief does damage: it turns everybody who has seen something into somebody with a secret they think they cannot admit to."
+        },
+        {
+          "text": "It makes a serious thing look more ordinary than it is, and that matters most for whoever is already struggling",
+          "correct": true,
+          "feedback": "That is the honest version. Quieter than the scare, truer, and it is the one that explains why it is worth telling somebody."
+        },
+        {
+          "text": "It has no effect at all, people just scroll past",
+          "correct": false,
+          "feedback": "Also not true, and it is the version that leaves somebody who cannot stop thinking about it assuming there is something wrong with them."
+        }
+      ],
+      "script": "Whole class. Both wrong answers are common beliefs held sincerely, and both do harm in opposite directions, so read both feedbacks aloud. The pupil who picked the third one may be the pupil who is quietly not fine."
+    },
+    {
+      "type": "scenario",
+      "phase": "teach",
+      "minutes": 2,
+      "platform": "message",
+      "handle": "Jo",
+      "avatar": "💬",
+      "text": "did you see what got sent round last night\n\nI wish I hadnt opened it\n\nkeep seeing it when I shut my eyes\n\nfeel stupid for being weird about it\n\ndont tell anyone I said this",
+      "meta": "Today · 23:40",
+      "script": "Put it up and let the room read it in silence. Then one question: which of these five lines is the one that needs answering first? Most say the third. The better answer is the fourth, because feeling stupid about it is what turns one bad night into three weeks of silence. Do not ask anyone whether they have sent a message like this."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "💭",
+      "heading": "What helps afterwards",
+      "body": "Here is the part that almost never gets taught. Seeing something you were not ready for can keep coming back for a while, at odd moments and without being invited. That is an ordinary response to something out of the ordinary. It is not weakness and it is not a sign that anything is wrong with you. Two things shorten it. Saying it out loud to one person, which takes it out of the private loop it is stuck in. And knowing the free routes are already there, so that if it does not fade there is an obvious place to go. Samaritans on 116 123, any age, day or night, and it does not show on the phone bill. Childline on 0800 1111 if you are under 19. HOPELINE247 on 0800 068 4141, which is there for anyone under 35 and for anyone worried about somebody else.",
+      "script": "This slide is the answer to the message on the last one, so say that out loud. The most useful sentence is that the re seeing is ordinary, because the pupil experiencing it right now believes they are the only one. Read all three numbers slowly and leave the slide up far longer than feels comfortable, because somebody is writing one down and does not want to be seen doing it. Two things worth knowing yourself. Samaritans has no minimum age at all, which pupils never assume. And not showing on the bill is not the same as leaving no trace: the number can stay in the handset call history, which is Childline's own advice to clear."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Jo says they keep seeing it and feel stupid for being weird about it. What is the most useful thing to reply?",
+      "options": [
+        {
+          "text": "Just try not to think about it",
+          "correct": false,
+          "feedback": "Kindly meant and it never works. Trying not to think about something is one of the few reliable ways to think about it more."
+        },
+        {
+          "text": "That happens to loads of people, it is not weird. Have you told anyone else?",
+          "correct": true,
+          "feedback": "Two things in one message: it is normal, and is this shared with anybody. That second question is the one that actually changes what happens next."
+        },
+        {
+          "text": "Send it to me so I can see how bad it was",
+          "correct": false,
+          "feedback": "Now there are two people carrying it and one more copy in the world. Curiosity is understandable and this is still the worst available reply."
+        }
+      ],
+      "script": "Whole class. The third option gets picked honestly by a few and it is worth naming without any mockery: wanting to see is a normal reaction, and it is still the reply that makes everything worse. That is the distinction the whole lesson is teaching."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "💸",
+      "heading": "What the offer actually is",
+      "body": "The other thing that arrives is an offer. It comes from somebody you half know, or somebody who found you through a friend, and it is friendly first. Easy money, a lift somewhere, hold onto this for me, nothing heavy. What is actually being sold is you: somebody who can carry something they would rather not be caught carrying. It is sold as a job and it works like a debt, because sooner or later something goes missing and is owed, and the owing is what makes leaving hard. That is the design, not a thing that went wrong. The same door sells other things. Knives get advertised as though a website were a loophole, and it is not one: selling one to anybody under 18 has been an offence for decades, and since 2022 it is also an offence to deliver one bought online to a home address.",
+      "script": "Level tone, no drama. The idea to land is that the debt is the mechanism rather than an accident, which is why the friendly part comes first and lasts exactly as long as it needs to. Pupils who know somebody in this will be listening very carefully, so give them nothing to react to on their faces: no examples, no naming areas, no asking whether anybody has been approached. The knife lines at the end are deliberately flat and factual, because the useful thing there is simply that the website is not a loophole."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which of these is the strongest sign an offer is not what it says it is?",
+      "options": [
+        {
+          "text": "The money is very good for the work described",
+          "correct": true,
+          "feedback": "Yes. Money out of proportion to what is being asked is always paying for something that has not been mentioned yet, and the thing not mentioned is the risk."
+        },
+        {
+          "text": "The person is somebody you have never met",
+          "correct": false,
+          "feedback": "Often true and not the strongest sign, because a great many of these offers come from somebody you half know. That is why it works."
+        },
+        {
+          "text": "They message late at night",
+          "correct": false,
+          "feedback": "Everybody messages late at night. Looking for a creepy vibe is a poor detector, and the maths of the offer is a good one."
+        }
+      ],
+      "script": "Whole class. The first option is the tool here and it transfers far beyond this topic: money out of proportion to the task is paying for an unnamed risk. Say that sentence twice, because it is the one a pupil can use on an offer nobody has described to them yet."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "⚖️",
+      "heading": "The part of this that is on your side",
+      "body": "Three things are true at once here, and pupils usually only hear the first. Supplying drugs is a serious criminal offence and being young changes nothing about that, and the offer by itself is already the offence, before anything changes hands. Second, being sent a message is not an offence. Passing somebody else's offer on can be one, and that is the single route by which a person who only received something ends up in trouble, which is exactly why the first move is to stop it. Third, if you were pushed, tricked or threatened into carrying or selling, the law calls that exploitation, and there is a defence written for people under 18 in exactly that position. It will not stop you being arrested or questioned, and nobody here is going to pretend it will. What it means is that telling an adult early is the single thing most likely to count in your favour.",
+      "script": "Say all three and soften none of them, especially not the third, where the temptation is to round it up into a promise. Do not. Pupils who are in this have been told by whoever recruited them that nobody will believe them and that they will simply be arrested, and a pupil who is told the comforting version and is then arrested will decide the teacher lied and stop listening to the whole module. The honest version is stronger anyway. Read the subject knowledge on this before you teach it, because the next question is always what would actually happen, and there are two things worth having ready: the defence covers drug supply and does NOT cover robbery, and a school is not the body that makes the formal referral. Then go straight to the routes, because a pupil who has just heard this needs somewhere to put it before the feeling passes."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "Stop it, report it, say it",
+      "caption": "Three moves, in that order, and they work on everything in this lesson. The order matters, because the first one is the only one that is time critical.",
+      "steps": [
+        {
+          "title": "Stop it",
+          "emoji": "✋",
+          "text": "It goes no further from you. Do not forward it, do not screenshot it to show somebody, do not put it in the group to ask what people think."
+        },
+        {
+          "title": "Report it",
+          "emoji": "🚩",
+          "text": "In the app, behind three dots. Ten seconds, and it is what gets it taken down for everybody else. It will not tell them who reported it. It will tell them it came down. If the app does nothing, Report Harmful Content takes it further, free, from thirteen."
+        },
+        {
+          "title": "Say it",
+          "emoji": "🗣️",
+          "text": "To one actual person. A report deals with the content. Only a person asks how you are, and that is the half that a report will never do."
+        }
+      ],
+      "verdicts": [
+        "Stop it",
+        "Report it",
+        "Say it"
+      ],
+      "script": "Walk the three and be specific about your own school on the third: the actual role, and the actual name if you can. Say the middle one carefully, because the honest version is what keeps a pupil safe. No app tells somebody who reported them, and every app tells somebody their post came down, so if you were the only person who could see it, in a direct message or a group of four, they may well work it out. Say that out loud and give them the answer to it: if you are worried about being worked out, let an adult make the report instead. Then land the sentence that separates the second move from the third, because most pupils think reporting is the whole job. A report handles the content. A person handles you. You need both."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "minutes": 2,
+      "mode": "pairs",
+      "seconds": 90,
+      "prompt": "Which of the three moves is hardest, and why? Be honest rather than correct.",
+      "lookFor": "Most say the third, and the reasons are worth hearing: not wanting a fuss, not wanting a parent told, not wanting to be the one who made it official. Every one of those is a real obstacle rather than an excuse.",
+      "script": "Ninety seconds. This is the most useful discussion in the lesson and the temptation is to correct the answers. Do not. Take the obstacles seriously and answer the commonest one directly, which is what happens next, because a pupil who does not know what happens after telling will not tell."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 1,
+      "component": "star-breath",
+      "config": {
+        "seconds": 30
+      },
+      "script": "Thirty seconds of star breathing before the sort. This lesson asks more of a room than any other in the scheme and the pause is doing real work rather than decorating. Say nothing during it."
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "minutes": 5,
+      "component": "verdict-sort",
+      "caption": "What is this, and what does it need?",
+      "config": {
+        "verdicts": [
+          "Report it and move on",
+          "Report it and tell someone",
+          "Tell someone right now"
+        ],
+        "items": [
+          {
+            "text": "A violent video auto playing in a feed, seen once and scrolled past",
+            "answer": 0,
+            "why": "Report it so it goes for everybody else. It needs nothing else from you unless it stays with you, and then it moves up a column."
+          },
+          {
+            "text": "The same video, and three days later you are still seeing it when you close your eyes",
+            "answer": 1,
+            "why": "Identical content, different situation. The report handles the video and the telling handles you, and the three days is the part that decides."
+          },
+          {
+            "text": "An account sending you content about hurting yourself, repeatedly, after being blocked once",
+            "answer": 2,
+            "why": "Targeted, repeated, and deliberately getting round a block. This is a person choosing you, and it goes to an adult today."
+          },
+          {
+            "text": "A message offering good money to hold a package for somebody for a couple of days",
+            "answer": 2,
+            "why": "Money out of proportion to the task is paying for a risk nobody has named. Today, to an adult, before any answer is sent."
+          },
+          {
+            "text": "Someone in a group chat forwarding something upsetting to thirty people for a reaction",
+            "answer": 1,
+            "why": "Report it, and tell someone, because thirty people just received it and some of them are not fine. The forwarding is its own problem."
+          },
+          {
+            "text": "A friend messaging at midnight that they cannot stop thinking about something they saw",
+            "answer": 2,
+            "why": "There is nothing to report here. There is a person telling you something difficult, and the right move is the third column every time."
+          }
+        ]
+      },
+      "script": "Five minutes. Read each card, class votes with one, two or three fingers, then reveal. Cards one and two are the same content deliberately, and the fact that the answer changes is the single most useful thing in the activity: what to do depends on what it is doing to you, not only on what it was. The last card has nothing to report at all and is worth ending on."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "minutes": 5,
+      "heading": "The three moves, on paper",
+      "body": "Take one card from the sort. Write the three moves out for it in full: what stopping it with you would actually mean, exactly where in that app you would report it, and who you would say it to by role or by name. Then one more line: what would make you not do it?",
+      "script": "Five minutes on the sheet from the pack. The last line is the one worth reading afterwards, because it collects the real obstacles in the room and those are what your follow up should answer. Circulate and read over shoulders, never ask anybody to read theirs out."
+    },
+    {
+      "type": "discussion",
+      "phase": "practise",
+      "minutes": 2,
+      "mode": "fours",
+      "seconds": 120,
+      "prompt": "Somebody forwards something upsetting into a group of thirty. What is the one message that would change what happens next, and who has to send it?",
+      "lookFor": "The answer is almost always short, direct and sent by anybody: do not forward that. The second half of the question is the real one, because everybody in the group is waiting for somebody else.",
+      "script": "Two minutes in fours. Collect the actual wording pupils would use rather than the principle, because a message somebody would really send is worth ten they would not. Then land the point: the first person to say it makes it easy for everybody else, and it does not matter who that is."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "You saw something two weeks ago and told nobody. What is true now?",
+      "options": [
+        {
+          "text": "It is too late, saying something now would make it weird",
+          "correct": false,
+          "feedback": "Not true and it is the most common reason people stay quiet. Two weeks, two months, there is no clock on this and nobody will ask why you waited."
+        },
+        {
+          "text": "You can still tell someone, and you are still not in trouble",
+          "correct": true,
+          "feedback": "Exactly. Nothing about waiting changes anything about whose fault it was or what help is available."
+        },
+        {
+          "text": "You should only mention it if it is still bothering you",
+          "correct": false,
+          "feedback": "Closer, and still not right, because people are poor judges of whether something is bothering them. If you are weighing it up, that is reason enough."
+        }
+      ],
+      "script": "Whole class, and read the correct feedback aloud in full. This question exists for the pupil who is doing the sum in their head right now about something from last term, and the answer they need to hear from an adult is that there is no deadline."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "Something distressing appears in your feed that you never searched for. What does that tell you about you?",
+      "options": [
+        {
+          "text": "That you have been looking at something you should not have",
+          "correct": false,
+          "feedback": "No. The feed is a guess about what holds attention, not a record of what you did."
+        },
+        {
+          "text": "Nothing at all. It is a guess about what holds attention, and it is not a verdict on you",
+          "correct": true,
+          "feedback": "Right, and it is the sentence that lets somebody tell an adult without feeling they are confessing to something."
+        },
+        {
+          "text": "That your account has been targeted by a person",
+          "correct": false,
+          "feedback": "Sometimes true of messages and rarely true of feeds. Worth separating the two, because they need different responses."
+        }
+      ],
+      "script": "Devices or hands, no discussion, answers in. This proves the first cycle, which is the one that makes the other two usable."
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "minutes": 2,
+      "question": "What are the three moves, in order, and why is the order that way round?",
+      "options": [
+        {
+          "text": "Stop it, report it, say it, because stopping it is the only part that cannot be done later",
+          "correct": true,
+          "feedback": "Correct on both halves. Reporting and telling work just as well in a fortnight. Forwarding cannot be taken back."
+        },
+        {
+          "text": "Report it, say it, stop it, because the report is the most official",
+          "correct": false,
+          "feedback": "The order is about what is time critical rather than what is official, and by the time you have reported it, it may have gone to thirty people."
+        },
+        {
+          "text": "Say it, stop it, report it, because telling someone comes first",
+          "correct": false,
+          "feedback": "Telling someone matters enormously and it is not urgent in the same way. The thing on a clock is whether it spreads."
+        }
+      ],
+      "script": "Same again, answers in, then reveal. If this one is weak, the order has not landed, and the order is the part that changes what actually happens."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "What to keep",
+      "points": [
+        "A feed is a guess about what holds attention, not a verdict about you. Distress holds attention, which is why it finds people who never went looking. About a third of pupils your age in England saw self harm content last month, and most of them were not looking for it.",
+        "You are not in trouble for seeing it, for being sent it, or for saying nothing for three weeks.",
+        "Most people who see it are not harmed by it. What repetition does is make a serious thing look ordinary, and that matters most for whoever is already struggling.",
+        "Seeing it again afterwards, at odd moments, is an ordinary response. Saying it out loud to one person is what shortens it. Samaritans is 116 123 at any age, Childline is 0800 1111 under 19, HOPELINE247 is 0800 068 4141 under 35.",
+        "Money out of proportion to the task is always paying for a risk nobody has named yet. The offer by itself is already the offence.",
+        "Stop it, report it, say it. Only the first one is on a clock, and passing an offer on is the one way somebody who just received something ends up in trouble."
+      ],
+      "script": "Read the six steadily. The second is the one to leave hanging for a beat, because it is the one somebody in the room needs and will not ask for. Then finish on the three moves, which is what you want them repeating at the door."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "character": "digi",
+      "heading": "DiGi's mission for you",
+      "lines": [
+        "Find out the name of the safeguarding lead in this school.",
+        "Not because you need it. So that you already have it.",
+        "The worst moment to work out who to tell is the moment you need to."
+      ],
+      "script": "Let DiGi give the mission, the bubbles appear on their own. Put the real name and where to find that person on the board while this plays, because a mission that can be completed in the next thirty seconds is a mission that gets completed."
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "minutes": 1,
+      "component": "passport-page",
+      "config": {
+        "placement": "independent",
+        "moduleId": "ks4-29-did-not-go-looking",
+        "register": "plain",
+        "heading": "The passport",
+        "prompt": "Today filled a little of the Safe online page. Tap to fill it in.",
+        "after": "A full page brings the big check, and the big check earns the stamp.",
+        "button": "Fill the page"
+      },
+      "script": "The page fills as the class taps. This lands on safe online, which is where knowing what something is and knowing the route to help belongs."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "DiGi closes the mission",
+      "lines": [
+        "You have a plan for something you never asked to see.",
+        "Stop it, report it, say it, and only the first one is urgent.",
+        "If any of today was about you, or about somebody you know, tell someone before the bell. See you next lesson!"
+      ],
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Say nothing over that last line, it is the most important sentence in the lesson. Then stand by the door as they leave, because that is when somebody will tell you, and having the exit quiz to hand out gives them a reason to be last."
+    }
+  ],
+  "video_beats": [],
+  "assessment": {
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "What decides what appears next in a feed?",
+          "options": [
+            "What you searched for",
+            "A system guessing what will hold you",
+            "The order things were posted"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "If something online upsets you, what is worth doing first?",
+          "options": [
+            "Send it to a friend to check",
+            "Report it and stop it going further",
+            "Delete the app"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who in a school is responsible for safeguarding?",
+          "options": [
+            "Nobody in particular",
+            "The designated safeguarding lead",
+            "The head only"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "If an offer sounds too good for what is being asked, that usually means...",
+          "options": [
+            "You got lucky",
+            "Something has not been mentioned yet",
+            "They like you"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions on today. Keep this in your book.",
+      "questions": [
+        {
+          "q": "Something distressing appears in your feed. What does it say about you?",
+          "options": [
+            "That you looked at something",
+            "Nothing, it is a guess about attention",
+            "That you were targeted"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does repeated exposure to this content actually do?",
+          "options": [
+            "Makes people go and do it",
+            "Makes a serious thing seem more ordinary than it is",
+            "Nothing at all"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What are the three moves, in order?",
+          "options": [
+            "Stop it, report it, say it",
+            "Report it, say it, stop it",
+            "Say it, stop it, report it"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You saw something two weeks ago and told nobody. What is true?",
+          "options": [
+            "It is too late now",
+            "You can still tell someone and you are still not in trouble",
+            "Only mention it if it still bothers you"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "in_lesson_checks": [
+      "The choice on why it found you, which is the self blame check and the one the rest of the lesson rests on",
+      "The choice on what looking actually does, where both wrong answers are sincerely held and do harm in opposite directions",
+      "The choice on two weeks later, which is the safeguarding check and is written for one specific pupil in the room"
+    ],
+    "action_commitment": {
+      "stem": "Before the end of today I will find out the name of ______, so that I already have it.",
+      "note": "Collected on the learning record. Deliberately a fact finding commitment rather than a promise about behaviour, because it can be completed inside a minute and it removes the commonest practical barrier to reporting, which is not knowing who."
+    },
+    "teacher_judgement": {
+      "secure": "Explains why a feed is not a verdict, separates what content does from what people fear it does, and gives the three moves in order with a reason for the order.",
+      "developing": "Has the three moves and still talks about the content as something that causes behaviour, which leaves the self blame in place underneath.",
+      "needs_support": "Believes seeing something means they did something, or cannot name anybody they would tell. Both need following up individually rather than reteaching to the class."
+    }
+  },
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned why the hardest things to see online usually arrive rather than get searched for: a feed is a guess about what holds attention, and distress holds attention. They learned an accurate version of what that content does, which is not that it makes anybody do anything, but that repetition makes a serious thing look ordinary. They learned that an offer of easy money from somebody who half knows them is how recruitment into drug supply actually begins. And they learned three moves that work on all of it: stop it, report it, say it.",
+    "try_this": "The line worth saying out loud at some point this week, in your own words, is this one: if you ever see something you wish you had not, you are not in trouble, and there is no time limit on telling me. It costs nothing to say and it is the sentence that gets used months later.",
+    "family_question": "What is the strangest thing an app has ever shown you that you never asked for? Then, lighter: how do you think it decided?",
+    "passport": "This lesson filled part of your child's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. The skill proven today is knowing what to do with something you never asked to see, and knowing you are not in trouble for it.",
+    "no_login_required": true
+  },
+  "teacher_notes": {
+    "learning_objective": "To explain why distressing and criminal content reaches people who never sought it, to state accurately what viewing it does and does not do, and to apply three moves with a reason for their order.",
+    "essential_question": "This arrived without being asked for. What now?",
+    "timing": "63 minutes: starter 9, cycle one 10, cycle two 10, cycle three 10, practise 15, prove 4, close 5",
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Why it found you",
+        "minutes": 10,
+        "outcome": "I can explain why a feed sends me things I never searched for, and say why that is not a verdict on me."
+      },
+      {
+        "verb": "Know",
+        "title": "What it does to look",
+        "minutes": 10,
+        "outcome": "I can say accurately what seeing this content does, and what helps afterwards."
+      },
+      {
+        "verb": "Act",
+        "title": "What the offer actually is",
+        "minutes": 10,
+        "outcome": "I can spot an offer that is paying for an unnamed risk, and use the three moves in order."
+      }
+    ],
+    "tool": "STOP IT, REPORT IT, SAY IT. In that order, because only the first one is on a clock.",
+    "keywords": [
+      "recommender",
+      "normalise",
+      "exploitation",
+      "county lines"
+    ],
+    "prior_knowledge": "Follows the KS3 lesson on online conflict, which taught name it, save it, say it. The shape is deliberately familiar and the content is different: that lesson was about something aimed at a person, this one is about things that arrive without anybody aiming them. If your class has had manipulation and persuasion at KS4, the recommender idea in cycle one is a direct continuation of it.",
+    "key_learning_points": [
+      "Recommender systems optimise for holding attention, and distressing material holds attention, so it reaches people who never searched for anything.",
+      "Being sent something is not the same as choosing it, and no pupil is in trouble for having seen, received, or not yet reported anything.",
+      "Most people who see this content are not harmed by it, and repeated exposure makes a serious thing seem ordinary, which matters most for a young person already struggling. The lesson makes no causal claim in either direction, because both confident versions do damage.",
+      "Involuntary re seeing afterwards is an ordinary response, and saying it out loud to one person is what shortens it. The free routes are Samaritans at any age, Childline under 19 and HOPELINE247 under 35.",
+      "Recruitment into drug supply begins as a friendly offer from somebody half known, and the debt that follows is the mechanism rather than an accident.",
+      "Money out of proportion to the task is paying for a risk that has not been named.",
+      "Stop it, report it, say it. Only stopping it is time critical, because forwarding cannot be undone, and because passing an offer on is the one route by which somebody who merely received something ends up in trouble."
+    ],
+    "misconceptions": [
+      "That seeing something means you must have gone looking for it. This is the belief that keeps pupils silent and cycle one exists entirely to dismantle it.",
+      "That viewing content causes the behaviour it shows. Too simple, and the belief itself does damage, because it turns everybody who has seen something into somebody holding a secret they think would incriminate them.",
+      "That reporting is the whole job. A report deals with the content and never asks how the person is, which is why the third move exists as a separate move.",
+      "That recruitment looks threatening from the outside. It looks like a favour and then like a job, and it is friendly for exactly as long as it needs to be."
+    ],
+    "i_can": "I know what to do with something I never asked to see, and that I am not in trouble for it.",
+    "commitment_stem": "Before the end of today I will find out the name of ______, so that I already have it.",
+    "teacher_tip": "Assume several pupils in the room have already seen something they have never told anybody about, and teach so that none of them has to say so today. That means no asking who has seen what, no invitations to share, and no stories of your own. Keep the promise DiGi makes on the second slide for the whole hour. Stand by the door at the end, because this is the lesson in the scheme most likely to produce a disclosure and it will come as somebody hanging back.",
+    "equipment": "Projector. The three moves sheet from the printed pack, one per pupil. No pupil devices needed. Have the name of your safeguarding lead ready to put on the board, and know your own school's process before you teach this.",
+    "paper_fallback": "The whole hour runs from the printed pack with no screen: the two doors are a diagram on the pack, the message exchange is printed for you to read aloud, and the sorting cards are on the back page.",
+    "differentiation": "Stretch: ask why a system that nobody designed to do harm ends up here anyway, which reaches optimisation from the inside. Support: teach cycle one and the three moves in full and take cycle three only as far as money out of proportion to the task, which is the part that transfers.",
+    "send": "The two doors work as three pictures and can be taught without the text. The message exchange is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that you are not in trouble is a complete statement rather than one with unstated conditions, because a literal reader will otherwise supply the conditions themselves.",
+    "passport_stage": "independent",
+    "worksheet": "The three moves sheet",
+    "worksheet_items": [
+      "The situation I picked",
+      "What stopping it with me would actually mean",
+      "Exactly where in that app I would report it",
+      "Who I would say it to, by role or by name",
+      "What would make me not do it"
+    ],
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Four questions. Nobody marks these and nobody sees them but you.",
+      "questions": [
+        {
+          "q": "What decides what appears next in a feed?",
+          "options": [
+            "What you searched for",
+            "A system guessing what will hold you",
+            "The order things were posted"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "If something online upsets you, what is worth doing first?",
+          "options": [
+            "Send it to a friend to check",
+            "Report it and stop it going further",
+            "Delete the app"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who in a school is responsible for safeguarding?",
+          "options": [
+            "Nobody in particular",
+            "The designated safeguarding lead",
+            "The head only"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "If an offer sounds too good for what is being asked, that usually means...",
+          "options": [
+            "You got lucky",
+            "Something has not been mentioned yet",
+            "They like you"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions on today. Keep this in your book.",
+      "questions": [
+        {
+          "q": "Something distressing appears in your feed. What does it say about you?",
+          "options": [
+            "That you looked at something",
+            "Nothing, it is a guess about attention",
+            "That you were targeted"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does repeated exposure to this content actually do?",
+          "options": [
+            "Makes people go and do it",
+            "Makes a serious thing seem more ordinary than it is",
+            "Nothing at all"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What are the three moves, in order?",
+          "options": [
+            "Stop it, report it, say it",
+            "Report it, say it, stop it",
+            "Say it, stop it, report it"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You saw something two weeks ago and told nobody. What is true?",
+          "options": [
+            "It is too late now",
+            "You can still tell someone and you are still not in trouble",
+            "Only mention it if it still bothers you"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    "evidence_base": [
+      {
+        "claim": "About a third of pupils aged 11 to 18 in England saw self harm content in the past month, most of them without going looking for it, and two thirds of those who saw it say it arrived through an algorithm suggesting it.",
+        "source": "Nature Mental Health, 2026, on the OxWell Student Survey 2025, 32,102 students in England",
+        "status": "Peer reviewed, English, and the right age band, which is why it is used in place of the advocacy research that usually gets quoted here. It is what students REPORTED rather than an audit of what the systems actually did, and the slide says saw and said for that reason."
+      },
+      {
+        "claim": "The widely quoted audits of recommender systems serving self harm content to new teenage accounts are campaign research and cannot carry an unlabelled classroom claim.",
+        "source": "Center for Countering Digital Hate, Deadly by Design, 2022, and Amnesty International, Driven into Darkness, 2023",
+        "status": "DEMOTED and deliberately not used. Both are legitimate advocacy work and neither supports the claim people make of it: the accounts in both liked or rewatched the relevant content first, so they signalled interest, and the CCDH headline figures rest on eight accounts in total. Neither is peer reviewed."
+      },
+      {
+        "claim": "Most people who see this content are not harmed by it, and repeated exposure is associated with normalisation, with the greatest risk to those already struggling.",
+        "source": "Written to sit inside Samaritans guidance on the safe portrayal of suicide and self harm",
+        "status": "The lesson makes no causal claim in either direction, because both of the confident versions are wrong and both do damage. The Samaritans rules that bind a lesson deck as much as a news story are also followed here: no method is named or described anywhere in the module, no single simple explanation is offered, and support routes are given."
+      },
+      {
+        "claim": "Supplying or offering to supply a controlled drug is an offence, the offer by itself completes it, and being sent such a message is not an offence while passing somebody else's offer on can be.",
+        "source": "Misuse of Drugs Act 1971, section 4",
+        "status": "Section 4 is silent as to medium, so an arrangement made in an app is caught exactly as one made in person, and section 4(3)(c) covers being concerned in the making of an offer. This is why the first of the three moves is stop it, and it is the one legal point in the module a pupil genuinely needs."
+      },
+      {
+        "claim": "Selling a knife to anyone under 18 is an offence, and since 2022 it is also an offence for a seller to deliver one bought online to a home address.",
+        "source": "Criminal Justice Act 1988 section 141A, and the Offensive Weapons Act 2019 sections 38 to 42, in force 6 April 2022 in England and Wales",
+        "status": "Two separate laws, which the slide states as two separate facts. The 2019 Act regulates delivery after a remote sale and does NOT create the underage sale offence. Do not teach the further 2026 provisions as current law: they are passed and not commenced."
+      },
+      {
+        "claim": "Children are recruited into drug supply both face to face and through social media, groomed with money, clothes or a phone before being told they owe a debt.",
+        "source": "National Crime Agency, county lines",
+        "status": "The mechanism is described by the NCA. No prevalence figure for the social media share exists, so the module claims none. The definition in circulation is the NPCC's from the 2018 Serious Crime Strategy rather than the NCA's own, which matters only if you are citing it."
+      },
+      {
+        "claim": "The support routes and their numbers: Samaritans 116 123, Childline 0800 1111, HOPELINE247 0800 068 4141, and Report Harmful Content.",
+        "source": "Samaritans, Childline, PAPYRUS and SWGfL",
+        "status": "Every number read aloud in a classroom was checked against the operating charity for hours, cost, billing and minimum age. Samaritans is 24 hours with no minimum age and does not appear on the bill. Childline is 24 hours by phone for under 19s, and its other routes have narrower hours. HOPELINE247 is 24 hours for under 35s and for anyone worried about a young person. Report Harmful Content is free from age 13 and escalates where a platform has not acted. Not showing on a bill is not the same as leaving no trace on the handset, which is in the teacher script."
+      },
+      {
+        "claim": "An app does not tell the person who reported them, and does tell them their content came down.",
+        "source": "The published help pages of Meta and Instagram, TikTok, Snapchat, YouTube and WhatsApp",
+        "status": "Every major platform states the first half in its own words. It still could not be said flatly, and the reason is the part that affects a pupil's safety: platforms withhold the reporter's identity, not the fact of enforcement, so a report of something only one person could see can be worked out from context. The slide and the script now carry both halves and the answer to it, which is to let an adult report it instead. The one genuine exception, copyright and intellectual property, where some platforms pass on the reporter's details, is irrelevant here and is not taught."
+      },
+      {
+        "claim": "There is a defence written for people under 18 pushed, tricked or threatened into carrying or selling, and it does not prevent arrest.",
+        "source": "Modern Slavery Act 2015 section 45, and Crown Prosecution Service guidance on modern slavery and the section 45 defence",
+        "status": "The child test at section 45(4) requires no proof of compulsion, only that the act was a direct consequence of being a victim, which is materially lower than the adult test. Drug supply is covered. Robbery and serious violence are excluded by Schedule 4, which is the trap, because exploited children are frequently charged with robbery. It is a trial defence rather than immunity and the CPS says so. The lesson therefore states the defence AND the limit in the same breath, because a pupil told the comforting version and then arrested will decide the teacher lied and discount the whole module."
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "Why are you telling us this if there is nothing we can do about the algorithm?",
+        "answer": "Because the three moves are not about the algorithm. You cannot change what a feed guesses, and you can change whether a thing spreads, whether it gets taken down, and whether you are alone with it. Those are the three things in this lesson and all three are yours."
+      },
+      {
+        "question": "What actually happens if I tell a teacher?",
+        "answer": "Answer this honestly for your own school rather than generally, because a vague answer here is the reason pupils do not tell. Say who you would speak to, roughly how quickly, what you would and would not pass on, and in what circumstances a parent would be told. Pupils can handle a real process. They cannot handle not knowing."
+      },
+      {
+        "question": "If I report an account, will they find out it was me?",
+        "answer": "The app will not tell them who reported it. Every major platform says so in its own help pages. What the app does do is tell them their post came down or their account was actioned, so if you were the only person who could see the thing, in a direct message or a small group, they may be able to work it out. That is not a reason to leave it. It is a reason to let an adult make the report instead, or to use Report Harmful Content, and it is worth saying to a class rather than leaving them to discover it."
+      },
+      {
+        "question": "Why does nobody stop this stuff being on there?",
+        "answer": "Something did change, and it is worth knowing. Since July 2025 apps that children are likely to use, where the risk is judged high enough, have had to follow Ofcom's children's code, which says their recommender systems should be built so that suicide, self harm and eating disorder content is kept out of children's feeds. That is why reporting is not pointless: it is part of how a company gets held to it. What Ofcom will not do is reply to you or take one post down, so do not promise a class that it will."
+      },
+      {
+        "question": "My friend told me something and made me promise not to tell anyone. What now?",
+        "answer": "You keep the friend and you break the promise, and it is worth saying out loud that those are not the same thing. The honest line to give them is that you cannot promise to keep something secret if it would leave them in danger, and that telling somebody is what a friend does rather than what a friend fails to do."
+      }
+    ],
+    "parent_questions": [
+      {
+        "question": "Does this lesson describe things my child may not have seen?",
+        "answer": "No. Nothing harmful is shown or described at any point, and there is no detail of any method. The lesson is about what to do with content, not about the content, and the closest it comes is a short message exchange between two friends about the aftermath."
+      },
+      {
+        "question": "Will my child be asked to talk about anything they have seen?",
+        "answer": "Never. The second slide of the lesson makes an explicit promise that nobody will be asked to share anything, and the teacher notes hold staff to it for the full hour. Every discussion in the lesson is about mechanisms or about what somebody should do, not about anybody's experience."
+      },
+      {
+        "question": "Why teach about drug supply at all?",
+        "answer": "Because the offer arrives by message and it arrives at this age, and because it is friendly rather than frightening, which is exactly what makes it work. The lesson teaches one transferable test, that money out of proportion to the task is paying for a risk nobody has named, and it makes clear that a young person who is already in it is treated as somebody who has been exploited."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Why the lesson refuses the causal claim in both directions",
+        "body": "There are two common things said about self harm and suicide content and both are wrong in ways that cost something. The first is that seeing it makes people do it, which is not supported and which turns every pupil who has seen something into somebody holding a secret they believe would incriminate them. The second is that it has no effect and everybody just scrolls past, which leaves a pupil who cannot stop thinking about it assuming there is something wrong with them personally. The lesson takes the middle position, which is also the accurate one: repetition normalises, normalisation matters most for whoever is already struggling, and involuntary re seeing afterwards is ordinary. Keep to that wording rather than improvising, because both improvisations are worse."
+      },
+      {
+        "heading": "Why stopping it is taught as the only urgent move",
+        "body": "Pupils are usually taught to report and to tell, and both of those work just as well a fortnight later. The move that cannot be undone is forwarding, and forwarding is also the commonest way anything travels around a school. Teaching the order this way gives the class something genuinely time critical that is entirely within their control, which is a more useful thing to hand a sixteen year old than a general instruction to be careful. It also gives the bystander a job, which is the same structural move the KS3 lesson makes."
+      },
+      {
+        "heading": "What the two halves of this lesson have in common",
+        "body": "Pairing distressing content with criminal exploitation looks odd on a curriculum map and is right in a classroom, because both arrive rather than being sought and both are met with the same silence for the same reason. A pupil who has seen something believes that seeing it implicates them. A pupil who has been offered money believes that having been asked implicates them. In both cases the belief is wrong, the silence is the actual danger, and the sentence that unlocks it is identical: you are not in trouble for what arrived. That sentence is the spine of the lesson and it is why the two requirements are taught together rather than apart."
+      },
+      {
+        "heading": "What KCSIE 2026 asks of preventative education here",
+        "body": "KCSIE 2026 sets out four areas of online risk at paragraph 165. Content covers material such as self harm, suicide and extreme violence. Contact covers adults seeking to engage a child for a criminal purpose, which is what the recruitment half of this lesson addresses. Paragraph 160 asks that schools deliver preventative education covering the risks pupils face online. This module is the scheme's answer to the content category and to the criminal exploitation part of contact."
+      },
+      {
+        "heading": "The Samaritans rules this lesson is written to, and the help they give schools",
+        "body": "Samaritans publishes guidelines on the safe portrayal of suicide and self harm, and has extended the same caution beyond journalists to online content and to fiction, so they bind a lesson deck as much as a news story. The rules that shaped this module: never give details of method, and never name a novel method, because naming one has been linked to increases in its use; do not offer a single simple explanation for a death; avoid sensational or excessive detail; and always include that suicide is preventable and signpost support. Nothing in this module names or describes any method, which is the line to hold if you improvise. Two Samaritans services exist for schools and both are free. Step by Step supports a school preparing for or recovering from a suspected or attempted suicide, on 0808 168 2528. DEAL is a set of free lesson plans and teacher training activities for working with young people from about 14, which is this band exactly."
+      },
+      {
+        "heading": "The inquest a teacher will be asked about, and how to answer it accurately",
+        "body": "A 2022 inquest in North London into the death of a fourteen year old girl recorded a narrative conclusion that she died from an act of self harm while suffering from depression and the negative effects of online content, and found that the content contributed more than minimally. Three precisions matter if it comes up. It was a narrative conclusion and the coroner did not record suicide, so it is wrong to say the inquest ruled it a suicide. The coroner made no finding that social media caused her death and no finding of legal liability against any company. And the inquest record names a method, which under Samaritans guidance must not be read out, put on a slide, or included in a handout. The finding can be referred to without naming the child. It is deliberately not on any pupil slide in this module, because the peer reviewed English study of 32,000 pupils makes the same point about algorithmic delivery without any of those risks."
+      },
+      {
+        "heading": "What the law says about forwarding, and why it is not on a pupil slide",
+        "body": "Two separate laws make passing something on the serious move, and the module teaches that through the drugs one only. Under the Misuse of Drugs Act 1971, being concerned in the making of an offer to supply is an offence, so reposting somebody else's offer can be one, which is a clean and useful thing for a pupil to know. Separately, the Online Safety Act 2023 created an offence of encouraging or assisting serious self harm, and forwarding another person's post can amount to the act, though the offence requires intending to encourage or assist. That second one is deliberately kept off every pupil slide. A half stated criminal offence in front of a class whose spine is you are not in trouble would undo the lesson, and a pupil who thoughtlessly forwarded something last term needs to tell somebody rather than to go quiet. Keep it for a pupil who asks, and state the intention element when you do. Note also that the 2023 offence is due to be replaced by a broader one that has been passed and is not yet in force, so check before you teach it as current law."
+      },
+      {
+        "heading": "The exploitation half, exactly as far as it goes and no further",
+        "body": "The lesson tells a pupil there is a defence written for people under 18 pushed, tricked or threatened into carrying or selling, and that it will not stop them being arrested. Both halves are deliberate. The defence is section 45 of the Modern Slavery Act 2015, and the test for a child is materially lower than for an adult: an adult must show they were COMPELLED, while for an under 18 it is enough that the act was a direct consequence of being a victim of exploitation and that a reasonable person of the same age in the same situation would have done it. That is the single most useful legal fact in this module. Now the limits, and they matter more than the defence. It is a trial defence and not immunity: it does not prevent arrest, questioning or charge, and the Crown Prosecution Service says in terms that it gives no blanket immunity. Schedule 4 excludes about 140 offences, mainly serious violence and sexual offences, and the trap in this area is that ROBBERY is one of them, because exploited children are very often charged with robbery. Drug supply offences are not excluded, which is why the defence is worth knowing here at all. What does work in a child's favour is early disclosure: CPS guidance directs prosecutors to consider exploitation before a charging decision, and states that police will need to investigate a suspect's situation as fully as possible first. Finally, a routing point that will fail at the moment it is needed if you get it wrong. A school is NOT a first responder for the National Referral Mechanism and a teacher cannot make that referral. The route is your designated safeguarding lead to children's social care or the police, who can. A child does not have to consent to being referred, unlike an adult."
+      },
+      {
+        "heading": "What KCSIE 2026 says about criminal exploitation, in its own words",
+        "body": "KCSIE 2026 treats child criminal exploitation as a form of ABUSE, which is why a pupil disclosing it is a safeguarding matter every member of staff must take to the designated safeguarding lead rather than a behaviour matter. Its wording is that criminal and sexual exploitation are forms of abuse that occur where an individual or group takes advantage of an imbalance in power to coerce, manipulate or deceive a child into taking part in criminal or sexual activity, in exchange for something the victim needs or wants, or for the advantage or status of the perpetrator, or through violence or the threat of it. Two things changed in the 2026 edition and both are worth having right. The verb list is coerce, manipulate or deceive, so do not quote the older four verb version that included control. And the guidance now states that a child cannot consent to being exploited, abused or trafficked, and may not recognise it is happening to them. It also concedes the thing this lesson is built around: victims are not always recognised and can be criminalised for actions taken under coercion. That sentence, from the statutory safeguarding guidance itself, is the reason the module refuses to promise a pupil an outcome."
+      },
+      {
+        "heading": "The reporting chain, and the thing Ofcom will not do",
+        "body": "The order is app first, then Report Harmful Content, then Ofcom, and the last step is not what pupils assume. Reporting inside the app is what gets content removed. Report Harmful Content, run by SWGfL, reviews reports a platform has not acted on and escalates them, free, for anyone from thirteen; it is a charity escalation service rather than a takedown power. Ofcom runs a complaints form for harmful content and states plainly that it cannot respond to or investigate individual complaints: those reports feed its view of whether a company is meeting its duties. So never tell a class that Ofcom will take a post down. The positive half is worth saying instead, because it answers why does nobody do anything: since July 2025 services likely to be accessed by children, where the risk is judged medium or high, have had to follow Ofcom's children's code, which says recommender systems should be built so that suicide, self harm and eating disorder content is kept out of children's feeds. The Internet Watch Foundation is not the route for any of this; it handles child sexual abuse imagery only."
+      }
+    ]
+  },
+  "dsl_note": {
+    "required": true,
+    "concern_form_linked": true,
+    "note": "Safeguarding flagged, and alongside the KS3 conflict lesson this is the likeliest disclosure point in the scheme. Read your own school's process before teaching it and have the safeguarding lead's name ready. Four moments carry the highest chance of a disclosure, and all four are written to invite one safely rather than to force it: the slide stating that nobody is in trouble for having seen something, the message exchange about not being able to stop seeing it, the slide about a young person already in drug supply being treated as exploited, and the practise question about having told nobody for two weeks. Handle any disclosure under your own policy and bring it to the DSL the same day. Three specifics. A pupil describing repeated involuntary re seeing, sleep loss or persistent distress after viewing material needs a same day conversation, not a wait and see. A pupil who discloses that they are carrying, storing or selling for somebody is describing child criminal exploitation, which KCSIE 2026 treats as a form of abuse, so it is a safeguarding matter rather than a behaviour one whatever else is also true. Note the routing, because getting it wrong costs time at the worst moment: a school is not a first responder for the National Referral Mechanism and a teacher cannot make that referral. It goes to you, and from you to children's social care or the police, who can. A child does not have to consent to being referred. And a pupil disclosing their own self harm or thoughts of suicide during or after this lesson follows your policy immediately, without a promise of confidentiality being given first. Stand by the door at the end of the lesson."
+  }
+}

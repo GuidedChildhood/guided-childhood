@@ -30,21 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-14 | 178 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-17 | 187 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-06 · 6 September 2026: migration 257 renumbered to 260 · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: no more claim only pull requests on the Planet Friends lane · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the bank file is 263, and PCAST joins the bank (migration 264) · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the child gets their own explorer figure · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: two builds of the star system met, and one survived · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the PCAST migration is 264, settled at the merge · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: migrations 253 and 254 were already on production · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: slice 3c built, the universe with every planet a place · `plans/decisions-archive/2026-09.md`
-- 2026-09-06 · 6 September 2026: the Planet Friends design canvas, Toca quality in our own clothes · `plans/decisions-archive/2026-09.md`
 - 2026-09-06 · 6 September 2026: the Space Port opens at stage 2, Moonbase School keeps its growth key · `plans/decisions-archive/2026-09.md`
 - 2026-09-06 · 6 September 2026: the audit's stage three, Justin's eight answers · `plans/decisions-archive/2026-09.md`
 - 2026-09-06 · 6 September 2026: the registered company, from the register · `plans/decisions-archive/2026-09.md`
@@ -156,389 +147,19 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-14 · 14 September 2026: the child app crashed on Use my time, and the child got the parent's error page · `plans/decisions-archive/2026-09.md`
 - 2026-09-14 · 14 September 2026: the mission rows became doors, and the answer to "does it sync" turned up a dead query · `plans/decisions-archive/2026-09.md`
 - 2026-09-14 · 14 September 2026: the child's tab bar, what is waiting, and the dial in the wrong place · `plans/decisions-archive/2026-09.md`
+- 2026-09-16 · 16 September 2026: the per child passport, and the code gets a front door (session 0u09q9) · `plans/decisions-archive/2026-09.md`
+- 2026-09-16 · 16 September 2026: four answers, and the tracker gets built (session 0u09q9) · `plans/decisions-archive/2026-09.md`
+- 2026-09-16 · 16 September 2026: screens rest, the job board, the approve warning, and Moment (session p37w5v) · `plans/decisions-archive/2026-09.md`
+- 2026-09-16 · 16 September 2026, afternoon: the tab bar, the films tab, and the Stage 2 scripts (session p37w5v) · `plans/decisions-archive/2026-09.md`
+- 2026-09-17 · 17 September 2026: the school resources shelf, and a research sweep nothing could verify · `plans/decisions-archive/2026-09.md`
+- 2026-09-17 · 17 September 2026, the letterbox is unparked and setup stops asking · `plans/decisions-archive/2026-09.md`
+- 2026-09-17 · 17 September 2026, a way in that needs no forwarding at all · `plans/decisions-archive/2026-09.md`
+- 2026-09-17 · 17 September 2026, the school offer moves to where people actually look · `plans/decisions-archive/2026-09.md`
+- 2026-09-17 · 17 September 2026 — 302 and 303 were both missing, and both were load bearing · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 16 September 2026: the per child passport, and the code gets a front door (session 0u09q9)
-
-Justin asked how per child passports actually work, how they auto update, how
-to show that happening, how to print one per child, how to print like a book,
-and how a school orders blank books and stickers. He then said: "yes build and
-quote form."
-
-Plan: `plans/2026-09-16-per-child-passport-plan.md`.
-
-**The correction he was right to ask for.** There are two passports and they
-are different objects. The child's record lives in the parents app, keyed to a
-child row, and already prints per child. `/hub/passport` counts LESSONS TAUGHT
-ON A SCREEN, never children, because the schools app holds no pupil data and
-the data processing agreement is written on that. Per child therefore splits
-in two, and both halves already existed: the record at home, the object in
-class, one A4 per child with the name written by hand.
-
-**Most of the rest existed too, and was not joined up.** The home code
-(migration 230) already writes a completion against one named child. The fill
-animation already lived in `shared/components/PassportPage`, tuned by age,
-reduced motion respected, and played on the classroom wall only. The zine
-imposition already folded eight panels from one A4. What was missing was joins.
-
-- **The code has a front door.** The parent note and the pupil booklet carry a
-  QR beside the code, rendered server side as SVG, black on white because it
-  gets photocopied before anybody points a phone at it. It opens
-  `/home-code/[code]`, which redirects a signed in parent straight to the card
-  with the code prefilled, and offers a signed out one the starter pack or
-  login with `?next`. Its own route rather than a query on `/join`, because
-  every CTA on `/join` routes to `/starter-pack` (non negotiable 9) and a code
-  arriving there would either break that rule or be swallowed by it.
-- **No text message, and that is a decision rather than a gap.** Texting a
-  parent means the schools app holds parent contact data, which ends the
-  promise the DPA rests on. The code on paper with a QR does the same job.
-- **The page fills in front of them.** The card draws that child's real page
-  and plays the same fill the wall plays. The label under it says it is the
-  SCHOOL half, because this ring counts school modules and the book's ring
-  counts the whole stage: two fractions with the same shape, so the card names
-  which one it is rather than letting a parent assume.
-- **The zine at home, saddle stitch for the keepsake.** The A6 file is nine
-  pages at one per sheet, which is right for the printer who binds the £14
-  keepsake and wrong for a home printer. A new route folds the child's real
-  passport from one sheet of A4: five stages plus three covers is exactly
-  eight panels. The free one sells the paid one; a parent who has folded the
-  paper passport knows what a bound one is worth.
-- **The fold moved to `shared/zine.ts`.** Both apps fold the same passport, so
-  the imposition is described once. Two copies of a fold is two things that can
-  drift, and a drifted fold is thirty ruined sheets in a classroom.
-- **Migration 302, `schools.supply_requests`, and `/supplies` is a QUOTE form.**
-  No price, no card, no purchase order demanded. There is no supplier and no
-  landed cost yet, and a price on a school page is a promise finance holds you
-  to. It earns its own table where the draw, the taster and the pilot did not:
-  those are leads for the same product and fit the invoice columns exactly,
-  while supplies carries items, counts and a delivery address that would
-  otherwise live in a free text note nobody can total. Same cron, though, not a
-  second job.
-- **No typed class list**, by the plan's own recommendation. It is safe if the
-  names never leave the browser, but a box that looks like it collects
-  children's names costs more in questions than it saves in time. It waits for
-  a teacher to ask.
-
-Guard `check-passport-bridge.mjs`, nineteen rules, in CI, five mutations
-caught. Every rule guards something that fails QUIETLY: a parent note that lost
-its QR still prints, a price on the supplies page still renders, a second copy
-of the zine fold still folds until the two copies disagree.
-
-`check-print-kit.mjs` caught the fold move and was repointed at
-`shared/zine.ts`, with a new rule holding the schools app to re-exporting it
-rather than growing its own copy.
-
-Still open, and named on the plan: the five commercial answers (what is in the
-box, who packs thirty, school or parent, supplier for the stickers, and the
-price itself). The form works and a school can be answered by hand today; what
-it cannot do is quote a number, because there is no supplier.
-
-## 16 September 2026: four answers, and the tracker gets built (session 0u09q9)
-
-Justin answered the questions the per child passport work left open, and took
-the recommended option on all four.
-
-1. **The lesson tracker is built, and its roll up lives at `/hub/tracker`.**
-   The Hub is where a subject lead already goes for compliance things, so a
-   coverage record belongs beside the RSHE mapping. The curriculum map stays
-   the teaching map: a green tick there would read as a recommendation rather
-   than a record.
-2. **The printed passport books are PRE PRINTED**, five pages ready to fill.
-   A blank book is a notebook. The pages are the product, and they are the
-   same pages a parent folds at home.
-3. **A print on demand supplier ships direct to the school.** No packing, no
-   cash tied up, and a school can be quoted within a week of a supplier being
-   found. Thinner margin than buying a run, which is the right trade at zero
-   schools. What this still needs is one quote from a UK booklet printer.
-4. **School first, parent later.** The schools quote form is the only door for
-   now. A school has a purchase order and buys thirty; a parent already has
-   the £14 keepsake in the shop and the free foldable covers everyone else.
-   Nothing was added to the parents shop.
-
-Decisions 2, 3 and 4 needed no code: `/supplies` already says pre printed and
-five pages, already quotes rather than prices, and already exists only on the
-schools side. They are recorded here because the next session should not
-re-open them.
-
-### What the tracker actually is
-
-Seven of its nine rows tick themselves, which is the whole point. Justin's
-reference was Meta's "You're following best practices" panel, and that panel
-is believable because every row in it is machine checked. The moment one row
-needs a human to tap it, the panel becomes a form and a green tick stops being
-evidence.
-
-The seven signals, each written at the moment the thing happens:
-
-| Row | What ticks it |
-|---|---|
-| You have read the lesson | the lesson page opened |
-| You have looked back | the previous lesson's page opened, or it is already taught |
-| The pack is printed | `beforeprint` on the pack route |
-| The learning record is printed | `beforeprint` on the record route |
-| The board is ready | the teach route opened |
-| You taught it | the player reached its finish, through a new `onFinish` prop |
-| The class filled the passport page | read from `shared/schools-taught`, never stored twice |
-
-`beforeprint` rather than a click on our own button, because a teacher who
-presses ctrl P has printed it just as much. A cancelled print dialog still
-ticks, and that is the failure we accept: the alternative leaves a row grey
-after a real printer run.
-
-**Look back is ticked on the PREVIOUS lesson's page**, not on the page that
-benefits from it. That is the only honest way to observe it: the act of
-looking back happens where you look.
-
-The two rows we cannot see (brief the safeguarding lead, parent notes into
-book bags) sit in their own block with outlined circles, and the panel says in
-one line that they are a teacher's word rather than the product's.
-
-**The tick is computed and there is deliberately no way to store it.** A tick
-a teacher can award themselves proves nothing to a subject lead.
-
-**Which rows apply is read, never listed.** Three facts come from the manifest
-(passport page, safeguarding flag, is there a lesson before it) and one from
-the row (`i can` statements). A lesson that gains `i can` statements gains its
-learning record row on the next deploy with nobody editing anything.
-
-The honest limit, on every surface that shows it: this screen only, this
-browser, no child named, a different laptop shows nothing. `/hub/tracker`
-prints as a coverage sheet for the file before anybody clears it.
-
-Guard `check-lesson-tracker.mjs` in CI, six mutations caught. Its pupil data
-rule strips comments before testing, because every file here explains at
-length that there is no register and a rule that could not tell the
-explanation from the thing would push us to stop explaining.
-
-## 16 September 2026: screens rest, the job board, the approve warning, and Moment (session p37w5v)
-
-Four merges from the device time lane, in order.
-
-**Screens rest defaults moved an hour earlier** (PR #1095). The old default ran
-right up to bedtime, which is the hour the light does the damage. Also fixed:
-the time pickers wrote every intermediate keystroke to the live row, so a
-half typed `09:57` could land. They commit on blur now.
-
-**The job board row rebuilt, with drawn icons** (PR #1095). 24 new Happy News
-icons and `lib/quests/job-icon.ts` mapping emoji and words to them. Built from
-the live `family_quests` table, not the template file, so every emoji a real
-family uses is covered.
-
-**The approve path warns, never blocks** (PR #1098). Justin chose warn over
-stop: "Screens are meant to be resting right now. Saying yes still works."
-Non negotiable 1 holds, a pathway not a gate.
-
-**The Now button becomes Moment, and lifts clear** (PR #1100). It was
-`position: absolute` inside a flex bar, so it sat on Passport at every width.
-Now `bottom: calc(100% + 8px)`, measured from the bar's top edge, with page
-padding grown to match. Renamed because the button also writes to the concerns
-ledger, which "Now" never said. Proved against production: three of the four
-moments ever raised show the full flagged, checked, resolved loop.
-
-**1043 words of superfluous copy cut from eleven parent screens** (PR #1100).
-A second adversarial pass found seven cuts that took real understanding with
-them, and all seven are back. Guard `check-tab-bar-clear.mjs` added, 77 total.
-
-## 16 September 2026, afternoon: the tab bar, the films tab, and the Stage 2 scripts (session p37w5v)
-
-**The text size dial was breaking the tab bar** (PR #1101). Every size in that row
-was rem, which follows the iOS dial, and the row is six fixed columns that cannot
-grow. Worse, the dashboard layout carried its own `.gc-dash .tab-item` font rule
-that outranked globals.css, so the sizes measured back in September had never
-applied on a dashboard route. One token now, `--tab-label-size`, capped with min()
-against vw. Measured: 7 of 16 width and text size combinations were clean before,
-16 of 16 after.
-
-**"Nothing written for this stage yet" was the wrong word** (PR #1101). Ten films
-exist, all Stage 1, so there really is none at a teenager's stage. But nothing has
-been FILMED while 39 lessons are written for that stage. Justin chose: make the
-Stage 2 films where a parent and child still watch together, and above that say
-what the format is for rather than apologise. Keyed off a fixed age
-(`CO_WATCH_MAX_STAGE`), never off which films happen to exist.
-
-**The tab counts were frozen on one stage** (PR #1101). Both counts were pinned to
-the child's own stage, so every age chip read the same number while the list
-changed underneath. The library is 141 lessons, not the 39 the tab showed.
-
-**Five Stage 2 film scripts written** (PR #1101). 2.1 What we keep private online,
-2.2 Spot the trick, 2.3 Screens and sleep, 2.4 Why stopping feels hard, 2.5 Mean
-messages. Each reviewed by three lenses, cut to the Stage 1 runtime, then repaired:
-15 must restore findings, several safeguarding. Measured rather than guessed, Mabel
-reads at 131 words a minute, so the five are about 35 minutes of animation.
-
-**One substitution awaiting Justin.** The films system doc names the fifth Stage 2
-film as "What social media really is", which is not a Stage 2 lesson in the
-database. Substituted Mean messages, which is.
-
-**A badge has to land on what it counts** (PR #1102). The child's Quests badge
-counts their own pending asks; tapping it opened a page listing only jobs a grown
-up had sent, so Justin's 2 became "No jobs today" and the badge itself vanished on
-arrival. Verified in the live data first: one pitched job, one live screen ask,
-both real. The jobs page now reads those rows the way the home screen counts them
-and shows them, and the bar keeps the count. Guard, 14 mutations, two of which
-only became real checks after mutating them.
-
-## 17 September 2026: the school resources shelf, and a research sweep nothing could verify
-
-**The four asks separated** (PR #1106). Justin asked for the resources schools give
-parents, our own Little Wandle style version, how to balance it with devices, and a
-list of what UK schools use per subject per year. Ask B turned out half built:
-`buildTermPreview` has answered what a child is learning this term since 10 August.
-What it lacks is the resource layer, so a parent reads the strand names and does not
-know the scheme, the method, or that the homework arrives in an app.
-
-**The sweep ran and produced an inventory, not evidence.** Six lanes, roughly 270
-resource rows in `research/uk-school-resources/`. Every page fetch was refused by the
-network egress policy and the search budget ran out at 200, so nothing is verified and
-no statutory line is quoted. The README carries a ten item verification queue. The
-inventory is safe to plan against; no figure in it may reach a parent yet.
-
-**The fourth curriculum rule, added.** We know what schools nationally use, we do not
-know what your school uses, so every resource claim is a likelihood until the parent
-tells us. One tap fixes it and that is the cheapest personalisation in the product.
-
-**Two things recorded as disagreements, not facts.** The 2026 statutory footing for the
-school phone rule (one lane clean, one lane found the dates self contradictory: read
-Commons Library CBP 10241 first) and the White Rose usage figure, where three uncited
-numbers circulate and the lane refused to pick one.
-
-**Best find:** the Teach Computing curriculum, about 500 hours, Key Stage 1 to 4, is
-Open Government Licence and editable, so parent resources can be written from openly
-licensed material for every subject rather than the three we hold objectives for.
-Oak stays as decided on 7 September: the shape, never the content.
-## 17 September 2026, the letterbox is unparked and setup stops asking
-
-**The MX was live, so the flags came off** (PR #1105). `SCHOOL_EMAIL_FORWARDING_LIVE`
-and `SCHOOL_LINK_LIVE` are both true. `in.guidedchildhood.com` resolves to Resend's
-inbound host, checked.
-
-**Setup was the reason it was parked, so it was rebuilt in the same change.** The old
-way in asked for the school's name AND a comma separated list of its sender addresses
-before it would hand over an address. Nobody knows what address ParentPay sends from,
-so the first screen of the feature was a question its own user cannot answer. Worse,
-the Home promo card pointed at /dashboard/school, which carried no setup at all, only
-a dashed box saying coming soon, while the real form sat greyed out in Settings.
-
-**The rule now: nothing is asked before something is given.** The address is minted on
-one tap with no form, gets emailed to the parent (the hard step was moving a random
-address into the mail app, not understanding it), and the first ask is to forward one
-email, which takes ten seconds and proves it works. The school name and its senders are
-read off that first email and confirmed with one tap. The automatic Gmail rule is
-offered afterwards and never blocks anything.
-
-**Migration 303.** school_name nullable, plus first_email_at, last_email_at,
-emails_caught and learned_domain, so the screen can say "nothing yet" honestly and then
-celebrate. Arrivals are stamped before extraction on purpose: a newsletter with nothing
-to do in it still answers the only question a parent is asking, which is did that work.
-
-**One way in, not two.** The Settings card is now a pointer to /dashboard/school.
-**A duration is not a clock** (PR #1104). The trial banner read "Free days end in
-22:27" in mono with a colon, which is the shape of a time of day: a parent could
-read twenty two hours left as twenty seven minutes past ten tonight. It now says
-how long is left in words, floors so it never overstates, and drops the minutes
-above three hours. The guard runs the function rather than reading it, after
-mutation testing showed a name check matching the code's own identifier.
-
-**The printed passport is the whole sheet, and the margin is zero** (PR #1104).
-Measured as a real PDF, both print routes went to the printer 7 per cent too big:
-tokens.css zooms body by 1.07, the dashboard shell moves that onto `.gc-dash >
-main`, zoom applies on paper, and neither print block reset it. The tempting fix,
-insetting the artwork inside a margin, is the wrong one for a zine: the creases
-are the paper's own quarters, so a 285mm sheet throws both quarter folds 4.5mm
-out. Decided: full sheet, margin zero, the safe area held inside the panels, fold
-ticks on the outer edge. The class edition has the same fault and needs its own
-look. Chrome's Background graphics default also had the cover printing white.
-
-## 17 September 2026, a way in that needs no forwarding at all
-
-**Justin: "Is there a way without having to set up forward?"** (PR #1105). Yes, and
-the best one reaches what forwarding never could. Snap a photo of the letter, or
-paste the text, and the same DiGi extraction that reads forwarded emails reads
-that instead. No address, no rule, no email provider, nothing set up.
-
-**The reason it beats forwarding is the paper.** A large share of primary school
-communication has never been an email: the letter in the book bag, the note in
-the reading record, the trip slip, the sheet by the door at pickup. No forwarding
-rule catches any of it, and a parent holding one is exactly when this is useful.
-
-**One extractor, not two.** The prompt and validation moved out of the inbound
-webhook into `lib/school/extract.ts`, shared by both ways in, so the email path
-and the photo path can never drift. Saving goes through the existing
-POST /api/school/actions, which already owns dedupe and the per child check.
-
-**It shows what it found before saving anything**, unlike the email path. Email
-arrives while the parent is elsewhere; a photo is taken while they are standing
-there holding the letter, which is the one moment they can check a date better
-than we can read it.
-
-**The image is never stored**, same promise as email. iPhone photos are
-downscaled and converted to JPEG in the browser first, because HEIC is the normal
-case for this feature and the API cannot read it.
-
-**Ruled out: reading the inbox via Gmail.** `gmail.readonly` is a Google
-restricted scope needing an annual paid third party security assessment, and it
-breaks the line that makes a nervous parent say yes.
-
-## 17 September 2026, the school offer moves to where people actually look
-
-**Justin: "where shall we make users aware of service as end of long home page
-scroll"** (PR to follow #1109). It sat at line 1673 of a 1958 line Home, so
-almost nobody found it. The lift mechanism already existed and was already
-approved: the real school block takes the top of Home on its day each week. It
-was simply gated on already having school.
-
-**So the offer takes the same slot on the same day.** Discovery and the thing
-discovered share an address, which means the first time a parent uses it they
-already know where to look.
-
-**One decision, not two booleans.** The first cut had schoolTakesTheTop and a
-new promoTakesTheTop, and a test across the week caught them AGREEING on the
-spotlight day with nothing waiting, which would have stacked the school line and
-the offer at the top together. Replaced with schoolTopSlot returning block,
-promo or none, so one function can only give one answer. The existing
-check-school-spotlight guard covers it, including a sweep of every day by
-eligibility by waiting count.
-
-**A real deadline always beats the advert.** Anything waiting gives the block
-the top, whatever day it is.
-
-**The card leads with the photo now.** It said "forward the school's emails" and
-"set it up in one minute", which sells the harder route and calls it work. Out
-of date copy in a place nobody reads is survivable; at the top of Home it is not.
-
-**And "not now" travels with the person (migration 305).** Dismissal was
-localStorage, right at the bottom of a page and wrong at the top: decline on the
-phone, open the laptop, meet it again the same morning.
-## 17 September 2026 — 302 and 303 were both missing, and both were load bearing
-
-Main ran to 303 and the ledger stopped at 301. Probed live, both were genuinely
-absent: `schools.supply_requests` did not exist, and `school_connections` still
-had `school_name` NOT NULL with none of the four arrival columns.
-
-**302 was failing a school in the open.** `schools/app/supplies/actions.ts`
-inserts into that table when a school asks for printed books or stickers, and
-the insert error path returns "The request did not save." So every school that
-filled in the supplies form got told to email us instead. The cron that passes
-requests to Justin reads the same table. Applied, and verified the way it is
-actually used rather than by reading grants: an insert as the `anon` role lands,
-and a select as `authenticated` returns nothing, because RLS carries an insert
-policy and no read policy. The probe row was deleted; the table is empty.
-
-**303 degrades rather than breaks, by design.** Its author guarded the four
-columns in `app/api/school/connect/route.ts` with a note saying migrations run
-by hand here, so a parent midway through setup still sees the address and the
-screen reads "nothing yet". That guard is why nothing surfaced it. What was dead
-in the meantime: the whole arrival half of the letterbox, the learned domain,
-the caught count, and the easy setup path that creates a connection before the
-school name is known, which the NOT NULL blocked outright.
-
-**The check held up.** Two files on main, neither in the ledger, and unlike the
-13 September run both were real. The order is doing its job: the ledger produced
-the candidates, the live schema decided, and the code grep said which one was
-costing us something today.
 
 ## 18 September 2026 — migration 304 applied, column and backfill together
 
@@ -662,6 +283,7 @@ rather than a design one. Named in the plan rather than buried.
 
 Detail in PR 1115, plans/2026-09-18-schools-motion-batch-3.md and
 plans/2026-09-18-schools-states-batch-4.md.
+
 ## 18 September 2026 — the check in opens every day, the rotation keeps the tick
 
 Justin: "didn't have check in as first thing to do?" Measured: that account had
@@ -687,6 +309,7 @@ three, then one. The guard passed throughout: it checked that a slice used
 on you" reads as us dropping four things a parent told us. Both screens now say
 what is still tracked and that it comes round, which is only honest because
 rows are ordered longest unasked first. PR 1116.
+
 ## 18 September 2026 — migration 306 applied, the note the feature exists for
 
 305 was already applied (as school_promo_dismissal_305). 306 was not:
@@ -861,6 +484,115 @@ caught. The type was never the problem, since the wall scale is viewport
 relative and floors at 16px on a phone. It only looked enormous because the
 column was 0px and every word took its own line. PR 1123.
 
+## 19 September 2026, the compliance audit: the map was not the territory
+
+Justin asked for a full statutory coverage and lesson audit before any more
+building, with the rule "do not implement changes yet".
+
+Two files, no code touched: `GDC_SCHOOLS_2026_COMPLIANCE_AUDIT.md` and
+`GDC_SCHOOLS_COVERAGE_MATRIX.csv` (65 rows, requirement text verbatim from the
+July 2025 guidance). Every verdict was tested against the live
+`schools.school_lessons` rows, 732 slides, not against module titles.
+
+The finding: `RSHE_2025_TOPICS` is a ten item list of themes, and the real
+guidance has 28 strands and 195 numbered items. Every compliance surface
+renders from that list, so nothing downstream can be more accurate than it.
+Of the 57 requirements this scheme could be expected to teach: 18 FULL,
+28 PARTIAL, 2 INDIRECT, 9 NONE. The nine include the age 13 minimum, bullying
+at secondary, online gambling, and self harm content, which the pricing page
+already implies we teach.
+
+Awaiting approval before anything is implemented. The first fix is copy, not
+curriculum: "line by line" and "every relevant requirement" cannot stand.
+
+## 19 September 2026, the audit's second pass: KCSIE 2026 arrived
+
+Justin sent the real KCSIE 2026 (split by part, with PDF page markers) and a
+clean markdown conversion of the RSHE guidance, then asked "do you have enough".
+
+Yes. Three things settled that the first pass had to flag as unverified.
+
+The RSHE extraction is now double sourced: my PDF extraction and the markdown
+conversion independently give 28 strands and 195 items with identical wording.
+"Compulsory on 1 September 2026" is verified, not from the RSHE body, which
+carries no commencement date, but from KCSIE 2026 para 159, "revised for
+introduction September 2026". The Hub's KCSIE sentence is true, with two
+wording fixes: the five risks sit INSIDE the four areas of risk (para 165), not
+alongside them, and the fourth C is commerce.
+
+The finding that got worse: seven of the nine gaps are named by KCSIE too.
+Online gambling and self harm are both in para 165. Online bullying is in
+conduct. A gap named by the curriculum guidance and the safeguarding guidance
+is a different kind of gap.
+
+The finding that got better: five per module KCSIE hooks are now verified by
+paragraph, including the one ks2-23 and ks3-22 carry, which turns out to be
+KCSIE's own words: contact risk includes "generative AI applications that
+simulate this". PR 1125.
+
+## 19 September 2026, the KS4 gambling module, and a generator for lesson migrations
+
+Module three of the four statutory gap fills. `ks4-28-the-money-and-the-odds`
+closes RSHE-S-WO-4 and RSHE-S-MW-8, the two requirements KCSIE 2026 names under
+commerce at paragraph 165. Before it, a word boundary search of every slide in
+production returned one hit for `gambl`, a single KS2 loot box slide, while the
+Hub listed online gambling as a covered topic. The `gambling` key moves off
+ks4-15, which never used the word, onto the module that teaches it.
+
+Taught as three questions rather than a warning: THE PRICE, THE ODDS, THE LOOP.
+Every number on a slide is either arithmetic a class can check in ten seconds
+(2.7 percent from 37 pockets paying 35 to 1; a 36.7 percent chance of nothing
+in 200 opens at 1 in 200) or it went through an adversarial citation pass.
+
+That pass changed five things, and the pattern is worth keeping. The speed and
+harm claim was demoted from causal to correlational, because the research says
+correlational and the Gambling Commission's own survey has counter evidence in
+it, so the lesson now says that out loud and the prove question rewards the
+honest answer over the tidy one. The 2025 online slot stake caps went in
+instead, because a legal fact carries the cycle better than a contested
+research one. The helpline gained the detail that decides whether a pupil rings
+it: no minimum age. The national self exclusion scheme was left UNNAMED on the
+pupil slide, because its minimum age could not be confirmed and it has been
+rebranded, and silence beats a wrong age on a wall. And the widely quoted 400
+gambling suicides a year is named in the teacher notes as a number NOT to use,
+because it is a modelled estimate rather than a count.
+
+Also new: `scripts/module-to-migration.mjs`. Migrations 312 and 313 were
+assembled by hand out of sixty thousand characters of curriculum prose, which
+works right up until somebody mistypes a quote. The JSON is now the source and
+the SQL is generated. Checked by regenerating 313: byte identical to the hand
+written file up to the first jsonb literal, differing only in JSON separator
+spacing after it, with all six payloads parsing deep equal.
+
+Migrations 312, 313 and 314 are generated and NOT yet applied. Nothing is
+claimed as covered until they are live and the evidence check passes against
+production, which is step B6. PR 1125.
+
+## 19 September 2026, the tracker now counts statutory requirements, not lessons
+
+B7. Ticking a lesson used to record that it was delivered and nothing more,
+which is a record of activity rather than of coverage. A deep dive does not
+ask how many lessons were taught, it asks which requirements were met, and the
+honest answer lived on a different page that knew nothing about what this
+school had actually done.
+
+Each row now says what it evidences, a panel above counts it, and the printed
+coverage sheet gained an appendix: every requirement met, in the wording of
+the guidance, with the lesson that taught it. That appendix is the artefact a
+subject lead is actually asked for.
+
+The first draft counted 48 and was wrong, which is worth recording because it
+is the same mistake the audit was written to catch. Counting every requirement
+that names a module swept in the PARTIAL rows, where the lesson teaches only
+some of it, and the BY_DESIGN rows, which the school's own scheme owns and we
+deliberately do not. Both are quiet overclaims. The count is FULL only, 40, and
+the panel says out loud that partly covered requirements are not counted and
+neither are the ones the school owns.
+
+Verified at 390 and 1440 and in print, with a seeded term of five ticked
+lessons: 18 of 40, no overflow, no console errors, appendix print only. The
+two new modules show DONE and evidence nothing, which is correct, because
+their migrations are not applied and their verdicts are still GAP. PR 1125.
 ## 19 September 2026 — every key the app reads is written down
 
 Setting up a new laptop, the template listed 23 keys and the app read 43.
@@ -878,3 +610,28 @@ quietly, and whoever set the machine up cannot find out.
 I had already miscategorised as script only. The template also now opens with
 `vercel env pull .env.local`, which is the right way to set up a machine
 anyway: one command, every key, nothing carried on a stick and nothing stale.
+
+## 19 September 2026, the scaffold column had a vocabulary and nothing local knew
+
+Trying to apply migration 312 to production failed on
+`school_lessons_scaffold_check`. The column is a three way classification of
+what a lesson asks a child to DO, and it allows exactly NOTICE, CHOOSE or
+TELL. All 25 live modules carry one of the three.
+
+All four new modules had the lesson's memorable tool in the field instead:
+SHIELD, NAME IT SAVE IT SAY IT, THE PRICE THE ODDS THE LOOP, STOP IT REPORT
+IT SAY IT. Every local guard passed. The contract check, the typecheck, the
+scale guard and the wiring check all had nothing to say, because none of them
+knew the column had a vocabulary. The first thing to object was Postgres, at
+apply time, four modules and eleven commits after the mistake was made.
+
+The fix cost nothing, which is the annoying part: the tool string was already
+in `teacher_notes.tool` on all four, so the field was simply duplicating it
+into a slot that means something else. Corrected to NOTICE, TELL, NOTICE,
+TELL, and the four migrations regenerated.
+
+The durable fix is rule 10 in `scripts/check-module-contract.mjs`, which
+holds the field to the same three values the database does. Verified both
+ways: it exits 1 on the old value and passes all four corrected modules and
+all 25 live ones. If the constraint ever widens, widen the rule in the same
+commit. PR 1125.
