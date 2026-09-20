@@ -96,3 +96,49 @@ batch, which means the older 21 modules get pulled into content/modules first
 so the mirror is true rather than stale. Render at 390 and 1440 on the wall
 and the prep page. A unicode scan for dashes. No new claim on any page without
 a proof path in the product.
+
+## Step 6, designed. 20 September, late evening, after PR 1130 merged
+
+PR 1130 merged at 18:12. Everything from here is a fresh PR from the same
+branch, restarted from main. The two research agents for the bar did not
+survive the session restart, so they were relaunched with the same briefs,
+writing to the scratchpad and returning the checks section.
+
+**The mirror first.** There is no database credential in the container and
+no network route to the project, so the 21 older lessons come into
+content/modules through the Supabase tool: seven export agents, three
+modules each, one `jsonb_build_object` per module in the exact shape the
+eight existing files use, then `scripts/module-string-hash.mjs` on the file
+and its `--sql` twin on production, and the two must agree on slides,
+strings and md5 before the agent moves on. A copy that passes the hash is
+the row, character for character; a copy that fails is refetched.
+
+**One edit is one string.** A finding the verifier accepts is
+`{ slide, path, check, severity, problem, expect, new }`: the 1 based slide,
+a slash path to one string leaf inside it (`body`, `options/1/feedback`,
+`steps/2/text`, `config/prompt`, `points/0`), the rubric check it answers,
+the exact text there now and the exact text that should be. No slide is
+added, moved or removed by this road; a finding that needs a new slide is a
+lesson level proposal and comes to Justin as a list, not a migration.
+
+**The only road to production is `scripts/gen-review-batch.mjs`.** It reads
+the accepted findings, refuses any edit whose `expect` is not the file's
+text, whose `new` carries a dash, that pushes the slide over its wall
+ceiling, that loses an attested phrase, or that breaks the module contract,
+and only then writes the batches: whole modules in teaching order, sized to
+what the Supabase tool has carried before (320 was 43 KB), each one a
+transaction with a backup table, a write that checks the slide's type and
+heading and the exact current text and records a miss instead of writing,
+the abort on any miss, the prose ceiling proof, the attestation proof for
+the batch's phrases, and the string hash proof that every module now equals
+its file. The migration header lists every edit and why, so the file is the
+record. Migration numbers 321 onwards are claimed for these batches in the
+PR title.
+
+**The workflow.** One pipeline over the 29 modules: a reviewer per lesson
+(the rubric, the module file, the friend's register, the protected phrases,
+the instruments) returns the findings above plus lesson level proposals; a
+verifier per lesson, briefed to refute, returns accept or reject per finding
+with a reason. Then the generator, then each batch applied and proved, then
+the fixture rebuilt from content/modules and the wall rendered at 390 and
+1440, one module per key stage, before the next batch.
