@@ -1,0 +1,849 @@
+{
+  "row": {
+    "title": "Misinformation, deepfakes and AI content",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 7 to 9",
+    "sort_order": 12,
+    "efcw_strands": [
+      5
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "Orbit (Y7 to Y8 register)",
+    "evidence_anchor": "KCSIE content risk expansion (2025, retained in KCSIE 2026); Orben 2025 review",
+    "statutory_hooks": [
+      "KCSIE 2026 content risks",
+      "Citizenship media literacy",
+      "DfE AI in education",
+      "RSHE 2026 (deepfakes statutory at KS3/4 from Sep 2026)"
+    ],
+    "single_action_outcome": "I can run three checks before I believe or share something."
+  },
+  "slides": [
+    {
+      "body": "One hour, one skill: three checks that catch a fake before you believe it or share it.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Misinformation, deepfakes and AI content",
+      "script": "Settle everyone with this slide up. Today you all become detectives. By the end of the hour you will be able to do something most adults cannot do: catch a fake before it catches you.",
+      "eyebrow": "KS3 · Years 7 to 9 · Module 12",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_083441_fd2c21fd-7acf-46a4-85a8-c45c344a643d.mp4",
+      "type": "video",
+      "phase": "starter",
+      "script": "Let it play. It is eight seconds and it does the job the first minute of a lesson usually costs you: the room settles, and the guide tells them what it is before anybody asks.",
+      "caption": "DiGi opens the lesson",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Hello. I am DiGi. I am a machine, and I am quite good at this. Shall we start?"
+        ],
+        "described": "DiGi, the golden star, floats into shot at the front of the classroom, glowing softly and bobbing as it talks, then gives a small happy twirl with a trail of sparkles."
+      }
+    },
+    {
+      "why": "Photos, videos and even voices can now be made by a computer, and they look and sound completely real. Nobody can tell by looking anymore, not you, not your teacher, not the news. So today is not about looking harder. It is about three quick questions that do the work your eyes cannot.",
+      "type": "objective",
+      "gains": [
+        "Spot when content might be manufactured, even when it looks perfect",
+        "Run the three checks in under a minute on anything in a feed",
+        "Give a verdict with a reason: believe, pause, or do not share",
+        "Explain why fakes are built to make you feel before you think"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Ask: hands up if you think YOU could spot a fake video. Keep a rough count. Come back to that count at the end of the lesson.",
+      "minutes": 2,
+      "outcome": "I can run three checks before I believe or share something."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about something you saw online that turned out not to be true.",
+      "script": "Sixty seconds. Something you saw that turned out to be false. Then tell your partner how you found out. That second bit is the one I am really asking about.",
+      "lookFor": "Ask how they found out. Almost always somebody else told them, not that it looked fake. That is the point the lesson turns on.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "misinformation",
+          "meaning": "False content shared by someone who believes it is true. The sharer is fooled, not lying."
+        },
+        {
+          "word": "disinformation",
+          "meaning": "False content made or shared on purpose to trick people. The maker knows it is false."
+        },
+        {
+          "word": "deepfake",
+          "meaning": "A face, voice or whole video manufactured by a computer to look and sound like a real person."
+        },
+        {
+          "word": "source",
+          "meaning": "Where a claim comes from: who made it and how they know. No source means no way to check."
+        }
+      ],
+      "script": "Say each word, class repeats it back. The difference between the first two is the whole word: MIS is a mistake, DIS is dishonest. Both spread the same way, and the same three checks catch both.",
+      "heading": "Detective words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson, thirty seconds of thinking time before anyone answers. Cold call two pupils for their reasoning, not just their letter.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Whether you would get caught",
+          "correct": false,
+          "feedback": "Getting caught is not the real risk. The real risk is what the workaround takes you into: unregulated spaces with none of the protections."
+        },
+        {
+          "text": "What the workaround actually exposes you to",
+          "correct": true,
+          "feedback": "Exactly. A workaround does not just skip a rule, it skips every protection behind the rule. That is the risk to weigh."
+        },
+        {
+          "text": "Whether everyone else is doing it",
+          "correct": false,
+          "feedback": "Everyone else doing it changes nothing about what it exposes you to. That is the check that matters."
+        }
+      ],
+      "question": "Warm up from last lesson. A friend offers you a workaround to get past an age check. What matters most before you decide anything?"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074831_00460c51-8df6-4a15-b117-7517bb528dd2.mp4",
+      "type": "video",
+      "phase": "teach",
+      "script": "Play the beat once, full volume. Orbit sets the case up in twelve seconds. Do not talk over it.",
+      "caption": "Opening the case: real or made?",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Detective question. This photo got two million shares. It is completely fake.",
+          "Today you learn the three checks that catch it in under a minute. Case open."
+        ],
+        "described": "Orbit, the round blue Planet Friend, wears a gold cape at the front of a secondary classroom. Orbit holds a photo up towards the class, gestures at the whiteboard, then leans in to the camera."
+      }
+    },
+    {
+      "meta": "6h · Shared 2.1 million times",
+      "text": "BLOOP LANDS ON THE MOON 🌝 nobody told us this was happening today. absolute legend",
+      "type": "scenario",
+      "label": "The easy one",
+      "phase": "teach",
+      "stats": "❤ 4.8M   ↻ 2.1M   💬 96K",
+      "avatar": "🧩",
+      "handle": "bloop.official",
+      "prompt": "Two million people shared this. Bloop has never been to the moon. So why did it travel?",
+      "script": "This is the photo from the clip, and it is the easy one on purpose. Let them laugh, it is meant to be funny. Then the real question, and hold them on it: almost nobody who shared this was fooled. They shared it because it was FUN. Write that word on the board, because it is the engine for the whole hour. One more thing before you move on, and it is check one arriving early: look at the handle. It says official. Anyone can type the word official.",
+      "minutes": 1,
+      "picture": {
+        "alt": "Bloop, the green Planet Friend, beaming, with a rocket, the moon and a planet staged around them. It never happened.",
+        "mood": "happy",
+        "props": [
+          "🚀",
+          "🌝",
+          "🪐"
+        ],
+        "friend": "bloop"
+      },
+      "platform": "feed"
+    },
+    {
+      "meta": "3h · Shared 48,200 times",
+      "text": "BREAKING: England captain caught on camera saying he is DONE with the national team and wants to play for their biggest rivals. Watch before it gets taken down 👇",
+      "type": "scenario",
+      "image": "🎬",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 89.2K   ↻ 48.2K   💬 12.4K",
+      "avatar": "⚽",
+      "handle": "transfer.insider",
+      "prompt": "Real or made? Vote now, hands up. Then be honest: how would you actually know?",
+      "script": "Straight in, they do not need a warm up, they have just had one. Run the vote and count the hands both ways, fast. Then the reveal: it does not matter which way the class voted, because nobody in this room can tell by looking. Not you, not me. Let that sit for a second. That discomfort is the lesson starting.",
+      "minutes": 1,
+      "platform": "feed"
+    },
+    {
+      "body": "Some of what you see online is real. Some is edited. And some is made entirely by a computer: faces, voices, whole events that never happened. The three look identical at first glance. That is not a reason to panic. It is a reason to check, and checking takes under a minute once you know the three questions.",
+      "type": "concept",
+      "emoji": "🎭",
+      "phase": "teach",
+      "script": "Key move here: kill the panic. This is not everything online is fake, and it is not you cannot trust anything. It is simply that looking is no longer a test. We need a better test, and it is coming on the next video. Say this, as written: There is a third shape to know: a conspiracy theory, a story that explains something big by saying a group is hiding the truth. They spread because they feel like being let in on a secret, and because they are built so that any evidence against them counts as proof of the cover up. That last part is the tell. A claim that cannot be proved wrong by anything is not strong, it is unfalsifiable. And it is not only the content that can be manufactured. Accounts can be too, run by someone who is nobody they claim to be, or by no person at all. And people go further online than they would in a room, because the screen hides the face that would normally stop them. The conspiracy lines are new and they are the ones to slow down for. Land the tell rather than any example: a claim built so that counter evidence becomes more proof is the shape to recognise. Deliberately no worked example here, because naming a live theory in a classroom hands it an audience. If a pupil offers one, take the shape and not the topic: does anything count as evidence against it?",
+      "heading": "Content can be manufactured",
+      "minutes": 2
+    },
+    {
+      "type": "stat",
+      "claim": "In a large detection test, only about one person in a thousand spotted every piece of fake content put in front of them.",
+      "phase": "teach",
+      "figure": "1 in 1,000",
+      "script": "Let the number land before you speak. Then: this is not because people are stupid. It is because the fakes got good. Eyes stopped being enough, which is exactly why we are learning checks instead of squinting harder.",
+      "source": "iProov deepfake detection study, 2025",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This is the footballer post from evidence item one. Watch for pupils picking the third answer: assuming everything is fake feels streetwise but it is the same laziness as believing everything. Name that if it comes up.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It is probably real, videos are hard to fake",
+          "correct": false,
+          "feedback": "Videos stopped being hard to fake. A voice and a face can now be generated convincingly by widely available tools."
+        },
+        {
+          "text": "You cannot tell yet, and that is exactly why you check",
+          "correct": true,
+          "feedback": "Right. Not paranoia, not blind trust. You simply cannot tell by looking anymore, so the checks do the work your eyes cannot."
+        },
+        {
+          "text": "It is probably fake, most things online are lies",
+          "correct": false,
+          "feedback": "Most things online are not lies. Assuming everything is fake is as lazy as believing everything. The checks tell you which is which."
+        }
+      ],
+      "question": "A video shows a famous footballer saying something shocking. It looks completely real. What is the honest position before you check?"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074832_694bb4c7-293e-4890-a615-6024626d37b9.mp4",
+      "type": "video",
+      "phase": "teach",
+      "script": "The core teaching beat. Orbit gives the three checks in ten seconds. Play it twice: once to hear it, once with the class saying the checks along with her.",
+      "caption": "The three checks",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Who made it. What do other places say. And the big one: how is it trying to make me feel? Fakes aim for your feelings, because feelings share fast."
+        ],
+        "described": "Orbit, the round blue Planet Friend, stands beside a whiteboard in a gold cape and counts the three checks off one at a time. A green tick glows on the board behind it as each one lands."
+      }
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "And how do they know? A name you can follow, or nothing behind the claim?",
+          "emoji": "🕵️",
+          "title": "Check one: who made this?"
+        },
+        {
+          "text": "One post is a claim. Three places agreeing starts to be evidence.",
+          "emoji": "🌍",
+          "title": "Check two: what do other places say?"
+        },
+        {
+          "text": "Big instant feelings are the doorway every fake aims for.",
+          "emoji": "🔥",
+          "title": "Check three: how is it trying to make me feel?"
+        }
+      ],
+      "script": "Walk the diagram as it builds. Get the class chanting the three questions back: who made it, what do other places say, how does it want me to feel. Then point at the three verdicts: every check ends in one of these, and pause is a perfectly good verdict when you are not sure.",
+      "caption": "Three checks, under a minute. Every verdict needs a reason, a verdict without a reason does not count.",
+      "heading": "The three checks",
+      "minutes": 3,
+      "verdicts": [
+        "Believe",
+        "Pause",
+        "Do not share"
+      ]
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Which of the three checks would YOU be most likely to skip, and why?",
+      "script": "Sixty seconds, partner talk, start the timer on screen. You are listening for honesty, not right answers. Take two or three answers after the chime and admit your own weak check too, it gives the room permission to be honest.",
+      "lookFor": "Honesty. Most of us skip check three because noticing our own feelings is the hardest one. Naming your weak check is how you fix it.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "meta": "1d · Public group · Shared 118,000 times",
+      "text": "Scientists CONFIRM a common breakfast food is slowly harming children. The mainstream media will not report this. Share so every parent sees it!!",
+      "type": "scenario",
+      "image": "🥣",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 231K   ↻ 118K   💬 44K",
+      "avatar": "🧪",
+      "handle": "Wellness Truth Daily",
+      "prompt": "Which check fails first? Thirty seconds with your partner, then verdicts with reasons.",
+      "script": "Pair talk, thirty seconds. The answer you are fishing for: check one fails instantly, scientists confirm with no scientist named and no link is a claim with nobody behind it. Bonus if anyone spots the share so every parent sees it line, that is check three firing too. Fakes usually fail more than one check at once.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Whole class on devices or hands for a, b, c. The subtle point to land in feedback: the feeling is not proof of anything, it is a trigger to check. Furious and true both exist.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Check three: how is it trying to make me feel",
+          "correct": true,
+          "feedback": "Yes. A big instant feeling is not proof something is false, but it is exactly when the other two checks matter most, because you are least likely to run them."
+        },
+        {
+          "text": "No check, feelings are not evidence either way",
+          "correct": false,
+          "feedback": "The feeling itself IS the signal to check. Content built to enrage is content built to spread, true or not."
+        },
+        {
+          "text": "Check one only",
+          "correct": false,
+          "feedback": "Check one matters too, but the fury is check three firing. That feeling is the tap on the shoulder."
+        }
+      ],
+      "question": "A post makes you furious the second you see it. Which check does that feeling trigger?",
+      "toolStrip": true
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This is evidence item two formalised. If the pair talk went well this should be near unanimous. If it was not, go back to the diagram slide, the back button works.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Check one: who made this, and how do they know",
+          "correct": true,
+          "feedback": "Exactly. Scientists confirm, with no scientist named and nothing to follow, fails the first check before you even reach the second."
+        },
+        {
+          "text": "Check two: what do other places say",
+          "correct": false,
+          "feedback": "Check two would catch it eventually, but the missing source fails check one immediately. Fastest check first."
+        },
+        {
+          "text": "None, it might still be true",
+          "correct": false,
+          "feedback": "It might be true. But a claim with no source has failed a check, and that means pause, not share."
+        }
+      ],
+      "question": "A post says scientists confirm a shocking finding. No name, no link, no source. Which check fails first?",
+      "toolStrip": true
+    },
+    {
+      "meta": "Voice message · 0:42",
+      "text": "listen to this 😳 it is DEFINITELY him, you can literally hear his voice, he admits the whole thing",
+      "type": "scenario",
+      "image": "🎧",
+      "label": "Evidence item three",
+      "phase": "teach",
+      "avatar": "🏀",
+      "handle": "Jay 🏀",
+      "prompt": "A voice that sounds exactly right, sent by a friend you trust. Does that change which checks we run?",
+      "script": "The trap here is the trusted friend. Jay is not lying, Jay is fooled, that is misinformation from your keywords. The checks do not care who delivered the claim or what format it arrived in. A voice is now just another thing a computer can make.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_091451_ec7ebc00-4417-4e6d-96f9-14bb076596df.mp4",
+      "type": "video",
+      "phase": "teach",
+      "script": "The star pause. Eight seconds, everyone breathes, then straight into the spread engine.",
+      "caption": "DiGi Junior half time check in",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Beep boop! Half time check. Take one breath. Has anything today surprised you? Tell your neighbour in five words, then write it on your sheet."
+        ],
+        "described": "DiGi Junior, the small golden star, floats in beside a desk with the worksheet and a pencil on it, bobbing gently as it talks, then sparkles and gestures down at the sheet."
+      }
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Fury, fear or wow. The post is engineered to cause it.",
+          "emoji": "😱",
+          "title": "A big feeling hits"
+        },
+        {
+          "text": "Feelings share fast and check slowly. That is the whole trick.",
+          "emoji": "👆",
+          "title": "The instant share"
+        },
+        {
+          "text": "Every reaction tells the feed to show it to more people.",
+          "emoji": "📈",
+          "title": "The feed boosts it"
+        },
+        {
+          "text": "Most of them will never check. You are no longer most people.",
+          "emoji": "🌍",
+          "title": "Millions see it"
+        }
+      ],
+      "script": "Walk the loop as it builds, then ask the class where the weakest link is. Answer: step one, the only step the fake cannot control is whether YOU notice the feeling and check instead of share. The last line on screen is the identity shift of the lesson: you are no longer most people.",
+      "caption": "The checks break this loop at step one. That is why check three is the deepfake tell.",
+      "heading": "How a fake travels",
+      "minutes": 3
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Who benefits when a fake spreads? Follow the attention, then follow the money.",
+      "script": "Groups of three or four, ninety seconds on the timer. This is the stretch thinking from the one pager brought into the room: fakes are not accidents, they are products with owners. Collect one answer per group.",
+      "lookFor": "The account gets followers and money, the platform gets watch time and advert views, and sometimes someone gets a lie believed. Nobody in the chain needs the fake to be true.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {},
+      "script": "The diagram of how a fake travels, now run as a race. Run it once and let the outrage post win by miles. Ask why: not because it is true, because reactions are the fuel. Then press calm the reactions and run it again, and watch the race tighten. Land the line the whole lesson has been building to: your pause is not nothing, it is the brake, and you are no longer most people.",
+      "caption": "Same day, two posts. Watch what reactions are worth.",
+      "minutes": 4,
+      "component": "spread-race"
+    },
+    {
+      "body": "Your teacher has six items on the worksheet: posts, a screenshot chain, and a described video. Run the three checks on each and give a verdict: believe, pause, or do not share. You have fifteen minutes. Verdicts need reasons, a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet or booklets. Fifteen minutes, bookmark strips on tables for anyone who needs the checks in front of them. Support group works items one to three together with you. Stretch question for early finishers: who benefits when item four spreads? Circulate and collect one great reason to read out.",
+      "heading": "Detective practice, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks. This mirrors evidence item three, so a wrong answer here tells you exactly who to mark as working towards on the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Voices can be generated too, so it faces the same three checks as any post",
+          "correct": true,
+          "feedback": "Right. A voice is now just another thing a computer can make. Same checks, same verdicts."
+        },
+        {
+          "text": "Voice messages are more trustworthy than video",
+          "correct": false,
+          "feedback": "Voices are now among the easiest things to fake. The checks do not care what format the claim arrives in."
+        },
+        {
+          "text": "If it sounds real it probably is",
+          "correct": false,
+          "feedback": "Sounding real stopped being evidence. That is the whole lesson."
+        }
+      ],
+      "question": "Exit check. Your neighbour shares a voice message that sounds exactly like a celebrity confessing to something. What do you now know that most people do not?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "The nuance question, and the one Ofsted style deep dives love: it proves pupils are thinking, not reciting. If someone argues the true side well, celebrate the arguing and then land the distinction: the lie is the pretending, not the making.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. Made by AI tells you how it was made, not whether it is honest",
+          "correct": true,
+          "feedback": "Exactly right, and this is the honest nuance. AI made content can be labelled, harmless or art. The problem is manufactured content pretending to be real. The checks catch the pretending."
+        },
+        {
+          "text": "True. AI content is fake by definition",
+          "correct": false,
+          "feedback": "AI made is a method, not a verdict. The lie is in the pretending, not the making. The checks target the pretending."
+        }
+      ],
+      "question": "True or false: if a picture was made by AI, it is always a lie."
+    },
+    {
+      "text": "Who made it. What do other places say. How is it trying to make me FEEL? Three checks, under a minute, case closed.",
+      "type": "quote",
+      "label": "Say it like Orbit",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time. This is the sentence you want repeated at dinner tables tonight.",
+      "minutes": 1
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_074831_895acbfe-2b47-499c-a04b-8399e2142699.mp4",
+      "type": "video",
+      "phase": "close",
+      "script": "Orbit sets the mission. After the beat, every pupil writes their commitment on the exit card: one thing in their own feed this week they will run the checks on before sharing.",
+      "caption": "Your mission: check before you share",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Your mission: next shocking post you see, run the three checks before you even think about sharing. You are the detective now. Case closed."
+        ],
+        "described": "Orbit, the round blue Planet Friend, stands in the school corridor in a gold cape and holds up a small gold badge in one paw, then points it warmly at the camera."
+      }
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "You cannot tell real from made by looking anymore. The checks do what your eyes cannot.",
+        "The three checks: who made this and how do they know, what do other places say, how is it trying to make me feel.",
+        "A big instant feeling is the signal to check, because content built for feelings spreads fastest.",
+        "Made by AI is a method, not a verdict. The lie is the pretending, and the checks catch it."
+      ],
+      "script": "Return to the hands up count from the start of the lesson: who thought they could spot a fake by looking? Ask it again now and let the room notice what changed. Then the recap, read by pupils, one point each.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "text": "I check before I share, because I cannot tell by looking.",
+      "type": "quote",
+      "label": "Say it together",
+      "phase": "close",
+      "script": "Everybody, out loud, together. I check before I share, because I cannot tell by looking. Once more, and mean the second half, because that is the bit that took a whole hour to earn.",
+      "minutes": 2
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_091642_99cd613e-0a8b-4efc-bbee-fd1580496201.mp4",
+      "type": "video",
+      "phase": "close",
+      "script": "The widening out. They have spent an hour on one skill, and this puts it on the road to sixteen. Worth saying out loud afterwards that the three checks they learned today are one of the stamps.",
+      "caption": "Where this lesson sits on your passport",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "From four to sixteen, your passport fills up. Not with birthdays. With things you can actually do. Every stage gets stamped when you are ready."
+        ],
+        "described": "DiGi, the golden star, floats and glows, then the camera settles on an open passport on the table as coloured stamps land on the page one after another, each carrying a Planet Friend face."
+      }
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Orbit's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks3-12-misinfo-deepfakes",
+        "register": "level",
+        "placement": "shaper"
+      },
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Case closed, detectives! ⭐",
+        "Three checks, under a minute: who made it, what do other places say, and how is it trying to make me FEEL?",
+        "Your mission this week: run the checks on one thing in your own feed before you share it. Anything. Every check makes you sharper.",
+        "Most people scroll and share without thinking. You are no longer most people. See you next lesson!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register.",
+      "heading": "DiGi closes the case",
+      "minutes": 2
+    }
+  ],
+  "dsl_note": {
+    "note": "KCSIE 2026 keeps misinformation, disinformation and conspiracy theories named as content harms. A pupil may disclose distress about something they have seen or shared. Follow your school safeguarding policy and record in your school system. This platform does not record disclosures.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS3",
+  "module_id": "ks3-12-misinfo-deepfakes",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 12,
+  "parent_note": {
+    "taught": "Your child learned that photos, videos and voices can now be manufactured convincingly, and practised three checks: who made this and how do they know, what do other places say, and how is it trying to make me feel.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them to run the three checks with you on the next surprising thing either of you sees.",
+    "try_this": "Ask your child to run the three checks on one thing in your own feed this week. Let them be the detective, you be the client.",
+    "family_question": "What is the most convincing fake you have ever seen, and how did you find out?",
+    "no_login_required": true
+  },
+  "video_beats": [
+    {
+      "beat": "intro",
+      "model": "kling3_0",
+      "job_id": "459b1662-1742-4e83-97af-e26c2b0e1688",
+      "seconds": 12,
+      "character": "zara",
+      "board_text": "REAL OR MADE?"
+    },
+    {
+      "beat": "concept",
+      "model": "kling3_0",
+      "job_id": "66e88fe5-67c2-47ef-aa10-ebbf022ea96a",
+      "seconds": 10,
+      "character": "zara",
+      "board_text": "THE THREE CHECKS"
+    },
+    {
+      "beat": "pause",
+      "model": "kling3_0",
+      "job_id": "bc3337b7-0b24-4d82-b1e3-965955dd3d1c",
+      "seconds": 8,
+      "character": "digi_junior",
+      "reuse_library": true
+    },
+    {
+      "beat": "mission",
+      "model": "kling3_0",
+      "job_id": "129f9d14-d174-4444-8de3-e080bdbd52cb",
+      "seconds": 8,
+      "character": "zara",
+      "board_text": "CHECK BEFORE YOU SHARE"
+    }
+  ],
+  "teacher_notes": {
+    "send": {
+      "eal": "Believe, pause and do not share pre teach as traffic lights: green, amber, red. The three checks become who, where else and what feeling, and the feeling question needs no fluency at all.",
+      "sensory": "The spread race animates fast by design. Reduced motion shows the end states instantly, and the paper fallback, a headline card passed hand to hand, makes the same point at human speed.",
+      "attention": "The spread race lands in seconds and the debrief is where the learning lives. After the race, hand the most pulled in pupil the brake: they call the pause on the next case before anyone shares.",
+      "communication": "The three checks are three questions on three cards. A pupil runs a whole case by laying down the card that decided their verdict: that IS naming the check."
+    },
+    "tool": {
+      "lines": [
+        "Who made this?",
+        "What do other places say?",
+        "How does it want me to feel?"
+      ],
+      "heading": "The three checks",
+      "strapline": "Under a minute, and pause is a perfectly good verdict."
+    },
+    "i_can": [
+      "I can spot the signs that something might be fake or engineered.",
+      "I can run the three checks and give my verdict: believe, pause or do not share.",
+      "I can explain to a mate why pause is a strong verdict, not a weak one."
+    ],
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Content can be manufactured",
+        "minutes": 9,
+        "outcome": "I can spot the signs that something might be fake or engineered."
+      },
+      {
+        "verb": "Check",
+        "title": "The three checks",
+        "minutes": 14,
+        "outcome": "I can run the three checks and give my verdict: believe, pause or do not share."
+      },
+      {
+        "verb": "Trace",
+        "title": "How a fake travels",
+        "minutes": 6,
+        "outcome": "I can explain why a fake spreads faster than the correction."
+      }
+    ],
+    "timing": "73 minutes as scripted: starter 11 with the DiGi welcome, teach cycles 29 with the half time pause, spread race 4, paper practice 15, exit checks 4, close 10 with the passport beat. To fit a 55 minute period: run one discussion instead of two, and give paper practice 10 with items five and six as homework.",
+    "keywords": [
+      {
+        "word": "misinformation",
+        "definition": "False information passed on by someone who believes it is true. No intent to deceive, and it still does the damage."
+      },
+      {
+        "word": "disinformation",
+        "definition": "False information spread on purpose by someone who knows it is false. The lie is the plan."
+      },
+      {
+        "word": "deepfake",
+        "definition": "Video or audio generated by AI so that a real person appears to say or do something they never did."
+      },
+      {
+        "word": "verdict",
+        "definition": "The decision you reach after checking: believe, pause, or do not share. Pause is a real verdict, not a dodge."
+      }
+    ],
+    "equipment": "Nothing beyond the board. Every example in the deck is invented, so no real post, account or person is shown.",
+    "exit_quiz": [
+      {
+        "pairs": [
+          {
+            "left": "Misinformation",
+            "right": "False, passed on by someone who believes it"
+          },
+          {
+            "left": "Disinformation",
+            "right": "False, spread on purpose"
+          },
+          {
+            "left": "Deepfake",
+            "right": "Generated video or audio of a real person"
+          }
+        ],
+        "answer": "Misinformation goes with false, passed on by someone who believes it; Disinformation goes with false, spread on purpose; Deepfake goes with generated video or audio of a real person",
+        "format": "match",
+        "question": "Match each word to what it means.",
+        "teaching_point": "The three words of the lesson. The difference between the first two is intent, not accuracy."
+      },
+      {
+        "answer": "Who made it, what is the source, and what does it want from me?",
+        "format": "short_answer",
+        "question": "What are the three checks?",
+        "teaching_point": "The tool they leave with. Three, in order, and the third one is the one people skip."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Pause is a weak answer.",
+        "teaching_point": "Pause is a verdict, not a failure to reach one. Say it out loud when you mark this."
+      },
+      {
+        "answer": "correction",
+        "format": "fill_blank",
+        "question": "A fake travels further than its ___.",
+        "teaching_point": "Which is why the decision that matters is made before you share, not after."
+      },
+      {
+        "answer": "Run the three checks first",
+        "format": "tick_one",
+        "options": [
+          "Repost it fast",
+          "Run the three checks first",
+          "Never repost anything"
+        ],
+        "question": "A video makes you furious and you want to repost it to warn people. What does the lesson say?",
+        "teaching_point": "Sharing to debunk spreads the fake further than the correction. Fury is the signal to slow down, not to speed up."
+      }
+    ],
+    "worksheet": {
+      "title": "The three checks casework",
+      "directions": "Run the three checks on each item: who made it, what do other places say, how does it want you to feel. Give your verdict and name the check that decided it.",
+      "verdict_options": [
+        "Believe",
+        "Pause",
+        "Do not share"
+      ]
+    },
+    "teacher_tip": "Run one check on something true before you run three on something false. A class taught only to debunk learns to doubt everything, which is the outcome the fakes want.",
+    "starter_quiz": [
+      {
+        "answer": "A tool generates it from a description, so it can show something that never happened.",
+        "format": "short_answer",
+        "question": "How can a picture be made by a computer?",
+        "teaching_point": "Carried forward from ks1-03 and ks2-09. Today it extends to video and audio."
+      },
+      {
+        "answer": "From what you watch, skip and rewatch, to keep you watching.",
+        "format": "short_answer",
+        "question": "How does a feed decide what to show you?",
+        "teaching_point": "Carried forward from ks2-06. It matters today because the feed is how a fake travels."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "You have shared or received something that was forwarded on from someone else.",
+        "teaching_point": "A show of hands, not a knowledge check. It puts every pupil inside the lesson."
+      },
+      {
+        "answer": "Possibly real",
+        "format": "tick_one",
+        "options": [
+          "Definitely real",
+          "Possibly real",
+          "Definitely fake"
+        ],
+        "question": "Something looks real. That means it is:",
+        "teaching_point": "Looking real is no longer evidence. Expect some to pick definitely real, which is exactly why the lesson runs."
+      }
+    ],
+    "misconceptions": [
+      "Videos and voices cannot be faked convincingly (they can, cheaply).",
+      "AI made means false (it is a method, not a verdict, and the lie is the pretending).",
+      "Checking means distrusting everything (the checks end in believe verdicts too)."
+    ],
+    "paper_fallback": "The full lesson runs from the printed pack: retrieval card, three checks bookmark, six item worksheet, exit card. Beats are described in the teacher script if no screen is available.",
+    "passport_stage": "shaper",
+    "commitment_stem": "My commitment: this week I will run the three checks on one thing in my own feed before I share it, starting with...",
+    "differentiation": {
+      "stretch": "Who benefits when this spreads? Follow the incentive, then connect to how feeds reward reaction.",
+      "support": "Pre sorted verdict cards, running checks as a group with the three questions printed as a bookmark."
+    },
+    "prior_knowledge": [
+      "A pupil can explain that a picture can be made by a computer, from ks1-03 and ks2-09.",
+      "A pupil can describe how a feed decides what to show them, from ks2-06.",
+      "A pupil has shared or received something forwarded on from someone else."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A news video about flooding in the north, on the broadcaster's own verified account, matching reports on two other news sites.",
+        "teaching_point": "Check one and check two both pass: a named source you can follow, and other places agreeing. The checks end in believe verdicts too, checking is not distrusting everything.",
+        "expected_verdict": "Believe"
+      },
+      {
+        "n": 2,
+        "item": "A voice note that sounds exactly like a famous footballer announcing a free giveaway, posted by a fan account.",
+        "teaching_point": "Voices can be cloned cheaply and convincingly, so the sound proves nothing. Check one fails, a fan account is not the footballer, and a giveaway plus excitement is check three firing.",
+        "expected_verdict": "Do not share"
+      },
+      {
+        "n": 3,
+        "item": "A screenshot of a headline, with no link, sent to your group chat by a good friend, saying a celebrity has died.",
+        "teaching_point": "A screenshot cuts the claim off from its source, and a friend's name never verifies a claim, it only tells you who passed it on. Check two settles this in under a minute: search the headline and see what other places say.",
+        "expected_verdict": "Pause"
+      },
+      {
+        "n": 4,
+        "item": "A video of a politician saying something outrageous, posted an hour ago, that no news site anywhere is carrying yet.",
+        "teaching_point": "An event this big with zero coverage anywhere fails check two right now, but an hour is early. Pause is the calibrated verdict: if it is real, three places will carry it by tonight, and if it is a deepfake, you did not help it travel.",
+        "expected_verdict": "Pause"
+      },
+      {
+        "n": 5,
+        "item": "An illustration on a science page, clearly labelled as AI generated, showing how a volcano works, matching your textbook.",
+        "teaching_point": "AI made is a method, not a verdict. This is labelled honestly, comes from a source you can follow, and other places agree. The lie in a deepfake is the pretending, never the tool.",
+        "expected_verdict": "Believe"
+      },
+      {
+        "n": 6,
+        "item": "A post that makes you furious about your own town and urges everyone to share it before it gets taken down.",
+        "teaching_point": "Share before it disappears is engineered urgency, and fury is the doorway feeling from check three. The one step of a fake's journey it cannot control is whether you notice the feeling and check instead of share.",
+        "expected_verdict": "Do not share"
+      }
+    ],
+    "essential_question": "How do I know whether to believe this before I pass it on?",
+    "learning_objective": "Pupils can apply three verification checks to online content and justify a believe, pause, or do not share verdict.",
+    "key_learning_points": [
+      "Content can be manufactured: images, audio and video, not only text.",
+      "Looking real is no longer evidence that something is real.",
+      "The three checks are: who made it, what is the source, and what does it want from me?",
+      "Pause is a verdict, not a failure to reach one.",
+      "A fake travels further than its correction, so the decision that matters is made before you share."
+    ]
+  }
+}

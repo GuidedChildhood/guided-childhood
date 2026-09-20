@@ -1,0 +1,801 @@
+{
+  "row": {
+    "title": "Social media, group chats and the workarounds",
+    "audience": "teacher",
+    "scaffold": "TELL",
+    "year_band": "Years 7 to 9",
+    "sort_order": 11,
+    "efcw_strands": [
+      2,
+      4,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "Orbit",
+    "evidence_anchor": "Workaround behaviour research",
+    "statutory_hooks": [
+      "EfCW",
+      "Online Safety Act education duty"
+    ],
+    "single_action_outcome": "I can explain the risk behind a workaround I might be tempted by."
+  },
+  "slides": [
+    {
+      "body": "One hour, one skill: seeing what a workaround really costs before you decide anything.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Social media, group chats and the workarounds",
+      "script": "Settle the class with this slide up. Today is not a lecture about apps being bad, and nobody gets judged in this room, say that out loud, it changes the whole hour. Today is one hour on how the machine behind social media actually works, and what the shortcuts around it actually cost. Our guide today is Orbit, who has seen every trick going and does not gasp at any of them.",
+      "eyebrow": "KS3 · Years 7 to 9 · Module 11",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Orbit here.",
+        "What are you actually giving up when you get around the rule?",
+        "Not a lecture. A trade, and today you learn to see it."
+      ],
+      "phase": "starter",
+      "script": "Let Orbit land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Orbit",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "why": "Most internet safety lessons pretend nobody in the room has ever heard of a VPN or borrowed an account, and everyone stops listening in the first minute. This lesson respects you enough to be honest: the rules on these platforms exist for real reasons, and the interesting question is what you actually give up when you slide around them.",
+      "type": "objective",
+      "gains": [
+        "Explain what the algorithm is actually doing with your account",
+        "Name the protections that sit behind an age rule",
+        "Spot what a workaround really skips, not just the rule but everything wired behind it",
+        "Read a group chat and know what strangers in it actually means"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome in pupil voice, then the why. Then ask for hands: who has ever heard of a way around an age check or a blocked app? Nearly every hand should go up, and that is fine, that honesty is the whole point of today. One ground rule before we start: nobody confesses anything in this lesson. We talk about the workarounds, never about who used them.",
+      "minutes": 2,
+      "outcome": "I can explain the risk behind a workaround I might be tempted by."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one rule an app has that people your age get around. You do not have to say whether you have.",
+      "script": "Sixty seconds, and I want you to be straight with me. One rule an app has that people your age get around. Nobody is in trouble and nobody has to say whether they have done it. I already know these exist. Pretending otherwise would waste your time and mine.",
+      "lookFor": "Age gates, second accounts, borrowed logins, a VPN. Letting them name it openly is what buys you the rest of the hour.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "algorithm",
+          "meaning": "The system that decides what your feed shows you next, built to keep you watching for as long as possible."
+        },
+        {
+          "word": "moderation",
+          "meaning": "The people and systems a platform uses to find and remove harmful content and dangerous accounts."
+        },
+        {
+          "word": "workaround",
+          "meaning": "Any trick that gets past a rule: a fake age, a borrowed account, a VPN, a sideloaded app."
+        },
+        {
+          "word": "VPN",
+          "meaning": "A tool that hides where you really are, so the internet treats you as if you are somewhere else."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Then point out something important: none of these are dirty words. A VPN is a normal tool millions of adults use for work every day. The question today is never is this thing evil. The question is always what happens when it is used to skip a protection. Keep that distinction, it is what makes this lesson honest.",
+      "heading": "Street words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson, thirty seconds of thinking time before anyone answers. Cold call two pupils for their reasoning, not just their letter. Then one bonus question for anyone brave: has anyone actually run the audit since last lesson, and what came back? One honest answer here sets the tone for the whole hour.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Do I feel better, worse, or nothing?",
+          "correct": true,
+          "feedback": "That is the audit. Three honest words after any screen time: better, worse, or nothing. The answer tells you what that hour actually gave you."
+        },
+        {
+          "text": "How many likes did I get?",
+          "correct": false,
+          "feedback": "Likes measure the post, not you. The audit is about what the hour did to your mood: better, worse, or nothing."
+        },
+        {
+          "text": "How long was I on for?",
+          "correct": false,
+          "feedback": "Time is part of the picture, but the audit is sharper than a stopwatch. Better, worse, or nothing is the question that tells you something."
+        }
+      ],
+      "question": "Warm up from last lesson. The mood audit. You have just spent an hour scrolling. What is the question you ask yourself?"
+    },
+    {
+      "body": "When you open an account, the platform builds a profile of you: the age you typed in, what you watch, what you pause on, what you search late at night. The algorithm uses that profile to decide what you see next, and its only job is to keep you there longer.",
+      "type": "concept",
+      "emoji": "⚙️",
+      "phase": "teach",
+      "script": "Build the profile concretely: the age you typed in, what you watch, what you pause on, what you search late at night. Then let the last line sit, its only job is to keep you there longer.",
+      "heading": "How the machine sees you",
+      "minutes": 1
+    },
+    {
+      "body": "Your age setting is one of the biggest levers in that machine. It changes what can be recommended to you, who is allowed to contact you, and how strictly the filters run. The platform does not know you. It knows the age you typed in, and it builds your entire world from that.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Land the last two lines hard: the platform does not know you, it knows the age you typed in, and it builds your world from that. Then plant the question without answering it: so what changes if that age is wrong? Hold the silence for a moment. The next slide answers it.",
+      "heading": "Your age is the biggest lever",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Think on your own for a moment. Not whether anyone does this, we have already agreed people do. What else does it change.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Who is allowed to message them, and how strictly the filters run.",
+          "correct": true,
+          "feedback": "That is the part nobody is told. The box is not a door, it is a switch wired to a lot of other things."
+        },
+        {
+          "text": "Nothing else. It is one box on a form.",
+          "correct": false,
+          "feedback": "It looks like one box. It is the setting a lot of the protections are wired to, which is what the next slide shows you."
+        },
+        {
+          "text": "Only which adverts they see.",
+          "correct": false,
+          "feedback": "Adverts change too, and that is the least of it. Contact and filtering are the ones that matter here."
+        }
+      ],
+      "question": "Someone sets their age to 22 to get past a sign up screen. What else have they just changed?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Violent, sexual and dangerous content is filtered far harder for under 18 accounts.",
+          "emoji": "🛡️",
+          "title": "Stricter filters"
+        },
+        {
+          "text": "Adults you do not follow cannot message you, and your account is harder for strangers to find.",
+          "emoji": "🔒",
+          "title": "Contact limits"
+        },
+        {
+          "text": "Reports from a child account are prioritised, and the help tools point you to real support.",
+          "emoji": "🚨",
+          "title": "Reporting that works for you"
+        },
+        {
+          "text": "The algorithm is told to stop pushing certain rabbit holes at accounts your age.",
+          "emoji": "👁️",
+          "title": "Tuned recommendations"
+        }
+      ],
+      "script": "Walk each protection as it appears. Then the key question: what do all four have in common? Take answers, then land it: they are all invisible. You never see a protection working. You only ever feel the rule that annoys you at sign up. That asymmetry, annoying rule you can see, silent protections you cannot, is exactly why workarounds feel free. They are not.",
+      "caption": "The rule is one line on a sign up screen. These are the protections wired to it.",
+      "heading": "What an age setting actually switches on",
+      "minutes": 3
+    },
+    {
+      "type": "stat",
+      "claim": "Children aged 8 to 17 with a social media profile signed up with a false age of 18 or over, so the platform treats them as adults.",
+      "phase": "teach",
+      "figure": "1 in 3",
+      "script": "Let the number land before you speak. A third of the country's kids are walking around online in an adult costume. Then the honest question: did those children become adults when they typed a different birthday? No. So what happened to their four protections? Gone, all four, and nobody sent them a warning about it. Nothing looked different that day. That is the trap.",
+      "source": "Ofcom, children's online user ages research, 2022",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Hands or devices. Once the right answer is established, come back to the word switch and write it on the board. It is the word for the rest of the lesson: every workaround we are about to meet is someone flipping that switch without knowing what it was connected to.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "A switch that turns a whole set of protections on or off",
+          "correct": true,
+          "feedback": "That is the honest answer. The rule is the visible bit. Behind it sit filters, contact limits, prioritised reports and tuned recommendations, all wired to that one setting."
+        },
+        {
+          "text": "A box ticking exercise the platforms do not really care about",
+          "correct": false,
+          "feedback": "Platforms face serious fines when it fails, which is exactly why real protections are wired to it. The rule is the switch, not the whole machine."
+        },
+        {
+          "text": "A way of keeping young people off the internet",
+          "correct": false,
+          "feedback": "Nobody is trying to keep you off the internet. The rule decides which version of the platform you get: one with protections running, or one without."
+        }
+      ],
+      "question": "So what IS an age rule, really?"
+    },
+    {
+      "meta": "Group chat · 34 members · 19:47",
+      "text": "right everyone listen. new app is region locked and the age check is actual torture 💀 here is the fix: get this VPN, set it to USA, make the account there, birthday 1998. takes 2 mins. tutorial vid above 👆 everyone is doing it",
+      "type": "scenario",
+      "image": "📲",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "🐍",
+      "handle": "year 8 legends 🐍 · 34 members",
+      "prompt": "This lands at 19:47 on a Tuesday in a chat you are actually in. Before anyone says right or wrong: what would this fix actually DO?",
+      "script": "This is where Orbit arrives, and Orbit does not gasp, Orbit has seen a thousand of these messages. First, admire the sales technique like a detective would: takes 2 mins, everyone is doing it, the fix. Then ask the class to list what it technically does. The VPN says you are in America. Birthday 1998 says you are an adult. Then the only question Orbit ever asks: what just got switched off? Point back at the diagram. All four protections, gone in two minutes, for an app.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "Here is the honest core of today, and Orbit tells it to you straight: a workaround does not just skip a rule. It skips every protection wired behind the rule. Type an adult birthday and the filters relax, the contact limits drop, and the algorithm starts treating you as someone who can handle anything. Worst of all, if something goes wrong, the report and help tools think they are helping an adult. The rule took ten seconds to skip. The protections were the only part that was ever for you.",
+      "type": "concept",
+      "emoji": "🔭",
+      "phase": "teach",
+      "script": "This is the slide the module is named after, so read it slowly and do not rush the room. The tone is a mechanic showing you where the brakes are, never a police officer. Check understanding with one question: why can the platform no longer help a 12 year old who is on an 18 year old account? Answer: because it does not know there is a 12 year old there to help. Let a pupil say it in their own words.",
+      "heading": "What a workaround actually skips",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Age check, region lock, app store block. The annoying bit you can see.",
+          "emoji": "📜",
+          "title": "Find the rule"
+        },
+        {
+          "text": "What is this rule wired to? Filters, contact limits, moderation, the ability to get help.",
+          "emoji": "🛡️",
+          "title": "Name the protection behind it"
+        },
+        {
+          "text": "Now you know the real price. Whatever you decide is a decision, not an accident.",
+          "emoji": "⚖️",
+          "title": "Weigh it with your eyes open"
+        }
+      ],
+      "script": "Walk the three steps as they build, then get the class saying the rule back: behind every rule is a protection, skip the rule, lose the protection. Now the most important thing you will say all lesson: notice this tool is not just say no. Step three belongs to the pupil. A pupil who says I might still be tempted, but now I know exactly what I am risking, has learned today's lesson perfectly. Say that out loud. It is the difference between obedience and judgement, and judgement is the one that travels with them.",
+      "caption": "Behind every rule is a protection. Skip the rule, lose the protection. Then decide with your eyes open.",
+      "heading": "Orbit's rule",
+      "minutes": 3,
+      "verdicts": [
+        "No protection lost",
+        "Weigh it up",
+        "Protection lost"
+      ]
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This should be close to unanimous if the diagram landed. If it is not, go back two slides, the back button works. Push one correct answerer further: which of the four lost protections would matter most on a genuinely bad day? There is no single right answer, but the ability to get help is the one Orbit would name.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Every protection wired to the age setting: filters, contact limits, tuned recommendations and reports that know you are a child",
+          "correct": true,
+          "feedback": "Exactly. The rule fell in two minutes and the whole protection stack fell with it. That is the real price the tutorial never mentioned."
+        },
+        {
+          "text": "Nothing much, a VPN only changes your location",
+          "correct": false,
+          "feedback": "The VPN alone does change location. But the tutorial also said birthday 1998, and that one line switches off every child protection on the account."
+        },
+        {
+          "text": "Two minutes of setup time",
+          "correct": false,
+          "feedback": "Two minutes is the visible cost. The invisible cost is the protection stack, which is exactly why workarounds feel free when they are not."
+        }
+      ],
+      "question": "Back to the VPN tutorial in the group chat. Run Orbit's rule. What did that fix actually cost?"
+    },
+    {
+      "meta": "Direct message · 21:12",
+      "text": "you can just use my old account if you want, i am 19 on it lol. everything is already unlocked, saves you the whole age thing. pass is the dog's name obviously 😂",
+      "type": "scenario",
+      "image": "🔑",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "💜",
+      "handle": "Ells 💜",
+      "prompt": "A real offer, from someone who genuinely loves you. Run Orbit's rule out loud: the rule, the protection, the decision.",
+      "script": "The trap in this one is that it feels safe because the source is safe. Ells is kind, Ells is family, and that changes nothing about the machine, because the machine cannot see kindness, it can only see the account. The account is 19, so adult DMs are open, adult content filters apply, adult recommendations run. Two bonus points to draw out: the algorithm on that account was trained on Ells, so you inherit a feed tuned for a 19 year old you are not. And a shared password means anything that happens on that account happens in both your names. Nobody is angry at Ells here. Ells never saw the wiring either.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Why do workarounds spread so easily? What makes takes 2 mins and everyone is doing it such a good sales pitch?",
+      "script": "Sixty seconds, partner talk, start the timer on screen. You are fishing for the asymmetry: rules annoy you today, protections only matter on a bad day that has not happened yet. Take two or three answers after the chime, then name it cleanly: every workaround is sold by someone who is not describing the price. Not because they are evil. Usually because they never saw the price either.",
+      "lookFor": "The cost is invisible and delayed while the rule is annoying and immediate. Everyone is doing it moves the risk into a crowd, and crowds feel safe. Nobody selling a workaround ever lists what gets switched off.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "body": "Now the second half of the case: group chats. A chat with your five mates is a room with five people you know. A chat with 120 members is a public place wearing a private costume. Anyone in that chat can screenshot what you send, save your profile and message you directly, and the friendly ones and the dangerous ones look identical in a member list. So Orbit's test is simple: if you cannot name everyone in a chat, you are not talking to friends. You are broadcasting to strangers.",
+      "type": "concept",
+      "emoji": "👥",
+      "phase": "teach",
+      "script": "Ask the class to silently think of the biggest group chat they are in, and whether they could name everyone in it. No hands, no answers, just let it land privately. Then give them the costume line: 120 members is a public place wearing a private costume. This is not a panic message. It is about knowing which room you are standing in, because you behave differently in a bedroom and a shopping centre, and you should. Say this, as written: That is the difference between a private space and a public one, and online the two look identical from the inside. A private space is one where you could name everyone. Everything else is public, whatever the app calls it. And what you say in either is held to the same standard as what you say out loud in a corridor: being behind a screen changes who can see you, never what is decent. The added lines give the room two words worth having: private means you could name everyone, public is everything else. Then the standard, said once and not laboured, because this class has been hearing it since Year 1: the screen changes the audience, not the rules.",
+      "heading": "A group chat with strangers in it",
+      "minutes": 2
+    },
+    {
+      "meta": "Group chat · 212 members · you were added by Kian",
+      "text": "new member deal 🤝 free coins app, not on the store because the store takes a cut lol. download it from the link, turn off the install warning when your phone moans, works first time. dm me if it asks for your login",
+      "type": "scenario",
+      "image": "⚠️",
+      "label": "Evidence item three",
+      "phase": "teach",
+      "avatar": "🎮",
+      "handle": "FIFA trading hub 🔥 · 212 members",
+      "prompt": "There are three workarounds hiding in this one message. Find all three, and name the protection behind each one.",
+      "script": "Two minute hunt in small groups, then collect. The three: downloading outside the store skips the store's malware and scam checks, turning off the install warning skips your phone's own built in protection, and dm me your login skips the most basic protection you own. Also notice the cover story: the store takes a cut is doing the same job as everyone is doing it, a reason that sounds clever pasted over a price nobody mentions. Orbit's verdict on this one is short: three protections gone and a stranger in a 212 person chat asking for your password. Eyes open, that is not a deal.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Why does Orbit's rule end with weigh it with your eyes open instead of just say no?",
+      "script": "Groups of three or four, ninety seconds on the timer. This is the most important conversation of the hour, so give it room. If a group says adults just want control, do not argue, ask them to look back at the four protections on the diagram and say who actually benefits when a child skips them. Collect one answer per group, and finish with the truth of the whole module: we trust you with the wiring diagram because you are going to be making these calls without us very soon.",
+      "lookFor": "Just say no gets ignored the moment a rule feels stupid, and some rules do feel stupid. Judgement travels with you into rooms where no adult is watching. A person who knows the real price makes better calls for life than a person who was only ever told no.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "level",
+        "character": "orbit"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "Orbit's rule · tap the class verdict",
+        "posts": [
+          {
+            "why": "The adult birthday is the real workaround, not the VPN. That one line switches off the filters, the contact limits and the child prioritised reporting in a single move.",
+            "text": "A group chat message says: new app is region locked and the age check is torture. Get this VPN, set it to USA, birthday 1998, takes two minutes.",
+            "answer": 2,
+            "avatar": "🧭",
+            "handle": "Case 1"
+          },
+          {
+            "why": "Sideloading skips the store's malware and scam checks, and the install warning is your phone's own protection. Two protections gone before the game even opens.",
+            "text": "A link in a chat says: download the game from this site instead of the app store, and turn off the install warning when your phone complains.",
+            "answer": 2,
+            "avatar": "🧭",
+            "handle": "Case 2"
+          },
+          {
+            "why": "A kind source does not change the machine. The account is 19 to the algorithm, so adult DMs, adult filters and adult recommendations all apply, and you inherit a feed trained on someone you are not.",
+            "text": "Your older cousin offers you their old account: I am 19 on it, everything is already unlocked, saves you the whole age thing.",
+            "answer": 2,
+            "avatar": "🧭",
+            "handle": "Case 3"
+          },
+          {
+            "why": "This is the opposite of a workaround. The real age keeps every wired protection on, and the privacy setting adds another one on top. Settings can work for you, not just against you.",
+            "text": "You turn 13, make your own account with your real birthday, then use the platform's own settings to switch your account to private.",
+            "answer": 0,
+            "avatar": "🧭",
+            "handle": "Case 4"
+          },
+          {
+            "why": "No rule is broken here, but a chat that size is a public place wearing a private costume: anyone in it can save your profile and message you. The eyes open questions are who can see me here and what am I sharing.",
+            "text": "A friend adds you to a chat of 150 people you mostly do not know, because honestly the memes are elite.",
+            "answer": 1,
+            "avatar": "🧭",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Partly true, which is what makes it the perfect final item. A VPN alone changes location, and that can be harmless. The harm arrives when it is used to fake an age or dodge a protection, because everything wired behind the rule switches off. The tool is not the risk. The skipped protection is.",
+            "text": "Kian says: \"A VPN just changes where the internet thinks you are. It does not change anything else, so using one is completely harmless.\" Do you agree? Explain your reasoning.",
+            "answer": 1,
+            "avatar": "🧭",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "No protection lost",
+          "Weigh it up",
+          "Protection lost"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Run Orbit's rule on the six files together before the paper. Read the card, ask what protection is wired behind the rule it skips, take the vote, tap, read the reason. Being sharp is knowing the price, so praise precise answers about WHICH protection is lost over fast ones.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Six items on the worksheet: offers, chat messages and situations, each one a workaround or something that only looks like one. Run Orbit's rule on each: find the rule, name the protection wired behind it, then give your verdict: no protection lost, weigh it up, or protection lost. You have fifteen minutes. A verdict without the named protection does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets, bookmark strips on tables for anyone who wants Orbit's rule in front of them. Fifteen minutes. Support group works items one to three together with you. Stretch for early finishers: write the group chat message that would sell item three to this class, then circle every sales trick you used, it teaches the persuasion mechanics from the inside. Circulate and collect one brilliantly reasoned verdict to read out at the end.",
+      "heading": "Street practice, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, and it mirrors evidence item one, so a wrong answer here tells you exactly who to mark as working towards on the register. Silent, independent, no conferring, this pair of questions is the printed exit quiz.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Not getting caught, but what switches off: filters, contact limits and help tools that know your real age",
+          "correct": true,
+          "feedback": "That is Orbit's rule working. The workaround skips the rule and every protection wired behind it, and that is the price to weigh before you decide anything."
+        },
+        {
+          "text": "The VPN might slow your internet down",
+          "correct": false,
+          "feedback": "A slow connection is an inconvenience. The real cost is the protection stack that switches off the moment the account believes you are an adult."
+        },
+        {
+          "text": "Your friend could get in trouble for sending the tutorial",
+          "correct": false,
+          "feedback": "Maybe, but that is not the risk that matters. What matters is what the account exposes you to once every child protection is off."
+        }
+      ],
+      "question": "Exit check. A friend sends you a VPN tutorial so you can make an account with an adult birthday. What is the real risk to weigh?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "The nuance check. If anyone argues the true side, welcome the argument and then land the distinction: the day you skip the rule, nothing looks different. The difference only shows up on a bad day, when the report button thinks it is helping an adult. That invisible gap is why this question matters more than it looks.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. It skips the rule and every protection wired behind the rule",
+          "correct": true,
+          "feedback": "That is the whole lesson in one line. The rule is the visible bit. The moderation, the reporting, the filters and the ability to get help are all wired behind it, and they fall together."
+        },
+        {
+          "text": "True. The rule is the only thing that changes",
+          "correct": false,
+          "feedback": "That is exactly what a workaround feels like, and exactly why it is a trap. The rule is a switch, and the protections behind it turn off with it."
+        }
+      ],
+      "question": "True or false: a workaround just skips an annoying rule."
+    },
+    {
+      "text": "Behind every rule is a protection. Skip the rule, lose the protection. I decide with my eyes open.",
+      "type": "quote",
+      "label": "Say it like Orbit",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time. This is the sentence you want quoted back at you in the corridor, and quoted in a group chat the next time a tutorial gets posted.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Your age setting is a switch: filters, contact limits, tuned recommendations and real help are all wired to it.",
+        "A workaround does not just skip a rule. It skips every protection behind the rule.",
+        "A giant group chat is a public place wearing a private costume. If you cannot name everyone, you are broadcasting to strangers.",
+        "Orbit never says just say no. Orbit says know the price, then decide with your eyes open."
+      ],
+      "script": "Four pupils read one point each. Then return to the start of the lesson: we said the rules on these platforms exist for reasons. Ask the room to name one reason they could not have named an hour ago. Take three answers. That visible gain is the lesson proving itself.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Behind every rule is a protection. Skip the rule, lose the protection.",
+        "Decide with your eyes open.",
+        "That is all anyone is asking."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Your mission",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Orbit's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks3-11-social-workarounds",
+        "register": "level",
+        "placement": "shaper"
+      },
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Orbit asked me to lock up tonight! ⭐",
+        "Remember the rule: behind every rule is a protection. Skip the rule, lose the protection.",
+        "Your mission this week: the next time anyone offers you a workaround, silently name the protection it skips before you say a single word back.",
+        "Spotting the trick was never the point. Knowing the price is. It is about knowing the price. You know it now. See you next lesson!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card. Collect them in, they are your evidence for the register.",
+      "heading": "DiGi walks you out",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "Workaround and group chat conversations can surface live disclosures: pupils in large chats with adults they do not know, unwanted contact from strangers, or accounts already running on false ages. The lesson deliberately promises that nobody confesses anything, so treat any voluntary disclosure with care and never in front of the class. If a pupil discloses concerning contact or content, follow your school safeguarding policy and log it with the DSL the same day. The pupil is not in trouble, and should hear that first.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS3",
+  "module_id": "ks3-11-social-workarounds",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 11,
+  "parent_note": {
+    "taught": "Today we looked honestly at how social platforms actually work, and at workaround culture: VPNs, borrowed accounts and fake ages. Your child learned Orbit's rule: behind every rule is a protection, skip the rule and you lose the protection, so decide with your eyes open.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them to explain Orbit's rule: behind every rule is a protection.",
+    "try_this": "Ask your child to explain what actually switches off when someone signs up with an adult birthday. Let them teach you the full list, they know it now, and teaching you is the best revision there is.",
+    "family_question": "What is one rule in our house that has a protection hiding behind it?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Workaround, protection and switch are the three words to pre teach. The age setting diagram carries the whole idea: one switch, four protections wired to it.",
+      "sensory": "The topic can make a room performatively loud. The files are written in Orbit's flat register on purpose: match it and the room follows.",
+      "attention": "One file at a time. Give the pupil who finishes first the counsel job: argue the other side of one verdict before the feedback lands.",
+      "communication": "Each workaround file ends in a pointable verdict, and the naming task gets a word bank on the board: filters, contact limits, tuned recommendations, real help."
+    },
+    "tool": {
+      "lines": [
+        "Behind every rule is a protection.",
+        "Skip the rule, lose the protection.",
+        "Decide with your eyes open."
+      ],
+      "heading": "Orbit's rule",
+      "strapline": "Street smart is knowing the price."
+    },
+    "i_can": [
+      "I can name the protection hiding behind a rule.",
+      "I can name what a workaround skips before I decide anything.",
+      "I can explain to a mate why a workaround is a trade, never a free win."
+    ],
+    "cycles": [
+      {
+        "verb": "See",
+        "title": "How the machine works",
+        "minutes": 12,
+        "outcome": "I can name the protection hiding behind a rule."
+      },
+      {
+        "verb": "Trade",
+        "title": "Workaround culture",
+        "minutes": 11,
+        "outcome": "I can name what a workaround skips before I decide anything."
+      },
+      {
+        "verb": "Judge",
+        "title": "A group chat with strangers in it",
+        "minutes": 7,
+        "outcome": "I can explain why a group chat with strangers in it changes the risk."
+      }
+    ],
+    "timing": "71 minutes: starter 11, cycle one (how the machine works) 12, cycle two (workaround culture) 11, cycle three (group chats and judgement) 7, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "algorithm",
+        "definition": "The system that decides what your feed shows you next, built to keep you watching for as long as possible."
+      },
+      {
+        "word": "moderation",
+        "definition": "The people and systems a platform uses to find and remove harmful content and dangerous accounts."
+      },
+      {
+        "word": "workaround",
+        "definition": "Any trick that gets past a rule: a fake age, a borrowed account, a VPN, a sideloaded app."
+      },
+      {
+        "word": "VPN",
+        "definition": "A tool that hides where you really are, so the internet treats you as if you are somewhere else."
+      }
+    ],
+    "equipment": "Nothing beyond the board. No platform is opened and no workaround is demonstrated.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "An age setting only unlocks features.",
+        "teaching_point": "It switches protections on and off. This is the misconception the lesson exists to correct."
+      },
+      {
+        "answer": "To treat you as an adult, and it will.",
+        "format": "short_answer",
+        "question": "What does a false age tell the machine to do?",
+        "teaching_point": "The machine cannot see kindness or intent. It reads the number and acts."
+      },
+      {
+        "answer": "trade",
+        "format": "fill_blank",
+        "question": "A workaround is a ___, never a free win.",
+        "teaching_point": "The one line of the lesson. Trade, because something is always given up."
+      },
+      {
+        "answer": "Finds and removes harmful content",
+        "format": "tick_one",
+        "options": [
+          "Decides what is popular",
+          "Finds and removes harmful content",
+          "Sets the price"
+        ],
+        "question": "What does moderation do?",
+        "teaching_point": "A workaround steps outside it, which is the cost pupils do not see."
+      },
+      {
+        "answer": "Any of: stricter default privacy, no adult direct messages, less recommended content from strangers, tighter moderation.",
+        "format": "short_answer",
+        "question": "Name one protection hiding behind an age rule.",
+        "teaching_point": "Naming one is enough. The habit of looking for the protection is what transfers."
+      }
+    ],
+    "worksheet": {
+      "title": "The workaround files",
+      "directions": "Run Orbit's rule on each item: find the rule, name the protection wired behind it, then give your verdict.",
+      "verdict_options": [
+        "No protection lost",
+        "Weigh it up",
+        "Protection lost"
+      ]
+    },
+    "teacher_tip": "Never ask who has a workaround. Ask what a workaround costs. The first question gets silence or bravado, the second gets thinking.",
+    "starter_quiz": [
+      {
+        "answer": "From what you watch, skip, pause on and rewatch.",
+        "format": "short_answer",
+        "question": "How does a feed learn what to show you?",
+        "teaching_point": "Carried forward from ks2-06, because today the machine is being asked to judge an age."
+      },
+      {
+        "answer": "Any platform with a plausible minimum age.",
+        "format": "short_answer",
+        "question": "Name one platform and the minimum age it sets.",
+        "teaching_point": "They know these. Getting them said out loud stops the lesson feeling theoretical."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "A group chat with people you have never met is the same as one with your friends.",
+        "teaching_point": "Cycle three in advance. If this is answered true, that cycle needs more time."
+      },
+      {
+        "answer": "A tool that hides where you really are",
+        "format": "tick_one",
+        "options": [
+          "A game",
+          "A tool that hides where you really are",
+          "A kind of phone"
+        ],
+        "question": "What is a VPN?",
+        "teaching_point": "Neutral definition first. A VPN is a normal work tool, and the risk arrives with what it is used for."
+      }
+    ],
+    "misconceptions": [
+      "A VPN is illegal or evil (a VPN is a normal tool adults use for work every day, the risk arrives when it is used to fake an age or a location and switch off protections)",
+      "Age rules exist to keep young people off the internet (an age rule is a switch that selects the protected version of a platform, with filters, contact limits and prioritised reporting wired to it, it is not a ban)",
+      "A borrowed account is safe if it comes from someone you trust (the machine cannot see kindness, it only reads the account's age, so adult settings, adult DMs and an inherited adult feed apply no matter who handed it over)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack: read the two scenarios aloud in your best group chat voice, draw the switch diagram on the board with the four protections as branches, run both discussions as timed pair talk with a watch, and use the printed exit quiz for the prove phase. The bookmark strip replaces the diagram slide for the practise phase.",
+    "passport_stage": "shaper",
+    "commitment_stem": "My commitment: the next time someone offers me a workaround, I will name the protection it skips before I decide anything.",
+    "differentiation": {
+      "stretch": "Early finishers write the group chat message that would sell item three to this exact class, then circle every persuasion trick they used (speed, crowd, cover story). Second stretch: which of the four protections would you redesign so it annoys people less without protecting them less?",
+      "support": "Work worksheet items one to three as a guided group with the bookmark strip in front of each pupil. Scaffold with the two spoken questions: what is the rule here, and what is it wired to? Accept verbal verdicts and scribe the named protection for pupils who need it."
+    },
+    "prior_knowledge": [
+      "A pupil can explain how a feed learns from what they watch, from ks2-06.",
+      "A pupil knows that platforms have minimum ages and can name one.",
+      "A pupil can describe a group chat they have been in, without naming anyone."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A group chat message says: new app is region locked and the age check is torture. Get this VPN, set it to USA, birthday 1998, takes two minutes.",
+        "teaching_point": "The adult birthday is the real workaround, not the VPN. That one line switches off the filters, the contact limits and the child prioritised reporting in a single move.",
+        "expected_verdict": "Protection lost"
+      },
+      {
+        "n": 2,
+        "item": "A link in a chat says: download the game from this site instead of the app store, and turn off the install warning when your phone complains.",
+        "teaching_point": "Sideloading skips the store's malware and scam checks, and the install warning is your phone's own protection. Two protections gone before the game even opens.",
+        "expected_verdict": "Protection lost"
+      },
+      {
+        "n": 3,
+        "item": "Your older cousin offers you their old account: I am 19 on it, everything is already unlocked, saves you the whole age thing.",
+        "teaching_point": "A kind source does not change the machine. The account is 19 to the algorithm, so adult DMs, adult filters and adult recommendations all apply, and you inherit a feed trained on someone you are not.",
+        "expected_verdict": "Protection lost"
+      },
+      {
+        "n": 4,
+        "item": "You turn 13, make your own account with your real birthday, then use the platform's own settings to switch your account to private.",
+        "teaching_point": "This is the opposite of a workaround. The real age keeps every wired protection on, and the privacy setting adds another one on top. Settings can work for you, not just against you.",
+        "expected_verdict": "No protection lost"
+      },
+      {
+        "n": 5,
+        "item": "A friend adds you to a chat of 150 people you mostly do not know, because honestly the memes are elite.",
+        "teaching_point": "No rule is broken here, but a chat that size is a public place wearing a private costume: anyone in it can save your profile and message you. The eyes open questions are who can see me here and what am I sharing.",
+        "expected_verdict": "Weigh it up"
+      },
+      {
+        "n": 6,
+        "item": "Kian says: \"A VPN just changes where the internet thinks you are. It does not change anything else, so using one is completely harmless.\" Do you agree? Explain your reasoning.",
+        "teaching_point": "Partly true, which is what makes it the perfect final item. A VPN alone changes location, and that can be harmless. The harm arrives when it is used to fake an age or dodge a protection, because everything wired behind the rule switches off. The tool is not the risk. The skipped protection is.",
+        "expected_verdict": "Weigh it up"
+      }
+    ],
+    "essential_question": "What am I actually giving up when I get around the rule?",
+    "learning_objective": "Pupils can explain that a workaround skips the protections wired behind a rule, not just the rule itself, and can name the specific protection lost in a workaround they might realistically meet.",
+    "key_learning_points": [
+      "An age setting switches on protections, it does not only unlock features.",
+      "A workaround is a trade, never a free win.",
+      "A false age tells the machine to treat you as an adult, and it will.",
+      "Moderation is the system that finds harmful content. A workaround steps outside it.",
+      "A group chat with strangers in it is a different room from a group chat with friends."
+    ]
+  }
+}

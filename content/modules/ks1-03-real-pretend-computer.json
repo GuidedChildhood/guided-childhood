@@ -1,0 +1,627 @@
+{
+  "row": {
+    "title": "Real, pretend, or made by a computer",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 1 to 2",
+    "sort_order": 3,
+    "efcw_strands": [
+      5
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Pebble with DiGi Junior",
+    "evidence_anchor": "AILit Engage with AI domain",
+    "statutory_hooks": [
+      "EfCW managing online information"
+    ],
+    "single_action_outcome": "I can spot that a picture might not be real."
+  },
+  "slides": [
+    {
+      "body": "Picture detectives, are you ready?",
+      "type": "title",
+      "phase": "starter",
+      "title": "Real, pretend, or made by a computer",
+      "script": "Settle everyone with this slide up. Big smile, big mystery voice: detectives, we have a brand new case today. It is all about pictures. Hold up an imaginary magnifying glass and get the class to hold theirs up too. Pebble the detective and DiGi Junior are going to help us crack it. The line that used to be on the wall, to say as written: Today we become picture detectives. Some pictures are real, some are pretend, and some are made by a computer. Can you tell which is which?",
+      "eyebrow": "KS1 · Years 1 to 2 · Module 3",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081117_50fdb52f-cad6-4328-b694-ec4e7902f43b.mp4",
+      "type": "video",
+      "phase": "starter",
+      "script": "Play the clip once through. Then ask: how could we check?",
+      "caption": "Real or fake? Taking a closer look",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Some pictures are real. Some are made on a computer. Today we look very closely. Ready?"
+        ],
+        "described": "Pebble, the round yellow Planet Friend, holds a big magnifying glass at the front of a classroom beside a picture on an easel. Pebble winks, lifts the glass to one eye to peer through it, then lowers it and smiles at the class."
+      }
+    },
+    {
+      "why": "Computers can now make pictures of things that never happened, like a dog on the moon or a purple elephant. That is not scary, it can be really fun, but a good detective knows a picture might be tricking them before they believe it.",
+      "type": "objective",
+      "gains": [
+        "Sort pictures into real, pretend, or computer made",
+        "Spot clues that a picture might be made up",
+        "Say the detective question out loud before believing a picture",
+        "Know that made up pictures can be fun and are nothing to be scared of"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome together, everyone points at themselves and says I can spot that a picture might not be real. Then ask: has anyone ever seen a picture of something really silly, like an animal doing something animals cannot do? Take two hands. Tell them: by home time, you will know exactly what to ask when you see one.",
+      "minutes": 2,
+      "outcome": "I can spot that a picture might not be real."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about a cartoon you like.",
+      "script": "Sixty seconds. Tell the person next to you about a cartoon you like. Then keep it in your head, because every single one of those was made up by somebody, and that is exactly what we are talking about today.",
+      "lookFor": "Every child has one, and every one of them is made up.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "real",
+          "meaning": "Something that truly happened. A photo of your birthday cake is real."
+        },
+        {
+          "word": "pretend",
+          "meaning": "Made up for fun, like a cartoon or a story. Pretend is playing, not lying."
+        },
+        {
+          "word": "computer made",
+          "meaning": "A picture a computer invented. It can look just like a photo, but the thing never happened."
+        }
+      ],
+      "script": "Say each word, class repeats it back with an action: real gets a thumbs up, pretend gets jazz hands, computer made gets robot arms. Do the round twice, faster the second time. Land the big idea gently: a computer made picture can look exactly like a real photo. That is why detectives ask instead of just looking.",
+      "heading": "Detective words for today",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson. Read all three out loud, then hands up for each one. Ask one pupil who chose the middle answer: who is YOUR grown up you would tell? Celebrate the answer. Then bridge: today we get a brand new detective question, and it is about pictures.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Keep watching and hope the feeling goes away",
+          "correct": false,
+          "feedback": "Keeping going usually makes the wobbly feeling bigger. Detectives notice the feeling first."
+        },
+        {
+          "text": "Name the feeling and tell a grown up",
+          "correct": true,
+          "feedback": "Yes! Name it and tell a grown up. That was our last case and you cracked it."
+        },
+        {
+          "text": "Hide the feeling because feelings are silly",
+          "correct": false,
+          "feedback": "Feelings are never silly. Naming them and telling a grown up is the strong move."
+        }
+      ],
+      "question": "Warm up from last lesson. You have been watching videos and your tummy feels cross and wobbly. What does a screen time detective do?"
+    },
+    {
+      "body": "Real. Pretend. Computer made. One can trick you.",
+      "type": "concept",
+      "emoji": "🖼️",
+      "phase": "teach",
+      "script": "Teach the three words with the three actions from the keywords: thumbs up for real, jazz hands for pretend, robot arms for computer made. Real means it truly happened, like a photo of our class trip. Pretend is made up for fun, like a cartoon mouse driving a racing car. Computer made means a computer invented it, and here is the tricky bit: it can look exactly like a real photo. A computer can make a picture of a dog on the moon, and no dog has ever been to the moon. Then keep it light. Ask: is a computer made picture naughty? No! It can be brilliant fun. I could ask a computer for a picture of our whole class riding dinosaurs and we would all laugh. The only trick is knowing it might not be real. Fun is fine, being tricked is not.",
+      "heading": "Three kinds of pictures",
+      "minutes": 4
+    },
+    {
+      "meta": "2h · Everyone is sharing this",
+      "text": "WOW!! This little dog went all the way to the MOON! 🚀 Look at his tiny space helmet! Share so everyone sees it!",
+      "type": "scenario",
+      "image": "🌕",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 12.3K   ↻ 4.1K   💬 890",
+      "avatar": "🐶",
+      "handle": "amazing.animal.pics",
+      "prompt": "Detectives, look closely. Real, pretend, or computer made? Hands up for your answer!",
+      "script": "Read the post in your best excited internet voice, then run the vote: thumbs up for real, jazz hands for pretend, robot arms for computer made. Then investigate together: could a little dog really go to the moon? Where would he get a space helmet that tiny? Let the class do the reasoning. Land the verdict: computer made! It LOOKS like a photo, but no dog has ever been to the moon. And notice, nobody cried, we laughed. Made up pictures can be funny, we just do not want to be tricked by them.",
+      "minutes": 3,
+      "platform": "feed"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Could this really happen? A dog on the moon? A purple elephant? Silly clues mean look harder.",
+          "emoji": "👀",
+          "title": "Stop and look"
+        },
+        {
+          "text": "Say it out loud: real, pretend, or computer made?",
+          "emoji": "🔍",
+          "title": "Ask the question"
+        },
+        {
+          "text": "Not sure? Detectives ask for help. A grown up can help you find out.",
+          "emoji": "🧑",
+          "title": "Check with a grown up"
+        }
+      ],
+      "script": "This is the tool of the whole lesson, so take your time. Walk each step as it appears with the actions: eyes for stop and look, magnifying glass for ask the question, hand up high for check with a grown up. Then chant the detective question together three times: real, pretend, or computer made? Ask before you believe! Point at the three verdicts and say: every picture gets one of these three, and not sure is always allowed, that is what the grown up step is for.",
+      "caption": "Real, pretend, or computer made? Ask before you believe.",
+      "heading": "The detective question",
+      "minutes": 4,
+      "verdicts": [
+        "Real",
+        "Pretend",
+        "Computer made"
+      ]
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "A picture shows a purple elephant doing the shopping in a supermarket. Talk to your partner: real, pretend, or computer made? What is your clue?",
+      "script": "Sixty seconds, partner talk, start the timer on screen. Kneel in with two or three pairs and ask for the clue, not just the answer. After the chime take three answers. Best case someone says it looks like a real photo but elephants are not purple, celebrate that loudly: THAT is detective thinking, your eyes said maybe but your brain said no.",
+      "lookFor": "The clue matters more than the verdict. Listen for elephants are not purple, elephants do not go shopping, I have never seen that in real life. Any pair saying it looks real BUT could not happen has fully got it.",
+      "minutes": 3,
+      "seconds": 60
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Breathe in as Pebble grows. Breathe out as Pebble shrinks. Then tell the person next to you one thing you found out today, and draw or write it on your sheet.",
+        "heading": "Half time! Everyone together",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "The detective question · tap the class verdict",
+        "posts": [
+          {
+            "why": "Recognise. Everyday things that could truly happen and did happen are real. Nothing silly, no tricks.",
+            "text": "A photo of children playing football in the playground at break time.",
+            "answer": 0,
+            "avatar": "🎨",
+            "handle": "Case 1"
+          },
+          {
+            "why": "Recognise. Cartoons are pretend on purpose, made for fun. Nobody is trying to trick anyone.",
+            "text": "A cartoon of a mouse driving a bright red racing car.",
+            "answer": 1,
+            "avatar": "🎨",
+            "handle": "Case 2"
+          },
+          {
+            "why": "Apply. It looks like a photo but could not happen. Looks real plus could not happen equals computer made.",
+            "text": "A picture that looks just like a photo of a little dog on the moon wearing a tiny space helmet.",
+            "answer": 2,
+            "avatar": "🎨",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Apply. Surprising and beautiful things can still be real. Amazing does not always mean fake, the question sorts it out.",
+            "text": "A photo of a rainbow over the school after the rain stopped.",
+            "answer": 0,
+            "avatar": "🎨",
+            "handle": "Case 4"
+          },
+          {
+            "why": "Apply. Two clues at once: elephants are not purple and elephants do not go shopping. Silly clues mean look harder.",
+            "text": "A picture that looks just like a photo of a purple elephant pushing a trolley in the supermarket.",
+            "answer": 2,
+            "avatar": "🎨",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Explain. Looking clear and looking real are not proof anymore. Cats cannot fly, so the brain overrules the eyes. Listen for pupils disagreeing with Pebble politely and giving the clue.",
+            "text": "Pebble says: this photo of a cat flying with big feathery wings must be real, because it looks so clear. Do you agree? Tell your partner why or why not.",
+            "answer": 2,
+            "avatar": "🎨",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Real",
+          "Pretend",
+          "Computer made"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer and read the reason that appears. If the class picks wrong, do not correct them flatly, read the reason and ask what they think now.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Real, pretend, or computer made? Not sure? Question mark.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets. Read each of the six items aloud, one at a time, giving thinking time before pupils circle. Bookmark strips with the detective question go on every table. Nobody has to be certain: if a child is not sure they put a question mark, and we investigate those together at the end. Support table works with you and does items one to three together out loud. Early finishers get the stretch: draw your own computer made picture idea, the sillier the better. Circulate and collect one brilliant clue to share with the class.",
+      "heading": "Detective practice",
+      "minutes": 10
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, these two are the printed quiz too. Read all three options aloud, thinking time, then vote. If anyone picks the third option, reassure warmly: made up pictures are not scary, they can be brilliant, we just ask the question first.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Believe it, because it looks real",
+          "correct": false,
+          "feedback": "Looking real is not enough anymore. Cats do not have wings, so this one is computer made."
+        },
+        {
+          "text": "Ask the question: real, pretend, or computer made?",
+          "correct": true,
+          "feedback": "Yes! Ask before you believe. Cats cannot fly, so your brain solves what your eyes cannot."
+        },
+        {
+          "text": "Feel scared and never look at pictures again",
+          "correct": false,
+          "feedback": "No need to be scared! A flying cat picture is funny. Detectives enjoy the picture AND know it is not real."
+        }
+      ],
+      "question": "Exit check one. You see a photo of a cat flying with big feathery wings. It looks just like a real photo. What does a detective do?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, two options only. This is the big feeling of the lesson: no fear, just smart. If the class lands the first answer, celebrate: you are officially picture detectives. Wrong answers tell you exactly who needs a small group replay of the diagram slide next time.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "No. They can be fun, the trick is knowing they might not be real",
+          "correct": true,
+          "feedback": "Exactly right. A computer made picture of you riding a dinosaur is brilliant fun. Detectives enjoy it AND know it never happened."
+        },
+        {
+          "text": "Yes. All computer made pictures are bad",
+          "correct": false,
+          "feedback": "Not bad at all! Made up pictures can be funny and lovely. The only trouble is when a picture tricks us, and the detective question stops that."
+        }
+      ],
+      "question": "Exit check two. Are computer made pictures always naughty?"
+    },
+    {
+      "text": "Real, pretend, or computer made? Ask before you believe!",
+      "type": "quote",
+      "label": "Say it like Pebble",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time, magnifying glasses up. This is the sentence you want them saying at the tea table tonight when a silly picture appears on a screen at home.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Every picture is one of three kinds: real, pretend, or computer made.",
+        "A computer can make a picture of something that never happened, and it can look just like a photo.",
+        "Made up pictures can be fun. The trick is knowing they might not be real.",
+        "Not sure? Ask a grown up. Detectives always ask before they believe."
+      ],
+      "script": "Four pupils read one point each. After each point the class does the matching action: thumbs up, robot arms, jazz hands, hand up high. Then ask the room: who feels like a real picture detective now? Every hand should go up.",
+      "heading": "What to remember",
+      "minutes": 1
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "You are a picture detective now!",
+        "Stop and look. Then ask: real, pretend, or made by a computer?",
+        "Not sure? That is fine. Ask a grown up."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Pebble's job for you",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Pebble's stamp!",
+        "button": "Fill the page",
+        "prompt": "Today filled a little bit of the First steps page. Tap to fill it in!",
+        "heading": "The passport",
+        "moduleId": "ks1-03-real-pretend-computer",
+        "register": "bouncy",
+        "placement": "foundation"
+      },
+      "script": "DiGi Junior keeps a special book called the passport. It is the book of getting ready for phones and screens, all the way to sixteen. Every lesson we do together fills a little bit of the page, and jobs at home fill it too. Ask one child to come up and tap Fill the page, and when the ring moves, everybody shouts the word stamp. Then say: when the page is full, DiGi asks five little questions, the big check, and the page earns Pebble's stamp. Nobody can fail the passport. It only ever fills up. The note going home today tells your grown ups which page it is. The count on the wall is this screen's memory of your class, not any child's record: the real passport is the one at home.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Case closed, little detectives! ⭐",
+        "Real, pretend, or computer made? Ask before you believe!",
+        "Your mission this week: when you see a picture that makes you go WOW, ask the question out loud, and ask a grown up if you are not sure.",
+        "Pebble and I are so proud of you. Silly pictures cannot trick a detective like you. See you next time!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi Junior land the ending, the lines appear on their own. Exit quiz sheets go out as this plays, named copies from the print room. Collect them in as your evidence for who has got it.",
+      "heading": "DiGi Junior closes the case",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS1",
+  "module_id": "ks1-03-real-pretend-computer",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 0,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 3,
+  "parent_note": {
+    "taught": "Today your child learned that pictures come in three kinds: real, pretend, and computer made, and that a computer can make a picture of something that never happened, like a dog on the moon. We kept it playful, not scary: made up pictures can be fun, the skill is asking before believing.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child to teach you the detective question.",
+    "try_this": "Next time a surprising picture pops up on a screen at home, ask your child the detective question together: real, pretend, or computer made? Let them be the detective and tell you the clue.",
+    "family_question": "If you could ask a computer to make any silly picture of our family, what would it be, and how would a detective know it was not real?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Real, pretend and computer made are the three phrases to pre teach, using the same pictures the lesson opens with. WOW needs no translation.",
+      "sensory": "Warn the class before the reveal moments, they get loud. A child who covers their ears keeps their verdict card raised instead of shouting.",
+      "attention": "Reveal one detective picture at a time and vote immediately. Waiting through six pictures is the hard part; six tiny rounds is the same lesson made possible.",
+      "communication": "The verdicts are pointable: real, pretend and computer made as three picture cards on every desk, so the class interactive and the worksheet both work by pointing."
+    },
+    "tool": {
+      "lines": [
+        "Stop and look",
+        "Ask: real, pretend, or computer made?",
+        "Not sure? Ask a grown up"
+      ],
+      "heading": "The detective question",
+      "strapline": "Ask before you believe."
+    },
+    "i_can": [
+      "I can spot that a picture might be pretend or made by a computer.",
+      "I can stop and ask real, pretend, or computer made before I believe it.",
+      "I can tell a friend why a WOW picture needs the detective question."
+    ],
+    "cycles": [
+      {
+        "verb": "Look",
+        "title": "Three kinds of pictures",
+        "minutes": 7,
+        "outcome": "I can spot that a picture might be pretend or made by a computer."
+      },
+      {
+        "verb": "Ask",
+        "title": "The detective question",
+        "minutes": 7,
+        "outcome": "I can stop and ask real, pretend, or computer made before I believe it."
+      }
+    ],
+    "timing": "50 minutes: starter 12, teach cycles 14, practise 11, prove 4, close 5, class interactive 4",
+    "keywords": [
+      {
+        "word": "real",
+        "definition": "Something that truly happened. A photo of your birthday cake is real."
+      },
+      {
+        "word": "pretend",
+        "definition": "Made up for fun, like a cartoon or a story. Pretend is playing, not lying."
+      },
+      {
+        "word": "computer made",
+        "definition": "A picture a computer invented. It can look just like a photo, but the thing never happened."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The paper detective practice is in the print room if the room has no screen.",
+    "exit_quiz": [
+      {
+        "answer": "Three",
+        "format": "tick_one",
+        "options": [
+          "Two",
+          "Three",
+          "Five"
+        ],
+        "question": "How many kinds of pictures did we learn about?",
+        "teaching_point": "Real, pretend, and made by a computer. Three, and the third one is the new one."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "If a picture looks exactly like a photo, it must be real.",
+        "teaching_point": "The lesson's main misconception. Computers can now make pictures that look exactly like photos."
+      },
+      {
+        "pairs": [
+          {
+            "left": "Real",
+            "right": "A photo of your birthday cake"
+          },
+          {
+            "left": "Pretend",
+            "right": "A cartoon dog driving a bus"
+          },
+          {
+            "left": "Computer made",
+            "right": "A photo of a cat riding a horse that never happened"
+          }
+        ],
+        "answer": "Real goes with a photo of your birthday cake; Pretend goes with a cartoon dog driving a bus; Computer made goes with a photo of a cat riding a horse that never happened",
+        "format": "match",
+        "question": "Match each kind of picture to an example.",
+        "teaching_point": "Sorting the three is the skill. Watch for children who put computer made with pretend."
+      },
+      {
+        "answer": "Real, pretend, or computer made?",
+        "format": "short_answer",
+        "question": "What is the detective question?",
+        "teaching_point": "The tool they leave with. It should come back in those words."
+      },
+      {
+        "answer": "Ask the detective question",
+        "format": "tick_one",
+        "options": [
+          "Share it straight away",
+          "Ask the detective question",
+          "Ignore it"
+        ],
+        "question": "A picture makes you say WOW. What does a detective do?",
+        "teaching_point": "WOW is the signal. The bigger the reaction, the more the question is worth asking."
+      }
+    ],
+    "worksheet": {
+      "title": "Picture detective: real, pretend, or computer made?",
+      "directions": "Listen to each picture your teacher describes, ask the detective question, and circle your answer.",
+      "verdict_options": [
+        "Real",
+        "Pretend",
+        "Computer made"
+      ]
+    },
+    "teacher_tip": "Ask the detective question about a picture you already know is real, before you show one that is not. Children who only meet the question next to a fake learn to distrust everything.",
+    "starter_quiz": [
+      {
+        "answer": "A photo of your class",
+        "format": "tick_one",
+        "options": [
+          "A photo of your class",
+          "A cartoon cat in a hat",
+          "A dragon in a story"
+        ],
+        "question": "Which of these is real?",
+        "teaching_point": "Carried forward from eyfs-01. Real should now be quick."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "Some things on a screen are made up.",
+        "teaching_point": "Last year's headline, back as a warm up. If this is slow, the new idea today will be slower."
+      },
+      {
+        "answer": "Stop and ask a grown up.",
+        "format": "short_answer",
+        "question": "What do you do when you are not sure if something is real?",
+        "teaching_point": "The eyfs-01 action, still the fallback under everything taught today."
+      },
+      {
+        "answer": "Any accurate one sentence description.",
+        "format": "short_answer",
+        "question": "Tell me in one sentence what is happening in a picture your teacher shows you.",
+        "teaching_point": "The lesson asks children to look hard at a picture. This checks they can describe before they judge."
+      }
+    ],
+    "misconceptions": [
+      "If a picture looks like a photo it must be real (computers can now make pictures that look exactly like photos, so looking is not enough, asking is the test)",
+      "Computer made pictures are bad or scary (made up pictures can be fun and lovely, the only problem is being tricked, and the detective question stops that)",
+      "Pretend is the same as lying (pretend is playing and stories and cartoons, the trouble only starts when a made up picture tricks someone into believing it really happened)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the dog on the moon post from the scenario card in your best internet voice and run the vote with actions. Teach the three step tool from the printed diagram, chant the detective question three times, run the purple elephant partner talk with a sand timer, then the worksheet, the two exit quiz questions read aloud, and the chant to finish.",
+    "passport_stage": "foundation",
+    "commitment_stem": "My commitment: when a picture makes me go WOW, I will ask real, pretend, or computer made before I believe it.",
+    "differentiation": {
+      "stretch": "Early finishers draw their own computer made picture idea, the sillier the better, then explain to a partner which clue would give it away. Ask them: how would a detective know your picture never happened?",
+      "support": "Support table works items one to three aloud with the teacher, using the three actions (thumbs up, jazz hands, robot arms) instead of writing. Bookmark strip with the detective question stays in front of each pupil."
+    },
+    "prior_knowledge": [
+      "A child can sort real from made up, from eyfs-01.",
+      "A child knows to stop and ask a grown up when they are not sure.",
+      "A child can describe what is happening in a picture in a sentence."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A photo of children playing football in the playground at break time.",
+        "teaching_point": "Recognise. Everyday things that could truly happen and did happen are real. Nothing silly, no tricks.",
+        "expected_verdict": "Real"
+      },
+      {
+        "n": 2,
+        "item": "A cartoon of a mouse driving a bright red racing car.",
+        "teaching_point": "Recognise. Cartoons are pretend on purpose, made for fun. Nobody is trying to trick anyone.",
+        "expected_verdict": "Pretend"
+      },
+      {
+        "n": 3,
+        "item": "A picture that looks just like a photo of a little dog on the moon wearing a tiny space helmet.",
+        "teaching_point": "Apply. It looks like a photo but could not happen. Looks real plus could not happen equals computer made.",
+        "expected_verdict": "Computer made"
+      },
+      {
+        "n": 4,
+        "item": "A photo of a rainbow over the school after the rain stopped.",
+        "teaching_point": "Apply. Surprising and beautiful things can still be real. Amazing does not always mean fake, the question sorts it out.",
+        "expected_verdict": "Real"
+      },
+      {
+        "n": 5,
+        "item": "A picture that looks just like a photo of a purple elephant pushing a trolley in the supermarket.",
+        "teaching_point": "Apply. Two clues at once: elephants are not purple and elephants do not go shopping. Silly clues mean look harder.",
+        "expected_verdict": "Computer made"
+      },
+      {
+        "n": 6,
+        "item": "Pebble says: this photo of a cat flying with big feathery wings must be real, because it looks so clear. Do you agree? Tell your partner why or why not.",
+        "teaching_point": "Explain. Looking clear and looking real are not proof anymore. Cats cannot fly, so the brain overrules the eyes. Listen for pupils disagreeing with Pebble politely and giving the clue.",
+        "expected_verdict": "Computer made"
+      }
+    ],
+    "essential_question": "How can a picture look like a photo when the thing never happened?",
+    "learning_objective": "Pupils can sort pictures into real, pretend, or computer made, and can say the detective question before believing a surprising picture.",
+    "key_learning_points": [
+      "Pictures come in three kinds: real, pretend, and made by a computer.",
+      "A computer made picture can look exactly like a photo.",
+      "Pretend is playing, not lying. A cartoon is not a trick.",
+      "The detective question is real, pretend, or computer made?",
+      "A picture that makes you say WOW is the one to ask the question about."
+    ]
+  }
+}

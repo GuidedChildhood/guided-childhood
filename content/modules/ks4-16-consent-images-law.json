@@ -1,0 +1,829 @@
+{
+  "row": {
+    "title": "Consent, images and the law",
+    "audience": "teacher",
+    "scaffold": "TELL",
+    "year_band": "Years 10 to 11",
+    "sort_order": 16,
+    "efcw_strands": [
+      2,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "DiGi only",
+    "evidence_anchor": "Image based abuse data",
+    "statutory_hooks": [
+      "RSHE",
+      "UK law on under 18 images"
+    ],
+    "single_action_outcome": "I know the law and my options before anything is shared."
+  },
+  "slides": [
+    {
+      "body": "One hour on the facts. What consent really means, what the law actually says, and what your options are if something has already been shared.",
+      "line": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Consent, images and the law",
+      "script": "Calm start, no drama. Say plainly: today is a serious one, and we are going to treat you like the near adults you are. No shock tactics, no lectures. Facts, the law, and options. Set the ground rule now: we talk about situations, never about specific people in this school. If anything in this lesson is close to home for anyone, they can talk to me or any trusted adult afterwards, and I will say that again at the end. If a pupil discloses anything during this lesson, follow your school safeguarding policy: listen, do not promise secrecy, and pass it to your DSL the same day.",
+      "eyebrow": "KS4 · Years 10 to 11 · Module 16",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "What does the law actually say, and what are your options if something has already happened?",
+        "We will take this one steadily. You will leave knowing both."
+      ],
+      "phase": "starter",
+      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "DiGi opens the lesson",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "why": "Decisions about images get made in seconds, under pressure, and usually with wrong information. This hour replaces the myths with the actual law and a set of options that exist whatever has already happened.",
+      "type": "objective",
+      "gains": [
+        "Explain what real consent is: freely given, specific, ongoing and revocable",
+        "State what UK law says about images of anyone under 18, including images of yourself",
+        "Recognise pressure and coercion for what they are, including the everyone does it line",
+        "Know exactly where help is if an image is already out there, and that you are not in trouble for asking"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome and the why aloud, evenly. Then say: notice what is not on this list. Nobody is here to scare you or to pretend this topic does not exist. You are old enough for the real information, so that is what you are getting. If a pupil discloses at any point, follow your safeguarding policy and involve your DSL.",
+      "minutes": 2,
+      "outcome": "I know the law and my options before anything is shared."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner what you think should happen before a photo of you goes anywhere. Who gets to decide?",
+      "script": "Sixty seconds. Who should get to decide whether a photo of you goes anywhere. Say what you think should happen, not what you think the rule is. We will get to the actual law in a minute, and it is closer to your answer than you would guess.",
+      "lookFor": "Nearly everyone says they should. Hold onto that, because the law agrees with them more than they expect it to.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "consent",
+          "meaning": "A free, genuine yes. It is specific to one thing, it is ongoing, and it can be taken back at any time."
+        },
+        {
+          "word": "coercion",
+          "meaning": "Pressuring, guilting or threatening someone into a yes. A yes produced by coercion is not consent."
+        },
+        {
+          "word": "indecent image",
+          "meaning": "The legal term for a sexual image. In UK law this applies to any image of a person under 18."
+        },
+        {
+          "word": "Report Remove",
+          "meaning": "A free, confidential tool from Childline and the Internet Watch Foundation that helps under 18s get images of themselves taken down."
+        }
+      ],
+      "script": "Read each word and its meaning once, steadily. Do not rush Report Remove: many pupils have never heard of it, and for some pupils it will be the single most important thing they learn this year. Tell them we will come back to it properly later in the lesson.",
+      "heading": "The words that matter today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Thirty seconds of silent thinking, then take answers. Last lesson you learned to name the technique: urgency, outrage, flattery, FOMO. Land the bridge clearly: today those same techniques show up in a much more personal place, in messages asking for images. Naming the technique works exactly the same way there.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Urgency",
+          "correct": true,
+          "feedback": "Yes. Urgency removes your thinking time on purpose, because a rushed decision suits the sender, not you. Hold that thought, it is about to matter in a new context."
+        },
+        {
+          "text": "Flattery",
+          "correct": false,
+          "feedback": "Flattery works by making you feel special or chosen. This one works by removing your thinking time. That is urgency."
+        },
+        {
+          "text": "FOMO",
+          "correct": false,
+          "feedback": "Close. FOMO points at what everyone else has and you are missing. This one is a countdown on your decision. That is urgency."
+        }
+      ],
+      "question": "Retrieval from last lesson. A message says you must decide right now, this second, or you will lose your chance. Which persuasion technique is that?"
+    },
+    {
+      "body": "Consent is a free, genuine yes, given without pressure, and it is specific: yes to one thing is not yes to everything. Consent is also ongoing. Saying yes once does not mean yes forever, and anyone can change their mind at any point. A yes that came from guilt, fear, wearing someone down or a threat is not consent at all. If any of those are in the room, whatever was said out loud, the real answer was no.",
+      "type": "concept",
+      "emoji": "🤝",
+      "phase": "teach",
+      "script": "Deliver this slowly and plainly. The two ideas pupils most often do not have are specific and revocable. Use a neutral everyday example first: lending a friend your bike on Saturday is not lending it forever, and you can ask for it back. Then make the link: with images the same rules apply, except the stakes are far higher because a shared image can be copied. Keep the register calm and factual throughout. Say this, as written: Those four properties were never only about images. They are what consent is for anything: going further, meeting up, being touched, being filmed, being posted. Freely given means nobody was worn down first. Specific means yes to one thing is not yes to the next thing. Ongoing means it gets checked rather than assumed from last time. Reversible means anybody can change their mind partway through, and that is simply the end of it, with no debt and no explanation owed. Exactly the same in a room and on a phone, and the phone is the harder one, because a message makes it so much easier to keep asking. Land the four properties as a general rule before the lesson narrows to images, because taught the other way round they sound like a rule about photographs. The last sentence is the one to say slowly: a phone makes asking again cost nothing, which is exactly why worn down is the property that breaks first. Do not invite examples and do not ask anybody to apply it to themselves.",
+      "heading": "What consent actually is",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "No pressure, no guilt, no threats, no wearing down. A yes under pressure is not a yes.",
+          "emoji": "🆓",
+          "title": "Freely given"
+        },
+        {
+          "text": "Yes to one thing, one person, one moment. It does not transfer to anything else.",
+          "emoji": "🎯",
+          "title": "Specific"
+        },
+        {
+          "text": "Consent is checked, not assumed. A yes last month says nothing about today.",
+          "emoji": "🔄",
+          "title": "Ongoing"
+        },
+        {
+          "text": "Anyone can change their mind at any time, and the moment they do, the yes is gone.",
+          "emoji": "↩️",
+          "title": "Revocable"
+        }
+      ],
+      "script": "Walk the four properties as they build, no rush. Then test understanding with a neutral question: if someone said yes to a photo being posted last month and asks for it to come down today, what happens? Answer: it comes down, because consent is revocable and the old yes ended the moment they changed their mind. Anyone who argues but they already agreed has just shown you exactly which property they are missing.",
+      "caption": "If any one of these is missing, it is not consent. All four, every time.",
+      "heading": "Real consent has four properties",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Silent vote, hands or devices. Expect some pupils to genuinely hold the second view, and treat it as a misunderstanding to correct, not a character flaw. The feedback line to land: consent is not a contract, it is ongoing, and a withdrawn yes is a full no from that moment.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The person asking for deletion. Consent is ongoing and can be withdrawn at any time",
+          "correct": true,
+          "feedback": "Correct. The yes ended the moment they changed their mind. Consent from last month is not consent today. Refusing to respect a withdrawn yes is a serious warning sign, and a reason to involve a trusted adult."
+        },
+        {
+          "text": "The other person. A yes was given, so the photo can stay",
+          "correct": false,
+          "feedback": "This is the most common misunderstanding there is. Consent is not a contract you sign once. It is ongoing, and it ended the moment they withdrew it."
+        },
+        {
+          "text": "Neither. Once something is shared, consent stops mattering",
+          "correct": false,
+          "feedback": "Consent always matters. It is true that copies are hard to control, which is why the decision before sharing is so important, but the withdrawn yes still stands and there are real options, which we cover later this lesson."
+        }
+      ],
+      "question": "Someone said yes to a photo being shared last month. Today they ask for it to be deleted. The other person says you already agreed. Who is right?"
+    },
+    {
+      "body": "In UK law it is illegal to make, hold or share a sexual image of anyone under 18. That is the whole rule, and it has no exceptions for circumstances people assume are fine. It applies even if the image is of yourself. It applies even if you are under 18 too. It applies even if both people agreed.",
+      "type": "concept",
+      "emoji": "⚖️",
+      "phase": "teach",
+      "script": "This is the factual core of the lesson, so deliver it word for word and let it breathe. Expect and welcome the obvious question: how can it be illegal to have a picture of yourself? Hold it for the next slide, which answers it.",
+      "heading": "What the law says",
+      "minutes": 1
+    },
+    {
+      "body": "The law calls these indecent images, and the age line is 18, not 16, which surprises many people. The reason the law is written this bluntly is protection: it makes every image of an under 18 person legally untouchable, so nobody can claim a loophole. Past eighteen the rule changes shape rather than disappearing: sharing an intimate image of an adult without their consent is also a crime.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Answer the question honestly now: the law is written to make images of under 18s untouchable with no loopholes, and that blanket rule catches this situation too. Then say the reassurance clearly, because it is true and it matters: police guidance treats young people in these situations as children to protect first, not criminals to charge. The law exists to protect you, not to trap you. Do not let the room leave with fear and no options. One more sentence before you move on, and say it plainly: the protection does not stop on someone's eighteenth birthday, it changes shape. Sharing an intimate image of an adult without their consent is its own offence. Pupils often assume the whole subject expires at eighteen and it does not.",
+      "heading": "Why it is written that bluntly",
+      "minutes": 1
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Taking or creating the image. This includes taking an image of yourself.",
+          "emoji": "📸",
+          "title": "Making"
+        },
+        {
+          "text": "Having it on a device. A photo that arrives unasked in a group chat still counts, so delete and report, never save.",
+          "emoji": "📱",
+          "title": "Holding"
+        },
+        {
+          "text": "Sending or forwarding it to anyone. Forwarding is not neutral. Legally it is the same act as sharing.",
+          "emoji": "📤",
+          "title": "Sharing"
+        },
+        {
+          "text": "Making one with an app. An image a computer generated, or edited onto someone under 18, is treated exactly like a photograph.",
+          "emoji": "🤖",
+          "title": "Generating"
+        }
+      ],
+      "script": "Walk the three steps steadily. The one pupils most often get wrong is holding: an image that lands in a group chat you never asked for still creates a legal problem on your device, and the right move is delete, do not forward, and tell an adult. Forwarding deserves a moment too, because whoever forwards is legally sharing, and adding I am just passing it on changes nothing. Point at the verdict chips and repeat the frame: illegal under 18, no exceptions, and the purpose is protection first. The fourth one is the newest and the one adults get wrong too. An image generated or edited by an app is treated the same as a photograph, so a face pasted onto a body by an app is the same offence. Say that once, flatly, and do not dwell: the point is that the word real is not a defence.",
+      "caption": "All four are offences when the person in the image is under 18. There is no consent exception, no same age exception, and no exception for an image a computer made.",
+      "heading": "Four things the law covers",
+      "minutes": 3,
+      "verdicts": [
+        "Illegal under 18",
+        "No exceptions",
+        "Protection first"
+      ]
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This is the question the whole legal section hangs on, so give it proper thinking time. Both wrong answers are widely believed, so use the feedback to correct without mocking. Repeat the reassurance after the reveal: knowing this law is protection, and if anyone is ever caught inside it, the guidance to police is to protect young people first. You are not the target of this law, you are the person it protects.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It is still illegal. The law covers everyone under 18 and has no consent or same age exception",
+          "correct": true,
+          "feedback": "Correct, and this is the fact most people your age do not know. Agreement does not change it, being in a relationship does not change it, both being under 18 does not change it. The law is blunt on purpose, and its purpose is protection."
+        },
+        {
+          "text": "It is legal because both agreed",
+          "correct": false,
+          "feedback": "Consent between the two people does not change the law here. Any sexual image of a person under 18 is illegal to make, hold or share, whoever agreed."
+        },
+        {
+          "text": "It is legal because they are over 16",
+          "correct": false,
+          "feedback": "The age line for images is 18, not 16. This catches a lot of people out. Sixteen changes some laws, but not this one."
+        }
+      ],
+      "question": "Two 16 year olds are in a relationship and both agree to share images with each other. What does UK law say?"
+    },
+    {
+      "meta": "Messages · 23:47",
+      "text": "you would if you actually cared about me. everyone sends them, it is literally normal. i would never show anyone, you can trust me. why are you making this such a big deal",
+      "type": "scenario",
+      "image": "💬",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "🌙",
+      "handle": "Alex",
+      "prompt": "Read it once in silence. How many pressure techniques can you name in these four sentences?",
+      "script": "Give the room a silent read, then work through it line by line, naming techniques like last lesson. You would if you cared is guilt used as a lever. Everyone sends them is false social proof, and it is factually wrong, most people do not. I would never show anyone is a promise nobody can enforce once an image exists. Why are you making this a big deal reverses the blame onto the person saying no. Four sentences, four techniques. Then say clearly: a yes produced by this message would not be consent, because it was not freely given. If this scenario prompts any pupil to disclose something similar, follow your safeguarding policy, speak to them privately and involve your DSL the same day.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "The single most used pressure line is everyone sends them, and it is simply false. Most young people do not, whatever the loudest voices claim. Pressure comes in soft forms too: guilt, sulking, repeated asking, or making you feel boring or cold for saying no. All of it is coercion, and a yes it produces is not consent.",
+      "type": "concept",
+      "emoji": "🛑",
+      "phase": "teach",
+      "script": "Kill the everyone does it myth flatly: it is a pressure technique, not a fact, and the evidence consistently shows most young people do not send images. Then widen what pupils count as pressure, because most expect threats and miss guilt, sulking and persistence, which are far more common.",
+      "heading": "Everyone is not sending them",
+      "minutes": 1
+    },
+    {
+      "body": "For the serious end, a hard line: anyone who threatens you, including threatening to share something, has committed the wrong, not you. Threats are never your fault and always a reason to get an adult involved immediately.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Say this one twice: the person threatening has done the wrong thing, not the person threatened. If a pupil discloses pressure or threats, in the room or afterwards, follow your safeguarding policy and pass it to your DSL the same day. Say this, as written: Sharing an image without consent sits inside a bigger group of behaviours with a name: sexual harassment. It covers unwanted sexual messages or attention, pressuring someone into anything sexual, and taking a photo up someone's clothing without them knowing, which is the offence called upskirting. None of it is banter and none of it is the fault of the person it happens to. Read the second half at the same steady pace. You are naming a category, not starting a new topic: sharing without consent is one member of a family of behaviours, and the family has a name. Upskirting is worth saying out loud because it is a specific criminal offence and most classes have never heard it named by an adult. Do not invite examples.",
+      "heading": "A threat is never your fault",
+      "minutes": 1
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Why does the everyone sends them line work so well, even though it is false?",
+      "script": "Groups of three, ninety seconds on the timer, keep the register calm and analytical. You are asking them to study the technique, not to share personal stories, and steer gently if a group drifts personal. Collect one answer per group. The insight to land: the line works because it isolates you, and it is a lie, the majority are quietly saying no with you.",
+      "lookFor": "It attacks belonging, the thing that matters most at this age. It makes the person saying no feel like the odd one out, when the quiet truth is that most people are saying no with them. Naming it as a technique takes its power away.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Freely given, specific, ongoing, revocable. All four, from everyone involved, or it is a no.",
+          "emoji": "🤝",
+          "title": "Is there real consent?"
+        },
+        {
+          "text": "Under 18, the law says no: making, holding or sharing, no exceptions. That answers the question for you.",
+          "emoji": "⚖️",
+          "title": "What does the law say?"
+        },
+        {
+          "text": "You always have more than two. Saying no, pausing, talking to someone you trust, and getting help are all real options.",
+          "emoji": "🧭",
+          "title": "What are my options?"
+        }
+      ],
+      "script": "This is the slide the whole lesson is built around, so give it a full three minutes. Walk each question as it builds. Notice with the class how the second question does the heavy lifting at your age: while anyone in the image is under 18, the law has already answered, which takes the entire negotiation off the table. That is genuinely useful, because the law says no is a complete sentence that ends pressure without a fight. The third question is the one people forget in the moment: pressure always presents exactly two options, comply or lose something, and there are always more. Have the class read the three questions aloud once, evenly, no chanting energy, just fixing it in memory.",
+      "caption": "This is the tool. Three questions, asked before anything is shared, every time. If any answer is unclear, nothing gets shared.",
+      "heading": "The three questions before anything is shared",
+      "minutes": 3,
+      "verdicts": [
+        "All clear",
+        "Not clear, so no",
+        "Get help"
+      ]
+    },
+    {
+      "body": "If an image of you is out there, or you are being pressured or threatened right now, here is what is true. It is not your fault, whatever anyone says. You will not be in trouble for asking for help, and adults who deal with this treat young people as people to protect.",
+      "type": "concept",
+      "emoji": "🛟",
+      "phase": "teach",
+      "script": "Slow right down, this is the most important moment of the hour. Read it fully and evenly. Land the two truths in order: not your fault, and not in trouble for asking. Do not rush to the fix before the reassurance has landed.",
+      "heading": "If an image is already out there",
+      "minutes": 1
+    },
+    {
+      "body": "Report Remove, run by Childline and the Internet Watch Foundation, lets anyone under 18 report an image of themselves confidentially and have it taken down from the open web, without needing a parent present and without going to the police themselves. Alongside it, a trusted adult, your school DSL or Childline on 0800 1111 can help you carry it, because nobody should carry this alone.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Spell out how Report Remove works: childline.org.uk, search Report Remove, prove your age, report the image confidentially, and the IWF works to remove it. Say plainly that asking for help is the strong move, not the embarrassing one. Then say: if this applies to you or a friend, come and talk to me after the lesson, or any adult you trust, today. If a pupil does, follow your safeguarding policy, do not promise secrecy, and involve your DSL the same day. Say this, as written: The same door opens the other way round, and almost nobody says this out loud. If it is your own behaviour worrying you, if you pressured somebody, or sent something on, or did something you have not been able to stop thinking about since, telling an adult early is still the thing that changes what happens next, and it is treated very differently from being found out later. If somebody has hurt you, every route on this slide is yours. And if you have been physically hurt, that is a GP, or 111, or A and E, and going is not an admission of anything. None of these doors close because time has passed. The own behaviour lines are the reason this slide now runs slightly longer, and they are worth the seconds. Say them in exactly the same voice as the rest, with no warning and no weight, because a pupil who is in that position will be listening very hard for a change of tone and will stop listening if they hear one. Do not look at anybody while you read it. Know your own school process first, because the question that follows is always what would actually happen.",
+      "heading": "And something can be done",
+      "minutes": 1
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "What stops people asking for help in this situation, and what would you say to a friend who was frozen by one of those fears?",
+      "script": "Pairs, sixty seconds on the timer. Keep it in the third person, what would you say to a friend, so nobody is asked to speak about themselves. Collect a few answers and match each barrier to its answer out loud. The sentence to leave hanging in the room: the fear of asking for help is nearly always worse than what actually happens when you do. If anything surfaces here, follow your safeguarding policy.",
+      "lookFor": "The usual barriers: shame, fear of being in trouble, fear of parents finding out, believing nothing can be done. Every one of them has an answer: it is not your fault, you are not in trouble, Report Remove is confidential, and something can be done.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check, whole class. Both wrong answers are the exact myths that keep young people silent, so use the feedback to dismantle them one more time. If anyone seems personally affected by this question, make space to talk privately afterwards and follow your safeguarding policy.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Report Remove can get it taken down confidentially, and they are not in trouble for reporting",
+          "correct": true,
+          "feedback": "Correct. Report Remove from Childline and the IWF exists exactly for this, it is confidential, and the person in the image is treated as someone to protect. Telling a trusted adult as well means they do not carry it alone."
+        },
+        {
+          "text": "Nothing can be done once an image is out",
+          "correct": false,
+          "feedback": "This myth keeps people silent and it is wrong. Report Remove takes images of under 18s down from the open web, and schools and police can act on the sharing. Something can always be done."
+        },
+        {
+          "text": "They should stay quiet, because reporting gets you in trouble",
+          "correct": false,
+          "feedback": "The opposite is true. The guidance that police and schools follow protects the person in the image. Staying quiet is the only option that helps nobody."
+        }
+      ],
+      "question": "An image of a Year 10 pupil is being shared around. What is true about their options?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "Before anything is shared · tap the class verdict",
+        "posts": [
+          {
+            "why": "Three techniques in one message: false social proof, guilt as a lever, and blame reversal. Any yes this message produces is not freely given, so it is not consent.",
+            "text": "A message reads: everyone sends them, you would if you actually trusted me, stop making it weird.",
+            "answer": 1,
+            "avatar": "⚖️",
+            "handle": "Case 1"
+          },
+          {
+            "why": "All four properties present: freely given, specific to one photo and one place, ongoing, and revocable. This is what the standard looks like, and it is worth naming that ordinary consent happens all the time.",
+            "text": "Two friends on holiday agree to a group photo going on one friend's profile. Both are genuinely happy, both know exactly where it is going, and both know they can ask for it to come down later.",
+            "answer": 0,
+            "avatar": "⚖️",
+            "handle": "Case 2"
+          },
+          {
+            "why": "Consent is ongoing and revocable, so the old yes ended the moment it was withdrawn. Refusing to respect a withdrawn yes is a warning sign, and if the refusal continues, this becomes a get help situation.",
+            "text": "Someone agreed to a photo being posted last term. They have now changed their mind and asked for it to be deleted. The reply: too late, you already said yes.",
+            "answer": 1,
+            "avatar": "⚖️",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Do not save it, do not forward it, and tell a trusted adult or the DSL. Holding and forwarding are both offences when the person is under 18, and forwarding is legally the same act as sharing. The person in the image needs protecting, not an audience.",
+            "text": "An image of a Year 10 pupil is going around a group chat. Someone sends it to you with the words: have you seen this.",
+            "answer": 2,
+            "avatar": "⚖️",
+            "handle": "Case 4"
+          },
+          {
+            "why": "This is a criminal threat, and complying never ends it. The person threatening has committed the wrong, not the person threatened. Tell a trusted adult immediately and use Report Remove. Not their fault, not in trouble.",
+            "text": "Someone is told: send another one or the first one goes to everyone you know.",
+            "answer": 2,
+            "avatar": "⚖️",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Casey is wrong on all three counts. The person in the image is treated as someone to protect, Report Remove takes images down confidentially, and staying quiet is the only option that helps nobody. Full marks needs all three corrections in the explanation.",
+            "text": "Casey says: if a photo of you is already out there, you are the one in trouble and nothing can be done, so the safest thing is to stay quiet. Do you agree with Casey? Explain your reasoning.",
+            "answer": 2,
+            "avatar": "⚖️",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Real consent",
+          "Pressure, not consent",
+          "Get help now"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Keep the room steady for this one. The cases stay on the screen and nobody's story is invited or needed. Read each card evenly, take the vote without commentary, tap the class verdict, read the reason. Every time get help now fires, repeat the line that carries the lesson: asking for help means you are safe, not in trouble.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Six situations on the worksheet. For each one, run the tool: is there real consent, what does the law say, what are my options? Give a verdict: real consent, pressure not consent, or get help now, and back every verdict with a reason. Fifteen minutes, working alone or in your pair. These are fictional situations. Do not write about real people.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet. Fifteen minutes, and say clearly before pens move: every situation on this sheet is fictional, and nobody should write about real people or themselves. Bookmark strips with the three questions on the tables for anyone who wants them. Support pairs work items one to three with you. Stretch question for early finishers: why does the law deliberately have no consent exception for under 18s? Circulate calmly. If anything a pupil writes or says suggests a real situation, follow your safeguarding policy and speak with them privately after the lesson.",
+      "heading": "The three questions, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, and together they are the printed exit quiz, so pupils answer alone, no conferring. This one tests the law. A wrong answer here matters more than most wrong answers, so note names for a quiet follow up, not a public one.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It is illegal. The law covers making, holding and sharing any sexual image of an under 18, with no consent or same age exception",
+          "correct": true,
+          "feedback": "Correct on every point. Agreement does not change it and being the same age does not change it. The age line is 18, and the law is written that way to protect you."
+        },
+        {
+          "text": "It is legal if both people genuinely consent",
+          "correct": false,
+          "feedback": "Consent between the two people does not change this law. Under 18, images are illegal to make, hold or share, full stop."
+        },
+        {
+          "text": "It is legal once you are 16",
+          "correct": false,
+          "feedback": "The line for images is 18, not 16. This is the single most common mistake people make about this law."
+        }
+      ],
+      "question": "Exit check one. Someone says it is legal to share images if you are both under 18 and you both agree. What do you know?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, answered alone. This one tests the options half of the outcome, and it is the knowledge most likely to be used for real one day, probably for a friend. After collecting answers, say the whole response aloud once more, calmly: not your fault, not in trouble, Report Remove, trusted adult.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It is not your fault, you will not be in trouble, and Report Remove plus a trusted adult can actually fix this",
+          "correct": true,
+          "feedback": "Exactly right, all three parts. Not their fault, not in trouble, and real help exists: Report Remove from Childline and the IWF takes images down confidentially, and a trusted adult means they are not carrying it alone."
+        },
+        {
+          "text": "Tell them to delete their accounts and hope it blows over",
+          "correct": false,
+          "feedback": "Deleting accounts does not remove the image and hoping is not a plan. Report Remove and a trusted adult can actually act. Silence is the only option that helps nobody."
+        },
+        {
+          "text": "Tell them not to tell any adults so it stays contained",
+          "correct": false,
+          "feedback": "Keeping adults out feels safer and is the opposite. Adults who handle this treat the person in the image as someone to protect, and Report Remove is confidential. Not telling anyone is how people end up carrying this alone."
+        }
+      ],
+      "question": "Exit check two. A friend tells you an image of them is being shared and they are terrified they will be in trouble. What is the best response?"
+    },
+    {
+      "text": "Before anything is shared: is there real consent, what does the law say, what are my options? And if something is already out there: not your fault, not in trouble, help exists.",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "No chanting for this module. Read it aloud yourself once, calmly, then have the class read it once together at a normal volume. Two sentences: the tool for before, and the truth for after. Those two sentences are the whole lesson.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Real consent is freely given, specific, ongoing and revocable. A yes under pressure is not consent, and any yes can be taken back.",
+        "UK law: making, holding or sharing a sexual image of anyone under 18 is illegal, even of yourself, even if you are under 18 too, with no consent exception.",
+        "Everyone sends them is a pressure line, not a fact. Most people do not, and naming the technique takes its power away.",
+        "If an image is out there: not your fault, not in trouble. Report Remove from Childline and the IWF takes it down confidentially, and a trusted adult helps you carry it."
+      ],
+      "script": "Read the four points yourself rather than asking pupils to perform them, it suits the register of this module. Then repeat the open door, slowly: if anything in this lesson was close to home for you or a friend, come and find me after class, or any adult you trust, today. Nobody is in trouble for asking. If anyone does come to you, follow your school safeguarding policy and involve your DSL the same day.",
+      "heading": "What to keep",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Before anything is shared: is there real consent? What does the law say? What are my options?",
+        "And if it has already happened, there are still options.",
+        "That was the other half of today, and it is the half to remember."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "One thing to take with you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Nova's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today counts toward the Ready at sixteen page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks4-16-consent-images-law",
+        "register": "still",
+        "placement": "independent"
+      },
+      "script": "Level and brief. The passport is the record of preparation for full access at sixteen, kept at home. Today fills part of its last page. Tap Fill the page, name the area it built, and say once: when the page is full, the big check earns Nova's stamp, and it is proof of judgement, never a licence. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not a record of anyone.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Three questions before anything is shared: is there real consent, what does the law say, what are my options? ⭐",
+        "The law is on your side here. Under 18, it answers the second question for you, and it exists to protect you, never to trap you.",
+        "If something is already out there, for you or a friend: it is not your fault, you are not in trouble, and Report Remove can take it down. Help is real.",
+        "You deserve people who respect your no without a fight. That is the standard. Look after yourselves, and I am always in your corner."
+      ],
+      "phase": "close",
+      "script": "Let DiGi have the last word, the lines appear on their own. Exit quizzes are collected as this plays. Stay by the door as pupils leave: this is the module where someone lingers behind, and that lingering is the conversation that matters. If a pupil discloses anything, listen calmly, do not promise secrecy, and follow your school safeguarding policy with your DSL the same day.",
+      "heading": "DiGi, before you go",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "This module covers consent, indecent images of under 18s and coercion, and may prompt disclosures during or after the lesson, including image sharing that has already happened, ongoing pressure, or threats such as demands backed by a threat to share. Teachers have been briefed to listen calmly, never promise secrecy, and follow the school safeguarding policy, passing any disclosure to the DSL the same day. Pupils are signposted throughout to Report Remove (Childline and the Internet Watch Foundation) for confidential removal of images of under 18s, and to Childline on 0800 1111, with the consistent message that they are not in trouble and it is not their fault. The platform records no disclosures and stores no pupil responses from this lesson: all worksheet and exit quiz work is on paper and handled inside school. If a threat to share images is disclosed, treat it as potential sextortion and follow your policy and local police guidance without asking the pupil to gather or show evidence.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS4",
+  "module_id": "ks4-16-consent-images-law",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 16,
+  "parent_note": {
+    "taught": "Today we covered consent, images and UK law in a calm, factual way: real consent is freely given and can always be taken back, and the law makes any sexual image of an under 18 illegal to make, hold or share, even of yourself, with no exceptions. We also made sure every pupil knows about Report Remove, the confidential Childline and Internet Watch Foundation tool that gets images of under 18s taken down, and that asking for help never gets them in trouble.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them what the three questions are, and let the conversation be short if they want it short: they know the answers now.",
+    "try_this": "Look up Report Remove together at childline.org.uk, just so it is a known name in your house before anyone ever needs it. Knowing the route in advance is what makes a young person use it.",
+    "family_question": "If a friend of yours was being pressured to share a photo, what would you want them to know?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Consent needs exact pre teaching: a yes freely given, that can be taken back. Report Remove is a name, teach it as one: the confidential route that takes images down.",
+      "sensory": "Stillness in this room is information, not disengagement. No cold calling in this module, ever, and any pupil may keep their card face down throughout.",
+      "attention": "Short scenarios, immediate votes, and the law facts in their exact scripted words. A pupil who blurts is redirected to the options question, which is always a safe place to land.",
+      "communication": "The three questions are printed as a card each pupil keeps. Answers in this lesson may be written, pointed or silent: the knowledge is for them, not for display."
+    },
+    "tool": {
+      "lines": [
+        "Is there real consent?",
+        "What does the law say?",
+        "What are my options?"
+      ],
+      "heading": "Before anything is shared",
+      "strapline": "If any answer is unclear, nothing gets shared. And if something is already out there: not your fault, not in trouble, help exists."
+    },
+    "i_can": [
+      "I can say what real consent means and what the law actually says.",
+      "I can ask the three questions before anything is shared.",
+      "I can tell a friend their options, including Report Remove, without judgement."
+    ],
+    "cycles": [
+      {
+        "verb": "Define",
+        "title": "Consent",
+        "minutes": 6,
+        "outcome": "I can say what real consent means and name its four properties."
+      },
+      {
+        "verb": "Know",
+        "title": "The law",
+        "minutes": 9,
+        "outcome": "I can say what the law actually covers."
+      },
+      {
+        "verb": "Resist",
+        "title": "Everyone is not sending them",
+        "minutes": 7,
+        "outcome": "I can explain why pressure is not consent."
+      },
+      {
+        "verb": "Act",
+        "title": "If an image is already out there",
+        "minutes": 6,
+        "outcome": "I can tell a friend their options, including Report Remove, without judgement."
+      }
+    ],
+    "timing": "69 minutes: starter 11, cycle one consent 6, cycle two the law 9, cycle three everyone is not sending them 7, cycle four options 6, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "consent",
+        "definition": "A free, genuine yes. It is specific to one thing, it is ongoing, and it can be taken back at any time."
+      },
+      {
+        "word": "coercion",
+        "definition": "Pressuring, guilting or threatening someone into a yes. A yes produced by coercion is not consent."
+      },
+      {
+        "word": "indecent image",
+        "definition": "The legal term for a sexual image. In UK law this applies to any image of a person under 18."
+      },
+      {
+        "word": "Report Remove",
+        "definition": "A free, confidential tool from Childline and the Internet Watch Foundation that helps under 18s get images of themselves taken down."
+      }
+    ],
+    "equipment": "Nothing beyond the board. Have the DSL note and the reporting routes printed and in the room before you start.",
+    "exit_quiz": [
+      {
+        "answer": "Free, specific, ongoing, and it can be taken back.",
+        "format": "short_answer",
+        "question": "Name the four properties of real consent.",
+        "teaching_point": "All four. Ongoing and revocable are the two that get dropped."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "It is legal if you are both under 18 and you both agree.",
+        "teaching_point": "It is not. The law covers making, holding and sharing, and an indecent image is any sexual image of a person under 18."
+      },
+      {
+        "answer": "coercion",
+        "format": "fill_blank",
+        "question": "Pressuring, guilting or threatening someone into a yes is called ___.",
+        "teaching_point": "One word, and a yes it produces is not consent."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Everyone is sending them.",
+        "teaching_point": "The evidence consistently shows most young people do not. The belief that everyone does is itself the pressure."
+      },
+      {
+        "answer": "That it is not their fault, that they are not in trouble, and that Report Remove is free, confidential and works.",
+        "format": "short_answer",
+        "question": "A friend tells you an image of them is out there. What do you say?",
+        "teaching_point": "Three parts. Watch for answers that reach the tool but skip the two reassurances that let someone use it."
+      }
+    ],
+    "worksheet": {
+      "title": "The three questions",
+      "directions": "For each fictional situation, run the three questions, choose a verdict and give your reason. Never write about real people.",
+      "verdict_options": [
+        "Real consent",
+        "Pressure, not consent",
+        "Get help now"
+      ]
+    },
+    "teacher_tip": "Give the DSL notice before this lesson runs and read the DSL note first. This is the module most likely to produce a disclosure, and it should.",
+    "starter_quiz": [
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "A screenshot can be taken of anything you send.",
+        "teaching_point": "Carried forward from ks2-07. It matters more today than it ever has."
+      },
+      {
+        "answer": "Any adult, plus any of: Childline, Report Remove, CEOP, the school's DSL.",
+        "format": "short_answer",
+        "question": "Name a trusted adult and one reporting route.",
+        "teaching_point": "Both halves. A pupil who can name neither needs that fixed before this lesson goes further."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "A yes given under pressure is a free yes.",
+        "teaching_point": "The heart of cycle one, asked before it is taught. Note anyone who hesitates."
+      },
+      {
+        "answer": "A free, genuine yes",
+        "format": "tick_one",
+        "options": [
+          "Not saying no",
+          "A free, genuine yes",
+          "Agreeing once, for ever"
+        ],
+        "question": "Consent means:",
+        "teaching_point": "Two of the three wrong answers are the two most common misconceptions. Use them."
+      }
+    ],
+    "misconceptions": [
+      "It is legal if you are both under 18 and both agree (it is not, the law covers making, holding and sharing any sexual image of an under 18 with no consent or same age exception, and the age line is 18, not 16)",
+      "Everyone sends them (false, the evidence consistently shows most young people do not, and the line is a pressure technique designed to isolate the person saying no)",
+      "If an image of you is out there you are in trouble and nothing can be done (wrong on both counts, police and school guidance protects the young person first, and Report Remove from Childline and the IWF gets images taken down confidentially)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the consent properties and the law slide aloud word for word from the pack, draw the three questions tool on the board, run both discussions as timed pair and group talk with a watch, deliver the scenario by reading the message aloud in a flat neutral voice, and run the worksheet and the two exit questions exactly as printed. The Report Remove signpost and the closing open door must be said aloud even with no screen.",
+    "passport_stage": "independent",
+    "commitment_stem": "My commitment: before anything is shared I will ask the three questions, and if it ever matters, for me or a friend, I know about Report Remove and I will not stay quiet.",
+    "differentiation": {
+      "stretch": "Early finishers take the stretch question: why does the law deliberately have no consent exception for under 18s, and who would benefit if it did? Push for the protective logic: a blanket rule leaves no loophole for anyone to exploit.",
+      "support": "Bookmark strips with the three questions on every table. Support pairs work worksheet items one to three with the teacher, reading each situation aloud and running the three questions verbally before writing."
+    },
+    "prior_knowledge": [
+      "A pupil can explain that a screenshot can be taken of anything, from ks2-07.",
+      "A pupil can name a trusted adult and one reporting route.",
+      "A pupil understands that a yes given under pressure is not a free yes."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A message reads: everyone sends them, you would if you actually trusted me, stop making it weird.",
+        "teaching_point": "Three techniques in one message: false social proof, guilt as a lever, and blame reversal. Any yes this message produces is not freely given, so it is not consent.",
+        "expected_verdict": "Pressure, not consent"
+      },
+      {
+        "n": 2,
+        "item": "Two friends on holiday agree to a group photo going on one friend's profile. Both are genuinely happy, both know exactly where it is going, and both know they can ask for it to come down later.",
+        "teaching_point": "All four properties present: freely given, specific to one photo and one place, ongoing, and revocable. This is what the standard looks like, and it is worth naming that ordinary consent happens all the time.",
+        "expected_verdict": "Real consent"
+      },
+      {
+        "n": 3,
+        "item": "Someone agreed to a photo being posted last term. They have now changed their mind and asked for it to be deleted. The reply: too late, you already said yes.",
+        "teaching_point": "Consent is ongoing and revocable, so the old yes ended the moment it was withdrawn. Refusing to respect a withdrawn yes is a warning sign, and if the refusal continues, this becomes a get help situation.",
+        "expected_verdict": "Pressure, not consent"
+      },
+      {
+        "n": 4,
+        "item": "An image of a Year 10 pupil is going around a group chat. Someone sends it to you with the words: have you seen this.",
+        "teaching_point": "Do not save it, do not forward it, and tell a trusted adult or the DSL. Holding and forwarding are both offences when the person is under 18, and forwarding is legally the same act as sharing. The person in the image needs protecting, not an audience.",
+        "expected_verdict": "Get help now"
+      },
+      {
+        "n": 5,
+        "item": "Someone is told: send another one or the first one goes to everyone you know.",
+        "teaching_point": "This is a criminal threat, and complying never ends it. The person threatening has committed the wrong, not the person threatened. Tell a trusted adult immediately and use Report Remove. Not their fault, not in trouble.",
+        "expected_verdict": "Get help now"
+      },
+      {
+        "n": 6,
+        "item": "Casey says: if a photo of you is already out there, you are the one in trouble and nothing can be done, so the safest thing is to stay quiet. Do you agree with Casey? Explain your reasoning.",
+        "teaching_point": "Casey is wrong on all three counts. The person in the image is treated as someone to protect, Report Remove takes images down confidentially, and staying quiet is the only option that helps nobody. Full marks needs all three corrections in the explanation.",
+        "expected_verdict": "Get help now"
+      }
+    ],
+    "essential_question": "What does the law actually say, and what are my options if it has already happened?",
+    "learning_objective": "Pupils can explain what real consent is, state what UK law says about sexual images of under 18s, recognise pressure and coercion, and name their options if an image is already out there, including Report Remove.",
+    "key_learning_points": [
+      "Real consent is free, specific, ongoing, and can be taken back.",
+      "Coercion produces a yes that is not consent.",
+      "In UK law an indecent image is any sexual image of a person under 18.",
+      "Everyone is not sending them. The belief that they are is itself the pressure.",
+      "Report Remove is free, confidential, and it works."
+    ]
+  }
+}

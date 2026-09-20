@@ -1,0 +1,802 @@
+{
+  "row": {
+    "title": "Being kind and safe with others online",
+    "audience": "teacher",
+    "scaffold": "TELL",
+    "year_band": "Years 3 to 6",
+    "sort_order": 8,
+    "efcw_strands": [
+      2,
+      4
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Bloop",
+    "evidence_anchor": "Cyberbullying prevalence data",
+    "statutory_hooks": [
+      "RSHE",
+      "Anti bullying (Ofsted)"
+    ],
+    "single_action_outcome": "I know three things to do if someone is unkind online."
+  },
+  "slides": [
+    {
+      "body": "One hour, one mission: three moves that mean nobody in this class ever faces unkindness online alone.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Being kind and safe with others online",
+      "script": "Settle everyone with this slide up. Today the squad takes on its most important mission yet: what to do when someone is unkind online. A quiet heads up for you before you begin: in almost every class, some pupils will have been on the receiving end of this and some will have joined in without really meaning to. So set the tone now, out loud: nobody will be asked to share a story today, we never use real names, and nobody in this room is in trouble. We are learning moves for next time. If a pupil discloses bullying at any point in the lesson, follow your school safeguarding policy.",
+      "eyebrow": "KS2 · Years 3 to 6 · Module 8",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hi! Bloop here.",
+        "What do you actually do when you see someone being torn apart online?",
+        "Most people freeze. Today you learn three moves instead."
+      ],
+      "phase": "starter",
+      "script": "Let Bloop land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Bloop arrives",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "why": "Unkindness online spreads faster than unkindness in the playground, because a comment can be seen by everyone and it does not stop when the bell goes. Today you learn three moves that work every single time, whether it is happening to you, to a friend, or right in front of you in a group chat.",
+      "type": "objective",
+      "gains": [
+        "Tell the difference between one unkind moment and real bullying",
+        "Spot a pile on forming in a group chat before it grows",
+        "Use the three moves: do not pile on, save the evidence, tell someone who can help",
+        "Explain why telling an adult is strength, not snitching"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Ask: hands up if you have ever seen someone being unkind in a group chat or under a photo. Most hands will go up, and that is the point. Say: so this lesson is not about IF it happens. It is about what the squad does WHEN it happens. Keep it brisk and warm, no stories collected here.",
+      "minutes": 2,
+      "outcome": "I know three things to do if someone is unkind online."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner what you would want a friend to do if somebody was being unkind to you.",
+      "script": "Sixty seconds with your partner. Not what you would do. What you would want a friend to do for you. I will take a few of those, and then I am going to show you that you have just written the lesson.",
+      "lookFor": "Nearly every answer is a version of tell someone or stand with me. That is the lesson, in their words, before it is taught.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "bullying",
+          "meaning": "Unkindness that is repeated, targeted at the same person, and done on purpose. All three together."
+        },
+        {
+          "word": "pile on",
+          "meaning": "When lots of people join in against one person online, comment after comment, laugh after laugh."
+        },
+        {
+          "word": "bystander",
+          "meaning": "Someone who sees unkindness happening and watches without doing anything."
+        },
+        {
+          "word": "upstander",
+          "meaning": "Someone who sees unkindness and makes a safe move to help, even a small quiet one."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Spend longest on the last two, they rhyme on purpose: a bystander stands by, an upstander stands up. Ask the class which one sounds like a squad member. Today everyone learns how to be an upstander without needing to be loud or brave in a scary way.",
+      "heading": "Squad words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson, thirty seconds of thinking time before any hands. Cold call two pupils for their reasoning, not just their answer. Then plant the seed for today: last lesson was about what WE post. Today is about what we do when someone ELSE posts something unkind.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Stop and ask: how would my friend feel, and would I be happy for anyone at all to see this?",
+          "correct": true,
+          "feedback": "That is the share test. Funny to you is not the test. How the person in the photo feels, and who could end up seeing it, that is the test."
+        },
+        {
+          "text": "Post it quickly before someone else posts it first",
+          "correct": false,
+          "feedback": "Speed is exactly what the share test protects you from. A post you did not think about is the one you cannot take back."
+        },
+        {
+          "text": "Post it now and delete it later if your friend minds",
+          "correct": false,
+          "feedback": "Delete does not undo. Once something is shared it can be screenshotted and copied in seconds. The share test happens BEFORE, never after."
+        }
+      ],
+      "question": "Warm up from last mission. You have a really funny photo of your friend and you want to post it. What does the share test tell you to do first?"
+    },
+    {
+      "meta": "Comment under Maisie's painting photo · 5 minutes ago",
+      "text": "my little sister paints better than that and she is FOUR 😂😂",
+      "type": "scenario",
+      "image": "🖼",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 3   💬 6",
+      "avatar": "🎮",
+      "handle": "kian_07",
+      "prompt": "Maisie posted her painting because she was proud of it. Then this appeared. Is Maisie being bullied? How do we even decide?",
+      "script": "Bloop opens the case file. Read the comment out flat, do not perform it as funny. Take a quick vote: bullying or not bullying? You will get a split, and that split is gold, because the class does not yet have a way to decide. Say: detectives do not guess, they use tells. The next two slides give us the tells. Do not resolve the vote yet.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "body": "Everyone says something unkind sometimes, and everyone gets something unkind said to them. One unkind comment is a moment: it is wrong, it can be put right, and it usually ends with a real sorry. Bullying is different. Bullying is unkindness that is repeated, aimed at the same person, and done on purpose. The difference matters because it tells you how much help to call in: an unkind moment might need one honest conversation, but bullying always needs an adult in the game.",
+      "type": "concept",
+      "emoji": "💛",
+      "phase": "teach",
+      "script": "This is the heart of cycle one, take it slowly. Stress that naming the difference never lets unkindness off the hook: one mean comment still stings and still needs putting right. Gently add, without looking at anyone: most of us have said something unkind online at some point, that does not make someone a bully, it makes them someone who owes a sorry. That sentence quietly lets pupils who have been on the giving end stay in the lesson without shame.",
+      "heading": "Unkind or bullying? There is a difference",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Again and again, not once. Yesterday, today, and probably tomorrow.",
+          "emoji": "🔁",
+          "title": "Tell one: is it repeated?"
+        },
+        {
+          "text": "Aimed at the same person every time, on purpose, not scattered.",
+          "emoji": "🎯",
+          "title": "Tell two: is it targeted?"
+        },
+        {
+          "text": "Meant to hurt, not an accident or a joke both people are enjoying.",
+          "emoji": "😠",
+          "title": "Tell three: is it on purpose?"
+        }
+      ],
+      "script": "Walk the three tells as they build, class repeats each one back: repeated, targeted, on purpose. Now return to Maisie and rerun the vote with the tells. One comment, one person, first time: that is one unkind moment, not bullying yet, and it still deserves putting right. Then ask: what would make it become bullying? Draw out: if kian_07 did it every time she posted, that is repeated and targeted. Watch for the pupil who asks about jokes: if both people are laughing it is banter, if one person is pretending to laugh it fails tell three.",
+      "caption": "Ask all three. One yes is a warning sign. Three yeses is bullying, and bullying always gets reported to an adult.",
+      "heading": "The three tells",
+      "minutes": 2,
+      "verdicts": [
+        "One unkind moment",
+        "Bullying"
+      ]
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "First check of the lesson. The trap answers are the two extremes: everything is bullying, or nothing matters. Both are wrong for opposite reasons, and the feedback lines carry the teaching. If the room splits, send them back to the three tells: repeated, targeted, on purpose.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "No, it is one unkind moment, and it still deserved putting right",
+          "correct": true,
+          "feedback": "Exactly. Not repeated, not part of a pattern, and it ended in a real sorry. Still unkind, still worth putting right, but not bullying."
+        },
+        {
+          "text": "Yes, any unkind comment is bullying",
+          "correct": false,
+          "feedback": "If every unkind moment counts as bullying, the word stops meaning anything. Save it for the real thing: repeated, targeted, on purpose."
+        },
+        {
+          "text": "No, so it does not really matter",
+          "correct": false,
+          "feedback": "It still matters. Unkind is unkind, and the sorry was needed. Not bullying does not mean not important."
+        }
+      ],
+      "question": "Someone posts one mean comment on your photo, then says sorry at school the next day and means it. Is it bullying?"
+    },
+    {
+      "meta": "Group chat · right now",
+      "text": "Jonah: did everyone see Ravi fall over in PE 😂😂\nMia: LEGENDARY someone must have it on video\nJonah: posting it now\nTyler: 😂😂😂\nLibby: 😂\n· · · 3 people are typing",
+      "type": "scenario",
+      "image": "🎥",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "💬",
+      "handle": "Year 5 Legends 🏆 · 14 people",
+      "prompt": "Bloop freezes the screen right here. Three people are typing. What happens in the next sixty seconds if nobody makes a move?",
+      "script": "This is the big one, give it space. Read the chat aloud, then point at the three people typing and ask the question on screen. Draw out: each new laugh invites the next one, the video lands, more people join, and Ravi opens his phone tonight to a wall of laughter from fourteen classmates. Then the question that turns the room: how do you think each person typing feels right now? Probably fine, probably like it is just a laugh. That gap, between how it feels to send and how it feels to receive, is what the next slide explains.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "To each person joining in, one laughing emoji feels tiny, barely anything at all. To Ravi, it is not one emoji, it is fourteen people laughing at once, and it is still there every time he opens his phone. Pile ons grow because of a strange trick our brains play called the bystander effect: when lots of people are watching, everyone waits for someone else to be the one who acts. And here is the secret the pile on does not want you to know: it is performing for its audience, so the very first kind move usually breaks the spell.",
+      "type": "concept",
+      "emoji": "🧲",
+      "phase": "teach",
+      "script": "Two teaching beats here. First the maths of it: tiny to send, enormous to receive, because all the tiny things land on one person at once. Second the bystander effect, and make it human: it is not that nobody cares, it is that everyone is waiting for someone else to go first. Then land the hope: pile ons are weaker than they look. One person going first, even quietly, changes what everyone else thinks is normal. Today we learn how to be that person safely.",
+      "heading": "Why pile ons grow",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Joining a pile on takes one tap. Why is it so easy to join in, and so hard to be the first one to stop it?",
+      "script": "Sixty seconds, partner talk, timer on screen. You are listening for honesty, not right answers. Take two or three responses after the chime. If a pupil says you might become the next target, thank them for the bravest answer in the room, because that fear is real and it is exactly why the three moves coming next never require anyone to fight the pile on face to face.",
+      "lookFor": "Honesty. Joining feels like fitting in and costs nothing in the moment. Going first feels risky because you might become the next target, and everyone is waiting for someone else. Naming that fear out loud is what shrinks it.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Whole class, hands or devices. The third option is the important one to unpack: lots of kind pupils believe staying silent keeps them innocent. Handle it gently, no shame, because plenty in the room have done exactly that. Say: staying out of it is better than joining in, AND the squad can do better than better. Which sets up the tool of the whole module, coming next.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Send Ravi a private kind message and do not add anything to the pile",
+          "correct": true,
+          "feedback": "Yes. Upstanding does not have to be loud. A quiet kind message tells Ravi he is not alone, and refusing to add a single laugh starves the pile. The next two moves back you up."
+        },
+        {
+          "text": "Post STOP BEING MEAN in the chat and argue with everyone",
+          "correct": false,
+          "feedback": "Brave heart, risky move. Arguing can feed the pile on and put you in the target zone. Upstanders do not have to battle, they make safe moves."
+        },
+        {
+          "text": "Watch quietly and do not type anything at all",
+          "correct": false,
+          "feedback": "Quiet watching feels safe, but the silent audience is exactly who the pile on is performing for. Not joining in is a start, and there is more you can safely do."
+        }
+      ],
+      "question": "The pile on about Ravi is growing. Which is the strongest upstander move you could make right now?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "No laughing emoji, no sharing it round, not even one. Starve it.",
+          "emoji": "✋",
+          "title": "Move one: do not pile on"
+        },
+        {
+          "text": "Screenshot before it gets deleted. Evidence is for a helper, never for spreading.",
+          "emoji": "📸",
+          "title": "Move two: save the evidence"
+        },
+        {
+          "text": "A teacher, a parent, a trusted adult. Adults have moves that pupils do not.",
+          "emoji": "🗣",
+          "title": "Move three: tell someone who can help"
+        }
+      ],
+      "script": "This is the module tool and it goes on the bookmark, so drill it. Walk each move as it builds, then chant all three together twice: do not pile on, save the evidence, tell someone who can help. Two details to land. Move two: screenshots matter because unkind posts get deleted fast, and an adult can only fix what they can see, but evidence goes to a helper, never round the class, or you have joined the pile on with extra steps. Move three: we will spend the next slides on it, because it is the move with the most myths attached.",
+      "caption": "Three moves, in order, every time. They work if it is happening to you, to a friend, or right in front of you.",
+      "heading": "The three moves",
+      "minutes": 3
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Tell your partner the three moves in order, without looking at the board.",
+      "script": "Sixty seconds. Three moves, in order, no looking. I will pick two pairs to say them back to me.",
+      "lookFor": "In order is the part that matters. If a pair gets two, say the third one together before you move on.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "body": "Every app your class uses has a report button and a block button, built in on purpose, because the people who made the app know unkindness happens. Blocking someone is not dramatic and it is not weak: it is closing a door so the unkindness cannot follow you home. Reporting is not getting someone destroyed: it quietly asks the app to take a look, and the person is never told who reported them. Using safety tools is like wearing a seatbelt. Nobody is embarrassed about a seatbelt.",
+      "type": "concept",
+      "emoji": "🛡",
+      "phase": "teach",
+      "script": "The mission here is removing shame from the buttons. Lots of pupils believe blocking means you lost, or that reporting is a huge dramatic act. Take those apart: block closes a door, report is private and the person never finds out who pressed it. If your school devices allow it, showing where the report button lives on one familiar app makes this concrete. End with the seatbelt line, it travels well.",
+      "heading": "Report and block are safety tools, not tantrums",
+      "minutes": 2
+    },
+    {
+      "body": "Here is the difference, and it is worth learning by heart. Snitching is trying to get someone INTO trouble. Telling is trying to get someone OUT of trouble: out of being hurt, out of dreading their phone, out of facing fourteen laughing faces alone. Nobody calls you a snitch for calling the fire brigade when something is burning. And here is the part people forget: the person who tells is usually the person who ends the bullying, because adults can do things that no pupil can, however brave.",
+      "type": "concept",
+      "emoji": "💪",
+      "phase": "teach",
+      "script": "This is the myth that stops more children getting help than any other, so give it your full weight. Get the class to say the two halves back to you: snitching gets someone INTO trouble, telling gets someone OUT of trouble. Then add the quiet truth: bullies rely on silence, it is the only thing keeping a pile on alive. If a pupil uses this moment to disclose something real, receive it calmly, thank them, and follow your school safeguarding policy after the lesson. Say this, as written: One more thing, and it is the most useful sentence in this lesson. In this school there is a grown up whose actual job is this. Not something they do as well as teaching. The job. Your teacher is going to say their name out loud now, and it is worth writing down, because the worst moment to work out who to tell is the moment you need to. Stop here and name your designated safeguarding lead out loud, by name, and say where in the building they are. Write it on the board and leave it there for the rest of the lesson. This is the one moment in the primary scheme that only you can deliver, and a class that leaves knowing the name is the whole difference between a policy and a child who tells somebody.",
+      "heading": "Telling is strength, not snitching",
+      "minutes": 2
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Name the actual adults you would tell, one at school and one at home. Then decide: what is the very first sentence you would say to them?",
+      "script": "Groups of three or four, ninety seconds on the timer. This is a rehearsal, not a chat: by the chime every pupil should have two named adults and a first sentence. Collect a few first sentences and celebrate the simple ones. Offer the emergency version for anyone stuck: you do not even need a good sentence, you can just show a trusted adult the screenshot from move two. That is what the evidence is for.",
+      "lookFor": "Real named adults, not just an adult. And a workable opening sentence, something like: something is happening online and I need your help. The first sentence is the hardest part, so rehearsing it now is the whole point.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "The hardest question of the day because loyalty is sacred at this age. Thirty seconds thinking time. The feedback line to make sure everyone hears out loud: I am telling someone BECAUSE I am your friend. Some pupils will genuinely wrestle with option two, honour that, loyalty is a good instinct pointed at the wrong target here. This exact dilemma is item five on the worksheet, so it gets a second pass.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Do not pile on, help them save the evidence, and tell a trusted adult even though the promise feels hard",
+          "correct": true,
+          "feedback": "Right, and yes, it is hard. A secret that keeps a friend being hurt is not a promise worth keeping. You can say: this is too big for just us, and I am telling someone BECAUSE I am your friend."
+        },
+        {
+          "text": "Keep the secret, because a promise is a promise",
+          "correct": false,
+          "feedback": "Some promises protect people and some promises protect the bullying. This one protects the bullying. Real friends get help."
+        },
+        {
+          "text": "Message the bully yourself and scare them off",
+          "correct": false,
+          "feedback": "Now the bully has a message from you to twist and share, and your friend still has no adult help. Adults have moves that pupils do not. Use move three."
+        }
+      ],
+      "question": "A friend shows you nasty messages they keep getting every night, then says: promise you will not tell anyone. What do the three moves say?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths: in as Bloop grows, out as Bloop shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time · everyone together",
+        "seconds": 4,
+        "register": "playful",
+        "character": "bloop"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "The three moves · tap the class verdict",
+        "posts": [
+          {
+            "why": "Not repeated, not part of a pattern, and it ended in a real sorry. Still unkind and still needed putting right, but the three tells say it is not bullying.",
+            "text": "Dev posts a photo of his new haircut. One classmate comments trims gone wrong 😂 then says sorry at school the next day and means it.",
+            "answer": 0,
+            "avatar": "💬",
+            "handle": "Case 1"
+          },
+          {
+            "why": "All three tells fire: repeated over weeks, targeted at Priya every time, and on purpose. Leaving someone out on purpose counts as unkindness too. This always reaches an adult.",
+            "text": "For three weeks, the same three pupils post laughing emojis on everything Priya shares, and they have started a chat that everyone in the class is in except her.",
+            "answer": 1,
+            "avatar": "💬",
+            "handle": "Case 2"
+          },
+          {
+            "why": "This is the moment the three moves are for: add nothing, screenshot what is there, and tell a trusted adult today, not after it grows.",
+            "text": "You open the class group chat and see mean memes about one pupil, five people have joined in and more messages are arriving every minute.",
+            "answer": 2,
+            "avatar": "💬",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Being invited to join is how pile ons recruit. One reaction feels tiny to send and lands as one more laugh in the wall. Move one is a full stop: do not pile on, even when a friend asks.",
+            "text": "Someone you like sends you a screenshot of a mean post about a girl in another class and says: add a laughing reaction so she knows nobody likes her.",
+            "answer": 2,
+            "avatar": "💬",
+            "handle": "Case 4"
+          },
+          {
+            "why": "Repeated, targeted, on purpose, and it climbed over a block. A promise that keeps a friend being hurt protects the bullying, not the friend. Help them save the evidence and tell a trusted adult together.",
+            "text": "Your friend shows you nasty messages they get every night. When they blocked the sender, a new account appeared and it carried on. Your friend says: promise you will not tell anyone.",
+            "answer": 1,
+            "avatar": "💬",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Orbit is half right: not joining in is better than joining in. But the silent audience is who the pile on performs for, and the three moves ask more of an upstander: add nothing, save the evidence, tell someone who can help.",
+            "text": "Orbit says: if you just watch a pile on and never type anything, you have done nothing wrong. Do you agree? Explain your reasoning.",
+            "answer": 2,
+            "avatar": "💬",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "One unkind moment",
+          "Bullying",
+          "Pile on forming"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Sort the six situations together, and keep the register warm: we are naming what is happening, never who it sounds like. Read each card, hands up, tap the class verdict, read the reason. Land the difference every time: one unkind moment and bullying are not the same word, and knowing which is which is what makes the three moves work.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Your teacher has six cases on the mission sheet: comments, group chats, and one tricky claim from Orbit at the end. For each one, decide what is happening using the three tells, give your verdict, and say which of the three moves you would make. You have fifteen minutes. A verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the mission sheets, bookmark strips on tables so the three moves are in front of anyone who needs them. Fifteen minutes. Support group works cases one to three with you, talking each one through the three tells first. Stretch question for early finishers: what could the Year 5 Legends group chat agree as a rule so a pile on never starts? Circulate, and collect one brilliant reason to read out at the end. If anything a pupil writes suggests a real situation, note it quietly and follow your school safeguarding policy.",
+      "heading": "Squad practice, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, and these two are the printed exit quiz, so no hints. The second option is the clever trap: it starts with a screenshot so it sounds like move two. The difference is where the evidence goes. A wrong answer here tells you exactly who to revisit the diagram with.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Do not pile on, save the evidence, tell someone who can help",
+          "correct": true,
+          "feedback": "That is the tool, in order, every time. Starve the pile, screenshot before it disappears, and bring in an adult who can actually end it."
+        },
+        {
+          "text": "Screenshot it, send it round so everyone knows, then leave the chat",
+          "correct": false,
+          "feedback": "Careful: sending it round spreads the hurt further, which is piling on with extra steps. Evidence goes to a helper, never round the class."
+        },
+        {
+          "text": "Say nothing and wait, pile ons burn out on their own",
+          "correct": false,
+          "feedback": "Pile ons feed on silence, and the person in the middle is hurting the whole time you wait. The three moves work today, not eventually."
+        }
+      ],
+      "question": "Exit check. Unkind posts about one pupil are stacking up in a group chat. What are the three moves?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, testing the snitching myth directly because it is the belief most likely to stop a real child getting real help. If any pupil argues for sorting it yourself, do not squash them, ask the room: who has more power to actually end it, a pupil or an adult? Let the class land it.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Snitching tries to get someone INTO trouble. Telling gets someone OUT of trouble, and it is usually what ends the bullying",
+          "correct": true,
+          "feedback": "Exactly. Telling is strength. Adults can do things pupils cannot, and bullies rely on silence to keep going."
+        },
+        {
+          "text": "The friend is right, dealing with it yourself is braver",
+          "correct": false,
+          "feedback": "Facing a pile on alone is not bravery anyone should have to perform. The bravest move is the one that ends it: telling someone who can help."
+        },
+        {
+          "text": "Only tell an adult if it is happening to you, not to someone else",
+          "correct": false,
+          "feedback": "Upstanders tell for other people too. If a friend is being hurt, move three is yours to make as well as theirs."
+        }
+      ],
+      "question": "Your friend says: telling a teacher about bullying is snitching, you should sort it out yourself. What do you know?"
+    },
+    {
+      "text": "Do not pile on. Save the evidence. Tell someone who can help. Three moves, and nobody faces it alone.",
+      "type": "quote",
+      "label": "Say it like Bloop",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time. This is the sentence you want travelling home tonight, into group chats and around dinner tables. Bloop means every word, so should the class.",
+      "minutes": 1
+    },
+    {
+      "body": " Two more things to take home. Almost every app has a report button and a block button, usually behind three dots next to a message: report tells the app, block stops that person reaching you, and neither one replaces telling a grown up. And talking to your friends online is real talking, but it is thinner than being with them, because a screen carries your words and drops your face and your voice. That is why a message can land ten times harder than the same thing said out loud.",
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Bullying has three tells: repeated, targeted, on purpose. One unkind moment is different, and it still deserves putting right.",
+        "Pile ons feel tiny to join and enormous to receive. The silent audience is who they perform for, and one kind move can break them.",
+        "The three moves: do not pile on, save the evidence, tell someone who can help.",
+        "Report and block are safety tools like seatbelts, and telling an adult is strength, not snitching."
+      ],
+      "script": "Recap read by pupils, one point each. Then the closing tone, warm and unhurried: if anything in this lesson felt close to home, on either side of it, you are not in trouble and you are not alone. Remind them where you are and when they can find you. Any pupil who wants a private word gets one, and any disclosure follows your school safeguarding policy.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your mission.",
+        "Do not pile on. Save the evidence. Tell someone who can help.",
+        "You will not need them every week. But the week you do, you will be ready."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Bloop's mission for you",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks2-08-kind-safe-online",
+        "register": "playful",
+        "placement": "builder"
+      },
+      "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Mission complete, squad! ⭐",
+        "Three moves, learned by heart: do not pile on, save the evidence, tell someone who can help.",
+        "Your mission this week: be an upstander once. One kind message, one refusal to laugh along, one trusted adult told. Small moves count double.",
+        "And remember: in this squad, nobody faces it alone. Not ever. See you next mission!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the lines appear on their own. Exit quizzes go out as this plays, named copies from the print room, and exit cards get the commitment line filled in. Collect both, they are your evidence for the register, and read the exit cards yourself before filing: occasionally one carries something a pupil could not say out loud.",
+      "heading": "DiGi closes the mission",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson can surface live situations: pupils currently being bullied, pupils recognising their own behaviour, and pupils carrying a friend's secret. Watch the friend dilemma discussion, the exit cards and the mission sheets, as written disclosures sometimes arrive where spoken ones cannot. Any disclosure of bullying, online or offline, follows the school safeguarding and anti bullying policy and is logged with the DSL the same day. No pupil should leave the lesson believing they are in trouble for telling.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS2",
+  "module_id": "ks2-08-kind-safe-online",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 8,
+  "parent_note": {
+    "taught": "Today your child learned the difference between one unkind moment and bullying (repeated, targeted, on purpose), and a tool called the three moves for when unkindness happens online: do not pile on, save the evidence, tell someone who can help. We also took apart the biggest myth in this topic: telling an adult is strength, not snitching.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to show you the three moves.",
+    "try_this": "Ask your child to teach YOU the three moves, then agree together who their tell someone who can help person is at home. Naming that person out loud, before anything ever happens, makes them far more likely to come to you if it does.",
+    "family_question": "If a group chat started piling on someone you know, what would you do first, and what would be hardest about it?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pile on and tell someone who can help need pre teaching as whole phrases, not words. The three gestures carry the meaning while the phrases settle.",
+      "sensory": "A pile on scenario can feel loud even on paper. Read it in a flat calm voice, and let any pupil turn their card face down to say this one is close to home without saying a word.",
+      "attention": "The scenarios are short on purpose. Vote after each, feedback immediately, and give the pupil who struggles to wait the evidence spotter job for the class.",
+      "communication": "The three moves become three gesture cards: a flat hand for do not pile on, a camera for save the evidence, an arm up for tell. A pupil who says nothing can still make every move."
+    },
+    "tool": {
+      "lines": [
+        "Do not pile on",
+        "Save the evidence",
+        "Tell someone who can help"
+      ],
+      "heading": "The three moves",
+      "strapline": "Three moves, and nobody faces it alone."
+    },
+    "i_can": [
+      "I can recognise unkindness online when I see it.",
+      "I can make the three moves: do not pile on, save the evidence, tell someone who can help.",
+      "I can tell a friend why telling someone who can help is the strongest move."
+    ],
+    "cycles": [
+      {
+        "verb": "Name",
+        "title": "Unkind or bullying? There is a difference",
+        "minutes": 10,
+        "outcome": "I can recognise unkindness online when I see it."
+      },
+      {
+        "verb": "Understand",
+        "title": "Why pile ons grow",
+        "minutes": 6,
+        "outcome": "I can explain why a pile on grows and what a bystander adds to it."
+      },
+      {
+        "verb": "Move",
+        "title": "The three moves",
+        "minutes": 14,
+        "outcome": "I can make the three moves: do not pile on, save the evidence, tell someone who can help."
+      }
+    ],
+    "timing": "71 minutes: starter 11, cycle one 10, cycle two 6, cycle three 14, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "bullying",
+        "definition": "Unkindness that is repeated, targeted at the same person, and done on purpose. All three together."
+      },
+      {
+        "word": "pile on",
+        "definition": "When lots of people join in against one person online, comment after comment, laugh after laugh."
+      },
+      {
+        "word": "bystander",
+        "definition": "Someone who sees unkindness happening and watches without doing anything."
+      },
+      {
+        "word": "upstander",
+        "definition": "Someone who sees unkindness and makes a safe move to help, even a small quiet one."
+      }
+    ],
+    "equipment": "Nothing beyond the board.",
+    "exit_quiz": [
+      {
+        "answer": "Repeated, targeted at the same person, and on purpose.",
+        "format": "short_answer",
+        "question": "What are the three parts of bullying?",
+        "teaching_point": "All three together. Two out of three is unkindness, which still needs dealing with but is a different thing."
+      },
+      {
+        "pairs": [
+          {
+            "left": "Bystander",
+            "right": "Sees it and does nothing"
+          },
+          {
+            "left": "Upstander",
+            "right": "Sees it and makes one safe move"
+          },
+          {
+            "left": "Pile on",
+            "right": "Lots of people joining in against one person"
+          }
+        ],
+        "answer": "Bystander goes with sees it and does nothing; Upstander goes with sees it and makes one safe move; Pile on goes with lots of people joining in against one person",
+        "format": "match",
+        "question": "Match the word to the person.",
+        "teaching_point": "The vocabulary of the lesson. Upstander is the one to hear used out loud afterwards."
+      },
+      {
+        "answer": "Do not pile on, save the evidence, tell someone who can help.",
+        "format": "short_answer",
+        "question": "What are the three moves?",
+        "teaching_point": "The tool they leave with. In order, because saving evidence before deleting matters."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Telling an adult is snitching.",
+        "teaching_point": "Snitching tries to get someone into trouble. Telling gets someone out of it. Say the difference in those words."
+      },
+      {
+        "answer": "So an adult can actually act on it",
+        "format": "tick_one",
+        "options": [
+          "To look at it again",
+          "So an adult can actually act on it",
+          "To send it to friends"
+        ],
+        "question": "Why should you save the evidence before you delete anything?",
+        "teaching_point": "A deleted message is an adult with nothing to work with. This is the step pupils skip."
+      }
+    ],
+    "worksheet": {
+      "title": "The three moves mission sheet",
+      "directions": "Read each case, choose your verdict, and write which move you would make and why.",
+      "verdict_options": [
+        "One unkind moment",
+        "Bullying",
+        "Pile on forming"
+      ]
+    },
+    "teacher_tip": "Rehearse the exact words for telling. Pupils rarely fail on knowing they should tell, they fail on not having a sentence ready.",
+    "starter_quiz": [
+      {
+        "answer": "A photo of a screen, and anyone who can see it.",
+        "format": "short_answer",
+        "question": "What is a screenshot, and who can take one?",
+        "teaching_point": "Carried forward from ks2-07. It matters today because evidence is one of the three moves."
+      },
+      {
+        "answer": "Any two adults they name.",
+        "format": "short_answer",
+        "question": "Name a trusted adult at school and one at home.",
+        "teaching_point": "Two, not one. A pupil with only one named adult is a pupil with a single point of failure."
+      },
+      {
+        "answer": "Someone is rude to the same person every day",
+        "format": "tick_one",
+        "options": [
+          "Someone was rude once",
+          "Someone is rude to the same person every day",
+          "Someone was rude by accident"
+        ],
+        "question": "Which of these is a pattern rather than a one off?",
+        "teaching_point": "Repeated is one of the three parts of bullying. Get the word pattern working before the definition lands."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Being unkind once is the same as bullying.",
+        "teaching_point": "Opens the lesson's first cycle. Some will get this wrong, and that is the point of asking now."
+      }
+    ],
+    "misconceptions": [
+      "Telling an adult is snitching (snitching tries to get someone INTO trouble, telling gets someone OUT of trouble, and telling is usually what ends the bullying)",
+      "If I do not type anything I am not involved (the silent audience is exactly who a pile on performs for, and one safe upstander move can break it)",
+      "Deleting nasty messages makes the problem go away (save the evidence first, because an adult can only fix what they can see, and unkind posts vanish fast)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the two scenarios aloud as scripts with pupils playing the chat voices, draw the three tells and the three moves on the board as you go, run both discussions with a watch instead of the on screen timer, and use the printed mission sheet, exit quiz and bookmark strips exactly as in the screen version.",
+    "passport_stage": "builder",
+    "commitment_stem": "My commitment: if I see unkindness online this week, my first move will be...",
+    "differentiation": {
+      "stretch": "Early finishers take the group chat challenge: draft one rule the Year 5 Legends chat could agree so a pile on never starts, and explain which of the three tells or three moves the rule connects to.",
+      "support": "Work cases one to three of the mission sheet as a guided group, saying the three tells out loud for each case before choosing a verdict. Keep the bookmark strip in front of each pupil and accept verbal reasons scribed by an adult."
+    },
+    "prior_knowledge": [
+      "A pupil can explain what a screenshot is and that anyone can take one, from ks2-07.",
+      "A pupil can name a trusted adult at school and at home.",
+      "A pupil can tell the difference between a one off unkind comment and a pattern."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Dev posts a photo of his new haircut. One classmate comments trims gone wrong 😂 then says sorry at school the next day and means it.",
+        "teaching_point": "Not repeated, not part of a pattern, and it ended in a real sorry. Still unkind and still needed putting right, but the three tells say it is not bullying.",
+        "expected_verdict": "One unkind moment"
+      },
+      {
+        "n": 2,
+        "item": "For three weeks, the same three pupils post laughing emojis on everything Priya shares, and they have started a chat that everyone in the class is in except her.",
+        "teaching_point": "All three tells fire: repeated over weeks, targeted at Priya every time, and on purpose. Leaving someone out on purpose counts as unkindness too. This always reaches an adult.",
+        "expected_verdict": "Bullying"
+      },
+      {
+        "n": 3,
+        "item": "You open the class group chat and see mean memes about one pupil, five people have joined in and more messages are arriving every minute.",
+        "teaching_point": "This is the moment the three moves are for: add nothing, screenshot what is there, and tell a trusted adult today, not after it grows.",
+        "expected_verdict": "Pile on forming"
+      },
+      {
+        "n": 4,
+        "item": "Someone you like sends you a screenshot of a mean post about a girl in another class and says: add a laughing reaction so she knows nobody likes her.",
+        "teaching_point": "Being invited to join is how pile ons recruit. One reaction feels tiny to send and lands as one more laugh in the wall. Move one is a full stop: do not pile on, even when a friend asks.",
+        "expected_verdict": "Pile on forming"
+      },
+      {
+        "n": 5,
+        "item": "Your friend shows you nasty messages they get every night. When they blocked the sender, a new account appeared and it carried on. Your friend says: promise you will not tell anyone.",
+        "teaching_point": "Repeated, targeted, on purpose, and it climbed over a block. A promise that keeps a friend being hurt protects the bullying, not the friend. Help them save the evidence and tell a trusted adult together.",
+        "expected_verdict": "Bullying"
+      },
+      {
+        "n": 6,
+        "item": "Orbit says: if you just watch a pile on and never type anything, you have done nothing wrong. Do you agree? Explain your reasoning.",
+        "teaching_point": "Orbit is half right: not joining in is better than joining in. But the silent audience is who the pile on performs for, and the three moves ask more of an upstander: add nothing, save the evidence, tell someone who can help.",
+        "expected_verdict": "Pile on forming"
+      }
+    ],
+    "essential_question": "What do I actually do when I see someone being torn apart online?",
+    "learning_objective": "Pupils can tell the difference between an unkind moment and bullying using the three tells, and can use the three moves (do not pile on, save the evidence, tell someone who can help) when unkindness happens online.",
+    "key_learning_points": [
+      "Bullying is repeated, targeted and on purpose. All three together.",
+      "A pile on grows because joining in is easy and costs the joiner nothing.",
+      "A bystander watches. An upstander makes one safe move.",
+      "The three moves are: do not pile on, save the evidence, tell someone who can help.",
+      "Report and block are safety tools, not tantrums, and telling is strength, not snitching."
+    ]
+  }
+}

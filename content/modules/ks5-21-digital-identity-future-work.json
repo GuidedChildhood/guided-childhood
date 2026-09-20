@@ -1,0 +1,703 @@
+{
+  "row": {
+    "title": "Digital identity and the future of work",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 12 to 13",
+    "sort_order": 21,
+    "efcw_strands": [
+      1,
+      3
+    ],
+    "ailit_domains": [
+      "Manage AI"
+    ],
+    "character_cast": "DiGi with motion graphics",
+    "evidence_anchor": "WEF Future of Jobs and AILit human skills",
+    "statutory_hooks": [
+      "Careers",
+      "Citizenship"
+    ],
+    "single_action_outcome": "I can name the human skills I am building that AI cannot replace."
+  },
+  "slides": [
+    {
+      "body": "Two questions that decide the next ten years: what does the internet say about you, and what can you do that AI cannot?",
+      "line": "Two questions today, and both decide the next ten years.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Digital identity and the future of work",
+      "script": "Have this up as they arrive. Open plainly: in the next few years every one of you will be searched by a stranger who decides something about your life. An admissions tutor, an employer, a landlord. Today is about what they find, and about the second question underneath it: in a world where everyone has AI, what is actually worth being good at? No doom today, no hype either. Honest answers.",
+      "eyebrow": "KS5 · Years 12 to 13 · Module 21",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hello. I am DiGi.",
+        "What will still be worth paying you for in ten years?",
+        "A real question, and you can answer it better than most adults. Let us start."
+      ],
+      "phase": "starter",
+      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "DiGi opens the lesson",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "why": "The job market you are walking into is being reshaped by AI faster than any careers guidance can keep up with, and your online record is already working for you or against you before you enter a single interview room. Today you get two practical tools: an audit of the identity you are building in public, and a test that tells you which of your skills climb in value when everyone has the same AI.",
+      "type": "objective",
+      "gains": [
+        "Audit what a stranger finds when they search your name, and build that record deliberately",
+        "Describe honestly which work tasks AI compresses and which it expands",
+        "Run the endurance test on any skill: more valuable or less valuable when everyone has AI",
+        "Name the human skills that endure: judgement, taste, trust, accountability, asking the right question"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome and the why, then ask for a quick temperature check: hands up who is mostly optimistic about AI and work, hands up who is mostly worried. Count both roughly and say you will ask again at the end. Tell them directly: both camps are half right, and by the end of the hour you will know which half.",
+      "minutes": 2,
+      "outcome": "I can name the human skills I am building that AI cannot replace."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one thing you can do that you would not want a computer doing instead.",
+      "script": "Sixty seconds. One thing you can do that you would not hand to a computer. Try to get past the job title to the actual skill underneath it, because the skill is the part that keeps its value.",
+      "lookFor": "Push past job titles to the actual skill: reading a room, making a judgement call, persuading someone face to face.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "portfolio",
+          "meaning": "The body of work and record that shows what you can do. Your searchable online presence is one, whether you built it on purpose or not."
+        },
+        {
+          "word": "automation",
+          "meaning": "A machine doing a defined task without a person. Cheap, fast and tireless at the routine layer of work."
+        },
+        {
+          "word": "agent",
+          "meaning": "AI that does not just answer but acts: it plans steps, uses tools and completes tasks. It still needs a person to direct it and own the result."
+        },
+        {
+          "word": "judgement",
+          "meaning": "Knowing what good looks like and deciding when the answer is not obvious. AI produces options. Judgement chooses between them."
+        }
+      ],
+      "script": "Move through these briskly, they are adults. Pause on portfolio: most of them think a portfolio is something artists make. Reframe it now: everyone in this room already has one, it is called page one of a search for your name, and the only question is whether you are its author or its accident. Agent is worth ten extra seconds too: the shift from AI that answers to AI that acts is the shift this lesson is about.",
+      "heading": "Words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Thirty seconds of silent thinking before any hands. Cold call two people for reasoning, not letters. The bridge to today is in the feedback: accountability never transfers to the tool. Hold that sentence, because in about twenty minutes it becomes the reason some skills get MORE valuable in an AI world.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Check it. Reading for whether it sounds right is not checking whether it is right",
+          "correct": true,
+          "feedback": "Exactly. Sounding right is what these tools are best at, which is precisely why sounding right is not a check. Verifying against a source is. Notice you still owned the error either way: own it is not optional."
+        },
+        {
+          "text": "Use it. You should not have used AI at all",
+          "correct": false,
+          "feedback": "Using the tool was not the failure. Last module was never about avoiding AI, it was about using it with the checks that make it safe to sign your name to."
+        },
+        {
+          "text": "Own it. The error was the AI's fault, not yours",
+          "correct": false,
+          "feedback": "You did own it, whether you wanted to or not. That is the point of own it: the accountability never transfers to the tool. What you skipped was the check that would have caught the error first."
+        }
+      ],
+      "question": "Retrieval from last module. AI drafted a paragraph of your coursework. You read it, it sounded right, you submitted it, and the error in it was yours to answer for. Of use it, check it, own it, which one did you actually skip?"
+    },
+    {
+      "body": "Before any interview, before any offer, someone will search your name. Admissions tutors do it, employers do it, and surveys of recruiters consistently find that what they see changes decisions in both directions: people get rejected for what turns up, and people get shortlisted for it too. Page one of that search is your portfolio. It is made of what you posted, what others posted about you, and what you never got round to taking down. The record exists either way. The only choice you actually have is whether it is deliberate.",
+      "type": "concept",
+      "emoji": "🔎",
+      "phase": "teach",
+      "script": "Deliver this straight, no scare tactics, they have heard digital footprint talks since Year 5 and they tune them out. The line that lands at this age is the both directions point: this is not only about old posts costing you offers, it is that a visible record of real work WINS offers. The empty search result is not safe, it is just blank space someone else's imagination fills. Then set up the next slide: let us look at what a search actually turns up.",
+      "heading": "You already have a portfolio. You may not have written it",
+      "minutes": 2
+    },
+    {
+      "meta": "Posted 4 years ago · Public · Page one of a name search",
+      "text": "absolute shambles from our keeper today 😂😂 genuinely might be the worst person ever born, hope he never shows his face at training again",
+      "type": "scenario",
+      "image": "⚽",
+      "label": "Exhibit one",
+      "phase": "teach",
+      "stats": "❤ 43   ↻ 2   💬 17",
+      "avatar": "🎮",
+      "handle": "footy_banter_kj",
+      "prompt": "The account owner is now 18 and applying for medicine. The tutor searched the name. What story does page one tell, and who is its author?",
+      "script": "Take answers on both questions. The story: someone casually vicious about a teammate, frozen at their worst moment, aged fourteen. The author: nobody. That is the real answer, this portfolio has no author, it assembled itself from moments. Then the honest complication: the tutor knows fourteen year olds post rubbish. One old post rarely ends an application. But it starts a story, and the applicant is not in the room to finish it. The fix is not deleting your way to a blank page, it is building enough deliberate record that the accidents become footnotes.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Your name, in a private browsing window, the way a stranger would. Images too. What is actually on page one?",
+          "emoji": "🔍",
+          "title": "Search yourself"
+        },
+        {
+          "text": "Read it as the tutor would: what does this person care about, how do they treat people, what have they made?",
+          "emoji": "⚖️",
+          "title": "Assess the story"
+        },
+        {
+          "text": "Remove what you can that you regret, then add real evidence: projects, writing, things you have actually done.",
+          "emoji": "🧱",
+          "title": "Build deliberately"
+        }
+      ],
+      "script": "Walk the three steps as they build. Step one: the private window matters, logged in results flatter you. Step two is the skill: read your own record as a stranger with a decision to make. Step three is where most footprint lessons stop short: removal is half the job at best. The applicant who wins is not the one with nothing findable, it is the one whose findable record shows real work and real character. Tell them plainly: this audit is on the worksheet as a commitment, and it costs thirty minutes a term.",
+      "caption": "Thirty minutes, once a term. You are the author of your record or you are its accident.",
+      "heading": "The identity audit",
+      "minutes": 3
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "If a stranger searched your name in the next ten minutes, what story would page one tell, and how much of it did you write on purpose?",
+      "script": "Sixty seconds in pairs, timer on screen. Nobody has to confess anything specific, the question is about authorship, not content. After the chime take two or three responses. The pattern you will hear: almost nobody has written their own page one on purpose. Name that as the opportunity, not the failure: in this room, being deliberate about your record puts you ahead of nearly everyone your age.",
+      "lookFor": "Honesty over performance. The strongest answers separate the record they authored from the record that accumulated, and notice how little of it was deliberate.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "body": "Here is the honest middle that the headlines miss on both sides. AI mostly does not delete whole jobs, it reshapes them task by task: the routine layer of a job compresses while the judgement layer grows. A junior lawyer's document search compresses, the decision about what the documents mean expands. A designer's production work compresses, taste about what is worth making expands.",
+      "type": "concept",
+      "emoji": "⚙️",
+      "phase": "teach",
+      "script": "Give the two examples slowly and ask for a third from the room, ideally from a career somebody is actually considering. Task by task is the phrase to repeat.",
+      "heading": "What AI actually does to work",
+      "minutes": 1
+    },
+    {
+      "body": "Whole roles do disappear and new ones appear, but the biggest change for most people is that their job description quietly rewrites itself underneath them. The doom story and the hype story are both simpler than the truth, and both are excuses not to prepare.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "End on the last sentence and let it sit. Both stories are excuses not to prepare, which is the bridge into the skills that endure.",
+      "heading": "Your job description rewrites itself",
+      "minutes": 1
+    },
+    {
+      "type": "stat",
+      "claim": "New roles employers expect to be created worldwide by 2030, against 92 million displaced. That is churn on a huge scale, not collapse: a net gain of 78 million jobs, with the mix of tasks changing inside almost all of them.",
+      "phase": "teach",
+      "figure": "170 million",
+      "script": "Let the figure land, then walk the honest framing out loud, because this number is misused by both camps. The doom camp quotes the 92 million displaced and stops. The hype camp quotes the net gain and stops. The truth needs both numbers: enormous churn, more jobs at the end of it, and the same report finds employers expect around two fifths of core skills to change by 2030. So the question for this room was never will there be jobs. It is which skills survive the churn, and that is exactly where we go next.",
+      "source": "World Economic Forum, Future of Jobs Report 2025",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Before you see the answer: name one part of a job you think AI compresses, and one part it makes worth more.",
+      "script": "Sixty seconds. One thing that shrinks, one thing that gets more valuable. Then we will see how close you were.",
+      "lookFor": "Push past job titles to the layer of the work. Routine output compresses. Judgement, trust and the awkward conversation expand.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "First drafts, lookups, boilerplate, standard analysis. Cheaper every month, for everyone, everywhere.",
+          "emoji": "📉",
+          "title": "Routine production compresses"
+        },
+        {
+          "text": "Someone must decide whether the output is right, whether it is good, and whether it should ship at all.",
+          "emoji": "🧭",
+          "title": "Judgement expands"
+        },
+        {
+          "text": "A human name goes on the work. Clients, patients and voters do not accept the model made me do it.",
+          "emoji": "🤝",
+          "title": "Trust and accountability expand"
+        },
+        {
+          "text": "AI answers the question it is given. The person who asks the right question sets the direction for everything downstream.",
+          "emoji": "❓",
+          "title": "Framing expands"
+        }
+      ],
+      "script": "Walk the four layers as they build. The first one is the uncomfortable truth: if the most valuable thing you can do is produce competent standard work quickly, you are competing with something that does it in seconds for pennies. Then the three layers that grow, and connect each back to something they know: judgement is check it from last module made into a career, accountability is own it made into a career. Land the last one hard: agents will do more and more of the doing. Deciding what is worth doing does not compress, it becomes the whole job.",
+      "caption": "AI unbundles every job. Watch which layer of the work each task lives in.",
+      "heading": "What compresses, what expands",
+      "minutes": 3
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Pick a career someone at your table is genuinely considering. Unbundle it: which of its tasks compress, and which expand?",
+      "script": "Groups of three or four, ninety seconds, real careers only, not hypotheticals. Circulate and listen for anyone still giving whole job verdicts, and nudge them: unbundle it. Take one career per group afterwards and unbundle the trickiest one on the board. If someone raises coding, treat it honestly: typing routine code compresses fast, knowing what to build, whether it works and whether it should exist keeps expanding. Same shape in every field.",
+      "lookFor": "Task level thinking rather than job level verdicts. Weak answers say medicine is safe or coding is doomed. Strong answers split one career into its compressing and expanding tasks.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "body": "Across the research and across every industry, the same cluster of human skills keeps climbing in value: judgement, knowing what good looks like when the options all look plausible. Taste, knowing what is worth making before anyone asks for it. Trust building, being the person others stake their own reputation on.",
+      "type": "concept",
+      "emoji": "🌱",
+      "phase": "teach",
+      "script": "Take these three slowly and give one concrete example of each from a job in the room. Judgement, taste and trust building are abstract until somebody names a person who has them.",
+      "heading": "The skills that endure",
+      "minutes": 1
+    },
+    {
+      "body": "Accountability, putting your name on the outcome and standing there when it is questioned. And asking the right question, because a tool that can answer almost anything makes the choice of question the most powerful move on the board. None of these are talents you are born with. All of them are built the same way as any skill: reps, feedback, and time.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "The last two sentences are the point of the whole module: none of these are innate, all of them are built by reps, feedback and time. Say it and do not soften it.",
+      "heading": "And how they are built",
+      "minutes": 1
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Be specific. Not writing, but producing a clean first draft, or judging whether a piece of writing works.",
+          "emoji": "🎯",
+          "title": "Name the skill"
+        },
+        {
+          "text": "Imagine every rival, every classmate, every applicant has the same tools you do. Because they will.",
+          "emoji": "🌍",
+          "title": "Give everyone AI"
+        },
+        {
+          "text": "If the skill is what the tools do, its value falls. If the skill directs, judges or answers for the tools, its value climbs.",
+          "emoji": "📈",
+          "title": "Watch the price"
+        }
+      ],
+      "script": "This is the tool of the module, walk it slowly as it builds. Step one matters most: vague skills give useless verdicts, which is why writing is a trap answer, it is really several skills in a coat. Step two is the leveller: the tools are not your advantage, everyone gets them. Step three gives the verdict, and point at the third chip: changes shape is the most common honest verdict for big skills, part compresses and part climbs. Run one together now: memorising facts for quick recall. Let them argue it, then land it: mostly less valuable, except where instant recall feeds live judgement.",
+      "caption": "One question sorts every skill: does it get more valuable or less valuable when everyone has AI?",
+      "heading": "The endurance test",
+      "minutes": 3,
+      "verdicts": [
+        "More valuable",
+        "Less valuable",
+        "Changes shape"
+      ]
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Whole class response, then reasoning from two or three pupils. The teaching is in why the wrong answers are wrong: one is doom, one is comfort, and both skip step one of the test by treating writing as a single skill. If anyone asks so why are we still made to write essays, answer it honestly: because judgement over writing is built by doing writing. You cannot referee a game you never played.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It changes shape: producing average prose gets cheaper, but judging and shaping writing climbs in value",
+          "correct": true,
+          "feedback": "Right, and notice what you did: you unbundled the skill before giving the verdict. The person who can tell strong writing from plausible writing, and shape one into the other, is more valuable than ever precisely because fluent average text is now free."
+        },
+        {
+          "text": "Less valuable: AI writes better than most people already, so writing is finished",
+          "correct": false,
+          "feedback": "That is the doom shortcut, and it fails step one of the test: writing is not one skill. Producing average prose does compress. Knowing what good writing is, and making it happen, climbs, and you cannot judge writing you never learned to do."
+        },
+        {
+          "text": "More valuable: employers will always prefer fully human writing",
+          "correct": false,
+          "feedback": "That is the comfort shortcut. Employers mostly cannot tell and increasingly do not ask. The honest answer is a split verdict: the production layer compresses while the judgement layer climbs."
+        }
+      ],
+      "question": "Run the endurance test on writing. Everyone has AI that drafts fluently in seconds. What is the honest verdict?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "options": [
+          "More valuable",
+          "Less valuable",
+          "Changes shape"
+        ],
+        "question": "Your digital identity, ten years out. Does what you post this year become more valuable, less valuable, or change shape entirely?"
+      },
+      "script": "The endurance test as a class vote, and this one has no answer key. Take the vote, tap the bars, then make the case for each bar out loud or hand each bar to a volunteer: more valuable, because a long honest record is proof no CV can fake; less valuable, because platforms die and feeds bury; changes shape, because the you of 28 will be read by tools that do not exist yet. The point lands in the disagreement: whatever you believe, you are building the record either way.",
+      "caption": "Every answer is defensible. The reasons are the lesson.",
+      "minutes": 4,
+      "component": "class-tally"
+    },
+    {
+      "body": "Six items on the worksheet: skills and tasks, from drafting cover letters to building trust with a client. Run the endurance test on each one and give a verdict: more valuable, less valuable, or changes shape. Every verdict needs a reason, and a verdict without a reason does not count. Twelve minutes. The final item is a claim to argue with, and it deserves your best two sentences.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet. Twelve minutes, timer visible, bookmark strips on tables for anyone who wants the three steps in front of them. Support: work items one and two with the group, the verdicts are cleaner there. Stretch: early finishers apply the test to their own strongest subject, unbundled properly. Circulate for one excellent reason to read aloud at the end, especially any honest changes shape verdict with a real split inside it.",
+      "heading": "Run the test yourself",
+      "minutes": 12
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks and these two form the printed quiz, so no discussion until both are answered. This one tests whether the whole argument landed: same tools on both sides cancel out. A wrong answer here, especially the first option, tells you who still thinks the tool is the advantage.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Judgement, trust and a visible record of real work: the things the shared tools cannot supply",
+          "correct": true,
+          "feedback": "Exactly. When the tools are the same on both sides of the table, they cancel out. What is left is everything this lesson named: judgement, taste, trust, accountability, the right questions, and a searchable record that proves it."
+        },
+        {
+          "text": "Whichever one has learned to use the newest AI tools first",
+          "correct": false,
+          "feedback": "Tool skills matter but they are the fastest skills to copy: everyone has the same tools within months. Advantages that everyone can download are not advantages for long."
+        },
+        {
+          "text": "Whichever one is willing to work the longest hours",
+          "correct": false,
+          "feedback": "Hours spent producing routine output compete directly with automation, and that is a race a human loses on price. Value comes from the layers that expand, not from more time in the layer that compresses."
+        }
+      ],
+      "question": "Exit check. In 2030 an employer is choosing between two graduates. Both have the same qualifications and the same AI tools. What actually separates them?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, answered independently. This is the endurance test itself in one question. Collect both answers before any discussion, they are your evidence for who met the outcome. Then, if time allows, ask one volunteer to explain the correct answer using the three steps of the test out loud.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Knowing which question to ask, and standing behind the answer with your name on it",
+          "correct": true,
+          "feedback": "Right. Framing and accountability sit above the tools: AI answers the question it is given and never owns the result. Both climb in value precisely because everything underneath them got cheap."
+        },
+        {
+          "text": "Producing a competent first draft very quickly",
+          "correct": false,
+          "feedback": "That is the clearest example of a compressing task: competent first drafts now cost seconds and pennies. Speed at the routine layer is the value that falls first."
+        },
+        {
+          "text": "Recalling standard facts faster than the people around you",
+          "correct": false,
+          "feedback": "Instant recall of standard facts is exactly what everyone now carries in their pocket. Knowledge still matters, but as fuel for judgement, not as a party trick the tools do better."
+        }
+      ],
+      "question": "Exit check. Which of these gets MORE valuable when everyone has AI?"
+    },
+    {
+      "text": "Everyone gets the same AI. Nobody else gets my judgement, my taste, or my name on the work. That is the portfolio I am building.",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "They are too old to chant it like Year 7, so do not ask them to. Put it up, read it once, and ask them to read it once back, together, deadpan is fine. It still works. This is the sentence you want surfacing in a UCAS statement or an interview answer two years from now.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Your searchable record is a portfolio whether you author it or not. Audit it once a term: search, assess, build deliberately.",
+        "AI reshapes work task by task: routine production compresses while judgement, trust and framing expand. Churn, not collapse.",
+        "The endurance test sorts any skill: does it get more valuable or less valuable when everyone has AI?",
+        "The skills that endure are buildable: judgement, taste, trust, accountability, and asking the right question. Every rep counts."
+      ],
+      "script": "Return to the temperature check from the start: who was optimistic, who was worried. Ask it once more and let them notice the shift, most rooms move toward the middle, which is exactly where the truth lives. Then four pupils read one recap point each. Exit cards out: everyone writes their commitment line, one deliberate step for their record and one human skill they are choosing to build.",
+      "heading": "What to take with you",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Name the skill, specifically. Give everyone the same AI. Does its value climb or fall?",
+        "The ones that climb are the ones to build.",
+        "You know which they are now."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "One thing to take with you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Here is what I know, being made of the stuff everyone keeps arguing about. ⭐",
+        "I can draft, search, summarise and calculate all day. I cannot decide what is worth doing, and I never answer for the result. That part was always yours.",
+        "So build the record you would be proud to have found, and build the skills that climb when tools like me are everywhere: judgement, taste, trust, your name on the work.",
+        "The future of work is not you versus me. It is you, directing everything I can do, with everything only you can. Go build that. I will be right here."
+      ],
+      "phase": "close",
+      "script": "Let DiGi close, the lines appear on their own. There is something quietly powerful about the AI character telling the room what it cannot do, so do not talk over it. Collect exit cards and quizzes on the way out, they are your evidence against the outcome. If the room is up for it, last word from you: see you next module.",
+      "heading": "DiGi signs off",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS5",
+  "module_id": "ks5-21-digital-identity-future-work",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 1,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 21,
+  "parent_note": {
+    "taught": "Today your young adult learned to treat their online record as a portfolio an admissions tutor or employer will actually read, and to test any skill with one question: does it get more valuable or less valuable when everyone has AI? The honest answer from the evidence is churn, not collapse, and the skills that climb are human ones: judgement, taste, trust and accountability.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "The passport's final chapter. Since Reception it has recorded readiness proven at school and trust earned at home, and it ends not with permission granted but with judgement owned. Ask them which human skill they are betting on, and tell them the one that has carried you.",
+    "try_this": "Sit together and search each of your names in a private browsing window, then compare notes: what story does page one tell about each of you, and who wrote it?",
+    "family_question": "Which skill in our family gets MORE valuable now that everyone has AI?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Endurance, value and record need pre teaching in the work sense: what lasts, what it is worth, what is written about you. Human skills named in any language count: judgement is judgement everywhere.",
+      "sensory": "A calm, adult room. The tally is tokens rather than hands up, and the name search is a home task by design: the classroom stays device free.",
+      "attention": "Run the test once as a class on the scripted example before anyone runs it alone. Keep the worked example visible: the structure holds the thinking while the thinking is hard.",
+      "communication": "The endurance test takes one word answers: the skill, then climbs or falls. The name search is private by default and its findings are shared by choice only."
+    },
+    "tool": {
+      "lines": [
+        "Name the skill, specifically.",
+        "Now give everyone the same AI.",
+        "Does its value climb or fall?"
+      ],
+      "heading": "The endurance test",
+      "strapline": "Build the skills that climb: judgement, taste, trust, your name on the work."
+    },
+    "i_can": [
+      "I can name the human skills that hold their value when everyone has the same AI.",
+      "I can run the endurance test on my own plans and choose a skill to build.",
+      "I can explain the record I want found under my own name and how I am building it."
+    ],
+    "cycles": [
+      {
+        "verb": "Audit",
+        "title": "The identity audit",
+        "minutes": 9,
+        "outcome": "I can explain the record I want found under my own name and how I am building it."
+      },
+      {
+        "verb": "Map",
+        "title": "What AI actually does to work",
+        "minutes": 12,
+        "outcome": "I can describe what AI compresses and what it expands."
+      },
+      {
+        "verb": "Test",
+        "title": "Skills that endure",
+        "minutes": 7,
+        "outcome": "I can run the endurance test on my own plans and choose a skill to build."
+      }
+    ],
+    "timing": "65 minutes: starter 11, cycle one (identity as portfolio) 9, cycle two (the jobs landscape) 12, cycle three (skills that endure) 7, practise 13, prove 4, close 5, class interactive 4",
+    "keywords": [
+      {
+        "word": "portfolio",
+        "definition": "The body of work and record that shows what you can do. Your searchable online presence is one, whether you built it on purpose or not."
+      },
+      {
+        "word": "automation",
+        "definition": "A machine doing a defined task without a person. Cheap, fast and tireless at the routine layer of work."
+      },
+      {
+        "word": "agent",
+        "definition": "AI that does not just answer but acts: it plans steps, uses tools and completes tasks. It still needs a person to direct it and own the result."
+      },
+      {
+        "word": "judgement",
+        "definition": "Knowing what good looks like and deciding when the answer is not obvious. AI produces options. Judgement chooses between them."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The endurance test is a paper sheet from the print room.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "A blank search result is the safest online identity.",
+        "teaching_point": "A blank page is not safe, it is spare. Someone else's account of you fills the gap."
+      },
+      {
+        "answer": "It compresses the routine layer and expands judgement, taste and trust.",
+        "format": "short_answer",
+        "question": "What does AI compress, and what does it expand?",
+        "teaching_point": "Both halves. A pupil who answers only the first half has heard a threat, not a map."
+      },
+      {
+        "answer": "Judgement",
+        "format": "fill_blank",
+        "question": "AI produces options. ___ chooses between them, and that is the paid part.",
+        "teaching_point": "The one line of the lesson."
+      },
+      {
+        "answer": "What still needs a person when the tool is free.",
+        "format": "short_answer",
+        "question": "What does the endurance test ask?",
+        "teaching_point": "The tool they leave with. It is applied to their own plan, not to a list of jobs."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "AI will take all the jobs, so there is no point preparing.",
+        "teaching_point": "The work changes shape rather than disappearing, and preparing is exactly what changes your position in it."
+      }
+    ],
+    "worksheet": {
+      "title": "The endurance test: which skills survive?",
+      "directions": "Run the endurance test on each item and give a verdict with a reason, because a verdict without a reason does not count.",
+      "verdict_options": [
+        "More valuable",
+        "Less valuable",
+        "Changes shape"
+      ]
+    },
+    "teacher_tip": "Do not predict specific jobs disappearing by a date. Name the layer that compresses and let students apply it to their own plan, which is the transferable part.",
+    "starter_quiz": [
+      {
+        "answer": "It acts rather than only answers: it plans steps, uses tools and completes tasks.",
+        "format": "short_answer",
+        "question": "What does an AI agent do?",
+        "teaching_point": "Carried forward from ks5-20. It is the thing reshaping the work in this lesson."
+      },
+      {
+        "answer": "The trail of everything you have posted, sent, liked or typed online.",
+        "format": "short_answer",
+        "question": "What is a digital footprint?",
+        "teaching_point": "Carried forward from ks2-07. Today it is renamed a portfolio and taken seriously."
+      },
+      {
+        "answer": "Any answer, including no idea yet.",
+        "format": "short_answer",
+        "question": "What is your plan for after school, however loose?",
+        "teaching_point": "No idea yet is a real answer and this lesson works for it. Say so before you ask."
+      },
+      {
+        "answer": "Judgement and taste",
+        "format": "tick_one",
+        "options": [
+          "Speed",
+          "Judgement and taste",
+          "Nothing"
+        ],
+        "question": "If everyone has the same AI, what makes one person's work worth more?",
+        "teaching_point": "The essential question, asked cold. Come back to their first answer at the end."
+      }
+    ],
+    "misconceptions": [
+      "AI will take all the jobs, so there is no point preparing (the WEF Future of Jobs data shows churn, not collapse: 170 million roles created against 92 million displaced by 2030, with tasks changing inside jobs far more than jobs vanishing)",
+      "A clean or empty search result is the safe online identity (a blank page is not safe, it is space a stranger's imagination fills, and applicants win with a deliberate record of real work, not with absence)",
+      "Human skills like judgement and taste are personality traits you either have or you do not (they are trainable skills built through reps and feedback, which is exactly why essays, rehearsals and part time work still matter)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack: the tutor search scenario is on the sheet as a described exhibit, the identity audit and endurance test diagrams are printed as the bookmark, discussions run on a watch or wall clock, worksheet verdicts are written not clicked, and the two exit questions are the printed quiz page. Nothing in the lesson requires a live search or a device.",
+    "passport_stage": "after",
+    "commitment_stem": "My commitment: this week I will search my own name and take one deliberate step to build the record I want found, and the human skill I am choosing to build first is...",
+    "differentiation": {
+      "stretch": "Early finishers run the endurance test on their own strongest subject, unbundled into at least three separate tasks with a verdict and reason for each, then draft the first line of the deliberate record they would want an admissions tutor to find.",
+      "support": "Work worksheet items one and two with the group, where the verdicts are cleanest, and keep the bookmark strip with the three steps of the endurance test on the table. Accept verbal reasons scribed by a partner."
+    },
+    "prior_knowledge": [
+      "A student can explain what an AI agent does, from ks5-20.",
+      "A student can describe their own digital footprint, from ks2-07.",
+      "A student has a plan, however loose, for what comes after school."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Producing a clean, competent first draft of a standard cover letter in twenty minutes.",
+        "teaching_point": "Routine production is the first layer to compress: competent standard drafts now cost seconds. If speed at the routine layer is the whole skill, its price falls.",
+        "expected_verdict": "Less valuable"
+      },
+      {
+        "n": 2,
+        "item": "Being the person a client trusts to tell them the truth about their project, even when the truth is unwelcome.",
+        "teaching_point": "Trust is built between people over time and cannot be downloaded. When output is cheap and plentiful, the trusted judge of it becomes the scarce thing.",
+        "expected_verdict": "More valuable"
+      },
+      {
+        "n": 3,
+        "item": "Writing, all of it: from coursework essays to journalism.",
+        "teaching_point": "Step one of the test: unbundle vague skills. Producing average prose compresses, while judging, shaping and standing behind writing climbs. Big skills usually split.",
+        "expected_verdict": "Changes shape"
+      },
+      {
+        "n": 4,
+        "item": "Learning to code for a career in software.",
+        "teaching_point": "Typing routine code compresses fast, but knowing what to build, whether it works and whether it should exist keeps expanding. You direct the tools better because you learned the craft.",
+        "expected_verdict": "Changes shape"
+      },
+      {
+        "n": 5,
+        "item": "In a meeting where everyone is waiting for the AI summary, being the one who asks the question nobody thought to ask.",
+        "teaching_point": "Framing sits above the tools. AI answers the question it is given, so the person who chooses the question sets the direction for everything downstream.",
+        "expected_verdict": "More valuable"
+      },
+      {
+        "n": 6,
+        "item": "Sam says: there is no point revising or building skills, because AI will be better than us at everything by the time we graduate. Do you agree? Run the endurance test and explain your reasoning.",
+        "teaching_point": "Doom is as lazy as hype. The evidence shows churn with a net gain in jobs, and the skills that climb (judgement, taste, trust, accountability, framing) are built through exactly the practice Sam wants to skip.",
+        "expected_verdict": "More valuable"
+      }
+    ],
+    "essential_question": "What will still be worth paying me for in ten years?",
+    "learning_objective": "Pupils can audit and deliberately build their online record as a portfolio, describe how AI reshapes work at the task level, and use the endurance test to name the human skills they are building that AI cannot replace.",
+    "key_learning_points": [
+      "You already have a portfolio. The question is whether you wrote it on purpose.",
+      "Automation is cheap and tireless at the routine layer of work.",
+      "What compresses is the routine. What expands is judgement, taste and trust.",
+      "AI produces options. Judgement chooses between them, and that is the paid part.",
+      "The endurance test asks what still needs a person when the tool is free."
+    ]
+  }
+}

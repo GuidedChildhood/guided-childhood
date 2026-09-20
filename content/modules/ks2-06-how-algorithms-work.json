@@ -1,0 +1,704 @@
+{
+  "row": {
+    "title": "How algorithms work",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 3 to 6",
+    "sort_order": 6,
+    "efcw_strands": [
+      5,
+      6
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "DiGi",
+    "evidence_anchor": "Attention economy research",
+    "statutory_hooks": [
+      "Computing",
+      "EfCW"
+    ],
+    "single_action_outcome": "I can explain why my feed keeps me watching."
+  },
+  "slides": [
+    {
+      "body": "One hour, one secret recipe: find out why your feed always knows exactly what you want to watch next.",
+      "type": "title",
+      "phase": "starter",
+      "title": "How algorithms work",
+      "script": "Settle everyone with this slide up. Big opener: has anyone ever said just one more video and then looked up and half an hour had vanished? Take the laughs and the guilty hands. Today we find out exactly why that happens, and it is not because you are weak willed. There is a recipe behind your feed, and by the end of this hour you will know it.",
+      "eyebrow": "KS2 · Years 3 to 6 · Module 6",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_083441_f5d4c661-8140-42b1-8b1e-ee4f26877a20.mp4",
+      "type": "video",
+      "phase": "starter",
+      "script": "Play the clip once through. Then ask: what is the app really watching?",
+      "caption": "DiGi explains how the algorithm works",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "An app is following a recipe somebody wrote. Today you find out what that recipe is watching."
+        ],
+        "described": "DiGi, the golden star, floats at the front of a classroom, glowing softly and bobbing gently as it talks to the class. The children sit on the carpet and watch."
+      }
+    },
+    {
+      "why": "Every feed you scroll is run by an algorithm, a recipe of steps that decides what you see next. It is very good at its job, and its job is to keep you watching. Once you know the recipe, the feed stops being a mystery and you get to be the one in charge.",
+      "type": "objective",
+      "gains": [
+        "Explain what an algorithm is using the recipe idea",
+        "Say the feed loop from memory: you watch, it learns, it serves more",
+        "Spot the clues you leave behind that teach the feed what to show you",
+        "Explain why the feed never runs out, and why an ending matters"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Ask: hands up if you think the app somehow KNOWS what you like. Keep a rough count of the hands. At the end of the lesson we will ask again, because by then everyone will know it is not magic, it is a recipe, and they will be able to say exactly how it works.",
+      "minutes": 2,
+      "outcome": "I can explain why my feed keeps me watching."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner the last video an app showed you that you had not gone looking for.",
+      "script": "Sixty seconds. The last thing an app put in front of you that you never searched for. Hold that in your head, because by the end of today you will know exactly why you got it.",
+      "lookFor": "Everybody has one, and nobody chose it. That is the whole lesson, and they got there before we started.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "algorithm",
+          "meaning": "A list of steps a computer follows in order to get a job done. A recipe for machines."
+        },
+        {
+          "word": "feed",
+          "meaning": "The stream of videos and posts an app lines up for you. You do not choose it, the algorithm does."
+        },
+        {
+          "word": "data",
+          "meaning": "The clues you leave behind: what you watch, tap, pause on, rewatch and skip."
+        },
+        {
+          "word": "attention",
+          "meaning": "Your watching time. It is what the app collects, and it is the most valuable thing you carry."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Algorithm is the big scary sounding one, so take the fear out of it now: it is just a recipe, and by the end of today they will have run one themselves on paper. Data is the sneaky one: point out that skipping a video is a clue too. Even doing nothing tells the app something.",
+      "heading": "Squad words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson, thirty seconds of thinking time before hands go up. Cold call two pupils for the reasoning, not just the answer. The point to land: the spend spotters were about games taking your money. Today we meet a machine that is after something even more valuable than money.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Rushing you with a timer AND hiding the prize behind raffle randomness",
+          "correct": true,
+          "feedback": "Sharp spotting. The countdown rushes your thinking and the mystery chest is a raffle, you pay before you know what you get. Tricks love to team up."
+        },
+        {
+          "text": "No tricks, the timer is just being helpful",
+          "correct": false,
+          "feedback": "A real bargain can wait while you think. A timer that pushes you to decide in seconds is the rush trick, and it is there on purpose."
+        },
+        {
+          "text": "Only hiding the real price",
+          "correct": false,
+          "feedback": "Hidden prices are a spend spotter trick, but look again: the countdown is rushing you and the mystery chest is raffle randomness. Two tricks at once."
+        }
+      ],
+      "question": "Mission memory from last time. A game flashes OFFER ENDS IN 4 MINUTES over a glowing mystery chest. Which spend spotter tricks are firing?"
+    },
+    {
+      "body": "An algorithm sounds complicated, but it is just a list of steps followed in order to get a result. A cake recipe is an algorithm. Your route to school is an algorithm. A dance routine is an algorithm. Computers cannot think or guess, so they follow their steps exactly, every single time, millions of times a second. No magic, no brain, just steps.",
+      "type": "concept",
+      "emoji": "🍰",
+      "phase": "teach",
+      "script": "Kill the mystery early. Ask the class for algorithms they already know: brushing teeth, tying laces, a penalty run up. Take three or four. Then the key line: a computer follows its recipe perfectly but has no idea what any of it means. It does not know what a cat video is. It just follows steps. Hold that thought, it matters later. Say this, as written: Search boxes follow a recipe too. When you search for something, nobody hands you all the answers in the world: a recipe picks which ones to show you first, and the ones at the very top are often there because a company paid to be there. First does not mean truest. It means chosen. Add the search box lines once the recipe idea has landed, because they are the same idea in the place children trust most. Most of this class believes a search result is just the answer. Two sentences fix that: something chose the order, and the top ones are sometimes adverts. Ask for a show of hands on who thought the first result was the best one. Do not spend more than a minute.",
+      "heading": "An algorithm is a recipe",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Tell your partner the algorithm for making a jam sandwich. Every step, in order. Then swap: what goes wrong if the steps are in the wrong order?",
+      "script": "Sixty seconds on the timer, partner talk. After the chime, act out the funniest wrong order answer you heard, jam straight onto the plate works well. Then land it: you noticed it was wrong because you can think. A computer cannot. It just follows the steps it was given. So whoever writes the steps is really in charge.",
+      "lookFor": "Precise steps in a sensible order, and the giggle moment when someone spreads jam before getting bread out. The learning: order matters, and a computer would follow the wrong order without noticing anything was wrong.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check, hands or devices. If anyone picks the third answer, celebrate the suspicion but sharpen it: an algorithm is a tool, like a recipe. A recipe can make a birthday cake or something horrible. The question is always what result the steps are chasing. Perfect setup for the next slide.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "A magic robot brain that thinks like a person",
+          "correct": false,
+          "feedback": "No brain, no thinking, no magic. It is steps followed in order. The spooky feeling that the app knows you comes from somewhere else, and we are about to find it."
+        },
+        {
+          "text": "A list of steps followed in order to get a result",
+          "correct": true,
+          "feedback": "Exactly. A recipe. And once you know a recipe exists, you can ask the detective question: who wrote it, and what result is it cooking up?"
+        },
+        {
+          "text": "A trick apps use to be sneaky",
+          "correct": false,
+          "feedback": "Close but not quite. Algorithms themselves are just steps, and most are helpful. What matters is the result the steps are written to get. That is today's mystery."
+        }
+      ],
+      "question": "Which of these is closest to what an algorithm really is?"
+    },
+    {
+      "meta": "2h · Recommended for you",
+      "text": "CAT #47 😂 this kitten discovers a mirror and loses its MIND. You are not ready for the ending 👇",
+      "type": "scenario",
+      "image": "🎬",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 312K   ↻ 96.4K   💬 28.1K",
+      "avatar": "🐱",
+      "handle": "cats.of.the.internet",
+      "prompt": "Alma watched ONE cat video on Monday. By Friday her feed is wall to wall cats. Vote: is the app reading her mind, or is something else going on?",
+      "script": "Run the vote, hands up for mind reading versus something else. Most classes split. Then the reveal question: what did Alma actually DO on Monday? She watched a cat video all the way through, maybe rewatched the funny bit, maybe smiled at her screen. The app cannot see the smile. But it counted everything else. Let that hang, then move on.",
+      "minutes": 3,
+      "platform": "feed"
+    },
+    {
+      "body": "While you watch the feed, the feed watches you. Every video you finish, every one you skip, every pause, every rewatch, every like: all of it becomes data, the clues in the recipe. The feed's algorithm scores thousands of videos against your clues and serves the highest scorer next. It is not reading your mind. It is reading your thumb.",
+      "type": "concept",
+      "emoji": "🔎",
+      "phase": "teach",
+      "script": "The line to say slowly: it is not reading your mind, it is reading your thumb. Ask the class which clue they think counts the most. Likes usually win the vote, then flip it: watch time is the loudest clue of all. You never have to tap anything. Just watching to the end shouts SHOW ME MORE, even when you did not enjoy it. Faces usually change at that one.",
+      "heading": "The feed watches you back",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check before the loop. You skip something after two seconds. What did you just tell it. Everyone thinks, then I will take hands.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "That you did not want that one, so it will try something different.",
+          "correct": true,
+          "feedback": "Yes. A skip is a signal too. You are teaching it every second, whether you mean to or not."
+        },
+        {
+          "text": "Nothing. Skipping does not count.",
+          "correct": false,
+          "feedback": "It counts. The feed reads what you skip just as carefully as what you finish."
+        },
+        {
+          "text": "That you want more of exactly that one.",
+          "correct": false,
+          "feedback": "The opposite. Finishing says more please, skipping says try again."
+        }
+      ],
+      "question": "You skip a video after two seconds. What has the feed just learned about you?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Every second is counted, even when you never like, comment or tap a thing.",
+          "emoji": "👀",
+          "title": "You watch"
+        },
+        {
+          "text": "Your pauses, rewatches and skips become clues. The recipe scores what to try on you next.",
+          "emoji": "🧠",
+          "title": "It learns"
+        },
+        {
+          "text": "The highest scoring video slides in before you can decide, and the loop starts again.",
+          "emoji": "📺",
+          "title": "It serves more"
+        }
+      ],
+      "script": "Walk the loop as it builds, tracing the circle with your finger. Then chant it as a class, twice: you watch, it learns, it serves more. Now the detective question: what is this recipe cooking? Not your happiness. Not your learning. Watching time. The loop has one job, keep the loop spinning. This diagram is the whole lesson, so do not rush it.",
+      "caption": "This loop spins every time you open the app. Say it with me: you watch, it learns, it serves more.",
+      "heading": "The feed loop",
+      "minutes": 4
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick loop check, hands or devices. The misconception to smash here is option two: loads of pupils believe that if they never like anything, the feed learns nothing. Say it plainly: silence is not invisibility. Watch time talks even when your thumbs stay still.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Serves you more fails and skateboard videos, because your watching taught it to",
+          "correct": true,
+          "feedback": "That is the loop. You watch, it learns, it serves more. You never asked for more fails. Your watch time asked for you."
+        },
+        {
+          "text": "Nothing, because you did not press like",
+          "correct": false,
+          "feedback": "The like button is the quietest clue there is. Watching to the end and rewatching are the loudest. The loop heard you perfectly."
+        },
+        {
+          "text": "Shows you something totally random to keep things fair",
+          "correct": false,
+          "feedback": "The feed is never random and it is not trying to be fair. It is trying to keep the loop spinning, so it serves whatever your clues scored highest."
+        }
+      ],
+      "question": "You watch a skateboard fail video right to the end and rewatch the crash twice. What does the feed loop do next?"
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Think about YOUR feed, or a feed you have seen at home. What three things has the loop learned about you or your family? What did you DO to teach it each one?",
+      "script": "Groups of three or four, two minutes on the timer. This is the moment the lesson becomes about THEM, so circulate and collect the best examples. After the chime take one from each group. Keep it warm and shame free: everyone's feed has learned something, including yours, and sharing your own example first gives the room permission. The killer follow up: did you MEAN to teach it that?",
+      "lookFor": "Pupils connecting their own behaviour to what gets served: I watched one football clip so now it is all football, my mum paused on cake videos so her feed is full of baking. No shame in any of it, the win is pupils seeing themselves inside the loop.",
+      "minutes": 3,
+      "seconds": 120
+    },
+    {
+      "body": "Here is the sneakiest part of the recipe: the feed never runs out. No last page, no final video, no THE END. The next video is always loaded before you finish this one, and autoplay starts it without asking. Why? Because an ending is a moment to choose. Finish a book and you decide what happens next. The feed is built to never hand you that moment.",
+      "type": "concept",
+      "emoji": "🥣",
+      "phase": "teach",
+      "script": "Use the cereal bowl picture: imagine a bowl that silently refills itself before you ever see the bottom. You would eat way more than you meant to, not because you are greedy but because the STOP moment got stolen. That is the feed. Ask: when does a TV episode give you a choose moment? The end. When does the feed? Never, unless you make one yourself. That is not an accident, it is the recipe working.",
+      "heading": "The bottomless bowl",
+      "minutes": 3
+    },
+    {
+      "type": "stat",
+      "claim": "96 in every 100 UK children aged 3 to 17 watch video sharing platforms, so nearly everyone in this room meets a feed algorithm most days.",
+      "phase": "teach",
+      "figure": "96%",
+      "script": "Let the number land. Then the reframe: this is not a lesson about some other kid's problem. Almost every one of us steps into the loop most days, which is exactly why knowing the recipe matters. This is equipment, not a telling off.",
+      "source": "Ofcom Children and Parents: Media Use and Attitudes report, 2024",
+      "minutes": 1
+    },
+    {
+      "meta": "Squad chat · 21:04",
+      "text": "ok so I said ONE video after homework 😅 I did not press ANYTHING I promise, video 15 just started on its own and now it is 9 o clock. how did that even happen",
+      "type": "scenario",
+      "image": "📱",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "⚽",
+      "handle": "Teo ⚽",
+      "prompt": "Teo thinks he did nothing. Use the feed loop to explain to Teo exactly what happened, step by step.",
+      "script": "Pair talk, thirty seconds, then take answers. The class should be able to narrate it now: Teo watched, the loop learned, autoplay served more, and the bottomless bowl never gave him an ending to stop at. The big point: Teo is not weak and he is not in trouble. He was playing against a recipe he could not see. Now he can see it, and so can we.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "So is the feed a monster? No. It is a machine, and machines do not hate you or love you. This one feeds on attention, so it serves whatever keeps you watching. Sometimes that is brilliant: new skills, new ideas, things that make you laugh. The skill is knowing whose turn it is. When you choose what to watch, you are using the feed. When video 15 autoplays at 9pm, the feed is using you. Knowing the recipe is how you tell the difference.",
+      "type": "concept",
+      "emoji": "⭐",
+      "phase": "teach",
+      "script": "This is the calibration slide, so resist any temptation to make the feed the villain. Ask for hands: who has learned something genuinely great from a feed? Take two examples and celebrate them. Then the line that sticks: the feed is a tool that feeds on attention. Tools are fine when you are holding them. The question to carry out of the room is simply, whose turn is it, mine or the loop's?",
+      "heading": "Not magic, not evil, and now you know the recipe",
+      "minutes": 2
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time · everyone together",
+        "seconds": 4,
+        "register": "playful",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "laps": 4
+      },
+      "script": "The lesson's own tool, drawn live. Press start and narrate the laps as the dot speeds up: you watch, the feed learns, more of the same, you watch more. When the bubble closes, ask the class where the weakest link in the loop is. The answer is step one: the only part the feed cannot control is whether you notice and choose. Run it again and have the class call out each station as the dot passes it.",
+      "caption": "Watch the loop close. Each lap is faster than the last.",
+      "minutes": 4,
+      "component": "feed-loop"
+    },
+    {
+      "body": "Your teacher has six video cards on the worksheet, each showing how a viewer behaved: watched to the end, rewatched, liked, paused or skipped. YOU are the algorithm. Use the scoring rules on the sheet to score every card, then give each one a verdict: serve more, show sometimes, or bury it. Fifteen minutes. When you finish, answer the big question at the bottom: what has this feed learned about its viewer, and did the viewer mean to teach it?",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet. Fifteen minutes, feed loop bookmarks on tables for anyone who wants the loop in front of them. Support group works items one to three with you, saying the loop out loud as they score. Stretch question for early finishers: invent one new rule that would make this feed kinder to its viewer. Circulate and grab one brilliant answer to item six to read out. The magic moment to watch for: pupils realising the scary prank video scores HIGH. The algorithm cannot tell fun from fear, it only counts watching.",
+      "heading": "Be the algorithm, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks and this one IS the lesson outcome, so treat it as your evidence. Silent, independent answers. A pupil who picks the first option and can mutter the loop chant has met the objective. Anyone on mind reading needs the diagram slide again, the back button works.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The loop learned from what you watched, paused on and rewatched, then served more",
+          "correct": true,
+          "feedback": "That is the feed loop, said like someone who knows the recipe. You watch, it learns, it serves more. No magic anywhere."
+        },
+        {
+          "text": "The app read your mind and knows you love football",
+          "correct": false,
+          "feedback": "No app can read a mind. It read your thumb: your watch time, pauses and rewatches taught it exactly what to serve."
+        },
+        {
+          "text": "It is a lucky coincidence",
+          "correct": false,
+          "feedback": "The feed is never a coincidence. Every video was picked by a recipe scoring your clues. Once you know that, feeds stop being spooky."
+        }
+      ],
+      "question": "Exit check one. Your feed has become wall to wall football videos. What is the honest explanation?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, same rules, silent and independent. This one tests the bottomless bowl idea. Both exit checks go home on the printed quiz, so collect them in, they are your evidence for the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "An ending would hand you a moment to choose, and the feed is built to keep you watching",
+          "correct": true,
+          "feedback": "Exactly. The bottomless bowl is on purpose. Endings are choose moments, so the recipe deletes them. Making your own ending is taking charge."
+        },
+        {
+          "text": "There are so many videos it would be impossible to run out",
+          "correct": false,
+          "feedback": "There are lots of videos, but that is not why there is no ending. The recipe deliberately loads the next one and autoplays it so you never reach a stopping point."
+        },
+        {
+          "text": "The app wants to make sure you never miss anything important",
+          "correct": false,
+          "feedback": "The feed does not know what is important to you, it only knows what keeps you watching. The endless scroll serves the loop, not you."
+        }
+      ],
+      "question": "Exit check two. Why does the feed never run out?"
+    },
+    {
+      "text": "You watch, it learns, it serves more. I know the loop, so I choose when it stops!",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "Whole class, twice, louder the second time. This is the sentence you want repeated at dinner tables tonight, so make it feel like a squad chant, not a test answer. Point at each part of the loop diagram on the wall or board as they say it if you can.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "An algorithm is a recipe of steps. No magic, no brain, just steps followed exactly.",
+        "The feed loop: you watch, it learns, it serves more. Your watch time is the loudest clue you give it.",
+        "The feed never runs out on purpose. Endings are choose moments, so the recipe removes them.",
+        "The feed is not evil and not magic. It is a machine that feeds on attention, and knowing the recipe puts you back in charge."
+      ],
+      "script": "Return to the hands up count from the start: who thought the app somehow KNOWS what you like? Ask it again now and enjoy the difference. Then the recap, read by pupils, one point each. Finish with the question they take home: whose turn is it tonight, yours or the loop's?",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your mission.",
+        "Next time your feed knows what you want next, say the recipe: you watch, it learns, it serves more.",
+        "Once you can say it, it works a little less well on you."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "DiGi's mission for you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks2-06-how-algorithms-work",
+        "register": "playful",
+        "placement": "builder"
+      },
+      "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Squad, you cracked my favourite case! ⭐",
+        "The feed loop: you watch, it learns, it serves more. It is a recipe, and now you can read it.",
+        "Your mission this week: catch autoplay starting one video you never chose, and make your own ending. That is you taking your turn back.",
+        "The feed is clever, but it only has a recipe. You have a whole brilliant brain. Shine on, and I will see you next mission!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. While it plays, pupils write their commitment line on the exit card: what they will do next time a video starts on its own. Exit quizzes collected in as they leave.",
+      "heading": "DiGi wraps it up",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS2",
+  "module_id": "ks2-06-how-algorithms-work",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 6,
+  "parent_note": {
+    "taught": "Today your child learned what an algorithm really is (a recipe of steps, not magic) and how the feed loop works: you watch, it learns, it serves more. They played the algorithm themselves on paper, scoring videos the way a feed does, and discovered why feeds never run out.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to draw you the feed loop.",
+    "try_this": "Sit with your child for five minutes of a feed, yours or theirs, and count together how many videos arrived without anyone choosing them. Then let your child explain the loop to you. They know the whole recipe.",
+    "family_question": "What do you think your feed has learned about you, and did you mean to teach it that?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Watch, learn, serve: three verbs, pre taught, acted out with a ball. I throw, you catch, you throw back more. The whole model lives in those three verbs.",
+      "sensory": "The paper version of the algorithm teaches the identical loop with no motion at all, and the player honours reduced motion where the projector browser sets it. Choose the version this room needs.",
+      "attention": "The feed loop interactive moves fast on purpose. Run it twice: once to feel the pull, once with a pupil as the caller saying stop at each step of the loop.",
+      "communication": "The be the algorithm activity scores videos with numbers, no sentences needed. Sentence stem for the plenary: the feed learned that I like."
+    },
+    "tool": {
+      "lines": [
+        "You watch",
+        "It learns",
+        "It serves more"
+      ],
+      "heading": "The feed loop",
+      "strapline": "The feed loop: you watch, it learns, it serves more."
+    },
+    "i_can": [
+      "I can describe the feed loop: you watch, it learns, it serves more.",
+      "I can catch the loop working on me when a video starts on its own.",
+      "I can explain to someone at home why my feed shows me what it shows me."
+    ],
+    "cycles": [
+      {
+        "verb": "Learn",
+        "title": "An algorithm is a recipe",
+        "minutes": 13,
+        "outcome": "I can say what an algorithm is in my own words."
+      },
+      {
+        "verb": "Trace",
+        "title": "The feed loop",
+        "minutes": 9,
+        "outcome": "I can describe the feed loop: you watch, it learns, it serves more."
+      },
+      {
+        "verb": "Catch",
+        "title": "The bottomless bowl",
+        "minutes": 8,
+        "outcome": "I can catch the loop working on me when a video starts on its own."
+      }
+    ],
+    "timing": "71 minutes: starter 11, cycle one (algorithms are recipes) 13, cycle two (the feed loop) 9, cycle three (the bottomless bowl) 8, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "algorithm",
+        "definition": "A list of steps a computer follows in order to get a job done. A recipe for machines."
+      },
+      {
+        "word": "feed",
+        "definition": "The stream of videos and posts an app lines up for you. You do not choose it, the algorithm does."
+      },
+      {
+        "word": "data",
+        "definition": "The clues you leave behind: what you watch, tap, pause on, rewatch and skip."
+      },
+      {
+        "word": "attention",
+        "definition": "Your watching time. It is what the app collects, and it is the most valuable thing you carry."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The feed examples are built into the deck, so no live app is opened in the classroom.",
+    "exit_quiz": [
+      {
+        "answer": "steps",
+        "format": "fill_blank",
+        "question": "An algorithm is a list of ___ followed in order.",
+        "teaching_point": "A recipe for machines. Plain, and it should come back plainly."
+      },
+      {
+        "answer": "You watch, it learns, it serves more.",
+        "format": "short_answer",
+        "question": "Say the feed loop in three steps.",
+        "teaching_point": "The tool they leave with. Three steps, in order, and it should be quick."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "If I never like or comment, the feed learns nothing about me.",
+        "teaching_point": "Watch time is the loudest clue of all. This is the misconception most pupils arrive holding."
+      },
+      {
+        "answer": "Your attention",
+        "format": "tick_one",
+        "options": [
+          "Your money",
+          "Your attention",
+          "Your homework"
+        ],
+        "question": "What is the app actually collecting from you?",
+        "teaching_point": "Attention is the product. Once a pupil sees that, the rest of the lesson explains itself."
+      },
+      {
+        "answer": "Because an ending would be a place to stop, and the app does not want you to stop.",
+        "format": "short_answer",
+        "question": "Why does the feed never end?",
+        "teaching_point": "The bottomless bowl. Accept any answer that names the missing finishing line."
+      }
+    ],
+    "worksheet": {
+      "title": "Be the algorithm",
+      "directions": "You are the feed's algorithm: score each video card with the rules (watched to the end +2, rewatched +3, liked +1, paused on it +1, skipped after a few seconds take away 2), then give your verdict.",
+      "verdict_options": [
+        "Serve more",
+        "Show sometimes",
+        "Bury it"
+      ]
+    },
+    "teacher_tip": "Run the jam sandwich algorithm properly before the feed appears. Pupils who have argued about whether you open the jar first understand order, and order is the whole idea.",
+    "starter_quiz": [
+      {
+        "answer": "Any ordered set of steps ending with a sandwich.",
+        "format": "short_answer",
+        "question": "Give the steps for making a jam sandwich, in order.",
+        "teaching_point": "This is an algorithm and they already know how to write one. Say so when you mark it."
+      },
+      {
+        "answer": "A countdown clock",
+        "format": "tick_one",
+        "options": [
+          "A countdown clock",
+          "A loading screen",
+          "A volume button"
+        ],
+        "question": "Which of these is something a game does to keep you playing?",
+        "teaching_point": "Carried forward from ks2-05. Designed to keep you going, and they can already spot one."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "You have seen a feed of videos or posts, on your own device or someone else's.",
+        "teaching_point": "Not a knowledge check. A show of hands that tells you how close the lesson is to their real life."
+      },
+      {
+        "answer": "Instructions, in the right order.",
+        "format": "short_answer",
+        "question": "What does a computer need in order to do a job?",
+        "teaching_point": "The one idea the whole lesson is built on. Anything close to this is a pass."
+      }
+    ],
+    "misconceptions": [
+      "The app reads my mind (it reads behaviour, not minds: watch time, pauses, rewatches and skips are the only clues it has, and they are enough)",
+      "If I never like or comment, the feed learns nothing about me (watch time is the loudest clue of all, silence is not invisibility)",
+      "The feed is evil and out to get kids (it is a machine optimised for attention, not a villain, and it can serve brilliant things: the skill is knowing whose turn it is, yours or the loop's)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Draw the feed loop as a circle of three arrows on the board and have the class chant it. Read both scenarios aloud in character, Alma's cat feed and Teo's 9pm message, and run the votes with hands up. Choice slides become read aloud questions with corner voting. The worksheet is already a paper algorithm, so the practise phase needs no screen at all. Exit checks run from the printed quiz.",
+    "passport_stage": "builder",
+    "commitment_stem": "My commitment: next time a video starts on its own, I will...",
+    "differentiation": {
+      "stretch": "Early finishers invent one new scoring rule that would make the feed kinder to its viewer and explain what would change, or write what a feed would honestly learn about them after one week and whether they meant to teach it.",
+      "support": "Work worksheet items one to three as a guided group, saying the loop out loud at each step. Feed loop bookmark strips on the table so the three steps and the scoring rules are always in front of them. Scores can be tallied with counters."
+    },
+    "prior_knowledge": [
+      "A pupil can follow and give a set of instructions in order.",
+      "A pupil can name something a game does to keep them playing, from ks2-05.",
+      "A pupil has seen a feed, on their own device or someone else's."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A skateboard fail video. The viewer watched it to the very end and rewatched the crash twice.",
+        "teaching_point": "Watched to the end plus two rewatches is a huge score. Nobody pressed like, and the loop still heard everything. Watch time is the loudest clue.",
+        "expected_verdict": "Serve more"
+      },
+      {
+        "n": 2,
+        "item": "A ten minute craft tutorial. The viewer skipped it after three seconds.",
+        "teaching_point": "A fast skip scores below zero. The loop learns from what you refuse just as much as from what you finish.",
+        "expected_verdict": "Bury it"
+      },
+      {
+        "n": 3,
+        "item": "A puppy video. The viewer pressed like but skipped away halfway through.",
+        "teaching_point": "A like plus a skip lands in the middle. When the thumb and the watch time disagree, the algorithm trusts the watch time more than the like.",
+        "expected_verdict": "Show sometimes"
+      },
+      {
+        "n": 4,
+        "item": "A scary prank video that made the viewer feel horrible, but they watched every second because they could not look away.",
+        "teaching_point": "The uncomfortable one, and the most important. The recipe counts watching, not enjoying. It cannot tell fun from fear, so feeling horrible can still teach the feed to serve more of the same.",
+        "expected_verdict": "Serve more"
+      },
+      {
+        "n": 5,
+        "item": "A football skills video. The viewer never liked it, but paused their scrolling on it and then watched three more football videos in a row.",
+        "teaching_point": "Pausing is data and so is the pattern that follows. Three in a row is a shout, and by tomorrow this feed is a football feed.",
+        "expected_verdict": "Serve more"
+      },
+      {
+        "n": 6,
+        "item": "Teo says: the app is being kind to me, it gives me videos I love for free. Do you agree? Use the feed loop in your answer.",
+        "teaching_point": "Partly agree at best. The videos do arrive and some are great, but they are not free and it is not kindness: the viewer pays in attention, and the loop serves whatever keeps them watching. Strong answers name all three steps of the loop.",
+        "expected_verdict": "Serve more"
+      }
+    ],
+    "essential_question": "Why does my feed always seem to know what I want next?",
+    "learning_objective": "Pupils can explain the feed loop (you watch, it learns, it serves more) and use it to explain why a feed keeps them watching and never runs out.",
+    "key_learning_points": [
+      "An algorithm is a list of steps followed in order. A recipe for machines.",
+      "While you watch the feed, the feed watches you.",
+      "The loop is: you watch, it learns, it serves more of the same.",
+      "Your attention is what the app collects, and it is the thing being sold.",
+      "The feed never ends on purpose, because an ending is a place to stop."
+    ]
+  }
+}

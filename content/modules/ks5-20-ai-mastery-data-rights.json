@@ -1,0 +1,759 @@
+{
+  "row": {
+    "title": "AI mastery and data rights",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 12 to 13",
+    "sort_order": 20,
+    "efcw_strands": [
+      5,
+      7,
+      8
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Create with AI",
+      "Manage AI",
+      "Design AI"
+    ],
+    "character_cast": "DiGi with motion graphics",
+    "evidence_anchor": "AILit four domains, student use and skill divide",
+    "statutory_hooks": [
+      "DfE AI in education",
+      "AILit alignment"
+    ],
+    "single_action_outcome": "I can use an AI tool and defend where I checked its work."
+  },
+  "slides": [
+    {
+      "body": "You already use AI. This hour closes the gap between using it and mastering it, and shows you exactly what you trade for the free tools.",
+      "line": "You already use the tools. This hour is about running them.",
+      "type": "title",
+      "phase": "starter",
+      "title": "AI mastery and data rights",
+      "script": "Have this up as they arrive. Open plainly: nobody in this room needs convincing to use AI, most of you used it this week and some of you used it on the way here. So this is not a lesson about whether to use it. It is about the difference between the millions of people who use these tools and the much smaller group who actually run them. By the end of today you are in the second group.",
+      "eyebrow": "KS5 · Years 12 to 13 · Module 20",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hello. I am DiGi. I am a machine, and I am quite good at this.",
+        "So if everyone has the same AI, what makes your work worth more than theirs?",
+        "That is today. And the answer is not to avoid me."
+      ],
+      "phase": "starter",
+      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "DiGi opens the lesson",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "why": "Employers, universities and admissions tutors have stopped asking whether you used AI and started asking whether you can stand behind the result. The people who thrive with these tools are not the ones who avoid them, they are the ones who can point at any line of the output and say I checked that, here is how.",
+      "type": "objective",
+      "gains": [
+        "Prompt like it is a skill, because it is one",
+        "Explain why confident errors are built into how these models work",
+        "Judge when an AI agent can act for you and when it cannot",
+        "Name what you trade for free tools, and the rights you keep over your own data"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome aloud, then ask: hands up if you have ever submitted or sent something AI helped write. Most hands go up, and that is fine, say so. Then the follow up: keep your hand up if you checked every claim in it before your name went on it. Watch the hands drop. That gap between the two questions is the whole lesson.",
+      "minutes": 2,
+      "outcome": "I can use an AI tool and defend where I checked its work."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner the last thing you used an AI tool for, and how you checked whether it was right.",
+      "script": "Sixty seconds, two parts. What you last used it for, and how you checked it. If the second half is harder to answer than the first, that is not a criticism. That is the reason you are here.",
+      "lookFor": "The room goes quiet on the second half. That silence is exactly the skill this lesson builds.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "prompt",
+          "meaning": "The instruction you give an AI tool. The quality of what comes back is set by the quality of what you put in."
+        },
+        {
+          "word": "hallucination",
+          "meaning": "A confident, plausible, false output. Not a glitch: a natural result of how these models generate text."
+        },
+        {
+          "word": "bias",
+          "meaning": "A slant inherited from the data a model was trained on. It reflects whose voices were in that data and whose were not."
+        },
+        {
+          "word": "agent",
+          "meaning": "AI that acts rather than just answers: it can browse, book, buy, email and execute tasks on your behalf."
+        },
+        {
+          "word": "profiling",
+          "meaning": "Building a picture of who you are from your data, usually to predict and shape what you buy, watch and believe."
+        }
+      ],
+      "script": "Move through these briskly, this is an adult vocabulary check not a chant. Two to pause on. Hallucination: flag now that we will spend real time on why it happens, because the why changes everything. Profiling: ask who has seen an advert so specific it felt like being overheard. That feeling has a mechanism and we get to it in the final third.",
+      "heading": "Working vocabulary",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Thirty seconds of thinking time, then cold call two people for reasoning rather than letters. The bridge to today is worth saying explicitly: an arrival plan works because you decide in advance, on your own terms. This lesson builds the same thing for AI, a standard you set now so it holds when a deadline is an hour away.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "It set your defaults and boundaries before the moment arrived, so the decision was made on your terms",
+          "correct": true,
+          "feedback": "Exactly. You decide calmly in advance or you decide in the moment under pressure, and the platform is counting on the second one. Today applies the same principle to AI: decide your checking standard before the deadline, not during it."
+        },
+        {
+          "text": "It listed which platforms are safe and which are dangerous",
+          "correct": false,
+          "feedback": "That was never the point. No platform is simply safe or dangerous, the plan was about arriving with your settings, limits and intentions already decided rather than sorting them under pressure."
+        },
+        {
+          "text": "It delayed everything as long as possible",
+          "correct": false,
+          "feedback": "Delay was not the goal, readiness was. The plan meant you arrive deliberately instead of drifting in. Same move today: we set your AI standard before the next deadline tests it."
+        }
+      ],
+      "question": "Retrieval from last module. You built an arrival plan for the platforms that unlock as you get older. What made the plan worth building?"
+    },
+    {
+      "body": "Everyone in this room can use AI, the same way everyone can type. Mastery is different. It starts with prompting: giving the tool context, constraints and a clear job, then iterating instead of accepting the first answer. A vague prompt gets the average of the internet. A precise one gets something worth editing. The masters treat the tool like a brilliant, tireless, overconfident junior colleague: enormously useful, never left unsupervised.",
+      "type": "concept",
+      "emoji": "🎓",
+      "phase": "teach",
+      "script": "Land the junior colleague framing hard, it is the mental model for the whole hour. Ask: what would you do with a colleague who works at incredible speed, never gets tired, and is sometimes confidently wrong? You would use them constantly and check everything that matters. Then the prompting point: ask who has ever rewritten a prompt three or four times to get what they wanted. Those people have already discovered that prompting is a skill. Today we make that deliberate.",
+      "heading": "Using is not mastering",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Read AI outputs critically. Question them the way you would question any source with an agenda and no accountability.",
+          "emoji": "🔍",
+          "title": "Engage"
+        },
+        {
+          "text": "Make things with it. Prompt with precision, iterate, and edit the output until it is genuinely yours.",
+          "emoji": "✍️",
+          "title": "Create"
+        },
+        {
+          "text": "Direct AI that acts for you. Decide what it may do alone and what always waits for your sign off.",
+          "emoji": "⚙️",
+          "title": "Manage"
+        },
+        {
+          "text": "Understand the system itself: how it was trained, who built it, what it optimises for and who it leaves out.",
+          "emoji": "🧠",
+          "title": "Design"
+        }
+      ],
+      "script": "Walk the four as they build. The honest framing for this room: most adults are stuck at casual versions of Engage and Create, they read AI answers and generate the odd paragraph. The next decade of work belongs to people comfortable in Manage and Design, directing agents and understanding the systems well enough to question them. Ask the class where they honestly sit today, quick show of fingers, one to four. No judgement, it is a baseline.",
+      "caption": "Every serious framework for AI literacy lands on the same four moves. Most people stop at the first one.",
+      "heading": "The four domains of AI literacy",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Most people stop at the first of those four. Tell your partner which one you actually stop at, and be honest.",
+      "script": "Sixty seconds, and be honest with each other rather than with me. Which of those four do you actually get to. The next two slides explain why the answer matters more than it used to.",
+      "lookFor": "Nearly everyone stops at using it. The gap between using and checking is the whole lesson, and it lands harder when they hear themselves say it.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "body": "These models do not look facts up. They generate the most plausible next words based on patterns in their training data. That is the same mechanism whether the output is true or false, which is why a fabricated citation arrives in exactly the same confident tone as a real one.",
+      "type": "concept",
+      "emoji": "🎲",
+      "phase": "teach",
+      "script": "This is the most important two minutes of the hour, so slow down. The key sentence to repeat: the model is not lying to you, it is predicting, and prediction produces truth and fiction through the identical process.",
+      "heading": "Hallucination is a feature, not a bug",
+      "minutes": 1
+    },
+    {
+      "body": "Confidence is a property of the writing style, not of the accuracy. This will not be patched out by the next update, because plausible generation is the design, not a defect in it. Which means checking is not a temporary chore. It is a permanent part of the skill.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Ask: if the tone of the output tells you nothing about its accuracy, what does that mean for how you read it? Fish for the answer that confidence must be ignored entirely and checking becomes the only signal. Someone may say newer models hallucinate less, and that is true. Less is not never, and your name is on the work either way.",
+      "heading": "So checking is permanent",
+      "minutes": 1
+    },
+    {
+      "type": "stat",
+      "claim": "86% of employers expect AI and information processing technologies to transform their business by 2030. The tools are not going away, so the differentiator is who can use them and defend the result.",
+      "phase": "teach",
+      "figure": "86%",
+      "script": "Let the number sit, then draw the conclusion for them: this means opting out of AI is not a career strategy, and neither is blind trust in it. The scarce skill in an economy where everyone has the same tools is judgement about the output. That is what you are practising today.",
+      "source": "WEF Future of Jobs Report, 2025",
+      "minutes": 1
+    },
+    {
+      "meta": "23:47 · Message",
+      "text": "mate you are a lifesaver, that AI essay tool did my whole psychology section in ten minutes. it even cited a 2019 Cambridge study, proper reference and everything. submitting tonight 🙏",
+      "type": "scenario",
+      "image": "📄",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "📚",
+      "handle": "Priya",
+      "prompt": "Priya has a full reference: authors, year, journal. What would you say to her before midnight, and what should she do in the next ten minutes?",
+      "script": "Take answers cold. The one to draw out: the polish of the reference is worth nothing, because fabricated citations arrive fully formatted with plausible authors and page numbers, generated by the same process as real ones. The ten minute fix is simple: search for the study. If it exists and says what the essay claims, keep it and now she can defend it. If it does not exist, she just avoided handing her tutor proof she never checked. Point out the deeper issue: Priya is treating done as the finish line. The finish line is defensible.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Prompt with context, constraints and a clear job. Iterate. Treat the first answer as a draft, never a result.",
+          "emoji": "🛠️",
+          "title": "Use it"
+        },
+        {
+          "text": "Verify every claim, citation and number against a source the AI did not write. Confidence is not evidence.",
+          "emoji": "🔎",
+          "title": "Check it"
+        },
+        {
+          "text": "Your name goes on it, so the errors are yours too. If you cannot defend a line, it does not ship.",
+          "emoji": "🖋️",
+          "title": "Own it"
+        }
+      ],
+      "script": "Walk it as it builds, then give them the strapline: never submit what you cannot defend. Point at the three verdicts underneath: every piece of AI assisted work you ever produce ends in one of these. Use and defend means you checked it and could survive questioning on it. Check further means not yet. Do not submit means the checking failed or never happened. Ask the room which verdict Priya's essay currently holds. It is check further, and it only took a search to move it.",
+      "caption": "The professional standard in three moves. The verdict on any AI assisted work comes from move three.",
+      "heading": "Use it, check it, own it",
+      "minutes": 3,
+      "verdicts": [
+        "Use and defend",
+        "Check further",
+        "Do not submit"
+      ]
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "The end of cycle one check. Watch for the second option, it is the most seductive wrong answer in the whole topic because model improvement is real. The distinction to land in discussion: improvement changes the frequency of fabrication, not the nature of it. The checking standard is set by the nature.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The model generated a plausible quote through the same process it generates everything, and only your check caught it",
+          "correct": true,
+          "feedback": "Exactly. No malfunction occurred. Plausible generation is the mechanism, and the quote was plausible. The system worked as designed and so did you, that is what check it is for."
+        },
+        {
+          "text": "The tool glitched, and a better model would not have done it",
+          "correct": false,
+          "feedback": "Better models fabricate less often, but the mechanism that produced the fake quote is the mechanism that produces everything else. Less often is not never, so the check stays."
+        },
+        {
+          "text": "The quote is probably in a different edition, so it is fine to keep",
+          "correct": false,
+          "feedback": "That is hope doing the job evidence should do. A quote you cannot locate is a quote you cannot defend, and you never submit what you cannot defend."
+        }
+      ],
+      "question": "An AI summary of a journal article includes a direct quote. You search the original and the quote is not there. What is the most accurate reading of what happened?"
+    },
+    {
+      "body": "A model learns from the data it was trained on, so it inherits whatever that data contains: the perspectives that were heavily represented, and the silence of those who were not. Ask a model to describe a typical CEO, a beautiful face or a normal family and you get the training data's average, presented as neutral fact. This is not usually a scandal or a plot. It is arithmetic. But arithmetic presented as neutrality is exactly the kind of thing a Design level thinker interrogates: whose data built this, and who is missing from it?",
+      "type": "concept",
+      "emoji": "⚖️",
+      "phase": "teach",
+      "script": "Keep this analytical rather than outraged, KS5 can handle the real mechanism. Useful question for the room: if a model was trained mostly on English language internet text, whose view of the world does it average? Draw out that the output feels neutral precisely because it is fluent, and fluency disguises the slant. Connect it back to the tool: bias is one more reason check it exists, because the errors it produces are not random, they lean in inherited directions.",
+      "heading": "Bias is an inheritance",
+      "minutes": 2
+    },
+    {
+      "body": "The newest tools do not stop at generating text. Agents browse, compare, book, email, purchase and execute multi step tasks with your accounts and your money. That changes the question. With a chatbot you ask, is this answer right? With an agent you must ask, what is it allowed to do without me, and would I defend the action it just took in my name? The skill is calibration: match the level of supervision to the stakes and to how reversible the action is. Drafting an email unsupervised is cheap to undo. Sending it is not.",
+      "type": "concept",
+      "emoji": "🤖",
+      "phase": "teach",
+      "script": "Give a concrete pair to anchor it: an agent that shortlists five flight options is doing reversible, low stakes work, let it run. An agent authorised to book the flight is spending your money on your behalf, and a mistake is expensive to unwind. Ask the class what makes an action safe to delegate. Fish for the two variables: stakes and reversibility. The same never allow or deny everything trap applies here, blanket trust and blanket refusal are both lazy. Calibrated supervision is the adult position.",
+      "heading": "Agents: AI that acts, not just answers",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "You get an agent that can act with your accounts. Which tasks would you let it do entirely unsupervised, and where exactly is your line?",
+      "script": "Ninety seconds in pairs, timer on screen. Circulate and listen for whether the lines people draw have reasons attached. After the chime take three answers and press each one: why there? The pairs whose line is anything that spends money or speaks as me have found the principle. Name it back to the room: unsupervised is a privilege you grant based on stakes and reversibility, exactly the judgement an employer will one day pay you for.",
+      "lookFor": "Reasoning built on stakes and reversibility rather than gut feeling. Strong answers draw the line where actions become hard to undo or start speaking in their name: sending messages, spending money, posting publicly.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "body": "When a powerful tool is free, you are usually paying with something other than money: your prompts, your documents, your patterns, your profile. Many free AI tools reserve the right to train future models on what you type into them, which is why pasting your personal statement, health details or a friend's private message into one is a bigger decision than it feels.",
+      "type": "concept",
+      "emoji": "🔐",
+      "phase": "teach",
+      "script": "Make the trade concrete before the rights land. Ask what they have pasted into a free tool this week, take two answers, and do not moralise about them.",
+      "heading": "Free tools, and what they cost",
+      "minutes": 1
+    },
+    {
+      "body": "This trade is not one sided, because you have legal rights over your own data. In the UK you can ask any company what it holds on you, demand corrections, and in many cases require deletion. Rights you do not know about are rights you do not have.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "The last line is the one to land: rights you do not know about are rights you do not have. Name the UK GDPR subject access right in plain words and say that a request is an email, not a lawsuit.",
+      "heading": "The rights you already have",
+      "minutes": 1
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Before this lesson started today, what had you already traded for tools you did not pay for? Follow the data, then decide: which single trade would you renegotiate?",
+      "script": "Groups of three or four, ninety seconds. The word renegotiate matters, keep them off the false choice between accept everything and delete everything. Every group should surface at least one trade they think is fair and one they would change. Collect one of each per group. Close the cycle with the same calibration point as agents: the goal is not refusing the deal, it is knowing the price and deciding on your own terms.",
+      "lookFor": "Specificity. Weak answers say my data vaguely. Strong answers name the actual trades: location history for maps, listening habits for playlists, prompts for AI drafts, face data for filters, and can say which trade is worth it and which is not.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "Use it, check it, own it · tap the class verdict",
+        "posts": [
+          {
+            "why": "Recognition: this is what checked looks like. Verification against a source the AI did not write is the move, and once done, using the output is professional, not lazy.",
+            "text": "You asked an AI tool to summarise a chapter you had already read closely. You compare its summary against your own notes and the original text, and everything matches.",
+            "answer": 0,
+            "avatar": "🤖",
+            "handle": "Case 1"
+          },
+          {
+            "why": "Recognition: a fully formatted citation is generated by the same process as a fabricated one, so polish is not evidence. One search moves this to use and defend or do not submit.",
+            "text": "An AI drafted paragraph for your EPQ cites a 2019 study with named authors, a journal and a page number. It reads perfectly. You have not searched for the study.",
+            "answer": 1,
+            "avatar": "🤖",
+            "handle": "Case 2"
+          },
+          {
+            "why": "Apply: deadline pressure is exactly when the standard earns its keep. Unfindable figures are indefensible figures, and submitting them hands your assessor proof you never checked.",
+            "text": "Your coursework is due in an hour. The AI has given you a statistics section with three figures you cannot find anywhere, but the numbers look plausible and the writing is strong.",
+            "answer": 2,
+            "avatar": "🤖",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Apply: drafting was reversible and fine, sending in your name is not. Calibrate by stakes and reversibility: read every message before anything leaves under your signature.",
+            "text": "You gave an AI agent access to your email to chase university open day bookings. Overnight it drafted five messages and queued them to send at 9am, including one negotiating a date change with an admissions office.",
+            "answer": 1,
+            "avatar": "🤖",
+            "handle": "Case 4"
+          },
+          {
+            "why": "Apply: the tool is paid for in data, and this paste hands over your details and someone else's private story. Strip it or use a tool whose terms you have actually read, then decide.",
+            "text": "A free AI tool offers to polish your personal statement. Its terms say uploads may be used to train future models. Your draft includes your address, your health history and a story about a named friend.",
+            "answer": 2,
+            "avatar": "🤖",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Explain: the accountability question. Your name on the work makes the errors yours, no tutor, employer or admissions office accepts the tool did it. Own it is the whole third move.",
+            "text": "Leah says: if the AI got something wrong, that is the AI's fault, not mine. I just submit what it gives me. Do you agree? Explain your reasoning.",
+            "answer": 2,
+            "avatar": "🤖",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Use and defend",
+          "Check further",
+          "Do not submit"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Use it, check it, own it, applied to six real submissions before the paper. Read the card, take the vote, tap the class verdict, read the reason. Push for the professional standard in the discussion: do not submit is not anti AI, it is what owning your work means.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Six items on the worksheet: AI outputs, agent decisions and data trades. Run each one through the standard, use it, check it, own it, and give a verdict: use and defend, check further, or do not submit. Fifteen minutes. Every verdict needs the reasoning underneath it, because a verdict you cannot defend is the exact thing this lesson exists to end.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets, fifteen minutes, bookmark strips on the tables for anyone who wants the three moves in front of them. Support students work items one to three with you, they are recognition items with clear tells. Stretch question for early finishers: item four describes an agent action, what single change to its permissions would move your verdict? Circulate and harvest one piece of sharp reasoning to read out before the exit checks.",
+      "heading": "Field work, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, these two are the printed quiz so run them in silence, individually. This one tests whether the tool survived contact with a real situation they care about. A wrong answer on option two tells you who is still reading fluency as accuracy, mark them for follow up.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "When every claim in it is true, checked, and you could defend any line of it in an interview",
+          "correct": true,
+          "feedback": "Right. The standard is not did AI touch this, it is can you stand behind it under questioning. Use it, check it, own it, and your name goes on it honestly."
+        },
+        {
+          "text": "As soon as it reads well, because good writing is the goal",
+          "correct": false,
+          "feedback": "Reading well is exactly what generated text does whether or not it is true. Fluency is the one signal you must ignore. The check makes it submittable, not the polish."
+        },
+        {
+          "text": "Never, because using AI on it at all is cheating",
+          "correct": false,
+          "feedback": "Blanket refusal is not the standard the adult world uses. The line is between assisted work you checked and own, and generated work you cannot defend. Learn the line, it follows you into every job."
+        }
+      ],
+      "question": "Exit check one. You used AI to draft a paragraph of your personal statement. When is it ready to submit?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check. The third option is the one to watch across the room, resignation is the most common adult failure on data and it hides inside sounding worldly. Anyone choosing it needs the rights half of the lesson again: the deal only works on people who believe they have no say.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The tool is not free, you pay in data, so decide what you paste into it and remember you hold legal rights over your own data",
+          "correct": true,
+          "feedback": "Exactly. Know the price, pay it deliberately or not at all, and remember the rights that stay with you: you can ask what a company holds and demand deletion. Trading blind is the only losing move."
+        },
+        {
+          "text": "It is a scam and nobody should ever use free tools",
+          "correct": false,
+          "feedback": "It is not a scam, it is a price written where few people read. Refusing every free tool is not mastery. Knowing the price and choosing on your own terms is."
+        },
+        {
+          "text": "It does not matter, companies have your data anyway",
+          "correct": false,
+          "feedback": "That is learned helplessness, and it is false. What you paste is still your choice, and UK data rights, access, correction, deletion, are real and enforceable. Resignation is the outcome profiling depends on."
+        }
+      ],
+      "question": "Exit check two. A free AI app's terms say your prompts may be used to train future models. What is the accurate way to read that deal?"
+    },
+    {
+      "text": "Use it, check it, own it: never submit what you cannot defend.",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "No chanting at KS5, just weight. Read it once, then ask them to write it at the top of whatever notebook or notes app follows them to university or work, because this sentence is doing its real work in three years, the night before something that matters is due.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Prompting is a skill: context, constraints, a clear job, then iterate. The first answer is a draft.",
+        "Hallucination is the design, not a defect. Confidence tells you nothing, so checking is permanent, and bias means the errors lean in inherited directions.",
+        "Agents act in your name. Supervision is calibrated by stakes and reversibility, never blanket trust or blanket refusal.",
+        "Free tools charge in data. Know the price, paste deliberately, and use the legal rights you hold over your own data."
+      ],
+      "script": "Four points, four voices, pick readers around the room. Then return to the opening hands question: who here has submitted AI assisted work without checking every claim? Ask what their answer will be next time and let the silence be the answer. That changed standard is the outcome, and the exit quizzes going out now are the evidence of it.",
+      "heading": "What leaves the room with you",
+      "minutes": 1
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Use it like a professional. Check it like an editor. Own it like your name is on it.",
+        "Because it is.",
+        "That is the whole difference between using this and mastering it."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "One thing to take with you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Twenty modules, and here is where they were all heading. ⭐",
+        "You were never being taught to fear any of this. You were being taught to run it: the feeds, the platforms, the tools, and now the most powerful tools ever handed to a seventeen year old.",
+        "So use it like a professional, check it like an editor, and own it like your name is on it. Because from here on, it always is.",
+        "That is not my standard anymore. It is yours. Go build something worth defending."
+      ],
+      "phase": "close",
+      "script": "Let DiGi close, the lines appear on their own, do not talk over them. Collect the exit quizzes as it plays. The last line is deliberate: at KS5 the handover from taught standard to owned standard is the whole point of the programme, and this is the moment it happens. Send them out on it.",
+      "heading": "DiGi signs off",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS5",
+  "module_id": "ks5-20-ai-mastery-data-rights",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 1,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 20,
+  "parent_note": {
+    "taught": "Today your young adult learned to move from using AI to mastering it: prompting well, verifying outputs because confident errors are built into how these tools work, supervising AI that can act on their behalf, and understanding what free tools take in data plus the legal rights they hold over their own. The standard we gave them: use it, check it, own it, never submit what you cannot defend.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "The passport's final chapter. Since Reception it has recorded readiness proven at school and trust earned at home, and it ends not with permission granted but with judgement owned. Ask them how they check an AI's work before their name goes on it, and try their method on something of yours.",
+    "try_this": "Ask them to show you one AI tool they actually use, then ask them to show you how they would check something it produced. Watching them verify is the whole lesson in thirty seconds, and they will enjoy being the expert.",
+    "family_question": "What do you think our family has traded, without noticing, for the free apps on our phones?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Prompt, output, source and data trade are the four to pre teach. A pupil fluent in another language holds a real advantage: run one check in it and show the class what the English results never surfaced.",
+      "sensory": "The debates can run hot on AI takes. The scripted move is to the evidence line, which cools every argument to what can be shown.",
+      "attention": "Cases one at a time, and the checking discipline IS the executive skill being taught: the notebook is the scaffold. A pupil racing the verdicts gives their evidence line first on the next case.",
+      "communication": "The field notebook logs verdicts and one line of evidence per case, and the defence has a frame printed on the sheet: source, date, second place it appears."
+    },
+    "tool": {
+      "lines": [
+        "Use it like a professional",
+        "Check it like an editor",
+        "Own it like your name is on it"
+      ],
+      "heading": "Use it, check it, own it",
+      "strapline": "Never submit what you cannot defend."
+    },
+    "i_can": [
+      "I can use an AI tool like a professional, with a clear brief.",
+      "I can check AI output like an editor and defend where I checked its work.",
+      "I can explain the data trade behind a free tool and my rights inside it."
+    ],
+    "cycles": [
+      {
+        "verb": "Brief",
+        "title": "Using is not mastering",
+        "minutes": 11,
+        "outcome": "I can use an AI tool like a professional, with a clear brief."
+      },
+      {
+        "verb": "Check",
+        "title": "Use it, check it, own it",
+        "minutes": 11,
+        "outcome": "I can check AI output like an editor and defend where I checked its work."
+      },
+      {
+        "verb": "Trade",
+        "title": "Free tools, and what they cost",
+        "minutes": 4,
+        "outcome": "I can explain the data trade behind a free tool and my rights inside it."
+      }
+    ],
+    "timing": "65 minutes: starter 11, cycle one 11, cycle two 11, cycle three 4, practise 16, prove 4, close 4, class interactive 4",
+    "keywords": [
+      {
+        "word": "prompt",
+        "definition": "The instruction you give an AI tool. The quality of what comes back is set by the quality of what you put in."
+      },
+      {
+        "word": "hallucination",
+        "definition": "A confident, plausible, false output. Not a glitch: a natural result of how these models generate text."
+      },
+      {
+        "word": "bias",
+        "definition": "A slant inherited from the data a model was trained on. It reflects whose voices were in that data and whose were not."
+      },
+      {
+        "word": "agent",
+        "definition": "AI that acts rather than just answers: it can browse, book, buy, email and execute tasks on your behalf."
+      },
+      {
+        "word": "profiling",
+        "definition": "Building a picture of who you are from your data, usually to predict and shape what you buy, watch and believe."
+      }
+    ],
+    "equipment": "A device with access to an AI tool if you want the live brief task. Otherwise the paper version in the print room covers the same ground.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Hallucinations are rare glitches that the next update will fix.",
+        "teaching_point": "Plausible generation is the design, not a bug waiting for a patch."
+      },
+      {
+        "answer": "The quality of the brief you put in.",
+        "format": "short_answer",
+        "question": "What decides the quality of what comes back from an AI tool?",
+        "teaching_point": "Using is not mastering. The brief is the skill."
+      },
+      {
+        "answer": "The training data: whose voices were in it and whose were not.",
+        "format": "short_answer",
+        "question": "Where does bias in a model come from?",
+        "teaching_point": "An inheritance, not an opinion the model holds. That framing keeps the discussion useful."
+      },
+      {
+        "answer": "Use it, check it, own it.",
+        "format": "short_answer",
+        "question": "Say the three step rule from this lesson.",
+        "teaching_point": "The tool they leave with. You own the output you put your name on."
+      },
+      {
+        "answer": "Acts rather than only answers",
+        "format": "tick_one",
+        "options": [
+          "Answers faster",
+          "Acts rather than only answers",
+          "Costs more"
+        ],
+        "question": "An agent differs from a chatbot because it:",
+        "teaching_point": "It browses, books, buys and emails, which raises the cost of not checking."
+      }
+    ],
+    "worksheet": {
+      "title": "Field notebook: AI outputs, agents and data trades",
+      "directions": "Run each item through use it, check it, own it, give a verdict, and write the reasoning underneath, because a verdict without reasoning does not count.",
+      "verdict_options": [
+        "Use and defend",
+        "Check further",
+        "Do not submit"
+      ]
+    },
+    "teacher_tip": "Have students break the tool on purpose before they use it for anything real. A confident wrong answer they produced themselves teaches more than any warning you give.",
+    "starter_quiz": [
+      {
+        "answer": "Behaviour such as what you watch, tap and pause on, to predict and hold your attention.",
+        "format": "short_answer",
+        "question": "What data does an app collect about you, and why?",
+        "teaching_point": "Carried forward from ks2-06 and ks2-07. It sets up the data trade in cycle three."
+      },
+      {
+        "answer": "Any tool and any genuine task.",
+        "format": "short_answer",
+        "question": "Name an AI tool you have used and what you asked it.",
+        "teaching_point": "Almost all will have one. The brief they gave it is the raw material for cycle one."
+      },
+      {
+        "answer": "Finding out who made a claim and whether it holds up.",
+        "format": "short_answer",
+        "question": "What is a source check?",
+        "teaching_point": "Carried forward from ks3-12. It becomes the editor's check on AI output."
+      },
+      {
+        "answer": "Not necessarily correct",
+        "format": "tick_one",
+        "options": [
+          "Correct",
+          "Not necessarily correct",
+          "Always wrong"
+        ],
+        "question": "An AI tool gives a confident answer. That means it is:",
+        "teaching_point": "Confidence is a property of the output, never evidence about it."
+      }
+    ],
+    "misconceptions": [
+      "Hallucinations are rare glitches the next update will fix (plausible generation is the design itself, so confident errors are permanent and checking is a lasting part of the skill, not a temporary chore)",
+      "Using AI on work is cheating, full stop (the real line is between assisted work you have checked and can defend, and generated work you cannot, which is the standard universities and employers actually apply)",
+      "Free tools are free, and companies have your data anyway so it does not matter (you pay in prompts, patterns and profiling, what you paste is still your choice, and UK data rights of access, correction and deletion are real and enforceable)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. The four domains and the three move standard are on the pack as diagrams, evidence item one is printed as a message card, and both discussions run with a watch instead of the on screen timer. The stat is read aloud from the teacher copy, the exit checks are the printed quiz, and the commitment stem is completed on the exit card. Nothing in the hour requires a screen.",
+    "passport_stage": "after",
+    "commitment_stem": "My commitment: the next time AI helps with work that matters, before my name goes on it I will check ...",
+    "differentiation": {
+      "stretch": "Early finishers take the agent item and redesign its permissions: which single change to what the agent may do alone would move your verdict, and why? Strongest students draft a one paragraph AI use policy for a sixth former that a head of year would actually sign off.",
+      "support": "Work items one to three of the worksheet as a guided group with the bookmark strip visible. Anchor every judgement in the same two questions: can you find this claim somewhere the AI did not write, and could you defend it out loud? Accept verbal reasoning and scribe where needed."
+    },
+    "prior_knowledge": [
+      "A student can explain what data an app collects and why, from ks2-06 and ks2-07.",
+      "A student has used at least one AI tool and can describe what they asked it.",
+      "A student can explain what a source check is, from ks3-12."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "You asked an AI tool to summarise a chapter you had already read closely. You compare its summary against your own notes and the original text, and everything matches.",
+        "teaching_point": "Recognition: this is what checked looks like. Verification against a source the AI did not write is the move, and once done, using the output is professional, not lazy.",
+        "expected_verdict": "Use and defend"
+      },
+      {
+        "n": 2,
+        "item": "An AI drafted paragraph for your EPQ cites a 2019 study with named authors, a journal and a page number. It reads perfectly. You have not searched for the study.",
+        "teaching_point": "Recognition: a fully formatted citation is generated by the same process as a fabricated one, so polish is not evidence. One search moves this to use and defend or do not submit.",
+        "expected_verdict": "Check further"
+      },
+      {
+        "n": 3,
+        "item": "Your coursework is due in an hour. The AI has given you a statistics section with three figures you cannot find anywhere, but the numbers look plausible and the writing is strong.",
+        "teaching_point": "Apply: deadline pressure is exactly when the standard earns its keep. Unfindable figures are indefensible figures, and submitting them hands your assessor proof you never checked.",
+        "expected_verdict": "Do not submit"
+      },
+      {
+        "n": 4,
+        "item": "You gave an AI agent access to your email to chase university open day bookings. Overnight it drafted five messages and queued them to send at 9am, including one negotiating a date change with an admissions office.",
+        "teaching_point": "Apply: drafting was reversible and fine, sending in your name is not. Calibrate by stakes and reversibility: read every message before anything leaves under your signature.",
+        "expected_verdict": "Check further"
+      },
+      {
+        "n": 5,
+        "item": "A free AI tool offers to polish your personal statement. Its terms say uploads may be used to train future models. Your draft includes your address, your health history and a story about a named friend.",
+        "teaching_point": "Apply: the tool is paid for in data, and this paste hands over your details and someone else's private story. Strip it or use a tool whose terms you have actually read, then decide.",
+        "expected_verdict": "Do not submit"
+      },
+      {
+        "n": 6,
+        "item": "Leah says: if the AI got something wrong, that is the AI's fault, not mine. I just submit what it gives me. Do you agree? Explain your reasoning.",
+        "teaching_point": "Explain: the accountability question. Your name on the work makes the errors yours, no tutor, employer or admissions office accepts the tool did it. Own it is the whole third move.",
+        "expected_verdict": "Do not submit"
+      }
+    ],
+    "essential_question": "If everyone has the same AI, what makes my work worth more than theirs?",
+    "learning_objective": "Pupils can use an AI tool skilfully, verify its output against independent sources, calibrate supervision of AI agents by stakes and reversibility, and explain the data trade behind free tools alongside the legal rights they hold over their own data.",
+    "key_learning_points": [
+      "Using is not mastering. The brief decides the output.",
+      "Hallucination is a feature of how these models generate, not a glitch to wait out.",
+      "Bias is inherited from training data: whose voices were in it, and whose were not.",
+      "Use it, check it, own it. You own the output you put your name on.",
+      "An agent acts rather than answers, which raises the cost of not checking."
+    ]
+  }
+}
