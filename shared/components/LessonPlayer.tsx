@@ -14,6 +14,7 @@ import AnimatedIntro from './AnimatedIntro'
 import { WALL, WALL_CONTRAST } from '../wall-scale'
 import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type LessonCycle, type LessonTool, type ChoiceSlide, answerBeat, type ObjectiveSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide, type VideoSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
+import { slideNamesTheLead, leadLine, type YourSchool } from '../schools-your-school'
 import Interactive from './interactives'
 
 // The cinematic player, v3. One player build lifts every lesson at once
@@ -54,6 +55,34 @@ const eyebrowOn = (projector?: boolean): React.CSSProperties =>
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+// THE NAME ON THE WALL. On the slides that ask a class who in this school
+// to tell (shared/schools-your-school, slideNamesTheLead), the safeguarding
+// lead the school typed on its Hub appears under the slide, big enough to
+// copy down. The script on the KS2 slide says "write it on the board and
+// leave it there": this is the board doing it. Absent when the school has
+// not typed a name, so the slide is exactly what it always was.
+function LeadOnTheWall({ lead, projector }: { lead: YourSchool; projector?: boolean }) {
+  return (
+    <div data-reveal role="note" aria-label="Who to tell in this school" style={{
+      margin: `${room(projector, 'clamp(18px, 3vh, 30px)', 'var(--space-4)')} auto 0`,
+      maxWidth: room(projector, WALL.column, '540px'),
+      background: 'var(--stage-2)', borderLeft: '4px solid var(--coral-dark)',
+      borderRadius: 'var(--radius-card)', padding: room(projector, 'clamp(14px, 2.4vh, 24px) clamp(18px, 2.4vw, 30px)', 'var(--space-3) var(--space-4)'),
+      textAlign: 'left',
+    }}>
+      <div style={{ ...eyebrowOn(projector), color: 'var(--coral-dark)', marginBottom: room(projector, '10px', 'var(--space-1)') }}>
+        In this school, the person whose job this is
+      </div>
+      <p style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)',
+        fontSize: room(projector, WALL.display, 'var(--text-xl)'), lineHeight: 1.2, letterSpacing: '-0.02em',
+      }}>
+        {leadLine(lead)}
+      </p>
+    </div>
+  )
+}
 
 // The two curriculum chips: Key Stage and the Education for a Connected
 // World strand. Small, mono, honest. Shown on the intro slide.
@@ -1090,6 +1119,7 @@ export default function LessonPlayer({
   register = 'playful',
   passport = null,
   introEyebrow,
+  schoolLead = null,
   onFinish,
 }: {
   lessonId: string
@@ -1170,6 +1200,11 @@ export default function LessonPlayer({
   // as this screen now holds it (shared/schools-taught) and prints the code.
   // Absent on the parent app, where the passport is the child's own book.
   passport?: { placement: PassportPlacement | null; moduleId: string; homeCode?: string | null } | null
+  // The safeguarding lead this school typed on its Hub, read off the device
+  // by the schools teach route (TrackedPlayer) and shown under any slide
+  // that asks who in this school to tell. The parents app passes nothing
+  // and the public showcase passes nothing, so neither ever shows a name.
+  schoolLead?: YourSchool | null
   /**
    * Called once when the deck reaches its finish.
    *
@@ -1883,6 +1918,7 @@ export default function LessonPlayer({
           }}
         >
           <SlideBody key={index} slide={slide} onAnswered={onAnswered} onSettled={() => setSettled(true)} projector={projector} seed={runSalt + index * 101} tool={tool} register={register} promise={promise} introEyebrow={introEyebrow} />
+          {schoolLead && slideNamesTheLead(slide) && <LeadOnTheWall lead={schoolLead} projector={projector} />}
           {index === 0 && badges && <BadgeChips badges={badges} projector={projector} />}
         </div>
 

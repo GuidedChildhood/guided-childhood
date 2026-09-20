@@ -7,6 +7,7 @@ import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import PrintButton from '@/components/PrintButton'
 import { MarkOnPrint } from '@/components/tracker/signals'
+import { LeadOnPaper } from '@/components/YourSchoolLead'
 import { homeCodeQr, homeCodeLabel } from '@/lib/qr'
 import { worksheetItems, hasAnswerKey, splitSheets, SHEET_CAPACITY } from '@/lib/worksheet'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, FriendStrip, PrintSheet, Box, WriteLines, TickRow, BigChoice, Number, CutLine } from '@/components/print/kit'
@@ -125,7 +126,16 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         {/* The safeguarding note comes first. On a sextortion lesson, "brief
             the DSL before this lesson" is the one line a teacher must read
             before anything else on the sheet. */}
-        {dsl.note && <Box dense label="Safeguarding note" style={{ borderColor: 'var(--coral)', borderWidth: '2px' }}><p style={tt}>{dsl.note}</p></Box>}
+        {dsl.note && (
+          <Box dense label="Safeguarding note" style={{ borderColor: 'var(--coral)', borderWidth: '2px' }}>
+            <p style={tt}>{dsl.note}</p>
+            {/* The lead's name, if this screen was told it on the Hub. A
+                client island on a server page: the name never leaves the
+                browser, so the sheet carries it only when printed from a
+                screen that knows it. */}
+            <LeadOnPaper style={{ ...tt, marginTop: '4px' }} />
+          </Box>
+        )}
         <div style={{ display: 'grid', gridTemplateColumns: notes.timing ? '1fr 1fr' : '1fr', gap: '0 10px' }}>
           {notes.learning_objective && <Box dense label="Objective"><p style={tt}>{notes.learning_objective}</p></Box>}
           {notes.timing && <Box dense label="Timing"><p style={tt}>{notes.timing}</p></Box>}

@@ -679,7 +679,9 @@
       "coercive control",
       "bystander"
     ],
-    "prior_knowledge": "The direct secondary sequel to the KS2 lesson on being kind and safe online, where the class met the pile on and the three moves: do not pile on, save the evidence, tell someone who can help. Name it, save it, say it is the same shape with the names added. Say the link out loud if your class did that one.",
+    "prior_knowledge": [
+      "The direct secondary sequel to the KS2 lesson on being kind and safe online, where the class met the pile on and the three moves: do not pile on, save the evidence, tell someone who can help. Name it, save it, say it is the same shape with the names added. Say the link out loud if your class did that one."
+    ],
     "key_learning_points": [
       "Escalation online is structural: no face, an audience that rewards going further, and a permanent record.",
       "In a pile on the senders are few and the silent are many, and silence is indistinguishable from agreement to the person targeted.",
@@ -692,12 +694,17 @@
       "That the four names are insults to throw at a disagreement. The harassment check exists specifically to stop this, because words used loosely stop working when somebody needs them.",
       "That coercive control looks like anger. From the inside it often looks like being cared about very intensely, which is exactly why it needs teaching rather than discovering."
     ],
-    "i_can": "I can name what is happening, and say the thing that ends it.",
+    "i_can": [
+      "I can name what is happening, and say the thing that ends it."
+    ],
     "commitment_stem": "Before the end of today I will find out the name of ______, so I already have it.",
     "teacher_tip": "Assume somebody in the room is living one of these right now, and teach accordingly: no real examples, no asking who has experienced it, no volunteering of stories. The lesson is deliberately built so that a pupil who needs it can take everything they need without saying a word. Stand by the door at the end. That is when you will be told.",
     "equipment": "Projector. The name it sheet from the printed pack, one per pupil. No pupil devices needed. Have the name of your safeguarding lead ready to put on the board.",
     "paper_fallback": "The whole lesson runs from the printed pack with no screen: the three brakes are a diagram on the pack, the five message scenario is printed for you to read aloud, and the sorting cards are on the back page.",
-    "differentiation": "Stretch: ask why the law names harassment and stalking but has no offence called being unkind, which reaches the repetition and pattern idea from the other direction. Support: teach two of the four names rather than all four, bullying and coercive control, and keep the three moves as the whole takeaway.",
+    "differentiation": {
+      "support": "teach two of the four names rather than all four, bullying and coercive control, and keep the three moves as the whole takeaway.",
+      "stretch": "ask why the law names harassment and stalking but has no offence called being unkind, which reaches the repetition and pattern idea from the other direction."
+    },
     "send": "The three brakes work as three pictures and can be taught without the text. The five message scenario is the most demanding slide for pupils who read slowly, so read it aloud twice and leave it up. For pupils who take language literally, be explicit that a row and bullying are different things, because the sorting cards rely on that distinction.",
     "passport_stage": "builder",
     "worksheet": "The name it sheet",

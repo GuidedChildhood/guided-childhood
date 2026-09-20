@@ -124,3 +124,30 @@ touch them. The audit says so and will keep saying so.
 Nothing here replaces anything that works. No lesson is rewritten, no route
 moved, no passport wiring touched, no component redesigned. Every change is an
 addition or a correction, and every one is guarded.
+
+## After the close: the council, the trim and the name (20 September, afternoon)
+
+**Done.** The lesson council's counted checks ran over all 29 modules for the
+first time since the four new ones landed: prose 9.81, blocks 9.68, engagement
+9.41, passport 10, all above the floor. Five KS4 concept slides were over the
+105 word ceiling; migration 318 trimmed them to 103 or fewer, guarded by
+heading and expected body and proved by hash, and the 147 phrase attestation
+still holds. Prose 9.95 after it.
+
+**Done.** The "your school" panel: the safeguarding lead's name typed once on
+the Hub, stored on the device, shown on the slides that ask who to tell, on
+the flagged lessons' prep page and run sheet, and on the printed teacher
+sheet. PR 1128.
+
+**Still open, Justin's to supply.** The computing programme of study, if he
+wants that map. The solicitor's pass. The "15 July 2025" day.
+
+**Correction, later the same afternoon.** The council figures above came
+from a stale fixture. On production, prose is 9.52 and twelve older concept
+slides are over the projector ceiling because of the clauses 309 to 316
+appended. Open, with the recommendation in decisions.md.
+
+**Also done.** Migration 319: the four new modules' prior_knowledge, i_can
+and differentiation put into the shapes the pages read. Their lesson home
+pages had been crashing in production since they went live. The pages now
+tolerate the old shape and the module contract refuses it.

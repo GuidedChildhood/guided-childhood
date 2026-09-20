@@ -60,4 +60,4 @@ export function section(n: number, id: string, title: string, clauses: ClauseInp
 
 /** The one version line every document shows at the top and the foot. */
 export const LEGAL_VERSION = '1.0'
-export const LEGAL_DATED = '13 September 2026'
+export const LEGAL_DATED = '20 September 2026'
