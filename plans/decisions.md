@@ -728,3 +728,30 @@ proofs. PR 1137.
 
 Open for Justin, not changed here: DiGi's sign off in module 20 opens "Twenty
 modules" and the scheme has 29. True when there were 21. His voice, his call.
+
+## 21 September 2026 — migration 324: the sign off counts the real scheme
+
+Justin's call on the item left open above: make it the real number. Applied.
+
+The number is 28, not 29. ks5-20 is the 28th of 29 in the order the scheme
+teaches and ks5-21 still follows it, so 29 would tell a Year 13 class they had
+finished a scheme with one lesson to go. The original construction was "this
+is module N and N modules led here", so the update keeps the construction and
+moves N. The generator computes N from the manifest rather than taking it
+typed in.
+
+Also added the guard that should have caught this. check-curriculum-honesty
+holds the marketing pages to MODULE_COUNT and the pages have been right for
+months; the wall was wrong the whole time, because a count inside a slide is
+content in the database and every count guard we had watched the pages.
+check-lesson-counts holds any module count stated in a lesson to a number that
+is true from where it is spoken: the scheme total, or that lesson's position.
+One hit across 29 lessons, and it was the real one.
+
+Verified on the live row: the new line, four lines still in the close, no
+character key on the sign off, 30 slides, 29 rows backed up, hash proof. The
+retired sentence is gone from every lesson. PR 1138.
+
+Still open for Justin, not changed: "here is where they were all heading" is a
+finale and ks5-20 is the 28th of 29, so it lands one lesson early. ks5-21
+carries the real close. Whether that line moves, softens or stays is his.
