@@ -93,6 +93,29 @@ async function handler(request: Request) {
       band_at_suggestion: f.band_at_suggestion ?? null,
     }).select('id').single()
 
+    // ── A WORRY'S QUESTION IS THE CHECK IN'S JOB NOW (21 September 2026) ──
+    //
+    // Measured on this product: the same three taps asked inside the check in
+    // were answered 15 times out of 40, and asked on a card days later 0 times
+    // out of 6. So a follow up ATTACHED TO A WORRY no longer becomes a card.
+    // The check in reads the waiting outcome straight off digi_outcomes and
+    // asks it one line above that worry's stars, where the parent is already
+    // thinking about it (lib/checkin/today.ts).
+    //
+    // Nothing is lost by not making the card. The outcome row is the record,
+    // it is made above either way, and the daily check in already has its own
+    // reminder, so this removes a second interruption rather than a nudge.
+    //
+    // Advice NOT tied to a worry still becomes a card, because there is no
+    // worry for it to ride in on.
+    if (f.concern_id) {
+      await admin.from('digi_followups')
+        .update({ status: 'delivered', delivered_at: new Date().toISOString() })
+        .eq('id', f.id)
+      delivered++
+      continue
+    }
+
     // One at a time, and the status only moves after the card is safely in.
     // The other order loses the promise entirely if the insert fails, which is
     // the one outcome worth writing a loop to avoid.

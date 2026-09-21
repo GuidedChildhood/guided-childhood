@@ -17,7 +17,8 @@ export async function GET() {
     .order('created_at', { ascending: false }).limit(3)
 
   const { data: pending } = await pendingQuery()
-  if ((pending ?? []).length > 0) return NextResponse.json({ prompts: pending ?? [] })
+  const shown = await withoutWorryFollowUps(supabase, pending ?? [])
+  if (shown.length > 0) return NextResponse.json({ prompts: shown })
 
   // ── THE MOMENT READER, NOT THE CALENDAR ────────────────────────────────────
   //
@@ -32,7 +33,42 @@ export async function GET() {
   } catch { /* a dashboard visit never fails on a step in */ }
 
   const { data: fresh } = await pendingQuery()
-  return NextResponse.json({ prompts: fresh ?? [] })
+  return NextResponse.json({ prompts: await withoutWorryFollowUps(supabase, fresh ?? []) })
+}
+
+/**
+ * Drop the follow up cards that belong to a worry.
+ *
+ * THE QUESTION MOVED (21 September 2026). A follow up attached to a worry is
+ * now asked inside the check in, one line above that worry's stars, because
+ * that is where parents actually answer it: 15 of 40 there against 0 of 6 on
+ * a card. The cron stopped making these cards on the same day, and this
+ * filter is for the ones already sitting in the queue, which on the live
+ * account is every unanswered follow up there is.
+ *
+ * Read only and per request: no migration, nothing deleted, and a card whose
+ * worry is later answered simply stops existing on both screens at once.
+ * Advice with no worry attached still shows here, exactly as before.
+ */
+async function withoutWorryFollowUps(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  prompts: { kind?: string | null; outcome_id?: string | null }[],
+) {
+  const ids = prompts.filter(p => p.kind === 'follow_up' && p.outcome_id).map(p => p.outcome_id as string)
+  if (ids.length === 0) return prompts
+  try {
+    const { data } = await supabase
+      .from('digi_outcomes').select('id, concern_id').in('id', ids)
+    const onAWorry = new Set(
+      ((data ?? []) as { id: string; concern_id: string | null }[])
+        .filter(o => o.concern_id).map(o => o.id),
+    )
+    return prompts.filter(p => !(p.outcome_id && onAWorry.has(p.outcome_id)))
+  } catch {
+    // Unreadable means show it. A question asked twice is a worse day than a
+    // question asked once, but a promise silently dropped is worse than both.
+    return prompts
+  }
 }
 
 export async function PATCH(req: NextRequest) {

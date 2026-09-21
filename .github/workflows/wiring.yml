@@ -93,6 +93,11 @@ jobs:
       # quietly broken. The rules that must fire and the ones that must never
       # fire are pinned, so nothing ever offers to add Minecraft as a child.
       - run: node scripts/check-new-name.mjs
+      # The question a parent is asked about a suggestion lives on the worry
+      # row in the check in, not on a card on Home. Three files have to agree
+      # for that to hold and none of them fails a build if they stop agreeing:
+      # the failure is the product silently asking twice, or not at all.
+      - run: node scripts/check-followup-lives-in-checkin.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

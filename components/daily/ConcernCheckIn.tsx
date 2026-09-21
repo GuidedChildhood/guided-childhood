@@ -61,6 +61,9 @@ export type ConcernCheckItem = {
   source?: string | null
   /** First time this one has reached the check in, and not a seeded starter. */
   isNew?: boolean
+  /** A DiGi suggestion for THIS worry that is still waiting on an answer. It
+   *  is asked above the stars, never on a card days later. See lib/checkin. */
+  followUp?: { outcomeId: string; suggestion: string } | null
 }
 
 /** The five bands, worst to best, which is the direction the scale has always
@@ -254,6 +257,35 @@ export default function ConcernCheckIn({
       })
       setWords(worked)
     } catch { setWords('idle') }
+  }
+
+  // ── "DID YOU GET TO TRY IT?", ON THE WORRY IT IS ABOUT ────────────────────
+  //
+  // Justin approved the move on 21 September 2026 after seeing the same
+  // question answered 15 times out of 40 inside this screen and 0 times out of
+  // 6 on its own card. Same parents, same three taps, and the only difference
+  // is that here the worry is already in their head.
+  //
+  // Nothing is required. An untouched row saves its stars exactly as before,
+  // and the band comparison that actually measures the worry runs either way,
+  // so the learning no longer depends on the answer at all. It is now the
+  // cheaper half of the reading rather than the whole of it.
+  const [tried, setTried] = useState<Record<string, 'busy' | 'worked' | 'partly' | 'no'>>({})
+  async function rateTried(concernId: string, outcomeId: string, verdict: 'worked' | 'partly' | 'no') {
+    if (tried[concernId]) return
+    setTried(t => ({ ...t, [concernId]: 'busy' }))
+    try {
+      const res = await fetch('/api/digi/outcome', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ outcomeId, verdict }),
+      })
+      if (!res.ok) throw new Error('save failed')
+      setTried(t => ({ ...t, [concernId]: verdict }))
+    } catch {
+      // Back to askable. A question that silently ate the tap is worse than
+      // one that is still there.
+      setTried(t => { const next = { ...t }; delete next[concernId]; return next })
+    }
   }
 
   const posted = useRef<Record<string, boolean>>({})
@@ -769,6 +801,54 @@ export default function ConcernCheckIn({
                   </button>
                 )}
               </div>
+
+              {/* ── ONE LINE ABOVE THE STARS, AND ONLY WHEN SOMETHING IS
+                  ACTUALLY WAITING (21 September 2026) ────────────────────────
+                  The same shape as last night's words at the top of this
+                  screen, because it is the same question: did you get to try
+                  the thing we suggested. Never on a saved row, never more than
+                  one per worry, and gone the moment it is answered. On current
+                  volume this is a handful of times a month, never a normal
+                  day, which is what keeps the thirty second habit thirty
+                  seconds long. */}
+              {c.followUp && !isSaved && tried[c.id] !== 'worked' && tried[c.id] !== 'partly' && tried[c.id] !== 'no' && (
+                <div style={{
+                  background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-btn)',
+                  padding: '12px 13px 11px', margin: '10px 0 4px',
+                }}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 8px' }}>
+                    DiGi suggested: {c.followUp.suggestion}
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 9px', lineHeight: 1.3 }}>
+                    Did you get to try it?
+                  </p>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {([['worked', 'Yes'], ['partly', 'Sort of'], ['no', 'Not yet']] as const).map(([v, label]) => (
+                      <button
+                        key={v}
+                        onClick={() => rateTried(c.id, c.followUp!.outcomeId, v)}
+                        disabled={tried[c.id] === 'busy'}
+                        style={{
+                          flex: '1 1 5em', minWidth: 0, minHeight: 44, padding: '10px 12px',
+                          borderRadius: 'var(--radius-pill)', cursor: 'pointer',
+                          background: '#fff', border: 'var(--edge)', boxShadow: 'var(--lift)',
+                          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                          opacity: tried[c.id] === 'busy' ? 0.6 : 1,
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {c.followUp && !isSaved && (tried[c.id] === 'worked' || tried[c.id] === 'partly' || tried[c.id] === 'no') && (
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)', margin: '10px 0 4px' }}>
+                  {tried[c.id] === 'worked' ? 'Noted. Now the stars.'
+                    : tried[c.id] === 'partly' ? 'Noted. Sort of counts. Now the stars.'
+                    : 'Noted. It stays on the list. Now the stars.'}
+                </p>
+              )}
 
               {/* FIVE STARS, ONE TAP. Each one is a 44px target with its own
                   label, so it is a proper radio group for a screen reader and a
