@@ -151,6 +151,9 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
       stageId={stage.id}
       stageName={stage.name}
       childName={childName}
+      // Every child we have, so a name in the conversation that is not one of
+      // them can be offered as a new one (lib/digi/new-name.ts).
+      knownNames={(childResult.kids ?? []).map(k => k.name).filter((n): n is string => Boolean(n))}
     />
   )
 }

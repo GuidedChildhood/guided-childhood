@@ -1193,7 +1193,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           thing on Home that was written for this family this week. */}
       {!firstRun && <DigiWordCard />}
       {!firstRun && pendingQuestionResult?.data?.question && (
-        <DigiQuestionCard question={pendingQuestionResult.data.question as string} childId={(pendingQuestionResult.data.child_id as string | null) ?? null} />
+        <DigiQuestionCard
+          question={pendingQuestionResult.data.question as string}
+          childId={(pendingQuestionResult.data.child_id as string | null) ?? null}
+          // So a question naming somebody we have never been introduced to can
+          // offer to add them (lib/digi/new-name.ts).
+          knownNames={allKids.map(k => k.name).filter((n): n is string => Boolean(n))}
+        />
       )}
 
       {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.

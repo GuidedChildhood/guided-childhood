@@ -21,7 +21,12 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
   // the whole library is one tap away: hidden cards read as missing content. If
   // nothing is tagged for this child's age, we open on the whole library instead
   // of a blank page, so the moments never look like they vanished.
-  const [scope, setScope] = useState<'child' | 'all'>(initialMoments.length === 0 ? 'all' : 'child')
+  // Open on the whole library when the card we were sent for is not in this
+  // child's age filtered set, or a parent who followed DiGi's link would land
+  // on a page that quietly does not contain the thing they tapped.
+  const [scope, setScope] = useState<'child' | 'all'>(
+    initialMoments.length === 0 || (suggestedId && !initialMoments.some(m => m.id === suggestedId)) ? 'all' : 'child',
+  )
   const everything = allMoments ?? initialMoments
   const showScopeToggle = everything.length > initialMoments.length
   const pool = scope === 'all' ? everything : initialMoments

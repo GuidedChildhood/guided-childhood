@@ -663,8 +663,21 @@ export async function POST(request: Request) {
         return { mo, score }
       }).filter(x => x.score >= 2).sort((a, b) => b.score - a.score).slice(0, 3)
     if (scored.length > 0) {
-      momentLinkKnowledge = `\n\nMOMENT CARDS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If the conversation has landed on one of these everyday moments, tell them warmly that this is a known moment and link the card so they can open it, exactly in this markdown form [Moment title](/m/MOMENT_ID). Only ever link one of these real moments, never invent a title or a link, only when it truly fits, and never link both a script and a moment in the same reply, choose the one that fits best:\n` +
-        scored.map(x => `- [${x.mo.title}](/m/${x.mo.id}) — ${x.mo.category}`).join('\n')
+      // THE LINK GOES INTO THE APP, NOT THE SHOP WINDOW (21 September 2026).
+      //
+      // This used to hand DiGi /m/ID, which is the PUBLIC share page: the one
+      // a stranger opens from a WhatsApp forward, ending in "Get your free
+      // starter pack" and "Already a member? Log in". Justin tapped a moment
+      // link out of a good answer, signed in and mid trial, and landed in the
+      // funnel: "this is already a sign up so although great to link to
+      // relevant card we don't need to offer starter pack just log as moment
+      // would of also been good."
+      //
+      // Every reader of this context is signed in by definition, so the card
+      // belongs at its place in the app, where I tried this, Make it a quest
+      // and Ask DiGi all live. The share page keeps its job for the stranger.
+      momentLinkKnowledge = `\n\nMOMENT CARDS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If the conversation has landed on one of these everyday moments, tell them warmly that this is a known moment and link the card so they can open it, exactly in this markdown form [Moment title](/dashboard/moments?card=MOMENT_ID). Only ever link one of these real moments, never invent a title or a link, only when it truly fits, and never link both a script and a moment in the same reply, choose the one that fits best:\n` +
+        scored.map(x => `- [${x.mo.title}](/dashboard/moments?card=${x.mo.id}) — ${x.mo.category}`).join('\n')
     }
   } catch { /* moments are a bonus, never block the reply */ }
 

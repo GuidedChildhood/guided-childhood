@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
+import { newNamesIn, addChildHref } from '@/lib/digi/new-name'
 
 // One question from DiGi, once a day, on Home.
 //
@@ -17,7 +19,7 @@ import HappyIcon from '@/components/kid/HappyIcon'
 // same feedback route as before, so the insight the parent sees tomorrow is
 // unchanged.
 
-export default function DigiQuestionCard({ question, childId }: { question: string; childId: string | null }) {
+export default function DigiQuestionCard({ question, childId, knownNames = [] }: { question: string; childId: string | null; knownNames?: string[] }) {
   const [text, setText] = useState('')
   const [state, setState] = useState<'ask' | 'saving' | 'done' | 'gone'>('ask')
   const [insight, setInsight] = useState<string | null>(null)
@@ -85,6 +87,42 @@ export default function DigiQuestionCard({ question, childId }: { question: stri
           )}
         </div>
       </div>
+
+      {/* A NAME WE HAVE NOT MET (21 September 2026).
+          This card is where Justin met it: DiGi asked him about Olga, who is
+          not one of the children in the app, days after he mentioned her once
+          in a chat. "we should be clever enough to ask if we want to add
+          another child as noticed new name?"
+          The question keeps her name, because it is a true record of what he
+          asked. What changes is that we now ask the obvious question back. */}
+      {(() => {
+        const fresh = newNamesIn([question], knownNames)
+        if (fresh.length === 0 || state !== 'ask') return null
+        return (
+          <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: 'var(--edge)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, minWidth: 0 }}>
+              {fresh.length === 1
+                ? `${fresh[0]} is not one of your children in here yet.`
+                : `${fresh[0]} and ${fresh[1]} are not in here yet.`}
+            </span>
+            {fresh.map(name => (
+              <Link
+                key={name}
+                href={addChildHref(name)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  background: '#fff', border: '1.5px dashed var(--terracotta-dark)',
+                  borderRadius: 'var(--radius-pill)', padding: '8px 14px', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
+                  color: 'var(--ink)', maxWidth: '100%', textAlign: 'left',
+                }}
+              >
+                Add {name}
+              </Link>
+            ))}
+          </div>
+        )
+      })()}
     </section>
   )
 }

@@ -6,8 +6,8 @@ import { ageBandInList } from '@/lib/content/stages'
 import MomentsGrid from './MomentsGrid'
 import type { Moment } from '@/components/cards/MomentCard'
 
-export default async function MomentsPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string }> }) {
-  const { from: from_, child: childParam } = await searchParams
+export default async function MomentsPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string; card?: string }> }) {
+  const { from: from_, child: childParam, card } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -50,11 +50,22 @@ export default async function MomentsPage({ searchParams }: { searchParams: Prom
   const timeCategory = ukHour < 11 ? 'Morning' : ukHour < 15 ? 'School' : ukHour < 17 ? 'Food' : ukHour < 21 ? 'Evening' : 'Evening'
   const screensFocus = focusLabel ? /screen|phone|tablet|game|gaming|tiktok|youtube|device/i.test(focusLabel) : false
   const pool = moments.length > 0 ? moments : allMoments
-  const suggested =
+  const autoSuggested =
     (screensFocus ? pool.find(m => m.category === 'Digital') : null) ??
     pool.find(m => m.category === timeCategory) ??
     pool[0] ?? null
-  const suggestReason = suggested
+  // ARRIVING ON ONE CARD. DiGi links a moment as [title](/dashboard/moments?card=ID)
+  // now that the link stays inside the app, and a parent who followed a
+  // sentence about getting ready in the morning should not have to find that
+  // card again in a grid of eighty. It leads the page through the same slot
+  // DiGi's daily pick uses, so there is one lead card, never two.
+  const asked = card && /^[0-9a-f-]{36}$/i.test(card)
+    ? allMoments.find(m => m.id === card) ?? null
+    : null
+  const suggested = asked ?? autoSuggested
+  const suggestReason = asked
+    ? 'because you just asked DiGi about it'
+    : suggested
     ? screensFocus && suggested.category === 'Digital'
       ? `because ${focusLabel} is what you are working on right now`
       : ukHour < 11 ? 'because the morning is where today gets decided'
