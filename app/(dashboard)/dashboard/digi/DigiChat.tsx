@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
+import { newNamesIn, addChildHref } from '@/lib/digi/new-name'
 import { useRouter } from 'next/navigation'
 import { currentChildId } from '@/lib/children/current'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
@@ -167,6 +168,7 @@ export default function DigiChat({
   stageId,
   stageName,
   childName,
+  knownNames = [],
 }: {
   initialMessages: Message[]
   /** A question pre written by another surface (a dip at the check in), so
@@ -193,6 +195,9 @@ export default function DigiChat({
   stageId?: number
   stageName?: string
   childName?: string | null
+  /** Every child on this account, so a name that is not one of them can be
+   *  offered as a new one rather than quietly absorbed. */
+  knownNames?: string[]
 }) {
   // A NEW CHAT EVERY TIME YOU OPEN IT.
   //
@@ -1188,6 +1193,45 @@ export default function DigiChat({
                 </Link>
               ))}
             </div>
+
+            {/* A NAME WE HAVE NOT MET (21 September 2026).
+                Justin asked DiGi about a 9 year old called Olga while the only
+                child set up was Timbotee: "we should be clever enough to ask if
+                we want to add another child as noticed new name?" So we ask,
+                here, once, on their own words rather than on DiGi's, and it is
+                an offer they can ignore for ever. lib/digi/new-name.ts holds
+                the rules and scripts/check-new-name.mjs holds them still. */}
+            {(() => {
+              const fresh = newNamesIn(
+                messages.filter(m => m.role === 'user').slice(-6).map(m => m.content),
+                [...knownNames, ...(childName ? [childName] : [])],
+              )
+              if (fresh.length === 0) return null
+              return (
+                <div style={{ marginTop: '12px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, minWidth: 0 }}>
+                    {fresh.length === 1
+                      ? `${fresh[0]} is new to me.`
+                      : `${fresh[0]} and ${fresh[1]} are new to me.`}
+                  </span>
+                  {fresh.map(name => (
+                    <Link
+                      key={name}
+                      href={addChildHref(name)}
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '6px',
+                        background: 'var(--cream)', border: '1.5px dashed var(--terracotta-dark)',
+                        borderRadius: 'var(--radius-pill)', padding: '8px 14px', textDecoration: 'none',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
+                        color: 'var(--ink)', maxWidth: '100%', textAlign: 'left',
+                      }}
+                    >
+                      Add {name}
+                    </Link>
+                  ))}
+                </div>
+              )
+            })()}
 
             {/* Flag an answer as off. Quiet by default, a small note box when
                 opened, a plain thank you once sent. Never in the way. */}

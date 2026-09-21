@@ -23,7 +23,7 @@ opens with an index giving the line number of every entry, so one decision is a
 - Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
 - Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5-1)
-- Characters / lessons       → digi-squad/README.md (Teo, Olga, Alma, DiGi Junior, UK animals)
+- Characters / lessons       → digi-squad/README.md (DiGi plus the Planet Friends: Pebble, Bloop, Orbit, Nova, Cosmo)
 - Database work              → docs/02 only
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
 - Emails or any copy         → research/01 voice rules; no dashes ever in copy

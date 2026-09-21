@@ -601,3 +601,34 @@ test's "tap Turn on check ins" named a button that only exists on Home, so
 the card now carries the switch itself, through the shared `enablePush`, and
 re-runs the test the moment it succeeds. Rule reaffirmed: never tell a parent
 to tap something that is not on the screen in front of them.
+
+## 21 September 2026 — DiGi's card link, and a name we have not met
+
+Justin, from his phone: "Digi links to starter pack in response but this is
+already a sign up ... we should be clever enough to ask if we want to add
+another child as noticed new name?"
+
+Two separate things, both true.
+
+**The link.** DiGi was handed `/m/ID` for moment cards, which is the PUBLIC
+share page: the one a stranger opens from a WhatsApp forward, ending in "Get
+your free starter pack". Every reader of a DiGi reply is signed in, so the link
+is now `/dashboard/moments?card=ID`, the card inside the app where I tried
+this, Make it a quest and Ask DiGi live. The share page keeps the starter pack
+for the stranger it was built for and offers a member the app instead.
+
+**The name.** He asked about a 9 year old called Olga while the only child set
+up was Timbotee, so every follow up since has named a child the app does not
+have. The question keeps her name, because it is a true record of what he
+asked. What is new is the offer: `lib/digi/new-name.ts` finds a first name in
+what the parent typed that we have never met, and a quiet "Add Olga" appears in
+the chat and under the question on Home, going to the add child form with the
+name filled in. Two signals required before we believe it is a child, so
+Roblox, Monday, Miss Davies and London never produce an offer.
+`scripts/check-new-name.mjs` pins all of that, 5 that must fire and 15 that
+must never.
+
+Also corrected: CLAUDE.md still named Teo, Olga and Alma as the characters.
+Justin: "they are not digi squad characters we do not use them anymore we use
+planet friends." It now names DiGi and the Planet Friends, as digi-squad has
+since 23 July 2026.

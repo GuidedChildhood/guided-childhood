@@ -197,9 +197,20 @@ export default function QuestManager() {
 
   // Open straight to a tab when linked with ?tab=, so the setup step Send
   // your child their phone link lands on Share, not the default Quests tab.
+  //
+  // ?add_child=Olga opens the add child form with the name already in it.
+  // DiGi offers that link when a parent talks about a child we have never been
+  // introduced to (lib/digi/new-name.ts), and an offer that lands on a page
+  // with the form still closed is an offer that made them do the work twice.
   useEffect(() => {
-    const t = new URLSearchParams(window.location.search).get('tab')
+    const params = new URLSearchParams(window.location.search)
+    const t = params.get('tab')
     if (t === 'share' || t === 'rewards' || t === 'games' || t === 'manage') setTab(t)
+    const name = params.get('add_child')
+    if (name && name.trim()) {
+      setAddingChild(true)
+      setNewChildName(name.trim().slice(0, 60))
+    }
   }, [])
 
   useEffect(() => {

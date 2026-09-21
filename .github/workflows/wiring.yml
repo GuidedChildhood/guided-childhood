@@ -88,6 +88,11 @@ jobs:
       # rides here because it is the same shape of check, a thing that cannot
       # fail typechecking and cannot be seen without opening a browser.
       - run: node scripts/check-tokens.mjs
+      # Offering to add a child the parent mentioned is a pile of heuristics
+      # over free text: the kind of code that gets one case fixed and three
+      # quietly broken. The rules that must fire and the ones that must never
+      # fire are pinned, so nothing ever offers to add Minecraft as a child.
+      - run: node scripts/check-new-name.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

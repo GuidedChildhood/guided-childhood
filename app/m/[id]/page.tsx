@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -59,9 +60,29 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
+// Is the person reading this already one of ours?
+//
+// NEVER SELL SOMETHING TO SOMEONE WHO HAS BOUGHT IT (21 September 2026).
+// Justin, signed in and mid trial, followed a moment link out of a DiGi answer
+// and met "Get your free starter pack": "this is already a sign up so although
+// great to link to relevant card we don't need to offer starter pack". DiGi
+// now links the in app card instead, and this page still has to hold, because
+// a member also opens shared links from a friend's WhatsApp group.
+//
+// An error reads as signed out, which is the safe way round: a stranger gets
+// the invitation the page was built for, and the worst a member ever sees is
+// the offer they see everywhere else.
+async function isMember(): Promise<boolean> {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    return Boolean(user)
+  } catch { return false }
+}
+
 export default async function SharedMomentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const moment = await getMoment(id)
+  const [moment, member] = await Promise.all([getMoment(id), isMember()])
   if (!moment) notFound()
 
   const look = momentLook(moment.category)
@@ -129,27 +150,32 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
         </div>
       </div>
 
-      {/* The invitation, not a hard sell */}
+      {/* The invitation for a stranger, the way back in for a member. */}
       <div style={{ width: 'min(100%, 520px)', marginTop: '18px', textAlign: 'center' }}>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, marginBottom: '14px' }}>
-          There is a card like this for every hard moment, and the exact words to say, from age 4 to 16.
+          {member
+            ? 'This one is in your app, where you can tell DiGi you tried it, turn it into a quest, or keep it for later.'
+            : 'There is a card like this for every hard moment, and the exact words to say, from age 4 to 16.'}
         </p>
         <Link
-          href="/starter-pack"
+          href={member ? `/dashboard/moments?card=${moment.id}` : '/starter-pack'}
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: 'var(--radius-btn)', padding: '14px 28px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
+            maxWidth: '100%', boxSizing: 'border-box',
           }}
         >
-          Get your free starter pack
+          {member ? 'Open it in your app' : 'Get your free starter pack'}
         </Link>
-        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.75)', marginTop: '12px' }}>
-          Already a member?{' '}
-          <Link href="/login" style={{ color: '#fff', fontWeight: 700 }}>Log in</Link>
-        </p>
+        {!member && (
+          <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.75)', marginTop: '12px' }}>
+            Already a member?{' '}
+            <Link href="/login" style={{ color: '#fff', fontWeight: 700 }}>Log in</Link>
+          </p>
+        )}
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.55)', marginTop: '14px', letterSpacing: '0.06em' }}>
           guidedchildhood.co.uk
         </p>

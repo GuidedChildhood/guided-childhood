@@ -11,7 +11,13 @@ export default function DigiQuestionFixture() {
   const pick = pickIssue('8-10', [], new Set(), 3)
   return (
     <main style={{ maxWidth: 560, margin: '0 auto', padding: '24px 16px', fontFamily: 'var(--font-body)', background: 'var(--cream)', minHeight: '100dvh' }}>
-      <DigiQuestionCard question="Quick one for tonight: when the timer ends, does Alma usually stop on her own or does the pushback start straight away?" childId={null} />
+      <DigiQuestionCard
+        question="Quick one for tonight: when the timer ends, does Alma usually stop on her own or does the pushback start straight away?"
+        childId={null}
+        // The family here has one child, Teo, so Alma is a name we have not
+        // met and the add offer shows. That is the case this fixture is for.
+        knownNames={['Teo']}
+      />
       {pick && <IssueOfTheWeek pick={{ ...pick, href: pick.script ? `/dashboard/scripts/${pick.script.sort_order}` : '/dashboard/digi' }} childName="Alma" />}
     </main>
   )
