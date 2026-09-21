@@ -186,7 +186,8 @@
         "Agreeing is the one they start to question"
       ],
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "A friend has their own day going on. They can be wrong with you, and wrong at you. They can tell that you are not alright before you say so. And if you disappeared, something would change for them.",
@@ -277,7 +278,8 @@
         "Someone insisting it must be one or the other"
       ],
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "None of this is a problem until one thing changes: when the app becomes the only place you say the real things. That is not a sign anything is wrong with you. It is a sign that a person should know too.",
@@ -363,7 +365,8 @@
         "You would lose the thing that was helping"
       ],
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -464,7 +467,8 @@
         "Safety needs it to break a secret when it matters"
       ],
       "minutes": 5,
-      "seconds": 240
+      "seconds": 240,
+      "extension": true
     },
     {
       "type": "choice",

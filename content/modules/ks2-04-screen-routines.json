@@ -187,7 +187,8 @@
       "script": "Sixty seconds, partner talk, start the timer on screen. Share your own hardest moment first, adults have one too and admitting it gives the room permission to be honest. After the chime take three answers and sort them out loud: after school, bedtime, mealtimes, homework. Tell them: those four moments are exactly where we are taking the lap next.",
       "lookFor": "Honesty, and pupils spotting the no finishing line moments: autoplay at bedtime, one more round after school, the group chat that never ends. The best answers notice the design, not just the feeling.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Sleep is when your brain saves everything you learned today and gets you ready for tomorrow. Screens at bedtime attack sleep twice. First, bright screens and exciting clips tell your brain it is daytime, so you feel wide awake at the exact moment you should be winding down. Second, sleep displacement: every minute of scrolling is a minute taken straight out of your sleep, and it never comes back. That is why the strongest bedtime routine in the world is boring and brilliant: screens sleep outside the bedroom.",
@@ -211,7 +212,8 @@
       "prompt": "It is 9:47pm and the next video is already loading. Which step of the cool down lap is missing, and where did this spiral actually start?",
       "script": "Read the post with a grin, it is funny because it is true, even the app is laughing at us. Then get serious with the two questions. Which step is missing: the finish, autoplay deletes the finishing line so the video never actually ends. Where did the spiral start: not at 9:47, it started when the phone came into the bedroom. The best routine move happened an hour before this screenshot. Land that hard: routines win battles before they start.",
       "minutes": 3,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -306,7 +308,8 @@
       "script": "Groups of three or four, ninety seconds on the timer, this is the design challenge of the day. Every group must place all three steps somewhere. Collect one routine per group after the chime and test it out loud against the squad chat scenario: would this routine have survived GET ON NOW? Celebrate the group that put the gaming session after homework as the swap, that is the pro move, the screen becomes the reward instead of the enemy.",
       "lookFor": "The warning set before screens start, not during. A named finishing line, end of round or end of video, never mid anything. A real swap into homework, and the fun thing placed after homework as the reward. Bonus brilliance: the phone in a different room while working.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -330,7 +333,8 @@
           "feedback": "A promise to be sensible is willpower wearing a disguise. The apps are designed by teams of adults to beat that promise. Beat their design with your design."
         }
       ],
-      "question": "When is the smartest time to decide your cool down lap on a school night?"
+      "question": "When is the smartest time to decide your cool down lap on a school night?",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -360,7 +364,8 @@
       "script": "The whole class check, and honesty is the only rule. Read the question, give ten seconds of silent thinking, then count hands for each answer and tap the bars up. Say it before anyone votes: willpower trap is not a confession, it is the smartest thing in the room to notice, because the whole lesson says routines beat willpower every time. When the bars land, ask one volunteer per bar to say why they voted that way.",
       "caption": "The honest hands up. No wrong answers, only true ones.",
       "minutes": 4,
-      "component": "class-tally"
+      "component": "class-tally",
+      "extension": true
     },
     {
       "body": "Six situations on your worksheet: after school, bedtime, mealtimes and homework. Read each one like a detective and give your verdict: Routine ready, Needs a lap, or Willpower trap. Every verdict needs a reason, and if your verdict is Needs a lap, write which step is missing: warn, finish or swap. Fifteen minutes. Number six is a big claim from Teo, and your job is to agree or disagree with real reasoning.",

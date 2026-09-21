@@ -140,7 +140,8 @@
       "prompt": "The account owner is now 18 and applying for medicine. The tutor searched the name. What story does page one tell, and who is its author?",
       "script": "Take answers on both questions. The story: someone casually vicious about a teammate, frozen at their worst moment, aged fourteen. The author: nobody. That is the real answer, this portfolio has no author, it assembled itself from moments. Then the honest complication: the tutor knows fourteen year olds post rubbish. One old post rarely ends an application. But it starts a story, and the applicant is not in the room to finish it. The fix is not deleting your way to a blank page, it is building enough deliberate record that the accidents become footnotes.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -175,7 +176,8 @@
       "script": "Sixty seconds in pairs, timer on screen. Nobody has to confess anything specific, the question is about authorship, not content. After the chime take two or three responses. The pattern you will hear: almost nobody has written their own page one on purpose. Name that as the opportunity, not the failure: in this room, being deliberate about your record puts you ahead of nearly everyone your age.",
       "lookFor": "Honesty over performance. The strongest answers separate the record they authored from the record that accumulated, and notice how little of it was deliberate.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Here is the honest middle that the headlines miss on both sides. AI mostly does not delete whole jobs, it reshapes them task by task: the routine layer of a job compresses while the judgement layer grows. A junior lawyer's document search compresses, the decision about what the documents mean expands. A designer's production work compresses, taste about what is worth making expands.",
@@ -211,7 +213,8 @@
       "script": "Sixty seconds. One thing that shrinks, one thing that gets more valuable. Then we will see how close you were.",
       "lookFor": "Push past job titles to the layer of the work. Routine output compresses. Judgement, trust and the awkward conversation expand.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -251,7 +254,8 @@
       "script": "Groups of three or four, ninety seconds, real careers only, not hypotheticals. Circulate and listen for anyone still giving whole job verdicts, and nudge them: unbundle it. Take one career per group afterwards and unbundle the trickiest one on the board. If someone raises coding, treat it honestly: typing routine code compresses fast, knowing what to build, whether it works and whether it should exist keeps expanding. Same shape in every field.",
       "lookFor": "Task level thinking rather than job level verdicts. Weak answers say medicine is safe or coding is doomed. Strong answers split one career into its compressing and expanding tasks.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "body": "Across the research and across every industry, the same cluster of human skills keeps climbing in value: judgement, knowing what good looks like when the options all look plausible. Taste, knowing what is worth making before anyone asks for it. Trust building, being the person others stake their own reputation on.",
@@ -352,7 +356,8 @@
       "script": "The endurance test as a class vote, and this one has no answer key. Take the vote, tap the bars, then make the case for each bar out loud or hand each bar to a volunteer: more valuable, because a long honest record is proof no CV can fake; less valuable, because platforms die and feeds bury; changes shape, because the you of 28 will be read by tools that do not exist yet. The point lands in the disagreement: whatever you believe, you are building the record either way.",
       "caption": "Every answer is defensible. The reasons are the lesson.",
       "minutes": 4,
-      "component": "class-tally"
+      "component": "class-tally",
+      "extension": true
     },
     {
       "body": "Six items on the worksheet: skills and tasks, from drafting cover letters to building trust with a client. Run the endurance test on each one and give a verdict: more valuable, less valuable, or changes shape. Every verdict needs a reason, and a verdict without a reason does not count. Twelve minutes. The final item is a claim to argue with, and it deserves your best two sentences.",

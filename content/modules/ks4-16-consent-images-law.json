@@ -255,7 +255,8 @@
           "feedback": "The age line for images is 18, not 16. This catches a lot of people out. Sixteen changes some laws, but not this one."
         }
       ],
-      "question": "Two 16 year olds are in a relationship and both agree to share images with each other. What does UK law say?"
+      "question": "Two 16 year olds are in a relationship and both agree to share images with each other. What does UK law say?",
+      "extension": true
     },
     {
       "meta": "Messages · 23:47",
@@ -269,7 +270,8 @@
       "prompt": "Read it once in silence. How many pressure techniques can you name in these four sentences?",
       "script": "Give the room a silent read, then work through it line by line, naming techniques like last lesson. You would if you cared is guilt used as a lever. Everyone sends them is false social proof, and it is factually wrong, most people do not. I would never show anyone is a promise nobody can enforce once an image exists. Why are you making this a big deal reverses the blame onto the person saying no. Four sentences, four techniques. Then say clearly: a yes produced by this message would not be consent, because it was not freely given. If this scenario prompts any pupil to disclose something similar, follow your safeguarding policy, speak to them privately and involve your DSL the same day.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "The single most used pressure line is everyone sends them, and it is simply false. Most young people do not, whatever the loudest voices claim. Pressure comes in soft forms too: guilt, sulking, repeated asking, or making you feel boring or cold for saying no. All of it is coercion, and a yes it produces is not consent.",
@@ -296,7 +298,8 @@
       "script": "Groups of three, ninety seconds on the timer, keep the register calm and analytical. You are asking them to study the technique, not to share personal stories, and steer gently if a group drifts personal. Collect one answer per group. The insight to land: the line works because it isolates you, and it is a lie, the majority are quietly saying no with you.",
       "lookFor": "It attacks belonging, the thing that matters most at this age. It makes the person saying no feel like the odd one out, when the quiet truth is that most people are saying no with them. Naming it as a technique takes its power away.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -353,7 +356,8 @@
       "script": "Pairs, sixty seconds on the timer. Keep it in the third person, what would you say to a friend, so nobody is asked to speak about themselves. Collect a few answers and match each barrier to its answer out loud. The sentence to leave hanging in the room: the fear of asking for help is nearly always worse than what actually happens when you do. If anything surfaces here, follow your safeguarding policy.",
       "lookFor": "The usual barriers: shame, fear of being in trouble, fear of parents finding out, believing nothing can be done. Every one of them has an answer: it is not your fault, you are not in trouble, Report Remove is confidential, and something can be done.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "choice",
@@ -377,7 +381,8 @@
           "feedback": "The opposite is true. The guidance that police and schools follow protects the person in the image. Staying quiet is the only option that helps nobody."
         }
       ],
-      "question": "An image of a Year 10 pupil is being shared around. What is true about their options?"
+      "question": "An image of a Year 10 pupil is being shared around. What is true about their options?",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -454,7 +459,8 @@
       "script": "Keep the room steady for this one. The cases stay on the screen and nobody's story is invited or needed. Read each card evenly, take the vote without commentary, tap the class verdict, read the reason. Every time get help now fires, repeat the line that carries the lesson: asking for help means you are safe, not in trouble.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Six situations on the worksheet. For each one, run the tool: is there real consent, what does the law say, what are my options? Give a verdict: real consent, pressure not consent, or get help now, and back every verdict with a reason. Fifteen minutes, working alone or in your pair. These are fictional situations. Do not write about real people.",

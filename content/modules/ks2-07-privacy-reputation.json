@@ -279,7 +279,8 @@
           "feedback": "There is no safe time window. A screenshot takes one second and makes a copy you can never delete. Before is a choice, after is a hope."
         }
       ],
-      "question": "You sent a silly photo to a group chat, thought better of it, and deleted it two minutes later. What is true?"
+      "question": "You sent a silly photo to a group chat, thought better of it, and deleted it two minutes later. What is true?",
+      "extension": true
     },
     {
       "body": "Your digital footprint is like a garden: it grows whether you tend it or not. Every post, comment, quiz answer and shared photo is a seed, and years from now, secondary schools, clubs and even employers may wander through and look around. Ignore the garden and weeds grow that you did not choose. Tend it, and it becomes a garden you are proud to show people: your art, your goals, your best jokes. Same garden, same you. The only difference is whether the editor showed up.",
@@ -333,7 +334,8 @@
       "prompt": "Cute puppy, ten second quiz. Run the share test on it. Which question fires first, and why would a puppy quiz want your pet's name?",
       "script": "Let them enjoy how cute it looks first, that is the whole trick. Then run the test together. Assembly test: would you shout your street name in assembly? Hmm. Location test: it literally asks for a street. Future me test: here is the detective reveal, pet name, street, favourite teacher are the exact backup questions that unlock forgotten passwords. Ask: who might collect answers like that, and what could they open with them? A puppy quiz does not need any of it to tell you that you are a golden retriever. The questions ARE the product.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "choice",
@@ -357,7 +359,8 @@
           "feedback": "Likes measure popularity, not safety, remember the feed loop serves whatever gets attention. Two million plays just means two million people got asked for their keys."
         }
       ],
-      "question": "The puppy quiz asks for your first pet's name and your street. What is the sharpest editor move?"
+      "question": "The puppy quiz asks for your first pet's name and your street. What is the sharpest editor move?",
+      "extension": true
     },
     {
       "mode": "groups",
@@ -367,7 +370,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. You are listening for honesty, not right answers, so share your own weak question first, most adults forget future me too. After the chime, collect one answer per group and one fix per group. Any group that invents its own memory trick, name it after them for the rest of the lesson.",
       "lookFor": "Honesty first. Most pupils forget the future me question because the future feels far away. Good fixes: say the chant before posting, imagine Year 6 you watching over your shoulder, ask does this go in my garden.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -444,7 +448,8 @@
       "script": "Run the share test on all six together before the paper. Read the card, take the vote, tap the class verdict, read the reason. Where the class splits, that is the gold: let two children argue it for thirty seconds before you tap.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Your teacher has six items on the worksheet: posts, chat messages and quiz questions, all waiting for an editor's decision. Run the share test on each one and give a verdict: share it, think twice, or keep it private. You have fifteen minutes. Every verdict needs a reason from the three questions, a verdict without a reason does not count.",

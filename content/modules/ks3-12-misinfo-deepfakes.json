@@ -177,7 +177,8 @@
         ],
         "friend": "bloop"
       },
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "meta": "3h · Shared 48,200 times",
@@ -192,7 +193,8 @@
       "prompt": "Real or made? Vote now, hands up. Then be honest: how would you actually know?",
       "script": "Straight in, they do not need a warm up, they have just had one. Run the vote and count the hands both ways, fast. Then the reveal: it does not matter which way the class voted, because nobody in this room can tell by looking. Not you, not me. Let that sit for a second. That discomfort is the lesson starting.",
       "minutes": 1,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "Some of what you see online is real. Some is edited. And some is made entirely by a computer: faces, voices, whole events that never happened. The three look identical at first glance. That is not a reason to panic. It is a reason to check, and checking takes under a minute once you know the three questions.",
@@ -288,7 +290,8 @@
       "script": "Sixty seconds, partner talk, start the timer on screen. You are listening for honesty, not right answers. Take two or three answers after the chime and admit your own weak check too, it gives the room permission to be honest.",
       "lookFor": "Honesty. Most of us skip check three because noticing our own feelings is the hardest one. Naming your weak check is how you fix it.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "meta": "1d · Public group · Shared 118,000 times",
@@ -303,7 +306,8 @@
       "prompt": "Which check fails first? Thirty seconds with your partner, then verdicts with reasons.",
       "script": "Pair talk, thirty seconds. The answer you are fishing for: check one fails instantly, scientists confirm with no scientist named and no link is a claim with nobody behind it. Bonus if anyone spots the share so every parent sees it line, that is check three firing too. Fakes usually fail more than one check at once.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "choice",
@@ -328,7 +332,8 @@
         }
       ],
       "question": "A post makes you furious the second you see it. Which check does that feeling trigger?",
-      "toolStrip": true
+      "toolStrip": true,
+      "extension": true
     },
     {
       "type": "choice",
@@ -353,7 +358,8 @@
         }
       ],
       "question": "A post says scientists confirm a shocking finding. No name, no link, no source. Which check fails first?",
-      "toolStrip": true
+      "toolStrip": true,
+      "extension": true
     },
     {
       "meta": "Voice message · 0:42",
@@ -367,7 +373,8 @@
       "prompt": "A voice that sounds exactly right, sent by a friend you trust. Does that change which checks we run?",
       "script": "The trap here is the trusted friend. Jay is not lying, Jay is fooled, that is misinformation from your keywords. The checks do not care who delivered the claim or what format it arrived in. A voice is now just another thing a computer can make.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_091451_ec7ebc00-4417-4e6d-96f9-14bb076596df.mp4",
@@ -421,7 +428,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. This is the stretch thinking from the one pager brought into the room: fakes are not accidents, they are products with owners. Collect one answer per group.",
       "lookFor": "The account gets followers and money, the platform gets watch time and advert views, and sometimes someone gets a lie believed. Nobody in the chain needs the fake to be true.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -444,7 +452,8 @@
       "script": "The diagram of how a fake travels, now run as a race. Run it once and let the outrage post win by miles. Ask why: not because it is true, because reactions are the fuel. Then press calm the reactions and run it again, and watch the race tighten. Land the line the whole lesson has been building to: your pause is not nothing, it is the brake, and you are no longer most people.",
       "caption": "Same day, two posts. Watch what reactions are worth.",
       "minutes": 4,
-      "component": "spread-race"
+      "component": "spread-race",
+      "extension": true
     },
     {
       "body": "Your teacher has six items on the worksheet: posts, a screenshot chain, and a described video. Run the three checks on each and give a verdict: believe, pause, or do not share. You have fifteen minutes. Verdicts need reasons, a verdict without a reason does not count.",

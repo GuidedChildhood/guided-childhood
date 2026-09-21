@@ -165,7 +165,8 @@
       "seconds": 90,
       "prompt": "Is there a real difference between going and finding something, and being shown it? Does the difference change anything about how you should feel afterwards?",
       "lookFor": "Most land on yes, there is a difference, and then struggle to say why it should change how they feel. That struggle is the point and it is worth naming rather than resolving.",
-      "script": "Ninety seconds. Take three answers and do not close it down neatly, because the honest answer is that people feel responsible for things that arrived anyway, and telling them not to does not work. What works is the next slide, which gives them the fact rather than the reassurance."
+      "script": "Ninety seconds. Take three answers and do not close it down neatly, because the honest answer is that people feel responsible for things that arrived anyway, and telling them not to does not work. What works is the next slide, which gives them the fact rather than the reassurance.",
+      "extension": true
     },
     {
       "type": "concept",
@@ -218,7 +219,8 @@
       "avatar": "💬",
       "text": "did you see what got sent round last night\n\nI wish I hadnt opened it\n\nkeep seeing it when I shut my eyes\n\nfeel stupid for being weird about it\n\ndont tell anyone I said this",
       "meta": "Today · 23:40",
-      "script": "Put it up and let the room read it in silence. Then one question: which of these five lines is the one that needs answering first? Most say the third. The better answer is the fourth, because feeling stupid about it is what turns one bad night into three weeks of silence. Do not ask anyone whether they have sent a message like this."
+      "script": "Put it up and let the room read it in silence. Then one question: which of these five lines is the one that needs answering first? Most say the third. The better answer is the fourth, because feeling stupid about it is what turns one bad night into three weeks of silence. Do not ask anyone whether they have sent a message like this.",
+      "extension": true
     },
     {
       "type": "concept",
@@ -333,7 +335,8 @@
       "seconds": 90,
       "prompt": "Which of the three moves is hardest, and why? Be honest rather than correct.",
       "lookFor": "Most say the third, and the reasons are worth hearing: not wanting a fuss, not wanting a parent told, not wanting to be the one who made it official. Every one of those is a real obstacle rather than an excuse.",
-      "script": "Ninety seconds. This is the most useful discussion in the lesson and the temptation is to correct the answers. Do not. Take the obstacles seriously and answer the commonest one directly, which is what happens next, because a pupil who does not know what happens after telling will not tell."
+      "script": "Ninety seconds. This is the most useful discussion in the lesson and the temptation is to correct the answers. Do not. Take the obstacles seriously and answer the commonest one directly, which is what happens next, because a pupil who does not know what happens after telling will not tell.",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -412,7 +415,8 @@
       "seconds": 120,
       "prompt": "Somebody forwards something upsetting into a group of thirty. What is the one message that would change what happens next, and who has to send it?",
       "lookFor": "The answer is almost always short, direct and sent by anybody: do not forward that. The second half of the question is the real one, because everybody in the group is waiting for somebody else.",
-      "script": "Two minutes in fours. Collect the actual wording pupils would use rather than the principle, because a message somebody would really send is worth ten they would not. Then land the point: the first person to say it makes it easy for everybody else, and it does not matter who that is."
+      "script": "Two minutes in fours. Collect the actual wording pupils would use rather than the principle, because a message somebody would really send is worth ten they would not. Then land the point: the first person to say it makes it easy for everybody else, and it does not matter who that is.",
+      "extension": true
     },
     {
       "type": "choice",

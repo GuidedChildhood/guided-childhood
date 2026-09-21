@@ -165,7 +165,8 @@
       "seconds": 90,
       "prompt": "If every crate showed its price in pounds and pence instead of gems, what would change?",
       "lookFor": "Most say people would buy fewer, which is the answer and is why it is not done that way. Some will say it would change nothing for them personally. That is worth hearing rather than arguing with.",
-      "script": "Ninety seconds. Take three answers and resist the urge to correct the pupil who says it would make no difference to them, because they may well be right about themselves. The honest version is that it would change the average, not every person, and saying so is what keeps the rest of the lesson credible."
+      "script": "Ninety seconds. Take three answers and resist the urge to correct the pupil who says it would make no difference to them, because they may well be right about themselves. The honest version is that it would change the average, not every person, and saying so is what keeps the rest of the lesson credible.",
+      "extension": true
     },
     {
       "type": "concept",
@@ -272,7 +273,8 @@
       "avatar": "💬",
       "text": "mate I put a fiver on and got £40 back\n\nliterally free money\n\n4 in a row now\n\nim up like £90 this month\n\nwhy is nobody else doing this",
       "meta": "Today · 5 messages",
-      "script": "Put it up and say nothing for five seconds. Then one question and no more than three answers: what is missing from this chat? The answer is every losing week. Nobody posts those, so the chat only ever carries wins, and the picture it builds is not a lie anybody told. It is a lie the format tells on its own. Name it as survivorship bias and connect it back to manipulation and persuasion if your class has had that module."
+      "script": "Put it up and say nothing for five seconds. Then one question and no more than three answers: what is missing from this chat? The answer is every losing week. Nobody posts those, so the chat only ever carries wins, and the picture it builds is not a lie anybody told. It is a lie the format tells on its own. Name it as survivorship bias and connect it back to manipulation and persuasion if your class has had that module.",
+      "extension": true
     },
     {
       "type": "concept",
@@ -354,7 +356,8 @@
       "seconds": 90,
       "prompt": "A friend tells you they are up £90 this month on a betting app. What would you say, and what would you actually want to know?",
       "lookFor": "Strong answers ask what the losing weeks looked like, or whether they could stop for a month and how that question lands. The sharpest answer notices that up £90 is unverifiable and usually means up £90 since the last time they counted.",
-      "script": "Ninety seconds, then three answers. Steer away from anything that sounds like a lecture to a friend, because none of them will ever deliver it. The move that works is a question rather than a warning, and the best question in the room is usually could you stop for a month, because of what the answer to it reveals."
+      "script": "Ninety seconds, then three answers. Steer away from anything that sounds like a lecture to a friend, because none of them will ever deliver it. The move that works is a question rather than a warning, and the best question in the room is usually could you stop for a month, because of what the answer to it reveals.",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -433,7 +436,8 @@
       "seconds": 120,
       "prompt": "Should a game have to show the price of a crate in pounds, and the odds, before you open it?",
       "lookFor": "Almost everyone says yes. The argument worth surfacing is the other one: showing odds has not made much difference where it has been tried, because the problem was never that people lacked the information.",
-      "script": "Two minutes in fours. Take two positions rather than a vote. If nobody raises the counter argument, put it up yourself, because a class that leaves believing a label would fix this has learned something comforting and wrong."
+      "script": "Two minutes in fours. Take two positions rather than a vote. If nobody raises the counter argument, put it up yourself, because a class that leaves believing a label would fix this has learned something comforting and wrong.",
+      "extension": true
     },
     {
       "type": "choice",

@@ -130,7 +130,8 @@
       "prompt": "Maisie posted her painting because she was proud of it. Then this appeared. Is Maisie being bullied? How do we even decide?",
       "script": "Bloop opens the case file. Read the comment out flat, do not perform it as funny. Take a quick vote: bullying or not bullying? You will get a split, and that split is gold, because the class does not yet have a way to decide. Say: detectives do not guess, they use tells. The next two slides give us the tells. Do not resolve the vote yet.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "Everyone says something unkind sometimes, and everyone gets something unkind said to them. One unkind comment is a moment: it is wrong, it can be put right, and it usually ends with a real sorry. Bullying is different. Bullying is unkindness that is repeated, aimed at the same person, and done on purpose. The difference matters because it tells you how much help to call in: an unkind moment might need one honest conversation, but bullying always needs an adult in the game.",
@@ -249,7 +250,8 @@
           "feedback": "Quiet watching feels safe, but the silent audience is exactly who the pile on is performing for. Not joining in is a start, and there is more you can safely do."
         }
       ],
-      "question": "The pile on about Ravi is growing. Which is the strongest upstander move you could make right now?"
+      "question": "The pile on about Ravi is growing. Which is the strongest upstander move you could make right now?",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -284,7 +286,8 @@
       "script": "Sixty seconds. Three moves, in order, no looking. I will pick two pairs to say them back to me.",
       "lookFor": "In order is the part that matters. If a pair gets two, say the third one together before you move on.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Every app your class uses has a report button and a block button, built in on purpose, because the people who made the app know unkindness happens. Blocking someone is not dramatic and it is not weak: it is closing a door so the unkindness cannot follow you home. Reporting is not getting someone destroyed: it quietly asks the app to take a look, and the person is never told who reported them. Using safety tools is like wearing a seatbelt. Nobody is embarrassed about a seatbelt.",
@@ -312,7 +315,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. This is a rehearsal, not a chat: by the chime every pupil should have two named adults and a first sentence. Collect a few first sentences and celebrate the simple ones. Offer the emergency version for anyone stuck: you do not even need a good sentence, you can just show a trusted adult the screenshot from move two. That is what the evidence is for.",
       "lookFor": "Real named adults, not just an adult. And a workable opening sentence, something like: something is happening online and I need your help. The first sentence is the hardest part, so rehearsing it now is the whole point.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -336,7 +340,8 @@
           "feedback": "Now the bully has a message from you to twist and share, and your friend still has no adult help. Adults have moves that pupils do not. Use move three."
         }
       ],
-      "question": "A friend shows you nasty messages they keep getting every night, then says: promise you will not tell anyone. What do the three moves say?"
+      "question": "A friend shows you nasty messages they keep getting every night, then says: promise you will not tell anyone. What do the three moves say?",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -413,7 +418,8 @@
       "script": "Sort the six situations together, and keep the register warm: we are naming what is happening, never who it sounds like. Read each card, hands up, tap the class verdict, read the reason. Land the difference every time: one unkind moment and bullying are not the same word, and knowing which is which is what makes the three moves work.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Your teacher has six cases on the mission sheet: comments, group chats, and one tricky claim from Orbit at the end. For each one, decide what is happening using the three tells, give your verdict, and say which of the three moves you would make. You have fifteen minutes. A verdict without a reason does not count.",

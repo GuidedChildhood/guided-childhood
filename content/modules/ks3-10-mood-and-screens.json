@@ -129,7 +129,8 @@
       "prompt": "You have all heard a version of this. Honest show of hands: does it match what you actually notice in your own life?",
       "script": "Run the hands up vote and take two or three honest answers. Some pupils will say yes, some no, and both are useful. Then the turn: this post is making a scientific claim, so it can be checked against the actual science. That is what we do next, and the honest answer is more interesting than the post. Notice the register: we are not defending phones and we are not attacking them. We are checking a claim.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "Researchers at Oxford analysed data from hundreds of thousands of young people to test the claim that screen time wrecks wellbeing. They found the link between raw hours and wellbeing is real but tiny, far too small to explain a generation. What showed up as mattering more was what you do on the screen, who you do it with, and how it leaves you feeling. The honest conclusion is not that phones are fine and not that phones are poison. It is that hours on screen is the wrong question, and you are about to learn the right one.",
@@ -195,7 +196,8 @@
       "prompt": "It is 11pm. You are 40 minutes deep in posts like this. Connecting or comparing? And honestly, how do you feel at minute 40?",
       "script": "Let a few pupils answer both questions. The tell in the post is the last line: we are not the same. Comparison is not an accident here, it is the product. Then the honesty move: admit that everyone in the room, you included, has done this exact 11pm scroll. This is not about superior people and weak people. It is about noticing what minute 40 actually feels like, because the app never asks you.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "mode": "pairs",
@@ -205,7 +207,8 @@
       "script": "Sixty seconds, partner talk, start the timer on screen. Share your own honest answer first, one app that leaves you flat and one that fills you up, because the room will only be as honest as you are. After the chime, collect a few answers and point out loudly when two pupils give opposite verdicts on the same app. That is not a contradiction, that is the whole lesson.",
       "lookFor": "Honesty and specificity. Named apps, named feelings, and the discovery that answers differ across the room, which is the point: the same app reads differently for different people.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -287,7 +290,8 @@
       "prompt": "Run the audit on this one. You close the chat. Better, worse, or nothing? And what makes this different from the 11pm scroll?",
       "script": "This should be a fast, near unanimous better. The interesting question is the second one, so push for the actual difference: these are people who know your real life, you are in the plan, and the chat needed something from you. That is connecting. Same phone as the 11pm scroll, same evening, opposite verdict. The device was never the variable. The use was.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -327,7 +331,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. This is the stretch thinking of the lesson: apps track every second of watch time because attention is the product, and no app has ever asked how you felt after closing it. Collect one answer per group. The landing you want: the mood data does not exist anywhere in the world unless you collect it, which is exactly what the audit is.",
       "lookFor": "Attention is what the apps sell, so it gets measured obsessively. Your mood after closing is worth nothing to them, so nobody builds the dial. Which leaves exactly one person who can run that measurement: you.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -357,7 +362,8 @@
       "script": "The mood audit run as a whole class experiment. Ten seconds of silent recall first, no naming of apps or people, then take the count the way this room votes, tokens or hands, and tap the bars. Read the finished chart back like a scientist: this is our class data, and it will not match anyone's guess exactly. The nothing bar deserves its own moment, because nobody expects it to be there at all. Close with: the audit is not for judging, it is for noticing, and you can run it on yourself any night in ten seconds.",
       "caption": "One honest data point each. The class chart is the evidence.",
       "minutes": 4,
-      "component": "class-tally"
+      "component": "class-tally",
+      "extension": true
     },
     {
       "body": "Your teacher has six items on the worksheet: real evenings, real sessions, real closes. Run the audit on each one and give the verdict: better, worse, or nothing. You have fifteen minutes. Every verdict needs a reason, and a verdict without a reason does not count.",

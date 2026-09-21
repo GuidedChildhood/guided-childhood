@@ -137,7 +137,8 @@
       "prompt": "Whose game is it? And what should Leo have done instead?",
       "script": "Read the message out loud with full drama. Then the two questions. First: whose game is it? Let the room say Priya's, then push: why? She never wrote it down. Fish for the answer that it came from her head, she invented it, telling a friend is not giving it away. Second question: what should Leo have done? Ask first. He could have said, can I build your idea, can we team up, can I make my own version? Any of those is fair. Taking it silently is the only unfair move on the list.",
       "minutes": 3,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "mode": "pairs",
@@ -147,7 +148,8 @@
       "script": "Sixty seconds, partner talk, start the timer on screen. After the chime take three or four feelings and write the strongest words on the board. Then land the turn: hold on to that feeling, because every photo, song and drawing online has a maker who would feel exactly the same. That feeling is why credit exists.",
       "lookFor": "Real feelings named out loud: cross, sad, invisible, like being robbed. The point is the connection: whatever they would feel, that is exactly what Priya feels, and what any maker feels.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "choice",
@@ -225,7 +227,8 @@
       "prompt": "The drawing is getting lots of love. Who is getting none of it?",
       "script": "Read the post, then the prompt. The answer is the maker, and the detail that stings is right there in the caption: do not even know who drew it lol. Somewhere out there is an artist watching their dragon get two thousand hearts with their name cropped off. Ask the room: which move from the tool fixes this? Credit it, and if you cannot find out who made it, that is a clue you should probably not use it at all. Bonus question for a sharp room: is sticker.stack being mean on purpose? Probably not, and that is the trap. Most taking is not evil, it is lazy.",
       "minutes": 3,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "choice",
@@ -268,7 +271,8 @@
       "script": "Sixty seconds and I want you to disagree with each other. Who made that picture. You. The tool. The people whose drawings it learned from. There is no answer at the back of the book for this one.",
       "lookFor": "You want disagreement here, not a right answer. Real judges are still arguing about this one, and the next slide says so out loud.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -308,7 +312,8 @@
       "script": "Ninety seconds on the timer, whole class, and your job is referee, not judge. Push each claim one step: it belongs to the typist? They wrote four words, is that making? It belongs to nobody? Then is it fair the tool needed millions of makers who were never asked? If the class splits down the middle, celebrate that, tell them courtrooms full of adults are split exactly the same way. Land one solid takeaway before moving on: whatever the courts decide, the honest move never changes, say how you made it.",
       "lookFor": "Reasoning, not a right answer. Strong answers mention the person who typed the idea, the people who built the tool, and the millions of makers it learned from. The honest conclusion is that it is genuinely unsettled and being argued in court.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -409,7 +414,8 @@
       "script": "Make it, credit it, ask first, now on six real cases together before the sheet. Read the card, take the vote, tap the class answer, read the reason. Celebrate the ask first verdicts out loud: asking is what professionals do every day.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Six cases on your worksheet: drawings, photos, songs, a borrowed game idea and one AI picture. For each one, choose the fair verdict: yours to own, credit the maker, or ask first. Then write your reason. You have fifteen minutes. A verdict without a reason does not count, fair makers can always say why.",

@@ -144,7 +144,8 @@
       "prompt": "Harmful, harmless, or something else? Thirty seconds with the person next to you, then hold your verdict. We will come back to this exact post at the end of the lesson.",
       "script": "Let pairs talk, take three or four verdicts, and do not resolve the argument yet. The honest answer is that this post on its own is close to harmless and some of it is decent advice, and that is the point: this is what a pipeline entrance looks like. One caution for you as the teacher: if pupils name a real influencer here, acknowledge without debating the man. Say we are studying the machinery, not any one person, and every creator can be run through today's check like anyone else.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -229,7 +230,8 @@
       "prompt": "Three manipulation moves are hiding in this one message. Can you find them?",
       "script": "Give pairs a minute, then collect. The three moves: before it gets taken down is manufactured urgency, forbidden knowledge feels valuable. Everyone calls him toxic because they cant handle it is us versus them plus flattery, you are one of the few who can handle the truth. And he explains why girls act the way they do is a supplied enemy dressed up as an explanation. Then the line that keeps the room human: Marcus is not the villain here. Marcus is further down the same pipeline. That distinction matters for the whole lesson.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -264,7 +266,8 @@
       "script": "Ninety seconds in pairs, timer on screen. Take three answers after the chime. You are listening for the insight that the recruiter is selling something the moment genuinely lacks: belonging, status, an explanation for real pain. Do not let anyone frame it as only sad losers get got. The whole design targets ordinary people in ordinary bad moments, which at some point is everyone in this room, including the adult at the front.",
       "lookFor": "The pipeline sells belonging, an explanation and someone to blame, at the exact moment those feel missing. The feelings are real. The product sold for them is fake.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -337,7 +340,8 @@
       "script": "Groups of three or four, ninety seconds. This discussion decides whether the lesson survives contact with real life, so collect one answer per group and push on the how. The trap to name out loud: calling him an idiot or a weirdo is the single most radicalising thing a friend can do, because the pipeline told him everyone would mock him and you just proved it right. The move that works is separating the mate from the machine: I am not against you, I am against the thing farming you.",
       "lookFor": "Mockery and contempt push deeper, they prove the us versus them story true. What pulls back: staying his mate, real belonging, and naming the manipulation, not the mate. Get curious, not superior.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -361,7 +365,8 @@
           "feedback": "A feeling is not a verdict on you. The check exists precisely for these moments, and noticing the fury is the check already working."
         }
       ],
-      "question": "A clip makes you furious about how unfair life is for young men, then names the group to blame for it. Run the pipeline check. What does question three tell you?"
+      "question": "A clip makes you furious about how unfair life is for young men, then names the group to blame for it. Run the pipeline check. What does question three tell you?",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -384,7 +389,8 @@
       "script": "The pipeline check needs one more piece of evidence: why this content finds people at all. Race the two posts once and let the outrage post win by miles, then ask what that means for a feed that learns from reactions: the angriest voice gets the megaphone, not the truest one. Run the calm rerun and watch the gap close. Connect it to the pipeline: nobody chooses to walk down it, the feed escorts them, one engineered reaction at a time, and stepping back is the brake.",
       "caption": "Outrage against honesty, raced. The pipeline runs on the winner.",
       "minutes": 4,
-      "component": "spread-race"
+      "component": "spread-race",
+      "extension": true
     },
     {
       "body": "Six items on the worksheet: posts, a message thread, and described clips. Run the pipeline check on each one, who wants me angry, what happens if I keep watching, who am I being turned against, and give a verdict: eyes open, step back, or talk to someone. Fifteen minutes. Every verdict needs a reason, a verdict without a reason does not count.",
