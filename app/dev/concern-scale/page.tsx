@@ -36,7 +36,13 @@ export default async function ConcernScaleFixture({
     // history at all, so nothing is ringed. And one carrying an ODD legacy
     // score from the ten point scale, which must still ring the right word
     // rather than nothing: 7 is "getting there", the fourth band.
-    { id: 'fixture-online-safety', slug: 'online-safety', label: 'Online safety', timesFlagged: 2, lastFlaggedAt: dayAgo, lastScore: 3, childName: 'Teo' },
+    // The first one also carries a suggestion still waiting on an answer, so
+    // the question that used to live on its own card on Home can be seen where
+    // it lives now: one line above this worry's stars.
+    {
+      id: 'fixture-online-safety', slug: 'online-safety', label: 'Online safety', timesFlagged: 2, lastFlaggedAt: dayAgo, lastScore: 3, childName: 'Teo',
+      followUp: { outcomeId: 'fixture-outcome-1', suggestion: 'putting the tablet on the landing shelf at seven' },
+    },
     { id: 'fixture-staying-asleep', slug: 'staying-asleep', label: 'Staying asleep', timesFlagged: 1, lastFlaggedAt: dayAgo, lastScore: null, childName: 'Teo' },
     { id: 'fixture-phone-handover', slug: 'rightnow-phone-handover', label: 'Phone handover fight', timesFlagged: 4, lastFlaggedAt: dayAgo, lastScore: 6, childName: 'Olga' },
   ]

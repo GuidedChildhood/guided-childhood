@@ -787,6 +787,29 @@ Still open for Justin, not changed: "here is where they were all heading" is a
 finale and ks5-20 is the 28th of 29, so it lands one lesson early. ks5-21
 carries the real close. Whether that line moves, softens or stays is his.
 
+## 21 September 2026, the follow up question moved onto the worry row
+
+Justin: "Yes move follow up." The approved change from the expert review.
+
+The same question, the same three taps, asked in two places, measured on our
+own tables: inside the check in about last night's script, 15 answered of 40.
+On its own card on Home, days later, 0 answered of 6. Same parents. The only
+difference is that the check in asks while the worry is already in their head.
+
+So a follow up ATTACHED TO A WORRY is now asked one line above that worry's
+stars in the check in, and is no longer a card. The cron stops making the card
+(it still marks the follow up delivered), the prompts route hides the ones
+already queued, and lib/checkin/today.ts reads the waiting digi_outcomes row.
+Advice not tied to a worry still gets a card, because there is no worry for it
+to ride in on.
+
+Nothing is required of the parent and nothing chases them. The band comparison
+that actually measures the worry runs whether or not they answer, so the
+learning no longer depends on the tap at all.
+
+scripts/check-followup-lives-in-checkin.mjs holds the three files to the same
+story. Seven mutations tried, seven caught; the first version of one rule was
+fooled by a variable name and was rewritten to count calls.
 ## 21 September 2026 — four decisions on the curriculum review
 
 Justin pushed back on the review itself: "we are confident in the school

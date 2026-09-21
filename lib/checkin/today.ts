@@ -49,6 +49,20 @@ export type CheckInRow = {
    * guessed at.
    */
   isNew: boolean
+  /**
+   * A suggestion DiGi made for THIS worry that is still waiting for an answer.
+   *
+   * THE QUESTION MOVED (21 September 2026). It used to be asked on its own
+   * card on Home, days later, out of context. Measured inside our own product:
+   * the same three taps asked inside the check in about last night's script
+   * were answered 15 times out of 40, and asked on a separate card 0 times out
+   * of 6. Same parents, same taps. Only the where and the when differ.
+   *
+   * So it is asked here, one line above the stars that measure the same worry,
+   * while the parent is already thinking about it. Null on almost every row:
+   * it only exists when there is genuinely something waiting.
+   */
+  followUp: { outcomeId: string; suggestion: string } | null
 }
 
 export type TodayCheckIn = {
@@ -493,6 +507,36 @@ export async function getTodayCheckIn(
     resting: restingHere,
   }
 
+  // ── WHAT IS STILL WAITING ON AN ANSWER, PER WORRY ─────────────────────────
+  //
+  // digi_outcomes with no verdict is exactly the set of suggestions DiGi made
+  // and never heard back about. Newest first and one per worry: a parent owes
+  // us one answer about a worry, not a queue of them, and the older ones stay
+  // unanswered rather than being asked all at once, which is the behaviour
+  // that produced 0 out of 6 in the first place.
+  //
+  // Its own query, allowed to fail. This loader IS the check in, and the
+  // question is a bonus on top of the stars: losing it costs a bit of
+  // learning, where losing the rating costs the product.
+  const waitingByConcern = new Map<string, { outcomeId: string; suggestion: string }>()
+  try {
+    const askedIds = asked.map(c => c.id)
+    if (askedIds.length > 0) {
+      const { data: waiting } = await supabase
+        .from('digi_outcomes')
+        .select('id, concern_id, suggestion, created_at')
+        .eq('user_id', userId)
+        .is('verdict', null)
+        .in('concern_id', askedIds)
+        .order('created_at', { ascending: false })
+      for (const o of (waiting ?? []) as { id: string; concern_id: string | null; suggestion: string | null }[]) {
+        if (!o.concern_id || waitingByConcern.has(o.concern_id)) continue
+        const text = (o.suggestion ?? '').trim()
+        if (text) waitingByConcern.set(o.concern_id, { outcomeId: o.id, suggestion: text })
+      }
+    }
+  } catch { /* the stars are the job; the question is the bonus */ }
+
   return {
     acknowledge: null,
     baseline: asked.length > 0 && asked.every(c => freshIds.has(c.id)),
@@ -516,6 +560,7 @@ export async function getTodayCheckIn(
         // the app's guess and says so in its own words; this is the parent's
         // own, carried over from wherever they raised it.
         isNew: (lastScoreByConcern.get(c.id) ?? null) == null && !freshIds.has(c.id),
+        followUp: waitingByConcern.get(c.id) ?? null,
       }
     }),
   }
