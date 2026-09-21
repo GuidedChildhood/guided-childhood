@@ -254,7 +254,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Quick check, whole class. The second option is the one to watch, it sounds reasonable and it is exactly how the nothing hours stay hidden. Land the line: the audit has three verdicts, not two, and the third one does the most detective work.",
+      "script": "Quick check, whole class, hands or devices after ten seconds of thinking time. The no verdict needed option is the one to watch, wherever the player puts it: it sounds reasonable and it is exactly how the nothing hours stay hidden. Land the line: the audit has three verdicts, not two, and the third one does the most detective work.",
       "minutes": 2,
       "options": [
         {
@@ -315,8 +315,8 @@
         }
       ],
       "script": "Walk the four moves as they build, then say the thing directly: notice what is not on this list. Nobody is telling you to delete everything or hand your phone to your parents. That is allow or deny thinking and it does not survive contact with real life. The audit gives you a pattern, the pattern gives you a precise move, and you choose it. That is what having agency over a habit actually looks like.",
-      "caption": "The audit finds the pattern. These moves are what the pattern unlocks. Never all or nothing, always calibrated.",
-      "heading": "Your three moves",
+      "caption": "The audit finds the pattern. The pattern earns one of these moves. Never all or nothing, always calibrated.",
+      "heading": "Your four moves",
       "minutes": 3
     },
     {
@@ -354,7 +354,7 @@
         ],
         "question": "The mood audit, live. Think of the last thing you scrolled or watched last night. Did it leave you better, worse, or nothing?"
       },
-      "script": "The mood audit run as a whole class experiment. Ten seconds of silent recall first, no naming of apps or people, then count hands and tap the bars. Read the finished chart back like a scientist: this is our class data, and it will not match anyone's guess exactly. The nothing bar deserves its own moment, because nothing is the most common answer in real studies and nobody expects it. Close with: the audit is not for judging, it is for noticing, and you can run it on yourself any night in five seconds.",
+      "script": "The mood audit run as a whole class experiment. Ten seconds of silent recall first, no naming of apps or people, then take the count the way this room votes, tokens or hands, and tap the bars. Read the finished chart back like a scientist: this is our class data, and it will not match anyone's guess exactly. The nothing bar deserves its own moment, because nobody expects it to be there at all. Close with: the audit is not for judging, it is for noticing, and you can run it on yourself any night in ten seconds.",
       "caption": "One honest data point each. The class chart is the evidence.",
       "minutes": 4,
       "component": "class-tally"
@@ -470,7 +470,7 @@
       "type": "digi",
       "lines": [
         "Study complete, researchers! ⭐",
-        "The question that changes everything is seven words long: after I closed it, better, worse, or nothing?",
+        "The question that changes everything is eight words long: after I closed it, better, worse, or nothing?",
         "Your mission this week: every close, one honest word, for seven days. Then read YOUR pattern, not a headline about your generation.",
         "Orbit says the pattern is the answer, and Orbit is right. Nobody else gets your data. Nobody else makes your call. See you next lesson!"
       ],

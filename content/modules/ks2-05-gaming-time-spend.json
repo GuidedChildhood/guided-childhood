@@ -89,7 +89,7 @@
           "meaning": "The chance of winning. 1 in 100 means if 100 people open the chest, about one gets the top prize."
         }
       ],
-      "script": "Say each word, class repeats it back. Pause on odds, it is the one they will not have met. Ask: if the odds are 1 in 100 and you open two chests, are you sure to win? Listen for the misconception that two goes means double luck. You do not need to fix it fully yet, the raffle slide later does that job.",
+      "script": "Say each word, class repeats it back. Pause on odds, it is the one they will not have met. Ask: if the odds are 1 in 100 and you open two chests, are you sure to win? No. Two chests is about two chances in a hundred, so it is still nearly always nothing. Listen for the idea that enough goes make a win certain, or that a win is owed after a run of losses. You do not need to fix it fully yet, the raffle slide later does that job.",
       "heading": "Spotter words for today",
       "minutes": 2
     },

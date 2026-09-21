@@ -421,7 +421,7 @@
       "type": "choice",
       "phase": "practise",
       "minutes": 2,
-      "question": "Which of these would actually make an app safer for a ten year old?",
+      "question": "Which of these would actually switch the shield on for a ten year old?",
       "options": [
         {
           "text": "Typing your real birthday when it asks",

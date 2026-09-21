@@ -101,13 +101,13 @@
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Thirty seconds thinking time, then cold call two pupils for reasoning, not just a letter. Land the bridge: last module was about content pretending to be real. Today is about design pretending to be neutral. Same detective, new case.",
+      "script": "Thirty seconds thinking time, then cold call two pupils for reasoning, not just a letter. Land the bridge: the deepfakes lesson was about content pretending to be real. Today is about design pretending to be neutral. Same detective, new case.",
       "minutes": 3,
       "options": [
         {
-          "text": "Run the image check: who posted it, does it appear anywhere else, and what feeling is it built for",
+          "text": "Run the three checks: who made this, what do other places say, how does it want me to feel",
           "correct": true,
-          "feedback": "Right. Looking harder stopped working, so the image check does the work your eyes cannot. Keep that third question in your pocket, because today is entirely about the feeling something is built for."
+          "feedback": "Right. Looking harder stopped working, so the three checks do the work your eyes cannot. Keep that third check in your pocket, because today is entirely about how something wants you to feel, and who ordered it."
         },
         {
           "text": "Zoom in for glitches, fakes always have visual errors",
@@ -120,7 +120,7 @@
           "feedback": "A trustworthy friend can be a fooled friend. The check runs on the image, not on who delivered it."
         }
       ],
-      "question": "Retrieval from last module. A striking image lands in the group chat and it looks completely real. What did we learn to do before trusting it?"
+      "question": "Retrieval from the deepfakes lesson. A striking image lands in the group chat and it looks completely real. What did we learn to do before trusting it?"
     },
     {
       "body": "None of what we look at today is accidental. Fashion brands, apps, games and creators employ designers and psychologists whose job title is roughly making you act without thinking. This is not a conspiracy, it is a business model, and it is aimed more precisely at your age group than at any other. It works on everyone, including the people who build it. Feeling immune is not protection. Naming what is happening is.",
@@ -225,7 +225,7 @@
     },
     {
       "type": "stat",
-      "claim": "In a study of around 126,000 stories on Twitter, false stories reached 1,500 people about six times faster than true ones. The strongest fuel was surprise and anger.",
+      "claim": "In a study of around 126,000 stories on Twitter, false stories reached 1,500 people about six times faster than true ones. The strongest fuel was surprise and disgust.",
       "phase": "teach",
       "figure": "6x",
       "script": "Let the figure sit before you speak. Then: the researchers checked whether bots explained it. They did not. Humans spread the false stories faster, because false stories are built free of any obligation to be boring. Reality has constraints. Rage bait does not.",
@@ -493,7 +493,7 @@
         "Rage bait is a business model. The account is not angry, you are, and that reaction was the product.",
         "The tool: notice the pull, name the technique, urgency, outrage, flattery or FOMO, then follow the money."
       ],
-      "script": "Return to the hands up count from the start: who thought adverts do not work on them? Ask again now and let the room notice the shift. Then the recap, four pupils, one point each. Read out the best who profits line you collected during practice.",
+      "script": "Return to the hands up count from the start: who thought adverts do not work on them? Ask again now and let the room notice the shift. Then the recap, four pupils, one point each. Then one more thing, said rather than shown: every scroll, pause, search and like is collected into a profile, and the profile is what is actually for sale. Advertisers do not buy your name, they buy the right to reach the kind of person you have been measured to be, which is why the free app was never free. Read out the best who profits line you collected during practice.",
       "heading": "What to remember",
       "minutes": 2
     },

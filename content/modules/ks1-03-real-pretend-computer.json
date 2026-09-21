@@ -91,7 +91,7 @@
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Retrieval from last lesson. Read all three out loud, then hands up for each one. Ask one pupil who chose the middle answer: who is YOUR grown up you would tell? Celebrate the answer. Then bridge: today we get a brand new detective question, and it is about pictures.",
+      "script": "Retrieval from last lesson, Pebble's three steps. Read all three out loud, give thinking time with hands down, then hands up for each one. The options shuffle on the wall, so name the answer rather than its place. Ask one pupil who chose feel it, name it, tell a grown up: who is YOUR grown up you would tell? Celebrate the answer. Then bridge: today Pebble has a brand new detective question, and it is about pictures.",
       "minutes": 3,
       "options": [
         {
@@ -248,7 +248,7 @@
         "doneEmoji": "⭐",
         "doneTitle": "All six sorted"
       },
-      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer and read the reason that appears. If the class picks wrong, do not correct them flatly, read the reason and ask what they think now.",
+      "script": "Now we play detective together before the sheet. Read each card aloud with plenty of drama, take hands up for real, pretend or computer made, then tap the class answer. The wall counts the votes, it does not mark them, so the verdict and the reason are yours to say. The answers: the football photo is real, the cartoon mouse is pretend, the dog on the moon is computer made, the rainbow is real, the purple elephant is computer made, and Pebble's flying cat is computer made, because looking clear is not proof. If the class picks wrong, do not correct them flatly: give the reason and ask what they think now.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
       "component": "verdict-sort"
@@ -265,7 +265,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, these two are the printed quiz too. Read all three options aloud, thinking time, then vote. If anyone picks the third option, reassure warmly: made up pictures are not scary, they can be brilliant, we just ask the question first.",
+      "script": "First of two exit checks on the wall; the printed exit quiz in your pack asks its own questions. Read all three options aloud, thinking time, then vote. The options shuffle, so watch for the answer, not the position. The popular wrong answer is believe it because it looks real, the lesson's main misconception, so give that feedback line in full. If anyone picks feel scared, reassure warmly: made up pictures are not scary, they can be brilliant, we just ask the question first.",
       "minutes": 2,
       "options": [
         {
@@ -289,7 +289,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, two options only. This is the big feeling of the lesson: no fear, just smart. If the class lands the first answer, celebrate: you are officially picture detectives. Wrong answers tell you exactly who needs a small group replay of the diagram slide next time.",
+      "script": "Second exit check, two options only. Read both aloud, thinking time, then everyone votes with fingers: one finger for no, they can be fun, two fingers for yes, all bad. This is the big feeling of the lesson: no fear, just smart. If the class lands on no, they can be fun, celebrate: you are officially picture detectives. Wrong answers tell you exactly who needs a small group replay of the diagram slide next time.",
       "minutes": 2,
       "options": [
         {

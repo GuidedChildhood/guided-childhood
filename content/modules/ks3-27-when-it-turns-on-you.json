@@ -126,7 +126,7 @@
           "feedback": "It would have grown either way. Blaming the person it is aimed at is the oldest move there is, and it is wrong here."
         }
       ],
-      "script": "Whole class, hands or devices. The third option is the victim blaming trap and some pupils will pick it honestly. Do not mock anyone: use its feedback out loud, name the move as old and common, and go straight on. Do not let this become a discussion of a real chat."
+      "script": "Ten seconds of quiet thinking, then whole class, hands or devices. The option that blames Sam for replying is the victim blaming trap and some pupils will pick it honestly. Do not mock anyone: use its feedback out loud, name the move as old and common, and go straight on. Do not let this become a discussion of a real chat."
     },
     {
       "type": "concept",
@@ -141,7 +141,7 @@
       "type": "discussion",
       "phase": "teach",
       "minutes": 2,
-      "mode": "whole",
+      "mode": "class",
       "seconds": 60,
       "prompt": "Why is it so much harder to be the first one to say stop than the second?",
       "lookFor": "You might become the target. You look serious. Nobody has your back yet. All honest, all worth saying out loud.",
@@ -243,7 +243,7 @@
           "feedback": "Arguments have two sides. Here only one person is asking and only one person is explaining themselves, which is the shape to notice."
         }
       ],
-      "script": "The first option is the important one and some pupils will pick it sincerely, because it is genuinely how it feels from inside. Give that feedback fully and warmly. Care does not need to check up on you is the sentence to leave on the screen. If anything in the room tells you this is live for a pupil, follow it up afterwards under your safeguarding policy, not now."
+      "script": "Ten seconds of quiet, then everyone votes, fingers or devices. The option that says someone cares a lot is the important one and some pupils will pick it sincerely, because it is genuinely how it feels from inside. Give that feedback fully and warmly. Care does not need to check up on you is the sentence to leave on the screen. If anything in the room tells you this is live for a pupil, follow it up afterwards under your safeguarding policy, not now."
     },
     {
       "type": "concept",
@@ -285,14 +285,14 @@
           "feedback": "Understandable and it usually makes it bigger. That is the escalation machine from the first half of this lesson, pointed the other way."
         }
       ],
-      "script": "The third option is chosen honestly by pupils who feel the injustice of it, so treat that feeling with respect before you correct it. Wanting people to know is fair. Telling everyone feeds exactly the machine they just learned about, and it also makes the adult's job harder."
+      "script": "Ten seconds of quiet, then everyone votes with fingers. The tell everyone option is chosen honestly by pupils who feel the injustice of it, so treat that feeling with respect before you correct it. Wanting people to know is fair. Telling everyone feeds exactly the machine they just learned about, and it also makes the adult's job harder."
     },
     {
       "type": "diagram",
       "phase": "teach",
       "minutes": 2,
       "heading": "Where to take it",
-      "caption": "Report inside the app AND tell a person. The app can remove it. Only a person can change what happens next.",
+      "caption": "Report inside the app and tell a person. Both, not one or the other. The app can remove it. Only a person can change what happens next.",
       "steps": [
         {
           "title": "In the app",
@@ -461,7 +461,7 @@
           "feedback": "Part of it, the audience, and only one of the three."
         }
       ],
-      "script": "Ten seconds of quiet thinking, then vote. If a lot of the room takes the second option, that is worth one more sentence: it is a comforting answer because it makes it somebody else's fault, and it leaves you with no plan."
+      "script": "Ten seconds of quiet thinking, then vote. If a lot of the room takes the nastier people option, that is worth one more sentence: it is a comforting answer because it makes it somebody else's fault, and it leaves you with no plan."
     },
     {
       "type": "choice",

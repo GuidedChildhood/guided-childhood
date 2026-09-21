@@ -17,7 +17,25 @@
 // keep saying, pinned to the source that settles it. Add to it whenever a
 // verification pass corrects something: a correction that lives only in a
 // commit message comes back the next time someone rewrites the slide.
+//
+// A CLAIM MAY BE A REGEXP, and three of them are, all for the same reason
+// (21 September 2026). Some claims were pinned to a capitalised string, which
+// attested two things at once: the claim, and the decision to shout it. The
+// must batch in migrations 326 to 336 overruled the shouting on accessibility
+// grounds, E34 and the BDA style guide, which rule out capitals for emphasis
+// for dyslexic readers. On ks3-24 slide 12 that is not a close call: it is the
+// slide written for the dyslexic pupil in the room, about the reader they are
+// allowed in an exam, and it was set in capitals.
+//
+// The claim is what this file is for. The case is not, so where case was only
+// emphasis those three are matched case insensitively and the words are still
+// required exactly. Use a string everywhere else: an exact match is the
+// stronger guard and most of these claims turn on the exact words.
 import fs from 'node:fs'
+
+// A claim holds if the string appears, or if the RegExp matches.
+const holds = (hay, claim) => (claim instanceof RegExp ? claim.test(hay) : hay.includes(claim))
+const show = claim => (claim instanceof RegExp ? claim.source : claim)
 
 const M = f => JSON.parse(fs.readFileSync(`content/modules/${f}.json`, 'utf8'))
 const KS3_24 = 'ks3-24-is-it-doing-my-thinking'
@@ -33,8 +51,10 @@ const CLAIMS = [
    'construct is not JCQ language and the doctrine attaches to human readers'],
   [KS3_24, 'JCQ', 'Allowed, because reading is not what maths measures', null,
    'the permission does not hinge on what the paper measures'],
-  [KS3_24, 'JCQ', null, 'computer reader IS allowed', 'the rule that actually exists'],
-  [KS3_24, 'JCQ', null, 'human reader is NOT allowed', 'the half that is barred'],
+  // Case insensitive since 21 September 2026: the capitals were emphasis and
+  // E34 took them off this slide of all slides. The rule is what is attested.
+  [KS3_24, 'JCQ', null, /computer reader is allowed/i, 'the rule that actually exists'],
+  [KS3_24, 'JCQ', null, /human reader is not allowed/i, 'the half that is barred'],
   [KS3_24, 'JCQ', null, '50 percent extra time', 'what a barred candidate gets instead'],
   [KS3_24, 'JCQ', null, 'sections, not whole papers', 'the scope of the bar'],
 
@@ -105,8 +125,15 @@ const CLAIMS = [
 const FIELD_CLAIMS = [
   [KS3_24, 'Keil', m => m.slides[17].body, null, 'works in steps',
    'the illusion is weak or absent for facts and procedures, so the pupil facing drill must name a mechanism'],
-  [KS2_25, 'Keil', m => m.slides[16].body, null, 'WORKS IN STEPS',
-   'same rule, KS2 drill. Shouted on the slide because seven year olds need the constraint to be loud'],
+  // Was 'WORKS IN STEPS', and the note here used to say it was shouted on
+  // purpose so seven year olds could not miss the constraint. E34 took the
+  // capitals off on 21 September 2026 for the same reason as the JCQ pair, and
+  // the same edit swapped column subtraction for how a circuit lights a bulb,
+  // because a procedure is exactly the kind of thing this lesson's own evidence
+  // base says the explain it back effect was NOT found for. The mechanism
+  // constraint is what is attested; how loudly it is said is not.
+  [KS2_25, 'Keil', m => m.slides[16].body, null, /works in steps/i,
+   'same rule, KS2 drill. The drill only works on something with a mechanism'],
   // Pinned to the evidence base row rather than the module, because the same
   // phrase also appears in subject_knowledge. Gutting the row while leaving the
   // teacher note intact would otherwise pass, and the row is the load bearing
@@ -125,21 +152,21 @@ const text = id => (cache[id] ??= JSON.stringify(M(id)))
 let bad = 0
 for (const [id, source, never, always, why] of CLAIMS) {
   const hay = text(id)
-  if (never && hay.includes(never)) {
-    bad++; console.error(`  FAIL ${id} [${source}] says "${never}"\n         ${why}`)
+  if (never && holds(hay, never)) {
+    bad++; console.error(`  FAIL ${id} [${source}] says "${show(never)}"\n         ${why}`)
   }
-  if (always && !hay.includes(always)) {
-    bad++; console.error(`  FAIL ${id} [${source}] no longer says "${always}"\n         ${why}`)
+  if (always && !holds(hay, always)) {
+    bad++; console.error(`  FAIL ${id} [${source}] no longer says "${show(always)}"\n         ${why}`)
   }
 }
 for (const [id, source, pick, never, always, why] of FIELD_CLAIMS) {
   let v
   try { v = String(pick(M(id))) } catch { v = '' }
-  if (never && v.includes(never)) {
-    bad++; console.error(`  FAIL ${id} [${source}] that field says "${never}"\n         ${why}`)
+  if (never && holds(v, never)) {
+    bad++; console.error(`  FAIL ${id} [${source}] that field says "${show(never)}"\n         ${why}`)
   }
-  if (always && !v.includes(always)) {
-    bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${always}"\n         ${why}`)
+  if (always && !holds(v, always)) {
+    bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${show(always)}"\n         ${why}`)
   }
 }
 for (const id of [KS3_24, KS2_25]) {

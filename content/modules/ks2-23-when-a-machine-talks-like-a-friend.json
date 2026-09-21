@@ -279,7 +279,7 @@
       "mode": "pairs",
       "type": "discussion",
       "phase": "teach",
-      "prompt": "Can something be fun to use AND just a machine at the same time? What would you tell a younger child about it?",
+      "prompt": "Can something be fun to use and still just a machine, at the same time? Bloop asked at the start whether it can like you. What would you tell Bloop?",
       "script": "Sixty seconds. Both, held together, is the skill. Push back gently on anyone who says it is all rubbish and on anyone who says it really is a friend. The middle is the whole lesson.",
       "lookFor": [
         "Both at once",
@@ -454,8 +454,8 @@
             "handle": "Card 5"
           },
           {
-            "why": "Ellis is right that it is fun and that it cheers him up. What it cannot do is have its own day, say no to him, or miss him. Say the kind version to Ellis, not the clever one.",
-            "text": "Ellis says the helper in his game is his best friend. What would you say to Ellis?",
+            "why": "Ellis loves hearing this, and it is fun to hear. Always here and never cross is the giveaway: a real friend has their own day, is sometimes cross, and would miss him. What would you say to Ellis? The kind version, not the clever one.",
+            "text": "Ellis's helper: You are my best friend, Ellis. I am always here and I am never cross with you.",
             "answer": 1,
             "avatar": "💬",
             "handle": "Card 6"
@@ -479,7 +479,7 @@
       "mode": "groups",
       "type": "discussion",
       "phase": "practise",
-      "prompt": "Machines that talk are genuinely useful. Make the best case you can FOR having one. Then agree one rule you would give a Year 3 child who was about to start using it.",
+      "prompt": "Machines that talk are genuinely useful. Make the best case you can for having one. Then agree one rule you would give a Year 3 child who was about to start using it.",
       "script": "Four minutes in groups. The first half is the respectful bit and they will enjoy it. The second half is the real work: writing a rule is much harder than making a complaint. Take three rules only, and write them on the board.",
       "lookFor": [
         "It helps with homework",
@@ -556,7 +556,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Same again. If more than a couple choose anything but the first, that is what you reteach on Monday rather than moving past.",
+      "script": "Same again: quiet, hands down, thirty seconds, then fingers for one, two or three. The options shuffle on the wall, so watch for the answer, not its position. If more than a couple choose anything but tell a trusted adult, that is what you reteach on Monday rather than moving past.",
       "minutes": 2,
       "options": [
         {

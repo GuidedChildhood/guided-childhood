@@ -320,7 +320,7 @@
         "Then you will know. Off you go!"
       ],
       "phase": "close",
-      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. The passport page is next, and then DiGi Junior says goodbye.",
       "heading": "Pebble's job for you",
       "minutes": 1,
       "character": "pebble"

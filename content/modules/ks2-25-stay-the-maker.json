@@ -101,7 +101,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Option two is where most of the class lives and you must not squash it. Their idea IS real. Say that first, then separate having the idea from doing the making. That separation is the lesson.",
+      "script": "Hands down, three seconds of thinking time, then fingers up, one, two or three, everyone at once. The options land in a different order on every run, so name them by their words, never by their number. The answer that says it was your idea is where most of the class lives and you must not squash it. Their idea is real. Say that first, then separate having the idea from doing the making. That separation is the lesson.",
       "minutes": 2,
       "options": [
         {
@@ -162,7 +162,7 @@
         }
       ],
       "script": "Hold up the two chips and have the class vote on each step before you turn it over. The third step is the one to repeat: what was the job? That question is doing all the work in this lesson and they will use it again in five minutes.",
-      "caption": "Same tool. Two different jobs.",
+      "caption": "The tool does not decide it. The job does.",
       "heading": "Helper, or took over?",
       "minutes": 2,
       "verdicts": [
@@ -182,7 +182,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Option three is the one to spend time on. It sounds like learning and it is not, and clever children reach for it most. Say out loud that a wobbly story you wrote beats a brilliant one you read.",
+      "script": "Three seconds of thinking time, then fingers up, one, two or three, all at once. The options shuffle on every run, so name them by their words. The one that asks for the whole story so I can see how it should go is the one to spend time on. It sounds like learning and it is not, and clever children reach for it most. Say out loud that a wobbly story you wrote beats a brilliant one you read.",
       "minutes": 2,
       "options": [
         {
@@ -256,7 +256,7 @@
       "minutes": 2
     },
     {
-      "body": "Pick something you learned this week that WORKS IN STEPS. How a plant drinks. How to do a column subtraction. Score yourself out of 5. Now say it out loud to your partner, every step. Score yourself again.",
+      "body": "Pick something you learned this week that works in steps. How a plant drinks. How a circuit lights a bulb. Score yourself out of 5. Now say it out loud to your partner, every step. Score yourself again.",
       "type": "tryit",
       "phase": "teach",
       "script": "Run it live, sixty seconds, out loud in pairs. Enforce the works in steps part: this only works properly on things with a how, not on facts or dates, so steer anyone who picks a capital city. Then hands up, whose second score was lower? Many hands, not all. A child whose score stayed the same has not failed anything.",
@@ -266,7 +266,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Option two is the one to head off hardest, and some child in this room will believe it. Nobody got worse. They got accurate. Say that phrase, write it up, leave it there.",
+      "script": "Three seconds of thinking time, then fingers up, one, two or three, everyone together. The options shuffle on every run, so name them by their words. The answer that says you got worse is the one to head off hardest, and some child in this room will believe it. Nobody got worse. They got accurate. Say that phrase, write it up, leave it there.",
       "minutes": 2,
       "options": [
         {
@@ -448,7 +448,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Straight recall of the tool. If this one wobbles, the lesson did not land and cycle two is where to go back to.",
+      "script": "Straight recall of the tool. Three seconds of thinking time, then fingers up, one, two or three, everyone at once. If this one wobbles, the lesson did not land and cycle one, the helper or took over diagram, is where to go back to.",
       "minutes": 2,
       "options": [
         {

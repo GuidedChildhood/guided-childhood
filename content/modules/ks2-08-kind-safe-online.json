@@ -54,7 +54,7 @@
         "Explain why telling an adult is strength, not snitching"
       ],
       "phase": "starter",
-      "script": "Read the mission out loud, then the why. Ask: hands up if you have ever seen someone being unkind in a group chat or under a photo. Most hands will go up, and that is the point. Say: so this lesson is not about IF it happens. It is about what the squad does WHEN it happens. Keep it brisk and warm, no stories collected here.",
+      "script": "Read the mission out loud, then the why. Ask: hands up if you think unkindness in a group chat or under a photo happens somewhere in this school every week. Most hands will go up, and that is the point. Say: so this lesson is not about IF it happens. It is about what the squad does WHEN it happens. Keep it brisk and warm, no stories collected here.",
       "minutes": 2,
       "outcome": "I know three things to do if someone is unkind online."
     },
@@ -209,7 +209,7 @@
       "platform": "message"
     },
     {
-      "body": "To each person joining in, one laughing emoji feels tiny, barely anything at all. To Ravi, it is not one emoji, it is fourteen people laughing at once, and it is still there every time he opens his phone. Pile ons grow because of a strange trick our brains play called the bystander effect: when lots of people are watching, everyone waits for someone else to be the one who acts. And here is the secret the pile on does not want you to know: it is performing for its audience, so the very first kind move usually breaks the spell.",
+      "body": "To each person joining in, one laughing emoji feels tiny. To Ravi, it is fourteen people laughing at once, there every time he opens his phone. Talking online is real talking, but it is thinner than being with them: a screen carries your words and drops your face and voice, so a joke lands harder than it was sent. Pile ons grow because of a trick our brains play: when lots of people are watching, everyone waits for someone else to act. The pile on is performing for its audience, so the first kind move can break the spell.",
       "type": "concept",
       "emoji": "🧲",
       "phase": "teach",
@@ -230,7 +230,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Whole class, hands or devices. The third option is the important one to unpack: lots of kind pupils believe staying silent keeps them innocent. Handle it gently, no shame, because plenty in the room have done exactly that. Say: staying out of it is better than joining in, AND the squad can do better than better. Which sets up the tool of the whole module, coming next.",
+      "script": "Whole class, hands or devices, after ten seconds of thinking time with no hands up. The watch quietly option is the important one to unpack: lots of kind pupils believe staying silent keeps them innocent. Handle it gently, no shame, because plenty in the room have done exactly that. Say: staying out of it is better than joining in, AND the squad can do better than better. Which sets up the tool of the whole module, coming next.",
       "minutes": 2,
       "options": [
         {
@@ -317,7 +317,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "The hardest question of the day because loyalty is sacred at this age. Thirty seconds thinking time. The feedback line to make sure everyone hears out loud: I am telling someone BECAUSE I am your friend. Some pupils will genuinely wrestle with option two, honour that, loyalty is a good instinct pointed at the wrong target here. This exact dilemma is item five on the worksheet, so it gets a second pass.",
+      "script": "The hardest question of the day because loyalty is sacred at this age. Thirty seconds thinking time, then everyone votes with fingers, one, two or three. The feedback line to make sure everyone hears out loud: I am telling someone BECAUSE I am your friend. Some pupils will genuinely wrestle with the keep the secret option, honour that, loyalty is a good instinct pointed at the wrong target here. This exact dilemma is item five on the worksheet, so it gets a second pass.",
       "minutes": 2,
       "options": [
         {
@@ -395,7 +395,7 @@
           },
           {
             "why": "Orbit is half right: not joining in is better than joining in. But the silent audience is who the pile on performs for, and the three moves ask more of an upstander: add nothing, save the evidence, tell someone who can help.",
-            "text": "Orbit says: if you just watch a pile on and never type anything, you have done nothing wrong. Do you agree? Explain your reasoning.",
+            "text": "Orbit is in a group chat where a pile on has started, reads every message and never types anything. Orbit says: I did nothing, so I have done nothing wrong. What is happening, and is Orbit right?",
             "answer": 2,
             "avatar": "💬",
             "handle": "Case 6"
@@ -427,7 +427,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, and these two are the printed exit quiz, so no hints. The second option is the clever trap: it starts with a screenshot so it sounds like move two. The difference is where the evidence goes. A wrong answer here tells you exactly who to revisit the diagram with.",
+      "script": "First of two exit checks, and both are on the printed exit quiz, so no hints. Fifteen seconds of silent thinking, then everyone shows fingers at once: one, two or three. The send it round option is the clever trap: it starts with a screenshot so it sounds like move two. The difference is where the evidence goes. A wrong answer here tells you exactly who to revisit the diagram with.",
       "minutes": 2,
       "options": [
         {
