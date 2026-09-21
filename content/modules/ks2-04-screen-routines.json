@@ -95,13 +95,13 @@
     {
       "type": "choice",
       "phase": "starter",
-      "script": "Retrieval from the last module. Thirty seconds of thinking time before any hands. Cold call two pupils and ask for the reasoning, not just the answer. If the room is shaky on this, spend one extra minute: the question could this picture be made is the whole of last lesson in seven words.",
+      "script": "Retrieval from the last module. Thirty seconds of thinking time before any hands, then cold call two pupils and ask for the reasoning, not just the answer. If the room is shaky on this, spend one extra minute: real, pretend, or computer made, then ask before you believe, is the whole of last lesson in one line.",
       "minutes": 3,
       "options": [
         {
-          "text": "Could this picture be made or changed? Looking real is not the same as being real",
+          "text": "Real, pretend, or computer made?",
           "correct": true,
-          "feedback": "That is the one. Pictures can be made or changed by a computer, so amazing looking is a reason to check, not a reason to believe."
+          "feedback": "That is the detective question from last time. A WOW picture is exactly the one to ask it about, because a computer can make a picture that looks just like a photo."
         },
         {
           "text": "If it looks real, it is real",
@@ -158,7 +158,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "First check on the tool. Watch for pupils choosing the second answer because it sounds strict and therefore right, that is a really useful wrong answer to unpack: this module is not about stopping harder, it is about stopping smarter. The lap is kind to you on purpose, which is why it works.",
+      "script": "First check on the tool. Ten seconds of thinking time, hands down, then everyone holds up one, two or three fingers for the keycap number of their answer. Watch for pupils choosing the turn it off instantly option because it sounds strict and therefore right, that is a really useful wrong answer to unpack: this module is not about stopping harder, it is about stopping smarter. The lap is kind to you on purpose, which is why it works.",
       "minutes": 2,
       "options": [
         {
@@ -246,7 +246,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "The third option matters, some pupils will have heard scare stories about phones near heads. Be straight with them: we do not need scary made up reasons, the true reason is strong enough. Sleep displacement is real, measurable in how you feel tomorrow, and the fix costs nothing.",
+      "script": "Ten seconds of thinking time, then everyone holds up one, two or three fingers for the keycap number. The dangerous option matters: some pupils will have heard scare stories about phones near heads. Be straight with them: we do not need scary made up reasons, the true reason is strong enough. Sleep displacement is real, measurable in how you feel tomorrow, and the fix costs nothing.",
       "minutes": 2,
       "options": [
         {
@@ -311,7 +311,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Last check before practice. The phrase to send them into the worksheet with: routines win battles before they begin. Get the class to repeat it once. If anyone picked the third option, do not scold it, name it as the most human answer on the slide, we have all made that promise, and that is exactly why the lap exists.",
+      "script": "Last check before practice. Ten seconds of thinking time, then everyone holds up one, two or three fingers for the keycap number. The phrase to send them into the worksheet with: routines win battles before they begin. Get the class to repeat it once. If anyone picked the promise to be sensible, do not scold it, name it as the most human answer on the slide, we have all made that promise, and that is exactly why the lap exists.",
       "minutes": 2,
       "options": [
         {
@@ -330,7 +330,7 @@
           "feedback": "A promise to be sensible is willpower wearing a disguise. The apps are designed by teams of adults to beat that promise. Beat their design with your design."
         }
       ],
-      "question": "When is the smartest time to run the cool down lap on a school night?"
+      "question": "When is the smartest time to decide your cool down lap on a school night?"
     },
     {
       "type": "interactive",

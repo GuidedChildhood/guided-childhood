@@ -215,7 +215,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "This is the footballer post from evidence item one. Watch for pupils picking the third answer: assuming everything is fake feels streetwise but it is the same laziness as believing everything. Name that if it comes up.",
+      "script": "This is the footballer post from evidence item one. Ten seconds of thinking time, then whole class, hands or devices for a, b, c. Watch for the it is probably fake option, wherever the player puts it: assuming everything is fake feels streetwise, but it is the same shortcut as believing everything, just facing the other way. Name that if it comes up, and land the line from the teacher tip: the checks end in believe verdicts too.",
       "minutes": 2,
       "options": [
         {
@@ -409,7 +409,7 @@
         }
       ],
       "script": "Walk the loop as it builds, then ask the class where the weakest link is. Answer: step one, the only step the fake cannot control is whether YOU notice the feeling and check instead of share. The last line on screen is the identity shift of the lesson: you are no longer most people.",
-      "caption": "The checks break this loop at step one. That is why check three is the deepfake tell.",
+      "caption": "The checks break this loop at step one. A fake travels further than its correction, so the decision that matters is made before you share.",
       "heading": "How a fake travels",
       "minutes": 3
     },

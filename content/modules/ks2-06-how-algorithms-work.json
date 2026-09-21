@@ -140,7 +140,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Quick check, hands or devices. If anyone picks the third answer, celebrate the suspicion but sharpen it: an algorithm is a tool, like a recipe. A recipe can make a birthday cake or something horrible. The question is always what result the steps are chasing. Perfect setup for the next slide.",
+      "script": "Quick check, hands or devices. Ten seconds of thinking time first, then everyone shows at once. If anyone picks the sneaky trick answer, celebrate the suspicion but sharpen it: an algorithm is a tool, like a recipe. A recipe can make a birthday cake or something horrible. The question is always what result the steps are chasing. Perfect setup for the next slide.",
       "minutes": 2,
       "options": [
         {
@@ -237,7 +237,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Quick loop check, hands or devices. The misconception to smash here is option two: loads of pupils believe that if they never like anything, the feed learns nothing. Say it plainly: silence is not invisibility. Watch time talks even when your thumbs stay still.",
+      "script": "Quick loop check, hands or devices. Ten seconds of thinking time, hands down, then everyone shows at once. The misconception to catch here is the nothing because you did not press like answer: loads of pupils believe that if they never like anything, the feed learns nothing. Say it plainly: silence is not invisibility. Watch time talks even when your thumbs stay still.",
       "minutes": 2,
       "options": [
         {
@@ -335,7 +335,7 @@
       "component": "feed-loop"
     },
     {
-      "body": "Your teacher has six video cards on the worksheet, each showing how a viewer behaved: watched to the end, rewatched, liked, paused or skipped. YOU are the algorithm. Use the scoring rules on the sheet to score every card, then give each one a verdict: serve more, show sometimes, or bury it. Fifteen minutes. When you finish, answer the big question at the bottom: what has this feed learned about its viewer, and did the viewer mean to teach it?",
+      "body": "Your teacher has six cards on the worksheet. Five show how a viewer behaved: watched to the end, rewatched, liked, paused or skipped. YOU are the algorithm. Use the scoring rules on the sheet to score those five, then give each one a verdict: serve more, show sometimes, or bury it. Card six is the big question: Teo says the app is being kind to him. Use the feed loop to say whether you agree. Fifteen minutes.",
       "type": "tryit",
       "label": "Your turn",
       "phase": "practise",
@@ -346,7 +346,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks and this one IS the lesson outcome, so treat it as your evidence. Silent, independent answers. A pupil who picks the first option and can mutter the loop chant has met the objective. Anyone on mind reading needs the diagram slide again, the back button works.",
+      "script": "First of two exit checks and this one IS the lesson outcome, so treat it as your evidence. Everyone answers on their own device or whiteboard, no talking, twenty seconds of thinking time before anyone taps. A pupil who picks the loop answer and can say the chant has met the objective. Anyone on mind reading needs the diagram slide again, the back button works.",
       "minutes": 2,
       "options": [
         {

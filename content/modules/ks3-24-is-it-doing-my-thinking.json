@@ -107,7 +107,7 @@
         {
           "text": "The group who had the normal chatbot",
           "correct": true,
-          "feedback": "Yes, and they had done best in every practice session. On the exam they came 17 percent BELOW the group who never had it at all."
+          "feedback": "Yes, and while they still had it, their practice scores had gone up. On the exam they came 17 percent below the group who never had it at all."
         },
         {
           "text": "The group told to give hints and never answers",
@@ -120,14 +120,14 @@
           "feedback": "They are the line the other two are measured against. One group fell below them, one group matched them, and nobody beat them."
         }
       ],
-      "question": "Before you see the result. On the exam, with the tool taken away from everyone, which group came out WORST?"
+      "question": "Before you see the result. On the exam, with the tool taken away from everyone, which group came out worst?"
     },
     {
       "type": "diagram",
       "phase": "teach",
       "steps": [
         {
-          "text": "Practice scores went up 48 percent. On the exam, with the tool gone, they scored 17 percent BELOW the group who never had it.",
+          "text": "Practice scores went up 48 percent. On the exam, with the tool gone, they scored 17 percent below the group who never had it.",
           "emoji": "📈",
           "title": "Chatbot giving answers"
         },
@@ -184,12 +184,12 @@
       "phase": "teach",
       "steps": [
         {
-          "text": "A computer reader IS allowed. A flat machine voice says the words and hands you nothing else.",
+          "text": "A computer reader is allowed. A flat machine voice says the words and hands you nothing else.",
           "emoji": "🖥️",
           "title": "GCSE English, the reading section"
         },
         {
-          "text": "A human reader is NOT allowed. A person reading aloud adds emphasis and meaning, and working out the meaning is what that section marks.",
+          "text": "A human reader is not allowed. A person reading aloud adds emphasis and meaning, and working out the meaning is what that section marks.",
           "emoji": "🗣️",
           "title": "Same paper, same section, a person reading"
         },
@@ -251,7 +251,7 @@
         {
           "text": "Ramp. Getting started is always the hardest part",
           "correct": false,
-          "feedback": "Hard does not mean it is not the lesson. Sometimes the hard part IS the lesson. The question is what is being marked."
+          "feedback": "Hard does not mean it is not the lesson. Sometimes the hard part is the lesson. The question is what is being marked."
         }
       ],
       "question": "Science write up on a practical you did. You cannot get the introduction started, so you ask for a first sentence. Ramp or swap?"
@@ -260,7 +260,7 @@
       "mode": "pairs",
       "type": "discussion",
       "phase": "teach",
-      "prompt": "Name a task where the hard part is in the way rather than the point. Then name one where the hard part IS the point.",
+      "prompt": "Name a task where the hard part is in the way rather than the point. Then name one where the hard part is the point.",
       "script": "Sixty seconds. Take one of each. If a pupil offers their own access arrangement as an example, take it warmly and move on without making it a moment.",
       "lookFor": "Reading a long question in a maths problem. Handwriting neatly in a history essay. Against: working out the maths, choosing the argument.",
       "minutes": 2,
@@ -539,7 +539,7 @@
       "lines": [
         "Nobody in here is being told to stop using it.",
         "You are being told where to stand while you do.",
-        "The pupils who kept what they learned used it more than anyone. They just never asked it for the answer."
+        "The pupils who kept what they learned still used it. They just never asked it for the answer."
       ],
       "phase": "close",
       "script": "Close on the third line and stop. It is the ban neutral position in one sentence and it is the thing they will repeat to someone else. Do not add a warning after it.",

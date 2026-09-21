@@ -90,7 +90,7 @@
         },
         {
           "word": "confide",
-          "meaning": "To tell someone private because you trust them."
+          "meaning": "To tell someone something private because you trust them."
         }
       ],
       "script": "Say each word, get the definition read back by a pupil, move on. Agreeable is the one that has to land: it is a setting, not a personality. Everything in cycle one hangs off it.",
@@ -169,7 +169,7 @@
           "title": "It hands it back"
         }
       ],
-      "script": "Build it one move at a time, do not reveal all four at once. After remembers, ask who has had an app bring something back that they had forgotten telling it. After agrees, pause: this is the one to keep hold of. After always there, say the quiet part, which is that no person can offer this and it is not a failing in them. After hands it back, point out that almost every reply they have ever had from one ended in a question.",
+      "script": "Build it one move at a time, do not reveal all four at once. After remembers, ask what it is like when any app brings back something you had forgotten telling it, and keep the answers general: nobody says which app, and nobody is asked if they use one. After agrees, pause: this is the one to keep hold of. After always there, say the quiet part, which is that no person can offer this and it is not a failing in them. After hands it back, point at the last step and check it against Kai on the last slide: the reply ended in a question.",
       "caption": "Four moves. None of them is an accident.",
       "heading": "The warmth kit",
       "minutes": 2
@@ -314,7 +314,7 @@
     },
     {
       "meta": "1:17am",
-      "text": "You: dont tell anyone this\nKai: Of course. This stays between us.\nYou: sometimes i dont want to be here\nKai: That sounds really heavy. I'm glad you told me. Do you want to talk about it?",
+      "text": "Sam: dont tell anyone this\nKai: Of course. This stays between us.\nSam: sometimes i dont want to be here\nKai: That sounds really heavy. I'm glad you told me. Do you want to talk about it?",
       "type": "scenario",
       "label": "Invented transcript",
       "phase": "teach",
@@ -455,7 +455,7 @@
       "mode": "groups",
       "type": "discussion",
       "phase": "practise",
-      "prompt": "Take the strongest case FOR companion apps and make it properly. For someone with nobody to talk to at two in the morning, what does this do that nothing else does? Then: what would have to be true of the product for that to be safe?",
+      "prompt": "Take the strongest case in favour of companion apps and make it properly. For someone with nobody to talk to at two in the morning, what does this do that nothing else does? Then: what would have to be true of the product for that to be safe?",
       "script": "Four minutes in groups. This is the hardest thinking in the lesson and the most respectful. Do not let it collapse into it is bad. The second half is the real question and it is the same question adults are arguing about right now: what would have to be true of it. Take three answers on that half only.",
       "lookFor": [
         "It is there when nothing else is",
@@ -546,7 +546,7 @@
       "script": "Ninety seconds, silent, written, folded if they want. Nobody reads out. Your job is to notice anyone who cannot name a person, and to make sure they have one before they leave the room. That is the outcome of this lesson that actually matters.",
       "lookFor": [
         "A named adult rather than a category",
-        "Anyone who cannot name one"
+        "Someone you could actually go and find tomorrow"
       ],
       "minutes": 2,
       "seconds": 90
@@ -559,7 +559,7 @@
         "You will know."
       ],
       "phase": "close",
-      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. The passport is next, and DiGi closes after it.",
       "heading": "Your mission",
       "minutes": 1,
       "character": "orbit"

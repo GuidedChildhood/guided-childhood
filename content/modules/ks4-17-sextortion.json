@@ -182,7 +182,7 @@
           "feedback": "No. It catches careful people every week, which is precisely why nobody in this room should ever feel too silly to tell someone."
         }
       ],
-      "question": "This happens in every school in the country. What does that tell you about the people doing it?"
+      "question": "The National Crime Agency warned every school in the country. What does that tell you about the people doing it?"
     },
     {
       "type": "diagram",
@@ -240,7 +240,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "First formal check of the lesson. Take the vote, then spend the time on the feedback for the second option: the exemplar fake profile looks completely normal, which is why behaviour, not appearance, is what we read. If a good number choose the third option, revisit the diagram, the back button works. Watch for pupils who answer correctly but flippantly, and for those who answer nothing at all, the quiet ones carry this lesson home.",
+      "script": "First formal check of the lesson. Thirty seconds of silent thinking, then take the vote by hands or devices. The options land in a different order on every run, so name them by content. Spend the time on the feedback for the profile picture answer: the account on evidence item one looked completely normal, which is why behaviour, not appearance, is what we read. If a good number choose no signal, revisit the diagram, the back button works. Watch for pupils who answer correctly but flippantly, and for those who answer nothing at all, the quiet ones carry this lesson home.",
       "minutes": 2,
       "options": [
         {
@@ -377,7 +377,7 @@
       "config": {
         "seconds": 4
       },
-      "script": "Keep this slow and completely unremarkable. Say: panic is the lever this crime pulls, every single time, because a person in panic pays and hides. So the first lifeline is not a phone number, it is a pause. We practise it now, together, for four breaths, so the body knows the way back to steady before it is ever needed. Then repeat the three lifelines quietly with the class: do not pay, do not keep it secret, report it. No drama, no scenario, just the skill.",
+      "script": "Keep this slow and completely unremarkable. Say: panic is the lever this crime pulls, every single time, because a person in panic pays and hides. So before any of the three lifelines comes a pause, and a pause is a thing you can practise. We do it now, together, four breaths in time with the star, so it is something you have already done once if it is ever needed. Then repeat the three lifelines quietly with the class: do not pay, do not keep it secret, report it. No drama, no scenario, just the skill.",
       "caption": "The pause. Practised now so it is there if it is ever needed.",
       "minutes": 4,
       "component": "star-breath"
@@ -394,7 +394,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions. This one tests the full pathway. A pupil who picks the third option has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Mark anyone who misses this for a quiet revisit, this is the module where working towards is not a label you leave until next term.",
+      "script": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions: thirty seconds of silence, then everyone answers on their own device or sheet, nobody calls out. This one tests the full pathway. A pupil who picks delete and block has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Mark anyone who misses this for a quiet revisit, this is the module where working towards is not a label you leave until next term.",
       "minutes": 2,
       "options": [
         {

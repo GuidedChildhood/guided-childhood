@@ -179,7 +179,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Whole class, hands or devices. The third option is the streetwise sounding trap, expect some takers and do not mock them, the everyone gets round it belief is common and half true. Use the feedback line: some do, and the cost is coming up next. This choice sets the thesis of the whole lesson, so make sure the middle answer is said out loud in full before you move on.",
+      "script": "Whole class, hands or devices, after ten seconds of silent thinking. The options shuffle on every run, so name them by their words, not their position. The everyone gets round it option is the streetwise sounding trap, expect some takers and do not mock them, that belief is common and half true. Use its feedback line: some do, and the cost is coming up next. This choice sets the thesis of the whole lesson, so make sure the correct answer, the law handles access and you handle readiness, is said out loud in full before you move on.",
       "minutes": 2,
       "options": [
         {
@@ -224,7 +224,7 @@
       "minutes": 1
     },
     {
-      "body": "So you are not getting early access to the world you will enter at 16. You are entering a different one: adult settings, adult content, adult strangers, and none of the under 18 protections, because the system believes you are 18. And if something goes wrong in there, asking for help means explaining where you were. That is the real price, and it lands exactly when you most need someone.",
+      "body": "So you are not getting early access to the world you will enter at 16. You are entering a different one: adult settings, adult content, adult strangers, and none of the under 18 protections, because the system believes you are 18. And if something goes wrong in there, asking for help feels harder, because it means saying where you were. That is the real price. If it ever happens, ask anyway: a trusted adult would far rather know, and you are not in trouble.",
       "type": "concept",
       "phase": "teach",
       "script": "The key move is the last sentence, deliver it slowly: the cost of a workaround is not getting caught, it is being alone if something goes wrong inside it. Safeguarding note: if any pupil discloses that something has already gone wrong on an account like this, stay calm, thank them, and follow your school safeguarding policy. They are not in trouble.",
@@ -234,7 +234,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Watch for the third option: pupils who pick it are trying to give the answer they think adults want. Use its feedback out loud, because the credibility of this whole lesson rests on never pretending. Workarounds can work as access. The argument against them is what the access actually is, and that argument is strong enough to stand on its own without exaggeration.",
+      "script": "Ten seconds of silent thinking, then everyone votes, hands or devices. Watch for the workarounds never work option: pupils who pick it are trying to give the answer they think adults want. Use its feedback out loud, because the credibility of this whole lesson rests on never pretending. Workarounds can work as access. The argument against them is what the access actually is, and that argument is strong enough to stand on its own without exaggeration.",
       "minutes": 2,
       "options": [
         {
@@ -347,7 +347,7 @@
     {
       "type": "choice",
       "phase": "teach",
-      "script": "Quick whole class check. The subtle point sits in the first feedback line, say it even if nobody picks that option: the feed is indifferent, not hostile. Pupils who believe the algorithm hates them feel powerless, pupils who understand it is a mirror with a motor feel in charge. The audit works because the feed responds to steering, and week one is when steering costs least.",
+      "script": "Quick whole class check, hands or devices, after ten seconds of silent thinking. The subtle point sits in the feedback for the out to get you option, say it even if nobody picks it: the feed is indifferent, not hostile. Pupils who believe the algorithm hates them feel powerless, pupils who understand it is a mirror with a motor feel in charge. The audit works because the feed responds to steering, and week one is when steering costs least.",
       "minutes": 2,
       "options": [
         {
@@ -437,7 +437,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks, these two form the printed exit quiz, so run it in silence, no conferring. A pupil picking the second option here has not connected the workaround cost to arrival day, note them for a quiet follow up, without any suggestion that the answer was autobiographical.",
+      "script": "First of two exit checks. Run it in silence, no conferring: everyone answers on their own device, or writes the letter on their question card, and the options shuffle so nobody copies a neighbour. These two checks go on the register alongside the printed exit quiz. A pupil picking the borrowed account option has not connected the workaround cost to arrival day, note them for a quiet follow up, without any suggestion that the answer was autobiographical.",
       "minutes": 2,
       "options": [
         {
@@ -461,7 +461,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "Second exit check, still silent and independent. This is the thesis question: it proves whether pupils leave with the honest position or with one of the two lazy ones, the ban fixed everything or the ban is pointless. Anyone choosing the first or third option gets marked working towards on the register, the distinction is the whole module.",
+      "script": "Second exit check, still silent and independent: everyone on their own device or question card, ten seconds of thinking before anyone taps. This is the thesis question: it proves whether pupils leave with the honest position or with one of the two easy ones, the ban fixed everything or the ban is pointless. Anyone choosing either wrong option gets marked working towards on the register, the distinction is the whole module.",
       "minutes": 2,
       "options": [
         {

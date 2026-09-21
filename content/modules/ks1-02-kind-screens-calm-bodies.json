@@ -291,7 +291,7 @@
         "Try it the very next time a screen goes off!"
       ],
       "phase": "close",
-      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. The passport is next, then DiGi Junior closes.",
       "heading": "Pebble's job for you",
       "minutes": 1,
       "character": "pebble"
@@ -321,7 +321,7 @@
         "Remember, your feelings matter, big and small. See you next time, superstars! ⭐"
       ],
       "phase": "close",
-      "script": "Let DiGi Junior land the ending, the speech bubbles appear on their own. While it plays, hand out the exit sheets to go home in book bags with the parent note. Wave goodbye to DiGi Junior together, they love it, and it seals the lesson.",
+      "script": "Let DiGi Junior land the ending, the speech bubbles appear on their own. Read each bubble aloud in your best DiGi Junior voice as it lands, because most of the class cannot read them yet. Then the parent note goes into book bags and the exit cards come in to you, as your evidence of who has got it. Wave goodbye to DiGi Junior together, they love it, and it seals the lesson.",
       "heading": "DiGi Junior says goodbye",
       "minutes": 1
     }

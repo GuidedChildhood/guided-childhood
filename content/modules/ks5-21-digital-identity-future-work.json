@@ -366,7 +366,7 @@
     {
       "type": "choice",
       "phase": "prove",
-      "script": "First of two exit checks and these two form the printed quiz, so no discussion until both are answered. This one tests whether the whole argument landed: same tools on both sides cancel out. A wrong answer here, especially the first option, tells you who still thinks the tool is the advantage.",
+      "script": "First of two exit checks, answered on paper and in silence, because both are your evidence for who met the outcome. Thirty seconds of thinking, then everyone writes their answer on their sheet, and no discussion until both are done. The printed exit quiz is a separate five question sheet from the print pack, not these two. This one tests whether the whole argument landed: same tools on both sides cancel out. A wrong answer here, especially the newest tools one, tells you who still thinks the tool is the advantage.",
       "minutes": 2,
       "options": [
         {
@@ -409,7 +409,7 @@
           "feedback": "Instant recall of standard facts is exactly what everyone now carries in their pocket. Knowledge still matters, but as fuel for judgement, not as a party trick the tools do better."
         }
       ],
-      "question": "Exit check. Which of these gets MORE valuable when everyone has AI?"
+      "question": "Exit check. Which of these gets more valuable when everyone has AI?"
     },
     {
       "text": "Everyone gets the same AI. Nobody else gets my judgement, my taste, or my name on the work. That is the portfolio I am building.",

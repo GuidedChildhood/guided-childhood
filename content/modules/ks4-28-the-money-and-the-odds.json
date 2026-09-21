@@ -100,7 +100,7 @@
       "minutes": 2,
       "emoji": "🪙",
       "heading": "The price you actually paid",
-      "body": "Buy anything normally and one number tells you what it cost. A game that sells chances puts two conversions in the way. Your pounds become gems, and gems become an opening. By the time you reach the opening, the price is quoted in a currency that exists nowhere else and that nothing outside the game can price. That is not clumsy design. That is the design, and it is worth about a pound extra per purchase to whoever built it.",
+      "body": "Buy anything normally and one number tells you what it cost. A game that sells chances puts two conversions in the way. Your pounds become gems, and gems become an opening. By the time you reach the opening, the price is quoted in a currency that exists nowhere else and that nothing outside the game can price. That is not clumsy design. That is the design, and the stranded leftover it produces is what sells the next pack.",
       "script": "This is the hinge of the first cycle. Land the two conversions slowly and point back at the board: £4.99, then 500 gems, then six crates. Do not moralise here. The tone that works is a mechanic lifting a bonnet: here is the part, here is what it does."
     },
     {
@@ -125,7 +125,7 @@
           "feedback": "True, and not the answer. Gems being free to produce explains the profit. The pack size explains the repeat purchase."
         }
       ],
-      "script": "Whole class, hands or devices. Most rooms get this one once the leftover is on the board, and the moment it lands is worth pausing on. Ask whether anybody has ever had a balance they could not spend. Take two answers, no more, and move."
+      "script": "Whole class, hands or devices, and ten seconds of thinking time before anybody shows an answer. Most rooms get this one once the leftover is on the board, and the moment it lands is worth pausing on. Ask which games they know of where a balance like that would sit there, which keeps it about the game rather than about anybody in the room. Take two answers, no more, and move."
     },
     {
       "type": "diagram",
@@ -391,7 +391,7 @@
           {
             "text": "An online slot on a phone, spinning every two seconds, at one in the morning",
             "answer": 1,
-            "why": "The fastest loop, with no closing time and nobody in the room. This is the product that does the most harm, and it is perfectly legal for adults."
+            "why": "The fastest loop, with no closing time and nobody in the room. This is the product the law caps hardest and the one linked with more harm, and it is perfectly legal for adults."
           },
           {
             "text": "Opening crates with real money again after telling yourself last week that you had stopped",

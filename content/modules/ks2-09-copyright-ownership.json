@@ -35,7 +35,7 @@
       "lines": [
         "Hello! Bloop here.",
         "If you found it online, why is it not yours to use?",
-        "Because somebody made it. And you are a maker too, so today is about you as well."
+        "Last week I nearly used a dragon I found online as my own picture. Oops. Keep that question in your head, because you are a maker too, and today is about you as well."
       ],
       "phase": "starter",
       "script": "Let Bloop land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
@@ -99,19 +99,19 @@
       "minutes": 3,
       "options": [
         {
-          "text": "Do not join in, stick up for the person, and tell a trusted adult",
+          "text": "Do not pile on, save the evidence, tell someone who can help",
           "correct": true,
-          "feedback": "That is the three. Never add to the pile, be the friend who backs them up, and bring in an adult who can actually help. A bystander who acts stops being a bystander."
+          "feedback": "That is the three. Starve the pile on, screenshot the evidence for a helper, and bring in an adult who has moves that pupils do not. One safe move turns a bystander into an upstander."
         },
         {
           "text": "Join in a tiny bit so you fit in, then say sorry later",
           "correct": false,
-          "feedback": "A tiny bit of unkind is still unkind, and sorry later does not unsend it. The three moves were: do not join in, stick up for the person, tell a trusted adult."
+          "feedback": "A tiny bit of unkind is still unkind, and sorry later does not unsend it. The three moves were: do not pile on, save the evidence, tell someone who can help."
         },
         {
           "text": "Leave the chat quietly and keep it to yourself",
           "correct": false,
-          "feedback": "Leaving keeps you out of it, but it leaves the person alone with it. The three moves were: do not join in, stick up for the person, tell a trusted adult."
+          "feedback": "Leaving keeps you out of it, but it leaves the person alone with it. The three moves were: do not pile on, save the evidence, tell someone who can help."
         }
       ],
       "question": "Mission memory from last lesson. Someone in a group chat starts being unkind about a classmate. What were our three moves?"
@@ -163,7 +163,7 @@
         {
           "text": "Yes. If it is not written down, anyone can claim it",
           "correct": false,
-          "feedback": "That is the excuse of someone who knows they took something. The idea came from Priya's head. Fair makers ask first, they do not look for loopholes."
+          "feedback": "Written down or not, the idea came from Priya's head, so it is hers. Fair makers ask first instead of hunting for a loophole."
         },
         {
           "text": "Sort of. It is hers, but once she said it out loud it became everyone's",
@@ -319,12 +319,12 @@
         {
           "text": "I made this with an AI tool",
           "correct": true,
-          "feedback": "That is it. Six words, completely honest. People can enjoy the picture AND know how it was made. Honesty about the making is the one part of this puzzle that is not confusing at all."
+          "feedback": "That is it. Seven words, completely honest. People can enjoy the picture and know how it was made. Honesty about the making is the one part of this puzzle that is not confusing at all."
         },
         {
           "text": "I drew this",
           "correct": false,
-          "feedback": "Typing four words is not drawing, and everyone who has ever spent an hour on a drawing knows it. Claiming AI work as hand made work is taking credit that is not yours."
+          "feedback": "Typing three words is not drawing, and everyone who has ever spent an hour on a drawing knows it. Claiming AI work as hand made work is taking credit that is not yours."
         },
         {
           "text": "Say nothing. Nobody owns AI pictures so it does not matter",
@@ -481,7 +481,7 @@
         "The tool: make it, credit it, ask first. Small school use, credit the maker. Sharing with the whole world, ask first.",
         "AI pictures are built from millions of real people's work. Adults are still arguing about who owns them, but honest makers always say how a thing was made."
       ],
-      "script": "Four points, read by four pupils, one each. Then one last connection: remember the feeling from the pair talk, when you imagined someone taking your proudest make? Every move we learned today exists to stop anyone feeling that. Fairness for makers, and you are all makers.",
+      "script": "Four points, read by four pupils, one each. Then say the fifth thing yourself, the one that is about them: your name, your face, your birthday and where you live belong to you in exactly the way your drawing does. Nobody gets to use them without asking, and asking means a real yes from you, not a box that was already ticked. You are allowed to say no, and you are allowed to change your mind later. Then one last connection: remember the feeling from the pair talk, when you imagined someone taking your proudest make? Every move we learned today exists to stop anyone feeling that. Fairness for makers, and you are all makers.",
       "heading": "What to remember",
       "minutes": 2
     },
@@ -493,7 +493,7 @@
         "Try it on the very next thing you make."
       ],
       "phase": "close",
-      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. The passport is next, then DiGi closes.",
       "heading": "Bloop's mission for you",
       "minutes": 1,
       "character": "bloop"
