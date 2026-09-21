@@ -1,0 +1,764 @@
+{
+  "row": {
+    "title": "Sextortion",
+    "audience": "teacher",
+    "scaffold": "TELL",
+    "year_band": "Years 10 to 11",
+    "sort_order": 17,
+    "efcw_strands": [
+      2,
+      4
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "DiGi only, maximum calm",
+    "evidence_anchor": "NCA and IWF sextortion alerts",
+    "statutory_hooks": [
+      "RSHE",
+      "Safeguarding (KCSIE)"
+    ],
+    "single_action_outcome": "I know exactly who to tell and that it is not my fault."
+  },
+  "slides": [
+    {
+      "body": "One hour on blackmail with images: how it starts, the scripts it runs on, and the three lifelines that end it.",
+      "line": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Sextortion",
+      "script": "Before this slide goes up, set the ground rules calmly and without drama. No names, no stories about real people, no asking anyone if it has happened to them. Anyone can step out quietly at any time and that is completely fine, tell them where to go if they do. Then the framing: today is a lesson most adults never got, and it is here because the National Crime Agency asked schools to teach it. Keep your tone level and unhurried for the whole hour. Watch for nervous laughter at the title, do not punish it, it is discomfort, just hold a beat of quiet and move on. If a pupil discloses anything today, follow your school safeguarding policy and involve your DSL the same day.",
+      "eyebrow": "KS4 · Years 10 to 11 · Module 17",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "If this happened to you tonight, what would you actually do?",
+        "By the end of today you will have an answer. It will not be silence."
+      ],
+      "phase": "starter",
+      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "DiGi opens the lesson",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "why": "Sextortion is blackmail using intimate images, or the claim to have them, and the people who run it depend on panic and silence to work. This hour removes both, because once you know the pattern and the way out, their plan falls apart.",
+      "type": "objective",
+      "gains": [
+        "Recognise how sextortion starts, long before any threat appears",
+        "Name the scripts blackmailers use to create panic and silence",
+        "Know the three lifelines: do not pay, do not keep it secret, report it",
+        "Know exactly who to tell and how, for yourself or for a friend"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome aloud, then the why, slowly. Point at the outcome and say: notice it does not say I will never be targeted. Nobody can promise that. It says I know who to tell and that it is not my fault, because those two things are what get people out. Watch the room as you read: pupils who look down or go very still are worth a quiet check in later, not a public one. Do not ask for hands or opinions on this slide, just land it and move on.",
+      "minutes": 2,
+      "outcome": "I know exactly who to tell and that it is not my fault."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner what makes anybody in trouble decide to keep it to themselves. Not you. Anybody.",
+      "script": "Sixty seconds, and listen to how I have asked this. Not you. Anybody. What makes a person in trouble keep it to themselves. Everything you say in the next minute is the thing this lesson exists to beat.",
+      "lookFor": "Shame, fear of the reaction, thinking they brought it on themselves. Naming those out loud is what the whole hour works against.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "sextortion",
+          "meaning": "Blackmail using intimate images, or the claim to have them. The blackmailer demands money or more images and threatens to share."
+        },
+        {
+          "word": "blackmail",
+          "meaning": "Demanding money or actions by threatening to reveal something. A serious crime, committed by the blackmailer, never by the victim."
+        },
+        {
+          "word": "Report Remove",
+          "meaning": "A free, confidential Childline and IWF tool that helps under 18s get intimate images taken down from the internet. It works."
+        },
+        {
+          "word": "CEOP",
+          "meaning": "The police child protection command. Its online report form sends sextortion cases straight to specialist officers who deal with this every day."
+        }
+      ],
+      "script": "Read each word and its meaning yourself, calmly, no chanting for this module. Two things to stress. First, in the definition of blackmail, the crime belongs to the blackmailer, never the victim, say that sentence twice. Second, Report Remove and CEOP are not abstract, they are two real places pupils can go tonight if they need to, and we will come back to both. Watch for anyone writing the names down carefully, that is fine and good, do not comment on it.",
+      "heading": "Words that matter today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Thirty seconds of silent thinking, then take the vote by hands or devices. This retrieval is doing double duty: it checks last lesson on consent, the law and Report Remove, and it plants the foundation today builds on. If the room is shaky on this, spend an extra minute re teaching it now, because everything in the next fifty minutes stands on the fact that help exists and victims are not in trouble. Cold call gently for reasoning, and accept a pass without comment in this module.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Once an image is out, nothing can be done",
+          "correct": false,
+          "feedback": "This is the belief that keeps people trapped, and it is false. Report Remove exists exactly for this, and it takes images down."
+        },
+        {
+          "text": "Report Remove can get it taken down, and the young person is treated as a victim, not a suspect",
+          "correct": true,
+          "feedback": "Right, and both halves matter. The image can come down, and the law is on the side of the under 18 in the picture."
+        },
+        {
+          "text": "They should delete their accounts and wait for it to blow over",
+          "correct": false,
+          "feedback": "Disappearing does not remove the image and it leaves them alone with the problem. Report Remove and a trusted adult do the real work."
+        }
+      ],
+      "question": "Retrieval from last lesson. An intimate image of someone under 18 is online and they want it gone. What did we learn?"
+    },
+    {
+      "body": "Sextortion is blackmail. Someone gets an intimate image, or claims to have one, and demands money or more images, threatening to send it to family and followers if the person refuses. It is organised crime, usually run by groups overseas working through fake accounts, and the National Crime Agency warns it increasingly targets teenage boys with demands for money. The person being blackmailed has been the victim of a crime from the first message. Nothing they did changes that.",
+      "type": "concept",
+      "emoji": "⭐",
+      "phase": "teach",
+      "script": "Deliver this slowly and factually, like you would explain any other crime. Two sentences to stress: it is organised crime run through fake accounts, because that dismantles the idea that the victim was foolish, these are professionals running a process on thousands of people at once. And the last two sentences, read them exactly as written. Watch for the shift in the room when boys hear this targets them, some will sit up, some will go quiet. Both are the lesson landing. Do not invite anecdotes here. Say this, as written: It has a family name, and knowing the family is more use than knowing one member of it. Exploitation is somebody getting something out of you using a power they have and you do not: age, money, information, or a secret. Sexual exploitation uses sex. Criminal exploitation uses you to carry or to sell. Financial exploitation uses your money or your bank account. Abuse is the word for the harm underneath all of them. And grooming is the part that comes first in every single one, the warm, generous, patient stretch, because all of these need trust before they need anything else. They are separate crimes in law and they share one opening move, which is why learning the opening move beats memorising the list. Land the family idea before the lesson narrows back to sextortion, because it is the part that transfers to something they have not met yet. The sentence worth repeating is the last one: five different crimes, one opening move, so learn the move. If somebody asks whether grooming always means something sexual, the accurate answer is no, and criminal exploitation is exactly the case that proves it.",
+      "heading": "What sextortion is",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Hands down, think on your own first. I want this landed before we go any further, because every single thing left in this hour rests on it.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The person doing the blackmailing. Only them.",
+          "correct": true,
+          "feedback": "Only them. Blackmail is a crime, and being targeted by a crime is not a mistake you made."
+        },
+        {
+          "text": "Both of them, a bit.",
+          "correct": false,
+          "feedback": "No. One person is committing a crime and the other is being targeted by it. Splitting the blame is exactly what a blackmailer is counting on."
+        },
+        {
+          "text": "The person who sent the image.",
+          "correct": false,
+          "feedback": "No. Whatever happened before it, the crime is the blackmail. That is where the police start, and it is where we start too."
+        }
+      ],
+      "question": "Someone is being blackmailed over an image. Who has done something wrong here?"
+    },
+    {
+      "type": "stat",
+      "claim": "In 2024 the National Crime Agency took the rare step of sending an alert to every school in the UK, warning that financially motivated sextortion was rising sharply and that teenage boys are the most common targets.",
+      "phase": "teach",
+      "figure": "Every UK school",
+      "script": "Let the slide sit in silence for a few seconds before you speak. Then: the evidence here is the alert itself. The NCA does not write to every school in the country for something rare or small. This is real, it is current, and it is aimed at people your age, which is exactly why you are getting this lesson instead of being left to find out the hard way. Watch for bravado from some boys, that is armour, do not challenge it publicly, the next slides will do that work quietly.",
+      "source": "NCA national alert on financially motivated sextortion, April 2024",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "One more before the diagram. If it is happening everywhere, what does that make it. I am steering you towards the word business.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "They are running the same script on thousands of people at once.",
+          "correct": true,
+          "feedback": "Exactly. It is a business, not a person who picked you. That is why the approach feels like luck and never is."
+        },
+        {
+          "text": "They picked that one person specially.",
+          "correct": false,
+          "feedback": "Almost never. It feels personal because it is written to feel personal, and it is being sent to thousands of people at the same time."
+        },
+        {
+          "text": "It only catches people who are careless.",
+          "correct": false,
+          "feedback": "No. It catches careful people every week, which is precisely why nobody in this room should ever feel too silly to tell someone."
+        }
+      ],
+      "question": "This happens in every school in the country. What does that tell you about the people doing it?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Attractive profile, follows you first, likes your posts. Everything looks ordinary.",
+          "emoji": "👋",
+          "title": "A friendly account appears"
+        },
+        {
+          "text": "Compliments, common interests, constant replies. The speed is the tell. Real connections are slower.",
+          "emoji": "💬",
+          "title": "Fast warmth, fast trust"
+        },
+        {
+          "text": "They push to swap images, often offering to send first. Or they simply claim to have images that may not even exist.",
+          "emoji": "📸",
+          "title": "The ask, or the claim"
+        },
+        {
+          "text": "Warmth vanishes. Threats and a demand arrive, often within minutes. The friendly person never existed.",
+          "emoji": "🔒",
+          "title": "The switch"
+        }
+      ],
+      "script": "Walk the four steps as they build, evenly, no theatrics. The teaching point to land hard is in step two: the speed is the tell. A stranger this warm, this fast, this interested, is running a script. Also flag step three carefully: some blackmailers have no image at all, they claim to and rely on panic to do the rest, which matters because it means this can happen to someone who never sent anything. Watch for pupils recognising the pattern from their own DMs, faces change on this slide. If anyone wants to talk afterwards, stay available, and follow your safeguarding policy if anything is disclosed.",
+      "caption": "The whole approach is designed to feel like luck. It is a script, run on thousands of people at once.",
+      "heading": "How it starts",
+      "minutes": 3
+    },
+    {
+      "meta": "New follower · first message 22:47",
+      "text": "hey 😊 found you on the for you page, you seem really sound. you are honestly so good looking. do you have snap? i never message people first but i feel like we would get on",
+      "type": "scenario",
+      "image": "💬",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "🙂",
+      "handle": "ellie.2009",
+      "prompt": "This account followed twenty minutes ago. Which step of the pattern is this, and what is the strongest signal?",
+      "script": "Read the message aloud in a flat, neutral voice, do not perform it. Ask the prompt and take two or three answers. The answer you want: this is steps one and two together, and the strongest signal is speed, twenty minutes from follow to flattery to a request to move platforms. Also worth naming: moving to Snapchat matters because disappearing messages feel safer and are exactly where the script goes next. Watch for anyone saying they get messages like this all the time, agree calmly that these accounts are common, which is exactly why the pattern is worth knowing. Keep it about the account, never about what anyone in the room may have replied.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "Because this is organised crime, the messages are scripts, written to work at scale. The opener flatters and mirrors you. The escalation pushes speed, before you have time to think. The threat arrives with a countdown, a claim to have your follower list, and an order to tell nobody. Every line has one job: to make you panic and keep you silent, because panic pays and silence protects them. Once you can see the script, it loses most of its power.",
+      "type": "concept",
+      "emoji": "📜",
+      "phase": "teach",
+      "script": "This is the inoculation slide, take your time with it. Go line by line: flattery, speed, countdown, follower list, secrecy order. Ask the class which line they think does the most damage, and steer to the secrecy order, because everything else fails the moment the person tells someone. That is why the script fights hardest to stop them telling. Watch for the room getting quieter and more focused here, that is what you want. No role play of the scripts, ever, just analysis. Say this, as written: Those scripts are the extreme version of something far more ordinary, and it happens between people who actually know each other. Pressure is asking again after a no. It is going quiet until somebody gives in. It is if you actually liked me. It is everyone else already has. None of those is a request, they are a wearing down, and the answer to all four is the same: a no does not need a reason and it does not expire. Then the half nobody teaches. Read your own messages for those four moves. Asking twice is human. Asking until somebody stops saying no is pressure, whoever is doing it. The four ordinary moves land better than the criminal scripts do, because most of this room has seen all four. Read them plainly and do not moralise. Then the turn at the end is the important part and it needs no build up: check your own sent messages. Say it once, move on, and do not ask for a show of hands. A pupil who recognises themselves needs the sentence, not the spotlight.",
+      "heading": "The scripts they use",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "First formal check of the lesson. Take the vote, then spend the time on the feedback for the second option: the exemplar fake profile looks completely normal, which is why behaviour, not appearance, is what we read. If a good number choose the third option, revisit the diagram, the back button works. Watch for pupils who answer correctly but flippantly, and for those who answer nothing at all, the quiet ones carry this lesson home.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The speed. Real connection is slower, scripts are fast",
+          "correct": true,
+          "feedback": "Yes. The compliments could be genuine and the profile could be real, but the speed is the tell. Nothing real needs to happen tonight."
+        },
+        {
+          "text": "The profile picture, fakes always look fake",
+          "correct": false,
+          "feedback": "Fake profiles use real, stolen photos and look completely ordinary. You cannot judge the account by its face, only by its behaviour."
+        },
+        {
+          "text": "There is no signal, sometimes people just click",
+          "correct": false,
+          "feedback": "People do click, and slowly. A stranger pushing for images within an hour is following a script, and the pressure for speed is the script showing."
+        }
+      ],
+      "question": "A new account you have never met is warm, flattering, and pushing to swap images within an hour of first contact. What is the strongest signal here?"
+    },
+    {
+      "meta": "Sent minutes after the switch",
+      "text": "i have the screenshots and your whole follower list. send £150 in gift cards in the next 30 minutes or everyone you know sees them. do not tell anyone or i send them everywhere. clock is ticking",
+      "type": "scenario",
+      "image": "⏳",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "⬛",
+      "handle": "unknown account",
+      "prompt": "Every line of this is a script. Which lines are designed to stop the person telling anyone, and why does the blackmailer need silence?",
+      "script": "Read it once, flat and quiet, then let the silence sit. Work the prompt as a class: the deadline manufactures panic, the follower list manufactures shame, and the do not tell anyone line is the blackmailer protecting the only thing keeping them in control. Land this sentence: the person who sent this message is frightened of one thing, the victim telling someone. That reframe, from the victim being powerless to the blackmailer being afraid, is the hinge of the whole lesson. Watch the room carefully on this slide, it is the most likely moment for distress. If anyone leaves, let them, and make sure an adult checks on them. Never ask anyone whether this looks familiar.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "Paying feels like the fast way out. It is the opposite. The moment someone pays, they prove they will pay, and the demands continue and grow. The NCA and police are clear on this: payment does not end sextortion, it extends it. The same is true of sending more images. The only moves that actually end it are the ones the blackmailer is afraid of: telling someone and reporting it.",
+      "type": "concept",
+      "emoji": "🛑",
+      "phase": "teach",
+      "script": "This must land as fact, not advice, so deliver it like you would deliver how gravity works. Use the logic out loud: from the blackmailer's side, a person who pays is their best customer, why would they ever stop. Then connect it back: every instruction in that threat message, pay now, tell nobody, was the blackmailer steering the victim away from the two moves that actually work. Watch for the pupil who asks what if you only pay once, thank them for asking it, because it is the exact trap, and answer with the customer logic again.",
+      "heading": "Why paying never makes it stop",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Not once, not a little, not to buy time. Payment proves pressure works and the demands grow.",
+          "emoji": "1️⃣",
+          "title": "Do not pay"
+        },
+        {
+          "text": "Tell a trusted adult tonight. A parent, a carer, any teacher, the DSL. Silence is the blackmailer's only real power.",
+          "emoji": "2️⃣",
+          "title": "Do not keep it secret"
+        },
+        {
+          "text": "CEOP takes the report to specialist police. Report Remove takes the images down. Keep the messages as evidence, do not delete them.",
+          "emoji": "3️⃣",
+          "title": "Report it"
+        }
+      ],
+      "script": "This is the slide the whole lesson exists for, so give it full weight. Walk each lifeline slowly, then point at the three chips underneath and read them aloud, because they are what a frightened person needs to hear before they can use any lifeline. Practical details matter here: keep the messages as evidence and do not delete anything, blocking alone is not enough because it leaves you alone with it, and CEOP and Report Remove are free and confidential. Have the class read the three lifelines back once, together, at speaking volume, no chanting. Watch for anyone photographing or copying this slide, allow it without comment.",
+      "caption": "Three moves, in any order, and the blackmailer loses. Each one is exactly what the script tells you not to do.",
+      "heading": "The three lifelines",
+      "minutes": 3,
+      "verdicts": [
+        "Not your fault",
+        "Not in trouble",
+        "There is a way out"
+      ]
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "What actually stops someone telling an adult when this happens, and what would make telling easier?",
+      "script": "Two minutes in pairs, timer on screen, and keep it at the level of someone, never you. When you take answers, receive every barrier without arguing it away, then answer the two biggest ones directly: fear of blame, the law and the police treat under 18s as victims here, full stop. And fear of losing the phone, name it to the room and say that any adult worth telling cares about the person, not the device, and that you will say the same to parents in the note that goes home. Watch for pairs going off task into real stories, steer gently back to the general question. If anything said sounds like a disclosure, follow your safeguarding policy and speak to your DSL today.",
+      "lookFor": "Shame, fear of being blamed, fear of losing their phone, not wanting parents to see the images exist. Surface the phone fear deliberately, fear of device confiscation is one of the most documented reasons young people stay silent, and adults who promise calm first help most.",
+      "minutes": 3,
+      "seconds": 120
+    },
+    {
+      "body": "If this happens to you, the law is on your side. You are the victim of a crime called blackmail, and the police treat under 18s in these cases as victims to protect, not suspects to punish. That is true even if you sent an image yourself. Report Remove exists so the images come down, CEOP exists so specialist officers take over, and a trusted adult exists so you are not carrying it alone. If it happens to a friend, your job is not to fix it, it is to stay with them while they tell an adult, tonight.",
+      "type": "concept",
+      "emoji": "🤝",
+      "phase": "teach",
+      "script": "Read this one almost word for word, it is written to be heard. The sentence that does the most work is that is true even if you sent an image yourself, because that is the exact doubt that keeps victims silent, so say it clearly and do not rush past it. Then the friend paragraph: many pupils will meet this as the friend before they ever meet it themselves, and the instruction is simple, stay with them while they tell an adult. Never promise a friend secrecy on something like this, a promise that keeps them trapped is not kindness. Watch for relief in the room on this slide, it is common and it tells you the message is landing where it needs to.",
+      "heading": "Not your fault, not in trouble",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Give this one thirty seconds of thought, it is the check on the whole third cycle and the most likely real situation pupils will face. In feedback, name the tension honestly: breaking a promise feels like betrayal, and this is the one situation where keeping it is the betrayal. Offer a script they can use with a friend: I am not telling on you, I am telling for you, and I will sit with you while we do it. Watch for pupils who push back on this, engage them seriously, it means they are weighing real loyalty, then land the point again calmly.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Keep the promise, trust is what they need most",
+          "correct": false,
+          "feedback": "The promise keeps them inside the trap, which is exactly what the blackmailer's script wants. Real trust is helping them reach an adult who can end it."
+        },
+        {
+          "text": "Stay with them while they tell a trusted adult, and do not leave them alone with it",
+          "correct": true,
+          "feedback": "Yes. You do not fix it and you do not investigate it. You make telling easier by doing it together, tonight, and you remind them it is not their fault."
+        },
+        {
+          "text": "Handle it yourself by messaging the blackmailer to back off",
+          "correct": false,
+          "feedback": "Never engage the account. It confirms the pressure is working and can make things worse. Adults and CEOP take it from here, that is their job."
+        }
+      ],
+      "question": "A friend tells you it is happening to them and makes you promise to tell nobody. What does being a good friend look like?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "seconds": 4
+      },
+      "script": "Keep this slow and completely unremarkable. Say: panic is the lever this crime pulls, every single time, because a person in panic pays and hides. So the first lifeline is not a phone number, it is a pause. We practise it now, together, for four breaths, so the body knows the way back to steady before it is ever needed. Then repeat the three lifelines quietly with the class: do not pay, do not keep it secret, report it. No drama, no scenario, just the skill.",
+      "caption": "The pause. Practised now so it is there if it is ever needed.",
+      "minutes": 4,
+      "component": "star-breath"
+    },
+    {
+      "body": "The worksheet has six moments from stories like the ones we have worked through. For each one, decide which lifeline applies first: do not pay, do not keep it secret, or report it, and write one sentence of reasoning. Work alone or in pairs, your choice. Fifteen minutes. The last item asks you to respond to a claim, and your reasoning there matters more than anywhere else.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet and the lifelines bookmark, one per pupil, and let pupils choose to work alone for this module, some will need the privacy. Fifteen minutes, timer visible. Circulate quietly and read over shoulders rather than asking pupils to explain aloud. Support group works items one to three with you at a side table if that is your usual pattern. Watch for anyone writing from what sounds like experience rather than imagination, do not flag it publicly, note the name and follow your safeguarding policy afterwards. Never ask a pupil to show you anything on a phone during or after this task.",
+      "heading": "Six moments, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit questions, and together they are the printed exit quiz, so run it in quiet, individual conditions. This one tests the full pathway. A pupil who picks the third option has heard block and move on advice from other contexts, so the feedback matters: blocking is fine, but only after telling and saving evidence. Mark anyone who misses this for a quiet revisit, this is the module where working towards is not a label you leave until next term.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Pay a small amount to buy time to think",
+          "correct": false,
+          "feedback": "Payment proves pressure works, and the demands continue. The time you need comes from telling someone, not from paying."
+        },
+        {
+          "text": "Tell a trusted adult, keep the messages as evidence, do not pay, and report to CEOP",
+          "correct": true,
+          "feedback": "All four together. Telling breaks the silence the blackmailer depends on, the evidence helps the police, and CEOP takes it from there."
+        },
+        {
+          "text": "Delete everything, block the account and say nothing",
+          "correct": false,
+          "feedback": "Blocking without telling anyone deletes the evidence and leaves the person alone with it. Block after you have told an adult and saved the messages."
+        }
+      ],
+      "question": "Exit check. Someone is being blackmailed with images and the account demands money in the next hour. What is the right first move?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "The most important ninety seconds of the hour. This question is the outcome of the lesson in exam form: it is not my fault and I know who to tell. If even one pupil answers true, address it to the whole room without looking at anyone: the belief that it is your fault is the blackmailer's best weapon, and it is false in the eyes of the law and everyone who will help you. Collect the exit quizzes in yourself, they are your evidence for the register and your radar for follow up.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. The blackmailer committed the crime, the law treats under 18s as victims, and help like Report Remove exists exactly for this",
+          "correct": true,
+          "feedback": "This is the sentence to keep for life. Fault sits with the blackmailer, always. Not your fault, not in trouble, and there is a way out."
+        },
+        {
+          "text": "True. Sending the image is what caused it, so the consequences follow",
+          "correct": false,
+          "feedback": "Sending an image is not a crime committed against yourself. Blackmail is the crime, the blackmailer is the criminal, and the police treat the young person as the victim to protect."
+        }
+      ],
+      "question": "Exit check. True or false: if you sent an image yourself first, the blackmail is your fault and you will be in trouble."
+    },
+    {
+      "text": "Do not pay. Do not keep it secret. Report it. It is not my fault, and there is a way out.",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "One reading together, at normal speaking volume, calm and steady, this is not a chant to shout. Then say: if you remember one thing from today, this is the one, and it is worth remembering for someone else even if you never need it yourself. Watch the room read it, and notice who says it and who only mouths it, both are fine, hearing it in their own voice is the point.",
+      "minutes": 1
+    },
+    {
+      "body": " Learn the shape from the inside too, because from the inside it never feels like a script. It feels like being noticed by someone who gets you. The signs are always the same four: it moves fast, it moves private, it flatters harder than anyone in your actual life, and at some point it asks you to keep it from everyone. Any one of those on its own is nothing. Three or four together is the shape, and the answer to the shape is to tell someone before it asks for anything.",
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Sextortion is organised blackmail run on scripts, and it increasingly targets teenage boys. Being targeted is not a judgement on you.",
+        "The pattern: a friendly account, fast warmth, an ask or a claim, then the switch to threats. Speed is the tell.",
+        "The three lifelines: do not pay, do not keep it secret, report it. CEOP for the report, Report Remove to take images down, a trusted adult tonight.",
+        "It is not your fault, you are not in trouble, and there is a way out. Paying is the one move that never works."
+      ],
+      "script": "Have four pupils read one point each, or read them yourself if the room needs the steadiness. Then close the loop with practical anchors: the lifelines bookmark goes home with them, CEOP and Report Remove are searchable from any phone in seconds, and you, and every adult in this school, are tellable. Say that last part plainly: if this ever lands on you or a friend, I want to hear about it, and nobody will be in trouble. Watch for anyone lingering as the class packs up, unhurried availability after this lesson matters as much as anything on the slides.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Do not pay. Do not keep it secret. Report it.",
+        "It is not your fault.",
+        "That sentence is the whole lesson. Keep it."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "One thing to take with you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Nova's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today counts toward the Ready at sixteen page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks4-17-sextortion",
+        "register": "still",
+        "placement": "independent"
+      },
+      "script": "Level and brief. The passport is the record of preparation for full access at sixteen, kept at home. Today fills part of its last page. Tap Fill the page, name the area it built, and say once: when the page is full, the big check earns Nova's stamp, and it is proof of judgement, never a licence. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not a record of anyone.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "This one matters, so I will say it plainly. ⭐",
+        "Do not pay. Do not keep it secret. Report it. CEOP, Report Remove, and one trusted adult, tonight if you ever need them.",
+        "It is not your fault, you are not in trouble, and there is always a way out. The people who run these scams are afraid of exactly one thing: you telling someone.",
+        "You now know more about this than most adults do. Look after each other, and remember I am always in your corner. ⭐"
+      ],
+      "phase": "close",
+      "script": "Let DiGi close without any teacher commentary over the top, the lines appear on their own. As it plays, hand out the parent note and check the exit quizzes are all in. After the lesson: pass any concerns to your DSL the same day, even small ones, and expect that disclosures from this module may come days later, to any adult, in any wording. The pupil who hangs back to ask a hypothetical question about their friend is the reason this script exists.",
+      "heading": "DiGi has the last word",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "Brief the DSL before this lesson is delivered, not after. Disclosures are likely, during the lesson, at the door afterwards, or days later to any trusted adult, often framed as asking for a friend. Treat any hint as a disclosure and involve the DSL the same day. Never ask a pupil to show, send, describe or forward the image, and do not view it if offered, an adult viewing or receiving it creates a further offence and further harm. Do not screenshot anything, do not investigate on the pupil's device, and do not contact the blackmailing account. Reassure the pupil in plain words that they are not in trouble and it is not their fault, and do not promise confidentiality. The platform records no disclosures by design, so use the school concern form linked from this module for anything raised. Normalise a quiet exit route at the start of the lesson and have an adult check on anyone who uses it. Where a case is live, the pathway is DSL, then CEOP report and Report Remove with the pupil supported, preserving messages as evidence. Expect the lesson itself to surface historic cases as well as current ones, and pass on low level concerns too, including pupils who seem unusually affected, hang back, or go quiet.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS4",
+  "module_id": "ks4-17-sextortion",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 17,
+  "parent_note": {
+    "taught": "Today we taught your child about sextortion, the blackmail scam the National Crime Agency warned every UK school about in 2024, which increasingly targets teenage boys. They learned how it starts, why paying never makes it stop, and the three lifelines: do not pay, do not keep it secret, report it to CEOP and Report Remove.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. You do not need to quiz them on this one. One sentence from you does more: if anything ever goes wrong online, you can tell me, and you will not be in trouble.",
+    "try_this": "Tell your child directly, in your own words: if anything like this ever happens, you can come to me, you will not be in trouble, and you will not lose your phone. Fear of blame and fear of losing the device are the two biggest reasons young people stay silent, and one calm sentence from you removes both.",
+    "family_question": "If something went wrong online, who would you tell first, and what would make telling easier?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pre teach all three lifelines as whole phrases: do not pay, do not keep it secret, report it. It is not your fault must be exact in any language the pupil thinks in. Say it, write it, never paraphrase it.",
+      "sensory": "Maximum calm by design: no music, no reveals, no group work pressure. A pupil who stares at the desk for the whole lesson has still been reached, and the script assumes exactly that.",
+      "attention": "The calm register does the regulating here. Keep every segment as short as scripted, and run the star breath slide as scripted rather than trading it for time: it is load bearing.",
+      "communication": "The three lifelines are three short imperatives, and the worksheet asks only which comes first. One circled answer is full marks: this lesson measures knowing the exit, nothing else."
+    },
+    "tool": {
+      "lines": [
+        "Do not pay",
+        "Do not keep it secret",
+        "Report it"
+      ],
+      "heading": "The three lifelines",
+      "strapline": "Not your fault. Not in trouble. There is a way out."
+    },
+    "i_can": [
+      "I can recognise how sextortion starts and the scripts it uses.",
+      "I can use the three lifelines: do not pay, do not keep it secret, report it.",
+      "I can tell a friend it is not their fault and help them find the way out."
+    ],
+    "cycles": [
+      {
+        "verb": "Recognise",
+        "title": "What sextortion is, and how it starts",
+        "minutes": 14,
+        "outcome": "I can recognise how sextortion starts and the scripts it uses."
+      },
+      {
+        "verb": "Understand",
+        "title": "The scripts they use",
+        "minutes": 8,
+        "outcome": "I can name the scripts they use and explain why paying never ends it."
+      },
+      {
+        "verb": "Act",
+        "title": "The three lifelines",
+        "minutes": 10,
+        "outcome": "I can use the three lifelines: do not pay, do not keep it secret, report it."
+      }
+    ],
+    "timing": "73 minutes: starter 11, cycle one 14, cycle two 8, cycle three 10, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "sextortion",
+        "definition": "Blackmail using intimate images, or the claim to have them. The blackmailer demands money or more images and threatens to share."
+      },
+      {
+        "word": "blackmail",
+        "definition": "Demanding money or actions by threatening to reveal something. A serious crime, committed by the blackmailer, never by the victim."
+      },
+      {
+        "word": "Report Remove",
+        "definition": "A free, confidential Childline and IWF tool that helps under 18s get intimate images taken down from the internet. It works."
+      },
+      {
+        "word": "CEOP",
+        "definition": "The police child protection command. Its online report form sends sextortion cases straight to specialist officers who deal with this every day."
+      }
+    ],
+    "equipment": "Nothing beyond the board. Have the DSL note, Report Remove and CEOP routes printed and in the room before you start.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "If you sent an image yourself, you are the one in trouble.",
+        "teaching_point": "The law treats under 18s in this situation as victims. Say it plainly and say it early, not only here."
+      },
+      {
+        "answer": "Do not pay, do not keep it secret, report it.",
+        "format": "short_answer",
+        "question": "What are the three lifelines?",
+        "teaching_point": "The tool they leave with. Three, and the second is the one shame attacks."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Paying once makes it stop.",
+        "teaching_point": "Payment proves pressure works, so the demands continue and grow."
+      },
+      {
+        "pairs": [
+          {
+            "left": "Report Remove",
+            "right": "Helps get intimate images of under 18s taken down"
+          },
+          {
+            "left": "CEOP",
+            "right": "Sends the report to specialist police officers"
+          },
+          {
+            "left": "Childline",
+            "right": "Free, confidential support to talk it through"
+          }
+        ],
+        "answer": "Report Remove goes with helps get intimate images of under 18s taken down; CEOP goes with sends the report to specialist police officers; Childline goes with free, confidential support to talk it through",
+        "format": "match",
+        "question": "Match the service to what it does.",
+        "teaching_point": "Three routes, three jobs. Pupils should leave knowing at least one by name."
+      },
+      {
+        "answer": "Boys and girls, with financially motivated cases most often targeting teenage boys",
+        "format": "tick_one",
+        "options": [
+          "Girls only",
+          "Boys and girls, with financially motivated cases most often targeting teenage boys",
+          "Adults only"
+        ],
+        "question": "This mostly happens to:",
+        "teaching_point": "Boys who believe this is a girls' problem do not come forward. That belief is the risk."
+      }
+    ],
+    "worksheet": {
+      "title": "Six moments: which lifeline first?",
+      "directions": "For each moment, write which lifeline applies first and one sentence of reasoning.",
+      "verdict_options": [
+        "Do not pay",
+        "Do not keep it secret",
+        "Report it"
+      ]
+    },
+    "teacher_tip": "Say not your fault and not in trouble in the first five minutes, not only at the end. A pupil in this situation stops listening the moment they think they are about to be blamed.",
+    "starter_quiz": [
+      {
+        "answer": "Free, specific, ongoing, and it can be taken back.",
+        "format": "short_answer",
+        "question": "What are the four properties of real consent?",
+        "teaching_point": "Carried forward from ks4-16. Today's lesson is what happens when all four are absent."
+      },
+      {
+        "answer": "It rushes you, asks for something odd, is too good to be true, and rushing stops you thinking.",
+        "format": "short_answer",
+        "question": "Name a scam's tells and say how urgency works.",
+        "teaching_point": "Carried forward from ks3-13. Sextortion runs the same engine with far higher stakes."
+      },
+      {
+        "answer": "Any adult they name.",
+        "format": "short_answer",
+        "question": "Name one adult you would tell something genuinely difficult.",
+        "teaching_point": "Ask for it in writing, privately. A pupil who names nobody is the reason this lesson exists."
+      },
+      {
+        "answer": "The blackmailer",
+        "format": "tick_one",
+        "options": [
+          "The person being blackmailed",
+          "The blackmailer",
+          "Both"
+        ],
+        "question": "Blackmail is a crime committed by:",
+        "teaching_point": "Establish this before a single detail of the lesson. Everything after it depends on the pupil believing it."
+      }
+    ],
+    "misconceptions": [
+      "This mostly happens to girls (financially motivated sextortion most often targets teenage boys, which is why the NCA alerted every UK school in 2024)",
+      "Paying once makes it stop (payment proves pressure works, the demands continue and grow, and police guidance is clear that paying never ends it)",
+      "If you sent an image yourself you are in trouble and it is your fault (the law treats under 18s in these cases as victims, the crime is blackmail and it belongs to the blackmailer, and Report Remove exists to take images down)"
+    ],
+    "paper_fallback": "The full lesson runs from the printed pack with no screen. Read the two evidence items aloud from the scenario cards in a flat, neutral voice. Draw the four step pattern and the three lifelines on the board as you teach them, pupils copy the lifelines onto their bookmark. The discussion runs on a watch or wall clock. The worksheet, exit quiz and parent note are all in the printed pack. Nothing in this lesson requires a device, and no pupil should ever be asked to use or show their own phone.",
+    "passport_stage": "independent",
+    "commitment_stem": "My commitment: if this ever happens to me or a friend, the first thing I will do is...",
+    "differentiation": {
+      "stretch": "After the worksheet, write a short private note to a friend who has just told you this is happening to them, using the three lifelines and the not your fault message. Second stretch: explain why the blackmailer's script demands secrecy, from the blackmailer's point of view.",
+      "support": "Lifelines bookmark on every table, sentence starters for worksheet reasoning (The lifeline that applies first is... because...), and items one to three worked with the teacher at a side table. Pupils may work alone rather than in pairs at every point in this module."
+    },
+    "prior_knowledge": [
+      "A pupil can explain what consent is and what the law covers, from ks4-16.",
+      "A pupil can name a scam's tells and how urgency works, from ks3-13.",
+      "A pupil knows at least one adult they would tell something difficult."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A message arrives: send £100 in the next hour or your pictures go to everyone you follow. Whatever else happens next, what must not happen?",
+        "teaching_point": "Payment proves pressure works and marks the victim as someone who pays. The demands continue and grow. Recognising the countdown as a script defuses it.",
+        "expected_verdict": "Do not pay"
+      },
+      {
+        "n": 2,
+        "item": "The blackmailer's message ends with: tell no one or it gets worse. Which lifeline is that line written to attack, and why is it in the script at all?",
+        "teaching_point": "Secrecy is the blackmailer's only real power. The line exists because the scam collapses the moment the victim tells someone, which is exactly why telling is the move.",
+        "expected_verdict": "Do not keep it secret"
+      },
+      {
+        "n": 3,
+        "item": "Priya's friend tells her it happened last night and makes her promise not to tell anyone. What does Priya do first?",
+        "teaching_point": "A promise that keeps a friend trapped is not kindness. Priya stays with her friend while they tell a trusted adult together, tonight. I am not telling on you, I am telling for you.",
+        "expected_verdict": "Do not keep it secret"
+      },
+      {
+        "n": 4,
+        "item": "Marcus paid £50 yesterday to make it stop. Today the same account wants £200. What has Marcus learned, and what is his next move?",
+        "teaching_point": "Paying extended it, exactly as the police warn. His next move is a trusted adult and a CEOP report, with the messages kept as evidence. He is still the victim and still not in trouble.",
+        "expected_verdict": "Report it"
+      },
+      {
+        "n": 5,
+        "item": "The images are already posted on one account. Leah is sure that means nothing can be done now. Is she right?",
+        "teaching_point": "It is never too late. Report Remove takes down intimate images of under 18s even after they are posted, and CEOP investigates the account. Already out is the start of the response, not the end of it.",
+        "expected_verdict": "Report it"
+      },
+      {
+        "n": 6,
+        "item": "Sam says: if it happens to you it is your own fault for sending anything in the first place, so I would just keep quiet. Do you agree? Explain your reasoning.",
+        "teaching_point": "Sam's belief is the blackmailer's best weapon, and it is false. The crime is blackmail and it belongs to the blackmailer. The law treats under 18s as victims, and keeping quiet is the only part of Sam's plan the scammer would agree with.",
+        "expected_verdict": "Do not keep it secret"
+      }
+    ],
+    "essential_question": "If this happened to me tonight, what would I actually do?",
+    "learning_objective": "Pupils can recognise how sextortion starts, name the three lifelines, and state with confidence that a victim is not at fault, is not in trouble, and knows exactly who to tell.",
+    "key_learning_points": [
+      "Sextortion is blackmail, and the crime belongs to the blackmailer.",
+      "It starts with an ordinary friendly conversation, which is what makes it work.",
+      "Paying funds the next demand. It never ends it.",
+      "The three lifelines are: do not pay, do not keep it secret, report it.",
+      "Report Remove and CEOP exist for exactly this and are used every day."
+    ]
+  }
+}

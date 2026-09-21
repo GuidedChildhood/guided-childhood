@@ -543,6 +543,22 @@ const POST_CSS = `
   .gc-postrow > .gc-postpic { margin-bottom: 12px; }
 }`
 
+// A film and the exhibit it names, beside each other where the screen is wide
+// enough and stacked where it is not. See the 'video' case for why.
+// Top aligned, and the exhibit gets the larger share. Centred and even, the
+// post's own text wrapped to five lines in a narrow column and the last one
+// was clipped, which defeats the point of putting it there. The film is a
+// fixed aspect box and shrinks happily; the post is the thing that has to be
+// readable from the back of the room.
+const FILM_EXHIBIT_CSS = `
+.gc-filmrow { display: flex; gap: clamp(16px, 2.2vw, 30px); align-items: flex-start; }
+.gc-filmrow > :first-child { flex: 0 1 42%; min-width: 0; }
+.gc-filmrow > :last-child { flex: 1 1 58%; min-width: 0; }
+@media (max-width: 900px) {
+  .gc-filmrow { display: block; }
+  .gc-filmrow > * + * { margin-top: var(--space-4); }
+}`
+
 function ScenarioBlock({ slide, projector }: { slide: ScenarioSlide; projector?: boolean }) {
   const isMessage = slide.platform === 'message'
   // A real photo on the projector layout. Whether it sits BESIDE the text or
@@ -1055,7 +1071,26 @@ function SlideBody({
     case 'interactive':
       return <Interactive component={slide.component} config={slide.config} caption={slide.caption} projector={projector} />
     case 'video':
-      return <VideoBlock slide={slide} projector={projector} />
+      // A film that points at something shows it. See VideoSlide.post: the
+      // exhibit is on the wall while the film names it, because a generated
+      // clip cannot be directed to hold a prop up on a particular word.
+      //
+      // BESIDE, NOT UNDER, WHERE THERE IS ROOM. Stacked on a 1440 wall the
+      // post landed behind the presenter bar, which is the same as not being
+      // there: the whole point is that the class can see it while the film
+      // plays. A classroom screen is wide, so the two sit side by side above
+      // 900px and stack below it, decided from the real viewport the way
+      // POST_CSS already decides it for a post's own photo.
+      if (!slide.post) return <VideoBlock slide={slide} projector={projector} />
+      return (
+        <div>
+          <style>{FILM_EXHIBIT_CSS}</style>
+          <div className="gc-filmrow">
+            <div><VideoBlock slide={slide} projector={projector} /></div>
+            <div><ScenarioBlock slide={slide.post} projector={projector} /></div>
+          </div>
+        </div>
+      )
     case 'tryit':
       return (
         <div data-reveal style={{ background: 'var(--stage-1)', borderRadius: 'var(--radius-card)', padding: 'clamp(24px, 4.5vw, 34px)', border: '1.5px solid var(--stage-1-bold)', maxWidth: room(projector, WALL.column, '560px'), margin: '0 auto' }}>

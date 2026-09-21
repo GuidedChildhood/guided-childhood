@@ -1,0 +1,580 @@
+{
+  "row": {
+    "title": "Kind screens, calm bodies",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 1 to 2",
+    "sort_order": 2,
+    "efcw_strands": [
+      4,
+      6
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Pebble with DiGi Junior",
+    "evidence_anchor": "Wellbeing baseline research",
+    "statutory_hooks": [
+      "RSHE health and wellbeing",
+      "EfCW"
+    ],
+    "single_action_outcome": "I can name how I feel after screen time and tell a grown up."
+  },
+  "slides": [
+    {
+      "body": "Big feelings from screens, and what to do.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Kind screens, calm bodies",
+      "script": "Have this slide up as everyone sits on the carpet or at tables. Say: today we are going to become feelings experts. Screens can give us all sorts of feelings, happy ones, wiggly ones, even grumpy ones. By home time you will know exactly what to do with every single one. The line that used to be on the wall, to say as written: Today we find out how screens make our bodies and our feelings feel, and we learn what to do with a big feeling.",
+      "eyebrow": "KS1 · Years 1 to 2 · Module 2",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hello! Pebble here.",
+        "When the screen goes off, do you ever feel wiggly? Or a bit grumpy?",
+        "Today we find out why, and what to do about it."
+      ],
+      "phase": "starter",
+      "script": "Let Pebble land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Pebble is here!",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "why": "Screens can make our bodies feel all sorts of ways: wiggly, tired, grumpy or happy. When we can name the feeling and tell a grown up, the grown up can help us, and the big feeling gets smaller.",
+      "type": "objective",
+      "gains": [
+        "Notice what my body is telling me after screen time",
+        "Use feeling words like wiggly, tired, grumpy and happy",
+        "Be kind to other people on screens",
+        "Know exactly who to tell when something on a screen feels bad"
+      ],
+      "phase": "starter",
+      "script": "Read the I can sentence together, twice. Then ask: hands up if a screen has ever made you feel really happy. Now hands up if a screen has ever made you feel a bit grumpy or wiggly. Look, nearly every hand went up both times. That is because screens give everybody feelings. Today we learn what to do with them.",
+      "minutes": 2,
+      "outcome": "I can name how I feel after screen time and tell a grown up."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner how your body feels right now.",
+      "script": "Before we start, turn to the person next to you. Tell them how your body feels right now. Wiggly, sleepy, fine, anything. There is no wrong answer to this one, and I want to hear a few before we go on.",
+      "lookFor": "Wiggly, sleepy, fine. Every answer is right.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "wiggly",
+          "meaning": "When your body cannot sit still and wants to jump about. Screens can make bodies feel wiggly."
+        },
+        {
+          "word": "grumpy",
+          "meaning": "A cross, growly feeling inside. It can pop up when screen time stops or goes on too long."
+        },
+        {
+          "word": "calm",
+          "meaning": "When your body feels quiet and comfy, like after a big stretch or a story."
+        },
+        {
+          "word": "tell",
+          "meaning": "Using your words to let a grown up know how you feel or what happened. Telling is brave, not naughty."
+        }
+      ],
+      "script": "Say each word and do an action together: wiggle for wiggly, cross arms and frown for grumpy, big slow breath for calm, hand up to your mouth like sharing a secret with a grown up for tell. Land the last one hard: telling a grown up about a feeling is always brave and never naughty. One extra idea to drop in while these words are on the screen, in your own words and in about fifteen seconds. Sometimes on a screen you cannot see who is talking to you. That does not change anything: we still use kind words, and if what somebody sends makes your tummy feel yucky, you still tell a grown up. Not knowing who it is makes telling a grown up more important, not less.",
+      "heading": "Our feeling words today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "This is our remembering question from last lesson. Give ten seconds of quiet thinking, then vote with fingers, one, two or three. Take one answer with a reason. Then bridge to today: last time grown ups helped us with what is REAL. Today grown ups help us with how we FEEL. Same helpers, new job.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Ask a grown up if it is real",
+          "correct": true,
+          "feedback": "Yes! That is our Pebble rule from last time. Grown ups help us work out what is real, and today they are going to help us with feelings too."
+        },
+        {
+          "text": "Just believe it",
+          "correct": false,
+          "feedback": "Careful! Screens can show things that are not real. Our rule is to ask a grown up first, and that rule is going to help us again today."
+        },
+        {
+          "text": "Keep it to yourself",
+          "correct": false,
+          "feedback": "Keeping it to yourself leaves you all alone with the puzzle. Asking a grown up is the strong move, last lesson and this one."
+        }
+      ],
+      "question": "Remember our last lesson with Pebble. You see something on a screen and you are not sure if it is real. What do we do?"
+    },
+    {
+      "body": "Wiggly. Tired. Grumpy. None are naughty.",
+      "type": "concept",
+      "emoji": "🫧",
+      "phase": "teach",
+      "script": "Start warm, because the slide is only the second half of the idea. Say: screens can be lovely. A funny video makes us giggle and feel happy. Then teach the three words slowly and act them out. Sometimes after lots of tablet time my body feels wiggly, show me your best wiggly body. Sometimes it feels tired, show me tired. Sometimes when the screen goes off, whoosh, a grumpy feeling arrives, show me grumpy faces. Then the key sentence, say it warmly: none of those feelings are naughty. Your body is just talking to you. Our job is to listen to it. Say this, as written: And here is how you know when to go and tell a grown up. It is not only when something huge happens. It is when the yucky feeling will not go away by itself, or when it comes back again tomorrow, or when something makes you want to keep it secret. Any one of those three is enough. You do not need all three and you do not need a reason. The three signals at the end are new and they are the point of the slide. Count them on your fingers: it will not go away, it comes back tomorrow, it wants to be a secret. Say the last one twice, because secrecy is the signal that matters most and the one children are least likely to act on. Then say the permission part plainly: one is enough, and you never have to explain why first.",
+      "heading": "Screens change how bodies feel",
+      "minutes": 3
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Stop and notice your body. Is it wiggly, tired, grumpy or happy?",
+          "emoji": "🫀",
+          "title": "Feel it"
+        },
+        {
+          "text": "Say the feeling word out loud. I feel grumpy. I feel wiggly.",
+          "emoji": "💬",
+          "title": "Name it"
+        },
+        {
+          "text": "Find your grown up and tell them the feeling. They can always help.",
+          "emoji": "🤝",
+          "title": "Tell a grown up"
+        }
+      ],
+      "script": "Walk the three steps as they appear, with actions: hand on tummy for feel it, hand by your mouth for name it, hand stretched out for tell a grown up. Then chant it together three times, a little louder each time: feel it, name it, tell a grown up. Point at the three choices at the bottom: sometimes the answer is keep enjoying, because happy is a feeling too. Sometimes it is take a break. And if the feeling is a bad one, it is always tell a grown up. The line that used to be on the wall, to say as written: Pebble is our gentle yellow guide. When a feeling arrives after screen time, we do her three steps.",
+      "caption": "Feel it, name it, tell a grown up.",
+      "heading": "Pebble's three steps",
+      "minutes": 4,
+      "verdicts": [
+        "Keep enjoying",
+        "Take a break",
+        "Tell a grown up"
+      ]
+    },
+    {
+      "meta": "Game chat · just now",
+      "text": "you are RUBBISH at this game!! go away and never play again",
+      "type": "scenario",
+      "image": "🎮",
+      "label": "Pebble's story",
+      "phase": "teach",
+      "avatar": "🐸",
+      "handle": "Milo 🐸",
+      "prompt": "Poppy got this message in her game. How do you think her tummy feels? What should Poppy do next?",
+      "script": "Read the message in a flat voice, not a scary one. Ask: how do you think Poppy's tummy feels right now? Take feeling words: sad, yucky, wobbly, scared. All good answers. Then ask: is this a kind message? No. So what are Pebble's three steps? Feel it, name it, tell a grown up. Poppy tells her grown up and the grown up sorts it out. And one more thing: WE never send messages like this. On screens we use the same kind words we use in the classroom. Screen words are still real words and they can still hurt.",
+      "minutes": 3,
+      "platform": "message"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Who is a grown up YOU could tell if a screen made you feel bad? Tell your partner their name.",
+      "script": "Turn to your talk partner. You have one minute on the timer. I want to hear real names: mummy, grandad, Miss Khan. Ready, go. While they talk, listen out for any child who cannot name anyone and quietly tell them: I am one of your grown ups, you can always tell me. After the chime, take five or six names and celebrate every single one. The message: you all have telling grown ups, and now you know exactly who yours are.",
+      "lookFor": "Every child naming at least one real grown up: mum, dad, nana, teacher, childminder. Gently help anyone who cannot think of one, and remind them teachers always count.",
+      "minutes": 3,
+      "seconds": 60
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Breathe in as Pebble grows. Breathe out as Pebble shrinks. Then tell the person next to you one thing you found out today, and draw or write it on your sheet.",
+        "heading": "Half time! Everyone together",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "seconds": 4
+      },
+      "script": "This is the lesson made real: calm bodies, practised together. Say: when a screen has to go off, our bodies sometimes feel cross, and this is what we do about it. Everyone sits tall, hands on tummies, and we follow the star for six slow breaths without talking. Then ask: who can feel their body going quieter? That feeling is take a break working. Practise it now so it is there at home when the telly goes off tonight.",
+      "caption": "Follow the star. In as it grows, out as it shrinks.",
+      "minutes": 4,
+      "component": "star-breath"
+    },
+    {
+      "body": "Keep enjoying. Take a break. Tell a grown up.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets. Read each story aloud to the class one at a time, that is how this age group works best. After each one ask the thinking question: how does that child's body feel right now? Give thinking time before they circle one of the three answers on the slide. Support table works with you and just circles. Everyone finishes by drawing their telling grown up in the box and writing or copying their name. Early finishers add a speech bubble showing what they would say to their grown up. Circulate and collect one lovely answer to share.",
+      "heading": "Feelings detective time",
+      "minutes": 10
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First quiz question, this one is on the printed exit sheet too. Read it aloud, read all three answers aloud, then everyone circles on their sheet or votes with fingers. The wrong answers matter here: keeping feelings secret is the habit we are trying to replace, so give the feedback lines warmly and fully.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Feel it, name it, tell a grown up",
+          "correct": true,
+          "feedback": "That is it! Notice the feeling, say its name, and tell your grown up. They can help your body feel calm again."
+        },
+        {
+          "text": "Keep watching and hope the feeling goes away",
+          "correct": false,
+          "feedback": "More watching usually makes wiggly and grumpy feelings bigger, not smaller. Pebble says feel it, name it, tell a grown up."
+        },
+        {
+          "text": "Have a cry and tell nobody",
+          "correct": false,
+          "feedback": "Crying is allowed, feelings are never naughty. But keeping it secret means nobody can help. Tell your grown up and the feeling gets smaller."
+        }
+      ],
+      "question": "You have watched videos for a long time. Now your body feels wiggly and grumpy. What are Pebble's three steps?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second quiz question, same routine. Land the most important sentence of the whole lesson after the answer: you are NEVER in trouble for telling a grown up about a feeling, even if you think you did something wrong. Say it twice. If any child shares something worrying here or during the lesson, listen calmly, thank them for telling you, and follow your school safeguarding policy.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "A grown up I trust, straight away",
+          "correct": true,
+          "feedback": "Yes. Straight away, even if you are worried you did something wrong. You are never in trouble for telling about a feeling."
+        },
+        {
+          "text": "Nobody, I keep it a secret",
+          "correct": false,
+          "feedback": "Secrets make yucky feelings grow bigger. Telling a grown up makes them smaller. Telling is brave, not naughty."
+        },
+        {
+          "text": "Only my friend, and we keep it between us",
+          "correct": false,
+          "feedback": "Friends are lovely but they are small like us and cannot fix it. This job needs a grown up. Tell your friend AND a grown up."
+        }
+      ],
+      "question": "Something on a screen makes you feel scared or yucky inside. Who do you tell?"
+    },
+    {
+      "text": "Feel it. Name it. Tell a grown up. My feelings matter, big and small!",
+      "type": "quote",
+      "label": "Say it like Pebble",
+      "phase": "close",
+      "script": "Pebble's chant, all together with the actions: hand on tummy, hand by mouth, hand stretched out, then arms wide for my feelings matter. Do it three times, tiny voice, normal voice, big voice. This is the sentence you want them singing in the corridor.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Screens give our bodies feelings: wiggly, tired, grumpy and happy. None of them are naughty.",
+        "Pebble's three steps: feel it, name it, tell a grown up.",
+        "On screens we use kind words, because screen words are real words.",
+        "If something on a screen feels bad or yucky, we tell a grown up straight away, and we are never in trouble for telling."
+      ],
+      "script": "Choose four children to read one point each, or read them together as a class. After the last point, ask the whole class: are you ever in trouble for telling a grown up about a feeling? Wait for the big NO. That is the answer you want going home in every book bag.",
+      "heading": "What we know now",
+      "minutes": 1
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your job is easy to remember.",
+        "Feel it. Name it. Tell a grown up.",
+        "Try it the very next time a screen goes off!"
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Pebble's job for you",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Pebble's stamp!",
+        "button": "Fill the page",
+        "prompt": "Today filled a little bit of the First steps page. Tap to fill it in!",
+        "heading": "The passport",
+        "moduleId": "ks1-02-kind-screens-calm-bodies",
+        "register": "bouncy",
+        "placement": "foundation"
+      },
+      "script": "DiGi Junior keeps a special book called the passport. It is the book of getting ready for phones and screens, all the way to sixteen. Every lesson we do together fills a little bit of the page, and jobs at home fill it too. Ask one child to come up and tap Fill the page, and when the ring moves, everybody shouts the word stamp. Then say: when the page is full, DiGi asks five little questions, the big check, and the page earns Pebble's stamp. Nobody can fail the passport. It only ever fills up. The note going home today tells your grown ups which page it is. The count on the wall is this screen's memory of your class, not any child's record: the real passport is the one at home.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hello superstars! ⭐ Did you hear? You are feelings experts now!",
+        "Pebble taught you three steps: feel it, name it, tell a grown up. Easy peasy!",
+        "Tonight, after your screen time, try it once. Notice your body, say the feeling word, and tell your grown up. They will be SO proud.",
+        "Remember, your feelings matter, big and small. See you next time, superstars! ⭐"
+      ],
+      "phase": "close",
+      "script": "Let DiGi Junior land the ending, the speech bubbles appear on their own. While it plays, hand out the exit sheets to go home in book bags with the parent note. Wave goodbye to DiGi Junior together, they love it, and it seals the lesson.",
+      "heading": "DiGi Junior says goodbye",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson invites children to name bad feelings linked to screens and repeatedly tells them they are never in trouble for telling. That framing can surface disclosures about frightening content, unkind messages or contact online. If a child discloses during the lesson or worksheet, listen calmly, thank them for telling, do not promise secrecy, and follow the school safeguarding policy. Log any concern on the school concern form.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS1",
+  "module_id": "ks1-02-kind-screens-calm-bodies",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 0,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 2,
+  "parent_note": {
+    "taught": "Today your child learned that screens give our bodies feelings, wiggly, tired, grumpy and happy, and that none of those feelings are naughty. They learned Pebble's three steps: feel it, name it, tell a grown up, especially if something on a screen ever feels bad or scary.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child to show you Pebble's three steps.",
+    "try_this": "Tonight, after screen time ends, ask your child to do Pebble's steps with you: notice their body, say the feeling word, and tell you how they feel. Thank them warmly for telling, whatever the feeling is.",
+    "family_question": "How does your body feel when the screen goes off, and what feeling word would you give it?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pre teach four feeling words with faces before the lesson: happy, sad, cross, wobbly. The feelings detective worksheet works entirely in pictures while the words settle.",
+      "sensory": "The calm bodies content doubles as regulation. Keep the star breath slide ready to revisit at any point, and let a child step to the calm corner without losing their place in the lesson.",
+      "attention": "Chunk the lesson by the three steps and move bodies between each: stand, shake, sit. The wiggle is part of the plan, not the enemy of it.",
+      "communication": "Feel it, name it and tell can all be shown rather than said: a hand on the tummy, a point at a feelings face, a walk to the trusted adult. Accept the action as the answer."
+    },
+    "tool": {
+      "lines": [
+        "Feel it",
+        "Name it",
+        "Tell a grown up"
+      ],
+      "heading": "Pebble's three steps",
+      "strapline": "My feelings matter, big and small"
+    },
+    "i_can": [
+      "I can notice how my body feels after screen time.",
+      "I can name the feeling and tell my grown up.",
+      "I can tell a friend Pebble's three steps: feel it, name it, tell a grown up."
+    ],
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Screens give our bodies feelings",
+        "minutes": 3,
+        "outcome": "I can notice how my body feels after screen time."
+      },
+      {
+        "verb": "Name",
+        "title": "Pebble's three steps",
+        "minutes": 10,
+        "outcome": "I can name the feeling and tell my grown up."
+      }
+    ],
+    "timing": "48 minutes: starter 11, cycle one 3, cycle two 10, practise 11, prove 4, close 5, class interactive 4",
+    "keywords": [
+      {
+        "word": "wiggly",
+        "definition": "When your body cannot sit still and wants to jump about. Screens can make bodies feel wiggly."
+      },
+      {
+        "word": "grumpy",
+        "definition": "A cross, growly feeling inside. It can pop up when screen time stops or goes on too long."
+      },
+      {
+        "word": "calm",
+        "definition": "When your body feels quiet and comfy, like after a big stretch or a story."
+      },
+      {
+        "word": "tell",
+        "definition": "Using your words to let a grown up know how you feel or what happened. Telling is brave, not naughty."
+      }
+    ],
+    "equipment": "Nothing beyond the board. Floor space for the body check if you have it.",
+    "exit_quiz": [
+      {
+        "pairs": [
+          {
+            "left": "Wiggly",
+            "right": "My body cannot sit still"
+          },
+          {
+            "left": "Grumpy",
+            "right": "A cross, growly feeling inside"
+          },
+          {
+            "left": "Calm",
+            "right": "Quiet and comfy, like after a story"
+          }
+        ],
+        "answer": "Wiggly goes with my body cannot sit still; Grumpy goes with a cross, growly feeling inside; Calm goes with quiet and comfy, like after a story",
+        "format": "match",
+        "question": "Match the feeling word to what it means.",
+        "teaching_point": "Three words, three meanings. A child who can name the feeling can tell someone about it."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "Screens can leave a feeling in your body.",
+        "teaching_point": "The feeling is real, and naming it is the skill. Do not let this be answered as a guess."
+      },
+      {
+        "answer": "Feel it, name it, tell a grown up.",
+        "format": "short_answer",
+        "question": "What are Pebble's three steps?",
+        "teaching_point": "The portable routine. If it does not come back word for word, say it together twice before they leave."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Telling a grown up how you feel is telling tales.",
+        "teaching_point": "Telling about a feeling is not telling tales. Children who confuse the two go quiet exactly when you need them not to."
+      },
+      {
+        "answer": "named",
+        "format": "fill_blank",
+        "question": "Feelings pass more quickly once you have ___ them.",
+        "teaching_point": "The mechanism behind step two. Naming is not a nicety, it is what makes the feeling shrink."
+      }
+    ],
+    "worksheet": {
+      "title": "Feelings detective",
+      "directions": "Listen to each story, think about how the child feels, and circle what they should do.",
+      "verdict_options": [
+        "Keep enjoying",
+        "Take a break",
+        "Tell a grown up"
+      ]
+    },
+    "teacher_tip": "Do the body check yourself, out loud, first. Children copy the naming, and a class that has heard an adult say I feel a bit wiggly will say it back.",
+    "starter_quiz": [
+      {
+        "answer": "Any three, such as happy, sad, cross, tired, excited.",
+        "format": "short_answer",
+        "question": "Name three feelings.",
+        "teaching_point": "The lesson needs a feelings vocabulary to build on. Three is the floor."
+      },
+      {
+        "answer": "Your tummy",
+        "format": "tick_one",
+        "options": [
+          "Your tummy",
+          "Your elbow",
+          "Your hair"
+        ],
+        "question": "Where in your body might a worried feeling sit?",
+        "teaching_point": "Feelings live somewhere in the body, and children can point to it. That is the whole body check."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "If something on a screen makes you feel funny, you should keep it a secret.",
+        "teaching_point": "Carried forward from eyfs-01. Telling a grown up is the move, and it is never trouble."
+      },
+      {
+        "answer": "Any trusted adult they name.",
+        "format": "short_answer",
+        "question": "Who helps you when something feels wrong?",
+        "teaching_point": "Same check as last time, one rung up. It should be quicker this year."
+      }
+    ],
+    "misconceptions": [
+      "Telling a grown up about something on a screen is telling tales (telling about a feeling or something scary keeps you safe, telling tales is trying to get someone into trouble, they are completely different)",
+      "Screens are bad and screen feelings mean I did something wrong (screens can make us happy too, feelings after screen time are normal body signals, the skill is noticing and naming them, not avoiding screens)",
+      "If something yucky appears on my screen I will be in trouble for seeing it (children are never in trouble for what appears or for telling, say this out loud during the lesson, it is the single most important safeguarding message at this age)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the Pebble story and the game chat message aloud from the script, draw the three steps on the board as three boxes with the actions, run the partner talk with a sand timer, then the worksheet and the two exit questions read aloud. The chant needs no screen at all.",
+    "passport_stage": "foundation",
+    "commitment_stem": "My commitment: after screen time I will feel it, name it, and tell my grown up, whose name is ...",
+    "differentiation": {
+      "stretch": "Ask stretch children to add a second feeling word to each worksheet story (a body word and a mood word), and to explain the difference between telling tales and telling to stay safe in their own words.",
+      "support": "Pair the four feeling words with the four actions every time they come up. During the worksheet, work with the support table and read every item twice, letting children point before they circle. Accept pointing at the feelings faces as a full answer."
+    },
+    "prior_knowledge": [
+      "A child can name a few feelings: happy, sad, cross, tired.",
+      "A child knows a grown up can help when something feels wrong, from eyfs-01.",
+      "A child can point to where in their body a feeling sits, tummy, chest or head."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Ben is watching a funny animal video with his dad. They are both giggling and Ben feels happy and cosy.",
+        "teaching_point": "Recognise: happy is a feeling too. Screens with a grown up, feeling good, is exactly right. Not every screen feeling needs fixing.",
+        "expected_verdict": "Keep enjoying"
+      },
+      {
+        "n": 2,
+        "item": "Amara has been on the tablet a long time. Her legs feel wiggly, her eyes feel tired, and she is starting to feel grumpy.",
+        "teaching_point": "Recognise: wiggly plus tired plus grumpy is the body saying enough for now. A break, a stretch and a drink helps the body feel calm again.",
+        "expected_verdict": "Take a break"
+      },
+      {
+        "n": 3,
+        "item": "A scary picture pops up on Leo's screen. His tummy feels yucky and his heart goes fast.",
+        "teaching_point": "Apply: yucky tummy and fast heart are big bad feeling signals. Pebble's steps end with tell a grown up, straight away, and Leo is not in trouble.",
+        "expected_verdict": "Tell a grown up"
+      },
+      {
+        "n": 4,
+        "item": "Someone in Priya's game writes: you are rubbish, go away. Priya feels sad and wobbly inside.",
+        "teaching_point": "Apply: unkind screen words are real words and they hurt. Telling a grown up gets help, and we never write messages like that ourselves.",
+        "expected_verdict": "Tell a grown up"
+      },
+      {
+        "n": 5,
+        "item": "The screen goes off for dinner and Sam feels a big grumpy feeling arrive. He wants to shout.",
+        "teaching_point": "Apply: the grumpy feeling when screens stop is normal and not naughty. Feel it, name it out loud, and the break plus dinner helps it shrink.",
+        "expected_verdict": "Take a break"
+      },
+      {
+        "n": 6,
+        "item": "Milo says: if a screen makes me feel yucky, I should keep it a secret so I do not get in trouble. Do you agree with Milo? Tell your teacher why or why not.",
+        "teaching_point": "Explain: the key misconception, said out loud. Secrets make yucky feelings grow, telling makes them shrink, and you are never in trouble for telling.",
+        "expected_verdict": "Tell a grown up"
+      }
+    ],
+    "essential_question": "Why do I feel wiggly or grumpy when the screen goes off?",
+    "learning_objective": "Pupils can name how their body and mood feel after screen time using simple feeling words, and know to tell a trusted grown up, especially when something on a screen feels bad.",
+    "key_learning_points": [
+      "Screens leave a feeling in your body, and the feeling is real.",
+      "Wiggly and grumpy are two of the feelings screens can leave behind.",
+      "Feelings pass more quickly once you have named them.",
+      "Pebble's three steps are feel it, name it, tell a grown up.",
+      "Telling a grown up is brave, not naughty."
+    ]
+  }
+}

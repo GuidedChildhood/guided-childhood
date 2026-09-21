@@ -1,0 +1,786 @@
+{
+  "row": {
+    "title": "My work and other people’s work",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 3 to 6",
+    "sort_order": 9,
+    "efcw_strands": [
+      8
+    ],
+    "ailit_domains": [
+      "Create with AI"
+    ],
+    "character_cast": "Bloop",
+    "evidence_anchor": "AILit Create with AI domain",
+    "statutory_hooks": [
+      "EfCW copyright and ownership",
+      "Computing"
+    ],
+    "single_action_outcome": "I can credit work that is not mine."
+  },
+  "slides": [
+    {
+      "body": "Every drawing, video, story and game idea has a maker. Today we learn how to make sure every maker gets their name.",
+      "type": "title",
+      "phase": "starter",
+      "title": "My work and other people's work",
+      "script": "Settle everyone with this slide up. Today's mission is about something every single person in this room already is: a maker. You have all drawn something, built something, filmed something or made up a game. By the end of the hour you will know exactly what belongs to you, what belongs to other people, and the fair way to use work that is not yours.",
+      "eyebrow": "KS2 · Years 3 to 6 · Module 9",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hello! Bloop here.",
+        "If you found it online, why is it not yours to use?",
+        "Because somebody made it. And you are a maker too, so today is about you as well."
+      ],
+      "phase": "starter",
+      "script": "Let Bloop land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Bloop arrives",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "why": "When you make something, it is yours, and that feels brilliant. But the internet is full of other people's drawings, songs, photos and ideas, and it is very easy to use them without thinking about the person who made them. Fair makers use a simple tool: make it, credit it, ask first.",
+      "type": "objective",
+      "gains": [
+        "Know that anything you make belongs to you the moment you make it",
+        "Spot when work being shared online really belongs to someone else",
+        "Use the tool: make it, credit it, ask first",
+        "Ask a brilliant question about AI pictures: where did this really come from?"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Quick hands up: who has made something this year they are proud of? A drawing, a Lego build, a Minecraft world, a story, a dance. Take three or four answers fast. Keep those examples, we will come back to them, because everything we say today about famous artists is also true about YOUR dragon drawing.",
+      "minutes": 2,
+      "outcome": "I can credit work that is not mine."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about something you made that you were proud of. A drawing, a build, a story, anything.",
+      "script": "Sixty seconds. Something you made that you were proud of. Keep that feeling, because in a minute I am going to ask you how you would feel if somebody put their name on it.",
+      "lookFor": "Pride in your own work is the feeling this whole lesson rests on. Get it into the room before anything else.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "original",
+          "meaning": "Work that came from your own head and your own hands. It is yours the moment you make it."
+        },
+        {
+          "word": "copyright",
+          "meaning": "The rule that says the maker owns their work, and other people need permission to copy it."
+        },
+        {
+          "word": "credit",
+          "meaning": "Naming the person who made the work you are using, so the maker gets the thanks."
+        },
+        {
+          "word": "permission",
+          "meaning": "Asking the maker if you can use their work, and waiting for a yes before you do."
+        }
+      ],
+      "script": "Say each word, class repeats it back. The big surprise for most children is copyright: you do not need a form, a stamp or a grown up. The moment you finish a drawing, copyright says it is yours. Ask: so who in this room owns a copyright? Answer: every single person who has ever made anything. Watch them sit up a bit taller.",
+      "heading": "Maker words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson, thirty seconds of thinking time before hands go up. Cold call two pupils and ask for all three moves in their own words, not just the letter. If the room is shaky on this, spend one extra minute rebuilding the three together before moving on, it matters more than today's pace.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Do not join in, stick up for the person, and tell a trusted adult",
+          "correct": true,
+          "feedback": "That is the three. Never add to the pile, be the friend who backs them up, and bring in an adult who can actually help. A bystander who acts stops being a bystander."
+        },
+        {
+          "text": "Join in a tiny bit so you fit in, then say sorry later",
+          "correct": false,
+          "feedback": "A tiny bit of unkind is still unkind, and sorry later does not unsend it. The three moves were: do not join in, stick up for the person, tell a trusted adult."
+        },
+        {
+          "text": "Leave the chat quietly and keep it to yourself",
+          "correct": false,
+          "feedback": "Leaving keeps you out of it, but it leaves the person alone with it. The three moves were: do not join in, stick up for the person, tell a trusted adult."
+        }
+      ],
+      "question": "Mission memory from last lesson. Someone in a group chat starts being unkind about a classmate. What were our three moves?"
+    },
+    {
+      "body": "When you draw a picture, it is yours. When you film a video, write a story or invent a game, those are yours too. Nobody has to give you a certificate, ownership happens the second you make it. And here is the fair part: it works exactly the same way for everyone else. The song you love belongs to the person who wrote it. The picture you found online belongs to the person who made it. Your stuff is yours, their stuff is theirs.",
+      "type": "concept",
+      "emoji": "🎨",
+      "phase": "teach",
+      "script": "Point back at the examples from the start of the lesson: the Minecraft world, the dragon drawing, the dance. Say: you own those. Really own them. Then flip it: and the person who made your favourite song owns that, exactly as much as you own your drawing. Ask the room how they would feel if someone took their proudest make and said it was theirs. Collect two or three feelings, you will need them for the next slide, because it is about to happen to someone.",
+      "heading": "You are a maker, and makers own their work",
+      "minutes": 2
+    },
+    {
+      "meta": "Group chat · Tuesday 4:12pm",
+      "text": "did you see?? Leo entered THE EXACT game Priya invented. the potion shop one with the sneezing dragon. she told him the whole idea at lunch and he put it in the club competition as HIS 😳",
+      "type": "scenario",
+      "image": "🐉",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "🕹️",
+      "handle": "Coding Club 💻",
+      "prompt": "Whose game is it? And what should Leo have done instead?",
+      "script": "Read the message out loud with full drama. Then the two questions. First: whose game is it? Let the room say Priya's, then push: why? She never wrote it down. Fish for the answer that it came from her head, she invented it, telling a friend is not giving it away. Second question: what should Leo have done? Ask first. He could have said, can I build your idea, can we team up, can I make my own version? Any of those is fair. Taking it silently is the only unfair move on the list.",
+      "minutes": 3,
+      "platform": "message"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Think of something you have made that you are really proud of. How would you feel if someone shared it as their own?",
+      "script": "Sixty seconds, partner talk, start the timer on screen. After the chime take three or four feelings and write the strongest words on the board. Then land the turn: hold on to that feeling, because every photo, song and drawing online has a maker who would feel exactly the same. That feeling is why credit exists.",
+      "lookFor": "Real feelings named out loud: cross, sad, invisible, like being robbed. The point is the connection: whatever they would feel, that is exactly what Priya feels, and what any maker feels.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Thinking time, then hands. Watch for pupils who half agree with Leo, some will, and that is useful. Do not squash it, ask them how Priya finds that fair. The loophole feeling versus the fairness feeling is the whole learning moment here. Land it with: fair makers ask first, takers hunt for loopholes.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "No. The idea came from Priya, so the fair move is to ask her or credit her",
+          "correct": true,
+          "feedback": "Exactly. An idea belongs to the person it came from, written down or not. Asking first or teaming up would have made Leo a fair maker instead of a taker."
+        },
+        {
+          "text": "Yes. If it is not written down, anyone can claim it",
+          "correct": false,
+          "feedback": "That is the excuse of someone who knows they took something. The idea came from Priya's head. Fair makers ask first, they do not look for loopholes."
+        },
+        {
+          "text": "Sort of. It is hers, but once she said it out loud it became everyone's",
+          "correct": false,
+          "feedback": "Sharing an idea with a friend is trust, not a giveaway. It stays hers, and the fair move is still to ask before using it."
+        }
+      ],
+      "question": "Leo says: Priya only TOLD me the idea, she never wrote it down, so it is not really hers. Is he right?"
+    },
+    {
+      "body": "Here is the good news: you ARE allowed to use other people's work. Teachers do it, YouTubers do it, artists do it all the time. The difference between fair and unfair is tiny and simple. Fair makers name the person whose work they used, that is credit. And when they want to copy something, change it, or share it with the whole world, they ask the maker first. Unfair users just take, and hope nobody notices.",
+      "type": "concept",
+      "emoji": "🧰",
+      "phase": "teach",
+      "script": "This slide kills the wrong lesson before it starts. Some pupils will walk away thinking never touch anyone else's work ever, and that is not it. Using other people's work is how everyone learns and creates. Say it plainly: you may stand on other people's work, you just have to say whose shoulders you are standing on. Then tell them the next slide is the tool that makes it easy, three little moves.",
+      "heading": "Using other people's work the fair way",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "If it came from your head and hands, it is yours. Be proud, put your name on it.",
+          "emoji": "✏️",
+          "title": "Make it"
+        },
+        {
+          "text": "Using someone's picture, words or music? Name the maker, every single time.",
+          "emoji": "🏷️",
+          "title": "Credit it"
+        },
+        {
+          "text": "Want to copy it, change it or share it with everyone? Ask the maker BEFORE, not after.",
+          "emoji": "🙋",
+          "title": "Ask first"
+        }
+      ],
+      "script": "Walk the three moves as they build, then get the class chanting them back: make it, credit it, ask first. Twice, louder the second time. Then point at the three verdicts along the bottom: every question today ends in one of these three. Test it fast on the room: your own comic? Yours to own. A photo from a website in your topic work? Credit the maker. Priya's game idea? Ask first. They will feel how quick the tool is, that is the point.",
+      "caption": "Three moves, and you will never take from a maker by accident. Every maker gets their name.",
+      "heading": "Make it, credit it, ask first",
+      "minutes": 3,
+      "verdicts": [
+        "Yours to own",
+        "Credit the maker",
+        "Ask first"
+      ]
+    },
+    {
+      "meta": "2h · Shared 512 times",
+      "text": "found this AWESOME dragon somewhere 🔥🔥 new profile picture sorted. do not even know who drew it lol",
+      "type": "scenario",
+      "image": "🐲",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 2,431   ↻ 512   💬 88",
+      "avatar": "😎",
+      "handle": "sticker.stack",
+      "prompt": "The drawing is getting lots of love. Who is getting none of it?",
+      "script": "Read the post, then the prompt. The answer is the maker, and the detail that stings is right there in the caption: do not even know who drew it lol. Somewhere out there is an artist watching their dragon get two thousand hearts with their name cropped off. Ask the room: which move from the tool fixes this? Credit it, and if you cannot find out who made it, that is a clue you should probably not use it at all. Bonus question for a sharp room: is sticker.stack being mean on purpose? Probably not, and that is the trap. Most taking is not evil, it is lazy.",
+      "minutes": 3,
+      "platform": "feed"
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This is where credit and permission separate, so take the feedback slowly. The rule of thumb for this age: small school use, credit the maker. Sharing with the whole world, ask first. And the happy ending: the asking is often already done, app music libraries are full of songs where the makers said yes in advance. Fair does not mean boring.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Ask first. Sharing someone's work with the whole world needs permission",
+          "correct": true,
+          "feedback": "Right. A song in a video the whole internet can see is a big use of someone's work, so it needs a yes, not just a name. That is why apps have libraries of music you ARE allowed to use, the makers already said yes to those."
+        },
+        {
+          "text": "Credit it. Just write the singer's name and post it",
+          "correct": false,
+          "feedback": "Credit is brilliant for a school project, but posting to the whole world is bigger than that. Big public uses need permission, which is why apps offer music the makers have already said yes to."
+        },
+        {
+          "text": "Make it. Once the video is yours, everything in it is yours",
+          "correct": false,
+          "feedback": "The video is yours, the song inside it is still the singer's. Putting someone's work inside your work does not make it yours."
+        }
+      ],
+      "question": "You want to put your favourite singer's song on a video you are posting for everyone to see. Which move does the tool ask for?"
+    },
+    {
+      "body": "Now the puzzle that is so new even judges are still arguing about it. You type castle in space into an AI tool and two seconds later, a picture appears. But the tool did not imagine it the way you do. It learned by studying millions of pictures made by real people, artists and photographers who mostly were never asked. So when an AI picture pops out, where did it really come from? A little bit from you, a little bit from the tool, and a little bit from millions of makers.",
+      "type": "concept",
+      "emoji": "🤖",
+      "phase": "teach",
+      "script": "Energy up, this is genuinely one of the most interesting questions in the world right now and the adults have NOT solved it. Ask who has used an AI picture tool, plenty of hands. Then walk the puzzle: the tool learned from millions of real people's pictures. Should they get credit? Can they, when there are millions? Do not answer it yet, that is deliberate. The next two slides let the class do the thinking, and their reasoning is the prize, not a right answer.",
+      "heading": "The AI wrinkle",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "You typed castle in space and a picture appeared. Tell your partner who you think actually made it.",
+      "script": "Sixty seconds and I want you to disagree with each other. Who made that picture. You. The tool. The people whose drawings it learned from. There is no answer at the back of the book for this one.",
+      "lookFor": "You want disagreement here, not a right answer. Real judges are still arguing about this one, and the next slide says so out loud.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Real people drew, painted and photographed for years. Their work went online.",
+          "emoji": "🖼️",
+          "title": "Millions of makers"
+        },
+        {
+          "text": "The AI learned patterns from all that work. Most makers were never asked.",
+          "emoji": "🤖",
+          "title": "The tool studies it all"
+        },
+        {
+          "text": "Castle in space. Your words steer what the tool makes.",
+          "emoji": "⌨️",
+          "title": "You type an idea"
+        },
+        {
+          "text": "New, but mixed from everything it learned. So whose is it?",
+          "emoji": "✨",
+          "title": "Out comes a picture"
+        }
+      ],
+      "script": "Walk the chain as it builds and keep it honest: the picture at the end is new, nobody is saying the tool photocopied someone's drawing. But it could not exist without the millions of makers at step one, and most of them were never asked. Pause on the caption: real judges in real courts are arguing about this RIGHT NOW, and nobody has fully won. Then hand the same case to the class, discussion is next.",
+      "caption": "Nobody fully agrees who should get the credit here. You are about to argue about the same question as real judges.",
+      "heading": "Where an AI picture really comes from",
+      "minutes": 3
+    },
+    {
+      "mode": "class",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "An AI picture took two seconds to make and millions of people's work to learn from. Does it belong to anyone? Who should get credit?",
+      "script": "Ninety seconds on the timer, whole class, and your job is referee, not judge. Push each claim one step: it belongs to the typist? They wrote four words, is that making? It belongs to nobody? Then is it fair the tool needed millions of makers who were never asked? If the class splits down the middle, celebrate that, tell them courtrooms full of adults are split exactly the same way. Land one solid takeaway before moving on: whatever the courts decide, the honest move never changes, say how you made it.",
+      "lookFor": "Reasoning, not a right answer. Strong answers mention the person who typed the idea, the people who built the tool, and the millions of makers it learned from. The honest conclusion is that it is genuinely unsettled and being argued in court.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick one, and it rescues the class from the muddle of the discussion. The ownership question is genuinely hard, the honesty question is genuinely easy. Whatever the judges decide about AI pictures, I made this with an AI tool is always true and always fair. Point out this is credit working in a brand new situation, the tool still works even when the technology is new.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "I made this with an AI tool",
+          "correct": true,
+          "feedback": "That is it. Six words, completely honest. People can enjoy the picture AND know how it was made. Honesty about the making is the one part of this puzzle that is not confusing at all."
+        },
+        {
+          "text": "I drew this",
+          "correct": false,
+          "feedback": "Typing four words is not drawing, and everyone who has ever spent an hour on a drawing knows it. Claiming AI work as hand made work is taking credit that is not yours."
+        },
+        {
+          "text": "Say nothing. Nobody owns AI pictures so it does not matter",
+          "correct": false,
+          "feedback": "Even while the ownership question is unsettled, honesty is settled. Saying how you made something costs nothing and takes nothing from anyone."
+        }
+      ],
+      "question": "Your friend types castle in space into an AI tool and gets an amazing picture. What is the honest thing to say when they share it?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths: in as Bloop grows, out as Bloop shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time · everyone together",
+        "seconds": 4,
+        "register": "playful",
+        "character": "bloop"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "Make it, credit it, ask first · tap the class verdict",
+        "posts": [
+          {
+            "why": "Ownership is automatic. The moment the comic is finished it belongs to its maker, no form or stamp needed.",
+            "text": "You spend the whole weekend drawing a comic about a robot dog. You finish it and write your name on the front. Whose is it?",
+            "answer": 0,
+            "avatar": "🖌️",
+            "handle": "Case 1"
+          },
+          {
+            "why": "Easy to find is not free to take. School use is fine, but the photographer's name belongs under their photo.",
+            "text": "You find a brilliant photo of a volcano online and paste it into your topic poster with no name under it. What is missing?",
+            "answer": 1,
+            "avatar": "🖌️",
+            "handle": "Case 2"
+          },
+          {
+            "why": "Ideas belong to the person they came from, written down or not. Asking turns taking into teaming up.",
+            "text": "Your friend tells you their secret game idea at lunch. You think it is amazing and want to build it in coding club. What comes first?",
+            "answer": 2,
+            "avatar": "🖌️",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Sharing someone's work with the whole world needs permission, not just a name. App music libraries hold songs where the makers already said yes.",
+            "text": "You film a brilliant video and want to put your favourite singer's song on it before posting it for everyone to see. What does the song need?",
+            "answer": 2,
+            "avatar": "🖌️",
+            "handle": "Case 4"
+          },
+          {
+            "why": "Borrowed words in school work are fine when the source is named. Quoting with credit is what real writers do.",
+            "text": "You use two sentences from a website in your school project, word for word. What do you add next to them?",
+            "answer": 1,
+            "avatar": "🖌️",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Reasoning is the prize here. Strong answers push back on Bloop: the tool learned from millions of real makers, and whoever shares the picture should at least say an AI tool made it.",
+            "text": "Bloop says: an AI picture is made from millions of people's work, so nobody needs any credit at all. Do you agree? Explain your reasoning.",
+            "answer": 1,
+            "avatar": "🖌️",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Yours to own",
+          "Credit the maker",
+          "Ask first"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Make it, credit it, ask first, now on six real cases together before the sheet. Read the card, take the vote, tap the class answer, read the reason. Celebrate the ask first verdicts out loud: asking is what professionals do every day.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Six cases on your worksheet: drawings, photos, songs, a borrowed game idea and one AI picture. For each one, choose the fair verdict: yours to own, credit the maker, or ask first. Then write your reason. You have fifteen minutes. A verdict without a reason does not count, fair makers can always say why.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets, bookmark strips on tables for anyone who wants the three moves in front of them. Fifteen minutes. Support group works cases one to three with you, use the sentence starter: the maker is, so I will. Stretch for early finishers: design the credit line you would want under YOUR best work, exact words. Circulate and collect one brilliant reason to read out at the end, name the pupil, credit where credit is due.",
+      "heading": "The maker's casebook",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, these two are the printed quiz, so silent and solo. This one is the heart of today's outcome: I can credit work that is not mine. A pupil who picks the third option has learned fear instead of fairness, note who they are and reassure them in the feedback: using is allowed, naming is the move.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Use it and clearly name the person who made it",
+          "correct": true,
+          "feedback": "That is credit. Using other people's work in your school work is fine, taking it silently is not. Name the maker and everyone wins."
+        },
+        {
+          "text": "Just use it, pictures online are free for everyone",
+          "correct": false,
+          "feedback": "Easy to find is not the same as free to take. Every photo online has a maker, and the fair move is to name them."
+        },
+        {
+          "text": "Never use anyone else's pictures for anything",
+          "correct": false,
+          "feedback": "You do not have to make everything from scratch, that is not the lesson. Using other people's work is fine, the fair move is simply to credit the maker."
+        }
+      ],
+      "question": "Exit check one. You find the perfect photo online for your school topic poster. What is the fair move?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "The thinking question, and the one a visitor to your classroom would love: it proves pupils are reasoning, not reciting. If anyone answered true with a clever argument during the discussion, honour that here, then land the line that settles it: the ownership argument is not finished, the honesty rule is. Collect both exit checks in, they are your evidence for the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. AI tools learned from millions of real people's work, and honest makers say how a picture was made",
+          "correct": true,
+          "feedback": "Exactly right. The ownership question is still being argued by adults in court, but the honest move is already clear: say an AI tool made it, and never claim it as hand made."
+        },
+        {
+          "text": "True. The computer made it, and computers do not need credit",
+          "correct": false,
+          "feedback": "The computer only learned to make it by studying millions of real people's work. That is not nowhere. And whoever shares it should still be honest about how it was made."
+        }
+      ],
+      "question": "Exit check two. True or false: an AI picture comes from nowhere, so nobody ever needs any credit."
+    },
+    {
+      "text": "Make it, it is YOURS. Use it, CREDIT it. Copy it, ASK first. Every maker gets their name!",
+      "type": "quote",
+      "label": "Say it like Bloop",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time. This is the sentence you want repeated at dinner tables tonight, and it fits on the bookmark going home in their bags.",
+      "minutes": 1
+    },
+    {
+      "body": " The same rule works the other way round, and this part is about you. Your name, your face, your birthday and where you live belong to you in exactly the way your drawing does. Nobody gets to use them without asking, and asking means a real yes from you, not a box that was already ticked. You are allowed to say no, and you are allowed to change your mind later.",
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "You own what you make the moment you make it, no forms, no stamps. And other people own what they make, exactly the same.",
+        "Easy to find online is not the same as free to take. Every photo, song and drawing has a maker.",
+        "The tool: make it, credit it, ask first. Small school use, credit the maker. Sharing with the whole world, ask first.",
+        "AI pictures are built from millions of real people's work. Adults are still arguing about who owns them, but honest makers always say how a thing was made."
+      ],
+      "script": "Four points, read by four pupils, one each. Then one last connection: remember the feeling from the pair talk, when you imagined someone taking your proudest make? Every move we learned today exists to stop anyone feeling that. Fairness for makers, and you are all makers.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your mission.",
+        "Make it, it is yours. Use it, credit the maker. Copy or share it big, ask first.",
+        "Try it on the very next thing you make."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Bloop's mission for you",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks2-09-copyright-ownership",
+        "register": "playful",
+        "placement": "builder"
+      },
+      "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Case closed, makers! ⭐",
+        "Make it, it is yours. Use it, credit it. Copy it, ask first. Three moves and every maker gets their name.",
+        "Your mission this week: make something you are proud of and put your name on it. And the next time you use work that is not yours, name the maker out loud.",
+        "The world is full of people who take without thinking. You are makers who give credit. That is rarer, and it is better. See you next lesson!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. As it plays, pupils write their commitment on the exit card: the one place this week they will credit a maker or ask first. Bookmarks and parent notes into bags on the way out.",
+      "heading": "DiGi closes the case",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS2",
+  "module_id": "ks2-09-copyright-ownership",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 9,
+  "parent_note": {
+    "taught": "Today your child learned that they own what they make, from drawings to game ideas, and that other people own what they make too. Their tool for using other people's work fairly is: make it, credit it, ask first.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child whose name belongs on the last thing your family shared.",
+    "try_this": "Make something together this week, anything at all, and put your child's name on it. Then find one picture or song you both enjoy online and see if you can name the person who made it.",
+    "family_question": "If an AI drew a picture in two seconds, who should get the credit?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Maker, credit and copy are the three words to pre teach. The AI made case follows the same three: the computer was the tool, the prompt writer is the maker, the source deserves the credit.",
+      "sensory": "No loud moments in this one, and the gallery walk version also suits a class that needs the room calm and predictable.",
+      "attention": "Run the casebook as a gallery walk rather than a sit down worksheet: six cases on six tables, a verdict card left at each. Movement becomes the engine instead of the obstacle.",
+      "communication": "Mine, credit and ask first are three verdict cards, and the whole casebook runs on them. The commitment line gets a sentence stem: I will name the maker by."
+    },
+    "tool": {
+      "lines": [
+        "Make it, it is yours",
+        "Use it, credit the maker",
+        "Copy or share it big, ask first"
+      ],
+      "heading": "Make it, credit it, ask first",
+      "strapline": "Every maker gets their name."
+    },
+    "i_can": [
+      "I can tell the difference between my work and someone else's work.",
+      "I can credit the maker or ask first before I use their work.",
+      "I can explain to a friend why makers deserve their name on their work."
+    ],
+    "cycles": [
+      {
+        "verb": "Own",
+        "title": "You are a maker, and makers own their work",
+        "minutes": 11,
+        "outcome": "I can tell the difference between my work and someone else's work."
+      },
+      {
+        "verb": "Use",
+        "title": "Make it, credit it, ask first",
+        "minutes": 8,
+        "outcome": "I can credit the maker or ask first before I use their work."
+      },
+      {
+        "verb": "Question",
+        "title": "The AI wrinkle",
+        "minutes": 11,
+        "outcome": "I can explain where an AI picture really comes from."
+      }
+    ],
+    "timing": "71 minutes: starter 11, cycle one 11, cycle two 8, cycle three 11, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "original",
+        "definition": "Work that came from your own head and your own hands. It is yours the moment you make it."
+      },
+      {
+        "word": "copyright",
+        "definition": "The rule that says the maker owns their work, and other people need permission to copy it."
+      },
+      {
+        "word": "credit",
+        "definition": "Naming the person who made the work you are using, so the maker gets the thanks."
+      },
+      {
+        "word": "permission",
+        "definition": "Asking the maker if you can use their work, and waiting for a yes before you do."
+      }
+    ],
+    "equipment": "Nothing beyond the board.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "If something is online, it is free to use.",
+        "teaching_point": "Easy to find is not the same as free to take. This is the misconception the whole lesson turns on."
+      },
+      {
+        "answer": "copyright",
+        "format": "fill_blank",
+        "question": "The rule that says the maker owns their work is called ___.",
+        "teaching_point": "One word, and they should own it by now."
+      },
+      {
+        "pairs": [
+          {
+            "left": "Credit",
+            "right": "Naming the person who made it"
+          },
+          {
+            "left": "Permission",
+            "right": "Asking first and waiting for a yes"
+          },
+          {
+            "left": "Original",
+            "right": "Work that came from your own head"
+          }
+        ],
+        "answer": "Credit goes with naming the person who made it; Permission goes with asking first and waiting for a yes; Original goes with work that came from your own head",
+        "format": "match",
+        "question": "Match each action to what it means.",
+        "teaching_point": "Three actions, three meanings. Credit and permission are different jobs and pupils blur them."
+      },
+      {
+        "answer": "From millions of pieces of work made by people who were not asked.",
+        "format": "short_answer",
+        "question": "Where does an AI picture really come from?",
+        "teaching_point": "The AI wrinkle. Accept anything that reaches people who were not asked."
+      },
+      {
+        "answer": "Make it, credit it, ask first.",
+        "format": "short_answer",
+        "question": "Say the three word rule from this lesson.",
+        "teaching_point": "The tool they leave with."
+      }
+    ],
+    "worksheet": {
+      "title": "The maker's casebook",
+      "directions": "Read each case, choose the fair verdict and write your reason.",
+      "verdict_options": [
+        "Yours to own",
+        "Credit the maker",
+        "Ask first"
+      ]
+    },
+    "teacher_tip": "Start with a piece of their own work being taken, not someone else's. Ownership is felt before it is understood.",
+    "starter_quiz": [
+      {
+        "answer": "Any genuine answer naming their own effort.",
+        "format": "short_answer",
+        "question": "Tell me about something you made that you are proud of, and why it is yours.",
+        "teaching_point": "Ownership is felt before it is understood. Start with theirs, never someone else's."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "A picture can be made by a computer.",
+        "teaching_point": "Carried forward from ks1-03. It comes back today with a new question attached: where did it come from?"
+      },
+      {
+        "answer": "Asking first and waiting for a yes.",
+        "format": "short_answer",
+        "question": "What does asking permission mean?",
+        "teaching_point": "Waiting for the yes is the half that gets dropped. Watch for answers that stop at asking."
+      },
+      {
+        "answer": "Unfair",
+        "format": "tick_one",
+        "options": [
+          "Fine",
+          "Unfair",
+          "Funny"
+        ],
+        "question": "Someone copies your drawing and puts their name on it. That feels:",
+        "teaching_point": "The feeling arrives before the rule does. Use their word unfair when you introduce copyright."
+      }
+    ],
+    "misconceptions": [
+      "If it is online, it is free to use (easy to find is not free to take, every photo, song and drawing online has a maker who owns it)",
+      "An idea only counts if it is written down (an idea belongs to the person it came from, taking a friend's game idea without asking is unfair whether or not it is on paper)",
+      "AI pictures come from nowhere, so honesty rules do not apply (AI tools learned from millions of real people's work, and whoever shares an AI picture should say how it was made)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the two evidence items aloud with full drama, they are written to be performed. Put the three verdicts on cards in three corners of the room and have pupils move to vote on every choice question, reasons collected out loud. The tool diagram is the bookmark, the casebook and exit quiz are already paper.",
+    "passport_stage": "builder",
+    "commitment_stem": "My commitment: the next time I use work that is not mine, I will name the maker or ask first.",
+    "differentiation": {
+      "stretch": "Early finishers design the exact credit line they would want under their own best work, then decide what permission they would give a stranger who asked to use it, and why.",
+      "support": "Work casebook items one to three together with the bookmark strip on the table. Use the sentence starter: the maker is, so I will. Accept verdicts pointed to on the bookmark with a spoken reason."
+    },
+    "prior_knowledge": [
+      "A pupil has made something they are proud of and can say why it is theirs.",
+      "A pupil can explain that a picture might be made by a computer, from ks1-03.",
+      "A pupil understands what asking permission means in everyday life."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "You spend the whole weekend drawing a comic about a robot dog. You finish it and write your name on the front. Whose is it?",
+        "teaching_point": "Ownership is automatic. The moment the comic is finished it belongs to its maker, no form or stamp needed.",
+        "expected_verdict": "Yours to own"
+      },
+      {
+        "n": 2,
+        "item": "You find a brilliant photo of a volcano online and paste it into your topic poster with no name under it. What is missing?",
+        "teaching_point": "Easy to find is not free to take. School use is fine, but the photographer's name belongs under their photo.",
+        "expected_verdict": "Credit the maker"
+      },
+      {
+        "n": 3,
+        "item": "Your friend tells you their secret game idea at lunch. You think it is amazing and want to build it in coding club. What comes first?",
+        "teaching_point": "Ideas belong to the person they came from, written down or not. Asking turns taking into teaming up.",
+        "expected_verdict": "Ask first"
+      },
+      {
+        "n": 4,
+        "item": "You film a brilliant video and want to put your favourite singer's song on it before posting it for everyone to see. What does the song need?",
+        "teaching_point": "Sharing someone's work with the whole world needs permission, not just a name. App music libraries hold songs where the makers already said yes.",
+        "expected_verdict": "Ask first"
+      },
+      {
+        "n": 5,
+        "item": "You use two sentences from a website in your school project, word for word. What do you add next to them?",
+        "teaching_point": "Borrowed words in school work are fine when the source is named. Quoting with credit is what real writers do.",
+        "expected_verdict": "Credit the maker"
+      },
+      {
+        "n": 6,
+        "item": "Bloop says: an AI picture is made from millions of people's work, so nobody needs any credit at all. Do you agree? Explain your reasoning.",
+        "teaching_point": "Reasoning is the prize here. Strong answers push back on Bloop: the tool learned from millions of real makers, and whoever shares the picture should at least say an AI tool made it.",
+        "expected_verdict": "Credit the maker"
+      }
+    ],
+    "essential_question": "If I found it online, why is it not mine to use?",
+    "learning_objective": "Pupils can explain that makers own what they make, credit work that is not theirs, ask permission for bigger uses, and reason about where AI made content comes from.",
+    "key_learning_points": [
+      "You own your work the moment you make it. So does everyone else.",
+      "Copyright is the rule that says the maker owns their work.",
+      "Crediting names the maker. Permission asks first and waits for a yes.",
+      "An AI picture is built from work made by people who were not asked.",
+      "Make it, credit it, ask first."
+    ]
+  }
+}

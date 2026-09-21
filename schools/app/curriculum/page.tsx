@@ -160,6 +160,16 @@ export default async function CurriculumMapPage() {
                       <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', flex: 1 }}>
                         <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                           <span style={{ ...eyebrow, fontSize: 'var(--text-sm)' }}>{m.yearBand}</span>
+                          {/* THE TRUE LENGTH, ON THE CARD (21 September 2026).
+                              This map is public, so a head reads it before they
+                              have seen a lesson, and until today it said nothing
+                              about how long one takes. The figure is the sum of
+                              the slides, held to the lesson files by
+                              scripts/check-lesson-minutes.mjs, so it cannot
+                              drift into a promise the lesson does not keep. */}
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: ch.ink, background: ch.soft, borderRadius: '6px', padding: '1px 7px' }}>
+                            {m.minutes} minutes
+                          </span>
                           {m.crown && (
                             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#7A5A0E', background: '#FBEEC9', borderRadius: '6px', padding: '1px 7px' }}>
                               👑 Crown module

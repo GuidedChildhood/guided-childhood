@@ -320,6 +320,22 @@ export type VideoSlide = SlideBase & {
   // Present on every wired beat since migration 271. Optional on the type
   // because a deck written before it, or by hand tomorrow, must still play.
   alternative?: VideoAlternative
+  // THE EXHIBIT THE FILM POINTS AT (21 September 2026).
+  //
+  // A beat can refer to something the class is supposed to be looking at.
+  // ks3-12 opens with Orbit holding a photo up and saying "This photo got two
+  // million shares". Migration 308 answered the first half of that problem by
+  // putting the photo in the deck, on the slide after the film. Justin, on a
+  // phone on 21 September: "he says this photo and the photo has gone". The
+  // prop leaves Orbit's hands before the line lands, and a generated film
+  // cannot be directed frame by frame, so the fix that does not depend on a
+  // re-render is to have the exhibit on the wall while the words are said.
+  //
+  // It is drawn by the same ScenarioBlock the deck uses everywhere else, so a
+  // post looks identical whether a film points at it or a slide presents it.
+  // Carry only what is looked at: the prompt and the teacher script belong to
+  // the slide that runs the discussion, not to the film.
+  post?: ScenarioSlide
 }
 
 // The animated closing: DiGi (the golden star, always) speaks the lesson

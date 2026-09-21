@@ -77,19 +77,19 @@
       "words": [
         {
           "word": "house edge",
-          "definition": "The share of everything staked that the operator keeps on average. It is fixed, it is published, and it does not care whether you are lucky today."
+          "meaning": "The share of everything staked that the operator keeps on average. It is fixed, it is published, and it does not care whether you are lucky today."
         },
         {
           "word": "near miss",
-          "definition": "A result built to look like you almost won. Two matching symbols and the third just above the line. It is not close. It is a loss, styled."
+          "meaning": "A result built to look like you almost won. Two matching symbols and the third just above the line. It is not close. It is a loss, styled."
         },
         {
           "word": "chasing",
-          "definition": "Staking again to win back what you just lost. It is the clearest single sign that something has stopped being a game."
+          "meaning": "Staking again to win back what you just lost. It is the clearest single sign that something has stopped being a game."
         },
         {
           "word": "loot box",
-          "definition": "Paying for a sealed item without knowing what is inside until it opens. Money in, chance out, and the same price either way."
+          "meaning": "Paying for a sealed item without knowing what is inside until it opens. Money in, chance out, and the same price either way."
         }
       ],
       "script": "Say each word, class repeats. Two to stress test. House edge, because most of the room think it means the casino cheats and it means the opposite: the margin is published and it still wins. Chasing, because it is the one word in this lesson that somebody might use about themselves later, and it needs to arrive as a neutral description rather than an accusation."

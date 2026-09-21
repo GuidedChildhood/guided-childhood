@@ -1,0 +1,794 @@
+{
+  "row": {
+    "title": "Manipulation and persuasion",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 10 to 11",
+    "sort_order": 15,
+    "efcw_strands": [
+      5,
+      6
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Design AI"
+    ],
+    "character_cast": "Nova",
+    "evidence_anchor": "Attention economy research",
+    "statutory_hooks": [
+      "Citizenship",
+      "RSHE"
+    ],
+    "single_action_outcome": "I can name the technique being used on me."
+  },
+  "slides": [
+    {
+      "body": "One hour on the techniques built to move you. Name them, and most of their power disappears.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Manipulation and persuasion",
+      "script": "Settle everyone with this slide up. Open straight: you are in the most targeted demographic on earth. Billions of pounds a year are spent working out how to make people your age feel something and then act on it. This hour is not a warning to be scared of your phone. It is a tour of the machinery, run by the people it was built to work on.",
+      "eyebrow": "KS4 · Years 10 to 11 · Module 15",
+      "minutes": 1,
+      "character": "nova"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Nova here.",
+        "Who decided you would want this, and what do they get if you do?",
+        "Today you learn to name the technique. Named, it loses most of its grip."
+      ],
+      "phase": "starter",
+      "script": "Let Nova settle and say the lines. Then read the question once, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "Nova",
+      "minutes": 1,
+      "character": "nova"
+    },
+    {
+      "why": "Every screen you use is designed by professionals whose job is to shape what you do next, and they are extremely good at it. But manipulation depends on staying invisible, so the moment you can name the technique out loud, most of its power is gone.",
+      "type": "objective",
+      "gains": [
+        "Spot the four big dark patterns: fake urgency, confirm shaming, roach motels and infinite scroll",
+        "Explain how rage bait makes money, and why it does not need to be true",
+        "See why an influencer feels like a friend, and what a discount code actually means",
+        "Ask the question that unlocks all of it: who profits from this feeling?"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome and the why aloud. Then ask: hands up if you reckon adverts do not really work on you. Count the hands and remember the number. Tell them we will come back to that count at the end, and that the marketing industry has a name for people who feel immune. Its favourite customers.",
+      "minutes": 2,
+      "outcome": "I can name the technique being used on me."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about a time an app or a shop got you to do something you had not planned to do.",
+      "script": "Sixty seconds. A time something got you to do what you had not planned. Buying, watching, staying up. Every single one of those has a name and a designer, and by the end of today you will be able to name them out loud.",
+      "lookFor": "Autoplay, a countdown, one more episode, a free trial. Every answer is a technique with a name, and naming them is the hour.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "dark pattern",
+          "meaning": "A design trick that pushes you into choices you did not mean to make, like fake countdowns or hidden cancel buttons."
+        },
+        {
+          "word": "rage bait",
+          "meaning": "Content built to make you furious, because furious people comment, share and stay watching. The fury is the product."
+        },
+        {
+          "word": "parasocial",
+          "meaning": "A one way relationship. You feel you know a creator personally. They do not know you exist."
+        },
+        {
+          "word": "sponsored content",
+          "meaning": "A post someone was paid to make. UK rules say it must be labelled as an ad. Hidden ones bank on your trust."
+        },
+        {
+          "word": "FOMO",
+          "meaning": "Fear of missing out. The engineered worry that everyone else has something and you are about to lose your chance."
+        }
+      ],
+      "script": "Say each word, class repeats it. Two to stress test: parasocial, because it explains why an influencer recommendation feels like a mate texting you, and FOMO, because half of today's techniques run on it. These five words are the vocabulary of an industry that studies you for a living.",
+      "heading": "Words for the machinery",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Thirty seconds thinking time, then cold call two pupils for reasoning, not just a letter. Land the bridge: last module was about content pretending to be real. Today is about design pretending to be neutral. Same detective, new case.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Run the image check: who posted it, does it appear anywhere else, and what feeling is it built for",
+          "correct": true,
+          "feedback": "Right. Looking harder stopped working, so the image check does the work your eyes cannot. Keep that third question in your pocket, because today is entirely about the feeling something is built for."
+        },
+        {
+          "text": "Zoom in for glitches, fakes always have visual errors",
+          "correct": false,
+          "feedback": "That worked years ago. The current generation of tools leaves nothing your eyes can reliably catch, which is exactly why the module taught a check instead of a squint."
+        },
+        {
+          "text": "Trust it if the person who sent it is trustworthy",
+          "correct": false,
+          "feedback": "A trustworthy friend can be a fooled friend. The check runs on the image, not on who delivered it."
+        }
+      ],
+      "question": "Retrieval from last module. A striking image lands in the group chat and it looks completely real. What did we learn to do before trusting it?"
+    },
+    {
+      "body": "None of what we look at today is accidental. Fashion brands, apps, games and creators employ designers and psychologists whose job title is roughly making you act without thinking. This is not a conspiracy, it is a business model, and it is aimed more precisely at your age group than at any other. It works on everyone, including the people who build it. Feeling immune is not protection. Naming what is happening is.",
+      "type": "concept",
+      "emoji": "🎯",
+      "phase": "teach",
+      "script": "Deliver this straight and respectful, no scare tactics. The key sentence is the last one: feeling immune is not protection. Ask: why would a company spend millions testing which shade of red makes a buy button get pressed more? Take one answer. Because tiny nudges times millions of users equals serious money. You are about to see the nudges.",
+      "heading": "You are the target market",
+      "minutes": 2
+    },
+    {
+      "meta": "Sponsored · Checkout page",
+      "text": "🔥 FLASH SALE ends in 09:47 ... 09:46 ... Only 3 left in stock! 🕐 14 people are viewing this item right now. Complete your order before it is gone forever. [ PAY NOW ] [ No thanks, I like missing out ]",
+      "type": "scenario",
+      "image": "👟",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "🛍",
+      "handle": "trendthreads.official",
+      "prompt": "Look at every element on this screen. Which parts are information, and which parts are pressure? Be precise.",
+      "script": "Give them thirty seconds in pairs, then collect. You want them to itemise it: the countdown, the stock counter, the viewer counter, the forever, and the decline button that insults you. Then the reveal most do not know: on many sites that countdown resets if you refresh the page, and the viewer counter can be a random number generator. Not exaggeration. Documented, regulator investigated design.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Countdowns that reset, stock counters that lie. Manufactured panic so you buy before you think.",
+          "emoji": "⏳",
+          "title": "Fake urgency"
+        },
+        {
+          "text": "The decline button mocks you. No thanks, I like missing out. Guilt doing the selling.",
+          "emoji": "😬",
+          "title": "Confirm shaming"
+        },
+        {
+          "text": "One tap to subscribe, five buried screens and a phone call to cancel. Easy in, hard out.",
+          "emoji": "🪤",
+          "title": "Roach motel"
+        },
+        {
+          "text": "No bottom to the page, no natural stopping point. The absence of an ending is a design choice.",
+          "emoji": "🌀",
+          "title": "Infinite scroll"
+        }
+      ],
+      "script": "Walk each pattern as it builds and pin it to their real lives: fake urgency lives on shopping apps, confirm shaming on newsletter popups, roach motels on subscriptions and free trials, infinite scroll in their pocket right now. Ask: which of these four has caught you this week? Take a couple of honest answers and offer your own, it buys the room's honesty for the rest of the hour.",
+      "caption": "Design tricks with names. Once you know the names, you see them everywhere, which is the point.",
+      "heading": "Four dark patterns",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick whole class check, hands or devices. In feedback, land the transferable move: dark patterns rarely lie to you outright, they just make one option feel effortless and the other feel shameful, slow or invisible. The honest question is always which choice would I make if this screen was neutral.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Confirm shaming",
+          "correct": true,
+          "feedback": "Exactly. The button is engineered so refusing feels stupid. Notice the move: it is not giving you information, it is assigning you an identity for saying no."
+        },
+        {
+          "text": "Fake urgency",
+          "correct": false,
+          "feedback": "No countdown, no stock counter, no time pressure here. The pressure is guilt, and guilt on the decline button is confirm shaming."
+        },
+        {
+          "text": "Roach motel",
+          "correct": false,
+          "feedback": "A roach motel is about making leaving hard after you join. This trap fires before you join, by making the no button feel like an insult to yourself."
+        }
+      ],
+      "question": "A popup asks you to join a mailing list. The decline button reads: No thanks, I prefer paying full price. Which dark pattern is that?"
+    },
+    {
+      "meta": "5h · Shared 61,400 times",
+      "text": "This school BANNED a student from prom over her hair and the head teacher just SMIRKED when her mum complained 😡😡 They think they can get away with this. Share before it gets taken down.",
+      "type": "scenario",
+      "image": "📸",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 183K   ↻ 61.4K   💬 39.2K",
+      "avatar": "💣",
+      "handle": "truthbomb.daily",
+      "prompt": "What feeling is this post engineered to produce, and what exactly does the account want you to do with that feeling?",
+      "script": "Read it with the energy it wants, then go cold and clinical. Walk the engineering: an injustice with a child in it, a smirking villain you never see, capital letters, the share before it gets taken down line manufacturing urgency on top of outrage. Then the question that matters: does this account care whether the story is true? It does not need to be. The fury works either way, and the fury is what pays.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "body": "Anger is the highest engagement emotion there is. Angry people comment, share, argue in the replies and stay on the platform, and every one of those actions is worth money. So whole accounts exist to farm fury: they find or invent an outrage, package it for maximum blood pressure, and collect followers, ad revenue and creator fund payouts from the reaction. The story does not need to be true, and the account is not angry. You are. That was the product.",
+      "type": "concept",
+      "emoji": "💰",
+      "phase": "teach",
+      "script": "The sentence to land hard is the last one: the account is not angry, you are, and that was the product. Ask the class: have you ever seen the same outrage template recycled with a different school, a different restaurant, a different villain? Most have. That is not coincidence, that is a format that converts, being reused like any other ad.",
+      "heading": "Rage is a business model",
+      "minutes": 2
+    },
+    {
+      "type": "stat",
+      "claim": "In a study of around 126,000 stories on Twitter, false stories reached 1,500 people about six times faster than true ones. The strongest fuel was surprise and anger.",
+      "phase": "teach",
+      "figure": "6x",
+      "script": "Let the figure sit before you speak. Then: the researchers checked whether bots explained it. They did not. Humans spread the false stories faster, because false stories are built free of any obligation to be boring. Reality has constraints. Rage bait does not.",
+      "source": "Vosoughi, Roy and Aral, Science, 2018",
+      "minutes": 1
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Think of the last post that made you genuinely angry. Who made money from that anger, and how?",
+      "script": "Sixty seconds in pairs, timer on screen. After the chime take two or three answers. The move to praise is anyone who says the anger felt real but was manufactured. Confirm it: the feeling is real, that is what makes the technique work. Nobody is calling the feeling fake. We are naming who ordered it.",
+      "lookFor": "The creator collected engagement, followers and payouts. The platform collected watch time it sold to advertisers. Some pupils will realise the anger felt like their own reaction but was farmed. That is the insight to amplify.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "meta": "2h · 1.2M followers",
+      "text": "you guys kept ASKING so here it is 😍 full haul below. this serum genuinely changed my skin, I do not gatekeep from my day ones. code MIA20 gets you 20 percent off but it is selling out fast so run 🏃",
+      "type": "scenario",
+      "image": "💄",
+      "label": "Evidence item three",
+      "phase": "teach",
+      "stats": "❤ 214K   ↻ 8.1K   💬 19.6K",
+      "avatar": "✨",
+      "handle": "mia.styles",
+      "prompt": "She feels like a mate sharing a find. Name every technique you can see in this one post, and say what is missing from it.",
+      "script": "Give pairs a minute to hunt, then collect. There are at least four: flattery in my day ones and you kept asking, urgency in selling out fast so run, FOMO stitched through the whole thing, and parasocial trust doing the heavy lifting underneath. The missing item is the ad label. A personal discount code almost always means commission on every sale, which makes this an advert, and UK advertising rules require it to say so. It does not. That is not an oversight, that is the strategy: an ad that does not look like an ad borrows your trust without asking.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "body": "You have watched her for two years. You know her flat, her dog, her bad days. Your brain files her under people I know, so her recommendation lands like a friend's, with a friend's level of trust.",
+      "type": "concept",
+      "emoji": "🤝",
+      "phase": "teach",
+      "script": "Keep this respectful, most of the class will have creators they genuinely like, and the goal is not to poison that. Let the first half land as recognition rather than warning: this is what it feels like, and the feeling is real.",
+      "heading": "Parasocial trust",
+      "minutes": 1
+    },
+    {
+      "body": "But the relationship only runs one way, she does not know you exist, and that trust has a market rate: brands pay creators precisely because a recommendation from a friend outsells any billboard. None of this makes her evil or you gullible. It means one question is now non optional: is this a mate sharing, or a salesperson who feels like a mate?",
+      "type": "concept",
+      "phase": "teach",
+      "script": "One clean distinction: enjoying a creator is fine, forgetting that their recommendations can be paid for is where it costs you. Ask: how would you even tell? Answers you want: the ad label, a discount code, a sudden product they never mentioned before. Then the honest kicker: the law requires the label exactly because this technique works so well without it.",
+      "heading": "And why it sells",
+      "minutes": 1
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "A sudden urge to buy, share, rage or keep scrolling did not come from nowhere. Someone built it.",
+          "emoji": "🎯",
+          "title": "Notice the pull"
+        },
+        {
+          "text": "Say it, out loud if you can: urgency, outrage, flattery or FOMO. Naming it moves the decision back to you.",
+          "emoji": "🏷",
+          "title": "Name the technique"
+        },
+        {
+          "text": "Who profits from this feeling? Someone always does, and it is never you.",
+          "emoji": "💷",
+          "title": "Follow the money"
+        }
+      ],
+      "script": "Walk the three steps as they build, then drill the four names until they come back as a chant: urgency, outrage, flattery, FOMO. Make the case for why naming works: these techniques operate below the level of words, in the half second before you think. Dragging one into language forces it through the thinking part of your brain, and most of them do not survive the trip. Point at the four chips: every worksheet item today ends in one of these names.",
+      "caption": "The tool for this module. Manipulation depends on staying invisible. Named is tamed.",
+      "heading": "Name the technique",
+      "minutes": 3,
+      "verdicts": [
+        "Urgency",
+        "Outrage",
+        "Flattery",
+        "FOMO"
+      ]
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Take our three evidence items: the countdown checkout, the rage post, the haul. For each one, who profits, and from which feeling?",
+      "script": "Groups of three or four, ninety seconds on the timer, one scribe per group. Collect one answer per group and build the pattern on the board as they report: feeling on the left, who profits on the right. The takeaway to say plainly: follow the money is not cynicism, it is literacy. When you know who profits from a feeling, you know why the feeling was ordered.",
+      "lookFor": "Checkout: the retailer profits from panic. Rage post: the account and the platform profit from fury. Haul: the influencer and the brand profit from trust and FOMO. Strongest groups notice the pattern: in every case the feeling is the mechanism and the money flows away from the person feeling it.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Run it fast, this is rehearsal for the worksheet. In feedback, name the nuance: sometimes the numbers are real. The technique is not lying, necessarily, it is the choice to surface exactly the numbers that make you rush. Named, it loses the rush either way.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Urgency",
+          "correct": true,
+          "feedback": "Named. Scarcity counters are urgency wearing a calculator. Real availability is information, but numbers chosen to spike your pulse are pressure, and regulators have caught sites inventing them."
+        },
+        {
+          "text": "Flattery",
+          "correct": false,
+          "feedback": "Nobody is complimenting you here. The technique is manufactured scarcity, which is urgency. Flattery would be telling you that smart travellers like you book fast."
+        },
+        {
+          "text": "Outrage",
+          "correct": false,
+          "feedback": "Nothing here is trying to make you angry. It is trying to make you panic about time and stock, and panic about running out is urgency."
+        }
+      ],
+      "question": "Quick fire. A hotel booking site shows: Only 2 rooms left at this price! In high demand, booked 7 times today. Name the technique.",
+      "toolStrip": true
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as Nova grows, out as Nova shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "nova"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Nova grows and out as Nova shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "Name the technique · tap the class verdict",
+        "posts": [
+          {
+            "why": "A countdown that resets is not measuring time, it is manufacturing panic. The retailer profits from you paying before you compare prices or think.",
+            "text": "A fashion site checkout shows a red banner: SALE ENDS IN 09:58. You refresh the page by accident and the countdown starts again from ten minutes.",
+            "answer": 0,
+            "avatar": "🎯",
+            "handle": "Case 1"
+          },
+          {
+            "why": "An unverifiable injustice plus share before deletion is the rage bait template. The account profits from engagement whether or not the story ever happened.",
+            "text": "A post reads: This restaurant BANNED a veteran from eating there and staff LAUGHED at him. Share this before they get it deleted. No location, no source, sixty thousand shares.",
+            "answer": 1,
+            "avatar": "🎯",
+            "handle": "Case 2"
+          },
+          {
+            "why": "Scarcity counters are urgency in stock form, and viewer counters on some sites are generated numbers. Real availability is information, numbers chosen to spike your pulse are pressure.",
+            "text": "A trainer listing shows: Only 3 left in stock. 14 people have this in their basket right now.",
+            "answer": 0,
+            "avatar": "🎯",
+            "handle": "Case 3"
+          },
+          {
+            "why": "The compliment is the mechanism: it makes using the code feel like membership of a smart inner circle. The code means commission, so the flattery has a conversion rate.",
+            "text": "An influencer posts: my followers are genuinely the smartest people on this app, which is why I only trust YOU lot with this code. Not sharing it anywhere else.",
+            "answer": 2,
+            "avatar": "🎯",
+            "handle": "Case 4"
+          },
+          {
+            "why": "Everyone else is in and you are about to be left out is FOMO in its purest form. The app profits from your session time, and the friends line may be generated from loose contact data.",
+            "text": "A gaming app notification: 4,000 players joined this event today. Your friends are already playing. Do not be the one who missed it.",
+            "answer": 3,
+            "avatar": "🎯",
+            "handle": "Case 5"
+          },
+          {
+            "why": "The final explain item. You deserve and only real fans is flattery building an identity that makes clicking feel like loyalty, with FOMO underneath. Rio missing it shows the technique working: it never feels like marketing to the person receiving it.",
+            "text": "Rio gets a message from a creator he follows: as one of my day ones, you deserve early access before the crowds. Only real fans get this link. Rio says it is just a nice message to loyal followers. Do you agree? Explain your reasoning.",
+            "answer": 2,
+            "avatar": "🎯",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Urgency",
+          "Outrage",
+          "Flattery",
+          "FOMO"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Name the technique together before the sheet: four verdicts this time, so make the vote explicit for each. Read the card, take hands for urgency, outrage, flattery and FOMO, tap the class answer, read the reason. The win is speed of recognition: these six are on their phones tonight.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Six items on the worksheet: shop screens, posts and messages, each one running a technique on you. For every item, name the technique: urgency, outrage, flattery or FOMO, then write one line on who profits from the feeling. Fifteen minutes. A name without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet, fifteen minutes on the clock, bookmark strips on tables for anyone who wants the four names in front of them. Support group works items one to three with you, talking each one aloud before writing. Stretch question for early finishers: find an item where two techniques fire at once and argue which is doing the real work. Circulate and collect one sharp who profits line to read out at the end.",
+      "heading": "Name the technique, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, and it mirrors evidence item three, so a wrong answer here tells you exactly who to revisit. These two slides are the printed exit quiz, so run them in silence, individual answers, no conferring.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The code means she likely earns from every sale, so this is marketing borrowing my trust, and I weigh it like marketing",
+          "correct": true,
+          "feedback": "Exactly. Liking her is fine, buying the serum might even be fine. The skill is refiling the post from friend advice to advert before you decide, because that is what it is."
+        },
+        {
+          "text": "She has 1.2 million followers, so the product must be decent or she would not risk it",
+          "correct": false,
+          "feedback": "Follower count measures reach, not honesty. Plenty of huge accounts have promoted products they never used. The code and the missing label are the evidence that matters."
+        },
+        {
+          "text": "Nothing, a recommendation is a recommendation however it is paid",
+          "correct": false,
+          "feedback": "Payment changes everything about why the words were said. That is why UK rules require the ad label. A paid recommendation answers to the brand, not to you."
+        }
+      ],
+      "question": "Exit check. A creator you have followed for years posts a glowing review with a personal discount code and no ad label. What do you now know?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check. The second wrong option is the myth from the start of the lesson, so watch who still picks it. Collect both answers on the printed exit quiz, they are your evidence for the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The techniques work in the half second before you think, and naming one forces it through the thinking part of your brain",
+          "correct": true,
+          "feedback": "Right. Manipulation depends on staying invisible and fast. A named technique is neither, so the decision lands back with you, which is where it belonged."
+        },
+        {
+          "text": "Naming it proves the content is false, so you can ignore it",
+          "correct": false,
+          "feedback": "Naming proves nothing about true or false. A real sale can still use fake urgency. The name does not settle the facts, it removes the rush so you can check them."
+        },
+        {
+          "text": "It does not really, some people are just naturally immune to marketing",
+          "correct": false,
+          "feedback": "Nobody is immune, including the people who build the techniques. Feeling immune is the most exploitable state there is. Naming is a skill, and skills beat immunity claims every time."
+        }
+      ],
+      "question": "Exit check. Why does naming the technique, urgency, outrage, flattery or FOMO, actually reduce its power?"
+    },
+    {
+      "text": "Someone built this feeling on purpose. So name it: urgency, outrage, flattery or FOMO. Then follow the money. Named is tamed.",
+      "type": "quote",
+      "label": "Say it like Nova",
+      "phase": "close",
+      "script": "Whole class, twice, second time louder. Nova has seen every one of these techniques up close, and this is the sentence to walk out with. It should surface the next time a countdown starts ticking at them.",
+      "minutes": 1
+    },
+    {
+      "body": " Worth knowing where the fuel comes from, because it is you. Every scroll, pause, search and like is collected: not what you post, what you DO. That behaviour is packaged into a profile, and the profile is what is actually for sale. Advertisers do not buy your name, they buy the right to reach the kind of person you have been measured to be. It is why the advert feels like it read your mind, and why the free app was never free.",
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "You are the target market, and the techniques work on everyone. Feeling immune is the most exploitable state there is.",
+        "Dark patterns have names: fake urgency, confirm shaming, roach motels, infinite scroll. Named, you see them everywhere.",
+        "Rage bait is a business model. The account is not angry, you are, and that reaction was the product.",
+        "The tool: notice the pull, name the technique, urgency, outrage, flattery or FOMO, then follow the money."
+      ],
+      "script": "Return to the hands up count from the start: who thought adverts do not work on them? Ask again now and let the room notice the shift. Then the recap, four pupils, one point each. Read out the best who profits line you collected during practice.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Notice the pull. Name it: urgency, outrage, flattery or FOMO. Follow the money.",
+        "Once a day is enough to start.",
+        "It becomes a habit faster than you would think."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "Your mission",
+      "minutes": 1,
+      "character": "nova"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Nova's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today counts toward the Ready at sixteen page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks4-15-manipulation-persuasion",
+        "register": "still",
+        "placement": "independent"
+      },
+      "script": "Level and brief. The passport is the record of preparation for full access at sixteen, kept at home. Today fills part of its last page. Tap Fill the page, name the area it built, and say once: when the page is full, the big check earns Nova's stamp, and it is proof of judgement, never a licence. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not a record of anyone.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Case closed, and this one was personal. ⭐",
+        "Every technique today had one job: to move you before you could think. Now you can name all four: urgency, outrage, flattery, FOMO.",
+        "Your mission this week: catch one technique in the wild, name it out loud, and ask who profits from this feeling. Once each. That is the whole rep.",
+        "The people who built these systems are betting you will never learn the names. You just did. See you next module."
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the lines appear on their own. Exit quizzes are collected as this plays. Last word as they pack up: naming a technique is not about never buying anything or hating your feed. It is about the decision being yours.",
+      "heading": "DiGi signs off",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS4",
+  "module_id": "ks4-15-manipulation-persuasion",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 15,
+  "parent_note": {
+    "taught": "Today your teenager learned to name the persuasion techniques aimed at them online: fake urgency, rage bait, flattery from influencers and FOMO, plus the dark patterns shops and apps use at checkout. The skill is simple and powerful: naming the technique out loud takes away most of its power.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them to name the technique the next advert in the room is using.",
+    "try_this": "Next time you shop online together and a countdown or an only 2 left banner appears, ask them to name the technique. Then let them catch one being used on you. They will enjoy that part.",
+    "family_question": "What was the last thing online that made you feel a sudden urge to buy it, share it or argue with it, and who made money from that feeling?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pre teach the four techniques as feelings first, rushed, angry, special, left out, then as names. Follow the money translates itself: who gets paid?",
+      "sensory": "Outrage content is discussed, never performed. Read the outrage case flattest of all: a room learning that fury can be examined calmly is the lesson.",
+      "attention": "Cases land one at a time with the vote immediate. Appoint a technique spotter for the room: catching the teacher using urgency to hurry the plenary is a win, so award it.",
+      "communication": "The four techniques are a word bank, urgency, outrage, flattery, FOMO, and every case answer is one word from it. Precision beats paragraphs here for everyone."
+    },
+    "tool": {
+      "lines": [
+        "Notice the pull",
+        "Name it: urgency, outrage, flattery or FOMO",
+        "Follow the money"
+      ],
+      "heading": "Name the technique",
+      "strapline": "Someone profits from this feeling, and it is not you. Named is tamed."
+    },
+    "i_can": [
+      "I can notice the pull before I act on it.",
+      "I can name the technique being used on me: urgency, outrage, flattery or FOMO.",
+      "I can explain where the money goes when the technique works."
+    ],
+    "cycles": [
+      {
+        "verb": "Spot",
+        "title": "Dark patterns",
+        "minutes": 11,
+        "outcome": "I can notice the pull before I act on it."
+      },
+      {
+        "verb": "Name",
+        "title": "Rage is a business model",
+        "minutes": 7,
+        "outcome": "I can name the technique being used on me: urgency, outrage, flattery or FOMO."
+      },
+      {
+        "verb": "Follow",
+        "title": "Parasocial trust, and why it sells",
+        "minutes": 10,
+        "outcome": "I can explain where the money goes when the technique works."
+      }
+    ],
+    "timing": "69 minutes: starter 11, cycle one dark patterns 11, cycle two engineered outrage 7, cycle three influencers and follow the money 10, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "dark pattern",
+        "definition": "A design trick that pushes you into choices you did not mean to make, like fake countdowns or hidden cancel buttons."
+      },
+      {
+        "word": "rage bait",
+        "definition": "Content built to make you furious, because furious people comment, share and stay watching. The fury is the product."
+      },
+      {
+        "word": "parasocial",
+        "definition": "A one way relationship. You feel you know a creator personally. They do not know you exist."
+      },
+      {
+        "word": "sponsored content",
+        "definition": "A post someone was paid to make. UK rules say it must be labelled as an ad. Hidden ones bank on your trust."
+      },
+      {
+        "word": "FOMO",
+        "definition": "Fear of missing out. The engineered worry that everyone else has something and you are about to lose your chance."
+      }
+    ],
+    "equipment": "Nothing beyond the board. Dark patterns are shown as invented mock ups, never live sites.",
+    "exit_quiz": [
+      {
+        "answer": "Urgency, outrage, flattery and FOMO.",
+        "format": "short_answer",
+        "question": "Name the four techniques from this lesson.",
+        "teaching_point": "The tool they leave with. Naming the technique is what breaks the pull."
+      },
+      {
+        "answer": "pattern",
+        "format": "fill_blank",
+        "question": "A design trick that pushes you into a choice you did not mean to make is a dark ___.",
+        "teaching_point": "One word. Fake countdowns and hidden cancel buttons are the everyday examples."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Rage bait is just people with strong opinions.",
+        "teaching_point": "Fury is farmed deliberately, because angry people comment, share and stay. The fury is the product."
+      },
+      {
+        "answer": "Parasocial relationship",
+        "format": "tick_one",
+        "options": [
+          "Friendship",
+          "Parasocial relationship",
+          "Sponsorship"
+        ],
+        "question": "A creator you feel you know personally, who does not know you exist, is a:",
+        "teaching_point": "One way by definition. It is not a criticism of the pupil, it is a description of the design."
+      },
+      {
+        "answer": "A label saying it is an advert.",
+        "format": "short_answer",
+        "question": "Under UK rules, what must a paid post carry?",
+        "teaching_point": "Hidden ones bank on your trust. Spotting the missing label is a real, usable skill."
+      }
+    ],
+    "worksheet": {
+      "title": "Name the technique",
+      "directions": "For each item, name the technique being used on you and write one line on who profits from the feeling.",
+      "verdict_options": [
+        "Urgency",
+        "Outrage",
+        "Flattery",
+        "FOMO"
+      ]
+    },
+    "teacher_tip": "Have pupils design the manipulation before they spot it. A class that has written the fake countdown never falls for the real one in the same way.",
+    "starter_quiz": [
+      {
+        "answer": "It learns from what you watch and serves more of the same.",
+        "format": "short_answer",
+        "question": "How does a feed learn and then serve?",
+        "teaching_point": "Carried forward from ks2-06. Today the question becomes who benefits."
+      },
+      {
+        "answer": "It rushes you, it asks for something odd, it is too good to be true.",
+        "format": "short_answer",
+        "question": "Name a scam's three tells.",
+        "teaching_point": "Carried forward from ks3-13. Persuasion uses the same levers, legally."
+      },
+      {
+        "answer": "Any creator and any genuine reason.",
+        "format": "short_answer",
+        "question": "Name a creator you follow and say why.",
+        "teaching_point": "Parasocial trust needs a real example in the room, and it should be theirs, not yours."
+      },
+      {
+        "answer": "Everyone, including the people who make them",
+        "format": "tick_one",
+        "options": [
+          "Only people who are not paying attention",
+          "Everyone, including the people who make them",
+          "Nobody who knows about it"
+        ],
+        "question": "An advert works on:",
+        "teaching_point": "The misconception to break in the first minute. Knowing the technique does not switch it off."
+      }
+    ],
+    "misconceptions": [
+      "Adverts do not work on me (the techniques work on everyone, including the marketers who build them, and feeling immune is the most exploitable state because it switches off checking)",
+      "Rage bait is just people with strong opinions (fury is farmed deliberately because anger is the highest engagement emotion, the account is not angry, the reaction is the product being sold)",
+      "Influencers with discount codes are just sharing things they like (a personal code almost always means commission on every sale, which makes the post an advert, and UK rules require it to be labelled for exactly that reason)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the three evidence items aloud with full performance, run the countdown checkout as a described screen and have pupils call out each element as information or pressure. The two discussions run with a watch or wall clock. The four dark patterns and the three step tool are on the bookmark. Exit quiz is the printed two question sheet as normal.",
+    "passport_stage": "independent",
+    "commitment_stem": "My commitment: the next time a screen gives me a sudden urge to buy, share, rage or keep scrolling, I will name the technique before I act.",
+    "differentiation": {
+      "stretch": "Early finishers take the two techniques challenge: find a worksheet item where two techniques fire at once and argue in writing which one is doing the real work. Deeper stretch: design a checkout screen with no dark patterns and explain what it costs the business.",
+      "support": "Work items one to three of the worksheet aloud with the support group before they write, using the bookmark strip so the four technique names stay in front of them. Accept a named technique with a spoken reason where writing is a barrier."
+    },
+    "prior_knowledge": [
+      "A pupil can explain how a feed learns and serves, from ks2-06.",
+      "A pupil can name a scam's tells, from ks3-13.",
+      "A pupil follows at least one creator and can describe why."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A fashion site checkout shows a red banner: SALE ENDS IN 09:58. You refresh the page by accident and the countdown starts again from ten minutes.",
+        "teaching_point": "A countdown that resets is not measuring time, it is manufacturing panic. The retailer profits from you paying before you compare prices or think.",
+        "expected_verdict": "Urgency"
+      },
+      {
+        "n": 2,
+        "item": "A post reads: This restaurant BANNED a veteran from eating there and staff LAUGHED at him. Share this before they get it deleted. No location, no source, sixty thousand shares.",
+        "teaching_point": "An unverifiable injustice plus share before deletion is the rage bait template. The account profits from engagement whether or not the story ever happened.",
+        "expected_verdict": "Outrage"
+      },
+      {
+        "n": 3,
+        "item": "A trainer listing shows: Only 3 left in stock. 14 people have this in their basket right now.",
+        "teaching_point": "Scarcity counters are urgency in stock form, and viewer counters on some sites are generated numbers. Real availability is information, numbers chosen to spike your pulse are pressure.",
+        "expected_verdict": "Urgency"
+      },
+      {
+        "n": 4,
+        "item": "An influencer posts: my followers are genuinely the smartest people on this app, which is why I only trust YOU lot with this code. Not sharing it anywhere else.",
+        "teaching_point": "The compliment is the mechanism: it makes using the code feel like membership of a smart inner circle. The code means commission, so the flattery has a conversion rate.",
+        "expected_verdict": "Flattery"
+      },
+      {
+        "n": 5,
+        "item": "A gaming app notification: 4,000 players joined this event today. Your friends are already playing. Do not be the one who missed it.",
+        "teaching_point": "Everyone else is in and you are about to be left out is FOMO in its purest form. The app profits from your session time, and the friends line may be generated from loose contact data.",
+        "expected_verdict": "FOMO"
+      },
+      {
+        "n": 6,
+        "item": "Rio gets a message from a creator he follows: as one of my day ones, you deserve early access before the crowds. Only real fans get this link. Rio says it is just a nice message to loyal followers. Do you agree? Explain your reasoning.",
+        "teaching_point": "The final explain item. You deserve and only real fans is flattery building an identity that makes clicking feel like loyalty, with FOMO underneath. Rio missing it shows the technique working: it never feels like marketing to the person receiving it.",
+        "expected_verdict": "Flattery"
+      }
+    ],
+    "essential_question": "Who decided I would want this, and what do they get if I do?",
+    "learning_objective": "Pupils can name the persuasion technique being used on them, urgency, outrage, flattery or FOMO, identify common dark patterns and undisclosed advertising, and explain who profits from an engineered feeling.",
+    "key_learning_points": [
+      "You are the target market, and the design assumes it.",
+      "A dark pattern pushes you into a choice you did not mean to make.",
+      "Rage is a business model, because furious people comment, share and stay.",
+      "Parasocial trust sells: you feel you know them, they do not know you exist.",
+      "UK rules say a paid post must be labelled. Hidden ones bank on your trust."
+    ]
+  }
+}

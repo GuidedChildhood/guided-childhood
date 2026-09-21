@@ -18,6 +18,15 @@
 // Usage: node scripts/check-module-contract.mjs <module.json>
 
 import fs from 'node:fs'
+// ONE RULER, IMPORTED (21 September 2026). This file kept its own narrower
+// idea of a slide the class acts on, and so did the rubric checker, so the
+// scheme had three answers to the same question. The council counted a
+// scenario, a quote and a diagram carrying verdicts; this file counted none
+// of them, and on that ruler alone 21 modules looked like they sat children
+// down for too long. The definition lives in council-checks.mjs, where the
+// reasoning for each inclusion is written out, and everything imports it now.
+// The four minute ceiling is unchanged: the threshold was never the problem.
+import { respondsTo, MAX_PASSIVE_MINUTES } from './council-checks.mjs'
 const m = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
 const tn = m.teacher_notes, slides = m.slides
 let bad = 0
@@ -52,14 +61,13 @@ tn.cycles.forEach((c,i) => ok(`cycle ${i+1} states the minutes it runs`, c.minut
 const teachTotal = teach.reduce((a,s)=>a+s.minutes,0)
 ok('cycle minutes sum to the teach phase', mins.reduce((a,b)=>a+b,0) === teachTotal)
 
-// 3. no passive stretch over four minutes
-const ACTIVE = new Set(['choice','discussion','interactive','tryit'])
+// 3. no passive stretch over four minutes, on the council's ruler
 let run = 0, from = null
 slides.forEach((s,i) => {
-  if (ACTIVE.has(s.type)) { run = 0; from = null; return }
+  if (respondsTo(s)) { run = 0; from = null; return }
   if (run === 0) from = i
   run += s.minutes
-  ok(`passive run from slide ${from} stays inside four minutes`, run <= 4, `run is ${run} by slide ${i} (${s.type})`)
+  ok(`passive run from slide ${from} stays inside ${MAX_PASSIVE_MINUTES} minutes`, run <= MAX_PASSIVE_MINUTES, `run is ${run} by slide ${i} (${s.type})`)
 })
 
 // 4. the timing string tells the truth
@@ -77,10 +85,18 @@ ok('the timing string states the real total', stated === real, `states ${stated}
 // report title in ks3-24, and was only found by eye. Digits stay OUT of the
 // character class on purpose, because module ids are quoted inside prose
 // ("from ks2-06") and those are identifiers, not punctuation.
-const IDENT = new Set(['module_id', 'component', 'type', 'phase', 'mode', 'key_stage', 'moduleId'])
+//
+// THE MACHINE STRINGS THE EXCEPTION HAD MISSED (21 September 2026). A media
+// URL and a render job id are identifiers by exactly the reasoning above, and
+// both are full of UUID hyphens, so five lessons were failing the copy rule on
+// strings no pupil or teacher will ever read. A bare URL is skipped wherever
+// it appears, because the key it hangs on is not the point: the string is a
+// machine address either way.
+const IDENT = new Set(['module_id', 'component', 'type', 'phase', 'mode', 'key_stage', 'moduleId', 'src', 'poster', 'job_id', 'url', 'href', 'clip', 'img'])
 const walk = (v, path) => {
   if (IDENT.has(path.split('.').pop())) return
   if (typeof v === 'string') {
+    if (/^https?:\/\/\S+$/.test(v.trim())) return
     const hit = v.match(/[‐-―]|(?<=[a-z]) - (?=[a-z])|(?<=[a-z])-(?=[a-z])/i)
     if (hit) { bad++; console.error(`  FAIL dash at ${path}: ...${v.slice(Math.max(0,hit.index-30), hit.index+30)}...`) }
   } else if (Array.isArray(v)) v.forEach((x,i)=>walk(x,`${path}[${i}]`))
@@ -299,6 +315,25 @@ const arrival = slides.some(s => (s.type === 'digi' && FRIENDS.includes(s.charac
 const mission = slides.some(s => s.type === 'digi' && FRIENDS.includes(s.character) && s.phase === 'close')
 ok('the friend arrives in the starter phase', arrival, 'no digi slide naming a friend, and no film, in the starter phase')
 ok('the friend hands over the mission in the close phase', mission, 'no digi slide naming a friend in the close phase')
+
+// 14. every keyword carries the meaning the wall draws (20 September 2026, migration 321)
+//
+// Eight lessons written since 11 September stored each keyword's meaning under
+// "definition". The keywords slide draws w.meaning and the vocabulary page maps
+// w.meaning, so those classes saw the words and nothing under them, and the
+// council's blocks check, which reads meaning too, measured the gap as nothing
+// to count. A keywords slide is three or four words each with a meaning a
+// pupil can read, under the field name the player reads.
+slides.forEach((s, i) => {
+  if (s.type !== 'keywords') return
+  const ws = Array.isArray(s.words) ? s.words : []
+  ok(`slide ${i} (keywords) carries words`, ws.length > 0)
+  ws.forEach((w, k) => {
+    ok(`slide ${i} (keywords) word ${k + 1} has a word`, typeof w.word === 'string' && w.word.trim().length > 0)
+    ok(`slide ${i} (keywords) word ${k + 1} "${w.word}" has a meaning the wall draws`, typeof w.meaning === 'string' && w.meaning.trim().length > 0,
+       w.definition !== undefined ? 'the meaning is stored under "definition", which nothing renders' : 'no meaning')
+  })
+})
 
 if (bad) { console.error(`\n${bad} problem(s).`); process.exit(1) }
 console.log(`${m.module_id}: ${slides.length} slides, ${real} minutes, ${teach.length} teach slides, cycles ${mins.join('/')} = ${teachTotal}, all checks pass.`)

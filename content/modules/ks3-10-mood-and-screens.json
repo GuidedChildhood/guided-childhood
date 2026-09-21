@@ -1,0 +1,740 @@
+{
+  "row": {
+    "title": "Mood and screens",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 7 to 9",
+    "sort_order": 10,
+    "efcw_strands": [
+      6
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "Orbit with DiGi",
+    "evidence_anchor": "Orben and Przybylski, what and how not just time",
+    "statutory_hooks": [
+      "RSHE mental health"
+    ],
+    "single_action_outcome": "I can run one honest self check on my screen habits for a week."
+  },
+  "slides": [
+    {
+      "body": "One hour, one skill: a ten second self check that tells you what your screen habits actually do to your mood.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Mood and screens",
+      "script": "Settle everyone with this slide up. Open with this: adults argue about your phones constantly, and today we are going to do something almost none of them do. We are going to look at the actual evidence, and then you are going to run your own study, on yourself. By the end of the hour you will have a tool nobody can run for you.",
+      "eyebrow": "KS3 · Years 7 to 9 · Module 10",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Orbit here.",
+        "Does this app actually leave you feeling better, or do you just keep opening it?",
+        "Honest question. Today you get a way to answer it for yourself."
+      ],
+      "phase": "starter",
+      "script": "Let Orbit land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Orbit",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "why": "The loudest voices say screens are ruining your generation, but the careful research tells a more interesting story: what you do on a screen and how it leaves you feeling matter far more than raw hours. Nobody can measure that for you, so this week you become the researcher and your own feed is the study.",
+      "type": "objective",
+      "gains": [
+        "Say what the evidence on screens and mood actually shows, without the panic",
+        "Tell the difference between connecting and comparing in your own feed",
+        "Run the mood audit on any app in ten seconds: better, worse, or nothing",
+        "Turn a week of honest answers into one calibrated change you choose"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Ask: hands up if an adult has ever told you phones are ruining your generation. Nearly every hand goes up. Then ask: hands up if that adult had ever actually read the research. Watch the hands drop. That gap between what gets shouted and what got studied is where this lesson lives.",
+      "minutes": 2,
+      "outcome": "I can run one honest self check on my screen habits for a week."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one thing you do on a screen that leaves you feeling good, and one that leaves you flat.",
+      "script": "Sixty seconds. One thing that leaves you feeling good, one that leaves you flat. If the same app ends up in both, say so, because that is the most interesting answer in the room.",
+      "lookFor": "The interesting answers are the ones where the same app turns up in both halves. That is the finding, and the class gets there on its own.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "evidence",
+          "meaning": "What careful studies actually found, which is often much quieter than the headlines shouting about them."
+        },
+        {
+          "word": "comparing",
+          "meaning": "Measuring your real, unedited life against someone else's chosen highlights. It rarely reads better."
+        },
+        {
+          "word": "connecting",
+          "meaning": "Using a screen to reach people who know your actual life. The use that most often reads better."
+        },
+        {
+          "word": "audit",
+          "meaning": "An honest check you run on yourself, with real answers, not the answers that sound good."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Land the pair in the middle: connecting and comparing can happen in the same app, on the same evening, with the same thumb. The app is not the verdict. What you were doing in it is. And audit is the word of the day: an audit only works if the answers are honest, and nobody is marking their answers today. One extra thing to draw out while connecting is on the screen: connecting online is real connecting, and it is thinner than the in person kind. A friendship that only ever happens through a feed has no walking home, no sitting in silence, no being there when it is boring. Ask the room which of their connections would survive the app closing. That question is the whole point and it does not need a slide.",
+      "heading": "Researcher words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from the previous module, thirty seconds of thinking time before anyone answers. Cold call two pupils for their reasoning, not just their letter. If the room is shaky on this, spend one extra minute: make it, credit it, ask first is the maker's rule and it comes back in every creative module from here.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Post it fast before someone else has the same idea",
+          "correct": false,
+          "feedback": "Speed is not the rule. Making things is brilliant, but the clip has a creator to credit and your mate has a say before their face goes anywhere."
+        },
+        {
+          "text": "Name the creator whose clip you used and check your mate is happy before you post",
+          "correct": true,
+          "feedback": "Exactly. Make it, credit it, ask first: your creativity, their credit, and permission from anyone who appears in it. All three, every time."
+        },
+        {
+          "text": "Crediting only matters if the creator is famous",
+          "correct": false,
+          "feedback": "Credit is about whose work it is, not how many followers they have. A small creator's work is still their work."
+        }
+      ],
+      "question": "Warm up from last time. You have made a brilliant edit using a clip from a creator you follow, and your mate is in the background of one shot. What does make it, credit it, ask first mean here?"
+    },
+    {
+      "meta": "5h · Shared 92,400 times",
+      "text": "Scientists CONFIRM smartphones have destroyed an entire generation. Anxiety up. Happiness down. And it is all because of that thing in your pocket. Parents, TAKE THE PHONES.",
+      "type": "scenario",
+      "image": "📱",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 156K   ↻ 92.4K   💬 31K",
+      "avatar": "📵",
+      "handle": "screen.truth.daily",
+      "prompt": "You have all heard a version of this. Honest show of hands: does it match what you actually notice in your own life?",
+      "script": "Run the hands up vote and take two or three honest answers. Some pupils will say yes, some no, and both are useful. Then the turn: this post is making a scientific claim, so it can be checked against the actual science. That is what we do next, and the honest answer is more interesting than the post. Notice the register: we are not defending phones and we are not attacking them. We are checking a claim.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "body": "Researchers at Oxford analysed data from hundreds of thousands of young people to test the claim that screen time wrecks wellbeing. They found the link between raw hours and wellbeing is real but tiny, far too small to explain a generation. What showed up as mattering more was what you do on the screen, who you do it with, and how it leaves you feeling. The honest conclusion is not that phones are fine and not that phones are poison. It is that hours on screen is the wrong question, and you are about to learn the right one.",
+      "type": "concept",
+      "emoji": "🔬",
+      "phase": "teach",
+      "script": "Take this slowly, it is the intellectual heart of the lesson. Name the researchers: Amy Orben and Andrew Przybylski, Oxford. Point out something unusual: this research annoys both sides. It annoys the panic side because the effect of hours is tiny, and it annoys the nothing to see here side because how you use screens really does show up in the data. That is usually the sign of honest science.",
+      "heading": "What the research actually says",
+      "minutes": 2
+    },
+    {
+      "type": "stat",
+      "claim": "Across data from over 350,000 young people, screen use explained at most 0.4 percent of the differences in teenage wellbeing, a link about the same size as the one with regularly eating potatoes.",
+      "phase": "teach",
+      "figure": "0.4%",
+      "script": "Let the number land, then the potato line, which always gets a laugh. Then the careful bit: this does not say screens do nothing. It says the CLOCK is a terrible predictor. Two people can spend the same three hours on the same app and walk away in completely different moods. The average hides the individual, which is exactly why the next tool is personal.",
+      "source": "Orben and Przybylski, Nature Human Behaviour, 2019",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Whole class, hands or devices for a, b, c. Watch for the first option, some pupils will happily take screens are harmless as the takeaway because it suits them. The feedback line to land out loud: weak link with hours is not a permission slip, it is a redirect. The question moves from how long to what did it do to me.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Screens are harmless, scroll as much as you like",
+          "correct": false,
+          "feedback": "That is the lazy reading. Hours being a weak measure does not make every hour harmless. It means the clock is the wrong dial to watch."
+        },
+        {
+          "text": "What you do and how it leaves you feeling matter more than the clock",
+          "correct": true,
+          "feedback": "Exactly. The evidence points away from counting hours and towards noticing effects. And nobody can notice your effects except you."
+        },
+        {
+          "text": "The scientists are covering for the tech companies",
+          "correct": false,
+          "feedback": "This research came from independent academics and it cuts against the tech companies too, because it says HOW their apps make you feel is what counts. Follow the evidence, not the conspiracy."
+        }
+      ],
+      "question": "The research says raw hours barely predict wellbeing. What does that actually mean?"
+    },
+    {
+      "body": "The same app can do two completely different jobs. Messaging people who know your actual life, planning things, sharing jokes that only your group gets: that is connecting, and it mostly reads better in mood terms. Endlessly scrolling strangers' edited highlights and measuring your unedited Tuesday against them: that is comparing, and it mostly reads worse. Researchers see the same split: actively talking with people you know lands differently from passively watching people you do not. The app icon tells you nothing. What you were doing inside it tells you almost everything.",
+      "type": "concept",
+      "emoji": "⚖️",
+      "phase": "teach",
+      "script": "Ask for examples before you give any: same app, two different jobs, who can name both jobs on one app they use? You will get good answers fast because they know their feeds better than any adult in the building. Your job is just to pin the two words on what they describe: that one is connecting, that one is comparing.",
+      "heading": "Connecting or comparing",
+      "minutes": 2
+    },
+    {
+      "meta": "2h · One of 34 posts today",
+      "text": "5am club again 🌅 gym done, skin routine done, reading done before most people even wake up. No excuses. We are not the same.",
+      "type": "scenario",
+      "image": "🏋️",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 412K   ↻ 18.7K   💬 9.2K",
+      "avatar": "✨",
+      "handle": "aria.mornings",
+      "prompt": "It is 11pm. You are 40 minutes deep in posts like this. Connecting or comparing? And honestly, how do you feel at minute 40?",
+      "script": "Let a few pupils answer both questions. The tell in the post is the last line: we are not the same. Comparison is not an accident here, it is the product. Then the honesty move: admit that everyone in the room, you included, has done this exact 11pm scroll. This is not about superior people and weak people. It is about noticing what minute 40 actually feels like, because the app never asks you.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Be honest: which app most often leaves you flat, and which one actually leaves you fuller? Your feed, your data.",
+      "script": "Sixty seconds, partner talk, start the timer on screen. Share your own honest answer first, one app that leaves you flat and one that fills you up, because the room will only be as honest as you are. After the chime, collect a few answers and point out loudly when two pupils give opposite verdicts on the same app. That is not a contradiction, that is the whole lesson.",
+      "lookFor": "Honesty and specificity. Named apps, named feelings, and the discovery that answers differ across the room, which is the point: the same app reads differently for different people.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "The audit runs at the moment you close an app, because inside the app is the one place you cannot see clearly.",
+          "emoji": "📴",
+          "title": "Close it"
+        },
+        {
+          "text": "After I closed it, do I feel better, worse, or nothing? Honest answer, not the answer that sounds good.",
+          "emoji": "🪞",
+          "title": "Ask the question"
+        },
+        {
+          "text": "Better, worse or nothing, next to the app name. Notes app, paper, anywhere. Ten seconds, done.",
+          "emoji": "✍️",
+          "title": "Log one word"
+        },
+        {
+          "text": "After seven days the pattern appears: which apps fill you up, which leave you flat. Now you know something no study can tell you.",
+          "emoji": "📊",
+          "title": "Read the week"
+        }
+      ],
+      "script": "Walk the diagram as it builds. Get the class saying the question back to you: after I closed it, better, worse, or nothing? Twice, until it is automatic. Then point at the three verdicts and stress the rules of honest research: no cheating the log to look good, no judging yourself for a worse, and nothing counts as a real answer. One week of this beats every headline ever written about your generation, because it is about you.",
+      "caption": "Ten seconds, once per close. One honest word is the whole method.",
+      "heading": "The mood audit",
+      "minutes": 3,
+      "verdicts": [
+        "Better",
+        "Worse",
+        "Nothing"
+      ]
+    },
+    {
+      "body": "Worse gets your attention because it hurts. Nothing slides past you, and that is what makes it sneaky. An hour of autoplay that you cannot remember a single video from did not hurt you, but it gave you nothing back, and it quietly spent an hour you never get returned. Researchers call this passive use, and it is the pattern most linked with feeling flat. Nothing is not fine and not terrible. It is information, and it is the verdict most people never notice they are logging.",
+      "type": "concept",
+      "emoji": "🕳️",
+      "phase": "teach",
+      "script": "Ask the room: who has ever closed an app after a big session and been unable to name one thing they just watched? Most hands go up, yours too. That is not a character flaw, autoplay is engineered to produce exactly that. The audit turns it from an invisible habit into a visible verdict. Nothing, logged honestly, four nights in a row, tells you something no lecture ever could.",
+      "heading": "Nothing is the sneaky verdict",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check, whole class. The second option is the one to watch, it sounds reasonable and it is exactly how the nothing hours stay hidden. Land the line: the audit has three verdicts, not two, and the third one does the most detective work.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Nothing, and it is worth logging, because that hour bought you nothing back",
+          "correct": true,
+          "feedback": "Right. Nothing is a real verdict. It is not harm, but it is an hour spent for zero return, and a pattern of nothing is exactly what the audit exists to catch."
+        },
+        {
+          "text": "No verdict needed, feeling nothing means no effect",
+          "correct": false,
+          "feedback": "Feeling nothing IS the effect. An hour in, nothing out. Skip the log and the pattern stays invisible, which is how it likes it."
+        },
+        {
+          "text": "Better, because at least it was not worse",
+          "correct": false,
+          "feedback": "At least not worse is not the same as better. The audit only works with honest words, and the honest word here is nothing."
+        }
+      ],
+      "question": "You close an app after an hour and feel nothing at all. Not better, not worse. What is the honest verdict?"
+    },
+    {
+      "meta": "Group chat · the six of you · 19:42",
+      "text": "CAMPING IS ON, my mum said yes 🏕️🔥 Dev bring the speaker, Jess you are on marshmallow duty, someone tell Sam before he books the cinema",
+      "type": "scenario",
+      "image": "🏕️",
+      "label": "Evidence item three",
+      "phase": "teach",
+      "avatar": "🎨",
+      "handle": "Maya 🎨",
+      "prompt": "Run the audit on this one. You close the chat. Better, worse, or nothing? And what makes this different from the 11pm scroll?",
+      "script": "This should be a fast, near unanimous better. The interesting question is the second one, so push for the actual difference: these are people who know your real life, you are in the plan, and the chat needed something from you. That is connecting. Same phone as the 11pm scroll, same evening, opposite verdict. The device was never the variable. The use was.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "One account that reads worse every single time does not need a place in your feed. Mute or unfollow is precise, not dramatic.",
+          "emoji": "🔇",
+          "title": "Mute the source"
+        },
+        {
+          "text": "Same app, different hour. The scroll that reads worse at 11pm often reads nothing at 5pm. Timing is a dial you own.",
+          "emoji": "⏰",
+          "title": "Move the time"
+        },
+        {
+          "text": "Shift minutes from comparing to connecting inside the same app. Message the mate instead of scrolling the stranger.",
+          "emoji": "🎛️",
+          "title": "Change the use"
+        },
+        {
+          "text": "A better verdict earns its place. Keeping what fills you up is a decision too, and now it is an informed one.",
+          "emoji": "✅",
+          "title": "Keep it and know why"
+        }
+      ],
+      "script": "Walk the four moves as they build, then say the thing directly: notice what is not on this list. Nobody is telling you to delete everything or hand your phone to your parents. That is allow or deny thinking and it does not survive contact with real life. The audit gives you a pattern, the pattern gives you a precise move, and you choose it. That is what having agency over a habit actually looks like.",
+      "caption": "The audit finds the pattern. These moves are what the pattern unlocks. Never all or nothing, always calibrated.",
+      "heading": "Your three moves",
+      "minutes": 3
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Every app measures your attention down to the second. Nothing measures your mood. Why is that, and whose job does that leave it?",
+      "script": "Groups of three or four, ninety seconds on the timer. This is the stretch thinking of the lesson: apps track every second of watch time because attention is the product, and no app has ever asked how you felt after closing it. Collect one answer per group. The landing you want: the mood data does not exist anywhere in the world unless you collect it, which is exactly what the audit is.",
+      "lookFor": "Attention is what the apps sell, so it gets measured obsessively. Your mood after closing is worth nothing to them, so nobody builds the dial. Which leaves exactly one person who can run that measurement: you.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "level",
+        "character": "orbit"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "options": [
+          "Better",
+          "Worse",
+          "Nothing"
+        ],
+        "question": "The mood audit, live. Think of the last thing you scrolled or watched last night. Did it leave you better, worse, or nothing?"
+      },
+      "script": "The mood audit run as a whole class experiment. Ten seconds of silent recall first, no naming of apps or people, then count hands and tap the bars. Read the finished chart back like a scientist: this is our class data, and it will not match anyone's guess exactly. The nothing bar deserves its own moment, because nothing is the most common answer in real studies and nobody expects it. Close with: the audit is not for judging, it is for noticing, and you can run it on yourself any night in five seconds.",
+      "caption": "One honest data point each. The class chart is the evidence.",
+      "minutes": 4,
+      "component": "class-tally"
+    },
+    {
+      "body": "Your teacher has six items on the worksheet: real evenings, real sessions, real closes. Run the audit on each one and give the verdict: better, worse, or nothing. You have fifteen minutes. Every verdict needs a reason, and a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet or booklets. Fifteen minutes, bookmark strips on tables for anyone who needs the audit question in front of them. Support group works items one to three together with you, reading each scenario aloud and voting before writing. Stretch question for early finishers: why might a study of 350,000 people still not tell YOU what your feed does to your mood? Circulate and collect one great reason to read out at the end.",
+      "heading": "The mood audit, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, this is the knowledge half of the outcome. Insist on the full first answer, not just the headlines are wrong part. A pupil who can say hours are weak evidence AND how it leaves me feeling is what I track has genuinely got this lesson.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The evidence is weaker than the headlines. Raw hours barely predict wellbeing. What I do and how it leaves me feeling matter more, and I can track that myself",
+          "correct": true,
+          "feedback": "Exactly right, and notice what this answer is not: it is not phones are fine. It is the honest reading of the research plus the one measurement nobody else can run for you."
+        },
+        {
+          "text": "They are right, all screen time damages your mood",
+          "correct": false,
+          "feedback": "The biggest studies found raw hours explain almost none of the difference in wellbeing. The panic version is not the evidence version."
+        },
+        {
+          "text": "Phones have zero effect on anyone, the whole debate is fake",
+          "correct": false,
+          "feedback": "Zero effect is as lazy as total damage. How you use a screen shows up in the research and in your own audit. The truth needs the extra sentence."
+        }
+      ],
+      "question": "Exit check. An adult tells you the scientists proved phones are rotting your generation's brains. What is the honest, evidence based reply?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, this is the action half of the outcome. The third option matters: some pupils have heard so much all or nothing messaging that nuking everything feels like the responsible answer. Land it clearly: the audit is precise, so the response gets to be precise too.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Make one calibrated move: mute the source, move the time, or change the use, because the pattern is now yours to act on",
+          "correct": true,
+          "feedback": "Right. The audit turns a vague feeling into a pattern, and a pattern into a precise move that you choose. That is agency, and it is the entire point of the week."
+        },
+        {
+          "text": "Nothing, apps decide how you feel and that is that",
+          "correct": false,
+          "feedback": "The data in your own log disproves this. Different uses read differently, which means the dials exist and your hands are on them."
+        },
+        {
+          "text": "Delete every app on your phone to be safe",
+          "correct": false,
+          "feedback": "The audit found ONE app reading worse. Deleting everything punishes the apps that read better too. Precision beats panic, every time."
+        }
+      ],
+      "question": "You run the mood audit for a week. One app comes back worse four times out of five. What does the audit give you the power to do?"
+    },
+    {
+      "text": "After I closed it: better, worse, or nothing? One honest word, once a week read the pattern. My feed, my data, my call.",
+      "type": "quote",
+      "label": "Say it like Orbit",
+      "phase": "close",
+      "script": "Orbit says things once, calmly, and means them, so deliver it steady rather than loud. Then the whole class says it together, twice. This is the sentence you want running through their heads every time a thumb hits the close button this week.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "The evidence is quieter than the headlines: raw hours barely predict wellbeing, what you do and how it leaves you feeling matter far more.",
+        "Same phone, two jobs: connecting mostly fills you up, comparing mostly runs you down, and only you know which one you were doing.",
+        "The mood audit: after I closed it, better, worse, or nothing? Nothing is a real verdict and the sneakiest one.",
+        "One week of honest answers earns one calibrated move: mute it, move it, change the use, or keep it and know why."
+      ],
+      "script": "Return to the opening question: hands up if you were ever told phones are ruining your generation. Then ask the new question: hands up if you could now explain to that adult what the research actually says. Watch the hands. Then the recap, read by pupils, one point each.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Close it. Ask: better, worse, or nothing? Log one word.",
+        "Do that for a week.",
+        "Then read the week back. The pattern is the answer."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Your mission, for one week",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Orbit's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks3-10-mood-and-screens",
+        "register": "level",
+        "placement": "shaper"
+      },
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Study complete, researchers! ⭐",
+        "The question that changes everything is seven words long: after I closed it, better, worse, or nothing?",
+        "Your mission this week: every close, one honest word, for seven days. Then read YOUR pattern, not a headline about your generation.",
+        "Orbit says the pattern is the answer, and Orbit is right. Nobody else gets your data. Nobody else makes your call. See you next lesson!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register, and the commitment cards go home in bags to start the week of audits tonight.",
+      "heading": "DiGi closes the study",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson invites pupils to notice and talk honestly about their own mood. Most answers will be everyday ones, but the honesty can surface more: if a pupil discloses persistent low mood, or their worksheet or exit card raises concern, follow your school safeguarding policy and speak to your DSL. Do not promise confidentiality, do respond warmly: thank you for telling me, you are not in trouble.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS3",
+  "module_id": "ks3-10-mood-and-screens",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 10,
+  "parent_note": {
+    "taught": "Today we looked at the honest evidence on screens and mood: the biggest studies say what young people do on a screen and how it leaves them feeling matters far more than raw hours. Your child learned the mood audit, a ten second self check they will run for a week: after I closed it, did I feel better, worse, or nothing?",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them how the mood audit week is going, and consider running one yourself alongside them.",
+    "try_this": "Run the audit yourself this week, out loud, on your own phone. When they hear you say worse after the news app, the tool becomes a normal thing your family does rather than a rule aimed at them.",
+    "family_question": "Which app leaves you feeling better after you close it, and which one leaves you feeling nothing?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Better, worse, nothing: pre teach the three words with arrows, up, down, flat. The whole week of data can speak in arrows while the words are settling.",
+      "sensory": "The class tally is anonymous tokens, not hands up. Keep it that way in this room: nobody's week is read aloud unless they offer it.",
+      "attention": "A week long audit is a real executive load. Shrink the loop where needed: one app, three days, and the reminder set up in the lesson rather than remembered at home.",
+      "communication": "The audit is one word a day by design: better, worse or nothing. That is a complete answer for every pupil, including those for whom a paragraph would be the barrier."
+    },
+    "tool": {
+      "lines": [
+        "Close it.",
+        "Ask: better, worse, or nothing?",
+        "Log one word. Read the week."
+      ],
+      "heading": "The mood audit",
+      "strapline": "Your feed, your data, your call."
+    },
+    "i_can": [
+      "I can notice what an app leaves behind: better, worse or nothing.",
+      "I can run the mood audit on my own habits for a week and read the pattern.",
+      "I can explain my pattern to someone I trust and name one change worth making."
+    ],
+    "cycles": [
+      {
+        "verb": "Weigh",
+        "title": "What the research actually says",
+        "minutes": 7,
+        "outcome": "I can describe what the evidence says without overstating it."
+      },
+      {
+        "verb": "Sort",
+        "title": "Connecting or comparing",
+        "minutes": 6,
+        "outcome": "I can notice what an app leaves behind: better, worse or nothing."
+      },
+      {
+        "verb": "Audit",
+        "title": "The mood audit",
+        "minutes": 15,
+        "outcome": "I can run the mood audit on my own habits for a week and read the pattern."
+      }
+    ],
+    "timing": "69 minutes: starter 11, cycle one 7, cycle two 6, cycle three 15, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "evidence",
+        "definition": "What careful studies actually found, which is often much quieter than the headlines shouting about them."
+      },
+      {
+        "word": "comparing",
+        "definition": "Measuring your real, unedited life against someone else's chosen highlights. It rarely reads better."
+      },
+      {
+        "word": "connecting",
+        "definition": "Using a screen to reach people who know your actual life. The use that most often reads better."
+      },
+      {
+        "word": "audit",
+        "definition": "An honest check you run on yourself, with real answers, not the answers that sound good."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The mood audit is a paper sheet from the print room and stays with the pupil.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Screen time hours decide your mood.",
+        "teaching_point": "The biggest studies found raw hours barely predict wellbeing. What you do matters more than how long."
+      },
+      {
+        "pairs": [
+          {
+            "left": "Connecting",
+            "right": "Usually reads better"
+          },
+          {
+            "left": "Comparing",
+            "right": "Usually reads worse"
+          },
+          {
+            "left": "Nothing",
+            "right": "Time that left no trace at all"
+          }
+        ],
+        "answer": "Connecting goes with usually reads better; Comparing goes with usually reads worse; Nothing goes with time that left no trace at all",
+        "format": "match",
+        "question": "Match the use to what it usually leaves behind.",
+        "teaching_point": "Three verdicts, and nothing is the one pupils forget to look for."
+      },
+      {
+        "answer": "Because an hour that gave you nothing is still an hour spent.",
+        "format": "short_answer",
+        "question": "Why is nothing a sneaky verdict?",
+        "teaching_point": "The quiet one. Pupils look for better or worse and miss the hour that simply vanished."
+      },
+      {
+        "answer": "honest",
+        "format": "fill_blank",
+        "question": "An audit only works with ___ answers, not the answers that sound good.",
+        "teaching_point": "The condition on the whole tool. Without it the audit is decoration."
+      },
+      {
+        "answer": "Any specific change with a reason drawn from their own pattern.",
+        "format": "short_answer",
+        "question": "Name one thing you would change after a week of the mood audit, and why.",
+        "teaching_point": "The lesson's real outcome. Vague answers mean the audit was not run honestly."
+      }
+    ],
+    "worksheet": {
+      "title": "The mood audit case file",
+      "directions": "Run the audit on each close: give the honest verdict and the reason, because a verdict without a reason does not count.",
+      "verdict_options": [
+        "Better",
+        "Worse",
+        "Nothing"
+      ]
+    },
+    "teacher_tip": "Say out loud that no number from this lesson is collected or marked. Pupils give honest audit answers only once they believe nobody is reading them.",
+    "starter_quiz": [
+      {
+        "answer": "You watch, it learns, it serves more.",
+        "format": "short_answer",
+        "question": "Describe the feed loop in three steps.",
+        "teaching_point": "Carried forward from ks2-06. Today it gets pointed at how they feel rather than at what they see."
+      },
+      {
+        "answer": "Any three. Nobody collects this.",
+        "format": "short_answer",
+        "question": "Name your three most used apps, honestly.",
+        "teaching_point": "Say out loud that nothing here is collected or marked. Honest answers only arrive once pupils believe that."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "A newspaper headline about a study says exactly what the study found.",
+        "teaching_point": "The gap between a headline and a study is the first cycle of the lesson."
+      },
+      {
+        "answer": "What you actually did on it",
+        "format": "tick_one",
+        "options": [
+          "How many hours you spent",
+          "What you actually did on it",
+          "How many apps you have"
+        ],
+        "question": "Which of these tells you most about how an app affects you?",
+        "teaching_point": "The lesson's central claim, asked before it is taught. Expect a split, and use it."
+      }
+    ],
+    "misconceptions": [
+      "Screen time hours decide your mood (the biggest studies found raw hours barely predict wellbeing, what you do and how it leaves you feeling matter far more)",
+      "The same app affects everyone the same way (one pupil's connecting is another pupil's comparing, which is exactly why each pupil runs their own audit instead of trusting an average)",
+      "Feeling nothing after a long session means no effect (nothing is a verdict too, an hour that gives nothing back is worth noticing and it is the pattern most linked with feeling flat)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack with no screen. Read the two feed posts and the group chat aloud as short scripts, draw the four step audit and the four moves on the board as you talk them through, run both timed talks with a watch, and use the worksheet, bookmark and exit quiz exactly as printed. The stat can be written on the board: 0.4 percent, and the potato line works even better out loud.",
+    "passport_stage": "shaper",
+    "commitment_stem": "My commitment: for one week, every time I close ................ I will log one honest word, better, worse or nothing, and read my pattern on day seven.",
+    "differentiation": {
+      "stretch": "Early finishers take the researcher question: why might a study of 350,000 people still not tell YOU what your feed does to your mood? Push towards averages hiding individuals, which is the exact reason the personal audit exists. Strongest thinkers can also tackle: why does no app ever ask how you felt after closing it?",
+      "support": "Keep the bookmark strip with the audit question in front of support pupils throughout. Work worksheet items one to three together, reading each scenario aloud and voting on the verdict as a group before anyone writes. Accept one word reasons: knows me, comparing, hour gone."
+    },
+    "prior_knowledge": [
+      "A pupil can describe the feed loop, from ks2-06.",
+      "A pupil can name their own most used apps honestly.",
+      "A pupil understands that a headline and a study are not the same thing."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "You spend twenty minutes in the group chat sorting Saturday plans and laughing at Dev's terrible photos. You close it still smiling.",
+        "teaching_point": "Connecting with people who know your actual life is the use that most often reads better. The smile at the close is the data.",
+        "expected_verdict": "Better"
+      },
+      {
+        "n": 2,
+        "item": "You scroll a fitness influencer's page for half an hour. Their life looks perfect. You close it, look around your own room and feel a bit rubbish about yourself.",
+        "teaching_point": "Comparing your unedited life to someone's chosen highlights is the pattern that most often reads worse. The feed showed you their best 34 seconds, not their Tuesday.",
+        "expected_verdict": "Worse"
+      },
+      {
+        "n": 3,
+        "item": "You open one video at 10pm. At 11.40pm you close the app, cannot remember a single thing you watched, and now you are annoyed about the lost time and how tired you will be tomorrow.",
+        "teaching_point": "Autoplay is engineered to make hours vanish. Here the session crossed from nothing into worse: lost sleep and real annoyance at the close. The close is where the truth shows up.",
+        "expected_verdict": "Worse"
+      },
+      {
+        "n": 4,
+        "item": "You watch football highlights for twenty minutes with your brother, both of you shouting at the same screen.",
+        "teaching_point": "Screens are not the variable, use is. Shared, active, with someone who knows you: this reads better even though it is technically just watching videos.",
+        "expected_verdict": "Better"
+      },
+      {
+        "n": 5,
+        "item": "An hour of shorts on the sofa. You feel exactly the same as before you opened the app. Not sad, not happy. The evening is just gone.",
+        "teaching_point": "Nothing is a real verdict and the sneakiest one: no harm at the close, but an hour spent for zero return. Logged honestly across a week, nothing is the pattern that earns a calibrated move.",
+        "expected_verdict": "Nothing"
+      },
+      {
+        "n": 6,
+        "item": "Priya says: after an hour of scrolling I feel nothing at all, so the app is clearly doing nothing to me and there is nothing to think about. Do you agree? Explain your reasoning.",
+        "teaching_point": "Half agree, half challenge: the verdict is genuinely nothing, but doing nothing to me is wrong. Feeling nothing IS the effect: an hour in, nothing back. The strongest answers also name why hours alone never settle the question.",
+        "expected_verdict": "Nothing"
+      }
+    ],
+    "essential_question": "Does this app actually leave me feeling better, or do I just keep opening it?",
+    "learning_objective": "Pupils can describe the honest evidence on screens and mood, distinguish connecting from comparing in their own use, and run the mood audit (better, worse, or nothing) on their screen habits for a week, leading to one calibrated change they choose themselves.",
+    "key_learning_points": [
+      "The evidence is quieter and more mixed than the headlines about it.",
+      "What you do on an app matters more than how long you spend on it.",
+      "Connecting tends to read better. Comparing tends to read worse.",
+      "Nothing is the sneaky verdict: time that left no trace is still time spent.",
+      "An audit only works with honest answers, not the answers that sound good."
+    ]
+  }
+}

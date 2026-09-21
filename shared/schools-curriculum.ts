@@ -124,6 +124,21 @@ export type CurriculumModule = {
   title: string
   keyStage: KeyStage
   yearBand: string
+  // THE TRUE LENGTH, PUBLISHED (21 September 2026). The sum of every slide's
+  // minutes in this module, and nothing else. The rubric used to hold the
+  // scheme to a 45 to 60 minute window, which it marked as a decision somebody
+  // wrote down rather than a finding with a source. Twenty six of the twenty
+  // nine lessons run past sixty, median sixty nine, so the window was a number
+  // the product did not keep. The call on 21 September was to print what the
+  // lessons actually run and to guide a short period in the teacher notes,
+  // rather than to cut teaching to fit a rule with nothing behind it.
+  //
+  // It is safe to print because it is checkable: scripts/check-lesson-minutes.mjs
+  // holds every figure here to the slide sum in content/modules, and those files
+  // are hash proved equal to the production rows. So this cannot drift into a
+  // claim a lesson does not keep. It is our scripted timing, not a measurement
+  // of a real class, and no page should say otherwise.
+  minutes: number
   outcome: string
   blurb: string
   character: CharacterKey
@@ -169,7 +184,7 @@ export const SPIRAL_BEHAVIOURS = [
 
 export const CURRICULUM: CurriculumModule[] = [
   {
-    n: 1, moduleId: 'eyfs-01-screens-kindness', keyStage: 'EYFS', yearBand: 'Reception',
+    n: 1, moduleId: 'eyfs-01-screens-kindness', keyStage: 'EYFS', yearBand: 'Reception', minutes: 42,
     title: 'Screens and kindness, real and not real',
     outcome: 'I can ask a grown up if something on a screen is real.',
     blurb: 'Co viewing, gentle routines, and the very first seed of AI literacy.',
@@ -177,7 +192,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
-    n: 2, moduleId: 'ks1-02-kind-screens-calm-bodies', keyStage: 'KS1', yearBand: 'Years 1 to 2',
+    n: 2, moduleId: 'ks1-02-kind-screens-calm-bodies', keyStage: 'KS1', yearBand: 'Years 1 to 2', minutes: 48,
     title: 'Kind screens, calm bodies',
     outcome: 'I can name how I feel after screen time and tell a grown up.',
     blurb: 'How screens make my body and mood feel, being kind, and who to tell.',
@@ -185,7 +200,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing', 'respectful_relationships'],
   },
   {
-    n: 3, moduleId: 'ks1-03-real-pretend-computer', keyStage: 'KS1', yearBand: 'Years 1 to 2',
+    n: 3, moduleId: 'ks1-03-real-pretend-computer', keyStage: 'KS1', yearBand: 'Years 1 to 2', minutes: 50,
     title: 'Real, pretend, or made by a computer',
     outcome: 'I can spot that a picture might not be real.',
     blurb: 'Photos and videos can be changed or made up, and AI can make pictures.',
@@ -197,7 +212,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['deepfakes_ai'],
   },
   {
-    n: 4, moduleId: 'ks2-04-screen-routines', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 4, moduleId: 'ks2-04-screen-routines', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 69,
     title: 'Screen routines that work',
     outcome: 'One routine the child sets tonight.',
     blurb: 'After school, bedtime, mealtimes and homework, without the daily fight.',
@@ -208,7 +223,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['mental_wellbeing'],
   },
   {
-    n: 5, moduleId: 'ks2-05-gaming-time-spend', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 5, moduleId: 'ks2-05-gaming-time-spend', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 73,
     title: 'Gaming: time, intensity and spend',
     outcome: 'I can spot when a game is trying to get me to spend.',
     blurb: 'Loot boxes, in game spend, and the free that costs.',
@@ -216,7 +231,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['gambling', 'scams_financial', 'online_safety'],
   },
   {
-    n: 6, moduleId: 'ks2-06-how-algorithms-work', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 6, moduleId: 'ks2-06-how-algorithms-work', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 71,
     title: 'How algorithms work',
     outcome: 'I can explain why my feed keeps me watching.',
     blurb: 'Why the feed shows what it shows, with a paper algorithm and Scratch.',
@@ -224,7 +239,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
-    n: 7, moduleId: 'ks2-07-privacy-reputation', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 7, moduleId: 'ks2-07-privacy-reputation', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 71,
     title: 'Privacy and digital reputation',
     outcome: 'I can decide what not to share.',
     blurb: 'What is private, what lasts, and your digital footprint.',
@@ -232,7 +247,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety'],
   },
   {
-    n: 8, moduleId: 'ks2-08-kind-safe-online', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 8, moduleId: 'ks2-08-kind-safe-online', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 71,
     title: 'Being kind and safe with others online',
     outcome: 'I know three things to do if someone is unkind online.',
     blurb: 'Group chats, fallout, and never being a bystander to online bullying.',
@@ -240,7 +255,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['respectful_relationships', 'online_safety', 'mental_wellbeing'],
   },
   {
-    n: 9, moduleId: 'ks2-09-copyright-ownership', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 9, moduleId: 'ks2-09-copyright-ownership', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 71,
     title: 'My work and other people’s work',
     outcome: 'I can credit work that is not mine.',
     blurb: 'Owning what you make, using what others made, and where AI content comes from.',
@@ -251,7 +266,7 @@ export const CURRICULUM: CurriculumModule[] = [
     // The KS2 half of the competency ks3-22 covers at KS3, added 10 September
     // 2026. Numbered 23 for the same reason 22 was: the ids after KS3 carry
     // their numbers, and the array position is what puts it last in KS2.
-    n: 23, moduleId: 'ks2-23-when-a-machine-talks-like-a-friend', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 23, moduleId: 'ks2-23-when-a-machine-talks-like-a-friend', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 72,
     title: 'When a machine talks like a friend',
     outcome: 'I can name two things a real friend can do that a machine cannot.',
     blurb: 'Talking helpers, who wrote the friendly words, and who to tell.',
@@ -259,7 +274,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'respectful_relationships'],
   },
   {
-    n: 25, moduleId: 'ks2-25-stay-the-maker', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 25, moduleId: 'ks2-25-stay-the-maker', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 63,
     title: 'Stay the maker',
     outcome: 'I can say what the job was, and which part of it I did myself.',
     blurb: 'Asking smaller, adding your own bit, and the ten second test for whether you really made it.',
@@ -267,14 +282,14 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
-    n: 26, moduleId: 'ks2-26-why-thirteen', keyStage: 'KS2', yearBand: 'Years 3 to 6',
+    n: 26, moduleId: 'ks2-26-why-thirteen', keyStage: 'KS2', yearBand: 'Years 3 to 6', minutes: 63,
     title: 'Why thirteen?',
     outcome: 'I can say what the number on an app is protecting.',
     blurb: 'What an age rule is protecting, and what switches off when it is wrong.',
     character: 'bloop', castLine: 'Bloop and DiGi',
   },
   {
-    n: 27, moduleId: 'ks3-27-when-it-turns-on-you', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 27, moduleId: 'ks3-27-when-it-turns-on-you', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 63,
     title: 'When it turns on you',
     outcome: 'I can name what is happening, and say the thing that ends it.',
     blurb: 'Why online conflict escalates, what the four names are, and what ends it.',
@@ -285,7 +300,7 @@ export const CURRICULUM: CurriculumModule[] = [
     // there for a year on a module that never used the word. This one is the
     // scheme's whole answer to RSHE 2026's two gambling requirements, and to
     // the commerce category KCSIE 2026 names at paragraph 165.
-    n: 28, moduleId: 'ks4-28-the-money-and-the-odds', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 28, moduleId: 'ks4-28-the-money-and-the-odds', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 63,
     title: 'The money and the odds',
     outcome: 'I can work out what a chance really costs me, and say when the loop has somebody.',
     blurb: 'The hidden price of a chance, the house edge, and why speed of the loop is the real risk.',
@@ -299,7 +314,7 @@ export const CURRICULUM: CurriculumModule[] = [
     // with recruitment into drug supply on purpose: both arrive rather than
     // being sought, and both are met with the same silence for the same wrong
     // reason, that being sent a thing implicates you in it.
-    n: 29, moduleId: 'ks4-29-did-not-go-looking', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 29, moduleId: 'ks4-29-did-not-go-looking', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 63,
     title: 'The content you did not go looking for',
     outcome: 'I know what to do with something I never asked to see, and that I am not in trouble for it.',
     blurb: 'Why the worst things online arrive rather than get searched for, and the three moves that deal with any of them.',
@@ -307,7 +322,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['illegal_online', 'mental_wellbeing', 'online_safety'],
   },
   {
-    n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 10, moduleId: 'ks3-10-mood-and-screens', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 69,
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
     blurb: 'The honest, mixed evidence on screens and mood, and agency over habits.',
@@ -315,7 +330,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['mental_wellbeing', 'online_safety'],
   },
   {
-    n: 11, moduleId: 'ks3-11-social-workarounds', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 11, moduleId: 'ks3-11-social-workarounds', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 71,
     title: 'Social media, group chats and the workarounds',
     outcome: 'I can explain the risk behind a workaround I might be tempted by.',
     blurb: 'How platforms work, VPNs and borrowed accounts, and why the rules exist.',
@@ -323,7 +338,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'illegal_online', 'respectful_relationships'],
   },
   {
-    n: 12, moduleId: 'ks3-12-misinfo-deepfakes', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 12, moduleId: 'ks3-12-misinfo-deepfakes', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 73,
     title: 'Misinformation, deepfakes and AI content',
     outcome: 'I can run three checks before I believe or share something.',
     blurb: 'Spotting manufactured content with three checks that take under a minute.',
@@ -331,7 +346,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['deepfakes_ai', 'online_safety'],
   },
   {
-    n: 13, moduleId: 'ks3-13-scams-fraud-money', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 13, moduleId: 'ks3-13-scams-fraud-money', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 73,
     title: 'Scams, fraud and money online',
     outcome: 'I can spot a scam’s three tells.',
     blurb: 'Phishing, fake offers, get rich hype and account theft.',
@@ -339,7 +354,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['scams_financial', 'illegal_online', 'online_safety'],
   },
   {
-    n: 14, moduleId: 'ks3-14-bodies-image-pressure', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 14, moduleId: 'ks3-14-bodies-image-pressure', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 71,
     title: 'Bodies, image and pressure online',
     outcome: 'I can name one way images online are made to make me feel worse.',
     blurb: 'Edited and idealised bodies, healthy self image, handled with care.',
@@ -355,7 +370,7 @@ export const CURRICULUM: CurriculumModule[] = [
     // module labelled 16 with an id saying ks4-15 helps nobody. It sits here in
     // the array, so it reads last in KS3 everywhere the map groups by key
     // stage, which is where it belongs.
-    n: 22, moduleId: 'ks3-22-when-an-ai-acts-like-a-friend', keyStage: 'KS3', yearBand: 'Years 7 to 9',
+    n: 22, moduleId: 'ks3-22-when-an-ai-acts-like-a-friend', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 65,
     title: 'When an AI acts like a friend',
     outcome: 'I can explain what a friend does that a machine cannot.',
     blurb: 'Companion apps, warmth by design, and who to tell if it starts to matter.',
@@ -371,7 +386,7 @@ export const CURRICULUM: CurriculumModule[] = [
     // NOT the companion lesson. ks3-22 covers AI that behaves like a friend,
     // which KCSIE treats as a contact risk. This covers AI that does your
     // thinking, which is a learning question and carries no disclosure prompt.
-    n: 24, moduleId: 'ks3-24-is-it-doing-my-thinking', keyStage: 'KS3', yearBand: 'Years 7 and 8',
+    n: 24, moduleId: 'ks3-24-is-it-doing-my-thinking', keyStage: 'KS3', yearBand: 'Years 7 and 8', minutes: 64,
     title: 'Is it doing my thinking?',
     outcome: 'I can decide which part of a task has to stay with me.',
     blurb: 'Hints against answers, the test the exam board already uses, and how to find out what you actually learned.',
@@ -379,7 +394,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety'],
   },
   {
-    n: 15, moduleId: 'ks4-15-manipulation-persuasion', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 15, moduleId: 'ks4-15-manipulation-persuasion', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 69,
     title: 'Manipulation and persuasion',
     outcome: 'I can name the technique being used on me.',
     blurb: 'Dark patterns, engineered outrage, and who profits.',
@@ -393,7 +408,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
-    n: 16, moduleId: 'ks4-16-consent-images-law', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 16, moduleId: 'ks4-16-consent-images-law', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 69,
     title: 'Consent, images and the law',
     outcome: 'I know the law and my options before anything is shared.',
     blurb: 'Consent, image sharing, pressure, and what the law actually says.',
@@ -401,7 +416,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['consent_images', 'illegal_online', 'respectful_relationships'],
   },
   {
-    n: 17, moduleId: 'ks4-17-sextortion', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 17, moduleId: 'ks4-17-sextortion', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 73,
     title: 'Sextortion',
     outcome: 'I know exactly who to tell and that it is not my fault.',
     blurb: 'Recognising, refusing, reporting, and the you are not in trouble message.',
@@ -409,7 +424,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['consent_images', 'scams_financial', 'illegal_online', 'online_safety'],
   },
   {
-    n: 18, moduleId: 'ks4-18-radicalisation-misogyny', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 18, moduleId: 'ks4-18-radicalisation-misogyny', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 69,
     title: 'Radicalisation and misogyny',
     outcome: 'I can recognise when content is grooming my beliefs.',
     blurb: 'Pipelines, extremist content and gendered harm, named plainly.',
@@ -417,7 +432,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['misogyny_incel', 'respectful_relationships', 'online_safety'],
   },
   {
-    n: 19, moduleId: 'ks4-19-readiness-at-16', keyStage: 'KS4', yearBand: 'Years 10 to 11',
+    n: 19, moduleId: 'ks4-19-readiness-at-16', keyStage: 'KS4', yearBand: 'Years 10 to 11', minutes: 72,
     title: 'Readiness at 16: the ban world',
     outcome: 'I can plan how I will handle full access when it arrives.',
     blurb: 'The ban removes the apps, it does not build judgement. This module does.',
@@ -425,19 +440,19 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'mental_wellbeing', 'illegal_online'],
   },
   {
-    n: 20, moduleId: 'ks5-20-ai-mastery-data-rights', keyStage: 'KS5', yearBand: 'Years 12 to 13',
+    n: 20, moduleId: 'ks5-20-ai-mastery-data-rights', keyStage: 'KS5', yearBand: 'Years 12 to 13', minutes: 65,
     title: 'AI mastery and data rights',
     outcome: 'I can use an AI tool and defend where I checked its work.',
     blurb: 'Prompts, verification, bias, agents, and your data rights.',
-    character: 'digi', castLine: 'DiGi with motion graphics',
+    character: 'cosmo', castLine: 'Cosmo with DiGi',
     rshe: ['deepfakes_ai', 'online_safety'],
   },
   {
-    n: 21, moduleId: 'ks5-21-digital-identity-future-work', keyStage: 'KS5', yearBand: 'Years 12 to 13',
+    n: 21, moduleId: 'ks5-21-digital-identity-future-work', keyStage: 'KS5', yearBand: 'Years 12 to 13', minutes: 65,
     title: 'Digital identity and the future of work',
     outcome: 'I can name the human skills I am building that AI cannot replace.',
     blurb: 'Identity, portfolio, the jobs AI reshapes, and the skills that endure.',
-    character: 'digi', castLine: 'DiGi with motion graphics',
+    character: 'cosmo', castLine: 'Cosmo with DiGi',
     rshe: ['online_safety', 'mental_wellbeing'],
   },
 ]

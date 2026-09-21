@@ -1,0 +1,831 @@
+{
+  "row": {
+    "title": "Bodies, image and pressure online",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 7 to 9",
+    "sort_order": 14,
+    "efcw_strands": [
+      1,
+      6
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "DiGi carries the calm register",
+    "evidence_anchor": "Children’s Commissioner pornography exposure data",
+    "statutory_hooks": [
+      "RSHE 2026 (body image, pornography)"
+    ],
+    "single_action_outcome": "I can name one way images online are made to make me feel worse."
+  },
+  "slides": [
+    {
+      "body": "One hour, one skill: seeing how images are built to make you feel worse, and refusing to carry that feeling as if it were yours.",
+      "line": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Bodies, image and pressure online",
+      "script": "Settle everyone with this slide up and keep your register calm from the first word. This is a sensitive lesson, so set the tone now: today we are looking at how images online are made, and why so many of them leave people feeling worse. Nobody will be asked to share anything personal, and nobody is in trouble for anything they have seen. If anything in this lesson brings something up for a pupil, they can talk to you or any trusted adult afterwards. Say that plainly before you move on.",
+      "eyebrow": "KS3 · Years 7 to 9 · Module 14",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Why do you feel worse about yourself after scrolling?",
+        "There is an answer, and it is not about you. Let us take it steadily."
+      ],
+      "phase": "starter",
+      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "DiGi opens the lesson",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "why": "Most of the bodies you see online are built: chosen angles, careful lighting, editing, and hundreds of takes you never see. Feeling worse after scrolling is not an accident and it is not a flaw in you, it is often the product working exactly as designed.",
+      "type": "objective",
+      "gains": [
+        "Spot the choices behind a polished image: angles, lighting, retouching, selection",
+        "Explain why feeds full of perfect bodies sit right next to adverts",
+        "Run the image check on anything that makes you feel worse about yourself",
+        "Know that made content, including pornography, is not a guide to real bodies or real relationships"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome and the why aloud, slowly. Then say: notice what today is not. It is not a lesson telling you what to think about your own body. It is a lesson about how images are manufactured and who benefits when you feel worse. Keep it about the images and the money, not about any pupil in the room.",
+      "minutes": 2,
+      "outcome": "I can name one way images online are made to make me feel worse."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one thing an app can do to a photo before it gets posted.",
+      "script": "Sixty seconds, and this one is about the tools, not about anybody in this room. One thing an app can do to a photo before it goes up. You know more about this than you think you do.",
+      "lookFor": "Filters, cropping, smoothing, lighting, the hundred takes nobody sees. They know the tools. Today is about what the tools are for.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "retouching",
+          "meaning": "Changing an image after it is taken: smoothing skin, reshaping bodies, brightening eyes. Most polished images are retouched and it is usually invisible."
+        },
+        {
+          "word": "idealised",
+          "meaning": "Presented as perfect. An idealised body is built from angles, lighting, editing and selection, not from everyday life."
+        },
+        {
+          "word": "comparison",
+          "meaning": "Measuring yourself against someone else. Online you compare your ordinary day with someone else's edited highlight, which is not a fair contest."
+        },
+        {
+          "word": "insecurity",
+          "meaning": "The feeling of not being good enough as you are. Online that feeling can be manufactured on purpose, because insecure people scroll longer and buy more."
+        }
+      ],
+      "script": "Say each word, class repeats it back once, no theatrics. Land the last one hardest: insecurity is not just a feeling people happen to have, it is something parts of the internet are built to produce. That idea carries the whole lesson.",
+      "heading": "Words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson, thirty seconds of silent thinking before hands. Cold call two pupils for reasoning, not letters. Then bridge to today: scams pressure your wallet directly. Today we look at something quieter that pressures how you feel about your own body, and the same detective habits catch it.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "The pressure to act fast",
+          "correct": true,
+          "feedback": "Yes. Real offers survive ten minutes of thinking. Pressure to act fast exists for one reason: to stop you checking."
+        },
+        {
+          "text": "Nothing, companies do give phones away",
+          "correct": false,
+          "feedback": "A prize too big to question is itself one of the tells. Big prize plus countdown plus a link is the full pattern."
+        },
+        {
+          "text": "The spelling mistakes",
+          "correct": false,
+          "feedback": "Spelling can be a hint but it is not one of the three tells, and plenty of scams are written perfectly. The countdown is the tell doing the work here."
+        }
+      ],
+      "question": "Warm up from last lesson. A message says you have won a new phone, but only if you click the link in the next ten minutes. Which of the scam's three tells is loudest here?"
+    },
+    {
+      "meta": "5h · Paid partnership",
+      "text": "Day 47. No excuses. This is what discipline looks like. If your body does not look like this yet, you are simply not working hard enough. Full plan in bio 👇",
+      "type": "scenario",
+      "image": "🏋️",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 214K   ↻ 31.5K   💬 9.8K",
+      "avatar": "💪",
+      "handle": "morning.routine.max",
+      "prompt": "Look at the caption, not the body. What is this post telling you about yourself, and what is it asking you to do about it?",
+      "script": "Give the class thirty seconds to read it properly. Take a few answers. The move you are looking for: the post says your body is a failure of effort, and the answer to that failure is in the bio, for sale. Do not moralise about fitness itself, training is fine. The issue is a stranger profiting from the feeling that you are not enough. Keep answers about the post, not about anyone's body in the room.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "body": "Before a body reaches your feed it has usually been through a production line. The angle was chosen from dozens. The lighting was set to sculpt. The best frame was picked from hundreds of takes. Then retouching smoothed and reshaped what the camera caught. None of this is rare or shocking, it is simply how the industry works. But it means you are comparing your unedited life with someone else's finished product.",
+      "type": "concept",
+      "emoji": "🎬",
+      "phase": "teach",
+      "script": "Deliver this as calm fact, not scandal. Useful line: the person in the photo often does not look like the photo. Professional models have said exactly that about their own images. Ask the class: if the person in the picture cannot match the picture, what chance does anyone scrolling past it have? Let that question hang, do not rush to answer it.",
+      "heading": "Every polished image is a set of choices",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick whole class check, hands or devices. If pupils pick the third option, treat it gently, that answer shows the post is working on them, which is exactly the lesson. Name it without singling anyone out: that pull to measure yourself is the designed effect, not a personal weakness.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "What they chose to show you, and nothing more",
+          "correct": true,
+          "feedback": "Right. You know the output of a production line: angle, lighting, best take, retouching. You do not know what any of it looks like off camera."
+        },
+        {
+          "text": "That the person naturally looks like that",
+          "correct": false,
+          "feedback": "You cannot know that from the image. Retouching is invisible by design, and even the unedited takes were the best of hundreds."
+        },
+        {
+          "text": "That they are more disciplined than you",
+          "correct": false,
+          "feedback": "That is the caption talking, not the evidence. A photo proves a moment was captured, it proves nothing about your effort or worth."
+        }
+      ],
+      "question": "A post shows a flawless body in perfect morning light. What do you actually know from looking at it?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "An idealised image lands and the gap between it and your mirror opens up.",
+          "emoji": "😔",
+          "title": "You feel worse"
+        },
+        {
+          "text": "Unsettled people keep scrolling, looking for something to close the gap. The feed learns what holds you.",
+          "emoji": "📱",
+          "title": "You scroll longer"
+        },
+        {
+          "text": "A plan, a product, a serum, a filter. Right on time, because your feelings were the targeting data.",
+          "emoji": "🛒",
+          "title": "The fix appears"
+        },
+        {
+          "text": "If the product truly closed the gap, you would stop buying. The gap is the business, so the gap stays open.",
+          "emoji": "🔁",
+          "title": "The fix never finishes"
+        }
+      ],
+      "script": "Walk the loop as it builds, one step at a time. At step three, pause and ask: who has noticed an advert that seemed to know exactly how they were feeling? No stories needed, just hands. At step four, land the core insight of the lesson: a cure that worked would end the customer. The system needs you not quite fixed. Said calmly, that lands harder than any outrage.",
+      "caption": "Feeling worse is not a side effect. For part of the internet, it is the business plan.",
+      "heading": "The economics of insecurity",
+      "minutes": 3
+    },
+    {
+      "meta": "Sponsored · Shown to you because of your activity",
+      "text": "Struggling with how your skin looks in photos? You are not alone. Our 30 day reset clears what nature could not. Half price ends tonight.",
+      "type": "scenario",
+      "image": "🧴",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 96.4K   ↻ 12.1K   💬 5.2K",
+      "avatar": "✨",
+      "handle": "GlowFix Skin",
+      "prompt": "Read the small print in the meta line. Where in the loop from the last slide does this advert sit, and what did it need you to feel first?",
+      "script": "Point at the meta line first: shown to you because of your activity. Ask what activity would teach a feed to show someone this advert. Answer: lingering on idealised images, searching about skin, even just slowing your scroll. The advert is step three of the loop, and it only works if steps one and two already happened. Notice the countdown too, the same pressure tell from the scam lesson, now selling insecurity instead of a fake prize.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Think of a place online where content that makes people feel not good enough sits right next to something for sale. Coincidence or design?",
+      "script": "Sixty seconds, partner talk, timer on screen. Steer pupils towards patterns rather than confessions, the prompt is about what they have noticed, not how they feel. Take two or three answers after the chime. If a pupil shares something that sounds personal or distressed, thank them warmly, move on without probing, and follow up privately after the lesson in line with your school safeguarding policy.",
+      "lookFor": "Design. Fitness content beside supplement adverts, beauty content beside skincare and filters, transformation posts beside paid plans. Pupils do not need personal stories, patterns they have noticed are enough.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This is the emotional centre of the lesson, so give the feedback lines time to breathe. The bakery line usually gets a small laugh of recognition, allow it and move on, do not build on it. The point to leave in the air: the feeling is real, but the cause is outside you.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "A product working as designed",
+          "correct": true,
+          "feedback": "Yes. That feeling keeps you scrolling and primes you to buy. It was manufactured with the same care as the images themselves."
+        },
+        {
+          "text": "A sign something is wrong with you",
+          "correct": false,
+          "feedback": "No. Almost everyone feels it, because it is engineered. Blaming yourself for a designed effect is like blaming yourself for feeling hungry in a bakery."
+        },
+        {
+          "text": "Proof you should train harder",
+          "correct": false,
+          "feedback": "Effort is fine, but this feeling is not honest feedback about your body. It is the gap between your real life and a production line, and no amount of training closes a gap that is kept open on purpose."
+        }
+      ],
+      "question": "You feel worse about yourself after ten minutes of scrolling perfect bodies. In the attention economy, what is that feeling?"
+    },
+    {
+      "body": "One more kind of made content needs naming, calmly and briefly: pornography. Some people your age have seen it, on purpose or by accident, and if that includes you, you are not unusual and you are not in trouble.",
+      "type": "concept",
+      "emoji": "🛡️",
+      "phase": "teach",
+      "script": "Read this slide almost word for word and keep your tone level, the same voice you used for retouching. Do not ask for hands, do not invite stories, do not ask who has seen what, and do not describe any content yourself.",
+      "heading": "Some made content distorts more than others",
+      "minutes": 1
+    },
+    {
+      "body": "What matters is this: it is produced content, performed, directed and edited like everything else we have looked at today, only more so. It is not a guide to what real bodies look like, and it is not a guide to what real relationships or real intimacy are like. If anything you have seen online sits heavily with you, that is worth saying out loud to a trusted adult, a parent, a teacher, or any adult in school you trust.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Same level tone, still word for word. Close down any pupil who starts to share specifics in front of the class, kindly: that sounds like something worth talking about properly, come and find me after. If a pupil discloses exposure or distress, during or after the lesson, follow your school safeguarding policy and speak to your DSL, and reassure them first that they are not in trouble. Nothing said in this lesson is recorded by the platform, so your own note to the DSL is the record. Then move on without lingering, the calm brevity is the message. Say this, as written: There is one more thing worth knowing, because it is the part that reaches other people. Watching a lot of it can quietly change what someone expects of a partner, and a lot of it is made as though one person matters and the other is there to be used. That is where it does its damage: not in the watching, but in someone carrying that expectation into a real relationship, as though another person owes them something. The added lines are the ones to deliver most steadily, because they are the reason this is in a relationships curriculum at all. The harm being named is an attitude travelling into a real relationship, not a private act. Keep it short, keep it factual, take no questions into detail, and move straight on to the check.",
+      "heading": "What it is, and what it is not",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Think on your own. This is about how the thing was made, not about anybody in this room, and I am not going to ask anyone what they have seen.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It is not a guide to what real people or real bodies are like.",
+          "correct": true,
+          "feedback": "That is the whole point. Comparing yourself to a production is comparing yourself to something nobody is, including the people in it."
+        },
+        {
+          "text": "It means none of it is real at all.",
+          "correct": false,
+          "feedback": "Not quite. Real people made it, and it can still affect you. Produced means built to a brief, not imaginary."
+        },
+        {
+          "text": "It means it does not affect anybody.",
+          "correct": false,
+          "feedback": "No. Knowing how something was made does not switch off how it lands. Naming it is a start, not a cure."
+        }
+      ],
+      "question": "You have just heard that this is produced content: performed, directed and edited. What follows from that?"
+    },
+    {
+      "type": "stat",
+      "claim": "In a large survey of young people in England, the average age of first seeing online pornography was thirteen. Many saw it younger, and most did not go looking for it the first time.",
+      "phase": "teach",
+      "figure": "13",
+      "script": "Let the number sit for a moment, then say why it is on the screen: not to alarm anyone, but so that anyone in this room it applies to knows they are ordinary, not broken and not in trouble. Then repeat the single protective fact one more time: it is made content, and it does not show what real bodies or real relationships are like. Do not take questions on this slide, offer them privately instead, then move on.",
+      "source": "Children's Commissioner for England, young people and pornography report, 2023",
+      "minutes": 2
+    },
+    {
+      "body": "Here is the quiet truth the feed never sells: your body is not a picture, it is the thing you live your whole life in. It carries you to your friends, plays the sport, laughs at the joke, gets you through the hard day. A healthy self image is not believing you look perfect, it is refusing to grade yourself against a production line. And you have more control than it feels like: every account you follow is a choice, and unfollowing anything that reliably makes you feel worse is not weakness, it is curation.",
+      "type": "concept",
+      "emoji": "🌱",
+      "phase": "teach",
+      "script": "Slow down for this one. Ask the class: what did your body actually do for you this week? Take answers, they will start small and get better, walked me up a mountain, got me through the match, hugged my nan. That list is the counterweight to the whole lesson. Then land the practical move: an unfollow is free, instant and private, and it retrains the feed. Watch for pupils who go quiet here, low mood around this topic is worth a gentle private check in later, and any disclosure of real distress goes to your DSL under your school safeguarding policy.",
+      "heading": "Your body is for living in",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Angles, lighting, retouching, the best of hundreds of takes. If it is polished, choices were made.",
+          "emoji": "🖼️",
+          "title": "Who edited this?"
+        },
+        {
+          "text": "Follow the feeling to the money. A plan, a product, a platform holding your attention.",
+          "emoji": "💷",
+          "title": "Who profits from me feeling worse?"
+        },
+        {
+          "text": "You would never grade your best friend against an edited stranger. Give yourself the same voice.",
+          "emoji": "💬",
+          "title": "What would I tell my best friend?"
+        }
+      ],
+      "script": "This is the tool of the module, walk it slowly as it builds. Have the class say the three questions back together, once, at speaking volume, this is a chant for the head not a cheer. Then point at the three verdicts: every image you check today ends in one of these. Edited and selling means the image is polished and the profit trail is visible. Pressure to compare means it is idealised and spreading comparison even with nothing for sale. Honest post means real life allowed to look like real life. Pause is always allowed while you decide.",
+      "caption": "Three questions, ten seconds, any image that makes you feel worse.",
+      "heading": "The image check",
+      "minutes": 3,
+      "verdicts": [
+        "Edited and selling",
+        "Pressure to compare",
+        "Honest post"
+      ]
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "A close friend tells you they hate how they look after an hour of scrolling. Using the third question of the image check, what do you actually say to them?",
+      "script": "Groups of three or four, ninety seconds on the timer. This is rehearsal for a conversation most of them will really have. Collect one answer per group and praise specificity: not just cheer up, but you are measuring yourself against a production line. Close by naming the quiet trick of the whole lesson: the words you just found for your friend are true about you too. If any pupil's contribution suggests they are describing themselves and struggling, follow up privately afterwards and use your school safeguarding policy if needed.",
+      "lookFor": "Warmth first, then the mechanism: you are comparing your real life with edited products, the feeling was manufactured, and the accounts doing it can be unfollowed. The best answers turn the kindness pupils naturally have for a friend back towards themselves.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths with the star: in as it grows, out as it shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "level",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "caption": "Every tap on a body post tells the feed more like this. That is why a feed narrows, and it is maths, not truth."
+      },
+      "script": "Why does a feed fill with one kind of body? Not because that is what bodies look like, because of this meter. Invite taps: a like, a comment, watching to the end, watching again, and watch the signal bar climb fastest for the watches. Say the quiet part: you do not even have to like a post to teach the feed you want more of it, lingering is a signal too. Connect it straight back to the image check: the feed is not a mirror, it is a maths lesson about your taps.",
+      "caption": "Tap what you would do. Watch which taps shout loudest.",
+      "minutes": 4,
+      "component": "signal-meter"
+    },
+    {
+      "body": "Your teacher has six items on the worksheet: posts, adverts and captions described in words. Run the image check on each one and give a verdict: edited and selling, pressure to compare, or honest post. You have fifteen minutes. Every verdict needs a reason from one of the three questions, a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet, bookmark strips on tables for anyone who wants the three questions in front of them. Support group works items one to three with you. Stretch question for early finishers: pick one item and trace exactly who earns money at each step. Circulate and collect one strong reason to read out. Stay alert as you move around the room: written answers on this topic occasionally carry a personal note, a pupil writing about their own body or their own distress rather than the scenario. Treat anything like that as a possible disclosure, speak to the pupil privately, reassure them they are not in trouble, and follow your school safeguarding policy. The worksheets are paper and nothing is stored by the platform, so what you collect is the record.",
+      "heading": "The image check, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, worked alone in silence, this pair is the printed exit quiz. It tests the outcome directly: naming one way images are made to make you feel worse. A wrong answer here tells you who to revisit the production line idea with.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Chosen angles, lighting and retouching, picked from many takes, so your real life loses the comparison",
+          "correct": true,
+          "feedback": "Right. The image is a finished product and you are comparing it with your unedited day. That gap is built, and it is built to be felt."
+        },
+        {
+          "text": "Cameras cannot lie, so no method was needed",
+          "correct": false,
+          "feedback": "Cameras capture a moment, but the moment was staged, selected and then edited. The lying happens before and after the click."
+        },
+        {
+          "text": "It affects you because the person is simply better than you",
+          "correct": false,
+          "feedback": "The person often does not look like their own photo. You are not losing to a person, you are losing to a production line, and that is a contest nobody should enter."
+        }
+      ],
+      "question": "Exit check. A fitness post looks completely flawless. Which of these is a real way that image was likely made to affect how you feel?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, still silent and alone. This is the one that matters most for wellbeing, because it tests whether pupils have stopped blaming themselves. Collect both answers on the printed exit quiz as your evidence for the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. The feeling is manufactured, because people who feel worse scroll longer and buy more",
+          "correct": true,
+          "feedback": "Exactly. The feeling is real but the cause is outside you. Naming the machine is the first step to switching it off: check the image, follow the money, and talk to yourself like your best friend would."
+        },
+        {
+          "text": "True. Confident people are not affected by images",
+          "correct": false,
+          "feedback": "Even the people in the images are affected by the images. This is engineering, not a confidence test, and nobody is immune by personality."
+        }
+      ],
+      "question": "True or false: if scrolling makes you feel worse about your body, that means something is wrong with you."
+    },
+    {
+      "text": "Who edited this? Who profits from me feeling worse? What would I tell my best friend? My worth was never in the picture.",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "Whole class says it together once, calm and steady, this chant is spoken not shouted. The last line is the one to underline: my worth was never in the picture. It means both things at once, and pupils usually spot that themselves. Let them.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Polished images are products: angles, lighting, retouching and the best of hundreds of takes.",
+        "Feeling worse after scrolling is often the business model working, not a flaw in you.",
+        "Made content, including pornography, is performed and edited. It is not a guide to real bodies or real relationships.",
+        "The image check: who edited this, who profits from me feeling worse, what would I tell my best friend?"
+      ],
+      "script": "Four pupils read one point each. After the third point, add the standing offer one final time, plainly: if anything from today, or anything you have seen online, is sitting heavily with you, come and talk to me or any trusted adult. You will not be in trouble. Then the last point, and on to DiGi.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Who edited this? Who profits from me feeling worse? What would I tell my best friend?",
+        "Three questions.",
+        "Ask them for a week and notice what changes."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "One thing to take with you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Orbit's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks3-14-bodies-image-pressure",
+        "register": "level",
+        "placement": "shaper"
+      },
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Here is the truth of today, quietly. ⭐",
+        "Every flawless image you will ever scroll past was a set of choices: angles, lighting, editing, and the takes you never see. You were comparing your real life with a product.",
+        "So when a picture makes you feel smaller, run the check: who edited this, who profits from me feeling worse, and what would I tell my best friend?",
+        "And if something you have seen online sits heavy, tell a trusted adult. You are not in trouble, and you were never meant to carry it alone. See you next lesson."
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the lines appear on their own, do not talk over them. Exit quizzes are collected as this plays. Stay visible by the door as pupils leave, this is the moment a pupil who wants a quiet word will take, and any disclosure follows your school safeguarding policy with your DSL. The platform records nothing, so your note is the record.",
+      "heading": "DiGi closes the case",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson covers body image and includes a brief, non graphic acknowledgement that some pupils will have seen pornography. Pupils may disclose body image distress, possible disordered eating, or exposure to pornography during the lesson, in written worksheet answers, or in the days afterwards. Treat any such disclosure under your school safeguarding policy and bring it to the DSL, reassuring the pupil first that they are not in trouble. This platform records no disclosures: nothing pupils say or write in this lesson is stored by Guided Childhood, so the teacher's own note and the paper worksheets are the record.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS3",
+  "module_id": "ks3-14-bodies-image-pressure",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 14,
+  "parent_note": {
+    "taught": "Today we looked at how bodies online are manufactured: angles, lighting, retouching, and the business reason feeds full of perfect images sit next to adverts, because feeling worse makes people scroll and buy. We also acknowledged calmly, briefly and without any detail that pornography exists and distorts what real bodies and relationships look like, and we pointed every pupil towards trusted adults.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them about the image check, and let them ask you the best friend question back.",
+    "try_this": "Scroll a feed together for two minutes and each pick one image to run the check on: who edited this, who profits from me feeling worse, and what would I tell my best friend?",
+    "family_question": "Is there an account that reliably makes you feel worse after you look at it, and what would happen if you unfollowed it?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Edited, filter and profit are the words to pre teach. The core question lands in any language once profit is solid: who earns when you feel worse?",
+      "sensory": "This is the lesson where a quiet room matters most. DiGi's flat calm register is the model: no gasps at reveals, no jokes to break tension, and any pupil may pass on any question without explanation.",
+      "attention": "The signal meter is one dial and one decision at a time. Let a pupil drive the dial for the class: hands busy, mind on the argument.",
+      "communication": "The image check questions carry sentence stems on the sheet, and the best friend question can be answered to the page rather than the room. Nobody reads an answer aloud unless they offer."
+    },
+    "tool": {
+      "lines": [
+        "Who edited this?",
+        "Who profits from me feeling worse?",
+        "What would I tell my best friend?"
+      ],
+      "heading": "The image check",
+      "strapline": "Three questions, ten seconds. My worth was never in the picture."
+    },
+    "i_can": [
+      "I can spot when an image has been edited to sell a feeling.",
+      "I can run the image check when a post makes me feel worse about how I look.",
+      "I can explain to a mate who profits when we feel worse about ourselves."
+    ],
+    "cycles": [
+      {
+        "verb": "See",
+        "title": "Every polished image is a set of choices",
+        "minutes": 6,
+        "outcome": "I can spot when an image has been edited to sell a feeling."
+      },
+      {
+        "verb": "Follow",
+        "title": "The economics of insecurity",
+        "minutes": 18,
+        "outcome": "I can explain who profits when we feel worse about ourselves."
+      },
+      {
+        "verb": "Check",
+        "title": "The image check",
+        "minutes": 6,
+        "outcome": "I can run the image check when a post makes me feel worse about how I look."
+      }
+    ],
+    "timing": "71 minutes: starter 11, cycle one 6, cycle two 18, cycle three 6, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "retouching",
+        "definition": "Changing an image after it is taken: smoothing skin, reshaping bodies, brightening eyes. Most polished images are retouched and it is usually invisible."
+      },
+      {
+        "word": "idealised",
+        "definition": "Presented as perfect. An idealised body is built from angles, lighting, editing and selection, not from everyday life."
+      },
+      {
+        "word": "comparison",
+        "definition": "Measuring yourself against someone else. Online you compare your ordinary day with someone else's edited highlight, which is not a fair contest."
+      },
+      {
+        "word": "insecurity",
+        "definition": "The feeling of not being good enough as you are. Online that feeling can be manufactured on purpose, because insecure people scroll longer and buy more."
+      }
+    ],
+    "equipment": "Nothing beyond the board.",
+    "exit_quiz": [
+      {
+        "answer": "Any three of: angle, lighting, editing, selection, posing, filters.",
+        "format": "short_answer",
+        "question": "Name three choices that go into a polished image.",
+        "teaching_point": "Selection is the one pupils miss. One shot kept out of two hundred is itself an edit."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "You can always tell when a photo has been edited.",
+        "teaching_point": "Most retouching is invisible by design, which is what makes the comparison unfair."
+      },
+      {
+        "answer": "value",
+        "format": "fill_blank",
+        "question": "Insecure people scroll longer and buy more, so insecurity has a market ___.",
+        "teaching_point": "The economics of insecurity, in one line. Follow the money and the design makes sense."
+      },
+      {
+        "answer": "Someone else's chosen highlight",
+        "format": "tick_one",
+        "options": [
+          "Someone else's ordinary day",
+          "Someone else's chosen highlight",
+          "Nothing at all"
+        ],
+        "question": "You are comparing your ordinary day with:",
+        "teaching_point": "Not a fair contest, and naming it is most of the defence."
+      },
+      {
+        "answer": "The feeling, not the picture.",
+        "format": "short_answer",
+        "question": "What does the image check get run on?",
+        "teaching_point": "The tool they leave with. Run it when a post makes you feel worse, not when you suspect an edit."
+      }
+    ],
+    "worksheet": {
+      "title": "The image check: run it on six items",
+      "directions": "Run the three questions on each item, give a verdict, and back it with a reason from one of the questions.",
+      "verdict_options": [
+        "Edited and selling",
+        "Pressure to compare",
+        "Honest post"
+      ]
+    },
+    "teacher_tip": "Never use a real pupil, a real classmate or a named public figure as the example. Every image in this lesson is invented and it needs to stay that way when the discussion opens up.",
+    "starter_quiz": [
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "An image can be altered or generated.",
+        "teaching_point": "Carried forward from ks3-12. Today it is pointed at bodies rather than at news."
+      },
+      {
+        "answer": "Any two of: what you watch, what you pause on, what you rewatch, how long you stay.",
+        "format": "short_answer",
+        "question": "Name two things an app collects about you.",
+        "teaching_point": "Carried forward from ks2-06, because the economics of the lesson run on attention."
+      },
+      {
+        "answer": "Any honest answer. Nothing is collected.",
+        "format": "short_answer",
+        "question": "Name a feeling an app has left you with.",
+        "teaching_point": "Carried forward from ks3-10. Say again that no answer is recorded."
+      },
+      {
+        "answer": "A set of choices",
+        "format": "tick_one",
+        "options": [
+          "Exactly what the person looks like",
+          "A set of choices",
+          "Always fake"
+        ],
+        "question": "A polished photo on a feed is:",
+        "teaching_point": "Neither trusting nor dismissing. Choices is the honest middle, and it is the lesson's frame."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "Children encounter pornography younger than parents expect, often without looking for it",
+        "source": "Children's Commissioner for England, research on children and pornography",
+        "status": "verify"
+      },
+      {
+        "claim": "Heavy social media use is associated with body dissatisfaction. Effect sizes are modest and causation is contested",
+        "source": "The published literature on social media and body image, and the critiques of it",
+        "status": "verify"
+      },
+      {
+        "claim": "Feeds are optimised for time on app",
+        "source": "Platform design and company disclosure",
+        "status": "mechanism"
+      },
+      {
+        "claim": "Upward social comparison lowers mood",
+        "source": "Social comparison research",
+        "status": "mechanism"
+      },
+      {
+        "claim": "Retouching is usually undetectable to a viewer",
+        "source": "Editing practice",
+        "status": "mechanism"
+      }
+    ],
+    "hard_questions": [
+      {
+        "answer": "Nothing is wrong with you and you are not in trouble. Lots of people see things they did not go looking for. If it is still in your head, that is worth telling someone, and I can help you do that. Then follow up privately, and tell the DSL that day.",
+        "question": "What if I have already seen it?"
+      },
+      {
+        "answer": "No. Using a filter is normal and it is not a lie. What the lesson is about is what happens when we forget that everyone is doing it, and start measuring ourselves against pictures that had help.",
+        "question": "My sister uses filters. Is she lying?"
+      },
+      {
+        "answer": "Answer honestly and briefly, then hand it back to the class. A teacher who deflects this loses the room. A teacher who says sometimes yes, and I still compare myself to people, wins it.",
+        "question": "Do you use filters, Miss?"
+      },
+      {
+        "answer": "It is more complicated than that, and I am not going to tell you something that is not true. What we know is that feeds are built so you are always comparing yourself with someone else's best moment, and that constant comparison makes a lot of people feel worse. Whether it causes an illness is something researchers still disagree about.",
+        "question": "Is it true that social media causes eating disorders?"
+      },
+      {
+        "answer": "That is one option and it works for some people. It is not the only one, and it is not what this lesson is asking. The check is smaller: notice the feeling, ask who profits from it, and decide what you want to do about that one account. Never allow or deny, always the pathway.",
+        "question": "So should I just delete everything?"
+      }
+    ],
+    "misconceptions": [
+      "You can tell when a photo has been edited (most retouching is invisible by design, so the safe assumption for any polished image is that choices were made)",
+      "Feeling worse after scrolling means something is wrong with you (the feeling is engineered because insecure people scroll longer and buy more, the cause is outside the pupil)",
+      "Naming pornography in class encourages pupils to seek it out (a calm, brief, non graphic acknowledgement that it distorts real bodies and relationships is protective and sits on statutory RSHE ground, silence leaves the distortion unchallenged)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the two evidence items aloud as court exhibits, draw the four step insecurity loop on the board as you narrate it, and put the three questions of the image check up as a poster. The pornography slide is delivered verbally from the script, word for word, with nothing written on the board. Discussions run on a watch or phone timer, the worksheet and exit quiz are already paper.",
+    "passport_stage": "shaper",
+    "commitment_stem": "My commitment: this week, when a post makes me feel worse about how I look, I will...",
+    "differentiation": {
+      "stretch": "For any worksheet item, trace the full money trail: who earns at every step from the image being posted to a product being bought. Then design the caption for a genuinely honest post and explain what makes it honest.",
+      "support": "Bookmark strip with the three questions on the table throughout. Work worksheet items one to three together with the support group, using the sentence starter: this image was made to make me feel worse by..."
+    },
+    "prior_knowledge": [
+      "A pupil can explain that an image can be altered or generated, from ks3-12.",
+      "A pupil can name what an app collects about them, from ks2-06.",
+      "A pupil can describe a feeling an app left them with, from ks3-10."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A skincare advert shows a before photo and an after photo. The caption says your skin could look like this in 30 days, with a discount code that expires tonight.",
+        "teaching_point": "The before photo is lit and chosen to look worse and the after is retouched. The countdown is the same pressure tell as a scam. The profit question answers itself.",
+        "expected_verdict": "Edited and selling"
+      },
+      {
+        "n": 2,
+        "item": "A classmate posts a photo from sports day: red faced, mid laugh, mud on their kit, no product, no link, no caption tricks.",
+        "teaching_point": "Real life is allowed to look like real life. Not every post is a trap, and being able to say honest post with confidence is part of the skill.",
+        "expected_verdict": "Honest post"
+      },
+      {
+        "n": 3,
+        "item": "A celebrity posts a perfect morning photo captioned: no filter, just woke up like this.",
+        "teaching_point": "No filter is a claim, not proof. Lighting, makeup, angles and many takes are all still available, and the caption exists to make the comparison feel fair when it is not.",
+        "expected_verdict": "Pressure to compare"
+      },
+      {
+        "n": 4,
+        "item": "A fitness influencer posts a dramatic transformation photo with the caption no excuses, and a link to their paid twelve week plan.",
+        "teaching_point": "Shame is the sales pitch and the plan is the product. Question two exposes the whole post: the worse you feel, the more likely you are to click the link.",
+        "expected_verdict": "Edited and selling"
+      },
+      {
+        "n": 5,
+        "item": "A trend fills your feed where everyone films themselves measuring part of their body against a household object. Nobody is selling anything.",
+        "teaching_point": "Comparison spreads even with no seller in sight, because the platform profits from the attention it generates. Question two can point at a platform, not just a product.",
+        "expected_verdict": "Pressure to compare"
+      },
+      {
+        "n": 6,
+        "item": "Mia says: filters are just a bit of fun, they do not change how anyone feels about themselves. Do you agree? Explain your reasoning using the image check.",
+        "teaching_point": "Both things can be true: filters can be fun, and repeatedly seeing an edited version of your own face can quietly move the goalposts for the real one. The check tells you when fun tips into pressure.",
+        "expected_verdict": "Pressure to compare"
+      }
+    ],
+    "parent_questions": [
+      {
+        "answer": "Because the revised RSHE guidance makes the harms of pornography statutory content, and because most children encounter it before anyone chooses to talk to them about it. What happened in the lesson was one sentence, no detail: that it exists, that it does not show what real bodies or real relationships look like, and that a trusted adult is the right place to take it. We can send you exactly what was said.",
+        "question": "Why are you discussing pornography with my twelve year old?"
+      },
+      {
+        "answer": "It is a fair worry and it is why the lesson is built the way it is. We do not show pupils idealised images and critique them. We teach the mechanism behind the images, and the finding pupils take away is that the bad feeling is manufactured and is not about them. That reframe tends to reduce self consciousness rather than raise it.",
+        "question": "Will this not make her more self conscious than she already is?"
+      },
+      {
+        "answer": "Most children are fine, and we say so. There is no claim in this lesson that screens are damaging your son. What we teach is a check he can run when something online makes him feel worse, which is a skill whether or not he ever needs it.",
+        "question": "My son is fine. Is this not scaremongering?"
+      },
+      {
+        "answer": "The note that went home has it: scroll a feed together for two minutes, each pick one image, and run the check. Then ask the family question, which is whether there is an account that reliably makes you feel worse after you look at it.",
+        "question": "What should I do at home?"
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "body": "The edit that matters is not the obvious filter, it is the small one: a jawline nudged, skin smoothed, a waist narrowed by two percent. Retouching that announces itself has failed commercially. This is why \"you can tell when a photo is edited\" is the misconception the lesson attacks. Pupils believe they can spot it, they cannot, and neither can you.",
+        "heading": "Retouching is invisible by design"
+      },
+      {
+        "body": "A creator shoots two hundred frames and posts one. Before any software touches it, the image is already the best of two hundred moments. Pupils find this more persuasive than editing, because it requires no villain.",
+        "heading": "Selection does more work than editing"
+      },
+      {
+        "body": "Attention is sold. A feed is optimised for time on app, and content that makes a viewer feel slightly worse about themselves reliably increases time on app and purchase intent. Nobody has to be evil for this to happen: the system selects for it. Teach the mechanism, not a conspiracy, because the mechanism is defensible and the conspiracy is not.",
+        "heading": "Why insecurity has a market"
+      },
+      {
+        "body": "Comparing upward, against someone perceived as better off, is the move that lowers mood. Feeds are almost entirely upward comparison by construction. The lesson framing, your ordinary day against someone else's chosen highlight, is this idea in pupil language.",
+        "heading": "Social comparison, and which direction hurts"
+      },
+      {
+        "body": "This is the claim a sceptical parent or a hostile expert will test. The honest position: the association between heavy social media use and body dissatisfaction is real and repeatedly observed, the effect sizes are modest, and the direction of causation is genuinely contested. Do not say social media causes eating disorders. Say that feeds are built in a way that makes unfair comparison constant, and that pupils can name and interrupt that. That claim survives scrutiny. The stronger one does not.",
+        "heading": "What the evidence supports, and what it does not"
+      },
+      {
+        "body": "RSHE 2026 names the harms of pornography as statutory content. The teaching move is a brief, calm, non graphic acknowledgement that it exists and that it distorts what real bodies and real relationships look like, followed immediately by a route to a trusted adult. Brief is the whole skill: one sentence, no detail, move on.",
+        "heading": "Why pornography is named at all"
+      },
+      {
+        "body": "You are watching for a disclosure, not making an assessment. Restriction talk, body checking, a pupil who cannot let the topic go, or a written answer that goes somewhere private are all DSL referrals, not conversations to have alone at the end of the lesson.",
+        "heading": "Disordered eating is not yours to diagnose"
+      }
+    ],
+    "essential_question": "Why do I feel worse about myself after scrolling?",
+    "learning_objective": "Pupils can name at least one way images online are manufactured to make them feel worse, explain why insecurity is profitable, and apply the image check to real content.",
+    "key_learning_points": [
+      "Every polished image is a set of choices: angle, lighting, editing and selection.",
+      "Retouching is usually invisible, which is what makes the comparison unfair.",
+      "Insecure people scroll longer and buy more, so insecurity has a market value.",
+      "You are comparing your ordinary day with someone else's chosen highlight.",
+      "The image check is run on the feeling, not on the picture."
+    ]
+  }
+}

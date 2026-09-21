@@ -1,0 +1,813 @@
+{
+  "row": {
+    "title": "Privacy and digital reputation",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 3 to 6",
+    "sort_order": 7,
+    "efcw_strands": [
+      3,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Bloop",
+    "evidence_anchor": "Footprint permanence research",
+    "statutory_hooks": [
+      "EfCW privacy and reputation"
+    ],
+    "single_action_outcome": "I can decide what not to share."
+  },
+  "slides": [
+    {
+      "body": "One hour, one superpower: knowing exactly what to keep back, so YOU stay the editor of your own story.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Privacy and digital reputation",
+      "script": "Settle everyone with this slide up. Today the squad gets a new mission from Bloop, in green, with a shield to build today. Ask the room: who here has ever kept a brilliant secret, a birthday present, a surprise party? Hands up. Then: today you learn which things about YOU are worth keeping like that, and why the best sharers online are actually the best keepers.",
+      "eyebrow": "KS2 · Years 3 to 6 · Module 7",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081117_dcd36ba7-69bb-425f-9c7e-3cde634aff95.mp4",
+      "type": "video",
+      "phase": "starter",
+      "script": "Play the clip once through. Then ask: what belongs behind your shield?",
+      "caption": "Build your privacy shield",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Some things you share. Some things you keep. Today you build a shield. You choose what goes behind it."
+        ],
+        "described": "Bloop, the round green Planet Friend, wears a cape and holds a glowing shield with both paws at the front of a classroom. Bloop looks down at the shield as it glows, then back up at the children with a broad smile."
+      }
+    },
+    {
+      "why": "Everything you post, send or type into an app becomes part of your story online, and that story can stick around for years. Today is not about being scared of sharing. It is about being the editor: sharing loads of great stuff and knowing exactly which few things to keep back.",
+      "type": "objective",
+      "gains": [
+        "Sort private information from shareable information in seconds",
+        "Run the share test on anything before it leaves your hands",
+        "Explain why deleted is not the same as gone",
+        "Look after your digital footprint like an editor, not a passenger"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Big framing move: this lesson is NOT stop sharing things. Editors of newspapers share stories every single day, and their real skill is choosing what does not go in. Ask: what does an editor do? Take two answers, then land it: an editor decides what gets published. Today, that is you.",
+      "minutes": 2,
+      "outcome": "I can decide what not to share."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one thing about you that is fine for anyone to know. Then think of one thing you would keep to yourself, and do not say it.",
+      "script": "Sixty seconds. One thing about you that anyone could know, out loud. Then one thing you would keep to yourself, and that one stays in your head. You already know the difference. Today we get better at it.",
+      "lookFor": "They sort information into public and private without being taught. Today we give that instinct a name and a bit of muscle.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "private",
+          "meaning": "Information that belongs to you and your family, like your address or password. You choose who gets it, and most people do not need it."
+        },
+        {
+          "word": "screenshot",
+          "meaning": "A photo of a screen. Anyone can take one of anything you send, and you will never know they did."
+        },
+        {
+          "word": "digital footprint",
+          "meaning": "The trail of everything you have posted, sent, liked or typed online. It grows whether you look after it or not."
+        },
+        {
+          "word": "reputation",
+          "meaning": "What people think of you from what they see and hear. Online, your posts do the talking even when you are not there."
+        }
+      ],
+      "script": "Say each word, class repeats it back. For footprint, do the walk: take three exaggerated steps across the front of the room and point at the invisible prints behind you. Every post is a footprint, and online the mud never dries. For reputation, ask: can a post talk about you while you are asleep? Yes. That is why the editor decides carefully.",
+      "heading": "Mission words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from the feed loop lesson. Thirty seconds of thinking time before hands go up, then cold call two pupils for the reasoning, not just the answer. Bridge to today: last time we learned the feed collects what you WATCH. Today, the bigger question: what happens to the things you SHARE?",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "The feed learned what you watched and served you more of it",
+          "correct": true,
+          "feedback": "Exactly. You watch, it learns, it serves more. That loop never switches off, and today you will see it also learns from what you SHARE, not just what you watch."
+        },
+        {
+          "text": "Skateboarding videos are the only videos left",
+          "correct": false,
+          "feedback": "There are millions of videos about everything. The feed chose skateboarding FOR you because you watched it. You watch, it learns, it serves more."
+        },
+        {
+          "text": "It is just a lucky coincidence",
+          "correct": false,
+          "feedback": "No luck involved. The feed watched you watching, learned what held your eyes, and served more. That was the whole loop from last lesson."
+        }
+      ],
+      "question": "Warm up from the last mission. You watch three skateboarding videos. Why does your feed suddenly fill up with even more skateboarding?"
+    },
+    {
+      "body": "Your life online is a story, and stories have editors. An editor is not the person who says no to everything, they are the person who chooses what goes in and what stays out. Nobody else gets to edit your story: not a group chat, not a quiz app, not a friend saying go on, just send it. Sharing your dragon drawing, your match highlights, your best joke? Brilliant, publish away. The editor skill is knowing the small list of things that never go in.",
+      "type": "concept",
+      "emoji": "📖",
+      "phase": "teach",
+      "script": "This is the identity of the whole lesson, so give it energy. Ask: if a stranger walked into the playground and asked for your address, would you hand it over? Of course not. Online, apps and chats ask for exactly that kind of thing all the time, just more politely and with cuter graphics. Same answer applies. The editor decides, and the editor is you.",
+      "heading": "You are the editor of your own story",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick one. What does an editor do. I want the word chooses in the room before we look at the private list.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Chooses what goes in and what stays out.",
+          "correct": true,
+          "feedback": "That is it. Not a person who says no to everything, a person who decides. And nobody else gets that job."
+        },
+        {
+          "text": "Says no to everything.",
+          "correct": false,
+          "feedback": "That is not editing, that is hiding. An editor picks, and picking means some things go in."
+        },
+        {
+          "text": "Lets everything through and sorts it out later.",
+          "correct": false,
+          "feedback": "Online there often is no later. The choosing has to happen before it goes out."
+        }
+      ],
+      "question": "You are the editor of your own story. What does an editor actually do?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Full name, age and birthday together are a key to you. First name alone is usually fine, the full set is not.",
+          "emoji": "🪪",
+          "title": "Who you are"
+        },
+        {
+          "text": "Your address, your school name, and photos in school uniform. A uniform is a badge that says where to find you every weekday.",
+          "emoji": "📍",
+          "title": "Where you are"
+        },
+        {
+          "text": "Passwords, and the clue questions behind them: pet names, your street, your favourite teacher.",
+          "emoji": "🔑",
+          "title": "What unlocks things"
+        },
+        {
+          "text": "Any photo of you or your friends you would not want the whole school to see. Once sent, it travels without you.",
+          "emoji": "📸",
+          "title": "Photos you cannot take back"
+        }
+      ],
+      "script": "Walk the four vault items as they build. The uniform one surprises pupils every year, so slow down on it: your uniform is basically a sign saying I am at this exact building Monday to Friday. Then the clue questions: ask who has ever seen a quiz asking for a pet name. Loads of hands. Hold that thought, we are coming back for it. Finish with: this is a SHORT list. Four things. Everything else, you get to choose.",
+      "caption": "Four kinds of information that stay in the vault. Everything else, the editor decides case by case.",
+      "heading": "The private list",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check on the private list. The pizza answer matters as much as the wrong ones: if pupils leave thinking share nothing ever, we have failed. Land it clearly: the pizza is a yes, sharing is allowed, the vault list is short. Watch for pupils who argue the class photo is fine because everyone is smiling. Nice photo, still leaks the school, and the other children did not get a vote.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "A photo of the amazing pizza you made, no faces, no house number",
+          "correct": true,
+          "feedback": "Publish away! Privacy is not hiding everything, it is choosing. A pizza tells nobody who you are, where you are, or what unlocks your accounts."
+        },
+        {
+          "text": "A photo of your class on a school trip, everyone in uniform",
+          "correct": false,
+          "feedback": "That one hits the vault twice: uniforms give away the school, and it shares other people's faces without asking them. Their editors get a say too."
+        },
+        {
+          "text": "Your full name and birthday, so friends know when to send presents",
+          "correct": false,
+          "feedback": "Full name plus birthday is a key to you, that combination helps people pretend to be you. Tell friends your birthday out loud instead, presents still arrive."
+        }
+      ],
+      "question": "Which of these is the editor most likely to say YES to publishing?"
+    },
+    {
+      "body": "Here is the strange rule of sharing online: sending is instant, but unsending is impossible. The moment something leaves your device, anyone who sees it can screenshot it, save it or forward it, and you will never know. Pressing delete only removes it from YOUR view, like turning your back on a poster that is still on the wall. That is why editors decide BEFORE they publish, not after. Before is a choice. After is a hope.",
+      "type": "concept",
+      "emoji": "🐘",
+      "phase": "teach",
+      "script": "The elephant never forgets, and neither does the internet. Do the poster demo: stick a piece of paper on the board, then turn your back on it and announce, deleted! Ask the class: is it gone? They can all still see it. That is exactly what delete does online. Repeat the line and have them say it back: before is a choice, after is a hope. Say this, as written: And here is the part that surprises people: online, anybody can say they are anybody. A grown up can make an account that says they are eleven, with a photo that is not theirs. That is not a reason to be frightened of everyone, it is a reason to have one rule. If someone you have not met asks you anything about yourself, asks for a photo, or asks you to keep the chat secret, you stop and you tell a grown up. Every single time. The added lines matter and the register matters more. Say it the way you would say look both ways: a fact, then a rule, no fear. Anybody can claim to be anybody, so the rule is not about spotting the bad one, it is about what you do when someone you have not met asks for something. Land the three asks, information, a photo, or secrecy, and the one answer: stop and tell a grown up. If any child looks worried, follow it up afterwards rather than in front of the room.",
+      "heading": "The internet remembers",
+      "minutes": 2
+    },
+    {
+      "meta": "Group chat · 14 people · 2 you have never met",
+      "text": "everyone send a pic of yourself in school uniform for the big class collage!! 📸 nearly everyone has done it, just waiting on YOU now, hurry up lol",
+      "type": "scenario",
+      "image": "🤳",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "🏆",
+      "handle": "Year 5 Legends 🏆",
+      "prompt": "Fourteen people, two you have never met, and a photo that shows your school badge. What is really being asked for here?",
+      "script": "Read the message out loud in your best pushy voice. Then unpack it in three moves. One: who actually sees this photo? Fourteen people, including two mystery members, and anyone THEY forward it to. Two: what does the uniform reveal? The school, which is a place and a timetable. Three: notice the pressure, nearly everyone has, just waiting on YOU. Pressure is not a reason, it is a warning light. Kind friends can be in the chat and it still is not a safe place for that photo.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "The photo leaves your device. This is the last moment it belongs only to you.",
+          "emoji": "📤",
+          "title": "You press send"
+        },
+        {
+          "text": "Every person in the chat now has their own copy on their own device.",
+          "emoji": "📱",
+          "title": "Fourteen screens light up"
+        },
+        {
+          "text": "Silently. No alert, no permission, no way for you to know it happened.",
+          "emoji": "📸",
+          "title": "Someone screenshots it"
+        },
+        {
+          "text": "Forwarded to other chats, saved to other phones. Delete yours and every other copy still exists.",
+          "emoji": "🌍",
+          "title": "It travels without you"
+        }
+      ],
+      "script": "Walk the journey as it builds and let the class feel the control draining away step by step. At the end, ask the killer question: which step do YOU control? Only the first. So which step does all your power live in? The first. That is not scary news, it is brilliant news, because it means one good decision at step one beats a hundred panicked deletes at step four.",
+      "caption": "You control exactly one step of this journey: the first one.",
+      "heading": "The journey of one shared photo",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick whole class check, hands or devices. If anyone picks the five minute answer, do not mock it, it is a really common belief among adults too. Bring back the poster on the board: did turning your back make it disappear? Same rule, every time.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It might still exist on other phones, because delete only removes YOUR copy",
+          "correct": true,
+          "feedback": "Right. Two minutes is plenty of time for a screenshot, and forwarded copies do not vanish when yours does. This is exactly why editors decide before sending."
+        },
+        {
+          "text": "It is gone everywhere, delete means delete",
+          "correct": false,
+          "feedback": "Delete removes it from your view, like turning your back on the poster. Screenshots and forwarded copies live on devices you cannot reach."
+        },
+        {
+          "text": "It is fine as long as you deleted it within five minutes",
+          "correct": false,
+          "feedback": "There is no safe time window. A screenshot takes one second and makes a copy you can never delete. Before is a choice, after is a hope."
+        }
+      ],
+      "question": "You sent a silly photo to a group chat, thought better of it, and deleted it two minutes later. What is true?"
+    },
+    {
+      "body": "Your digital footprint is like a garden: it grows whether you tend it or not. Every post, comment, quiz answer and shared photo is a seed, and years from now, secondary schools, clubs and even employers may wander through and look around. Ignore the garden and weeds grow that you did not choose. Tend it, and it becomes a garden you are proud to show people: your art, your goals, your best jokes. Same garden, same you. The only difference is whether the editor showed up.",
+      "type": "concept",
+      "emoji": "🌱",
+      "phase": "teach",
+      "script": "Make this future feel real without making it heavy. Say: one day, someone deciding whether to pick you for a team, a school or a job will type your name into a search bar. Pause. What do you want them to find? Take two or three answers, they are usually lovely: my football highlights, my art, my baking. Exactly. That garden does not grow by accident. You plant it.",
+      "heading": "Your footprint grows either way",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "The whole school, all the teachers, everyone hearing it at once. If that thought makes you wince, do not send it.",
+          "emoji": "📣",
+          "title": "One: would I shout it in assembly?"
+        },
+        {
+          "text": "Address, school name, uniform, street signs in the background. Location leaks hide in the corners of photos.",
+          "emoji": "📍",
+          "title": "Two: does it give away where I am?"
+        },
+        {
+          "text": "You at 16, at a new school, going for a job. The internet remembers, so post things future you will high five you for.",
+          "emoji": "🔮",
+          "title": "Three: could it hurt future me?"
+        }
+      ],
+      "script": "This is the tool of the whole mission, so take your time as it builds. Get the class chanting the three questions back: would I shout it in assembly, does it give away where I am, could it hurt future me. Twice through, louder the second time. Then the verdicts: every share test ends in one of these three, and think twice is a real verdict, it means fix something first, crop the photo, ask a friend, ask a grown up. Run the test live on the pizza photo from earlier: assembly, fine. Location, none. Future me, delighted. Share it! Finish with the settings line, which is new and is the one thing on this slide a child can act on tonight. Say it simply: apps have a settings page, and two of the switches on it are privacy and location. Location off means the photo stops carrying a map. Do not walk through any one app, because they all differ and they all change. The point is that the switches exist and are theirs to find, with a grown up.",
+      "caption": "Three questions before anything leaves your hands. Any question fails, the editor holds it back. And one more thing you can do before any of this: most apps have a settings page with a privacy switch and a location switch on it. Turning location off means a photo stops carrying a little map of where you were.",
+      "heading": "The share test",
+      "minutes": 4,
+      "verdicts": [
+        "Share it",
+        "Think twice",
+        "Keep it private"
+      ]
+    },
+    {
+      "meta": "Sponsored · Played 2.1M times",
+      "text": "Which puppy matches YOUR personality?! 🐾 To get your PAWFECT match, just tell us: your first pet's name, the street you grew up on, and your favourite teacher! Results in 10 seconds!",
+      "type": "scenario",
+      "image": "🧩",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 412K   ↻ 88.1K   💬 31.6K",
+      "avatar": "🐶",
+      "handle": "QuizzyPaws",
+      "prompt": "Cute puppy, ten second quiz. Run the share test on it. Which question fires first, and why would a puppy quiz want your pet's name?",
+      "script": "Let them enjoy how cute it looks first, that is the whole trick. Then run the test together. Assembly test: would you shout your street name in assembly? Hmm. Location test: it literally asks for a street. Future me test: here is the detective reveal, pet name, street, favourite teacher are the exact backup questions that unlock forgotten passwords. Ask: who might collect answers like that, and what could they open with them? A puppy quiz does not need any of it to tell you that you are a golden retriever. The questions ARE the product.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Watch for the likes answer, it connects beautifully back to last lesson: the feed boosts what gets attention, so popular never means safe. Celebrate anyone who suggests playing with made up answers, that is proper editor thinking, you get the fun and keep the keys.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Skip it, or play with made up answers, because those are password clue questions",
+          "correct": true,
+          "feedback": "Detective work. Pet names and streets unlock forgotten passwords, so they live in the vault. A quiz that needs them is collecting keys, not matching puppies."
+        },
+        {
+          "text": "Answer honestly, it is only a puppy quiz",
+          "correct": false,
+          "feedback": "The quiz is the costume, the questions are the point. Real pet names and streets are the clue questions behind passwords, and honest answers hand over the keys."
+        },
+        {
+          "text": "Answer, but only if the quiz has lots of likes",
+          "correct": false,
+          "feedback": "Likes measure popularity, not safety, remember the feed loop serves whatever gets attention. Two million plays just means two million people got asked for their keys."
+        }
+      ],
+      "question": "The puppy quiz asks for your first pet's name and your street. What is the sharpest editor move?"
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Which of the three share test questions would YOU be most likely to forget in a hurry, and what could you do so you remember it?",
+      "script": "Groups of three or four, ninety seconds on the timer. You are listening for honesty, not right answers, so share your own weak question first, most adults forget future me too. After the chime, collect one answer per group and one fix per group. Any group that invents its own memory trick, name it after them for the rest of the lesson.",
+      "lookFor": "Honesty first. Most pupils forget the future me question because the future feels far away. Good fixes: say the chant before posting, imagine Year 6 you watching over your shoulder, ask does this go in my garden.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths: in as Bloop grows, out as Bloop shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time · everyone together",
+        "seconds": 4,
+        "register": "playful",
+        "character": "bloop"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "The share test · tap the class verdict",
+        "posts": [
+          {
+            "why": "Pet names and streets are the backup questions that unlock passwords. A quiz that asks for them is collecting keys. Playing with made up answers is a clever editor move.",
+            "text": "A quiz app promises to reveal your superhero name if you type in your first pet's name and the street you live on.",
+            "answer": 2,
+            "avatar": "🔒",
+            "handle": "Case 1"
+          },
+          {
+            "why": "Privacy is choosing, not hiding everything. The dragon passes all three questions, and sharing your best work plants a garden you are proud of.",
+            "text": "You drew an incredible dragon and want to post a photo of the drawing. No faces, no names, nothing else in the shot.",
+            "answer": 0,
+            "avatar": "🔒",
+            "handle": "Case 2"
+          },
+          {
+            "why": "Uniform is a badge that says where to find you every weekday, and a group chat photo can be screenshotted and forwarded beyond the chat. Pressure like everyone else has is a warning light, not a reason.",
+            "text": "The class group chat asks everyone to send a photo of themselves in school uniform for a collage. Two people in the chat have never been to your school.",
+            "answer": 2,
+            "avatar": "🔒",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Passwords stay with you and a grown up at home, even with best friends. Friendship is not the issue, control is: a shared password is a shared account forever.",
+            "text": "Your best friend asks for your game password so they can collect your daily rewards while you are on holiday.",
+            "answer": 2,
+            "avatar": "🔒",
+            "handle": "Case 4"
+          },
+          {
+            "why": "The goal is shareable, the street sign is the leak. Think twice means fix it first: trim or crop the video so the location is gone, then it passes.",
+            "text": "You scored the winning goal and want to post the video. Watching it back, you spot your street sign in the background.",
+            "answer": 1,
+            "avatar": "🔒",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Teo is wrong about gone: delete removes his copy, not screenshots or forwarded copies on other devices. The full answer explains that the real decision happens before pressing send, which is why the share test runs first.",
+            "text": "Teo says: I sent it, I regretted it, I deleted it straight away, so it is gone and nobody can ever see it. Do you agree with Teo? Explain your reasoning.",
+            "answer": 1,
+            "avatar": "🔒",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Share it",
+          "Think twice",
+          "Keep it private"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "Run the share test on all six together before the paper. Read the card, take the vote, tap the class verdict, read the reason. Where the class splits, that is the gold: let two children argue it for thirty seconds before you tap.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Your teacher has six items on the worksheet: posts, chat messages and quiz questions, all waiting for an editor's decision. Run the share test on each one and give a verdict: share it, think twice, or keep it private. You have fifteen minutes. Every verdict needs a reason from the three questions, a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets, bookmark strips with the three questions on tables for anyone who wants them in front of them. Fifteen minutes. Support group works items one to three with you, saying the three questions out loud for each item. Stretch question for early finishers: item five could become a share it with one change, what is the change? Circulate and collect one brilliant reason to read out to the class at the end.",
+      "heading": "Editor practice, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, this one mirrors the quiz app evidence. Silent, independent, no conferring, this is where you find out who owns the learning. A wrong answer here tells you exactly who to mark as working towards on the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Pet names are keys, so if I have shared mine anywhere, I should pick a different backup question",
+          "correct": true,
+          "feedback": "Editor level thinking. Backup questions unlock accounts, so the answers belong in the vault, and an answer you have posted about is a key left in the door."
+        },
+        {
+          "text": "Pet names are safe because pets do not use the internet",
+          "correct": false,
+          "feedback": "Your pet is not the risk, the NAME is. It unlocks forgotten passwords, which is why quizzes and strangers fish for it."
+        },
+        {
+          "text": "Backup questions do not matter as long as your main password is strong",
+          "correct": false,
+          "feedback": "A backup question is a second door into the same account. The strongest front door does not help if the back door key is posted in a puppy quiz."
+        }
+      ],
+      "question": "Exit check. A game asks you to set a backup question and suggests what is your pet's name? What do you now know that most people do not?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, the deleted is not gone principle, and the one parents most often get wrong at home. If a pupil answers false but cannot say why, prompt for the poster on the board, the reason matters as much as the verdict.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. Screenshots and forwarded copies can outlive your delete, so the real decision happens before you press send",
+          "correct": true,
+          "feedback": "Exactly right. Delete removes your copy, not the copies on other devices. Before is a choice, after is a hope, which is why the share test runs first."
+        },
+        {
+          "text": "True. Deleting removes it from the internet completely",
+          "correct": false,
+          "feedback": "Delete only removes it from your view. Anyone who screenshotted or forwarded it still has a copy you cannot reach. The share test runs BEFORE send for exactly this reason."
+        }
+      ],
+      "question": "Exit check. You posted something, regretted it, and deleted it straight away. True or false: it is definitely gone."
+    },
+    {
+      "text": "Would I shout it in assembly? Does it give away where I am? Could it hurt future me? Three questions, then I decide. I am the editor of my story.",
+      "type": "quote",
+      "label": "Say it like Bloop",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time. Bloop is the calm one in green, so the second run through can be strong and steady rather than shouty. This is the sentence you want repeated at dinner tables tonight.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "The private list is short: who you are, where you are, what unlocks things, and photos you cannot take back. Everything else, the editor decides.",
+        "Deleted is not gone. Screenshots and forwarded copies live on other devices, so the real decision happens before you press send.",
+        "Your digital footprint grows whether you tend it or not. Plant a garden you are proud of.",
+        "The share test: would I shout it in assembly, does it give away where I am, could it hurt future me. Any question fails, hold it back."
+      ],
+      "script": "Pupils read the recap, one point each. Then return to the editor idea from the start: ask who is the editor of your story online, and enjoy the answer coming back, ME. One last connection: remember the feed loop learns from everything you do. An editor who chooses well is feeding it better ingredients too.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your mission.",
+        "Before you share anything this week, run the share test. Would I shout it in assembly? Does it give away where I am? Could it hurt future me?",
+        "Three questions, ten seconds. Off you go."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Bloop's mission for you",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks2-07-privacy-reputation",
+        "register": "playful",
+        "placement": "builder"
+      },
+      "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Mission complete, editors! ⭐",
+        "Three questions before anything leaves your hands: would I shout it in assembly, does it give away where I am, could it hurt future me?",
+        "Your mission this week: run the share test on one real thing before you send it, a photo, a message, a quiz answer. One test makes you sharper. Ten make you the sharpest editor in the school.",
+        "Your story is brilliant, and it belongs to you. Keep editing it well. See you next mission!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room. Collect them in, they are your evidence for the register, and the commitment cards go home in book bags with the parent note.",
+      "heading": "DiGi closes the mission",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "The group chat scenario can surface real disclosures: a pupil may say someone online has asked them for photos or personal details, or that they have already shared something they regret. Reassure first, you are not in trouble and you did the right thing telling me, then follow your school safeguarding policy and log the concern the same day. Do not investigate the chat yourself or ask the pupil to show you the messages beyond what they volunteer.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS2",
+  "module_id": "ks2-07-privacy-reputation",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 7,
+  "parent_note": {
+    "taught": "Today your child learned to be the editor of their own story online: which information stays private (full name and birthday together, school and address, passwords and their clue questions, photos they cannot take back) and why deleted is not the same as gone. Their tool is the share test: would I shout it in assembly, does it give away where I am, could it hurt future me?",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to run the share test with you on something before you post it.",
+    "try_this": "Next time anyone in the family is about to post a photo, run the share test on it together out loud before pressing send. Let your child lead, they know the three questions by heart.",
+    "family_question": "What is one thing about our family that we keep just for us?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pre teach share, private and the vault using the lesson's own vault list. The map pin icon carries where I am without a single extra word.",
+      "sensory": "The assembly shout is loud in imagery only. Keep the real room quiet: verdicts by card, never by calling out.",
+      "attention": "Six items is a long desk. Deal them as six separate envelopes and open one at a time: the same worksheet becomes six small wins.",
+      "communication": "The editor's desk verdicts are share or keep back: two cards, pointable. The three share test questions go on the wall as icons: a megaphone, a map pin, future me."
+    },
+    "tool": {
+      "lines": [
+        "Would I shout it in assembly?",
+        "Does it give away where I am?",
+        "Could it hurt future me?"
+      ],
+      "heading": "The share test",
+      "strapline": "Three questions, then I decide. I am the editor of my story."
+    },
+    "i_can": [
+      "I can spot when something is risky to share.",
+      "I can run the share test before I share anything.",
+      "I can explain to a friend how one share can follow future me around."
+    ],
+    "cycles": [
+      {
+        "verb": "Decide",
+        "title": "You are the editor of your own story",
+        "minutes": 13,
+        "outcome": "I can spot when something is risky to share."
+      },
+      {
+        "verb": "Follow",
+        "title": "The journey of one shared photo",
+        "minutes": 7,
+        "outcome": "I can explain how one share can follow future me around."
+      },
+      {
+        "verb": "Check",
+        "title": "The share test",
+        "minutes": 10,
+        "outcome": "I can run the share test before I share anything."
+      }
+    ],
+    "timing": "71 minutes: starter 11, cycle one 13, cycle two 7, cycle three 10, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "private",
+        "definition": "Information that belongs to you and your family, like your address or password. You choose who gets it, and most people do not need it."
+      },
+      {
+        "word": "screenshot",
+        "definition": "A photo of a screen. Anyone can take one of anything you send, and you will never know they did."
+      },
+      {
+        "word": "digital footprint",
+        "definition": "The trail of everything you have posted, sent, liked or typed online. It grows whether you look after it or not."
+      },
+      {
+        "word": "reputation",
+        "definition": "What people think of you from what they see and hear. Online, your posts do the talking even when you are not there."
+      }
+    ],
+    "equipment": "Nothing beyond the board.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Deleting a post removes it from the internet.",
+        "teaching_point": "Delete removes your copy. Screenshots and forwards are already gone from your reach."
+      },
+      {
+        "answer": "Answers should name the vault items taught in the lesson, such as your address, your school, your password and where you will be.",
+        "format": "short_answer",
+        "question": "What are the four things on the private list?",
+        "teaching_point": "Accept the lesson's own four. The point is that the list is short, not that privacy means silence."
+      },
+      {
+        "answer": "footprint",
+        "format": "fill_blank",
+        "question": "Your digital ___ grows whether you look after it or not.",
+        "teaching_point": "It is growing either way. The only choice is whether you are the one steering it."
+      },
+      {
+        "answer": "Before you share",
+        "format": "tick_one",
+        "options": [
+          "After you share",
+          "Before you share",
+          "Only if someone complains"
+        ],
+        "question": "When is the share test run?",
+        "teaching_point": "Before, every time. A test run afterwards is not a test, it is a regret."
+      },
+      {
+        "answer": "Because what you post stays findable and speaks for you when you are not there.",
+        "format": "short_answer",
+        "question": "Why does one share matter to future you?",
+        "teaching_point": "Reputation in their own words. Accept anything that reaches future me."
+      }
+    ],
+    "worksheet": {
+      "title": "The editor's desk: six items waiting for your verdict",
+      "directions": "Run the three share test questions on each item, circle your verdict, and write the reason from the question that decided it.",
+      "verdict_options": [
+        "Share it",
+        "Think twice",
+        "Keep it private"
+      ]
+    },
+    "teacher_tip": "Keep every example invented. A pupil who names a real classmate's post turns a privacy lesson into the thing it is warning about.",
+    "starter_quiz": [
+      {
+        "answer": "Any two of: what you watch, what you skip, what you pause on, what you rewatch, what you like.",
+        "format": "short_answer",
+        "question": "Name two things a feed collects about you.",
+        "teaching_point": "Carried forward from ks2-06. Data is not an abstract word to them now."
+      },
+      {
+        "answer": "Your home address",
+        "format": "tick_one",
+        "options": [
+          "Your home address",
+          "The weather",
+          "The name of a football team"
+        ],
+        "question": "Which of these belongs to your family and not to the internet?",
+        "teaching_point": "The vault list starts here. If this is slow, the share test will be slow too."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "A message you send can be passed on by the person who gets it.",
+        "teaching_point": "Obvious once said, and easily forgotten in the moment. This is the seed of the whole lesson."
+      },
+      {
+        "answer": "A photo of what is on a screen.",
+        "format": "short_answer",
+        "question": "What is a screenshot?",
+        "teaching_point": "Needed before the lesson can explain why delete does not work."
+      }
+    ],
+    "misconceptions": [
+      "Deleting a post removes it from the internet (delete only removes your copy, screenshots and forwarded copies live on devices you cannot reach)",
+      "Privacy risks only come from strangers (most oversharing happens in friendly places like group chats, and kind friends can still screenshot and forward)",
+      "Being private means sharing nothing (privacy is choosing, the vault list is four items, and sharing art, sport and jokes is encouraged when the share test passes)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the group chat and quiz app scenarios aloud in character from the pack, draw the four step journey of a shared photo on the board one arrow at a time, and do the poster demo for deleted is not gone (stick paper on the board, turn your back, ask if it is gone). The share test bookmark replaces the diagram slide, the class chants the three questions from it, and the two exit checks run as the printed quiz.",
+    "passport_stage": "builder",
+    "commitment_stem": "My commitment: before I share anything this week, I will ask the three share test questions, starting with",
+    "differentiation": {
+      "stretch": "Early finishers take item five and redesign it into a share it: what one change (cropping the street sign, removing the uniform, asking permission) moves the verdict? Then write one extra worksheet item of their own that fails exactly one of the three questions.",
+      "support": "Work items one to three of the worksheet as a guided group, saying the three share test questions out loud for every item and pointing to each question on the bookmark strip before giving a verdict."
+    },
+    "prior_knowledge": [
+      "A pupil can explain that a feed collects data about them, from ks2-06.",
+      "A pupil can name information that belongs to their family, such as an address.",
+      "A pupil understands that a message can be passed on by the person who receives it."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A quiz app promises to reveal your superhero name if you type in your first pet's name and the street you live on.",
+        "teaching_point": "Pet names and streets are the backup questions that unlock passwords. A quiz that asks for them is collecting keys. Playing with made up answers is a clever editor move.",
+        "expected_verdict": "Keep it private"
+      },
+      {
+        "n": 2,
+        "item": "You drew an incredible dragon and want to post a photo of the drawing. No faces, no names, nothing else in the shot.",
+        "teaching_point": "Privacy is choosing, not hiding everything. The dragon passes all three questions, and sharing your best work plants a garden you are proud of.",
+        "expected_verdict": "Share it"
+      },
+      {
+        "n": 3,
+        "item": "The class group chat asks everyone to send a photo of themselves in school uniform for a collage. Two people in the chat have never been to your school.",
+        "teaching_point": "Uniform is a badge that says where to find you every weekday, and a group chat photo can be screenshotted and forwarded beyond the chat. Pressure like everyone else has is a warning light, not a reason.",
+        "expected_verdict": "Keep it private"
+      },
+      {
+        "n": 4,
+        "item": "Your best friend asks for your game password so they can collect your daily rewards while you are on holiday.",
+        "teaching_point": "Passwords stay with you and a grown up at home, even with best friends. Friendship is not the issue, control is: a shared password is a shared account forever.",
+        "expected_verdict": "Keep it private"
+      },
+      {
+        "n": 5,
+        "item": "You scored the winning goal and want to post the video. Watching it back, you spot your street sign in the background.",
+        "teaching_point": "The goal is shareable, the street sign is the leak. Think twice means fix it first: trim or crop the video so the location is gone, then it passes.",
+        "expected_verdict": "Think twice"
+      },
+      {
+        "n": 6,
+        "item": "Teo says: I sent it, I regretted it, I deleted it straight away, so it is gone and nobody can ever see it. Do you agree with Teo? Explain your reasoning.",
+        "teaching_point": "Teo is wrong about gone: delete removes his copy, not screenshots or forwarded copies on other devices. The full answer explains that the real decision happens before pressing send, which is why the share test runs first.",
+        "expected_verdict": "Think twice"
+      }
+    ],
+    "essential_question": "Who else can see this, and for how long?",
+    "learning_objective": "Pupils can identify which personal information stays private, explain why deleted content is not gone, and run the three question share test to decide what not to share.",
+    "key_learning_points": [
+      "You are the editor of your own story, and every share is an editing decision.",
+      "Private information is yours to give, and most people asking do not need it.",
+      "Anyone can screenshot anything you send, and you will never know.",
+      "Your digital footprint grows whether you look after it or not.",
+      "The share test is run before you share, never after."
+    ]
+  }
+}

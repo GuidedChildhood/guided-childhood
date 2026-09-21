@@ -1,0 +1,799 @@
+{
+  "row": {
+    "title": "Readiness at 16: the ban world",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 10 to 11",
+    "sort_order": 19,
+    "efcw_strands": [
+      5,
+      6,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "Nova with DiGi",
+    "evidence_anchor": "SMART Schools nuance and Australia ban outcomes",
+    "statutory_hooks": [
+      "Online Safety Act",
+      "Children’s Wellbeing and Schools Act 2026"
+    ],
+    "single_action_outcome": "I can plan how I will handle full access when it arrives."
+  },
+  "slides": [
+    {
+      "body": "One hour on the biggest arrival of your online life: the day the ban lifts and every app is suddenly yours.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Readiness at 16: the ban world",
+      "script": "Settle everyone with this slide up. Then, plainly: every module you have done since primary school was building to this hour. On one specific morning, your 16th birthday, the law that has shaped your entire online life steps back completely. Today we get you ready for that morning. Not scared of it, not counting down to it. Ready for it.",
+      "eyebrow": "KS4 · Years 10 to 11 · Module 19",
+      "minutes": 1,
+      "character": "nova"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Nova here.",
+        "The day full access arrives, what is your first week actually going to look like?",
+        "Nobody plans it. You will, today."
+      ],
+      "phase": "starter",
+      "script": "Let Nova settle and say the lines. Then read the question once, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "Nova",
+      "minutes": 1,
+      "character": "nova"
+    },
+    {
+      "why": "On your 16th birthday the law that has held the apps back steps aside overnight, and everything arrives at once. Most people meet that day with nothing but excitement, and you are going to meet it with a plan.",
+      "type": "objective",
+      "gains": [
+        "Explain what age verification checks in principle, and the one thing no system can check",
+        "Name the real price of a workaround account in the ban world",
+        "Describe the cliff edge at 16 and why habits beat rules on arrival day",
+        "Write your own arrival plan: my defaults, my first week audit, my exit rule"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome aloud, then the why. Then ask: hands up if you already know the exact date you get full access. Every hand should go up, it is your 16th birthday. Land the point: you are the first generation in history that knows the precise day the gate opens. That is not a burden, it is a run up. Almost no adult ever got one.",
+      "minutes": 2,
+      "outcome": "I can plan how I will handle full access when it arrives."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one thing you expect to be different about your phone the day you turn sixteen.",
+      "script": "Sixty seconds. One thing you expect to be different on your sixteenth birthday. Then keep hold of it, because I am going to ask you what your plan for it is, and most people have not got one.",
+      "lookFor": "Most expect everything to change and have planned nothing. That gap is the reason this hour exists.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "age assurance",
+          "meaning": "Any way a platform works out your age: a document, a face age estimate, or a trusted confirmation. It checks age, never judgement."
+        },
+        {
+          "word": "default",
+          "meaning": "The setting an app starts on before you touch anything. Whoever chooses the defaults quietly runs the experience."
+        },
+        {
+          "word": "audit",
+          "meaning": "A deliberate look at the evidence. In week one you audit your feed: what has it decided you are, and did you choose that?"
+        },
+        {
+          "word": "cliff edge",
+          "meaning": "A change that happens all at once instead of gradually. At 16, access goes from zero to full overnight."
+        },
+        {
+          "word": "exit rule",
+          "meaning": "A sign you choose in advance that means step back, plus what you will do when you see it. Written before you need it."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Spend an extra beat on default: ask who they think chooses an app's starting settings, and why. Answer: the company chooses them, and it chooses the ones that keep you there longest. That word is going to do a lot of work today.",
+      "heading": "Words for arrival day",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last module, thirty seconds of thinking time before anyone answers. Cold call two pupils for reasoning, not letters. Then plant the flag for today: at 16 a brand new pipeline gets built around you in your first week, and you will be running this check on day three. Keep it warm in your pocket.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Whether the post is true or false",
+          "correct": false,
+          "feedback": "True or false is a different toolkit. The pipeline check is about the delivery, not the claim: how did this reach you, and who profited at each step?"
+        },
+        {
+          "text": "How it reached you, and what every stage of that journey wanted from you",
+          "correct": true,
+          "feedback": "Exactly. Creator, algorithm, advertiser, your attention. Nothing arrives in a feed by accident, and the pipeline check traces the route. It matters today more than ever."
+        },
+        {
+          "text": "Whether the person posting has a big following",
+          "correct": false,
+          "feedback": "Follower count is one detail in the pipeline, not the check itself. The check traces the whole route to your eyes and asks what each stage wanted."
+        }
+      ],
+      "question": "Warm up from last module. A post lands in your feed looking like it was made just for you. What does the pipeline check ask?"
+    },
+    {
+      "body": "You are growing up under a law almost no generation before you had: no social media accounts before 16. Some adults call it protection, some call it delay, and you will hear both versions at home and online. This lesson takes no side, because the argument does not change your situation. Here is what is true either way: the ban removes the apps. It does not build the judgement you will need on the day they arrive. Judgement has to be built, and that is what this hour is for.",
+      "type": "concept",
+      "emoji": "🚦",
+      "phase": "teach",
+      "script": "Deliver the middle sentence exactly as written: this lesson takes no side. If pupils push you for your personal opinion on the ban, and they will, decline warmly: my opinion changes nothing about your 16th birthday, so let us spend the hour on the thing that does. Some pupils resent the ban, some are quietly relieved by it. Both are in your room and both are fine. The lesson works for both.",
+      "heading": "The world you are standing in",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "You will hear this law called protection and called delay. Tell your partner which it has been for you, and why.",
+      "script": "Sixty seconds, and I genuinely do not mind which way you land. Protection or delay, and then the important word: why. I am not marking your answer, I am listening for the reason.",
+      "lookFor": "Both answers are allowed. What you want attached is a reason, because the reason is the thing they still have on their sixteenth birthday.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "A document, a face age estimate, or a bank or parent confirms it. You prove it once, to a checker.",
+          "emoji": "🪪",
+          "title": "Step one: you prove your age"
+        },
+        {
+          "text": "Usually a separate company from the app. In principle it passes on one fact only: over 16 or not.",
+          "emoji": "🔍",
+          "title": "Step two: a checker confirms it"
+        },
+        {
+          "text": "Not your name, not your document, just the answer. The gate opens or stays shut.",
+          "emoji": "🚪",
+          "title": "Step three: the platform gets a yes or no"
+        }
+      ],
+      "script": "Walk the three steps as they build. Two honest points to make out loud. First, the design goal is minimum sharing: the app is meant to learn one fact about you, not your life story. Ask why that separation matters and take a couple of answers. Second, and this is the sentence of the slide: every system in the world checks the same thing, your age. Not one of them checks whether you are ready. Pause on that. The gap between verified and ready is exactly where this lesson lives.",
+      "caption": "That is the principle. Real systems vary, but every one of them checks the same single thing: your age. None of them can check your judgement.",
+      "heading": "How age verification works, in principle",
+      "minutes": 3
+    },
+    {
+      "type": "stat",
+      "claim": "Before the ban era, around a third of children aged 8 to 17 with a social media profile had signed up with a false age of 18 or over.",
+      "phase": "teach",
+      "figure": "1 in 3",
+      "script": "Let the number land before you speak. Then: this is why age checks got serious. When a third of young users claimed to be adults, the platforms treated them as adults, adult content, adult contacts, adult everything. Nobody was protecting them because on paper they did not exist. Hold that thought, because the workaround account has exactly the same problem, and it is next.",
+      "source": "Ofcom online safety research, 2022",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Whole class, hands or devices. The third option is the streetwise sounding trap, expect some takers and do not mock them, the everyone gets round it belief is common and half true. Use the feedback line: some do, and the cost is coming up next. This choice sets the thesis of the whole lesson, so make sure the middle answer is said out loud in full before you move on.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It removes the apps and it builds your readiness, that is the whole point of it",
+          "correct": false,
+          "feedback": "It removes the apps. Readiness is not something a law can install, it is built by you or it is not built at all. That gap is this hour."
+        },
+        {
+          "text": "It removes the apps until 16. Your judgement is untouched, so building it is your job",
+          "correct": true,
+          "feedback": "That is the honest answer. Not pro ban, not anti ban, just accurate. The law handles access, you handle readiness, and only one of those happens automatically."
+        },
+        {
+          "text": "Nothing really, everyone gets round it anyway",
+          "correct": false,
+          "feedback": "Some people get round it, and we will look at exactly what that costs them in a minute. But nothing really changed is not accurate, and it dodges the real question: what will you bring to day one?"
+        }
+      ],
+      "question": "Straight question. What does the under 16 ban actually change, and what does it leave completely untouched?"
+    },
+    {
+      "meta": "Tonight 22:47",
+      "text": "bro just use my cousins old account its already verified as 18 😅 half of year 11 is on there already, you are getting left behind for literally nothing",
+      "type": "scenario",
+      "image": "📲",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "⚽",
+      "handle": "Kian ⚽",
+      "prompt": "Fifteen months before your 16th birthday. Run the trade honestly: what exactly do you gain, and what exactly do you lose?",
+      "script": "Read Kian's message aloud in a mate's voice, not a villain's, because Kian is not a villain, he thinks he is doing a favour. Important ground rule before discussion: nobody in this room is asked whether they have an account like this, no hands up, no confessions, no pointing at anyone. We judge the trade, never the person. Then run the trade on the board in two columns, gain and lose. Gain: fifteen months of access. Lose: coming on the next slide, let them guess first.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "You met this idea in earlier years: skip the rule and you lose the protection that came with it. At your age it gets sharper, because a workaround account in the ban world runs on a false adult age.",
+      "type": "concept",
+      "emoji": "🕳",
+      "phase": "teach",
+      "script": "This is the revisit of a rule they have heard since primary school, so name that: you have known skip the rule, lose the protection since you were small. Today it grows up.",
+      "heading": "The workaround trap, revisited",
+      "minutes": 1
+    },
+    {
+      "body": "So you are not getting early access to the world you will enter at 16. You are entering a different one: adult settings, adult content, adult strangers, and none of the under 18 protections, because the system believes you are 18. And if something goes wrong in there, asking for help means explaining where you were. That is the real price, and it lands exactly when you most need someone.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "The key move is the last sentence, deliver it slowly: the cost of a workaround is not getting caught, it is being alone if something goes wrong inside it. Safeguarding note: if any pupil discloses that something has already gone wrong on an account like this, stay calm, thank them, and follow your school safeguarding policy. They are not in trouble.",
+      "heading": "Not early access, a different world",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Watch for the third option: pupils who pick it are trying to give the answer they think adults want. Use its feedback out loud, because the credibility of this whole lesson rests on never pretending. Workarounds can work as access. The argument against them is what the access actually is, and that argument is strong enough to stand on its own without exaggeration.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Early access to the same experience you will get at 16 anyway",
+          "correct": false,
+          "feedback": "It is not the same experience. At 16 you arrive as yourself, with under 18 style protections where they exist. The workaround puts you there as a fake 18 year old, which is a different and rougher world."
+        },
+        {
+          "text": "The adult internet with no under 18 protections, and no easy way to ask for help if it goes wrong",
+          "correct": true,
+          "feedback": "That is the honest trade. Not nothing, the access is real. But it is access to the wrong room with the safety rails removed, paid for with your ability to ask for help."
+        },
+        {
+          "text": "Nothing at all, workarounds never actually work",
+          "correct": false,
+          "feedback": "Some workarounds do work as access, pretending otherwise is not honest and you would see through it. The trap is not that they fail. The trap is what they succeed at getting you into."
+        }
+      ],
+      "question": "A workaround account in the ban world runs on a false adult age. What is the sharpest description of what it actually buys you?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Zero legal access. The law does all the deciding, no judgement required from you at all.",
+          "emoji": "🚧",
+          "title": "The day before you turn 16"
+        },
+        {
+          "text": "Full access, every app, all at once. The law steps back completely, overnight.",
+          "emoji": "🎂",
+          "title": "The day you turn 16"
+        },
+        {
+          "text": "The feed studies a new arrival faster than at any other time. Whatever you bring on day one is all you have.",
+          "emoji": "🛣",
+          "title": "The first weeks after"
+        }
+      ],
+      "script": "Walk the three steps, then hammer the driving comparison: to drive a car you do lessons, a theory test and a practical, because everyone accepts the keys are dangerous without the skills. The ban gives you the keys to every app at 16 with no test and no lessons. Ask the class: is that a flaw in the law or just how it is? Take a couple of views, then refuse to settle it: either way, the lessons do not exist unless someone builds them. This room is the lessons.",
+      "caption": "Nobody gets car keys on their 17th birthday without lessons. The ban hands you every app at 16 with no lessons required. Unless you count this one.",
+      "heading": "The cliff edge",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Full access at 16 is the car keys with no driving test. What should count as the lessons? Name two things.",
+      "script": "Sixty seconds, pairs, timer on screen. You are listening for pupils realising the lessons can start before the licence: they already have feeds somewhere, YouTube, games, music apps, and every one of those is a practice track. Take three answers after the chime and name the best insight in the room. If someone says this lesson is one of the lessons, give them the point loudly, because they are right.",
+      "lookFor": "This module is one honest answer. Others: setting defaults on devices they already own, asking older siblings or parents what the feed did to them in their first year, practising the audit on YouTube or gaming feeds they already use.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "body": "On your 16th birthday every rule that was doing your thinking disappears at once, and nothing replaces it unless you built the replacement yourself. Here is the honest advantage you have over almost every adult in your life: you get to decide your defaults before the apps decide them for you. Adults joined social media with no warning and spent years untangling habits they never chose. You know the exact day the gate opens. Nobody has ever had a cleaner run up, and a person who arrives with habits will always beat a person who only ever had rules.",
+      "type": "concept",
+      "emoji": "🏃",
+      "phase": "teach",
+      "script": "The line to land: arriving with habits beats arriving with rules, because rules live outside you and vanish at 16, habits live inside you and travel. Ask the class for an example of the difference from anywhere in life, sport and food usually come up, someone whose parents banned sweets versus someone who learned to stop at one. Then the pivot sentence: so let us build the habits now. The tool is on the next slide, and it is the last tool of the whole scheme.",
+      "heading": "Habits beat rules",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Decide notifications, privacy and time limits before day one. Whoever sets the defaults runs the room, so it is going to be you.",
+          "emoji": "🎛",
+          "title": "My defaults"
+        },
+        {
+          "text": "At day seven, read your feed like evidence. What has it decided you are? Correct it with unfollow, mute and not interested.",
+          "emoji": "🔎",
+          "title": "My first week audit"
+        },
+        {
+          "text": "Write the sign that means step back, like sleep slipping or checking before you are fully awake, and exactly what you will do when you see it.",
+          "emoji": "🚪",
+          "title": "My exit rule"
+        }
+      ],
+      "script": "This is the flagship tool of the entire scheme, give it the full three minutes. Walk each part as it builds. Defaults: name real ones, notifications off by default, private account first, a time cap chosen in advance. Audit: the feed spends week one deciding who you are, at day seven you mark its homework. Exit rule: the hardest and most important, because you write it while you are clearheaded so that future you, tired and mid scroll, does not have to make a decision, only follow one. Get the class chanting the three parts back: my defaults, my first week audit, my exit rule. Twice.",
+      "caption": "Built now, used at 16. Three parts, one page, written by you before the apps get a say.",
+      "heading": "The arrival plan",
+      "minutes": 3,
+      "verdicts": [
+        "My defaults",
+        "My first week audit",
+        "My exit rule"
+      ]
+    },
+    {
+      "meta": "Suggested for you · 2h",
+      "text": "16 with no income is a CHOICE. While your mates scroll, real ones build. Six income streams before 17 or stay asleep forever. DM BLUEPRINT 🔒",
+      "type": "scenario",
+      "image": "📈",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "stats": "❤ 412K   ↻ 96.3K   💬 31.2K",
+      "avatar": "💸",
+      "handle": "grindset.blueprint",
+      "prompt": "Day three of your first week at 16. You never searched for this and you do not follow this account. What is the audit question you ask this post?",
+      "script": "Point at the meta line first: Suggested for you. Nobody chose this, the feed chose it, which makes it pipeline check territory from last module and audit territory from today. The audit question you are fishing for: what has the feed decided I am, and did I choose that? Then go one level deeper: ask why the feed might show a brand new 16 year old this exact post. Answer: it is testing you. Every second you linger teaches it who you are. The audit is you noticing the test and answering on purpose instead of by accident.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick whole class check. The subtle point sits in the first feedback line, say it even if nobody picks that option: the feed is indifferent, not hostile. Pupils who believe the algorithm hates them feel powerless, pupils who understand it is a mirror with a motor feel in charge. The audit works because the feed responds to steering, and week one is when steering costs least.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Proving the feed is out to get you",
+          "correct": false,
+          "feedback": "The feed is not out to get you, it is indifferent. It serves whatever holds you, good or bad. The audit is a steering tool, not a blame exercise."
+        },
+        {
+          "text": "Catching what the feed has decided you are, while the picture is still soft enough to change",
+          "correct": true,
+          "feedback": "Exactly. In week one the feed's picture of you is still forming. Unfollow, mute and not interested are your steering wheel, and week one is when the steering is lightest."
+        },
+        {
+          "text": "Deciding to delete the apps, because the first feed is always wrong",
+          "correct": false,
+          "feedback": "Deleting is always an option you own, but it is not what the audit is for. The audit corrects the feed before you judge it. Steer first, verdict later."
+        }
+      ],
+      "question": "Your first week audit finds a feed full of content you never chose. What is the audit actually for?"
+    },
+    {
+      "body": "Between now and 16 you will stand at the school gate with friends who have workaround accounts. Some families allow it, some look the other way, some never asked. That is their family's call, and it is genuinely not your job to police it or report on it.",
+      "type": "concept",
+      "emoji": "🏫",
+      "phase": "teach",
+      "script": "This slide defuses the social fallout, so keep the register warm and completely unjudgemental in both directions. No superiority for the ones waiting, no pity or admiration for the ones with workarounds. If a pupil asks so are the ones with accounts being harmed, do not confirm or deny individuals, return to the frame: different families make different calls.",
+      "heading": "Their call",
+      "minutes": 1
+    },
+    {
+      "body": "But hear the other half of that sentence: your plan is not their business either. Being among the last of your friends off the apps is not a ranking, and being on early through a workaround is not a head start, because a head start on the wrong track does not lead where you are going.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Then the half they need: the only plan you control is yours. The phrase to leave hanging in the air: their call, your plan.",
+      "heading": "Your plan",
+      "minutes": 1
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "At 16 you arrive alongside friends who have been on the apps through workarounds for a year. Who actually arrives in better shape, and what would make it you?",
+      "script": "Groups of three or four, ninety seconds on the timer. Ground rule again before you start: hypothetical friends only, nobody names anybody. This is the stretch question of the lesson because the honest answer is uncomfortable in both directions: the early arrivals do know their way around, and knowing your way around a room built to hold you is not the same as being ready for it. Collect one answer per group, and finish with the line: experience of the trap is not the same as a plan for it.",
+      "lookFor": "Time on the apps is not training. A year of unguided scrolling on adult settings builds habits, not judgement, and often builds the wrong habits. Arriving with defaults chosen, an audit booked and an exit rule written can genuinely beat arriving early. No shaming of anyone in the room, keep it about arrivals, not individuals.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as Nova grows, out as Nova shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "nova"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Nova grows and out as Nova shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "options": [
+          "My defaults",
+          "My first week audit",
+          "My exit rule"
+        ],
+        "question": "The arrival plan has three pieces. Hands up: which one is already written in your head?"
+      },
+      "script": "A quick census before the written plan. Read the three pieces back so everyone knows what they are voting for: defaults are the settings you will change on day one, the first week audit is the check you will run after seven days, the exit rule is the line that tells you a platform no longer deserves you. Count hands, tap the bars, then read the room: the shortest bar is what the class writes first on the sheet, because the piece nobody has thought about is the piece that matters.",
+      "caption": "The class readiness picture, in three bars.",
+      "minutes": 4,
+      "component": "class-tally"
+    },
+    {
+      "body": "The worksheet has six arrival situations, from setup screens on day one to a mate's advice a month in. For each one, name which part of the arrival plan handles it: my defaults, my first week audit, or my exit rule. Then turn the sheet over and write your own plan: two defaults you will set before day one, the day you will run your audit, and your exit rule in one sentence. Fifteen minutes. A plan with blanks is not a plan, so finish yours.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets and the arrival plan bookmarks. Fifteen minutes: roughly eight on the six items, seven on their own plan overleaf, and the plan matters more, so call the switchover at eight minutes. Support group works items one to three with you first. Stretch question for early finishers: which part of your plan would you find hardest to obey, and what would make it easier? Circulate and collect one brilliant exit rule to read out, with permission, at the end.",
+      "heading": "Write your arrival plan",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, these two form the printed exit quiz, so run it in silence, no conferring. A pupil picking the second option here has not connected the workaround cost to arrival day, note them for a quiet follow up, without any suggestion that the answer was autobiographical.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "An arrival plan: defaults decided, an audit booked for day seven, an exit rule written down",
+          "correct": true,
+          "feedback": "That is readiness. The law opens the gate, the plan decides how you walk through it, and every part of it was chosen by you before the apps got a say."
+        },
+        {
+          "text": "A borrowed verified account, so you already know your way around",
+          "correct": false,
+          "feedback": "A year on a false adult account is time in the wrong world on the wrong settings. Familiarity with the trap is not a plan for it."
+        },
+        {
+          "text": "No plan and an open mind, just see what the apps show you",
+          "correct": false,
+          "feedback": "Open minded on day one means the apps choose your defaults and the feed decides who you are. Someone will run that room. The plan makes it you."
+        }
+      ],
+      "question": "Exit check. It is the night before your 16th birthday. Which of these is genuinely the strongest position to be in?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, still silent and independent. This is the thesis question: it proves whether pupils leave with the honest position or with one of the two lazy ones, the ban fixed everything or the ban is pointless. Anyone choosing the first or third option gets marked working towards on the register, the distinction is the whole module.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It keeps you safe until you are old enough to handle anything the apps serve",
+          "correct": false,
+          "feedback": "It removes the apps until 16. Nothing about turning 16 installs judgement. Readiness arrives built by you, or it does not arrive at all."
+        },
+        {
+          "text": "It removes the apps for a few years. Building the judgement is your job, and it starts before 16",
+          "correct": true,
+          "feedback": "That is the honest sentence of the whole module. Not pro ban, not anti ban, just what the law does and what it leaves entirely to you."
+        },
+        {
+          "text": "It proves social media is too dangerous for anyone to use well",
+          "correct": false,
+          "feedback": "The law makes a call about under 16s. It does not make social media good or evil, millions of adults use it well and plenty use it badly. Which one you become is exactly what the plan is for."
+        }
+      ],
+      "question": "Exit check. Honestly, what does the under 16 ban actually do?"
+    },
+    {
+      "text": "The ban parks the car, it does not teach me to drive. My defaults. My first week audit. My exit rule. I arrive ready.",
+      "type": "quote",
+      "label": "Say it like Nova",
+      "phase": "close",
+      "script": "Whole class, out loud, twice, second time louder. Nova has been the steady voice of KS4 all year, so give it Nova's delivery: level, certain, unhurried. This is the sentence you want them repeating on the morning of their 16th birthday, and some of them genuinely will.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "The ban removes the apps until 16. It does not build judgement, that build is yours and it starts now.",
+        "A workaround runs on a false adult age, so it skips the rule and every protection behind it, exactly when you would most need help.",
+        "At 16 access goes from zero to full overnight, a cliff edge with no driving test. The arrival plan is your lessons.",
+        "The arrival plan: my defaults set before day one, my first week audit at day seven, my exit rule written down in advance."
+      ],
+      "script": "Four pupils read one point each. Then the callback: at the start I said you are the first generation that knows the exact day the gate opens. Look at what you did with that knowledge in one hour. Their written plans go home with them, the bookmark stays in their planner.",
+      "heading": "What to remember",
+      "minutes": 1
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Write your defaults. Book your first week audit. Decide your exit rule.",
+        "Then the arrival is yours.",
+        "Not the platform's."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "Your mission",
+      "minutes": 1,
+      "character": "nova"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Nova's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today counts toward the Ready at sixteen page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks4-19-readiness-at-16",
+        "register": "still",
+        "placement": "independent"
+      },
+      "script": "Level and brief. The passport is the record of preparation for full access at sixteen, kept at home. Today fills part of its last page. Tap Fill the page, name the area it built, and say once: when the page is full, the big check earns Nova's stamp, and it is proof of judgement, never a licence. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not a record of anyone.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "This is the one the whole scheme was building to. ⭐",
+        "The law opens the gate on your 16th birthday whether you are ready or not. Ready was always your move, and today you made it.",
+        "Keep the bookmark. On the morning you turn 16, read your own plan before you download a single app. Past you is looking out for future you.",
+        "Nova and I have watched you build judgement for years. You are not just arriving at 16, you are arriving ready. Go be brilliant."
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the lines appear on their own. Exit quizzes are collected as this plays, they are your evidence for the register. If you collected a brilliant exit rule during practice, read it out now with the writer's permission, it is the perfect final note.",
+      "heading": "DiGi lands the flagship",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS4",
+  "module_id": "ks4-19-readiness-at-16",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 19,
+  "parent_note": {
+    "taught": "Today was the module the whole scheme builds towards: what happens on the day your teen turns 16 and full social media access arrives all at once. They wrote a personal arrival plan with three parts: defaults decided in advance, a first week audit of what the feed serves them, and an exit rule written before it is needed.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This module writes one of the last pages of the passport, and it is the one the whole journey pointed at: the arrival plan for full access. The passport is proof of readiness, never a licence, and the plan they wrote today is theirs. Ask to see it, and tell them which default you would set first.",
+    "try_this": "Ask your teen to talk you through their arrival plan, then write your own exit rule for your own phone alongside them. It lands ten times harder when they see you hold yourself to one too.",
+    "family_question": "If every app arrived on your phone tomorrow, what is the first setting you would change before you posted anything?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Default, audit and exit rule are settings words, worth pre teaching on a real settings screen. The plan boxes accept any language: it is their plan for their arrival.",
+      "sensory": "The day you turn 16 slide raises the temperature more than it looks. Give it silence rather than discussion, then move to the plan: the plan is the regulation.",
+      "attention": "Writing a plan for a future self is peak executive load. Anchor it: the class tally shows the room's most chosen default first, and starting from the crowd's answer is allowed.",
+      "communication": "The arrival plan is a form, not an essay: defaults, first week audit, exit rule, each box with its stem. A plan of three ticked defaults is a complete plan."
+    },
+    "tool": {
+      "lines": [
+        "My defaults",
+        "My first week audit",
+        "My exit rule"
+      ],
+      "heading": "The arrival plan",
+      "strapline": "The ban opens the gate. The plan decides how I walk through it."
+    },
+    "i_can": [
+      "I can name what will be waiting for me when full access arrives.",
+      "I can write my arrival plan: my defaults, my first week audit, my exit rule.",
+      "I can explain why a plan made before day one beats willpower on day one."
+    ],
+    "cycles": [
+      {
+        "verb": "Locate",
+        "title": "The world you are standing in",
+        "minutes": 16,
+        "outcome": "I can name what will be waiting for me when full access arrives."
+      },
+      {
+        "verb": "Understand",
+        "title": "The cliff edge",
+        "minutes": 6,
+        "outcome": "I can explain why a change that arrives all at once is harder than one that arrives gradually."
+      },
+      {
+        "verb": "Plan",
+        "title": "The arrival plan",
+        "minutes": 11,
+        "outcome": "I can write my arrival plan: my defaults, my first week audit, my exit rule."
+      }
+    ],
+    "timing": "72 minutes: starter 10, cycle one 16, cycle two 6, cycle three 11, practise 16, prove 4, close 5, class interactive 4",
+    "keywords": [
+      {
+        "word": "age assurance",
+        "definition": "Any way a platform works out your age: a document, a face age estimate, or a trusted confirmation. It checks age, never judgement."
+      },
+      {
+        "word": "default",
+        "definition": "The setting an app starts on before you touch anything. Whoever chooses the defaults quietly runs the experience."
+      },
+      {
+        "word": "audit",
+        "definition": "A deliberate look at the evidence. In week one you audit your feed: what has it decided you are, and did you choose that?"
+      },
+      {
+        "word": "cliff edge",
+        "definition": "A change that happens all at once instead of gradually. At 16, access goes from zero to full overnight."
+      },
+      {
+        "word": "exit rule",
+        "definition": "A sign you choose in advance that means step back, plus what you will do when you see it. Written before you need it."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The arrival plan is a paper sheet from the print room and stays with the pupil.",
+    "exit_quiz": [
+      {
+        "answer": "Because access goes from zero to full overnight rather than gradually.",
+        "format": "short_answer",
+        "question": "Why is the arrival at 16 a cliff edge and not a ramp?",
+        "teaching_point": "A ramp can be learned on. A cliff edge cannot, which is why the plan is written in advance."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "A fresh account learns slowly, so the first week does not matter much.",
+        "teaching_point": "A fresh account learns fastest. The first week decides what the feed becomes."
+      },
+      {
+        "answer": "defaults",
+        "format": "fill_blank",
+        "question": "Whoever chooses the ___ quietly runs the experience.",
+        "teaching_point": "Which is why you choose them yourself, on day one, before anything else."
+      },
+      {
+        "answer": "My defaults, my first week audit, my exit rule.",
+        "format": "short_answer",
+        "question": "Name the three parts of an arrival plan.",
+        "teaching_point": "The tool they leave with. Written before you need it, never during."
+      },
+      {
+        "answer": "A habit is already running when nobody is enforcing anything",
+        "format": "tick_one",
+        "options": [
+          "Rules are unfair",
+          "A habit is already running when nobody is enforcing anything",
+          "Habits are easier to break"
+        ],
+        "question": "Why do habits beat rules?",
+        "teaching_point": "Arriving with habits beats arriving with rules. That is the line to hear back."
+      }
+    ],
+    "worksheet": {
+      "title": "The arrival desk",
+      "directions": "For each situation, name which part of the arrival plan handles it, then turn over and write your own plan.",
+      "verdict_options": [
+        "My defaults",
+        "My first week audit",
+        "My exit rule"
+      ]
+    },
+    "teacher_tip": "Stay ban neutral. Whatever the law does, the plan is the lesson, and a class that argues about the law for twenty minutes leaves without one.",
+    "starter_quiz": [
+      {
+        "answer": "It skips the protections an age setting switches on, so it is a trade.",
+        "format": "short_answer",
+        "question": "What does a workaround cost?",
+        "teaching_point": "Carried forward from ks3-11. Today it is revisited with the arrival in sight."
+      },
+      {
+        "answer": "What an app actually leaves behind: better, worse or nothing.",
+        "format": "short_answer",
+        "question": "What does a mood audit tell you?",
+        "teaching_point": "Carried forward from ks3-10. It becomes the week one audit in the arrival plan."
+      },
+      {
+        "answer": "Any two of: urgency, outrage, flattery, FOMO, dark patterns, infinite scroll.",
+        "format": "short_answer",
+        "question": "Name two techniques a platform uses on you.",
+        "teaching_point": "Carried forward from ks4-15. They are naming what will be waiting for them."
+      },
+      {
+        "answer": "Zero to full",
+        "format": "tick_one",
+        "options": [
+          "A little to a bit more",
+          "Zero to full",
+          "Full to less"
+        ],
+        "question": "At 16, access goes from:",
+        "teaching_point": "The cliff edge, stated before it is taught. It is the whole reason a plan beats a rule."
+      }
+    ],
+    "misconceptions": [
+      "The ban makes social media safe by 16 (the ban removes the apps until 16, it does not change what the apps are or build any judgement, readiness is built by the pupil or not at all)",
+      "A workaround is early access to the same experience they will get at 16 (a workaround account runs on a false adult age, so it delivers adult settings, adult content and no under 18 protections, plus a barrier to asking for help)",
+      "Friends who used workarounds arrive at 16 better prepared (a year of unguided scrolling on adult settings builds habits, not judgement, and arriving with a written plan can genuinely beat arriving early)"
+    ],
+    "paper_fallback": "Print the slide pack, the arrival plan bookmarks and the worksheets. Run the retrieval question and both exit checks as hands up votes from the printed question cards. Draw the two diagrams on the board step by step, the age verification chain and the three part arrival plan. Both discussions run identically with a watch instead of the on screen timer. The heart of the lesson, each pupil writing their own arrival plan, is a paper task by design and loses nothing without a screen.",
+    "passport_stage": "independent",
+    "commitment_stem": "My commitment: the first default I will set before day one is ...",
+    "differentiation": {
+      "stretch": "Ask stretch pupils to write a fourth part of the arrival plan the module did not include and defend it, and to find the place where the driving test analogy breaks down (possible answer: driving skills are tested before the keys, nobody tests feed judgement at all, which is the point).",
+      "support": "Work worksheet items one to three together as a guided group with the arrival plan bookmark on the table. For the plan overleaf, offer sentence starters: my first default is, I will run my audit on, my exit rule is if I notice."
+    },
+    "prior_knowledge": [
+      "A pupil can explain what a workaround costs, from ks3-11.",
+      "A pupil can run a mood audit and read the pattern, from ks3-10.",
+      "A pupil can name the techniques a platform uses on them, from ks4-15."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Day one at 16. During setup the app asks for notifications, microphone and contacts, all switched on, with a big green button saying allow all.",
+        "teaching_point": "The setup screen is where the app makes its move. Defaults decided before day one mean this screen holds no decisions, only a plan being followed.",
+        "expected_verdict": "My defaults"
+      },
+      {
+        "n": 2,
+        "item": "Three weeks in. You catch yourself checking your phone before you are fully awake, first thing, every single morning.",
+        "teaching_point": "Checking before you are awake is a classic exit rule trigger. The rule only works because it was written before this moment, by a clearer head.",
+        "expected_verdict": "My exit rule"
+      },
+      {
+        "n": 3,
+        "item": "Day six. Your feed has become almost entirely gym transformations and one style of joke, and you never chose any of it.",
+        "teaching_point": "The feed has drafted a picture of who you are. The day seven audit is where you mark its homework with unfollow, mute and not interested.",
+        "expected_verdict": "My first week audit"
+      },
+      {
+        "n": 4,
+        "item": "Your mate says set everything up fast on your birthday and sort the settings out later, everyone does it that way.",
+        "teaching_point": "Later is the app's favourite word. Settings postponed past day one are usually never set, which is exactly why defaults are decided in advance.",
+        "expected_verdict": "My defaults"
+      },
+      {
+        "n": 5,
+        "item": "A month in. The group chat runs past midnight most nights, your sleep is slipping, and you keep meaning to do something about it.",
+        "teaching_point": "Sleep slipping is the sign, and keep meaning to is what an unwritten rule sounds like. A written exit rule turns noticing into a decision already made.",
+        "expected_verdict": "My exit rule"
+      },
+      {
+        "n": 6,
+        "item": "Nova says: I do not need a written plan, I am sharp, I will just notice when something needs changing. Do you agree? Explain your reasoning.",
+        "teaching_point": "Sharp people notice slowly from the inside. The whole point of writing the rule in advance is that future you, tired and mid scroll, is not the best judge, and Nova of all foxes should know a room built to fool you when she is standing in one.",
+        "expected_verdict": "My exit rule"
+      }
+    ],
+    "essential_question": "The day full access arrives, what is my first week actually going to look like?",
+    "learning_objective": "Pupils can plan how they will handle full social media access at 16, using the arrival plan: defaults decided in advance, a first week audit of the feed, and an exit rule written before it is needed.",
+    "key_learning_points": [
+      "At 16 access goes from zero to full, and that is a cliff edge, not a ramp.",
+      "A fresh account learns fastest, so the first week decides what the feed becomes.",
+      "Whoever chooses the defaults quietly runs the experience, so choose them yourself.",
+      "Habits beat rules, because a habit is already running when nobody is enforcing anything.",
+      "An exit rule is written before you need it, not during."
+    ]
+  }
+}

@@ -1,0 +1,816 @@
+{
+  "row": {
+    "title": "Gaming: time, intensity and spend",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 3 to 6",
+    "sort_order": 5,
+    "efcw_strands": [
+      6,
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "Bloop",
+    "evidence_anchor": "Gambling style mechanics research",
+    "statutory_hooks": [
+      "Citizenship financial literacy (fraud and scam prevention)"
+    ],
+    "single_action_outcome": "I can spot when a game is trying to get me to spend."
+  },
+  "slides": [
+    {
+      "body": "One hour, one skill: three questions that catch a game reaching for your time and your money.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Gaming: time, intensity and spend",
+      "script": "Settle everyone with this slide up. Today the squad goes undercover inside the games you love. Bloop is our lead spotter for this mission. By the end of the hour you will know the tricks that game designers use on millions of players, and you will be able to catch every single one.",
+      "eyebrow": "KS2 · Years 3 to 6 · Module 5",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hi! Bloop here.",
+        "If a game is free, how is it making money out of you?",
+        "Great question. Let us follow the money."
+      ],
+      "phase": "starter",
+      "script": "Let Bloop land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Bloop arrives",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "why": "Games are brilliant, and the people who make them are brilliant too, so brilliant that they design chests, countdowns and gem prices to nudge players into paying without noticing. Today you learn their playbook, so every trick has to get past you first.",
+      "type": "objective",
+      "gains": [
+        "Name the tricks games use to keep you playing past your stopping point",
+        "Turn gem prices back into real pounds before deciding anything",
+        "Spot a raffle dressed up as a treasure chest",
+        "Run the three spend spotters on any offer in under a minute"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Quick hands up: who plays games most days? Keep those hands up and say clearly that those hands belong to the experts in this room. This lesson never tells gamers off. It makes gamers sharper. Ask one pupil to read each gain.",
+      "minutes": 2,
+      "outcome": "I can spot when a game is trying to get me to spend."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about a game you like, and one thing in it that costs money.",
+      "script": "Sixty seconds. A game you like, and one thing in it you can pay for. I am not going to tell you gaming is bad, because it is not. I want to know what you already notice.",
+      "lookFor": "Skins, coins, chests, battle passes. They know the shop is there. Starting from what they already know is what keeps them with you.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "loot box",
+          "meaning": "A chest or box you pay for without knowing what is inside. You are buying a chance, not a thing."
+        },
+        {
+          "word": "in game currency",
+          "meaning": "Game money like gems or coins that you buy with real money. It hides what things really cost."
+        },
+        {
+          "word": "limited time offer",
+          "meaning": "A deal with a countdown clock. The rush is designed to make you buy before you think."
+        },
+        {
+          "word": "odds",
+          "meaning": "The chance of winning. 1 in 100 means if 100 people open the chest, about one gets the top prize."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Pause on odds, it is the one they will not have met. Ask: if the odds are 1 in 100 and you open two chests, are you sure to win? Listen for the misconception that two goes means double luck. You do not need to fix it fully yet, the raffle slide later does that job.",
+      "heading": "Spotter words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from last lesson. Thirty seconds of thinking time, then cold call two pupils for the three words of the lap, warn, finish, swap. Today builds on it, because the reason stopping is hard is not weakness, it is design, and we are about to see the blueprints.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Warn, finish, swap: a warning that time is nearly up, finish the round you are in, then swap to the next thing",
+          "correct": true,
+          "feedback": "That is the lap. The warning means no surprises, finishing the round means no rage quitting mid match, and swapping straight to something else stops the game pulling you back."
+        },
+        {
+          "text": "Turn everything off instantly the second time is up",
+          "correct": false,
+          "feedback": "Instant off mid match feels unfair and starts the battles. The lap works because you finish the round first. That is the deal, and both sides keep it."
+        },
+        {
+          "text": "Ask for ten more minutes, then ten more after that",
+          "correct": false,
+          "feedback": "That is not a lap, that is extra time on a loop. The warning and the finish are what make stopping feel fair to everyone."
+        }
+      ],
+      "question": "Warm up from last lesson. Screen time is nearly up and you are mid game. What is the cool down lap?"
+    },
+    {
+      "body": "Games are one of the best things humans have ever built, full of stories, teamwork and skill. They are also made by teams of clever designers whose job is to keep you playing longer and, in lots of games, to get you spending. Both of those things are true at the same time, and you do not have to pick one. A player who knows the tricks is a stronger player than one who does not.",
+      "type": "concept",
+      "emoji": "🎮",
+      "phase": "teach",
+      "script": "This slide sets the tone for the whole hour, so land it carefully. We are not here to say games are bad. Anyone who says games are bad has not played a good one. We are here because the designers know their playbook and most players do not. Ask: is it possible to love something AND know it is trying to keep you there? Take two answers. Yes is the answer, and it is true of games, sweets and telly.",
+      "heading": "Brilliant AND designed. Both true.",
+      "minutes": 2
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Tell your partner about a time you meant to play for ten minutes and played for a lot longer.",
+      "script": "Sixty seconds. A time you meant to play for ten minutes and it was not ten minutes. It happens to me too. Then I am going to show you the tools that did it.",
+      "lookFor": "Nobody is in trouble for this and it should not sound like a telling off. You want them noticing the pull, because the next slide names the tools that made it.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Matches roll straight into the next one. The game never says done, so you have to say it.",
+          "emoji": "🔁",
+          "title": "No finish line"
+        },
+        {
+          "text": "Miss a day and you LOSE the streak. That is not a gift, it is a lead pulling you back tomorrow.",
+          "emoji": "🔥",
+          "title": "Streaks and daily prizes"
+        },
+        {
+          "text": "SO CLOSE! flashes on purpose. Nearly winning makes you press play again faster than winning does.",
+          "emoji": "😤",
+          "title": "The near miss"
+        },
+        {
+          "text": "Opening the game not because you want to play but because nothing else is happening. The game counts that too.",
+          "emoji": "🍿",
+          "title": "Boredom snacking"
+        }
+      ],
+      "script": "Walk the four tools as they build and give each one ten seconds of real talk. On the near miss, tell the truth: scientists found that nearly winning fires up your brain more than winning, and designers know it. On boredom snacking, ask for a show of hands: who has opened a game, played thirty seconds, closed it, then opened it again? Nearly every hand goes up, including yours if you are honest. That honesty buys you the whole lesson.",
+      "caption": "Four tools designers use to stretch your session. Noticing them is a player skill, not a lecture.",
+      "heading": "The keep you playing kit",
+      "minutes": 3
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Think of a game you love. Which keep you playing trick does it use, and when did you last feel it working on you?",
+      "script": "Sixty seconds, partner talk, timer on screen. You are listening for expertise, not confessions. After the chime take three answers and respond like a coach scouting talent: that is a proper spot, that is exactly the near miss, that is the streak lead. Name your own weak spot too, it keeps the room honest.",
+      "lookFor": "Pupils naming tricks in real games without shame. Gamers are the experts here. Listen for streak panic and one more match stories, and celebrate honest spotting out loud.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Whole class vote, hands or letters. When you reveal, connect it back to the cool down lap: this is exactly why the lap has a finish step, because the game will always offer one more. The lap beats the hook when you know the hook is coming.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The game is being generous because you played well",
+          "correct": false,
+          "feedback": "The bonus appears exactly when players usually stop. It is not a thank you, it is a hook, and it is timed on purpose."
+        },
+        {
+          "text": "The game noticed a stopping point and is paying you to ignore it",
+          "correct": true,
+          "feedback": "Exactly. Stopping points are where players leave, so the game spends pretend coins to keep you. Once you can see the hook, you get to choose on purpose instead of being reeled in."
+        },
+        {
+          "text": "You have to take it or you will fall behind everyone else",
+          "correct": false,
+          "feedback": "Double coins tonight changes almost nothing by next week. Falling behind is the feeling the designers rented, not the truth."
+        }
+      ],
+      "question": "It is nearly time to stop and the game flashes PLAY ONE MORE MATCH FOR DOUBLE COINS. What is really going on?"
+    },
+    {
+      "body": "Lots of the biggest games cost nothing to download, and that is not the company being kind. Free is the front door. The real shop is inside: gems, coins, chests, passes and limited time offers. The game does not make money when you start playing, it makes money when you keep playing and start paying, so every screen is built to walk you gently towards the shop.",
+      "type": "concept",
+      "emoji": "💎",
+      "phase": "teach",
+      "script": "Ask the room to shout out free games they play, and pick a famous one. Then ask the detective question: that game made hundreds of millions of pounds last year, so if it is free, where did the money come from? Let them work it out. Someone always gets there: from the players, inside the game. That is the whole of level two, said by a nine year old.",
+      "heading": "Free games that cost",
+      "minutes": 2
+    },
+    {
+      "type": "stat",
+      "claim": "About nine in ten UK children aged 3 to 17 play video games.",
+      "phase": "teach",
+      "figure": "9 in 10",
+      "script": "Let the number land. Nearly everyone in this room, nearly everyone in the country. Then the flip: that is exactly why the spend tricks are worth millions. When almost every child in Britain is a player, even a small trick that works a little bit becomes an enormous pile of money. You are not a customer to these designers, you are the whole market.",
+      "source": "Ofcom Children and Parents: Media Use and Attitudes Report 2022",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Hands down, think first. Why gems and not pounds. There is a good reason and it is not a kind one.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "So your brain stops counting real money.",
+          "correct": true,
+          "feedback": "Exactly. Nobody feels three pounds fifty when it says two hundred gems. That is the whole trick, and turning gems back into pounds beats it."
+        },
+        {
+          "text": "Because pounds do not work inside games.",
+          "correct": false,
+          "feedback": "They do. The game could show you the price in pounds any time it wanted. It chooses not to."
+        },
+        {
+          "text": "To make it fairer for everybody.",
+          "correct": false,
+          "feedback": "It is not about fairness. Ask yourself who it is easier for, the player or the shop."
+        }
+      ],
+      "question": "A game sells gems and coins instead of pounds. Why do you think it does that?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "You swap pounds for gems and your brain stops counting. 480 gems does not feel like real money. It is.",
+          "emoji": "💎",
+          "title": "Money becomes gems"
+        },
+        {
+          "text": "The chest costs 480 gems but gems come in packs of 300 or 1,000. You always have spare gems left, pulling you back to the shop.",
+          "emoji": "🧮",
+          "title": "The bundles never match"
+        },
+        {
+          "text": "ENDS IN 14:32! Rushing you is the point. A rushed brain buys, a calm brain checks.",
+          "emoji": "⏳",
+          "title": "The countdown clock"
+        }
+      ],
+      "script": "Walk the three moves as they build. On the first one, do the magic trick live: would you hand a stranger £4? No? Would you spend 480 gems without blinking? Same money, different costume. On the bundles, ask why no pack ever exactly fits the price, and let them realise it is designed. Nobody accidentally makes every bundle the wrong size.",
+      "caption": "Three moves that stop your brain counting real money. Turning gems back into pounds breaks all three.",
+      "heading": "How the price hides",
+      "minutes": 3
+    },
+    {
+      "meta": "In game shop · MEGA CHEST event",
+      "text": "⭐ MEGA CHEST ⭐ One LEGENDARY item could be inside... maybe! 480 gems. OFFER ENDS IN 14:32. When the timer hits zero this chest is GONE FOREVER!",
+      "type": "scenario",
+      "image": "⏳",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "⭐ Legendary: 1 in 100   🎁 Opened 2.4M times today",
+      "avatar": "🎁",
+      "handle": "Blocky Legends shop",
+      "prompt": "How many tricks can you count on this one screen? Thirty seconds with your partner, then hands up with a number.",
+      "script": "Pair talk, thirty seconds, then collect numbers. There are at least four: the countdown rushing you, gems hiding the price, maybe means random like a raffle, and gone forever making it feel once in a lifetime. Point at the small print: 1 in 100. Ask: if the whole class opened one chest each, how many legendaries would we expect? None or maybe none, and the shop keeps everyone's gems either way. Let that sink in.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Why do games sell gems instead of just showing prices in pounds? Follow the money: who wins when the price hides?",
+      "script": "Groups of three or four, ninety seconds on the timer. This is the follow the money question and KS2 are surprisingly good at it. Collect one answer per group. The line to land at the end: shops that are proud of their prices show them in pounds. When a price wears a costume, ask why.",
+      "lookFor": "The company wins twice: hidden prices feel smaller so players spend more, and leftover gems pull players back to the shop. Nobody hides a price to help the buyer.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Give them a moment with the numbers on screen. If anyone works out that getting the chest actually costs at least £2.99 plus another pack, or £8.99 with 520 gems spare, celebrate loudly, that is exactly the pounds translation the spotters need.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "There is no trick, that is just maths",
+          "correct": false,
+          "feedback": "The maths IS the trick. Neither pack fits the price, so you either buy big or buy twice, and either way you end up with spare gems pulling you back."
+        },
+        {
+          "text": "The bundle sizes are chosen so you always overbuy and always have leftovers",
+          "correct": true,
+          "feedback": "Spotted it. Mismatched bundles are designed, not accidental. Turning gems back into pounds is how you see what you are really being asked to pay."
+        },
+        {
+          "text": "The trick is that gems are worthless",
+          "correct": false,
+          "feedback": "Gems do buy real things in the game, that is what makes the trick work. The problem is not that gems are fake, it is that they stop your brain counting pounds."
+        }
+      ],
+      "question": "A chest costs 480 gems. Gems come in packs: 300 gems for £2.99 or 1,000 gems for £8.99. What is the trick?"
+    },
+    {
+      "body": "A loot box works like a raffle. You pay real money for a ticket, and you MIGHT win the amazing prize, but most tickets win something small you did not really want. The chance of the top prize is usually tiny, and the game knows the exact odds even when you do not. Paying money for a random chance is how gambling machines work, which is why some countries have banned loot boxes for children. You are not silly for wanting the prize. The whole machine is built by experts to make everyone want the prize.",
+      "type": "concept",
+      "emoji": "🎟️",
+      "phase": "teach",
+      "script": "This is the honesty slide, so go slow and keep it kind. Ask who has been to a school fair raffle. Everyone pays, one person wins the hamper, the raffle keeps all the money. A loot box is that, but the raffle can follow you home and ask again every day. Say the gambling word plainly and calmly: adults have machines that work exactly like this, they are called gambling machines, and there are strict laws about them because they are so hard to stop feeding. Loot boxes work the same way, and that is a fact, not a telling off.",
+      "heading": "Random like a raffle",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Countdown clocks, ends tonight, last chance. Real deals survive thinking time.",
+          "emoji": "🏃",
+          "title": "Spotter one: is it rushing me?"
+        },
+        {
+          "text": "Gems, coins, tokens, mismatched bundles. Turn it back into pounds before you decide anything.",
+          "emoji": "🕵️",
+          "title": "Spotter two: is it hiding the price?"
+        },
+        {
+          "text": "Paying for a CHANCE is not shopping, it is a raffle ticket. Know the odds or walk away.",
+          "emoji": "🎟️",
+          "title": "Spotter three: is it random like a raffle?"
+        }
+      ],
+      "script": "This is the tool of the module, so build it with energy. Get the class chanting the three questions back: is it rushing me, is it hiding the price, is it random like a raffle. Then point at the three verdicts and make this crystal clear: fine to enjoy is a real verdict. Spending in games is not banned and not shameful. A clear price, no rush, no raffle, and a grown up who said yes is a perfectly good purchase. The spotters are not a wall, they are a torch.",
+      "caption": "Three questions before any money moves. And real money always goes through a grown up.",
+      "heading": "The spend spotters",
+      "minutes": 3,
+      "verdicts": [
+        "Fine to enjoy",
+        "Ask first",
+        "Walk away"
+      ]
+    },
+    {
+      "meta": "Squad chat · 7:48pm",
+      "text": "everyone in the squad has the dragon bundle now, it is only 999 gems and the event ends TONIGHT. just use your mum's card, she will not even notice. you are literally the only one without it 😬",
+      "type": "scenario",
+      "image": "🐉",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "🕹️",
+      "handle": "Finn 🎮",
+      "prompt": "Run all three spend spotters, then spot the fourth pressure that is not even from the game. What would you say back to Finn?",
+      "script": "Read Finn's message aloud with real pressure in your voice. Then take it apart together: ends tonight is the rush, 999 gems is the hidden price, and the fourth pressure is a friend, which is the strongest one of all. Be clear that Finn is not a villain, Finn got caught by the same countdown and now it is spreading through him. Then the two hard lines, said kindly: a card that is not yours is never yours to use, not even a little bit, and a real friend hearing I need to ask first says fair enough. Script a reply together, something like: might get it, asking first, catch you in the lobby.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths: in as Bloop grows, out as Bloop shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time · everyone together",
+        "seconds": 4,
+        "register": "playful",
+        "character": "bloop"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "The spend spotters · tap the class verdict",
+        "posts": [
+          {
+            "why": "Spending is not the enemy, tricks are. Clear price, no rush, no raffle, permission given: all three spotters pass, and that verdict matters as much as the others.",
+            "text": "The game shop shows a sword skin for £1.99. The full price is on the label in pounds, there is no timer, and you have pocket money saved and permission to spend it.",
+            "answer": 0,
+            "avatar": "🎮",
+            "handle": "Case 1"
+          },
+          {
+            "why": "All three spotters fire at once: the countdown rushes you, gems hide the price, and a 1 in 100 chance is a raffle ticket. When all three fire, walking away is the strong move.",
+            "text": "MEGA CHEST: 480 gems for a CHANCE at a legendary item. The legendary odds are 1 in 100 in tiny writing. OFFER ENDS IN 14:32!",
+            "answer": 2,
+            "avatar": "🎮",
+            "handle": "Case 2"
+          },
+          {
+            "why": "The bundle mismatch is the hiding trick: £8.99 for 40 gems of need leaves 960 spare gems pulling you back to the shop. Translating it into pounds out loud is what asking first is for.",
+            "text": "You run out of gems mid battle. A popup offers 1,000 gems for £8.99, but the thing you want only needs 40 more gems.",
+            "answer": 1,
+            "avatar": "🎮",
+            "handle": "Case 3"
+          },
+          {
+            "why": "The rush plus a friend's pressure plus a card that is not yours. A card that is not yours is never yours to use, and a real friend accepts I need to ask first.",
+            "text": "A friend messages the squad chat: everyone has the dragon bundle, the event ends tonight, just borrow your mum's card, she will not notice.",
+            "answer": 2,
+            "avatar": "🎮",
+            "handle": "Case 4"
+          },
+          {
+            "why": "The free first taste plus the near miss is the raffle machine warming you up. SO CLOSE is designed, the wheel was never nearly anything.",
+            "text": "SPIN THE WHEEL! Your first spin is free and you win 50 gems. The next spin costs 99p and the top prize flashes SO CLOSE, TRY AGAIN!",
+            "answer": 2,
+            "avatar": "🎮",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Leo is half right, companies do need money, and honest clear prices are the fair way to earn it. But nearly won is the near miss doing its job, and free means the shop inside IS the product. Credit answers that respect Leo while catching both tricks.",
+            "text": "Leo says: it is fine, the game is free so they have to make money somehow, and anyway I nearly won a legendary last time. Do you agree with Leo? Explain your verdict.",
+            "answer": 2,
+            "avatar": "🎮",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Fine to enjoy",
+          "Ask first",
+          "Walk away"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "The spend spotters go to work together before the sheet. Read each card, hands up for the verdict, tap the class answer, read the reason. Draw out the middle verdict every time it fires: ask first is not a lesser answer, it is the spotter working.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Your teacher has six offers on the worksheet: shop screens, popups and chat messages. Run the three spend spotters on each one and give your verdict: fine to enjoy, ask first, or walk away. You have fifteen minutes. Every verdict needs a reason, a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet. Fifteen minutes, bookmark strips on the tables so the three questions are in front of anyone who wants them. Support group works items one to three with you as a guided group. Stretch question for early finishers is on the plan: design the sneakiest FAIR shop screen you can. Circulate and collect one brilliant reason to read out at the end.",
+      "heading": "Spend spotter patrol, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, done individually, this is your evidence of who got it. Watch for pupils choosing the third answer, the all games are scams position feels streetwise but it is the same lazy thinking as buying everything. The spotters exist because the honest answer is it depends, and now they can work out what it depends on.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The timer means it is a great deal, so buy fast before it goes",
+          "correct": false,
+          "feedback": "The timer IS the trick. It exists to rush you past thinking. A deal that is only good for ten minutes is a deal that is scared of your brain."
+        },
+        {
+          "text": "It is rushing me, so I pause and ask first. If it is really worth it, it is still worth it after asking",
+          "correct": true,
+          "feedback": "That is the spotters working. Rushing detected, so the calm brain takes over: pause, translate the price, ask a grown up. Most timed offers come back around anyway."
+        },
+        {
+          "text": "Never buy anything in a game, it is all a scam",
+          "correct": false,
+          "feedback": "Spending you chose calmly, at a clear price, with permission, on a thing you can actually see is fine. The spotters are a check, not a ban."
+        }
+      ],
+      "question": "Exit check one. A skin bundle you really want shows a timer: 09:59 left. You have birthday money saved. What do the spend spotters say?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check. This one proves they understood the raffle idea, which is the deepest learning of the day. A pupil who can explain the difference between buying a thing and buying a chance has got everything this module wanted to give them.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "No. In a shop you pay and get the thing you chose. With the chest you pay for a chance, like a raffle ticket",
+          "correct": true,
+          "feedback": "Exactly right. Shopping is money for a thing. A loot box is money for a maybe, and the game sets the odds. That difference is the whole reason spotter three exists."
+        },
+        {
+          "text": "Yes, paying is paying, it makes no difference",
+          "correct": false,
+          "feedback": "It makes all the difference. A shop must hand you what you chose. A chest can hand almost everyone the small prize and keep the money, and the odds say it usually will."
+        },
+        {
+          "text": "No, because chest prizes are never real",
+          "correct": false,
+          "feedback": "The prizes are real, that is what makes it clever. The problem is not fake prizes, it is that you are paying for a random chance with tiny odds of the one you want."
+        }
+      ],
+      "question": "Exit check two. A chest costs 400 gems and gives a random prize. Your friend says paying for it is just like buying a toy in a shop. Is he right?"
+    },
+    {
+      "text": "Is it rushing me? Is it hiding the price? Is it random like a raffle? Spend spotters, spotted it!",
+      "type": "quote",
+      "label": "Say it like Bloop",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time, with Bloop's playful energy. Point at each question on your fingers as they chant. This is the sentence you want shouted at a loot box screen in a living room this weekend.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Games are brilliant AND designed to keep you playing and paying. Both things are true at once.",
+        "The keep you playing kit: no finish line, streaks, near misses and boredom snacking. Noticing them is a player skill.",
+        "The spend spotters: is it rushing me, is it hiding the price, is it random like a raffle?",
+        "Real money always goes through a grown up, and anything truly worth buying is still worth buying after you ask."
+      ],
+      "script": "Four pupils read one point each. Then return to the start of the lesson: you walked in as players, you are walking out as players who have read the designer's playbook. Nothing about the game changed in the last hour. Everything about the player did.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your mission.",
+        "Next time a game rushes you, hides the price, or spins a raffle, say it out loud: spend spotter!",
+        "Spotting it is the whole trick. You have got this."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Bloop's mission for you",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks2-05-gaming-time-spend",
+        "register": "playful",
+        "placement": "builder"
+      },
+      "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Mission complete, squad! ⭐",
+        "Three spend spotters, faster than a loading screen: is it rushing me, is it hiding the price, is it random like a raffle?",
+        "Your mission this week: catch ONE trick in a game you love and name it out loud. Countdown clock, gem costume, mystery chest. Spotted it!",
+        "The games companies have teams of expert designers. From today, every one of them has to get past YOU. See you next lesson!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes go out as this plays, named copies from the print room, and pupils write their commitment line on the exit card before they leave. Collect them in, they are your evidence for the register.",
+      "heading": "DiGi wraps the mission",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS2",
+  "module_id": "ks2-05-gaming-time-spend",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 5,
+  "parent_note": {
+    "taught": "Today we learned that games are brilliant and also carefully designed to keep children playing and paying, and that both things are true at once. Your child can now run the three spend spotters on any in game offer: is it rushing me, is it hiding the price, is it random like a raffle?",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child to run the three spend spotters on a game you both know.",
+    "try_this": "Next time your child plays, ask them to open the game's shop and point out one trick by name, the countdown clock, the gem prices or the mystery chest. They will enjoy being the expert, and naming tricks out loud is what makes the habit stick.",
+    "family_question": "What is the cleverest trick a game or a shop has ever tried on you, and did it work?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pre teach rush, hidden and random with one picture each. Prices and odds are numbers, and numbers read the same in every language: lean on them.",
+      "sensory": "Mystery chest reveals are exciting by design and the room will spike. Take the verdict vote BEFORE each reveal so the thinking happens in the quiet.",
+      "attention": "One case at a time, verdict immediately, feedback straight after. Give a restless pupil the case reader job: the voice that reads the trap is the voice that learns to spot it.",
+      "communication": "The three spotter questions become three cards on the desk, and a pupil answers a whole case by holding up the question that catches it."
+    },
+    "tool": {
+      "lines": [
+        "Is it rushing me?",
+        "Is it hiding the price?",
+        "Is it random like a raffle?"
+      ],
+      "heading": "The spend spotters",
+      "strapline": "Three questions before any money moves. Anything worth buying is still worth buying after you ask."
+    },
+    "i_can": [
+      "I can spot when a game is rushing me, hiding a price or selling a mystery.",
+      "I can stop before I spend and run the three spend spotter questions.",
+      "I can explain to a friend how games are built to make spending feel small."
+    ],
+    "cycles": [
+      {
+        "verb": "Hold",
+        "title": "Brilliant AND designed. Both true.",
+        "minutes": 11,
+        "outcome": "I can hold both ideas at once: a game can be brilliant and built to keep me playing."
+      },
+      {
+        "verb": "Follow",
+        "title": "Free games that cost, and how the price hides",
+        "minutes": 16,
+        "outcome": "I can spot when a game is rushing me, hiding a price or selling a mystery."
+      },
+      {
+        "verb": "Check",
+        "title": "The spend spotters",
+        "minutes": 5,
+        "outcome": "I can stop before I spend and run the three spend spotter questions."
+      }
+    ],
+    "timing": "73 minutes: starter 11, cycle one 11, cycle two 16, cycle three 5, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "loot box",
+        "definition": "A chest or box you pay for without knowing what is inside. You are buying a chance, not a thing."
+      },
+      {
+        "word": "in game currency",
+        "definition": "Game money like gems or coins that you buy with real money. It hides what things really cost."
+      },
+      {
+        "word": "limited time offer",
+        "definition": "A deal with a countdown clock. The rush is designed to make you buy before you think."
+      },
+      {
+        "word": "odds",
+        "definition": "The chance of winning. 1 in 100 means if 100 people open the chest, about one gets the top prize."
+      }
+    ],
+    "equipment": "Nothing beyond the board. No game is played or shown in the lesson.",
+    "exit_quiz": [
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "A game can be brilliant and be built to keep you playing at the same time.",
+        "teaching_point": "Both true at once. A pupil who answers false has heard the lesson as an attack on what they love."
+      },
+      {
+        "answer": "A chance",
+        "format": "tick_one",
+        "options": [
+          "A thing you chose",
+          "A chance",
+          "Nothing at all"
+        ],
+        "question": "A loot box sells you:",
+        "teaching_point": "You are buying a chance, not a thing. Like a raffle ticket, and that is the honest comparison."
+      },
+      {
+        "answer": "thinking",
+        "format": "fill_blank",
+        "question": "A countdown clock in a shop is there to stop you ___.",
+        "teaching_point": "The rush is the design, not a kindness. Naming the purpose is what breaks it."
+      },
+      {
+        "answer": "What is the real price, what am I actually getting, and what is the rush?",
+        "format": "short_answer",
+        "question": "What are the three spend spotter questions?",
+        "teaching_point": "The tool they leave with. Three questions, asked before the tap, never after."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Only weak willed people get hooked by these tricks.",
+        "teaching_point": "The tricks are built by expert teams to work on everyone. Pupils who believe otherwise will never admit it happened to them."
+      }
+    ],
+    "worksheet": {
+      "title": "The spend spotter casebook",
+      "directions": "Run the three spend spotters on each offer, give your verdict, and write the reason, a verdict without a reason does not count.",
+      "verdict_options": [
+        "Fine to enjoy",
+        "Ask first",
+        "Walk away"
+      ]
+    },
+    "teacher_tip": "Name a game you enjoy yourself before you take the design apart. A lesson that opens by criticising what pupils love will lose the room in the first minute.",
+    "starter_quiz": [
+      {
+        "answer": "Any game and any genuine reason.",
+        "format": "short_answer",
+        "question": "Name a game you play and one thing you enjoy about it.",
+        "teaching_point": "The lesson opens by respecting the game. Get the enjoyment on the record before anything is taken apart."
+      },
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "A routine beats willpower.",
+        "teaching_point": "Carried forward from ks2-04. It should be quick and confident by now."
+      },
+      {
+        "answer": "Game money you paid real money for",
+        "format": "tick_one",
+        "options": [
+          "Real money",
+          "Game money you paid real money for",
+          "Free"
+        ],
+        "question": "You buy 500 gems for five pounds. The gems are:",
+        "teaching_point": "The gap between real money and game money is where the whole lesson lives. If this is fuzzy, slow down on cycle two."
+      },
+      {
+        "answer": "You cannot know what you will get before you get it.",
+        "format": "short_answer",
+        "question": "What does it mean if something is random?",
+        "teaching_point": "Needed before loot boxes make sense. A child without this word will hear a loot box as a present."
+      }
+    ],
+    "misconceptions": [
+      "Spending in games is always bad (a calm, clear priced purchase a grown up agreed to is fine, the problem is being rushed, price hidden or raffled, not spending itself)",
+      "Loot boxes are just fun surprises (they are random chances you pay for, like raffle tickets, the game sets tiny odds and keeps the money either way, which is why some countries ban them for children)",
+      "Only weak willed people get hooked (the tricks are built by expert teams to work on everyone, including adults, so noticing them is a skill to be proud of, not proof anyone was silly)"
+    ],
+    "paper_fallback": "Print the slide pack. Run the starter from the printed title, objective and keywords pages, read both scenarios aloud with pupils playing the parts, draw the keep you playing kit and the three spend spotters on the board as they come up, and run both discussions with a sand timer. The worksheet, bookmark and exit quiz are already paper, so practise, prove and close run unchanged.",
+    "passport_stage": "builder",
+    "commitment_stem": "My commitment: the next time a game rushes me, hides a price or offers a mystery chest, I will...",
+    "differentiation": {
+      "stretch": "Early finishers take the designer challenge: invent the fairest shop screen they can, clear pounds price, no timer, no chest, then explain why an honest shop might make less money in a week but keep its players for years.",
+      "support": "Pair support pupils with a confident reader for the scenario slides and work worksheet items one to three as a guided group, with the bookmark strip on the table so the three questions are always in front of them."
+    },
+    "prior_knowledge": [
+      "A pupil can name a game they play and say what they enjoy about it.",
+      "A pupil can explain that a routine beats willpower, from ks2-04.",
+      "A pupil understands that real money and game money are not the same thing."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "The game shop shows a sword skin for £1.99. The full price is on the label in pounds, there is no timer, and you have pocket money saved and permission to spend it.",
+        "teaching_point": "Spending is not the enemy, tricks are. Clear price, no rush, no raffle, permission given: all three spotters pass, and that verdict matters as much as the others.",
+        "expected_verdict": "Fine to enjoy"
+      },
+      {
+        "n": 2,
+        "item": "MEGA CHEST: 480 gems for a CHANCE at a legendary item. The legendary odds are 1 in 100 in tiny writing. OFFER ENDS IN 14:32!",
+        "teaching_point": "All three spotters fire at once: the countdown rushes you, gems hide the price, and a 1 in 100 chance is a raffle ticket. When all three fire, walking away is the strong move.",
+        "expected_verdict": "Walk away"
+      },
+      {
+        "n": 3,
+        "item": "You run out of gems mid battle. A popup offers 1,000 gems for £8.99, but the thing you want only needs 40 more gems.",
+        "teaching_point": "The bundle mismatch is the hiding trick: £8.99 for 40 gems of need leaves 960 spare gems pulling you back to the shop. Translating it into pounds out loud is what asking first is for.",
+        "expected_verdict": "Ask first"
+      },
+      {
+        "n": 4,
+        "item": "A friend messages the squad chat: everyone has the dragon bundle, the event ends tonight, just borrow your mum's card, she will not notice.",
+        "teaching_point": "The rush plus a friend's pressure plus a card that is not yours. A card that is not yours is never yours to use, and a real friend accepts I need to ask first.",
+        "expected_verdict": "Walk away"
+      },
+      {
+        "n": 5,
+        "item": "SPIN THE WHEEL! Your first spin is free and you win 50 gems. The next spin costs 99p and the top prize flashes SO CLOSE, TRY AGAIN!",
+        "teaching_point": "The free first taste plus the near miss is the raffle machine warming you up. SO CLOSE is designed, the wheel was never nearly anything.",
+        "expected_verdict": "Walk away"
+      },
+      {
+        "n": 6,
+        "item": "Leo says: it is fine, the game is free so they have to make money somehow, and anyway I nearly won a legendary last time. Do you agree with Leo? Explain your verdict.",
+        "teaching_point": "Leo is half right, companies do need money, and honest clear prices are the fair way to earn it. But nearly won is the near miss doing its job, and free means the shop inside IS the product. Credit answers that respect Leo while catching both tricks.",
+        "expected_verdict": "Walk away"
+      }
+    ],
+    "essential_question": "If the game is free, how is it making money out of me?",
+    "learning_objective": "Pupils can name the tricks games use to hold their time and can run the three spend spotters on any in game offer before any money moves.",
+    "key_learning_points": [
+      "A game can be brilliant and designed to keep you playing. Both are true at once.",
+      "Game currency hides the real price, because gems do not feel like pounds.",
+      "A loot box sells a chance, not a thing.",
+      "A countdown clock is there to stop you thinking, not to help you.",
+      "The spend spotters ask: what is the real price, what am I actually getting, and what is the rush?"
+    ]
+  }
+}

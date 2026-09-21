@@ -1,0 +1,602 @@
+{
+  "row": {
+    "title": "Screens and kindness, real and not real",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Reception",
+    "sort_order": 1,
+    "efcw_strands": [
+      1,
+      6
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "Pebble with DiGi Junior",
+    "evidence_anchor": "EYSTAG under 5s screen report",
+    "statutory_hooks": [
+      "EYFS PSED",
+      "RSHE foundations"
+    ],
+    "single_action_outcome": "I can ask a grown up if something on a screen is real."
+  },
+  "slides": [
+    {
+      "type": "interactive",
+      "phase": "connect",
+      "config": {
+        "seconds": 4
+      },
+      "script": "Before we meet anyone, we settle. Sit criss cross on the carpet with hands on tummies. Say: this is our star breath, and we do it at the start of every screen lesson. Watch the star grow, and breathe in with it. Watch it shrink, and breathe out. Do four together without talking. Then say: lovely. Our bodies are calm and our brains are ready. If a child cannot sit still, let them do it standing with arms rising and falling, that counts too.",
+      "caption": "Follow the star. In as it grows, out as it shrinks.",
+      "minutes": 2,
+      "component": "star-breath"
+    },
+    {
+      "body": "Real, or made up? Ask.",
+      "type": "title",
+      "phase": "connect",
+      "title": "Screens and kindness, real and not real",
+      "script": "Gather everyone on the carpet with this slide up. Say: today we meet two new friends. Pebble is our gentle guide, and DiGi Junior is a small golden star who loves to pause and breathe. They are going to help us learn something special about screens. Wiggle fingers like twinkling stars to say hello to DiGi Junior. The line that used to be on the wall, to say as written: Our very first screen lesson with Pebble and DiGi Junior. Some things on a screen are real. Some are made up. And we always have a grown up to ask.",
+      "eyebrow": "EYFS · Reception · Module 1",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Hello everyone! I am Pebble.",
+        "Some things on a screen are real. Some are made up. Can you tell which is which?",
+        "Let us find out together!"
+      ],
+      "phase": "starter",
+      "script": "Let Pebble land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Pebble is here!",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "why": "Screens show us wonderful things, and some of them are real while some are made up. We do not have to work it out on our own, because asking a grown up is always allowed and always clever.",
+      "type": "objective",
+      "gains": [
+        "Say that some things on a screen are real and some are made up",
+        "Know that a computer can make a picture of something that never happened",
+        "Do the star pause: stop, look, ask a grown up",
+        "Know that asking a grown up is clever, never naughty"
+      ],
+      "phase": "starter",
+      "script": "Read the big sentence out loud, then have the class say it back to you: I can ask a grown up if something on a screen is real. Say: asking is not for babies. Asking is what clever people do. Even teachers ask other grown ups sometimes. Ask: who likes watching things on a screen? Let hands go up, smile, everyone does, and that is lovely. Today we learn how to watch in a kind and clever way.",
+      "minutes": 2,
+      "outcome": "I can ask a grown up if something on a screen is real."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner something you have seen on a screen.",
+      "script": "Turn to the person next to you. Tell them one thing you have seen on a screen. Anything at all. Then we will learn our three special words.",
+      "lookFor": "Everybody has one. Nobody is stuck.",
+      "minutes": 1,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "real",
+          "meaning": "Something that can really happen in our world. A photo of your class is real."
+        },
+        {
+          "word": "made up",
+          "meaning": "Something from imagination, like a dragon in a story. Made up things are lovely, they are just not real."
+        },
+        {
+          "word": "screen",
+          "meaning": "The part of a phone, a tablet or the telly where the pictures live."
+        }
+      ],
+      "script": "Say each word slowly and have the class repeat it twice. For real, point at something in the room: the door is real, you are real. For made up, ask: is a dragon real or made up? Made up, and that is fine, we love dragons in stories. For screen, ask children to draw a screen shape in the air with their fingers. Do not rush this slide, these three words carry the whole lesson.",
+      "heading": "Our three special words",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "This is our warm up, there is no last lesson to remember because this is our very first one. Read both choices out loud with actions: cup your ear for the loud one, pat the seat next to you for the grown up one. Take a class vote with hands up. Whatever they choose, keep it warm, nobody is naughty for watching on their own, we are just learning that sharing a screen is cosier. Ask one or two children: who do you like watching things with at home?",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Ask a grown up to come and watch with you",
+          "correct": true,
+          "feedback": "Yes! Screens are cosier when we share them. A grown up next to you makes watching warmer and safer, like a story at bedtime."
+        },
+        {
+          "text": "Watch on your own with the sound up loud",
+          "correct": false,
+          "feedback": "You are not in trouble for picking this one. But watching is nicer with a grown up close by, because then you always have someone to ask."
+        }
+      ],
+      "question": "Warm up! You want to watch something on the telly at home. What is a lovely first thing to do?"
+    },
+    {
+      "body": "A photo is real. Dragons are made up.",
+      "type": "concept",
+      "emoji": "🖍️",
+      "phase": "teach",
+      "script": "Read the slide slowly. Point at each half. Say: a photo of our class is real, it truly happened. A dragon in a cartoon is made up, somebody drew it. Then pause and say: imagine a picture of an elephant wearing pyjamas and jumping on a bed. Did that really happen? No! But a computer could make a picture of it that looks ever so real. Let the giggles happen, the giggle is the learning. Then land the warm bit: made up things are not bad. Cartoons are made up and we love them. We just like to know what is real and what is made up, and we have grown ups to help us.",
+      "heading": "Real and made up",
+      "minutes": 3
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Pause like DiGi Junior. Take one big star breath. You do not have to decide on your own.",
+          "emoji": "✋",
+          "title": "Stop"
+        },
+        {
+          "text": "Look carefully. Could this really happen in our world?",
+          "emoji": "👀",
+          "title": "Look"
+        },
+        {
+          "text": "Say: is this real? Grown ups love being asked.",
+          "emoji": "🙋",
+          "title": "Ask a grown up"
+        }
+      ],
+      "script": "This is the heart of the lesson, take your time. Teach each step with a whole body action. Stop: hand up like a big star, and here is where DiGi Junior does the star pause, stretch your arms and legs out wide like a star and take one big slow breath in and out together. Look: binoculars with your hands. Ask a grown up: hand up high like asking a question. Practise the three actions in a row three times, getting faster and sillier each time, then once more slowly and calmly. Point at the three answer words at the bottom: real, made up, or ask a grown up. Asking is always a good answer. The line that used to be on the wall, to say as written: Our special tool. DiGi Junior does the star pause at Stop, and you can too.",
+      "caption": "DiGi Junior does the star pause.",
+      "heading": "Stop, look, ask a grown up",
+      "minutes": 4,
+      "verdicts": [
+        "Real",
+        "Made up",
+        "Ask a grown up"
+      ]
+    },
+    {
+      "mode": "class",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Who is a grown up YOU could ask: is this real? Think of someone at home and someone at school.",
+      "script": "Whole class circle talk with the timer on screen. Say: close your eyes for a moment. Picture a grown up at home you could ask. Now picture a grown up at school. Open your eyes. Go around the circle or take popcorn answers: mummy, daddy, nanny, grandad, a childminder, me, our teaching assistant. Repeat each name back warmly. If a child cannot think of anyone, gently offer: I am one of your asking grown ups, always. End with: every single one of us has a grown up to ask. That is the magic of this lesson.",
+      "lookFor": "Every child names at least one trusted grown up. Listen for a home name and a school name. The win is every child knowing they have someone.",
+      "minutes": 3,
+      "seconds": 60
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Breathe in as Pebble grows. Breathe out as Pebble shrinks. Then tell the person next to you one thing you found out today, and draw or write it on your sheet.",
+        "heading": "Half time! Everyone together",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Pebble grows and out as Pebble shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "Real or made up? · tap your answer",
+        "posts": [
+          {
+            "why": "We were there, so it really happened.",
+            "text": "A photo of your class on a school trip, with your teacher in it.",
+            "answer": 0,
+            "avatar": "📷",
+            "handle": "A photo"
+          },
+          {
+            "why": "Cartoons are made up on purpose, and that is lovely.",
+            "text": "A cartoon dragon breathing rainbow fire over a castle.",
+            "answer": 1,
+            "avatar": "🐉",
+            "handle": "A cartoon"
+          },
+          {
+            "why": "A computer can make a picture of something that never happened.",
+            "text": "An elephant wearing pyjamas and jumping on a bed.",
+            "answer": 1,
+            "avatar": "🐘",
+            "handle": "A picture"
+          },
+          {
+            "why": "Our eyes cannot tell. When we are not sure, we ask.",
+            "text": "A cat playing the piano and singing a song with your name in it.",
+            "answer": 2,
+            "avatar": "🎹",
+            "handle": "A video"
+          },
+          {
+            "why": "A wobbly tummy is exactly the moment to find a grown up.",
+            "text": "A great big spider that looks very real and makes your tummy feel wobbly.",
+            "answer": 2,
+            "avatar": "🕷️",
+            "handle": "A picture"
+          },
+          {
+            "why": "Seeing it on a screen does not make it real.",
+            "text": "I saw a snowman on a sunny hot beach. It must be real, because I saw it on the screen!",
+            "answer": 1,
+            "avatar": "⛄",
+            "handle": "DiGi Junior"
+          }
+        ],
+        "doneBody": "Real, made up, and the ones where the answer is to ask. Asking is the clever one.",
+        "verdicts": [
+          "Real",
+          "Made up",
+          "Ask a grown up"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "You sorted them all!"
+      },
+      "script": "Now we play it together before we do it on paper. Tap the first card and read it out with plenty of drama. Take hands up for each of the three answers, then tap the one the class chose. Read the reason that appears. Do all six. Two of them have the answer ask a grown up, and they are the important pair: the singing cat, because a computer could have made it, and the big spider, because it made a tummy feel wobbly. Say out loud: both of those are asking, and asking is clever. If the class picks wrong, do not correct them flatly, read the reason and ask them what they think now.",
+      "caption": "Real, made up, or ask a grown up?",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Star pause. Then circle: real, made up, or ask.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the circle sheets and chunky crayons, or run it fully on the carpet with hands up if that suits your class better. Read each of the six items from the teacher notes slowly, twice. Before each answer, do the star pause together: stop, look, ask. Children circle the smiley face under Real, Made up, or Ask a grown up. Finish by saying it together: asking is always a good answer. Support: sit alongside children who need help and let them point instead of circle. Stretch: ask early finishers to tell you one real thing and one made up thing they have seen on a screen.",
+      "heading": "Circle time practice",
+      "minutes": 6
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "This is the first of our two big finish questions, so every child answers. Read the question with delight: a cat! Driving a bus! Read both choices with actions, then hands up to vote. Ask one child why they chose asking. Land the point: seeing something on a screen does not make it real. Our eyes cannot always tell, but our grown ups can help.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Stop, look, and ask a grown up if it is real",
+          "correct": true,
+          "feedback": "Yes! That is our special tool. A cat driving a bus is very silly and probably made up, and asking a grown up is how we find out for sure."
+        },
+        {
+          "text": "Believe it straight away because you can see it",
+          "correct": false,
+          "feedback": "It is on the screen, but that does not make it real. A computer can make pictures of things that never happened. That is why we ask a grown up."
+        }
+      ],
+      "question": "You see a picture on a screen of a cat driving a bus. What can you do?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "The second big finish question. Remind them of the elephant in pyjamas before you read the choices, watch the faces light up remembering it. Vote with hands, then have the whole class say the answer sentence together: yes, so we ask a grown up. These two questions tell you who has the idea and who needs a little more practice at snack time tomorrow.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Yes, so we ask a grown up if a picture is real",
+          "correct": true,
+          "feedback": "Yes it can! That is why our tool is so special. When we are not sure, we stop, look, and ask a grown up."
+        },
+        {
+          "text": "No, pictures on a screen are always real",
+          "correct": false,
+          "feedback": "A computer really can make a picture of something that never happened, like our elephant in pyjamas. That is why asking a grown up is so clever."
+        }
+      ],
+      "question": "Can a computer make a picture of something that never happened?"
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Some things on a screen are real, and some are made up.",
+        "A computer can make a picture of something that never happened.",
+        "When we are not sure, we stop, we look, and we ask a grown up."
+      ],
+      "script": "Hold up one finger, then two, then three, and have the class hold them up with you. Read each line and let them say the last word of it with you. Then say: next time we meet, I am going to ask you these three again, so keep them safe in your brain. Say it warmly, it is a promise not a threat, and it is why they will remember.",
+      "heading": "Three things we know now",
+      "minutes": 1
+    },
+    {
+      "text": "Stop! Look! Ask a grown up: is this real?",
+      "type": "quote",
+      "label": "Say it like Pebble",
+      "phase": "close",
+      "script": "Pebble's special sentence. Say it together with the actions: star hand for stop, binoculars for look, hand up high for ask. Say it three times, first in a whisper, then in a talking voice, then big and proud. This is the sentence you want them singing to their grown ups at home time.",
+      "minutes": 1
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Here is your job. Next time a screen shows you something and you are not sure...",
+        "Stop. Look. Ask a grown up.",
+        "Then you will know. Off you go!"
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Pebble's job for you",
+      "minutes": 1,
+      "character": "pebble"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Pebble's stamp!",
+        "button": "Fill the page",
+        "prompt": "Today filled a little bit of the First steps page. Tap to fill it in!",
+        "heading": "The passport",
+        "moduleId": "eyfs-01-screens-kindness",
+        "register": "bouncy",
+        "placement": "foundation"
+      },
+      "script": "DiGi Junior keeps a special book called the passport. It is the book of getting ready for phones and screens, all the way to sixteen. Every lesson we do together fills a little bit of the page, and jobs at home fill it too. Ask one child to come up and tap Fill the page, and when the ring moves, everybody shouts the word stamp. Then say: when the page is full, DiGi asks five little questions, the big check, and the page earns Pebble's stamp. Nobody can fail the passport. It only ever fills up. The note going home today tells your grown ups which page it is. The count on the wall is this screen's memory of your class, not any child's record: the real passport is the one at home.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Star pause with me! Arms out wide, one big breath in, and out. Lovely. ⭐",
+        "Remember: some things on a screen are real, some are made up, and a computer can even make pictures. Tricky!",
+        "So when you are not sure, you know just what to do. Stop! Look! Ask a grown up!",
+        "You have grown ups who love being asked. See you next time, little stars!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi Junior land the ending, the lines appear on their own. Do the star pause with the class one last time as the first line comes up: arms and legs wide like a star, one slow breath. Send the parent note home in book bags today so families hear the chant tonight. Wave goodbye to DiGi Junior with twinkling star fingers.",
+      "heading": "DiGi Junior says goodbye",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "EYFS",
+  "module_id": "eyfs-01-screens-kindness",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 0,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 1,
+  "parent_note": {
+    "taught": "Today we learned that some things on a screen are real, some are made up, and a computer can even make pictures of things that never happened. Your child learned a little tool for when they are not sure: Stop, look, ask a grown up.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today also filled a little of your child's passport page. The passport is the journey to sixteen that home and school walk together: lessons fill it at school, jobs and little wins fill it at home, and each stage of growing up ends with a stamp. Ask your child about DiGi Junior's special book.",
+    "try_this": "Watch something together this week and pause it once. Ask: is this real or made up? Then let your child ask you the same question about something else on the screen.",
+    "family_question": "Can you teach me the star pause? Show me Stop, look, ask a grown up.",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Real and made up are the only two words that matter today. Teach them with objects first, a toy dinosaur and a picture of a dinosaur, then let the lesson reuse them.",
+      "sensory": "The star breath is the calmest moment in the scheme. A child who finds eyes closed hard keeps them open and watches the star, and sitting at the edge of the carpet with a fidget is participation.",
+      "attention": "One picture at a time on screen, everything else covered. The star pause is the reset: use it between every item, not only where the plan says so.",
+      "communication": "The three body actions already replace words. For children with speech, language and communication needs, run the whole worksheet through pointing at the circle sheet faces, and accept every mode of showing as a full answer."
+    },
+    "tool": {
+      "lines": [
+        "Stop",
+        "Look",
+        "Ask a grown up"
+      ],
+      "heading": "Stop, look, ask a grown up",
+      "strapline": "Is this real? Asking is clever."
+    },
+    "i_can": [
+      "I can point to something real and something made up.",
+      "I can stop and ask a grown up if something on a screen is real.",
+      "I can tell a friend why asking a grown up is a clever thing to do."
+    ],
+    "cycles": [
+      {
+        "verb": "Look",
+        "title": "Real and made up",
+        "minutes": 3,
+        "outcome": "I can point to something real and something made up."
+      },
+      {
+        "verb": "Ask",
+        "title": "Stop, look, ask a grown up",
+        "minutes": 7,
+        "outcome": "I can stop and ask a grown up if something on a screen is real."
+      }
+    ],
+    "timing": "42 minutes: connect 3, starter 9, teaching 10, sorting game 4, circle time practice 7, prove 4, close 5",
+    "keywords": [
+      {
+        "word": "real",
+        "definition": "Something that can really happen in our world. A photo of your class is real."
+      },
+      {
+        "word": "made up",
+        "definition": "Something from imagination, like a dragon in a story. Made up things are lovely, they are just not real."
+      },
+      {
+        "word": "screen",
+        "definition": "The part of a phone, a tablet or the telly where the pictures live."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The sorting cards are in the print room, so the lesson runs with no devices in the room.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Everything you see on a screen is real.",
+        "teaching_point": "The main misconception of the lesson. Some things on a screen are made up, and a computer can make a picture of something that never happened."
+      },
+      {
+        "answer": "Made up",
+        "format": "tick_one",
+        "options": [
+          "Real",
+          "Made up",
+          "Both"
+        ],
+        "question": "A cartoon dragon breathing fire is:",
+        "teaching_point": "Cartoons are made up on purpose. Naming an easy one first makes the hard ones easier."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Made up things are naughty.",
+        "teaching_point": "Made up is lovely, it is just not real. A child who thinks made up means naughty will stop asking about it."
+      },
+      {
+        "answer": "ask",
+        "format": "fill_blank",
+        "question": "When I am not sure if something is real, I stop and ___ a grown up.",
+        "teaching_point": "The single action outcome in the child's own words. This is the one line to hear back."
+      },
+      {
+        "answer": "Ask a grown up",
+        "format": "tick_one",
+        "options": [
+          "Believe it",
+          "Ask a grown up",
+          "Get cross"
+        ],
+        "question": "You see a picture of an elephant wearing pyjamas. What is the clever thing to do?",
+        "teaching_point": "Asking is clever and kind, never trouble. Say so out loud when you mark it."
+      }
+    ],
+    "worksheet": {
+      "title": "Real or made up?",
+      "directions": "Your teacher reads each one aloud, then you circle Real, Made up, or Ask a grown up.",
+      "verdict_options": [
+        "Real",
+        "Made up",
+        "Ask a grown up"
+      ]
+    },
+    "teacher_tip": "Do the sorting game with real objects and picture cards before anything appears on a screen. A child who has sorted with their hands will sort on a screen.",
+    "starter_quiz": [
+      {
+        "answer": "A tablet",
+        "format": "tick_one",
+        "options": [
+          "A tablet",
+          "A shoe",
+          "A banana"
+        ],
+        "question": "Which one of these is a screen?",
+        "teaching_point": "The word screen has to be in the room before the lesson can use it. If hands go up slowly, hold up a tablet and say the word together."
+      },
+      {
+        "answer": "Any of: the telly, a tablet, a phone, a computer.",
+        "format": "short_answer",
+        "question": "Name one screen you have at home.",
+        "teaching_point": "Every child has one to name, so the lesson starts as theirs. A child who names none has still told you something useful."
+      },
+      {
+        "answer": "The big pile",
+        "format": "tick_one",
+        "options": [
+          "The big pile",
+          "The small pile"
+        ],
+        "question": "We are sorting into two piles, big things and small things. Where does an elephant go?",
+        "teaching_point": "Checks the child can sort into two piles, which is the exact shape of today's game. If this is shaky, do one more round with objects first."
+      },
+      {
+        "answer": "Any trusted adult the child names, at school or at home.",
+        "format": "short_answer",
+        "question": "Who is a grown up you could ask if you were not sure about something?",
+        "teaching_point": "A child who cannot name one needs that fixed before anything else in this lesson can land."
+      }
+    ],
+    "misconceptions": [
+      "Everything on a screen is real (some things are made up, and a computer can make a picture of something that never happened)",
+      "Made up things are bad or naughty (stories and cartoons are made up and they are lovely, we just like to know which is which)",
+      "Asking a grown up means you are in trouble (asking is clever and kind, and grown ups love being asked)"
+    ],
+    "paper_fallback": "The whole lesson runs as carpet circle time with no screen at all. Teach the three special words with actions, tell the elephant in pyjamas story out loud, teach the three step tool with body actions, run the who is your grown up circle talk, read the six circle sheet items aloud, do the two finish questions as hands up votes, and end with the chant and the star pause.",
+    "passport_stage": "foundation",
+    "commitment_stem": "My commitment: when I am not sure if something on a screen is real, I will ask my grown up called",
+    "differentiation": {
+      "stretch": "Ask children to give their own example of one real thing and one made up thing they have seen on a screen, and to say how they would find out for sure.",
+      "support": "Children answer with the three body actions instead of words, and point at faces on the circle sheet rather than circling. Sit alongside and model the star pause before each item."
+    },
+    "prior_knowledge": [
+      "A child can name a screen they have used at home, a telly, a tablet or a phone.",
+      "A child can join in with a simple sorting activity, this pile and that pile.",
+      "A child knows who their trusted grown ups are at school and at home."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A photo of your class on a school trip, with your teacher in it.",
+        "teaching_point": "Photos of things we were actually there for are real. Recognising real builds the contrast for everything else.",
+        "expected_verdict": "Real"
+      },
+      {
+        "n": 2,
+        "item": "A cartoon dragon breathing rainbow fire over a castle.",
+        "teaching_point": "Cartoons are made up on purpose and that is lovely. Made up is not the same as naughty.",
+        "expected_verdict": "Made up"
+      },
+      {
+        "n": 3,
+        "item": "A picture of an elephant wearing pyjamas and jumping on a bed.",
+        "teaching_point": "The lesson's own example applied. A computer can make a picture like this even though it never happened.",
+        "expected_verdict": "Made up"
+      },
+      {
+        "n": 4,
+        "item": "A video of a cat playing the piano and singing a song with your name in it.",
+        "teaching_point": "Some things could be real or could be made by a computer, and our eyes cannot tell. When we are not sure, asking is the answer.",
+        "expected_verdict": "Ask a grown up"
+      },
+      {
+        "n": 5,
+        "item": "A picture of a great big spider that looks very real and makes your tummy feel wobbly.",
+        "teaching_point": "A big wobbly feeling is exactly the moment to find a grown up. They can tell us if it is real and help the feeling feel smaller.",
+        "expected_verdict": "Ask a grown up"
+      },
+      {
+        "n": 6,
+        "item": "DiGi Junior says: I saw a picture of a snowman on a sunny hot beach. It must be real, because I saw it on the screen! Do you agree with DiGi Junior? Tell us why.",
+        "teaching_point": "Seeing something on a screen does not make it real, a computer can make pictures. Listen for children explaining this back in their own words, that is the outcome met.",
+        "expected_verdict": "Made up"
+      }
+    ],
+    "essential_question": "How do I know if something on a screen is really real?",
+    "learning_objective": "Pupils can say that some things on a screen are real and some are made up, and use the tool Stop, look, ask a grown up when they are not sure.",
+    "key_learning_points": [
+      "Some things on a screen are real and some are made up.",
+      "Made up things are lovely, they are just not real.",
+      "You cannot always tell which is which by looking.",
+      "When you are not sure, you stop and ask a grown up."
+    ]
+  }
+}

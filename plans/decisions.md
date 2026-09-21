@@ -632,3 +632,157 @@ Also corrected: CLAUDE.md still named Teo, Olga and Alma as the characters.
 Justin: "they are not digi squad characters we do not use them anymore we use
 planet friends." It now names DiGi and the Planet Friends, as digi-squad has
 since 23 July 2026.
+## 21 September 2026 — the mirror is true: all 29 lessons in content/modules, hash proved
+
+Every review batch asserts the post state by string hash, which needs the
+file to equal the row first. Seven export agents pulled the 21 older lessons
+out of production through the Supabase tool and proved each with
+`scripts/module-string-hash.mjs`; four September files had gone stale under
+later migrations and were re exported. All 29 proved again in one query. The
+first apply of 321 refused, correctly, on the stale four: the hash proof
+doing its job. PR 1133.
+
+## 21 September 2026 — migration 321: the keyword meanings the wall could not see
+
+Eight lessons written since 11 September stored each keyword's meaning under
+`definition`; the wall and the vocabulary page draw `meaning`, so those classes
+saw the words and nothing under them, and the council's blocks check counted
+the missing meanings as nothing to measure. Found by the rubric's measurable
+checks. Renamed in the rows and the files under guard; contract rule 14
+refuses a keywords slide without a meaning the wall draws. PR 1133.
+
+## 21 September 2026 — the lesson rubric, and the only road from a finding to production
+
+`scripts/lesson-rubric.md`: every check with its source, MEASURABLE, JUDGEMENT
+or SCHEME, from two research reports (the best UK schemes lesson by lesson;
+the evidence on projected slides and scripted lessons), honest about what was
+opened and what came through a snippet. `scripts/check-lesson-rubric.mjs`
+runs the measurable ones per slide. `scripts/gen-review-batch.mjs` is the
+only road from a verified finding to a migration: one edit is one string on
+one slide, refused if it does not match the file, carries a dash, breaks the
+wall ceiling, loses an attested phrase or worsens the contract, then a
+guarded batch with backup, abort, proofs and hashes. Migration numbers 321
+onwards are the review's. The 29 reviewer and 29 verifier workflow runs
+against it. PR 1133.
+
+## 21 September 2026 — on a phone the lesson opens section is a swipe strip, not a pinned board
+
+Justin, from his phone: the board stays and the text underneath scrolls past
+and is missed. The pinned card took the top half of the screen and each
+step's words slid up under it while the reader was on them. A phone now gets
+one panel per step, the board for that step with its words directly beneath,
+in a horizontal snap strip with the next panel's edge showing and tappable
+dots; nothing is pinned and nothing slides under anything. The desk keeps
+the sticky board beside the steps. Rendered at 390, 430 and 1440. PR 1133.
+
+## 21 September 2026 — the passport stands in the door at the end of the road
+
+Justin, from his phone: the passport should be at the end. It was at right
+26 per cent, which lands between 56 and 74 per cent of the hero picture; the
+doorway runs from 73 to 89. So it sat short of the door, in the middle of the
+road, and covered Nova entirely, drawing five friends and showing four. It is
+now centred on the door at 81 per cent, inside the open doorway, by a half
+width margin rather than a transform because GSAP owns the transform and
+animates the rotate. Nothing had regressed: it was wrong from the start and
+only visible on a phone. Rendered at 390, 430 and 1440. PR 1135.
+
+## 21 September 2026 — one ruler for a slide the class acts on
+
+Three files each had their own idea of it. The council counted a choice,
+discussion, tryit, interactive and scenario, plus a quote and a diagram with
+verdicts; the module contract counted four of those and none of the rest; the
+rubric checker wrote the council's list out again by hand. On the contract's
+ruler 21 of 29 lessons looked like they sat children past the four minute
+ceiling, and on the council's almost none did, so the disagreement was between
+our instruments rather than in any classroom. Both files now import respondsTo.
+The ceiling is unchanged: the threshold was never the problem, the type list
+was. Contract failures across all 29 lessons went 60 to 2. Said out loud
+because the diff invites the opposite reading: a gate falling from 60 to 2
+looks like a guard being silenced, and the defence is that the content was
+authored to the council's definition all along. PR 1135.
+
+## 21 September 2026 — the scheme publishes the length it actually runs
+
+The 45 to 60 minute window was a number written into the rubric, not a finding
+with a source, and 26 of 29 lessons run past it: median 69, range 42 to 73. A
+five lens panel and four adversarial lenses agreed not to trim, because it is
+the only course that spends statutory content on a rule with nothing behind
+it, and not to publish a core figure either, because the core recomputes to 50
+to 72 so any tighter band would be false on day one. So every manifest row
+carries the true total, the public curriculum card prints it, and
+check-lesson-minutes.mjs holds the published figure to the sum of the slides.
+C8 now tests that the printed number is the real one. Every minute in the
+scheme is authored, not timed: three timed lessons would settle more than more
+analysis. PR 1135.
+
+## 21 September 2026 — Cosmo fronts the sixth form, and the pilot's cast predates the Planet Friends
+
+Cosmo fronted zero lessons, because both sixth form modules are cast to DiGi
+and the home page rightly hides a friend who fronts nothing, while the hero
+picture, the KS5 printouts and the parents app all still promised him.
+Justin's call: recast both KS5 modules to Cosmo, DiGi still closing. Contract
+rules 12 and 13 fail ks3-12, the public taster, because its pause and mission
+are film and only the arrival check accepts film, so the gate still runs on
+four lessons rather than all 29. PR 1135.
+
+CORRECTION, same day, before anyone acts on it. I first read ks3-12's
+video_beats as the cast and reported that the taster plays films of zara and
+digi_junior against a manifest saying orbit. That was wrong. video_beats is a
+render ledger, not the cast, and it is stale: its four job ids match none of
+the six films on the slides, and it names kling3_0 while the transactions show
+the clips were made on Seedance 2.5 on 11 September. What plays is Orbit, as
+Justin's own screenshot of slide 7 shows. The defect is a ledger nobody
+updated after the Orbit re-render, which is worth fixing so the next person is
+not misled, and it is not a wrong character on a wall.
+
+## 21 September 2026 — migration 323: Cosmo fronts the sixth form, applied
+
+Justin said go. Both KS5 modules move from DiGi to Cosmo on four beats each:
+the title's cast key, the arrival, the half time breath and the mission. The
+DiGi sign off that ends both lessons is untouched and proved untouched, and
+the cast line moves with the beats because contract rule 8 holds every friend
+on a beat to the row's own character_cast, which the first generation missed
+and the contract caught. Cosmo returns to the home page on his own, because
+the squad grid shows any friend the curriculum gives a lesson to.
+
+The words: four writers on four angles, three judges (a Year 13 student, a
+head of sixth form, a writer who knows the other friends' voices), three
+hostile checks. All three judges picked the same draft; the checks forced six
+rewrites and killed three lines for handing over the lesson's own answer in
+its opening minute, which the stored script forbids in as many words. The
+rule they converged on: Cosmo stops narrating Cosmo, names himself once, and
+talks about the room after that, which is how Orbit and Nova already work.
+
+Verified on the live rows: cast line, all four beats, one DiGi sign off left
+in each, 30 and 29 slides, 65 minutes each, 29 rows backed up, and both hash
+proofs. PR 1137.
+
+Open for Justin, not changed here: DiGi's sign off in module 20 opens "Twenty
+modules" and the scheme has 29. True when there were 21. His voice, his call.
+
+## 21 September 2026 — migration 324: the sign off counts the real scheme
+
+Justin's call on the item left open above: make it the real number. Applied.
+
+The number is 28, not 29. ks5-20 is the 28th of 29 in the order the scheme
+teaches and ks5-21 still follows it, so 29 would tell a Year 13 class they had
+finished a scheme with one lesson to go. The original construction was "this
+is module N and N modules led here", so the update keeps the construction and
+moves N. The generator computes N from the manifest rather than taking it
+typed in.
+
+Also added the guard that should have caught this. check-curriculum-honesty
+holds the marketing pages to MODULE_COUNT and the pages have been right for
+months; the wall was wrong the whole time, because a count inside a slide is
+content in the database and every count guard we had watched the pages.
+check-lesson-counts holds any module count stated in a lesson to a number that
+is true from where it is spoken: the scheme total, or that lesson's position.
+One hit across 29 lessons, and it was the real one.
+
+Verified on the live row: the new line, four lines still in the close, no
+character key on the sign off, 30 slides, 29 rows backed up, hash proof. The
+retired sentence is gone from every lesson. PR 1138.
+
+Still open for Justin, not changed: "here is where they were all heading" is a
+finale and ks5-20 is the 28th of 29, so it lands one lesson early. ks5-21
+carries the real close. Whether that line moves, softens or stays is his.

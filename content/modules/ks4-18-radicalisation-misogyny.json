@@ -1,0 +1,763 @@
+{
+  "row": {
+    "title": "Radicalisation and misogyny",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 10 to 11",
+    "sort_order": 18,
+    "efcw_strands": [
+      2,
+      5
+    ],
+    "ailit_domains": [
+      "Engage with AI"
+    ],
+    "character_cast": "DiGi only",
+    "evidence_anchor": "KCSIE and RSHE naming misogyny",
+    "statutory_hooks": [
+      "Prevent",
+      "KCSIE",
+      "RSHE (misogyny)"
+    ],
+    "single_action_outcome": "I can recognise when content is grooming my beliefs."
+  },
+  "slides": [
+    {
+      "body": "One hour on the machinery that turns a feed into a recruiter, and the three questions that break its grip.",
+      "line": "Hello. I am DiGi. This one matters, and we will take it steadily, together.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Radicalisation and misogyny",
+      "script": "Settle the room with this slide up and set the register early: today is a serious one, and I am going to talk to you like the near adults you are. Nobody is in trouble in this lesson, nobody is being accused of anything, and nothing anyone says in honest discussion goes on a report. We are studying a machine. By the end of the hour you will be able to see it working.",
+      "eyebrow": "KS4 · Years 10 to 11 · Module 18",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "How does someone end up believing something they would have rejected a year ago?",
+        "One step at a time, and nobody notices the steps. Today you will."
+      ],
+      "phase": "starter",
+      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "DiGi opens the lesson",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "why": "There are people whose whole business is finding you in an angry or lonely moment and slowly changing what you believe, one recommended clip at a time. Nobody signs up for that on purpose, which is exactly why the skill today is recognising the process while it is happening, not after.",
+      "type": "objective",
+      "gains": [
+        "See how a pipeline moves from harmless content to extreme content one clip at a time",
+        "Spot the grooming playbook when it is aimed at beliefs: isolate, flatter, escalate",
+        "Run the pipeline check on anything in a feed in under a minute",
+        "Know what to do, and what to say to a mate, when a pipeline has a grip"
+      ],
+      "phase": "starter",
+      "script": "Read the outcome and the why aloud, slowly. Then say this word for word: this lesson is not an attack on anyone in this room, and it is especially not an attack on boys. The content we are studying is aimed at boys, which makes boys the target, not the problem. Say that plainly and mean it. The lesson fails if any pupil leaves feeling accused rather than equipped.",
+      "minutes": 2,
+      "outcome": "I can recognise when content is grooming my beliefs."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about someone online that a lot of people your age listen to. Then say why you think people listen.",
+      "script": "Sixty seconds. Someone online who people your age actually listen to, and then the important half: why do you think they listen. I am not asking you to defend anybody or attack anybody. I want the reason.",
+      "lookFor": "Push for the mechanism, not the names. He says what nobody else will, he is funny, he sounds like he is on my side.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "radicalisation",
+          "meaning": "The process of being moved, usually gradually, towards extreme beliefs that paint one group as the enemy."
+        },
+        {
+          "word": "pipeline",
+          "meaning": "A chain of recommended content that starts harmless and gets steadily more extreme the longer you watch."
+        },
+        {
+          "word": "misogyny",
+          "meaning": "Contempt for women and girls: treating them as lesser, as objects, or as the enemy."
+        },
+        {
+          "word": "grooming",
+          "meaning": "Slowly building trust and dependence in order to use someone. It can target your body, your money, or your beliefs."
+        },
+        {
+          "word": "algorithm",
+          "meaning": "The system that picks your next clip. It optimises for your attention, not your wellbeing."
+        }
+      ],
+      "script": "Say each word, class repeats it back, no exceptions even at KS4, shared language matters in this lesson more than most. Pause on grooming: you have met this word in other lessons about people who target bodies and money. Today the same word, the same playbook, aimed at beliefs. That connection is half the lesson.",
+      "heading": "Words we need today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Thirty seconds of silent thinking, then hands. This should be near unanimous, the three lifelines were the whole of last module. Land the bridge to today: last week we studied people who groom for money. Today we study people who groom for beliefs, and you are about to see it is the same playbook.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Do not pay, do not keep it secret, report it",
+          "correct": true,
+          "feedback": "Exactly. Paying never ends it, secrecy is the blackmailer's only real power, and reporting works. The police and CEOP treat the young person as the victim, every time, and you are not in trouble."
+        },
+        {
+          "text": "Pay once to make it stop, then block them",
+          "correct": false,
+          "feedback": "Paying proves you can pay, and the demands almost always continue. The lifelines start with do not pay."
+        },
+        {
+          "text": "Delete everything and tell nobody",
+          "correct": false,
+          "feedback": "Secrecy is the lever the whole scam relies on. Telling a trusted adult takes the blackmailer's power away, and you are not in trouble for telling."
+        }
+      ],
+      "question": "Retrieval from last module. Someone is being blackmailed with a private image and the blackmailer is demanding money. What were the three lifelines?"
+    },
+    {
+      "body": "No one has ever typed make me hate half the population into a search bar. Every pipeline opens with content that looks nothing like its destination: gym routines, money advice, gaming clips, confidence tips. Some of it is genuinely useful, which is precisely what makes it a good door. The people who build these pipelines understand something important: you would never walk through a door marked extreme, so the door is marked self improvement instead.",
+      "type": "concept",
+      "emoji": "🚪",
+      "phase": "teach",
+      "script": "Deliver this calmly and without any smirk about the content itself, because half the room watches gym and money content and there is nothing wrong with that. Say it directly: watching fitness or hustle content does not put you on a pipeline, and this lesson is not telling you to stop. The question is never the door. It is what is on the other side, and who decided your route.",
+      "heading": "Nobody starts at the extreme",
+      "minutes": 2
+    },
+    {
+      "meta": "2h · 1.4M views",
+      "text": "Nobody is coming to save you. Train. Build. Read. Stop listening to people who want you weak. Modern life is designed to make men soft and comfortable with losing.",
+      "type": "scenario",
+      "image": "🏋️",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "stats": "❤ 212K   ↻ 61.3K   💬 18.7K",
+      "avatar": "💪",
+      "handle": "discipline.daily",
+      "prompt": "Harmful, harmless, or something else? Thirty seconds with the person next to you, then hold your verdict. We will come back to this exact post at the end of the lesson.",
+      "script": "Let pairs talk, take three or four verdicts, and do not resolve the argument yet. The honest answer is that this post on its own is close to harmless and some of it is decent advice, and that is the point: this is what a pipeline entrance looks like. One caution for you as the teacher: if pupils name a real influencer here, acknowledge without debating the man. Say we are studying the machinery, not any one person, and every creator can be run through today's check like anyone else.",
+      "minutes": 2,
+      "platform": "feed"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Gym, money, gaming, confidence. Ordinary content, often genuinely useful. The door never looks like the destination.",
+          "emoji": "🚪",
+          "title": "The hook"
+        },
+        {
+          "text": "Each recommended clip runs slightly hotter than the last, because hotter holds attention longer and attention is the product.",
+          "emoji": "📈",
+          "title": "The escalation"
+        },
+        {
+          "text": "An enemy appears. Your real problems get one simple cause and one group to blame for all of it.",
+          "emoji": "🆚",
+          "title": "Us versus them"
+        },
+        {
+          "text": "No single clip changes anyone. Hundreds of clips, each nudging the line of normal, do.",
+          "emoji": "💧",
+          "title": "The drip feed"
+        }
+      ],
+      "script": "Walk the four steps as they build and keep your tone forensic, like an engineer explaining a machine. The key line to land on step two: the algorithm is not evil and it is not on anyone's side, it optimises for attention, and outrage happens to be the strongest attention fuel we have ever found. On step four, name the defence pupils will reach for: it is just jokes, it does not affect me. The drip feed works precisely because every individual clip feels too small to matter.",
+      "caption": "Nobody chooses the destination. The feed moves the floor one clip at a time.",
+      "heading": "How a pipeline works",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check, hands or devices. If the room gets this, cycle one has landed. Take one pupil's reasoning out loud before moving on, because the sentence the entry has to feel normal is the sentence you want them saying in their own words.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Because nobody would walk through a door marked extreme. The entry has to feel normal and useful",
+          "correct": true,
+          "feedback": "Exactly. The entry content is the disguise. If the first clip showed you the destination, you would close the app. The pipeline needs you comfortable first."
+        },
+        {
+          "text": "Because extreme content is banned everywhere, so it cannot appear at all",
+          "correct": false,
+          "feedback": "Moderation removes some of it, but plenty survives by staying just inside the rules. The pipeline does not need banned content, it needs escalating content."
+        },
+        {
+          "text": "Because the creators have no idea their content escalates",
+          "correct": false,
+          "feedback": "Some creators are unaware, but the people running the far end of these pipelines understand the funnel very well. It is a recruitment design, not an accident."
+        }
+      ],
+      "question": "Why do pipelines open with harmless content instead of leading with the extreme content?"
+    },
+    {
+      "body": "We are going to name this plainly, because naming it is the respectful option. For teenage boys in the UK, the most common pipeline entrance is misogyny: content that starts as dating or confidence advice and escalates into contempt for women and girls.",
+      "type": "concept",
+      "emoji": "🎯",
+      "phase": "teach",
+      "script": "Name it plainly and without apology, the naming is the respectful part. Keep your tone level and do not editorialise about any individual. Say this, as written: And it is not only about women, which is worth saying plainly. The same machine runs on race, on religion, on disability, on sexual orientation and on trans people, and it runs the same way every time: a stereotype arrives as a joke, agreeing with it gets rewarded, and the feed learns to bring more. The damage is not the joke. It is that a stereotype repeated often enough stops sounding like an opinion and starts sounding like a fact about somebody you have never met. That is how prejudice gets built one post at a time, and it is the same road by which treating a person as though their answer does not matter starts to seem ordinary. Read the added lines at the same flat pace as the rest. The list of characteristics is deliberately said once and not dwelt on, because a register change here turns the slide into a lecture and the class stops listening. The sentence that does the work is the last one: a stereotype is how somebody becomes a category, and a category is easier to treat badly than a person. If a pupil argues that a joke is only a joke, the honest answer is that the joke is not the damage, the repetition is.",
+      "heading": "Misogyny is the most common on ramp",
+      "minutes": 1
+    },
+    {
+      "body": "It is common enough that the safeguarding guidance every school follows, Keeping Children Safe in Education, and the RSHE curriculum both name misogyny and incel culture directly. Hear this clearly: this content is aimed at you, which makes you the target, not the accused. The manipulation is the enemy in this room, and it is the only enemy in this room.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Read the last two sentences word for word, do not improvise them and do not skip them. Expect the room to tense slightly, that is normal and it passes. Two handling notes. If a pupil defends a named influencer, do not debate the man, redirect to the machinery: fine, run him through the pipeline check when we get to it, who wants you angry, what happens if you keep watching. If a pupil voices views that genuinely concern you, stay calm, do not shame them in front of the room, note it and follow your school's Prevent and safeguarding routes afterwards.",
+      "heading": "You are the target, not the accused",
+      "minutes": 1
+    },
+    {
+      "meta": "23:47",
+      "text": "watch this before it gets taken down. he explains why girls at our school act the way they do. everyone calls him toxic because they cant handle that hes right about everything",
+      "type": "scenario",
+      "image": "🎬",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "🎮",
+      "handle": "Marcus",
+      "prompt": "Three manipulation moves are hiding in this one message. Can you find them?",
+      "script": "Give pairs a minute, then collect. The three moves: before it gets taken down is manufactured urgency, forbidden knowledge feels valuable. Everyone calls him toxic because they cant handle it is us versus them plus flattery, you are one of the few who can handle the truth. And he explains why girls act the way they do is a supplied enemy dressed up as an explanation. Then the line that keeps the room human: Marcus is not the villain here. Marcus is further down the same pipeline. That distinction matters for the whole lesson.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Your teachers, your parents, the media, they are all lying to you. Only we tell you the truth. Every other voice gets cut off.",
+          "emoji": "🚧",
+          "title": "Isolate"
+        },
+        {
+          "text": "You are different. You see what the sheep cannot. Belonging and status, offered exactly when they feel out of reach.",
+          "emoji": "⭐",
+          "title": "Flatter"
+        },
+        {
+          "text": "Small asks become bigger ones. Watch this. Share this. Say this. Believe this. Hate them.",
+          "emoji": "🔥",
+          "title": "Escalate"
+        }
+      ],
+      "script": "Build the three steps and let the recognition do the work: ask the class where they have seen isolate, flatter, escalate before. They have, in the grooming and sextortion modules. The sentence to land: groomers do not have different playbooks for bodies, money and beliefs, they have one playbook and three targets. If anyone finds this uncomfortable in a personal way, that is a sign the lesson matters. Remind the room quietly that talking to you or any trusted adult afterwards is always open, and nobody is in trouble for it.",
+      "caption": "You already know this pattern. Same playbook you studied for other grooming, aimed at your beliefs instead of your body or your money.",
+      "heading": "Belief grooming runs the grooming playbook",
+      "minutes": 3
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Why does this playbook work best on someone in an angry or lonely moment?",
+      "script": "Ninety seconds in pairs, timer on screen. Take three answers after the chime. You are listening for the insight that the recruiter is selling something the moment genuinely lacks: belonging, status, an explanation for real pain. Do not let anyone frame it as only sad losers get got. The whole design targets ordinary people in ordinary bad moments, which at some point is everyone in this room, including the adult at the front.",
+      "lookFor": "The pipeline sells belonging, an explanation and someone to blame, at the exact moment those feel missing. The feelings are real. The product sold for them is fake.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check. All three options are real moves from the playbook, so the feedback teaches whichever way pupils vote. If time allows, ask the stretch question: which of the three steps do you think is hardest to spot from the inside? There is no single right answer, but flattery usually wins, because it feels like being valued.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "You are one of the few smart enough to see the truth",
+          "correct": true,
+          "feedback": "That is flattery doing its job: status and belonging in one sentence, offered exactly when they feel out of reach. It feels like respect. It is bait."
+        },
+        {
+          "text": "Everyone out there is lying to people like us",
+          "correct": false,
+          "feedback": "That is the isolate step, cutting off every voice except theirs. Recognise it, but the flattery is the line that makes you feel chosen."
+        },
+        {
+          "text": "You watched that, now share this one",
+          "correct": false,
+          "feedback": "That is escalation, the small ask that grows. The flattery came earlier, and it is what made the asks feel reasonable."
+        }
+      ],
+      "question": "Belief grooming mirrors the grooming you have already studied. Which of these lines is the flatter step?"
+    },
+    {
+      "body": "Pipelines do their best work on a bad night. Rejected, humiliated, left out, awake at one in the morning scrolling, that is when a clip saying it is not your fault, it is them lands hardest. Be clear about something: the anger is often real and sometimes about real unfairness. What is fake is the diagnosis, and the enemy you are sold along with it. So the skill is not never feel angry. The skill is knowing exactly what circles that anger when it arrives.",
+      "type": "concept",
+      "emoji": "🕰",
+      "phase": "teach",
+      "script": "Slow down for this slide, it is the emotional centre of the lesson. The line to stress: we are not telling you your anger is wrong or imaginary, we are telling you it has a market value, and someone out there wants to buy it cheap. If a pupil discloses anything personal here, in the room or to you afterwards, receive it calmly, thank them, and follow your school safeguarding policy. Nothing said in this lesson is recorded anywhere by the platform.",
+      "heading": "The recruiter's favourite door",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Anger holds attention, attention makes money and followers. Someone profits from your fury. Find them.",
+          "emoji": "😡",
+          "title": "Who wants me angry?"
+        },
+        {
+          "text": "Look down the pipeline, not at the single clip. Where do these recommendations land in fifty videos?",
+          "emoji": "⏭",
+          "title": "What happens if I keep watching?"
+        },
+        {
+          "text": "Content that hands you an enemy is recruiting you, not informing you. That is the pipeline's signature.",
+          "emoji": "🆚",
+          "title": "Who am I being turned against?"
+        }
+      ],
+      "script": "This is the tool of the module, walk it slowly and have the class say the three questions back to you twice. Then point at the three verdicts and make the calibration explicit: this is not a ban list. Eyes open means keep watching if you choose, but awake to what the content is doing. Step back means change what you feed the algorithm. Talk to someone means the pipeline already has a grip, on you or on a mate, and a conversation is the way out. All three are judgements a person makes for themselves, with reasons.",
+      "caption": "Three questions, thirty seconds, on anything in your feed. Every verdict needs a reason.",
+      "heading": "The pipeline check",
+      "minutes": 3,
+      "verdicts": [
+        "Eyes open",
+        "Step back",
+        "Talk to someone"
+      ]
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "A mate is sliding down a pipeline. What could you actually say that pulls him back, rather than pushing him deeper?",
+      "script": "Groups of three or four, ninety seconds. This discussion decides whether the lesson survives contact with real life, so collect one answer per group and push on the how. The trap to name out loud: calling him an idiot or a weirdo is the single most radicalising thing a friend can do, because the pipeline told him everyone would mock him and you just proved it right. The move that works is separating the mate from the machine: I am not against you, I am against the thing farming you.",
+      "lookFor": "Mockery and contempt push deeper, they prove the us versus them story true. What pulls back: staying his mate, real belonging, and naming the manipulation, not the mate. Get curious, not superior.",
+      "minutes": 2,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This is the whole lesson in one question, so give it thirty seconds of silence before hands. The nuance in the correct feedback matters: we never tell pupils their grievance is imaginary, we teach them to separate the real feeling from the supplied enemy. That separation is what keeps this lesson credible with the pupils who most need it.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It handed me an enemy, so it is recruiting me, not informing me. Real feeling, supplied enemy, that is the signature",
+          "correct": true,
+          "feedback": "Exactly. The unfairness might even be real, and your anger might be fair. The supplied enemy is the sales technique. Verdict: step back, with that reason."
+        },
+        {
+          "text": "The anger I feel proves the clip is telling the truth",
+          "correct": false,
+          "feedback": "Anger is the one thing the clip was engineered to produce, so it cannot be your evidence. Real problems deserve real explanations, not a convenient enemy."
+        },
+        {
+          "text": "Feeling that fury means I am already radicalised",
+          "correct": false,
+          "feedback": "A feeling is not a verdict on you. The check exists precisely for these moments, and noticing the fury is the check already working."
+        }
+      ],
+      "question": "A clip makes you furious about how unfair life is for young men, then names the group to blame for it. Run the pipeline check. What does question three tell you?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "still",
+        "character": "digi"
+      },
+      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {},
+      "script": "The pipeline check needs one more piece of evidence: why this content finds people at all. Race the two posts once and let the outrage post win by miles, then ask what that means for a feed that learns from reactions: the angriest voice gets the megaphone, not the truest one. Run the calm rerun and watch the gap close. Connect it to the pipeline: nobody chooses to walk down it, the feed escorts them, one engineered reaction at a time, and stepping back is the brake.",
+      "caption": "Outrage against honesty, raced. The pipeline runs on the winner.",
+      "minutes": 4,
+      "component": "spread-race"
+    },
+    {
+      "body": "Six items on the worksheet: posts, a message thread, and described clips. Run the pipeline check on each one, who wants me angry, what happens if I keep watching, who am I being turned against, and give a verdict: eyes open, step back, or talk to someone. Fifteen minutes. Every verdict needs a reason, a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheets and put the bookmark strips with the three questions on tables. Fifteen minutes. Support group works items one to three with you at the front table. Stretch question for early finishers: pick one item and follow the money, who profits at each step of that pipeline? Circulate, and collect one well reasoned verdict to read out at the end. Keep an eye on any pupil the lesson seems to be landing on personally and make a quiet note to check in afterwards.",
+      "heading": "Run the check, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of the two exit checks, these two questions are the printed exit quiz. Silent, individual answers. A wrong answer here tells you who to mark as working towards on the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The escalation step of a pipeline. Feeds drift towards hotter content because hotter holds attention, and that drift is the design, not your choices",
+          "correct": true,
+          "feedback": "Right. The drift says nothing about who you are, it says everything about what holds attention. Seeing the drift is question two of the check working: what happens if I keep watching?"
+        },
+        {
+          "text": "The feed has worked out what you secretly believe",
+          "correct": false,
+          "feedback": "The feed learned what holds your attention, which is not the same as what you believe or want. Confusing those two is exactly how the drip feed does its work."
+        },
+        {
+          "text": "Nothing, recommendations are basically random",
+          "correct": false,
+          "feedback": "Recommendations are the opposite of random. They are the single most engineered thing on your screen, and escalation is a known pattern of that engineering."
+        }
+      ],
+      "question": "Exit check one. Your recommendations have drifted from gym clips to clips about how women ruin men's lives. You never searched for any of that. What is actually happening?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, silent and individual. Together the two questions prove the outcome: recognising escalation from the outside, and recognising grooming by its signature. Collect the printed quizzes as evidence for the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "It hands you one enemy to blame and flatters you for agreeing",
+          "correct": true,
+          "feedback": "That pairing is the signature: a supplied enemy plus you are one of the few who see it. Information can upset you or challenge you. Grooming flatters you and points you at someone."
+        },
+        {
+          "text": "It disagrees with what you already think",
+          "correct": false,
+          "feedback": "Being challenged is information doing its job. Grooming rarely challenges you at all, it tells you that you were right all along and names who to blame."
+        },
+        {
+          "text": "It is about a serious or upsetting topic",
+          "correct": false,
+          "feedback": "Serious topics can be covered honestly. The tell is never the subject, it is the supplied enemy and the flattery wrapped around it."
+        }
+      ],
+      "question": "Exit check two. Which of these is the clearest sign that content is grooming your beliefs rather than informing you?"
+    },
+    {
+      "text": "Who wants me angry. What happens if I keep watching. Who am I being turned against. My anger can be real while the enemy they sell me is not.",
+      "type": "quote",
+      "label": "Say it like DiGi",
+      "phase": "close",
+      "script": "Say it once yourself, calmly, then the class says it together once. No chanting theatrics in this module, the register stays serious. The last sentence is the one that matters most, let it land.",
+      "minutes": 1
+    },
+    {
+      "body": " And know what is actually being sold underneath the pipeline, because it is an idea about other people. These communities teach that attraction is a ranking, that women owe men something, and that anyone struggling has been cheated rather than is simply young. Every part of that is a claim about how people should be treated, and every part of it falls apart the moment it meets a real relationship, which is exactly why it is sold to people who do not have one yet.",
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Pipelines open with ordinary content and escalate one clip at a time. Nobody chooses the destination, the feed moves the floor.",
+        "Misogyny is the most common on ramp aimed at teenage boys in the UK. The content targets you. You are not the problem, the manipulation is.",
+        "Belief grooming runs the same playbook as every other grooming: isolate, flatter, escalate.",
+        "The pipeline check: who wants me angry, what happens if I keep watching, who am I being turned against? And if it has a grip on you or a mate, talk to someone. You will not be in trouble."
+      ],
+      "script": "Return to evidence item one, the discipline post from the start of the lesson, and ask for verdicts again. Most of the room will now say eyes open, it depends what it feeds you next, and that shift in answer is your proof the lesson worked. Then the recap, read by four pupils, one point each.",
+      "heading": "What to remember",
+      "minutes": 1
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Who wants me angry? What happens if I keep watching? Who am I being turned against?",
+        "Three questions.",
+        "Ask them of anything that is working hard to keep you watching."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
+      "heading": "One thing to take with you",
+      "minutes": 1,
+      "character": "digi"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Nova's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today counts toward the Ready at sixteen page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks4-18-radicalisation-misogyny",
+        "register": "still",
+        "placement": "independent"
+      },
+      "script": "Level and brief. The passport is the record of preparation for full access at sixteen, kept at home. Today fills part of its last page. Tap Fill the page, name the area it built, and say once: when the page is full, the big check earns Nova's stamp, and it is proof of judgement, never a licence. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not a record of anyone.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Let me be straight with you, because you are old enough for straight.",
+        "Somewhere out there, someone profits when you are angry and alone. Their whole business is reaching you in that moment before anyone who actually cares about you does.",
+        "So carry the check: who wants me angry, what happens if I keep watching, who am I being turned against?",
+        "And if a pipeline already has a grip on you or on a mate, that is not weakness and it is not shame, that is the manipulation working as designed. Talk to someone. The way out is a conversation, and you will never be in trouble for starting it."
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the lines appear on their own, do not talk over them. As the class leaves, stay near the door. This is the module where a pupil is most likely to hang back with a question that is not really a question. If anyone does, listen calmly, thank them, and follow your school's Prevent and safeguarding routes. The platform records nothing, so your conversation and your DSL are the record.",
+      "heading": "DiGi, straight with you",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "note": "The Prevent duty applies to this module. If a pupil discloses contact with extremist content, groups or individuals, or expresses views that concern staff during or after the lesson, follow the school's Prevent and safeguarding procedures the same day: stay calm, do not debate the pupil publicly, record what was said and refer to the DSL, who decides on next steps including local authority Prevent or Channel referral where appropriate. KCSIE names misogynistic content and incel culture as safeguarding concerns, so treat sustained hostile views towards women and girls as a safeguarding matter, not only a behaviour matter. The platform records no disclosures: nothing pupils say or write in this lesson is stored by Guided Childhood, so staff notes and the school's own reporting routes are the only record.",
+    "required": true,
+    "concern_form_linked": true
+  },
+  "key_stage": "KS4",
+  "module_id": "ks4-18-radicalisation-misogyny",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 18,
+  "parent_note": {
+    "taught": "Today we looked at how online pipelines work: content that starts as gym, money or confidence advice and is escalated by recommendations towards us versus them thinking, with misogyny the most common version aimed at teenage boys. We taught the pipeline check, three calm questions: who wants me angry, what happens if I keep watching, who am I being turned against?",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. Ask them who profits when content makes people angry, and listen to how precisely they can answer.",
+    "try_this": "Ask your teenager to teach you the three questions, then run them together on one video from your own feed, not theirs. Doing it on your feed first keeps it a skill you share rather than an inspection.",
+    "family_question": "Who makes money when a video makes you angry?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Pipeline and groom need careful pre teaching: groom here means slowly changing what you believe. The three check questions translate cleanly and carry the lesson.",
+      "sensory": "If the room polarises it gets loud. The scripted move, returning to the shared enemy, the recruiter who profits, is also the sensory move: it drops the temperature every time.",
+      "attention": "The spread race and the recommendation chain move fast on purpose, and the debrief is slow on purpose. Protect the slow half: that is where a pupil steps out of the pipeline.",
+      "communication": "The pipeline check is three questions with a word bank: angry, watching, against. The pipeline diagram speaks for pupils who will not speak on this topic: label it, do not debate it."
+    },
+    "tool": {
+      "lines": [
+        "Who wants me angry?",
+        "What happens if I keep watching?",
+        "Who am I being turned against?"
+      ],
+      "heading": "The pipeline check",
+      "strapline": "My anger can be real while the enemy they sell me is not."
+    },
+    "i_can": [
+      "I can recognise when content is grooming my beliefs.",
+      "I can run the pipeline check when content makes me angry.",
+      "I can explain who profits from my anger and what they get if I stay angry."
+    ],
+    "cycles": [
+      {
+        "verb": "Trace",
+        "title": "Nobody starts at the extreme",
+        "minutes": 13,
+        "outcome": "I can describe how a pipeline moves someone gradually."
+      },
+      {
+        "verb": "Recognise",
+        "title": "Belief grooming runs the grooming playbook",
+        "minutes": 9,
+        "outcome": "I can recognise when content is grooming my beliefs."
+      },
+      {
+        "verb": "Check",
+        "title": "The pipeline check",
+        "minutes": 7,
+        "outcome": "I can run the pipeline check when content makes me angry."
+      }
+    ],
+    "timing": "69 minutes: starter 11, cycle one 13, cycle two 9, cycle three 7, practise 16, prove 4, close 5, class interactive 4",
+    "keywords": [
+      {
+        "word": "radicalisation",
+        "definition": "The process of being moved, usually gradually, towards extreme beliefs that paint one group as the enemy."
+      },
+      {
+        "word": "pipeline",
+        "definition": "A chain of recommended content that starts harmless and gets steadily more extreme the longer you watch."
+      },
+      {
+        "word": "misogyny",
+        "definition": "Contempt for women and girls: treating them as lesser, as objects, or as the enemy."
+      },
+      {
+        "word": "grooming",
+        "definition": "Slowly building trust and dependence in order to use someone. It can target your body, your money, or your beliefs."
+      },
+      {
+        "word": "algorithm",
+        "definition": "The system that picks your next clip. It optimises for your attention, not your wellbeing."
+      }
+    ],
+    "equipment": "Nothing beyond the board. No real account, channel or personality is shown or named.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Only loners and outsiders get radicalised.",
+        "teaching_point": "Pipelines are built for ordinary people in ordinary bad moments. That is what makes them work."
+      },
+      {
+        "answer": "Content that is reasonable, or funny, or true.",
+        "format": "short_answer",
+        "question": "What does a pipeline start with?",
+        "teaching_point": "It has to, or nobody would enter it. Pupils expecting it to start extreme will not see it coming."
+      },
+      {
+        "answer": "Attention, belonging, then isolation.",
+        "format": "short_answer",
+        "question": "Name the three stages of the grooming playbook.",
+        "teaching_point": "The same playbook, pointed at belief. Isolation is the stage that does the damage."
+      },
+      {
+        "answer": "paid",
+        "format": "fill_blank",
+        "question": "Anger keeps you watching, and someone is ___ for that.",
+        "teaching_point": "Follow the money. Anger is not a side effect, it is the business."
+      },
+      {
+        "answer": "The pipeline check",
+        "format": "tick_one",
+        "options": [
+          "Straight to the comments",
+          "The pipeline check",
+          "Nothing, it is just jokes"
+        ],
+        "question": "Content makes you furious about a whole group of people. What do you run?",
+        "teaching_point": "Fury is the trigger for the tool, exactly as in ks3-12. It is just jokes is the misconception, and the drip feed is why."
+      }
+    ],
+    "worksheet": {
+      "title": "The pipeline check: six items",
+      "directions": "Run the three questions on each item, then give a verdict with a reason: a verdict without a reason does not count.",
+      "verdict_options": [
+        "Eyes open",
+        "Step back",
+        "Talk to someone"
+      ]
+    },
+    "teacher_tip": "Do not name real accounts or personalities. Naming them recruits for them, and the mechanism is the lesson, not the man.",
+    "starter_quiz": [
+      {
+        "answer": "Any two of: urgency, outrage, flattery, FOMO, dark patterns, rage bait.",
+        "format": "short_answer",
+        "question": "Name two persuasion techniques from the last lesson.",
+        "teaching_point": "Carried forward from ks4-15. Outrage is the one that matters most today."
+      },
+      {
+        "answer": "Your attention, not your wellbeing.",
+        "format": "short_answer",
+        "question": "What does an algorithm optimise for?",
+        "teaching_point": "Carried forward from ks2-06. It is the engine under the pipeline."
+      },
+      {
+        "answer": "Slowly building trust and dependence in order to use someone.",
+        "format": "short_answer",
+        "question": "What does grooming mean?",
+        "teaching_point": "They know it in a safeguarding sense. Today it is applied to beliefs rather than bodies."
+      },
+      {
+        "answer": "Somewhere ordinary",
+        "format": "tick_one",
+        "options": [
+          "With those beliefs",
+          "Somewhere ordinary",
+          "By reading a book"
+        ],
+        "question": "Someone with extreme beliefs usually started:",
+        "teaching_point": "Nobody starts at the extreme. Establishing this stops the lesson being heard as about other people."
+      }
+    ],
+    "misconceptions": [
+      "Only weird loners get radicalised (pipelines are built for ordinary people in ordinary bad moments, and the entry content is designed to feel normal and useful)",
+      "This lesson is an attack on boys or on fitness and money content (the content targets boys, which makes them the target, not the accused, and the entry content itself is often harmless, the question is what it escalates into)",
+      "It is just jokes, watching changes nothing (the drip feed works precisely because every single clip feels too small to matter, no one clip changes anyone, hundreds do)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Evidence items one and two are printed as cards for pairs. The pipeline diagram, the grooming playbook and the pipeline check are on the pack's middle pages, walked through on the board. Both discussions run with a watch instead of the screen timer. The exit quiz is the printed sheet with the two prove questions, and the bookmark strip carries the three check questions home.",
+    "passport_stage": "independent",
+    "commitment_stem": "My commitment: the next time content makes me angry, I will run the pipeline check before I keep watching, and if it has a grip on me or a mate I will talk to someone.",
+    "differentiation": {
+      "stretch": "Follow the money on any worksheet item: who profits at each step of that pipeline, the creator, the platform, the movement at the far end? Then the harder question: design the warning you wish someone had given you at thirteen, in one sentence.",
+      "support": "Bookmark strips with the three pipeline check questions on every table. Support group works worksheet items one to three with the teacher, saying the three questions aloud before each verdict."
+    },
+    "prior_knowledge": [
+      "A pupil can name persuasion techniques including rage bait, from ks4-15.",
+      "A pupil can explain that an algorithm optimises for attention, from ks2-06.",
+      "A pupil understands what grooming means in a safeguarding sense."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "A fitness account posts training routines, sleep advice and discipline quotes. No blame, no enemy, no one to hate, just graft.",
+        "teaching_point": "Not all self improvement content is a pipeline. No supplied enemy means question three comes back clear. Eyes open, keep watching if you choose, awake to what comes next.",
+        "expected_verdict": "Eyes open"
+      },
+      {
+        "n": 2,
+        "item": "You followed a confidence channel a month ago. This week your recommendations are full of clips saying modern women only respect money and looks, and men who disagree are brainwashed.",
+        "teaching_point": "This is escalation seen from the inside: question two fails. The drift is the design, not a reflection of you, and changing what you feed the algorithm changes the drift.",
+        "expected_verdict": "Step back"
+      },
+      {
+        "n": 3,
+        "item": "A streamer tells his audience they are the only ones brave enough to face the truth, everyone else has been brainwashed by the mainstream, and real ones share his clips.",
+        "teaching_point": "Isolate and flatter in one breath, plus the small ask of sharing. That is the grooming playbook running in the open, whatever the topic of the stream.",
+        "expected_verdict": "Step back"
+      },
+      {
+        "n": 4,
+        "item": "A mate has gone quiet with his old friends. He spends every night in a forum that says school, girls and his family are all against men like them, and he gets furious when anyone questions it.",
+        "teaching_point": "Isolation has already happened and the us versus them story is doing his thinking. This is past a feed decision, it needs a conversation with him and with a trusted adult. He is not in trouble and neither are you.",
+        "expected_verdict": "Talk to someone"
+      },
+      {
+        "n": 5,
+        "item": "A debate clip shows two people who completely disagree about dating and relationships. Both get equal time, both are challenged hard, nobody is called the enemy.",
+        "teaching_point": "Disagreement is not a pipeline, a supplied enemy is. Content that challenges you from both sides is information doing its job.",
+        "expected_verdict": "Eyes open"
+      },
+      {
+        "n": 6,
+        "item": "Kai says: it is just jokes and gym advice, nobody actually believes the extreme stuff, so watching it every day changes nothing. Do you agree? Explain your reasoning using the pipeline check.",
+        "teaching_point": "The explain item. Strong answers use the drip feed: no single clip changes anyone, hundreds nudging the line of normal do, and every day is exactly how hundreds happen. Kai's claim is the pipeline's best disguise.",
+        "expected_verdict": "Step back"
+      }
+    ],
+    "essential_question": "How does someone end up believing something they would have rejected a year ago?",
+    "learning_objective": "Pupils can recognise when content is grooming their beliefs: they can describe how a pipeline escalates from harmless entry content, match belief grooming to the isolate, flatter, escalate playbook, and run the pipeline check with a calibrated verdict and a reason.",
+    "key_learning_points": [
+      "Nobody starts at the extreme. The movement is gradual and that is the design.",
+      "A pipeline starts with content that is reasonable, or funny, or true.",
+      "Belief grooming uses the same playbook as any other grooming: attention, belonging, then isolation.",
+      "Misogyny is the most common on ramp, and RSHE 2025 names it.",
+      "Anger keeps you watching, and someone is paid for that."
+    ]
+  }
+}

@@ -1,0 +1,739 @@
+{
+  "row": {
+    "title": "Screen routines that work",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 3 to 6",
+    "sort_order": 4,
+    "efcw_strands": [
+      6
+    ],
+    "ailit_domains": [
+      "Manage AI"
+    ],
+    "character_cast": "Bloop",
+    "evidence_anchor": "Sleep displacement research",
+    "statutory_hooks": [
+      "RSHE health and wellbeing"
+    ],
+    "single_action_outcome": "I can build one screen routine that works and stick to it."
+  },
+  "slides": [
+    {
+      "body": "One hour, one mission: build a screen routine that is yours, and earn the Routine Builder badge tonight.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Screen routines that work",
+      "script": "Settle everyone with this slide up. Big claim to open: today you will build something most adults have never managed to build. Not a rule someone gives you. A routine YOU design, that actually works. The badge at the end of this mission is called Routine Builder, and you earn it tonight, at home, not in this room.",
+      "eyebrow": "KS2 · Years 3 to 6 · Module 4",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260911_081136_e558411d-5dd9-413f-8c46-62eec87f1221.mp4",
+      "type": "video",
+      "phase": "starter",
+      "script": "Play the clip once through. Then ask: who decides when screen time ends in your house?",
+      "caption": "Being the boss of your screen",
+      "minutes": 1,
+      "alternative": {
+        "spoken": [
+          "Your screen never says right, that is enough. So who does? You do. Today you learn how."
+        ],
+        "described": "Bloop, the round green Planet Friend, stands at the front of a classroom and talks to the class like a coach, gesturing with both rounded arms. Bloop starts serious, then breaks into a wide encouraging smile."
+      }
+    },
+    {
+      "why": "Screens are brilliant and they are built to be hard to put down, even for grown ups. Willpower loses that fight almost every time, but a routine wins it, and a routine you design yourself is one you will actually keep.",
+      "type": "objective",
+      "gains": [
+        "Explain why a routine beats willpower every single time",
+        "Run the cool down lap: warn, finish, swap",
+        "Spot when a screen is quietly stealing sleep, dinner or homework time",
+        "Design one routine tonight that is yours, not one handed to you"
+      ],
+      "phase": "starter",
+      "script": "Read the mission out loud, then the why. Then ask: hands up if you have ever said one more video and it turned into loads more. Put your own hand up too, honestly. Keep a rough count of hands. Tell them: that is not a you problem, and by the end of the hour you will know exactly why it happens and exactly how to beat it.",
+      "minutes": 2,
+      "outcome": "I can build one screen routine that works and stick to it."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner one thing you always do before you go to sleep. Anything at all, screens or not.",
+      "script": "Sixty seconds with the person next to you. One thing you always do before bed. Not what you should do, what you actually do. I will take three of them.",
+      "lookFor": "Everybody already has a routine, even the ones who have never called it that. That is the hook for the whole hour.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "routine",
+          "meaning": "A plan you decide once and then follow, so you do not have to fight the same battle every day."
+        },
+        {
+          "word": "willpower",
+          "meaning": "Using effort in the moment to make yourself stop. It runs out, especially when you are tired."
+        },
+        {
+          "word": "wind down",
+          "meaning": "The calm time before bed when your brain slows down and gets ready for sleep."
+        },
+        {
+          "word": "sleep displacement",
+          "meaning": "When screen minutes push sleep minutes out of the way. The lost sleep never comes back."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Spend longest on sleep displacement, it sounds fancy but it is simple: imagine your sleep is water in a cup, and every scrolling minute at bedtime pours a bit out. You cannot pour it back in the morning. That picture will come back later in the lesson.",
+      "heading": "Squad words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from the last module. Thirty seconds of thinking time before any hands. Cold call two pupils and ask for the reasoning, not just the answer. If the room is shaky on this, spend one extra minute: the question could this picture be made is the whole of last lesson in seven words.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Could this picture be made or changed? Looking real is not the same as being real",
+          "correct": true,
+          "feedback": "That is the one. Pictures can be made or changed by a computer, so amazing looking is a reason to check, not a reason to believe."
+        },
+        {
+          "text": "If it looks real, it is real",
+          "correct": false,
+          "feedback": "That was the trap from last lesson. Pictures can be made or changed, so our eyes alone cannot settle it."
+        },
+        {
+          "text": "Only grown ups can tell if a picture is real",
+          "correct": false,
+          "feedback": "Grown ups cannot tell by looking either. The skill is asking the question, and you already have it."
+        }
+      ],
+      "question": "Mission memory from last time. A game advert shows a prize that looks absolutely amazing. What did we learn to ask first?"
+    },
+    {
+      "body": "Here is the honest truth: apps and games are built with no finishing line. Autoplay starts the next video before you decide anything, and there is always one more round. Willpower means fighting that pull in the moment, and even adults lose that fight most nights. A routine is different. You decide ONCE, when you are calm, and then the plan does the work. And here is the secret ingredient: a routine somebody hands you feels like a punishment, but a routine you design yourself is yours, and people stick to what is theirs.",
+      "type": "concept",
+      "emoji": "🛠️",
+      "phase": "teach",
+      "script": "This is the big idea of the whole hour, so land it slowly. Ask: who has ever been told to just get off the tablet, and it turned into an argument? Most hands go up. That is willpower against design, and design wins. Then the turn: so we are not going to try harder, we are going to design better. You are the designer. Do not rush past the last line, the child designing their own routine is what makes this module work.",
+      "heading": "Routines beat willpower",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Give yourself a warning before the end. Five more minutes, said out loud or set on a timer. No surprises.",
+          "emoji": "📣",
+          "title": "Warn"
+        },
+        {
+          "text": "Stop at a real finishing line: the end of the video, the round, the level. Never mid game, that is what makes stopping hurt.",
+          "emoji": "🏁",
+          "title": "Finish"
+        },
+        {
+          "text": "Have the next thing ready and waiting: food, football, a book, the shower. An empty gap pulls you straight back to the screen.",
+          "emoji": "🔄",
+          "title": "Swap"
+        }
+      ],
+      "script": "Walk the three steps as they build and get the class chanting them back: warn, finish, swap. Explain the racing picture, a driver at 200 miles an hour does not slam the brakes, they do a cool down lap. Your brain at full game speed is the same. Then point at the three verdict chips: today you become routine detectives, and every situation gets one of these three verdicts. Routine ready means the lap is there. Needs a lap means part of the plan is missing. Willpower trap means no plan at all, just hoping to resist.",
+      "caption": "Three steps, every time screens need to end. Racing drivers do a cool down lap, they never just slam the brakes.",
+      "heading": "The cool down lap",
+      "minutes": 3,
+      "verdicts": [
+        "Routine ready",
+        "Needs a lap",
+        "Willpower trap"
+      ]
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "First check on the tool. Watch for pupils choosing the second answer because it sounds strict and therefore right, that is a really useful wrong answer to unpack: this module is not about stopping harder, it is about stopping smarter. The lap is kind to you on purpose, which is why it works.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Finish the level, then swap to the thing you lined up",
+          "correct": true,
+          "feedback": "Exactly. The warning meant no surprises, the finish step means end at a real finishing line, and the swap is ready and waiting. That is the whole lap."
+        },
+        {
+          "text": "Turn it off instantly, mid level, no matter what",
+          "correct": false,
+          "feedback": "Slamming the brakes mid level is what makes stopping feel horrible, and horrible stops turn into arguments. Finish at a real finishing line, that is the point of the lap."
+        },
+        {
+          "text": "Ignore the warning, you will stop when you feel like it",
+          "correct": false,
+          "feedback": "You will not feel like it, and that is not a you problem, it is the design of the game. Feeling like stopping is willpower, and willpower loses. The lap wins."
+        }
+      ],
+      "question": "Your five minute warning goes off right in the middle of a level. What does the cool down lap say to do?"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "What is the hardest moment of YOUR day to put a screen down, and what makes it so hard?",
+      "script": "Sixty seconds, partner talk, start the timer on screen. Share your own hardest moment first, adults have one too and admitting it gives the room permission to be honest. After the chime take three answers and sort them out loud: after school, bedtime, mealtimes, homework. Tell them: those four moments are exactly where we are taking the lap next.",
+      "lookFor": "Honesty, and pupils spotting the no finishing line moments: autoplay at bedtime, one more round after school, the group chat that never ends. The best answers notice the design, not just the feeling.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "body": "Sleep is when your brain saves everything you learned today and gets you ready for tomorrow. Screens at bedtime attack sleep twice. First, bright screens and exciting clips tell your brain it is daytime, so you feel wide awake at the exact moment you should be winding down. Second, sleep displacement: every minute of scrolling is a minute taken straight out of your sleep, and it never comes back. That is why the strongest bedtime routine in the world is boring and brilliant: screens sleep outside the bedroom.",
+      "type": "concept",
+      "emoji": "😴",
+      "phase": "teach",
+      "script": "Connect back to the cup of water from the keywords: bedtime scrolling pours your sleep out, and mornings cannot refill it. Then be honest about why outside the bedroom beats on silent: if the phone is within reach, checking it costs nothing and willpower has to win every single time you stir in the night. If it is charging in the kitchen, the routine wins while you sleep. Ask: where do screens sleep in your house? No judgement, just gather answers, you will use them in the parent note conversation.",
+      "heading": "Where screens sleep matters",
+      "minutes": 2
+    },
+    {
+      "meta": "9:47pm · autoplay is on",
+      "text": "You said one more video 47 videos ago 😂😂 tag someone who is DEFINITELY still scrolling right now instead of sleeping",
+      "type": "scenario",
+      "image": "📱",
+      "label": "Mission file one: the bedtime spiral",
+      "phase": "teach",
+      "stats": "❤ 312K   ↻ 96K   💬 41K",
+      "avatar": "🌙",
+      "handle": "midnight.clips",
+      "prompt": "It is 9:47pm and the next video is already loading. Which step of the cool down lap is missing, and where did this spiral actually start?",
+      "script": "Read the post with a grin, it is funny because it is true, even the app is laughing at us. Then get serious with the two questions. Which step is missing: the finish, autoplay deletes the finishing line so the video never actually ends. Where did the spiral start: not at 9:47, it started when the phone came into the bedroom. The best routine move happened an hour before this screenshot. Land that hard: routines win battles before they start.",
+      "minutes": 3,
+      "platform": "feed"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Autoplay starts the next video before you choose anything. There is no finishing line to stop at.",
+          "emoji": "🌀",
+          "title": "One more becomes ten more"
+        },
+        {
+          "text": "Bright light and exciting clips tell your brain it is daytime. Wind down goes into reverse.",
+          "emoji": "🧠",
+          "title": "Your brain wakes back up"
+        },
+        {
+          "text": "Every scrolling minute is a sleep minute poured away. It does not come back tomorrow.",
+          "emoji": "⏳",
+          "title": "Sleep gets displaced"
+        },
+        {
+          "text": "Grumpy, foggy, worse at football, worse with friends. Yesterday's scroll sends today the bill.",
+          "emoji": "🥱",
+          "title": "The next morning pays the bill"
+        }
+      ],
+      "script": "Walk the spiral as it builds, then ask the class where the weakest link is. Answer: step one, and even better, before step one. Ask what breaks the spiral completely, and steer them to it: if the phone sleeps in the kitchen, the spiral cannot even start. Then the identity line: most people fight this spiral every night and lose. You are designing your way out of the fight entirely.",
+      "caption": "The lap breaks this spiral at step one. The phone charging outside the bedroom breaks it before it begins.",
+      "heading": "How the bedtime spiral steals your sleep",
+      "minutes": 3
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "The third option matters, some pupils will have heard scare stories about phones near heads. Be straight with them: we do not need scary made up reasons, the true reason is strong enough. Sleep displacement is real, measurable in how you feel tomorrow, and the fix costs nothing.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Not really. Checking is still one reach away, so willpower has to win every single time you stir",
+          "correct": true,
+          "feedback": "Exactly. Silent fixes the noise, not the pull. A phone within reach asks your willpower to win all night long. A phone in the kitchen asks it to win once, at 8pm."
+        },
+        {
+          "text": "Yes, silent means it cannot wake you, so the bedroom is fine",
+          "correct": false,
+          "feedback": "Silent fixes the pings but not the pull. The reach for one quick check is the spiral's front door, and it is still wide open under your pillow."
+        },
+        {
+          "text": "No, because phones near your head are dangerous",
+          "correct": false,
+          "feedback": "That is not the honest reason. The phone is not hurting you by being near you. The real cost is the checking and the scrolling, which pour your sleep away minute by minute."
+        }
+      ],
+      "question": "Your phone is on silent under your pillow. Problem solved?"
+    },
+    {
+      "body": "Two more places where routines quietly win. Mealtimes: a screen at the table splits your attention in half, and the half that talks to your family is the half that matters, meals are where a family actually finds out about each other's day.",
+      "type": "concept",
+      "emoji": "🍝",
+      "phase": "teach",
+      "script": "Keep this warm and completely unpreachy, Bloop's rule is that we never make anyone feel bad about loving screens, Bloop loves them too. Ask: who has ever watched something at the table and realised they cannot remember eating? Laugh with them.",
+      "heading": "The table",
+      "minutes": 1
+    },
+    {
+      "body": "Homework: the screen next to you does not even need to be on to distract you, part of your brain keeps guarding it, waiting for it to light up. In both places the fix is the same and it is not a ban: it is a routine that gives screens their own time, so the table and the desk get yours.",
+      "type": "concept",
+      "phase": "teach",
+      "script": "Then the desk point, which surprises people: a phone face down next to your homework still costs you focus, because your brain spends effort ignoring it. Not a guilt trip, a design fact, and designers fix design problems.",
+      "heading": "And the desk",
+      "minutes": 1
+    },
+    {
+      "meta": "Group chat · 18 new messages",
+      "text": "GET ON NOW we are all in the lobby, round starts in 2 mins, homework can wait lol it is literally due tomorrow not tonight 😆",
+      "type": "scenario",
+      "image": "📚",
+      "label": "Mission file two: the homework battle",
+      "phase": "teach",
+      "avatar": "🎮",
+      "handle": "Squad Chat 🎮",
+      "prompt": "Homework is sitting there, the squad is waiting, the round starts in two minutes. What would a designed routine have already decided?",
+      "script": "Read it like a real message, pace and all, then ask the prompt. The point to land: in this moment, willpower has already lost, the pull is too strong at two minutes to kickoff. But a designed routine decided this hours ago: homework first with the phone in another room, warning set, and the squad session is the SWAP, the reward waiting at the finish line. Ask the class to say what that pupil could message back. Best answer sounds like: on at 5, save me a spot. Not a no. A when.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Design mission: build a homework routine using warn, finish, swap. Decide exactly where each step goes.",
+      "script": "Groups of three or four, ninety seconds on the timer, this is the design challenge of the day. Every group must place all three steps somewhere. Collect one routine per group after the chime and test it out loud against the squad chat scenario: would this routine have survived GET ON NOW? Celebrate the group that put the gaming session after homework as the swap, that is the pro move, the screen becomes the reward instead of the enemy.",
+      "lookFor": "The warning set before screens start, not during. A named finishing line, end of round or end of video, never mid anything. A real swap into homework, and the fun thing placed after homework as the reward. Bonus brilliance: the phone in a different room while working.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Last check before practice. The phrase to send them into the worksheet with: routines win battles before they begin. Get the class to repeat it once. If anyone picked the third option, do not scold it, name it as the most human answer on the slide, we have all made that promise, and that is exactly why the lap exists.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Before the battle starts: decide the warning, the finishing line and the swap while you are calm",
+          "correct": true,
+          "feedback": "That is the designer's move. Routines win battles before they begin. Deciding at 4pm is easy. Deciding mid round at 9pm is nearly impossible, for anyone."
+        },
+        {
+          "text": "In the middle of the round, when you notice the time",
+          "correct": false,
+          "feedback": "By mid round the pull is at full strength and you are asking willpower to fight it alone. The lap works because it is decided early, when deciding is easy."
+        },
+        {
+          "text": "You do not need the lap if you promise yourself you will be sensible",
+          "correct": false,
+          "feedback": "A promise to be sensible is willpower wearing a disguise. The apps are designed by teams of adults to beat that promise. Beat their design with your design."
+        }
+      ],
+      "question": "When is the smartest time to run the cool down lap on a school night?"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths: in as Bloop grows, out as Bloop shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time · everyone together",
+        "seconds": 4,
+        "register": "playful",
+        "character": "bloop"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Bloop grows and out as Bloop shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "options": [
+          "Routine ready",
+          "Needs a lap",
+          "Willpower trap"
+        ],
+        "question": "Think of your own after school screen habit, honestly. What is it right now?"
+      },
+      "script": "The whole class check, and honesty is the only rule. Read the question, give ten seconds of silent thinking, then count hands for each answer and tap the bars up. Say it before anyone votes: willpower trap is not a confession, it is the smartest thing in the room to notice, because the whole lesson says routines beat willpower every time. When the bars land, ask one volunteer per bar to say why they voted that way.",
+      "caption": "The honest hands up. No wrong answers, only true ones.",
+      "minutes": 4,
+      "component": "class-tally"
+    },
+    {
+      "body": "Six situations on your worksheet: after school, bedtime, mealtimes and homework. Read each one like a detective and give your verdict: Routine ready, Needs a lap, or Willpower trap. Every verdict needs a reason, and if your verdict is Needs a lap, write which step is missing: warn, finish or swap. Fifteen minutes. Number six is a big claim from Teo, and your job is to agree or disagree with real reasoning.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet, fifteen minutes on the clock, bookmark strips on tables so the lap is in front of anyone who wants it. Support group works items one to three with you, reading each aloud. Stretch task for early finishers: redesign item three so it earns Routine ready, all three steps included. Circulate and collect one brilliant reason to read out at the end. Listen especially for pupils naming the missing step, that is the skill, not just the verdict.",
+      "heading": "Routine detectives, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, these two are the printed exit quiz, so pupils answer alone, no partner talk. A wrong answer here tells you who to mark as working towards on the register. The second option is the one to watch: any pupil who thinks routine means ban has missed the heart of the module.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Because you decide once, when you are calm, instead of fighting the pull every single time",
+          "correct": true,
+          "feedback": "That is the whole lesson in one line. Apps are designed to make the in the moment fight unfair. The routine moves the decision to a moment you can actually win."
+        },
+        {
+          "text": "Because a routine means no screens allowed",
+          "correct": false,
+          "feedback": "A routine is not a ban. Screens keep their time, and it is time YOU chose. The routine decides when, not whether."
+        },
+        {
+          "text": "Because willpower only works for adults",
+          "correct": false,
+          "feedback": "Honestly, willpower loses for adults too, ask any grown up about their own bedtime scrolling. That is why everyone needs routines, not just children."
+        }
+      ],
+      "question": "Exit check one. Why does a routine beat willpower?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check, still working alone. This one tests the ownership idea, which is the part that makes tonight's mission real. After answers are in, point at the commitment line on the exit card: tonight's routine, in their own words, warning, finishing line and swap all named.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "You do, with your family. A routine you built yourself is a routine you actually keep",
+          "correct": true,
+          "feedback": "Exactly. Handed down rules get argued with. Your own design gets defended, because it is yours. That is why tonight's mission is yours to build, not to receive."
+        },
+        {
+          "text": "A grown up should hand you the rules, children cannot design routines",
+          "correct": false,
+          "feedback": "You just designed one in this lesson. Families help and agree it together, but the design is yours, and that is exactly what makes it stick."
+        },
+        {
+          "text": "Nobody needs to design it, good habits just happen on their own",
+          "correct": false,
+          "feedback": "Against apps with no finishing line, nothing just happens except more scrolling. Good routines are built on purpose, by a designer. Tonight that designer is you."
+        }
+      ],
+      "question": "Exit check two. Tonight you set one screen routine. Who should design it, and why does that matter?"
+    },
+    {
+      "text": "Warn it. Finish it. Swap it. I designed this routine, so this routine is MINE.",
+      "type": "quote",
+      "label": "Say it like Bloop",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time and everyone hits the MINE. This is the sentence you want repeated in kitchens tonight when the routine gets set.",
+      "minutes": 1
+    },
+    {
+      "body": " One last thing, and it is the point of the whole lesson. The internet is not the enemy and it is not a treat: it is a place you will spend some of your life, with brilliant things in it and rubbish things in it, often on the same screen. Being good at it means knowing which is which, and choosing on purpose instead of being carried.",
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Routines beat willpower because you decide once, when you are calm, instead of fighting the pull every time.",
+        "The cool down lap: warn before the end, finish at a real finishing line, swap to the next thing you lined up.",
+        "Screens sleep outside the bedroom, because scrolled minutes are sleep minutes poured away, and they never come back.",
+        "A routine you design is a routine you keep. Tonight you set one: after school, bedtime, mealtime or homework."
+      ],
+      "script": "Return to the hands up count from the start: who has had one more video turn into loads more? Ask the room what they would do differently tonight and let two or three pupils answer. Then the recap, read by pupils, one point each. Point three gets the cup of water picture one last time.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Your mission, and it is a good one.",
+        "Build one screen routine this week: warn, finish, swap.",
+        "Stick to it for seven days and see what changes. I think you will like it."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Bloop's mission for you",
+      "minutes": 1,
+      "character": "bloop"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "A full page brings the big check, and the big check earns Bloop's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled a little of the Good habits page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks2-04-screen-routines",
+        "register": "playful",
+        "placement": "builder"
+      },
+      "script": "The passport is the book of getting ready for screens and phones, all the way to sixteen, and many of your families keep it at home in the parents app. Every lesson here fills a little of the page, and jobs at home fill it too. One volunteer taps Fill the page; the ring and the area bar move by one, and the class says the word stamp. Say: when the page is full, the big check earns Bloop's stamp. Nobody can fail the passport, it only fills up. The parent note going home says which page today filled and carries the home code that puts it in the child's own book. The count on the wall is this screen's memory of your classes, never a child's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Mission complete, Routine Builders! ⭐",
+        "Remember the lap: warn, finish, swap. It works because YOU designed it, and designers stick to their own designs.",
+        "Tonight's mission: set ONE routine and run it. After school, bedtime, mealtime or homework. Just one, and make it completely yours.",
+        "Bloop will be asking about your badge next lesson. Sleep well tonight, squad, your tomorrow will thank you. See you next time!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes and commitment cards go out as this plays, named copies from the print room. Collect the exit quizzes in, they are your evidence for the register. The commitment card goes home in the bag with the parent note.",
+      "heading": "DiGi sends you on your mission",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS2",
+  "module_id": "ks2-04-screen-routines",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 3,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 4,
+  "parent_note": {
+    "taught": "Today your child learned why routines beat willpower: apps are designed with no finishing line, so the fix is a better design, not more effort. They learned a three step tool called the cool down lap (warn, finish, swap) and they have committed to setting one screen routine tonight.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "Today added to your child's passport page. The passport is the journey to sixteen that home and school build together: lessons fill pages at school, responsibilities and wins fill them at home, and each stage ends with a stamp that is earned, never just a birthday reached. Ask your child what their cool down lap is.",
+    "try_this": "Tonight, ask your child to design their own cool down lap for bedtime: when the warning happens, what the finishing line is, and what they swap to. Let them set the terms, and if you can, agree together that screens charge outside the bedroom. A routine they design is a routine they keep.",
+    "family_question": "Where should our screens sleep at night, and what would make that easy for all of us?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Warn, finish and swap are the three words to pre teach. The routine detective verdicts, ready, lap or trap, work as thumbs once the three words are solid.",
+      "sensory": "Autoplay and its pull are described, never demonstrated. Keep it that way for this class: a room full of sound and motion would be teaching the opposite of the lesson.",
+      "attention": "The cool down lap is an executive function scaffold by design. Let the pupils who find stopping hardest write the warn step for the class: they are the experts in what does not work.",
+      "communication": "The class tally answers by moving a token, not by speaking. Put sentence stems on the board for the routine share: my warn is, my finish is, my swap is."
+    },
+    "tool": {
+      "lines": [
+        "Warn",
+        "Finish",
+        "Swap"
+      ],
+      "heading": "The cool down lap",
+      "strapline": "One lap, then the next good thing. My routine, my design, mine."
+    },
+    "i_can": [
+      "I can spot the difference between a routine that works and a trap.",
+      "I can run my own cool down lap: warn, finish, swap.",
+      "I can explain to someone at home why the warn step makes stopping easier."
+    ],
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Routines beat willpower",
+        "minutes": 2,
+        "outcome": "I can spot the difference between a routine that works and a trap."
+      },
+      {
+        "verb": "Practise",
+        "title": "The cool down lap",
+        "minutes": 7,
+        "outcome": "I can run my own cool down lap: warn, finish, swap."
+      },
+      {
+        "verb": "Place",
+        "title": "Where screens sleep matters",
+        "minutes": 10,
+        "outcome": "I can explain why where a screen sleeps changes how well I sleep."
+      },
+      {
+        "verb": "Set",
+        "title": "The table and the desk",
+        "minutes": 9,
+        "outcome": "I can name one place at home where screens are put away, and say why."
+      }
+    ],
+    "timing": "69 minutes: starter 11, cycle one 2, cycle two 7, cycle three 10, cycle four 9, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "routine",
+        "definition": "A plan you decide once and then follow, so you do not have to fight the same battle every day."
+      },
+      {
+        "word": "willpower",
+        "definition": "Using effort in the moment to make yourself stop. It runs out, especially when you are tired."
+      },
+      {
+        "word": "wind down",
+        "definition": "The calm time before bed when your brain slows down and gets ready for sleep."
+      },
+      {
+        "word": "sleep displacement",
+        "definition": "When screen minutes push sleep minutes out of the way. The lost sleep never comes back."
+      }
+    ],
+    "equipment": "Nothing beyond the board. The routine planner is in the print room.",
+    "exit_quiz": [
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Stopping is easy if you really try.",
+        "teaching_point": "Apps and games are built with no finishing line, so willpower is the wrong tool. This is the misconception to smash."
+      },
+      {
+        "answer": "Warn, finish, swap.",
+        "format": "short_answer",
+        "question": "What are the three steps of the cool down lap?",
+        "teaching_point": "The tool they leave with. Three words, in order."
+      },
+      {
+        "answer": "It lets your brain finish what it started",
+        "format": "tick_one",
+        "options": [
+          "It makes you feel guilty",
+          "It lets your brain finish what it started",
+          "It turns the screen off faster"
+        ],
+        "question": "Why does the warning step work?",
+        "teaching_point": "Not willpower, not punishment. The warning gives the brain a landing place, which is why it works."
+      },
+      {
+        "answer": "routine",
+        "format": "fill_blank",
+        "question": "Willpower runs out, especially when you are tired. A ___ does not.",
+        "teaching_point": "The headline of the lesson in one line."
+      },
+      {
+        "answer": "Because a screen in the bedroom keeps pulling, and lost sleep never comes back.",
+        "format": "short_answer",
+        "question": "Why does it matter where a screen sleeps at night?",
+        "teaching_point": "Watch for the shallow answer, that it makes a noise. Silent does not fix it, the pull does not need a sound."
+      }
+    ],
+    "worksheet": {
+      "title": "Routine detective: ready, lap or trap?",
+      "directions": "Read each situation, give your verdict, and write the reason, naming any missing step of the lap.",
+      "verdict_options": [
+        "Routine ready",
+        "Needs a lap",
+        "Willpower trap"
+      ]
+    },
+    "teacher_tip": "Let pupils design a routine for a character before their own. A routine written for someone else gets written honestly.",
+    "starter_quiz": [
+      {
+        "answer": "Any ordered account of their own evening.",
+        "format": "short_answer",
+        "question": "Describe your evening in order, from getting home to lights out.",
+        "teaching_point": "The lesson builds a routine onto their real evening. If they cannot describe it, they cannot redesign it."
+      },
+      {
+        "answer": "Wiggly",
+        "format": "tick_one",
+        "options": [
+          "Wiggly",
+          "Hungry for maths",
+          "Taller"
+        ],
+        "question": "Which of these is a feeling a screen can leave behind?",
+        "teaching_point": "Carried forward from ks1-02. The body still notices, and now they can name it."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "A rule and a habit are the same thing.",
+        "teaching_point": "A rule is enforced from outside. A habit runs on its own. The difference is the whole lesson."
+      },
+      {
+        "answer": "Any genuine habit: brushing teeth, feeding a pet, packing a bag.",
+        "format": "short_answer",
+        "question": "Name one thing you always do at the same time every day, without being told.",
+        "teaching_point": "Proof they already own habits. The lesson is not asking for a new skill, it is pointing at one they have."
+      }
+    ],
+    "misconceptions": [
+      "Stopping is easy if you really try (apps and games are built with no finishing line, so willpower loses to design, the fix is better design, not more effort)",
+      "Putting the phone on silent fixes the bedroom problem (silent stops the pings but not the pull, checking is still one reach away all night, and displaced sleep never comes back)",
+      "Routines are punishments adults hand out (this module never bans screens, the child designs the routine, chooses the finishing line and the swap, and ownership is exactly what makes it stick)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack. Read the title and mission aloud, teach the keywords from the sheet, run the retrieval question by hands up. Draw the cool down lap on the board as three boxes (warn, finish, swap) and the bedtime spiral as four arrows in a circle. Both scenarios are printed as cards: read them in role, then take verdicts by hands. Discussions run exactly the same with a watch instead of the on screen timer. Worksheet, exit quiz and commitment card are all in the pack.",
+    "passport_stage": "builder",
+    "commitment_stem": "My commitment: tonight my cool down lap is warn at ..., finish when ..., and swap to ...",
+    "differentiation": {
+      "stretch": "Early finishers redesign worksheet item three so it earns Routine ready, naming all three steps. Deeper stretch: which of the four moments (after school, bedtime, mealtimes, homework) is hardest to design for, and why does bedtime beat the others for sneaky design like autoplay?",
+      "support": "Work worksheet items one to three aloud with the support group, reading each scenario and walking the three verdict options together. Keep the bookmark strip with warn, finish, swap in front of each pupil. Accept the verdict alone for items one and two, then coach the reason."
+    },
+    "prior_knowledge": [
+      "A pupil can describe their own evening in order, from getting home to lights out.",
+      "A pupil can name a feeling a screen leaves behind, from ks1-02.",
+      "A pupil understands that a rule and a habit are different things."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Maya plays one round after school. Her timer warns her five minutes before dinner, she finishes the round, then goes to help set the table.",
+        "teaching_point": "All three steps are present: the warning, a real finishing line (end of round) and a swap (setting the table). This is what a designed routine looks like on an ordinary day.",
+        "expected_verdict": "Routine ready"
+      },
+      {
+        "n": 2,
+        "item": "Leo says he will stop scrolling when he feels tired. Autoplay keeps starting the next video. It is now an hour past his bedtime.",
+        "teaching_point": "No plan at all, just hoping a feeling will do the work. Autoplay deletes the finishing line, so the feeling never comes. This is the bedtime spiral from the lesson.",
+        "expected_verdict": "Willpower trap"
+      },
+      {
+        "n": 3,
+        "item": "Priya starts her homework with her tablet face down right next to her. She has no plan for screens tonight, she is just going to concentrate really hard.",
+        "teaching_point": "Concentrating really hard is willpower in disguise, and the tablet within reach costs focus even when it is off. A designed version puts the tablet in another room and the fun thing after homework as the swap.",
+        "expected_verdict": "Willpower trap"
+      },
+      {
+        "n": 4,
+        "item": "It is Saturday and Jess wants a long gaming morning. She sets a warning for when lunch is close, names her finishing line as the end of the match, and plans a bike ride with her brother straight after.",
+        "teaching_point": "Long screen sessions can be routine ready too. This module is not about less at all costs, it is about designed time with a warning, a finishing line and a swap. Jess designed hers.",
+        "expected_verdict": "Routine ready"
+      },
+      {
+        "n": 5,
+        "item": "Amara gives herself a five minute warning before tea, but she always stops mid video, so stopping feels horrible and she keeps sneaking the tablet back to the table.",
+        "teaching_point": "The warn step is there but the finish step is missing. Stopping mid video is slamming the brakes, which is why it hurts and why the routine keeps breaking. Fix: end at the end of a video, and add a swap.",
+        "expected_verdict": "Needs a lap"
+      },
+      {
+        "n": 6,
+        "item": "Teo says: I do not need a routine, I have amazing willpower, I can stop whenever I want. Do you agree with Teo? Explain your reasoning, and use what you know about finishing lines.",
+        "teaching_point": "The explain item. Strong answers say the apps are designed with no finishing line by teams of adults, so willpower fights an unfair battle, and that even people with great willpower use routines so they only have to decide once. Disagreeing with Teo kindly, with reasons, is full marks.",
+        "expected_verdict": "Willpower trap"
+      }
+    ],
+    "essential_question": "Why is it so hard to stop, even when I meant to?",
+    "learning_objective": "Pupils can design one screen routine using the cool down lap (warn, finish, swap), explain why routines beat willpower, and commit to setting one routine at home tonight.",
+    "key_learning_points": [
+      "Willpower runs out, especially when you are tired. A routine does not.",
+      "A routine is decided once, in a calm moment, and followed after that.",
+      "The cool down lap is warn, finish, swap.",
+      "The warning is what makes stopping possible, because it lets the brain finish.",
+      "Where a screen sleeps decides whether it interrupts your sleep."
+    ]
+  }
+}
