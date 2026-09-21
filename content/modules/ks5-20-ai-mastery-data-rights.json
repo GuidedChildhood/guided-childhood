@@ -16,7 +16,7 @@
       "Manage AI",
       "Design AI"
     ],
-    "character_cast": "DiGi with motion graphics",
+    "character_cast": "Cosmo with DiGi",
     "evidence_anchor": "AILit four domains, student use and skill divide",
     "statutory_hooks": [
       "DfE AI in education",
@@ -34,20 +34,20 @@
       "script": "Have this up as they arrive. Open plainly: nobody in this room needs convincing to use AI, most of you used it this week and some of you used it on the way here. So this is not a lesson about whether to use it. It is about the difference between the millions of people who use these tools and the much smaller group who actually run them. By the end of today you are in the second group.",
       "eyebrow": "KS5 · Years 12 to 13 · Module 20",
       "minutes": 1,
-      "character": "digi"
+      "character": "cosmo"
     },
     {
       "type": "digi",
       "lines": [
-        "Hello. I am DiGi. I am a machine, and I am quite good at this.",
+        "I am Cosmo. I lead things, and everyone I lead has the same tools I do.",
         "So if everyone has the same AI, what makes your work worth more than theirs?",
-        "That is today. And the answer is not to avoid me."
+        "Leave it open for now. By the end you answer it with work you can point at, not an opinion."
       ],
       "phase": "starter",
-      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
-      "heading": "DiGi opens the lesson",
+      "script": "Let Cosmo say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "Cosmo opens the lesson",
       "minutes": 1,
-      "character": "digi"
+      "character": "cosmo"
     },
     {
       "why": "Employers, universities and admissions tutors have stopped asking whether you used AI and started asking whether you can stand behind the result. The people who thrive with these tools are not the ones who avoid them, they are the ones who can point at any line of the output and say I checked that, here is how.",
@@ -328,13 +328,13 @@
       "type": "interactive",
       "phase": "practise",
       "config": {
-        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "prompt": "Two slow breaths, then read back what you have so far. Mark the one line you could not defend if someone asked, say which one to the person next to you, then finish the run.",
         "heading": "Half time",
         "seconds": 4,
         "register": "still",
-        "character": "digi"
+        "character": "cosmo"
       },
-      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "script": "Half time. Two breaths with the whole room, then a minute on their own sheet finding the one line they could not defend if someone asked. Thirty seconds in pairs naming that line to each other. Nothing is marked and nobody reads theirs out. Then straight back into the run.",
       "minutes": 1,
       "component": "star-breath"
     },
@@ -482,15 +482,15 @@
     {
       "type": "digi",
       "lines": [
-        "Use it like a professional. Check it like an editor. Own it like your name is on it.",
-        "Because it is.",
-        "That is the whole difference between using this and mastering it."
+        "When someone hands you AI work, ask which part they checked.",
+        "It is not an accusation. It is just the question now, and soon enough you are the one answering it.",
+        "Ask it first, and the standard in the room is yours."
       ],
       "phase": "close",
       "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
       "heading": "One thing to take with you",
       "minutes": 1,
-      "character": "digi"
+      "character": "cosmo"
     },
     {
       "type": "digi",

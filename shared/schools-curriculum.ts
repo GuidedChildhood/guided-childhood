@@ -444,7 +444,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'AI mastery and data rights',
     outcome: 'I can use an AI tool and defend where I checked its work.',
     blurb: 'Prompts, verification, bias, agents, and your data rights.',
-    character: 'digi', castLine: 'DiGi with motion graphics',
+    character: 'cosmo', castLine: 'Cosmo with DiGi',
     rshe: ['deepfakes_ai', 'online_safety'],
   },
   {
@@ -452,7 +452,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Digital identity and the future of work',
     outcome: 'I can name the human skills I am building that AI cannot replace.',
     blurb: 'Identity, portfolio, the jobs AI reshapes, and the skills that endure.',
-    character: 'digi', castLine: 'DiGi with motion graphics',
+    character: 'cosmo', castLine: 'Cosmo with DiGi',
     rshe: ['online_safety', 'mental_wellbeing'],
   },
 ]
