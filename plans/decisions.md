@@ -788,3 +788,35 @@ already happy with, which is churn rather than quality.
    to Justin for approval first.
 
 Migration numbers from 325. PR to follow.
+
+## 21 September 2026 — migration 325: ks3-12 gets its two beats, and the contract goes into CI
+
+Justin approved the Orbit mission lines. Applied.
+
+ks3-12 was the last lesson failing the module contract, on two rules: no half
+time breath led by a friend (it had none at all) and no friend handing over
+the mission in the close. It was the odd one out because it was built as the
+film pilot, before migration 296 gave every other lesson its beats. The breath
+is a scheme template and needed no new words. The mission is new: it names the
+three checks, opens on the lesson's real insight that a big instant feeling is
+the signal rather than the proof, and ends on pause being a real answer so a
+pupil who cannot tell does not leave feeling they failed.
+
+**All 29 lessons now pass the contract, so it is wired into concern-guards and
+runs on every push.** That is what makes the once a term review cadence safe: a
+gate that runs every time is worth more than a review that runs often.
+
+Two honest notes. The mission script does NOT copy the scheme template line
+"DiGi closes on the next slide", because in ks3-11 and ks3-24 the next slide is
+the passport page, not DiGi. A reviewer caught it as a scheme wide fault;
+fixing the others belongs to the must batch. And the rubric moved 540 to 541
+after this morning's migrations: the extra finding was E39 on ks5-20, where
+migration 323 wrote "say which one to the person next to you" and the check's
+word list knew "neighbour" and "tell" but not "next to you". The prompt does
+exactly what the rule asks, so the check was widened rather than the prompt
+reworded, which is how a check starts driving the content. Back to 540, and
+identical per lesson against the pre migration baseline.
+
+Verified on the live row: 35 slides, 75 minutes, breath at 23 led by Orbit,
+mission at 33, passport at 34, DiGi still last, timing string moved with it,
+29 rows backed up, hash proof. PR 1140.

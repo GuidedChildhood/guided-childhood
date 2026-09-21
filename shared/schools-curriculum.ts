@@ -338,7 +338,7 @@ export const CURRICULUM: CurriculumModule[] = [
     rshe: ['online_safety', 'illegal_online', 'respectful_relationships'],
   },
   {
-    n: 12, moduleId: 'ks3-12-misinfo-deepfakes', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 73,
+    n: 12, moduleId: 'ks3-12-misinfo-deepfakes', keyStage: 'KS3', yearBand: 'Years 7 to 9', minutes: 75,
     title: 'Misinformation, deepfakes and AI content',
     outcome: 'I can run three checks before I believe or share something.',
     blurb: 'Spotting manufactured content with three checks that take under a minute.',
