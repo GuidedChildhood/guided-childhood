@@ -643,3 +643,63 @@ one panel per step, the board for that step with its words directly beneath,
 in a horizontal snap strip with the next panel's edge showing and tappable
 dots; nothing is pinned and nothing slides under anything. The desk keeps
 the sticky board beside the steps. Rendered at 390, 430 and 1440. PR 1133.
+
+## 21 September 2026 — the passport stands in the door at the end of the road
+
+Justin, from his phone: the passport should be at the end. It was at right
+26 per cent, which lands between 56 and 74 per cent of the hero picture; the
+doorway runs from 73 to 89. So it sat short of the door, in the middle of the
+road, and covered Nova entirely, drawing five friends and showing four. It is
+now centred on the door at 81 per cent, inside the open doorway, by a half
+width margin rather than a transform because GSAP owns the transform and
+animates the rotate. Nothing had regressed: it was wrong from the start and
+only visible on a phone. Rendered at 390, 430 and 1440. PR 1135.
+
+## 21 September 2026 — one ruler for a slide the class acts on
+
+Three files each had their own idea of it. The council counted a choice,
+discussion, tryit, interactive and scenario, plus a quote and a diagram with
+verdicts; the module contract counted four of those and none of the rest; the
+rubric checker wrote the council's list out again by hand. On the contract's
+ruler 21 of 29 lessons looked like they sat children past the four minute
+ceiling, and on the council's almost none did, so the disagreement was between
+our instruments rather than in any classroom. Both files now import respondsTo.
+The ceiling is unchanged: the threshold was never the problem, the type list
+was. Contract failures across all 29 lessons went 60 to 2. Said out loud
+because the diff invites the opposite reading: a gate falling from 60 to 2
+looks like a guard being silenced, and the defence is that the content was
+authored to the council's definition all along. PR 1135.
+
+## 21 September 2026 — the scheme publishes the length it actually runs
+
+The 45 to 60 minute window was a number written into the rubric, not a finding
+with a source, and 26 of 29 lessons run past it: median 69, range 42 to 73. A
+five lens panel and four adversarial lenses agreed not to trim, because it is
+the only course that spends statutory content on a rule with nothing behind
+it, and not to publish a core figure either, because the core recomputes to 50
+to 72 so any tighter band would be false on day one. So every manifest row
+carries the true total, the public curriculum card prints it, and
+check-lesson-minutes.mjs holds the published figure to the sum of the slides.
+C8 now tests that the printed number is the real one. Every minute in the
+scheme is authored, not timed: three timed lessons would settle more than more
+analysis. PR 1135.
+
+## 21 September 2026 — Cosmo fronts the sixth form, and the pilot's cast predates the Planet Friends
+
+Cosmo fronted zero lessons, because both sixth form modules are cast to DiGi
+and the home page rightly hides a friend who fronts nothing, while the hero
+picture, the KS5 printouts and the parents app all still promised him.
+Justin's call: recast both KS5 modules to Cosmo, DiGi still closing. Contract
+rules 12 and 13 fail ks3-12, the public taster, because its pause and mission
+are film and only the arrival check accepts film, so the gate still runs on
+four lessons rather than all 29. PR 1135.
+
+CORRECTION, same day, before anyone acts on it. I first read ks3-12's
+video_beats as the cast and reported that the taster plays films of zara and
+digi_junior against a manifest saying orbit. That was wrong. video_beats is a
+render ledger, not the cast, and it is stale: its four job ids match none of
+the six films on the slides, and it names kling3_0 while the transactions show
+the clips were made on Seedance 2.5 on 11 September. What plays is Orbit, as
+Justin's own screenshot of slide 7 shows. The defect is a ledger nobody
+updated after the Orbit re-render, which is worth fixing so the next person is
+not misled, and it is not a wrong character on a wall.
