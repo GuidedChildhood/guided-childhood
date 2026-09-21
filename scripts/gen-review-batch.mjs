@@ -197,6 +197,45 @@ for (const mod of modules) {
   if (fresh.length) fail(mod.id, `the module contract fails on the post state with failures the current module does not have:\n       ${fresh.join('\n       ')}`)
   if (before.length) console.log(`  ${mod.id}: ${before.length} contract failure(s) already on production, unchanged by this batch:\n       ${before.join('\n       ')}`)
 }
+
+// 6. the sourced claims, on the post state, the same way.
+//
+// THIS WAS MISSING AND IT COST US. The attested phrase check above reads
+// shared/schools-rshe-2026.ts and shared/schools-computing-pos.ts, which is two
+// of the three places a phrase can be load bearing. The third is
+// scripts/check-source-claims.mjs, the sentences pinned to a primary source,
+// and nothing here looked at it. Migrations 326 to 336 went to production
+// having lowercased "A computer reader IS allowed" and "A human reader is NOT
+// allowed" on ks3-24 and "WORKS IN STEPS" on ks2-25, and CI caught it after the
+// fact rather than this script catching it before.
+//
+// The edits themselves were right, E34 rules out capitals for emphasis for
+// dyslexic readers and ks3-24 slide 12 is the slide written for that reader, so
+// the three claims are now matched case insensitively there. But the generator
+// should have raised it rather than CI, because by then it was live.
+//
+// It runs the real guard rather than a third copy of its claim list, against a
+// temp content/modules tree holding the post state, because the guard reads
+// several modules and cross checks the quiz twins between them. A copy of its
+// data here would drift from it, which is the fault being fixed.
+const claimFails = cwd => {
+  try { execFileSync('node', [path.join(ROOT, 'scripts/check-source-claims.mjs')], { cwd, stdio: ['ignore', 'ignore', 'pipe'] }); return [] }
+  catch (err) { return String(err.stderr || '').split('\n').filter(l => /^\s+FAIL /.test(l)).map(l => l.trim()) }
+}
+const claimDir = path.join(tmp, 'claims', 'content', 'modules')
+fs.mkdirSync(claimDir, { recursive: true })
+for (const f of fs.readdirSync(path.join(ROOT, 'content/modules'))) {
+  if (f.endsWith('.json')) fs.copyFileSync(path.join(ROOT, 'content/modules', f), path.join(claimDir, f))
+}
+const claimsBefore = claimFails(path.join(tmp, 'claims'))
+for (const mod of modules) fs.writeFileSync(path.join(claimDir, `${mod.id}.json`), JSON.stringify(mod.m, null, 2) + '\n')
+const claimsFresh = claimFails(path.join(tmp, 'claims')).filter(l => !claimsBefore.includes(l))
+if (claimsFresh.length) {
+  fail('the batch', `it drops a sentence pinned to a primary source:\n       ${claimsFresh.join('\n       ')}\n       ` +
+    'Either put the words back, or if the edit is right, correct the claim in scripts/check-source-claims.mjs and say why.')
+}
+if (claimsBefore.length) console.log(`  ${claimsBefore.length} source claim failure(s) already present, unchanged by this batch:\n       ${claimsBefore.join('\n       ')}`)
+
 if (bad) { console.error(`\n${bad} problem(s). Nothing written.`); process.exit(1) }
 
 // ── batches by size, whole modules, in teaching order ──────────────────

@@ -731,3 +731,29 @@ measured is the wrong repair, and council-checks.mjs learned that once already.
 The order is measure all 29, look at the card layout, then a guard that uses a
 browser, then copy if any is genuinely too long. Written up with the evidence in
 plans/2026-09-21-the-wall-clips-finding.md. PR 1142.
+
+## 21 September 2026, CI caught a lost source claim that the generator should have
+
+concern-guards failed on PR 1142 after the must batch was already live.
+check-source-claims found three sentences pinned to a primary source that the
+edits had changed: "A computer reader IS allowed" and "A human reader is NOT
+allowed" on ks3-24, and "WORKS IN STEPS" on ks2-25.
+
+The facts survived. What changed was the capitals, and the edits were right:
+E34 and the BDA guide rule out capitals for emphasis for dyslexic readers, and
+ks3-24 slide 12 is the slide written for that reader, about the reader they are
+allowed in an exam. So those three claims are now matched case insensitively,
+and only those three. Everything else stays an exact match, because for most of
+them the exact words are the point.
+
+The real fault is that gen-review-batch checked attested phrases in two of the
+three places they live, shared/schools-rshe-2026.ts and
+shared/schools-computing-pos.ts, and never looked at check-source-claims.mjs.
+It now runs that guard on the post state the same way it runs the module
+contract, and only a NEW failure blocks a batch. Proved both ways: a synthetic
+edit that guts the phrase exits 1 with the file named, a control edit that
+rewords around it exits 0.
+
+Mine to own: I ran ten guards locally before applying and this was not one of
+them. CI caught it, which is CI working, but by then it was in production.
+PR 1142.
