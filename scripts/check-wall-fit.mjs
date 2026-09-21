@@ -40,11 +40,17 @@
 //
 // ── THE RATCHET ─────────────────────────────────────────────────────────────
 //
-// scripts/wall-fit-baseline.json names the slides known to clip. A slide NOT on
-// the list that clips is a regression and fails. A slide ON the list that now
-// fits also fails, with a message saying to take it off, so a fix cannot
-// quietly un-fix itself later. The list only ever gets shorter. Same pattern as
+// scripts/wall-fit-baseline.json names the slides known to clip, and at which
+// SIZE: an entry is {wall: 210} or {laptop: 96} or both. A slide NOT on the
+// list that clips is a regression and fails. A slide ON the list that now fits
+// also fails, with a message saying to take it off, so a fix cannot quietly
+// un-fix itself later. The list only ever gets shorter. Same pattern as
 // check-larger-text.mjs and the wiring check's BASELINE.
+//
+// The unit compared is the slide AND the viewport, never the slide alone. CI
+// runs the wall on its own and 55 of the first 298 entries clip only at
+// laptop size, so a key level comparison would call all 55 fixed and fail a
+// green tree. See the comparison block at the foot of this file.
 //
 // Rewrite the list after a deliberate change with --write-baseline. Never do
 // that to make a red run go green.
@@ -141,28 +147,53 @@ const keys = Object.keys(found).sort()
 const where = k => Object.entries(found[k]).map(([t, px]) => `${t} ${px}px`).join(', ')
 
 if (WRITE) {
+  // A write without --laptop would silently drop every laptop only clip, and
+  // 55 of the first 298 were laptop only. The baseline holds both sizes or it
+  // is not the baseline, so this refuses rather than quietly shrinking it.
+  if (!LAPTOP) {
+    console.error('check-wall-fit: --write-baseline needs --laptop as well, or the run')
+    console.error('  would drop every slide that clips only at 1366x768.')
+    process.exit(2)
+  }
   writeFileSync(BASELINE_FILE, JSON.stringify(found, null, 2) + '\n')
   console.log(`wrote ${BASELINE_FILE}: ${keys.length} slide(s) clipping, of ${measured} measured`)
   for (const k of keys) console.log(`  ${k}  ${where(k)}`)
   process.exit(0)
 }
 
-// --only measures one lesson, so the baseline it is compared against has to be
-// narrowed to the same lesson. Without this, every other lesson on the list
+// COMPARE ONLY WHAT THIS RUN MEASURED, on both axes.
+//
+// A baseline entry is a slide AND a viewport: "ks2-04 s5" may be listed at
+// laptop and not at wall. Two scoping holes follow from that, and both have
+// bitten already.
+//
+// By lesson: --only measures one lesson, so every other lesson on the list
 // reads as "now fits, take it off" and one lesson's run reports 280 false
-// fixes. The CI run measures everything and narrows to nothing.
+// fixes.
+//
+// By viewport: CI runs the wall alone, because measuring both sizes doubles a
+// job that already takes half an hour. Comparing a wall only run against the
+// whole baseline reports all 55 laptop only entries as fixed, which is 55
+// failures on a green tree.
+//
+// So the unit of comparison is the pair, not the key.
 const measuredModule = k => lessons.some(l => k.startsWith(`${l.module_id} s`))
-const inScope = Object.keys(baseline).filter(measuredModule)
+const TAGS = VIEWPORTS.map(v => v.tag)
+const pairs = obj => Object.keys(obj).filter(measuredModule)
+  .flatMap(k => TAGS.filter(t => obj[k][t] != null).map(t => `${k} @${t}`))
 
-const fresh = keys.filter(k => !baseline[k])
-const fixed = inScope.filter(k => !found[k]).sort()
+const wasClipping = new Set(pairs(baseline))
+const isClipping = new Set(pairs(found))
 
-for (const k of fresh) console.error(`  FAIL ${k} is cut off on the wall (${where(k)}) and is not on the baseline`)
-for (const k of fixed) console.error(`  FAIL ${k} now fits. Take it off ${BASELINE_FILE} so it cannot break again.`)
+const fresh = [...isClipping].filter(p => !wasClipping.has(p)).sort()
+const fixed = [...wasClipping].filter(p => !isClipping.has(p)).sort()
+
+for (const p of fresh) console.error(`  FAIL ${p} is cut off on the wall and is not on the baseline`)
+for (const p of fixed) console.error(`  FAIL ${p} now fits. Take it off ${BASELINE_FILE} so it cannot break again.`)
 
 if (!fresh.length && !fixed.length) {
-  console.log(`check-wall-fit: ${measured} slides measured, ${keys.length} clipping, all known. `
-    + `${Object.keys(baseline).length} on the baseline.`)
+  console.log(`check-wall-fit: ${measured} slides measured at ${TAGS.join(' and ')}, `
+    + `${isClipping.size} clipping, all known. ${Object.keys(baseline).length} slides on the baseline.`)
   process.exit(0)
 }
 console.error(`\ncheck-wall-fit: ${fresh.length} new, ${fixed.length} fixed but still listed.`)
