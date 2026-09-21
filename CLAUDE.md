@@ -66,6 +66,16 @@ open PR against the same file each weekday morning, and the weekly UX
 walkthrough judges the live product against its customer test. If the quality
 bar changes, change review.md, not the routines.
 
+**The deep curriculum review runs once a term, not continuously** (Justin,
+21 September 2026). We are confident in the scheme, so a pass that proposes a
+hundred edits to lessons that are already good is churn rather than quality.
+The guards are the opposite and stay on every push: they cost nothing, fire
+only on something real, and are what caught a sign off still counting twenty
+modules after the scheme had reached twenty nine. Out of cycle only when a
+lesson is rewritten, a module is added, or the statutory guidance moves. When
+a review does run, apply the must findings and leave the should ones in the
+file for a later term.
+
 ## PLANS
 
 Write every plan to /plans/<week>-plan.md INSIDE this repo before building.
