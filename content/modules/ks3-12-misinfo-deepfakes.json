@@ -426,6 +426,20 @@
     {
       "type": "interactive",
       "phase": "practise",
+      "config": {
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "level",
+        "character": "orbit"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
       "config": {},
       "script": "The diagram of how a fake travels, now run as a race. Run it once and let the outrage post win by miles. Ask why: not because it is true, because reactions are the fuel. Then press calm the reactions and run it again, and watch the race tighten. Land the line the whole lesson has been building to: your pause is not nothing, it is the brake, and you are no longer most people.",
       "caption": "Same day, two posts. Watch what reactions are worth.",
@@ -540,6 +554,19 @@
         ],
         "described": "DiGi, the golden star, floats and glows, then the camera settles on an open passport on the table as coloured stamps land on the page one after another, each carrying a Planet Friend face."
       }
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "When something hits you hard and fast, that is the signal. Not the proof.",
+        "Three checks before you believe it. The same three before you send it on.",
+        "And not sure is a real answer. Pause, and you have already done the job."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. Then the passport page, and DiGi closes the case after it.",
+      "heading": "Your mission, the next time a post hits you hard",
+      "minutes": 1,
+      "character": "orbit"
     },
     {
       "type": "interactive",
@@ -689,7 +716,7 @@
         "outcome": "I can explain why a fake spreads faster than the correction."
       }
     ],
-    "timing": "73 minutes as scripted: starter 11 with the DiGi welcome, teach cycles 29 with the half time pause, spread race 4, paper practice 15, exit checks 4, close 10 with the passport beat. To fit a 55 minute period: run one discussion instead of two, and give paper practice 10 with items five and six as homework.",
+    "timing": "75 minutes as scripted: starter 11 with the DiGi welcome, teach cycles 29, half time pause 1 with Orbit, spread race 4, paper practice 15, exit checks 4, close 11 with Orbit’s mission and the passport beat. To fit a 55 minute period: run one discussion instead of two, and give paper practice 10 with items five and six as homework.",
     "keywords": [
       {
         "word": "misinformation",

@@ -114,6 +114,29 @@ jobs:
       # whole time. The wall was wrong, in front of the one audience with no
       # way to know. See the header of check-lesson-counts.mjs.
       - run: node scripts/check-lesson-counts.mjs
+      # THE MODULE CONTRACT, OVER ALL 29 LESSONS (21 September 2026).
+      #
+      # This has existed since migration 268 and has never run in CI, because
+      # ks3-12 failed two of its rules: it was built as the film pilot before
+      # migration 296 gave every other lesson its arrival, pause and mission
+      # beats, so it had no half time breath at all and no friend handing over
+      # the mission. Migration 325 gave it both and all 29 now pass, so the
+      # contract stops being a script somebody remembers to run.
+      #
+      # That matters more than one lesson. Justin moved the deep curriculum
+      # review to once a term on the same day, and a gate that runs on every
+      # push is what makes a lower review cadence safe.
+      #
+      # A loop rather than a flag: the script reads one module and exits
+      # non zero, and rewriting a working gate to take --all is a bigger risk
+      # than four lines of bash. Every lesson is named in the output, so a
+      # failure says which one.
+      - run: |
+          fail=0
+          for f in content/modules/*.json; do
+            node scripts/check-module-contract.mjs "$f" || fail=1
+          done
+          exit $fail
       # `n` is the build number and the display number is a position in the key
       # stage. They were the same field, so KS2 read 04 05 06 07 08 09 23 25 and
       # a printed passport numbered eight rings 4 to 25. Silent: every number

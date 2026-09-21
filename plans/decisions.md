@@ -786,3 +786,68 @@ retired sentence is gone from every lesson. PR 1138.
 Still open for Justin, not changed: "here is where they were all heading" is a
 finale and ks5-20 is the 28th of 29, so it lands one lesson early. ks5-21
 carries the real close. Whether that line moves, softens or stays is his.
+
+## 21 September 2026 — four decisions on the curriculum review
+
+Justin pushed back on the review itself: "we are confident in the school
+curriculum so let's make the review less often as we don't need to keep
+changing often." He was right to. The deep pass proposed 503 accepted edits
+across 17 lessons, 311 of them to the wall a child reads, and only 67 of
+those were must severity. The other 436 were rubric wins on lessons he is
+already happy with, which is churn rather than quality.
+
+1. **The deep curriculum review runs once a term, not continuously.** The
+   guards stay on every push: they cost nothing, fire only on something real,
+   and are what caught the sign off counting twenty modules. Out of cycle only
+   when a lesson is rewritten, a module is added, or the statutory guidance
+   moves. Written into CLAUDE.md so a future session does not restart the
+   churn. The weekday PR review and weekly UX walkthrough are unchanged,
+   because they judge code against review.md and generate no curriculum
+   proposals.
+2. **This batch applies the must findings only**, plus what is simply empty
+   (hard_questions, missing evidence_base) and the places where a printed
+   worksheet no longer matches the wall it came from. Every should and polish
+   edit stays in the verified files for a later term. Nothing is deleted.
+3. **Each lesson gets a named core and an extension.** 26 of 29 run 63 to 73
+   minutes against a 50 to 60 minute period, and a reviewer heard what happens:
+   teachers cut the last practise slides to reach the exit quiz, which is the
+   assessment evidence a head is buying. A stopping point, not a rewrite. The
+   published length stays the true total.
+4. **ks3-12 gets its two missing beats**, the half time breath and the Orbit
+   mission, so the module contract can go into CI over all 29 lessons. The
+   breath is a scheme template and needs no new words. The mission lines went
+   to Justin for approval first.
+
+Migration numbers from 325. PR to follow.
+
+## 21 September 2026 — migration 325: ks3-12 gets its two beats, and the contract goes into CI
+
+Justin approved the Orbit mission lines. Applied.
+
+ks3-12 was the last lesson failing the module contract, on two rules: no half
+time breath led by a friend (it had none at all) and no friend handing over
+the mission in the close. It was the odd one out because it was built as the
+film pilot, before migration 296 gave every other lesson its beats. The breath
+is a scheme template and needed no new words. The mission is new: it names the
+three checks, opens on the lesson's real insight that a big instant feeling is
+the signal rather than the proof, and ends on pause being a real answer so a
+pupil who cannot tell does not leave feeling they failed.
+
+**All 29 lessons now pass the contract, so it is wired into concern-guards and
+runs on every push.** That is what makes the once a term review cadence safe: a
+gate that runs every time is worth more than a review that runs often.
+
+Two honest notes. The mission script does NOT copy the scheme template line
+"DiGi closes on the next slide", because in ks3-11 and ks3-24 the next slide is
+the passport page, not DiGi. A reviewer caught it as a scheme wide fault;
+fixing the others belongs to the must batch. And the rubric moved 540 to 541
+after this morning's migrations: the extra finding was E39 on ks5-20, where
+migration 323 wrote "say which one to the person next to you" and the check's
+word list knew "neighbour" and "tell" but not "next to you". The prompt does
+exactly what the rule asks, so the check was widened rather than the prompt
+reworded, which is how a check starts driving the content. Back to 540, and
+identical per lesson against the pre migration baseline.
+
+Verified on the live row: 35 slides, 75 minutes, breath at 23 led by Orbit,
+mission at 33, passport at 34, DiGi still last, timing string moved with it,
+29 rows backed up, hash proof. PR 1140.
