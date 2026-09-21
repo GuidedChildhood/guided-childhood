@@ -179,9 +179,26 @@ const settle = async (page, label) => {
 // difference is real, a different number means the environments differ and
 // the list was never the thing being tested.
 {
+  // A FIXED REFERENCE SLIDE, not whatever the fixture happens to hold, so the
+  // number means the same thing in every run. Settling catches a page that has
+  // not finished rendering. It does not catch a page that renders DIFFERENTLY,
+  // and the run that found all this reported the same 215 twice from two
+  // different code states, which is the signature of a structural difference
+  // rather than a timing one. This is the line that would tell us: one slide,
+  // known words, so two runs can be subtracted.
   const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 } })
   const page = await ctx.newPage()
+  writeFileSync(SLIDES_FILE, JSON.stringify([{
+    type: 'recap', phase: 'close', minutes: 2, heading: 'Reference slide',
+    points: [
+      'A fixed slide measured at the start of every run, so two runs can be compared.',
+      'If this number moves, the renderer moved, and the list was never what was being tested.',
+      'It is never written to the baseline and it belongs to no lesson.',
+    ],
+    script: 'Reference only.',
+  }]))
   await page.goto(`${BASE}/dev/lesson-player?class=1&teacher=1&slide=0`, { waitUntil: 'networkidle', timeout: 60000 })
+  const ref = await settle(page, 'the reference slide')
   const env = await page.evaluate(async () => {
     await document.fonts.ready
     const probe = document.createElement('span')
@@ -194,6 +211,9 @@ const settle = async (page, label) => {
   })
   console.log(`check-wall-fit: ${browser.version()} | pangram at 40px ${env.w}px | `
     + `Nunito ${env.nunito ? 'loaded' : 'NOT LOADED, metrics will not match the baseline'}`)
+  console.log(`check-wall-fit: reference slide stage ${ref.client}px, content ${ref.scroll}px, `
+    + `${ref.kids} blocks, ${ref.chars} chars. A run that disagrees with the baseline and also `
+    + `disagrees here is measuring a different page, not a different scheme.`)
   await ctx.close()
 }
 
