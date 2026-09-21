@@ -492,15 +492,32 @@ Checks a slide edit can meet:
   (OBSERVED, curriculum pack page 4); Oak's one paragraph teacher tip
   (OBSERVED, the Year 5 lesson above); Kapow's teacher video "delivering this
   knowledge just when it is needed" (CLAIMED). Confidence MODERATE.
-- **C8 · Minutes on every step, and the length is the one a school can
-  timetable.** Every slide has minutes; the phase sums equal the teacher
-  notes timing; the full lesson runs 45 to 60 minutes. MEASURABLE (contract
-  rules 2 and 4 for the sums; the 45 to 60 window in
-  scripts/check-lesson-rubric.mjs). All ages. Today the timing strings are
-  honest and nineteen of the first twenty exported lessons state 63 to 73
-  minutes, so this is a scheme decision for Justin rather than a slide edit:
-  trim to the hour, split into two sessions, or print the true length on the
-  catalogue card. Source: Common Sense prints minutes on
+- **C8 · Minutes on every step, and the published length is the real one.**
+  Every slide has minutes; the phase sums equal the teacher notes timing; the
+  figure printed on the public curriculum card equals the sum of the slides.
+  MEASURABLE (contract rules 2 and 4 for the sums;
+  scripts/check-lesson-minutes.mjs for the published figure). All ages.
+
+  DECIDED 21 SEPTEMBER 2026, and this replaces the 45 to 60 window. The window
+  was never a finding. It was a number written down here, and twenty six of the
+  twenty nine lessons run past it, median sixty nine, range forty two to
+  seventy three. A five lens panel and four adversarial lenses agreed on what
+  not to do. Do not trim to the window, because it is the only course that
+  spends statutory content to satisfy a rule with no source, and coverage is
+  held by a guard that may only improve. Do not publish a shorter core figure
+  either: the core recomputes to 50 to 72 minutes, so any tighter band would
+  be false on the day it shipped, and a head reads a core figure as a promise
+  that the lesson fits their period.
+
+  So the scheme prints what it actually runs, and the short period guidance
+  lives in the teacher notes where a teacher reads it, naming which discussion
+  to drop and which worksheet items go home. Every minute in the scheme is
+  authored rather than observed: it is the sum of the numbers a writer put on
+  each slide, and nobody has timed one of these lessons with thirty children in
+  a room. The honest sentence to a headteacher is that it is our scripted
+  timing. Three timed lessons, one at KS2, one at KS4 and one on a real fifty
+  minute period, would settle more than any further analysis of the data we
+  have. Source: Common Sense prints minutes on
   every step (OBSERVED, https://www.commonsense.org/education/digital-citizenship/lesson/your-rings-of-responsibility);
   the PSHE Association asks for "accurate timings for each stage of the
   lesson" and says most lessons last "50-60 minutes" (CLAIMED,

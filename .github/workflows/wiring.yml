@@ -95,6 +95,13 @@ jobs:
       # must say which doors open. A comment describing that bug did not stop
       # it shipping; this does.
       - run: node scripts/check-curriculum-honesty.mjs
+      # The curriculum map is public and now prints how long each lesson runs,
+      # so that figure is a claim made to a head before they have seen a
+      # lesson. It is held to the sum of the slides in content/modules, which
+      # are hash proved equal to the production rows. A number on a card drifts
+      # exactly the way the old hand written faces lines drifted, and it is
+      # worse, because a head plans a period around it.
+      - run: node scripts/check-lesson-minutes.mjs
       # `n` is the build number and the display number is a position in the key
       # stage. They were the same field, so KS2 read 04 05 06 07 08 09 23 25 and
       # a printed passport numbered eight rings 4 to 25. Silent: every number

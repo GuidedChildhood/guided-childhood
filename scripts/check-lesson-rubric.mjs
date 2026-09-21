@@ -26,6 +26,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { respondsTo } from './council-checks.mjs'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const args = process.argv.slice(2)
@@ -111,9 +112,21 @@ function check(m) {
   })
   if (!String(tn.teacher_tip ?? '').trim()) f('C7', 'teacher_notes.teacher_tip is empty')
 
-  // C8 · the lesson fits the hour
+  // C8 · the published length is the real one (21 September 2026)
+  //
+  // This used to fail any lesson outside a 45 to 60 minute window. The window
+  // was a number written into the rubric rather than a finding with a source,
+  // and 26 of the 29 lessons run past it, so the check was reporting the rule
+  // as wrong 26 times over. The decision was to publish what the lessons run
+  // and guide a short period in the teacher notes. The length claim is now
+  // held by scripts/check-lesson-minutes.mjs, which compares the figure on the
+  // public card to the sum of the slides. What is left here is the part that
+  // was always a real defect: a teacher notes timing string that disagrees
+  // with the slides, because the teacher reads that one on the prep sheet.
   const total = slides.reduce((n, s) => n + (Number(s.minutes) || 0), 0)
-  if (total < 45 || total > 60) f('C8', `the slides run ${total} minutes; the window is 45 to 60`)
+  const stated = Number((String(tn.timing ?? '').match(/^(\d+)/) || [])[1])
+  if (Number.isFinite(stated) && stated !== total) f('C8', `teacher_notes.timing says ${stated} minutes and the slides run ${total}`)
+  if (!Number.isFinite(stated)) f('C8', 'teacher_notes.timing does not open with the total minutes')
 
   // C9 · question variety
   const kinds = new Set(slides.map(s => s.type === 'interactive' ? `interactive/${s.component}` : s.type).filter(t => ['choice', 'discussion', 'tryit', 'scenario', 'interactive/verdict-sort', 'interactive/passport-page'].includes(t)))
@@ -149,7 +162,9 @@ function check(m) {
 
   // ── the evidence checks the report made measurable (scripts/lesson-rubric.md, section B) ──
   const text = s => [s.title, s.heading, s.body, s.caption, s.prompt, s.question, s.lookFor, s.outcome, s.why, ...(s.lines || []), ...(s.points || []), ...(s.gains || []), ...(s.options || []).map(o => o.text), ...(s.steps || []).map(x => `${x.title || ''} ${x.text || ''}`), ...(s.words || []).map(w => `${w.word || ''} ${w.meaning || ''}`)].filter(Boolean).join(' ')
-  const responds = s => ['choice', 'discussion', 'tryit', 'interactive', 'scenario', 'quote'].includes(s.type) || (s.type === 'diagram' && (s.verdicts || []).length > 0)
+  // The same ruler the council and the contract use, imported rather than
+  // written out a third time (21 September 2026).
+  const responds = respondsTo
   const graphemes = s => [...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(String(s ?? ''))].filter(g => g.segment.trim()).length
   const keywordsSlide = slides.find(s => s.type === 'keywords')
   const kwords = (keywordsSlide?.words || []).map(w => String(w.word || '').toLowerCase()).filter(Boolean)
