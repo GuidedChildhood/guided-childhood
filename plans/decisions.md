@@ -601,3 +601,45 @@ test's "tap Turn on check ins" named a button that only exists on Home, so
 the card now carries the switch itself, through the shared `enablePush`, and
 re-runs the test the moment it succeeds. Rule reaffirmed: never tell a parent
 to tap something that is not on the screen in front of them.
+## 21 September 2026 — the mirror is true: all 29 lessons in content/modules, hash proved
+
+Every review batch asserts the post state by string hash, which needs the
+file to equal the row first. Seven export agents pulled the 21 older lessons
+out of production through the Supabase tool and proved each with
+`scripts/module-string-hash.mjs`; four September files had gone stale under
+later migrations and were re exported. All 29 proved again in one query. The
+first apply of 321 refused, correctly, on the stale four: the hash proof
+doing its job. PR 1133.
+
+## 21 September 2026 — migration 321: the keyword meanings the wall could not see
+
+Eight lessons written since 11 September stored each keyword's meaning under
+`definition`; the wall and the vocabulary page draw `meaning`, so those classes
+saw the words and nothing under them, and the council's blocks check counted
+the missing meanings as nothing to measure. Found by the rubric's measurable
+checks. Renamed in the rows and the files under guard; contract rule 14
+refuses a keywords slide without a meaning the wall draws. PR 1133.
+
+## 21 September 2026 — the lesson rubric, and the only road from a finding to production
+
+`scripts/lesson-rubric.md`: every check with its source, MEASURABLE, JUDGEMENT
+or SCHEME, from two research reports (the best UK schemes lesson by lesson;
+the evidence on projected slides and scripted lessons), honest about what was
+opened and what came through a snippet. `scripts/check-lesson-rubric.mjs`
+runs the measurable ones per slide. `scripts/gen-review-batch.mjs` is the
+only road from a verified finding to a migration: one edit is one string on
+one slide, refused if it does not match the file, carries a dash, breaks the
+wall ceiling, loses an attested phrase or worsens the contract, then a
+guarded batch with backup, abort, proofs and hashes. Migration numbers 321
+onwards are the review's. The 29 reviewer and 29 verifier workflow runs
+against it. PR 1133.
+
+## 21 September 2026 — on a phone the lesson opens section is a swipe strip, not a pinned board
+
+Justin, from his phone: the board stays and the text underneath scrolls past
+and is missed. The pinned card took the top half of the screen and each
+step's words slid up under it while the reader was on them. A phone now gets
+one panel per step, the board for that step with its words directly beneath,
+in a horizontal snap strip with the next panel's edge showing and tappable
+dots; nothing is pinned and nothing slides under anything. The desk keeps
+the sticky board beside the steps. Rendered at 390, 430 and 1440. PR 1133.

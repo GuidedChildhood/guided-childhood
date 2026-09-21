@@ -1,0 +1,799 @@
+{
+  "row": {
+    "title": "Scams, fraud and money online",
+    "audience": "teacher",
+    "scaffold": "NOTICE",
+    "year_band": "Years 7 to 9",
+    "sort_order": 13,
+    "efcw_strands": [
+      7
+    ],
+    "ailit_domains": [
+      "Engage with AI",
+      "Manage AI"
+    ],
+    "character_cast": "Orbit",
+    "evidence_anchor": "Fraud exposure in teens",
+    "statutory_hooks": [
+      "Citizenship digital financial literacy (fraud and scam prevention)",
+      "Fraud Act 2006, taught as the reporting route rather than as law"
+    ],
+    "single_action_outcome": "I can spot a scam’s three tells."
+  },
+  "slides": [
+    {
+      "body": "One hour, one skill: three tells that expose a scam before it costs you a penny or a password.",
+      "type": "title",
+      "phase": "starter",
+      "title": "Scams, fraud and money online",
+      "script": "Settle everyone with this slide up. Last lesson you learned to catch lies. Today you learn to catch thieves. By the end of the hour you will know the three tells every scam gives away, and why scammers are aiming at this exact room.",
+      "eyebrow": "KS3 · Years 7 to 9 · Module 13",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Orbit here.",
+        "Why would a scammer bother with you?",
+        "Because you are worth more than you think. Today, the three tells."
+      ],
+      "phase": "starter",
+      "script": "Let Orbit land and say the lines. Then read the question on the wall once, in your own voice, and leave it hanging. Do not answer it. The next slide says what today is for, and the class talks before anyone is told.",
+      "heading": "Orbit",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "why": "Scammers deliberately target teenagers, partly because your accounts are worth real money and partly because most teenagers believe scams only catch old people. That belief is exactly what a thief wants you to hold, so today we replace it with three tells that expose a scam in seconds.",
+      "type": "objective",
+      "gains": [
+        "Spot phishing, fake giveaways and get rich hype the moment they land",
+        "Run the three tells on any message in under a minute",
+        "Explain why a gaming account is worth stealing and how thieves take one",
+        "Give a verdict with a reason: looks genuine, verify first, or scam"
+      ],
+      "phase": "starter",
+      "script": "Read the mission and the why out loud. Then ask: hands up if you think a scam could actually catch YOU. Count the hands, it will be low. Tell them to remember that number, we are coming back to it at the end of the lesson.",
+      "minutes": 2,
+      "outcome": "I can spot a scam's three tells."
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "starter",
+      "prompt": "Tell your partner about a message somebody has had that was trying to trick them.",
+      "script": "Sixty seconds. A message somebody has had that was trying to trick them. It can be you, it can be your mum, it can be a mate. Notice I said somebody, and I meant it.",
+      "lookFor": "Somebody rather than you, on purpose. Everybody has a story to bring and nobody has to make it their own.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "words": [
+        {
+          "word": "scam",
+          "meaning": "A trick built to take your money, your codes or your account by making you act before you think."
+        },
+        {
+          "word": "phishing",
+          "meaning": "A fake message or login page dressed up as a real one, fishing for your password or card details."
+        },
+        {
+          "word": "account theft",
+          "meaning": "Stealing a whole account, locking the owner out, then selling it or using it to scam their friends."
+        },
+        {
+          "word": "tell",
+          "meaning": "The small giveaway a trick cannot hide. Scams have three, and you are about to learn them."
+        }
+      ],
+      "script": "Say each word, class repeats it back. Phishing with a PH: they throw the bait, you are the fish, and the hook is a fake login page. A tell is a poker word, the twitch that gives a bluffer away. Scams are bluffs, and bluffers have tells.",
+      "heading": "Detective words for today",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "starter",
+      "script": "Retrieval from module twelve, thirty seconds of thinking time before anyone answers. Cold call two pupils for reasoning, not letters. Then plant today's bridge: last lesson's checks catch lies, content built to fool what you believe. Today's tells catch thieves, messages built to empty your pockets. Same detective, new case.",
+      "minutes": 3,
+      "options": [
+        {
+          "text": "Run the three checks: who made it, what do other places say, how is it trying to make me feel",
+          "correct": true,
+          "feedback": "Exactly. Looking is not a test anymore, the checks do the work your eyes cannot. Keep those checks warm, because today's lesson is their partner."
+        },
+        {
+          "text": "Trust it, video is too hard to fake",
+          "correct": false,
+          "feedback": "Video stopped being hard to fake. That was the whole of last lesson, and it is why the checks exist: your eyes cannot tell anymore."
+        },
+        {
+          "text": "Assume it is fake, most things online are lies",
+          "correct": false,
+          "feedback": "Most things online are not lies. Assuming everything is fake is as lazy as believing everything. The checks tell you which is which."
+        }
+      ],
+      "question": "Warm up from last lesson. A clip lands in the group chat: a celebrity apparently confessing to something shocking, and it looks completely real. What did last lesson teach you to do?"
+    },
+    {
+      "meta": "Text message · Unknown number",
+      "text": "We could not deliver your parcel today. To avoid it being returned, pay the £1.45 redelivery fee within 24 hours: evri.redeliver.uk.trackfee.com",
+      "type": "scenario",
+      "image": "🚚",
+      "label": "Evidence item one",
+      "phase": "teach",
+      "avatar": "📦",
+      "handle": "EVRl Delivery",
+      "prompt": "Hands up: who has seen a text like this on a real phone in your house? Now the harder question: what exactly is wrong with it?",
+      "script": "Nearly every hand goes up, these texts hit every phone in Britain. Collect suspicions but confirm nothing yet. If someone spots the fee, the deadline or the strange web address, park each one on the board. Then the quiet detail: the sender name ends in a lowercase L dressed up as a capital i, thieves impersonate real companies right down to the letters. If a pupil says someone at home actually paid one of these, no blame at all, adults get caught by these every single day, which is exactly why we are learning it at thirteen.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "Phishing is a message dressed as something you trust: a courier, a game, your bank, even your school. It has one job, to steer you onto a fake page that looks exactly like the real login and watch you type your password or card number into it. The classic costume is urgency: your account will be deleted, your parcel will be returned, your prize expires tonight. Real companies almost never work like this, and thieves almost always do, because a rushed brain skips the checking a calm brain would run.",
+      "type": "concept",
+      "emoji": "🎣",
+      "phase": "teach",
+      "script": "Land the key idea: phishing does not hack your device, it asks YOU to hand over the keys, politely and in a hurry. Ask the class why the deadline is always short. Answer: the rush IS the tool. A rushed brain acts first and thinks later, and the whole scam collapses if you get ten calm seconds. Then the good news: you cannot always spot a fake page, but you can always spot the rush.",
+      "heading": "Phishing: the fake that fishes",
+      "minutes": 2
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "A deadline, a countdown, act now or lose it. Rush exists to switch your thinking off.",
+          "emoji": "⏱",
+          "title": "Tell one: it rushes you"
+        },
+        {
+          "text": "Codes, gift cards, your login, a fee through a strange link. Real organisations do not ask this way.",
+          "emoji": "🗝",
+          "title": "Tell two: it wants something odd"
+        },
+        {
+          "text": "Free skins, doubled money, prizes you never entered for. Nobody gives strangers free money.",
+          "emoji": "💎",
+          "title": "Tell three: it is too good to be true"
+        }
+      ],
+      "script": "Walk the diagram as it builds and get the class chanting the tells back: it rushes me, it wants something odd, it is too good to be true. Then the verdicts: looks genuine when no tell fires, verify first when you are not sure, scam when the tells stack up. Verify first means checking by a different route, open the real app yourself or ask the real person face to face, never through the link or number inside the message itself.",
+      "caption": "Every scam has the same three jobs: rush you, redirect you, tempt you. Any one tell means pause. Two or more means scam.",
+      "heading": "The three tells",
+      "minutes": 3,
+      "verdicts": [
+        "Looks genuine",
+        "Verify first",
+        "Scam"
+      ]
+    },
+    {
+      "type": "stat",
+      "claim": "Nearly nine in ten UK adults say they have come across content online that they suspected was a scam or fraud.",
+      "phase": "teach",
+      "figure": "9 in 10",
+      "script": "Let the number land before you speak. Nine in ten. Scams are not rare accidents that happen to careless people, they are background weather on every phone in this room. That is why a repeatable check beats hoping you will just notice.",
+      "source": "Ofcom online scams and fraud research, 2023",
+      "minutes": 1
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "This formalises evidence item one. The gold is in the £1.45 point: the fee is bait, the real prize is your card details on the fake payment page. Make sure that lands even if the whole class answers correctly.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Tell one, the rush: a 24 hour deadline exists to stop you thinking",
+          "correct": true,
+          "feedback": "Yes, and tell two fires straight after: real couriers do not collect fees through a link in a text. Scams usually trip more than one tell at once."
+        },
+        {
+          "text": "No tell, small fees like £1.45 are normal",
+          "correct": false,
+          "feedback": "The tiny fee is the disguise. It is not there to earn £1.45, it is there to collect the card details you type on the fake payment page."
+        },
+        {
+          "text": "Tell three, it is too good to be true",
+          "correct": false,
+          "feedback": "Nothing is being given away here, so tell three stays quiet. The rush and the odd request are doing the work in this one."
+        }
+      ],
+      "question": "Back to the parcel text: a £1.45 fee, a 24 hour deadline, a strange web address. Which tell fires first?"
+    },
+    {
+      "meta": "Message request · Not in your contacts",
+      "text": "CONGRATS! 🎉 Your account has been randomly selected for 5,000 free VBucks and the rare Renegade bundle. Offer expires in 30 minutes. Verify you own the account by logging in here: freeskins.claimzone.gg",
+      "type": "scenario",
+      "image": "🎮",
+      "label": "Evidence item two",
+      "phase": "teach",
+      "avatar": "🎁",
+      "handle": "SkinDrops Official",
+      "prompt": "Thirty seconds with your partner: how many tells fire, and what does this message actually want?",
+      "script": "Pair talk, thirty seconds. All three tells fire: a 30 minute countdown, a login demand, and free loot from a draw you never entered. Then the question that matters: what does it actually want? Not to give you skins. It wants your login typed onto that fake page. If anyone asks how the scammer knew their account, they did not, this exact message went to fifty thousand accounts and it only needs a handful to bite.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "A gaming account is not just progress, it is property. Rare skins resell for real money, a saved card can be quietly drained, and a levelled account sells on shady markets for more than you would guess. But the biggest prize is trust: a stolen account can message every one of your friends with the same scam, and they will believe it because it comes from you. That is why teenagers are targets. Not despite your age, but because of what you own and who trusts your name.",
+      "type": "concept",
+      "emoji": "💰",
+      "phase": "teach",
+      "script": "This is the slide that changes the room. Most pupils think they own nothing worth stealing, so list it: skins with resale value, a saved card, and a friends list that trusts them. Ask: if a thief got into your account right now, what could they actually take? Let three or four pupils answer. The friends list answer is the one to celebrate, because the account is not just loot, it is a launchpad.",
+      "heading": "Why your gaming account is worth stealing",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Quick check, hands or devices. The word to spotlight is verify: scammers borrow official sounding words to dress the trap. Then hand the class the rule of thumb: if a message sends you somewhere to log in, do not use its link. Go to the real app or site yourself and check there.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Your username and password, typed by you onto a copied login page",
+          "correct": true,
+          "feedback": "Exactly. Nothing is being verified and no skins exist. The page is a costume, and your login is the prize."
+        },
+        {
+          "text": "To check you are the real owner before sending the reward",
+          "correct": false,
+          "feedback": "Real platforms already know you own your account. They never need you to prove it through a random link. The verify story is the costume."
+        },
+        {
+          "text": "Just your gamertag, which is public anyway",
+          "correct": false,
+          "feedback": "If it only wanted public information it would not need a login page. The page exists to capture what you type into it."
+        }
+      ],
+      "question": "The free skins message says log in here to verify you own the account. What does it actually want?"
+    },
+    {
+      "mode": "pairs",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "Which of the three tells would most likely catch YOU out, and on which app would it arrive?",
+      "script": "Sixty seconds, partner talk, start the timer on screen. You want honesty, not right answers. After the chime take three answers, then admit your own weak tell. Most adults fold to the rush one, say so out loud, it buys the room permission to be honest.",
+      "lookFor": "Honesty and specificity. The rush tell catches most people because deadlines create panic. Naming your weak tell and your risky app is the first step to guarding both.",
+      "minutes": 2,
+      "seconds": 60
+    },
+    {
+      "meta": "Message request · 2 mutual followers",
+      "text": "yo 👋 not gonna lie this changed my life, turned £50 into £500 in ONE day with my mentor's trading group. he only takes 5 new people a week so reply quick if you want in 🚀 proof in my story",
+      "type": "scenario",
+      "image": "💸",
+      "label": "Evidence item three",
+      "phase": "teach",
+      "avatar": "🤑",
+      "handle": "Marcus 📈",
+      "prompt": "This one is smoother: no login link, no fake company. Which tells still fire?",
+      "script": "Let them work it. Tell three fires loudest: nobody turns £50 into £500 in a day and shares the secret with strangers. Tell one is quieter but present: only 5 spots, reply quick. Tell two arrives one step later in this scam, send £50 to start, then more to unlock your profits, and you never see a penny back. Point at the 2 mutual followers detail: these accounts are often stolen, which is exactly where we are going next.",
+      "minutes": 2,
+      "platform": "message"
+    },
+    {
+      "body": "Ask most teenagers who falls for scams and they say old people. Scammers know you believe that, and it is the most useful thing about you, because a person who is sure they cannot be caught does not check. Add accounts worth real money, less experience of how genuine money offers work, and the shame that keeps victims quiet, and you are not the exception to scams, you are a market. This is not an insult, it is a briefing. Thieves study you, so we study them back.",
+      "type": "concept",
+      "emoji": "🎯",
+      "phase": "teach",
+      "script": "Deliver this one straight, no jokes. Return to the hands from the start of the lesson: hardly anyone thought a scam could catch them, and that belief is exactly the unlocked door. Then take shame head on: people who get scammed almost never tell anyone, and that silence protects the scammer, not the victim. Say it plainly: if a scam ever catches you, or already has, telling someone is the strong move, not the embarrassing one, and you would be nowhere near the first or the last.",
+      "heading": "Why scammers aim at teenagers",
+      "minutes": 2
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "script": "Last check before we take one apart. Why is it useful to them that you think this does not happen to people your age.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "Somebody who is sure they cannot be caught stops checking.",
+          "correct": true,
+          "feedback": "That is the whole thing. Being certain is the vulnerability, and it is the one you can fix in the next ten minutes."
+        },
+        {
+          "text": "It means teenagers have more money.",
+          "correct": false,
+          "feedback": "They are not after your savings. They are after your accounts, which are worth real money to somebody else."
+        },
+        {
+          "text": "It makes the scam cheaper to run.",
+          "correct": false,
+          "feedback": "Cost is not the point. Confidence is. A careful person is a hard target and a certain one is not."
+        }
+      ],
+      "question": "Scammers know most teenagers think scams only catch older people. Why is that useful to a scammer?"
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "steps": [
+        {
+          "text": "Free skins, a prize, a panic message. Built to make you act fast.",
+          "emoji": "🎣",
+          "title": "The bait"
+        },
+        {
+          "text": "You type your login on a copied page. The thief now holds the keys.",
+          "emoji": "🔑",
+          "title": "The steal"
+        },
+        {
+          "text": "Password changed, recovery email swapped. Minutes later it is not your account.",
+          "emoji": "🔒",
+          "title": "The lockout"
+        },
+        {
+          "text": "Your account sends the same bait to every friend, wearing your name.",
+          "emoji": "📤",
+          "title": "The spread"
+        }
+      ],
+      "script": "Walk the chain as it builds, then ask where it is weakest. Step one, always step one, because it is the only step where the thief needs YOUR cooperation. Everything after the steal happens without you. Then close the loop from evidence item three: this is why a scam can arrive from a mate's account. The mate got caught at step two, and the thief is now at step four wearing their face. Checks catch lies, tells catch thieves, and both protect your mates as much as you.",
+      "caption": "The three tells break this chain at step one, before the thief gets anything at all.",
+      "heading": "Anatomy of an account theft",
+      "minutes": 3
+    },
+    {
+      "mode": "groups",
+      "type": "discussion",
+      "phase": "teach",
+      "prompt": "A scam lands from your best mate's account. What do you do in the next five minutes, for you and for them?",
+      "script": "Groups of three or four, ninety seconds on the timer. Collect one plan per group. The best plans have two halves: protect yourself, so nobody touches the link, and rescue the mate, reach them another way and tell them their account is compromised. Praise any group that says report the account in the app, and any group that insists the mate did nothing shameful.",
+      "lookFor": "Do not tap the link. Verify by a different route, call them or ask face to face. Warn them their account may be stolen, report the account in the app, and tell an adult if money or logins were shared. Nobody blames the mate.",
+      "minutes": 3,
+      "seconds": 90
+    },
+    {
+      "body": "Everything in this lesson is against the law. Pretending to be someone else to take money or an account is fraud, and fraud is a criminal offence rather than bad luck. That matters twice over. You are never the one in trouble for being targeted, and there is somewhere for it to go: tell an adult you trust, tell the app, tell the bank if money moved, and the national route is Action Fraud, or Police Scotland if you are in Scotland. Reporting is what turns one person's bad afternoon into evidence.",
+      "type": "concept",
+      "emoji": "⚖️",
+      "phase": "teach",
+      "script": "This is the beat that says the quiet part out loud. Everything we have looked at is illegal. Ask the class whose fault it is when someone is scammed, and land hard on the answer: the criminal, never the person targeted. Then give them the route, and say plainly that reporting is not telling tales, it is evidence.",
+      "heading": "Fraud is a crime, and it gets reported",
+      "minutes": 2
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then tell your neighbour one thing from today that surprised you, and write it on your sheet.",
+        "heading": "Half time",
+        "seconds": 4,
+        "register": "level",
+        "character": "orbit"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then thirty seconds in pairs on one thing that surprised them, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "minutes": 1,
+      "component": "star-breath"
+    },
+    {
+      "type": "interactive",
+      "phase": "practise",
+      "config": {
+        "label": "The three tells · tap the class verdict",
+        "posts": [
+          {
+            "why": "Rush plus an odd payment route. Real couriers do not collect fees through a link in a text, and the tiny fee exists to harvest card details.",
+            "text": "Text from an unknown number: Royal Mail could not deliver your parcel. Pay the £1.25 redelivery fee within 24 hours at royalmailfees.info or your item will be returned.",
+            "answer": 2,
+            "avatar": "💷",
+            "handle": "Case 1"
+          },
+          {
+            "why": "All three tells fire at once: a countdown, a login demand, and free loot from a draw you never entered.",
+            "text": "DM from an account you do not follow: CONGRATS! You have won 10,000 free VBucks. Log in here within 30 minutes to claim your reward.",
+            "answer": 2,
+            "avatar": "💷",
+            "handle": "Case 2"
+          },
+          {
+            "why": "No tell fires: nothing rushes you, nothing odd is requested, nothing is being given away. Not everything is a scam, and saying so is what calibrated judgement means.",
+            "text": "A notification inside your banking app, which you opened yourself from your home screen, asks you to update the app through the official app store. No deadline, no link in a message.",
+            "answer": 0,
+            "avatar": "💷",
+            "handle": "Case 3"
+          },
+          {
+            "why": "Rush and too good to be true both fire, and the account may be stolen. Check with the friend by a different route, in person or by calling, before touching anything.",
+            "text": "A message from your best friend's account: bro this app doubled my money in one day, sign up with my link quick before the spots run out.",
+            "answer": 1,
+            "avatar": "💷",
+            "handle": "Case 4"
+          },
+          {
+            "why": "Real giveaways want a follow. Fake ones want a fee, a code or a login. The tells separate the two, generosity is not automatically a trick.",
+            "text": "A streamer you follow, posting on their verified account, runs a giveaway: follow and comment to enter, winners picked on Friday. No login, no fee, no countdown pressure.",
+            "answer": 0,
+            "avatar": "💷",
+            "handle": "Case 5"
+          },
+          {
+            "why": "Mutual followers are not a credential, stolen accounts have them too. Rush and too good to be true both fire, and the odd request, sending money to unlock your profits, arrives one step later.",
+            "text": "Teo shows you a DM: a trading mentor turned £50 into £500 in one day and has 2 spots left this week. Teo says it must be legit because the sender has mutual followers. Do you agree? Explain your reasoning using the three tells.",
+            "answer": 2,
+            "avatar": "💷",
+            "handle": "Case 6"
+          }
+        ],
+        "doneBody": "Same six cases on the sheet now. This time every verdict needs its reason written down.",
+        "verdicts": [
+          "Looks genuine",
+          "Verify first",
+          "Scam"
+        ],
+        "doneEmoji": "⭐",
+        "doneTitle": "All six sorted"
+      },
+      "script": "The three tells, live, before the paper casework. Read each card, ask which tell fires, take the vote, tap the class verdict, read the reason. Keep saying it: scams beat attention, not intelligence, and the verify first verdict is the professional one.",
+      "caption": "Sort the six cases together before the sheet.",
+      "minutes": 4,
+      "component": "verdict-sort"
+    },
+    {
+      "body": "Six items on the worksheet: texts, DMs and offers. Some are scams, some are genuine. Run the three tells on each and give a verdict: looks genuine, verify first, or scam. Name the tell that fired for every verdict. You have fifteen minutes, and a verdict without a reason does not count.",
+      "type": "tryit",
+      "label": "Your turn",
+      "phase": "practise",
+      "script": "Hand out the worksheet. Fifteen minutes, bookmark strips with the three tells on tables for anyone who wants them. Support group works items one to three with you, saying each tell out loud before the verdict. Stretch question for early finishers: pick one scam item and rewrite it so it would catch even a careful person, then name which tell it still cannot hide. Circulate and collect one sharp reason to read out.",
+      "heading": "Scam spotter casework, on paper",
+      "minutes": 15
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "First of two exit checks, done silently and alone, these two are the printed quiz. This mirrors evidence item three plus the theft chain, so a wrong answer tells you exactly what to reteach and who to mark as working towards on the register.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "The friend's account may be stolen, and the tells apply no matter who sends a message",
+          "correct": true,
+          "feedback": "Right. Rush plus too good to be true fires whoever the sender is, and a stolen account wears a friend's name. Verify with the friend by a different route before anything else."
+        },
+        {
+          "text": "Friends do not scam friends, so it is safe to try",
+          "correct": false,
+          "feedback": "Your friend probably is not scamming you. A thief using their stolen account is. The tells judge the message, not the name above it."
+        },
+        {
+          "text": "Trading apps are all scams, so block your friend",
+          "correct": false,
+          "feedback": "Real trading apps exist, and your friend needs help, not blocking. The tells flag THIS message: rushed, too good to be true, and possibly not from your friend at all."
+        }
+      ],
+      "question": "Exit check. A message from a friend's account says: this trading app doubled my money in a day, join with my link before the spots run out. What do you now know that most people do not?"
+    },
+    {
+      "type": "choice",
+      "phase": "prove",
+      "script": "Second exit check. This is the belief the whole lesson was built to break, so the results here are your evidence that it landed. Collect both answers in as the printed exit quiz.",
+      "minutes": 2,
+      "options": [
+        {
+          "text": "False. Scammers target teenagers precisely because teenagers believe this, and their accounts are worth real money",
+          "correct": true,
+          "feedback": "Exactly. The belief that you cannot be caught is the unlocked door. Your accounts have value, your friends trust your name, and thieves know both."
+        },
+        {
+          "text": "True. Older people fall for scams far more, and teenagers are too sharp online",
+          "correct": false,
+          "feedback": "Being quick with tech is not the same protection as checking. Confidence without the tells is exactly the profile a scammer hunts for."
+        }
+      ],
+      "question": "Exit check. True or false: scams mostly catch old people, so teenagers do not really need to worry."
+    },
+    {
+      "text": "It rushes me. It wants something odd. It is too good to be true. Three tells, and nobody empties my pockets.",
+      "type": "quote",
+      "label": "Say it like Orbit",
+      "phase": "close",
+      "script": "Whole class says it together, twice, louder the second time. This is the sentence you want quoted at home tonight when the next parcel text lands on a parent's phone.",
+      "minutes": 1
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "points": [
+        "Scams beat attention, not intelligence. Anyone can be caught on a rushed day, which is why we check instead of trusting our own sharpness.",
+        "The three tells: it rushes you, it wants something odd like codes gift cards or a login, and it is too good to be true.",
+        "Your gaming account is property: skins, saved cards and a friends list that trusts your name. That makes you a target, not an exception.",
+        "A scam from a friend's account is still a scam. Verify by a different route. Checks catch lies, tells catch thieves."
+      ],
+      "script": "Return to the hands from the start of the lesson: who thought a scam could catch them? Ask it again now and let the room notice what changed. Then the recap read by pupils, one point each.",
+      "heading": "What to remember",
+      "minutes": 2
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "The next message that rushes you, wants something odd, or is too good to be true: stop.",
+        "Any one of the three tells is enough to check.",
+        "Checking takes a minute. Not checking can take a lot more."
+      ],
+      "phase": "close",
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to look at you and say the mission once more in your own words. DiGi closes on the next slide.",
+      "heading": "Your mission",
+      "minutes": 1,
+      "character": "orbit"
+    },
+    {
+      "type": "interactive",
+      "phase": "close",
+      "config": {
+        "after": "When the page is full, the big check earns Orbit's stamp.",
+        "button": "Fill the page",
+        "prompt": "Today filled part of the Making choices page. Tap to fill it in.",
+        "heading": "The passport",
+        "moduleId": "ks3-13-scams-fraud-money",
+        "register": "level",
+        "placement": "shaper"
+      },
+      "script": "Thirty seconds, not a lecture. The passport is the record of getting ready for full access at sixteen, kept at home in the parents app, and every lesson here fills part of a page. Tap Fill the page, or hand the clicker to someone. Point at the area today built and the count moving. Say: when the page is full, the big check earns Orbit's stamp, and nobody can fail it. The parent note carries the home code that puts today in their own passport. The count on the wall is this screen's memory of your classes, not anyone's record.",
+      "minutes": 1,
+      "component": "passport-page"
+    },
+    {
+      "type": "digi",
+      "lines": [
+        "Case closed, detectives! ⭐",
+        "Last lesson gave you three checks for lies. Orbit just gave you three tells for thieves: it rushes you, it wants something odd, it is too good to be true.",
+        "Your mission this week: the next time any message rushes you, stop, name the tell out loud, and verify by a different route before you tap anything.",
+        "Scammers are counting on you never having this lesson. You just had it. See you next time!"
+      ],
+      "phase": "close",
+      "script": "Let DiGi land the ending, the bubbles appear on their own. Exit quizzes are collected in as this plays, they are your evidence for the register. One last line to say over it: if any message this week catches you or nearly does, telling someone is the strong move, and I want to hear about it.",
+      "heading": "DiGi closes the case",
+      "minutes": 1
+    }
+  ],
+  "dsl_note": {
+    "required": false
+  },
+  "key_stage": "KS3",
+  "module_id": "ks3-13-scams-fraud-money",
+  "assessment": {
+    "exit_quiz": {
+      "questions": 2,
+      "auto_marked": true
+    },
+    "in_lesson_checks": {
+      "count": 2,
+      "auto_marked": true
+    },
+    "action_commitment": {
+      "captured": true,
+      "revisited_next_lesson": true
+    },
+    "retrieval_starter": {
+      "questions": 1,
+      "auto_marked": true
+    },
+    "teacher_judgement": {
+      "scale": [
+        "working_towards",
+        "met",
+        "exceeded"
+      ],
+      "default": "met",
+      "one_tap": true
+    }
+  },
+  "sort_order": 13,
+  "parent_note": {
+    "taught": "Today your child learned the three tells that expose a scam: it rushes you, it wants something odd like codes gift cards or a login, and it is too good to be true. We practised on the scams actually aimed at teenagers, fake free skins messages, phishing delivery texts and get rich quick DMs.",
+    "headline": "What we taught today, and one thing to try at home",
+    "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them for the three tells, then show them the last dodgy message you received.",
+    "try_this": "Next time a suspicious text lands on your phone, hand it over and ask your child to name which tell fires. Being the family scam detector is a job they will take seriously.",
+    "family_question": "What is the closest a scam has ever come to catching someone in this family?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "Rush, odd and too good need pre teaching with one example each. Scam scripts cross languages almost unchanged, and a pupil who has seen one in another language holds evidence worth the whole class hearing.",
+      "sensory": "Scam scripts are read flat, never performed. The panic a scam manufactures should be described in the room, not manufactured in it.",
+      "attention": "One scam case at a time with the vote immediate. The pupil who calls answers out becomes the rush spotter: catching urgency working on the class is the lesson working.",
+      "communication": "The three tells are a word bank, and every verdict names its tell by pointing at the bank: it rushes, it wants something odd, it is too good to be true."
+    },
+    "tool": {
+      "lines": [
+        "It rushes you",
+        "It wants something odd",
+        "It is too good to be true"
+      ],
+      "heading": "The three tells",
+      "strapline": "Any one tell means pause. Two or more means scam."
+    },
+    "i_can": [
+      "I can spot a scam's three tells: it rushes, it asks for something odd, it is too good to be true.",
+      "I can stop, check and refuse when a message rushes me.",
+      "I can explain to someone at home why scam scripts work on clever people too."
+    ],
+    "cycles": [
+      {
+        "verb": "Spot",
+        "title": "Phishing: the fake that fishes",
+        "minutes": 12,
+        "outcome": "I can spot a scam's three tells: it rushes, it asks for something odd, it is too good to be true."
+      },
+      {
+        "verb": "Value",
+        "title": "Why your gaming account is worth stealing",
+        "minutes": 12,
+        "outcome": "I can explain why my accounts are worth money to someone else."
+      },
+      {
+        "verb": "Refuse",
+        "title": "Anatomy of an account theft",
+        "minutes": 8,
+        "outcome": "I can stop, check and refuse when a message rushes me, and I know that fraud is a crime I can report."
+      }
+    ],
+    "timing": "73 minutes: starter 11, cycle one 12, cycle two 12, cycle three 8, practise 16, prove 4, close 6, class interactive 4",
+    "keywords": [
+      {
+        "word": "scam",
+        "definition": "A trick built to take your money, your codes or your account by making you act before you think."
+      },
+      {
+        "word": "phishing",
+        "definition": "A fake message or login page dressed up as a real one, fishing for your password or card details."
+      },
+      {
+        "word": "account theft",
+        "definition": "Stealing a whole account, locking the owner out, then selling it or using it to scam their friends."
+      },
+      {
+        "word": "tell",
+        "definition": "The small giveaway a trick cannot hide. Scams have three, and this module teaches all of them."
+      }
+    ],
+    "equipment": "Nothing beyond the board.",
+    "exit_quiz": [
+      {
+        "answer": "It rushes you, it asks for something odd, it is too good to be true.",
+        "format": "short_answer",
+        "question": "What are the three tells?",
+        "teaching_point": "The tool they leave with. Three, and any one of them is enough to stop."
+      },
+      {
+        "answer": "phishing",
+        "format": "fill_blank",
+        "question": "A fake message or login page dressed up as a real one is called ___.",
+        "teaching_point": "One word, spelled their way or ours. The idea is what counts."
+      },
+      {
+        "answer": "False",
+        "format": "true_false",
+        "question": "Scams only catch older people.",
+        "teaching_point": "Scammers deliberately target teenagers, partly because this belief lowers their guard."
+      },
+      {
+        "answer": "It can be sold, and it can scam the owner's friends",
+        "format": "tick_one",
+        "options": [
+          "It is not, they just do it for fun",
+          "It can be sold, and it can scam the owner's friends",
+          "Only to annoy you"
+        ],
+        "question": "Why is a gaming account worth stealing?",
+        "teaching_point": "Both halves matter. The second is why a message from a friend's account is not automatically safe."
+      },
+      {
+        "answer": "Stop, check, refuse.",
+        "format": "short_answer",
+        "question": "A message rushes you. What are the three steps?",
+        "teaching_point": "Checking through a different route is what breaks the script. Not replying to the message itself."
+      }
+    ],
+    "worksheet": {
+      "title": "Scam spotter casework",
+      "directions": "Run the three tells on each item, give your verdict, and name the tell that fired.",
+      "verdict_options": [
+        "Looks genuine",
+        "Verify first",
+        "Scam"
+      ]
+    },
+    "teacher_tip": "Make it explicit that being scammed says nothing about intelligence. A pupil who believes only fools fall for it will never tell you when it happens to them.",
+    "starter_quiz": [
+      {
+        "answer": "True",
+        "format": "true_false",
+        "question": "A message can be faked to look like it came from someone you trust.",
+        "teaching_point": "Carried forward from ks3-12. Today it comes with a motive attached: money."
+      },
+      {
+        "answer": "Any account they name.",
+        "format": "short_answer",
+        "question": "Name an account you own in a game or an app.",
+        "teaching_point": "They need to be holding something of their own before the lesson explains why it is worth stealing."
+      },
+      {
+        "answer": "Less carefully",
+        "format": "tick_one",
+        "options": [
+          "More carefully",
+          "Less carefully",
+          "Exactly the same"
+        ],
+        "question": "When someone rushes you, you think:",
+        "teaching_point": "Urgency is the engine of every scam. Establish the mechanism before the examples."
+      },
+      {
+        "answer": "Any answer. Note who says they would check another way.",
+        "format": "short_answer",
+        "question": "What would you do if a friend messaged asking to borrow money right now?",
+        "teaching_point": "No right answer yet. Come back to their own words at the end of the lesson."
+      }
+    ],
+    "misconceptions": [
+      "Scams only catch old people (scammers deliberately target teenagers because this belief lowers their guard, and gaming accounts hold real value)",
+      "I am good with tech so I would never fall for one (scams beat attention, not intelligence, and confidence without checking is the exact profile thieves hunt)",
+      "A message from a friend's account is safe (a stolen account sends the same bait to every contact, so the tells judge the message, never the sender's name)"
+    ],
+    "paper_fallback": "The whole lesson runs from the printed pack: the three evidence items are read aloud as scripts or acted in pairs, the three tells live on the bookmark strip, discussions run against a wall clock, and the worksheet plus the two exit questions are print first already. No screen needed at any point.",
+    "passport_stage": "shaper",
+    "commitment_stem": "My commitment: the next time a message rushes me, I will...",
+    "differentiation": {
+      "stretch": "Early finishers redesign one scam item so it would catch even a careful person, then explain which tell it still cannot hide. Deeper stretch: why does the shame of being scammed protect the scammer, and what would change if victims talked?",
+      "support": "Bookmark strips with the three tells stay on tables all lesson. The support group works worksheet items one to three with the teacher, saying each tell out loud before giving a verdict."
+    },
+    "prior_knowledge": [
+      "A pupil can explain that a message can be faked, from ks3-12.",
+      "A pupil has an account of their own, in a game or an app.",
+      "A pupil understands that urgency changes how carefully people think."
+    ],
+    "worksheet_items": [
+      {
+        "n": 1,
+        "item": "Text from an unknown number: Royal Mail could not deliver your parcel. Pay the £1.25 redelivery fee within 24 hours at royalmailfees.info or your item will be returned.",
+        "teaching_point": "Rush plus an odd payment route. Real couriers do not collect fees through a link in a text, and the tiny fee exists to harvest card details.",
+        "expected_verdict": "Scam"
+      },
+      {
+        "n": 2,
+        "item": "DM from an account you do not follow: CONGRATS! You have won 10,000 free VBucks. Log in here within 30 minutes to claim your reward.",
+        "teaching_point": "All three tells fire at once: a countdown, a login demand, and free loot from a draw you never entered.",
+        "expected_verdict": "Scam"
+      },
+      {
+        "n": 3,
+        "item": "A notification inside your banking app, which you opened yourself from your home screen, asks you to update the app through the official app store. No deadline, no link in a message.",
+        "teaching_point": "No tell fires: nothing rushes you, nothing odd is requested, nothing is being given away. Not everything is a scam, and saying so is what calibrated judgement means.",
+        "expected_verdict": "Looks genuine"
+      },
+      {
+        "n": 4,
+        "item": "A message from your best friend's account: bro this app doubled my money in one day, sign up with my link quick before the spots run out.",
+        "teaching_point": "Rush and too good to be true both fire, and the account may be stolen. Check with the friend by a different route, in person or by calling, before touching anything.",
+        "expected_verdict": "Verify first"
+      },
+      {
+        "n": 5,
+        "item": "A streamer you follow, posting on their verified account, runs a giveaway: follow and comment to enter, winners picked on Friday. No login, no fee, no countdown pressure.",
+        "teaching_point": "Real giveaways want a follow. Fake ones want a fee, a code or a login. The tells separate the two, generosity is not automatically a trick.",
+        "expected_verdict": "Looks genuine"
+      },
+      {
+        "n": 6,
+        "item": "Teo shows you a DM: a trading mentor turned £50 into £500 in one day and has 2 spots left this week. Teo says it must be legit because the sender has mutual followers. Do you agree? Explain your reasoning using the three tells.",
+        "teaching_point": "Mutual followers are not a credential, stolen accounts have them too. Rush and too good to be true both fire, and the odd request, sending money to unlock your profits, arrives one step later.",
+        "expected_verdict": "Scam"
+      }
+    ],
+    "essential_question": "Why would a scammer bother with me?",
+    "learning_objective": "Pupils can spot and name a scam's three tells, it rushes you, it wants something odd, and it is too good to be true, and give a calibrated verdict with a reason.",
+    "key_learning_points": [
+      "The three tells are: it rushes you, it asks for something odd, it is too good to be true.",
+      "Phishing dresses a fake up as something you already trust.",
+      "A gaming account is worth money, which is why it is a target.",
+      "Scam scripts work on clever people, because they attack the moment, not the intelligence.",
+      "Stop, check, refuse. Checking through a different route is what breaks the script.",
+      "Fraud is a crime. The person targeted is never the one in trouble, and reporting it is what makes it evidence."
+    ]
+  }
+}
