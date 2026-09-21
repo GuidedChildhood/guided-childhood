@@ -66,6 +66,21 @@
 //   ... --laptop            also measure 1366x768
 //   ... --only ks2-09       one lesson, by id or prefix
 //   ... --write-baseline
+//
+// ── THE BASELINE IS MEASURED ON THE HEADLESS SHELL ──────────────────────────
+//
+// chromium.launch() with no executablePath gives the headless shell, which is
+// what CI gets from `npx playwright install chromium`, so that is the binary
+// the numbers in the list belong to. It matters by a little and the little is
+// enough: the same pangram at 40px is 1126px in full Chromium and 1131px in
+// the shell, four tenths of a percent, and that flipped ks2-04 slide 17, which
+// sits at 67px hidden against a 40px SLACK.
+//
+// So do not regenerate the list with GC_CHROMIUM pointed at a full Chromium.
+// GC_CHROMIUM exists for sandboxes that carry no shell at all, and a run that
+// uses it will disagree with CI on whatever is sitting near the threshold. The
+// provenance line this prints on every run is how to tell: same pangram width,
+// same renderer, and a difference in the list is then a real difference.
 import { chromium } from 'playwright'
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -109,6 +124,79 @@ const browser = await chromium.launch({ executablePath: process.env.GC_CHROMIUM 
 const found = {}   // "module s12" -> { wall: 210, laptop: 0 }
 let measured = 0
 
+// MEASURE ONLY WHEN THERE IS SOMETHING TO MEASURE.
+//
+// The first version of this took one reading on a 900ms timer and treated
+// anything it could not read as a slide that fits. That is a lie in the safe
+// direction, and CI told it: on the very same commit the baseline was measured
+// from, the run reported 270 of 298 known clips as FIXED, including ks2-04
+// slide 13 at 319px hidden. Not fonts (Nunito loads in both, and the fallback
+// is 2.6 percent narrower, nowhere near enough) and not the browser binary
+// (the headless shell differs on one slide of twelve, the one sitting on the
+// threshold at 67px). It is simply that a page which has not finished
+// rendering has almost nothing in the stage, and nothing in the stage always
+// fits.
+//
+// So a reading is taken only once the stage has SETTLED: the same scrollHeight
+// twice running, fonts done, real content in the column. Anything else stops
+// the run with an error rather than quietly recording a zero, because a guard
+// that cannot measure has to say so instead of passing.
+//
+// This is also faster than the fixed wait it replaces. The reveals animate
+// opacity and transform, neither of which changes scrollHeight, so a static
+// slide settles in about 400ms rather than always paying 900. The one thing
+// that genuinely changes height over time is the intro's word by word typing,
+// and that is exactly what polling waits for and a fixed timer did not.
+const settle = async (page, label) => {
+  await page.waitForSelector('[data-stage]', { timeout: 30000 })
+  await page.evaluate(() => document.fonts.ready)
+  const read = () => page.evaluate(() => {
+    const el = document.querySelector('[data-stage]')
+    const inner = el?.firstElementChild
+    return {
+      scroll: el?.scrollHeight ?? -1,
+      client: el?.clientHeight ?? -1,
+      kids: inner?.childElementCount ?? 0,
+      chars: (inner?.textContent ?? '').trim().length,
+    }
+  })
+  let last = null
+  const deadline = Date.now() + 12000
+  while (Date.now() < deadline) {
+    const now = await read()
+    if (now.kids > 0 && now.chars > 0 && last && now.scroll === last.scroll) return now
+    last = now
+    await page.waitForTimeout(200)
+  }
+  throw new Error(`${label}: the stage never settled. Last read ${JSON.stringify(last)}`)
+}
+
+// A BASELINE OF PIXELS CARRIES ITS CONDITIONS OR IT CARRIES NOTHING.
+//
+// Every run prints the browser it used and how wide a known string renders in
+// the body face. If a future run disagrees with the list, this line is the
+// first place to look: same number means the rendering matched and the
+// difference is real, a different number means the environments differ and
+// the list was never the thing being tested.
+{
+  const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 } })
+  const page = await ctx.newPage()
+  await page.goto(`${BASE}/dev/lesson-player?class=1&teacher=1&slide=0`, { waitUntil: 'networkidle', timeout: 60000 })
+  const env = await page.evaluate(async () => {
+    await document.fonts.ready
+    const probe = document.createElement('span')
+    probe.textContent = 'The quick brown fox jumps over the lazy dog 0123456789'
+    probe.style.cssText = 'position:fixed;left:-9999px;white-space:nowrap;font-size:40px;font-family:var(--font-body)'
+    document.body.appendChild(probe)
+    const w = Math.round(probe.getBoundingClientRect().width)
+    probe.remove()
+    return { w, nunito: [...document.fonts].some(f => /nunito/i.test(f.family) && f.status === 'loaded') }
+  })
+  console.log(`check-wall-fit: ${browser.version()} | pangram at 40px ${env.w}px | `
+    + `Nunito ${env.nunito ? 'loaded' : 'NOT LOADED, metrics will not match the baseline'}`)
+  await ctx.close()
+}
+
 for (const vp of VIEWPORTS) {
   const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height } })
   const page = await ctx.newPage()
@@ -117,22 +205,14 @@ for (const vp of VIEWPORTS) {
     // lesson's real rows through the real player with no restart.
     writeFileSync(SLIDES_FILE, JSON.stringify(lesson.slides))
     for (let i = 0; i < lesson.slides.length; i += 1) {
+      const label = `${lesson.module_id} slide ${i + 1} at ${vp.tag}`
       const url = `${BASE}/dev/lesson-player?class=1&teacher=1&slide=${i}`
-      try {
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 })
-      } catch {
-        console.error(`  could not load ${lesson.module_id} slide ${i + 1} at ${vp.tag}`)
-        continue
-      }
-      // Reveals are staggered and the rail tweens; let the slide settle before
-      // asking how tall it is, or every animated slide reads as a clip.
-      await page.waitForTimeout(900)
-      const hidden = await page.evaluate(() => {
-        const el = document.querySelector('[data-stage]')
-        return el ? el.scrollHeight - el.clientHeight : -1
-      })
+      // A slide that will not load is not a slide that fits, so this throws
+      // rather than skipping. Skipping is what let a broken run look green.
+      await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 })
+      const box = await settle(page, label)
+      const hidden = box.scroll - box.client
       measured += 1
-      if (hidden < 0) { console.error(`  no [data-stage] on ${lesson.module_id} slide ${i + 1}`); continue }
       if (hidden > SLACK) {
         const key = `${lesson.module_id} s${i + 1}`
         ;(found[key] ??= {})[vp.tag] = hidden
