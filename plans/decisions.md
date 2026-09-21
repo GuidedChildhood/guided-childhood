@@ -689,11 +689,17 @@ analysis. PR 1135.
 Cosmo fronted zero lessons, because both sixth form modules are cast to DiGi
 and the home page rightly hides a friend who fronts nothing, while the hero
 picture, the KS5 printouts and the parents app all still promised him.
-Justin's call: recast both KS5 modules to Cosmo, DiGi still closing. Found
-while tracing it: ks3-12, the public taster, is the only module with film
-beats, and they are cast zara and digi_junior against a manifest that says
-orbit. Zara is on the voices guard's retired list, but that guard reads the
-manifest, the intro lines and the home page, never the lesson rows. Contract
-rules 12 and 13 also fail that module because its pause and mission are film
-and only the arrival check accepts film. Both are open for Justin: the fix
-needs a re-render, which needs credits. PR 1135.
+Justin's call: recast both KS5 modules to Cosmo, DiGi still closing. Contract
+rules 12 and 13 fail ks3-12, the public taster, because its pause and mission
+are film and only the arrival check accepts film, so the gate still runs on
+four lessons rather than all 29. PR 1135.
+
+CORRECTION, same day, before anyone acts on it. I first read ks3-12's
+video_beats as the cast and reported that the taster plays films of zara and
+digi_junior against a manifest saying orbit. That was wrong. video_beats is a
+render ledger, not the cast, and it is stale: its four job ids match none of
+the six films on the slides, and it names kling3_0 while the transactions show
+the clips were made on Seedance 2.5 on 11 September. What plays is Orbit, as
+Justin's own screenshot of slide 7 shows. The defect is a ledger nobody
+updated after the Orbit re-render, which is worth fixing so the next person is
+not misled, and it is not a wrong character on a wall.

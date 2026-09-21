@@ -133,6 +133,26 @@
           "Today you learn the three checks that catch it in under a minute. Case open."
         ],
         "described": "Orbit, the round blue Planet Friend, wears a gold cape at the front of a secondary classroom. Orbit holds a photo up towards the class, gestures at the whiteboard, then leans in to the camera."
+      },
+      "post": {
+        "type": "scenario",
+        "label": "The photo from the clip",
+        "avatar": "🧩",
+        "handle": "bloop.official",
+        "meta": "6h · Shared 2.1 million times",
+        "text": "BLOOP LANDS ON THE MOON 🌝 nobody told us this was happening today. absolute legend",
+        "stats": "❤ 4.8M   ↻ 2.1M   💬 96K",
+        "picture": {
+          "alt": "Bloop, the green Planet Friend, beaming, with a rocket, the moon and a planet staged around them. It never happened.",
+          "mood": "happy",
+          "props": [
+            "🚀",
+            "🌝",
+            "🪐"
+          ],
+          "friend": "bloop"
+        },
+        "platform": "feed"
       }
     },
     {
@@ -145,7 +165,7 @@
       "avatar": "🧩",
       "handle": "bloop.official",
       "prompt": "Two million people shared this. Bloop has never been to the moon. So why did it travel?",
-      "script": "This is the photo from the clip, and it is the easy one on purpose. Let them laugh, it is meant to be funny. Then the real question, and hold them on it: almost nobody who shared this was fooled. They shared it because it was FUN. Write that word on the board, because it is the engine for the whole hour. One more thing before you move on, and it is check one arriving early: look at the handle. It says official. Anyone can type the word official.",
+      "script": "The class has had this on the wall since the clip, so do not present it as a reveal. Go straight at it: two million people shared this, and Bloop has never been to the moon, so why did it travel? Hold them on the answer, because almost nobody who shared it was fooled. They shared it because it was FUN. Write that word on the board, it is the engine for the whole hour. Then check one arriving early: look at the handle. It says official. Anyone can type the word official.",
       "minutes": 1,
       "picture": {
         "alt": "Bloop, the green Planet Friend, beaming, with a rocket, the moon and a planet staged around them. It never happened.",
