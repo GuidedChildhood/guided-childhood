@@ -101,7 +101,12 @@ for (const [id, copy] of Object.entries(COPY)) {
   if (t.signoff < 0) { console.error(`${id}: no DiGi sign off found, refusing to recast`); process.exit(1) }
 
   // Every string that must be exactly what we think it is before we write.
+  // THE CAST LINE IS A COLUMN, NOT THE MANIFEST (caught by the contract on the
+  // first generation). check-module-contract.mjs rule 8 holds every friend on a
+  // beat to the row's own character_cast, so recasting the beats without it
+  // fails the contract on both lessons: "cast is digi with motion graphics".
   t.was = {
+    characterCast: m.row?.character_cast,
     titleCharacter: m.slides[t.title].character,
     arrivalCharacter: m.slides[t.arrival].character,
     arrivalHeading: m.slides[t.arrival].heading,
@@ -157,6 +162,7 @@ for (const t of targets) {
   Object.assign(m.slides[t.breath].config, { character: 'cosmo', prompt: copy.breath_prompt })
   m.slides[t.breath].script = copy.breath_script
   Object.assign(m.slides[t.mission], { character: 'cosmo', lines: copy.mission_lines })
+  m.row.character_cast = CAST_LINE
   fs.writeFileSync(t.file, JSON.stringify(m, null, 2) + '\n')
 
   const out = execFileSync('node', [path.join(ROOT, 'scripts/module-string-hash.mjs'), t.file], { encoding: 'utf8' })
@@ -179,14 +185,17 @@ fs.writeFileSync(manifestPath, manifest)
 const name = '323_cosmo_fronts_the_sixth_form'
 const guards = targets.map(t => `
 do $$
-declare title jsonb; arrival jsonb; breath jsonb; mission jsonb;
+declare title jsonb; arrival jsonb; breath jsonb; mission jsonb; cast_line text;
 begin
-  select l.slides->${t.title}, l.slides->${t.arrival}, l.slides->${t.breath}, l.slides->${t.mission}
-    into title, arrival, breath, mission
+  select l.slides->${t.title}, l.slides->${t.arrival}, l.slides->${t.breath}, l.slides->${t.mission}, l.character_cast
+    into title, arrival, breath, mission, cast_line
   from schools.school_lessons l where l.module_id = ${q(t.id)};
 
   if title is null or arrival is null or breath is null or mission is null then
     insert into miss values (${q(t.id)}, 'the row or one of the four beats is missing'); return;
+  end if;
+  if cast_line is distinct from ${q(t.was.characterCast)} then
+    insert into miss values (${q(t.id)}, 'the cast line is not the one this rewrites'); return;
   end if;
   if title->>'character' is distinct from 'digi' or arrival->>'character' is distinct from 'digi'
      or breath->'config'->>'character' is distinct from 'digi' or mission->>'character' is distinct from 'digi' then
@@ -201,6 +210,10 @@ begin
   if mission->>'heading' is distinct from 'One thing to take with you' then
     insert into miss values (${q(t.id)}, 'slide ${t.mission + 1} is not the mission'); return;
   end if;
+
+  -- The cast line moves with the beats. Contract rule 8 holds every friend on
+  -- a beat to this column, so the two can never be split.
+  update schools.school_lessons set character_cast = ${q(CAST_LINE)} where module_id = ${q(t.id)};
 
   update schools.school_lessons l set slides =
     jsonb_set(
@@ -227,12 +240,16 @@ end $$;`).join('\n')
 
 const proofs = targets.map(t => `
 do $$
-declare s jsonb; signoff jsonb;
+declare s jsonb; signoff jsonb; cast_line text;
 begin
-  select l.slides into s from schools.school_lessons l where l.module_id = ${q(t.id)};
+  select l.slides, l.character_cast into s, cast_line from schools.school_lessons l where l.module_id = ${q(t.id)};
   if s->${t.title}->>'character' is distinct from 'cosmo' or s->${t.arrival}->>'character' is distinct from 'cosmo'
      or s->${t.breath}->'config'->>'character' is distinct from 'cosmo' or s->${t.mission}->>'character' is distinct from 'cosmo' then
     raise exception '323: ${t.id} did not take all four beats';
+  end if;
+  -- Contract rule 8: a friend on a beat must be named in the row's cast line.
+  if lower(cast_line) not like '%cosmo%' then
+    raise exception '323: ${t.id} casts Cosmo on its beats but its cast line reads %', cast_line;
   end if;
   signoff := s->${t.signoff};
   if signoff->>'type' is distinct from 'digi' or signoff ? 'character' then

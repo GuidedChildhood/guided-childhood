@@ -12,7 +12,7 @@
     "ailit_domains": [
       "Manage AI"
     ],
-    "character_cast": "DiGi with motion graphics",
+    "character_cast": "Cosmo with DiGi",
     "evidence_anchor": "WEF Future of Jobs and AILit human skills",
     "statutory_hooks": [
       "Careers",
@@ -30,20 +30,20 @@
       "script": "Have this up as they arrive. Open plainly: in the next few years every one of you will be searched by a stranger who decides something about your life. An admissions tutor, an employer, a landlord. Today is about what they find, and about the second question underneath it: in a world where everyone has AI, what is actually worth being good at? No doom today, no hype either. Honest answers.",
       "eyebrow": "KS5 · Years 12 to 13 · Module 21",
       "minutes": 1,
-      "character": "digi"
+      "character": "cosmo"
     },
     {
       "type": "digi",
       "lines": [
-        "Hello. I am DiGi.",
+        "I am Cosmo. Most of the people who will decide about you in ten years have not met you yet.",
         "What will still be worth paying you for in ten years?",
-        "A real question, and you can answer it better than most adults. Let us start."
+        "That is one of the two. The other is what your name already brings up on a screen, and you answer that one first."
       ],
       "phase": "starter",
-      "script": "Let DiGi say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
-      "heading": "DiGi opens the lesson",
+      "script": "Let Cosmo say the lines. Then read the question once, quietly, in your own voice, and leave it. Do not answer it. The next slide says what today is for.",
+      "heading": "Cosmo opens the lesson",
       "minutes": 1,
-      "character": "digi"
+      "character": "cosmo"
     },
     {
       "why": "The job market you are walking into is being reshaped by AI faster than any careers guidance can keep up with, and your online record is already working for you or against you before you enter a single interview room. Today you get two practical tools: an audit of the identity you are building in public, and a test that tells you which of your skills climb in value when everyone has the same AI.",
@@ -328,13 +328,13 @@
       "type": "interactive",
       "phase": "practise",
       "config": {
-        "prompt": "Two slow breaths: in as the star grows, out as it shrinks. Then tell your neighbour one thing from today you want to remember, and write it on your sheet.",
+        "prompt": "Two breaths first, then a colder read of your own sheet, the way an employer or an admissions tutor would read it. Tell the person next to you the one line you would want them to stop on, then finish the plan.",
         "heading": "Half time",
         "seconds": 4,
         "register": "still",
-        "character": "digi"
+        "character": "cosmo"
       },
-      "script": "Half time. Two breaths with the whole room, in as the star grows and out as it shrinks. Then thirty seconds in pairs on one thing they want to remember, and they write it on their sheet. Nothing is marked and nobody reads theirs out. Then straight into the practise.",
+      "script": "Half time. Two breaths with the whole room, then a minute reading their own sheet the way a stranger deciding about them would read it. Thirty seconds in pairs naming the one line they would want that stranger to stop on. Nothing is marked and nobody reads theirs out. Then straight back into the plan.",
       "minutes": 1,
       "component": "star-breath"
     },
@@ -435,15 +435,15 @@
     {
       "type": "digi",
       "lines": [
-        "Name the skill, specifically. Give everyone the same AI. Does its value climb or fall?",
-        "The ones that climb are the ones to build.",
-        "You know which they are now."
+        "Name the skill exactly, then hand everyone the same AI and ask whether its value climbs or falls.",
+        "Run it on the course you are about to choose, and on the job someone has told you is safe.",
+        "If something you were counting on comes back falling, that is worth knowing now and not in ten years."
       ],
       "phase": "close",
       "script": "The handover. Say nothing over it. When the last line lands, say it once more in your own words, level and unhurried. DiGi closes on the next slide.",
       "heading": "One thing to take with you",
       "minutes": 1,
-      "character": "digi"
+      "character": "cosmo"
     },
     {
       "type": "digi",

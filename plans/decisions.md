@@ -703,3 +703,28 @@ the clips were made on Seedance 2.5 on 11 September. What plays is Orbit, as
 Justin's own screenshot of slide 7 shows. The defect is a ledger nobody
 updated after the Orbit re-render, which is worth fixing so the next person is
 not misled, and it is not a wrong character on a wall.
+
+## 21 September 2026 — migration 323: Cosmo fronts the sixth form, applied
+
+Justin said go. Both KS5 modules move from DiGi to Cosmo on four beats each:
+the title's cast key, the arrival, the half time breath and the mission. The
+DiGi sign off that ends both lessons is untouched and proved untouched, and
+the cast line moves with the beats because contract rule 8 holds every friend
+on a beat to the row's own character_cast, which the first generation missed
+and the contract caught. Cosmo returns to the home page on his own, because
+the squad grid shows any friend the curriculum gives a lesson to.
+
+The words: four writers on four angles, three judges (a Year 13 student, a
+head of sixth form, a writer who knows the other friends' voices), three
+hostile checks. All three judges picked the same draft; the checks forced six
+rewrites and killed three lines for handing over the lesson's own answer in
+its opening minute, which the stored script forbids in as many words. The
+rule they converged on: Cosmo stops narrating Cosmo, names himself once, and
+talks about the room after that, which is how Orbit and Nova already work.
+
+Verified on the live rows: cast line, all four beats, one DiGi sign off left
+in each, 30 and 29 slides, 65 minutes each, 29 rows backed up, and both hash
+proofs. PR 1137.
+
+Open for Justin, not changed here: DiGi's sign off in module 20 opens "Twenty
+modules" and the scheme has 29. True when there were 21. His voice, his call.
