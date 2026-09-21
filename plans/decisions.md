@@ -30,19 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-18 | 204 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-19 | 211 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-08 · 8 September 2026 — the four teacher fields, made real on ks3-14 (migration 273) · `plans/decisions-archive/2026-09.md`
-- 2026-09-08 · 8 September 2026 — the setup worries, wired end to end · `plans/decisions-archive/2026-09.md`
-- 2026-09-08 · 8 September 2026 — the repeat picker, and the readers that ignored it · `plans/decisions-archive/2026-09.md`
-- 2026-09-08 · 8 September 2026 — the whole curriculum was publicly readable, and is not now · `plans/decisions-archive/2026-09.md`
-- 2026-09-08 · 8 September 2026 — the parents app content, and the door that was not the table · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026, one worry question, asked in the quiz · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026, the reveal answers the problem, not just explains the platform · `plans/decisions-archive/2026-09.md`
 - 2026-09-09 · 9 September 2026, every worry reaches the check in, and Something else takes their words · `plans/decisions-archive/2026-09.md`
 - 2026-09-09 · 9 September 2026, silver, and the base the report measures from · `plans/decisions-archive/2026-09.md`
 - 2026-09-09 · 9 September 2026, the butter that was never a colour · `plans/decisions-archive/2026-09.md`
@@ -156,185 +149,17 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-18 · 18 September 2026 — migration 308 applied, the photo is on the wall · `plans/decisions-archive/2026-09.md`
 - 2026-09-18 · 18 September 2026 — the live numbers are one tester, not behaviour · `plans/decisions-archive/2026-09.md`
 - 2026-09-18 · 18 September 2026 — every card on Home can be put down · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026, `projector` is an instrument, not a width · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026, the compliance audit: the map was not the territory · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026, the audit's second pass: KCSIE 2026 arrived · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026, the KS4 gambling module, and a generator for lesson migrations · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026, the tracker now counts statutory requirements, not lessons · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026 — every key the app reads is written down · `plans/decisions-archive/2026-09.md`
+- 2026-09-19 · 19 September 2026, the scaffold column had a vocabulary and nothing local knew · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 19 September 2026, `projector` is an instrument, not a width
-
-Justin, on a phone: "bloop lands on moon not showing right on mobile."
-
-The post photo went beside the post text whenever `projector` was set, and the
-teach route sets it on every device. So a teacher opening a lesson on their
-phone got the wall layout: a 292px card with a 244px photo pinned inside it,
-a text column measured at exactly **0px**, and the handle rendered outside the
-card. Reproduced at 390 and 430 before touching anything, fine from 768 up.
-
-Decided: a layout that depends on width is decided by a media query, never by
-a flag. `POST_CSS` stacks the row below 900px and relaxes the card from 70vw to
-460px there; 1024 and above render byte identically to before, which is how we
-know the wall did not move. The card's width had to move into the stylesheet
-too, because an inline maxWidth wins over any class trying to relax it.
-
-This is the fourth bug of its family, so it went into the guard that already
-names the other three: `check-wall-scale.mjs` rule 4, four mutations, four
-caught. The type was never the problem, since the wall scale is viewport
-relative and floors at 16px on a phone. It only looked enormous because the
-column was 0px and every word took its own line. PR 1123.
-
-## 19 September 2026, the compliance audit: the map was not the territory
-
-Justin asked for a full statutory coverage and lesson audit before any more
-building, with the rule "do not implement changes yet".
-
-Two files, no code touched: `GDC_SCHOOLS_2026_COMPLIANCE_AUDIT.md` and
-`GDC_SCHOOLS_COVERAGE_MATRIX.csv` (65 rows, requirement text verbatim from the
-July 2025 guidance). Every verdict was tested against the live
-`schools.school_lessons` rows, 732 slides, not against module titles.
-
-The finding: `RSHE_2025_TOPICS` is a ten item list of themes, and the real
-guidance has 28 strands and 195 numbered items. Every compliance surface
-renders from that list, so nothing downstream can be more accurate than it.
-Of the 57 requirements this scheme could be expected to teach: 18 FULL,
-28 PARTIAL, 2 INDIRECT, 9 NONE. The nine include the age 13 minimum, bullying
-at secondary, online gambling, and self harm content, which the pricing page
-already implies we teach.
-
-Awaiting approval before anything is implemented. The first fix is copy, not
-curriculum: "line by line" and "every relevant requirement" cannot stand.
-
-## 19 September 2026, the audit's second pass: KCSIE 2026 arrived
-
-Justin sent the real KCSIE 2026 (split by part, with PDF page markers) and a
-clean markdown conversion of the RSHE guidance, then asked "do you have enough".
-
-Yes. Three things settled that the first pass had to flag as unverified.
-
-The RSHE extraction is now double sourced: my PDF extraction and the markdown
-conversion independently give 28 strands and 195 items with identical wording.
-"Compulsory on 1 September 2026" is verified, not from the RSHE body, which
-carries no commencement date, but from KCSIE 2026 para 159, "revised for
-introduction September 2026". The Hub's KCSIE sentence is true, with two
-wording fixes: the five risks sit INSIDE the four areas of risk (para 165), not
-alongside them, and the fourth C is commerce.
-
-The finding that got worse: seven of the nine gaps are named by KCSIE too.
-Online gambling and self harm are both in para 165. Online bullying is in
-conduct. A gap named by the curriculum guidance and the safeguarding guidance
-is a different kind of gap.
-
-The finding that got better: five per module KCSIE hooks are now verified by
-paragraph, including the one ks2-23 and ks3-22 carry, which turns out to be
-KCSIE's own words: contact risk includes "generative AI applications that
-simulate this". PR 1125.
-
-## 19 September 2026, the KS4 gambling module, and a generator for lesson migrations
-
-Module three of the four statutory gap fills. `ks4-28-the-money-and-the-odds`
-closes RSHE-S-WO-4 and RSHE-S-MW-8, the two requirements KCSIE 2026 names under
-commerce at paragraph 165. Before it, a word boundary search of every slide in
-production returned one hit for `gambl`, a single KS2 loot box slide, while the
-Hub listed online gambling as a covered topic. The `gambling` key moves off
-ks4-15, which never used the word, onto the module that teaches it.
-
-Taught as three questions rather than a warning: THE PRICE, THE ODDS, THE LOOP.
-Every number on a slide is either arithmetic a class can check in ten seconds
-(2.7 percent from 37 pockets paying 35 to 1; a 36.7 percent chance of nothing
-in 200 opens at 1 in 200) or it went through an adversarial citation pass.
-
-That pass changed five things, and the pattern is worth keeping. The speed and
-harm claim was demoted from causal to correlational, because the research says
-correlational and the Gambling Commission's own survey has counter evidence in
-it, so the lesson now says that out loud and the prove question rewards the
-honest answer over the tidy one. The 2025 online slot stake caps went in
-instead, because a legal fact carries the cycle better than a contested
-research one. The helpline gained the detail that decides whether a pupil rings
-it: no minimum age. The national self exclusion scheme was left UNNAMED on the
-pupil slide, because its minimum age could not be confirmed and it has been
-rebranded, and silence beats a wrong age on a wall. And the widely quoted 400
-gambling suicides a year is named in the teacher notes as a number NOT to use,
-because it is a modelled estimate rather than a count.
-
-Also new: `scripts/module-to-migration.mjs`. Migrations 312 and 313 were
-assembled by hand out of sixty thousand characters of curriculum prose, which
-works right up until somebody mistypes a quote. The JSON is now the source and
-the SQL is generated. Checked by regenerating 313: byte identical to the hand
-written file up to the first jsonb literal, differing only in JSON separator
-spacing after it, with all six payloads parsing deep equal.
-
-Migrations 312, 313 and 314 are generated and NOT yet applied. Nothing is
-claimed as covered until they are live and the evidence check passes against
-production, which is step B6. PR 1125.
-
-## 19 September 2026, the tracker now counts statutory requirements, not lessons
-
-B7. Ticking a lesson used to record that it was delivered and nothing more,
-which is a record of activity rather than of coverage. A deep dive does not
-ask how many lessons were taught, it asks which requirements were met, and the
-honest answer lived on a different page that knew nothing about what this
-school had actually done.
-
-Each row now says what it evidences, a panel above counts it, and the printed
-coverage sheet gained an appendix: every requirement met, in the wording of
-the guidance, with the lesson that taught it. That appendix is the artefact a
-subject lead is actually asked for.
-
-The first draft counted 48 and was wrong, which is worth recording because it
-is the same mistake the audit was written to catch. Counting every requirement
-that names a module swept in the PARTIAL rows, where the lesson teaches only
-some of it, and the BY_DESIGN rows, which the school's own scheme owns and we
-deliberately do not. Both are quiet overclaims. The count is FULL only, 40, and
-the panel says out loud that partly covered requirements are not counted and
-neither are the ones the school owns.
-
-Verified at 390 and 1440 and in print, with a seeded term of five ticked
-lessons: 18 of 40, no overflow, no console errors, appendix print only. The
-two new modules show DONE and evidence nothing, which is correct, because
-their migrations are not applied and their verdicts are still GAP. PR 1125.
-
-## 19 September 2026 — every key the app reads is written down
-
-Setting up a new laptop, the template listed 23 keys and the app read 43.
-
-The two that mattered: `VAPID_EMAIL` and `VAPID_PRIVATE_KEY`. `lib/push/send.ts`
-returns early and sends NOTHING when either is missing, with no error and no
-log, so push stops while everything else carries on looking healthy.
-`EMBEDDING_API_KEY` is the same shape, semantic search silently returning
-nothing for ever and DiGi falling back to keywords without saying so.
-
-That is the class: a missing key does not crash anything, it removes a feature
-quietly, and whoever set the machine up cannot find out.
-
-`scripts/check-env-documented.mjs` in CI, scoped to app/ and lib/. It found two
-I had already miscategorised as script only. The template also now opens with
-`vercel env pull .env.local`, which is the right way to set up a machine
-anyway: one command, every key, nothing carried on a stick and nothing stale.
-
-## 19 September 2026, the scaffold column had a vocabulary and nothing local knew
-
-Trying to apply migration 312 to production failed on
-`school_lessons_scaffold_check`. The column is a three way classification of
-what a lesson asks a child to DO, and it allows exactly NOTICE, CHOOSE or
-TELL. All 25 live modules carry one of the three.
-
-All four new modules had the lesson's memorable tool in the field instead:
-SHIELD, NAME IT SAVE IT SAY IT, THE PRICE THE ODDS THE LOOP, STOP IT REPORT
-IT SAY IT. Every local guard passed. The contract check, the typecheck, the
-scale guard and the wiring check all had nothing to say, because none of them
-knew the column had a vocabulary. The first thing to object was Postgres, at
-apply time, four modules and eleven commits after the mistake was made.
-
-The fix cost nothing, which is the annoying part: the tool string was already
-in `teacher_notes.tool` on all four, so the field was simply duplicating it
-into a slot that means something else. Corrected to NOTICE, TELL, NOTICE,
-TELL, and the four migrations regenerated.
-
-The durable fix is rule 10 in `scripts/check-module-contract.mjs`, which
-holds the field to the same three values the database does. Verified both
-ways: it exits 1 on the old value and passes all four corrected modules and
-all 25 live ones. If the constraint ever widens, widen the rule in the same
-commit. PR 1125.
 
 ## 20 September 2026, daily sweep, four backup tables with no RLS at all
 
@@ -414,6 +239,7 @@ silently was not. The steps were never missing either, /dashboard/school has
 minted the address and shown it with Copy since 17 September, and nothing
 pointed at it. Three numbered steps after Tripsy, a real door, and the phone
 test named for what it does.
+
 ## 20 September 2026, the council runs on all 29 and five slides come inside the ceiling
 
 The lesson council's counted checks had not been run since the four new
@@ -550,6 +376,7 @@ search skills at KS2, making artefacts at KS3), 19 the school's computing
 scheme. Every taught claim held to phrases checked on production (30 of 30)
 and by scripts/check-computing-coverage.mjs in CI. /hub/computing-mapping
 shows it.
+
 ## 20 September 2026 — every screen has to survive Larger Text
 
 Justin, with Larger Text on on his own iPhone: "just checking that this needs
@@ -632,6 +459,7 @@ Also corrected: CLAUDE.md still named Teo, Olga and Alma as the characters.
 Justin: "they are not digi squad characters we do not use them anymore we use
 planet friends." It now names DiGi and the Planet Friends, as digi-squad has
 since 23 July 2026.
+
 ## 21 September 2026 — the mirror is true: all 29 lessons in content/modules, hash proved
 
 Every review batch asserts the post state by string hash, which needs the
@@ -882,3 +710,24 @@ seventeen reviewed lessons have an empty `teacher_notes.hard_questions`, some
 have no `evidence_base`, and worksheet and wall wording has drifted apart in
 places. Those are lesson level proposals rather than string edits, so they
 cannot go through the same generator and need their own pass. PR 1142.
+
+## 21 September 2026, the render found the wall clipping, and it is not the batch
+
+Rendering migrations 326 to 336 turned up a separate, pre existing fault: on a
+projector, diagram step cards are cut off mid sentence. ks2-09 slide 12 stops at
+"Ask the maker BEFORE," and its script tells the teacher to point at three
+verdicts that are below the fold.
+
+Measured whole rather than sampled: 12 of 35 slides in ks3-12 and 15 of 29 in
+ks2-09 clip at 1920x1080, nine of those 64 by more than a line. More screen
+height does not help, because the type scales with the viewport.
+
+Every guard passes it because the word ceiling measures each block on its own,
+by design, and nothing measures whether a slide FITS. Four eleven word cards
+each clear 105 words while the slide as a whole is cut in half.
+
+Not fixed here, on purpose. Cutting good KS2 copy to a layout nobody has
+measured is the wrong repair, and council-checks.mjs learned that once already.
+The order is measure all 29, look at the card layout, then a guard that uses a
+browser, then copy if any is genuinely too long. Written up with the evidence in
+plans/2026-09-21-the-wall-clips-finding.md. PR 1142.
