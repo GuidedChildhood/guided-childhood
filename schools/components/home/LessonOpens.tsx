@@ -10,9 +10,21 @@ import { CHARACTERS } from '@gc/shared/schools-curriculum'
 // The Apple shape for a product that moves: the frame stays where it is and
 // the thing inside it changes as the reader's own steps pass by. Six steps,
 // in the lesson's own phase order, read from the shared phase list so the
-// words on this page can never differ from the strip on the wall. A board
-// frame sits beside them on a desk, and pinned above them on a phone, and
-// turns to the current step as its title crosses a line on the screen.
+// words on this page can never differ from the strip on the wall. On a desk
+// a board frame sits beside the steps and turns to the current one as its
+// title crosses a line on the screen.
+//
+// ON A PHONE THE STEPS DO NOT PASS UNDER A PINNED BOARD (20 September 2026).
+// They did, and Justin caught it on his own phone: "as you scroll down the
+// box stays, the text underneath also scrolls, but you miss it." The pinned
+// card took the top half of the screen and each step's words slid up
+// underneath it while the reader was still on them, so the board turned to a
+// step whose text the reader never got to finish. A phone gets the other
+// honest shape instead: one panel per step, the board drawn for that step
+// with its words directly beneath, side by side in a strip the reader swipes
+// through, with the next panel's edge showing so the swipe is obvious. The
+// picture and its words never separate, nothing slides under anything, and
+// the whole section is one screen tall.
 //
 // Every line below is true of the product as it ships: the friend beats
 // (migration 296), the start card (269), one idea per slide with the script
@@ -22,8 +34,9 @@ import { CHARACTERS } from '@gc/shared/schools-curriculum'
 // furniture drawn from its tokens, or the friends' own cutout art. Nothing
 // here is a picture of a feature that does not render.
 //
-// Without JavaScript every step is on the page in full and the frame shows
-// the first one. Reduced motion changes the frame without the crossfade.
+// Without JavaScript every step is on the page in full and the desk frame
+// shows the first one. Reduced motion changes the frame without the
+// crossfade and moves the strip without smoothing.
 
 type Step = {
   phase: LessonPhase
@@ -83,6 +96,15 @@ const mono: React.CSSProperties = {
 const reduced = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+const pad2 = (n: number) => String(n).padStart(2, '0')
+
+// The colours a step's board wears: the friend's own where a friend is on
+// it, the house terracotta otherwise.
+const tone = (step: Step) => {
+  const art = step.board.art ? CHARACTERS[step.board.art] : null
+  return { art, accent: art ? art.accent : 'var(--terracotta)', accentInk: art ? art.ink : 'var(--terracotta-dark)' }
+}
+
 // WHAT THE BOARD SHOWS BETWEEN THE TWO FRIENDS: the product's own furniture,
 // from its own tokens. The start card, the presenter bar the script lives
 // in, the talk task clock, and the three states an answer can be in, coloured
@@ -133,52 +155,76 @@ function Furniture({ phase, accent, accentInk }: { phase: LessonPhase; accent: s
   return null
 }
 
+// The face of the board for one step: the friend or the furniture, the
+// headline, the line. The desk frame crossfades between faces; a phone panel
+// carries its own face and never changes.
+function Face({ step, compact }: { step: Step; compact?: boolean }) {
+  const { art, accent, accentInk } = tone(step)
+  return (
+    <div style={{ minHeight: compact ? '112px' : 'clamp(150px, 20vw, 220px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: compact ? 'var(--space-2)' : 'var(--space-3)' }}>
+      {art ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={art.img} alt={art.name} style={{ width: compact ? '64px' : 'clamp(64px, 9vw, 96px)', height: 'auto', filter: 'drop-shadow(0 6px 10px rgba(46,40,24,0.25))' }} />
+      ) : (
+        <Furniture phase={step.phase} accent={accent} accentInk={accentInk} />
+      )}
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: compact ? 'var(--text-xl)' : 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', textWrap: 'balance' }}>
+        {step.board.headline}
+      </div>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: compact ? 'var(--text-sm)' : 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, maxWidth: '340px', margin: 0 }}>
+        {step.board.line}
+      </p>
+    </div>
+  )
+}
+
+const card = (accent: string, compact?: boolean): React.CSSProperties => ({
+  background: '#fff', border: '1px solid var(--border)', borderTop: `4px solid ${accent}`,
+  borderRadius: 'var(--radius-card)', padding: compact ? 'var(--space-3) var(--space-3) var(--space-4)' : 'clamp(18px, 2.5vw, 28px)',
+  boxShadow: compact ? '0 2px 4px rgba(46,40,24,0.08), 0 24px 40px -28px rgba(46,40,24,0.45)' : '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.5)',
+  transition: 'border-color 0.4s ease',
+})
+
 export default function LessonOpens() {
   const [active, setActive] = useState(0)
   const root = useRef<HTMLDivElement>(null)
-  const board = useRef<HTMLDivElement>(null)
   const rows = useRef<(HTMLLIElement | null)[]>([])
+  const panels = useRef<(HTMLLIElement | null)[]>([])
+  const strip = useRef<HTMLOListElement>(null)
   const face = useRef<HTMLDivElement>(null)
   const first = useRef(true)
 
-  // Which step is in charge: the last one whose top edge has crossed a line
-  // on the screen. The observer's root is the screen above that line, so a
-  // step joins the set once its top crosses the line and leaves it once its
-  // bottom has gone off the top, and the highest number in the set is in
-  // charge. Scrolling up hands charge back at the same place it was taken.
+  // THE DESK RULE. Which step is in charge: the last one whose top edge has
+  // crossed a line just past the middle of the screen. The observer's root
+  // is the screen above that line, so a step joins the set once its top
+  // crosses the line and leaves it once its bottom has gone off the top, and
+  // the highest number in the set is in charge. Scrolling up hands charge
+  // back at the same place it was taken. The nav is sticky, so its height is
+  // measured rather than guessed and handed to the stylesheet as --nav-h for
+  // the board's pin, divided by the zoom tokens.css puts on the body (a
+  // length in the stylesheet is multiplied by it on its way to the screen,
+  // which put the board 7px low on 20 September 2026).
   //
-  // On a desk the line is just past the middle of the screen. On a phone the
-  // board is pinned under the nav and the steps pass beneath it, so the line
-  // sits a title's height below the board's bottom edge: the step in charge
-  // is always one whose title the reader can see, never the one hidden
-  // behind the board. The nav is sticky and two rows tall on a phone, so its
-  // height is measured rather than guessed and handed to the stylesheet as
-  // --nav-h for the pin, and the board's pinned height is measured with the
-  // cream ground the stylesheet gives it on a phone. All of it is rebuilt on
-  // resize.
+  // THE PHONE RULE. The panel that fills most of the strip is in charge: an
+  // observer rooted on the strip itself, and a panel takes charge once six
+  // tenths of it is in view. Both observers are always built; the rows are
+  // hidden on a phone and the strip on a desk, and a hidden element never
+  // intersects, so only the visible layout ever speaks.
   useEffect(() => {
     const el = root.current
     if (!el) return
-    let io: IntersectionObserver | null = null
+    let desk: IntersectionObserver | null = null
+    let phone: IntersectionObserver | null = null
     const build = () => {
-      io?.disconnect()
+      desk?.disconnect()
+      phone?.disconnect()
       const nav = document.querySelector('.gc-nav')
-      // The nav's height on the screen, in viewport pixels.
       const navH = Math.round(nav?.getBoundingClientRect().height ?? 64)
-      // The board's own pixels are not the viewport's: tokens.css zooms the
-      // body by 1.07, and a length in the stylesheet is multiplied by that
-      // on its way to the screen. Pinning at the measured 95px put the board
-      // 7px low (the probe, 20 September 2026), so the pin is the measured
-      // height divided by the zoom the board actually sits under.
       const zoom = (el as HTMLElement & { currentCSSZoom?: number }).currentCSSZoom ?? 1
       el.style.setProperty('--nav-h', `${Math.round(navH / zoom)}px`)
-      let line = window.innerHeight * 0.55
-      if (window.matchMedia('(max-width: 860px)').matches && board.current) {
-        const pinnedBottom = navH + board.current.getBoundingClientRect().height
-        line = Math.min(pinnedBottom + 150, window.innerHeight - 60)
-      }
+      const line = window.innerHeight * 0.55
       const crossed = new Set<number>()
-      io = new IntersectionObserver(
+      desk = new IntersectionObserver(
         entries => {
           for (const e of entries) {
             const i = Number((e.target as HTMLElement).dataset.step)
@@ -190,45 +236,54 @@ export default function LessonOpens() {
         },
         { rootMargin: `0px 0px -${Math.round(window.innerHeight - line)}px 0px`, threshold: 0 },
       )
-      rows.current.forEach(r => r && io!.observe(r))
+      rows.current.forEach(r => r && desk!.observe(r))
+      if (strip.current) {
+        phone = new IntersectionObserver(
+          entries => {
+            for (const e of entries) {
+              const i = Number((e.target as HTMLElement).dataset.panel)
+              if (Number.isFinite(i) && e.isIntersecting && e.intersectionRatio >= 0.6) setActive(i)
+            }
+          },
+          { root: strip.current, threshold: 0.6 },
+        )
+        panels.current.forEach(r => r && phone!.observe(r))
+      }
     }
     build()
     window.addEventListener('resize', build)
-    return () => { io?.disconnect(); window.removeEventListener('resize', build) }
+    return () => { desk?.disconnect(); phone?.disconnect(); window.removeEventListener('resize', build) }
   }, [])
 
-  // The frame crossfades to the new step. Opacity and a few pixels of rise,
-  // nothing that reflows.
+  // The desk frame crossfades to the new step. Opacity and a few pixels of
+  // rise, nothing that reflows. Skipped when the frame is not on the screen,
+  // which is every phone.
   useEffect(() => {
     if (first.current) { first.current = false; return }
     const el = face.current
-    if (!el || reduced()) return
+    if (!el || el.offsetParent === null || reduced()) return
     gsap.fromTo(el, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.38, ease: 'power3.out', clearProps: 'opacity,transform' })
   }, [active])
 
+  // A tap on a dot brings that panel to the front of the strip.
+  const goTo = (i: number) => {
+    const s = strip.current, p = panels.current[i]
+    if (!s || !p) return
+    s.scrollTo({ left: p.offsetLeft - s.offsetLeft - parseFloat(getComputedStyle(s).paddingLeft || '0'), behavior: reduced() ? 'auto' : 'smooth' })
+  }
+
   const step = ORDERED[active]
-  const art = step.board.art ? CHARACTERS[step.board.art] : null
-  const accent = art ? art.accent : 'var(--terracotta)'
-  const accentInk = art ? art.ink : 'var(--terracotta-dark)'
-  const position = `${String(active + 1).padStart(2, '0')} of ${String(ORDERED.length).padStart(2, '0')}`
+  const { accent, accentInk } = tone(step)
 
   return (
     <div ref={root} className="schools-lesson-opens">
-      {/* THE BOARD. Sticky beside the steps on a desk, pinned above them on a
-          phone, so the reader always has the frame in view while the steps
-          go past. */}
-      <div ref={board} className="schools-lesson-board">
-        <div aria-live="polite" style={{
-          background: '#fff', border: '1px solid var(--border)', borderTop: `4px solid ${accent}`,
-          borderRadius: 'var(--radius-card)', padding: 'clamp(18px, 2.5vw, 28px)',
-          boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.5)',
-          transition: 'border-color 0.4s ease',
-        }}>
+      {/* THE DESK: the board, sticky beside the steps, turned to the step in
+          charge. */}
+      <div className="schools-lesson-board">
+        <div aria-live="polite" style={card(accent)}>
           {/* The strip the wall itself carries, so a head sees the shape of
-              a lesson before they have seen a lesson. On a phone the strip
-              gives way to one line of position (the stylesheet below decides
-              which shows, so neither carries an inline display). */}
-          <div className="schools-board-strip" style={{ flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+              a lesson before they have seen a lesson. */}
+          <div className="schools-board-strip" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
             {ORDERED.map((s, i) => (
               <span key={s.phase} style={{
                 ...mono, padding: 'var(--space-1) 0',
@@ -241,22 +296,8 @@ export default function LessonOpens() {
             ))}
           </div>
 
-          <div ref={face} style={{ minHeight: 'clamp(150px, 20vw, 220px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: 'var(--space-3)' }}>
-            <div className="schools-board-pos" style={{ ...mono, color: accentInk }}>
-              {position} · {PHASE_LABELS[step.phase]}
-            </div>
-            {art ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={art.img} alt={art.name} style={{ width: 'clamp(64px, 9vw, 96px)', height: 'auto', filter: 'drop-shadow(0 6px 10px rgba(46,40,24,0.25))' }} />
-            ) : (
-              <Furniture phase={step.phase} accent={accent} accentInk={accentInk} />
-            )}
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', textWrap: 'balance' }}>
-              {step.board.headline}
-            </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, maxWidth: '340px', margin: 0 }}>
-              {step.board.line}
-            </p>
+          <div ref={face}>
+            <Face step={step} />
           </div>
 
           {/* The dot rail: where the reader is in the six. */}
@@ -271,9 +312,12 @@ export default function LessonOpens() {
         </div>
       </div>
 
-      {/* THE STEPS. Each is its own idea with air around it, so one crosses
-          the line at a time. */}
-      <ol className="schools-lesson-steps" style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}>
+      {/* THE DESK STEPS. Each is its own idea with air around it, so one
+          crosses the line at a time. */}
+      {/* No inline display here: the stylesheet decides whether the list
+          shows at all, and an inline display:flex would beat its display:none
+          on a phone (it did, on the first render of this layout). */}
+      <ol className="schools-lesson-steps" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
         {ORDERED.map((s, i) => (
           <li
             key={s.phase}
@@ -285,7 +329,7 @@ export default function LessonOpens() {
             }}
           >
             <div style={{ ...mono, color: i === active ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginBottom: 'var(--space-2)', transition: 'color 0.3s ease' }}>
-              {String(i + 1).padStart(2, '0')} · {PHASE_LABELS[s.phase]}
+              {pad2(i + 1)} · {PHASE_LABELS[s.phase]}
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: '0 0 var(--space-2)' }}>
               {s.title}
@@ -297,6 +341,52 @@ export default function LessonOpens() {
         ))}
       </ol>
 
+      {/* THE PHONE: one panel per step, the board for that step with its
+          words directly beneath, in a strip the reader swipes through. The
+          strip runs to the screen's edges so the next panel's edge shows. */}
+      <div className="schools-lesson-phone">
+        <ol ref={strip} className="schools-lesson-strip" aria-label="The six phases of a lesson, one panel each" tabIndex={0}>
+          {ORDERED.map((s, i) => {
+            const t = tone(s)
+            return (
+              <li key={s.phase} data-panel={i} ref={el => { panels.current[i] = el }} className="schools-lesson-panel">
+                <div style={card(t.accent, true)}>
+                  <div style={{ ...mono, color: t.accentInk, textAlign: 'center', marginBottom: 'var(--space-2)' }}>
+                    {pad2(i + 1)} of {pad2(ORDERED.length)} · {PHASE_LABELS[s.phase]}
+                  </div>
+                  <Face step={s} compact />
+                </div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: 'var(--space-4) 0 var(--space-2)' }}>
+                  {s.title}
+                </h3>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>
+                  {s.body}
+                </p>
+              </li>
+            )
+          })}
+        </ol>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-2)', marginTop: 'var(--space-3)' }}>
+          {ORDERED.map((s, i) => (
+            <button
+              key={s.phase}
+              type="button"
+              aria-label={`Step ${i + 1} of ${ORDERED.length}, ${PHASE_LABELS[s.phase]}`}
+              aria-current={i === active ? 'step' : undefined}
+              onClick={() => goTo(i)}
+              style={{
+                appearance: 'none', border: 0, padding: '10px 4px', background: 'transparent', cursor: 'pointer',
+              }}
+            >
+              <span style={{
+                display: 'block', width: i === active ? '22px' : '8px', height: '8px', borderRadius: 'var(--radius-pill)',
+                background: i === active ? accent : 'var(--border)', transition: 'width 0.35s ease, background 0.35s ease',
+              }} />
+            </button>
+          ))}
+        </div>
+      </div>
+
       <style>{`
         .schools-lesson-opens {
           display: grid;
@@ -305,19 +395,25 @@ export default function LessonOpens() {
           align-items: start;
         }
         .schools-lesson-board { position: sticky; top: calc(var(--nav-h, 64px) + var(--space-6)); order: 2; }
-        .schools-lesson-steps { order: 1; }
-        .schools-board-strip { display: flex; }
-        .schools-board-pos { display: none; }
+        .schools-lesson-steps { order: 1; display: flex; flex-direction: column; }
+        .schools-lesson-phone { display: none; }
         @media (max-width: 860px) {
-          .schools-lesson-opens { grid-template-columns: 1fr; gap: var(--space-4); }
-          /* Pinned flush under the nav on a cream ground of its own, so the
-             steps passing beneath never show through the gap above the card
-             or around its corners. The ground is part of the pinned height
-             the effect above measures. */
-          .schools-lesson-board { order: 1; top: var(--nav-h, 92px); z-index: 2; background: var(--cream); padding: var(--space-2) 0 var(--space-3); }
-          .schools-lesson-steps { order: 2; }
-          .schools-board-strip { display: none; }
-          .schools-board-pos { display: block; }
+          .schools-lesson-opens { display: block; }
+          .schools-lesson-board, .schools-lesson-steps { display: none; }
+          .schools-lesson-phone { display: block; }
+          /* The strip bleeds to the screen's edges through the section's own
+             gutter (clamp(20px, 4vw, 40px) on the home page), and pads by the
+             same amount inside, so the first panel lines up with the heading
+             above it and the next panel's edge is always in view. */
+          .schools-lesson-strip {
+            list-style: none; margin: 0 calc(-1 * clamp(20px, 4vw, 40px)); padding: var(--space-2) clamp(20px, 4vw, 40px) var(--space-3);
+            display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory; scroll-padding-inline: clamp(20px, 4vw, 40px);
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+          }
+          .schools-lesson-strip::-webkit-scrollbar { display: none; }
+          .schools-lesson-strip:focus-visible { outline: 3px solid var(--terracotta); outline-offset: 2px; border-radius: var(--radius-card); }
+          .schools-lesson-panel { flex: 0 0 86%; scroll-snap-align: start; scroll-snap-stop: always; }
         }
       `}</style>
     </div>
