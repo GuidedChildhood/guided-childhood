@@ -143,8 +143,16 @@ export default function HeroWall() {
           )
         })}
 
-        {/* The passport, waiting at the door */}
-        <div data-passport style={{ position: 'absolute', right: '26%', top: '46%', background: '#7C2D3E', border: '2px solid #EDC35F', borderRadius: '7px', padding: '5px 7px 6px', transform: 'rotate(-7deg)', boxShadow: '0 4px 8px rgba(46,40,24,0.3)', zIndex: 20 }}>
+        {/* The passport, standing in the open door at the end of the road.
+            The wall is the right 38% of the picture and the door is 30% to 70%
+            of the wall, so the doorway runs from 73% to 89% of the box and its
+            centre is at 81%. Until 21 September the passport sat at right 26%,
+            which put it between 56% and 74%: short of the door, in the middle
+            of the road, and directly on top of Nova, who could not be seen at
+            all. Justin caught it on a phone. It is centred on the door by a
+            half width margin rather than a transform, because GSAP owns the
+            transform on this element and animates the rotate. */}
+        <div data-passport style={{ position: 'absolute', left: '81%', marginLeft: '-28px', width: '56px', boxSizing: 'border-box', top: '70%', background: '#7C2D3E', border: '2px solid #EDC35F', borderRadius: '7px', padding: '5px 7px 6px', transform: 'rotate(-7deg)', boxShadow: '0 4px 8px rgba(46,40,24,0.3)', zIndex: 20 }}>
           <div style={{ fontSize: 'var(--text-sm)', textAlign: 'center', lineHeight: 1 }}>⭐</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '6.5px', fontWeight: 700, letterSpacing: '0.1em', color: '#EDC35F', marginTop: '3px' }}>PASSPORT</div>
         </div>
