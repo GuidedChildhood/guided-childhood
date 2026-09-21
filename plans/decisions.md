@@ -851,3 +851,34 @@ identical per lesson against the pre migration baseline.
 Verified on the live row: 35 slides, 75 minutes, breath at 23 led by Orbit,
 mission at 33, passport at 34, DiGi still last, timing string moved with it,
 29 rows backed up, hash proof. PR 1140.
+
+## 21 September 2026, the 102 must findings applied, and 601 shoulds parked
+
+The lesson review's own output, filtered to must severity and shipped. 102
+edits across 26 of the 29 lessons, written as migrations 326 to 336 and applied
+to production in four transactions. The rubric went 540 to 498.
+
+What the musts were, mostly: a presenter script sending a teacher to the wrong
+beat (DiGi does not close on the next slide when the passport page is next, in
+lesson after lesson), a script naming an answer by its position when the player
+shuffles the options every run, and a script telling a teacher to read a reason
+the wall never draws. All three are the same fault, which is why they are
+musts: the bar tells the teacher something the screen does not do.
+
+**601 shoulds and 54 polish edits are parked, not lost.** Justin's decision
+(same day, the cadence question): we are confident in the scheme, so a pass
+that proposes hundreds of edits to lessons that are already good is churn.
+`scripts/filter-review-batch.mjs` keeps every parked edit with its text and the
+verifier's reason, flipped to `accept: false, parked: true`, for a later term.
+
+Proof, because these are 102 edits into live classroom content. Every edit
+guards on the slide's type and heading and on the exact text it replaces, and a
+single miss aborts the whole batch. Zero misses. Afterwards all 29 production
+rows were hashed against `content/modules/` and all 29 matched, so the three
+untouched lessons are provably untouched too.
+
+One thing left from that decision: the blanks and drift half. Sixteen of the
+seventeen reviewed lessons have an empty `teacher_notes.hard_questions`, some
+have no `evidence_base`, and worksheet and wall wording has drifted apart in
+places. Those are lesson level proposals rather than string edits, so they
+cannot go through the same generator and need their own pass. PR 1142.
