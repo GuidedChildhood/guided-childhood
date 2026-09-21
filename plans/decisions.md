@@ -825,3 +825,54 @@ Rubric 498 to 478.
 with real sources and a verification status, so filling it is a citation pass
 rather than a writing pass, and inventing a source is the one thing that must
 never happen here. It stays open and named rather than quietly filled.
+
+## 21 September 2026, the wall clips, and the guard that was measuring a demo deck
+
+Found while rendering the must batch: on a 1920x1080 projector, slides are cut
+off mid sentence, and no existing guard could see it. council-checks measures
+each card against a readability ceiling ONE AT A TIME, deliberately, because a
+child reads one card at a time. The wall draws them all at once. The ceiling
+measures readability; nothing measured fit.
+
+**Two causes, neither of them the copy.** The teacher's script was taking up to
+363px of a 1080 wall, because the presenter bar is flexShrink 0 against a
+flex 1 stage, so every pixel it takes comes off what thirty children see. And
+three width constants predated the wall scale: a three across diagram grid
+divided WALL.column into twenty character ribbons, and both caps inside
+AnimatedIntro were a flat 900, which at 40px is NARROWER than comfortable,
+which is why title clipped on 29 of 29 lessons with the objective below the
+fold.
+
+**Two columns is not the fix and cannot be.** Halving the width doubles each
+item's lines and a grid row is as tall as its taller item, so two columns cost
+2 x max(a, b) against one column's a + b. Widening is the lever.
+
+Five layout changes, no lesson text touched. Wall clips 243 to 227, and
+severity down more than the count: diagram 726 to 504, title 441 to 246.
+
+**The guard was measuring the wrong pages, and that is the real lesson.**
+GC_DEV_SLIDES is read by the PAGE, in the server process; the CI step set it on
+the guard only. So the server served its built in 21 slide sample deck for
+every request and all 29 lessons were measured as one demo deck, 1711 times,
+filed under the real lessons' names. Three commits in a row returned the
+identical "1 new, 215 fixed", which is what determinism looks like when the
+thing being varied is not the thing being measured.
+
+Two wrong diagnoses came first, both checked rather than assumed: fonts
+(Nunito loads in both, the fallback is 2.6 percent narrower) and the browser
+binary (the headless shell moves one slide in twelve, the one on the
+threshold). Both real, both far too small. What was missing was the cheapest
+check of the three: whether the measurement was pointed at the right thing.
+
+So the guard now proves its own preconditions before it measures: a sentinel
+that must come back in the DOM, a settle loop that refuses a half rendered
+page, and a provenance line carrying the browser build, the font, and a fixed
+reference slide. A baseline of pixels carries its conditions or it carries
+nothing. PR 1143.
+
+**What is left is mostly not layout.** The median wall slide still clipping
+carries 530 characters and the worst run past 1000. Only 34 clip while
+carrying under 300, and titles are most of those, held up by the 324px
+character frame on the opening slide. That is a brand decision, so it is named
+here rather than quietly shrunk, and the rest is a curriculum question for the
+term review, sized per slide.
