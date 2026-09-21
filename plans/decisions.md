@@ -638,6 +638,7 @@ learning no longer depends on the tap at all.
 scripts/check-followup-lives-in-checkin.mjs holds the three files to the same
 story. Seven mutations tried, seven caught; the first version of one rule was
 fooled by a variable name and was rewritten to count calls.
+
 ## 21 September 2026 — four decisions on the curriculum review
 
 Justin pushed back on the review itself: "we are confident in the school
