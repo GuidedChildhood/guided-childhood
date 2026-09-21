@@ -78,19 +78,19 @@
       "words": [
         {
           "word": "companion app",
-          "definition": "An app built so talking to it feels like talking to a person."
+          "meaning": "An app built so talking to it feels like talking to a person."
         },
         {
           "word": "personalisation",
-          "definition": "The product changing to fit you, using what you told it."
+          "meaning": "The product changing to fit you, using what you told it."
         },
         {
           "word": "agreeable",
-          "definition": "Going along with what you say. It is a setting, not a personality."
+          "meaning": "Going along with what you say. It is a setting, not a personality."
         },
         {
           "word": "confide",
-          "definition": "To tell someone private because you trust them."
+          "meaning": "To tell someone private because you trust them."
         }
       ],
       "script": "Say each word, get the definition read back by a pupil, move on. Agreeable is the one that has to land: it is a setting, not a personality. Everything in cycle one hangs off it.",

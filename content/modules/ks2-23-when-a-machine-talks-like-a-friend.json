@@ -78,19 +78,19 @@
       "words": [
         {
           "word": "programmed",
-          "definition": "Somebody wrote the instructions telling it what to say."
+          "meaning": "Somebody wrote the instructions telling it what to say."
         },
         {
           "word": "alive",
-          "definition": "Grows, needs food and rest, and feels things."
+          "meaning": "Grows, needs food and rest, and feels things."
         },
         {
           "word": "remember",
-          "definition": "A machine can store what you typed. Storing is not knowing."
+          "meaning": "A machine can store what you typed. Storing is not knowing."
         },
         {
           "word": "trusted adult",
-          "definition": "A grown up you can tell anything to and never be in trouble."
+          "meaning": "A grown up you can tell anything to and never be in trouble."
         }
       ],
       "script": "Say each word, have a child read the meaning back, move on. Programmed is the one that has to stick. Everything in cycle one hangs off it.",

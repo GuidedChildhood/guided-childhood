@@ -74,15 +74,15 @@
       "words": [
         {
           "word": "maker",
-          "definition": "The person who made it. Not the person who asked for it. If you can explain how it works and why, you are the maker."
+          "meaning": "The person who made it. Not the person who asked for it. If you can explain how it works and why, you are the maker."
         },
         {
           "word": "helper",
-          "definition": "Something that helps you do a job. A ruler, a dictionary, a grown up, a computer. A helper does not take the job away from you."
+          "meaning": "Something that helps you do a job. A ruler, a dictionary, a grown up, a computer. A helper does not take the job away from you."
         },
         {
           "word": "stuck",
-          "definition": "When you cannot see what to do next. Being stuck is normal and it is not a problem. Staying stuck for ages is the problem."
+          "meaning": "When you cannot see what to do next. Being stuck is normal and it is not a problem. Staying stuck for ages is the problem."
         }
       ],
       "script": "Maker is the load bearing word and it must land as something good. Helper must land as completely allowed. Stuck matters because half this lesson is about asking for the right amount of help, and a child who thinks stuck means stupid will never ask for any.",

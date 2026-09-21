@@ -95,13 +95,51 @@ begin
   if cnt > 0 then raise exception 'MIGRATION ABORTED. % keyword(s) still without a meaning the wall draws: %', cnt, list; end if;
 end $$;
 
+-- ── the proof: the eight rows equal their files in content/modules, string for string ──
+-- The same multiset hash scripts/module-string-hash.mjs computes from each
+-- file (a rename moves no string, so the hash is the pre and the post state),
+-- in one loop rather than eight copies of the query so the migration stays
+-- small enough to carry.
+do $$
+declare got_hash text; got_n int; got_slides int; m record;
+begin
+  for m in select * from (values
 ${touched.map(t => {
   const tmp = path.join(ROOT, '.gen-321-tmp.json')
   fs.writeFileSync(tmp, JSON.stringify(t.m, null, 2) + '\n')
-  const out = execFileSync('node', [path.join(ROOT, 'scripts/module-string-hash.mjs'), tmp, '--assert', name], { encoding: 'utf8' }).trim()
+  const out = execFileSync('node', [path.join(ROOT, 'scripts/module-string-hash.mjs'), tmp], { encoding: 'utf8' })
   fs.unlinkSync(tmp)
-  return `-- ── the proof: ${t.id} equals content/modules/${t.id}.json ──\n${out}`
-}).join('\n\n')}
+  const slides = out.match(/slides\s+(\d+)/)[1], strings = out.match(/strings\s+(\d+)/)[1], md5 = out.match(/md5\s+([0-9a-f]{32})/)[1]
+  return `    (${q(t.id)}, ${slides}, ${strings}, ${q(md5)})`
+}).join(',\n')}
+  ) as t(module_id, slides, strings, hash)
+  loop
+    select md5(string_agg(md5(v), '' order by md5(v))), count(*) into got_hash, got_n
+    from (
+      select x #>> '{}' as v from schools.school_lessons l, lateral jsonb_path_query(l.slides, '$.**') as x where l.module_id = m.module_id and jsonb_typeof(x) = 'string'
+      union all select x #>> '{}' from schools.school_lessons l, lateral jsonb_path_query(l.video_beats, '$.**') as x where l.module_id = m.module_id and jsonb_typeof(x) = 'string'
+      union all select x #>> '{}' from schools.school_lessons l, lateral jsonb_path_query(l.assessment, '$.**') as x where l.module_id = m.module_id and jsonb_typeof(x) = 'string'
+      union all select x #>> '{}' from schools.school_lessons l, lateral jsonb_path_query(l.parent_note, '$.**') as x where l.module_id = m.module_id and jsonb_typeof(x) = 'string'
+      union all select x #>> '{}' from schools.school_lessons l, lateral jsonb_path_query(l.teacher_notes, '$.**') as x where l.module_id = m.module_id and jsonb_typeof(x) = 'string'
+      union all select x #>> '{}' from schools.school_lessons l, lateral jsonb_path_query(l.dsl_note, '$.**') as x where l.module_id = m.module_id and jsonb_typeof(x) = 'string'
+      union all select module_id from schools.school_lessons where module_id = m.module_id
+      union all select title from schools.school_lessons where module_id = m.module_id
+      union all select key_stage from schools.school_lessons where module_id = m.module_id
+      union all select year_band from schools.school_lessons where module_id = m.module_id
+      union all select audience from schools.school_lessons where module_id = m.module_id
+      union all select evidence_anchor from schools.school_lessons where module_id = m.module_id
+      union all select single_action_outcome from schools.school_lessons where module_id = m.module_id
+      union all select character_cast from schools.school_lessons where module_id = m.module_id
+      union all select scaffold from schools.school_lessons where module_id = m.module_id
+      union all select unnest(statutory_hooks) from schools.school_lessons where module_id = m.module_id
+      union all select unnest(ailit_domains) from schools.school_lessons where module_id = m.module_id
+    ) q;
+    select jsonb_array_length(slides) into got_slides from schools.school_lessons where module_id = m.module_id;
+    if got_slides is distinct from m.slides or got_n is distinct from m.strings or got_hash is distinct from m.hash then
+      raise exception '${name}: % is not intact (slides %, strings %, hash %)', m.module_id, got_slides, got_n, got_hash;
+    end if;
+  end loop;
+end $$;
 
 commit;
 `
