@@ -26,6 +26,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { respondsTo } from './council-checks.mjs'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const args = process.argv.slice(2)
@@ -149,7 +150,9 @@ function check(m) {
 
   // ── the evidence checks the report made measurable (scripts/lesson-rubric.md, section B) ──
   const text = s => [s.title, s.heading, s.body, s.caption, s.prompt, s.question, s.lookFor, s.outcome, s.why, ...(s.lines || []), ...(s.points || []), ...(s.gains || []), ...(s.options || []).map(o => o.text), ...(s.steps || []).map(x => `${x.title || ''} ${x.text || ''}`), ...(s.words || []).map(w => `${w.word || ''} ${w.meaning || ''}`)].filter(Boolean).join(' ')
-  const responds = s => ['choice', 'discussion', 'tryit', 'interactive', 'scenario', 'quote'].includes(s.type) || (s.type === 'diagram' && (s.verdicts || []).length > 0)
+  // The same ruler the council and the contract use, imported rather than
+  // written out a third time (21 September 2026).
+  const responds = respondsTo
   const graphemes = s => [...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(String(s ?? ''))].filter(g => g.segment.trim()).length
   const keywordsSlide = slides.find(s => s.type === 'keywords')
   const kwords = (keywordsSlide?.words || []).map(w => String(w.word || '').toLowerCase()).filter(Boolean)
