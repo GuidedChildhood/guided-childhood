@@ -375,7 +375,7 @@ export default function LessonOpens() {
               aria-current={i === active ? 'step' : undefined}
               onClick={() => goTo(i)}
               style={{
-                appearance: 'none', border: 0, padding: '10px 4px', background: 'transparent', cursor: 'pointer',
+                appearance: 'none', border: 0, padding: 'var(--space-3) var(--space-2)', background: 'transparent', cursor: 'pointer',
               }}
             >
               <span style={{
