@@ -147,8 +147,15 @@ if (WRITE) {
   process.exit(0)
 }
 
+// --only measures one lesson, so the baseline it is compared against has to be
+// narrowed to the same lesson. Without this, every other lesson on the list
+// reads as "now fits, take it off" and one lesson's run reports 280 false
+// fixes. The CI run measures everything and narrows to nothing.
+const measuredModule = k => lessons.some(l => k.startsWith(`${l.module_id} s`))
+const inScope = Object.keys(baseline).filter(measuredModule)
+
 const fresh = keys.filter(k => !baseline[k])
-const fixed = Object.keys(baseline).filter(k => !found[k]).sort()
+const fixed = inScope.filter(k => !found[k]).sort()
 
 for (const k of fresh) console.error(`  FAIL ${k} is cut off on the wall (${where(k)}) and is not on the baseline`)
 for (const k of fixed) console.error(`  FAIL ${k} now fits. Take it off ${BASELINE_FILE} so it cannot break again.`)

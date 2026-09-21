@@ -69,6 +69,17 @@ jobs:
           # renders every fixture both ways and holds the known list in
           # scripts/larger-text-baseline.json, which only ever gets shorter.
           npm run larger-text-guard
+          # DOES THE SLIDE FIT ON THE WALL? Every slide of every lesson through
+          # the real player at projector size, measuring the stage's own scroll
+          # box. It rides here because the app is already up and the browser is
+          # already installed, and because a static word count provably cannot
+          # see this: council-checks measures each card against the ceiling one
+          # at a time, so four cards that each fit can still be cut in half
+          # together. See the header of check-wall-fit.mjs.
+          #
+          # GC_DEV_SLIDES is rewritten per lesson and /dev/lesson-player re-reads
+          # it per request, which is why 29 lessons need no server restart.
+          GC_DEV_SLIDES=/tmp/gc-dev-slides.json npm run wall-fit-guard
 
   # The two guards on the join between what a parent answers and what the
   # daily check in asks about.
