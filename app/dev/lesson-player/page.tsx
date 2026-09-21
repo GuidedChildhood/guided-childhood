@@ -180,9 +180,31 @@ const CYCLES: LessonCycle[] = [
 async function slidesToRender(): Promise<LessonSlide[]> {
   const from = process.env.GC_DEV_SLIDES
   if (!from) return SLIDES
+  // POINTED AT A FILE THAT IS NOT THERE YET IS NOT AN ERROR.
+  //
+  // The CI job runs several guards against one server, and the variable has to
+  // be set on the server for any of them to use a fixture at all. But the file
+  // itself is written by check-wall-fit, which runs last, so the contrast and
+  // larger text guards hit this page before it exists. Throwing turned that
+  // into a 500 and "no text found in the player", which is a guard failing for
+  // a reason that has nothing to do with what it checks.
+  //
+  // So a missing file falls back to the deck below, exactly as an unset
+  // variable does. A file that EXISTS and does not parse still throws, because
+  // that is a real mistake rather than an ordering one.
+  //
+  // A silent fallback is what hid tonight's bug, so it is not left silent:
+  // check-wall-fit writes a sentinel and refuses to measure anything unless it
+  // comes back in the DOM, which is the check that makes this fallback safe.
+  let raw: string
+  try {
+    raw = await readFile(from, 'utf8')
+  } catch {
+    return SLIDES
+  }
   // parseSlides is the same validator the teach route uses, so a row that
   // would not render in a classroom does not quietly render here either.
-  const parsed = parseSlides(JSON.parse(await readFile(from, 'utf8')))
+  const parsed = parseSlides(JSON.parse(raw))
   if (!parsed) throw new Error(`GC_DEV_SLIDES at ${from} did not parse as slides`)
   return parsed
 }
