@@ -9,11 +9,13 @@ nothing ships without a source.
 
 **How it is used.** The review workflow (plans/week-of-2026-09-21-best-lessons-plan.md,
 step 6) briefs one reviewer and one verifier per lesson with this file. The
-MEASURABLE checks are run by scripts (named on each line) and are not the
-reviewer's job. The JUDGEMENT checks are the reviewer's brief and the
-verifier's grounds for rejection. The SCHEME checks need a new field, slide
-type or surface and cannot be met by editing a slide; they are the list for
-Justin.
+MEASURABLE checks are run by scripts: the instruments in section A by the
+council, the contract and the coverage guards, and the checks in sections B
+and C by `node scripts/check-lesson-rubric.mjs <module.json>`, which reports
+per slide so a reviewer sees every mechanical fail before it spends an edit.
+The JUDGEMENT checks are the reviewer's brief and the verifier's grounds for
+rejection. The SCHEME checks need a new field, slide type or surface and
+cannot be met by editing a slide; they are the list for Justin.
 
 **How a check is written.** An id; the test in one sentence, phrased so a
 reader can say yes or no of one slide or one lesson; MEASURABLE (with the
@@ -579,11 +581,12 @@ Checks that need a field, a slide type or a surface (SCHEME), for Justin:
 - **C22 · Rationale on the printed quiz items too.** The older lessons' banks
   carry a teaching point per item; the four lessons written from 19 September
   store an answer index only, so their paper answer sheets cannot say why.
-- **C23 · Keyword meanings on the wall for the four newest lessons.** ks2-26,
-  ks3-27, ks4-28 and ks4-29 store each keyword's meaning under "definition",
-  and the player draws "meaning" (shared/components/LessonPlayer.tsx), so
-  the class sees the word and no meaning. A key rename, not a slide edit:
-  the first structural migration.
+- **C23 · Keyword meanings on the wall.** Eight lessons written since 11
+  September stored each keyword's meaning under "definition" while the
+  player draws "meaning" (shared/components/LessonPlayer.tsx), so the class
+  saw the word and nothing under it. Done: migration 321 renamed the key in
+  all eight rows and files on 21 September 2026, and contract rule 14 refuses
+  a keywords slide without a meaning the wall draws.
 
 Two things no scheme read does, kept because they are what to beat with: the
 recurring cast that teaches (Jigsaw's Friend is a soft toy, CEOP's cast is on
