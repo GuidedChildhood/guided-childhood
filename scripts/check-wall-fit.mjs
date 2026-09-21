@@ -102,6 +102,10 @@ const ONLY = (() => {
 // inside the fade rather than lost: 40px is that line (WALL.body at 1920).
 const SLACK = 40
 
+// Written into the reference slide and looked for in the DOM, to prove the
+// server is serving the fixture rather than its own built in sample deck.
+const SENTINEL = 'gc-wall-fit-fixture-is-live'
+
 const VIEWPORTS = [{ tag: 'wall', width: 1920, height: 1080 }]
 if (LAPTOP) VIEWPORTS.push({ tag: 'laptop', width: 1366, height: 768 })
 
@@ -191,7 +195,7 @@ const settle = async (page, label) => {
   writeFileSync(SLIDES_FILE, JSON.stringify([{
     type: 'recap', phase: 'close', minutes: 2, heading: 'Reference slide',
     points: [
-      'A fixed slide measured at the start of every run, so two runs can be compared.',
+      `A fixed slide measured at the start of every run, so two runs can be compared. ${SENTINEL}`,
       'If this number moves, the renderer moved, and the list was never what was being tested.',
       'It is never written to the baseline and it belongs to no lesson.',
     ],
@@ -199,6 +203,28 @@ const settle = async (page, label) => {
   }]))
   await page.goto(`${BASE}/dev/lesson-player?class=1&teacher=1&slide=0`, { waitUntil: 'networkidle', timeout: 60000 })
   const ref = await settle(page, 'the reference slide')
+
+  // IS THE SERVER EVEN READING THE FIXTURE? This is the check that would have
+  // saved a whole evening. GC_DEV_SLIDES is read by the PAGE, in the server
+  // process, and the CI step set it only on this script. The server therefore
+  // fell back to the hardcoded sample deck in app/dev/lesson-player/page.tsx
+  // and served the same 21 demo slides for every request, for all 29 lessons.
+  // The guard measured that deck 1711 times, labelled the results with real
+  // lesson ids, and reported the same "1 new, 215 fixed" from three different
+  // commits, which is what perfect determinism looks like when the thing you
+  // are varying is not the thing being measured.
+  //
+  // So the run now proves the fixture is live before it measures anything: a
+  // sentinel written into the reference slide has to come back in the DOM.
+  const live = await page.evaluate(s => document.body.textContent?.includes(s) ?? false, SENTINEL)
+  if (!live) {
+    console.error('check-wall-fit: the server is NOT reading GC_DEV_SLIDES.')
+    console.error(`  Wrote a sentinel to ${SLIDES_FILE} and the page did not render it, so every`)
+    console.error('  lesson would be measured as the built in sample deck instead of itself.')
+    console.error('  GC_DEV_SLIDES has to be set on the process running `next dev`, not only on')
+    console.error('  this script. Export it before starting the server.')
+    process.exit(2)
+  }
   const env = await page.evaluate(async () => {
     await document.fonts.ready
     const probe = document.createElement('span')
