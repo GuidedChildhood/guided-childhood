@@ -705,6 +705,24 @@
       "The loop is: you watch, it learns, it serves more of the same.",
       "Your attention is what the app collects, and it is the thing being sold.",
       "The feed never ends on purpose, because an ending is a place to stop."
+    ],
+    "hard_questions": [
+      {
+        "question": "It is reading my mind. It knew what I was thinking about.",
+        "answer": "It feels exactly like that and it is not what is happening. It is reading what you did: what you slowed down on, what you watched twice, what you did not scroll past. You are giving it the answer without meaning to, and once you can see that it stops being spooky."
+      },
+      {
+        "question": "I never like or comment, so it knows nothing about me.",
+        "answer": "The like button is the smallest signal there is. Stopping is the big one. Watching to the end is the big one. You can say nothing all year and still teach it plenty."
+      },
+      {
+        "question": "So the app is evil?",
+        "answer": "No, and that is worth being clear about. It is not out to get you. It is doing one job very well, which is holding your attention, because that is what it is paid for. Knowing that is not the same as being angry at it."
+      },
+      {
+        "question": "Why does it never run out?",
+        "answer": "Because there is no end to reach. A book has a last page and a feed does not, on purpose. Nothing tells you when you are done, so the stopping has to come from you, and that is what makes it hard rather than anything about you."
+      }
     ]
   }
 }

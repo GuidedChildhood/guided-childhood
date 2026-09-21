@@ -802,6 +802,24 @@
       "Whoever chooses the defaults quietly runs the experience, so choose them yourself.",
       "Habits beat rules, because a habit is already running when nobody is enforcing anything.",
       "An exit rule is written before you need it, not during."
+    ],
+    "hard_questions": [
+      {
+        "question": "So social media is safe at 16?",
+        "answer": "No. Sixteen is when the door opens, not when the risk ends, and nothing about the platforms changes on your birthday. That is exactly why you write the plan before you arrive rather than after."
+      },
+      {
+        "question": "My mates who got on early will be better at it than me.",
+        "answer": "The evidence points the other way. They arrived on adult settings with no plan and no adult knowing, which is practice at the worst version. Arriving deliberately, with defaults you chose, is a real advantage."
+      },
+      {
+        "question": "Why write an exit rule for something I have not started?",
+        "answer": "Because the moment you need it is the moment you are least able to write it. Everything in this lesson is a decision made by the calm version of you, for the version who is upset at midnight. That is the whole design."
+      },
+      {
+        "question": "What if my plan turns out to be wrong?",
+        "answer": "Then you change it, and that is the first week audit doing its job. A plan you revise after looking at your own feed is not a failed plan. It is the only kind that survives contact with the real thing."
+      }
     ]
   }
 }

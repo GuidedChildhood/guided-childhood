@@ -764,6 +764,24 @@
       "Belief grooming uses the same playbook as any other grooming: attention, belonging, then isolation.",
       "Misogyny is the most common on ramp, and RSHE 2025 names it.",
       "Anger keeps you watching, and someone is paid for that."
+    ],
+    "hard_questions": [
+      {
+        "question": "Is this lesson an attack on boys?",
+        "answer": "No, and if it lands that way I have taught it badly. The pipeline targets boys, which makes them the people it is done to, not the people doing it. Naming that is on their side."
+      },
+      {
+        "question": "What is wrong with fitness and money content?",
+        "answer": "Nothing, and most of it is exactly what it looks like. The entrance is harmless on purpose, which is the whole point of a pipeline. What we are watching for is the turn, where advice about yourself becomes contempt for other people."
+      },
+      {
+        "question": "It is just jokes. Watching does not change anything.",
+        "answer": "A stereotype repeated often enough stops sounding like an opinion and starts sounding like a fact about somebody you have never met. That happens without you agreeing to it, and it is why the feed learning what you watch matters more than what you believe today."
+      },
+      {
+        "question": "Only loners get radicalised.",
+        "answer": "That is the comforting version and it does not hold. It reaches ordinary people with friends and families, through a feed, at home. Believing it only happens to somebody else is the single most useful thing about you, from the point of view of the people doing it."
+      }
     ]
   }
 }

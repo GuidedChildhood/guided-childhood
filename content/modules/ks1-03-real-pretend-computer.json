@@ -622,6 +622,24 @@
       "Pretend is playing, not lying. A cartoon is not a trick.",
       "The detective question is real, pretend, or computer made?",
       "A picture that makes you say WOW is the one to ask the question about."
+    ],
+    "hard_questions": [
+      {
+        "question": "How do I know you are real?",
+        "answer": "Brilliant question and the answer is that you are in the room with me. That is the strongest test there is. The reason the detective question matters is that a picture on a screen never gives you that."
+      },
+      {
+        "question": "Can a computer make a picture of me?",
+        "answer": "It can make a picture that looks a lot like you, and that is exactly why we practise this. It cannot make a picture of something you actually did. Looking real and being real are two different things."
+      },
+      {
+        "question": "Is a photo always real?",
+        "answer": "It used to be a very good clue and it is not any more. A computer can now make something that looks exactly like a photo. So we ask the question instead of trusting our eyes, and that is the whole skill."
+      },
+      {
+        "question": "Is pretend the same as fibbing?",
+        "answer": "No. Pretend is playing, and everybody knows it is a game. A fib wants you to believe a wrong thing. A cartoon is pretend and it is not tricking anybody, because it never pretended to be real in the first place."
+      }
     ]
   }
 }

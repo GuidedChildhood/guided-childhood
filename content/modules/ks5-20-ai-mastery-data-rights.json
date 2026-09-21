@@ -758,6 +758,24 @@
       "Bias is inherited from training data: whose voices were in it, and whose were not.",
       "Use it, check it, own it. You own the output you put your name on.",
       "An agent acts rather than answers, which raises the cost of not checking."
+    ],
+    "hard_questions": [
+      {
+        "question": "Hallucinations will be fixed in the next version, won't they?",
+        "answer": "They have got less frequent and they have not gone, and the confident wrong answer is the dangerous one because it looks exactly like the right one. Plan for verification as a permanent part of the workflow rather than a temporary inconvenience."
+      },
+      {
+        "question": "Is using AI on my work cheating?",
+        "answer": "It depends entirely on what is being assessed, which is why the honest answer is to ask rather than to assume. If the task is the thinking, outsourcing the thinking is cheating yourself before it is cheating anybody else."
+      },
+      {
+        "question": "They already have my data, so what does it matter?",
+        "answer": "Resignation is convenient for the companies and it is not accurate. You hold real rights here, including access and erasure, and they work. Whether you use them is a choice, but it is a choice, which is different from nothing."
+      },
+      {
+        "question": "Why supervise an agent if it is more accurate than me?",
+        "answer": "Accuracy is only half of it. The other half is what happens when it is wrong, which is why the dial is stakes and reversibility rather than confidence. A reversible low stakes task needs very little from you. Sending money does not."
+      }
     ]
   }
 }

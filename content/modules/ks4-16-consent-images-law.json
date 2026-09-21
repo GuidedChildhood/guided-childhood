@@ -830,6 +830,24 @@
       "In UK law an indecent image is any sexual image of a person under 18.",
       "Everyone is not sending them. The belief that they are is itself the pressure.",
       "Report Remove is free, confidential, and it works."
+    ],
+    "hard_questions": [
+      {
+        "question": "If we are both under 18 and we both agreed, it is legal, isn't it?",
+        "answer": "No. The law on sexual images of under 18s does not have a both agreed exception, and I would be doing you no favours softening that. Agreement matters enormously for how you treat each other. It is not what makes something lawful."
+      },
+      {
+        "question": "Everyone sends them.",
+        "answer": "Surveys put it well below everyone, and the belief that everybody does is itself a pressure technique. Whatever the number is, it does not change the law or what happens if an image moves, and those are the two things that will actually affect you."
+      },
+      {
+        "question": "If there is already an image of me out there, am I in trouble?",
+        "answer": "No. You are the person this law exists to protect, and that stays true even if you took it and sent it yourself. Report Remove exists exactly for this and it can get images taken down. Tell somebody today."
+      },
+      {
+        "question": "What if I agreed at the time and I do not now?",
+        "answer": "Then consent has ended, and it is allowed to end. Consent is not a form you signed once. Somebody who tells you that you cannot change your mind is telling you something about themselves."
+      }
     ]
   }
 }

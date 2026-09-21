@@ -795,6 +795,24 @@
       "Rage is a business model, because furious people comment, share and stay.",
       "Parasocial trust sells: you feel you know them, they do not know you exist.",
       "UK rules say a paid post must be labelled. Hidden ones bank on your trust."
+    ],
+    "hard_questions": [
+      {
+        "question": "Adverts do not work on me.",
+        "answer": "That belief is measured, and the people who hold it most strongly are not the ones it fails on. Persuasion does not need you to be convinced. It needs you to be familiar, and familiarity happens whether you approve of it or not."
+      },
+      {
+        "question": "Rage bait is just people with strong opinions.",
+        "answer": "Some of it is. The test is not how strong the opinion is, it is whether the thing was built to be argued with. If the reply button is where all the value is, somebody designed it that way and is being paid for your annoyance."
+      },
+      {
+        "question": "Influencers genuinely like the stuff they post.",
+        "answer": "Often they do, and that is not the issue. The issue is whether you were told about the money. An undisclosed ad is not a lie about the product, it is a lie about the relationship, which is the part doing the persuading."
+      },
+      {
+        "question": "So I should not buy anything?",
+        "answer": "No. Buy whatever you want. Name the technique first, and then decide, because a decision made after you have spotted the urgency is yours in a way the one made during it is not."
+      }
     ]
   }
 }

@@ -819,6 +819,24 @@
       "A loot box sells a chance, not a thing.",
       "A countdown clock is there to stop you thinking, not to help you.",
       "The spend spotters ask: what is the real price, what am I actually getting, and what is the rush?"
+    ],
+    "hard_questions": [
+      {
+        "question": "My mum buys me skins. Is she doing something wrong?",
+        "answer": "Not at all. Nothing in this lesson says spending on a game is bad. What we are practising is running the three spotters before the money moves, so it is a decision rather than a reflex. A present somebody chose to give you is already a decision."
+      },
+      {
+        "question": "It is my money though.",
+        "answer": "It is, and nobody here is taking it off you. That is exactly why the spotters matter. They are for you, not for a grown up, and they work best on the offer that is shouting loudest at you right now."
+      },
+      {
+        "question": "Loot boxes are just a surprise, like a kinder egg.",
+        "answer": "A kinder egg costs the same every time and you know what you are getting for it. A loot box is priced on not knowing, and the not knowing is the product. That is the difference, and it is worth about thirty seconds of your attention before you tap."
+      },
+      {
+        "question": "Only people with no willpower get hooked.",
+        "answer": "These games are designed by very good teams, tested on millions of players, and they work on adults with jobs and mortgages. Getting pulled in is not a character flaw. It is the design succeeding, which is why we go after the design rather than the person."
+      }
     ]
   }
 }

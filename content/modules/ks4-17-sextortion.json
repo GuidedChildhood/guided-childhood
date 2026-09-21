@@ -765,6 +765,24 @@
       "Paying funds the next demand. It never ends it.",
       "The three lifelines are: do not pay, do not keep it secret, report it.",
       "Report Remove and CEOP exist for exactly this and are used every day."
+    ],
+    "hard_questions": [
+      {
+        "question": "This happens to girls mostly, doesn't it?",
+        "answer": "For this particular crime, boys are targeted heavily, and financially motivated cases skew towards teenage boys. Saying otherwise would leave half this room thinking it is not about them, which is precisely what the people doing it count on."
+      },
+      {
+        "question": "If I just pay once, will it stop?",
+        "answer": "No, and this is the clearest thing in the whole lesson. Paying tells them it works, and it has never been the end of it. The moment you pay is the moment it gets worse, which is why the answer is stop, save, tell rather than pay."
+      },
+      {
+        "question": "I sent the image myself though. That is on me.",
+        "answer": "It is not. Being tricked or pressured into sending something and then threatened over it is a crime committed against you, and how the image came to exist does not change that. You are not in trouble here. Not from me, and not from the police."
+      },
+      {
+        "question": "What if they said they will send it to my family in an hour?",
+        "answer": "That hour is a pressure technique and it is the same in every case. Stop replying, save what you have, tell an adult now. This is not something to handle alone at night, and every adult in this building would rather be woken up than told afterwards."
+      }
     ]
   }
 }

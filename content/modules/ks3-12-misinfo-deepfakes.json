@@ -900,6 +900,24 @@
       "The three checks are: who made it, what is the source, and what does it want from me?",
       "Pause is a verdict, not a failure to reach one.",
       "A fake travels further than its correction, so the decision that matters is made before you share."
+    ],
+    "hard_questions": [
+      {
+        "question": "Can you really fake a voice that well?",
+        "answer": "Yes, and from a surprisingly short clip. This is the bit that has changed fastest. It is why the three checks are about where it came from and what else says it, rather than about how convincing it looks or sounds."
+      },
+      {
+        "question": "So if AI made it, it is fake?",
+        "answer": "No. AI made is not the same as false, and treating it that way will make you wrong a lot. Plenty of true things are AI assisted now. The checks are about whether the claim holds up, not about what tool touched it."
+      },
+      {
+        "question": "Am I supposed to distrust everything?",
+        "answer": "That is just as useless as believing everything, and it is exhausting. The checks are for the post that hits you hard and fast, because that is the one built to travel. Most of what you see does not need them."
+      },
+      {
+        "question": "I shared something that turned out to be fake. Is that bad?",
+        "answer": "It has happened to nearly everybody in this room and to most adults. Say so, and say so where you shared it. A correction from the person who shared it travels further than one from anybody else."
+      }
     ]
   }
 }

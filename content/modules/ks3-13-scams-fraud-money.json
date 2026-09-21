@@ -802,6 +802,24 @@
       "Scam scripts work on clever people, because they attack the moment, not the intelligence.",
       "Stop, check, refuse. Checking through a different route is what breaks the script.",
       "Fraud is a crime. The person targeted is never the one in trouble, and reporting it is what makes it evidence."
+    ],
+    "hard_questions": [
+      {
+        "question": "Scams only get old people though.",
+        "answer": "The opposite is closer to the truth for the online ones. Younger people are online more, move faster, and are targeted through the platforms they actually use. Being young is not protection, and neither is being quick."
+      },
+      {
+        "question": "I am good with tech. I would spot it.",
+        "answer": "So is nearly everybody who gets caught, and confidence is one of the things a good scam counts on. These do not work by fooling stupid people. They work by rushing a busy person, which at some point is all of us."
+      },
+      {
+        "question": "It came from my friend's account, so it is fine.",
+        "answer": "It came from their account. Whether it came from them is a different question, and a taken over account is one of the most common ways this reaches you. If the message rushes you or asks for something odd, check with them another way before you do anything."
+      },
+      {
+        "question": "What if I have already sent money?",
+        "answer": "Tell an adult today and contact the bank today, because speed genuinely changes what can be recovered. You are not in trouble and you are not stupid. The embarrassment is the thing the scam is relying on to buy itself time."
+      }
     ]
   }
 }

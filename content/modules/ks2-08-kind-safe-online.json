@@ -803,6 +803,24 @@
       "A bystander watches. An upstander makes one safe move.",
       "The three moves are: do not pile on, save the evidence, tell someone who can help.",
       "Report and block are safety tools, not tantrums, and telling is strength, not snitching."
+    ],
+    "hard_questions": [
+      {
+        "question": "Is telling you just snitching?",
+        "answer": "Snitching is trying to get somebody into trouble. Telling is trying to get somebody out of it. If you are not sure which one you are doing, ask yourself who you are trying to help, and you will know."
+      },
+      {
+        "question": "I did not type anything, so I did not do anything.",
+        "answer": "Not typing is better than typing, and it is not nothing. A pile on performs for whoever is watching, and the watchers are the reason it keeps going. The three moves ask a bit more of you: add nothing, save the evidence, tell somebody who can help."
+      },
+      {
+        "question": "If I delete the messages it goes away.",
+        "answer": "It goes away from your phone and it stays everywhere else, and you have just deleted the thing that proves what happened. Save it first. Screenshot it, then tell somebody. You can always delete afterwards."
+      },
+      {
+        "question": "What if the person doing it is my friend?",
+        "answer": "That is the hardest version and it is the most common one, so it is worth saying out loud. You can care about somebody and still say that what they are doing is wrong. Those two things fit together, even though it does not feel like it in the moment."
+      }
     ]
   }
 }

@@ -703,6 +703,24 @@
       "What compresses is the routine. What expands is judgement, taste and trust.",
       "AI produces options. Judgement chooses between them, and that is the paid part.",
       "The endurance test asks what still needs a person when the tool is free."
+    ],
+    "hard_questions": [
+      {
+        "question": "AI is taking all the jobs, so what is the point?",
+        "answer": "It is taking tasks, and jobs are bundles of tasks that get rebundled. That has happened before and it is happening faster now. The useful question is not whether your job survives, it is which of your tasks are exposed and what you are building that is not."
+      },
+      {
+        "question": "Is a completely empty search result the safest thing?",
+        "answer": "It is the safest and it is also the emptiest, and by the time somebody is searching for you they were hoping to find something. A deliberate record beats a blank one. The goal is a portfolio, not an absence."
+      },
+      {
+        "question": "Judgement and taste are just personality. You either have them or you do not.",
+        "answer": "They are practised, and you can see the practice in anybody who has them. That is the entire argument for the endurance test: it points you at what is worth putting your hours into, on the assumption the tools keep improving."
+      },
+      {
+        "question": "Does anything I post now actually follow me?",
+        "answer": "Some of it will and you cannot reliably predict which. That is an argument for building deliberately rather than for posting nothing, because the record that follows you is the one you get to shape starting now."
+      }
     ]
   }
 }

@@ -741,6 +741,24 @@
       "Connecting tends to read better. Comparing tends to read worse.",
       "Nothing is the sneaky verdict: time that left no trace is still time spent.",
       "An audit only works with honest answers, not the answers that sound good."
+    ],
+    "hard_questions": [
+      {
+        "question": "So how many hours is safe?",
+        "answer": "There is no number, and anybody who gives you one is going past what the evidence supports. The hours turn out to matter much less than what you were doing and how you felt afterwards. That is why the audit asks better, worse or nothing, rather than counting."
+      },
+      {
+        "question": "My friend is on it constantly and she is fine.",
+        "answer": "She might well be, and the same app genuinely lands differently on different people. That is one of the clearest findings there is. It is also why this is an audit you run on yourself rather than a rule I hand to all of you."
+      },
+      {
+        "question": "I felt nothing after two hours, so it did nothing.",
+        "answer": "Feeling nothing is a result worth writing down, and it is the honest answer for a lot of sessions. It is also worth checking what the two hours replaced, because the cost sometimes sits there instead."
+      },
+      {
+        "question": "Are you going to tell us to delete it?",
+        "answer": "No. One calibrated change that you choose is worth more than a ban you did not, because you are the one who has to live with it on a Tuesday. If your audit says nothing needs changing, that is a legitimate answer."
+      }
     ]
   }
 }

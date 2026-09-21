@@ -739,6 +739,24 @@
       "The cool down lap is warn, finish, swap.",
       "The warning is what makes stopping possible, because it lets the brain finish.",
       "Where a screen sleeps decides whether it interrupts your sleep."
+    ],
+    "hard_questions": [
+      {
+        "question": "My parents have their phones in bed. Why is it different for me?",
+        "answer": "Honestly, it is not, and they would probably tell you the same. The pull works on adults too. Nothing here says only children need a routine. If you want to take the cool down lap home and offer it to the whole house, that is a better version of this lesson than the one I planned."
+      },
+      {
+        "question": "So this is just a way of taking my phone off me?",
+        "answer": "No, and if it were I would say so. There is no rule here about how long you get. A routine is you deciding, once, in a calm moment, instead of arguing about it every night when you are tired. You keep the phone. You get the argument back."
+      },
+      {
+        "question": "All my friends are online at night. I will miss everything.",
+        "answer": "That is the real cost and I am not going to pretend it is nothing. Being out of the conversation is a genuine loss. What you are weighing it against is sleep you never get back. Only you can do that sum, but do it awake, not at eleven at night."
+      },
+      {
+        "question": "I can stop whenever I want.",
+        "answer": "Tonight you probably can. The problem is the night you are tired, and that is the night willpower is lowest and the app is exactly the same strength. A routine is what you set up for that night, by the version of you who is not tired yet."
+      }
     ]
   }
 }

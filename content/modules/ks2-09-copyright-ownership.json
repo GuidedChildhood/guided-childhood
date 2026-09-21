@@ -787,6 +787,24 @@
       "Crediting names the maker. Permission asks first and waits for a yes.",
       "An AI picture is built from work made by people who were not asked.",
       "Make it, credit it, ask first."
+    ],
+    "hard_questions": [
+      {
+        "question": "If it is on the internet it is free, isn't it?",
+        "answer": "Free to look at is not the same as free to use. Somebody made it and they still own it, exactly the way you still own the comic in your tray. Make it, credit it, ask first covers nearly every case you will meet."
+      },
+      {
+        "question": "It was only an idea. I did not take anything.",
+        "answer": "Ask the person whose idea it was how it felt. An idea somebody told you is still theirs, and crediting them costs you one sentence. Writing it down is not what makes it belong to them."
+      },
+      {
+        "question": "An AI made it, so nobody made it.",
+        "answer": "People made every single thing it learned from, and most of them were never asked. That is the wrinkle and it is genuinely unsettled, including for adults. You are allowed to use the tool and still know where the material came from."
+      },
+      {
+        "question": "My teacher uses pictures off the internet.",
+        "answer": "Fair point, and schools do have some permissions you do not have at home. That is not a reason the rule does not exist, and it is a very good reason to ask what the permission actually is."
+      }
     ]
   }
 }

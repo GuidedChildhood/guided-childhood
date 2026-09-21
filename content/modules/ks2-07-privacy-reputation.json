@@ -813,6 +813,24 @@
       "Anyone can screenshot anything you send, and you will never know.",
       "Your digital footprint grows whether you look after it or not.",
       "The share test is run before you share, never after."
+    ],
+    "hard_questions": [
+      {
+        "question": "I deleted it, so it is gone.",
+        "answer": "It is gone from your screen, which is not the same as gone. Anybody could have screenshotted it, the company still holds it, and that is before it was sent on. Deleting is worth doing. It is just not a rubber."
+      },
+      {
+        "question": "So I should not share anything ever?",
+        "answer": "No, and a lesson that ended there would be useless to you. Sharing is how you have friends. The three questions are there so you can tell the share that is fine from the one you would not want on the screen at the front of this room."
+      },
+      {
+        "question": "Only strangers are the risk.",
+        "answer": "Most of what goes wrong involves somebody the person already knew. That is uncomfortable and it is what the evidence says. It is also why the test is about the information, not about who is asking."
+      },
+      {
+        "question": "What if it is already out there?",
+        "answer": "Then you tell somebody today, and you are not in trouble. Things that feel unfixable at eleven at night are usually a lot more fixable with an adult and a morning. Come and find me or any adult here."
+      }
     ]
   }
 }

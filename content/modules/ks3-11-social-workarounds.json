@@ -802,6 +802,24 @@
       "A false age tells the machine to treat you as an adult, and it will.",
       "Moderation is the system that finds harmful content. A workaround steps outside it.",
       "A group chat with strangers in it is a different room from a group chat with friends."
+    ],
+    "hard_questions": [
+      {
+        "question": "Is a VPN illegal?",
+        "answer": "No, and plenty of people use one for good reasons. The question this lesson asks is narrower. When you use one to get around an age check, which specific protection did you just step outside, and would you have chosen that if somebody had named it?"
+      },
+      {
+        "question": "Age rules just exist to keep us off the internet.",
+        "answer": "The rule is the visible bit. Behind it sit things like what gets recommended to you, who can message you, and what happens when you report something. Those are what you lose, and nobody mentions them at the sign up screen."
+      },
+      {
+        "question": "It is my cousin's account, so it is safe.",
+        "answer": "Trusting your cousin is not the issue. The account is set up as an adult, so the platform treats you as one: adult recommendations, adult contact settings, adult reporting. The protection was never about who handed you the password."
+      },
+      {
+        "question": "Everyone does it.",
+        "answer": "A lot of people do, and I am not going to pretend otherwise. This lesson is not asking you to be the only one who does not. It is asking you to know what you are giving up, so it is a decision rather than a default."
+      }
     ]
   }
 }
