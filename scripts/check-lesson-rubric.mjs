@@ -229,7 +229,12 @@ function check(m) {
     if (/attention span/i.test(lower(s))) f('E38', 'the slide or its script asserts an attention span', n)
     // E39 · the pause changes the activity and claims nothing
     if (s.type === 'interactive' && s.component === 'star-breath' && s.config?.character) {
-      if (!/\b(partner|neighbour|pair|stand|stretch|tell|write|arms|shoulders|move|turn to)\b/i.test(String(s.config.prompt || ''))) f('E39', 'the half time breath prompt has no movement or pair talk in it', n)
+      // "next to you" is the same instruction as "your neighbour", and the list
+      // did not know it. Migration 323 wrote "say which one to the person next
+      // to you" into ks5-20 and this fired on a prompt that does exactly what
+      // the rule asks. Widened rather than rewording a good prompt to satisfy a
+      // word list, which is how a check starts driving the content.
+      if (!/\b(partner|neighbour|pair|stand|stretch|tell|write|arms|shoulders|move|turn to|next to you)\b/i.test(String(s.config.prompt || ''))) f('E39', 'the half time breath prompt has no movement or pair talk in it', n)
       if (/\b(calm(s|er)? (you|them|the class) down|improves? (attention|focus|concentration|wellbeing)|makes? (you|them) (calm|focus))\b/i.test(lower(s))) f('E39', 'the breath claims a benefit no study found', n)
     }
     // E47 · safe distance, on the wall
