@@ -780,3 +780,48 @@ rewords around it exits 0.
 Mine to own: I ran ten guards locally before applying and this was not one of
 them. CI caught it, which is CI working, but by then it was in production.
 PR 1142.
+
+## 21 September 2026, the core and the extension, marked in 26 lessons
+
+147 slides now carry `extension: true`. The core is everything without it, and
+a teacher short of time skips the marked ones and still runs the whole arc,
+lands the objective and reaches the exit quiz. Not a stopping point, a
+droppable set in the middle.
+
+Not one character of lesson text changed. The marks are booleans, so every
+module's string hash is byte identical to production.
+
+One rule across all 26 rather than 26 hand picked cuts. Never markable: outside
+teach and practise, concepts, key visuals, the first check in a phase, the half
+time breath, the main practice, or any slide carrying a protected phrase or a
+key learning point with no other home. Taken last first.
+
+**check-lesson-core.mjs caught one while it was being written**, which is the
+argument for the guard before the marks: both ks3-11 slides carrying
+"password", an RSHE evidence phrase, were marked, which would have dropped it
+from the core. Slide 20 came back.
+
+**Five lessons do not reach 55 and that is the right answer.** ks4-17 is
+sextortion; what is left after marking is what sextortion is, why paying never
+makes it stop, the three lifelines and one check. Reaching 55 there means a
+hole in a safeguarding lesson. So the ceiling is per lesson, recorded with its
+reason, and may only ever come down: ks4-17 at 60, ks2-07 at 59, ks3-11 at 58,
+ks2-08 and ks3-12 at 56. PR 1143.
+
+## 21 September 2026, eighty hard questions, and the one blank left open
+
+Twenty of the 29 lessons had no teacher_notes.hard_questions. Four per lesson
+now, written from that lesson's own recorded misconceptions rather than
+invented around the topic, so they answer what the lesson actually provokes.
+
+The hard ones are the point. Does paying once make it stop: no, and why. Am I
+in trouble if I sent the image myself: no, it is a crime committed against you.
+Is the radicalisation lesson an attack on boys: no, the pipeline targets you.
+Is Father Christmas real, in EYFS: handed back to the family, on purpose.
+
+Rubric 498 to 478.
+
+**evidence_base is deliberately still blank in those twenty.** It wants claims
+with real sources and a verification status, so filling it is a citation pass
+rather than a writing pass, and inventing a source is the one thing that must
+never happen here. It stays open and named rather than quietly filled.
