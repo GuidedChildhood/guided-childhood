@@ -669,3 +669,47 @@ sizes, 434px and 531px on a wall. The helpline in ks4-28 s28 is the last point
 by design ("leave a beat after the last one"), and ks4-29 s28 clears on a wall
 but not on a laptop. Both need the same decision: split the recap, or cut
 points. That is curriculum, not layout, so it is named here rather than done.
+
+## 22 September 2026 — Split the two six point recaps, keep every word
+
+Justin's call on the one open question from the helpline hotfix: split rather
+than cut points. "Split, keeps every word."
+
+Migration 338, applied and verified. Both KS4 lessons closed on a six point
+recap that overflowed at both sizes, 434px and 531px on a 1920 wall, so the
+tail was off screen whatever order the points sat in. Each is now two slides of
+three, one minute each, so the pair runs the two minutes the recap ran and the
+timing string still states 63. Not one of the twelve point strings is
+rewritten, which the migration proves rather than asserts by comparing the
+multiset before and after and refusing to write if a word moved.
+
+ks4-29 is regrouped rather than simply cut in half, and that came out of
+measuring rather than taste. Its opening point runs four lines where the others
+run two, so leaving it above the helpline put the numbers 19px under the fold
+on a wall and 55px under at 1366. Five arrangements were measured through the
+real player. The one that clears every number at both sizes puts the pastoral
+three together (you are not in trouble, here are the numbers, most people are
+not harmed) and the mechanics three together (why the feed found you, what a
+paid offer is, the three moves it ends on).
+
+check-helplines is now 21 readable, 0 below the fold, and its wall allowlist is
+EMPTY. That is the state to keep it in. PR 1144.
+
+## 22 September 2026 — The Planet Friends were drawing as emoji
+
+The schools home page and the curriculum map drew the cast as symbols in three
+places: Pebble a seedling, Bloop a jigsaw piece, Orbit a telescope, Nova a
+compass, Cosmo a rocket. Every character record already carried its real cutout
+in `img` right beside the emblem, and those three spots reached past it.
+
+It matters because of where they are. The curriculum map is the page a head or
+a parent reads to decide whether to buy, and the map preview sits above the
+fold on the home page. Somebody who has just watched a lesson then meets five
+symbols that are not the five characters.
+
+shared/components/FriendMark.tsx draws them: the plate device from FriendPlate
+with no motion and no client bundle, because FriendPlate is the friend in a
+lesson and that is the wrong tool for a 24px chip, of which the curriculum page
+carries twenty nine on one screen. The emblem stays as the fallback. Checked at
+1440 and 390: EYFS and KS1 draw Pebble, KS2 Bloop, KS3 Orbit, KS4 Nova, KS5
+Cosmo.

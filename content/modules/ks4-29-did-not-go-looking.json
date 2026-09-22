@@ -493,17 +493,26 @@
     {
       "type": "recap",
       "phase": "close",
-      "minutes": 2,
-      "heading": "What to keep",
+      "minutes": 1,
+      "heading": "What to keep, and where to go",
       "points": [
-        "A feed is a guess about what holds attention, not a verdict about you. Distress holds attention, which is why it finds people who never went looking. About a third of pupils your age in England saw self harm content last month, and most of them were not looking for it.",
         "You are not in trouble for seeing it, for being sent it, or for saying nothing for three weeks.",
         "Seeing it again afterwards, at odd moments, is an ordinary response. Saying it out loud to one person is what shortens it. Samaritans is 116 123 at any age, Childline is 0800 1111 under 19, HOPELINE247 is 0800 068 4141 under 35.",
-        "Most people who see it are not harmed by it. What repetition does is make a serious thing look ordinary, and that matters most for whoever is already struggling.",
+        "Most people who see it are not harmed by it. What repetition does is make a serious thing look ordinary, and that matters most for whoever is already struggling."
+      ],
+      "script": "Read the three steadily. Leave the first one hanging for a beat, because it is the one somebody in the room needs and will not ask for. Then read all three numbers slowly and leave the slide up longer than feels comfortable, because somebody is writing one down and does not want to be seen doing it."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "How it works, and what to do",
+      "points": [
+        "A feed is a guess about what holds attention, not a verdict about you. Distress holds attention, which is why it finds people who never went looking. About a third of pupils your age in England saw self harm content last month, and most of them were not looking for it.",
         "Money out of proportion to the task is always paying for a risk nobody has named yet. The offer by itself is already the offence.",
         "Stop it, report it, say it. Only the first one is on a clock, and passing an offer on is the one way somebody who just received something ends up in trouble."
       ],
-      "script": "Read the six steadily. The second is the one to leave hanging for a beat, because it is the one somebody in the room needs and will not ask for. Then finish on the three moves, which is what you want them repeating at the door."
+      "script": "Read the three steadily and finish on the three moves, which is what you want them repeating at the door."
     },
     {
       "type": "digi",
