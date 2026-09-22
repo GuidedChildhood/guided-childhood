@@ -30,26 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-19 | 211 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-20 | 225 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-09 · 9 September 2026, every worry reaches the check in, and Something else takes their words · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026, silver, and the base the report measures from · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026, the butter that was never a colour · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026, the base, the ceiling, and dropping the word earn · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026, the setup loop, and why Home and the quest disagreed · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — the youngest children's slides, and what the score really moved · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — the gate is a ratchet, and the check that could not see · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — the 77 dense slides above KS1 are a different problem · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — the schools preview can be a commit behind, quietly · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — the projector was rendering at half the legible size · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — every lesson now knows its passport page · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — engagement was scoring the module's own tool as passive · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — the KS2 to KS5 ceiling, measured instead of asserted · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026 — migration 278, fourteen slides split so they fit the wall · `plans/decisions-archive/2026-09.md`
 - 2026-09-09 · 9 September 2026: the classroom contrast variant, and the widgets that were legible and cut off · `plans/decisions-archive/2026-09.md`
 - 2026-09-09 · 9 September 2026: the engagement cadence, and an action beat that changed nothing · `plans/decisions-archive/2026-09.md`
 - 2026-09-09 · 9 September 2026: the last fifteen gaps, and engagement at ten · `plans/decisions-archive/2026-09.md`
@@ -156,278 +142,24 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-19 · 19 September 2026, the tracker now counts statutory requirements, not lessons · `plans/decisions-archive/2026-09.md`
 - 2026-09-19 · 19 September 2026 — every key the app reads is written down · `plans/decisions-archive/2026-09.md`
 - 2026-09-19 · 19 September 2026, the scaffold column had a vocabulary and nothing local knew · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, daily sweep, four backup tables with no RLS at all · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, a module reaches production in hash verified chunks · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the audit is closed: 57 of 57, proved against production · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026 — the layouts have to survive Larger Text · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the council runs on all 29 and five slides come inside the ceiling · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the safeguarding lead's name is typed once, on the device · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the four new lessons' home pages were crashing, and the shape is now decided at the desk · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, correction: the council's fixture was stale, and twelve older slides are over the wall ceiling · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the schools home page moves: the wall builds itself and a lesson opens as you scroll · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the eighteen slides come inside the ceiling, and the four new breaths get their friend · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026, the friends get a plan, the icons get a second home, and the computing map exists · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026 — every screen has to survive Larger Text · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026 — the Larger Text list is empty · `plans/decisions-archive/2026-09.md`
+- 2026-09-20 · 20 September 2026 — the school card's door goes somewhere, and the phone switch is on the page · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 20 September 2026, daily sweep, four backup tables with no RLS at all
-
-The Supabase advisor sweep found migrations 309, 310, 311 and 316 each
-backed up schools.school_lessons before rewriting it, the way every
-migration since 308 does, but dropped the `enable row level security` line
-308 set the pattern with. Four of roughly forty backup tables had no RLS and
-no policy, meaning PostgREST could actually serve them, not just the safe
-"RLS on, nothing granted" state every sibling backup table sits in.
-
-Migration 317 enables RLS on those four, no policy added, matching every
-other backup table. Verified on the live database: all four now show
-relrowsecurity = true. Schema check, cron heartbeats and required columns
-were all green; nothing else from today's sweep needed a fix.
-
-## 20 September 2026, a module reaches production in hash verified chunks
-
-There is no database password in the build container and no migration step in
-CI, so a new module reaches production by being pasted through the Supabase
-tool, and a module migration is forty to seventy thousand characters with the
-slides as one thirty thousand character literal. Retyping that is the least
-reliable step in the pipeline, and what it corrupts is lesson text on a wall.
-
-So the module is cut up. `scripts/module-to-chunks.mjs` turns the JSON into
-statements under five thousand characters, applied in order.
-`scripts/module-string-hash.mjs` then proves the row arrived: every string in
-the module hashed, sorted and hashed again, computed locally and on the
-server, and the two match or the module did not arrive. Its `--assert` mode
-prints that proof as a migration, so 312 to 315 sit in the remote history as
-executable assertions rather than as absent. All four hold.
-
-The tool earned its keep on the first run: ks2-25 differs from its JSON file
-by two strings, migration 296's pause beat, applied and never written back.
-Production is the source of truth for a module amended in place. PR 1125.
-
-## 20 September 2026, the audit is closed: 57 of 57, proved against production
-
-The 19 September audit found 18 of 57 digital requirements taught in full.
-Migrations 309 to 311 took that to 40. Migrations 312 to 316, four new modules
-and fourteen appended sentences, take it to 57, with 0 part taught, 0 not
-covered and 0 handed to the school's own scheme.
-
-The claim is a test result. 147 evidence phrases, read out of the exact slide
-text now in production, were run against the live table: 147 checked, 0 not
-found. The hash is in `scripts/fixtures/rshe-evidence.json` and the ratchet
-in `scripts/check-rshe-coverage.mjs` is at zero and zero, where it stays.
-
-Two limits stand, in the audit's new top section: this does not make a school
-compliant, because the eight non teaching duties are the school's, and it
-covers 57 of the 195 items, never all of them. PR 1125.
-
-## 20 September 2026 — the layouts have to survive Larger Text
-
-Justin, from his phone: "this needs redesigning as text not reading right."
-His screenshots had "How this works" with "warded em" printed across it, and
-"Spelling test" written through the MONDAY pill.
-
-**Not a wrapping bug, and not a mistake to undo.** `shared/tokens.css` sets
-`html { font: -apple-system-body }` on purpose, so the rem type scale follows
-the iOS Dynamic Type dial. A parent on Larger Text genuinely gets the type at
-up to two and a half times the size. That is the accessible choice and it
-stays. What never happened is building the layouts to survive it: the type is
-rem, the pill padding, the 40px buttons and the flexShrink 0 chips are px.
-
-Reproduced at `html { font-size: 40px }` on /ref-school-card and it fell apart
-exactly as his phone did. Fixed by letting things wrap rather than by stopping
-the scaling: the fold value drops below its label, a reminder title takes its
-own line, the tick and cross move as a pair, the step badges are em.
-
-**This is not only that card.** Every screen uses these tokens, so the same
-shape of fault is waiting anywhere a fixed pill sits beside rem text.
-
-Second thing, same card: the "Send a test" button called
-/api/school/remind/test, which tests whether this PHONE buzzes, inside a box
-titled Forwarded emails. It looked like it was testing the forwarding and
-silently was not. The steps were never missing either, /dashboard/school has
-minted the address and shown it with Copy since 17 September, and nothing
-pointed at it. Three numbered steps after Tripsy, a real door, and the phone
-test named for what it does.
-
-## 20 September 2026, the council runs on all 29 and five slides come inside the ceiling
-
-The lesson council's counted checks had not been run since the four new
-modules landed. Run over all 29 on a fixture of the production rows: prose
-9.81, blocks 9.68, engagement 9.41, passport 10, all above the floor. The one
-place the new four sat below the other 25 was five KS4 concept slides at 120
-to 165 words against the measured 105 word ceiling.
-
-Justin's decision: trim. Migration 318 rewrites the five bodies to 103 words
-or fewer, moving nothing off the wall except into the teacher script on the
-same slide, guarded by heading and by the body it expects to find, and proved
-by the same string hash the module tools use. The attestation still holds at
-147 of 147, and prose is 9.95 after it. The council fixture run does not move
-the ratchet; the next live run will. PR to follow on this branch.
-
-## 20 September 2026, the safeguarding lead's name is typed once, on the device
-
-Every lesson can teach that there is a grown up in the building whose actual
-job is safeguarding. None of them can say who, and the KS2 slide migration 316
-added asks the teacher to say the name out loud and write it on the board.
-Justin's decision: type it once. A "your school" box on the Hub takes the
-lead's name and where to find them.
-
-It lives in the browser like the tracker and the passport fill, is never sent
-to us, and is shown under any slide whose words name the safeguarding lead (the
-KS2 slide, the KS3 and KS4 choices that list who to tell), on the flagged
-lessons' prep page and run sheet, and on the printed teacher sheet when it is
-printed from a screen that knows it. The privacy notice's sentence about what
-stays on the device now names it, and the legal set is re dated. PR 1128.
-
-## 20 September 2026, the four new lessons' home pages were crashing, and the shape is now decided at the desk
-
-Rendering the panel found it: the four modules written on 19 September
-carried prior_knowledge and i_can as prose and differentiation as one string,
-where the other 25 carry two lists and a { support, stretch } object. The
-lesson home page maps over prior_knowledge, so it crashed on all four in
-production, "That page did not load" on the page a teacher opens first. A day
-live before it was seen.
-
-Three fixes, all in PR 1128. Migration 319 puts the four rows in shape, the
-same words in lists and an object, guarded by the exact strings it expects and
-proved by hash. The pages read every list through `schools/lib/notes.ts`, so
-prose renders as one entry rather than taking the page down. And the module
-contract gained rule 11, which refuses the shape, proven both ways: it fails
-the old files and passes the fixed ones.
-
-The lesson: a guard that only checks what somebody thought to check, and a
-render that only visits the pages somebody thought to visit. The four new
-lessons' home pages were never rendered before they shipped. Every new
-module's prep page, run sheet and pack get rendered before its migration is
-applied from now on.
-
-## 20 September 2026, correction: the council's fixture was stale, and twelve older slides are over the wall ceiling
-
-The two entries above that give prose as 9.81 and 9.95 were measured on a
-fixture whose copies of the 25 older modules predate migrations 309 to 316.
-The same rule run on the production table gives prose 9.52: 357 of 375
-within the ceiling, 18 over. Six are EYFS and KS1 slides over the decoding
-ceiling since before the audit. Twelve are KS2 to KS4 concept slides that
-yesterday's appended clauses pushed past the measured 105 word projector
-ceiling, to between 106 and 207 words: ks4-17 s7 and s13, ks4-16 s7, s16 and
-s20, ks3-12 s10, ks3-11 s19, ks4-18 s11, ks2-07 s11, ks3-14 s15, ks2-08 s18,
-ks2-06 s7. A live council run would show the ratchet going backwards from its
-9.78 floor.
-
-Not fixed yet, because the fix changes where a statutory clause is taught:
-the recommendation is to carry each appended clause in the teacher's script,
-which the attestation reads and the teacher says word for word, rather than
-on the wall, so no slide, minute or claim moves. Justin's call. Until then
-the council is only trusted against production or a fixture pulled the same
-day, and the audit's top section says so.
-
-## 20 September 2026, the schools home page moves: the wall builds itself and a lesson opens as you scroll
-
-Justin asked for the home page at the Apple bar with slick animation and no
-wiring changes. Decided: the motion is the product's own story told once, not
-decoration. The Wall at Sixteen draws itself on arrival in three seconds from
-the art the lessons use (road, bricks, friends in age order, sign, door,
-passport), a pinned board turns through the six phases, read from the shared
-phase list, as the reader's steps pass it, and the two radial glow blobs go.
-Every route, link, form and price band is untouched, the server still sends
-the finished page, and reduced motion sees it still.
-
-Found on the way: a jump to an anchor (the hero's "See every year") left the
-section blank for two seconds, because the reveal staggered everything the
-jump had passed. Fixed in the schools HomeReveals: what is above the screen
-appears at once, only what is on the screen rises. The parents home page's
-copy of that reveal has the same shape and is outside this lane. PR 1130.
-
-## 20 September 2026, the eighteen slides come inside the ceiling, and the four new breaths get their friend
-
-Justin: "yes fix slides". Migration 320 moves the twelve September clauses off
-the wall and into the teacher's script, word for word, introduced as "Say
-this, as written" and sitting between the teacher's own notes and the delivery
-notes that came with them, so the wall keeps one idea and the teacher still
-says every sentence. The six early years slides get one short line each and
-carry the old one in the script the same way. The four half time breaths in
-the 19 September lessons get their friend, a heading, the half time words and
-a four second breath; they had a thirty second one, which the player renders
-as one breath in that lasts half a minute. Every write was guarded by its
-exact current text and every proof held on apply: 147 of 147 phrases, prose
-375 of 375 on production (10.00, from 9.52), hashes equal to the four module
-files.
-
-Two instrument changes, both explained in the files: the council no longer
-counts the eyebrow label on a title slide, because the label and the title
-alone were thirteen words and the early years titles could never pass; and
-contract rule 12 keeps every star breath at four seconds and the half time
-one the friend's. PR 1130.
-
-## 20 September 2026, the friends get a plan, the icons get a second home, and the computing map exists
-
-Justin: "can we use happy news icons on lessons, since we have icons", "can we
-keep seeing appearances from characters, and how to plan that", and the
-computing programme of study text. Three things, all in PR 1130.
-
-The Happy News drawn icon set and its palette move to shared, with the two
-parents app files re-exporting so a colour is still stated once. Six lesson
-objects join it (lock, magnifier, shield, compass, letters, access) and the
-schools Hub tiles wear drawn icons on crayon discs instead of fourteen emoji.
-The wall keeps its emoji for now: the review agents propose an icon per slide
-once the rubric says what a picture on a slide is for.
-
-plans/character-appearances-plan.md says where every friend appears in every
-lesson today and what to build next: the friend's reaction after each check,
-Cosmo's debut on the two KS5 lessons, the friend on the exit card. Contract
-rule 13 refuses a lesson whose friend does not arrive and hand over the
-mission.
-
-shared/schools-computing-pos.ts is the national curriculum for computing's
-subject content, verbatim: 3 statements taught in full, 3 in progress with
-the missing clause named (keeping personal information private at KS1,
-search skills at KS2, making artefacts at KS3), 19 the school's computing
-scheme. Every taught claim held to phrases checked on production (30 of 30)
-and by scripts/check-computing-coverage.mjs in CI. /hub/computing-mapping
-shows it.
-
-## 20 September 2026 — every screen has to survive Larger Text
-
-Justin, with Larger Text on on his own iPhone: "just checking that this needs
-to work even when user changes text size on their phone." It does. It did not.
-
-The root follows the iOS Dynamic Type dial on purpose (`shared/tokens.css`,
-`font: -apple-system-body`), and that stays. What was never done is building
-the layouts to survive it: the type is rem, the pill padding, fixed buttons and
-`flexShrink: 0` chips are px, so text grows and containers do not.
-
-Measured, not guessed: every dev and ref fixture rendered at phone width at
-16px and at 40px root. **44 of 145 were clean at normal size and broken at
-Larger Text.** Print sheets that are wide by design are not counted.
-
-`scripts/check-larger-text.mjs` runs in the browser job and holds the known
-list in `scripts/larger-text-baseline.json`, which only gets shorter: a screen
-not on the list that breaks fails CI, and a screen on the list that is fixed
-also fails until it is taken off. The first pass fixed 23, mostly the screens a
-family touches daily: the road, the check in, the passport, the balance, the
-stickers, the device tiles, the shop. 21 remain on the list.
-
-The fix is always the same shape and never the same line: let the row wrap,
-let the chip shrink, size a badge in em, drop a two column grid to one when
-the words are wide. Never stop the text scaling.
-
-## 20 September 2026 — the Larger Text list is empty
-
-Justin: "Do 21." The remaining 21 screens on `scripts/larger-text-baseline.json`
-are fixed, plus two the sharper guard then exposed, and the list is `{}`. Any screen that breaks at Larger Text from here
-fails CI as a regression; nothing is grandfathered.
-
-Two things worth knowing beyond the usual wrap and shrink fixes. First, the
-CSS minifier folds `min(0.5625rem, 9px)` to `0.5625rem` because the two are
-equal at a 16px root, so the Moment button's cap from PR 1129 never reached
-the built stylesheet; the rem now goes through a `var()`, which cannot be
-folded. Second, the guard now judges what the eye can see: an element's right
-edge is cut down to every ancestor that clips, so a chip row that scrolls
-sideways on purpose and a star sweep hidden inside a card no longer count.
-
-## 20 September 2026 — the school card's door goes somewhere, and the phone switch is on the page
-
-Justin, from his phone: "link to forwarding doesn't work and it should have how
-to turn check in here when clicked and says not turned on."
-
-Both were true. The card lives on /dashboard/school and its door linked to
-/dashboard/school, the page it was already on, so a tap did nothing; it now
-scrolls to the letterbox card further down (`LETTERBOX_ID`). And the phone
-test's "tap Turn on check ins" named a button that only exists on Home, so
-the card now carries the switch itself, through the shared `enablePush`, and
-re-runs the test the moment it succeeds. Rule reaffirmed: never tell a parent
-to tap something that is not on the screen in front of them.
 
 ## 21 September 2026 — DiGi's card link, and a name we have not met
 
@@ -877,3 +609,63 @@ carrying under 300, and titles are most of those, held up by the 324px
 character frame on the opening slide. That is a brand decision, so it is named
 here rather than quietly shrunk, and the rest is a curriculum question for the
 term review, sized per slide.
+
+## 22 September 2026 — The helpline hotfix, and the number is the lesson
+
+Measured where the DIGITS of every helpline in the scheme sit relative to the
+fold on a 1920x1080 projector. Five dialable numbers were below it.
+
+Justin's call was to treat it as safeguarding rather than curriculum quality
+and fix it ahead of the term review. The reason it is not a layout defect: the
+teacher scripts say the wall is the surface a pupil copies the number from and
+that they copy it without wanting to be seen, and no worksheet or print route
+carries these numbers anywhere else. The slides are the only pupil facing place
+they exist.
+
+Migration 337, applied and verified. Three slides, two of which change no words
+at all: a recap point reordered 4th to 3rd (the script pins points 2 and 6, so
+3rd was the only free slot above), three chips dropped that repeated the step
+titles above them character for character, an NHS clinic sentence moved from
+the card into the script, and 64 characters of flourish cut from one body. Five
+below the fold became one. PR 1144.
+
+## 22 September 2026 — A guard for the numbers, with two standards on purpose
+
+check-helplines.mjs, in the wall-fit job so it shares one server boot. It runs
+first: a child who cannot read a helpline should be at the top of the log, not
+twenty four minutes down it.
+
+The wall is a hard gate with a hand written allowlist and no regenerate flag,
+because a ratchet promises "no worse than yesterday" and for a helpline the
+only acceptable state is readable. One entry: ks4-28 s28, where the number is
+the deliberate closing beat of a six point recap.
+
+1366x768 is the tighter surface, which is not obvious and is why the guard
+found something the wall pass missed. The type scales by height while the stage
+shrinks faster, so ks4-29 s28 clears its helpline on a wall and misses by 83px
+on a laptop. There the standard is the wall fit baseline rather than a second
+list: a number cut on a slide that fits is an isolated defect and fails, a
+number cut on a slide already 513px over is a symptom of that clip and is
+reported with its size. That rule cannot rot, because the baseline only
+shrinks, so the day such a slide is fixed its helpline becomes a hard gate
+with nobody having to remember.
+
+## 22 September 2026 — The star cap, and what it actually bought
+
+AnimatedIntro caps the character frame at min(440px, 22vh), from 324px, which
+was 46 percent of the 699px stage on a wall. A calibrated vh rather than a
+container query, because making the stage a size container would change
+containment on the very box check-wall-fit measures.
+
+Honest result: it took 65px off 56 title slides and cleared 2 of them. The
+opening slide has seven elements competing for one screen, so the rest is a
+design decision rather than a size one. Across the whole sweep the fix set
+cleared 2 pairs, improved 58, and added none.
+
+## 22 September 2026 — Open: two recaps where the number cannot move
+
+ks4-28 s28 and ks4-29 s28 both end on a six point recap that overflows at both
+sizes, 434px and 531px on a wall. The helpline in ks4-28 s28 is the last point
+by design ("leave a beat after the last one"), and ks4-29 s28 clears on a wall
+but not on a laptop. Both need the same decision: split the recap, or cut
+points. That is curriculum, not layout, so it is named here rather than done.

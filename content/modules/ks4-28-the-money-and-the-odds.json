@@ -338,15 +338,10 @@
         {
           "title": "Free help",
           "emoji": "☎️",
-          "text": "The National Gambling Helpline is free on 0808 8020 133, day or night, and it has no minimum age. There is an NHS clinic in England for this that takes people from thirteen. Childline is free on 0800 1111."
+          "text": "The National Gambling Helpline is free on 0808 8020 133, day or night, and it has no minimum age. Childline is free on 0800 1111."
         }
       ],
-      "verdicts": [
-        "Lock it",
-        "Tell someone",
-        "Free help"
-      ],
-      "script": "Walk the three. Be specific on the middle one: say the actual role and, if you can, the actual name, because a pupil who has to work out who to tell usually tells nobody. On the third, say the no minimum age part out loud, because every pupil in the room assumes a gambling helpline is for adults and that assumption is the barrier. Read both numbers slowly and leave the slide up longer than feels necessary, because somebody is writing one down and will not want to be seen doing it. Worth knowing yourself: Childline does not appear on a bill, and it can still sit in the call history on the handset, which Childline's own advice tells young people to clear."
+      "script": "Walk the three. Be specific on the middle one: say the actual role and, if you can, the actual name, because a pupil who has to work out who to tell usually tells nobody. On the third, say the no minimum age part out loud, because every pupil in the room assumes a gambling helpline is for adults and that assumption is the barrier. Read both numbers slowly and leave the slide up longer than feels necessary, because somebody is writing one down and will not want to be seen doing it. Say the NHS clinic part rather than reading it off the wall: there is a clinic in England for this that takes people from thirteen. It is off the slide on purpose, because the two numbers are what somebody needs to copy down and they have to be on screen to do it. Worth knowing yourself: Childline does not appear on a bill, and it can still sit in the call history on the handset, which Childline's own advice tells young people to clear."
     },
     {
       "type": "discussion",

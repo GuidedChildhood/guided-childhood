@@ -46,14 +46,10 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Start the app and run the guards
         run: |
-          # GC_DEV_SLIDES IS READ BY THE SERVER, NOT BY THE GUARD.
-          # app/dev/lesson-player/page.tsx reads process.env.GC_DEV_SLIDES when
-          # it renders. Setting it only on the wall-fit-guard line below left
-          # the server falling back to its hardcoded sample deck, so all 29
-          # lessons were measured as the same 21 demo slides and the guard
-          # reported the identical result from three different commits. It is
-          # exported here so the server that renders the slides can see it.
-          export GC_DEV_SLIDES=/tmp/gc-dev-slides.json
+          # No GC_DEV_SLIDES here on purpose. The guards in this job want the
+          # dev route's own deck, and the one guard that needs real lessons
+          # moved to the wall-fit job below, which exports it before the server
+          # starts because the SERVER is the side that reads it.
           npm run dev &
           for i in $(seq 1 60); do
             curl -sf -o /dev/null http://localhost:3000/dev/concern-scale && break
@@ -77,21 +73,64 @@ jobs:
           # renders every fixture both ways and holds the known list in
           # scripts/larger-text-baseline.json, which only ever gets shorter.
           npm run larger-text-guard
-          # DOES THE SLIDE FIT ON THE WALL? Every slide of every lesson through
-          # the real player at projector size, measuring the stage's own scroll
-          # box. It rides here because the app is already up and the browser is
-          # already installed, and because a static word count provably cannot
-          # see this: council-checks measures each card against the ceiling one
-          # at a time, so four cards that each fit can still be cut in half
-          # together. See the header of check-wall-fit.mjs.
+
+  # DOES THE SLIDE FIT ON THE WALL? Every slide of every lesson through the real
+  # player at projector size, measuring the stage's own scroll box. A static word
+  # count provably cannot see this: council-checks measures each card against the
+  # ceiling one at a time, so four cards that each fit can still be cut in half
+  # together. See the header of check-wall-fit.mjs.
+  #
+  # ITS OWN JOB, because of what it costs. 1716 measurements through a real
+  # browser took 23m46s of a 24m checkin-guard on 21 September 2026, while the
+  # wiring and concern guards in the same run finished in 24 and 25 seconds and
+  # then sat behind it. Waiting twenty four minutes to learn that lint passed is
+  # how people stop reading CI. Split out, the fast guards report in under a
+  # minute and this one takes as long as it takes.
+  #
+  # NOT a paths filter, which was the cheaper option and the wrong one. The
+  # inputs are the lesson content, the player, the wall scale, the tokens and
+  # the dev route, and a list like that is easy to get one entry wrong. A guard
+  # that quietly stops running is worse than a guard that is slow.
+  wall-fit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Start the app and measure every slide
+        run: |
+          # GC_DEV_SLIDES is read by the SERVER, in app/dev/lesson-player/page.tsx,
+          # so it is exported before `next dev` rather than set on the guard. Set
+          # on the guard alone, the server falls back to its hardcoded sample deck
+          # and all 29 lessons get measured as the same 21 demo slides, which is
+          # exactly what happened and took an evening to find. The guard writes a
+          # sentinel and refuses to measure unless it comes back in the DOM, so
+          # that failure now exits 2 naming the cause instead of passing.
+          export GC_DEV_SLIDES=/tmp/gc-dev-slides.json
+          npm run dev &
+          for i in $(seq 1 60); do
+            curl -sf -o /dev/null http://localhost:3000/dev/concern-scale && break
+            sleep 2
+          done
+
+          # The helpline guard rides on the same server and the same fixture, so
+          # it costs one boot rather than a second job. Twelve measurements, a
+          # few seconds, and it goes FIRST: if a child cannot read a helpline
+          # number off the wall, that should be at the top of the log and not
+          # twenty four minutes down it.
           #
-          # GC_DEV_SLIDES is rewritten per lesson and /dev/lesson-player re-reads
-          # it per request, which is why 29 lessons need no server restart. It is
-          # exported above rather than set here, because the server is the side
-          # that reads it; the guard only writes the file. The guard now proves
-          # the server is reading it before measuring anything, and exits 2 with
-          # this exact explanation if it is not.
-          npm run wall-fit-guard
+          # Exit codes are collected rather than allowed to short circuit. With
+          # bash -e a red helpline guard would skip the wall fit run entirely,
+          # so one push would report one problem and the next would report the
+          # other. Both run, both are reported, the job fails if either did.
+          rc=0
+          npm run helpline-guard || rc=1
+          npm run wall-fit-guard || rc=1
+          exit $rc
 
   # The two guards on the join between what a parent answers and what the
   # daily check in asks about.
