@@ -142,9 +142,25 @@ export default function AnimatedIntro({
         // 200 rather than the old 280: with the bubble now OUTSIDE the frame
         // the intro runs taller, and the Continue button must stay on a phone
         // screen without scrolling. The clip reads perfectly at this size.
-        // On the wall the frame follows the screen's height: 440px is right
-        // on a 1080 projector and a scroll on a 768 laptop.
-        opacity: 0, position: 'relative', width: '100%', maxWidth: projector ? 'min(440px, 28vh)' : 200, margin: '0 auto',
+        //
+        // ON THE WALL IT IS SIZED AGAINST THE STAGE, NOT THE SCREEN. 28vh took
+        // 324px, which sounds like 28 percent until you notice the frame does
+        // not live in the viewport: it lives in the stage, which is 699px once
+        // the chrome and the presenter bar have taken theirs. 324 of 699 is 46
+        // percent of the class's actual space, on the one slide that also has
+        // to carry the lesson objective, and title clipped on all 29 lessons
+        // at about 200 characters (21 September 2026 sweep).
+        //
+        // 22vh is about 240px, a third of the stage, which leaves the By the
+        // end line above the fold and keeps the opener a character moment.
+        //
+        // Still a viewport unit rather than a container query, deliberately.
+        // Making the stage a size container is the literal way to say "a third
+        // of the stage", and it would change containment on the very box
+        // check-wall-fit measures through scrollHeight minus clientHeight. A
+        // calibrated vh keeps the instrument honest; the number came from
+        // measuring the stage, and this comment is where that is recorded.
+        opacity: 0, position: 'relative', width: '100%', maxWidth: projector ? 'min(440px, 22vh)' : 200, margin: '0 auto',
         aspectRatio: '1 / 1', borderRadius: 'var(--radius-card)', overflow: 'hidden',
         border: '3px solid rgba(237,195,95,0.5)', boxShadow: '0 12px 34px rgba(0,0,0,0.3)',
         // The friend's own colour behind the clip, so a slow school network
