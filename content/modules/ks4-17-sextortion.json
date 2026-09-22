@@ -381,7 +381,11 @@
       "type": "interactive",
       "phase": "practise",
       "config": {
-        "seconds": 4
+        "prompt": "Four breaths in time with the star. Panic is the lever this crime pulls, so the pause comes before any of the three lifelines.",
+        "heading": "Practise the pause",
+        "seconds": 4,
+        "register": "still",
+        "character": "digi"
       },
       "script": "Keep this slow and completely unremarkable. Say: panic is the lever this crime pulls, every single time, because a person in panic pays and hides. So before any of the three lifelines comes a pause, and a pause is a thing you can practise. We do it now, together, four breaths in time with the star, so it is something you have already done once if it is ever needed. Then repeat the three lifelines quietly with the class: do not pay, do not keep it secret, report it. No drama, no scenario, just the skill.",
       "caption": "The pause. Practised now so it is there if it is ever needed.",

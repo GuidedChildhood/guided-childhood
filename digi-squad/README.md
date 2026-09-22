@@ -1,235 +1,237 @@
-# The DiGi Squad — Character Reference
+# The Character Bible
 
-This folder is the single source of truth for all DiGi Squad characters. Read it at the start of any session involving characters, lessons, or the kids section.
+The single source of truth for every character. Read it at the start of any
+session involving characters, lessons, animation or the kids section.
 
----
+Rewritten 22 September 2026. The previous version led with Oliver, Zara and
+Sofia, who were retired on 23 July 2026, and gave the live cast one table. They
+are now an appendix at the foot of this file.
 
-## CURRENT SQUAD — DiGi and the Planet Friends (23 July 2026)
-
-Justin's agreed design. DiGi (the golden star) is kept as the guide. The old
-squad (Oliver, Zara, Sofia) is SUPERSEDED by five Planet Friends, one unlocked
-per stage, who grow up alongside the child on the way to 16. Art is generated
-in the house plush mascot style from Justin's reference sheet and hosted on the
-CDN. The canonical data (names, ages, colours, blurbs, art URLs, intro lines)
-lives in code at `lib/content/stage-characters.ts` — edit there, every surface
-follows.
-
-| Stage | Ages | Friend | Colour | Verb | Character |
-|-------|------|--------|--------|------|-----------|
-| 1 | 4 to 7 | **Pebble** | yellow | Explore | Curiosity and wonder. Every big journey starts small. |
-| 2 | 8 to 10 | **Bloop** | green | Create | Creative and clever. Building skills and strong foundations. |
-| 3 | 11 to 13 | **Orbit** | blue | Explore | Bigger worlds and big questions. |
-| 4 | 13 to 15 | **Nova** | purple | Guide | Good choices, shaping your path. |
-| 5 | 16+ | **Cosmo** | orange | Lead | Confident, independent, ready to lead. |
-
-Where they appear: the child app first-open intro (`components/kid/KidSquadIntro.tsx`,
-Duolingo style, one at a time then the family), the buddy picker (earned Friends
-only, locked ones greyed), and the greeting. DiGi stays the star everywhere via
-`components/digi/DigiCharacter.tsx`.
-
-Still to do (no rush, Justin): colour-in printables of each Friend at the right
-stage. The school lessons now carry the Planet Friends in code (13 September
-2026, migration 296): every lesson opens on its own friend, and the friend
-arrives, leads the half time breath and hands over the mission, drawn by
-`shared/components/FriendPlate.tsx` from the cutout art in
-`shared/schools-curriculum.ts`, in a register chosen by key stage
-(`shared/friend-register.ts`). Since the same day each friend also carries three expression stills
-(happy, wave, thinking) in `CHARACTERS.moods`, made from its cutout, so the
-plate changes the face with the mood. The filmed beats are the six on ks3-12
-and one intro clip per friend; the rest of the video series is priced and
-waiting in `plans/week-of-2026-09-14-every-lesson-animated-plan.md`.
-
-The sections below (Oliver, Zara, Sofia) are kept for history only and are no
-longer the live squad.
+The canonical DATA (names, colours, art URLs, moods, intro lines) lives in code:
+`shared/schools-curriculum.ts` for schools, `lib/content/stage-characters.ts`
+for the parent app, `shared/intro-characters.ts` for the title clips. Edit
+there. This file is the BEHAVIOUR: who they are, what they do, what they never
+do. Code cannot hold that and it is what keeps them one cast rather than five
+mascots.
 
 ---
 
-## Canonical character art (the real files)
+## The cast
 
-The finished character art lives in `public/digi-squad/`. Use these, never a
-basic placeholder:
+| Stage | Ages | Friend | Colour | Verb | Owns | Register |
+|---|---|---|---|---|---|---|
+| 1 | 4 to 7 | **Pebble** | yellow `#C99A28` | Explore | kindness, feelings, real or pretend | Bouncy |
+| 2 | 8 to 10 | **Bloop** | green `#6C9E38` | Create | routines, gaming, privacy, who made it | Playful |
+| 3 | 11 to 13 | **Orbit** | blue `#3E86BC` | Explore | mood, scams, deepfakes, thinking with AI | Level |
+| 4 | 13 to 15 | **Nova** | purple `#7E5AB0` | Guide | persuasion, judgement, independence | Still |
+| 5 | 16+ | **Cosmo** | orange `#CE7328` | Lead | independence, AI literacy, readiness | Still |
 
-- `Oliver.png` — Oliver portrait, orange hoodie (the everyday avatar)
-- `Oliver-football.png` — Oliver in his kit, the action hero shot
-- `Zara.png` — Zara, yellow top
-- `Sofia.jpeg` — Sofia, green top
-- `DiGi-star.svg` — DiGi, the golden star, animated in app via DigiCharacter
-- `DiGi-star.png` — DiGi star as a raster, for thumbnails and print
-
-Game card thumbnails built from this art live in `public/games/`.
-
----
-
-## The Team
-
-### DiGi — The Guide
-- **Role**: Coach and wise guide for parents and children across all stages
-- **Design**: A friendly golden star with a warm smiling face (public/digi-squad/DiGi-star.svg). Confirmed by Justin: DiGi IS the star. The green robot (Digi.png, job `62f19158`) and the owl (job `a195409b`) are both legacy designs, superseded.
-- **Where used**: Homepage DiGi card, /join chat preview, DiGi advisor throughout the platform, animated via components/digi/DigiCharacter.tsx
-- **Voice**: Warm, calm, knowledgeable. Speaks to parents. Never preachy.
-- **Classroom lesson video**: `2052451b` (8s, HOW THE ALGORITHM WORKS, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_205017_2052451b-a1d7-4932-9839-fd875b134903.mp4), wired into the exemplar Explorer lesson in migration 017
-
-### DiGi Junior — The Pause Guide
-- **Role**: Mid-lesson pause beats, breathing moments, check-ins between steps (like Jigsaw's Jerrie Cat)
-- **Design**: DiGi IS the star, so DiGi Junior is the same friendly golden star with the warm smiling face, shown small and child-friendly. Bobs, waves and twirls with a soft sparkle trail. Confirmed by Justin 3 Jul 2026: never render DiGi or DiGi Junior as the robot or the owl, both are legacy designs.
-- **Voice**: Fun, playful, "BEEP BOOP!" energy. Speaks directly to children.
-- **Higgsfield job IDs**: `bc3337b7` (8s classroom pause beat: half time check in, golden star design, kling3_0, first clip of the reusable pause library). Legacy, do not reuse: `62f19158` (old robot image), `8be302c2` (robot version of the pause beat, superseded)
-- **Component**: `components/lessons/DigiJuniorPause.tsx`
+**DiGi**, the golden star, is the guide across all of them and is not a Planet
+Friend. Register is set by key stage in `shared/friend-register.ts` and is
+amplitude, not a different animation: the same friend, quieter, as the child
+grows.
 
 ---
 
-## RETIRED — the original DiGi Squad children
+## The five, in full
 
-Superseded on 23 July 2026 by the Planet Friends above. Kept here as history,
-NOT as a brief. Never generate Oliver, Zara or Sofia into anything new. Vix and
-Brock appear in some older skill text and were never built at all.
+Each block is what an animator, a script writer and a prompt all need. The prop
+and entrance come from the Video Production System in Drive. Everything under
+"joke", "habit", "wrong" and "never" is new canon, written 22 September, and is
+the part that makes them a cast.
 
-Eight lesson video beats still play these children and are being remade:
-see plans/2026-09-07-planet-friends-lesson-animation-system.md.
+### Pebble · stage 1 · 4 to 7 · Bouncy
 
-## Squad Characters (retired, see above)
+- **Prop**: a picture book, held upside down.
+- **Entrance**: pops out from behind the book, turns it the right way round.
+- **Running joke**: Pebble gets things the wrong way round first, cheerfully,
+  and turns them round without a flicker of embarrassment. The book, a picture,
+  a shoe. Never the lesson content itself.
+- **Habit while listening**: rocks on the spot, whole body, in time with nothing.
+- **When wrong**: delighted. "Oh. Other way round." Turns it and carries on.
+  A four year old watching learns that being wrong is not a thing to hide.
+- **Never**: never frightened of a screen, never tells a child off, never meets
+  anything a four year old should not meet.
+- **Says**: "I'm Pebble. I help you notice feelings, practise kindness and ask
+  whether something on a screen is real."
 
-### Oliver — Screen Time Boss
-- **Age**: 8
-- **Background**: English. Fair skin, sandy brown hair, blue eyes, green hoodie, sporty build.
-- **Digital superpower**: Knows when to play and when to stop. Teaches kids to be the boss of their screens, not the other way round.
-- **Personality**: Confident, sporty, uses football metaphors. "The cool-down lap", "Knowledge is power like knowing the other team's move."
-- **Colour**: Coral (#D4600A / var(--coral))
-- **Kit**: Green and coral football kit, number 10, flowing coral cape
-- **Lesson topics**: Screen time routines, dopamine loops, wind-down strategies, sleep
-- **Stage**: 2 to 3 · Ages 7 to 11
-- **Intro speech**: "Hi! I'm Oliver and I'm here to help you today! You know how I love football? Well today we're going to find out why your brain treats screens exactly like a REALLY exciting match. Ready? Let's kick off!"
-- **Higgsfield job IDs**: `5019bb19` (still image, 1:1 avatar), `a28311bc` (5s video: kicking football), `73a1ddee` (8s classroom lesson video: BE THE BOSS OF YOUR SCREEN, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210302_73a1ddee-7a31-429c-b382-339dd740fdc9.mp4)
+### Bloop · stage 2 · 8 to 10 · Playful
 
-### Zara — Truth Finder
-- **Age**: 9
-- **Background**: British Muslim. Olive skin, dark hair, purple headband, coral orange top. Sharp and curious.
-- **Digital superpower**: Spots the tricks, the fakes and the traps before anyone else. Thinks before tapping.
-- **Personality**: Curious, sharp, detective energy. "Going on a DETECTIVE mission."
-- **Colour**: Gold (#C9962A / var(--gold-dark))
-- **Kit**: Gold and purple striped top, navy trousers, detective-style gold cape
-- **Lesson topics**: Fake news, stranger danger, passwords, what to do when something feels wrong
-- **Stage**: 2 to 4 · Ages 8 to 13
-- **Intro speech**: "Hi! I'm Zara and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on and let's go!"
-- **Higgsfield job IDs**: `e29b139c` (still image, 1:1 avatar), `4641ac49` (5s video: celebration leap), `08e5094c` (8s classroom lesson video: REAL OR FAKE, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210314_08e5094c-a1ad-42bc-aed4-ca3f2df62cde.mp4)
-- **Schools reference lesson beats (KS3 module 12, migration 018, kling3_0, secondary classroom staging)**: `459b1662` (12s intro: REAL OR MADE?, hf_20260703_061752), `66e88fe5` (10s concept: THE THREE CHECKS, hf_20260703_061754), `129f9d14` (8s mission: CHECK BEFORE YOU SHARE, hf_20260703_061806)
+- **Prop**: a games controller.
+- **Entrance**: the controller wobbles as a timer rings; Bloop puts it down.
+- **Running joke**: always mid build, always one piece short. Pats pockets,
+  finds it somewhere daft, carries on. The joke is the searching, not the loss.
+- **Habit while listening**: taps the controller against a palm, twice, thinking.
+- **When wrong**: rebuilds rather than defends. "Right. Start again from the bit
+  that worked."
+- **Never**: never wins the game on screen, never makes a child feel slow.
+- **Says**: "I'm Bloop. I help with gaming, routines and keeping personal things
+  private."
 
-### Sofia — Safety Guardian
-- **Age**: 6
-- **Background**: Southern European. Mediterranean skin, wavy chestnut hair, lavender jumper, warm and brave.
-- **Digital superpower**: Keeps the whole squad safe. Knows what to keep private always.
-- **Personality**: Warm, brave, protective. "Building YOUR privacy shield."
-- **Colour**: Green (#2E7D5A / var(--green-dark))
-- **Kit**: Lavender dress, green cape with a shield emblem
-- **Lesson topics**: Personal information, photo sharing, who to talk to, what to do if someone asks for your info
-- **Stage**: 1 to 2 · Ages 4 to 9
-- **Intro speech**: "Hi! I'm Sofia and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
-- **Higgsfield job IDs**: `9a93adee` (still image, 1:1 avatar), `457b92ac` (5s video: spinning with sparkles), `95e07492` (8s classroom lesson video: MY PRIVACY SHIELD, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210333_95e07492-9204-4682-99e3-fdbfb8effd35.mp4)
+### Orbit · stage 3 · 11 to 13 · Level
+
+- **Prop**: an oversized magnifier.
+- **Entrance**: the magnifier focuses on an obviously fake prize card.
+- **Running joke**: the magnifier is comically too big for whatever is being
+  examined, and Orbit uses it anyway, with total seriousness. Never winks at it.
+- **Habit while listening**: tilts head, one beat, before answering.
+- **When wrong**: pleased. "Good. That is one wrong answer we do not have to
+  check again." The friend who makes checking feel like winning.
+- **Never**: never smug, never catches somebody out to score a point.
+- **Says**: "I'm Orbit. I like a question that needs checking."
+
+### Nova · stage 4 · 13 to 15 · Still
+
+- **Prop**: notification cards that crowd in.
+- **Entrance**: the cards arrive; Nova calmly moves them aside.
+- **Running joke**: the cards keep arriving mid sentence and Nova keeps not
+  looking at them. The restraint is the joke. It gets funnier the less Nova
+  reacts.
+- **Habit while listening**: stillness. Moves once, deliberately, then stops.
+- **When wrong**: names it plainly and moves on. "I had that wrong. Here is what
+  changes."
+- **Never**: never dramatises pressure, never jokes anywhere near something that
+  could be a real disclosure.
+- **Says**: "I'm Nova. I help you recognise pressure and think through difficult
+  choices online."
+
+### Cosmo · stage 5 · 16+ · Still
+
+- **Prop**: an enormous checklist that folds down small.
+- **Entrance**: opens the checklist, folds it neatly, ticks one item.
+- **Running joke**: the list is always longer than expected and always folds
+  smaller than expected. Competence made visible, never fussiness.
+- **Habit while listening**: finishes the thing in hand before speaking. Puts
+  the pen down, then talks.
+- **When wrong**: checks it against a source out loud, then corrects. The
+  correction IS the lesson at this age.
+- **Never**: never implies they should already know it, never pretends
+  independence is simple.
+- **Says**: "I'm Cosmo. More independence brings decisions you need to make
+  yourself. Being confident includes knowing when to ask for help."
 
 ---
 
-## Team Poster
-- All four characters together (Oliver, Zara, Sofia, DiGi Junior)
-- Dark forest green stadium background, golden spotlights, bokeh effects
-- **Higgsfield job ID**: `9424aadf` (legacy — shows Teo/Olga/Alma, needs regenerating)
+## DiGi and DiGi Junior
+
+**DiGi IS the golden star.** Confirmed by Justin. The green robot
+(`Digi.png`, job `62f19158`) and the owl (`a195409b`) are legacy and must never
+be rendered again. DiGi is drawn in code by `DigiCharacter.tsx` and
+`FriendPlate`, never filmed, which is why DiGi has no intro clip and does not
+need one.
+
+- **DiGi**: the guide. Warm, calm, plain. Speaks to parents and closes every
+  lesson. **When wrong: says what it does not know.** That is the whole point of
+  the character and the reason the product can be trusted.
+- **DiGi Junior**: the pause guide. The same star, smaller, for breathing beats
+  and half time check ins. Speaks to children.
+
+Three modules and ks3-14 are **DiGi only, Still register, no exceptions**. That
+is a safeguarding decision, not a style one.
 
 ---
 
-## UK Animal Stage Guides
+## Rules for the whole cast
 
-Each developmental stage has a UK animal guide. DiGi (the golden star, never the owl) coaches the whole squad.
+**The never list.** These hold for every character, every surface, every render.
 
-| Animal | Name | Stage | Ages | Personality |
-|--------|------|-------|------|-------------|
-| Hedgehog | Hog | Stage 1 | 0 to 3 | Curious, needs protection |
-| Robin | Robin | Stage 2 | 4 to 6 | Friendly, trusting |
-| Red Squirrel | Scout | Stage 3 | 7 to 9 | Energetic, exploratory |
-| Badger | Brock | Stage 4 | 10 to 12 | Independent, reliable |
-| Fox | Vix | Stage 5 | 13 to 16 | Street-smart, sharp |
+1. No jokes during distress, abuse, exploitation or a crisis disclosure. The
+   character goes quiet and the words do the work.
+2. Never mock a child, or a parent, or a teacher.
+3. KS4 and KS5 get restrained humour. A preschool performance in front of Year
+   10 loses the room and the sale.
+4. Never allow or deny. Always the calibrated pathway.
+5. No dashes in any copy, ever. Ages as "7 to 11".
+6. A friend never solves it for the child. The friend voices the struggle; the
+   child does the thinking.
 
-**Higgsfield job IDs**: `5dd2f0d8` (hedgehog), `937a5bf2` (robin), `173d41c3` (squirrel), `4edb2fc5` (badger), `8365a8ff` (fox)
+**The distancing technique.** The character carries the difficulty so the child
+agrees with the character rather than being challenged directly.
+
+- Not: "Do you find it hard to stop playing?"
+- Yes: "Bloop finds it so hard to stop mid game. Do you know that feeling?"
+
+**Voice.** Generated, one per friend, decided 22 September. Each friend gets a
+voice id, a sample and a pronunciation note recorded in the table below the day
+the new Higgsfield account is connected. **Never infer a voice from a colour and
+never pick a new one because the old one cannot be found.**
+
+| Friend | Voice id | Sample | Pronunciation |
+|---|---|---|---|
+| Pebble | to be set | | |
+| Bloop | to be set | | |
+| Orbit | to be set | | |
+| Nova | to be set | | |
+| Cosmo | to be set | | |
 
 ---
 
-## Lesson Architecture
+## What is actually filmed today
 
-Modelled on Jigsaw PSHE but cinematic. Every lesson follows this arc:
+Counted 22 September 2026, not remembered.
+
+| Asset | Count | Made | Plays |
+|---|---|---|---|
+| Intro loop clips, one per friend | 5 | Jul and Aug 2026 | `shared/intro-characters.ts`, title slide of every lesson |
+| Lesson video slides | 10, across 5 lessons | all 11 Sep 2026 | ks3-12 has 6, ks1-03 / ks2-04 / ks2-06 / ks2-07 have 1 each |
+| Expression stills | 15, three moods each | 13 Sep 2026 | `CHARACTERS.moods`, drives `FriendPlate` |
+
+So 24 of 29 lessons have no filmed beat between the title and the close, and
+everything filmed is 8 to 12 seconds. **No long form animation exists yet.**
+
+A note the previous version got wrong: it said eight lesson beats still played
+the retired children. They were all re-rendered on 11 September. No retired
+character appears anywhere in the live product.
+
+The plan for what gets made next, with the credit arithmetic, is
+`plans/2026-09-22-animation-and-mini-series-plan.md`.
+
+---
+
+## Where they are drawn
 
 ```
-1. CHARACTER INTRO (CharacterIntro.tsx)
-   Full-screen: character floats, speech bubble opener, lesson title, big START button
-
-2. LESSON STEPS (LessonStep.tsx)
-   Steps cycle through: learn → think → discover → challenge
-   Each step has: heading, body, character speech bubble, optional brain fact
-
-3. DIGI JUNIOR PAUSE (DigiJuniorPause.tsx)
-   At the halfway point DiGi Junior appears for a breathing/check-in beat
-   Kids can "take a breath" (4s animation) or keep going
-
-4. FINAL STEP → COMPLETION SCREEN
-   Trophy animation, mission card, family question, links to more lessons
+shared/components/FriendPlate.tsx    the friend in a lesson: GSAP, five moods, register
+shared/components/FriendMark.tsx     the friend as a still chip on marketing pages
+shared/components/DigiCharacter.tsx  the golden star
+shared/friend-register.ts            register by key stage
+shared/intro-characters.ts           the title clip per friend
+shared/schools-curriculum.ts         art, moods, accent, soft and ink per friend
 ```
 
-### Step types
-- `learn` — did you know fact
-- `think` — reflection question
-- `discover` — new concept revealed
-- `challenge` — interactive task
-- `mission` — weekly action (always the final step)
-
-### Character voice rules
-- Oliver: uses football metaphors. "Cool-down lap", "the other team's move", "kick off"
-- Zara: uses detective metaphors. "Mission", "clue", "case solved"
-- Sofia: uses shield/guardian metaphors. "Privacy shield", "guardian", "protect"
-- DiGi / DiGi Junior: playful robot voice. "BEEP BOOP!", "brilliant!", casual and fun
-
-### The distancing technique (from Jigsaw)
-Characters voice the struggle so the child agrees rather than being challenged directly.
-NOT: "Do you find it hard to stop playing?" (confrontational)
-YES: "Teo finds it SO hard to stop mid-match — do you know that feeling?" (child agrees with the character, not the topic)
+Character art lives in `public/digi-squad/` and on the CDN. Use the real art,
+never a placeholder.
 
 ---
 
-## Component Locations
+## UK animal stage guides
 
-```
-components/lessons/
-  CharacterIntro.tsx   — full-screen lesson opener with character + speech bubble
-  LessonStep.tsx       — individual step card with character reactions
-  DigiJuniorPause.tsx  — mid-lesson DiGi Junior breathing pause beat
+One animal per developmental stage in the parent app. DiGi, the star, coaches
+the whole squad.
 
-app/(marketing)/digi-squad/
-  page.tsx             — squad homepage (meet Oliver, Zara, Sofia + animal guides)
-  lesson/page.tsx      — Oliver's first lesson: "Why your brain loves screens"
-```
-
----
-
-## Adding new lessons
-
-Each lesson needs:
-```typescript
-{
-  character: 'oliver' | 'zara' | 'sofia'
-  greeting: string          // character's opening speech bubble
-  lessonTitle: string
-  ageStage: string          // e.g. "Stage 2 to 3 · Ages 7 to 11"
-  steps: LessonStep[]       // 4 to 6 steps
-  pause: { message: string } // DiGi Junior pause message
-  mission: { heading, body, reward }
-  familyQuestion: string    // one question for dinner/bedtime
-}
-```
-
-Lessons currently live in the page file. When the database is set up, move them to the `scripts` table per CLAUDE.md rule 6.
+| Animal | Name | Stage | Ages | Job ID |
+|---|---|---|---|---|
+| Hedgehog | Hog | 1 | 0 to 3 | `5dd2f0d8` |
+| Robin | Robin | 2 | 4 to 6 | `937a5bf2` |
+| Red Squirrel | Scout | 3 | 7 to 9 | `173d41c3` |
+| Badger | Brock | 4 | 10 to 12 | `4edb2fc5` |
+| Fox | Vix | 5 | 13 to 16 | `8365a8ff` |
 
 ---
 
-## Tone and copy rules (all characters)
-- Warm, direct, never preachy
-- No dashes in any copy ever (CLAUDE.md rule 4)
-- Ages as "7 to 11" not "7-11"
-- Short sentences. Kids reading level for lesson content.
-- Every lesson ends with a family conversation question
-- No allow/deny framing — always a calibrated pathway (CLAUDE.md rule 1)
+## Appendix: the retired squad
+
+Superseded 23 July 2026 by the Planet Friends. Kept for history and for the job
+IDs. **Never generate Oliver, Zara or Sofia into anything new.** They appear
+nowhere in the live product.
+
+| Character | Was | Art | Job IDs |
+|---|---|---|---|
+| Oliver | Screen Time Boss, 8, football metaphors | `Oliver.png`, `Oliver-football.png` | `5019bb19`, `a28311bc`, `73a1ddee` |
+| Zara | Truth Finder, 9, detective metaphors | `Zara.png` | `e29b139c`, `4641ac49`, `08e5094c`, plus KS3 beats `459b1662`, `66e88fe5`, `129f9d14` |
+| Sofia | Safety Guardian, 6, shield metaphors | `Sofia.jpeg` | `9a93adee`, `457b92ac`, `95e07492` |
+| Team poster | all four together | | `9424aadf` (shows an even older cast, unusable) |
+
+Teo, Olga and Alma are older still. Vix and Brock appear in some legacy skill
+text as children and were never built; the names belong to the animal guides
+above.

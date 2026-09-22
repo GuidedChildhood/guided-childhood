@@ -198,7 +198,11 @@
       "type": "interactive",
       "phase": "practise",
       "config": {
-        "seconds": 4
+        "prompt": "Sit tall, hands on tummies. Six slow breaths with Pebble, no talking. Then see if your body feels quieter.",
+        "heading": "Calm bodies, six slow breaths",
+        "seconds": 4,
+        "register": "bouncy",
+        "character": "pebble"
       },
       "script": "This is the lesson made real: calm bodies, practised together. Say: when a screen has to go off, our bodies sometimes feel cross, and this is what we do about it. Everyone sits tall, hands on tummies, and we follow the star for six slow breaths without talking. Then ask: who can feel their body going quieter? That feeling is take a break working. Practise it now so it is there at home when the telly goes off tonight.",
       "caption": "Follow the star. In as it grows, out as it shrinks.",
