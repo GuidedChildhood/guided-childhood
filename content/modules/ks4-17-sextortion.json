@@ -182,7 +182,8 @@
           "feedback": "No. It catches careful people every week, which is precisely why nobody in this room should ever feel too silly to tell someone."
         }
       ],
-      "question": "The National Crime Agency warned every school in the country. What does that tell you about the people doing it?"
+      "question": "The National Crime Agency warned every school in the country. What does that tell you about the people doing it?",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -226,7 +227,8 @@
       "prompt": "This account followed twenty minutes ago. Which step of the pattern is this, and what is the strongest signal?",
       "script": "Read the message aloud in a flat, neutral voice, do not perform it. Ask the prompt and take two or three answers. The answer you want: this is steps one and two together, and the strongest signal is speed, twenty minutes from follow to flattery to a request to move platforms. Also worth naming: moving to Snapchat matters because disappearing messages feel safer and are exactly where the script goes next. Watch for anyone saying they get messages like this all the time, agree calmly that these accounts are common, which is exactly why the pattern is worth knowing. Keep it about the account, never about what anyone in the room may have replied.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "Because this is organised crime, the messages are scripts, written to work at scale. The opener flatters and mirrors you. The escalation pushes speed, before you have time to think. The threat arrives with a countdown, a claim to have your follower list, and an order to tell nobody. Every line has one job: to make you panic and keep you silent, because panic pays and silence protects them. Once you can see the script, it loses most of its power.",
@@ -259,7 +261,8 @@
           "feedback": "People do click, and slowly. A stranger pushing for images within an hour is following a script, and the pressure for speed is the script showing."
         }
       ],
-      "question": "A new account you have never met is warm, flattering, and pushing to swap images within an hour of first contact. What is the strongest signal here?"
+      "question": "A new account you have never met is warm, flattering, and pushing to swap images within an hour of first contact. What is the strongest signal here?",
+      "extension": true
     },
     {
       "meta": "Sent minutes after the switch",
@@ -273,7 +276,8 @@
       "prompt": "Every line of this is a script. Which lines are designed to stop the person telling anyone, and why does the blackmailer need silence?",
       "script": "Read it once, flat and quiet, then let the silence sit. Work the prompt as a class: the deadline manufactures panic, the follower list manufactures shame, and the do not tell anyone line is the blackmailer protecting the only thing keeping them in control. Land this sentence: the person who sent this message is frightened of one thing, the victim telling someone. That reframe, from the victim being powerless to the blackmailer being afraid, is the hinge of the whole lesson. Watch the room carefully on this slide, it is the most likely moment for distress. If anyone leaves, let them, and make sure an adult checks on them. Never ask anyone whether this looks familiar.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "Paying feels like the fast way out. It is the opposite. The moment someone pays, they prove they will pay, and the demands continue and grow. The NCA and police are clear on this: payment does not end sextortion, it extends it. The same is true of sending more images. The only moves that actually end it are the ones the blackmailer is afraid of: telling someone and reporting it.",
@@ -322,7 +326,8 @@
       "script": "Two minutes in pairs, timer on screen, and keep it at the level of someone, never you. When you take answers, receive every barrier without arguing it away, then answer the two biggest ones directly: fear of blame, the law and the police treat under 18s as victims here, full stop. And fear of losing the phone, name it to the room and say that any adult worth telling cares about the person, not the device, and that you will say the same to parents in the note that goes home. Watch for pairs going off task into real stories, steer gently back to the general question. If anything said sounds like a disclosure, follow your safeguarding policy and speak to your DSL today.",
       "lookFor": "Shame, fear of being blamed, fear of losing their phone, not wanting parents to see the images exist. Surface the phone fear deliberately, fear of device confiscation is one of the most documented reasons young people stay silent, and adults who promise calm first help most.",
       "minutes": 3,
-      "seconds": 120
+      "seconds": 120,
+      "extension": true
     },
     {
       "body": "If this happens to you, the law is on your side. You are the victim of a crime called blackmail, and the police treat under 18s in these cases as victims to protect, not suspects to punish. That is true even if you sent an image yourself. Report Remove exists so the images come down, CEOP exists so specialist officers take over, and a trusted adult exists so you are not carrying it alone. If it happens to a friend, your job is not to fix it, it is to stay with them while they tell an adult, tonight.",
@@ -355,7 +360,8 @@
           "feedback": "Never engage the account. It confirms the pressure is working and can make things worse. Adults and CEOP take it from here, that is their job."
         }
       ],
-      "question": "A friend tells you it is happening to them and makes you promise to tell nobody. What does being a good friend look like?"
+      "question": "A friend tells you it is happening to them and makes you promise to tell nobody. What does being a good friend look like?",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -759,6 +765,24 @@
       "Paying funds the next demand. It never ends it.",
       "The three lifelines are: do not pay, do not keep it secret, report it.",
       "Report Remove and CEOP exist for exactly this and are used every day."
+    ],
+    "hard_questions": [
+      {
+        "question": "This happens to girls mostly, doesn't it?",
+        "answer": "For this particular crime, boys are targeted heavily, and financially motivated cases skew towards teenage boys. Saying otherwise would leave half this room thinking it is not about them, which is precisely what the people doing it count on."
+      },
+      {
+        "question": "If I just pay once, will it stop?",
+        "answer": "No, and this is the clearest thing in the whole lesson. Paying tells them it works, and it has never been the end of it. The moment you pay is the moment it gets worse, which is why the answer is stop, save, tell rather than pay."
+      },
+      {
+        "question": "I sent the image myself though. That is on me.",
+        "answer": "It is not. Being tricked or pressured into sending something and then threatened over it is a crime committed against you, and how the image came to exist does not change that. You are not in trouble here. Not from me, and not from the police."
+      },
+      {
+        "question": "What if they said they will send it to my family in an hour?",
+        "answer": "That hour is a pressure technique and it is the same in every case. Stop replying, save what you have, tell an adult now. This is not something to handle alone at night, and every adult in this building would rather be woken up than told afterwards."
+      }
     ]
   }
 }

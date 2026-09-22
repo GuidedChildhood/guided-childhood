@@ -145,7 +145,8 @@
       "seconds": 60,
       "prompt": "Why is it so much harder to be the first one to say stop than the second?",
       "lookFor": "You might become the target. You look serious. Nobody has your back yet. All honest, all worth saying out loud.",
-      "script": "Sixty seconds, whole class. Take three answers and do not fix them, because the honest answer is that going first is genuinely a risk and pretending otherwise loses the room. What you can say truthfully is that the second person costs almost nothing, so if you cannot go first, go second fast. That is a real move and they can all do it."
+      "script": "Sixty seconds, whole class. Take three answers and do not fix them, because the honest answer is that going first is genuinely a risk and pretending otherwise loses the room. What you can say truthfully is that the second person costs almost nothing, so if you cannot go first, go second fast. That is a real move and they can all do it.",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -219,7 +220,8 @@
       "avatar": "💬",
       "text": "who were you with\n\nsend me a photo of where you are\n\nwhy did it take you 20 mins to reply\n\nI checked, you were online\n\nif you actually cared youd just tell me",
       "meta": "Today · 5 messages in 8 minutes",
-      "script": "Put this up and say nothing for five seconds. Then ask one question and take no more than three answers: which single message here is the problem? The answer is none of them, and that is the point of the slide. Every message on its own is something a worried friend might send. It is the pattern, five in eight minutes, each one asking for a bit more, that has a name."
+      "script": "Put this up and say nothing for five seconds. Then ask one question and take no more than three answers: which single message here is the problem? The answer is none of them, and that is the point of the slide. Every message on its own is something a worried friend might send. It is the pattern, five in eight minutes, each one asking for a bit more, that has a name.",
+      "extension": true
     },
     {
       "type": "choice",
@@ -334,7 +336,8 @@
       "seconds": 60,
       "prompt": "Which of the three bystander moves is the easiest to actually do, and which is the hardest? Why?",
       "lookFor": "The private message is nearly always named as the easiest and it is the most valuable. Saying something in the chat is usually the hardest. Telling an adult splits the room, which is the conversation worth having.",
-      "script": "Sixty seconds in pairs. Take two answers and then be straight about the adult one, because that is where the real resistance is. Name the snitch worry out loud rather than letting it sit unspoken, and answer it: the person telling an adult is the reason it stopped, and no version of that is snitching."
+      "script": "Sixty seconds in pairs. Take two answers and then be straight about the adult one, because that is where the real resistance is. Name the snitch worry out loud rather than letting it sit unspoken, and answer it: the person telling an adult is the reason it stopped, and no version of that is snitching.",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -413,7 +416,8 @@
       "seconds": 60,
       "prompt": "Swap sheets. Is your partner's third move specific enough that it would actually happen on a Tuesday?",
       "lookFor": "An adult and someone at school are too vague. A role, a name, or a place is what makes it real.",
-      "script": "Sixty seconds. This is peer marking on one criterion only: would it actually happen. Take two examples of a vague one being made specific and do not name whose sheet it was."
+      "script": "Sixty seconds. This is peer marking on one criterion only: would it actually happen. Take two examples of a vague one being made specific and do not name whose sheet it was.",
+      "extension": true
     },
     {
       "type": "choice",

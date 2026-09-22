@@ -210,7 +210,8 @@
         "Somebody wanting to cheer you up is kind"
       ],
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "A real friend has their own day going on. They can say no to you. They can be sad about their own thing. And if you were not there, they would notice.",
@@ -287,7 +288,8 @@
         "Someone insisting it must be one or the other"
       ],
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "meta": "Bedtime",
@@ -348,7 +350,8 @@
       "prompt": "What did telling actually cost Ellis?",
       "script": "This one exists because children are told to tell and almost never shown what telling looks like. Nothing dramatic happened. Somebody said thank you. He kept the game. Read it plainly and let the ordinariness be the point.",
       "minutes": 2,
-      "platform": "What happened next"
+      "platform": "What happened next",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -387,7 +390,8 @@
         "You would lose the thing you liked as well"
       ],
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -489,7 +493,8 @@
         "A rule about telling a grown up"
       ],
       "minutes": 5,
-      "seconds": 240
+      "seconds": 240,
+      "extension": true
     },
     {
       "type": "choice",
@@ -527,7 +532,8 @@
       "prompt": "Run all three friend check questions on this. Which one does it fail worst?",
       "script": "The last one on the board before the sheet. Take all three questions out loud in order. The third fails hardest: nothing happened for it across those few days. There were no days. Say it plainly and kindly and leave it there.",
       "minutes": 4,
-      "platform": "Talking helper"
+      "platform": "Talking helper",
+      "extension": true
     },
     {
       "type": "choice",

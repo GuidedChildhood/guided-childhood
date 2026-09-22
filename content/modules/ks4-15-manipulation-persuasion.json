@@ -143,7 +143,8 @@
       "prompt": "Look at every element on this screen. Which parts are information, and which parts are pressure? Be precise.",
       "script": "Give them thirty seconds in pairs, then collect. You want them to itemise it: the countdown, the stock counter, the viewer counter, the forever, and the decline button that insults you. Then the reveal most do not know: on many sites that countdown resets if you refresh the page, and the viewer counter can be a random number generator. Not exaggeration. Documented, regulator investigated design.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -212,7 +213,8 @@
       "prompt": "What feeling is this post engineered to produce, and what exactly does the account want you to do with that feeling?",
       "script": "Read it with the energy it wants, then go cold and clinical. Walk the engineering: an injustice with a child in it, a smirking villain you never see, capital letters, the share before it gets taken down line manufacturing urgency on top of outrage. Then the question that matters: does this account care whether the story is true? It does not need to be. The fury works either way, and the fury is what pays.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "Anger is the highest engagement emotion there is. Angry people comment, share, argue in the replies and stay on the platform, and every one of those actions is worth money. So whole accounts exist to farm fury: they find or invent an outrage, package it for maximum blood pressure, and collect followers, ad revenue and creator fund payouts from the reaction. The story does not need to be true, and the account is not angry. You are. That was the product.",
@@ -240,7 +242,8 @@
       "script": "Sixty seconds in pairs, timer on screen. After the chime take two or three answers. The move to praise is anyone who says the anger felt real but was manufactured. Confirm it: the feeling is real, that is what makes the technique work. Nobody is calling the feeling fake. We are naming who ordered it.",
       "lookFor": "The creator collected engagement, followers and payouts. The platform collected watch time it sold to advertisers. Some pupils will realise the anger felt like their own reaction but was farmed. That is the insight to amplify.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "meta": "2h · 1.2M followers",
@@ -255,7 +258,8 @@
       "prompt": "She feels like a mate sharing a find. Name every technique you can see in this one post, and say what is missing from it.",
       "script": "Give pairs a minute to hunt, then collect. There are at least four: flattery in my day ones and you kept asking, urgency in selling out fast so run, FOMO stitched through the whole thing, and parasocial trust doing the heavy lifting underneath. The missing item is the ad label. A personal discount code almost always means commission on every sale, which makes this an advert, and UK advertising rules require it to say so. It does not. That is not an oversight, that is the strategy: an ad that does not look like an ad borrows your trust without asking.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "You have watched her for two years. You know her flat, her dog, her bad days. Your brain files her under people I know, so her recommendation lands like a friend's, with a friend's level of trust.",
@@ -313,7 +317,8 @@
       "script": "Groups of three or four, ninety seconds on the timer, one scribe per group. Collect one answer per group and build the pattern on the board as they report: feeling on the left, who profits on the right. The takeaway to say plainly: follow the money is not cynicism, it is literacy. When you know who profits from a feeling, you know why the feeling was ordered.",
       "lookFor": "Checkout: the retailer profits from panic. Rage post: the account and the platform profit from fury. Haul: the influencer and the brand profit from trust and FOMO. Strongest groups notice the pattern: in every case the feeling is the mechanism and the money flows away from the person feeling it.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -416,7 +421,8 @@
       "script": "Name the technique together before the sheet: four verdicts this time, so make the vote explicit for each. Read the card, take hands for urgency, outrage, flattery and FOMO, tap the class answer, read the reason. The win is speed of recognition: these six are on their phones tonight.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Six items on the worksheet: shop screens, posts and messages, each one running a technique on you. For every item, name the technique: urgency, outrage, flattery or FOMO, then write one line on who profits from the feeling. Fifteen minutes. A name without a reason does not count.",
@@ -789,6 +795,24 @@
       "Rage is a business model, because furious people comment, share and stay.",
       "Parasocial trust sells: you feel you know them, they do not know you exist.",
       "UK rules say a paid post must be labelled. Hidden ones bank on your trust."
+    ],
+    "hard_questions": [
+      {
+        "question": "Adverts do not work on me.",
+        "answer": "That belief is measured, and the people who hold it most strongly are not the ones it fails on. Persuasion does not need you to be convinced. It needs you to be familiar, and familiarity happens whether you approve of it or not."
+      },
+      {
+        "question": "Rage bait is just people with strong opinions.",
+        "answer": "Some of it is. The test is not how strong the opinion is, it is whether the thing was built to be argued with. If the reply button is where all the value is, somebody designed it that way and is being paid for your annoyance."
+      },
+      {
+        "question": "Influencers genuinely like the stuff they post.",
+        "answer": "Often they do, and that is not the issue. The issue is whether you were told about the money. An undisclosed ad is not a lie about the product, it is a lie about the relationship, which is the part doing the persuading."
+      },
+      {
+        "question": "So I should not buy anything?",
+        "answer": "No. Buy whatever you want. Name the technique first, and then decide, because a decision made after you have spotted the urgency is yours in a way the one made during it is not."
+      }
     ]
   }
 }

@@ -638,6 +638,7 @@ learning no longer depends on the tap at all.
 scripts/check-followup-lives-in-checkin.mjs holds the three files to the same
 story. Seven mutations tried, seven caught; the first version of one rule was
 fooled by a variable name and was rewritten to count calls.
+
 ## 21 September 2026 — four decisions on the curriculum review
 
 Justin pushed back on the review itself: "we are confident in the school
@@ -780,3 +781,99 @@ rewords around it exits 0.
 Mine to own: I ran ten guards locally before applying and this was not one of
 them. CI caught it, which is CI working, but by then it was in production.
 PR 1142.
+
+## 21 September 2026, the core and the extension, marked in 26 lessons
+
+147 slides now carry `extension: true`. The core is everything without it, and
+a teacher short of time skips the marked ones and still runs the whole arc,
+lands the objective and reaches the exit quiz. Not a stopping point, a
+droppable set in the middle.
+
+Not one character of lesson text changed. The marks are booleans, so every
+module's string hash is byte identical to production.
+
+One rule across all 26 rather than 26 hand picked cuts. Never markable: outside
+teach and practise, concepts, key visuals, the first check in a phase, the half
+time breath, the main practice, or any slide carrying a protected phrase or a
+key learning point with no other home. Taken last first.
+
+**check-lesson-core.mjs caught one while it was being written**, which is the
+argument for the guard before the marks: both ks3-11 slides carrying
+"password", an RSHE evidence phrase, were marked, which would have dropped it
+from the core. Slide 20 came back.
+
+**Five lessons do not reach 55 and that is the right answer.** ks4-17 is
+sextortion; what is left after marking is what sextortion is, why paying never
+makes it stop, the three lifelines and one check. Reaching 55 there means a
+hole in a safeguarding lesson. So the ceiling is per lesson, recorded with its
+reason, and may only ever come down: ks4-17 at 60, ks2-07 at 59, ks3-11 at 58,
+ks2-08 and ks3-12 at 56. PR 1143.
+
+## 21 September 2026, eighty hard questions, and the one blank left open
+
+Twenty of the 29 lessons had no teacher_notes.hard_questions. Four per lesson
+now, written from that lesson's own recorded misconceptions rather than
+invented around the topic, so they answer what the lesson actually provokes.
+
+The hard ones are the point. Does paying once make it stop: no, and why. Am I
+in trouble if I sent the image myself: no, it is a crime committed against you.
+Is the radicalisation lesson an attack on boys: no, the pipeline targets you.
+Is Father Christmas real, in EYFS: handed back to the family, on purpose.
+
+Rubric 498 to 478.
+
+**evidence_base is deliberately still blank in those twenty.** It wants claims
+with real sources and a verification status, so filling it is a citation pass
+rather than a writing pass, and inventing a source is the one thing that must
+never happen here. It stays open and named rather than quietly filled.
+
+## 21 September 2026, the wall clips, and the guard that was measuring a demo deck
+
+Found while rendering the must batch: on a 1920x1080 projector, slides are cut
+off mid sentence, and no existing guard could see it. council-checks measures
+each card against a readability ceiling ONE AT A TIME, deliberately, because a
+child reads one card at a time. The wall draws them all at once. The ceiling
+measures readability; nothing measured fit.
+
+**Two causes, neither of them the copy.** The teacher's script was taking up to
+363px of a 1080 wall, because the presenter bar is flexShrink 0 against a
+flex 1 stage, so every pixel it takes comes off what thirty children see. And
+three width constants predated the wall scale: a three across diagram grid
+divided WALL.column into twenty character ribbons, and both caps inside
+AnimatedIntro were a flat 900, which at 40px is NARROWER than comfortable,
+which is why title clipped on 29 of 29 lessons with the objective below the
+fold.
+
+**Two columns is not the fix and cannot be.** Halving the width doubles each
+item's lines and a grid row is as tall as its taller item, so two columns cost
+2 x max(a, b) against one column's a + b. Widening is the lever.
+
+Five layout changes, no lesson text touched. Wall clips 243 to 227, and
+severity down more than the count: diagram 726 to 504, title 441 to 246.
+
+**The guard was measuring the wrong pages, and that is the real lesson.**
+GC_DEV_SLIDES is read by the PAGE, in the server process; the CI step set it on
+the guard only. So the server served its built in 21 slide sample deck for
+every request and all 29 lessons were measured as one demo deck, 1711 times,
+filed under the real lessons' names. Three commits in a row returned the
+identical "1 new, 215 fixed", which is what determinism looks like when the
+thing being varied is not the thing being measured.
+
+Two wrong diagnoses came first, both checked rather than assumed: fonts
+(Nunito loads in both, the fallback is 2.6 percent narrower) and the browser
+binary (the headless shell moves one slide in twelve, the one on the
+threshold). Both real, both far too small. What was missing was the cheapest
+check of the three: whether the measurement was pointed at the right thing.
+
+So the guard now proves its own preconditions before it measures: a sentinel
+that must come back in the DOM, a settle loop that refuses a half rendered
+page, and a provenance line carrying the browser build, the font, and a fixed
+reference slide. A baseline of pixels carries its conditions or it carries
+nothing. PR 1143.
+
+**What is left is mostly not layout.** The median wall slide still clipping
+carries 530 characters and the worst run past 1000. Only 34 clip while
+carrying under 300, and titles are most of those, held up by the 324px
+character frame on the opening slide. That is a brand decision, so it is named
+here rather than quietly shrunk, and the rest is a curriculum question for the
+term review, sized per slide.

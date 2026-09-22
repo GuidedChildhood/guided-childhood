@@ -129,7 +129,8 @@
       "prompt": "Hands up: who has seen a text like this on a real phone in your house? Now the harder question: what exactly is wrong with it?",
       "script": "Nearly every hand goes up, these texts hit every phone in Britain. Collect suspicions but confirm nothing yet. If someone spots the fee, the deadline or the strange web address, park each one on the board. Then the quiet detail: the sender name ends in a lowercase L dressed up as a capital i, thieves impersonate real companies right down to the letters. If a pupil says someone at home actually paid one of these, no blame at all, adults get caught by these every single day, which is exactly why we are learning it at thirteen.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "Phishing is a message dressed as something you trust: a courier, a game, your bank, even your school. It has one job, to steer you onto a fake page that looks exactly like the real login and watch you type your password or card number into it. The classic costume is urgency: your account will be deleted, your parcel will be returned, your prize expires tonight. Real companies almost never work like this, and thieves almost always do, because a rushed brain skips the checking a calm brain would run.",
@@ -215,7 +216,8 @@
       "prompt": "Thirty seconds with your partner: how many tells fire, and what does this message actually want?",
       "script": "Pair talk, thirty seconds. All three tells fire: a 30 minute countdown, a login demand, and free loot from a draw you never entered. Then the question that matters: what does it actually want? Not to give you skins. It wants your login typed onto that fake page. If anyone asks how the scammer knew their account, they did not, this exact message went to fifty thousand accounts and it only needs a handful to bite.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "A gaming account is not just progress, it is property. Rare skins resell for real money, a saved card can be quietly drained, and a levelled account sells on shady markets for more than you would guess. But the biggest prize is trust: a stolen account can message every one of your friends with the same scam, and they will believe it because it comes from you. That is why teenagers are targets. Not despite your age, but because of what you own and who trusts your name.",
@@ -248,7 +250,8 @@
           "feedback": "If it only wanted public information it would not need a login page. The page exists to capture what you type into it."
         }
       ],
-      "question": "The free skins message says log in here to verify you own the account. What does it actually want?"
+      "question": "The free skins message says log in here to verify you own the account. What does it actually want?",
+      "extension": true
     },
     {
       "mode": "pairs",
@@ -258,7 +261,8 @@
       "script": "Sixty seconds, partner talk, start the timer on screen. You want honesty, not right answers. After the chime take three answers, then admit your own weak tell. Most adults fold to the rush one, say so out loud, it buys the room permission to be honest.",
       "lookFor": "Honesty and specificity. The rush tell catches most people because deadlines create panic. Naming your weak tell and your risky app is the first step to guarding both.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "meta": "Message request · 2 mutual followers",
@@ -272,7 +276,8 @@
       "prompt": "This one is smoother: no login link, no fake company. Which tells still fire?",
       "script": "Let them work it. Tell three fires loudest: nobody turns £50 into £500 in a day and shares the secret with strangers. Tell one is quieter but present: only 5 spots, reply quick. Tell two arrives one step later in this scam, send £50 to start, then more to unlock your profits, and you never see a penny back. Point at the 2 mutual followers detail: these accounts are often stolen, which is exactly where we are going next.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "Ask most teenagers who falls for scams and they say old people. Scammers know you believe that, and it is the most useful thing about you, because a person who is sure they cannot be caught does not check. Add accounts worth real money, less experience of how genuine money offers work, and the shame that keeps victims quiet, and you are not the exception to scams, you are a market. This is not an insult, it is a briefing. Thieves study you, so we study them back.",
@@ -305,7 +310,8 @@
           "feedback": "Cost is not the point. Confidence is. A careful person is a hard target and a certain one is not."
         }
       ],
-      "question": "Scammers know most teenagers think scams only catch older people. Why is that useful to a scammer?"
+      "question": "Scammers know most teenagers think scams only catch older people. Why is that useful to a scammer?",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -345,7 +351,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. Collect one plan per group. The best plans have two halves: protect yourself, so nobody touches the link, and rescue the mate, reach them another way and tell them their account is compromised. Praise any group that says report the account in the app, and any group that insists the mate did nothing shameful.",
       "lookFor": "Do not tap the link. Verify by a different route, call them or ask face to face. Warn them their account may be stolen, report the account in the app, and tell an adult if money or logins were shared. Nobody blames the mate.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "body": "Everything in this lesson is against the law. Pretending to be someone else to take money or an account is fraud, and fraud is a criminal offence rather than bad luck. That matters twice over. You are never the one in trouble for being targeted, and there is somewhere for it to go: tell an adult you trust, tell the app, tell the bank if money moved, and the national route is Action Fraud, or Police Scotland if you are in Scotland. Reporting is what turns one person's bad afternoon into evidence.",
@@ -431,7 +438,8 @@
       "script": "The three tells, live, before the paper casework. Read each card, ask which tell fires, take the vote, tap the class verdict, read the reason. Keep saying it: scams beat attention, not intelligence, and the verify first verdict is the professional one.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Six items on the worksheet: texts, DMs and offers. Some are scams, some are genuine. Run the three tells on each and give a verdict: looks genuine, verify first, or scam. Name the tell that fired for every verdict. You have fifteen minutes, and a verdict without a reason does not count.",
@@ -794,6 +802,24 @@
       "Scam scripts work on clever people, because they attack the moment, not the intelligence.",
       "Stop, check, refuse. Checking through a different route is what breaks the script.",
       "Fraud is a crime. The person targeted is never the one in trouble, and reporting it is what makes it evidence."
+    ],
+    "hard_questions": [
+      {
+        "question": "Scams only get old people though.",
+        "answer": "The opposite is closer to the truth for the online ones. Younger people are online more, move faster, and are targeted through the platforms they actually use. Being young is not protection, and neither is being quick."
+      },
+      {
+        "question": "I am good with tech. I would spot it.",
+        "answer": "So is nearly everybody who gets caught, and confidence is one of the things a good scam counts on. These do not work by fooling stupid people. They work by rushing a busy person, which at some point is all of us."
+      },
+      {
+        "question": "It came from my friend's account, so it is fine.",
+        "answer": "It came from their account. Whether it came from them is a different question, and a taken over account is one of the most common ways this reaches you. If the message rushes you or asks for something odd, check with them another way before you do anything."
+      },
+      {
+        "question": "What if I have already sent money?",
+        "answer": "Tell an adult today and contact the bank today, because speed genuinely changes what can be recovered. You are not in trouble and you are not stupid. The embarrassment is the thing the scam is relying on to buy itself time."
+      }
     ]
   }
 }

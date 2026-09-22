@@ -142,7 +142,8 @@
       "seconds": 60,
       "prompt": "If an app believed you were twenty five, what might it start showing you that it would not show a ten year old?",
       "lookFor": "Scary things, rude things, adverts, strangers messaging. All good. Steer gently away from naming specific content and towards the categories, which is where the learning is.",
-      "script": "Sixty seconds, whole class, hands up. Take four answers and sort them out loud into the four the next slide names: what you see, who can reach you, what is sold to you, and what happens if you ask for help. You are building the diagram with them rather than presenting it at them. Keep it brisk and do not let it become a competition to name the worst thing."
+      "script": "Sixty seconds, whole class, hands up. Take four answers and sort them out loud into the four the next slide names: what you see, who can reach you, what is sold to you, and what happens if you ask for help. You are building the diagram with them rather than presenting it at them. Keep it brisk and do not let it become a competition to name the worst thing.",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -221,7 +222,8 @@
       "avatar": "🎂",
       "text": "Enter your date of birth\n\nDay  01   Month  01   Year  ▾\n\n(scroll for more years)",
       "meta": "Sign up · Step 2 of 4",
-      "script": "Put this up and say nothing for five seconds. Then ask one question: how long would it take to scroll that year up by ten? The answer is about two seconds, and that is the whole point of the slide. The easiest thing on the screen is the thing that switches off all four protections, and nothing about the box tells you that."
+      "script": "Put this up and say nothing for five seconds. Then ask one question: how long would it take to scroll that year up by ten? The answer is about two seconds, and that is the whole point of the slide. The easiest thing on the screen is the thing that switches off all four protections, and nothing about the box tells you that.",
+      "extension": true
     },
     {
       "type": "choice",
@@ -336,7 +338,8 @@
       "seconds": 60,
       "prompt": "Why do you think apps make the birthday box so easy to scroll, when the answer matters that much?",
       "lookFor": "The honest answer is that more users is better for the company. Some children get there on their own and it is a genuinely sharp thing to notice. Others will say the app cannot check, which is also true and worth having.",
-      "script": "Sixty seconds in pairs. This is the most grown up question in the lesson and some classes land it beautifully. Both true answers are worth having: the company benefits from more users, and the company genuinely cannot check. Say the second one carefully, because the takeaway is not that nobody is watching, it is that the only person who can protect the shield is the person typing."
+      "script": "Sixty seconds in pairs. This is the most grown up question in the lesson and some classes land it beautifully. Both true answers are worth having: the company benefits from more users, and the company genuinely cannot check. Say the second one carefully, because the takeaway is not that nobody is watching, it is that the only person who can protect the shield is the person typing.",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -415,7 +418,8 @@
       "seconds": 60,
       "prompt": "Swap sheets. Read your partner's sentence. Does the protection they named match the kind of app they picked?",
       "lookFor": "A social app should get something about who can reach them or what is collected. A game should get something about what is inside it. A mismatch is a good conversation rather than a mistake.",
-      "script": "Sixty seconds. This is peer marking without calling it that, and mismatches are the useful outcome rather than the failure. Take two examples, one match and one mismatch, and talk the mismatch through warmly."
+      "script": "Sixty seconds. This is peer marking without calling it that, and mismatches are the useful outcome rather than the failure. Take two examples, one match and one mismatch, and talk the mismatch through warmly.",
+      "extension": true
     },
     {
       "type": "choice",

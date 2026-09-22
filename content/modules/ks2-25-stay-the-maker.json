@@ -139,7 +139,8 @@
       "script": "Sixty seconds, take three. Do not say the answer for them. This is the moment they tell you that nobody gets good at something by watching, and it is worth far more coming out of their mouths than yours.",
       "lookFor": "They say it themselves, every time. Football, drawing, swimming, a game, cooking. Nobody names something they got good at by watching.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -244,7 +245,8 @@
       "script": "Sixty seconds. They already do this with grown ups and friends constantly, and naming it is what lets them do it on purpose with a machine. Take two and write the best wording on the board.",
       "lookFor": "A hint. Where to start. Whether they were on the right track. Anything that got them moving without finishing it for them.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Here is something strange about your brain. When you read a good explanation, it feels like you understand. That feeling turns up whether you actually understand or not. So the feeling is not proof. Saying it out loud is.",
@@ -324,7 +326,8 @@
       "script": "They get there on their own. The answer is always some version of have a go and find out. Write the best version in their own words and keep it for the recap.",
       "lookFor": "Say it out loud. Do one on my own. Try it again tomorrow with the book shut. Teach it to someone smaller. Anything that is a try rather than a feeling.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -419,7 +422,8 @@
       "script": "Two minutes. Read out a couple of the disagreements. Those are worth far more than the agreements.",
       "lookFor": "Disagreement is the point. Ask which of them had actually checked what the job was.",
       "minutes": 2,
-      "seconds": 120
+      "seconds": 120,
+      "extension": true
     },
     {
       "type": "choice",

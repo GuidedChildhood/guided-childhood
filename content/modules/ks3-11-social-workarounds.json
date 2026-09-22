@@ -221,7 +221,8 @@
           "feedback": "Nobody is trying to keep you off the internet. The rule decides which version of the platform you get: one with protections running, or one without."
         }
       ],
-      "question": "So what IS an age rule, really?"
+      "question": "So what IS an age rule, really?",
+      "extension": true
     },
     {
       "meta": "Group chat · 34 members · 19:47",
@@ -235,7 +236,8 @@
       "prompt": "This lands at 19:47 on a Tuesday in a chat you are actually in. Before anyone says right or wrong: what would this fix actually DO?",
       "script": "This is where Orbit arrives, and Orbit does not gasp, Orbit has seen a thousand of these messages. First, admire the sales technique like a detective would: takes 2 mins, everyone is doing it, the fix. Then ask the class to list what it technically does. The VPN says you are in America. Birthday 1998 says you are an adult. Then the only question Orbit ever asks: what just got switched off? Point back at the diagram. All four protections, gone in two minutes, for an app.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "Here is the honest core of today, and Orbit tells it to you straight: a workaround does not just skip a rule. It skips every protection wired behind the rule. Type an adult birthday and the filters relax, the contact limits drop, and the algorithm starts treating you as someone who can handle anything. Worst of all, if something goes wrong, the report and help tools think they are helping an adult. The rule took ten seconds to skip. The protections were the only part that was ever for you.",
@@ -298,7 +300,8 @@
           "feedback": "Two minutes is the visible cost. The invisible cost is the protection stack, which is exactly why workarounds feel free when they are not."
         }
       ],
-      "question": "Back to the VPN tutorial in the group chat. Run Orbit's rule. What did that fix actually cost?"
+      "question": "Back to the VPN tutorial in the group chat. Run Orbit's rule. What did that fix actually cost?",
+      "extension": true
     },
     {
       "meta": "Direct message · 21:12",
@@ -312,7 +315,8 @@
       "prompt": "A real offer, from someone who genuinely loves you. Run Orbit's rule out loud: the rule, the protection, the decision.",
       "script": "The trap in this one is that it feels safe because the source is safe. Ells is kind, Ells is family, and that changes nothing about the machine, because the machine cannot see kindness, it can only see the account. The account is 19, so adult DMs are open, adult content filters apply, adult recommendations run. Two bonus points to draw out: the algorithm on that account was trained on Ells, so you inherit a feed tuned for a 19 year old you are not. And a shared password means anything that happens on that account happens in both your names. Nobody is angry at Ells here. Ells never saw the wiring either.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "mode": "pairs",
@@ -322,7 +326,8 @@
       "script": "Sixty seconds, partner talk, start the timer on screen. You are fishing for the asymmetry: rules annoy you today, protections only matter on a bad day that has not happened yet. Take two or three answers after the chime, then name it cleanly: every workaround is sold by someone who is not describing the price. Not because they are evil. Usually because they never saw the price either.",
       "lookFor": "The cost is invisible and delayed while the rule is annoying and immediate. Everyone is doing it moves the risk into a crowd, and crowds feel safe. Nobody selling a workaround ever lists what gets switched off.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Now the second half of the case: group chats. A chat with your five mates is a room with five people you know. A chat with 120 members is a public place wearing a private costume. Anyone in that chat can screenshot what you send, save your profile and message you directly, and the friendly ones and the dangerous ones look identical in a member list. So Orbit's test is simple: if you cannot name everyone in a chat, you are not talking to friends. You are broadcasting to strangers.",
@@ -355,7 +360,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. This is the most important conversation of the hour, so give it room. If a group says adults just want control, do not argue, ask them to look back at the four protections on the diagram and say who actually benefits when a child skips them. Collect one answer per group, and finish with the truth of the whole module: we trust you with the wiring diagram because you are going to be making these calls without us very soon.",
       "lookFor": "Just say no gets ignored the moment a rule feels stupid, and some rules do feel stupid. Judgement travels with you into rooms where no adult is watching. A person who knows the real price makes better calls for life than a person who was only ever told no.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -796,6 +802,24 @@
       "A false age tells the machine to treat you as an adult, and it will.",
       "Moderation is the system that finds harmful content. A workaround steps outside it.",
       "A group chat with strangers in it is a different room from a group chat with friends."
+    ],
+    "hard_questions": [
+      {
+        "question": "Is a VPN illegal?",
+        "answer": "No, and plenty of people use one for good reasons. The question this lesson asks is narrower. When you use one to get around an age check, which specific protection did you just step outside, and would you have chosen that if somebody had named it?"
+      },
+      {
+        "question": "Age rules just exist to keep us off the internet.",
+        "answer": "The rule is the visible bit. Behind it sit things like what gets recommended to you, who can message you, and what happens when you report something. Those are what you lose, and nobody mentions them at the sign up screen."
+      },
+      {
+        "question": "It is my cousin's account, so it is safe.",
+        "answer": "Trusting your cousin is not the issue. The account is set up as an adult, so the platform treats you as one: adult recommendations, adult contact settings, adult reporting. The protection was never about who handed you the password."
+      },
+      {
+        "question": "Everyone does it.",
+        "answer": "A lot of people do, and I am not going to pretend otherwise. This lesson is not asking you to be the only one who does not. It is asking you to know what you are giving up, so it is a decision rather than a default."
+      }
     ]
   }
 }

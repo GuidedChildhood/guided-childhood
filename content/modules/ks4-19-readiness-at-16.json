@@ -140,7 +140,8 @@
       "script": "Sixty seconds, and I genuinely do not mind which way you land. Protection or delay, and then the important word: why. I am not marking your answer, I am listening for the reason.",
       "lookFor": "Both answers are allowed. What you want attached is a reason, because the reason is the thing they still have on their sixteenth birthday.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -212,7 +213,8 @@
       "prompt": "Fifteen months before your 16th birthday. Run the trade honestly: what exactly do you gain, and what exactly do you lose?",
       "script": "Read Kian's message aloud in a mate's voice, not a villain's, because Kian is not a villain, he thinks he is doing a favour. Important ground rule before discussion: nobody in this room is asked whether they have an account like this, no hands up, no confessions, no pointing at anyone. We judge the trade, never the person. Then run the trade on the board in two columns, gain and lose. Gain: fifteen months of access. Lose: coming on the next slide, let them guess first.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "You met this idea in earlier years: skip the rule and you lose the protection that came with it. At your age it gets sharper, because a workaround account in the ban world runs on a false adult age.",
@@ -253,7 +255,8 @@
           "feedback": "Some workarounds do work as access, pretending otherwise is not honest and you would see through it. The trap is not that they fail. The trap is what they succeed at getting you into."
         }
       ],
-      "question": "A workaround account in the ban world runs on a false adult age. What is the sharpest description of what it actually buys you?"
+      "question": "A workaround account in the ban world runs on a false adult age. What is the sharpest description of what it actually buys you?",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -288,7 +291,8 @@
       "script": "Sixty seconds, pairs, timer on screen. You are listening for pupils realising the lessons can start before the licence: they already have feeds somewhere, YouTube, games, music apps, and every one of those is a practice track. Take three answers after the chime and name the best insight in the room. If someone says this lesson is one of the lessons, give them the point loudly, because they are right.",
       "lookFor": "This module is one honest answer. Others: setting defaults on devices they already own, asking older siblings or parents what the feed did to them in their first year, practising the audit on YouTube or gaming feeds they already use.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "On your 16th birthday every rule that was doing your thinking disappears at once, and nothing replaces it unless you built the replacement yourself. Here is the honest advantage you have over almost every adult in your life: you get to decide your defaults before the apps decide them for you. Adults joined social media with no warning and spent years untangling habits they never chose. You know the exact day the gate opens. Nobody has ever had a cleaner run up, and a person who arrives with habits will always beat a person who only ever had rules.",
@@ -342,7 +346,8 @@
       "prompt": "Day three of your first week at 16. You never searched for this and you do not follow this account. What is the audit question you ask this post?",
       "script": "Point at the meta line first: Suggested for you. Nobody chose this, the feed chose it, which makes it pipeline check territory from last module and audit territory from today. The audit question you are fishing for: what has the feed decided I am, and did I choose that? Then go one level deeper: ask why the feed might show a brand new 16 year old this exact post. Answer: it is testing you. Every second you linger teaches it who you are. The audit is you noticing the test and answering on purpose instead of by accident.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "type": "choice",
@@ -366,7 +371,8 @@
           "feedback": "Deleting is always an option you own, but it is not what the audit is for. The audit corrects the feed before you judge it. Steer first, verdict later."
         }
       ],
-      "question": "Your first week audit finds a feed full of content you never chose. What is the audit actually for?"
+      "question": "Your first week audit finds a feed full of content you never chose. What is the audit actually for?",
+      "extension": true
     },
     {
       "body": "Between now and 16 you will stand at the school gate with friends who have workaround accounts. Some families allow it, some look the other way, some never asked. That is their family's call, and it is genuinely not your job to police it or report on it.",
@@ -393,7 +399,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. Ground rule again before you start: hypothetical friends only, nobody names anybody. This is the stretch question of the lesson because the honest answer is uncomfortable in both directions: the early arrivals do know their way around, and knowing your way around a room built to hold you is not the same as being ready for it. Collect one answer per group, and finish with the line: experience of the trap is not the same as a plan for it.",
       "lookFor": "Time on the apps is not training. A year of unguided scrolling on adult settings builds habits, not judgement, and often builds the wrong habits. Arriving with defaults chosen, an audit booked and an exit rule written can genuinely beat arriving early. No shaming of anyone in the room, keep it about arrivals, not individuals.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -423,7 +430,8 @@
       "script": "A quick census before the written plan. Read the three pieces back so everyone knows what they are voting for: defaults are the settings you will change on day one, the first week audit is the check you will run after seven days, the exit rule is the line that tells you a platform no longer deserves you. Count hands, tap the bars, then read the room: the shortest bar is what the class writes first on the sheet, because the piece nobody has thought about is the piece that matters.",
       "caption": "The class readiness picture, in three bars.",
       "minutes": 4,
-      "component": "class-tally"
+      "component": "class-tally",
+      "extension": true
     },
     {
       "body": "The worksheet has six arrival situations, from setup screens on day one to a mate's advice a month in. For each one, name which part of the arrival plan handles it: my defaults, my first week audit, or my exit rule. Then turn the sheet over and write your own plan: two defaults you will set before day one, the day you will run your audit, and your exit rule in one sentence. Fifteen minutes. A plan with blanks is not a plan, so finish yours.",
@@ -794,6 +802,24 @@
       "Whoever chooses the defaults quietly runs the experience, so choose them yourself.",
       "Habits beat rules, because a habit is already running when nobody is enforcing anything.",
       "An exit rule is written before you need it, not during."
+    ],
+    "hard_questions": [
+      {
+        "question": "So social media is safe at 16?",
+        "answer": "No. Sixteen is when the door opens, not when the risk ends, and nothing about the platforms changes on your birthday. That is exactly why you write the plan before you arrive rather than after."
+      },
+      {
+        "question": "My mates who got on early will be better at it than me.",
+        "answer": "The evidence points the other way. They arrived on adult settings with no plan and no adult knowing, which is practice at the worst version. Arriving deliberately, with defaults you chose, is a real advantage."
+      },
+      {
+        "question": "Why write an exit rule for something I have not started?",
+        "answer": "Because the moment you need it is the moment you are least able to write it. Everything in this lesson is a decision made by the calm version of you, for the version who is upset at midnight. That is the whole design."
+      },
+      {
+        "question": "What if my plan turns out to be wrong?",
+        "answer": "Then you change it, and that is the first week audit doing its job. A plan you revise after looking at your own feed is not a failed plan. It is the only kind that survives contact with the real thing."
+      }
     ]
   }
 }

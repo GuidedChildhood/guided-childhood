@@ -113,3 +113,126 @@ something that is not there.
 Evidence frames are in the session scratchpad under `render/`:
 `worst-ks2-09-copyright-ownership-s12.png`, `fit-ks3-12-misinfo-deepfakes-s21-wall.png`,
 `report-whole.json`, `report-fit.json`, `report-fit-pre.json`.
+
+---
+
+# What it turned out to be, same day
+
+## The measurement, on an instrument that can be trusted
+
+1716 measurements, all 29 lessons, every slide, 1920x1080 and 1366x768,
+through the real player. **288 slides clip, 227 of them on the projector.**
+
+That number only means anything because of what had to be fixed first. See
+"The guard was measuring a demo deck" below before trusting any figure here.
+
+## Two causes, neither of them the copy
+
+**The teacher's script was taking a third of the class's wall.** The presenter
+bar is `flexShrink: 0` against a `flex: 1` stage, so every pixel it takes comes
+off what thirty children can see:
+
+| slide | presenter bar | stage left for the class |
+| --- | --- | --- |
+| ks2-08 slide 18 | **363px** | 591px |
+| ks4-29 slide 19 | 318px | 633px |
+| ks4-17 slide 1 | 285px | 664px |
+
+**Three width constants predated the wall scale.** `WALL.column` is 1400px
+because that is seventy characters on ONE line; split three ways for a diagram
+grid it is three twenty character ribbons, and ks4-29's 250 character middle
+step wrapped to thirteen lines and stood 952px tall in a 633px stage. Both caps
+inside `AnimatedIntro` were a flat `900`, from when that text was phone sized:
+at `WALL.body` that is forty one characters a line, NARROWER than comfortable.
+That is why title clipped on 29 of 29 lessons, with the lesson objective the
+thing below the fold.
+
+## Two columns is not the fix
+
+It is the obvious answer for a long list and it is arithmetically impossible.
+Halving the width doubles the lines in every item, and a grid row is as tall as
+its taller item, so two columns cost `2 x max(a, b)` against one column's
+`a + b`. That is never smaller. It only wins where every item already fits on
+one line at half width, which a recap point never does. **Widening is the lever
+that works.**
+
+## What the five changes bought
+
+Script cap `24vh` to `14vh`; diagram grid, keywords grid and recap list to
+`WALL.wide`; both `AnimatedIntro` caps to `WALL.column`. No lesson text touched.
+
+| type | pairs left | worst, before to after | average gained |
+| --- | --- | --- | --- |
+| diagram | 112 | 726 to 504 | 44px |
+| title | 58 | 441 to 327 | 47px |
+| keywords | 39 | 505 to 382 | 37px |
+| recap | 32 | 723 to 531 | 21px |
+| choice | 95 | 183 | 2px |
+| objective | 51 | 489 | 1px |
+| digi | 34 | 229 | 1px |
+
+The four the width changes touched are the four that moved. The bar cap helped
+only where the script was long, which is why choice, objective and digi gained
+nothing: their bars were already at the floor. The concept slide, where the bar
+reached 363px, is off the list entirely.
+
+## The guard was measuring a demo deck
+
+**This is the part worth remembering.** `GC_DEV_SLIDES` is read by the PAGE, in
+the server process. The CI step set it on the guard and not on `npm run dev`:
+
+```yaml
+npm run dev &                                        # no GC_DEV_SLIDES
+GC_DEV_SLIDES=/tmp/gc-dev-slides.json npm run wall-fit-guard
+```
+
+So the server ignored the file and served its built in 21 slide sample deck for
+every request. All 29 lessons were measured as one demo deck, 1711 times, and
+the results were filed under the real lessons' names. Three commits in a row
+returned the identical "1 new, 215 fixed", including one with the layout fix
+and one without.
+
+Two wrong diagnoses came first, both checked rather than assumed:
+
+- **Fonts.** Nunito loads in both; the fallback is 2.6 percent narrower. Real,
+  and nowhere near enough to move 270 slides.
+- **The browser binary.** The same pangram at 40px is 1126px in full Chromium
+  and 1131px in the headless shell. That moves one slide in twelve, the one
+  sitting at 67px against a 40px SLACK. Real, and far too small.
+
+Both were true and neither was it. What was missing was the cheapest check of
+the three: **whether the measurement was pointed at the right thing at all.**
+
+## What the guard does now, so this cannot recur quietly
+
+1. **A sentinel.** A known string is written into a reference slide and must
+   come back in the DOM, or the run exits 2 naming the cause and the remedy.
+2. **A settle loop.** The same scrollHeight twice running, fonts ready, real
+   content in the column. A load that fails or a stage that never settles stops
+   the run instead of recording a zero. It is also faster than the fixed 900ms
+   wait it replaced.
+3. **A provenance line.** Browser build, whether Nunito loaded, the width of a
+   known string, and a fixed reference slide's measurements. A baseline of
+   pixels carries its conditions or it carries nothing.
+4. **The pair, not the key.** An entry is a slide AND a viewport, because CI
+   runs the wall alone and 55 entries clip only at laptop size.
+
+The binary is pinned to the one CI launches, and the first list's three false
+negatives (ks2-08 s24, ks5-20 s6, ks5-21 s7, all confirmed clipping on the OLD
+player at 58, 105 and 74px) are the argument for that.
+
+## What is left, and it is not layout
+
+The median wall slide still clipping carries **530 characters**; the worst run
+750 to 1050. ks4-29 s28 is six recap points at 1051 characters, and no
+arrangement of a 40px face fits that in 788px.
+
+Only **34 wall slides** still clip while carrying under 300 characters, and the
+title slide is most of them, at 170 to 200 characters and still around 300px
+over. That one is the **324px character frame** on the opening slide, sized at
+`min(440px, 28vh)` of the VIEWPORT while living in a stage a third smaller.
+Shrinking the star is a brand decision, so it is named here rather than taken.
+
+So layout has given what layout can give without touching the star or the type
+scale. The rest is a curriculum question for the term review, sized per slide
+rather than asserted.

@@ -132,6 +132,27 @@ type SlideBase = {
   phase?: LessonPhase
   // Rough minutes this slide takes, shown as the timing chip (v3).
   minutes?: number
+  // THE DROPPABLE SET. A slide a teacher short of time can skip and still run
+  // the whole arc, land the objective and reach the exit quiz.
+  //
+  // It exists because of where the minutes sit. 26 of the 29 school lessons run
+  // longer than 55 minutes, and every one of them puts its prove phase, the
+  // exit quiz, LAST and gives it four minutes. So a teacher who stops at the
+  // bell loses one hundred per cent of the assessment and keeps all of the
+  // explaining, which is exactly backwards. A reviewer heard what actually
+  // happens in the room: teachers cut the last two practise slides to reach
+  // the quiz, and some never reach it.
+  //
+  // So this is not a stopping point, it is a droppable set in the MIDDLE. Only
+  // legal in the teach and practise phases: never starter, never prove, never
+  // close, because the arc has to survive the cut. scripts/check-lesson-core.mjs
+  // holds that rule and four others, including that the core still fits 55
+  // minutes and still carries every protected phrase.
+  //
+  // Nothing is deleted and no minute changes. The published length stays the
+  // real total of every slide, core and extension together, because that is
+  // what a lesson actually contains.
+  extension?: boolean
 }
 
 export type TitleSlide = SlideBase & {

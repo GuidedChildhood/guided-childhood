@@ -129,7 +129,8 @@
       "prompt": "Look at the caption, not the body. What is this post telling you about yourself, and what is it asking you to do about it?",
       "script": "Give the class thirty seconds to read it properly. Take a few answers. The move you are looking for: the post says your body is a failure of effort, and the answer to that failure is in the bio, for sale. Do not moralise about fitness itself, training is fine. The issue is a stranger profiting from the feeling that you are not enough. Keep answers about the post, not about anyone's body in the room.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "Before a body reaches your feed it has usually been through a production line. The angle was chosen from dozens. The lighting was set to sculpt. The best frame was picked from hundreds of takes. Then retouching smoothed and reshaped what the camera caught. None of this is rare or shocking, it is simply how the industry works. But it means you are comparing your unedited life with someone else's finished product.",
@@ -207,7 +208,8 @@
       "prompt": "Read the small print in the meta line. Where in the loop from the last slide does this advert sit, and what did it need you to feel first?",
       "script": "Point at the meta line first: shown to you because of your activity. Ask what activity would teach a feed to show someone this advert. Answer: lingering on idealised images, searching about skin, even just slowing your scroll. The advert is step three of the loop, and it only works if steps one and two already happened. Notice the countdown too, the same pressure tell from the scam lesson, now selling insecurity instead of a fake prize.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "mode": "pairs",
@@ -217,7 +219,8 @@
       "script": "Sixty seconds, partner talk, timer on screen. Steer pupils towards patterns rather than confessions, the prompt is about what they have noticed, not how they feel. Take two or three answers after the chime. If a pupil shares something that sounds personal or distressed, thank them warmly, move on without probing, and follow up privately after the lesson in line with your school safeguarding policy.",
       "lookFor": "Design. Fitness content beside supplement adverts, beauty content beside skincare and filters, transformation posts beside paid plans. Pupils do not need personal stories, patterns they have noticed are enough.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "choice",
@@ -241,7 +244,8 @@
           "feedback": "Effort is fine, but this feeling is not honest feedback about your body. It is the gap between your real life and a production line, and no amount of training closes a gap that is kept open on purpose."
         }
       ],
-      "question": "You feel worse about yourself after ten minutes of scrolling perfect bodies. In the attention economy, what is that feeling?"
+      "question": "You feel worse about yourself after ten minutes of scrolling perfect bodies. In the attention economy, what is that feeling?",
+      "extension": true
     },
     {
       "body": "One more kind of made content needs naming, calmly and briefly: pornography. Some people your age have seen it, on purpose or by accident, and if that includes you, you are not unusual and you are not in trouble.",
@@ -282,7 +286,8 @@
           "feedback": "No. Knowing how something was made does not switch off how it lands. Naming it is a start, not a cure."
         }
       ],
-      "question": "You have just heard that this is produced content: performed, directed and edited. What follows from that?"
+      "question": "You have just heard that this is produced content: performed, directed and edited. What follows from that?",
+      "extension": true
     },
     {
       "type": "stat",
@@ -340,7 +345,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. This is rehearsal for a conversation most of them will really have. Collect one answer per group and praise specificity: not just cheer up, but you are measuring yourself against a production line. Close by naming the quiet trick of the whole lesson: the words you just found for your friend are true about you too. If any pupil's contribution suggests they are describing themselves and struggling, follow up privately afterwards and use your school safeguarding policy if needed.",
       "lookFor": "Warmth first, then the mechanism: you are comparing your real life with edited products, the feeling was manufactured, and the accounts doing it can be unfollowed. The best answers turn the kindness pupils naturally have for a friend back towards themselves.",
       "minutes": 3,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -365,7 +371,8 @@
       "script": "Why does a feed fill with one kind of body? Not because that is what bodies look like, because of this meter. Invite taps: a like, a comment, watching to the end, watching again, and watch the signal bar climb fastest for the watches. Say the quiet part: you do not even have to like a post to teach the feed you want more of it, lingering is a signal too. Connect it straight back to the image check: the feed is not a mirror, it is a maths lesson about your taps.",
       "caption": "Tap what you would do. Watch which taps shout loudest.",
       "minutes": 4,
-      "component": "signal-meter"
+      "component": "signal-meter",
+      "extension": true
     },
     {
       "body": "Your teacher has six items on the worksheet: posts, adverts and captions described in words. Run the image check on each one and give a verdict: edited and selling, pressure to compare, or honest post. You have fifteen minutes. Every verdict needs a reason from one of the three questions, a verdict without a reason does not count.",

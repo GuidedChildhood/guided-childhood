@@ -1,0 +1,1081 @@
+{
+  "eyfs-01-screens-kindness s2": {
+    "wall": 100,
+    "laptop": 132
+  },
+  "eyfs-01-screens-kindness s4": {
+    "wall": 170,
+    "laptop": 137
+  },
+  "eyfs-01-screens-kindness s9": {
+    "wall": 76,
+    "laptop": 109
+  },
+  "ks1-02-kind-screens-calm-bodies s1": {
+    "wall": 151,
+    "laptop": 179
+  },
+  "ks1-02-kind-screens-calm-bodies s3": {
+    "wall": 159,
+    "laptop": 115
+  },
+  "ks1-02-kind-screens-calm-bodies s5": {
+    "wall": 46,
+    "laptop": 89
+  },
+  "ks1-02-kind-screens-calm-bodies s20": {
+    "wall": 105,
+    "laptop": 76
+  },
+  "ks1-03-real-pretend-computer s1": {
+    "wall": 151,
+    "laptop": 179
+  },
+  "ks1-03-real-pretend-computer s3": {
+    "wall": 89,
+    "laptop": 115
+  },
+  "ks1-03-real-pretend-computer s6": {
+    "wall": 78,
+    "laptop": 61
+  },
+  "ks1-03-real-pretend-computer s8": {
+    "wall": 115,
+    "laptop": 94
+  },
+  "ks1-03-real-pretend-computer s9": {
+    "wall": 49,
+    "laptop": 109
+  },
+  "ks2-04-screen-routines s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks2-04-screen-routines s3": {
+    "wall": 159,
+    "laptop": 115
+  },
+  "ks2-04-screen-routines s8": {
+    "wall": 244,
+    "laptop": 230
+  },
+  "ks2-04-screen-routines s12": {
+    "wall": 88,
+    "laptop": 75
+  },
+  "ks2-04-screen-routines s13": {
+    "wall": 267,
+    "laptop": 241
+  },
+  "ks2-04-screen-routines s24": {
+    "wall": 85
+  },
+  "ks2-04-screen-routines s29": {
+    "wall": 74,
+    "laptop": 54
+  },
+  "ks2-05-gaming-time-spend s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks2-05-gaming-time-spend s3": {
+    "wall": 149,
+    "laptop": 115
+  },
+  "ks2-05-gaming-time-spend s9": {
+    "wall": 269,
+    "laptop": 242
+  },
+  "ks2-05-gaming-time-spend s15": {
+    "wall": 134,
+    "laptop": 168
+  },
+  "ks2-05-gaming-time-spend s16": {
+    "wall": 146,
+    "laptop": 116
+  },
+  "ks2-05-gaming-time-spend s20": {
+    "wall": 215,
+    "laptop": 228
+  },
+  "ks2-05-gaming-time-spend s21": {
+    "wall": 121,
+    "laptop": 95
+  },
+  "ks2-05-gaming-time-spend s25": {
+    "wall": 105,
+    "laptop": 84
+  },
+  "ks2-05-gaming-time-spend s26": {
+    "wall": 105,
+    "laptop": 62
+  },
+  "ks2-05-gaming-time-spend s31": {
+    "wall": 74,
+    "laptop": 54
+  },
+  "ks2-06-how-algorithms-work s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks2-06-how-algorithms-work s3": {
+    "wall": 149,
+    "laptop": 115
+  },
+  "ks2-06-how-algorithms-work s6": {
+    "wall": 105
+  },
+  "ks2-06-how-algorithms-work s10": {
+    "wall": 55,
+    "laptop": 75
+  },
+  "ks2-06-how-algorithms-work s14": {
+    "wall": 58,
+    "laptop": 84
+  },
+  "ks2-06-how-algorithms-work s18": {
+    "wall": 63,
+    "laptop": 76
+  },
+  "ks2-06-how-algorithms-work s23": {
+    "wall": 58
+  },
+  "ks2-07-privacy-reputation s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks2-07-privacy-reputation s3": {
+    "wall": 149,
+    "laptop": 158
+  },
+  "ks2-07-privacy-reputation s5": {
+    "wall": 52,
+    "laptop": 95
+  },
+  "ks2-07-privacy-reputation s6": {
+    "wall": 47
+  },
+  "ks2-07-privacy-reputation s9": {
+    "wall": 319,
+    "laptop": 278
+  },
+  "ks2-07-privacy-reputation s13": {
+    "wall": 122,
+    "laptop": 159
+  },
+  "ks2-07-privacy-reputation s16": {
+    "wall": 434,
+    "laptop": 320
+  },
+  "ks2-07-privacy-reputation s17": {
+    "wall": 173,
+    "laptop": 135
+  },
+  "ks2-07-privacy-reputation s23": {
+    "wall": 163,
+    "laptop": 62
+  },
+  "ks2-07-privacy-reputation s29": {
+    "wall": 136,
+    "laptop": 99
+  },
+  "ks2-08-kind-safe-online s1": {
+    "wall": 246,
+    "laptop": 247
+  },
+  "ks2-08-kind-safe-online s3": {
+    "wall": 269,
+    "laptop": 180
+  },
+  "ks2-08-kind-safe-online s6": {
+    "wall": 105,
+    "laptop": 62
+  },
+  "ks2-08-kind-safe-online s9": {
+    "wall": 138,
+    "laptop": 153
+  },
+  "ks2-08-kind-safe-online s11": {
+    "wall": 121,
+    "laptop": 95
+  },
+  "ks2-08-kind-safe-online s14": {
+    "wall": 58
+  },
+  "ks2-08-kind-safe-online s15": {
+    "wall": 88,
+    "laptop": 112
+  },
+  "ks2-08-kind-safe-online s20": {
+    "wall": 163,
+    "laptop": 103
+  },
+  "ks2-08-kind-safe-online s24": {
+    "wall": 58
+  },
+  "ks2-09-copyright-ownership s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks2-09-copyright-ownership s3": {
+    "wall": 199,
+    "laptop": 180
+  },
+  "ks2-09-copyright-ownership s10": {
+    "wall": 85
+  },
+  "ks2-09-copyright-ownership s12": {
+    "wall": 113,
+    "laptop": 136
+  },
+  "ks2-09-copyright-ownership s13": {
+    "wall": 59,
+    "laptop": 53
+  },
+  "ks2-09-copyright-ownership s17": {
+    "wall": 113,
+    "laptop": 130
+  },
+  "ks2-09-copyright-ownership s26": {
+    "wall": 93,
+    "laptop": 152
+  },
+  "ks2-09-copyright-ownership s29": {
+    "wall": 43,
+    "laptop": 99
+  },
+  "ks2-23-when-a-machine-talks-like-a-friend s1": {
+    "wall": 321,
+    "laptop": 305
+  },
+  "ks2-23-when-a-machine-talks-like-a-friend s3": {
+    "wall": 167,
+    "laptop": 74
+  },
+  "ks2-25-stay-the-maker s1": {
+    "wall": 172,
+    "laptop": 157
+  },
+  "ks2-25-stay-the-maker s5": {
+    "wall": 116,
+    "laptop": 141
+  },
+  "ks2-26-why-thirteen s1": {
+    "wall": 188,
+    "laptop": 157
+  },
+  "ks2-26-why-thirteen s10": {
+    "wall": 357,
+    "laptop": 311
+  },
+  "ks2-26-why-thirteen s18": {
+    "wall": 238,
+    "laptop": 180
+  },
+  "ks2-26-why-thirteen s28": {
+    "wall": 75,
+    "laptop": 151
+  },
+  "ks3-10-mood-and-screens s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks3-10-mood-and-screens s3": {
+    "wall": 329,
+    "laptop": 208
+  },
+  "ks3-10-mood-and-screens s5": {
+    "wall": 46,
+    "laptop": 89
+  },
+  "ks3-10-mood-and-screens s6": {
+    "wall": 183,
+    "laptop": 118
+  },
+  "ks3-10-mood-and-screens s7": {
+    "wall": 146,
+    "laptop": 116
+  },
+  "ks3-10-mood-and-screens s12": {
+    "wall": 88,
+    "laptop": 75
+  },
+  "ks3-10-mood-and-screens s14": {
+    "wall": 309,
+    "laptop": 277
+  },
+  "ks3-10-mood-and-screens s18": {
+    "wall": 271,
+    "laptop": 244
+  },
+  "ks3-10-mood-and-screens s23": {
+    "wall": 163,
+    "laptop": 103
+  },
+  "ks3-10-mood-and-screens s29": {
+    "wall": 74,
+    "laptop": 54
+  },
+  "ks3-11-social-workarounds s1": {
+    "wall": 188,
+    "laptop": 157
+  },
+  "ks3-11-social-workarounds s3": {
+    "wall": 360,
+    "laptop": 230
+  },
+  "ks3-11-social-workarounds s10": {
+    "wall": 70,
+    "laptop": 122
+  },
+  "ks3-11-social-workarounds s13": {
+    "wall": 152,
+    "laptop": 137
+  },
+  "ks3-11-social-workarounds s15": {
+    "wall": 190,
+    "laptop": 191
+  },
+  "ks3-11-social-workarounds s17": {
+    "wall": 121,
+    "laptop": 95
+  },
+  "ks3-11-social-workarounds s20": {
+    "wall": 179,
+    "laptop": 137
+  },
+  "ks3-11-social-workarounds s31": {
+    "wall": 43,
+    "laptop": 54
+  },
+  "ks3-12-misinfo-deepfakes s1": {
+    "wall": 157,
+    "laptop": 135
+  },
+  "ks3-12-misinfo-deepfakes s3": {
+    "wall": 188,
+    "laptop": 136
+  },
+  "ks3-12-misinfo-deepfakes s9": {
+    "wall": 115,
+    "laptop": 94
+  },
+  "ks3-12-misinfo-deepfakes s14": {
+    "wall": 132,
+    "laptop": 150
+  },
+  "ks3-12-misinfo-deepfakes s16": {
+    "wall": 57,
+    "laptop": 94
+  },
+  "ks3-12-misinfo-deepfakes s26": {
+    "wall": 74,
+    "laptop": 54
+  },
+  "ks3-13-scams-fraud-money s1": {
+    "wall": 157,
+    "laptop": 184
+  },
+  "ks3-13-scams-fraud-money s3": {
+    "wall": 168,
+    "laptop": 136
+  },
+  "ks3-13-scams-fraud-money s6": {
+    "wall": 183,
+    "laptop": 140
+  },
+  "ks3-13-scams-fraud-money s7": {
+    "wall": 63,
+    "laptop": 53
+  },
+  "ks3-13-scams-fraud-money s9": {
+    "wall": 215,
+    "laptop": 209
+  },
+  "ks3-13-scams-fraud-money s12": {
+    "wall": 152,
+    "laptop": 118
+  },
+  "ks3-13-scams-fraud-money s16": {
+    "wall": 94
+  },
+  "ks3-13-scams-fraud-money s19": {
+    "wall": 115,
+    "laptop": 105
+  },
+  "ks3-13-scams-fraud-money s25": {
+    "wall": 183,
+    "laptop": 118
+  },
+  "ks3-13-scams-fraud-money s31": {
+    "wall": 74,
+    "laptop": 143
+  },
+  "ks3-14-bodies-image-pressure s1": {
+    "wall": 219,
+    "laptop": 228
+  },
+  "ks3-14-bodies-image-pressure s3": {
+    "wall": 369,
+    "laptop": 201
+  },
+  "ks3-14-bodies-image-pressure s5": {
+    "wall": 149,
+    "laptop": 187
+  },
+  "ks3-14-bodies-image-pressure s6": {
+    "wall": 47,
+    "laptop": 98
+  },
+  "ks3-14-bodies-image-pressure s7": {
+    "wall": 88,
+    "laptop": 116
+  },
+  "ks3-14-bodies-image-pressure s10": {
+    "wall": 217,
+    "laptop": 159
+  },
+  "ks3-14-bodies-image-pressure s11": {
+    "wall": 88,
+    "laptop": 75
+  },
+  "ks3-14-bodies-image-pressure s19": {
+    "wall": 128,
+    "laptop": 146
+  },
+  "ks3-14-bodies-image-pressure s30": {
+    "wall": 136,
+    "laptop": 210
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s1": {
+    "wall": 321,
+    "laptop": 265
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s3": {
+    "wall": 167,
+    "laptop": 117
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s9": {
+    "wall": 78,
+    "laptop": 105
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s24": {
+    "wall": 70,
+    "laptop": 84
+  },
+  "ks3-24-is-it-doing-my-thinking s1": {
+    "wall": 89,
+    "laptop": 135
+  },
+  "ks3-24-is-it-doing-my-thinking s4": {
+    "wall": 45,
+    "laptop": 65
+  },
+  "ks3-24-is-it-doing-my-thinking s8": {
+    "wall": 230,
+    "laptop": 219
+  },
+  "ks3-24-is-it-doing-my-thinking s12": {
+    "wall": 332,
+    "laptop": 293
+  },
+  "ks3-27-when-it-turns-on-you s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks3-27-when-it-turns-on-you s3": {
+    "wall": 58
+  },
+  "ks3-27-when-it-turns-on-you s5": {
+    "wall": 116,
+    "laptop": 163
+  },
+  "ks3-27-when-it-turns-on-you s10": {
+    "wall": 155,
+    "laptop": 189
+  },
+  "ks3-27-when-it-turns-on-you s18": {
+    "wall": 134,
+    "laptop": 151
+  },
+  "ks3-27-when-it-turns-on-you s28": {
+    "wall": 139,
+    "laptop": 197
+  },
+  "ks4-15-manipulation-persuasion s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks4-15-manipulation-persuasion s3": {
+    "wall": 249,
+    "laptop": 151
+  },
+  "ks4-15-manipulation-persuasion s5": {
+    "wall": 377,
+    "laptop": 336
+  },
+  "ks4-15-manipulation-persuasion s6": {
+    "wall": 105,
+    "laptop": 62
+  },
+  "ks4-15-manipulation-persuasion s8": {
+    "wall": 94,
+    "laptop": 76
+  },
+  "ks4-15-manipulation-persuasion s9": {
+    "wall": 165,
+    "laptop": 168
+  },
+  "ks4-15-manipulation-persuasion s11": {
+    "wall": 146,
+    "laptop": 116
+  },
+  "ks4-15-manipulation-persuasion s15": {
+    "wall": 173,
+    "laptop": 135
+  },
+  "ks4-15-manipulation-persuasion s18": {
+    "wall": 165,
+    "laptop": 146
+  },
+  "ks4-15-manipulation-persuasion s24": {
+    "wall": 132,
+    "laptop": 103
+  },
+  "ks4-15-manipulation-persuasion s25": {
+    "wall": 54
+  },
+  "ks4-15-manipulation-persuasion s27": {
+    "wall": 93,
+    "laptop": 152
+  },
+  "ks4-15-manipulation-persuasion s30": {
+    "wall": 43,
+    "laptop": 99
+  },
+  "ks4-16-consent-images-law s1": {
+    "wall": 246,
+    "laptop": 247
+  },
+  "ks4-16-consent-images-law s3": {
+    "wall": 309,
+    "laptop": 223
+  },
+  "ks4-16-consent-images-law s5": {
+    "wall": 52,
+    "laptop": 95
+  },
+  "ks4-16-consent-images-law s6": {
+    "wall": 47,
+    "laptop": 42
+  },
+  "ks4-16-consent-images-law s8": {
+    "wall": 51,
+    "laptop": 86
+  },
+  "ks4-16-consent-images-law s9": {
+    "wall": 105,
+    "laptop": 62
+  },
+  "ks4-16-consent-images-law s12": {
+    "wall": 464,
+    "laptop": 342
+  },
+  "ks4-16-consent-images-law s13": {
+    "wall": 58,
+    "laptop": 84
+  },
+  "ks4-16-consent-images-law s14": {
+    "wall": 121,
+    "laptop": 95
+  },
+  "ks4-16-consent-images-law s18": {
+    "wall": 244,
+    "laptop": 230
+  },
+  "ks4-16-consent-images-law s27": {
+    "wall": 105,
+    "laptop": 62
+  },
+  "ks4-16-consent-images-law s29": {
+    "wall": 66,
+    "laptop": 133
+  },
+  "ks4-16-consent-images-law s32": {
+    "wall": 167,
+    "laptop": 165
+  },
+  "ks4-17-sextortion s1": {
+    "wall": 246,
+    "laptop": 247
+  },
+  "ks4-17-sextortion s3": {
+    "wall": 180,
+    "laptop": 137
+  },
+  "ks4-17-sextortion s5": {
+    "wall": 147,
+    "laptop": 182
+  },
+  "ks4-17-sextortion s6": {
+    "wall": 85,
+    "laptop": 103
+  },
+  "ks4-17-sextortion s11": {
+    "wall": 296,
+    "laptop": 261
+  },
+  "ks4-17-sextortion s12": {
+    "wall": 121,
+    "laptop": 95
+  },
+  "ks4-17-sextortion s14": {
+    "wall": 105,
+    "laptop": 61
+  },
+  "ks4-17-sextortion s15": {
+    "wall": 121,
+    "laptop": 95
+  },
+  "ks4-17-sextortion s17": {
+    "wall": 244,
+    "laptop": 230
+  },
+  "ks4-17-sextortion s20": {
+    "wall": 85,
+    "laptop": 103
+  },
+  "ks4-17-sextortion s24": {
+    "wall": 85,
+    "laptop": 103
+  },
+  "ks4-17-sextortion s27": {
+    "wall": 93,
+    "laptop": 152
+  },
+  "ks4-17-sextortion s30": {
+    "wall": 44,
+    "laptop": 140
+  },
+  "ks4-18-radicalisation-misogyny s1": {
+    "wall": 219,
+    "laptop": 228
+  },
+  "ks4-18-radicalisation-misogyny s3": {
+    "wall": 280,
+    "laptop": 216
+  },
+  "ks4-18-radicalisation-misogyny s5": {
+    "wall": 313,
+    "laptop": 290
+  },
+  "ks4-18-radicalisation-misogyny s6": {
+    "wall": 47
+  },
+  "ks4-18-radicalisation-misogyny s8": {
+    "wall": 202,
+    "laptop": 176
+  },
+  "ks4-18-radicalisation-misogyny s9": {
+    "wall": 207,
+    "laptop": 217
+  },
+  "ks4-18-radicalisation-misogyny s13": {
+    "wall": 121,
+    "laptop": 55
+  },
+  "ks4-18-radicalisation-misogyny s14": {
+    "wall": 142,
+    "laptop": 151
+  },
+  "ks4-18-radicalisation-misogyny s18": {
+    "wall": 242,
+    "laptop": 182
+  },
+  "ks4-18-radicalisation-misogyny s20": {
+    "wall": 105,
+    "laptop": 140
+  },
+  "ks4-18-radicalisation-misogyny s24": {
+    "wall": 132,
+    "laptop": 96
+  },
+  "ks4-18-radicalisation-misogyny s27": {
+    "wall": 99,
+    "laptop": 157
+  },
+  "ks4-18-radicalisation-misogyny s30": {
+    "wall": 229,
+    "laptop": 210
+  },
+  "ks4-19-readiness-at-16 s1": {
+    "wall": 188,
+    "laptop": 206
+  },
+  "ks4-19-readiness-at-16 s3": {
+    "wall": 209,
+    "laptop": 151
+  },
+  "ks4-19-readiness-at-16 s5": {
+    "wall": 377,
+    "laptop": 382
+  },
+  "ks4-19-readiness-at-16 s9": {
+    "wall": 140,
+    "laptop": 149
+  },
+  "ks4-19-readiness-at-16 s11": {
+    "wall": 143,
+    "laptop": 103
+  },
+  "ks4-19-readiness-at-16 s15": {
+    "wall": 58,
+    "laptop": 103
+  },
+  "ks4-19-readiness-at-16 s16": {
+    "wall": 63,
+    "laptop": 113
+  },
+  "ks4-19-readiness-at-16 s19": {
+    "wall": 296,
+    "laptop": 221
+  },
+  "ks4-19-readiness-at-16 s20": {
+    "wall": 171,
+    "laptop": 135
+  },
+  "ks4-19-readiness-at-16 s21": {
+    "wall": 58,
+    "laptop": 46
+  },
+  "ks4-19-readiness-at-16 s28": {
+    "wall": 116,
+    "laptop": 103
+  },
+  "ks4-19-readiness-at-16 s34": {
+    "wall": 136,
+    "laptop": 99
+  },
+  "ks4-28-the-money-and-the-odds s1": {
+    "wall": 327,
+    "laptop": 269
+  },
+  "ks4-28-the-money-and-the-odds s3": {
+    "wall": 158,
+    "laptop": 46
+  },
+  "ks4-28-the-money-and-the-odds s5": {
+    "wall": 116,
+    "laptop": 163
+  },
+  "ks4-28-the-money-and-the-odds s8": {
+    "wall": 238,
+    "laptop": 226
+  },
+  "ks4-28-the-money-and-the-odds s13": {
+    "wall": 155,
+    "laptop": 189
+  },
+  "ks4-28-the-money-and-the-odds s19": {
+    "wall": 400,
+    "laptop": 342
+  },
+  "ks4-28-the-money-and-the-odds s28": {
+    "wall": 434,
+    "laptop": 421
+  },
+  "ks4-29-did-not-go-looking s1": {
+    "wall": 296,
+    "laptop": 309
+  },
+  "ks4-29-did-not-go-looking s3": {
+    "wall": 158,
+    "laptop": 125
+  },
+  "ks4-29-did-not-go-looking s5": {
+    "wall": 211,
+    "laptop": 209
+  },
+  "ks4-29-did-not-go-looking s8": {
+    "wall": 186,
+    "laptop": 189
+  },
+  "ks4-29-did-not-go-looking s19": {
+    "wall": 504,
+    "laptop": 417
+  },
+  "ks4-29-did-not-go-looking s28": {
+    "wall": 531,
+    "laptop": 513
+  },
+  "ks5-20-ai-mastery-data-rights s1": {
+    "wall": 188,
+    "laptop": 228
+  },
+  "ks5-20-ai-mastery-data-rights s3": {
+    "wall": 329,
+    "laptop": 158
+  },
+  "ks5-20-ai-mastery-data-rights s5": {
+    "wall": 313,
+    "laptop": 312
+  },
+  "ks5-20-ai-mastery-data-rights s6": {
+    "wall": 105,
+    "laptop": 84
+  },
+  "ks5-20-ai-mastery-data-rights s8": {
+    "wall": 155,
+    "laptop": 179
+  },
+  "ks5-20-ai-mastery-data-rights s13": {
+    "wall": 177,
+    "laptop": 95
+  },
+  "ks5-20-ai-mastery-data-rights s14": {
+    "wall": 192,
+    "laptop": 192
+  },
+  "ks5-20-ai-mastery-data-rights s15": {
+    "wall": 105,
+    "laptop": 118
+  },
+  "ks5-20-ai-mastery-data-rights s30": {
+    "wall": 74,
+    "laptop": 99
+  },
+  "ks5-21-digital-identity-future-work s1": {
+    "wall": 219,
+    "laptop": 228
+  },
+  "ks5-21-digital-identity-future-work s3": {
+    "wall": 489,
+    "laptop": 359
+  },
+  "ks5-21-digital-identity-future-work s5": {
+    "wall": 147,
+    "laptop": 163
+  },
+  "ks5-21-digital-identity-future-work s6": {
+    "wall": 183,
+    "laptop": 174
+  },
+  "ks5-21-digital-identity-future-work s7": {
+    "wall": 74
+  },
+  "ks5-21-digital-identity-future-work s8": {
+    "wall": 171,
+    "laptop": 135
+  },
+  "ks5-21-digital-identity-future-work s9": {
+    "wall": 90,
+    "laptop": 67
+  },
+  "ks5-21-digital-identity-future-work s15": {
+    "wall": 282,
+    "laptop": 251
+  },
+  "ks5-21-digital-identity-future-work s19": {
+    "wall": 192,
+    "laptop": 192
+  },
+  "ks5-21-digital-identity-future-work s20": {
+    "wall": 116,
+    "laptop": 125
+  },
+  "ks5-21-digital-identity-future-work s24": {
+    "wall": 163,
+    "laptop": 103
+  },
+  "ks5-21-digital-identity-future-work s27": {
+    "wall": 66,
+    "laptop": 133
+  },
+  "ks5-21-digital-identity-future-work s29": {
+    "wall": 198,
+    "laptop": 188
+  },
+  "eyfs-01-screens-kindness s20": {
+    "laptop": 99
+  },
+  "ks1-02-kind-screens-calm-bodies s8": {
+    "laptop": 71
+  },
+  "ks1-03-real-pretend-computer s14": {
+    "laptop": 61
+  },
+  "ks2-04-screen-routines s5": {
+    "laptop": 48
+  },
+  "ks2-04-screen-routines s6": {
+    "laptop": 42
+  },
+  "ks2-04-screen-routines s17": {
+    "laptop": 53
+  },
+  "ks2-04-screen-routines s19": {
+    "laptop": 46
+  },
+  "ks2-04-screen-routines s26": {
+    "laptop": 111
+  },
+  "ks2-05-gaming-time-spend s5": {
+    "laptop": 70
+  },
+  "ks2-05-gaming-time-spend s18": {
+    "laptop": 62
+  },
+  "ks2-05-gaming-time-spend s28": {
+    "laptop": 65
+  },
+  "ks2-06-how-algorithms-work s5": {
+    "laptop": 48
+  },
+  "ks2-06-how-algorithms-work s13": {
+    "laptop": 57
+  },
+  "ks2-06-how-algorithms-work s15": {
+    "laptop": 46
+  },
+  "ks2-06-how-algorithms-work s21": {
+    "laptop": 44
+  },
+  "ks2-06-how-algorithms-work s26": {
+    "laptop": 65
+  },
+  "ks2-07-privacy-reputation s12": {
+    "laptop": 95
+  },
+  "ks2-07-privacy-reputation s26": {
+    "laptop": 111
+  },
+  "ks2-08-kind-safe-online s5": {
+    "laptop": 48
+  },
+  "ks2-08-kind-safe-online s25": {
+    "laptop": 62
+  },
+  "ks2-08-kind-safe-online s27": {
+    "laptop": 87
+  },
+  "ks2-08-kind-safe-online s30": {
+    "laptop": 99
+  },
+  "ks2-09-copyright-ownership s5": {
+    "laptop": 48
+  },
+  "ks2-09-copyright-ownership s8": {
+    "laptop": 55
+  },
+  "ks2-09-copyright-ownership s14": {
+    "laptop": 42
+  },
+  "ks2-09-copyright-ownership s19": {
+    "laptop": 42
+  },
+  "ks2-23-when-a-machine-talks-like-a-friend s14": {
+    "laptop": 42
+  },
+  "ks2-25-stay-the-maker s10": {
+    "laptop": 105
+  },
+  "ks2-26-why-thirteen s5": {
+    "laptop": 48
+  },
+  "ks3-10-mood-and-screens s17": {
+    "laptop": 76
+  },
+  "ks3-10-mood-and-screens s24": {
+    "laptop": 62
+  },
+  "ks3-10-mood-and-screens s26": {
+    "laptop": 111
+  },
+  "ks3-11-social-workarounds s5": {
+    "laptop": 70
+  },
+  "ks3-11-social-workarounds s6": {
+    "laptop": 42
+  },
+  "ks3-11-social-workarounds s25": {
+    "laptop": 62
+  },
+  "ks3-11-social-workarounds s28": {
+    "laptop": 65
+  },
+  "ks3-12-misinfo-deepfakes s12": {
+    "laptop": 61
+  },
+  "ks3-12-misinfo-deepfakes s21": {
+    "laptop": 71
+  },
+  "ks3-12-misinfo-deepfakes s30": {
+    "laptop": 89
+  },
+  "ks3-13-scams-fraud-money s5": {
+    "laptop": 48
+  },
+  "ks3-13-scams-fraud-money s28": {
+    "laptop": 89
+  },
+  "ks3-14-bodies-image-pressure s22": {
+    "laptop": 164
+  },
+  "ks3-14-bodies-image-pressure s24": {
+    "laptop": 62
+  },
+  "ks3-14-bodies-image-pressure s27": {
+    "laptop": 65
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s12": {
+    "laptop": 54
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s13": {
+    "laptop": 100
+  },
+  "ks3-22-when-an-ai-acts-like-a-friend s25": {
+    "laptop": 62
+  },
+  "ks3-24-is-it-doing-my-thinking s5": {
+    "laptop": 73
+  },
+  "ks3-27-when-it-turns-on-you s7": {
+    "laptop": 42
+  },
+  "ks4-16-consent-images-law s26": {
+    "laptop": 62
+  },
+  "ks4-18-radicalisation-misogyny s16": {
+    "laptop": 42
+  },
+  "ks4-19-readiness-at-16 s12": {
+    "laptop": 95
+  },
+  "ks4-19-readiness-at-16 s24": {
+    "laptop": 65
+  },
+  "ks4-19-readiness-at-16 s29": {
+    "laptop": 46
+  },
+  "ks4-19-readiness-at-16 s31": {
+    "laptop": 111
+  },
+  "ks4-28-the-money-and-the-odds s4": {
+    "laptop": 46
+  },
+  "ks4-28-the-money-and-the-odds s27": {
+    "laptop": 84
+  },
+  "ks4-29-did-not-go-looking s4": {
+    "laptop": 84
+  },
+  "ks5-20-ai-mastery-data-rights s21": {
+    "laptop": 46
+  },
+  "ks5-20-ai-mastery-data-rights s26": {
+    "laptop": 62
+  },
+  "ks5-20-ai-mastery-data-rights s28": {
+    "laptop": 133
+  }
+}

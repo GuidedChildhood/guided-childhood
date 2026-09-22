@@ -114,7 +114,14 @@ export default function AnimatedIntro({
           tail down, character fully visible underneath. */}
       <div data-bubble style={{ opacity: 0 }}>
         <div style={{
-          maxWidth: projector ? 900 : 300, margin: '0 auto',
+          // 900 was set when the bubble text was a phone size. It now renders
+          // at WALL.body, 40px, where 900px is about forty one characters a
+          // line: NARROWER than the comfortable range rather than wider, so
+          // the greeting wrapped to three lines and the slide it opens clipped
+          // on all 29 lessons. WALL.column is the width the wall scale exists
+          // to give a line of 40px text, about sixty four characters, and it
+          // is what every other prose block on the wall already uses.
+          maxWidth: projector ? WALL.column : 300, margin: '0 auto',
           background: '#fff', borderRadius: 'var(--radius-btn)', padding: projector ? '10px 18px' : '11px 14px',
           textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
         }}>
@@ -176,7 +183,10 @@ export default function AnimatedIntro({
         <div data-promise style={{
           opacity: 0, display: 'inline-flex', alignItems: 'baseline', gap: '10px',
           flexWrap: 'wrap', justifyContent: 'center',
-          maxWidth: projector ? 900 : 340, margin: projector ? '0 auto clamp(6px, 1.2vh, 12px)' : '0 auto 16px',
+          // Same phone era 900 as the bubble above, and the same fix. This one
+          // carries the lesson objective, so the line it was pushing below the
+          // fold is what the pupil is meant to leave able to do.
+          maxWidth: projector ? WALL.column : 340, margin: projector ? '0 auto clamp(6px, 1.2vh, 12px)' : '0 auto 16px',
           borderTop: '1px solid rgba(237,195,95,0.28)', paddingTop: projector ? 'clamp(6px, 1.2vh, 12px)' : '12px',
         }}>
           <span style={{

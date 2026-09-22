@@ -597,6 +597,24 @@
       "Made up things are lovely, they are just not real.",
       "You cannot always tell which is which by looking.",
       "When you are not sure, you stop and ask a grown up."
+    ],
+    "hard_questions": [
+      {
+        "question": "Is Father Christmas real then?",
+        "answer": "That one belongs to your family, and I am not going to answer it for them. Ask at home tonight. What we are learning here is the asking, and you have just done it beautifully."
+      },
+      {
+        "question": "Are cartoons telling fibs?",
+        "answer": "No, and that is a lovely question. A cartoon is a story somebody made for you on purpose, like a picture book. A fib is when somebody wants you to believe a wrong thing. Stories are made up and kind. Fibs are made up and unkind."
+      },
+      {
+        "question": "My big brother says it is real.",
+        "answer": "Your brother might be right and he might be wrong, and either way you did the clever thing by wondering. Stop, look, ask a grown up. A grown up who is not sure can say so, and that is a good answer too."
+      },
+      {
+        "question": "What if my grown up is busy?",
+        "answer": "Then you wait and ask when they are not, and the picture will still be there. Nobody has to decide about something surprising straight away. Waiting is allowed."
+      }
     ]
   }
 }

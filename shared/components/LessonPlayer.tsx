@@ -687,9 +687,19 @@ function DiagramBlock({ slide, projector }: { slide: DiagramSlide; projector?: b
           boxShadow: '0 5px 0 var(--terracotta-lt)',
         }
         if (projector) return (
+          // THE WALL'S FULL WIDTH, not the prose column. WALL.column is 1400px
+          // because that is about seventy characters on ONE line, and seventy
+          // characters is the top of the comfortable range for a paragraph.
+          // Divided by three it is not a prose column at all, it is three
+          // ribbons of twenty characters: the 250 character middle step of
+          // ks4-29 slide 19 wrapped to thirteen lines and stood 952px tall on
+          // a 633px stage. The steps are cards side by side, so the line
+          // length rule that sets WALL.column does not apply to them, and the
+          // stage already offers WALL.wide. Twenty three percent more width
+          // per card, which is twenty three percent fewer lines.
           <div style={{
             display: 'grid', gridTemplateColumns: `repeat(${slide.steps.length}, minmax(0, 1fr))`,
-            gap: 'clamp(14px, 1.6vw, 28px)', maxWidth: WALL.column, margin: '0 auto',
+            gap: 'clamp(14px, 1.6vw, 28px)', maxWidth: WALL.wide, margin: '0 auto',
           }}>
             {slide.steps.map((step, i) => {
               const last = i === slide.steps.length - 1
@@ -997,13 +1007,18 @@ function SlideBody({
           </div>
         </div>
       )
-    case 'keywords':
+    case 'keywords': {
+      // Two columns take the wall's width, one column keeps the prose column.
+      // Same reasoning as the diagram grid: half of 1400px is a 32 character
+      // ribbon, and a glossary card is a card rather than a paragraph, so the
+      // line length rule behind WALL.column is not the rule that governs it.
+      const twoUp = projector && slide.words.length >= 3
       return (
-        <div style={{ maxWidth: room(projector, WALL.column, 'none'), margin: '0 auto', width: '100%' }}>
+        <div style={{ maxWidth: room(projector, twoUp ? WALL.wide : WALL.column, 'none'), margin: '0 auto', width: '100%' }}>
           <div data-reveal style={{ ...eyebrowOn(projector), color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
             {slide.heading ?? 'Detective words'}
           </div>
-          <div style={projector && slide.words.length >= 3
+          <div style={twoUp
             // Two columns on the wall: four words in one column stood 720px
             // tall and scrolled on a 1080 screen. Side by side they read as a
             // glossary and fit.
@@ -1024,6 +1039,7 @@ function SlideBody({
           </div>
         </div>
       )
+    }
     case 'concept':
       // The full bleed one idea slide: the emoji lands, the huge headline
       // follows, the body settles last. Each piece staggers in.
@@ -1109,7 +1125,21 @@ function SlideBody({
           <h2 data-reveal style={{ fontFamily: 'var(--font-display)', fontSize: room(projector, WALL.display, 'clamp(1.45rem, 3.6vw, 2rem)'), fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '18px', textAlign: 'center' }}>
             {slide.heading}
           </h2>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', padding: 0, maxWidth: room(projector, WALL.column, '520px'), margin: '0 auto' }}>
+          {/* WIDER, NOT TWO UP, and the arithmetic is why. Two columns halve
+              the width, which doubles the lines in every point, and a grid row
+              is as tall as its taller point: 2 x max(a, b) is never less than
+              a + b, so two columns cannot beat one for text that wraps. It
+              only wins where every item fits on one line, which a recap point
+              never does. Widening is the lever that works, and it is the same
+              lever either way: sixty one characters a line at WALL.column,
+              seventy five at WALL.wide, so a fifth fewer lines for nothing.
+
+              Seventy five sits just over the seventy that wall-scale.ts calls
+              the top of the comfortable range, and that is the right trade
+              here rather than a drift: a recap point is a card the teacher
+              reads out one at a time, not a paragraph the class reads down,
+              and the alternative on ks4-29 is 723px of it below the fold. */}
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', padding: 0, maxWidth: room(projector, WALL.wide, '520px'), margin: '0 auto' }}>
             {slide.points.map((p, i) => (
               <li key={i} data-reveal style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '13px 16px' }}>
                 <span style={{ fontSize: room(projector, WALL.body, 'inherit'), color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0, lineHeight: 1.6 }}>✓</span>
@@ -2266,9 +2296,30 @@ export default function LessonPlayer({
                 {scriptOpen ? '▾ Teacher script' : '▸ Teacher script'}
               </button>
               {scriptOpen && (
+                // THE WALL BELONGS TO THE CLASS, and this cap is the line.
+                //
+                // The bar is flexShrink 0 and the stage is flex 1, so every
+                // pixel the script takes comes straight off what thirty
+                // children can see. At 24vh the bar reached 363px of a 1080
+                // wall on ks2-08 slide 18, a third of the room's screen, for
+                // one person reading from two feet away, and the slide under
+                // it was cut off (21 September 2026 sweep).
+                //
+                // 14vh is about five lines at the 22px script size, and the
+                // bar is 1400px wide beside the controls, so roughly 620
+                // characters show with no scroll. The median script is 256
+                // characters and one in ten is over 540 (see WALL.script), so
+                // nine teachers in ten lose nothing and the tenth scrolls a
+                // box that already scrolled. The class gets up to 125px back
+                // on every slide where the script ran long.
+                //
+                // The cap is on the script and not on the bar on purpose: a
+                // maxHeight on the bar would clip Back and Continue on an
+                // unexpected layout, and a control the teacher cannot reach
+                // is a worse failure than a script they have to scroll.
                 <p className="gc-script" style={{
                   fontFamily: 'var(--font-body)', fontSize: room(projector, WALL.script, 'var(--text-base)'),
-                  color: 'var(--ink)', lineHeight: 1.4, margin: 0, maxHeight: '24vh', overflowY: 'auto',
+                  color: 'var(--ink)', lineHeight: 1.4, margin: 0, maxHeight: '14vh', overflowY: 'auto',
                 }}>
                   {slide?.script ?? 'No script for this slide. Let it land, then continue.'}
                 </p>

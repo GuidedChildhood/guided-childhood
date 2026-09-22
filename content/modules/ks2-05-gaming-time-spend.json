@@ -134,7 +134,8 @@
       "script": "Sixty seconds. A time you meant to play for ten minutes and it was not ten minutes. It happens to me too. Then I am going to show you the tools that did it.",
       "lookFor": "Nobody is in trouble for this and it should not sound like a telling off. You want them noticing the pull, because the next slide names the tools that made it.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "diagram",
@@ -174,7 +175,8 @@
       "script": "Sixty seconds, partner talk, timer on screen. You are listening for expertise, not confessions. After the chime take three answers and respond like a coach scouting talent: that is a proper spot, that is exactly the near miss, that is the streak lead. Name your own weak spot too, it keeps the room honest.",
       "lookFor": "Pupils naming tricks in real games without shame. Gamers are the experts here. Listen for streak panic and one more match stories, and celebrate honest spotting out loud.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "choice",
@@ -240,7 +242,8 @@
           "feedback": "It is not about fairness. Ask yourself who it is easier for, the player or the shop."
         }
       ],
-      "question": "A game sells gems and coins instead of pounds. Why do you think it does that?"
+      "question": "A game sells gems and coins instead of pounds. Why do you think it does that?",
+      "extension": true
     },
     {
       "type": "diagram",
@@ -280,7 +283,8 @@
       "prompt": "How many tricks can you count on this one screen? Thirty seconds with your partner, then hands up with a number.",
       "script": "Pair talk, thirty seconds, then collect numbers. There are at least four: the countdown rushing you, gems hiding the price, maybe means random like a raffle, and gone forever making it feel once in a lifetime. Point at the small print: 1 in 100. Ask: if the whole class opened one chest each, how many legendaries would we expect? None or maybe none, and the shop keeps everyone's gems either way. Let that sink in.",
       "minutes": 2,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "mode": "groups",
@@ -290,7 +294,8 @@
       "script": "Groups of three or four, ninety seconds on the timer. This is the follow the money question and KS2 are surprisingly good at it. Collect one answer per group. The line to land at the end: shops that are proud of their prices show them in pounds. When a price wears a costume, ask why.",
       "lookFor": "The company wins twice: hidden prices feel smaller so players spend more, and leftover gems pull players back to the shop. Nobody hides a price to help the buyer.",
       "minutes": 2,
-      "seconds": 90
+      "seconds": 90,
+      "extension": true
     },
     {
       "type": "choice",
@@ -314,7 +319,8 @@
           "feedback": "Gems do buy real things in the game, that is what makes the trick work. The problem is not that gems are fake, it is that they stop your brain counting pounds."
         }
       ],
-      "question": "A chest costs 480 gems. Gems come in packs: 300 gems for £2.99 or 1,000 gems for £8.99. What is the trick?"
+      "question": "A chest costs 480 gems. Gems come in packs: 300 gems for £2.99 or 1,000 gems for £8.99. What is the trick?",
+      "extension": true
     },
     {
       "body": "A loot box works like a raffle. You pay real money for a ticket, and you MIGHT win the amazing prize, but most tickets win something small you did not really want. The chance of the top prize is usually tiny, and the game knows the exact odds even when you do not. Paying money for a random chance is how gambling machines work, which is why some countries have banned loot boxes for children. You are not silly for wanting the prize. The whole machine is built by experts to make everyone want the prize.",
@@ -367,7 +373,8 @@
       "prompt": "Run all three spend spotters, then spot the fourth pressure that is not even from the game. What would you say back to Finn?",
       "script": "Read Finn's message aloud with real pressure in your voice. Then take it apart together: ends tonight is the rush, 999 gems is the hidden price, and the fourth pressure is a friend, which is the strongest one of all. Be clear that Finn is not a villain, Finn got caught by the same countdown and now it is spreading through him. Then the two hard lines, said kindly: a card that is not yours is never yours to use, not even a little bit, and a real friend hearing I need to ask first says fair enough. Script a reply together, something like: might get it, asking first, catch you in the lobby.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "type": "interactive",
@@ -444,7 +451,8 @@
       "script": "The spend spotters go to work together before the sheet. Read each card, hands up for the verdict, tap the class answer, read the reason. Draw out the middle verdict every time it fires: ask first is not a lesser answer, it is the spotter working.",
       "caption": "Sort the six cases together before the sheet.",
       "minutes": 4,
-      "component": "verdict-sort"
+      "component": "verdict-sort",
+      "extension": true
     },
     {
       "body": "Your teacher has six offers on the worksheet: shop screens, popups and chat messages. Run the three spend spotters on each one and give your verdict: fine to enjoy, ask first, or walk away. You have fifteen minutes. Every verdict needs a reason, a verdict without a reason does not count.",
@@ -811,6 +819,24 @@
       "A loot box sells a chance, not a thing.",
       "A countdown clock is there to stop you thinking, not to help you.",
       "The spend spotters ask: what is the real price, what am I actually getting, and what is the rush?"
+    ],
+    "hard_questions": [
+      {
+        "question": "My mum buys me skins. Is she doing something wrong?",
+        "answer": "Not at all. Nothing in this lesson says spending on a game is bad. What we are practising is running the three spotters before the money moves, so it is a decision rather than a reflex. A present somebody chose to give you is already a decision."
+      },
+      {
+        "question": "It is my money though.",
+        "answer": "It is, and nobody here is taking it off you. That is exactly why the spotters matter. They are for you, not for a grown up, and they work best on the offer that is shouting loudest at you right now."
+      },
+      {
+        "question": "Loot boxes are just a surprise, like a kinder egg.",
+        "answer": "A kinder egg costs the same every time and you know what you are getting for it. A loot box is priced on not knowing, and the not knowing is the product. That is the difference, and it is worth about thirty seconds of your attention before you tap."
+      },
+      {
+        "question": "Only people with no willpower get hooked.",
+        "answer": "These games are designed by very good teams, tested on millions of players, and they work on adults with jobs and mortgages. Getting pulled in is not a character flaw. It is the design succeeding, which is why we go after the design rather than the person."
+      }
     ]
   }
 }

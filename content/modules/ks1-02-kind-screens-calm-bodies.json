@@ -575,6 +575,24 @@
       "Feelings pass more quickly once you have named them.",
       "Pebble's three steps are feel it, name it, tell a grown up.",
       "Telling a grown up is brave, not naughty."
+    ],
+    "hard_questions": [
+      {
+        "question": "Why do I feel grumpy after my tablet when I was happy on it?",
+        "answer": "Because the happy and the grumpy are both real, they just arrive at different times. Your body works hard while a screen is exciting, and the tired shows up when you stop. That is not you being naughty. That is a body doing its job."
+      },
+      {
+        "question": "Is it telling tales if I tell you about a video?",
+        "answer": "No. Telling tales is trying to get somebody into trouble. Telling a grown up about a feeling or something that frightened you is keeping yourself safe. They are two different things and you will always be right to do the second one."
+      },
+      {
+        "question": "My grown up gets cross when I ask.",
+        "answer": "Thank you for saying that, it is a hard thing to say out loud. Then we find you a different grown up. There is one in this building, and we will make sure you know who."
+      },
+      {
+        "question": "Are screens bad?",
+        "answer": "No. Screens can make you laugh and learn and talk to somebody you miss. We are not learning that screens are bad. We are learning to notice what they leave behind in your body, so you are the one in charge of it."
+      }
     ]
   }
 }

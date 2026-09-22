@@ -135,7 +135,8 @@
       "script": "Sixty seconds on the timer, partner talk. After the chime, act out the funniest wrong order answer you heard, jam straight onto the plate works well. Then land it: you noticed it was wrong because you can think. A computer cannot. It just follows the steps it was given. So whoever writes the steps is really in charge.",
       "lookFor": "Precise steps in a sensible order, and the giggle moment when someone spreads jam before getting bread out. The learning: order matters, and a computer would follow the wrong order without noticing anything was wrong.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "choice",
@@ -174,7 +175,8 @@
       "prompt": "Alma watched ONE cat video on Monday. By Friday her feed is wall to wall cats. Vote: is the app reading her mind, or is something else going on?",
       "script": "Run the vote, hands up for mind reading versus something else. Most classes split. Then the reveal question: what did Alma actually DO on Monday? She watched a cat video all the way through, maybe rewatched the funny bit, maybe smiled at her screen. The app cannot see the smile. But it counted everything else. Let that hang, then move on.",
       "minutes": 3,
-      "platform": "feed"
+      "platform": "feed",
+      "extension": true
     },
     {
       "body": "While you watch the feed, the feed watches you. Every video you finish, every one you skip, every pause, every rewatch, every like: all of it becomes data, the clues in the recipe. The feed's algorithm scores thousands of videos against your clues and serves the highest scorer next. It is not reading your mind. It is reading your thumb.",
@@ -256,7 +258,8 @@
           "feedback": "The feed is never random and it is not trying to be fair. It is trying to keep the loop spinning, so it serves whatever your clues scored highest."
         }
       ],
-      "question": "You watch a skateboard fail video right to the end and rewatch the crash twice. What does the feed loop do next?"
+      "question": "You watch a skateboard fail video right to the end and rewatch the crash twice. What does the feed loop do next?",
+      "extension": true
     },
     {
       "mode": "groups",
@@ -266,7 +269,8 @@
       "script": "Groups of three or four, two minutes on the timer. This is the moment the lesson becomes about THEM, so circulate and collect the best examples. After the chime take one from each group. Keep it warm and shame free: everyone's feed has learned something, including yours, and sharing your own example first gives the room permission. The killer follow up: did you MEAN to teach it that?",
       "lookFor": "Pupils connecting their own behaviour to what gets served: I watched one football clip so now it is all football, my mum paused on cake videos so her feed is full of baking. No shame in any of it, the win is pupils seeing themselves inside the loop.",
       "minutes": 3,
-      "seconds": 120
+      "seconds": 120,
+      "extension": true
     },
     {
       "body": "Here is the sneakiest part of the recipe: the feed never runs out. No last page, no final video, no THE END. The next video is always loaded before you finish this one, and autoplay starts it without asking. Why? Because an ending is a moment to choose. Finish a book and you decide what happens next. The feed is built to never hand you that moment.",
@@ -298,7 +302,8 @@
       "prompt": "Teo thinks he did nothing. Use the feed loop to explain to Teo exactly what happened, step by step.",
       "script": "Pair talk, thirty seconds, then take answers. The class should be able to narrate it now: Teo watched, the loop learned, autoplay served more, and the bottomless bowl never gave him an ending to stop at. The big point: Teo is not weak and he is not in trouble. He was playing against a recipe he could not see. Now he can see it, and so can we.",
       "minutes": 2,
-      "platform": "message"
+      "platform": "message",
+      "extension": true
     },
     {
       "body": "So is the feed a monster? No. It is a machine, and machines do not hate you or love you. This one feeds on attention, so it serves whatever keeps you watching. Sometimes that is brilliant: new skills, new ideas, things that make you laugh. The skill is knowing whose turn it is. When you choose what to watch, you are using the feed. When video 15 autoplays at 9pm, the feed is using you. Knowing the recipe is how you tell the difference.",
@@ -332,7 +337,8 @@
       "script": "The lesson's own tool, drawn live. Press start and narrate the laps as the dot speeds up: you watch, the feed learns, more of the same, you watch more. When the bubble closes, ask the class where the weakest link in the loop is. The answer is step one: the only part the feed cannot control is whether you notice and choose. Run it again and have the class call out each station as the dot passes it.",
       "caption": "Watch the loop close. Each lap is faster than the last.",
       "minutes": 4,
-      "component": "feed-loop"
+      "component": "feed-loop",
+      "extension": true
     },
     {
       "body": "Your teacher has six cards on the worksheet. Five show how a viewer behaved: watched to the end, rewatched, liked, paused or skipped. YOU are the algorithm. Use the scoring rules on the sheet to score those five, then give each one a verdict: serve more, show sometimes, or bury it. Card six is the big question: Teo says the app is being kind to him. Use the feed loop to say whether you agree. Fifteen minutes.",
@@ -699,6 +705,24 @@
       "The loop is: you watch, it learns, it serves more of the same.",
       "Your attention is what the app collects, and it is the thing being sold.",
       "The feed never ends on purpose, because an ending is a place to stop."
+    ],
+    "hard_questions": [
+      {
+        "question": "It is reading my mind. It knew what I was thinking about.",
+        "answer": "It feels exactly like that and it is not what is happening. It is reading what you did: what you slowed down on, what you watched twice, what you did not scroll past. You are giving it the answer without meaning to, and once you can see that it stops being spooky."
+      },
+      {
+        "question": "I never like or comment, so it knows nothing about me.",
+        "answer": "The like button is the smallest signal there is. Stopping is the big one. Watching to the end is the big one. You can say nothing all year and still teach it plenty."
+      },
+      {
+        "question": "So the app is evil?",
+        "answer": "No, and that is worth being clear about. It is not out to get you. It is doing one job very well, which is holding your attention, because that is what it is paid for. Knowing that is not the same as being angry at it."
+      },
+      {
+        "question": "Why does it never run out?",
+        "answer": "Because there is no end to reach. A book has a last page and a feed does not, on purpose. Nothing tells you when you are done, so the stopping has to come from you, and that is what makes it hard rather than anything about you."
+      }
     ]
   }
 }

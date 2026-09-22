@@ -168,7 +168,8 @@
       "script": "Sixty seconds, take three. This is the cycle one landing and they should say the sentence rather than hear it. Football, an instrument, a game, cooking. Nobody names a skill they got by watching.",
       "lookFor": "They say it themselves. Nobody gets good at something by watching someone else do it.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Here is the thing that decides it, and it is not a rule about AI. Every task is trying to teach you one thing. Find that thing, and let the tool touch everything except it.",
@@ -264,7 +265,8 @@
       "script": "Sixty seconds. Take one of each. If a pupil offers their own access arrangement as an example, take it warmly and move on without making it a moment.",
       "lookFor": "Reading a long question in a maths problem. Handwriting neatly in a history essay. Against: working out the maths, choosing the argument.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "body": "Here is the part nobody warns you about. When a tool explains something to you, it does not just do the work. It leaves you feeling like you could have done it yourself. The feeling of understanding arrives whether or not the understanding does.",
@@ -324,7 +326,8 @@
       "script": "They will get there. The answer is always some version of try one and see. Write the best version on the board in their words and keep it for the recap.",
       "lookFor": "Doing one on your own. Explaining it. Tomorrow, with it shut. Anything that is an attempt rather than a feeling.",
       "minutes": 2,
-      "seconds": 60
+      "seconds": 60,
+      "extension": true
     },
     {
       "type": "interactive",
@@ -419,7 +422,8 @@
       "script": "Two minutes. The disagreements are more useful than the agreements and you want a couple of them read out.",
       "lookFor": "Disagreement is the point. Ask them which of them had read the mark scheme.",
       "minutes": 3,
-      "seconds": 120
+      "seconds": 120,
+      "extension": true
     },
     {
       "type": "choice",
