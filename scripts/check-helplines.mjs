@@ -22,26 +22,25 @@
 // ── TWO SURFACES, TWO STANDARDS, ON PURPOSE ─────────────────────────────────
 //
 // 1920x1080 is the projector, the surface a pupil copies from. Every number
-// has to be readable there, full stop. The ALLOWED list below is short, hand
-// written, carries a reason per entry and has no flag to regenerate it. A new
-// entry is a decision somebody makes in this file, in a diff. Deliberately not
-// a ratchet: a ratchet promises "no worse than yesterday", and for a helpline
-// the only acceptable state is readable.
+// has to be readable there, full stop. The ALLOWED list below is the escape
+// hatch, and it is currently EMPTY, which is the state to keep it in. It is
+// hand written, carries a reason per entry and has no flag to regenerate it,
+// so a new entry is a decision somebody makes in this file, in a diff.
+// Deliberately not a ratchet: a ratchet promises "no worse than yesterday",
+// and for a helpline the only acceptable state is readable.
 //
 // 1366x768 is the other half of the country's teacher laptops, and it is the
 // TIGHTER surface, which is worth knowing because it is not obvious. The type
 // scales by height (shared/wall-scale.ts) while the stage shrinks faster, so a
-// slide fits proportionally less there than on a wall: ks4-29 s28 clears its
-// helpline on a 1920 wall and misses it by 83px at 1366.
+// slide fits proportionally less there than on a wall. That is what this guard
+// found on its first run, after a wall only pass had called the job done.
 //
 // At laptop size the standard is the wall fit baseline rather than this list.
 // A number cut on a slide that otherwise FITS at 1366 is an isolated defect
 // somebody can fix in that slide, so it fails. A number cut on a slide already
-// in scripts/wall-fit-baseline.json at laptop is a symptom of that clip, not a
-// separate finding: ks4-29 s28 is 513px over at 1366 and ks4-28 s19 is 188px
-// over, so points four to six are off screen regardless and moving the number
-// around inside them fixes nothing. Those need the slide split, which is a
-// curriculum decision rather than a layout one.
+// in scripts/wall-fit-baseline.json at laptop is a symptom of that clip rather
+// than a separate finding, because a slide with a third of its content off
+// screen is not fixed by moving the number around inside it.
 //
 // That rule cannot rot, which is why it is a rule and not a second list. The
 // wall fit baseline only ever shrinks, so the day one of those slides is
@@ -99,17 +98,14 @@ const TEACHER_ONLY = new Set(['script', 'teacher_notes', 'notes'])
 // KNOWN AND ACCEPTED ON THE WALL, with the reason. Keyed "<module> s<n>".
 // Laptop is not listed here: see the two standards note above.
 //
-// ks4-28-the-money-and-the-odds s28 is the gambling helpline as the closing
-// point of a six point recap. It cannot be reordered the way ks4-29 s28 was:
-// its script makes the number the deliberate last beat, "leave a beat after the
-// last one rather than rushing to the mission, because the number is the only
-// thing on this slide somebody in the room may actually need". Fixing it means
-// splitting the slide or cutting points, which is a curriculum decision rather
-// than a layout one, so it is named here rather than quietly passed. Raised
-// with Justin 22 September 2026, migration 337.
-const ALLOWED_ON_THE_WALL = new Map([
-  ['ks4-28-the-money-and-the-odds s28', 'recap closer, needs a curriculum decision to split'],
-])
+// EMPTY, and worth keeping that way. It held one entry for a day: the gambling
+// helpline closing a six point recap in ks4-28, which could not be reordered
+// because its script makes the number the deliberate last beat. Justin's answer
+// was to split both six point recaps into two slides of three rather than
+// accept it (migration 338), so the entry became stale and came out. An empty
+// allowlist is the honest state of this scheme, and the stale check below means
+// a future entry cannot outlive the problem it was written for.
+const ALLOWED_ON_THE_WALL = new Map([])
 
 // The slides check-wall-fit already knows are cut, and at which size. Read
 // rather than duplicated, so the two guards cannot drift apart.

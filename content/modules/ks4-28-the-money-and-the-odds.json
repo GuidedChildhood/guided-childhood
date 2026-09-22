@@ -509,17 +509,26 @@
     {
       "type": "recap",
       "phase": "close",
-      "minutes": 2,
-      "heading": "What to keep",
+      "minutes": 1,
+      "heading": "What to keep about the odds",
       "points": [
         "A chance is not an item. You pay the same whether it comes good or not, and that makes it a different kind of purchase from anything else you buy.",
         "Two currencies and an awkward pack size are how the price gets hidden. A gem is worth about a penny, and the leftover is deliberate.",
-        "The house edge is published, fixed and patient. One go is luck. Ten thousand goes is arithmetic.",
+        "The house edge is published, fixed and patient. One go is luck. Ten thousand goes is arithmetic."
+      ],
+      "script": "Read the three steadily. These three are the machine itself, so do not rush them. The next slide is about the person standing in front of it."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "What to keep, and where to go",
+      "points": [
         "Nothing is due and nothing is hot. The wheel has no memory, which is exactly why no system can exist.",
         "Speed is what the law acts on. An online slot is capped at £5 a spin, and £2 if you are under 25. A weekly draw has no cap at all.",
         "The money goes before the feeling of spending arrives, and that gap is where borrowing starts. Chasing is the sign worth knowing by name, and help is free on 0808 8020 133 at any age."
       ],
-      "script": "Read the six steadily. Leave a beat after the last one rather than rushing to the mission, because the number is the only thing on this slide somebody in the room may actually need, and a second of silence is what gives them time to write it down."
+      "script": "Read the three steadily. Leave a beat after the last one rather than rushing to the mission, because the number is the only thing on this slide somebody in the room may actually need, and a second of silence is what gives them time to write it down."
     },
     {
       "type": "digi",
