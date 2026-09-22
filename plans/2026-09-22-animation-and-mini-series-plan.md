@@ -162,6 +162,76 @@ producing 3,000 a month afterwards, and ULTRA also carries all the Seedance
 models, eight parallel generations, and unlimited runs on the image models,
 which makes every still and every reference sheet effectively free.
 
+## 3d. Second round of decisions, 22 September
+
+1. **Orbit fronts the pilot**, so the unresolved Bloop label does not block it.
+2. **Every lesson gets a speaking intro** that introduces the right friend for
+   that lesson. This reverses the recommendation above: the silent loops go.
+3. **The retired cast is retired**, confirmed. Already reflected in the bible.
+4. **Every lesson gets an outro that explains the Passport stamp.**
+5. **A refresher is needed for pupils arriving at secondary from a primary that
+   did not teach this scheme**, and it has to work for both cohorts in the same
+   room. Section 3e.
+
+## 3e. The primary to secondary gap, measured
+
+This is the most important thing in the plan, and it is a curriculum risk rather
+than an animation one.
+
+**Every KS3 and KS4 lesson currently states prior knowledge that cites our own
+primary modules by id.** Measured from production:
+
+| Assumed primary module | Secondary lessons that depend on it |
+| --- | --- |
+| **ks2-06, how algorithms work** | **7**: ks3-10, ks3-11, ks3-12, ks3-14, ks3-22, ks4-15, ks4-18 |
+| ks2-07, privacy and reputation | 1: ks4-16 |
+| ks1-03, real or pretend | 1: ks3-12 |
+| ks2-09, copyright and ownership | 1: ks3-12 |
+
+Plus ks3-27, which names the KS2 kindness lesson in prose rather than by id.
+
+So **eight secondary lessons assume a primary lesson the pupil may never have
+had**, and one module, the feed loop in ks2-06, carries seven of those
+dependencies on its own.
+
+A secondary school buying this scheme takes Year 7 from many primaries. Most of
+those pupils will not have met any of it. Today the lesson opens by assuming
+they did.
+
+### The fix, and why it is the same work as the speaking intro
+
+**The speaking intro Justin just asked for is the refresher.** That is the
+whole answer, and it means one production run rather than two.
+
+Every secondary lesson opens with its friend naming the one thing from before
+in about fifteen seconds, phrased so it lands either way: a recall prompt for
+the pupil who met it in Year 5, and first teaching for the pupil who did not.
+Neither is singled out, which matters, because a Year 7 who has to admit in
+front of a new class that their primary did not cover something will simply say
+nothing.
+
+That is also exactly the Rosenshine retrieval starter the scheme already uses,
+so it is not a new pedagogy, it is the existing one pointed at a new problem.
+
+Three pieces:
+
+- **A. The refresher line in every secondary intro.** Written per lesson from
+  its own stated prior knowledge. Free to write, and it rides the intro render
+  that is happening anyway.
+- **B. One Year 7 bridge lesson**, for schools that want to level a cohort in
+  one go in the first week. It teaches the feed loop properly, since that is
+  seven of the ten dependencies, plus the three smaller ones. One lesson, and
+  it is the single highest value new module in the scheme because it is what
+  makes the secondary offer sellable on its own.
+- **C. Make the dependency explicit in data and guard it.** The prior knowledge
+  strings already name the modules; lift that into a field a guard can read, so
+  a new secondary lesson cannot quietly assume a primary lesson without
+  carrying a refresher for it.
+
+Worth saying plainly: **this makes the secondary scheme sellable standalone.**
+Until it is done, a secondary buying KS3 to KS5 is buying lessons that open by
+assuming something their intake has not been taught.
+
 ## 4. The money, so nobody plans in adjectives
 
 **Balance on the current account: 8.54 credits, Plus plan**, which is why
@@ -174,8 +244,26 @@ second**, and that rate is what the totals below are built on.
 | Five character entrances, 20s each | 100s | **900** |
 | One film like cast introduction, 2 minutes | 120s | **1,080** |
 | The eight episode walkthrough series, 60s each | 480s | **4,300** |
+| The five episode schools and teachers strand, 75s each | 375s | **3,400** |
+| **Speaking intro on every lesson, 15s each, all 29** | 435s | **3,900** |
 | Lesson animation, three 8s shots on each of 24 modules | 576s | **5,200** |
-| **Everything** | ~21 minutes | **about 11,500** |
+| **Everything** | ~35 minutes | **about 18,800** |
+
+### The outro is where to save
+
+Justin asked for an outro on every lesson explaining the Passport stamp. Made
+per lesson at 10s that is 29 clips and about 2,600 credits. **Made once it is
+one clip and about 90.**
+
+The stamp explanation does not change between lessons: the same four Passport
+areas, the same rule about what a completed page records. Recommend **one
+reusable outro**, or four if it should name the area, which is still about 360
+rather than 2,600. The per lesson thing already exists and is free: the friend's
+mission beat, in code, which closes every lesson with that lesson's own single
+action outcome.
+
+So the totals above carry one outro, not 29. If the outro really does need to
+differ per lesson, add 2,500.
 
 That is the honest headline. It is also why the build order below spends the
 first credits on the pieces that get reused three times each.

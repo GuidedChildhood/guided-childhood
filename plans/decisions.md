@@ -713,3 +713,40 @@ lesson and that is the wrong tool for a 24px chip, of which the curriculum page
 carries twenty nine on one screen. The emblem stays as the fallback. Checked at
 1440 and 390: EYFS and KS1 draw Pebble, KS2 Bloop, KS3 Orbit, KS4 Nova, KS5
 Cosmo.
+
+## 22 September 2026 — The animation decisions, and a curriculum risk found under them
+
+Justin's calls: Orbit fronts the pilot, every lesson gets a speaking intro
+introducing its own friend (so the silent loops go, reversing my
+recommendation), the retired cast is confirmed retired, every lesson gets an
+outro explaining the Passport stamp, the mini series is for parents and schools
+buying with a second strand for schools and teachers, he appears in the parent
+and LinkedIn films only, and the friends get generated voices locked to an id.
+
+Two findings worth keeping.
+
+**The Higgsfield account id is inside every asset URL.** 237 assets in the repo
+and 10 more in production hang off one CDN path: 95 lesson covers, 37
+printables, the cutout and every mood still for all five friends. A new account
+cannot serve them. Whether a cancelled one keeps serving is unknown and cannot
+be tested from here, so the plan says mirror all 247 to our own storage before
+any account decision. On the account itself: bigger subscription on the existing
+one, not a new account. The tooling already renders on it, a new one loses the
+references and the history, and ULTRA is 30 credits per dollar against 21 for
+top up packs that expire in 90 days.
+
+**Eight secondary lessons assume a primary lesson the pupil may never have had.**
+Measured from production: every KS3 and KS4 lesson states prior knowledge citing
+our own primary modules by id, and ks2-06, the feed loop, carries seven of those
+dependencies alone. A secondary buying KS3 to KS5 today is buying lessons that
+open by assuming an intake was taught something most of it was not.
+
+The fix is the same work as the speaking intro Justin asked for, which is why it
+is cheap: the friend names the one thing from before in fifteen seconds, phrased
+so it lands as recall for the pupil who met it and first teaching for the pupil
+who did not, with neither singled out. Plus one Year 7 bridge lesson for schools
+that want to level a cohort in week one. That is what makes the secondary scheme
+sellable standalone.
+
+Plan: plans/2026-09-22-animation-and-mini-series-plan.md. Character bible:
+digi-squad/README.md. PR 1146.
