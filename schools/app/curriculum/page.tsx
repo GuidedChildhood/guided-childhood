@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY, SPIRAL_BEHAVIOURS, positionLabel } from '@gc/shared/schools-curriculum'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
+import FriendMark from '@gc/shared/components/FriendMark'
 
 // THE CURRICULUM MAP: the whole programme, Reception to Year 13, as
 // character colour coded module cards. PUBLIC since 30 August 2026 (the open
@@ -146,8 +147,9 @@ export default async function CurriculumMapPage() {
                           width: '32px', height: '32px', borderRadius: '50%', background: '#fff',
                           border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center',
                           justifyContent: 'center', fontSize: 'var(--text-lg)', flexShrink: 0,
+                          overflow: 'hidden',
                         }}>
-                          {ch.emblem}
+                          <FriendMark character={m.character} size={28} ring={false} />
                         </span>
                         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: ch.ink }}>
                           {m.castLine}
