@@ -74,7 +74,8 @@ Justin, answering the questions at the foot of this plan:
    packs are written so that connecting the account is the only thing left.
 2. **The mini series is for parents and schools buying**, not for children
    learning. It lives on the site, LinkedIn and YouTube, and it matches the
-   eight episode series already drafted in Drive.
+   eight episode series already drafted in Drive. **Revised the same day: there
+   is a second strand for schools and teachers**, set out in section 5g.
 3. **Justin appears in the parent and LinkedIn films only.** Child facing
    lesson animation stays pure cast. No real adult on a classroom wall.
 4. **Generated voices, one per friend**, locked to a voice id recorded in the
@@ -83,6 +84,83 @@ Justin, answering the questions at the foot of this plan:
 What that changes: the order below is now **everything free first, finished to
 the point of rendering**, rather than a spend sequence. The money table stays
 because the totals still decide how much gets made once the account is live.
+
+## 3c. The account question, and the thing that must happen first
+
+Justin, 22 September: "if I set up a new Higgsfield API account will I lose all
+my references?"
+
+**Yes for the references, and that is not the dangerous part.**
+
+### The dangerous part: the account id is inside every asset URL
+
+Every generated asset is served from
+`d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/...`. That middle
+segment is the account. A new account gets a new segment, so nothing already
+made can be served from it.
+
+Counted 22 September:
+
+| Where | Assets on that path |
+| --- | --- |
+| `lib/content/lesson-covers.ts` | 95 |
+| `lib/content/moment-photos.ts` | 50 |
+| `lib/printables/registry.ts` | 37 |
+| `shared/schools-curriculum.ts` | 20 (the character cutouts and every mood still) |
+| `lib/content/moment-images.ts` | 15 |
+| `lib/shop/art.ts` | 11 |
+| everything else in the repo | 9 |
+| **repo total** | **237** (221 png, 16 mp4) |
+| **production database** | **10** more mp4s, the lesson video slides |
+
+So roughly **247 live assets hang off one account's CDN path**: the face of
+every Planet Friend, 95 lesson covers, 37 printables. If that path ever stops
+serving, the product does not degrade, it breaks, all at once, with no warning
+and no local copy to fall back on.
+
+**What is not known**: whether Higgsfield keeps serving assets for an account
+that is cancelled, downgraded or simply abandoned. That cannot be tested from
+here and should not be guessed at. The risk is asymmetric enough that the answer
+does not matter.
+
+### So, before any account decision: mirror everything
+
+Download all 247 assets and re-host them on storage we control (Supabase
+Storage or Vercel Blob, both already in the stack), then re-point the constants
+in the seven files above and the ten database rows. One day of work. It removes
+the dependency on ANY Higgsfield account permanently, and it is worth doing even
+if nothing about the subscription changes.
+
+Until that is done, every one of these decisions carries a tail risk that has
+nothing to do with animation.
+
+### New account or bigger subscription?
+
+**Recommend: bigger subscription on the existing account.** Three reasons.
+
+1. **The API already works on the current account.** Every clip in the product
+   was rendered through the connected tooling on this Plus account, and the
+   balance and generation calls still respond today. If what is needed is a
+   programmatic key rather than the connected route, that is worth confirming
+   before opening anything, because a second account may solve a problem that
+   does not exist.
+2. **A new account loses the references, the Elements list, the uploaded media
+   and the whole generation history**, which is the character continuity we have
+   been building since July. The Drive doc already flags the Elements list as
+   incomplete and mislabelled; starting again makes that worse, not better.
+3. **The economics favour the subscription**, on the live numbers:
+
+| Route | Cost | Credits | Per dollar |
+| --- | --- | --- | --- |
+| Top up packs | $190 for 4,000 | 4,000, **expire after 90 days** | 21 |
+| Auto refill | $50 for 909 | on demand | 18 |
+| **ULTRA, annual billing** | **$99 a month** | **3,000 a month, recurring** | **30** |
+
+The whole programme is about 11,500 credits. On top ups that is roughly $570
+and a 90 day clock. On ULTRA it is about four months of a plan that keeps
+producing 3,000 a month afterwards, and ULTRA also carries all the Seedance
+models, eight parallel generations, and unlimited runs on the image models,
+which makes every still and every reference sheet effectively free.
 
 ## 4. The money, so nobody plans in adjectives
 
@@ -157,6 +235,37 @@ joins, less if the entrances carry more of it.
 
 Only after C to E are accepted. The eight episodes already have full spoken
 drafts. The lesson animation is already priced and specified.
+
+### G. The schools and teachers strand
+
+Justin, 22 September: a mini series for schools and teachers as well.
+
+This is a **different series, not a different edit** of the parent one. A head
+buying a scheme and a teacher about to deliver it on Thursday want opposite
+things: the head wants coverage and evidence, the teacher wants to know it will
+not go wrong in front of thirty children. The eight parent episodes answer
+neither.
+
+Five episodes, in the order a school meets us. Each 60 to 90 seconds, which is
+about 540 to 810 credits each.
+
+| # | Episode | The question it answers | Capture it needs |
+| --- | --- | --- | --- |
+| T1 | **Teach one on Thursday** | Can I run this with no prep? Open the lesson, the script is there, the timer runs, the answer reveals | The real player, one full cycle |
+| T2 | **What prints, and when** | The paper pack, the run sheet, the worksheet, the parent note | The print room, a real A4 output |
+| T3 | **Where the evidence goes** | The Passport page, the tracker, what a completed page does and does not prove | Tracker and Passport, honestly captioned |
+| T4 | **The statutory map** | 57 requirements, what is covered, what is by design not covered | `/hub/rshe-mapping`, on screen |
+| T5 | **The difficult lessons** | The DSL modules, the safeguarding posture, why those three carry no jokes | No character performance at all in this one |
+
+Two rules specific to this strand, both from the bible:
+
+- **T5 carries no humour.** The cast appears calm or not at all. A joke next to
+  a sextortion module loses a safeguarding lead in one second.
+- **A teacher is never shown being surprised by the product.** The whole
+  promise is that nothing surprises them.
+
+T1 is the one worth making first. It is the objection that actually stops a
+sale, and it reuses the SC03 and SC06 captures the Drive doc already specifies.
 
 ## 6. What would make it the best in the space
 
