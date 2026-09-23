@@ -750,3 +750,27 @@ sellable standalone.
 
 Plan: plans/2026-09-22-animation-and-mini-series-plan.md. Character bible:
 digi-squad/README.md. PR 1146.
+
+## 23 September 2026: daily health sweep, one duplicate index dropped
+
+Routine sweep. Schema clean, all sixteen watched columns present. Crons: every
+job on schedule, nothing overdue, no failures in seven days. `legal-watch` has
+never run but its route only landed 16 September and its first scheduled fire
+is 3 October, so that is expected, not a fault.
+
+Security advisors unchanged in shape from prior sweeps (RLS-no-policy and
+search-path notes on ops-only and backup tables, security definer functions,
+leaked password protection off). Performance advisors mostly the same known
+shape too, except one new item: `child_time_settings` carried two identical
+unique indexes on `child_id`, one backing the real constraint and one a plain
+duplicate tied to nothing. Dropped the duplicate. Migration 340, no behaviour
+change. PR: this sweep's branch.
+
+Also read the body, not just the status, on the monthly review email
+(`/api/email/monthly`, CRITICAL). It has been replying `ok:true` every day
+with no error, but has sent one real email in the last two catch up windows:
+every other due family hits `noData` because none of them have any
+device_sessions rows for the month being reviewed. Not a code fault, the
+route is doing exactly what it says on the tin. Left for Justin: is this
+low device-timer usage across the 27 onboarded families, or a place the
+product should be checking. Not fixed here.
