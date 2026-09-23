@@ -14,6 +14,7 @@ import PilotStrip from '@/components/PilotStrip'
 import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LessonOpened } from '@/components/tracker/signals'
 import { LeadLine } from '@/components/YourSchoolLead'
+import { evidenceStatus } from '@gc/shared/evidence-status'
 import { asList } from '@/lib/notes'
 import { neighbours, shapeOf } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
@@ -85,7 +86,9 @@ type TeacherNotes = {
   // and `mechanism` is a claim that needs no figure because the mechanism
   // carries it. A field that mixed checked and unchecked claims silently
   // would be worse than the single evidence_anchor string it replaces.
-  evidence_base?: { claim: string; source: string; status: 'verified' | 'verify' | 'mechanism' }[]
+  // Or, in the lessons written from September, the checker's own note in
+  // place of the one word: shared/evidence-status.ts decides which it is.
+  evidence_base?: { claim: string; source: string; status: string }[]
 }
 type ParentNote = { taught?: string; try_this?: string; family_question?: string }
 type DslNote = { required?: boolean; note?: string }
@@ -638,26 +641,38 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
               cannot verify a number we teach the mechanism instead, which is
               stronger anyway.
             </p>
-            {notes.evidence_base.map((e, i) => (
-              <div key={i} style={{ paddingTop: '11px', borderTop: '1px solid var(--border)' }}>
-                <p style={{ ...body, color: 'var(--ink)', margin: '0 0 3px' }}>{e.claim}</p>
-                <p style={{ ...body, fontSize: 'var(--text-sm)', margin: 0 }}>
-                  {e.source}
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    marginLeft: '8px', padding: '3px 8px', borderRadius: 'var(--radius-pill)',
-                    border: '1px solid var(--border)', whiteSpace: 'nowrap',
-                    background: e.status === 'verify' ? 'var(--terracotta-lt)' : '#fff',
-                    color: e.status === 'verify' ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
-                  }}>
-                    {e.status === 'verified' ? 'Checked'
-                      : e.status === 'verify' ? 'Not yet checked'
-                      : 'Mechanism, no figure'}
-                  </span>
-                </p>
-              </div>
-            ))}
+            {notes.evidence_base.map((e, i) => {
+              // One of the three badges, or the checker's own note shown in
+              // full: a note is never squeezed into a badge it did not choose.
+              const st = evidenceStatus(e.status)
+              return (
+                <div key={i} style={{ paddingTop: '11px', borderTop: '1px solid var(--border)' }}>
+                  <p style={{ ...body, color: 'var(--ink)', margin: '0 0 3px' }}>{e.claim}</p>
+                  <p style={{ ...body, fontSize: 'var(--text-sm)', margin: 0 }}>
+                    {e.source}
+                    {st.kind !== 'note' && (
+                      <span style={{
+                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                        letterSpacing: '0.1em', textTransform: 'uppercase',
+                        marginLeft: '8px', padding: '3px 8px', borderRadius: 'var(--radius-pill)',
+                        border: '1px solid var(--border)', whiteSpace: 'nowrap',
+                        background: st.kind === 'verify' ? 'var(--terracotta-lt)' : '#fff',
+                        color: st.kind === 'verify' ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                      }}>
+                        {st.badge}
+                      </span>
+                    )}
+                  </p>
+                  {st.kind === 'note' && (
+                    <p style={{ ...body, fontSize: 'var(--text-sm)', margin: '6px 0 0', paddingLeft: '10px', borderLeft: '3px solid var(--border)' }}>
+                      {/* A real space after the label, not only a margin: copied
+                          or read aloud, "Note" and the note are two words. */}
+                      <span style={{ ...mono, marginRight: '4px' }}>Note</span>{' '}{st.note}
+                    </p>
+                  )}
+                </div>
+              )
+            })}
           </div>
         ) : null}
 

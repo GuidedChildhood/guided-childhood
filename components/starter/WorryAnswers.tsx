@@ -40,7 +40,7 @@ import Fold from './Fold'
 
 const FALLBACK = ['wont_put_down', 'mood_after_screens', 'asking_for_phone']
 
-export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false }: {
+export default function WorryAnswers({ worryIds, own, tonight, yourPhone, helpFirst = false }: {
   worryIds: string[]
   /** What they typed into Something else. Gets a card of its own, in their
    *  words, because the worry a parent cared enough to write out by hand was
@@ -55,6 +55,10 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
    *  but only on the first card it genuinely answers: never on the catch all,
    *  where a stock script is about somebody else's evening. */
   tonight?: string
+  /** The stage's step for the parent's own phone (lib/content/stages.ts).
+   *  Shown under Tonight, because the evening's move lands better when the
+   *  house is doing it too (Pam's review, 23 September 2026). */
+  yourPhone?: string
   /** Their words tripped the risk gate in lib/concerns/risk. The card stops
    *  being an answer and becomes a handover. */
   helpFirst?: boolean
@@ -196,6 +200,20 @@ export default function WorryAnswers({ worryIds, own, tonight, helpFirst = false
                 <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.45, color: 'var(--ink)' }}>
                   {tonight}
                 </p>
+                {yourPhone && (
+                  <>
+                    <div style={{
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                      letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+                      margin: '12px 0 5px', paddingTop: 10, borderTop: '1px solid var(--border)',
+                    }}>
+                      Your own phone
+                    </div>
+                    <p style={{ margin: 0, fontSize: 'var(--text-base)', lineHeight: 1.5, color: 'var(--ink)' }}>
+                      {yourPhone}
+                    </p>
+                  </>
+                )}
               </div>
             )}
             {/* ── WHAT WE DO, EACH TIME ─────────────────────────────────

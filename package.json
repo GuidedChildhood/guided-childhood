@@ -48,7 +48,9 @@
     "rshe-guard": "node scripts/check-rshe-coverage.mjs",
     "computing-guard": "node scripts/check-computing-coverage.mjs",
     "rshe-evidence": "node scripts/rshe-evidence.mjs",
-    "rshe-generate": "python3 scripts/rshe/gen_ts.py && python3 scripts/rshe/mkcsv2.py"
+    "rshe-generate": "python3 scripts/rshe/gen_ts.py && python3 scripts/rshe/mkcsv2.py",
+    "evidence-guard": "node --experimental-strip-types scripts/check-evidence-status.mjs",
+    "your-school-guard": "node scripts/check-your-school-local.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

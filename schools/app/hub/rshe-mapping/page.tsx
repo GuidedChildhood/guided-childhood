@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { db as supabase } from '@/lib/supabase/server-db'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import HubBackLink from '@/components/HubBackLink'
 import { CURRICULUM, KEY_STAGE_ORDER, positionCode, positionLabel, type KeyStage } from '@gc/shared/schools-curriculum'
 import { RSHE_2026_COUNTS, RSHE_2026_SOURCE } from '@gc/shared/schools-rshe-2026'
 import RequirementList from './RequirementList'
@@ -125,7 +126,7 @@ export default async function RsheMappingPage() {
 
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
+          <HubBackLink />
           <PrintButton />
         </div>
 

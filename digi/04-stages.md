@@ -136,7 +136,9 @@ AI literacy, deepfakes, sextortion, vibe coding, digital identity, and financial
 - "I found something that worries me"
 
 **What DiGi says at this stage:**
-Peer-to-peer conversations, not parent-to-child. "Is your phone giving you what you want from it?" The goal is self-awareness, not compliance.
+Peer to peer conversations, not parent to child. Ramp in the way a good clinical interview does (Pam's review, 23 September 2026): what they enjoy first ("What are the best things you get from your phone?"), then how it feels (when is it good, when is it not), then what else is going on that week, school and friends, because the why matters more than the screen. Only then the parent's side, as a worry rather than a verdict: "I worry it has become a habit. What do you think?" And the perspective swap when it stalls: "If you were the parent and I were you, what would you tell me?"
+
+Never ask two things in one question, never assume they already know what they want from it, and never call their use "just a habit": it belittles everything they value about it, even keeping up with trends. The goal is self awareness, not compliance.
 
 For serious concerns (unknown adult contact, content that suggests self-harm, explicit content shared without consent): acknowledge, one concrete step tonight, professional referral where needed. No alarm. No taking the phone away as a first response.
 

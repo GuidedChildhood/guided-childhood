@@ -30,32 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-20 | 225 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-21 | 245 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-09 · 9 September 2026: the classroom contrast variant, and the widgets that were legible and cut off · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026: the engagement cadence, and an action beat that changed nothing · `plans/decisions-archive/2026-09.md`
-- 2026-09-09 · 9 September 2026: the last fifteen gaps, and engagement at ten · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the Passport daily sticker, decision 3 of 3 · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the school AI governance layer, and the audit that reshaped it · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the cycle budgets 280 broke, and a map that had been missing since 270 · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the recommended time on setup step three, and the table that already existed · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the twenty second module, demanded by a feature · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026 — Migration 283, every timing string tells the truth · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the daily sticker, the worry that says where it came from, and the grey nobody could read · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the KS2 half, and a job another session had already done · `plans/decisions-archive/2026-09.md`
-- 2026-09-10 · 10 September 2026: the account goes last, and the advert becomes true again · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026: migration 285 applied at last, and the six animations that show the wrong cast · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026: the lesson animations meet the new cast, and the six checks that found what the eye would not · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026, later: every beat gets a voice, and the DiGi reference that was the legacy robot · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026 — 286 and 287 were on main and not in the database · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026, applied: 286 and 288 are on production · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026, footnote: 286 was applied twice, seventeen seconds apart · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026: the pilot lesson, and the last silent beat · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026: the answer beat, and a bridge I said was missing that was already there · `plans/decisions-archive/2026-09.md`
 - 2026-09-11 · THE CORRECTION, and it is mine · `plans/decisions-archive/2026-09.md`
 - 2026-09-11 · 11 September 2026 — the answer beat's Continue button, and why the schools UI can be looked at after all · `plans/decisions-archive/2026-09.md`
 - 2026-09-11 · 11 September 2026 — the taster: one lesson outside the wall, and the lead that follows it · `plans/decisions-archive/2026-09.md`
@@ -156,459 +136,30 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-20 · 20 September 2026 — every screen has to survive Larger Text · `plans/decisions-archive/2026-09.md`
 - 2026-09-20 · 20 September 2026 — the Larger Text list is empty · `plans/decisions-archive/2026-09.md`
 - 2026-09-20 · 20 September 2026 — the school card's door goes somewhere, and the phone switch is on the page · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — DiGi's card link, and a name we have not met · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — the mirror is true: all 29 lessons in content/modules, hash proved · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — migration 321: the keyword meanings the wall could not see · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — the lesson rubric, and the only road from a finding to production · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — on a phone the lesson opens section is a swipe strip, not a pinned board · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — the passport stands in the door at the end of the road · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — one ruler for a slide the class acts on · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — the scheme publishes the length it actually runs · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — Cosmo fronts the sixth form, and the pilot's cast predates the Planet Friends · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — migration 323: Cosmo fronts the sixth form, applied · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — migration 324: the sign off counts the real scheme · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, the follow up question moved onto the worry row · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — four decisions on the curriculum review · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026 — migration 325: ks3-12 gets its two beats, and the contract goes into CI · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, the 102 must findings applied, and 601 shoulds parked · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, the render found the wall clipping, and it is not the batch · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, CI caught a lost source claim that the generator should have · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, the core and the extension, marked in 26 lessons · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, eighty hard questions, and the one blank left open · `plans/decisions-archive/2026-09.md`
+- 2026-09-21 · 21 September 2026, the wall clips, and the guard that was measuring a demo deck · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 21 September 2026 — DiGi's card link, and a name we have not met
-
-Justin, from his phone: "Digi links to starter pack in response but this is
-already a sign up ... we should be clever enough to ask if we want to add
-another child as noticed new name?"
-
-Two separate things, both true.
-
-**The link.** DiGi was handed `/m/ID` for moment cards, which is the PUBLIC
-share page: the one a stranger opens from a WhatsApp forward, ending in "Get
-your free starter pack". Every reader of a DiGi reply is signed in, so the link
-is now `/dashboard/moments?card=ID`, the card inside the app where I tried
-this, Make it a quest and Ask DiGi live. The share page keeps the starter pack
-for the stranger it was built for and offers a member the app instead.
-
-**The name.** He asked about a 9 year old called Olga while the only child set
-up was Timbotee, so every follow up since has named a child the app does not
-have. The question keeps her name, because it is a true record of what he
-asked. What is new is the offer: `lib/digi/new-name.ts` finds a first name in
-what the parent typed that we have never met, and a quiet "Add Olga" appears in
-the chat and under the question on Home, going to the add child form with the
-name filled in. Two signals required before we believe it is a child, so
-Roblox, Monday, Miss Davies and London never produce an offer.
-`scripts/check-new-name.mjs` pins all of that, 5 that must fire and 15 that
-must never.
-
-Also corrected: CLAUDE.md still named Teo, Olga and Alma as the characters.
-Justin: "they are not digi squad characters we do not use them anymore we use
-planet friends." It now names DiGi and the Planet Friends, as digi-squad has
-since 23 July 2026.
-
-## 21 September 2026 — the mirror is true: all 29 lessons in content/modules, hash proved
-
-Every review batch asserts the post state by string hash, which needs the
-file to equal the row first. Seven export agents pulled the 21 older lessons
-out of production through the Supabase tool and proved each with
-`scripts/module-string-hash.mjs`; four September files had gone stale under
-later migrations and were re exported. All 29 proved again in one query. The
-first apply of 321 refused, correctly, on the stale four: the hash proof
-doing its job. PR 1133.
-
-## 21 September 2026 — migration 321: the keyword meanings the wall could not see
-
-Eight lessons written since 11 September stored each keyword's meaning under
-`definition`; the wall and the vocabulary page draw `meaning`, so those classes
-saw the words and nothing under them, and the council's blocks check counted
-the missing meanings as nothing to measure. Found by the rubric's measurable
-checks. Renamed in the rows and the files under guard; contract rule 14
-refuses a keywords slide without a meaning the wall draws. PR 1133.
-
-## 21 September 2026 — the lesson rubric, and the only road from a finding to production
-
-`scripts/lesson-rubric.md`: every check with its source, MEASURABLE, JUDGEMENT
-or SCHEME, from two research reports (the best UK schemes lesson by lesson;
-the evidence on projected slides and scripted lessons), honest about what was
-opened and what came through a snippet. `scripts/check-lesson-rubric.mjs`
-runs the measurable ones per slide. `scripts/gen-review-batch.mjs` is the
-only road from a verified finding to a migration: one edit is one string on
-one slide, refused if it does not match the file, carries a dash, breaks the
-wall ceiling, loses an attested phrase or worsens the contract, then a
-guarded batch with backup, abort, proofs and hashes. Migration numbers 321
-onwards are the review's. The 29 reviewer and 29 verifier workflow runs
-against it. PR 1133.
-
-## 21 September 2026 — on a phone the lesson opens section is a swipe strip, not a pinned board
-
-Justin, from his phone: the board stays and the text underneath scrolls past
-and is missed. The pinned card took the top half of the screen and each
-step's words slid up under it while the reader was on them. A phone now gets
-one panel per step, the board for that step with its words directly beneath,
-in a horizontal snap strip with the next panel's edge showing and tappable
-dots; nothing is pinned and nothing slides under anything. The desk keeps
-the sticky board beside the steps. Rendered at 390, 430 and 1440. PR 1133.
-
-## 21 September 2026 — the passport stands in the door at the end of the road
-
-Justin, from his phone: the passport should be at the end. It was at right
-26 per cent, which lands between 56 and 74 per cent of the hero picture; the
-doorway runs from 73 to 89. So it sat short of the door, in the middle of the
-road, and covered Nova entirely, drawing five friends and showing four. It is
-now centred on the door at 81 per cent, inside the open doorway, by a half
-width margin rather than a transform because GSAP owns the transform and
-animates the rotate. Nothing had regressed: it was wrong from the start and
-only visible on a phone. Rendered at 390, 430 and 1440. PR 1135.
-
-## 21 September 2026 — one ruler for a slide the class acts on
-
-Three files each had their own idea of it. The council counted a choice,
-discussion, tryit, interactive and scenario, plus a quote and a diagram with
-verdicts; the module contract counted four of those and none of the rest; the
-rubric checker wrote the council's list out again by hand. On the contract's
-ruler 21 of 29 lessons looked like they sat children past the four minute
-ceiling, and on the council's almost none did, so the disagreement was between
-our instruments rather than in any classroom. Both files now import respondsTo.
-The ceiling is unchanged: the threshold was never the problem, the type list
-was. Contract failures across all 29 lessons went 60 to 2. Said out loud
-because the diff invites the opposite reading: a gate falling from 60 to 2
-looks like a guard being silenced, and the defence is that the content was
-authored to the council's definition all along. PR 1135.
-
-## 21 September 2026 — the scheme publishes the length it actually runs
-
-The 45 to 60 minute window was a number written into the rubric, not a finding
-with a source, and 26 of 29 lessons run past it: median 69, range 42 to 73. A
-five lens panel and four adversarial lenses agreed not to trim, because it is
-the only course that spends statutory content on a rule with nothing behind
-it, and not to publish a core figure either, because the core recomputes to 50
-to 72 so any tighter band would be false on day one. So every manifest row
-carries the true total, the public curriculum card prints it, and
-check-lesson-minutes.mjs holds the published figure to the sum of the slides.
-C8 now tests that the printed number is the real one. Every minute in the
-scheme is authored, not timed: three timed lessons would settle more than more
-analysis. PR 1135.
-
-## 21 September 2026 — Cosmo fronts the sixth form, and the pilot's cast predates the Planet Friends
-
-Cosmo fronted zero lessons, because both sixth form modules are cast to DiGi
-and the home page rightly hides a friend who fronts nothing, while the hero
-picture, the KS5 printouts and the parents app all still promised him.
-Justin's call: recast both KS5 modules to Cosmo, DiGi still closing. Contract
-rules 12 and 13 fail ks3-12, the public taster, because its pause and mission
-are film and only the arrival check accepts film, so the gate still runs on
-four lessons rather than all 29. PR 1135.
-
-CORRECTION, same day, before anyone acts on it. I first read ks3-12's
-video_beats as the cast and reported that the taster plays films of zara and
-digi_junior against a manifest saying orbit. That was wrong. video_beats is a
-render ledger, not the cast, and it is stale: its four job ids match none of
-the six films on the slides, and it names kling3_0 while the transactions show
-the clips were made on Seedance 2.5 on 11 September. What plays is Orbit, as
-Justin's own screenshot of slide 7 shows. The defect is a ledger nobody
-updated after the Orbit re-render, which is worth fixing so the next person is
-not misled, and it is not a wrong character on a wall.
-
-## 21 September 2026 — migration 323: Cosmo fronts the sixth form, applied
-
-Justin said go. Both KS5 modules move from DiGi to Cosmo on four beats each:
-the title's cast key, the arrival, the half time breath and the mission. The
-DiGi sign off that ends both lessons is untouched and proved untouched, and
-the cast line moves with the beats because contract rule 8 holds every friend
-on a beat to the row's own character_cast, which the first generation missed
-and the contract caught. Cosmo returns to the home page on his own, because
-the squad grid shows any friend the curriculum gives a lesson to.
-
-The words: four writers on four angles, three judges (a Year 13 student, a
-head of sixth form, a writer who knows the other friends' voices), three
-hostile checks. All three judges picked the same draft; the checks forced six
-rewrites and killed three lines for handing over the lesson's own answer in
-its opening minute, which the stored script forbids in as many words. The
-rule they converged on: Cosmo stops narrating Cosmo, names himself once, and
-talks about the room after that, which is how Orbit and Nova already work.
-
-Verified on the live rows: cast line, all four beats, one DiGi sign off left
-in each, 30 and 29 slides, 65 minutes each, 29 rows backed up, and both hash
-proofs. PR 1137.
-
-Open for Justin, not changed here: DiGi's sign off in module 20 opens "Twenty
-modules" and the scheme has 29. True when there were 21. His voice, his call.
-
-## 21 September 2026 — migration 324: the sign off counts the real scheme
-
-Justin's call on the item left open above: make it the real number. Applied.
-
-The number is 28, not 29. ks5-20 is the 28th of 29 in the order the scheme
-teaches and ks5-21 still follows it, so 29 would tell a Year 13 class they had
-finished a scheme with one lesson to go. The original construction was "this
-is module N and N modules led here", so the update keeps the construction and
-moves N. The generator computes N from the manifest rather than taking it
-typed in.
-
-Also added the guard that should have caught this. check-curriculum-honesty
-holds the marketing pages to MODULE_COUNT and the pages have been right for
-months; the wall was wrong the whole time, because a count inside a slide is
-content in the database and every count guard we had watched the pages.
-check-lesson-counts holds any module count stated in a lesson to a number that
-is true from where it is spoken: the scheme total, or that lesson's position.
-One hit across 29 lessons, and it was the real one.
-
-Verified on the live row: the new line, four lines still in the close, no
-character key on the sign off, 30 slides, 29 rows backed up, hash proof. The
-retired sentence is gone from every lesson. PR 1138.
-
-Still open for Justin, not changed: "here is where they were all heading" is a
-finale and ks5-20 is the 28th of 29, so it lands one lesson early. ks5-21
-carries the real close. Whether that line moves, softens or stays is his.
-
-## 21 September 2026, the follow up question moved onto the worry row
-
-Justin: "Yes move follow up." The approved change from the expert review.
-
-The same question, the same three taps, asked in two places, measured on our
-own tables: inside the check in about last night's script, 15 answered of 40.
-On its own card on Home, days later, 0 answered of 6. Same parents. The only
-difference is that the check in asks while the worry is already in their head.
-
-So a follow up ATTACHED TO A WORRY is now asked one line above that worry's
-stars in the check in, and is no longer a card. The cron stops making the card
-(it still marks the follow up delivered), the prompts route hides the ones
-already queued, and lib/checkin/today.ts reads the waiting digi_outcomes row.
-Advice not tied to a worry still gets a card, because there is no worry for it
-to ride in on.
-
-Nothing is required of the parent and nothing chases them. The band comparison
-that actually measures the worry runs whether or not they answer, so the
-learning no longer depends on the tap at all.
-
-scripts/check-followup-lives-in-checkin.mjs holds the three files to the same
-story. Seven mutations tried, seven caught; the first version of one rule was
-fooled by a variable name and was rewritten to count calls.
-
-## 21 September 2026 — four decisions on the curriculum review
-
-Justin pushed back on the review itself: "we are confident in the school
-curriculum so let's make the review less often as we don't need to keep
-changing often." He was right to. The deep pass proposed 503 accepted edits
-across 17 lessons, 311 of them to the wall a child reads, and only 67 of
-those were must severity. The other 436 were rubric wins on lessons he is
-already happy with, which is churn rather than quality.
-
-1. **The deep curriculum review runs once a term, not continuously.** The
-   guards stay on every push: they cost nothing, fire only on something real,
-   and are what caught the sign off counting twenty modules. Out of cycle only
-   when a lesson is rewritten, a module is added, or the statutory guidance
-   moves. Written into CLAUDE.md so a future session does not restart the
-   churn. The weekday PR review and weekly UX walkthrough are unchanged,
-   because they judge code against review.md and generate no curriculum
-   proposals.
-2. **This batch applies the must findings only**, plus what is simply empty
-   (hard_questions, missing evidence_base) and the places where a printed
-   worksheet no longer matches the wall it came from. Every should and polish
-   edit stays in the verified files for a later term. Nothing is deleted.
-3. **Each lesson gets a named core and an extension.** 26 of 29 run 63 to 73
-   minutes against a 50 to 60 minute period, and a reviewer heard what happens:
-   teachers cut the last practise slides to reach the exit quiz, which is the
-   assessment evidence a head is buying. A stopping point, not a rewrite. The
-   published length stays the true total.
-4. **ks3-12 gets its two missing beats**, the half time breath and the Orbit
-   mission, so the module contract can go into CI over all 29 lessons. The
-   breath is a scheme template and needs no new words. The mission lines went
-   to Justin for approval first.
-
-Migration numbers from 325. PR to follow.
-
-## 21 September 2026 — migration 325: ks3-12 gets its two beats, and the contract goes into CI
-
-Justin approved the Orbit mission lines. Applied.
-
-ks3-12 was the last lesson failing the module contract, on two rules: no half
-time breath led by a friend (it had none at all) and no friend handing over
-the mission in the close. It was the odd one out because it was built as the
-film pilot, before migration 296 gave every other lesson its beats. The breath
-is a scheme template and needed no new words. The mission is new: it names the
-three checks, opens on the lesson's real insight that a big instant feeling is
-the signal rather than the proof, and ends on pause being a real answer so a
-pupil who cannot tell does not leave feeling they failed.
-
-**All 29 lessons now pass the contract, so it is wired into concern-guards and
-runs on every push.** That is what makes the once a term review cadence safe: a
-gate that runs every time is worth more than a review that runs often.
-
-Two honest notes. The mission script does NOT copy the scheme template line
-"DiGi closes on the next slide", because in ks3-11 and ks3-24 the next slide is
-the passport page, not DiGi. A reviewer caught it as a scheme wide fault;
-fixing the others belongs to the must batch. And the rubric moved 540 to 541
-after this morning's migrations: the extra finding was E39 on ks5-20, where
-migration 323 wrote "say which one to the person next to you" and the check's
-word list knew "neighbour" and "tell" but not "next to you". The prompt does
-exactly what the rule asks, so the check was widened rather than the prompt
-reworded, which is how a check starts driving the content. Back to 540, and
-identical per lesson against the pre migration baseline.
-
-Verified on the live row: 35 slides, 75 minutes, breath at 23 led by Orbit,
-mission at 33, passport at 34, DiGi still last, timing string moved with it,
-29 rows backed up, hash proof. PR 1140.
-
-## 21 September 2026, the 102 must findings applied, and 601 shoulds parked
-
-The lesson review's own output, filtered to must severity and shipped. 102
-edits across 26 of the 29 lessons, written as migrations 326 to 336 and applied
-to production in four transactions. The rubric went 540 to 498.
-
-What the musts were, mostly: a presenter script sending a teacher to the wrong
-beat (DiGi does not close on the next slide when the passport page is next, in
-lesson after lesson), a script naming an answer by its position when the player
-shuffles the options every run, and a script telling a teacher to read a reason
-the wall never draws. All three are the same fault, which is why they are
-musts: the bar tells the teacher something the screen does not do.
-
-**601 shoulds and 54 polish edits are parked, not lost.** Justin's decision
-(same day, the cadence question): we are confident in the scheme, so a pass
-that proposes hundreds of edits to lessons that are already good is churn.
-`scripts/filter-review-batch.mjs` keeps every parked edit with its text and the
-verifier's reason, flipped to `accept: false, parked: true`, for a later term.
-
-Proof, because these are 102 edits into live classroom content. Every edit
-guards on the slide's type and heading and on the exact text it replaces, and a
-single miss aborts the whole batch. Zero misses. Afterwards all 29 production
-rows were hashed against `content/modules/` and all 29 matched, so the three
-untouched lessons are provably untouched too.
-
-One thing left from that decision: the blanks and drift half. Sixteen of the
-seventeen reviewed lessons have an empty `teacher_notes.hard_questions`, some
-have no `evidence_base`, and worksheet and wall wording has drifted apart in
-places. Those are lesson level proposals rather than string edits, so they
-cannot go through the same generator and need their own pass. PR 1142.
-
-## 21 September 2026, the render found the wall clipping, and it is not the batch
-
-Rendering migrations 326 to 336 turned up a separate, pre existing fault: on a
-projector, diagram step cards are cut off mid sentence. ks2-09 slide 12 stops at
-"Ask the maker BEFORE," and its script tells the teacher to point at three
-verdicts that are below the fold.
-
-Measured whole rather than sampled: 12 of 35 slides in ks3-12 and 15 of 29 in
-ks2-09 clip at 1920x1080, nine of those 64 by more than a line. More screen
-height does not help, because the type scales with the viewport.
-
-Every guard passes it because the word ceiling measures each block on its own,
-by design, and nothing measures whether a slide FITS. Four eleven word cards
-each clear 105 words while the slide as a whole is cut in half.
-
-Not fixed here, on purpose. Cutting good KS2 copy to a layout nobody has
-measured is the wrong repair, and council-checks.mjs learned that once already.
-The order is measure all 29, look at the card layout, then a guard that uses a
-browser, then copy if any is genuinely too long. Written up with the evidence in
-plans/2026-09-21-the-wall-clips-finding.md. PR 1142.
-
-## 21 September 2026, CI caught a lost source claim that the generator should have
-
-concern-guards failed on PR 1142 after the must batch was already live.
-check-source-claims found three sentences pinned to a primary source that the
-edits had changed: "A computer reader IS allowed" and "A human reader is NOT
-allowed" on ks3-24, and "WORKS IN STEPS" on ks2-25.
-
-The facts survived. What changed was the capitals, and the edits were right:
-E34 and the BDA guide rule out capitals for emphasis for dyslexic readers, and
-ks3-24 slide 12 is the slide written for that reader, about the reader they are
-allowed in an exam. So those three claims are now matched case insensitively,
-and only those three. Everything else stays an exact match, because for most of
-them the exact words are the point.
-
-The real fault is that gen-review-batch checked attested phrases in two of the
-three places they live, shared/schools-rshe-2026.ts and
-shared/schools-computing-pos.ts, and never looked at check-source-claims.mjs.
-It now runs that guard on the post state the same way it runs the module
-contract, and only a NEW failure blocks a batch. Proved both ways: a synthetic
-edit that guts the phrase exits 1 with the file named, a control edit that
-rewords around it exits 0.
-
-Mine to own: I ran ten guards locally before applying and this was not one of
-them. CI caught it, which is CI working, but by then it was in production.
-PR 1142.
-
-## 21 September 2026, the core and the extension, marked in 26 lessons
-
-147 slides now carry `extension: true`. The core is everything without it, and
-a teacher short of time skips the marked ones and still runs the whole arc,
-lands the objective and reaches the exit quiz. Not a stopping point, a
-droppable set in the middle.
-
-Not one character of lesson text changed. The marks are booleans, so every
-module's string hash is byte identical to production.
-
-One rule across all 26 rather than 26 hand picked cuts. Never markable: outside
-teach and practise, concepts, key visuals, the first check in a phase, the half
-time breath, the main practice, or any slide carrying a protected phrase or a
-key learning point with no other home. Taken last first.
-
-**check-lesson-core.mjs caught one while it was being written**, which is the
-argument for the guard before the marks: both ks3-11 slides carrying
-"password", an RSHE evidence phrase, were marked, which would have dropped it
-from the core. Slide 20 came back.
-
-**Five lessons do not reach 55 and that is the right answer.** ks4-17 is
-sextortion; what is left after marking is what sextortion is, why paying never
-makes it stop, the three lifelines and one check. Reaching 55 there means a
-hole in a safeguarding lesson. So the ceiling is per lesson, recorded with its
-reason, and may only ever come down: ks4-17 at 60, ks2-07 at 59, ks3-11 at 58,
-ks2-08 and ks3-12 at 56. PR 1143.
-
-## 21 September 2026, eighty hard questions, and the one blank left open
-
-Twenty of the 29 lessons had no teacher_notes.hard_questions. Four per lesson
-now, written from that lesson's own recorded misconceptions rather than
-invented around the topic, so they answer what the lesson actually provokes.
-
-The hard ones are the point. Does paying once make it stop: no, and why. Am I
-in trouble if I sent the image myself: no, it is a crime committed against you.
-Is the radicalisation lesson an attack on boys: no, the pipeline targets you.
-Is Father Christmas real, in EYFS: handed back to the family, on purpose.
-
-Rubric 498 to 478.
-
-**evidence_base is deliberately still blank in those twenty.** It wants claims
-with real sources and a verification status, so filling it is a citation pass
-rather than a writing pass, and inventing a source is the one thing that must
-never happen here. It stays open and named rather than quietly filled.
-
-## 21 September 2026, the wall clips, and the guard that was measuring a demo deck
-
-Found while rendering the must batch: on a 1920x1080 projector, slides are cut
-off mid sentence, and no existing guard could see it. council-checks measures
-each card against a readability ceiling ONE AT A TIME, deliberately, because a
-child reads one card at a time. The wall draws them all at once. The ceiling
-measures readability; nothing measured fit.
-
-**Two causes, neither of them the copy.** The teacher's script was taking up to
-363px of a 1080 wall, because the presenter bar is flexShrink 0 against a
-flex 1 stage, so every pixel it takes comes off what thirty children see. And
-three width constants predated the wall scale: a three across diagram grid
-divided WALL.column into twenty character ribbons, and both caps inside
-AnimatedIntro were a flat 900, which at 40px is NARROWER than comfortable,
-which is why title clipped on 29 of 29 lessons with the objective below the
-fold.
-
-**Two columns is not the fix and cannot be.** Halving the width doubles each
-item's lines and a grid row is as tall as its taller item, so two columns cost
-2 x max(a, b) against one column's a + b. Widening is the lever.
-
-Five layout changes, no lesson text touched. Wall clips 243 to 227, and
-severity down more than the count: diagram 726 to 504, title 441 to 246.
-
-**The guard was measuring the wrong pages, and that is the real lesson.**
-GC_DEV_SLIDES is read by the PAGE, in the server process; the CI step set it on
-the guard only. So the server served its built in 21 slide sample deck for
-every request and all 29 lessons were measured as one demo deck, 1711 times,
-filed under the real lessons' names. Three commits in a row returned the
-identical "1 new, 215 fixed", which is what determinism looks like when the
-thing being varied is not the thing being measured.
-
-Two wrong diagnoses came first, both checked rather than assumed: fonts
-(Nunito loads in both, the fallback is 2.6 percent narrower) and the browser
-binary (the headless shell moves one slide in twelve, the one on the
-threshold). Both real, both far too small. What was missing was the cheapest
-check of the three: whether the measurement was pointed at the right thing.
-
-So the guard now proves its own preconditions before it measures: a sentinel
-that must come back in the DOM, a settle loop that refuses a half rendered
-page, and a provenance line carrying the browser build, the font, and a fixed
-reference slide. A baseline of pixels carries its conditions or it carries
-nothing. PR 1143.
-
-**What is left is mostly not layout.** The median wall slide still clipping
-carries 530 characters and the worst run past 1000. Only 34 clip while
-carrying under 300, and titles are most of those, held up by the 324px
-character frame on the opening slide. That is a brand decision, so it is named
-here rather than quietly shrunk, and the rest is a curriculum question for the
-term review, sized per slide.
 
 ## 22 September 2026 — The helpline hotfix, and the number is the lesson
 
@@ -774,3 +325,106 @@ device_sessions rows for the month being reviewed. Not a code fault, the
 route is doing exactly what it says on the tin. Left for Justin: is this
 low device-timer usage across the 27 onboarded families, or a place the
 product should be checking. Not fixed here.
+
+## 23 September 2026 — The safeguarding crosswalk is open, because a DSL could not see it
+
+We asked a designated safeguarding lead to review the schools site. She came
+back with "I can't see the DSL Hub element of it, so I am unable to comment".
+She was not missing it. `/hub/dsl` was not in `OPEN_PATHS`, so the most
+qualified reviewer we had could not reach the one page written for her.
+
+Decided: open it. The crosswalk is an assurance document a school reads to
+evaluate us, the same category as `/hub/rshe-mapping` and
+`/hub/data-protection`, and nothing on it can be taught from. The staff
+briefings behind it stay gated, because those are the product.
+
+Three guards asserted the opposite on purpose, including `OPEN_PATHS.length`
+pinned at 12 with the note "change this number on purpose". Changed on
+purpose, reasoning recorded at both ends. Now 13. PR 1149.
+
+Her second point is still open and is the harder one: **nothing is adaptable.**
+Everything generates from the lesson row. She does not mean rewrite the lesson,
+she means their school in it, the DSL, the deputy, the reporting route, the
+policy title. Sized in `content/linkedin/schools-launch-pack.md` as change 2.
+
+## 23 September 2026 — The LinkedIn Featured banner is built, not generated
+
+Canva's API cannot set a font family and an image model cannot spell
+"Reception to Year 13", so either route would have shipped a banner in the
+wrong typeface, which breaks a non negotiable. Rendered instead from real
+Nunito and IBM Plex Mono with the tokens read out of `shared/tokens.css`.
+
+Fonts are embedded as base64, not linked. The first render linked them, fell
+back silently to a system face and looked almost right, which is the dangerous
+kind of wrong. The render now asserts both families loaded before it shoots.
+
+Source, generator and both sizes are in `content/linkedin/featured-banner/`,
+so the numbers can be corrected when the scheme moves. PR 1149.
+
+## 23 September 2026 — A launch post opens on the buyer, not on the founder
+
+The first draft of the schools launch post opened "we read every one", which
+is the founder talking about the founder. Justin caught it. It now names the
+PSHE lead and their pain in the first twelve words.
+
+The cost is real and accepted: Justin's following is mostly parents and
+researchers, so a hook aimed at PSHE leads reaches fewer people. The goal is
+five pilot schools, not impressions. Paste ready text, wrapped for LinkedIn
+rather than for a markdown file, is in `content/linkedin/paste-ready/`.
+PR 1149.
+
+## 23 September 2026: the free taster gets its evidence, and two claims are corrected
+
+ks3-12 is the one lesson a school opens without a code, and every piece of
+launch copy points at it, yet its "Where the claims come from" panel was
+empty. Migration 341 gives it four sourced rows and corrects two claims that
+said more than their source: the iProov study measured telling real from fake
+across every item, not spotting every fake, and "every fake" became "most
+fakes". 342 writes the statutory requirement in words, because the module
+contract counts the hyphens in RSHE-S-OSA-7 as dashes in copy and only caught
+it after 341 was live. The rule from it: run the contract on the mirror BEFORE
+production. The iProov row stays "Not yet checked" until its primary is
+opened. PR 1150.
+
+## 23 September 2026: source notes are shown, not hidden behind a badge
+
+The lesson page knew three status words and drew anything else as "Mechanism,
+no figure". ks2-26, ks3-27, ks4-28 and ks4-29 wrote their checker's notes into
+that field, so 24 notes never reached a teacher, and a source ks4-29 marks
+DEMOTED was badged as though it backed the lesson. Justin chose the renderer
+fix and a guard, no content change: `shared/evidence-status.ts` decides badge
+or note, and `check-evidence-status.mjs` fails CI if a note can hide again.
+PR 1150.
+
+## 23 September 2026: a DSL can make the crosswalk her school's own
+
+Jane's second point, adapt, answered with the three facts a DSL otherwise
+writes on every filed page by hand: the deputy, how a concern is recorded, and
+the policy title, beside the lead's name in the same browser store. They print
+at the top of the crosswalk and the staff briefings, under every briefing's
+disclosure paragraph and on the teacher sheet. Not typed, the paper gets ruled
+lines to write them in. Justin put the form on the open crosswalk too, so a
+DSL can adapt and print it before buying. Still browser only, and
+`check-your-school-local.mjs` holds that in CI. PR 1150.
+
+## 23 September 2026: evidence for the 8 flagged lessons, and what it waits on
+
+Next, by Justin's choice: the 8 safeguarding flagged lessons whose evidence
+panel is empty (ks1-02, ks2-07, ks2-08, ks3-10, ks3-11, ks4-16, ks4-17,
+ks4-18), two or three a day, every claim checked against its primary before it
+goes live. This environment's network policy refuses the primaries (gov.uk,
+legislation.gov.uk, the NCA, IWF, Childline and the journals), so the checking
+starts once Network access is widened. Plan in
+`plans/2026-09-23-adapt-and-evidence-plan.md`.
+
+## 23 September 2026: the parent track asks one thing at a time, and says what parents want
+
+Pam, a clinician, reviewed the parent track: every quote a problem, a teen
+question that asked two things and shamed ("Is your phone giving you what you
+want from it, or is it just habit?"), and nothing on the parent's own phone.
+Justin took all four recommendations. The teen lines follow her ramp (enjoy,
+feel, the why, the worry as a question, the perspective swap), and so do
+DiGi's notes and the one library script with the same shape (migration 343,
+applied). A "What you want" line sits under each verbatim worry, with a goal
+line above the cards, and every stage has a "Your own phone" step under
+Tonight. Reply to Pam drafted, to send once live. PR 1150.

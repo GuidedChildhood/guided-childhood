@@ -565,6 +565,13 @@ jobs:
       # Structure and density are checked above. This one checks whether the
       # claims are TRUE, against the four verification passes of 11 September.
       - run: node scripts/check-source-claims.mjs
+      # And a teacher can SEE what was checked: every source row shows one of
+      # the three badges or the checker's own note, never a note hidden behind
+      # a badge it did not choose (24 were, until 23 September 2026).
+      - run: node --experimental-strip-types scripts/check-evidence-status.mjs
+      # The school's safeguarding details stay in the browser they were typed
+      # in, as the panel promises beside the fields. See the guard's header.
+      - run: node scripts/check-your-school-local.mjs
       # A parent who asks DiGi a question must never be left with nothing, and
       # the latency row must say which of the two happened. Ten silent replies
       # in digi_latency read identically to ten warm apologies, so the guard
