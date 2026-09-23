@@ -416,3 +416,15 @@ goes live. This environment's network policy refuses the primaries (gov.uk,
 legislation.gov.uk, the NCA, IWF, Childline and the journals), so the checking
 starts once Network access is widened. Plan in
 `plans/2026-09-23-adapt-and-evidence-plan.md`.
+
+## 23 September 2026: the parent track asks one thing at a time, and says what parents want
+
+Pam, a clinician, reviewed the parent track: every quote a problem, a teen
+question that asked two things and shamed ("Is your phone giving you what you
+want from it, or is it just habit?"), and nothing on the parent's own phone.
+Justin took all four recommendations. The teen lines follow her ramp (enjoy,
+feel, the why, the worry as a question, the perspective swap), and so do
+DiGi's notes and the one library script with the same shape (migration 343,
+applied). A "What you want" line sits under each verbatim worry, with a goal
+line above the cards, and every stage has a "Your own phone" step under
+Tonight. Reply to Pam drafted, to send once live. PR 1150.

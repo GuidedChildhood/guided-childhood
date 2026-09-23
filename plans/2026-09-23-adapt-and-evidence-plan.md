@@ -51,3 +51,19 @@ Two or three lessons a day.
 
 Typecheck, every schools guard, render at 390 and 1440 against the fixture,
 and a print preview of the crosswalk with and without details typed.
+
+## D. Pam's review of the parent track (added the same afternoon)
+
+Justin's answers: fix the teen question everywhere, hope next to the worry,
+one "your own phone" line per stage, reply once live.
+
+- `lib/content/stages.ts`: stage 4 and 5 lines rewritten on Pam's ramp; a
+  `yourPhone` step per stage, written as an action so it needs no statistic.
+- `digi/04-stages.md`: the same ramp and the rule behind it.
+- Migration 343: the one library script (of 339) with the same either or,
+  plus a typo the sweep found. Keyed on stage and title, guarded on the
+  exact old text, dry run first.
+- `app/page.tsx`: a goal line above the stage cards and "What you want"
+  under each verbatim parent worry, in our words, never as a made up quote.
+- `components/starter/WorryAnswers.tsx`: "Your own phone" under Tonight.
+- `content/linkedin/paste-ready/reply-to-pam.txt`: send after it is live.
