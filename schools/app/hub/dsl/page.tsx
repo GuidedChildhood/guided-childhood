@@ -2,6 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import HubBackLink from '@/components/HubBackLink'
 import { CURRICULUM, positionLabel } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
@@ -35,7 +36,7 @@ export default async function DslCrosswalkPage() {
     <main style={{ minHeight: '100vh', background: '#fff', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
+          <HubBackLink />
           <PrintButton />
         </div>
 
