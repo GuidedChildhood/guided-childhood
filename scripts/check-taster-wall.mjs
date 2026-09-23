@@ -85,7 +85,7 @@ for (const path of [
 }
 
 // ── The gated hub is still gated ────────────────────────────────────
-for (const path of ['/hub', '/hub/cpd', '/hub/dsl', '/hub/policy', '/print']) {
+for (const path of ['/hub', '/hub/cpd', '/hub/policy', '/print']) {
   ok(`still gated: ${path}`, !reachableWithoutCode(path),
     'the staff briefings and the print room index are the product, not the advert')
 }
@@ -95,7 +95,12 @@ for (const path of ['/hub', '/hub/cpd', '/hub/dsl', '/hub/policy', '/print']) {
 // (the count on the next line is the one to bump), and 9 became 12 the same
 // evening: /terms, /privacy and /dpa, the buying documents, are open
 // to the world on purpose (the schools review, decision 2).
-ok('the open path list is unchanged in size', OPEN_PATHS.length === 12,
+// 12 became 13 on 23 September 2026: /hub/dsl, the safeguarding crosswalk.
+// A designated safeguarding lead reviewed the site and reported she could
+// not see it, which was the gate rather than her. It is an assurance
+// document, the same category as the mapping matrix, and nothing on it can
+// be taught from. The briefings it points at are still gated above.
+ok('the open path list is unchanged in size', OPEN_PATHS.length === 13,
   `OPEN_PATHS has ${OPEN_PATHS.length} entries. The taster is meant to travel through isTasterPath, not by adding routes here. If a page really should be public, change this number on purpose.`)
 
 // ── The two questions stay separate ─────────────────────────────────

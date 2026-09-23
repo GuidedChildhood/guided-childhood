@@ -101,7 +101,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             They are. Oak National Academy publishes a complete statutory RSHE curriculum
             for nothing, and it is good. If lessons are all you need, take them. What no free
             scheme hands you is the paperwork around the teaching, and that is where a subject
-            lead actually loses their term. Three things, and you can read two of them right now
+            lead actually loses their term. Four things, and you can read three of them right now
             without buying anything.
           </p>
           <ol style={{ margin: 0, paddingLeft: '20px', display: 'grid', gap: 'var(--space-3)' }}>
@@ -109,6 +109,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               { h: 'The sheet an inspector reads', b: 'One row per digital and online requirement of the statutory guidance, the module that teaches it, and the ones we leave to your wider scheme. Personal development and wellbeing is graded in its own right, and this is the page you hand over when someone asks to see coverage.', href: '/hub/rshe-mapping', cta: 'Open the mapping matrix' },
               { h: 'A teacher who never trained for this, made ready in fifteen minutes', b: 'Every slide carries the words to say, so a non specialist is not improvising about consent or sextortion at nine on a Monday. Staff briefings sit behind the licence, because that part is the product.', href: null, cta: null },
               { h: 'A purchase your data protection officer does not have to build a case for', b: 'No pupil logins, no pupil names, no tracking. The pack sets out what is processed, the lawful basis, retention, and consultation evidence for your DPIA. Read it before you decide, not after.', href: '/hub/data-protection', cta: 'Open the data protection pack' },
+              { h: 'The page your designated safeguarding lead can file', b: 'Every safeguarding flagged module, the statutory ground it stands on, and the note its teachers get before they teach it. Two standing rules on every one: content is age appropriate and never graphic, and the platform records no disclosures, so every concern follows your own reporting systems. Written to be referenced from your safeguarding policy.', href: '/hub/dsl', cta: 'Open the safeguarding crosswalk' },
             ].map(item => (
               <li key={item.h} style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
                 <strong style={{ color: 'var(--ink)' }}>{item.h}.</strong>{' '}{item.b}
