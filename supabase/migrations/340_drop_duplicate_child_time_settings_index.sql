@@ -1,0 +1,13 @@
+-- 340: drop the duplicate index on child_time_settings.child_id.
+--
+-- Found 23 September 2026 by the daily health sweep's Supabase performance
+-- advisor check, new since the last sweep (child_time_settings did not exist
+-- when that check last ran clean).
+--
+-- child_time_settings carries two identical unique btree indexes on
+-- child_id: child_time_settings_child_id_key, which backs the real UNIQUE
+-- constraint of the same name, and idx_child_time_settings_child, a plain
+-- index someone added by hand that does the same job and is tied to nothing.
+-- Every write to the table pays for both. Only the second is safe to drop
+-- without touching the constraint.
+drop index if exists public.idx_child_time_settings_child;
