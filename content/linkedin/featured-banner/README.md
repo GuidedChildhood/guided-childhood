@@ -55,6 +55,34 @@ page a head clicks through to.
 Checked at 300px wide, which is roughly how a Featured tile renders: the cold
 pile and "All 57 taught" both still read before a word is.
 
+## The text that goes beside it
+
+What goes in the Title and Description fields of the LinkedIn Featured item.
+Written to the same shape as the Digital Behaviour Checker item already up
+there: a short reframe that negates then corrects, a blank line, then the
+concrete thing, then the offer.
+
+**Title**
+
+```
+Guided Childhood Schools the statutory lessons, already written
+```
+
+**Description**
+
+```
+Most schools don't need another framework. They need the lessons written.
+
+Guided Childhood Schools is a complete digital literacy scheme of work. 29 lessons, Reception to Year 13, taught from a word for word script with printable packs, parent notes and the statutory mapping you can show. All 57 online and digital requirements of the statutory RSHE guidance are taught, and KCSIE 2026 is mapped beside them.
+
+Free one term pilot for the first 5 schools.
+```
+
+Every figure in it: 29 from the manifest, 57 from
+`shared/schools-rshe-2026.ts`, 5 from `schools/lib/pilot.ts` `PILOT_PLACES`,
+and £495 from `schools/lib/pricing.ts` if the price line is added back. Those
+move, so the text moves with them.
+
 ## To change it
 
 Edit `build.mjs`, run `node build.mjs` in this folder, then re-render. Never
