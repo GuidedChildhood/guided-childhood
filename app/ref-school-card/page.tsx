@@ -35,7 +35,7 @@ const ACTIONS: SchoolAction[] = [
   // time, a dated one off, a timed appointment, and two things on one day.
   {
     id: 'r3', kind: 'kit', title: 'PE kit', detail: null, due_date: null,
-    recurs_weekday: 4, auto_send_to_child: false, cleared_on: null,
+    recurs_weekday: 4, auto_send_to_child: false, cleared_on: null, child_name: 'Teo',
   },
   {
     id: 'o1', kind: 'payment', title: 'Pay for the Warwick Castle trip', detail: null,
@@ -43,7 +43,7 @@ const ACTIONS: SchoolAction[] = [
   },
   {
     id: 'o2', kind: 'event', title: 'Class assembly', detail: null,
-    due_date: thisWeek(3), due_time: '09:15', recurs_weekday: null, auto_send_to_child: false, cleared_on: null,
+    due_date: thisWeek(3), due_time: '09:15', recurs_weekday: null, auto_send_to_child: false, cleared_on: null, child_name: 'Olga',
   },
   {
     id: 'o3', kind: 'deadline', title: 'Return the consent form', detail: null,

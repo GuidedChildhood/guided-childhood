@@ -269,6 +269,16 @@ export default function SchoolWeek({
                       lineHeight: 1.3, textDecoration: cleared ? 'line-through' : 'none',
                     }}>
                       {a.title}
+                      {/* WHOSE IT IS, ON THE CALENDAR TOO (23 September 2026).
+                          Justin: "if more than one child you can select child
+                          and the reminder mentions name." The add sheet asks
+                          whose, the list card says it and all three pushes say
+                          it, but this week grid, the calendar itself, showed
+                          "Spelling test" for a family of two with no way to
+                          tell whose. Same quiet style the list uses. */}
+                      {a.child_name && (
+                        <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> · {a.child_name}</span>
+                      )}
                     </span>
 
                   {/* Mark as done, and end it for good. Both on the item, both
