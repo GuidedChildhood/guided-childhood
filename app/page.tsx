@@ -50,6 +50,9 @@ export const metadata: Metadata = {
 }
 
 // ── Stage definitions (ported unchanged: verbatim parent quotes per stage) ───
+// `want` is ours, not a quote: what the parent is hoping for, beside the worry
+// they arrive with. Added 23 September 2026 after Pam's review said the page
+// only ever spoke in problems.
 
 const STAGES = [
   {
@@ -57,6 +60,7 @@ const STAGES = [
     device: 'Shared screen',
     tags: ['TV routines', 'Co viewing', 'No solo device'],
     quote: '"I cannot get my four year old off the iPad. What am I doing wrong?"',
+    want: 'Screen time that ends calmly, because the routine decides, not you.',
     bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)',
   },
   {
@@ -64,6 +68,7 @@ const STAGES = [
     device: 'Restricted phone',
     tags: ['After school TV', 'Gaming time', 'Boredom'],
     quote: '"The moment he walks in from school it is TV or gaming. I cannot break the cycle."',
+    want: 'An after school rhythm they know by heart, with screens in it and the fight taken out.',
     bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)',
   },
   {
@@ -71,6 +76,7 @@ const STAGES = [
     device: 'Guided smartphone',
     tags: ['Mood after screens', 'Sleep rules', 'Workarounds'],
     quote: '"Her mood drops every time she puts her phone down. I am worried."',
+    want: 'A child who can tell you how their phone makes them feel, and wants to.',
     bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)',
     critical: true,
   },
@@ -79,6 +85,7 @@ const STAGES = [
     device: 'Monitored social',
     tags: ['VPNs', 'Unknown accounts', 'Reputation'],
     quote: '"He has accounts I do not know about. What do I do?"',
+    want: 'To be the first person they call when something online goes wrong.',
     bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)',
   },
   {
@@ -86,6 +93,7 @@ const STAGES = [
     device: 'Trust based',
     tags: ['Full access', 'AI literacy', 'Readiness'],
     quote: '"She is 16 next month. I have no idea if she is ready."',
+    want: 'A young adult who knows what their phone gives them, and what it costs.',
     bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)',
   },
 ]
@@ -804,6 +812,12 @@ export default function HomePage() {
             <h2 className="fu" style={{ margin: '0 0 14px' }}>
               Where is your child <span style={{ color: 'var(--terracotta)' }}>right now?</span>
             </h2>
+            {/* The goal before the worries. Every card below opens on a real
+                parent's problem, which is the language parents search in, so
+                the section says once, first, what all five stages are for. */}
+            <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.6, maxWidth: '520px', margin: '0 auto 10px' }}>
+              Five stages, one goal: a child with a healthy relationship with screens, who comes to you when something goes wrong.
+            </p>
             <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '480px', margin: '0 auto' }}>
               Multiple children at different stages? One account covers all of them.
             </p>
@@ -825,9 +839,22 @@ export default function HomePage() {
                     )}
                   </div>
                   <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontStyle: 'italic', lineHeight: 1.6, margin: '0 0 14px', flex: 1 }}>
+                    <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontStyle: 'italic', lineHeight: 1.6, margin: '0 0 12px' }}>
                       {s.quote}
                     </p>
+                    {/* The hope beside the worry (Pam's review, 23 September
+                        2026: every quote was a problem, and none said what a
+                        parent is actually hoping for). Our words, not a parent
+                        quote, so it is set as a plain line under a label rather
+                        than in quotation marks. */}
+                    <div style={{ flex: 1, margin: '0 0 14px' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: s.text, marginBottom: '4px' }}>
+                        What you want
+                      </div>
+                      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
+                        {s.want}
+                      </p>
+                    </div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                       {s.ks} · {s.device}
                     </div>

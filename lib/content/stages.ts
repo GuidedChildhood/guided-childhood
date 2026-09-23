@@ -21,6 +21,12 @@ export interface Stage {
     why: string
   }
   action: string
+  // The parent's own phone, one step per stage. Pam, a clinician reviewing
+  // the parent track on 23 September 2026, pointed out that children learn
+  // from how their parents use their phones, and nothing here said so.
+  // Written as something to do rather than a statistic, so it carries no
+  // claim that would need a source.
+  yourPhone: string
   warningSigns: string[]
   parentQuote: string
   digiContext: string
@@ -58,6 +64,7 @@ export const STAGES: Stage[] = [
       why: 'Children at this stage cannot regulate device use themselves. The rule is not a punishment, it is the structure that makes screen time safe. Consistent boundaries now build the self control they will need at 13.',
     },
     action: 'Set up a charging station in the kitchen or hallway tonight. Devices do not sleep in bedrooms in this house.',
+    yourPhone: 'When the timer ends their screen time, put your own phone away too. The rule is for the house, not just for them.',
     warningSigns: [
       'Tantrums or real distress when a device is taken away',
       'Choosing screens over play every time they have a choice',
@@ -92,6 +99,7 @@ export const STAGES: Stage[] = [
       why: 'Sleep is the one rule that never moves. Blue light, notification sounds, and the temptation to check at 2am are all removed by one consistent rule. Set it now, before they have a personal device, and it is just how things work.',
     },
     action: "Have the bedroom rule conversation tonight, not as a rule you are imposing, but as a family decision. 'Where should our devices sleep?'",
+    yourPhone: 'Charge your own phone in the kitchen overnight, next to theirs. One rule for everyone is the easiest rule to keep.',
     warningSigns: [
       'Using devices secretly or hiding what they watch',
       'Starting to compare themselves to what they see online',
@@ -126,6 +134,7 @@ export const STAGES: Stage[] = [
       why: 'Children at 11 to 13 are in the highest risk window identified by Cambridge MRC research. They are forming identity through comparison, and the algorithm amplifies whatever vulnerability it finds. The parent who can talk about this without alarm is the greatest protective factor.',
     },
     action: 'Open their feed together tonight. No judgment, just curiosity. "Interesting, why do you think it showed you that?" Stay for 10 minutes.',
+    yourPhone: 'Say it out loud when you stop scrolling: "I have been on that too long, I am putting it down." Let them see you stop, not just hear you ask them to.',
     warningSigns: [
       'Mood drops noticeably after phone use',
       'Anxiety about being left out of what is happening online',
@@ -171,6 +180,7 @@ export const STAGES: Stage[] = [
       why: 'Teenagers at this stage need to know the door is open before anything goes wrong. A child who fears losing their phone is a child who hides problems. This script keeps the door open.',
     },
     action: 'Set up a weekly 10 minutes with no agenda. Not about screens, not about homework. Just checking in. Same day, same time.',
+    yourPhone: 'Give them the right to call you out when you are on your phone at the table. It is the same right you are asking for.',
     warningSigns: [
       'Secretive phone use or panic if you pick up the device',
       'Extreme mood swings tied to online interactions',
@@ -180,7 +190,7 @@ export const STAGES: Stage[] = [
     parentQuote: '"He finally told me what had happened because I had said that line. Months earlier. I did not even remember saying it."',
     digiContext: 'Stage 4 parent. Child aged 13 to 15. Focus on identity, footprint, open-door safety, gaming culture. Relationship is the protection at this stage. LGBTQ+ youth: never suggest restriction. Online community may be essential.',
     challengeActions: {
-      screens_takeover: 'Shift the frame from time to context. Not "how long" but "what are you actually getting from this right now?" That is the question that gets somewhere.',
+      screens_takeover: 'Shift the frame from time to what it does for them, and start with the good: "What are the best bits of your phone at the moment?" Listen properly. Another day, ask when it feels good and when it does not.',
       mood_changes: 'Try: "I have noticed your mood sometimes changes after being on your phone. Have you noticed that?" Leave space for silence. Do not fill it.',
       gaming: 'Ask about the people they play with online. Gaming at this age is almost always social. The game is the venue, not the point.',
       online_safety: 'Make sure the open door is open. "If anything ever makes you uncomfortable online, I am the first call, not the last. I will not take your phone away. I will help."',
@@ -224,6 +234,7 @@ export const STAGES: Stage[] = [
       why: 'At 16, the goal is not compliance but genuine digital literacy. A young person who can articulate their own relationship with technology, what it gives them and what it costs them, is genuinely prepared for what comes next.',
     },
     action: 'Suggest a joint digital audit: go through their online presence together as peers, not parent and child. What does it say? What would they change?',
+    yourPhone: 'Be honest about your own phone: what it gives you, and what it costs you. It is the conversation you are hoping they will have with themselves.',
     warningSigns: [
       'Measuring their worth through likes, followers or metrics',
       'Struggling to be fully present in real life situations',
@@ -233,8 +244,8 @@ export const STAGES: Stage[] = [
     parentQuote: '"I stopped trying to limit it and started asking different questions. That is when everything shifted."',
     digiContext: 'Stage 5 parent. Young person aged 16 and above. Focus on digital literacy, identity, footprint, independence. AI literacy, deepfakes, and vibe coding are relevant topics. The goal is genuine readiness, not compliance.',
     challengeActions: {
-      screens_takeover: 'Ask: "Is your phone giving you what you want from it, or is it just habit?" That question is worth ten rules.',
-      mood_changes: 'Try: "I have noticed you seem different after being on your phone. Is it giving you what you want from it?" Peer to peer, not parent to child.',
+      screens_takeover: 'Start with what they enjoy: "What are the best things you get from your phone?" Then how it feels: when is it good, and when is it not? Only then say your side, as a worry rather than a verdict: "I worry it has become a habit. What do you think?"',
+      mood_changes: 'Try: "I have noticed you seem different after being on your phone. How does it leave you feeling?" Then ask about the rest of their week, school and friends, because the why matters more than the screen. If it stalls, swap seats: "If you were the parent and I were you, what would you tell me?"',
       gaming: 'At 16, gaming is often a career interest, a creative outlet, or a core social life. Engage with it seriously. Ask what they get from it.',
       online_safety: 'Sextortion, deepfakes, and AI generated content are real at this age. Have a specific, calm conversation about what to do if anything goes wrong. Not if, when.',
       start_conversation: 'Ask them to show you one thing online that they think you should know about. Then listen without judgment for five minutes.',

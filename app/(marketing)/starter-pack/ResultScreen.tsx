@@ -439,7 +439,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               frightening must not have to scroll PAST a marketing card to
               reach a phone number. When the gate fires it goes to the very
               top, above the heading. */}
-          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} tonight={action} helpFirst={helpFirst} />
+          <WorryAnswers worryIds={worries ?? (worry ? [worry] : [])} own={own} tonight={action} yourPhone={stage.yourPhone} helpFirst={helpFirst} />
 
           {/* ── GOOD TO KNOW: TWO ROWS, THE DETAIL ONE TAP AWAY ────────────
               Justin, 13 September 2026, with the other parents card and the
