@@ -102,7 +102,7 @@ function FactsBox({ rows, aside }: { rows: { label: string; value: string }[] | 
   const blank = [YOUR_SCHOOL_LABEL.leadName, YOUR_SCHOOL_LABEL.deputyName, YOUR_SCHOOL_LABEL.reportRoute, YOUR_SCHOOL_LABEL.policyTitle]
   return (
     <div className="gc-print-card" style={box}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 'var(--space-3)', marginBottom: '10px' }}>
         <span style={eyebrow}>This school</span>
         {aside}
       </div>
