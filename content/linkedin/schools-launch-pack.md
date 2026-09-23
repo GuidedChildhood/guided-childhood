@@ -81,7 +81,10 @@ desk with the guidance open, or in a school, beats any infographic here.
 **Link:** first comment, never the body.
 
 ```
-The statutory guidance runs to 195 numbered items. We read every one.
+PSHE leads are being asked to turn 195 clauses into Tuesday afternoon.
+
+That is the real size of the statutory guidance. 195 numbered items across
+28 strands. We went through every one.
 
 Not because anybody enjoys that.
 
@@ -89,25 +92,25 @@ Because every scheme I looked at says "covered" against a theme, and a theme
 is not an item. "Online relationships" is a heading. Underneath it are
 clauses about what a child should know, by when, and in what words.
 
-So we went through all 195 and pulled out the 57 that are about online life.
-Then we wrote down, requirement by requirement, which lesson teaches it and
-what the child actually does in that lesson.
+So we pulled out the 57 that are about online life, and wrote down,
+requirement by requirement, which lesson teaches it and what the child
+actually does in that lesson.
 
 Here is what that exercise really showed me.
 
 The problem in schools is not that teachers do not care about this. It is
 that we keep handing them a document and calling it support. A PSHE lead is
 usually teaching something else as well. A designated safeguarding lead
-almost always is. They are being asked to turn 195 clauses into Tuesday
-afternoon, on their own, in the time they do not have.
+almost always is. They are being asked to do all of it on their own, in time
+they were never given.
 
 And in September a new safeguarding update landed on top, naming generative
 AI and AI generated images for the first time.
 
 Nobody is short of guidance. They are short of the lessons.
 
-Parents: has your child's school ever told you what they are actually taught
-about being online? I would genuinely like to know how common that is.
+If you teach this: what were you actually given to teach it with? I would
+genuinely like to know what is in use out there.
 ```
 
 **First comment:**
@@ -118,13 +121,25 @@ digital requirements in the guidance's own words with the lesson that teaches
 each one. schools.guidedchildhood.com/hub/rshe-mapping
 ```
 
-Why this shape: the hook is results first and checkable. The body is a story
-with air, not a claim list. The brick it carries for the hidden thread is
-capacity, that the system asks teachers to absorb an enormous ask with no
+Why this shape. The first draft opened on us ("we read every one"), which is
+the founder talking about the founder. Justin caught it on 23 September: the
+first line has to let the buyer recognise themselves. So it now names the
+customer in the first eight words and hands them the pain in the next four.
+Twelve words, one number, no throat clearing.
+
+The body is a story with air, not a claim list. The brick it carries for the
+hidden thread is capacity: the system hands teachers an enormous ask with no
 time, which moves attention toward a real driver rather than making the
 platform the main character. It never states the thesis outright, so it is one
-of the nine. The close is a question a parent or a teacher can answer from
-their own life, and the answers will tell us something we want to know.
+of the nine. The close asks a teacher what they were actually given, which
+they can answer from their own week, and the answers are market research we
+cannot buy.
+
+The reach cost is real and worth taking. Justin's following is mostly parents
+and researchers, so a hook aimed at PSHE leads will be seen by fewer people
+than a hook aimed at parents. The goal is five pilot schools, not impressions,
+and the people who can say yes are the ones who have to see themselves in
+line one.
 
 ---
 

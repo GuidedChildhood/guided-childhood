@@ -652,6 +652,7 @@ export default async function SchoolsPage() {
                 {[
                   { href: '/curriculum', label: 'The curriculum map' },
                   { href: '/hub/rshe-mapping', label: 'The statutory mapping' },
+                  { href: '/hub/dsl', label: 'The safeguarding crosswalk' },
                   { href: '/philosophy', label: 'Our philosophy' },
                   { href: '/pricing', label: 'Pricing' },
                 ].map(l => (

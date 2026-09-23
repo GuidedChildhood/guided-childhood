@@ -113,7 +113,17 @@ function secret(): string {
 // the licence made the reason to buy invisible until after buying. The same
 // logic already applies to '/hub/rshe-mapping', the sheet an inspector reads.
 // The staff briefings stay gated, because those are the product.
-export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/philosophy', '/pilot', '/terms', '/privacy', '/dpa']
+// '/hub/dsl' joined on 23 September 2026, for the third time the same
+// reasoning. We asked a designated safeguarding lead to review the site and
+// she came back with "I can't see the DSL Hub element of it, so I am unable
+// to comment". She was not missing it: the gate was in front of it. The
+// crosswalk is the safeguarding equivalent of the mapping matrix, a
+// procurement and assurance document a school reads to evaluate us, not
+// teaching content. Nothing on it can be taught from: it lists which modules
+// are flagged, the statutory ground each stands on and the note a teacher
+// gets, and it exists to be referenced from a school's safeguarding policy.
+// The staff briefings behind it stay gated, as they always have.
+export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/hub/data-protection', '/hub/dsl', '/philosophy', '/pilot', '/terms', '/privacy', '/dpa']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true
