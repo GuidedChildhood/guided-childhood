@@ -3,6 +3,7 @@ import { FLAGGED_MODULES } from '@gc/shared/schools-curriculum'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
+import { SchoolFacts, DisclosureRoute } from '@/components/YourSchoolLead'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
 export const metadata = { title: 'Staff briefings' }
@@ -160,6 +161,11 @@ export default async function CpdBriefingsPage() {
           before the scheme starts, alongside the induction page in the Hub.
         </p>
 
+        {/* The school's own details, typed once on the Hub: at the top of the
+            page, and under every disclosure paragraph, so a briefing handed
+            to one teacher still says who to go to here (23 September 2026). */}
+        <SchoolFacts mode="page" changeHref="/hub#your-school" />
+
         {BRIEFINGS.map(b => (
           <div key={b.module} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-tile)', padding: '18px 22px', marginBottom: '16px', pageBreakInside: 'avoid' }}>
             <h2 style={h2}>{b.module}</h2>
@@ -167,6 +173,7 @@ export default async function CpdBriefingsPage() {
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>The tone to hold: </span>{b.register}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Watch for: </span>{b.watchFor}</p>
             <p style={{ ...body, marginBottom: '8px' }}><span style={label}>Disclosures: </span>{b.disclosure}</p>
+            <DisclosureRoute style={{ ...body, marginBottom: '8px' }} labelStyle={label} />
             <p style={{ ...body, fontStyle: 'italic' }}>{b.line}</p>
           </div>
         ))}

@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import HubBackLink from '@/components/HubBackLink'
+import { SchoolFacts } from '@/components/YourSchoolLead'
+import YourSchoolPanel from '../YourSchoolPanel'
 import { CURRICULUM, positionLabel } from '@gc/shared/schools-curriculum'
 import { PAGE_SHELL } from '@gc/shared/page-scale'
 
@@ -55,6 +57,14 @@ export default async function DslCrosswalkPage() {
           curriculum under the renewed Ofsted framework. This page is written to be that link: file it
           or reference it from the policy.
         </p>
+
+        {/* THE SCHOOL'S OWN COPY (23 September 2026). A DSL reviewing the
+            scheme asked for material she could adapt. On screen, the form;
+            on paper, what was typed, or ruled lines to write it in. Both
+            read the browser only: this page stays a server page, and no
+            member of staff's name ever reaches it. */}
+        <YourSchoolPanel variant="crosswalk" />
+        <SchoolFacts mode="paper" />
 
         {flagged.map(m => {
           const db = dbByModule.get(m.moduleId)

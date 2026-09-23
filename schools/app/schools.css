@@ -22,6 +22,21 @@
   h2, h3 { break-after: avoid; page-break-after: avoid; }
 }
 
+/* The paper half of a pair whose screen half is a form: the school's
+   details on the crosswalk print, where the screen shows the fields. */
+.gc-print-only { display: none; }
+@media print { .gc-print-only { display: block; } }
+
+/* The school's details as label and value rows. Two columns on a desk and on
+   A4, one on a phone, where a 16rem label column would leave the values a
+   word wide. 16rem is the longest label, Designated safeguarding lead, on
+   one line in the mono caps. */
+.gc-facts { display: grid; grid-template-columns: minmax(10rem, 16rem) 1fr; column-gap: 18px; row-gap: 8px; }
+@media (max-width: 560px) {
+  .gc-facts { grid-template-columns: 1fr; row-gap: 2px; }
+  .gc-facts dd { margin-bottom: 10px !important; }
+}
+
 /* The projector teach surface wants the full viewport with no site chrome
    competing; the teach page opts its nav out with this. */
 .teach-shell { min-height: 100vh; background: var(--cream); }
