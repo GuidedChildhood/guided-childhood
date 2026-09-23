@@ -372,3 +372,47 @@ researchers, so a hook aimed at PSHE leads reaches fewer people. The goal is
 five pilot schools, not impressions. Paste ready text, wrapped for LinkedIn
 rather than for a markdown file, is in `content/linkedin/paste-ready/`.
 PR 1149.
+
+## 23 September 2026: the free taster gets its evidence, and two claims are corrected
+
+ks3-12 is the one lesson a school opens without a code, and every piece of
+launch copy points at it, yet its "Where the claims come from" panel was
+empty. Migration 341 gives it four sourced rows and corrects two claims that
+said more than their source: the iProov study measured telling real from fake
+across every item, not spotting every fake, and "every fake" became "most
+fakes". 342 writes the statutory requirement in words, because the module
+contract counts the hyphens in RSHE-S-OSA-7 as dashes in copy and only caught
+it after 341 was live. The rule from it: run the contract on the mirror BEFORE
+production. The iProov row stays "Not yet checked" until its primary is
+opened. PR 1150.
+
+## 23 September 2026: source notes are shown, not hidden behind a badge
+
+The lesson page knew three status words and drew anything else as "Mechanism,
+no figure". ks2-26, ks3-27, ks4-28 and ks4-29 wrote their checker's notes into
+that field, so 24 notes never reached a teacher, and a source ks4-29 marks
+DEMOTED was badged as though it backed the lesson. Justin chose the renderer
+fix and a guard, no content change: `shared/evidence-status.ts` decides badge
+or note, and `check-evidence-status.mjs` fails CI if a note can hide again.
+PR 1150.
+
+## 23 September 2026: a DSL can make the crosswalk her school's own
+
+Jane's second point, adapt, answered with the three facts a DSL otherwise
+writes on every filed page by hand: the deputy, how a concern is recorded, and
+the policy title, beside the lead's name in the same browser store. They print
+at the top of the crosswalk and the staff briefings, under every briefing's
+disclosure paragraph and on the teacher sheet. Not typed, the paper gets ruled
+lines to write them in. Justin put the form on the open crosswalk too, so a
+DSL can adapt and print it before buying. Still browser only, and
+`check-your-school-local.mjs` holds that in CI. PR 1150.
+
+## 23 September 2026: evidence for the 8 flagged lessons, and what it waits on
+
+Next, by Justin's choice: the 8 safeguarding flagged lessons whose evidence
+panel is empty (ks1-02, ks2-07, ks2-08, ks3-10, ks3-11, ks4-16, ks4-17,
+ks4-18), two or three a day, every claim checked against its primary before it
+goes live. This environment's network policy refuses the primaries (gov.uk,
+legislation.gov.uk, the NCA, IWF, Childline and the journals), so the checking
+starts once Network access is widened. Plan in
+`plans/2026-09-23-adapt-and-evidence-plan.md`.
