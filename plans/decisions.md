@@ -440,3 +440,15 @@ section. The hero line now gives the benefit from our one line story instead
 of a feature list. The header "Get Started" stays until the restructure, which
 waits for Alice's full notes so the homepage is rebuilt once. Reply to Alice in
 `content/linkedin/paste-ready/reply-to-alice.txt`.
+
+## 24 September 2026: outside advice is weighed before it is acted on
+
+Justin asked that no advice be acted on until it has been checked against our
+own philosophy and goal. Now every piece of outside feedback goes through
+`.claude/skills/feedback-filter`, routed from CLAUDE.md. It splits the advice
+into points, tests each against the goal (the stage check), the five
+commitments, the customer, evidence or silence and what already exists, then
+returns adopt, adapt, already built, park or decline with the reason. Jane,
+Pam and Alice were weighed retrospectively in
+`plans/2026-09-24-outside-reviews-weighed.md`: nothing shipped needed undoing,
+and four face value mistakes were avoided. PR 1151.
