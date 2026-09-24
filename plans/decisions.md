@@ -428,3 +428,15 @@ DiGi's notes and the one library script with the same shape (migration 343,
 applied). A "What you want" line sits under each verbatim worry, with a goal
 line above the cards, and every stage has a "Your own phone" step under
 Tonight. Reply to Pam drafted, to send once live. PR 1150.
+
+## 24 September 2026: the hero names the stage check, and says what a parent gets
+
+Alice, reviewing the site with an early years website AI, said the strongest
+conversion idea is "Find my child's stage", not a free trial. That was already
+our strategy (THE-STORY.md section 9: every CTA goes to the three question
+stage check, same words everywhere), but the hero and final buttons said
+"Start for free". Both now say "Find my child's stage", matching the stages
+section. The hero line now gives the benefit from our one line story instead
+of a feature list. The header "Get Started" stays until the restructure, which
+waits for Alice's full notes so the homepage is rebuilt once. Reply to Alice in
+`content/linkedin/paste-ready/reply-to-alice.txt`.

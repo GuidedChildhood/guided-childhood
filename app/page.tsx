@@ -302,12 +302,22 @@ export default function HomePage() {
             <h1 className="fu" style={{ fontSize: 'clamp(2rem, 5.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
               A clear digital pathway from first screen to 16.
             </h1>
+            {/* What the parent gets, not what the product contains. The line
+                used to list features (lessons, habits, quests, the passport);
+                an outside review on 24 September 2026 said the hero should
+                carry the benefit, and the benefit is our own one line story
+                (THE-STORY.md, section 1). The features are the sections below. */}
             <p className="fu" style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '26px' }}>
-              What to do, when to do it, how to do it. Age by age lessons, habits and quests, evidence informed, finished with their Digital Passport.
+              What to say, what to set and what to do next at every age. Ten minutes a day together, so your child reaches sixteen ready for a phone and social media.
             </p>
+            {/* The stage check, named. Every CTA routes to /starter-pack, the
+                three question stage check, and THE-STORY.md says the hook is
+                used everywhere, identical. This button said "Start for free",
+                which asks a parent to decide on a product; "Find my child's
+                stage" asks the question they arrived with. */}
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-lg)', padding: '17px 42px' }}>
-                Start for free
+                Find my child&rsquo;s stage
               </Link>
             </div>
             <p className="fu" style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
@@ -1129,7 +1139,7 @@ export default function HomePage() {
           </p>
           <div style={{ marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: 'var(--text-md)', padding: '17px 40px' }}>
-              Start for free
+              Find my child&rsquo;s stage
             </Link>
           </div>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
