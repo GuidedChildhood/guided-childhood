@@ -11,10 +11,12 @@ import ChildRail from '@/components/children/ChildRail'
 //
 // 404s in production via middleware, like every other ref- page.
 
+// Three different age bands, so each child shows in its own stage colour the
+// way a real family does.
 const KIDS = [
-  { id: 'a', name: 'Teo', is_primary: true },
-  { id: 'b', name: 'Alma', is_primary: false },
-  { id: 'c', name: 'Olga', is_primary: false },
+  { id: 'a', name: 'Teo', is_primary: true, age_band: '4-7' },
+  { id: 'b', name: 'Alma', is_primary: false, age_band: '8-10' },
+  { id: 'c', name: 'Olga', is_primary: false, age_band: '11-13' },
 ]
 
 export default async function RefChildRail({

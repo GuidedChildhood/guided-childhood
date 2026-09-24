@@ -354,3 +354,13 @@ auth median 130ms). All now use sessionUser; Home reads the account's age from
 the profile, identical to the second on all 28 rows. Guarded by
 scripts/check-page-auth.mjs. DiGi's biggest wait is the model's first word
 (median 2.4s at medium effort); DIGI_CHAT_EFFORT is Justin's call. PR to follow.
+
+## 24 September 2026: DiGi stays at medium effort; the wait explains more
+
+Justin chose accuracy over speed: DIGI_CHAT_EFFORT stays medium. Instead the
+thinking lines now say more of what is really happening: never a flat yes or
+no, connection before control, the pathway stage, the scientists we trust, the
+words to use. The old "safety guardrails first" line overclaimed (the verifier
+checks the finished reply) and is replaced by two true lines. No brain science
+line: 4 of 142 research rows. Justin confirmed Supabase signing keys are set,
+so PR 1154's local session check is live at full speed. PR 1155.
