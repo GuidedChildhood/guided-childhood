@@ -28,16 +28,42 @@ import { useEffect, useState } from 'react'
 //     to join an age band and are never sent onward.
 //   - "your feedback goes back in" is true because digi_feedback is one of
 //     rebuildWisdom's three sources, so a parent's answer shapes later ones.
+// Justin, 24 September 2026, choosing to keep DiGi at medium effort for
+// accuracy rather than trade it for speed: "keep DiGi accurate and maybe just
+// give a bit more info as it's thinking, on our philosophy, the science,
+// the safety checks." So the wait now says more of what is genuinely
+// happening in it, in the order a parent most needs to hear it. Each new line
+// was checked against the code the same way:
+//   - "never a flat yes or no" is non negotiable one, enforced in the prompt
+//     rails (lib/digi/system.ts) and in the route.
+//   - "connection before control" is digi/07-trust-framework.md, which
+//     lib/digi/system.ts loads into every conversation.
+//   - "where your child is on their pathway" is getPathwayPosition in the
+//     route, read from the child's stage.
+//   - "the scientists we trust" is digi/02-scientists.md, also loaded.
+//   - "the words for this" is the matching and recommended scripts the route
+//     fetches before the model is called.
+//   - the safety pair replaces "every answer runs past our safety guardrails
+//     first", which overclaimed: the verifier (lexicalFlags) runs on the
+//     FINISHED reply and records what it catches for review, it does not
+//     stand in front of the reply. What stands in front is the prompt's
+//     safeguarding rule, which routes any crisis to real people first.
+//   - no line claims neuroscience: 4 of 142 active research rows touch the
+//     brain, which is not enough to say it out loud.
 const LINES = [
   'Checking our reviewed research, not the open web.',
-  'Reading what actually works at this age.',
+  'Reading what the research says for a child this age.',
+  'Finding where your child is on their pathway.',
+  'Never a flat yes or no. Working out your next step.',
+  'Connection before control. Keeping your bond at the centre.',
+  'Weighing it against the scientists we trust.',
   'Seeing what worked for other families with a child this age.',
   'What other parents found, never who they are.',
   'Your own family history is part of this answer.',
-  'Every answer runs past our safety guardrails first.',
-  'Putting the research and your family together.',
+  'Looking for the words you can actually use.',
+  'If it is ever serious, DiGi points you to real people first.',
+  'Every answer is checked afterwards, and anything worrying is reviewed.',
   'Your feedback goes back in and shapes the next answer.',
-  'Grounded in child development science we trust.',
 ]
 
 export default function ThinkingReassurance() {
