@@ -91,3 +91,11 @@ His views on children's phones match ours, but his public tone does not suit a p
 The research found no reputable criticism of his giveaways or his videos.
 
 He takes partnership enquiries at `partnerships@simonsquibb.com` (his media contact page).
+
+## Justin's decisions, 24 September 2026
+
+1. Build it, after the evidence checks on the remaining flagged lessons
+   (ks4-16, ks4-18, ks2-07, ks2-08, ks1-02). Safeguarding accuracy first.
+2. His name stays off the slides. When it is built, send him the finished
+   lesson through partnerships@simonsquibb.com.
+3. Years 8 and 9.
