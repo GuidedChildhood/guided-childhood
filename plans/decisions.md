@@ -321,7 +321,7 @@ a source supports or had gone out of date. Examples: the Oxford study never
 measured "what you do on a screen"; paying is "no guarantee", not "never"; and
 a live sextortion case goes from the DSL to the police, as the NCA alert says. It emerged that the 80 hard questions
 of 21 September were never migrated. These four lessons now carry theirs; 16
-still wait. Migrations 344 to 347, hash proved, 88 render checks pass. PR 1151.
+still wait. Migrations 344 to 347, hash proved, 88 render checks pass. PR 1152.
 
 ## 24 September 2026: Simon Squibb's ideas weighed, and a KS3 module to follow the checks
 
@@ -332,4 +332,4 @@ create rather than just consume, with a parent alongside. Adopted: "what problem
 solve?", asking for help, doing over ideas. Declined: memorising is pointless,
 ignore your parents, and his unsourced figures. Justin's calls: build "What
 problem would you solve?" for Years 8 and 9 after the flagged lessons are
-checked; no Squibb name on slides; send him the finished lesson instead.
+checked; no Squibb name on slides; send him the finished lesson instead. PR 1152.
