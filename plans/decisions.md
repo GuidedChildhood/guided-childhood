@@ -364,3 +364,15 @@ words to use. The old "safety guardrails first" line overclaimed (the verifier
 checks the finished reply) and is replaced by two true lines. No brain science
 line: 4 of 142 research rows. Justin confirmed Supabase signing keys are set,
 so PR 1154's local session check is live at full speed. PR 1155.
+
+## 24 September 2026: the standalone lesson is built, and opens free at its own link
+
+Built ahead of the flagged lesson checks because Justin asked to see it; those
+resume tomorrow. "What problem would you solve?" is live in production
+(migration 348, hash proved): Years 8 and 9, 30 slides, Orbit, three moves
+(name a problem, ask three people you know, build the smallest version), with
+AI as the checker and never the judge. Every figure is read from its primary:
+the WEF employer survey (47 percent of tasks by people alone today, about a
+third expected by 2030) and each platform's own 18 plus rules behind the one
+safety question. Free to anyone at /lesson/what-problem-would-you-solve once
+this deploys. The guards read content/standalone rather than skip it. PR 1158.
