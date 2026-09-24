@@ -333,3 +333,14 @@ solve?", asking for help, doing over ideas. Declined: memorising is pointless,
 ignore your parents, and his unsourced figures. Justin's calls: build "What
 problem would you solve?" for Years 8 and 9 after the flagged lessons are
 checked; no Squibb name on slides; send him the finished lesson instead. PR 1152.
+
+## 24 September 2026: the Squibb lesson stands alone, outside the scheme
+
+Justin, later the same day: it sits outside the school curriculum for now,
+because he is not sure it belongs there, but it should exist as a standalone
+lesson. So "What problem would you solve?" (Years 8 and 9) is one lesson in the
+same format and player as the scheme. It has its own free link, so Simon Squibb
+can open it without a school code, and it stays out of the curriculum manifest,
+so it is never counted, mapped, tracked or put on the passport. It can join the
+scheme later with one change. It still comes after the flagged lesson checks.
+How it stands alone is in `plans/2026-09-24-simon-squibb-weighed.md`. PR 1152.

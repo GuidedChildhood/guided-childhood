@@ -77,9 +77,9 @@ person using the robot", and he tells children to build with it.
 **Evidence to gather before it ships:**
 - the platforms' current age rules for earning money;
 - a sourced account of how AI changes tasks, such as the World Economic Forum's Future of Jobs report, read in the original;
-- the current PSHE and careers frameworks it maps to. This is careers and "living in the wider world" rather than statutory RSHE, so it widens the scheme.
+- where it could sit in the PSHE and careers frameworks, as a note for a teacher. This is optional now that it stands alone (decision 4 below), because it no longer widens the scheme.
 
-**Size:** large. It is one new module, about 30 slides, built the same way as ks3-24.
+**Size:** large. It is one standalone lesson, about 30 slides, built the same way as ks3-24.
 
 ## The risk to weigh, because it is Justin's call
 
@@ -99,3 +99,24 @@ He takes partnership enquiries at `partnerships@simonsquibb.com` (his media cont
 2. His name stays off the slides. When it is built, send him the finished
    lesson through partnerships@simonsquibb.com.
 3. Years 8 and 9.
+4. Later the same day: it stands alone, outside the school scheme for now,
+   because he is not sure it belongs in the curriculum. The order is
+   unchanged: it still comes after the checks.
+
+## How it stands alone
+
+- **The same lesson format and the same player** as the scheme: a row in
+  `schools.school_lessons` like any lesson. Nothing new is built to teach it,
+  and it can join the scheme later with one change if Justin decides to add it.
+- **Its own free link**, opened the way the ks3-12 taster is, so Simon Squibb
+  can open it without a school code. It is unlisted: no scheme page changes.
+- **Kept off the scheme.** It is not in the curriculum manifest
+  (`shared/schools-curriculum.ts`), which already keeps it out of the module
+  count, the curriculum map, the tracker, the RSHE mapping, the DSL hub and the
+  passport. The print room lists every live row, so it needs a filter there,
+  and every count of `school_lessons` rows in the database gets the same check.
+- **Its mirror sits outside `content/modules`**, so the scheme guards do not
+  count it. The module contract runs on it directly, without the passport
+  and RSHE rules.
+- **Its own bar, not the taster's.** The taster bar sells the scheme, and this
+  lesson is not a sample of the scheme.
