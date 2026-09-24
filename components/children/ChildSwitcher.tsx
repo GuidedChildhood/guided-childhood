@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { childColour, childInitial } from '@/lib/children/colour'
 
-// The child switcher: butter pill tabs, one per child, shown only when a
+// The child switcher: a round avatar per child, name underneath, shown only when a
 // family has more than one. Each pill carries ?child=<id> so the server page
 // re renders everything for that child and the choice survives refresh and
 // sharing. The primary child keeps the clean URL.
@@ -45,7 +45,7 @@ export default function ChildSwitcher({
 
   if (kids.length < 2) return null
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '18px' }} aria-label="Choose which child">
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 4px', marginBottom: '16px' }} aria-label="Choose which child">
       {kids.map(kid => {
         const active = kid.id === activeId
         const isDefault = kid.is_primary ?? false
@@ -73,66 +73,54 @@ export default function ChildSwitcher({
             aria-label={kid.done ? `${label}, today's path done` : undefined}
             className="child-switch-pill"
             style={{
+              // ── AVATAR OVER NAME (24 September 2026) ─────────────────────
+              //
+              // Justin: "improve the names of child at top to look more happy
+              // news icon, more professional, stylish look."
+              //
+              // The 11 September pills were a colour slab with a letter in it,
+              // and a row of two slabs reads as two buttons shouting. The
+              // Mobbin sweep settles what calm looks like here: Greenlight's
+              // parent app draws each child as a ROUND AVATAR with the name
+              // underneath, and the chosen one is marked by a ring and a short
+              // bar rather than by a change of fill. That is what we do, in
+              // our own finish: each child keeps their own stage colour on the
+              // plate everywhere (lib/children/colour, the colour that sticks),
+              // with the ink edge and chunky lift the Happy News icons carry.
+              //
+              // Chosen: the plate is raised on the deep lift and ringed in ink
+              // with a gap of page between, the name goes to full ink at 900,
+              // and a short ink bar sits under it. Not chosen: the plate sits
+              // pressed into the page and the name is muted. Four signals, so
+              // colour is never the only one.
               display: 'inline-flex',
-              position: 'relative',
+              flexDirection: 'column',
               alignItems: 'center',
-              // ── THE HAPPY NEWS FINISH (11 September 2026) ─────────────
-              //
-              // Justin: "lets apply a better nicer more modern design UX for
-              // the name tags buttons shown here, i want them to look super
-              // happy news style."
-              //
-              // The pills were right in structure and thin in finish: 24px
-              // disc, 3px shadow, a hairline underline doing the work of
-              // saying which is chosen. The house finish everywhere else on
-              // this product is a proper plate, a chunky ink shadow and a
-              // real difference in height between chosen and not.
-              //
-              // So the chosen pill is RAISED and the others sit pressed down
-              // into the page, which is the signal a physical tab gives and
-              // the one that survives a dim screen, sunlight, and anybody
-              // who cannot separate two pastels. The underline is gone
-              // because the lift says it better, and colour still is not the
-              // only signal: the weight, the height and the ink ring on the
-              // plate all say it too.
-              padding: '8px 18px 8px 8px',
-              borderRadius: 'var(--radius-pill)',
-              textDecoration: 'none',
-              fontFamily: 'var(--font-display)',
-              fontWeight: active ? 900 : 800,
-              fontSize: 'var(--text-md)',
-              lineHeight: 1,
               gap: '10px',
-              color: active ? c.text : 'var(--ink)',
-              background: active ? c.bold : '#fff',
-              border: 'var(--edge)',
-              // Raised when chosen, pressed when not. The translate keeps the
-              // row's height steady while the shadow changes, so nothing
-              // jumps as a parent taps between children.
-              boxShadow: active ? 'var(--lift-deep)' : 'var(--lift-press)',
-              transform: active ? 'none' : 'translateY(3px)',
-              transition: 'box-shadow 0.16s ease, transform 0.16s ease, background 0.16s ease',
+              minWidth: 64,
+              maxWidth: '100%',
+              padding: '4px 8px 2px',
+              textDecoration: 'none',
+              borderRadius: 16,
             }}
           >
-            {/* ── THE PLATE ────────────────────────────────────────────────
-                From the Mobbin sweep Justin asked for: Greenlight's parent app
-                puts a round AVATAR above each name, and the reason it works is
-                that a face is recognised before a word is read. An initial in
-                the child's own colour gets most of that without asking a
-                parent to upload photographs before the app is useful.
-                It is a proper happy news circle plate now: 30px, its own ink
-                ring, white ground when the pill is filled so the initial
-                reads as a badge on a badge rather than a hole in the colour. */}
             <span
               aria-hidden
               style={{
                 position: 'relative',
-                flexShrink: 0, width: 30, height: 30, borderRadius: '50%',
-                background: active ? '#fff' : c.bold,
+                flexShrink: 0, width: 48, height: 48, borderRadius: '50%',
+                background: c.bold,
                 border: 'var(--edge)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--font-display)', fontWeight: 900,
-                fontSize: '0.85rem', color: active ? c.text : 'var(--ink)',
+                fontSize: '1.25rem', letterSpacing: '-0.02em', color: c.text,
+                // The ring: a band of page colour, then an ink line, so the
+                // chosen plate reads as selected on any stage colour.
+                boxShadow: active
+                  ? '0 0 0 3px var(--app-bg), 0 0 0 5px var(--ink), 0 3px 0 5px var(--ink)'
+                  : '0 2px 0 var(--ink)',
+                transform: active ? 'translateY(-2px)' : 'none',
+                transition: 'box-shadow 0.16s ease, transform 0.16s ease',
               }}
             >
               {initial}
@@ -142,21 +130,45 @@ export default function ChildSwitcher({
                   path, not the check in: lib/checkin/done-today.
                   On the plate rather than beside the name, so the name stays
                   the name. Ink ringed like everything else here, so it reads
-                  on every stage colour and on the white plate alike. */}
+                  on every stage colour. */}
               {kid.done && (
                 <span
                   aria-hidden
                   style={{
-                    position: 'absolute', right: -7, bottom: -7, width: 18, height: 18, borderRadius: '50%',
+                    position: 'absolute', right: -6, bottom: -6, width: 20, height: 20, borderRadius: '50%',
                     background: 'var(--retro-green)', border: 'var(--edge)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12.5 10 17.5 19 7.5" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12.5 10 17.5 19 7.5" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </span>
               )}
             </span>
-            {label}
+            <span
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: active ? 900 : 700,
+                fontSize: 'var(--text-sm)',
+                lineHeight: 1.15,
+                color: active ? 'var(--ink)' : 'var(--ink-muted)',
+                textAlign: 'center',
+                overflowWrap: 'anywhere',
+                maxWidth: '100%',
+              }}
+            >
+              {label}
+            </span>
+            {/* The bar under the chosen name. Always drawn, transparent when
+                not chosen, so the row keeps its height as a parent taps
+                between children. */}
+            <span
+              aria-hidden
+              style={{
+                width: 22, height: 4, borderRadius: 4,
+                background: active ? 'var(--ink)' : 'transparent',
+                transition: 'background 0.16s ease',
+              }}
+            />
           </Link>
         )
       })}
