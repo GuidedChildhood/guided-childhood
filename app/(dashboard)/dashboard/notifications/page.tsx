@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import NotificationCard from '@/components/notifications/NotificationCard'
 import { getNotifications } from '@/lib/notifications/collect'
@@ -8,7 +9,7 @@ export const metadata = { title: 'Notifications · Guided Childhood' }
 
 export default async function NotificationsPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { items, urgentCount } = await getNotifications(supabase, user.id)

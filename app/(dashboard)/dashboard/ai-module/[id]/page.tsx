@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
@@ -46,7 +47,7 @@ type Lesson = {
 export default async function AiLessonPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data } = await supabase

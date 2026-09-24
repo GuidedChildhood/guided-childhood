@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { redirect } from 'next/navigation'
 import { STAGES } from '@/lib/content/stages'
@@ -13,7 +14,7 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
   // changes the page rather than only the pills. See lib/children/server.ts.
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const today = new Date().toISOString().split('T')[0]

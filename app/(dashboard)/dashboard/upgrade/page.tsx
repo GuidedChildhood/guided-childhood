@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import HappyIcon from '@/components/kid/HappyIcon'
@@ -66,7 +67,7 @@ export default async function UpgradePage(
   // having lost their place rather than as a price.
   const wantedPage = pageNameFor(from)
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase

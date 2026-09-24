@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
@@ -12,7 +13,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function ToolboxPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // Fails soft to an empty list before migration 091 is applied.

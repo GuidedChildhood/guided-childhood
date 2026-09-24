@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import PrintButton from './PrintButton'
 import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
@@ -24,7 +25,7 @@ function dateForColumn(i: number): Date {
 
 export default async function QuestPrintPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [childrenRes, questsRes, goalsRes] = await Promise.all([

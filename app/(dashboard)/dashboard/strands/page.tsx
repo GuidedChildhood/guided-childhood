@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import BackTo from '@/components/nav/BackTo'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
@@ -37,7 +38,7 @@ export default async function StrandsPage({
 }: { searchParams: Promise<{ child?: string; from?: string }> }) {
   const { child: childParam, from } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { child } = await getChildren<{

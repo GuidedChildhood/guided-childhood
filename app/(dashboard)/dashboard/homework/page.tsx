@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import HomeworkDecoder, { type DecoderChild } from './HomeworkDecoder'
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function HomeworkPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: kids } = await supabase

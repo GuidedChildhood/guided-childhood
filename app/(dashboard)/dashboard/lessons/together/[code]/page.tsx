@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getParentLessonByCode, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
@@ -39,7 +40,7 @@ export default async function WatchTogetherLessonPage({
   if (!/^\d{1,2}\.\d{1,2}$/.test(code)) notFound()
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ child }, lessonData] = await Promise.all([

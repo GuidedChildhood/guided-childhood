@@ -1,5 +1,6 @@
 import { chunky, INK_EDGE } from '@/components/scripts/card-system'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -39,7 +40,7 @@ export default async function CategoryPage({
   if (!meta) notFound()
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase

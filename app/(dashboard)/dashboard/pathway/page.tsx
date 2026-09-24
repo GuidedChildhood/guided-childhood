@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -89,7 +90,7 @@ type Child = { id: string; name: string; age_band: string | null; stage_id: stri
 
 export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string; passportday?: string; open?: string }> }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   const { child: childParam, from, passportday, open } = await searchParams
   // ?open=N flips the book open on that page after paint: the peek on Today

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import { pickChild } from '@/lib/children/select'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
@@ -25,7 +26,7 @@ export default async function ParentCheckPage({
   searchParams: Promise<{ child?: string; stage?: string; from?: string }>
 }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   const { child: childParam, stage: stageParam, from } = await searchParams
 

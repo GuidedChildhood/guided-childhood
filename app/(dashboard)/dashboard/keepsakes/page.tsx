@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Shop from '@/components/shop/Shop'
@@ -27,7 +28,7 @@ export default async function KeepsakesPage({
   searchParams: Promise<{ ordered?: string; cancelled?: string; child?: string }>
 }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const params = await searchParams

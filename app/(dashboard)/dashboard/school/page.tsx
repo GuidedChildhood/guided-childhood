@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import { getFamilyRegion } from '@/lib/learning/region'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
@@ -14,7 +15,7 @@ import { getChildren } from '@/lib/children/server'
 export default async function SchoolPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [actionsResult, childResult, allChildrenResult] = await Promise.all([

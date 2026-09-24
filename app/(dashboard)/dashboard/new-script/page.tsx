@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import NewScriptForm from './NewScriptForm'
@@ -12,7 +13,7 @@ const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbill
 
 export default async function NewScriptPage({ searchParams }: { searchParams: Promise<{ problem?: string }> }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   if ((user.email ?? '').toLowerCase() !== FOUNDER_EMAIL) redirect('/dashboard')
 

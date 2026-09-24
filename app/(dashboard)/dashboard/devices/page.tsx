@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getChildren } from '@/lib/children/server'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
@@ -35,7 +36,7 @@ export default async function DevicesPage({
   // change meaning depending on the reader's setup.
   const { from, child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // Which child this page is about: the ?child= param when the parent has

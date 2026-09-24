@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import StarChartBuilder from './StarChartBuilder'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
@@ -33,7 +34,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function StarChartPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   // Signed out still gets the builder, just with our menu and no prefill. The
   // page is a free lead magnet and the Starter Pack links straight at it, so a
   // redirect to login here would close the door the marketing site opens.

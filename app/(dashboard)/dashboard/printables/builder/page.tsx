@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { hasFullAccess } from '@/lib/access'
 import BucketBuilder from './BucketBuilder'
 
@@ -12,7 +13,7 @@ export const metadata = { title: 'Bucket List Builder · Guided Childhood' }
 
 export default async function BuilderPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase

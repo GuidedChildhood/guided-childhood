@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import DeckViewer from './DeckViewer'
@@ -27,7 +28,7 @@ export default async function DeckPage({
   if (isNaN(sortOrder) || sortOrder < 1) notFound()
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase

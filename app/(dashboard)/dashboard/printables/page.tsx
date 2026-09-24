@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -26,7 +27,7 @@ const SETTING_LABEL: Record<string, string> = {
 export default async function PrintablesPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ kids, child }, { data: profile }] = await Promise.all([

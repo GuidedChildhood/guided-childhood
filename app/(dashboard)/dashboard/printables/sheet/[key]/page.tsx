@@ -1,5 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getPrintable } from '@/lib/printables/registry'
 import { hasFullAccess } from '@/lib/access'
 import { getChildren } from '@/lib/children/server'
@@ -30,7 +31,7 @@ export default async function DrawnSheetPage({ params, searchParams }: {
   if (!printable?.drawn) notFound()
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect(`/login?next=${encodeURIComponent(`/dashboard/printables/sheet/${key}`)}`)
 
   const [{ kids, child }, { data: profile }] = await Promise.all([

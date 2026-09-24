@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 import ShareQrButton from '@/components/quests/ShareQrButton'
@@ -18,7 +19,7 @@ export const metadata = { title: 'Screen timer · Guided Childhood' }
 
 export default async function TimerPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // ── AND IF THEY DO HAVE A PHONE, A WAY TO SET IT UP ──────────────────────

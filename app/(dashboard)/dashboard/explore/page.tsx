@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import ExploreGrid from '@/components/home/ExploreGrid'
 
@@ -15,7 +16,7 @@ export const metadata = { title: 'Everything else · Guided Childhood' }
 
 export default async function ExplorePage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // The Tonight's script tile deep links to the script a parent has been given

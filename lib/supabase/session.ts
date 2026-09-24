@@ -20,11 +20,25 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 // claims come back verified: an expired token, a bad signature or no session
 // all answer null here, exactly as a missing user did before.
 //
-// Two callers, the two that run on every navigation: middleware.ts and the
-// dashboard layout. The two hundred other getUser() calls in route handlers
-// run once per action, not per tap, and stay as they are.
+// That first pass took the middleware and the dashboard layout and missed the
+// third caller on every tap: THE PAGE ITSELF. Sixty seven dashboard pages each
+// opened with getUser(), so a navigation still waited on one auth round trip
+// (about 130ms, measured in digi_latency.auth_ms) before its own queries could
+// start. Justin, 24 September 2026: "DiGi and navigating is still slow." Every
+// dashboard page and the DiGi route now ask here instead, and
+// scripts/check-page-auth.mjs keeps it that way. Route handlers behind a button
+// press run once per action, not per tap, and stay on getUser().
 
-export type SessionUser = { id: string; email: string | null }
+export type SessionUser = {
+  id: string
+  email: string | null
+  /**
+   * What the parent typed at signup (full_name, name). Supabase puts it in
+   * the token as the user_metadata claim, so it costs nothing to carry. Home
+   * uses it for the greeting when the profile has no name yet.
+   */
+  user_metadata: Record<string, unknown>
+}
 
 /**
  * The signed in parent, from a verified token, or null.
@@ -38,5 +52,7 @@ export async function sessionUser(supabase: Pick<SupabaseClient, 'auth'>): Promi
   const claims = data?.claims
   if (error || !claims || typeof claims.sub !== 'string' || claims.sub.length === 0) return null
   const email = typeof claims.email === 'string' && claims.email.length > 0 ? claims.email : null
-  return { id: claims.sub, email }
+  const meta = (claims as { user_metadata?: unknown }).user_metadata
+  const user_metadata = meta && typeof meta === 'object' ? (meta as Record<string, unknown>) : {}
+  return { id: claims.sub, email, user_metadata }
 }

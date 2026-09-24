@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import AiCheckinCard, { type CheckinLesson } from './AiCheckinCard'
@@ -18,7 +19,7 @@ type Lesson = { id: string; audience: string; category: string; title: string; k
 
 export default async function AiModulePage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [

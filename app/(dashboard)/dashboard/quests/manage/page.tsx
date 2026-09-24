@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import ManageJobs from './ManageJobs'
 
@@ -23,7 +24,7 @@ export default async function ManageJobsPage({
   searchParams: Promise<{ child?: string; tab?: string; title?: string }>
 }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   const { child, tab, title } = await searchParams
   // A title on the URL prefills the composer: the Make it a job tap from the
