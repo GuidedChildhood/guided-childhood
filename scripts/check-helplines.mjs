@@ -76,7 +76,9 @@ import { join } from 'node:path'
 
 const BASE = process.env.GC_BASE_URL ?? process.env.BASE ?? 'http://localhost:3000'
 const SLIDES_FILE = process.env.GC_DEV_SLIDES
-const MODULES = 'content/modules'
+// content/standalone holds the lessons outside the scheme (schools/lib/taster.ts);
+// a number on their wall has to dial just the same.
+const FOLDERS = ['content/modules', 'content/standalone']
 
 // Every route the scheme gives a child. Kept as the exact strings a pupil would
 // dial or text, so the search and the thing being protected are the same thing.
@@ -145,8 +147,10 @@ const walk = (value, path = []) => {
 }
 
 const targets = []
-for (const file of readdirSync(MODULES).filter(f => f.endsWith('.json')).sort()) {
-  const module = JSON.parse(readFileSync(join(MODULES, file), 'utf8'))
+const files = FOLDERS.filter(dir => existsSync(dir))
+  .flatMap(dir => readdirSync(dir).filter(f => f.endsWith('.json')).sort().map(f => join(dir, f)))
+for (const file of files) {
+  const module = JSON.parse(readFileSync(file, 'utf8'))
   module.slides.forEach((slide, i) => {
     const found = walk(slide)
     if (!found.length) return

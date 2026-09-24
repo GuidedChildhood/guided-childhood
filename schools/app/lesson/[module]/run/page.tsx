@@ -10,6 +10,7 @@ import TrackerPanel from '@/components/tracker/TrackerPanel'
 import { LeadLine } from '@/components/YourSchoolLead'
 import { shapeOf } from '@/lib/tracker'
 import { asList } from '@/lib/notes'
+import { isStandaloneModule } from '@/lib/taster'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE RUN SHEET: the whole lesson, walked through, start to finish.
@@ -198,10 +199,13 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
         {/* THE TRACKER, FIRST, because it answers the question a teacher opens
             this page with: what is left. The rows below stay printable squares
             for the clipboard; this panel is the memory, on screen only. */}
-        <TrackerPanel
-          moduleId={lesson.module_id}
-          shape={shapeOf(lesson.module_id, notes.i_can)}
-        />
+        {/* A standalone lesson is outside the scheme the tracker records. */}
+        {!isStandaloneModule(moduleId) && (
+          <TrackerPanel
+            moduleId={lesson.module_id}
+            shape={shapeOf(lesson.module_id, notes.i_can)}
+          />
+        )}
 
         {/* ── BEFORE ── */}
         <section style={{ ...card, marginBottom: '16px' }}>
@@ -324,10 +328,17 @@ export default async function RunSheetPage({ params }: { params: Promise<{ modul
               yours, and the conversation about the gap is the assessment.
             </TickRow>
           )}
-          <TickRow>
-            Nothing else to write up. Next lesson opens by recalling this one, and that retrieval is
-            already built into its starter.
-          </TickRow>
+          {isStandaloneModule(moduleId) ? (
+            <TickRow>
+              Nothing else to write up. This lesson stands on its own, so the plan each pupil wrote is
+              the thing to come back to: ask next week who their first person was.
+            </TickRow>
+          ) : (
+            <TickRow>
+              Nothing else to write up. Next lesson opens by recalling this one, and that retrieval is
+              already built into its starter.
+            </TickRow>
+          )}
           {dsl.required && (
             <TickRow>
               A quiet word with the safeguarding lead if anything in the room made you pause.

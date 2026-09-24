@@ -4,13 +4,14 @@ import Link from 'next/link'
 import PrintButton from '@/components/PrintButton'
 import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { isStandaloneModule, standaloneTitle } from '@/lib/taster'
 import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader, PrintSheet, Box, WriteLines } from '@/components/print/kit'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
 export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
   const { module: moduleId } = await params
-  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title ?? standaloneTitle(moduleId)
   return { title: title ? `Knowledge organiser: ${title}` : 'Knowledge organiser: Module' }
 }
 
@@ -59,7 +60,9 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff', color: 'var(--ink)', padding: '0 8px 40px' }}>
       <div className="no-print" style={{ padding: '20px 0 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
-        <Link href="/print" style={{ ...mono, textDecoration: 'none' }}>← Print room</Link>
+        {/* A standalone lesson is not in the print room (lib/taster.ts), so
+            its sheets lead back to its own lesson page instead. */}
+        <Link href={isStandaloneModule(moduleId) ? `/lesson/${moduleId}` : '/print'} style={{ ...mono, textDecoration: 'none' }}>{isStandaloneModule(moduleId) ? '← The lesson' : '← Print room'}</Link>
         <PrintButton label="Print, one per pupil" />
       </div>
       <PrintSheet footer={`${lesson.title} · knowledge organiser · keep this in your book`} last>

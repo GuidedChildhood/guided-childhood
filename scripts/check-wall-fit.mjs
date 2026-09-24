@@ -88,7 +88,9 @@ import { join } from 'node:path'
 const BASE = process.env.GC_BASE_URL ?? process.env.BASE ?? 'http://localhost:3000'
 const SLIDES_FILE = process.env.GC_DEV_SLIDES
 const BASELINE_FILE = 'scripts/wall-fit-baseline.json'
-const MODULES = 'content/modules'
+// content/standalone holds the lessons outside the scheme (schools/lib/taster.ts).
+// They go on the same wall, so they are measured the same way.
+const FOLDERS = ['content/modules', 'content/standalone']
 const WRITE = process.argv.includes('--write-baseline')
 const LAPTOP = process.argv.includes('--laptop')
 const ONLY = (() => {
@@ -115,8 +117,9 @@ if (!SLIDES_FILE) {
   process.exit(2)
 }
 
-const lessons = readdirSync(MODULES).filter(f => f.endsWith('.json')).sort()
-  .map(f => JSON.parse(readFileSync(join(MODULES, f), 'utf8')))
+const lessons = FOLDERS.filter(dir => existsSync(dir))
+  .flatMap(dir => readdirSync(dir).filter(f => f.endsWith('.json')).sort().map(f => join(dir, f)))
+  .map(file => JSON.parse(readFileSync(file, 'utf8')))
   .filter(m => !ONLY || m.module_id.startsWith(ONLY))
 if (!lessons.length) { console.error(`check-wall-fit: no lessons matched ${ONLY}`); process.exit(2) }
 

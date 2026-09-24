@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { ACCESS_COOKIE, isOpenPath, tokenAccess } from '@/lib/access'
-import { isTasterPath } from '@/lib/taster'
+import { isStandalonePath, isTasterPath } from '@/lib/taster'
 import { isPilotPath } from '@/lib/pilot'
 
 // The outer door of the schools site (Next 16 calls this file proxy.ts; it is
@@ -29,7 +29,9 @@ export async function proxy(request: NextRequest) {
   // through on purpose so a lesson link Justin sends actually opens. Keeping
   // them apart means the sample can be widened, narrowed or withdrawn without
   // anybody having to reason about the paid wall at the same time.
-  if (isOpenPath(pathname) || isTasterPath(pathname)) return NextResponse.next()
+  // isStandalonePath is the third: a lesson that is free because it stands
+  // outside the scheme altogether, so letting it through opens nothing paid.
+  if (isOpenPath(pathname) || isTasterPath(pathname) || isStandalonePath(pathname)) return NextResponse.next()
 
   // Three answers from the cookie: a licence opens everything; a pilot opens
   // its two lessons and the Hub (lib/pilot.ts) and meets the door with the

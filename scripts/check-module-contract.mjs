@@ -28,6 +28,13 @@ import fs from 'node:fs'
 // The four minute ceiling is unchanged: the threshold was never the problem.
 import { respondsTo, MAX_PASSIVE_MINUTES } from './council-checks.mjs'
 const m = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+// A STANDALONE LESSON (24 September 2026) lives in content/standalone/, outside
+// the scheme (schools/lib/taster.ts says why). It is held to every rule here
+// except the three that tie a lesson to the passport, because the passport
+// records the scheme: it carries no passport_stage, no passport line on the
+// parent note, and no passport beat. Keyed on the folder, because that is
+// where the scheme guards stop reading.
+const STANDALONE = /[\\/]content[\\/]standalone[\\/][^\\/]+\.json$/.test(fs.realpathSync(process.argv[2]))
 const tn = m.teacher_notes, slides = m.slides
 let bad = 0
 const ok = (n, c, d='') => { if (!c) { bad++; console.error(`  FAIL ${n}${d?'\n       '+d:''}`) } }
@@ -106,6 +113,8 @@ walk(m, 'module')
 
 // 6. the contract
 const NEED = 'commitment_stem cycles differentiation equipment essential_question exit_quiz i_can key_learning_points keywords learning_objective misconceptions paper_fallback passport_stage prior_knowledge send starter_quiz teacher_tip timing tool worksheet worksheet_items'.split(' ')
+  .filter(k => !(STANDALONE && k === 'passport_stage'))
+if (STANDALONE) ok('a standalone lesson carries no passport_stage', !('passport_stage' in tn), `passport_stage is ${JSON.stringify(tn.passport_stage)}`)
 const missing = NEED.filter(k => !(k in tn))
 ok('every contract key present', missing.length === 0, missing.join(', '))
 
@@ -169,7 +178,8 @@ for (const key of ['starter_quiz', 'exit_quiz']) {
 // table question and no passport line, and the run sheet quietly dropped the
 // passport clause from its tick row. 23 of 24 modules had it right, which is
 // what made it worth pinning rather than treating as taste.
-const PARENT_NEED = ['headline', 'taught', 'try_this', 'family_question', 'passport']
+const PARENT_NEED = ['headline', 'taught', 'try_this', 'family_question', 'passport'].filter(k => !(STANDALONE && k === 'passport'))
+if (STANDALONE && m.parent_note && typeof m.parent_note === 'object') ok('a standalone parent note makes no passport promise', !('passport' in m.parent_note))
 const pn = m.parent_note
 if (pn && typeof pn === 'object') {
   const missing = PARENT_NEED.filter(k => typeof pn[k] !== 'string' || !pn[k].trim())
@@ -220,7 +230,9 @@ slides.forEach((s, i) => {
 const PLACEMENT_BY_KS = { EYFS: 'foundation', KS1: 'foundation', KS2: 'builder', KS3: 'shaper', KS4: 'independent', KS5: 'after' }
 const placement = (m.teacher_notes && m.teacher_notes.passport_stage) || PLACEMENT_BY_KS[m.key_stage]
 const passportBeats = slides.map((s, i) => [s, i]).filter(([s]) => s.type === 'interactive' && s.component === 'passport-page')
-if (placement === 'after') {
+if (STANDALONE) {
+  ok('no passport beat on a standalone lesson', passportBeats.length === 0, `found ${passportBeats.length}`)
+} else if (placement === 'after') {
   ok('no passport beat on a module after the passport', passportBeats.length === 0, `found ${passportBeats.length}`)
 } else {
   ok('exactly one passport beat', passportBeats.length === 1, `found ${passportBeats.length}`)
