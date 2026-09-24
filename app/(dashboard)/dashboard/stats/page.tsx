@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
@@ -33,7 +34,7 @@ import { starWeekStart, starWeekStartIso } from '@/lib/quests/star-week'
 export default async function StatsPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string }> }) {
   const { from: from_, child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // Which child this page is about: the ?child= param when the parent has

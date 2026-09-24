@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { buildYearView, yearBlurb, type YearView } from '@/lib/learning/year-view'
 import { getWeekBrief } from '@/lib/learning/this-week'
 import LearningYear from './LearningYear'
@@ -29,7 +30,7 @@ export default async function LearningPage({
   // than no chip at all.
   const { tab } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: kids } = await supabase

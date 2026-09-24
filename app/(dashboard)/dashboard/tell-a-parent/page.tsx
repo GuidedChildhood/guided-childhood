@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getChildren } from '@/lib/children/server'
@@ -155,7 +156,7 @@ function CardBody({ card, scripts }: { card: Card; scripts: ChildScript[] }) {
 export default async function TellAParentPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // The stage and the name follow ?child= like everywhere else.

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import CraftPack from './CraftPack'
 import { getChildren } from '@/lib/children/server'
 
@@ -11,7 +12,7 @@ export const metadata = { title: 'The Game Pack · Guided Childhood' }
 export default async function CraftsPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   let childName: string | null = null
   if (user) {
     // The name follows ?child= like everywhere else.

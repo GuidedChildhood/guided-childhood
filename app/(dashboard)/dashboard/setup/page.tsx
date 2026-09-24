@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import { getSetupState } from '@/lib/setup/flags'
 import { getTodayCheckIn } from '@/lib/checkin/today'
@@ -17,7 +18,7 @@ export const metadata = { title: 'Setup Quest · Guided Childhood' }
 
 export default async function SetupPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { flags, child, children, complete } = await getSetupState(supabase, user.id)

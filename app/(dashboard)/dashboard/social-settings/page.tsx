@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getChildren } from '@/lib/children/server'
 
@@ -32,7 +33,7 @@ type Guide = {
 export default async function SocialSettingsPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // The stage the guides are split by follows ?child= like everywhere else.

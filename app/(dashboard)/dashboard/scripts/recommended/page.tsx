@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
@@ -14,7 +15,7 @@ export const dynamic = 'force-dynamic'
 export default async function RecommendedScriptRedirect({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ data: profile }, { child }] = await Promise.all([

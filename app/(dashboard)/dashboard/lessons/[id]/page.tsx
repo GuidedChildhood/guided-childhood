@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { redirect, notFound } from 'next/navigation'
@@ -53,7 +54,7 @@ export default async function LessonDetailPage({ params, searchParams }: {
   const { id } = await params
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ data }, { child }] = await Promise.all([

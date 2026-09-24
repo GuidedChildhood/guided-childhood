@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import MovementLine from '@/components/working/MovementLine'
 import { getMovements, movementSentence, spanWords, usedWords } from '@/lib/working/movement'
@@ -35,7 +36,7 @@ export const dynamic = 'force-dynamic'
 export default async function WhatIsWorkingPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
   const { from } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
 
   const movements = user ? await getMovements(supabase, user.id) : []
 

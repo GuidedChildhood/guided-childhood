@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import RecordScriptOpen from '@/components/scripts/RecordScriptOpen'
 import { hasFullAccess } from '@/lib/access'
@@ -41,7 +42,7 @@ export default async function ScriptDetailPage({
   if (isNaN(sortOrder) || sortOrder < 1) notFound()
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase

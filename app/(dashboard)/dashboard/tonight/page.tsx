@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { readTonight } from '@/lib/pathway/tonight'
 import { londonToday } from '@/lib/pathway/today'
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic'
 export default async function TonightPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string }> }) {
   const { child: childParam, from } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { child } = await getChildren<{ id: string; name: string | null; age_band: string | null }>(supabase, user.id, childParam, 'name, age_band')

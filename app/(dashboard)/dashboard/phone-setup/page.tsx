@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { PHONE_LADDER } from '@/lib/content/passport'
 
 // The first smartphone, our way. Not a brick phone, but a locked down phone
@@ -23,7 +24,7 @@ type LearningApp = {
 
 export default async function PhoneSetupPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ data: guidesData }, { data: appsData }] = await Promise.all([

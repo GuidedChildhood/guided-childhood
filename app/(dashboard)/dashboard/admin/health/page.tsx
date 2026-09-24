@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { readHealth, type Health, type Level } from '@/lib/ops/health'
@@ -58,7 +59,7 @@ function jobLine(j: Health['jobs'][number]): string {
 
 export default async function HealthPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   if ((user.email ?? '').toLowerCase() !== FOUNDER_EMAIL) redirect('/dashboard')
 

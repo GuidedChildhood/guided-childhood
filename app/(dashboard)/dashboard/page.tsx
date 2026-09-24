@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { isFirstRun } from '@/lib/home/first-run'
 import HomeShortcuts from '@/components/home/HomeShortcuts'
 import { hasFullAccess, inTrial, TRIAL_DAYS } from '@/lib/access'
@@ -97,21 +98,13 @@ const WEEKLY_ACTIONS = [
 
 export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   const { child: childParam } = await searchParams
 
   const today = new Date().toISOString().split('T')[0]
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-
-  // Stage the reveal by account age: a new parent meets a one loop Home, and the
-  // rest opens up over the first fortnight. Established accounts reveal everything
-  // (daysSince is large), so nothing regresses for existing families. Computed
-  // before the reads because it gates one of them.
-  const accountAgeDays = daysSince(user.created_at)
-  const revealed = revealedKeys(accountAgeDays)
-  const reveals = eligibleReveals(accountAgeDays)
 
   // ONE WAVE, NOT TEN. Everything here needs only the user id, and it used to
   // run as eight separate awaits down the length of this function: profile,
@@ -195,16 +188,31 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     supabase.from('script_completions').select('script_sort_order, completed_at').eq('user_id', user.id).order('completed_at', { ascending: false }).limit(1).maybeSingle(),
     // Monthly wellbeing check in: when the last one happened, if ever.
     supabase.from('wellbeing_checkins').select('created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
-    // The flash up script rotation pool, only once moments are revealed.
-    revealed.has('moments')
-      ? supabase.from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30)
-      : Promise.resolve({ data: null }),
+    // The flash up script rotation pool. Read for everyone and only USED once
+    // moments are revealed (flashScripts below): thirty short rows in a round
+    // that is already twenty wide cost nothing on the clock, and reading it
+    // unconditionally is what lets the account's age come from the profile in
+    // this same wave rather than from an auth round trip before it.
+    supabase.from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30),
     // Today's reflective question, if DiGi asked one and it is unanswered.
     // Asked here once, never in the thread (13 September 2026).
     supabase.from('digi_feedback').select('question, child_id').eq('user_id', user.id).eq('feedback_date', today).is('parent_response', null).limit(1).maybeSingle(),
   ])
 
   const profile = profileResult.data
+
+  // Stage the reveal by account age: a new parent meets a one loop Home, and the
+  // rest opens up over the first fortnight. Established accounts reveal everything
+  // (daysSince is large), so nothing regresses for existing families.
+  //
+  // From the profile rather than the auth user: the token check no longer calls
+  // the auth server, so it carries no created_at. The two dates are the same
+  // moment, written by the signup trigger (checked on the live table, 24
+  // September 2026: 28 of 28 rows identical to the second). A missing profile
+  // reads as a brand new account, the cautious side of the reveal.
+  const accountAgeDays = daysSince(profile?.created_at ?? new Date().toISOString())
+  const revealed = revealedKeys(accountAgeDays)
+  const reveals = eligibleReveals(accountAgeDays)
   // Only send to onboarding when we POSITIVELY know it is not done. If the
   // profile read comes back empty (a transient session or read hiccup),
   // rendering the dashboard is safe (everything below is null tolerant) and,
@@ -515,7 +523,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const flashPrintable = stagePrintables.length ? stagePrintables[dayIndex % stagePrintables.length] : null
   let flashScript: { title: string; situation: string | null; sort_order: number } | null = null
   {
-    const rows = (flashScriptRows.data ?? []) as { title: string; situation: string | null; sort_order: number }[]
+    // Only once moments are revealed, which is where the read used to be gated.
+    const rows = (revealed.has('moments') ? flashScriptRows.data ?? [] : []) as { title: string; situation: string | null; sort_order: number }[]
     const r = rows.length ? rows[dayIndex % rows.length] : null
     if (r) flashScript = { title: r.title, situation: r.situation ?? null, sort_order: r.sort_order }
   }

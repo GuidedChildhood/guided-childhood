@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
@@ -9,7 +10,7 @@ import type { Moment } from '@/components/cards/MomentCard'
 export default async function MomentsPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string; card?: string }> }) {
   const { from: from_, child: childParam, card } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [childResult, momentsResult, focusResult] = await Promise.all([

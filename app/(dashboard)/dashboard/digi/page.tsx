@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { inStarterTrial, isAllowlisted } from '@/lib/access'
 import { getTrialConfig } from '@/lib/config/trial'
@@ -51,7 +52,7 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
   const { child: childParam, ask } = await searchParams
   const initialAsk = typeof ask === 'string' ? ask.slice(0, 300) : null
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const today = new Date().toISOString().split('T')[0]

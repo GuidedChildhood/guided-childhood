@@ -1,5 +1,6 @@
 import { chunky, pill, INK_EDGE } from '@/components/scripts/card-system'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
@@ -134,7 +135,7 @@ const PATHWAY_HREF = '/dashboard/pathway'
 export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string; q?: string; child?: string }> }) {
   const { topic, cat, stage, from, q, child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ data: profile }, { child }, { data: scriptsData }, { data: completions }] = await Promise.all([

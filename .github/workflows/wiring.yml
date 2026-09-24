@@ -160,6 +160,7 @@ jobs:
       # for that to hold and none of them fails a build if they stop agreeing:
       # the failure is the product silently asking twice, or not at all.
       - run: node scripts/check-followup-lives-in-checkin.mjs
+      - run: node scripts/check-page-auth.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

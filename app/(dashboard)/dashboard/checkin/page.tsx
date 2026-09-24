@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
@@ -44,7 +45,7 @@ export default async function CheckInPage({
 }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { rows, baseline, queue, childId, childName, acknowledge, tracking } = await getTodayCheckIn(supabase, user.id, childParam)

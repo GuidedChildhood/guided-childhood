@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import AddRoutine from './AddRoutine'
 
@@ -9,7 +10,7 @@ export const metadata = { title: 'Add a routine · Guided Childhood' }
 
 export default async function AddRoutinePage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   return <AddRoutine />
 }

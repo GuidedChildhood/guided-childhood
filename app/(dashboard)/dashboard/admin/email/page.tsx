@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -70,7 +71,7 @@ async function readHealth(): Promise<EmailHealth> {
 
 export default async function EmailHealthPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   if ((user.email ?? '').toLowerCase() !== FOUNDER_EMAIL) redirect('/dashboard')
 

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import WordCard from './WordCard'
 import type { DigiWord } from '@/lib/digi/word'
@@ -14,7 +15,7 @@ export const dynamic = 'force-dynamic'
 export default async function WordPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
   const { from } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const [{ data: rows }, { data: kids }] = await Promise.all([

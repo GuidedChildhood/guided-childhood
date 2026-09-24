@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { redirect } from 'next/navigation'
 import { type WellbeingCheck } from '../TrackerForm'
@@ -10,7 +11,7 @@ import CheckinGate from './CheckinGate'
 export default async function CheckinPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   // Has this parent said yes to us keeping wellbeing data? Article 9 consent,

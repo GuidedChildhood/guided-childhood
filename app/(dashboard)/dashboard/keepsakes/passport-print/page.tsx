@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getChildren } from '@/lib/children/server'
@@ -35,7 +36,7 @@ const STAGE_AGES = ['Ages 4 to 7', 'Ages 8 to 10', 'Ages 11 to 13', 'Ages 13 to 
 export default async function PassportPrintPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const { child: childParam } = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const { child } = await getChildren<{ id: string; name: string | null; age_band: string | null; stage_id: string | null; passport_code: string | null; is_primary: boolean | null }>(

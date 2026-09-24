@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
@@ -35,7 +36,7 @@ export async function GET(req: NextRequest) {
   const origin = url.origin
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) return NextResponse.redirect(`${origin}/login`)
 
   const [{ data: profile }, { child }] = await Promise.all([

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { pickChild } from '@/lib/children/select'
 import { firstText, makeDashStripper } from '@/lib/digi/text'
 import { hasFullAccess, inStarterTrial, isAllowlisted } from '@/lib/access'
@@ -188,7 +189,7 @@ export async function POST(request: Request) {
   const timer = startTimer()
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })

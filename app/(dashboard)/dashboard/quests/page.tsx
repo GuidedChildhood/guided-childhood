@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import BackTo from '@/components/nav/BackTo'
 import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
@@ -30,7 +31,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
   // own side of the quests. While no kid link exists for them, one warm
   // prompt at the top points at the QR handover, then it steps back for good.
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   let handoverName: string | null = null
   let handoverId: string | null = null
   let spotKids: { id: string; name: string }[] = []

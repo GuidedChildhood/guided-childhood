@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import FamilyDealSheet, { type DealQuest } from '@/components/deal/FamilyDealSheet'
@@ -26,7 +27,7 @@ function formatDate(iso: string | null): string | null {
 
 export default async function ParentDealPrintPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
   const { child: childParam } = await searchParams
 

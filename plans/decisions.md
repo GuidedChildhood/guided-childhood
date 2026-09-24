@@ -344,3 +344,13 @@ can open it without a school code, and it stays out of the curriculum manifest,
 so it is never counted, mapped, tracked or put on the passport. It can join the
 scheme later with one change. It still comes after the flagged lesson checks.
 How it stands alone is in `plans/2026-09-24-simon-squibb-weighed.md`. PR 1152.
+
+## 24 September 2026: every page checks who you are without a trip to the auth server
+
+Justin: "DiGi and navigating is still slow." The 13 September fix moved the
+middleware and layout to a local token check but left 64 dashboard pages and
+the DiGi route still calling the auth server first (1,504 calls a day; DiGi
+auth median 130ms). All now use sessionUser; Home reads the account's age from
+the profile, identical to the second on all 28 rows. Guarded by
+scripts/check-page-auth.mjs. DiGi's biggest wait is the model's first word
+(median 2.4s at medium effort); DIGI_CHAT_EFFORT is Justin's call. PR to follow.

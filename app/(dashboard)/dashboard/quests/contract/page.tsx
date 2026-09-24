@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { sessionUser } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '../print/PrintButton'
@@ -18,7 +19,7 @@ const SCHEDULE_LABELS: Record<string, string> = {
 
 export default async function ContractPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
   const weekStart = new Date()
