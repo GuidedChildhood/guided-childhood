@@ -916,7 +916,7 @@
       },
       {
         "question": "I shared something that turned out to be fake. Is that bad?",
-        "answer": "It has happened to nearly everybody in this room and to most adults. Say so, and say so where you shared it. A correction from the person who shared it travels further than one from anybody else."
+        "answer": "It happens to plenty of people, adults included. Say so, and say so where you shared it. A correction from the person who shared it travels further than one from anybody else."
       }
     ],
     "evidence_base": [
@@ -928,7 +928,7 @@
       {
         "claim": "In a test of 2,000 people in the UK and US, about one in a thousand correctly told every real image and video from every fake, even after being told to look for fakes.",
         "source": "iProov, Deepfake Blindspot study, February 2025. Industry research from a company that sells biometric protection against deepfakes, and not peer reviewed, so treat it as a vivid illustration rather than a precise measurement.",
-        "status": "verify"
+        "status": "verified"
       },
       {
         "claim": "Check two, what do other places say, is lateral reading: leaving the page to see what other sources say about it, which is how professional fact checkers work.",

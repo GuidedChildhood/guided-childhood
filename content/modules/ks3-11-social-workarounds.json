@@ -76,7 +76,7 @@
       "words": [
         {
           "word": "algorithm",
-          "meaning": "The system that decides what your feed shows you next, built to keep you watching for as long as possible."
+          "meaning": "The system that decides what your feed shows you next, picking what it predicts will keep you watching."
         },
         {
           "word": "moderation",
@@ -91,7 +91,7 @@
           "meaning": "A tool that hides where you really are, so the internet treats you as if you are somewhere else."
         }
       ],
-      "script": "Say each word, class repeats it back. Then point out something important: none of these are dirty words. A VPN is a normal tool millions of adults use for work every day. The question today is never is this thing evil. The question is always what happens when it is used to skip a protection. Keep that distinction, it is what makes this lesson honest.",
+      "script": "Say each word, class repeats it back. Then point out something important: none of these are dirty words. A VPN is a normal tool lots of adults use for work every day. The question today is never is this thing evil. The question is always what happens when it is used to skip a protection. Keep that distinction, it is what makes this lesson honest.",
       "heading": "Street words for today",
       "minutes": 2
     },
@@ -120,19 +120,19 @@
       "question": "Warm up from last lesson. The mood audit. You have just spent an hour scrolling. What is the question you ask yourself?"
     },
     {
-      "body": "When you open an account, the platform builds a profile of you: the age you typed in, what you watch, what you pause on, what you search late at night. The algorithm uses that profile to decide what you see next, and its only job is to keep you there longer.",
+      "body": "When you open an account, the platform builds a profile of you: the age on your account, what you watch, what you pause on, what you search late at night. The algorithm uses that profile to decide what you see next, picking whatever it predicts will keep you watching.",
       "type": "concept",
       "emoji": "⚙️",
       "phase": "teach",
-      "script": "Build the profile concretely: the age you typed in, what you watch, what you pause on, what you search late at night. Then let the last line sit, its only job is to keep you there longer.",
+      "script": "Build the profile concretely: the age on your account, what you watch, what you pause on, what you search late at night. Then let the last line sit: it picks whatever it predicts will keep you watching.",
       "heading": "How the machine sees you",
       "minutes": 1
     },
     {
-      "body": "Your age setting is one of the biggest levers in that machine. It changes what can be recommended to you, who is allowed to contact you, and how strictly the filters run. The platform does not know you. It knows the age you typed in, and it builds your entire world from that.",
+      "body": "Your age setting is one of the biggest levers in that machine. It changes what can be recommended to you, who is allowed to contact you, and how strictly the filters run. The platform does not know you. It knows the age on your account, and it builds your entire world from that.",
       "type": "concept",
       "phase": "teach",
-      "script": "Land the last two lines hard: the platform does not know you, it knows the age you typed in, and it builds your world from that. Then plant the question without answering it: so what changes if that age is wrong? Hold the silence for a moment. The next slide answers it.",
+      "script": "Land the last two lines hard: the platform does not know you, it knows the age on your account, and it builds your world from that. Since July 2025 many platforms check age with more than a typed birthday, which is exactly why the workarounds in this lesson exist. Then plant the question without answering it: so what changes if that age is wrong? Hold the silence for a moment. The next slide answers it.",
       "heading": "Your age is the biggest lever",
       "minutes": 1
     },
@@ -175,7 +175,7 @@
           "title": "Contact limits"
         },
         {
-          "text": "Reports from a child account are prioritised, and the help tools point you to real support.",
+          "text": "Children must get clear, easy ways to report, and the help tools point you to real support.",
           "emoji": "🚨",
           "title": "Reporting that works for you"
         },
@@ -192,11 +192,11 @@
     },
     {
       "type": "stat",
-      "claim": "Children aged 8 to 17 with a social media profile signed up with a false age of 18 or over, so the platform treats them as adults.",
+      "claim": "In a 2026 government survey, 39 percent of young people aged 11 to 17 said they had got around an age check at least once, most often by pretending to be older.",
       "phase": "teach",
-      "figure": "1 in 3",
-      "script": "Let the number land before you speak. A third of the children in this country with a social media profile are walking around online in an adult costume. Then the honest question: did those children become adults when they typed a different birthday? No. So what happened to their four protections? Gone, all four, and nobody sent them a warning about it. Nothing looked different that day. That is the trap.",
-      "source": "Ofcom, children's online user ages research, 2022",
+      "figure": "39%",
+      "script": "Let the number land before you speak. Nearly two in five young people in this country say they have got past an age check, and pretending to be older is the most common way. Then the honest question: did those children become adults when they typed a different birthday? No. So what happened to the protections wired to their real age? Switched off, and nobody sent them a warning about it. Half of the ones who got round a check say they then came across harmful content. Nothing looked different that day. That is the trap.",
+      "source": "Department for Science, Innovation and Technology, Children's circumvention behaviours online, July 2026",
       "minutes": 1
     },
     {
@@ -208,7 +208,7 @@
         {
           "text": "A switch that turns a whole set of protections on or off",
           "correct": true,
-          "feedback": "That is the honest answer. The rule is the visible bit. Behind it sit filters, contact limits, prioritised reports and tuned recommendations, all wired to that one setting."
+          "feedback": "That is the honest answer. The rule is the visible bit. Behind it sit filters, contact limits, reporting built for children and tuned recommendations, all wired to that one setting."
         },
         {
           "text": "A box ticking exercise the platforms do not really care about",
@@ -240,7 +240,7 @@
       "extension": true
     },
     {
-      "body": "Here is the honest core of today, and Orbit tells it to you straight: a workaround does not just skip a rule. It skips every protection wired behind the rule. Type an adult birthday and the filters relax, the contact limits drop, and the algorithm starts treating you as someone who can handle anything. Worst of all, if something goes wrong, the report and help tools think they are helping an adult. The rule took ten seconds to skip. The protections were the only part that was ever for you.",
+      "body": "Here is the honest core of today, and Orbit tells it to you straight: a workaround does not just skip a rule. It skips every protection wired behind the rule. If an adult birthday gets through, the filters relax, the contact limits drop, and the algorithm starts treating you as an adult. Worst of all, if something goes wrong, the report and help tools think they are helping an adult. The rule took ten seconds to skip. The protections were the only part that was ever for you.",
       "type": "concept",
       "emoji": "🔭",
       "phase": "teach",
@@ -292,7 +292,7 @@
         {
           "text": "Nothing much, a VPN only changes your location",
           "correct": false,
-          "feedback": "The VPN alone does change location. But the tutorial also said birthday 1998, and that one line switches off every child protection on the account."
+          "feedback": "The VPN alone does change location. But the tutorial also said birthday 1998, and if that one line gets through, it switches off the child protections on the account."
         },
         {
           "text": "Two minutes of setup time",
@@ -384,7 +384,7 @@
         "label": "Orbit's rule · tap the class verdict",
         "posts": [
           {
-            "why": "The adult birthday is the real workaround, not the VPN. That one line switches off the filters, the contact limits and the child prioritised reporting in a single move.",
+            "why": "The VPN dodges the age check and the adult birthday does the rest. If it gets through, that one line switches off the filters, the contact limits and the reporting built for children in a single move.",
             "text": "A group chat message says: new app is region locked and the age check is torture. Get this VPN, set it to USA, birthday 1998, takes two minutes.",
             "answer": 2,
             "avatar": "🧭",
@@ -645,7 +645,7 @@
     "keywords": [
       {
         "word": "algorithm",
-        "definition": "The system that decides what your feed shows you next, built to keep you watching for as long as possible."
+        "definition": "The system that decides what your feed shows you next, picking what it predicts will keep you watching."
       },
       {
         "word": "moderation",
@@ -669,7 +669,7 @@
         "teaching_point": "It switches protections on and off. This is the misconception the lesson exists to correct."
       },
       {
-        "answer": "To treat you as an adult, and it will.",
+        "answer": "To treat you as an adult, and if it gets through, it will.",
         "format": "short_answer",
         "question": "What does a false age tell the machine to do?",
         "teaching_point": "The machine cannot see kindness or intent. It reads the number and acts."
@@ -741,7 +741,7 @@
     ],
     "misconceptions": [
       "A VPN is illegal or evil (a VPN is a normal tool adults use for work every day, the risk arrives when it is used to fake an age or a location and switch off protections)",
-      "Age rules exist to keep young people off the internet (an age rule is a switch that selects the protected version of a platform, with filters, contact limits and prioritised reporting wired to it, it is not a ban)",
+      "Age rules exist to keep young people off the internet (an age rule is a switch that selects the protected version of a platform, with filters, contact limits and reporting built for children wired to it, it is not a ban)",
       "A borrowed account is safe if it comes from someone you trust (the machine cannot see kindness, it only reads the account's age, so adult settings, adult DMs and an inherited adult feed apply no matter who handed it over)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack: read the two scenarios aloud in your best group chat voice, draw the switch diagram on the board with the four protections as branches, run both discussions as timed pair talk with a watch, and use the printed exit quiz for the prove phase. The bookmark strip replaces the diagram slide for the practise phase.",
@@ -760,7 +760,7 @@
       {
         "n": 1,
         "item": "A group chat message says: new app is region locked and the age check is torture. Get this VPN, set it to USA, birthday 1998, takes two minutes.",
-        "teaching_point": "The adult birthday is the real workaround, not the VPN. That one line switches off the filters, the contact limits and the child prioritised reporting in a single move.",
+        "teaching_point": "The VPN dodges the age check and the adult birthday does the rest. If it gets through, that one line switches off the filters, the contact limits and the reporting built for children in a single move.",
         "expected_verdict": "Protection lost"
       },
       {
@@ -799,7 +799,7 @@
     "key_learning_points": [
       "An age setting switches on protections, it does not only unlock features.",
       "A workaround is a trade, never a free win.",
-      "A false age tells the machine to treat you as an adult, and it will.",
+      "A false age tells the machine to treat you as an adult, and if it gets through, it will.",
       "Moderation is the system that finds harmful content. A workaround steps outside it.",
       "A group chat with strangers in it is a different room from a group chat with friends."
     ],
@@ -819,6 +819,43 @@
       {
         "question": "Everyone does it.",
         "answer": "A lot of people do, and I am not going to pretend otherwise. This lesson is not asking you to be the only one who does not. It is asking you to know what you are giving up, so it is a decision rather than a default."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "In a 2026 government survey, 39 percent of young people aged 11 to 17 said they had got around an age check at least once, most often by pretending to be older.",
+        "source": "Department for Science, Innovation and Technology, Children's circumvention behaviours online, research by BMG, published 14 July 2026. 2,299 young people aged 11 to 17 across the UK, surveyed in May 2026. Of those who had got round a check, 63 percent had pretended to be someone else, most often with a false date of birth, and 41 percent of them did it to get onto social media they were too young for. 51 percent said they came across harmful content after getting round a check. Self reported, so the true figures could be higher or lower.",
+        "status": "verified"
+      },
+      {
+        "claim": "Behind the age setting sit real protections: strangers kept out of your messages, harmful content filtered harder, and feeds that are meant to stop pushing harmful content at a child.",
+        "source": "GOV.UK, Keeping children safe online: changes to the Online Safety Act explained, Department for Science, Innovation and Technology, 1 August 2025: under Ofcom's codes platforms must make sure strangers have no way of messaging children, children should not be recommended accounts to connect with, and platforms check ages with methods like facial scans, photo ID and credit card checks. The government's Online Safety Act explainer adds that children must have clear ways to report problems, and that the law treats an algorithm repeatedly pushing content at a child as one way harm happens.",
+        "status": "verified"
+      },
+      {
+        "claim": "Instagram's own teen settings are one example of what an age setting switches on.",
+        "source": "Meta, Introducing Instagram Teen Accounts, September 2024, updated 2025: teen accounts are private by default, teens can only be messaged by people they follow or are already connected to, and they are placed in the most restrictive sensitive content setting. Meta also says teens may lie about their age, and that it is building technology to find teen accounts that list an adult birthday. One platform's own description; others differ.",
+        "status": "verified"
+      },
+      {
+        "claim": "Platforms face serious fines when their protections fail.",
+        "source": "Online Safety Act 2023, Schedule 13, paragraph 4: a penalty of up to £18 million or 10 percent of qualifying worldwide revenue, whichever is greater.",
+        "status": "verified"
+      },
+      {
+        "claim": "The feed picks whatever it predicts you will keep watching.",
+        "source": "TikTok, How TikTok recommends videos #ForYou: videos are ranked by how likely you are to be interested, and finishing a longer video is weighted as a strong signal. The platform's own description of its system.",
+        "status": "mechanism"
+      },
+      {
+        "claim": "A VPN is legal in the UK. The risk in this lesson is what it gets used to switch off.",
+        "source": "GOV.UK, Keeping children safe online: changes to the Online Safety Act explained, 1 August 2025: VPNs are legal in the UK, and platforms have a clear responsibility to prevent children from bypassing safety protections.",
+        "status": "verified"
+      },
+      {
+        "claim": "The lesson says the age on your account, not the age you typed in.",
+        "source": "Since the Online Safety Act child safety duties took effect in July 2025, many platforms check age with more than a typed birthday. The 2026 survey above found 45 percent of 11 to 17 year olds had met a check such as facial age estimation, ID upload or a card check.",
+        "status": "Changed on 24 September 2026 after checking: the earlier wording assumed a typed birthday was the only check. The trade the lesson teaches is unchanged, because a workaround that gets through still switches the protections off."
       }
     ]
   }

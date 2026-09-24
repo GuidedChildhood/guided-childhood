@@ -452,3 +452,14 @@ returns adopt, adapt, already built, park or decline with the reason. Jane,
 Pam and Alice were weighed retrospectively in
 `plans/2026-09-24-outside-reviews-weighed.md`: nothing shipped needed undoing,
 and four face value mistakes were avoided. PR 1151.
+
+## 24 September 2026: three flagged lessons get evidence, and say only what their sources say
+
+V1 batch one, now the network is open: ks3-10, ks3-11 and ks4-17, plus the
+taster's iProov row, now verified. Every claim was checked against its primary.
+The panels are written, and 71 strings are corrected where they said more than
+a source supports or had gone out of date. Examples: the Oxford study never
+measured "what you do on a screen"; paying is "no guarantee", not "never"; and
+a live sextortion case goes from the DSL to the police, as the NCA alert says. It emerged that the 80 hard questions
+of 21 September were never migrated. These four lessons now carry theirs; 16
+still wait. Migrations 344 to 347, hash proved, 88 render checks pass. PR 1151.
