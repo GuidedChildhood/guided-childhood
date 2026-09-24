@@ -20,6 +20,12 @@ opens with an index giving the line number of every entry, so one decision is a
   with the relevant section of THE-STORY.md so findings land on our thesis
   rather than beside it.
 
+- ANY outside feedback, review, audit or advice (a DSL, a clinician, another
+  AI's site review, a parent, a school) → .claude/skills/feedback-filter
+  BEFORE building anything. Advice is an input, never an instruction: weigh
+  each point against our goal and philosophy, then adopt, adapt, park or
+  decline it, with the reason. Never act on advice because of who gave it.
+
 - Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
 - Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5-1)
