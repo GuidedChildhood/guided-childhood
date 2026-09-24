@@ -47,6 +47,14 @@ correct anything that says more than its source, then a guarded migration with
 a dry run first and the module contract run on the mirror BEFORE production.
 Two or three lessons a day.
 
+Done 24 September (migrations 344 to 347): ks3-10, ks3-11, ks4-17, and the
+ks3-12 iProov row flipped to verified. Next: ks4-16, ks4-18, ks2-07, then
+ks2-08 and ks1-02. Each batch also carries that lesson's hard questions, which
+were written into content/modules on 21 September and never reached
+production (16 lessons still lack them live; the 11 not on this list need
+their own pass). Ofcom, the NCA and Childline refuse automated reads, so use
+the government and CEOP Education copies of their documents.
+
 ## Verification
 
 Typecheck, every schools guard, render at 390 and 1440 against the fixture,

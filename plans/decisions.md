@@ -30,19 +30,12 @@ when `npm run context-guard` says this file is over budget. Nothing is deleted.
 | `plans/decisions-archive/2026-06.md` | 2026-06-13 to 2026-06-27 | 3 |
 | `plans/decisions-archive/2026-07.md` | 2026-07-01 to 2026-07-31 | 217 |
 | `plans/decisions-archive/2026-08.md` | 2026-08-01 to 2026-08-30 | 155 |
-| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-21 | 245 |
+| `plans/decisions-archive/2026-09.md` | 2026-09-01 to 2026-09-22 | 252 |
 
 ## The last 120 decisions
 
 Titles only. Open the archive at the line number in its own index for the full entry.
 
-- 2026-09-11 · THE CORRECTION, and it is mine · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026 — the answer beat's Continue button, and why the schools UI can be looked at after all · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026 — the taster: one lesson outside the wall, and the lead that follows it · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026 — the AI cognition lesson, and the numbers we will not use · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026 — what the sources actually say, and the slide that was backwards · `plans/decisions-archive/2026-09.md`
-- 2026-09-11 · 11 September 2026 — stay the maker, and the parent note that never printed · `plans/decisions-archive/2026-09.md`
-- 2026-09-13 · 13 September 2026, Sunday, the DiGi review (session p37w5v) · `plans/decisions-archive/2026-09.md`
 - 2026-09-13 · 13 September 2026, Sunday, the look and feel pass, session one (session p37w5v) · `plans/decisions-archive/2026-09.md`
 - 2026-09-13 · 13 September 2026, Sunday, DiGi answers on Fable 5.1 (session p37w5v) · `plans/decisions-archive/2026-09.md`
 - 2026-09-13 · 13 September 2026, Sunday, every lesson animated (session 0u09q9) · `plans/decisions-archive/2026-09.md`
@@ -156,151 +149,17 @@ Titles only. Open the archive at the line number in its own index for the full e
 - 2026-09-21 · 21 September 2026, the core and the extension, marked in 26 lessons · `plans/decisions-archive/2026-09.md`
 - 2026-09-21 · 21 September 2026, eighty hard questions, and the one blank left open · `plans/decisions-archive/2026-09.md`
 - 2026-09-21 · 21 September 2026, the wall clips, and the guard that was measuring a demo deck · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — The helpline hotfix, and the number is the lesson · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — A guard for the numbers, with two standards on purpose · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — The star cap, and what it actually bought · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — Open: two recaps where the number cannot move · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — Split the two six point recaps, keep every word · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — The Planet Friends were drawing as emoji · `plans/decisions-archive/2026-09.md`
+- 2026-09-22 · 22 September 2026 — The animation decisions, and a curriculum risk found under them · `plans/decisions-archive/2026-09.md`
 
 ## Not yet rolled (the last 2 days, in full)
 
 <!-- roll:index:end -->
-
-## 22 September 2026 — The helpline hotfix, and the number is the lesson
-
-Measured where the DIGITS of every helpline in the scheme sit relative to the
-fold on a 1920x1080 projector. Five dialable numbers were below it.
-
-Justin's call was to treat it as safeguarding rather than curriculum quality
-and fix it ahead of the term review. The reason it is not a layout defect: the
-teacher scripts say the wall is the surface a pupil copies the number from and
-that they copy it without wanting to be seen, and no worksheet or print route
-carries these numbers anywhere else. The slides are the only pupil facing place
-they exist.
-
-Migration 337, applied and verified. Three slides, two of which change no words
-at all: a recap point reordered 4th to 3rd (the script pins points 2 and 6, so
-3rd was the only free slot above), three chips dropped that repeated the step
-titles above them character for character, an NHS clinic sentence moved from
-the card into the script, and 64 characters of flourish cut from one body. Five
-below the fold became one. PR 1144.
-
-## 22 September 2026 — A guard for the numbers, with two standards on purpose
-
-check-helplines.mjs, in the wall-fit job so it shares one server boot. It runs
-first: a child who cannot read a helpline should be at the top of the log, not
-twenty four minutes down it.
-
-The wall is a hard gate with a hand written allowlist and no regenerate flag,
-because a ratchet promises "no worse than yesterday" and for a helpline the
-only acceptable state is readable. One entry: ks4-28 s28, where the number is
-the deliberate closing beat of a six point recap.
-
-1366x768 is the tighter surface, which is not obvious and is why the guard
-found something the wall pass missed. The type scales by height while the stage
-shrinks faster, so ks4-29 s28 clears its helpline on a wall and misses by 83px
-on a laptop. There the standard is the wall fit baseline rather than a second
-list: a number cut on a slide that fits is an isolated defect and fails, a
-number cut on a slide already 513px over is a symptom of that clip and is
-reported with its size. That rule cannot rot, because the baseline only
-shrinks, so the day such a slide is fixed its helpline becomes a hard gate
-with nobody having to remember.
-
-## 22 September 2026 — The star cap, and what it actually bought
-
-AnimatedIntro caps the character frame at min(440px, 22vh), from 324px, which
-was 46 percent of the 699px stage on a wall. A calibrated vh rather than a
-container query, because making the stage a size container would change
-containment on the very box check-wall-fit measures.
-
-Honest result: it took 65px off 56 title slides and cleared 2 of them. The
-opening slide has seven elements competing for one screen, so the rest is a
-design decision rather than a size one. Across the whole sweep the fix set
-cleared 2 pairs, improved 58, and added none.
-
-## 22 September 2026 — Open: two recaps where the number cannot move
-
-ks4-28 s28 and ks4-29 s28 both end on a six point recap that overflows at both
-sizes, 434px and 531px on a wall. The helpline in ks4-28 s28 is the last point
-by design ("leave a beat after the last one"), and ks4-29 s28 clears on a wall
-but not on a laptop. Both need the same decision: split the recap, or cut
-points. That is curriculum, not layout, so it is named here rather than done.
-
-## 22 September 2026 — Split the two six point recaps, keep every word
-
-Justin's call on the one open question from the helpline hotfix: split rather
-than cut points. "Split, keeps every word."
-
-Migration 338, applied and verified. Both KS4 lessons closed on a six point
-recap that overflowed at both sizes, 434px and 531px on a 1920 wall, so the
-tail was off screen whatever order the points sat in. Each is now two slides of
-three, one minute each, so the pair runs the two minutes the recap ran and the
-timing string still states 63. Not one of the twelve point strings is
-rewritten, which the migration proves rather than asserts by comparing the
-multiset before and after and refusing to write if a word moved.
-
-ks4-29 is regrouped rather than simply cut in half, and that came out of
-measuring rather than taste. Its opening point runs four lines where the others
-run two, so leaving it above the helpline put the numbers 19px under the fold
-on a wall and 55px under at 1366. Five arrangements were measured through the
-real player. The one that clears every number at both sizes puts the pastoral
-three together (you are not in trouble, here are the numbers, most people are
-not harmed) and the mechanics three together (why the feed found you, what a
-paid offer is, the three moves it ends on).
-
-check-helplines is now 21 readable, 0 below the fold, and its wall allowlist is
-EMPTY. That is the state to keep it in. PR 1144.
-
-## 22 September 2026 — The Planet Friends were drawing as emoji
-
-The schools home page and the curriculum map drew the cast as symbols in three
-places: Pebble a seedling, Bloop a jigsaw piece, Orbit a telescope, Nova a
-compass, Cosmo a rocket. Every character record already carried its real cutout
-in `img` right beside the emblem, and those three spots reached past it.
-
-It matters because of where they are. The curriculum map is the page a head or
-a parent reads to decide whether to buy, and the map preview sits above the
-fold on the home page. Somebody who has just watched a lesson then meets five
-symbols that are not the five characters.
-
-shared/components/FriendMark.tsx draws them: the plate device from FriendPlate
-with no motion and no client bundle, because FriendPlate is the friend in a
-lesson and that is the wrong tool for a 24px chip, of which the curriculum page
-carries twenty nine on one screen. The emblem stays as the fallback. Checked at
-1440 and 390: EYFS and KS1 draw Pebble, KS2 Bloop, KS3 Orbit, KS4 Nova, KS5
-Cosmo.
-
-## 22 September 2026 — The animation decisions, and a curriculum risk found under them
-
-Justin's calls: Orbit fronts the pilot, every lesson gets a speaking intro
-introducing its own friend (so the silent loops go, reversing my
-recommendation), the retired cast is confirmed retired, every lesson gets an
-outro explaining the Passport stamp, the mini series is for parents and schools
-buying with a second strand for schools and teachers, he appears in the parent
-and LinkedIn films only, and the friends get generated voices locked to an id.
-
-Two findings worth keeping.
-
-**The Higgsfield account id is inside every asset URL.** 237 assets in the repo
-and 10 more in production hang off one CDN path: 95 lesson covers, 37
-printables, the cutout and every mood still for all five friends. A new account
-cannot serve them. Whether a cancelled one keeps serving is unknown and cannot
-be tested from here, so the plan says mirror all 247 to our own storage before
-any account decision. On the account itself: bigger subscription on the existing
-one, not a new account. The tooling already renders on it, a new one loses the
-references and the history, and ULTRA is 30 credits per dollar against 21 for
-top up packs that expire in 90 days.
-
-**Eight secondary lessons assume a primary lesson the pupil may never have had.**
-Measured from production: every KS3 and KS4 lesson states prior knowledge citing
-our own primary modules by id, and ks2-06, the feed loop, carries seven of those
-dependencies alone. A secondary buying KS3 to KS5 today is buying lessons that
-open by assuming an intake was taught something most of it was not.
-
-The fix is the same work as the speaking intro Justin asked for, which is why it
-is cheap: the friend names the one thing from before in fifteen seconds, phrased
-so it lands as recall for the pupil who met it and first teaching for the pupil
-who did not, with neither singled out. Plus one Year 7 bridge lesson for schools
-that want to level a cohort in week one. That is what makes the secondary scheme
-sellable standalone.
-
-Plan: plans/2026-09-22-animation-and-mini-series-plan.md. Character bible:
-digi-squad/README.md. PR 1146.
 
 ## 23 September 2026: daily health sweep, one duplicate index dropped
 
@@ -452,3 +311,36 @@ returns adopt, adapt, already built, park or decline with the reason. Jane,
 Pam and Alice were weighed retrospectively in
 `plans/2026-09-24-outside-reviews-weighed.md`: nothing shipped needed undoing,
 and four face value mistakes were avoided. PR 1151.
+
+## 24 September 2026: three flagged lessons get evidence, and say only what their sources say
+
+V1 batch one, now the network is open: ks3-10, ks3-11 and ks4-17, plus the
+taster's iProov row, now verified. Every claim was checked against its primary.
+The panels are written, and 71 strings are corrected where they said more than
+a source supports or had gone out of date. Examples: the Oxford study never
+measured "what you do on a screen"; paying is "no guarantee", not "never"; and
+a live sextortion case goes from the DSL to the police, as the NCA alert says. It emerged that the 80 hard questions
+of 21 September were never migrated. These four lessons now carry theirs; 16
+still wait. Migrations 344 to 347, hash proved, 88 render checks pass. PR 1152.
+
+## 24 September 2026: Simon Squibb's ideas weighed, and a KS3 module to follow the checks
+
+Justin asked for a module Simon Squibb would value, on work school does not
+prepare children for, wrapped in AI. Weighed first in
+`plans/2026-09-24-simon-squibb-weighed.md`. His view of phones is already ours:
+create rather than just consume, with a parent alongside. Adopted: "what problem do you want to
+solve?", asking for help, doing over ideas. Declined: memorising is pointless,
+ignore your parents, and his unsourced figures. Justin's calls: build "What
+problem would you solve?" for Years 8 and 9 after the flagged lessons are
+checked; no Squibb name on slides; send him the finished lesson instead. PR 1152.
+
+## 24 September 2026: the Squibb lesson stands alone, outside the scheme
+
+Justin, later the same day: it sits outside the school curriculum for now,
+because he is not sure it belongs there, but it should exist as a standalone
+lesson. So "What problem would you solve?" (Years 8 and 9) is one lesson in the
+same format and player as the scheme. It has its own free link, so Simon Squibb
+can open it without a school code, and it stays out of the curriculum manifest,
+so it is never counted, mapped, tracked or put on the passport. It can join the
+scheme later with one change. It still comes after the flagged lesson checks.
+How it stands alone is in `plans/2026-09-24-simon-squibb-weighed.md`. PR 1152.

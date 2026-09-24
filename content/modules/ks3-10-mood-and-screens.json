@@ -13,7 +13,7 @@
       "Manage AI"
     ],
     "character_cast": "Orbit with DiGi",
-    "evidence_anchor": "Orben and Przybylski, what and how not just time",
+    "evidence_anchor": "Orben and Przybylski 2019 on hours, Beyens 2020 and Irmer 2023 on use",
     "statutory_hooks": [
       "RSHE mental health"
     ],
@@ -133,11 +133,11 @@
       "extension": true
     },
     {
-      "body": "Researchers at Oxford analysed data from hundreds of thousands of young people to test the claim that screen time wrecks wellbeing. They found the link between raw hours and wellbeing is real but tiny, far too small to explain a generation. What showed up as mattering more was what you do on the screen, who you do it with, and how it leaves you feeling. The honest conclusion is not that phones are fine and not that phones are poison. It is that hours on screen is the wrong question, and you are about to learn the right one.",
+      "body": "Researchers at Oxford analysed data from hundreds of thousands of young people to test the claim that screen time wrecks wellbeing. They found the link between screen time and wellbeing is tiny, far smaller than the headlines claim. Sleep, breakfast and being bullied all showed much bigger links with wellbeing. The honest conclusion is not that phones are fine and not that phones are poison. It is that hours on screen is the wrong question, and you are about to learn the right one.",
       "type": "concept",
       "emoji": "🔬",
       "phase": "teach",
-      "script": "Take this slowly, it is the intellectual heart of the lesson. Name the researchers: Amy Orben and Andrew Przybylski, Oxford. Point out something unusual: this research annoys both sides. It annoys the panic side because the effect of hours is tiny, and it annoys the nothing to see here side because how you use screens really does show up in the data. That is usually the sign of honest science.",
+      "script": "Take this slowly, it is the intellectual heart of the lesson. Name the researchers: Amy Orben and Andrew Przybylski, Oxford. Point out something unusual: this research annoys both sides. It annoys the panic side because the link with screen time is tiny, and it annoys the nothing to see here side because it still found a link. That is usually the sign of honest science.",
       "heading": "What the research actually says",
       "minutes": 2
     },
@@ -169,13 +169,13 @@
         {
           "text": "The scientists are covering for the tech companies",
           "correct": false,
-          "feedback": "This research came from independent academics and it cuts against the tech companies too, because it says HOW their apps make you feel is what counts. Follow the evidence, not the conspiracy."
+          "feedback": "This research came from independent academics, and it is no free pass for the tech companies: a tiny link with hours does not make their apps good for you. Follow the evidence, not the conspiracy."
         }
       ],
       "question": "The research says raw hours barely predict wellbeing. What does that actually mean?"
     },
     {
-      "body": "The same app can do two completely different jobs. Messaging people who know your actual life, planning things, sharing jokes that only your group gets: that is connecting, and it mostly reads better in mood terms. Endlessly scrolling strangers' edited highlights and measuring your unedited Tuesday against them: that is comparing, and it mostly reads worse. Researchers see the same split: actively talking with people you know lands differently from passively watching people you do not. The app icon tells you nothing. What you were doing inside it tells you almost everything.",
+      "body": "The same app can do two completely different jobs. Messaging people who know your actual life, planning things, sharing jokes that only your group gets: that is connecting, and it mostly reads better in mood terms. Endlessly scrolling strangers' edited highlights and measuring your unedited Tuesday against them: that is comparing, and it mostly reads worse. Researchers see the same split: messaging people you know tends to lift mood, and feeling others are better off tends to lower it. The app icon tells you nothing. What you were doing inside it tells you almost everything.",
       "type": "concept",
       "emoji": "⚖️",
       "phase": "teach",
@@ -246,7 +246,7 @@
       ]
     },
     {
-      "body": "Worse gets your attention because it hurts. Nothing slides past you, and that is what makes it sneaky. An hour of autoplay that you cannot remember a single video from did not hurt you, but it gave you nothing back, and it quietly spent an hour you never get returned. Researchers call this passive use, and it is the pattern most linked with feeling flat. Nothing is not fine and not terrible. It is information, and it is the verdict most people never notice they are logging.",
+      "body": "Worse gets your attention because it hurts. Nothing slides past you, and that is what makes it sneaky. An hour of autoplay that you cannot remember a single video from did not hurt you, but it gave you nothing back, and it quietly spent an hour you never get returned. Researchers call this passive use, and in one study nearly half of teenagers felt no different after it. Nothing is not fine and not terrible. It is information, and it is the verdict most people never notice they are logging.",
       "type": "concept",
       "emoji": "🕳️",
       "phase": "teach",
@@ -327,8 +327,8 @@
       "mode": "groups",
       "type": "discussion",
       "phase": "teach",
-      "prompt": "Every app measures your attention down to the second. Nothing measures your mood. Why is that, and whose job does that leave it?",
-      "script": "Groups of three or four, ninety seconds on the timer. This is the stretch thinking of the lesson: apps track every second of watch time because attention is the product, and no app has ever asked how you felt after closing it. Collect one answer per group. The landing you want: the mood data does not exist anywhere in the world unless you collect it, which is exactly what the audit is.",
+      "prompt": "Your feed measures your attention down to the second. It never asks about your mood. Why is that, and whose job does that leave it?",
+      "script": "Groups of three or four, ninety seconds on the timer. This is the stretch thinking of the lesson: apps track every second of watch time because attention is the product, and no feed asks how you felt after closing it. Collect one answer per group. The landing you want: the mood data does not exist anywhere in the world unless you collect it, which is exactly what the audit is.",
       "lookFor": "Attention is what the apps sell, so it gets measured obsessively. Your mood after closing is worth nothing to them, so nobody builds the dial. Which leaves exactly one person who can run that measurement: you.",
       "minutes": 3,
       "seconds": 90,
@@ -522,7 +522,7 @@
   },
   "sort_order": 10,
   "parent_note": {
-    "taught": "Today we looked at the honest evidence on screens and mood: the biggest studies say what young people do on a screen and how it leaves them feeling matters far more than raw hours. Your child learned the mood audit, a ten second self check they will run for a week: after I closed it, did I feel better, worse, or nothing?",
+    "taught": "Today we looked at the honest evidence on screens and mood: the biggest studies found raw hours explain very little of how young people feel, so what they do on a screen and how it leaves them feeling is the better thing to watch. Your child learned the mood audit, a ten second self check they will run for a week: after I closed it, did I feel better, worse, or nothing?",
     "headline": "What we taught today, and one thing to try at home",
     "passport": "This lesson filled part of your teenager's passport page. The passport is the readiness record home and school build on the road to sixteen: skills proven at school, trust earned at home, each stage stamped when it is ready rather than when a birthday arrives. Ask them how the mood audit week is going, and consider running one yourself alongside them.",
     "try_this": "Run the audit yourself this week, out loud, on your own phone. When they hear you say worse after the news app, the tool becomes a normal thing your family does rather than a rule aimed at them.",
@@ -681,7 +681,7 @@
     "misconceptions": [
       "Screen time hours decide your mood (the biggest studies found raw hours barely predict wellbeing, what you do and how it leaves you feeling matter far more)",
       "The same app affects everyone the same way (one pupil's connecting is another pupil's comparing, which is exactly why each pupil runs their own audit instead of trusting an average)",
-      "Feeling nothing after a long session means no effect (nothing is a verdict too, an hour that gives nothing back is worth noticing and it is the pattern most linked with feeling flat)"
+      "Feeling nothing after a long session means no effect (nothing is a verdict too, and an hour that gives nothing back is worth noticing, because the hour itself was the cost)"
     ],
     "paper_fallback": "The whole lesson runs from the printed pack with no screen. Read the two feed posts and the group chat aloud as short scripts, draw the four step audit and the four moves on the board as you talk them through, run both timed talks with a watch, and use the worksheet, bookmark and exit quiz exactly as printed. The stat can be written on the board: 0.4 percent, and the potato line works even better out loud.",
     "passport_stage": "shaper",
@@ -745,11 +745,11 @@
     "hard_questions": [
       {
         "question": "So how many hours is safe?",
-        "answer": "There is no number, and anybody who gives you one is going past what the evidence supports. The hours turn out to matter much less than what you were doing and how you felt afterwards. That is why the audit asks better, worse or nothing, rather than counting."
+        "answer": "There is no number, and anybody who gives you one is going past what the evidence supports. On their own the hours tell you very little; what you were doing and how you felt afterwards tell you much more. That is why the audit asks better, worse or nothing, rather than counting."
       },
       {
         "question": "My friend is on it constantly and she is fine.",
-        "answer": "She might well be, and the same app genuinely lands differently on different people. That is one of the clearest findings there is. It is also why this is an audit you run on yourself rather than a rule I hand to all of you."
+        "answer": "She might well be, and the same app genuinely lands differently on different people. That is one of the most consistent findings in recent research. It is also why this is an audit you run on yourself rather than a rule I hand to all of you."
       },
       {
         "question": "I felt nothing after two hours, so it did nothing.",
@@ -758,6 +758,33 @@
       {
         "question": "Are you going to tell us to delete it?",
         "answer": "No. One calibrated change that you choose is worth more than a ban you did not, because you are the one who has to live with it on a Tuesday. If your audit says nothing needs changing, that is a legitimate answer."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "Across data from over 350,000 young people, screen use explained at most 0.4 percent of the differences in teenage wellbeing, a link about the same size as the one with regularly eating potatoes.",
+        "source": "Orben and Przybylski, Nature Human Behaviour, 2019. Three large surveys from the US and the UK, 355,358 young people, mostly aged 12 to 18. Technology use explained at most 0.4 percent of the variation in wellbeing, and regularly eating potatoes was nearly as negative, 0.9 times as strong. Being bullied, sleep and breakfast all had much bigger links. These are correlations at one point in time, so they cannot show what causes what.",
+        "status": "verified"
+      },
+      {
+        "claim": "There is no safe number of hours, and anyone who gives you one is going past what the evidence supports.",
+        "source": "UK Chief Medical Officers, commentary on screen based activities and children and young people's mental health and psychosocial wellbeing, 7 February 2019: scientific research is currently insufficiently conclusive to support evidence based guidelines on optimal amounts of screen use.",
+        "status": "verified"
+      },
+      {
+        "claim": "The same app lands differently on different people, which is why each pupil runs their own audit instead of trusting an average.",
+        "source": "Beyens, Pouwels, van Driel, Keijsers and Valkenburg, Scientific Reports, 2020. 63 Dutch teenagers aged about 15 answered six short check ins a day for a week. After passive social media use, 46 percent felt better, 44 percent felt no different and 10 percent felt worse. A small study of mostly happy teenagers, so it shows that effects differ from person to person, not how often each one happens.",
+        "status": "verified"
+      },
+      {
+        "claim": "Comparing mostly reads worse: feeling that other people are better off than you goes with feeling worse about yourself.",
+        "source": "Irmer and Schmiedek, Communications Psychology, 2023. 200 young people aged 10 to 14 in Germany kept a diary for 14 days. On days they felt others were better off than them, their self worth and mood were lower, and this partly explained the link between their social media use and how they felt.",
+        "status": "verified"
+      },
+      {
+        "claim": "Connecting mostly reads better: messaging people you know tends to lift mood.",
+        "source": "Beyens and colleagues, Scientific Reports, 2020, the same study: on average the teenagers felt better at moments when they had spent more time sending messages, posting or sharing, and reading WhatsApp messages, an app used mostly with friends, also went with feeling better.",
+        "status": "verified"
       }
     ]
   }

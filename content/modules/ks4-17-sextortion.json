@@ -83,11 +83,11 @@
         },
         {
           "word": "Report Remove",
-          "meaning": "A free, confidential Childline and IWF tool that helps under 18s get intimate images taken down from the internet. It works."
+          "meaning": "A free, confidential Childline and IWF tool that helps under 18s get intimate images taken down from the internet."
         },
         {
           "word": "CEOP",
-          "meaning": "The police child protection command. Its online report form sends sextortion cases straight to specialist officers who deal with this every day."
+          "meaning": "The National Crime Agency's child protection command. Its online report form goes straight to experienced Child Protection Advisors."
         }
       ],
       "script": "Read each word and its meaning yourself, calmly, no chanting for this module. Two things to stress. First, in the definition of blackmail, the crime belongs to the blackmailer, never the victim, say that sentence twice. Second, Report Remove and CEOP are not abstract, they are two real places pupils can go tonight if they need to, and we will come back to both. Watch for anyone writing the names down carefully, that is fine and good, do not comment on it.",
@@ -119,11 +119,11 @@
       "question": "Retrieval from last lesson. An intimate image of someone under 18 is online and they want it gone. What did we learn?"
     },
     {
-      "body": "Sextortion is blackmail. Someone gets an intimate image, or claims to have one, and demands money or more images, threatening to send it to family and followers if the person refuses. It is organised crime, usually run by groups overseas working through fake accounts, and the National Crime Agency warns it increasingly targets teenage boys with demands for money. The person being blackmailed has been the victim of a crime from the first message. Nothing they did changes that.",
+      "body": "Sextortion is blackmail. Someone gets an intimate image, or claims to have one, and demands money or more images, threatening to send it to family and followers if the person refuses. It is organised crime, usually run by groups overseas working through fake or hacked accounts, and the National Crime Agency warns that a large share of victims are boys aged 14 to 18. The person being blackmailed has been the victim of a crime from the first message. Nothing they did changes that.",
       "type": "concept",
       "emoji": "⭐",
       "phase": "teach",
-      "script": "Deliver this slowly and factually, like you would explain any other crime. Two sentences to stress: it is organised crime run through fake accounts, because that dismantles the idea that the victim was foolish, these are professionals running a process on thousands of people at once. And the last two sentences, read them exactly as written. Watch for the shift in the room when boys hear this targets them, some will sit up, some will go quiet. Both are the lesson landing. Do not invite anecdotes here. Say this, as written: It has a family name, and knowing the family is more use than knowing one member of it. Exploitation is somebody getting something out of you using a power they have and you do not: age, money, information, or a secret. Sexual exploitation uses sex. Criminal exploitation uses you to carry or to sell. Financial exploitation uses your money or your bank account. Abuse is the word for the harm underneath all of them. And grooming is the part that comes first in every single one, the warm, generous, patient stretch, because all of these need trust before they need anything else. They are separate crimes in law and they share one opening move, which is why learning the opening move beats memorising the list. Land the family idea before the lesson narrows back to sextortion, because it is the part that transfers to something they have not met yet. The sentence worth repeating is the last one: five different crimes, one opening move, so learn the move. If somebody asks whether grooming always means something sexual, the accurate answer is no, and criminal exploitation is exactly the case that proves it.",
+      "script": "Deliver this slowly and factually, like you would explain any other crime. Two sentences to stress: it is organised crime run through fake accounts, because that dismantles the idea that the victim was foolish, these are professionals running a process on many people at once. And the last two sentences, read them exactly as written. Watch for the shift in the room when boys hear this targets them, some will sit up, some will go quiet. Both are the lesson landing. Do not invite anecdotes here. Say this, as written: It has a family name, and knowing the family is more use than knowing one member of it. Exploitation is somebody getting something out of you using a power they have and you do not: age, money, information, or a secret. Sexual exploitation uses sex. Criminal exploitation uses you to carry or to sell. Financial exploitation uses your money or your bank account. Abuse is the word for the harm underneath all of them. And grooming is the part that comes first in every single one, the warm, generous, patient stretch, because all of these need trust before they need anything else. They are separate crimes in law and they share one opening move, which is why learning the opening move beats memorising the list. Land the family idea before the lesson narrows back to sextortion, because it is the part that transfers to something they have not met yet. The sentence worth repeating is the last one: five different crimes, one opening move, so learn the move. If somebody asks whether grooming always means something sexual, the accurate answer is no, and criminal exploitation is exactly the case that proves it.",
       "heading": "What sextortion is",
       "minutes": 3
     },
@@ -167,14 +167,14 @@
       "minutes": 2,
       "options": [
         {
-          "text": "They are running the same script on thousands of people at once.",
+          "text": "They are running the same script on many people at once.",
           "correct": true,
           "feedback": "Exactly. It is a business, not a person who picked you. That is why the approach feels like luck and never is."
         },
         {
           "text": "They picked that one person specially.",
           "correct": false,
-          "feedback": "Almost never. It feels personal because it is written to feel personal, and it is being sent to thousands of people at the same time."
+          "feedback": "Almost never. It feels personal because it is written to feel personal, and it is being sent to many people at the same time."
         },
         {
           "text": "It only catches people who are careless.",
@@ -205,13 +205,13 @@
           "title": "The ask, or the claim"
         },
         {
-          "text": "Warmth vanishes. Threats and a demand arrive, often within minutes. The friendly person never existed.",
+          "text": "Warmth vanishes. Threats and a demand arrive, sometimes within the hour. The friendly person never existed.",
           "emoji": "🔒",
           "title": "The switch"
         }
       ],
       "script": "Walk the four steps as they build, evenly, no theatrics. The teaching point to land hard is in step two: the speed is the tell. A stranger this warm, this fast, this interested, is running a script. Also flag step three carefully: some blackmailers have no image at all, they claim to and rely on panic to do the rest, which matters because it means this can happen to someone who never sent anything. Watch for pupils recognising the pattern from their own DMs, faces change on this slide. If anyone wants to talk afterwards, stay available, and follow your safeguarding policy if anything is disclosed.",
-      "caption": "The whole approach is designed to feel like luck. It is a script, run on thousands of people at once.",
+      "caption": "The whole approach is designed to feel like luck. It is a script, run on many people at once.",
       "heading": "How it starts",
       "minutes": 3
     },
@@ -253,7 +253,7 @@
         {
           "text": "The profile picture, fakes always look fake",
           "correct": false,
-          "feedback": "Fake profiles use real, stolen photos and look completely ordinary. You cannot judge the account by its face, only by its behaviour."
+          "feedback": "Fake and hacked accounts can look completely ordinary. You cannot judge the account by its face, only by its behaviour."
         },
         {
           "text": "There is no signal, sometimes people just click",
@@ -280,12 +280,12 @@
       "extension": true
     },
     {
-      "body": "Paying feels like the fast way out. It is the opposite. The moment someone pays, they prove they will pay, and the demands continue and grow. The NCA and police are clear on this: payment does not end sextortion, it extends it. The same is true of sending more images. The only moves that actually end it are the ones the blackmailer is afraid of: telling someone and reporting it.",
+      "body": "Paying feels like the fast way out. It is not. The moment someone pays, they prove they will pay, and the blackmailer will likely ask for more. The National Crime Agency is clear on this: there is no guarantee paying stops the threats. The same is true of sending more images. The moves that help are the ones the blackmailer is afraid of: telling someone and reporting it.",
       "type": "concept",
       "emoji": "🛑",
       "phase": "teach",
-      "script": "This must land as fact, not advice, so deliver it like you would deliver how gravity works. Use the logic out loud: from the blackmailer's side, a person who pays is their best customer, why would they ever stop. Then connect it back: every instruction in that threat message, pay now, tell nobody, was the blackmailer steering the victim away from the two moves that actually work. Watch for the pupil who asks what if you only pay once, thank them for asking it, because it is the exact trap, and answer with the customer logic again.",
-      "heading": "Why paying never makes it stop",
+      "script": "This must land as fact, not advice, so deliver it plainly: paying buys no guarantee, and the National Crime Agency warns the demands will likely grow. Use the logic out loud: from the blackmailer's side, a person who pays is their best customer, why would they ever stop. Then connect it back: every instruction in that threat message, pay now, tell nobody, was the blackmailer steering the victim away from the two moves that actually work. Watch for the pupil who asks what if you only pay once, thank them for asking it, because it is the exact trap, and answer with the customer logic again.",
+      "heading": "Why paying is not the way out",
       "minutes": 2
     },
     {
@@ -293,7 +293,7 @@
       "phase": "teach",
       "steps": [
         {
-          "text": "Not once, not a little, not to buy time. Payment proves pressure works and the demands grow.",
+          "text": "Not once, not a little, not to buy time. Payment proves pressure works, and they will likely ask for more.",
           "emoji": "1️⃣",
           "title": "Do not pay"
         },
@@ -303,7 +303,7 @@
           "title": "Do not keep it secret"
         },
         {
-          "text": "CEOP takes the report to specialist police. Report Remove takes the images down. Keep the messages as evidence, do not delete them.",
+          "text": "CEOP, part of the National Crime Agency, takes the report. Report Remove takes the images down. Keep the messages as evidence, do not delete them.",
           "emoji": "3️⃣",
           "title": "Report it"
         }
@@ -323,8 +323,8 @@
       "type": "discussion",
       "phase": "teach",
       "prompt": "What actually stops someone telling an adult when this happens, and what would make telling easier?",
-      "script": "Two minutes in pairs, timer on screen, and keep it at the level of someone, never you. When you take answers, receive every barrier without arguing it away, then answer the two biggest ones directly: fear of blame, the law and the police treat under 18s as victims here, full stop. And fear of losing the phone, name it to the room and say that any adult worth telling cares about the person, not the device, and that you will say the same to parents in the note that goes home. Watch for pairs going off task into real stories, steer gently back to the general question. If anything said sounds like a disclosure, follow your safeguarding policy and speak to your DSL today.",
-      "lookFor": "Shame, fear of being blamed, fear of losing their phone, not wanting parents to see the images exist. Surface the phone fear deliberately, fear of device confiscation is one of the most documented reasons young people stay silent, and adults who promise calm first help most.",
+      "script": "Two minutes in pairs, timer on screen, and keep it at the level of someone, never you. When you take answers, receive every barrier without arguing it away, then answer two of them directly: fear of blame, the law and the police treat under 18s as victims here, full stop. And fear of losing the phone, name it to the room and say that any adult worth telling cares about the person, not the device, and that you will say the same to parents in the note that goes home. Watch for pairs going off task into real stories, steer gently back to the general question. If anything said sounds like a disclosure, follow your safeguarding policy and speak to your DSL today.",
+      "lookFor": "Shame, fear of being blamed, fear of losing their phone, not wanting parents to see the images exist. Surface the phone fear deliberately: a young person who expects to lose their phone has one more reason to stay quiet, and the National Crime Agency asks adults to make sure children know they will not be judged.",
       "minutes": 3,
       "seconds": 120,
       "extension": true
@@ -410,7 +410,7 @@
         {
           "text": "Pay a small amount to buy time to think",
           "correct": false,
-          "feedback": "Payment proves pressure works, and the demands continue. The time you need comes from telling someone, not from paying."
+          "feedback": "Payment proves pressure works, and they will likely ask for more. The time you need comes from telling someone, not from paying."
         },
         {
           "text": "Tell a trusted adult, keep the messages as evidence, do not pay, and report to CEOP",
@@ -420,7 +420,7 @@
         {
           "text": "Delete everything, block the account and say nothing",
           "correct": false,
-          "feedback": "Blocking without telling anyone deletes the evidence and leaves the person alone with it. Block after you have told an adult and saved the messages."
+          "feedback": "Deleting everything destroys the evidence, and saying nothing leaves the person alone with it. Save the messages, tell an adult, then block."
         }
       ],
       "question": "Exit check. Someone is being blackmailed with images and the account demands money in the next hour. What is the right first move?"
@@ -439,7 +439,7 @@
         {
           "text": "True. Sending the image is what caused it, so the consequences follow",
           "correct": false,
-          "feedback": "Sending an image is not a crime committed against yourself. Blackmail is the crime, the blackmailer is the criminal, and the police treat the young person as the victim to protect."
+          "feedback": "Blackmail is the crime here, the blackmailer is the criminal, and the police treat the young person as the victim to protect."
         }
       ],
       "question": "Exit check. True or false: if you sent an image yourself first, the blackmail is your fault and you will be in trouble."
@@ -457,10 +457,10 @@
       "type": "recap",
       "phase": "close",
       "points": [
-        "Sextortion is organised blackmail run on scripts, and it increasingly targets teenage boys. Being targeted is not a judgement on you.",
+        "Sextortion is organised blackmail run on scripts, and it most often targets teenage boys. Being targeted is not a judgement on you.",
         "The pattern: a friendly account, fast warmth, an ask or a claim, then the switch to threats. Speed is the tell.",
         "The three lifelines: do not pay, do not keep it secret, report it. CEOP for the report, Report Remove to take images down, a trusted adult tonight.",
-        "It is not your fault, you are not in trouble, and there is a way out. Paying is the one move that never works."
+        "It is not your fault, you are not in trouble, and there is a way out. Paying is the one move never to make."
       ],
       "script": "Have four pupils read one point each, or read them yourself if the room needs the steadiness. Then close the loop with practical anchors: the lifelines bookmark goes home with them, CEOP and Report Remove are searchable from any phone in seconds, and you, and every adult in this school, are tellable. Say that last part plainly: if this ever lands on you or a friend, I want to hear about it, and nobody will be in trouble. Watch for anyone lingering as the class packs up, unhurried availability after this lesson matters as much as anything on the slides.",
       "heading": "What to remember",
@@ -510,7 +510,7 @@
     }
   ],
   "dsl_note": {
-    "note": "Brief the DSL before this lesson is delivered, not after. Disclosures are likely, during the lesson, at the door afterwards, or days later to any trusted adult, often framed as asking for a friend. Treat any hint as a disclosure and involve the DSL the same day. Never ask a pupil to show, send, describe or forward the image, and do not view it if offered, an adult viewing or receiving it creates a further offence and further harm. Do not screenshot anything, do not investigate on the pupil's device, and do not contact the blackmailing account. Reassure the pupil in plain words that they are not in trouble and it is not their fault, and do not promise confidentiality. The platform records no disclosures by design, so use the school concern form linked from this module for anything raised. Normalise a quiet exit route at the start of the lesson and have an adult check on anyone who uses it. Where a case is live, the pathway is DSL, then CEOP report and Report Remove with the pupil supported, preserving messages as evidence. Expect the lesson itself to surface historic cases as well as current ones, and pass on low level concerns too, including pupils who seem unusually affected, hang back, or go quiet.",
+    "note": "Brief the DSL before this lesson is delivered, not after. Disclosures are likely, during the lesson, at the door afterwards, or days later to any trusted adult, often framed as asking for a friend. Treat any hint as a disclosure and involve the DSL the same day. Never ask a pupil to show, send or forward the image, and do not view it if offered: UKCIS advice is that staff must not intentionally view it, and copying, saving or sharing it is illegal. Base your response on what the pupil tells you about it. Do not screenshot anything, do not investigate on the pupil's device, and do not contact the blackmailing account. Reassure the pupil in plain words that they are not in trouble and it is not their fault, and do not promise confidentiality. The platform records no disclosures by design, so use the school concern form linked from this module for anything raised. Normalise a quiet exit route at the start of the lesson and have an adult check on anyone who uses it. Where a case is live, the DSL refers it straight away to the police and/or children's social care through your safeguarding procedures, as the NCA alert directs, and the pupil is supported to use Report Remove, preserving messages as evidence. Expect the lesson itself to surface historic cases as well as current ones, and pass on low level concerns too, including pupils who seem unusually affected, hang back, or go quiet.",
     "required": true,
     "concern_form_linked": true
   },
@@ -545,10 +545,10 @@
   },
   "sort_order": 17,
   "parent_note": {
-    "taught": "Today we taught your child about sextortion, the blackmail scam the National Crime Agency warned every UK school about in 2024, which increasingly targets teenage boys. They learned how it starts, why paying never makes it stop, and the three lifelines: do not pay, do not keep it secret, report it to CEOP and Report Remove.",
+    "taught": "Today we taught your child about sextortion, the blackmail scam the National Crime Agency warned every UK school about in 2024, which most often targets teenage boys. They learned how it starts, why paying is not the way out, and the three lifelines: do not pay, do not keep it secret, report it to CEOP and Report Remove.",
     "headline": "What we taught today, and one thing to try at home",
     "passport": "This module counts toward the final pages of the passport, the readiness record your teenager has been building since their first stamp. It is proof of judgement, never a licence, and that difference is the whole design: at sixteen the record is theirs. You do not need to quiz them on this one. One sentence from you does more: if anything ever goes wrong online, you can tell me, and you will not be in trouble.",
-    "try_this": "Tell your child directly, in your own words: if anything like this ever happens, you can come to me, you will not be in trouble, and you will not lose your phone. Fear of blame and fear of losing the device are the two biggest reasons young people stay silent, and one calm sentence from you removes both.",
+    "try_this": "Tell your child directly, in your own words: if anything like this ever happens, you can come to me, you will not be in trouble, and you will not lose your phone. Fear of blame and fear of losing the phone can both keep young people silent, and one calm sentence from you answers both.",
     "family_question": "If something went wrong online, who would you tell first, and what would make telling easier?",
     "no_login_required": true
   },
@@ -585,7 +585,7 @@
         "verb": "Understand",
         "title": "The scripts they use",
         "minutes": 8,
-        "outcome": "I can name the scripts they use and explain why paying never ends it."
+        "outcome": "I can name the scripts they use and explain why paying is not the way out."
       },
       {
         "verb": "Act",
@@ -606,11 +606,11 @@
       },
       {
         "word": "Report Remove",
-        "definition": "A free, confidential Childline and IWF tool that helps under 18s get intimate images taken down from the internet. It works."
+        "definition": "A free, confidential Childline and IWF tool that helps under 18s get intimate images taken down from the internet."
       },
       {
         "word": "CEOP",
-        "definition": "The police child protection command. Its online report form sends sextortion cases straight to specialist officers who deal with this every day."
+        "definition": "The National Crime Agency's child protection command. Its online report form goes straight to experienced Child Protection Advisors."
       }
     ],
     "equipment": "Nothing beyond the board. Have the DSL note, Report Remove and CEOP routes printed and in the room before you start.",
@@ -631,7 +631,7 @@
         "answer": "False",
         "format": "true_false",
         "question": "Paying once makes it stop.",
-        "teaching_point": "Payment proves pressure works, so the demands continue and grow."
+        "teaching_point": "Payment proves pressure works, so they will likely ask for more."
       },
       {
         "pairs": [
@@ -641,14 +641,14 @@
           },
           {
             "left": "CEOP",
-            "right": "Sends the report to specialist police officers"
+            "right": "Sends the report to specialist child protection advisors"
           },
           {
             "left": "Childline",
             "right": "Free, confidential support to talk it through"
           }
         ],
-        "answer": "Report Remove goes with helps get intimate images of under 18s taken down; CEOP goes with sends the report to specialist police officers; Childline goes with free, confidential support to talk it through",
+        "answer": "Report Remove goes with helps get intimate images of under 18s taken down; CEOP goes with sends the report to specialist child protection advisors; Childline goes with free, confidential support to talk it through",
         "format": "match",
         "question": "Match the service to what it does.",
         "teaching_point": "Three routes, three jobs. Pupils should leave knowing at least one by name."
@@ -707,8 +707,8 @@
       }
     ],
     "misconceptions": [
-      "This mostly happens to girls (financially motivated sextortion most often targets teenage boys, which is why the NCA alerted every UK school in 2024)",
-      "Paying once makes it stop (payment proves pressure works, the demands continue and grow, and police guidance is clear that paying never ends it)",
+      "This mostly happens to girls (financially motivated sextortion most often targets teenage boys, as the NCA warned every UK school in 2024)",
+      "Paying once makes it stop (payment proves pressure works, the blackmailer will likely ask for more, and the National Crime Agency is clear there is no guarantee paying stops it)",
       "If you sent an image yourself you are in trouble and it is your fault (the law treats under 18s in these cases as victims, the crime is blackmail and it belongs to the blackmailer, and Report Remove exists to take images down)"
     ],
     "paper_fallback": "The full lesson runs from the printed pack with no screen. Read the two evidence items aloud from the scenario cards in a flat, neutral voice. Draw the four step pattern and the three lifelines on the board as you teach them, pupils copy the lifelines onto their bookmark. The discussion runs on a watch or wall clock. The worksheet, exit quiz and parent note are all in the printed pack. Nothing in this lesson requires a device, and no pupil should ever be asked to use or show their own phone.",
@@ -727,7 +727,7 @@
       {
         "n": 1,
         "item": "A message arrives: send £100 in the next hour or your pictures go to everyone you follow. Whatever else happens next, what must not happen?",
-        "teaching_point": "Payment proves pressure works and marks the victim as someone who pays. The demands continue and grow. Recognising the countdown as a script defuses it.",
+        "teaching_point": "Payment proves pressure works and marks the victim as someone who pays, and the blackmailer will likely ask for more. Recognising the countdown as a script defuses it.",
         "expected_verdict": "Do not pay"
       },
       {
@@ -751,7 +751,7 @@
       {
         "n": 5,
         "item": "The images are already posted on one account. Leah is sure that means nothing can be done now. Is she right?",
-        "teaching_point": "It is never too late. Report Remove takes down intimate images of under 18s even after they are posted, and CEOP investigates the account. Already out is the start of the response, not the end of it.",
+        "teaching_point": "It is never too late. Report Remove takes down intimate images of under 18s even after they are posted, and CEOP can act on the account. Already out is the start of the response, not the end of it.",
         "expected_verdict": "Report it"
       },
       {
@@ -766,9 +766,9 @@
     "key_learning_points": [
       "Sextortion is blackmail, and the crime belongs to the blackmailer.",
       "It starts with an ordinary friendly conversation, which is what makes it work.",
-      "Paying funds the next demand. It never ends it.",
+      "Paying invites the next demand. There is no guarantee it ends anything.",
       "The three lifelines are: do not pay, do not keep it secret, report it.",
-      "Report Remove and CEOP exist for exactly this and are used every day."
+      "Report Remove and CEOP exist for exactly this."
     ],
     "hard_questions": [
       {
@@ -777,7 +777,7 @@
       },
       {
         "question": "If I just pay once, will it stop?",
-        "answer": "No, and this is the clearest thing in the whole lesson. Paying tells them it works, and it has never been the end of it. The moment you pay is the moment it gets worse, which is why the answer is stop, save, tell rather than pay."
+        "answer": "No. Paying tells them it works, there is no guarantee it stops the threats, and the National Crime Agency warns they will likely ask for more. That is why the answer is stop, save, tell rather than pay."
       },
       {
         "question": "I sent the image myself though. That is on me.",
@@ -785,7 +785,44 @@
       },
       {
         "question": "What if they said they will send it to my family in an hour?",
-        "answer": "That hour is a pressure technique and it is the same in every case. Stop replying, save what you have, tell an adult now. This is not something to handle alone at night, and every adult in this building would rather be woken up than told afterwards."
+        "answer": "That hour is a pressure technique, and it turns up again and again. Stop replying, save what you have, tell an adult now. This is not something to handle alone at night, and every adult in this building would rather be woken up than told afterwards."
+      }
+    ],
+    "evidence_base": [
+      {
+        "claim": "In 2024 the National Crime Agency took the rare step of sending an alert to every school in the UK, warning that financially motivated sextortion was rising sharply and that teenage boys are the most common targets.",
+        "source": "National Crime Agency, NCA issues urgent warning about sextortion, press release, 29 April 2024: an unprecedented alert to hundreds of thousands of education professionals, after reports to the US National Center for Missing and Exploited Children more than doubled in 2023, from 10,731 to 26,718. A large proportion of victims were boys aged 14 to 18, and 91 percent of victims in UK cases handled by the Internet Watch Foundation in 2023 were male. The alert's own letter for parents says all schools in the UK were sent it.",
+        "status": "verified"
+      },
+      {
+        "claim": "It is organised crime, usually run by groups overseas through fake or hacked accounts, and it can move from a first message to blackmail in under an hour.",
+        "source": "NCA and CEOP Education, Financially motivated sexual extortion: alert for education settings, April 2024: usually carried out by organised crime groups based overseas who are motivated by money. Victims describe accounts that look like another young person or a hacked friend, being moved to a private messaging app, the offender sending an image first, or a claim to have images whether it is true or not. The NCA press release adds that some cases went from first contact to blackmail in under an hour.",
+        "status": "verified"
+      },
+      {
+        "claim": "Do not pay: paying is no guarantee the threats stop, and the blackmailer will likely ask for more. Keep the evidence, block, and report.",
+        "source": "NCA alert, the letter for parents and carers: don't pay, do stop contact and block. There is no guarantee paying will stop the threats, and once you have shown you can pay, they will likely ask for more. Avoid deleting anything that could be evidence. Report to the police, or through the CEOP Safety Centre.",
+        "status": "verified"
+      },
+      {
+        "claim": "It is not your fault and you are not in trouble, even if you sent an image yourself.",
+        "source": "NCA alert: a young person who has shared an image has been groomed and manipulated into doing so, and they are never responsible for their abuse; victims are supported as with any other child sexual abuse. UKCIS, Sharing nudes and semi nudes: advice for education settings, updated March 2024, adds that a criminal justice response against a child would only be considered in exceptional circumstances.",
+        "status": "verified"
+      },
+      {
+        "claim": "Report Remove, from Childline and the Internet Watch Foundation, lets under 18s in the UK confidentially report sexual images of themselves and get them taken down.",
+        "source": "Internet Watch Foundation, Report Remove: for young people under 18 in the UK to confidentially report sexual images or videos of themselves and remove them from the internet; the IWF reviews each report and works to have the content removed. The NCA alert names it first of three removal steps, alongside Take It Down from the US National Center for Missing and Exploited Children, and reporting to the platform.",
+        "status": "verified"
+      },
+      {
+        "claim": "CEOP is the National Crime Agency's child protection command, and a report to it goes to experienced Child Protection Advisors.",
+        "source": "CEOP Safety Centre, ceop.police.uk: make a report to one of CEOP's Child Protection Advisors; CEOP is a command of the National Crime Agency.",
+        "status": "verified"
+      },
+      {
+        "claim": "Staff never view or ask for the image, and a disclosure goes from the DSL to the police or children's social care.",
+        "source": "UKCIS, Sharing nudes and semi nudes, updated March 2024: staff must not intentionally view any nudes unless there is good and clear reason, never copy, print, share, store or save them, and should base the response on what the DSL has been told. NCA alert: the designated safeguarding person should immediately refer a disclosure to the police and/or local authority children's services.",
+        "status": "verified"
       }
     ]
   }

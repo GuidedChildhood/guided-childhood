@@ -41,6 +41,9 @@ const M = f => JSON.parse(fs.readFileSync(`content/modules/${f}.json`, 'utf8'))
 const KS3_24 = 'ks3-24-is-it-doing-my-thinking'
 const KS3_22 = 'ks3-22-when-an-ai-acts-like-a-friend'
 const KS2_25 = 'ks2-25-stay-the-maker'
+const KS3_10 = 'ks3-10-mood-and-screens'
+const KS3_11 = 'ks3-11-social-workarounds'
+const KS4_17 = 'ks4-17-sextortion'
 
 // [module, source, never | null, always | null, why]
 const CLAIMS = [
@@ -115,6 +118,45 @@ const CLAIMS = [
   [KS2_25, 'Keil', 'Most hands go up', null, 'd is about 0.49, which does not license most'],
   [KS2_25, 'metaphor', null, 'It is an analogy, not a finding about brains',
    'the muscle line is a picture, and the teacher notes have to keep saying so'],
+
+  // The V1 evidence pass, 24 September 2026 (migrations 344 to 347).
+  // Orben and Przybylski, Nature Human Behaviour 3, 173 to 182, 2019
+  [KS3_10, 'Orben', 'What showed up as mattering more was what you do', null,
+   'the Oxford study never measured what you do on a screen; sleep, breakfast and bullying had the bigger links'],
+  [KS3_10, 'Orben', 'how you use screens really does show up in the data', null, 'same misattribution, teacher script'],
+  [KS3_10, 'Orben', 'it says HOW their apps make you feel is what counts', null, 'same misattribution, quiz feedback'],
+  [KS3_10, 'Orben', 'the biggest studies say what young people do', null, 'same misattribution, the note that goes home'],
+  [KS3_10, 'Orben', null, '355,358 young people', 'the real base, three surveys'],
+  // Beyens, Pouwels, van Driel, Keijsers and Valkenburg, Scientific Reports 10, 10763, 2020
+  [KS3_10, 'Beyens', 'most linked with feeling flat', null,
+   'after passive use 46 percent felt better, 44 percent no different, 10 percent worse'],
+  [KS3_10, 'apps', 'no app has ever asked', null, 'mood apps ask exactly that; the claim is about feeds'],
+  // DSIT, Children's circumvention behaviours online, 14 July 2026; GOV.UK, 1 August 2025
+  [KS3_11, 'age checks', 'It knows the age you typed in', null,
+   'since July 2025 many platforms check age with more than a typed birthday'],
+  [KS3_11, 'Ofcom', 'Reports from a child account are prioritised', null,
+   'no source found; the law requires clear, easy reporting for children'],
+  [KS3_11, 'TikTok', 'its only job is to keep you there longer', null,
+   'TikTok ranks by predicted interest, and only is more than any source says'],
+  [KS3_11, 'DSIT', null, "Children's circumvention behaviours online", 'the 2026 source for the statistic slide'],
+  // NCA alert for education settings, April 2024, and its press release of 29 April 2024
+  [KS4_17, 'NCA', 'paying never ends it', null,
+   'the NCA says there is no guarantee paying stops it, and they will likely ask for more'],
+  [KS4_17, 'NCA', 'it has never been the end of it', null, 'same, hard question'],
+  [KS4_17, 'NCA', 'Paying is the one move that never works', null, 'same, recap'],
+  [KS4_17, 'NCA', 'why paying never makes it stop', null, 'same, the note that goes home'],
+  [KS4_17, 'NCA', 'often within minutes', null, 'the NCA says some cases went from first contact to blackmail in under an hour'],
+  [KS4_17, 'NCA', null, 'no guarantee', "the NCA's own wording on paying"],
+  [KS4_17, 'CEOP', 'The police child protection command', null,
+   'CEOP is a command of the National Crime Agency, and reports go to its Child Protection Advisors'],
+  [KS4_17, 'law', 'Sending an image is not a crime committed against yourself', null,
+   'under 18 it is illegal to make an image even of yourself (UKCIS), so the lesson must never imply sending is not a crime'],
+  // UKCIS, Sharing nudes and semi nudes: advice for education settings, March 2024
+  [KS4_17, 'UKCIS', 'send, describe or forward', null,
+   'UKCIS bases the response on what the DSL is told about the image, so a pupil may describe it'],
+  [KS4_17, 'NCA', 'the pathway is DSL, then CEOP report', null,
+   "the alert says the DSL refers a disclosure to the police and/or children's services"],
+  [KS4_17, 'NCA', null, 'refers it straight away to the police', 'the referral the alert directs'],
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in
@@ -140,6 +182,10 @@ const FIELD_CLAIMS = [
   // one: it is the only age matched claim this lesson stands on.
   [KS2_25, 'Keil', m => m.teacher_notes.evidence_base[0].claim, null, 'grades 2 and 4, roughly ages 7 to 10',
    'the age matched evidence this lesson actually rests on'],
+  // The slide pupils read is the one that has to say what the Oxford data found
+  // mattered more. The teacher script alone would not stop the wall reverting.
+  [KS3_10, 'Orben', m => m.slides[7].body, null, 'Sleep, breakfast and being bullied',
+   'what the same data found mattered far more than screen time'],
 ]
 
 // The exit quiz and starter quiz each exist TWICE, in teacher_notes and in
