@@ -120,3 +120,23 @@ He takes partnership enquiries at `partnerships@simonsquibb.com` (his media cont
   and RSHE rules.
 - **Its own bar, not the taster's.** The taster bar sells the scheme, and this
   lesson is not a sample of the scheme.
+
+## Build plan (started 24 September 2026)
+
+Justin asked to see the lesson, so it is built now, ahead of the remaining
+flagged lesson checks. Those resume tomorrow as planned; today's batch is done.
+
+1. **Evidence first.** The World Economic Forum's Future of Jobs Report 2025,
+   read in the original, for the line on AI changing tasks. Each platform's
+   own help page for what an under 18 may earn. No other figure goes in.
+2. **The lesson.** About 30 slides on the ks3-24 pattern: retrieval starter,
+   teach, practise, prove with real choices, recap. The three moves are the
+   spine. AI appears at each move under the ks3-24 rule.
+3. **Standing alone.** Its own free link through the taster's path rule, its
+   own bar, left out of the manifest, filtered from the print room and from any
+   database count of lessons. Its mirror lives in `content/standalone/`.
+4. **Migration 348** inserts the row, guarded, and proves its string hash
+   against the mirror, the same way as 344 to 347.
+5. **Verified before Justin sees it:** the module contract, wall fit on every
+   slide, the source claims pinned, and a render at 390 and 1440 in the real
+   player.
