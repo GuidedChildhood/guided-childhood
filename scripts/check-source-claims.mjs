@@ -37,13 +37,16 @@ import fs from 'node:fs'
 const holds = (hay, claim) => (claim instanceof RegExp ? claim.test(hay) : hay.includes(claim))
 const show = claim => (claim instanceof RegExp ? claim.source : claim)
 
-const M = f => JSON.parse(fs.readFileSync(`content/modules/${f}.json`, 'utf8'))
+// A standalone lesson (schools/lib/taster.ts) lives in content/standalone, and
+// its claims are held to the same standard as the scheme's.
+const M = f => JSON.parse(fs.readFileSync(fs.existsSync(`content/modules/${f}.json`) ? `content/modules/${f}.json` : `content/standalone/${f}.json`, 'utf8'))
 const KS3_24 = 'ks3-24-is-it-doing-my-thinking'
 const KS3_22 = 'ks3-22-when-an-ai-acts-like-a-friend'
 const KS2_25 = 'ks2-25-stay-the-maker'
 const KS3_10 = 'ks3-10-mood-and-screens'
 const KS3_11 = 'ks3-11-social-workarounds'
 const KS4_17 = 'ks4-17-sextortion'
+const SA_PROBLEM = 'what-problem-would-you-solve'
 
 // [module, source, never | null, always | null, why]
 const CLAIMS = [
@@ -157,6 +160,31 @@ const CLAIMS = [
   [KS4_17, 'NCA', 'the pathway is DSL, then CEOP report', null,
    "the alert says the DSL refers a disclosure to the police and/or children's services"],
   [KS4_17, 'NCA', null, 'refers it straight away to the police', 'the referral the alert directs'],
+
+  // What problem would you solve?, the standalone lesson, 24 September 2026.
+  // WEF, The Future of Jobs Report 2025, January 2025: a survey of employers'
+  // expectations, pages 26, 32 and 37, read in the original.
+  [SA_PROBLEM, 'WEF', /AI (will|is going to) (take|replace|destroy) (\d|a third|half|most|millions|one in)/i, null,
+   'the report attributes its job churn to every trend together and never gives a number of jobs AI will take'],
+  [SA_PROBLEM, 'WEF', '92 million', null,
+   'jobs displaced by every trend together, so on a wall it reads as AI taking them'],
+  [SA_PROBLEM, 'WEF', 'skills will become useless', null,
+   'employers expect 39 percent of core skills to change, which is not the same as becoming useless'],
+  [SA_PROBLEM, 'WEF', 'WEF admits', null,
+   'the report calls its survey a pioneering measurement tool, so it admits no such thing'],
+  [SA_PROBLEM, 'WEF', null, 'not a measurement of the future', 'the survey is what employers expect'],
+  [SA_PROBLEM, 'WEF', null, 'share of the time spent on tasks, not a count of jobs', 'what the 47 percent is a share of'],
+  // Each platform's own help pages, read 24 September 2026 (undated).
+  [SA_PROBLEM, 'platforms', /can earn [^.]*at 13/i, null,
+   'YouTube pays under 18s only through a parent or guardian, and TikTok and Instagram money features are 18 and over'],
+  [SA_PROBLEM, 'platforms', 'Instagram Bonuses are', null,
+   'Bonuses are by invitation and Instagram states no age for them'],
+  [SA_PROBLEM, 'platforms', null, 'YouTube only pays under 18s through a parent or guardian', 'the YouTube rule'],
+  [SA_PROBLEM, 'platforms', null, "TikTok's rewards and gifts, and Instagram's gifts and subscriptions, are for over 18s", 'the TikTok and Instagram rules'],
+  [SA_PROBLEM, 'platforms', null, 'Bonuses are by invitation and the pages state no age', 'the limit the lesson keeps to'],
+  // Bastani et al 2025, the same trial ks3-24 rests on.
+  [SA_PROBLEM, 'Bastani', null, 'say it as a borrowed result', 'maths, older pupils, so it is borrowed'],
+  [SA_PROBLEM, 'Bastani', null, 'no positive effect observed', 'the limit the paper states itself'],
 ]
 
 // Some claims have to be pinned to ONE field. "works in steps" also appears in
@@ -186,6 +214,9 @@ const FIELD_CLAIMS = [
   // mattered more. The teacher script alone would not stop the wall reverting.
   [KS3_10, 'Orben', m => m.slides[7].body, null, 'Sleep, breakfast and being bullied',
    'what the same data found mattered far more than screen time'],
+  // The stat pupils read has to say whose expectation it is.
+  [SA_PROBLEM, 'WEF', m => m.slides[5].claim, null, 'Employers say people alone do 47 percent of work tasks today',
+   'an employer estimate, said as one, on the slide the class reads'],
 ]
 
 // The exit quiz and starter quiz each exist TWICE, in teacher_notes and in
@@ -215,7 +246,7 @@ for (const [id, source, pick, never, always, why] of FIELD_CLAIMS) {
     bad++; console.error(`  FAIL ${id} [${source}] that field no longer says "${show(always)}"\n         ${why}`)
   }
 }
-for (const id of [KS3_24, KS2_25]) {
+for (const id of [KS3_24, KS2_25, SA_PROBLEM]) {
   const m = M(id)
   for (const [a, b] of TWINS) {
     const x = m.teacher_notes?.[a], y = m.assessment?.[b]

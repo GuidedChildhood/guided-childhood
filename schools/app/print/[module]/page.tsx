@@ -2,6 +2,7 @@ import { db as supabase } from '@/lib/supabase/server-db'
 import { notFound } from 'next/navigation'
 import { parseSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { isStandaloneModule, standaloneTitle } from '@/lib/taster'
 import { PASSPORT_STAGES } from '@gc/shared/passport-stages'
 import { AREAS, areaOf, placementOf } from '@gc/shared/passport-areas'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
@@ -16,7 +17,7 @@ import { friendFor, printRegister, mono, display, text, FriendArt, FriendHeader,
 // one. Read from the manifest rather than the row: no second database read.
 export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
   const { module: moduleId } = await params
-  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title ?? standaloneTitle(moduleId)
   return { title: title ? `Paper pack: ${title}` : 'Paper pack: Module' }
 }
 
@@ -140,10 +141,19 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
           {notes.learning_objective && <Box dense label="Objective"><p style={tt}>{notes.learning_objective}</p></Box>}
           {notes.timing && <Box dense label="Timing"><p style={tt}>{notes.timing}</p></Box>}
         </div>
-        <Box dense label="Statutory coverage (for your records and the subject lead)">
-          <p style={tt}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
-          <p style={{ ...tt, marginTop: '3px' }}>Education for a Connected World strand{(lesson.efcw_strands ?? []).length === 1 ? '' : 's'}: {(lesson.efcw_strands ?? []).join(', ')} · Evidence anchor: {lesson.evidence_anchor}</p>
-        </Box>
+        {isStandaloneModule(moduleId) ? (
+          // A standalone lesson sits outside the scheme, so it claims no
+          // statutory cover, and the sheet says so rather than printing an
+          // empty box (lib/taster.ts).
+          <Box dense label="Where it sits (for your records and the subject lead)">
+            <p style={tt}>A standalone lesson, outside the scheme of work, so it maps to no statutory requirement. Evidence anchor: {lesson.evidence_anchor}</p>
+          </Box>
+        ) : (
+          <Box dense label="Statutory coverage (for your records and the subject lead)">
+            <p style={tt}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
+            <p style={{ ...tt, marginTop: '3px' }}>Education for a Connected World strand{(lesson.efcw_strands ?? []).length === 1 ? '' : 's'}: {(lesson.efcw_strands ?? []).join(', ')} · Evidence anchor: {lesson.evidence_anchor}</p>
+          </Box>
+        )}
         {notes.misconceptions && notes.misconceptions.length > 0 && (
           <Box dense label="Misconceptions to expect">
             {notes.misconceptions.map((m, i) => (
@@ -237,7 +247,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
           <div className="gc-avoid-break" style={{ border: '1.5px dashed var(--ink)', borderRadius: '14px', padding: '16px 18px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 10px', marginBottom: '8px' }}>
               <FriendArt friend={friend} mood="thinking" size={reg.markMm} />
-              <div style={{ ...mono, color: friend.ink }}>Start card · remember last lesson</div>
+              <div style={{ ...mono, color: friend.ink }}>Start card · {isStandaloneModule(moduleId) ? 'before we begin' : 'remember last lesson'}</div>
             </div>
             <p style={{ ...text, fontSize: reg.body, fontWeight: 700 }}>{startCard.question}</p>
             <div style={{ marginTop: '8px' }}>

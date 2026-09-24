@@ -30,6 +30,39 @@ export function isTasterModule(moduleId: string): boolean {
   return (TASTER_MODULES as readonly string[]).includes(moduleId)
 }
 
+/** THE STANDALONE LESSONS: free to open, and deliberately NOT part of the
+ *  scheme (decided 24 September 2026, Justin). "What problem would you
+ *  solve?" was written for Simon Squibb's idea of what school leaves out, and
+ *  Justin is not sure it belongs in the curriculum, so it stands on its own:
+ *  the same player and the same pages as any lesson, reached by its own free
+ *  link, and absent from the manifest, so it is never counted, mapped,
+ *  tracked or put on the passport. It gets its own bar rather than the
+ *  taster's, because the taster's bar sells the scheme and a lead from here
+ *  would be sent the scheme's letter. It can join the scheme later by moving
+ *  into the manifest and out of this list. */
+export const STANDALONE_MODULES = ['what-problem-would-you-solve'] as const
+
+export function isStandaloneModule(moduleId: string): boolean {
+  return (STANDALONE_MODULES as readonly string[]).includes(moduleId)
+}
+
+/** The name on the browser tab, so a page can name itself without a database
+ *  read, the way the manifest does for the scheme. Keep it the row's title. */
+const STANDALONE_TITLES: Record<string, string> = {
+  'what-problem-would-you-solve': 'What problem would you solve?',
+}
+
+export function standaloneTitle(moduleId: string): string | undefined {
+  return STANDALONE_TITLES[moduleId]
+}
+
+/** The same four shapes as the taster, for a standalone lesson. A separate
+ *  predicate rather than a second list inside isTasterPath, so the taster's
+ *  guard keeps meaning exactly what it says. */
+export function isStandalonePath(pathname: string): boolean {
+  return freeLessonPath(pathname, isStandaloneModule)
+}
+
 /** The routes a taster module is allowed to reach, and no others.
  *
  *  Deliberately NOT a `startsWith('/lesson/')` test. The module id is pulled
@@ -43,11 +76,15 @@ export function isTasterModule(moduleId: string): boolean {
  *  included on purpose, because "zero prep" is proved by the pack rather than
  *  by the slides. */
 export function isTasterPath(pathname: string): boolean {
+  return freeLessonPath(pathname, isTasterModule)
+}
+
+function freeLessonPath(pathname: string, isFree: (moduleId: string) => boolean): boolean {
   const parts = pathname.split('/').filter(Boolean)
   if (parts.length < 2) return false
 
   const [section, moduleId] = parts
-  if (!isTasterModule(moduleId)) return false
+  if (!isFree(moduleId)) return false
 
   if (section === 'lesson') return parts.length === 2 || (parts.length === 3 && parts[2] === 'run')
   if (section === 'teach') return parts.length === 2

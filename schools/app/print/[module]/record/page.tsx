@@ -4,6 +4,7 @@ import PrintButton from '@/components/PrintButton'
 import { MarkOnPrint } from '@/components/tracker/signals'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { standaloneTitle } from '@/lib/taster'
 import { friendFor, printRegister, mono, display, text, FriendHeader, PrintSheet, Box, WriteLines, ColourStar } from '@/components/print/kit'
 import { asList } from '@/lib/notes'
 
@@ -11,7 +12,7 @@ import { asList } from '@/lib/notes'
 // one. Read from the manifest rather than the row: no second database read.
 export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
   const { module: moduleId } = await params
-  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title ?? standaloneTitle(moduleId)
   return { robots: { index: false, follow: false }, title: title ? `Learning record: ${title}` : 'Learning record: Module' }
 }
 

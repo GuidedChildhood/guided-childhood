@@ -7,7 +7,7 @@ import { EFCW_STRANDS } from '@gc/shared/efcw'
 import { PASSPORT_STAGES, PLACEMENT_BY_KEY_STAGE } from '@gc/shared/passport-stages'
 import { AREAS, areaOf } from '@gc/shared/passport-areas'
 import PassportPage from '@gc/shared/components/PassportPage'
-import { isTasterModule } from '@/lib/taster'
+import { isStandaloneModule, isTasterModule } from '@/lib/taster'
 import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import PilotStrip from '@/components/PilotStrip'
@@ -18,6 +18,7 @@ import { evidenceStatus } from '@gc/shared/evidence-status'
 import { asList } from '@/lib/notes'
 import { neighbours, shapeOf } from '@/lib/tracker'
 import TasterBar from '@/app/taster/TasterBar'
+import StandaloneBar from '@/app/taster/StandaloneBar'
 import { PAGE, PAGE_SHELL } from '@gc/shared/page-scale'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
@@ -158,13 +159,17 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
   const slides = parseSlides(lesson.slides) ?? []
   const notes = lesson.teacher_notes ?? {}
   // The page and the area, from the row's key stage (the rule migration 277 wrote).
-  const placement = PLACEMENT_BY_KEY_STAGE[lesson.key_stage] ?? null
+  // A standalone lesson fills no page: it is outside the scheme, and the
+  // passport records the scheme (lib/taster.ts).
+  const standalone = isStandaloneModule(moduleId)
+  const placement = standalone ? null : (PLACEMENT_BY_KEY_STAGE[lesson.key_stage] ?? null)
   const area = areaOf(lesson.module_id)
   // The sales bar, and only for somebody who is not already paying for this.
   // isTasterModule first so the cookie is never read on the other twenty two,
   // which are gated anyway and would be paying a crypto verify for nothing.
   const access = isTasterModule(moduleId) ? await currentAccess() : await currentAccess()
   const showTaster = isTasterModule(moduleId) && !access
+  const showStandalone = standalone && !access
   // The pilot strip: a pilot school on one of its two lessons.
   const showPilot = access?.tier === 'pilot' && pilotModulesFor(access.phase).includes(moduleId)
   const parent = lesson.parent_note ?? {}
@@ -189,8 +194,8 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: PAGE_SHELL }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
-        <Link href="/curriculum" style={{ ...mono, textDecoration: 'none', color: 'var(--terracotta-dark)' }}>
-          ← The curriculum map
+        <Link href={standalone ? '/' : '/curriculum'} style={{ ...mono, textDecoration: 'none', color: 'var(--terracotta-dark)' }}>
+          {standalone ? '← Guided Childhood Schools' : '← The curriculum map'}
         </Link>
 
         <div style={{ ...mono, marginTop: '18px' }}>
@@ -741,13 +746,17 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             earns the email, so it comes first and the form follows it (the
             schools review, 13 September 2026). */}
         {showTaster && <div style={{ marginTop: '28px' }}><TasterBar moduleId={moduleId} moduleTitle={lesson.title} /></div>}
-        <div style={{ marginTop: '28px' }}>
-          <TrackerPanel
-            moduleId={lesson.module_id}
-            shape={shapeOf(lesson.module_id, notes.i_can)}
-            runHref={`/lesson/${lesson.module_id}/run`}
-          />
-        </div>
+        {showStandalone && <div style={{ marginTop: '28px' }}><StandaloneBar moduleId={moduleId} /></div>}
+        {/* The tracker records the scheme, so a standalone lesson has no row in it. */}
+        {!standalone && (
+          <div style={{ marginTop: '28px' }}>
+            <TrackerPanel
+              moduleId={lesson.module_id}
+              shape={shapeOf(lesson.module_id, notes.i_can)}
+              runHref={`/lesson/${lesson.module_id}/run`}
+            />
+          </div>
+        )}
 
         {showPilot && <div style={{ marginTop: '28px' }}><PilotStrip /></div>}
 

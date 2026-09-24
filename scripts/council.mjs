@@ -84,6 +84,18 @@ if (!Array.isArray(lessons) || lessons.length === 0) {
   process.exit(2)
 }
 
+// The council scores the scheme, so a standalone lesson (schools/lib/taster.ts)
+// is left out: it is a row in the same table, but it is not in the manifest,
+// and it carries no passport by design, which the passport check would read
+// as a regression. Read the manifest as text, the way the other guards do.
+{
+  const manifest = await readFile(join(here, '..', 'shared', 'schools-curriculum.ts'), 'utf8')
+  const scheme = new Set([...manifest.matchAll(/moduleId: '([^']+)'/g)].map(m => m[1]))
+  const outside = lessons.filter(l => !scheme.has(l.module_id)).map(l => l.module_id)
+  if (outside.length) console.log(`council: leaving out ${outside.join(', ')}, not in the scheme's manifest`)
+  lessons = lessons.filter(l => scheme.has(l.module_id))
+}
+
 const results = [checkProse(lessons), checkBlocks(lessons), checkEngagement(lessons), checkPassport(lessons)]
 
 const rules = createHash('sha256').update(await readFile(RULES)).digest('hex').slice(0, 12)

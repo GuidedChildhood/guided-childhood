@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import TrackedPlayer from '@/components/tracker/TrackedPlayer'
 import { parseSlides, type LessonCycle, type LessonTool } from '@gc/shared/lesson-slides'
 import { WALL } from '@gc/shared/wall-scale'
-import { isTasterModule } from '@/lib/taster'
+import { isStandaloneModule, isTasterModule, standaloneTitle } from '@/lib/taster'
 import { currentAccess } from '@/lib/licence'
 import { pilotModulesFor } from '@/lib/pilot'
 import PilotStrip from '@/components/PilotStrip'
@@ -16,7 +16,7 @@ import { CURRICULUM as MODULE_MANIFEST, positionLabel } from '@gc/shared/schools
 // one. Read from the manifest rather than the row: no second database read.
 export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
   const { module: moduleId } = await params
-  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title ?? standaloneTitle(moduleId)
   return { title: title ? `Teach: ${title}` : 'Teach: Module' }
 }
 
@@ -150,7 +150,7 @@ export default async function TeachLessonPage({
           lessonId={lesson.id}
           lessonSource="school_lesson"
           slides={slides}
-          backHref="/curriculum"
+          backHref={isStandaloneModule(moduleId) ? `/lesson/${moduleId}` : '/curriculum'}
           teacherView
           projector
           completeEndpoint={null}

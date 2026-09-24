@@ -1,4 +1,5 @@
 import { db as supabase } from '@/lib/supabase/server-db'
+import { isStandaloneModule } from '@/lib/taster'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, type KeyStage, positionOf } from '@gc/shared/schools-curriculum'
 import { friendFor, FriendArt } from '@/components/print/kit'
@@ -54,7 +55,9 @@ export default async function PrintRoomPage() {
     .order('sort_order')
 
   const manifestByModule = new Map(CURRICULUM.map(m => [m.moduleId, m]))
-  const live = lessons ?? []
+  // The print room is the scheme's, so a standalone lesson (lib/taster.ts)
+  // stays out of it: its pack opens from its own lesson page.
+  const live = (lessons ?? []).filter(l => !isStandaloneModule(l.module_id))
   const byStage = KEY_STAGE_ORDER
     .map(ks => ({ ks, rows: live.filter(l => (manifestByModule.get(l.module_id)?.keyStage ?? l.key_stage) === ks) }))
     .filter(g => g.rows.length > 0)

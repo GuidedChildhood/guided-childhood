@@ -1,0 +1,945 @@
+{
+  "row": {
+    "title": "What problem would you solve?",
+    "audience": "teacher",
+    "scaffold": "CHOOSE",
+    "year_band": "Years 8 and 9",
+    "sort_order": 900,
+    "efcw_strands": [],
+    "ailit_domains": [
+      "Use AI",
+      "Create with AI"
+    ],
+    "character_cast": "Orbit opens, DiGi closes on the first person you help",
+    "evidence_anchor": "WEF Future of Jobs Report 2025: employers expect the share of tasks done by people alone to fall from 47 percent to about a third by 2030",
+    "statutory_hooks": [],
+    "single_action_outcome": "I can turn something that gets in the way into a small fix for one real person."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "eyebrow": "KS3 . Years 8 and 9",
+      "title": "What problem would you solve?",
+      "body": "Not what you want to be. What you would fix.",
+      "script": "Read the title and the line under it, then stop. Do not open with careers, jobs or money. The lesson turns on the swap in that second line: from a job title they are supposed to have ready, to a problem they can see this week. Nobody in the room needs a big idea to take part."
+    },
+    {
+      "type": "digi",
+      "phase": "starter",
+      "minutes": 1,
+      "character": "orbit",
+      "heading": "Orbit",
+      "lines": [
+        "Orbit here.",
+        "I used to think you needed a big idea, or money, to start anything. I was wrong about both.",
+        "So what would you fix, if you could? Today you find one, and you start."
+      ],
+      "script": "Let Orbit land and say the lines. Then read the question once, in your own voice, and leave it hanging. Do not take answers yet. The class talks two slides from now, before anyone is taught anything."
+    },
+    {
+      "type": "objective",
+      "phase": "starter",
+      "minutes": 2,
+      "outcome": "I can turn something that gets in the way into a small fix for one real person.",
+      "why": "Jobs keep changing. Problems never run out. Spotting one and fixing it for someone is useful in any job.",
+      "gains": [
+        "Three moves for any problem",
+        "Questions that get the truth, not kindness",
+        "Where AI helps, and what it cannot tell you"
+      ],
+      "script": "Land the outcome as something they will actually do this week, not a careers talk. The why line is the argument of the lesson, not a fact, so say it as ours. The third gain is the hook for the AI half: the tool is useful, and there is one thing it cannot do."
+    },
+    {
+      "type": "discussion",
+      "phase": "starter",
+      "mode": "pairs",
+      "minutes": 3,
+      "seconds": 90,
+      "prompt": "Think of one small thing from the last week that got in the way, for you or for someone you know. Something forgotten, lost, waited for, or done the long way. Tell your partner. No fixes allowed yet.",
+      "lookFor": "Most pairs jump straight to a fix, usually an app. Keep them on the thing itself: when it happens, who it happens to, and what it costs them.",
+      "script": "Give them three seconds of quiet thinking, then ninety seconds in pairs. Walk the room and listen for fixes sneaking in: the moment a pupil says app, website or someone should, ask what actually happened last time instead. Take three examples to the board and keep them there. Every cycle comes back to them."
+    },
+    {
+      "type": "keywords",
+      "phase": "starter",
+      "minutes": 2,
+      "heading": "Three words for today",
+      "words": [
+        {
+          "word": "problem",
+          "meaning": "Something that gets in someone's way. Not an idea and not an app. The thing that happens before anyone fixes it."
+        },
+        {
+          "word": "assumption",
+          "meaning": "Something you believe about other people without having asked them. Every new idea is full of them, and asking is how you find them."
+        },
+        {
+          "word": "prototype",
+          "meaning": "The smallest version of a fix that you can make and try. Often paper. Usually rough. Always quick."
+        }
+      ],
+      "script": "Problem is the load bearing word. Most people use it to mean an idea, and today it means the opposite: the thing that comes before any idea. Assumption pays off in the second cycle, prototype in the third."
+    },
+    {
+      "type": "stat",
+      "phase": "teach",
+      "minutes": 2,
+      "figure": "47%",
+      "claim": "Employers say people alone do 47 percent of work tasks today. By 2030 they expect about a third, with the rest done by technology, or by people and technology together.",
+      "source": "World Economic Forum, Future of Jobs Report 2025, January 2025, a survey of over 1,000 employers",
+      "script": "Say whose numbers these are before you say the numbers: over a thousand employers, across 55 economies, were asked how the work is split today and what they expect by 2030. It is what employers expect, not a measurement of the future, so say employers expect, never the future will. It is also a share of the time spent on tasks, not a count of jobs, so nobody should leave thinking a third of jobs will go. The point for today: the tasks inside a job keep moving, and more of them will be people and technology working together. In the same report, AI and big data tops the skills employers expect to grow fastest, and creative thinking, resilience and curiosity are all in the top six."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "minutes": 2,
+      "seconds": 60,
+      "prompt": "If the tasks inside jobs keep changing, what is worth getting good at now, whatever job you end up in?",
+      "lookFor": "Anything a person does that a task list cannot: noticing what someone needs, asking good questions, trying something and fixing it. The next slide turns their words into the three moves.",
+      "script": "Three seconds of thinking before anyone talks, then sixty seconds in pairs. Do not steer them towards AI. If a pair says coding, ask what they would code, and for whom. That is the question the whole lesson is built on."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "The three moves, in this order",
+      "caption": "The whole lesson on one wall. Each move gets its own part.",
+      "steps": [
+        {
+          "title": "Name it",
+          "text": "One problem from your own life. One sentence. No fix in it.",
+          "emoji": "🎯"
+        },
+        {
+          "title": "Ask three",
+          "text": "Three real people you already know. Ask about the last time it happened.",
+          "emoji": "🗣️"
+        },
+        {
+          "title": "Build the smallest",
+          "text": "The quickest prototype that helps one of them. Try it, then change it.",
+          "emoji": "🛠️"
+        }
+      ],
+      "verdicts": [
+        "No money needed",
+        "No big idea needed"
+      ],
+      "script": "Point to each move in turn and say only its name. The words under each are on the wall and in the booklet, so leave them. Then say that the order matters: nearly everyone wants to start at the third move, and today we earn it."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🎯",
+      "heading": "Name the problem, not the fix",
+      "body": "Most people start with a fix: an app, a website, a gadget. A fix only works if it solves a problem someone actually has. So say the problem in one sentence with no fix in it. Not \"my brother needs a PE kit app\". Instead: \"my brother forgets his PE kit on Monday mornings.\"",
+      "script": "Here is what I would notice first in the app sentence: it has already decided the answer. Read both versions aloud and ask which one you could check with a real person tomorrow. Only the second. The first can only be argued about. That is the test for every problem sentence today: could you check it by asking someone?"
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which one is a problem, not a fix?",
+      "options": [
+        {
+          "text": "An app that reminds you when homework is due",
+          "correct": false,
+          "feedback": "That is a fix. It has already decided the answer is an app, before anyone has asked who forgets homework, or why."
+        },
+        {
+          "text": "Finding out homework is due the night before",
+          "correct": true,
+          "feedback": "Yes. It says what happens and who it happens to, and you could check it by asking three classmates tomorrow."
+        },
+        {
+          "text": "A website where people post the things they have lost",
+          "correct": false,
+          "feedback": "That is a fix too. The problem underneath might be that lost things never reach the office, and you would need to ask to find out."
+        }
+      ],
+      "script": "Everyone commits before you reveal: fingers up for one, two or three, and wait three seconds before anyone shows. The popular wrong answer is the first, because it sounds like a sensible answer to a real problem. It is. That is exactly why it is not the problem."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🗣️",
+      "heading": "Ask three people about their life, not your idea",
+      "body": "Ask a friend if your idea is good and they will probably say yes, because they like you. That tells you very little. Ask about their life instead: when did this last happen? What did you do? What was the worst part? Now they are giving you facts, and facts are how you test an assumption.",
+      "script": "Say plainly that the trouble here is kindness, not lying. People who like you want to encourage you, so a question about your idea invites a kind answer. A question about the last time something happened is about what happened, and that is much harder to answer just to be nice. Model one out loud with a problem from the board: when did that last happen to you?"
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Which question gets you the truth?",
+      "options": [
+        {
+          "text": "Would you use an app that reminds you to pack your PE kit?",
+          "correct": false,
+          "feedback": "Saying yes costs them nothing and keeps you happy, so most people say it. You learn whether they like you, not whether they need it."
+        },
+        {
+          "text": "Forgetting your PE kit is really annoying, isn't it?",
+          "correct": false,
+          "feedback": "This one hands them the answer before they speak. A question built like that pushes people to agree, so you learn nothing new."
+        },
+        {
+          "text": "When did you last forget your PE kit?",
+          "correct": true,
+          "feedback": "Yes. It asks about something that really happened, so the answer is a fact. It might even show you the problem is somewhere else."
+        }
+      ],
+      "script": "Whiteboards or fingers, and wait three seconds before anyone shows. The popular wrong answer is the first, because it sounds polite and useful. Ask the room what that question lets a kind friend say instead of the truth. Then point out that the right answer is the only one of the three that could surprise you."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "🤖",
+      "heading": "It can check your questions, not answer them",
+      "body": "Write your questions first. Then a chatbot can check them for any that push people towards your answer, and you decide what to change. What it cannot do is tell you what your grandad needs. It will give you an answer anyway. It has never met him. Only asking him tells you.",
+      "script": "This is where AI comes into the lesson, and it comes in as a checker, not a replacement. The line to land: a chatbot will usually produce an answer, and that answer is a guess about someone it has never met. Say the safety line now as well, plainly: your three people are people you already know, at home, at school or in your family. Never strangers online."
+    },
+    {
+      "type": "discussion",
+      "phase": "teach",
+      "mode": "pairs",
+      "minutes": 2,
+      "seconds": 60,
+      "prompt": "Write two questions you could ask about the problem you named at the start. Swap with your partner. Does either question push people towards an answer?",
+      "lookFor": "Questions that start with would you, or don't you think, push. Questions that start with when did, what happened or what did you do pull out facts.",
+      "script": "Three seconds of thinking before pens move, then sixty seconds. Take one pushing question and one pulling question to the board, from different pairs, and rewrite the pushing one together until it pulls."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "📝",
+      "heading": "Build the smallest version, usually on paper",
+      "body": "Your first idea will probably be an app. Your first prototype should be the smallest thing that helps one person this week: a checklist on a door, a sign, a message, a timetable, a picture guide. Make it for one person. Give it to them. Ask what got in the way.",
+      "script": "Give the reason, because it matters: a paper version can be made tonight, tried tomorrow and changed by Friday, and every change teaches you something about the person. An app takes far longer before anyone tries it. Nobody is banning the app. It comes later, if the paper version shows people actually use it."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "Things keep going missing in your classroom. Which is the smallest version to try first?",
+      "options": [
+        {
+          "text": "A box by the door with a sign saying found something?",
+          "correct": true,
+          "feedback": "Yes. You could make it at break, and by Friday you would know whether anything ends up in it. That is real evidence."
+        },
+        {
+          "text": "An app with a map of the school showing where lost things are",
+          "correct": false,
+          "feedback": "It might work one day, but it takes a long time to build, and nobody has shown yet that they would ever open it."
+        },
+        {
+          "text": "A survey of the whole school about lost property",
+          "correct": false,
+          "feedback": "A survey is asking, not building, and a whole school is a lot of people. Start with three people, then build something small."
+        }
+      ],
+      "script": "Hands up for each option, and wait three seconds before any hand goes up. The popular wrong answer is the app, because it feels like the real thing. Ask what they would know by Friday from each one. Only the box answers that."
+    },
+    {
+      "type": "diagram",
+      "phase": "teach",
+      "minutes": 2,
+      "heading": "One problem, from start to Friday",
+      "caption": "Maya, Year 8. The problem moved once she asked.",
+      "steps": [
+        {
+          "title": "Named it",
+          "text": "My brother forgets his PE kit on Monday mornings.",
+          "emoji": "🎯"
+        },
+        {
+          "title": "Asked three",
+          "text": "Brother, mum and grandad all said the kit is still in the wash on Sunday night.",
+          "emoji": "🗣️"
+        },
+        {
+          "title": "Built the smallest",
+          "text": "A card on the washing machine: PE kit out by Sunday teatime.",
+          "emoji": "📝"
+        },
+        {
+          "title": "Changed it",
+          "text": "Week three it failed, so the card moved to the fridge.",
+          "emoji": "🔁"
+        }
+      ],
+      "script": "Point to each step as you tell the story in your own words. Stop on the second one: the problem she named was not quite the real one. Monday was when it showed up, Sunday was where it started, and she only found that out by asking. Then point at the last step and say the change is part of the plan, not a failure."
+    },
+    {
+      "type": "concept",
+      "phase": "teach",
+      "minutes": 2,
+      "emoji": "💡",
+      "heading": "Ask it for a hint, never the finished thing",
+      "body": "Stuck on a step? Ask for a hint, not the answer. Ask it to check your checklist for anything missing, or to suggest three ways it could go wrong. Then you make it, and you give it to the person. A tool can help you build it. Only the person can tell you whether it helped.",
+      "script": "If anyone asks why a hint and not the answer: in one large trial, secondary pupils given a maths chatbot that handed out answers scored 17 percent lower once it was taken away, while pupils given a version that only gave hints came out level with pupils who never had it. That was maths, with pupils a little older than this class, so say it as a borrowed result. The same idea is worth trying when you make things: the part you hand over is the part you do not practise."
+    },
+    {
+      "type": "choice",
+      "phase": "teach",
+      "minutes": 2,
+      "question": "You made your grandad a picture guide for video calls. He says it did not help. What now?",
+      "options": [
+        {
+          "text": "Ask a chatbot whether the guide is any good",
+          "correct": false,
+          "feedback": "It will tell you something, but it has never watched your grandad try to answer a call. Only he knows what got in the way."
+        },
+        {
+          "text": "Start again with something bigger, like an app",
+          "correct": false,
+          "feedback": "A bigger version of something that did not help will not help either. Find out why first, then change one thing."
+        },
+        {
+          "text": "Ask him what got in the way, then change one thing",
+          "correct": true,
+          "feedback": "Yes. Not helping yet is information. His answer tells you what the next version needs, and small changes are quick to try."
+        }
+      ],
+      "script": "Fingers up for one, two or three, and wait three seconds before anyone shows. The popular wrong answer is the chatbot, because it feels like a quick second opinion. Ask what it would base its answer on. Then give them the line to keep: not helping yet is not failing, it is the next question."
+    },
+    {
+      "type": "tryit",
+      "phase": "teach",
+      "minutes": 3,
+      "heading": "Sketch your smallest version",
+      "body": "Take the problem you named at the start. Sketch the smallest prototype you could make by Friday, for one person. Paper counts. Write who it is for, and what you will ask them afterwards.",
+      "script": "Three minutes, on their own, in the booklet. Circulate. If a pupil draws an app, ask what the paper version of its first screen would look like, and have them draw that instead. If a pupil cannot think of a problem, give them one from the board."
+    },
+    {
+      "type": "interactive",
+      "component": "star-breath",
+      "phase": "practise",
+      "minutes": 1,
+      "config": {
+        "heading": "Half time",
+        "prompt": "Two breaths with Orbit: in as Orbit grows, out as Orbit shrinks. Then stand up, swap seats with your partner, and tell them who your prototype is for.",
+        "seconds": 4,
+        "register": "level",
+        "character": "orbit"
+      },
+      "script": "Half time. Two breaths with the whole room, in as Orbit grows and out as Orbit shrinks. Then everyone stands, swaps seats with their partner and says in one sentence who their prototype is for. Nothing is marked. Then straight into the sort."
+    },
+    {
+      "type": "interactive",
+      "component": "verdict-sort",
+      "phase": "practise",
+      "minutes": 4,
+      "caption": "Sort the six together before the sheet.",
+      "config": {
+        "label": "Who does this part? . tap the class verdict",
+        "verdicts": [
+          "You do it",
+          "The tool can help",
+          "Only a real person can say"
+        ],
+        "posts": [
+          {
+            "handle": "Case 1",
+            "avatar": "🎯",
+            "text": "Choosing which problem you actually care about fixing.",
+            "answer": 0,
+            "why": "It has to be yours. A tool can list a hundred problems. It cannot tell you which one you would give up a Saturday for."
+          },
+          {
+            "handle": "Case 2",
+            "avatar": "🗣️",
+            "text": "Checking your questions for any that push people towards your answer.",
+            "answer": 1,
+            "why": "You wrote them first. Now it is a second pair of eyes, and you still decide what changes."
+          },
+          {
+            "handle": "Case 3",
+            "avatar": "👴",
+            "text": "Finding out whether your grandad would actually use the picture guide.",
+            "answer": 2,
+            "why": "It can only guess. He knows. Watching him try it, or asking him afterwards, is the only way to find out."
+          },
+          {
+            "handle": "Case 4",
+            "avatar": "📝",
+            "text": "Spotting a step you missed out of your checklist.",
+            "answer": 1,
+            "why": "A useful check once you have made it. Read what it suggests and keep only what fits the person you made it for."
+          },
+          {
+            "handle": "Case 5",
+            "avatar": "📄",
+            "text": "Writing the whole project for you so you can hand it in.",
+            "answer": 0,
+            "why": "If it does all of it, nothing is left that is yours, and nobody real has been helped yet. The making is your part."
+          },
+          {
+            "handle": "Case 6",
+            "avatar": "🏘️",
+            "text": "Telling you whether people on your street have this problem.",
+            "answer": 2,
+            "why": "It has not asked your street. It will still give you an answer. Only asking three of them gives you a real one."
+          }
+        ],
+        "doneTitle": "Sorted",
+        "doneEmoji": "✅",
+        "doneBody": "You first. The tool to check. Real people to judge."
+      },
+      "script": "Read each case aloud and take a class verdict before you reveal it: hands up for each of the three. Case five causes the argument, because it is marked you do it and some will say the tool does it. Push back: the question is whose part it is, and if the tool does it, the part that was yours is gone. The last card is the whole AI half of the lesson in nine words."
+    },
+    {
+      "type": "tryit",
+      "phase": "practise",
+      "minutes": 5,
+      "heading": "Plan it for real",
+      "body": "Write your problem in one sentence, with no fix in it. Write the three people you will ask and your two best questions. Write your smallest prototype and who it is for. Then circle one assumption you are making about that person.",
+      "script": "Five minutes. This is the part that leaves the room with them. The three people must be people they already know: if a pupil writes a stranger or an online group, redirect them to someone at home or at school. Circulate and look for fixes hiding in the problem sentence."
+    },
+    {
+      "type": "discussion",
+      "phase": "practise",
+      "mode": "pairs",
+      "minutes": 2,
+      "seconds": 60,
+      "extension": true,
+      "prompt": "Swap plans with your partner. Find one assumption in their plan: something they believe about someone without having asked them.",
+      "lookFor": "Assumptions hide in words like everyone, always, would love and obviously. The fix is always a question for one of their three people.",
+      "script": "Three seconds to read before anyone speaks, then sixty seconds. Take one good find to the room and ask which of the three people could settle it."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Ali wants to fix the tuck shop queue. He asks five friends: would you use an app to order ahead? All five say yes. What went wrong?",
+      "options": [
+        {
+          "text": "Nothing went wrong, because five yeses show people really want it",
+          "correct": false,
+          "feedback": "Five kind yeses to a question about his idea tell him his friends like him. They do not tell him what happens in the queue."
+        },
+        {
+          "text": "He asked about his idea, not the last queue",
+          "correct": true,
+          "feedback": "Yes. Asking what happened last time, and what they did about it, would give him facts. The queue might not even be the real problem."
+        },
+        {
+          "text": "He should have asked fifty people instead of five",
+          "correct": false,
+          "feedback": "Fifty yeses to the wrong question are still the wrong answer. The question has to change before the number of people matters."
+        }
+      ],
+      "script": "The first of three prove questions. Pupils answer on their own on whiteboards, wait three seconds, then show. The popular wrong answer is fifty people, because more feels like better evidence. It is not, if the question is the problem."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "A stranger online offers to pay you for more of your checklists. What do you do?",
+      "options": [
+        {
+          "text": "Tell a parent or carer first, and let any money go through them",
+          "correct": true,
+          "feedback": "Yes. An offer of money from someone you do not know is exactly when an adult needs to know first, and any money goes through them."
+        },
+        {
+          "text": "Send your bank details so they can pay you",
+          "correct": false,
+          "feedback": "Never send bank or personal details to someone you do not know online. Tell a parent or carer first, and let them handle any money."
+        },
+        {
+          "text": "Delete everything and never post again",
+          "correct": false,
+          "feedback": "You do not need to throw your work away. Stop replying, tell a parent or carer, and let them decide what happens next."
+        }
+      ],
+      "script": "The second prove question, and the one safety line in the lesson. Whiteboards, wait three seconds, then show. There is no trick here: a stranger offering money is a moment for an adult, every time. If anyone asks about earning online, the rules back this up: YouTube only pays under 18s through a parent or guardian's account, and TikTok's rewards and gifts, and Instagram's gifts and subscriptions, are for over 18s. If a pupil describes something like this happening to them, follow your school's safeguarding procedures."
+    },
+    {
+      "type": "choice",
+      "phase": "practise",
+      "minutes": 2,
+      "question": "Where does AI belong in the three moves?",
+      "options": [
+        {
+          "text": "At the start of each move, so you get it right first time",
+          "correct": false,
+          "feedback": "If it goes first, its guess becomes your starting point, and your own ideas then have to argue with it. Try first, then check."
+        },
+        {
+          "text": "After you have tried each move, to check it",
+          "correct": true,
+          "feedback": "Yes. You go first, the tool checks or improves what you made, and real people judge whether any of it helped."
+        },
+        {
+          "text": "Nowhere, because using it at all is cheating",
+          "correct": false,
+          "feedback": "Checking your questions or your checklist with it is not cheating. The rule is only that the thinking and the asking stay yours."
+        }
+      ],
+      "script": "The last prove question. Whiteboards, wait three seconds, then show. Then put all three answers up together and let them mark their own. Nobody reads a score out."
+    },
+    {
+      "type": "recap",
+      "phase": "close",
+      "minutes": 2,
+      "heading": "The three moves to take out of here",
+      "points": [
+        "Name a problem, not a fix, in one sentence.",
+        "Ask three people you know about the last time it happened.",
+        "Build the smallest prototype for one person, then change it."
+      ],
+      "script": "Read them. Do not add to them. Then ask for hands: who will try the first move tonight?"
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "character": "orbit",
+      "heading": "Your mission, tonight",
+      "lines": [
+        "My mission for you tonight: a rose and a thorn, with whoever you eat with.",
+        "A rose is one good thing about today. A thorn is one thing that got in the way.",
+        "Listen for a thorn that keeps coming back. That is a problem worth solving, and the people at the table are your first three."
+      ],
+      "script": "The handover. Say nothing over it. When the last line lands, ask them to say the mission back in their own words: a rose, a thorn, and listen for the one that keeps coming back."
+    },
+    {
+      "type": "digi",
+      "phase": "close",
+      "minutes": 1,
+      "heading": "One last thing",
+      "lines": [
+        "Nobody needs you to have a big idea yet.",
+        "You need one real problem and one real person.",
+        "I would rather you helped one person this week than planned an app for a million."
+      ],
+      "script": "Close on the third line and stop. It is the lesson in one sentence. Do not add a warning or a careers line after it."
+    }
+  ],
+  "dsl_note": {
+    "note": "This lesson is about solving problems and carries no disclosure prompt. Two safety lines are written into the script: pupils ask people they already know, at home or at school, never strangers online; and any offer of money, or any message from someone they do not know, goes to a parent or carer first. The second prove question rehearses exactly that. If a pupil names a problem at home that suggests a child may be at risk, follow your school's safeguarding procedures as usual.",
+    "required": false,
+    "concern_form_linked": false
+  },
+  "key_stage": "KS3",
+  "module_id": "what-problem-would-you-solve",
+  "assessment": {
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "Which sentence names a problem with no fix hiding in it?",
+          "answer": 2,
+          "options": [
+            "My sister needs a homework app",
+            "We should have a lost property website",
+            "My sister finds out homework is due the night before"
+          ],
+          "teaching_point": "The third says what happens and to whom. The other two have already decided the answer."
+        },
+        {
+          "q": "Which question gets you facts rather than kindness?",
+          "answer": 0,
+          "options": [
+            "When did this last happen to you?",
+            "Would you use my app?",
+            "It's annoying, isn't it?"
+          ],
+          "teaching_point": "A question about the last time asks for a memory. The other two invite a kind yes."
+        },
+        {
+          "q": "Your first person says your prototype did not help. What next?",
+          "answer": 1,
+          "options": [
+            "Build something bigger",
+            "Ask what got in the way and change one thing",
+            "Give up on the problem"
+          ],
+          "teaching_point": "Not helping yet is information. Their answer tells you what the next version needs."
+        },
+        {
+          "q": "Where does AI come in?",
+          "answer": 1,
+          "options": [
+            "Before you try anything",
+            "After you have tried, to check or improve it",
+            "It decides what people need"
+          ],
+          "teaching_point": "You go first, the tool checks, and real people judge whether it helped."
+        }
+      ]
+    },
+    "retrieval_starter": {
+      "title": "Before we start",
+      "instructions": "Five questions. Nothing is marked. Your best guess is fine.",
+      "questions": [
+        {
+          "q": "Which of these is a problem rather than a fix?",
+          "answer": 1,
+          "options": [
+            "A reminder app",
+            "Forgetting your PE kit on Mondays",
+            "A new website"
+          ],
+          "teaching_point": "A problem says what happens and to whom. An app or a website is a fix, one possible answer, and it comes later."
+        },
+        {
+          "q": "You ask a friend whether your idea is good. What are they most likely to say?",
+          "answer": 2,
+          "options": [
+            "Exactly what they think",
+            "Something rude",
+            "Yes, because they like you"
+          ],
+          "teaching_point": "People who like you are kind about your idea. Asking about the last time something happened gets facts instead."
+        },
+        {
+          "q": "What is the quickest first version of most fixes?",
+          "answer": 0,
+          "options": [
+            "Something on paper",
+            "An app",
+            "A website"
+          ],
+          "teaching_point": "A paper prototype can be made tonight, tried tomorrow and changed by Friday."
+        },
+        {
+          "q": "What can a chatbot not tell you?",
+          "answer": 0,
+          "options": [
+            "What your grandad actually needs",
+            "How to spell a word",
+            "Ideas for a checklist"
+          ],
+          "teaching_point": "It can check your work, but its answer about a real person is a guess about someone it has never met."
+        },
+        {
+          "question": "In one sentence, name something small that got in the way for someone this week.",
+          "format": "short_answer",
+          "answer": "Any real, specific problem, said with no fix in it.",
+          "teaching_point": "This is the first move. Keep the sentence, because the lesson builds on it."
+        }
+      ]
+    }
+  },
+  "sort_order": 900,
+  "parent_note": {
+    "headline": "What we taught today, and one thing to try at home",
+    "taught": "Today your child learned three moves for turning something that gets in the way into a small fix for one real person: name the problem, ask three people they know, and build the smallest version. We also looked at where AI can help, which is checking their own work after they have tried, and the one thing it cannot do, which is tell them what a real person needs.",
+    "try_this": "Try a rose and a thorn at dinner: one good thing about the day, and one thing that got in the way. Listen for a thorn that keeps coming back, because that is a problem worth solving. If your child makes something to fix it, be their first customer: try it, and tell them honestly what got in the way.",
+    "family_question": "What is one thing in our house that goes wrong every single week, and what would the smallest fix be?",
+    "no_login_required": true
+  },
+  "video_beats": [],
+  "teacher_notes": {
+    "send": {
+      "eal": "The three moves translate cleanly and are worth having in first language on the desk. The question stems (when did, what happened, what did you do) can be given as a sentence strip so the asking is not blocked by the English.",
+      "sensory": "The sort runs on paper if the board version is too busy. No sound is needed at any point, and the half time swap can be done seated for any pupil who needs it.",
+      "attention": "One move at a time, each with its own short task. The plan can be done as three separate boxes rather than one page, with a tick after each.",
+      "communication": "Pupils may write their questions rather than say them, and may ask their three people in writing or with an adult alongside. Nobody has to present to the room."
+    },
+    "tool": {
+      "heading": "The three moves",
+      "strapline": "Any problem, any age, no money needed.",
+      "lines": [
+        "Name it: one problem, one sentence, no fix in it.",
+        "Ask three: people you know, about the last time it happened.",
+        "Build the smallest: a prototype for one person, then change it."
+      ]
+    },
+    "i_can": [
+      "I can say a problem in one sentence without a fix hiding in it.",
+      "I can write a question that asks about the last time, not about my idea.",
+      "I can plan the smallest prototype for one real person, and say where AI may help."
+    ],
+    "cycles": [
+      {
+        "verb": "Notice",
+        "title": "Problems first",
+        "minutes": 10,
+        "outcome": "I can tell a problem from a fix, and say mine in one sentence."
+      },
+      {
+        "verb": "Test",
+        "title": "Ask three",
+        "minutes": 8,
+        "outcome": "I can write a question that pulls out a fact rather than a compliment."
+      },
+      {
+        "verb": "Prove",
+        "title": "Build the smallest",
+        "minutes": 13,
+        "outcome": "I can plan a paper prototype for one person and say what I will ask them afterwards."
+      }
+    ],
+    "timing": "62 minutes: starter 9, cycle one 10, cycle two 8, cycle three 13, practise 12, prove 6, close 4",
+    "keywords": [
+      {
+        "word": "problem",
+        "definition": "Something that gets in someone's way, said in one sentence with no fix in it. The thing that happens before anyone fixes it."
+      },
+      {
+        "word": "assumption",
+        "definition": "Something believed about other people without having asked them. Every new idea is full of them, and asking is how you find them."
+      },
+      {
+        "word": "prototype",
+        "definition": "The smallest version of a fix that can be made and tried quickly, often on paper, so it can be changed after the first person uses it."
+      }
+    ],
+    "equipment": "Projector. Printed pupil booklet or plain paper. Pens. No pupil devices or AI accounts are needed: the AI parts are discussed and sorted, not done live.",
+    "exit_quiz": {
+      "title": "Before you go",
+      "instructions": "Four questions. Same ideas as the start, so you can see what moved.",
+      "questions": [
+        {
+          "q": "Which sentence names a problem with no fix hiding in it?",
+          "answer": 2,
+          "options": [
+            "My sister needs a homework app",
+            "We should have a lost property website",
+            "My sister finds out homework is due the night before"
+          ],
+          "teaching_point": "The third says what happens and to whom. The other two have already decided the answer."
+        },
+        {
+          "q": "Which question gets you facts rather than kindness?",
+          "answer": 0,
+          "options": [
+            "When did this last happen to you?",
+            "Would you use my app?",
+            "It's annoying, isn't it?"
+          ],
+          "teaching_point": "A question about the last time asks for a memory. The other two invite a kind yes."
+        },
+        {
+          "q": "Your first person says your prototype did not help. What next?",
+          "answer": 1,
+          "options": [
+            "Build something bigger",
+            "Ask what got in the way and change one thing",
+            "Give up on the problem"
+          ],
+          "teaching_point": "Not helping yet is information. Their answer tells you what the next version needs."
+        },
+        {
+          "q": "Where does AI come in?",
+          "answer": 1,
+          "options": [
+            "Before you try anything",
+            "After you have tried, to check or improve it",
+            "It decides what people need"
+          ],
+          "teaching_point": "You go first, the tool checks, and real people judge whether it helped."
+        }
+      ]
+    },
+    "starter_quiz": {
+      "title": "Before we start",
+      "instructions": "Five questions. Nothing is marked. Your best guess is fine.",
+      "questions": [
+        {
+          "q": "Which of these is a problem rather than a fix?",
+          "answer": 1,
+          "options": [
+            "A reminder app",
+            "Forgetting your PE kit on Mondays",
+            "A new website"
+          ],
+          "teaching_point": "A problem says what happens and to whom. An app or a website is a fix, one possible answer, and it comes later."
+        },
+        {
+          "q": "You ask a friend whether your idea is good. What are they most likely to say?",
+          "answer": 2,
+          "options": [
+            "Exactly what they think",
+            "Something rude",
+            "Yes, because they like you"
+          ],
+          "teaching_point": "People who like you are kind about your idea. Asking about the last time something happened gets facts instead."
+        },
+        {
+          "q": "What is the quickest first version of most fixes?",
+          "answer": 0,
+          "options": [
+            "Something on paper",
+            "An app",
+            "A website"
+          ],
+          "teaching_point": "A paper prototype can be made tonight, tried tomorrow and changed by Friday."
+        },
+        {
+          "q": "What can a chatbot not tell you?",
+          "answer": 0,
+          "options": [
+            "What your grandad actually needs",
+            "How to spell a word",
+            "Ideas for a checklist"
+          ],
+          "teaching_point": "It can check your work, but its answer about a real person is a guess about someone it has never met."
+        },
+        {
+          "question": "In one sentence, name something small that got in the way for someone this week.",
+          "format": "short_answer",
+          "answer": "Any real, specific problem, said with no fix in it.",
+          "teaching_point": "This is the first move. Keep the sentence, because the lesson builds on it."
+        }
+      ]
+    },
+    "worksheet": {
+      "title": "My three moves",
+      "directions": "Sort the six cases first, then plan your own problem one move at a time.",
+      "verdict_options": [
+        "You do it",
+        "The tool can help",
+        "Only a real person can say"
+      ]
+    },
+    "worksheet_items": [
+      {
+        "n": 1,
+        "stem": "Whose part is this?",
+        "text": "Choosing which problem you actually care about fixing."
+      },
+      {
+        "n": 2,
+        "stem": "Whose part is this?",
+        "text": "Checking your questions for any that push people towards your answer."
+      },
+      {
+        "n": 3,
+        "stem": "Whose part is this?",
+        "text": "Finding out whether your grandad would actually use the picture guide."
+      },
+      {
+        "n": 4,
+        "stem": "Whose part is this?",
+        "text": "Spotting a step you missed out of your checklist."
+      },
+      {
+        "n": 5,
+        "stem": "Whose part is this?",
+        "text": "Writing the whole project for you so you can hand it in."
+      },
+      {
+        "n": 6,
+        "stem": "Whose part is this?",
+        "text": "Telling you whether people on your street have this problem."
+      },
+      {
+        "n": 7,
+        "stem": "My problem, in one sentence:",
+        "text": "Name it. No fix allowed in the sentence."
+      },
+      {
+        "n": 8,
+        "stem": "My three people and my two questions:",
+        "text": "Ask three. People you already know, about the last time it happened."
+      },
+      {
+        "n": 9,
+        "stem": "My smallest prototype, and who it is for:",
+        "text": "Build the smallest. Circle one assumption you are making about that person."
+      }
+    ],
+    "teacher_tip": "Do not let it turn into a careers talk or an enterprise pitch. The lesson fails if pupils hear you should start a business. It is about noticing a problem and helping one person, and a paper checklist for a little brother counts every bit as much as anything else.",
+    "evidence_base": [
+      {
+        "claim": "Cluster randomised across about fifty classes, nearly 1,000 pupils in grades 9 to 11 at one Turkish secondary school, autumn 2023. Answers arm plus 48 percent in practice and minus 17 percent on the unaided exam against control. Hints arm plus 127 percent in practice and statistically indistinguishable from control on the exam, with no positive effect observed. Honors classrooms were excluded as non randomly composed, so the analytic sample is below 1,000. Both practice figures were scored while pupils still held the tool, so they measure performance rather than learning.",
+        "source": "Bastani, Bastani, Sungu, Ge, Kabakci and Mariman (2025), Generative AI without guardrails can harm learning: evidence from high school mathematics, PNAS 122(26), e2422633122",
+        "status": "verified"
+      },
+      {
+        "claim": "Over 1,000 employers across 55 economies, surveyed in 2024. Respondents estimate that 47 percent of work tasks are performed mainly by humans alone today, 22 percent mainly by technology and 30 percent by a combination, and employers expect the three to be nearly evenly split by 2030 (33, 34 and 33 percent). These are employer expectations of the share of time spent on tasks, not a measurement, and the report says the analysis does not consider the absolute amount of work. Employers also expect 39 percent of workers' core skills to change by 2030. AI and big data leads the fastest growing skills, with creative thinking, resilience, and curiosity and lifelong learning in the top six.",
+        "source": "World Economic Forum (January 2025), The Future of Jobs Report 2025, pages 26, 32 and 37",
+        "status": "verified"
+      },
+      {
+        "claim": "YouTube: the minimum age for AdSense for YouTube is 18, and under 18s can only monetise through the approved AdSense account of a parent or guardian over 18. TikTok: at least 18 for the Creator Rewards Program, to go LIVE, and to send or receive LIVE Gifts. Instagram: 18 or older for Gifts, Subscriptions and badges; Bonuses are by invitation and the pages state no age, so the lesson does not claim one.",
+        "source": "YouTube Help, TikTok Support and Instagram Help Centre, each platform's own pages, read 24 September 2026 (the pages carry no date)",
+        "status": "verified"
+      }
+    ],
+    "hard_questions": [
+      {
+        "question": "What if I cannot think of a problem?",
+        "answer": "Everyone has one by dinner time. Do the rose and thorn tonight and listen for the thorn that keeps coming back. It does not need to be big. Something that goes wrong every Monday is plenty."
+      },
+      {
+        "question": "Do I have to start a business?",
+        "answer": "No. Nothing today is about money or a business. Helping one person you know with something small is the whole task, and it counts in full."
+      },
+      {
+        "question": "Can I make money from what I make?",
+        "answer": "Not on your own yet, and that is fine. YouTube only pays under 18s through a parent or guardian's account, and TikTok's rewards and gifts, and Instagram's gifts and subscriptions, are for over 18s. If anything you make ever earns money, it goes through a parent or carer. Helping one person needs no money at all."
+      },
+      {
+        "question": "Is using AI for this cheating?",
+        "answer": "Not if you go first. Checking your questions or your checklist with it is fine. What you cannot hand over is choosing the problem, asking the people, and finding out whether it helped."
+      },
+      {
+        "question": "What if nobody I ask has the problem?",
+        "answer": "Then you have learned something real, cheaply, before building anything. Either find the person who does have it, or pick a thorn that someone at home keeps mentioning."
+      }
+    ],
+    "misconceptions": [
+      "That you need a big idea, or money, to start. A paper prototype for one person costs nothing and teaches more by Friday than a plan for an app.",
+      "That a problem and a fix are the same thing. Most first sentences are fixes. The problem is what happens, to whom, before any fix.",
+      "That friends saying yes proves an idea. A question about your idea invites kindness. A question about the last time gives facts.",
+      "That a chatbot can tell you what people need. It can check your work, but its answer about real people is a guess about someone it has never met."
+    ],
+    "paper_fallback": "Everything runs without screens. The six cases are on the sheet as a three column sort, the plan is written in the booklet, and the prove questions work on mini whiteboards or with fingers.",
+    "commitment_stem": "My commitment: the first person I will ask about my problem is...",
+    "differentiation": {
+      "stretch": "Ask the strongest pupils to write the second version of their prototype now, assuming the first one fails in a specific way, and to name the question that would tell them which way it failed.",
+      "support": "Give a problem from the board instead of asking for a new one, and provide the three question stems on a strip: when did this last happen, what did you do, what was the worst part. The plan can be done as three boxes, one move at a time."
+    },
+    "prior_knowledge": [
+      "Helpful but not needed: ks3-24, Is it doing my thinking?, for the rule that the tool comes after your own attempt.",
+      "Pupils have been asked what they want to be when they grow up, and most have an answer ready. This lesson asks a different question."
+    ],
+    "parent_questions": [
+      {
+        "question": "Is this lesson telling my child to start a business?",
+        "answer": "No. It teaches three moves for turning something that gets in the way into a small fix for one real person. Nothing in it is about money, and the first person they help will usually be someone at home."
+      },
+      {
+        "question": "Will my child need to use AI or make an account?",
+        "answer": "No. The AI parts are discussed in class, not done live. The rule taught is simple: your child tries first, a tool may check the work afterwards, and only real people can say whether it helped."
+      }
+    ],
+    "subject_knowledge": [
+      {
+        "heading": "Why ask about the last time",
+        "body": "A question about the future or about your idea invites a polite guess. A question about what happened last time, and what the person did about it, asks for a memory, which is much harder to bend towards what the asker wants to hear. It is the single most useful habit in the lesson."
+      },
+      {
+        "heading": "Why paper first",
+        "body": "A rough prototype can be made and changed within a week, so the pupil gets several rounds of real feedback before an app would have reached its first user. The lesson is about the loop: make it small, give it to one person, change one thing."
+      },
+      {
+        "heading": "What the jobs report does and does not say",
+        "body": "The World Economic Forum asked over 1,000 employers across 55 economies what they expect by 2030. They estimate that people alone do 47 percent of work tasks today, and expect roughly a third each by 2030 for people alone, technology alone, and the two together. These are employer expectations about the share of time spent on tasks in the jobs studied, not a measurement of the future, and the report says it does not consider how much work there will be. Never turn them into a number of jobs AI will take: the report does not claim one."
+      }
+    ],
+    "essential_question": "What would I fix, and how would I know it helped?",
+    "learning_objective": "To turn a problem from my own life into a small prototype for one real person, testing my assumptions by asking and using AI only to check or improve my own work.",
+    "key_learning_points": [
+      "A problem says what happens and to whom. A fix is one possible answer, and it comes later.",
+      "Asking about the last time something happened gets facts. Asking whether someone likes your idea gets kindness.",
+      "The smallest prototype, often on paper and for one person, teaches more by Friday than a big plan.",
+      "AI can check your questions or your prototype after you have tried. It cannot tell you what a real person needs."
+    ]
+  }
+}

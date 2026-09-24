@@ -3,12 +3,13 @@ import { notFound } from 'next/navigation'
 import QuizSheet from '@/components/QuizSheet'
 import { quizQuestions, type QuizBank } from '@/lib/quiz'
 import { CURRICULUM as MODULE_MANIFEST } from '@gc/shared/schools-curriculum'
+import { standaloneTitle } from '@/lib/taster'
 
 // The tab names the module, so a teacher with eight tabs open can find this
 // one. Read from the manifest rather than the row: no second database read.
 export async function generateMetadata({ params }: { params: Promise<{ module: string }> }) {
   const { module: moduleId } = await params
-  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title
+  const title = MODULE_MANIFEST.find(m => m.moduleId === moduleId)?.title ?? standaloneTitle(moduleId)
   return { robots: { index: false, follow: false }, title: title ? `Starter quiz: ${title}` : 'Starter quiz: Module' }
 }
 

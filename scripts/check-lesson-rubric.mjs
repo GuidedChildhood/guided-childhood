@@ -52,7 +52,7 @@ function bank(tn, a, name) {
 // A short answer item has no options by design; everything else needs two.
 const needsOptions = qq => !/^(short_answer|open|free_text|match|fill_blank)/.test(String(qq.format))
 
-function check(m) {
+function check(m, standalone = false) {
   const out = [] // { check, slide?, detail }
   const f = (check, detail, slide) => out.push({ check, slide, detail })
   const slides = m.slides || []
@@ -321,9 +321,12 @@ function check(m) {
   // E46, E48 · sequenced, hooked to the statute and to home
   if (words(tn.prior_knowledge) < 8) f('E46', 'teacher_notes.prior_knowledge does not name what came before')
   const row = m.row || {}
-  if (!(row.statutory_hooks || []).length) f('E48', 'row.statutory_hooks is empty')
-  if (!(row.efcw_strands || []).length) f('E48', 'row.efcw_strands is empty')
-  for (const k of ['headline', 'taught', 'try_this', 'family_question', 'passport']) if (!String((m.parent_note || {})[k] ?? '').trim()) f('E48', `parent_note.${k} is empty`)
+  // A standalone lesson (content/standalone, schools/lib/taster.ts) is outside
+  // the scheme by design: it claims no statutory cover and fills no passport
+  // page, so an empty hook, strand or passport line is the point, not a gap.
+  if (!standalone && !(row.statutory_hooks || []).length) f('E48', 'row.statutory_hooks is empty')
+  if (!standalone && !(row.efcw_strands || []).length) f('E48', 'row.efcw_strands is empty')
+  for (const k of ['headline', 'taught', 'try_this', 'family_question', ...(standalone ? [] : ['passport'])]) if (!String((m.parent_note || {})[k] ?? '').trim()) f('E48', `parent_note.${k} is empty`)
 
   // E50 · the adjustments owed in advance, specific. send and differentiation
   // are objects keyed by need (eal, send, stretch, support); each value is
@@ -340,7 +343,7 @@ const results = []
 let fails = 0
 for (const file of files) {
   const m = JSON.parse(fs.readFileSync(file, 'utf8'))
-  const found = check(m)
+  const found = check(m, /[\\/]content[\\/]standalone[\\/]/.test(fs.realpathSync(file)))
   fails += found.length
   results.push({ module_id: m.module_id, key_stage: m.key_stage, findings: found })
   if (!JSON_OUT) {

@@ -1067,5 +1067,15 @@
   },
   "ks5-20-ai-mastery-data-rights s28": {
     "laptop": 133
+  },
+  "what-problem-would-you-solve s1": {
+    "wall": 108,
+    "laptop": 111
+  },
+  "what-problem-would-you-solve s3": {
+    "laptop": 46
+  },
+  "what-problem-would-you-solve s5": {
+    "laptop": 73
   }
 }

@@ -11,14 +11,16 @@
 // beat and governance tests.
 
 import { readFileSync } from 'node:fs'
-import { TASTER_MODULES, isTasterModule, isTasterPath } from '../schools/lib/taster.ts'
+import { TASTER_MODULES, isTasterModule, isTasterPath, STANDALONE_MODULES, isStandaloneModule, isStandalonePath } from '../schools/lib/taster.ts'
 import { isOpenPath, OPEN_PATHS } from '../schools/lib/access.ts'
 
 // EXACTLY what schools/proxy.ts does to decide whether a request needs a
 // school code. Composed here rather than reimplemented: the permanent open
 // map and the temporary sample are two separate questions, and the proxy is
 // the one place they meet.
-const reachableWithoutCode = (p) => isOpenPath(p) || isTasterPath(p)
+// The standalone lessons (24 September 2026) are the third question: free
+// because they sit outside the scheme, so they open nothing paid.
+const reachableWithoutCode = (p) => isOpenPath(p) || isTasterPath(p) || isStandalonePath(p)
 
 let failed = 0
 const ok = (name, cond, detail = '') => {
@@ -84,6 +86,45 @@ for (const path of [
     `these leaked through: ${leaks.join(' ')}`)
 }
 
+// ── The standalone lessons: free, outside the scheme, and nothing else ──
+// A standalone lesson is free because it is not part of what a school buys.
+// So it must be on neither list the scheme is built from: not the taster
+// (whose bar and letter sell the scheme) and not the manifest (which counts,
+// maps, tracks and passports every lesson in it).
+{
+  const manifest = readFileSync(new URL('../shared/schools-curriculum.ts', import.meta.url), 'utf8')
+  ok('the standalone list is short', STANDALONE_MODULES.length >= 1 && STANDALONE_MODULES.length <= 3,
+    `${STANDALONE_MODULES.length} standalone lessons. Each is a lesson outside the scheme; add one on purpose.`)
+  for (const id of STANDALONE_MODULES) {
+    ok(`${id} is not a taster module`, !isTasterModule(id), 'a standalone lesson would get the bar and the letter that sell the scheme')
+    ok(`${id} is not in the manifest`, !manifest.includes(`moduleId: '${id}'`), 'in the manifest it would be counted, mapped, tracked and put on the passport')
+    for (const path of [
+      `/lesson/${id}`,
+      `/lesson/${id}/run`,
+      `/teach/${id}`,
+      `/print/${id}`,
+      `/print/${id}/booklet`,
+      `/print/${id}/organiser`,
+      `/print/${id}/starter-quiz`,
+      `/print/${id}/exit-quiz`,
+    ]) {
+      ok(`open: ${path}`, reachableWithoutCode(path), 'the link sent for a standalone lesson has to open the whole lesson')
+    }
+    const leaks = [
+      `/hub/${id}`,
+      `/lesson/${id}/../../hub/cpd`,
+      `/teach/${id}/secret`,
+      `/lesson/${id}extra`,
+      `/lesson/not-${id}`,
+    ].filter(p => isStandalonePath(p))
+    ok(`${id} opens its own pages and nothing else`, leaks.length === 0, `these leaked through: ${leaks.join(' ')}`)
+  }
+  ok('the stranger module is not standalone', !isStandaloneModule(STRANGER))
+  const proxy = readFileSync(new URL('../schools/proxy.ts', import.meta.url), 'utf8')
+  ok('the proxy asks the standalone question too', /isTasterPath\(pathname\)\s*\|\|\s*isStandalonePath\(pathname\)/.test(proxy),
+    'if the proxy stops asking isStandalonePath, the link sent for a standalone lesson redirects to /unlock')
+}
+
 // ── The gated hub is still gated ────────────────────────────────────
 for (const path of ['/hub', '/hub/cpd', '/hub/policy', '/print']) {
   ok(`still gated: ${path}`, !reachableWithoutCode(path),
@@ -140,4 +181,4 @@ if (failed) {
   console.error(`\n${failed} taster wall check${failed === 1 ? '' : 's'} failed`)
   process.exit(1)
 }
-console.log(`taster wall: ${TASTER_MODULES.length} module open, everything else shut, all checks pass.`)
+console.log(`taster wall: ${TASTER_MODULES.length} taster and ${STANDALONE_MODULES.length} standalone open, everything else shut, all checks pass.`)

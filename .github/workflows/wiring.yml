@@ -200,9 +200,12 @@ jobs:
       # non zero, and rewriting a working gate to take --all is a bigger risk
       # than four lines of bash. Every lesson is named in the output, so a
       # failure says which one.
+      # content/standalone holds the lessons outside the scheme
+      # (schools/lib/taster.ts). The same contract, less the three passport
+      # rules, which the script applies by folder.
       - run: |
           fail=0
-          for f in content/modules/*.json; do
+          for f in content/modules/*.json content/standalone/*.json; do
             node scripts/check-module-contract.mjs "$f" || fail=1
           done
           exit $fail
