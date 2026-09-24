@@ -44,7 +44,9 @@ const CONTENT_WORD = /[a-z]{5,}/g
 function bank(tn, a, name) {
   const raw = (tn && tn[name]) ?? (a && a[name])
   if (Array.isArray(raw)) return raw.map(x => ({ q: x.question, format: x.format || 'tick_one', options: x.options || (x.format === 'true_false' ? ['True', 'False'] : []), answer: x.answer, why: x.teaching_point }))
-  if (raw && Array.isArray(raw.questions)) return raw.questions.map(x => ({ q: x.q, format: x.format || 'tick_one', options: x.options || [], answer: x.answer, why: x.why ?? x.feedback }))
+  // teaching_point is read in this shape too, because it is the field the
+  // print route (schools/lib/quiz.ts) puts on the answer sheet in both.
+  if (raw && Array.isArray(raw.questions)) return raw.questions.map(x => ({ q: x.q, format: x.format || 'tick_one', options: x.options || [], answer: x.answer, why: x.why ?? x.teaching_point ?? x.feedback }))
   return null
 }
 // A short answer item has no options by design; everything else needs two.
