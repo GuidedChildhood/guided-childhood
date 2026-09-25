@@ -480,3 +480,14 @@ reminders, home screen and reminders), then tomorrow. Once per family, not
 per child. Home also gets a Calendar and Alerts corner top left, before the
 children: the school page (dates, email forwarding, photo a letter) with what
 is due this week, and the alerts hub on phones. PR 1164.
+
+## 25 September 2026: school emails were never read past the subject line
+
+Justin added Gmail forwarding and no code appeared. The live table showed no
+school connection had ever caught a code, a link or an email. Resend's
+email.received webhook carries the envelope only, and the body was fetched
+from /emails/{id}, which is for sent mail; received mail is at
+/emails/receiving/{id}. Fixed for the Gmail code and for every school email
+(the extractor had been reading subjects alone). A Gmail email with no
+readable code now says so on screen. The forwarding steps are rewritten as
+two parts naming every button. PR 1164.

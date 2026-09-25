@@ -59,6 +59,7 @@ type Connection = {
   active: boolean
   verification_code: string | null
   verification_link: string | null
+  verification_received_at?: string | null
   first_email_at: string | null
   last_email_at: string | null
   emails_caught: number
@@ -443,6 +444,22 @@ export default function SchoolLetterbox() {
         </div>
       )}
 
+      {/* Gmail's email reached us but held no code or link we could read.
+          Said rather than left watching for ever (25 September 2026). */}
+      {conn.verification_received_at && !conn.verification_code && !conn.verification_link && (
+        <div data-gmail-unreadable style={{
+          background: 'var(--terracotta-lt)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+          padding: '14px 16px', marginBottom: '14px',
+        }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '6px' }}>
+            Gmail&apos;s email arrived, but the code did not come through
+          </div>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+            In Gmail, remove the forwarding address and add it again, and Gmail sends a fresh code. If it happens twice, email hello@guidedchildhood.com and we will send you the code by hand.
+          </p>
+        </div>
+      )}
+
       {/* ── THE AUTOMATIC RULE. Offered, never in the way. Matter's honesty
              about what it costs, so nobody starts it on a phone at the school
              gate and gives up halfway through. ──────────────────────────── */}
@@ -459,50 +476,74 @@ export default function SchoolLetterbox() {
 
       {showRule && (
         <div style={{ borderTop: '1px solid var(--ink-light)', paddingTop: '14px' }}>
+          {/* ── STEP BY STEP (25 September 2026) ──────────────────────────
+              Justin, after setting it up himself: "needs to be clearer step
+              by step how to add the forwarding to the school address." The
+              old four lines said what to do but not where to click, and hid
+              two separate jobs in one list: letting Gmail forward to us at
+              all, and choosing which emails. They are two parts now, every
+              step names the exact button, and the address and the school
+              sender each sit on their own line with a Copy button. */}
           <p style={bodyStyle}>
-            One rule in your email and school messages come here on their own. It takes about five minutes and is much easier on a laptop than a phone.
+            Two short parts, about five minutes. Do it on a computer: Gmail on a phone cannot make filters.
           </p>
-          {/* listStyle is set explicitly because Tailwind's preflight strips
-              markers from every ol and ul. Unnumbered, these four read as four
-              unrelated paragraphs, and the whole value of this block is that
-              they happen in order. */}
-          <ol style={{
-            margin: '0 0 14px', paddingLeft: '22px', listStyle: 'decimal',
-            fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.7,
-          }}>
-            <li style={{ marginBottom: '8px' }}>
-              In Gmail, open{' '}
-              <a href={GMAIL_FORWARDING_SETTINGS} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>
-                Forwarding and POP/IMAP
-              </a>
-              , then Add a forwarding address, and paste your address in.
-            </li>
-            <li style={{ marginBottom: '8px' }}>Gmail emails a confirmation code to it. We catch that code and show it on this screen, so you do not have to go looking for it.</li>
-            <li style={{ marginBottom: '8px' }}>
-              Then make a filter and choose Forward it to your address.
-              {conn.learned_domain
-                ? <> Put this in the From box:</>
-                : <> Put your school&apos;s address in the From box.</>}
-              {/* Its own line, with its own copy button, because this is a
-                  string that has to be typed into Gmail exactly and it was
-                  wrapping mid expression inside the sentence. */}
-              {conn.learned_domain && (
-                <span style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', margin: '8px 0 0' }}>
-                  <code style={{
-                    fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--ink)',
-                    background: 'var(--cream)', border: '1px solid var(--ink-light)',
-                    borderRadius: '8px', padding: '5px 9px', wordBreak: 'break-all',
-                  }}>
-                    from:({conn.learned_domain})
-                  </code>
-                  <button onClick={copyFilter} style={{ ...quietButton, padding: '5px 14px' }}>
-                    {filterCopied ? 'Copied' : 'Copy'}
-                  </button>
-                </span>
-              )}
-            </li>
-            <li><strong style={{ color: 'var(--ink)' }}>Leave Skip the Inbox unticked</strong>, so the school&apos;s emails still arrive with you as normal.</li>
-          </ol>
+          {(() => {
+            const li: React.CSSProperties = { marginBottom: '10px' }
+            const strong: React.CSSProperties = { color: 'var(--ink)' }
+            const head: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '4px 0 6px' }
+            const ol: React.CSSProperties = { margin: '0 0 14px', paddingLeft: '22px', listStyle: 'decimal', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65 }
+            const copyRow = (value: string, onCopy: () => void, done: boolean) => (
+              <span style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', margin: '6px 0 0' }}>
+                <code style={{
+                  fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--ink)',
+                  background: 'var(--cream)', border: '1px solid var(--ink-light)',
+                  borderRadius: '8px', padding: '5px 9px', wordBreak: 'break-all',
+                }}>{value}</code>
+                <button onClick={onCopy} style={{ ...quietButton, padding: '5px 14px' }}>{done ? 'Copied' : 'Copy'}</button>
+              </span>
+            )
+            return (
+              <div data-forwarding-steps>
+                <div style={head}>Part 1: let Gmail forward to us</div>
+                <ol style={ol}>
+                  <li style={li}>
+                    Open{' '}
+                    <a href={GMAIL_FORWARDING_SETTINGS} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>
+                      Gmail&apos;s forwarding settings
+                    </a>
+                    . Or in Gmail click the <strong style={strong}>cog</strong> at the top right, then <strong style={strong}>See all settings</strong>, then the <strong style={strong}>Forwarding and POP/IMAP</strong> tab.
+                  </li>
+                  <li style={li}>
+                    Click <strong style={strong}>Add a forwarding address</strong> and paste this in:
+                    {copyRow(conn.forward_address, copyAddress, copied)}
+                    Then click <strong style={strong}>Next</strong>, <strong style={strong}>Proceed</strong> and <strong style={strong}>OK</strong>.
+                  </li>
+                  <li style={li}>
+                    Come back to this screen. Gmail&apos;s code appears here within a minute, in a green box above.
+                  </li>
+                  <li style={li}>
+                    In Gmail, type the code into the box next to <strong style={strong}>Verify</strong> and click it. Leave <strong style={strong}>Disable forwarding</strong> ticked, so only the emails you choose next come to us.
+                  </li>
+                </ol>
+                <div style={head}>Part 2: choose the school&apos;s emails</div>
+                <ol start={5} style={ol}>
+                  <li style={li}>
+                    {conn.learned_domain
+                      ? <>Your school sends from this, so copy it:{copyRow(`from:(${conn.learned_domain})`, copyFilter, filterCopied)}</>
+                      : <>Open any email from school and copy the sender&apos;s address.</>}
+                  </li>
+                  <li style={li}>
+                    In the Gmail search bar, click the <strong style={strong}>sliders icon</strong> at its right hand end. Paste it into <strong style={strong}>From</strong>, then click <strong style={strong}>Create filter</strong>.
+                  </li>
+                  <li style={li}>
+                    Tick <strong style={strong}>Forward it to</strong>, choose your address from the list, then click <strong style={strong}>Create filter</strong>.{' '}
+                    <strong style={strong}>Leave Skip the Inbox unticked</strong>, so the school&apos;s emails still arrive with you as normal.
+                  </li>
+                  <li>That is it. The next school email lands here on its own, and the line at the top of this card changes to say so.</li>
+                </ol>
+              </div>
+            )
+          })()}
           <p style={{ ...bodyStyle, marginBottom: 0 }}>
             Outlook and the rest do the same thing under Rules: forward messages from your school to your address.
           </p>
