@@ -690,8 +690,8 @@ export default function StarterPackPage() {
                   counting: it names what is asked for, which stays true
                   whatever the form does next. This whole day has been about
                   screens that say things that are nearly true. */}
-              {oneTap ? 'One tap and it is yours, with four days of everything free. No card.'
-                      : 'Your email and a password, and it is yours. Four days of everything free, no card.'}
+              {oneTap ? 'One tap and it is yours, with seven days of everything free. No card.'
+                      : 'Your email and a password, and it is yours. Seven days of everything free, no card.'}
             </p>
 
             {/* Above the email, not below it. The Mobbin sweep of account

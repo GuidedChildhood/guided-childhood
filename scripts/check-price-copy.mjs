@@ -26,7 +26,7 @@ const read = p => { try { return readFileSync(p, 'utf8') } catch { return '' } }
 const FOUNDER = '7.99'
 const STANDARD = '12.99'
 const ANNUAL = '99'
-const TRIAL_DAYS = 4
+const TRIAL_DAYS = 7
 const FOUNDER_CAP = 50
 
 let failures = 0
@@ -58,8 +58,8 @@ check('the reveal invents no other price', stray.length === 0, stray.join(', '))
 
 // The trial length, and the cap, said the same way everywhere they are said.
 const access = read('lib/access.ts')
-check(`TRIAL_DAYS is still ${TRIAL_DAYS}`, new RegExp(`TRIAL_DAYS\\s*=\\s*${TRIAL_DAYS}\\b`).test(access), 'the reveal says four days in prose')
-check('the reveal says four days', /four days/i.test(reveal))
+check(`TRIAL_DAYS is still ${TRIAL_DAYS}`, new RegExp(`TRIAL_DAYS\\s*=\\s*${TRIAL_DAYS}\\b`).test(access), 'the reveal says seven days in prose')
+check('the reveal says seven days', /seven days/i.test(reveal))
 
 const stripe = read('lib/stripe/index.ts')
 check(`FOUNDER_CAP is still ${FOUNDER_CAP}`, new RegExp(`FOUNDER_CAP\\s*=\\s*${FOUNDER_CAP}\\b`).test(stripe))

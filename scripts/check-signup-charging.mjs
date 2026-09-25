@@ -17,6 +17,7 @@
 //
 // Usage: node --experimental-strip-types scripts/check-signup-charging.mjs
 
+import { readFileSync } from 'node:fs'
 import { inStarterTrial, hasFullAccess, needsPlanChoice, trialDaysToGrant, TRIAL_DAYS } from '../lib/access.ts'
 
 let failures = 0
@@ -140,12 +141,17 @@ check('an outright purchase is never handed a sample of what it just bought',
 //
 // The rule from the pre charge pass in app/api/email/cron/route.ts, restated:
 // path one only, two whole days elapsed, and the trial not yet over.
+// Since 25 September 2026 also: three days or fewer left, so a seven day
+// trial is reminded on day five rather than with five days still to run.
 const PRECHARGE_AFTER_DAYS = 2
+const PRECHARGE_DAYS_LEFT = 3
 const daysSince = iso => Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
+const daysLeft = iso => Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000)
 function prechargeDue(p) {
   if (p.plan_choice !== 'founder') return false
   if (!p.trial_started_at || !p.trial_ends_at) return false
   if (daysSince(p.trial_started_at) < PRECHARGE_AFTER_DAYS) return false
+  if (daysLeft(p.trial_ends_at) > PRECHARGE_DAYS_LEFT) return false
   return new Date(p.trial_ends_at).getTime() > Date.now()
 }
 
@@ -157,6 +163,15 @@ check('day 3 email · not on day two',
 
 check('day 3 email · yes on day three, with a day still to run',
   prechargeDue({ plan_choice: 'founder', trial_started_at: agoDays(2), trial_ends_at: inDays(2) }) === true)
+
+check('seven days · not on day three, with five still to run',
+  prechargeDue({ plan_choice: 'founder', trial_started_at: agoDays(2), trial_ends_at: inDays(5) }) === false)
+check('seven days · yes on day five, with two whole days before the charge',
+  prechargeDue({ plan_choice: 'founder', trial_started_at: agoDays(4), trial_ends_at: inDays(3) }) === true)
+
+const cronSrc = readFileSync('app/api/email/cron/route.ts', 'utf8')
+check('the cron carries the same three days left rule',
+  /const PRECHARGE_DAYS_LEFT = 3/.test(cronSrc) && /> PRECHARGE_DAYS_LEFT\) continue/.test(cronSrc))
 
 // A missed cron run must not mean a silent charge, which is the exact outcome
 // the consumer act rule exists to prevent.

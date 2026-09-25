@@ -36,7 +36,10 @@ export type GuardVerdict =
  * The cost of failing open is a duplicate email on a bad day. The cost of
  * failing closed is a dead programme nobody notices for a month.
  */
-export async function maySendProgramme(address: string): Promise<GuardVerdict> {
+export async function maySendProgramme(address: string, opts: { floor?: boolean } = {}): Promise<GuardVerdict> {
+  // floor false is the trial clock (see EmailKind in ./index): suppression
+  // still applies, the six day spacing does not.
+  const floor = opts.floor ?? true
   const addr = normaliseAddress(address)
   if (!addr) return { allowed: true }
 
@@ -51,7 +54,7 @@ export async function maySendProgramme(address: string): Promise<GuardVerdict> {
 
     if (data.suppressed_at) return { allowed: false, reason: 'suppressed' }
 
-    if (!dueAgain(data.last_sent_at as string | null)) {
+    if (floor && !dueAgain(data.last_sent_at as string | null)) {
       return { allowed: false, reason: 'too_soon', lastSentAt: String(data.last_sent_at) }
     }
     return { allowed: true }

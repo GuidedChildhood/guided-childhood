@@ -90,9 +90,16 @@ const ALLOWED_OPT_OUTS = {
   'app/api/scripts/request/route.ts': 'operational',
   'app/api/keepsakes/interest/route.ts': 'operational',
   'app/api/keepsakes/interest/test/route.ts': 'operational',
+  'app/api/cron/platform-watch/route.ts': 'operational',       // platform changes to review
+  'app/api/devices/family/route.ts': 'operational',            // an unlisted device, no family details
+  // The school's own confirmation of the invoice they asked for, and the lead
+  // note to us. Listed 25 September 2026 when the guard was found failing on
+  // these four files: each had shipped without coming here first.
+  'app/api/cron/invoice-requests/route.ts': 'both',
   // A parent is waiting for this one right now.
   'app/api/magnet/route.ts': 'transactional',            // the file they just asked for
   'app/api/school/remind/route.ts': 'transactional',     // a reminder they set up, about tomorrow
+  'app/api/school/connect/email-me/route.ts': 'transactional', // the connect steps they just asked us to email
   'app/api/stripe/webhook/route.ts': 'both',             // their receipt, and the fulfilment desk
   // The welcome used to be here, exempt from the floor because it goes out
   // thirty seconds after signing up. It sends as programme now, on Justin's
@@ -102,7 +109,10 @@ const ALLOWED_OPT_OUTS = {
   // two days. This list is the record of what is deliberately outside the
   // floor, so an entry for a file that no longer opts out is a lie about the
   // policy, and this check is right to say so.
-  'app/api/email/cron/route.ts': 'transactional',        // the past due card warning only
+  // The past due card warning (transactional), and since 25 September 2026
+  // the trial clock (trial): the welcome, days two to four and the trial
+  // ending note, inside the free days only. Justin: "yes, on the trial clock".
+  'app/api/email/cron/route.ts': 'transactional and trial',
 }
 
 const EXT = new Set(['.ts', '.tsx'])
@@ -132,7 +142,7 @@ for (const file of [...walk('app'), ...walk('lib')]) {
   // due warning, which opts out by passing 'transactional' positionally to a
   // local deliver helper. A detector that only sees one spelling of an opt out
   // is a detector that reports a clean sheet while an opt out sits in the file.
-  const kinds = [...source.matchAll(/'(operational|transactional)'/g)].map(m => m[1])
+  const kinds = [...source.matchAll(/'(operational|transactional|trial)'/g)].map(m => m[1])
   if (kinds.length > 0) optOuts.set(file, [...new Set(kinds)].sort().join(' and '))
 }
 
@@ -148,6 +158,35 @@ for (const [file, kinds] of [...optOuts].sort()) {
 // something it was never meant to.
 for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
   check(`  ${file} still opts out`, optOuts.has(file), optOuts.has(file) ? '' : 'stale entry, remove it')
+}
+
+// ── THE TRIAL CLOCK SKIPS THE FLOOR, NEVER THE UNSUBSCRIBE ──────────────────
+//
+// 'trial' mail exists so the free days' emails can land on their days. What
+// it must never do is reach somebody who asked us to stop, and it must never
+// grow past the five emails Justin agreed on 25 September 2026.
+{
+  const idx = readFileSync('lib/email/index.ts', 'utf8')
+  const guard = readFileSync('lib/email/address-guard.ts', 'utf8')
+  check('trial mail still passes the suppression check',
+    /kind === 'programme' \|\| kind === 'trial'\) \{\s*const verdict = await maySendProgramme/.test(idx))
+  check('and only the floor is lifted for it',
+    /floor: kind === 'programme'/.test(idx) && /if \(floor && !dueAgain/.test(guard))
+  check('suppression is read before the floor',
+    guard.indexOf('suppressed_at) return') < guard.indexOf('if (floor && !dueAgain'))
+  check('and a trial send is recorded so the weekly programme counts on from it',
+    /kind === 'programme' \|\| kind === 'trial'\) await recordProgrammeSend/.test(idx))
+
+  const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
+  const TRIAL_KEYS = ['welcome', 'day2-stage', 'day3-tour', 'day4-digi', 'trial-ending']
+  // Every deliver( call that passes trialKind or 'trial', by its email key.
+  const onClock = [...cron.matchAll(/deliver\(profile\.id, profile\.email, '([a-z0-9-]+)'[\s\S]*?\), '[A-Za-z0-9]+', (trialKind|'trial')\)/g)].map(m => m[1])
+  check('the trial clock carries exactly the five agreed emails',
+    onClock.length === TRIAL_KEYS.length && TRIAL_KEYS.every(k => onClock.includes(k)), onClock.join(', '))
+  check('trialKind falls back to programme outside the free days',
+    /const trialKind: EmailKind = trialClock \? 'trial' : 'programme'/.test(cron))
+  check('trial ending runs before Pass A so a drip cannot take its slot',
+    cron.indexOf("'trial-ending', trialEndingEmail") < cron.indexOf('// ── Pass A'))
 }
 
 // ── AND THE DEFAULT IS THE SAFE ONE ─────────────────────────────────────────

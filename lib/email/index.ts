@@ -114,8 +114,17 @@ export function starterCtaUrl(email: string): string {
  *                 reports, the founder desk. Throttling our own alarms would be
  *                 daft and suppressing them impossible, since there is nobody
  *                 to unsubscribe.
+ *
+ * 'trial'         the handful of emails that ride the free trial's own clock:
+ *                 the welcome, days two to four and the trial ending note.
+ *                 Justin, 25 September 2026, "yes, on the trial clock". Under
+ *                 the floor the welcome held day two back six days, so the
+ *                 trial ending email could never land inside the trial. These
+ *                 skip the floor but NOT suppression, so an unsubscribe still
+ *                 holds, and they record the send so the weekly programme
+ *                 counts on from them. The cron decides which sends qualify.
  */
-export type EmailKind = 'programme' | 'transactional' | 'operational'
+export type EmailKind = 'programme' | 'trial' | 'transactional' | 'operational'
 
 export async function sendEmail(params: {
   to: string
@@ -140,8 +149,8 @@ export async function sendEmail(params: {
   // to the callers: a programme that treats a failed send as "try again
   // tomorrow" will roll its own ledger back and retry, which is precisely the
   // right behaviour here. It is not an error, it is a not yet.
-  if (kind === 'programme') {
-    const verdict = await maySendProgramme(params.to)
+  if (kind === 'programme' || kind === 'trial') {
+    const verdict = await maySendProgramme(params.to, { floor: kind === 'programme' })
     if (!verdict.allowed) return { ok: false, skipped: verdict.reason, error: verdict.reason }
   }
 
@@ -153,7 +162,7 @@ export async function sendEmail(params: {
       html: params.html,
     })
     if (error) return { ok: false, error: error.message }
-    if (kind === 'programme') await recordProgrammeSend(params.to, params.key)
+    if (kind === 'programme' || kind === 'trial') await recordProgrammeSend(params.to, params.key)
     return { ok: true }
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : 'send failed' }
