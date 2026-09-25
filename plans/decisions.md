@@ -511,3 +511,12 @@ Alma's phone. The line read the page's child, not the picked one, and never
 asked whether that child had a phone. It now names whoever is picked, and a
 child with no app on a phone (no link, or marked no phone) gets "Teo has no
 phone yet, so this stays on your calendar" and nothing is sent. PR 1164.
+
+## 25 September 2026: the pathway build reveals line by line on every phone
+
+Justin: the "Building your pathway" screen used to bring its lines in one by
+one and now showed them all at once. The reveal was a CSS keyframe, and
+globals.css turns every animation off under reduced motion, so those phones
+got all three at once. It is a timer now (0.15s, 0.95s, 1.75s); reduced
+motion only drops the slide. Also ran migrations 353 and 354 on the live
+database, with Justin's yes.
