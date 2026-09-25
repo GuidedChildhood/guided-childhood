@@ -460,3 +460,12 @@ schools and shows signed up, card on still free, and paying per school
 (a card trial is not counted as paying). Migration 353, its own table, not the
 paid licence. check-school-link guards it. PR 1164.
 
+## 25 September 2026: a second standalone lesson, on being an entrepreneur
+
+Justin saw "What problem would you solve?" and asked for more on being an
+entrepreneur: the benefits, how to become one, and the ways to look at work.
+The first lesson already runs an hour, so this becomes a second standalone
+lesson that follows it (working title "Could you be an entrepreneur?", Years
+8 and 9). It covers the ways to work, the honest upsides and risks with ONS
+figures, and what is allowed under 18. It is built after today's flagged
+lesson checks. The sketch is in plans/2026-09-24-simon-squibb-weighed.md.
