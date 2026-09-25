@@ -21,6 +21,29 @@ const STEP_ICON: Partial<Record<StepKey, HappyIconName>> = {
 }
 import { KID_DAY_EVENT, type PrintableTick } from '@/lib/kid/print-anywhere'
 
+// WHY THIS STEP, IN ONE LINE (25 September 2026). Justin: the home screen
+// should run a child through the five "step by step" with "encouragement for
+// safe device use". Each step already says WHAT to do (its hint). This says
+// why it is part of a good day with screens in it, under the live step only,
+// so there is one line of encouragement at a time rather than five.
+const STEP_CHEER: Partial<Record<StepKey, string>> = {
+  jobs: 'Jobs first, then screens. Every job you finish earns stars for your timer.',
+  lesson: 'Knowing how screens work keeps you the boss of them.',
+  quiz: 'A quick brain check. Being smart online starts here.',
+  balance: 'A good day has some screen and lots of real life.',
+  ask: 'Your ideas count. Asking is how the deal stays fair.',
+  reading: 'Screens off, book open. Your brain loves a story.',
+  homework: 'Homework first, then screen time with nothing hanging over you.',
+  printable: 'Hands busy, screen off. That is a proper break.',
+  move: 'Your body needs a break from screens. Go and move!',
+  maths: 'Numbers in your head, not on a screen.',
+  tidy: 'A tidy room makes a calm head.',
+  make: 'Making beats scrolling. What will you make today?',
+  kind: 'Being kind offline makes you kinder online too.',
+  talk: 'Talking with your grown up is how you stay safe online.',
+  grownup_break: 'Phones down together. Grown ups need a break too.',
+}
+
 // The five a day card: the whole of a child's day, one step at a time.
 //
 // Justin, 9 August 2026: "Tap to open one at a time: do the first, the second
@@ -472,14 +495,38 @@ export default function KidFiveADay({
         </span>
       </div>
 
-      {/* One bar for the whole day. A child reads the row of ticks first and the
-          bar second, so it stays thin and quiet. */}
-      <div style={{ height: 8, borderRadius: 'var(--radius-pill)', background: 'var(--cream)', overflow: 'hidden', margin: '8px 0 14px' }}>
-        <div style={{
-          width: `${Math.round((doneCount / total) * 100)}%`, height: '100%',
-          background: t.hex, borderRadius: 'var(--radius-pill)', transition: 'width 0.35s ease',
-        }} />
-      </div>
+      {/* THE DAY AS NUMBERED STEPS, NOT A BAR (25 September 2026). Justin:
+          "so they easily know what to do step by step ... so they know each
+          job tick off." A thin bar says how far; a row of numbered circles
+          says which one you are on and how many are left, and each one turns
+          into a tick as it lands. Done is green with a tick, the live one is
+          butter and raised, the rest wait quietly with their number. */}
+      <ol aria-label={`Step ${Math.min(doneCount + 1, total)} of ${total}`} style={{ listStyle: 'none', display: 'flex', alignItems: 'center', gap: 0, margin: '10px 0 14px', padding: 0 }}>
+        {state.steps.map((k, i) => {
+          const done = state.done.includes(k)
+          const live = !done && k === state.steps.find(x => !state.done.includes(x))
+          return (
+            <li key={k} style={{ display: 'flex', alignItems: 'center', flex: i < total - 1 ? '1 1 0' : '0 0 auto' }}>
+              <span aria-hidden style={{
+                width: 32, height: 32, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)', lineHeight: 1,
+                background: done ? 'var(--retro-green)' : live ? 'var(--terracotta)' : '#fff',
+                color: done ? '#fff' : live ? 'var(--ink)' : 'var(--ink-muted)',
+                border: done || live ? 'var(--edge)' : '2px dashed rgba(26,26,46,0.22)',
+                boxShadow: live ? '0 3px 0 var(--ink)' : 'none',
+                transform: live ? 'translateY(-2px)' : 'none',
+                transition: 'background 0.2s ease',
+              }}>
+                {done ? '✓' : i + 1}
+              </span>
+              {i < total - 1 && (
+                <span aria-hidden style={{ flex: 1, height: 3, margin: '0 4px', borderRadius: 2, background: done ? 'var(--retro-green)' : 'rgba(26,26,46,0.10)' }} />
+              )}
+            </li>
+          )
+        })}
+      </ol>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {/* THE ONE LIVE STEP, NAMED SO A CHILD KNOWS IT IS THE WAY IN.
@@ -493,7 +540,7 @@ export default function KidFiveADay({
           letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
           margin: '0 2px 2px',
         }}>
-          {doneCount === 0 ? 'Start here' : 'Do this next'}
+          {doneCount === 0 ? `Start here · step 1 of ${total}` : `Do this next · step ${doneCount + 1} of ${total}`}
         </p>
         {/* The ONE live step. The next appears when this lands. */}
         {(() => {
@@ -616,6 +663,24 @@ export default function KidFiveADay({
             <button key={key} onClick={() => { playKidSound('tap'); setSheet(key) }} disabled={busy === key} style={rowStyle}>
               {inner}
             </button>
+          )
+        })()}
+
+        {/* The why for the live step, one line, in the child's Friend's voice
+            colour. See STEP_CHEER. */}
+        {(() => {
+          const key = state.steps.find(k => !state.done.includes(k))
+          const line = key ? STEP_CHEER[key] : null
+          if (!line) return null
+          return (
+            <p data-step-cheer style={{
+              display: 'flex', alignItems: 'flex-start', gap: 8, margin: '2px 0 0',
+              background: 'var(--tint-sage)', borderRadius: 'var(--radius-tile)', padding: '9px 12px',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4,
+            }}>
+              <span aria-hidden style={{ flexShrink: 0 }}>🌱</span>
+              <span>{line}</span>
+            </p>
           )
         })()}
 

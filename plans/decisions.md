@@ -400,3 +400,13 @@ Justin, photo of the bucket list builder: "print option here hidden by tabs".
 Its Print it bar was fixed to bottom 0 under the kid tab bar added on 15
 September. KidTabBar now publishes its height as --kid-tabs-h and the bar is
 sticky just above it. check-kid-chrome guards both. PR 1161.
+
+## 25 September 2026: the child's home runs the five a day first
+
+Justin: the child's home should run with the five a day, step by step, less
+cluttered. While the day runs, the tiles, balance card, goal bars, holiday line
+and the quests scene fold behind one More things to do; the diary, greeting,
+ask, five a day, what a grown up sent, Use my time and Telling a grown up stay.
+A live timer always shows. The five a day gains numbered step circles, "step 3
+of 5", and one line per step on why it helps a day with screens in it.
+Guarded as rule Q in check-stickers-land. PR 1161.
