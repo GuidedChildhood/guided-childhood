@@ -439,3 +439,13 @@ done (what you did), the streak with the flame, then what happens next
 (tomorrow's focus, and what is left today only if there is time). Held in
 sessionStorage until closed; the full path close is unchanged. check-today-tick
 guards it. PR 1161.
+
+## 25 September 2026: a second standalone lesson, on being an entrepreneur
+
+Justin saw "What problem would you solve?" and asked for more on being an
+entrepreneur: the benefits, how to become one, and the ways to look at work.
+The first lesson already runs an hour, so this becomes a second standalone
+lesson that follows it (working title "Could you be an entrepreneur?", Years
+8 and 9). It covers the ways to work, the honest upsides and risks with ONS
+figures, and what is allowed under 18. It is built after today's flagged
+lesson checks. The sketch is in plans/2026-09-24-simon-squibb-weighed.md.

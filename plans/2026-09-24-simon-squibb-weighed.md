@@ -140,3 +140,44 @@ flagged lesson checks. Those resume tomorrow as planned; today's batch is done.
 5. **Verified before Justin sees it:** the module contract, wall fit on every
    slide, the source claims pinned, and a render at 390 and 1440 in the real
    player.
+
+## Justin's decision 5, 25 September 2026: a second lesson on being an entrepreneur
+
+Justin, after seeing the first lesson: "is there not more advice we could add
+about are you an entrepreneur, benefits, how to be one, one way to look at
+work?" The first lesson already runs an hour, so this becomes a **second
+standalone lesson** that follows it, free at its own link in the same way.
+Built **after** the flagged lesson checks due today (ks4-16, ks4-18, ks2-07).
+It claims a migration number and a draft PR when the build starts.
+
+**Working title:** Could you be an entrepreneur? Years 8 and 9, so the two
+lessons can be taught back to back.
+
+**What it would teach** (a sketch; every line gets a source before it ships):
+1. What an entrepreneur is: someone who spots a problem and takes on the risk
+   of fixing it, usually for money. The myths the first lesson already
+   answers: you need money, you need a big idea, you are born one.
+2. The ways to work: a job, working for yourself, running a business that
+   employs people, freelance, and a job with a side project.
+3. The honest upsides and the risks, with real figures. The questions it needs
+   answered: how many new UK businesses are still running after five years,
+   how many people work for themselves, and what the research says about
+   independence, satisfaction and income. Read in the original, not a summary.
+4. Entrepreneurial inside a job: the three moves at work, where spotting a
+   problem and fixing it is how people get noticed.
+5. What you can do under 18: the part time work rules (from 14) already
+   verified for lesson one, money from platforms going through a parent, and
+   anything else checked on gov.uk.
+6. "Is it for me?": try a small version and notice what you enjoy. No
+   personality test and no label, because the evidence on an entrepreneur
+   "type" is weak, and a quiz would pretend otherwise.
+
+**Sources to read before any slide is written:** ONS business demography
+(survival), ONS labour force figures (self employment), the peer reviewed work
+on entrepreneurs' wellbeing and on whether entrepreneurship education changes
+skills or intentions (for example the meta analysis by Martin, McNally and Kay,
+2013, and the Dutch mini company trial by Oosterbeek and colleagues, 2010,
+both to be checked in the original), and gov.uk for anything about under 18s.
+
+**It will not:** rank starting a business above a job or university, promise
+income, use Simon Squibb's unsourced figures, or put his name on the slides.
