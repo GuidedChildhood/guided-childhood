@@ -410,3 +410,16 @@ ask, five a day, what a grown up sent, Use my time and Telling a grown up stay.
 A live timer always shows. The five a day gains numbered step circles, "step 3
 of 5", and one line per step on why it helps a day with screens in it.
 Guarded as rule Q in check-stickers-land. PR 1161.
+## 24 September 2026: the standalone lesson is built, and opens free at its own link
+
+Built ahead of the flagged lesson checks because Justin asked to see it; those
+resume tomorrow. "What problem would you solve?" is live in production
+(migration 348, hash proved): Years 8 and 9, 30 slides, Orbit, three moves
+(name a problem, ask three people you know, build the smallest version), with
+AI as the checker and never the judge. Every figure is read from its primary:
+the WEF employer survey (47 percent of tasks by people alone today, about a
+third expected by 2030) and each platform's own 18 plus rules behind the one
+safety question. Free to anyone at /lesson/what-problem-would-you-solve, live
+now. The guards read content/standalone rather than skip it. Main holds two 348
+files (this and PR 1157's grants): the database keys migrations by timestamp,
+so nothing clashes, and 349 is next. PR 1158, and the follow up for the guard.

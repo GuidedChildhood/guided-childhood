@@ -53,12 +53,12 @@ export type IntroCharacter = {
 //
 // This is the middle two. A deck's own `line` on the title slide still wins,
 // which is how the DSL modules stay quiet.
+//
+// A title that already ends a sentence keeps its own mark, so "Is it doing my
+// thinking?" is not billed as "Is it doing my thinking?." on the wall.
 export function introHello(c: IntroCharacter, title: string): string {
-  // A title that already ends a sentence keeps its own mark, so "Is it doing
-  // my thinking?" is not billed as "Is it doing my thinking?." on the wall.
-  const t = title.trim()
-  const today = /[?!.]$/.test(t) ? t : `${t}.`
-  return `${c.welcome} Today: ${today} ${c.tail}`
+  const mark = /[?!.]\s*$/.test(title) ? '' : '.'
+  return `${c.welcome} Today: ${title}${mark} ${c.tail}`
 }
 
 export const INTRO_CHARACTERS: Record<CharacterKey, IntroCharacter> = {
