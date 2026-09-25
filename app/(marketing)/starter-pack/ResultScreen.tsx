@@ -315,7 +315,7 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
           href={enterHref}
           onClick={onJoin}
           label={onJoin ? `Save ${kid ? `${kid}'s` : 'this'} pathway` : needsConfirm ? 'Check your email' : 'Finish setting up'}
-          note="Free for seven days. No card."
+          note="Free for four days. No card."
         />
       )}
       {/* How far down the page they are, a hairline under the status bar. */}
@@ -748,9 +748,9 @@ export default function ResultScreen({ stage, accent, challenge, worry, worries,
               component and this screen is a client one. If they move, the
               guard in scripts/check-price-copy will fail. */}
           <p style={{ textAlign: 'center', marginTop: 12, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55 }}>
-            Everything open for seven days. No card to start, so nothing can charge you by accident.
+            Everything open for four days. No card to start, so nothing can charge you by accident.
             After that it is <strong>£7.99 a month</strong> at the founder rate, held for life and
-            limited to the first fifty, then £12.99. We will email you before the seven days are up,
+            limited to the first fifty, then £12.99. We will email you before the four days are up,
             not after.
           </p>
           <p style={{ textAlign: 'center', marginTop: 8, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>

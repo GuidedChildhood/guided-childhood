@@ -1,11 +1,11 @@
-# Trial clock, seven day trial, school family pass pilot (25 September 2026)
+# Trial clock emails, and the school family pass question (25 September 2026)
 
 Justin's answers after the Duolingo research review:
 
 - After the trial: lock everything, as now. No change.
 - Trial emails: yes, on the trial clock.
-- Trial: seven days, card for Founder.
-- Target: pilot a school family pass.
+- Trial: first seven days, then Justin kept FOUR (same morning). Card for Founder already true.
+- Target: a school family pass. Now undecided; see section 3.
 
 ## 1. Trial emails on the trial clock (build now)
 
@@ -19,23 +19,16 @@ trial ending email can never land. Fix:
 - The email cron uses it for welcome, day2-stage, day3-tour, day4-digi and
   trial-ending, only while the account is inside its trial window (so an old
   account missing one of them never gets it unthrottled).
-- trial-ending moves ahead of Pass A so the one email per run slot cannot be
-  taken by a drip.
-- The Founder pre charge reminder fires at three days left (and never before
-  day three), which is day three of four and day five of seven.
+- Four days reads: welcome day 0, stage day 2, trial ending day 3. On the
+  last day trial ending goes first so a drip cannot take the run's slot.
 - scripts/check-email-guard.mjs lists the new opt out and proves the
   suppression check still runs for it.
 
-## 2. Seven day trial (build now, Justin runs one migration)
+## 2. Trial length: stays four days
 
-- lib/access.ts TRIAL_DAYS 4 to 7 (the fallback and the created_at floor).
-- Migration 353 sets platform_config.trial_days to 7. The live number moves
-  only when Justin runs it. Live DB writes need his OK.
-- Copy that spells "four days" reads the constant through a words helper.
-- Card for Founder: already true (payment_method_collection 'always'). No change.
-- trial-pushes cron: its window already covers three, two and one days left.
+No change to TRIAL_DAYS, platform_config or copy. No migration.
 
-## 3. School family pass pilot (plan only, nothing built)
+## 3. School family pass (undecided, nothing built)
 
 Today the school licence covers the curriculum in class. The pass would give
 every family at a pilot school the parent app, paid by the school.

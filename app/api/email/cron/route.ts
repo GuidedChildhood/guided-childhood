@@ -260,19 +260,12 @@ async function handler(req: NextRequest) {
   // rather than never. The trial_ends_at guard keeps late honest: once the
   // charge has happened a reminder about it is not a reminder, and the
   // email_log key stops it going twice.
-  //
-  // THE SEVEN DAY TRIAL (25 September 2026) keeps the same notice rather than
-  // the same day number: the reminder goes with three days or fewer left, and
-  // never before day three. Four free days still send on day three as above;
-  // seven send on day five, which leaves two whole days before the charge.
   const PRECHARGE_AFTER_DAYS = 2
-  const PRECHARGE_DAYS_LEFT = 3
   for (const profile of (profiles ?? []) as ProfileRow[]) {
     if (!profile.email) continue
     if (profile.plan_choice !== 'founder') continue
     if (!profile.trial_started_at || !profile.trial_ends_at) continue
     if (daysSince(profile.trial_started_at) < PRECHARGE_AFTER_DAYS) continue
-    if ((trialDaysLeft(profile.trial_ends_at) ?? 0) > PRECHARGE_DAYS_LEFT) continue
     if (new Date(profile.trial_ends_at).getTime() <= Date.now()) continue
     if (alreadySent(profile.id, 'founder-precharge')) continue
 
@@ -344,15 +337,17 @@ async function handler(req: NextRequest) {
       : days <= TRIAL_DAYS
     const trialKind: EmailKind = trialClock ? 'trial' : 'programme'
 
-    // Trial ending goes FIRST, ahead of Pass A, because deliver() gives one
-    // email per person per run and this is the one with a deadline. Its old
-    // place in Pass B let the day four email take the slot on the same run.
-    if (state === 'trial_ending' && !alreadySent(profile.id, 'trial-ending')) {
-      const left = trialDaysLeft(profile.trial_ends_at) ?? 1
-      await deliver(profile.id, profile.email, 'trial-ending', trialEndingEmail({
-        childName, daysLeft: Math.max(1, left), unsubscribe,
-      }), 'trialEnding', 'trial')
-    }
+    // Trial ending on the LAST day goes first, ahead of Pass A, because
+    // deliver() gives one email per person per run and this is the one with a
+    // deadline. Earlier in the window (two days left) it waits its turn in
+    // Pass B, so day two's stage email still lands on day two. With four free
+    // days that reads: welcome day 0, stage day 2, trial ending day 3.
+    const trialEndingDue = state === 'trial_ending' && !alreadySent(profile.id, 'trial-ending')
+    const trialEndingLeft = trialDaysLeft(profile.trial_ends_at) ?? 1
+    const sendTrialEnding = () => deliver(profile.id, profile.email!, 'trial-ending', trialEndingEmail({
+      childName, daysLeft: Math.max(1, trialEndingLeft), unsubscribe,
+    }), 'trialEnding', 'trial')
+    if (trialEndingDue && trialEndingLeft <= 1) await sendTrialEnding()
 
     // ── Pass A · the 26 week onboarding programme ──
     //
@@ -538,8 +533,9 @@ async function handler(req: NextRequest) {
     // joined last week. Trial nurture stops on payment (an active member is
     // never in trial_ending or lapsed) and win back starts on lapse.
 
-    // trial-ending used to sit here. It runs above Pass A now, on the trial
-    // clock. See THE TRIAL CLOCK.
+    // Trial ending with two days left, if nothing else took this run's slot.
+    // On the last day it has already gone above Pass A. See THE TRIAL CLOCK.
+    if (trialEndingDue) await sendTrialEnding()
 
     if (state === 'lapsed' && !alreadySent(profile.id, 'winback-1')) {
       // Give it a couple of days after the lapse so it does not land the same

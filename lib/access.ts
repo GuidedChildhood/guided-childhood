@@ -1,15 +1,14 @@
 // Full access to Guided Childhood: an active subscription, or a short free
 // trial that has not yet passed. One helper so every feature gate agrees.
 
-// Justin, 25 September 2026, after the Duolingo review: "7 days, card for
-// Founder". It had been four since August, on the argument that the daily
-// proof happens in the first two or three days and a longer trial only adds
-// days for the habit to go quiet. The review found the other side of that: a
-// four day trial never reached a weekend for most families, and the emails
-// that were meant to carry a family through it were held back by the one a
-// week floor, so the trial ending note could not land at all. Those emails
-// ride the trial clock now (see EmailKind in lib/email), which is what makes
-// the longer trial worth having.
+// Justin: "it should be 4 days free not 7".
+//
+// Four rather than seven because the thing this trial has to prove happens
+// daily. A parent who is going to get it gets it in the first two or three
+// days: they set a job, the child ticks it, they say yes, the minutes land.
+// Seven days does not add a fifth proof, it adds four days for the habit to go
+// quiet in, and a trial that ends after the family has already drifted converts
+// worse than one that ends while they are still in it.
 //
 // Changing this number changes the Stripe checkout's trial_period_days too, so
 // the card and the app can never disagree about when it runs out.
@@ -32,7 +31,7 @@
 // checks both import it, and neither can await a database. Everything here
 // reads a date that was already written, so only the routes that GRANT the
 // trial need the config value.
-export const TRIAL_DAYS = 7
+export const TRIAL_DAYS = 4
 
 export type AccessProfile = {
   subscription_status?: string | null
@@ -138,14 +137,14 @@ export function hasFullAccess(profile: AccessProfile | null | undefined, email?:
   // false. A missing value was being treated as an expired one.
   //
   // Those are opposite meanings and only one of them is ever true of a row that
-  // was created minutes ago. The rule Justin states is that the free days
+  // was created minutes ago. The rule Justin states is that the four free days
   // start AT SIGNUP, whichever door they take: "a new user can sign up there for
   // founder rate and gets 4 days free after signing up, or has the chance to not
   // sign up and pay and continue on 4 day trial."
   //
   // created_at is the one date that cannot be missing, so it is the floor. A
-  // parent gets their free days from the moment the account existed even if
-  // nothing ever wrote trial_ends_at, and after those days they are
+  // parent gets their four days from the moment the account existed even if
+  // nothing ever wrote trial_ends_at, and after those four days they are
   // blocked and offered the subscription exactly as before. The grant write is
   // still worth having, because it is what a founder checkout moves; this only
   // stops its absence costing a parent the product on their first evening.
@@ -264,12 +263,12 @@ export function needsPlanChoice(profile: AccessProfile | null | undefined): bool
 }
 
 /**
- * Are the free days running right now?
+ * Are the four free days running right now?
  *
  * THE ONE RULE THE WHOLE TRIAL TURNS ON, and it is deliberately blind to which
  * path they took. Justin, 14 August 2026: "The trial itself is identical: 4
  * days inside the platform with DiGi on a daily limit and a starter set of
- * scripts." Both paths, same free days, same limits.
+ * scripts." Both paths, same four days, same limits.
  *
  * So the founder is limited too, and that is not an oversight. Their card is
  * on file and their subscription_status reads 'active', because Stripe says
@@ -296,7 +295,7 @@ export function inStarterTrial(profile: AccessProfile | null | undefined): boole
 /**
  * Whole free days still owed, for Stripe's trial_period_days.
  *
- * The founder door is taken DURING the free days, so charging the full trial from
+ * The founder door is taken DURING the free days, so charging four more from
  * that moment would quietly hand out a longer trial than the copy promises,
  * and passing nothing would charge a card on a day the parent was told was
  * free. Either way the screen and the receipt disagree, which is the fault
@@ -308,10 +307,10 @@ export function inStarterTrial(profile: AccessProfile | null | undefined): boole
  * route can mint a longer trial than the product offers.
  *
  * Taken at the end of sign up, which is where the choice lives now, the clock
- * has been running for seconds and this returns the full trial. It still earns
+ * has been running for seconds and this returns the full four. It still earns
  * its keep for the parent who closes the tab on the choice screen and comes
  * back on day three: the middleware puts the same choice back in front of
- * them, and without this they would be handed a fresh trial on top of the
+ * them, and without this they would be handed four fresh days on top of the
  * three they have already had.
  *
  * maxDays is injectable because the length is platform_config.trial_days now,
@@ -329,7 +328,7 @@ export function trialDaysToGrant(
   return Math.min(maxDays, Math.max(1, days))
 }
 
-// ── WHAT STAYS OPEN WHEN THE FREE DAYS ARE UP ───────────────────────────────
+// ── WHAT STAYS OPEN WHEN THE FOUR DAYS ARE UP ───────────────────────────────
 //
 // Justin, 11 August 2026, asked whether the free daily path went behind the
 // paywall too: "yes everything is behind the paywall after 4 days and if not

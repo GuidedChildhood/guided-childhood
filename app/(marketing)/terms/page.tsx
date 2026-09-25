@@ -39,7 +39,7 @@ export default function TermsPage() {
 
       <h2 style={H2}>Your subscription</h2>
       <ul>
-        <li style={LI}><strong>Free days:</strong> every new member gets seven free days. If you take the founder or standard door we ask for a card and nothing is charged until the seven days end; cancel before then and you pay nothing. If you take the free door no card is taken. During the free days you get the starter set of scripts and three DiGi questions a day, and everything else opens when you join.</li>
+        <li style={LI}><strong>Free days:</strong> every new member gets four free days. If you take the founder or standard door we ask for a card and nothing is charged until the four days end; cancel before then and you pay nothing. If you take the free door no card is taken. During the free days you get the starter set of scripts and three DiGi questions a day, and everything else opens when you join.</li>
         <li style={LI}><strong>Plans:</strong> the Founder rate is £7.99 a month, held for life while your subscription stays active, and limited to the first 50 members. After that, membership is £12.99 a month or £99 a year.</li>
         <li style={LI}><strong>Billing:</strong> payments are taken by Stripe and renew automatically each period until you cancel.</li>
         <li style={LI}><strong>Cancelling:</strong> you can cancel any time from your account. You keep access to the end of the period you have paid for. After that the app waits for you, your family’s data stays safe, and you can come back and join again whenever you like.</li>

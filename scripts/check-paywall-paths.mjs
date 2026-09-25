@@ -125,9 +125,7 @@ check('an unknown status is not waved through',
   !hasFullAccess({ subscription_status: 'incomplete_expired', trial_ends_at: null }))
 
 // ── THE NUMBER ──────────────────────────────────────────────────────────────
-// Seven since 25 September 2026 (Justin: "7 days, card for Founder"). It was
-// four from 14 August. Migration 353 moves platform_config.trial_days with it.
-check('the trial is seven days, which is what he asked for', TRIAL_DAYS === 7, String(TRIAL_DAYS))
+check('the trial is four days, which is what he asked for', TRIAL_DAYS === 4, String(TRIAL_DAYS))
 
 // ── THE COUNTDOWN ON THE FREE DAYS ──────────────────────────────────────────
 //

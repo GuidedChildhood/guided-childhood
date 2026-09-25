@@ -440,14 +440,12 @@ done (what you did), the streak with the flame, then what happens next
 sessionStorage until closed; the full path close is unchanged. check-today-tick
 guards it. PR 1161.
 
-## 25 September 2026: seven day trial, trial emails on the trial clock
+## 25 September 2026: trial emails on the trial clock, trial stays four days
 
-Justin's answers after the Duolingo review: lock everything after the trial
-(no change), trial emails on the trial clock, seven days with a card for
-Founder (already true), pilot a school family pass. New 'trial' email kind:
-the welcome, days two to four and trial ending skip the one a week floor but
-never suppression, and only inside the free days. Trial ending runs ahead of
-Pass A. Pre charge reminder at three days left. TRIAL_DAYS 7 and the copy
-with it; migration 353 sets platform_config.trial_days, Justin runs it on
-merge. School pass is a plan with four open questions:
-plans/2026-09-25-trial-and-school-pass-plan.md. PR to follow.
+After the Duolingo review. New 'trial' email kind: the welcome, days two to
+four and trial ending skip the one a week floor but never suppression, and
+only inside the free days. Four days reads welcome day 0, stage day 2, trial
+ending day 3 (first on the last day so a drip cannot take the slot). Justin
+first chose seven days, then kept four the same morning. Lock after the trial
+stays. School family pass is undecided; plan and ideas in
+plans/2026-09-25-trial-and-school-pass-plan.md. PR 1164.

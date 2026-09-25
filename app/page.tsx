@@ -1001,9 +1001,9 @@ export default function HomePage() {
             {[
               {
                 tier: 'Try it first', name: 'Free Trial', price: 'Free', period: '',
-                save: 'Seven days. No card required.',
+                save: 'Four days. No card required.',
                 features: [
-                  ['✓', 'Seven days inside the platform'],
+                  ['✓', 'Four days inside the platform'],
                   ['✓', 'DiGi, with a daily limit'],
                   ['✓', 'A starter set of scripts'],
                   ['✓', 'Your age stage roadmap'],

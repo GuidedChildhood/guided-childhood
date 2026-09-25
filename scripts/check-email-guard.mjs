@@ -180,13 +180,14 @@ for (const file of Object.keys(ALLOWED_OPT_OUTS)) {
   const cron = readFileSync('app/api/email/cron/route.ts', 'utf8')
   const TRIAL_KEYS = ['welcome', 'day2-stage', 'day3-tour', 'day4-digi', 'trial-ending']
   // Every deliver( call that passes trialKind or 'trial', by its email key.
-  const onClock = [...cron.matchAll(/deliver\(profile\.id, profile\.email, '([a-z0-9-]+)'[\s\S]*?\), '[A-Za-z0-9]+', (trialKind|'trial')\)/g)].map(m => m[1])
+  const onClock = [...cron.matchAll(/deliver\(profile\.id, profile\.email!?, '([a-z0-9-]+)'[\s\S]*?\), '[A-Za-z0-9]+', (trialKind|'trial')\)/g)].map(m => m[1])
   check('the trial clock carries exactly the five agreed emails',
     onClock.length === TRIAL_KEYS.length && TRIAL_KEYS.every(k => onClock.includes(k)), onClock.join(', '))
   check('trialKind falls back to programme outside the free days',
     /const trialKind: EmailKind = trialClock \? 'trial' : 'programme'/.test(cron))
-  check('trial ending runs before Pass A so a drip cannot take its slot',
-    cron.indexOf("'trial-ending', trialEndingEmail") < cron.indexOf('// ── Pass A'))
+  check('on the last day trial ending runs before Pass A so a drip cannot take its slot',
+    /if \(trialEndingDue && trialEndingLeft <= 1\) await sendTrialEnding\(\)/.test(cron)
+      && cron.indexOf('trialEndingLeft <= 1) await sendTrialEnding') < cron.indexOf('// ── Pass A'))
 }
 
 // ── AND THE DEFAULT IS THE SAFE ONE ─────────────────────────────────────────
