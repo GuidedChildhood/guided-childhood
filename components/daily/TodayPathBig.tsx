@@ -9,7 +9,7 @@ import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
 import type { FriendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import DayCompleteFlow, { type DayCloseFacts } from '@/components/daily/DayCompleteFlow'
-import DayTickFlow from '@/components/daily/DayTickFlow'
+import DayTickFlow, { type FirstMove } from '@/components/daily/DayTickFlow'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { chunky } from '@/components/scripts/card-system'
 
@@ -77,7 +77,7 @@ function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked:
   )
 }
 
-export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, streakAliveToday = false, bonus = null, childId = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; /** Whether streakCount already includes today (lib/pathway/streak). */ streakAliveToday?: boolean; bonus?: FriendOfTheDay | null; childId?: string | null }) {
+export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, streakAliveToday = false, bonus = null, childId = null, firstDay = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; /** Whether streakCount already includes today (lib/pathway/streak). */ streakAliveToday?: boolean; bonus?: FriendOfTheDay | null; childId?: string | null; /** The family's first ever day: the getting started close. See DayTickFlow. */ firstDay?: { moves: FirstMove[] } | null }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   // ── THE PLANET FRIEND BESIDE THE ROAD ─────────────────────────────────────
   //
@@ -231,6 +231,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       try { localStorage.setItem(storageKey, day) } catch { /* fine, the server dedupes */ }
       const facts = await r.json().catch(() => null)
       if (r.ok) {
+        // The first day's getting started close is once per FAMILY. A parent
+        // checking in three children on day one saw it three times, each one
+        // saying the same four things. The first child gets it; the others
+        // just keep their tick.
+        if (firstDay) {
+          const firstKey = 'gc_firstday_flow'
+          try {
+            if (localStorage.getItem(firstKey) === day) return
+            localStorage.setItem(firstKey, day)
+          } catch { /* show it; at worst it shows again */ }
+        }
         const f = facts ?? {}
         try { sessionStorage.setItem(tickKey, JSON.stringify({ day, facts: f })) } catch { /* shown this once anyway */ }
         setTickFacts(f)
@@ -347,6 +358,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   const nextOpen = steps.find(t => !settled(t)) ?? null
   const tickFlow = tickFacts && !pathDone && (
     <DayTickFlow
+      firstDay={firstDay}
       childName={childName}
       minutes={minutes}
       streak={todayStreak}

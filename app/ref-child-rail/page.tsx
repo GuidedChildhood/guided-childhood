@@ -21,16 +21,21 @@ const KIDS = [
 
 export default async function RefChildRail({
   searchParams,
-}: { searchParams: Promise<{ kids?: string; child?: string; done?: string }> }) {
-  const { kids, done } = await searchParams
+}: { searchParams: Promise<{ kids?: string; child?: string; done?: string; cal?: string }> }) {
+  const { kids, done, cal } = await searchParams
   // ?done=a,b ticks those children, the way the layout does after a check in.
   const ticked = new Set((done ?? '').split(',').filter(Boolean))
-  const count = Math.min(3, Math.max(2, Number(kids) || 2))
+  const count = Math.min(3, Math.max(1, Number(kids) || 2))
+  // ?cal=3 draws the calendar corner with three due this week; ?cal=new draws
+  // it for a family who has not set school up yet (the plus on the plate).
+  const calendar = cal === undefined ? null
+    : cal === 'new' ? { dueThisWeek: 0, hasSchoolSetup: false }
+    : { dueThisWeek: Number(cal) || 0, hasSchoolSetup: true }
 
   return (
     <main style={{ background: 'var(--app-bg)', minHeight: '100vh' }}>
       <Suspense fallback={null}>
-        <ChildRail kids={KIDS.slice(0, count).map(k => ({ ...k, done: ticked.has(k.id) }))} forceShow />
+        <ChildRail kids={KIDS.slice(0, count).map(k => ({ ...k, done: ticked.has(k.id) }))} forceShow calendar={calendar} />
       </Suspense>
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 20px 40px' }}>
         <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-card)', padding: '20px' }}>

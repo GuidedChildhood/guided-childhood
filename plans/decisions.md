@@ -469,3 +469,14 @@ lesson that follows it (working title "Could you be an entrepreneur?", Years
 8 and 9). It covers the ways to work, the honest upsides and risks with ONS
 figures, and what is allowed under 18. It is built after today's flagged
 lesson checks. The sketch is in plans/2026-09-24-simon-squibb-weighed.md.
+
+## 25 September 2026: the first check in says getting started, and a calendar corner
+
+Justin after his own first check in: "10 mins done is not accurate as it takes
+2 seconds", and it congratulated a streak on day one. On the day of
+first_checkin_at the close is now "First check in, done", then four setup
+moves ticked from real state (send the child their app, first jobs, school
+reminders, home screen and reminders), then tomorrow. Once per family, not
+per child. Home also gets a Calendar and Alerts corner top left, before the
+children: the school page (dates, email forwarding, photo a letter) with what
+is due this week, and the alerts hub on phones. PR 1164.
