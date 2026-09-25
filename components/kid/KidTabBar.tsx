@@ -116,6 +116,22 @@ export default function KidTabBar({ current, onSelect, badges, today = null, onT
   const [mounted, setMounted] = useState(false)
   useEffect(() => { setMounted(true) }, [])
 
+  // The bar's real height, published as --kid-tabs-h, so anything a screen
+  // keeps at the bottom (the bucket builder's Print it bar) can sit on top of
+  // the tabs rather than under them. Measured, not guessed, because the home
+  // indicator and the text dial both change it.
+  useEffect(() => {
+    if (!mounted) return
+    const el = document.getElementById('kid-tabs')
+    if (!el) return
+    const root = document.documentElement
+    const set = () => root.style.setProperty('--kid-tabs-h', `${Math.ceil(el.getBoundingClientRect().height)}px`)
+    set()
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(set) : null
+    ro?.observe(el)
+    return () => { ro?.disconnect(); root.style.removeProperty('--kid-tabs-h') }
+  }, [mounted])
+
   const bar = (
     <>
     {/* A NAVIGATION BAR MUST NEVER REACH PAPER.

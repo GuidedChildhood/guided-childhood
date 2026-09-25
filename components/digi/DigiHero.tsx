@@ -18,6 +18,8 @@ export default function DigiHero({
   // hero sits flat inside a card or a scrolling column.
   curved = true,
   compact = false,
+  // Off where DiGi's mark already sits just above, as in the chat header.
+  mark = true,
 }: {
   eyebrow?: string
   title: React.ReactNode
@@ -25,6 +27,7 @@ export default function DigiHero({
   mood?: DigiMood
   curved?: boolean
   compact?: boolean
+  mark?: boolean
 }) {
   return (
     <div
@@ -37,14 +40,14 @@ export default function DigiHero({
       }}
     >
       {/* DiGi in the gold speech square, the same mark as the welcome sheet */}
-      <div style={{
+      {mark && <div style={{
         width: compact ? 52 : 62, height: compact ? 52 : 62, borderRadius: 'var(--radius-card)',
         background: 'var(--terracotta)', boxShadow: '0 5px 0 var(--terracotta-dark)',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         marginBottom: compact ? 14 : 18,
       }}>
         <DigiCharacter mood={mood} size={compact ? 34 : 42} once />
-      </div>
+      </div>}
 
       {eyebrow && (
         <div style={{

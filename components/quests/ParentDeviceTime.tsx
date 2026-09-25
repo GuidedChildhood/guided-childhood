@@ -438,22 +438,6 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
         </p>
       )}
 
-      {/* The timer rule this child agreed on their first run, locked in and
-          visible on both sides. */}
-      {kid.agreedAt && (
-        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '0 0 9px' }}>
-          {kid.name} agreed the timer rule on {new Date(kid.agreedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.{' '}
-          <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
-            See the agreement →
-          </Link>
-        </p>
-      )}
-
-      {/* Today's guide: how much this child has already had against the age
-          banded recommendation, so a grant is made with the day in view. A
-          soft steer, never a block. */}
-      <DailyGuideLine name={kid.name} usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} sessionsToday={kid.sessionsToday ?? 0} jobsLeft={kid.jobsLeft?.count ?? 0} />
-
       {/* Ask first: the child is waiting on a yes. */}
       {kid.request && (
         <PendingAskBox
@@ -467,67 +451,6 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
           deal={deal}
         />
       )}
-      {/* JOBS LEFT, BEFORE THE TIMER STARTS.
-          Justin, 8 August 2026: "when they ask to watch tv or use device give
-          them the nudge to do tasks to unlock timer."
-          The child's own app has said this for a while: ask for screens with
-          jobs outstanding and KidAskBanner answers "finish PE kit first". The
-          grown up's timer said nothing, so the rule the child is held to did
-          not exist on the screen where the time is actually granted.
-          ScreenGateBanner covers it only for jobs flagged "before screens", and
-          almost nobody sets that flag, so for most families it never appears.
-          Deliberately NOT a block. Start stays exactly where it was and does
-          exactly what it did: non negotiable one is that this product never
-          allows or denies, it shows the pathway and the grown up decides. This
-          is the fact and a one tap nudge, nothing more. */}
-      {/* ── AND AT THE MOMENT THEY ASK (10 September 2026) ──────────────
-          Justin: "check during that if job not done on day set then has alert
-          in child's phone and parents when device time is requested."
-
-          The child's half was already covered: KidAskBanner says it, and the
-          chores first gate names the jobs. The parent's half was here and
-          hidden by !kid.request, so this banner showed on a quiet board and
-          disappeared the instant a request arrived. The one screen where a
-          grown up is deciding about screen time was the one that did not
-          mention the undone job.
-
-          Still never a block, per non negotiable one. While a request is live
-          the Remind button goes: the child is asking right now and the answer
-          below IS the reply, so a nudge would be talking over them. */}
-      {!kid.session && (kid.jobsLeft?.count ?? 0) > 0 && (
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-          background: 'var(--tint-butter, #FFF6DE)', border: '1.5px solid var(--terracotta)',
-          borderRadius: 'var(--radius-tile)', padding: '10px 12px', margin: '0 0 11px',
-        }}>
-          <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4, flex: 1, minWidth: 180 }}>
-            {kid.name} has {kid.jobsLeft!.count} job{kid.jobsLeft!.count === 1 ? '' : 's'} left today
-            {kid.jobsLeft!.first ? `, starting with ${kid.jobsLeft!.first}` : ''}.
-          </span>
-          {!kid.request && <button
-            onClick={async () => {
-              if (nudged) return
-              setNudged(true)
-              try {
-                await fetch('/api/quests/nudge', {
-                  method: 'POST', headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ childId: kid.id }),
-                })
-              } catch { setNudged(false) }
-            }}
-            disabled={nudged}
-            style={{
-              background: nudged ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--terracotta)',
-              borderRadius: 'var(--radius-pill)', padding: '8px 14px', cursor: nudged ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-              color: 'var(--ink)', flexShrink: 0,
-            }}
-          >
-            {nudged ? 'Nudged ✓' : `Remind ${kid.name}`}
-          </button>}
-        </div>
-      )}
-
       {/* The yes is away: one calm line while the child taps Start. When jobs
           are still to do today, the same soft nudge the child gets shows here,
           so both sides are told to finish those first. Never a block. */}
@@ -539,48 +462,142 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
         </p>
       )}
 
-      {/* Who starts the timer: how much this child does alone, more as they
-          grow. Easy to find, one plain line per option. */}
-      <details style={{ marginBottom: '11px', background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '9px 12px' }}>
-        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>
-          Who starts the timer? <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>{TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'} ›</span>
-        </summary>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
-          {TRUST_LEVELS.map(l => (
-            <button key={l.key} onClick={() => setTrust(l.key)} aria-pressed={kid.trust === l.key} style={{
-              textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
-              background: kid.trust === l.key ? 'var(--terracotta-lt)' : '#fff',
-              border: kid.trust === l.key ? '2px solid var(--terracotta)' : 'var(--edge)',
-            }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{l.label}</span>
-              <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
-            </button>
+      {/* ── START IS THE FIRST THING, AND IT IS BIG (25 September 2026) ─────
+          Justin, on this card on his phone: "no easy way to know here start
+          timer ... why is starting timer not option? Needs to be super
+          obvious, simple, and remind parent and child it is the way to use
+          the system." Start was at the very foot of the card, under the who
+          starts setting, the time tiers card, the device chips, the minutes
+          and three ways to pay, so on a phone it was two screens below the
+          jobs banner and read as not there at all.
+          The references agree on the shape (Jomo, Brink, the iOS timer): one
+          length, one big Start, and everything else folded away under it. So
+          the rule first, in one line, then the screen and the minutes, then
+          the button. How it is paid defaults to stars and folds away; who
+          starts it and the time tiers are settings, folded into their own
+          section below. */}
+      <div data-start-block style={{ background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '13px 13px 14px', margin: '0 0 12px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px', fontWeight: 500 }}>
+          <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>Every screen goes through the timer.</strong>{' '}
+          {kid.name} asks on their app, or asks you and you start it here, so jobs are checked and the minutes count in the balance.
+        </p>
+        {/* JOBS LEFT, BEFORE THE TIMER STARTS. Inside the start block since 25
+            September 2026, one compact line right above the button, so the
+            nudge is still read at the moment of starting without pushing the
+            button below the fold.
+
+            Justin, 8 August 2026: "when they ask to watch tv or use device give
+            them the nudge to do tasks to unlock timer."
+            The child's own app has said this for a while: ask for screens with
+            jobs outstanding and KidAskBanner answers "finish PE kit first". The
+            grown up's timer said nothing, so the rule the child is held to did
+            not exist on the screen where the time is actually granted.
+            ScreenGateBanner covers it only for jobs flagged "before screens", and
+            almost nobody sets that flag, so for most families it never appears.
+            Deliberately NOT a block. Start stays exactly where it was and does
+            exactly what it did: non negotiable one is that this product never
+            allows or denies, it shows the pathway and the grown up decides. This
+            is the fact and a one tap nudge, nothing more. */}
+        {/* ── AND AT THE MOMENT THEY ASK (10 September 2026) ──────────────
+            Justin: "check during that if job not done on day set then has alert
+            in child's phone and parents when device time is requested."
+
+            The child's half was already covered: KidAskBanner says it, and the
+            chores first gate names the jobs. The parent's half was here and
+            hidden by !kid.request, so this banner showed on a quiet board and
+            disappeared the instant a request arrived. The one screen where a
+            grown up is deciding about screen time was the one that did not
+            mention the undone job.
+
+            Still never a block, per non negotiable one. While a request is live
+            the Remind button goes: the child is asking right now and the answer
+            below IS the reply, so a nudge would be talking over them. */}
+        {!kid.session && (kid.jobsLeft?.count ?? 0) > 0 && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
+            background: '#fff', border: '1.5px solid var(--terracotta)',
+            borderRadius: 'var(--radius-tile)', padding: '8px 10px', margin: '0 0 11px',
+          }}>
+            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4, flex: 1, minWidth: 160 }}>
+              {kid.name} has {kid.jobsLeft!.count} job{kid.jobsLeft!.count === 1 ? '' : 's'} left today
+              {kid.jobsLeft!.first ? `, starting with ${kid.jobsLeft!.first}` : ''}.
+            </span>
+            {!kid.request && <button
+              onClick={async () => {
+                if (nudged) return
+                setNudged(true)
+                try {
+                  await fetch('/api/quests/nudge', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ childId: kid.id }),
+                  })
+                } catch { setNudged(false) }
+              }}
+              disabled={nudged}
+              style={{
+                background: nudged ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--terracotta)',
+                borderRadius: 'var(--radius-pill)', padding: '6px 12px', cursor: nudged ? 'default' : 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+                color: 'var(--ink)', flexShrink: 0,
+              }}
+            >
+              {nudged ? 'Nudged ✓' : `Remind ${kid.name}`}
+            </button>}
+          </div>
+        )}
+        <div style={{ marginBottom: '9px' }}>
+          <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />
+        </div>
+        <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
+          {MINUTE_PRESETS.map(m => (
+            <button key={m} onClick={() => setMinutes(m)} aria-pressed={minutes === m} style={{
+              flex: '1 1 0', minWidth: 0, padding: '10px 2px', borderRadius: '12px', cursor: 'pointer', whiteSpace: 'nowrap',
+              fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 800,
+              background: minutes === m ? 'var(--terracotta-lt)' : '#fff',
+              color: minutes === m ? 'var(--ink)' : 'var(--ink-muted)',
+              border: minutes === m ? '2px solid var(--ink)' : 'var(--edge)',
+            }}>{m} min</button>
           ))}
         </div>
-      </details>
 
-      {/* Their time, three kinds: the free baseline, the earned stars, and the
-          protected windows. Per child, so siblings keep their own bedtimes. */}
-      <TimeTiersCard childId={kid.id} childName={kid.name} />
+        {/* The treat note, said at the button now that the guide bar sits
+            below it. Never a block: the grown up decides. */}
+        {wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, minutes) && (
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+            This takes {kid.name} past today&apos;s healthy amount for their age, so it goes down as a treat.
+          </p>
+        )}
 
-      <div style={{ marginBottom: '9px' }}>
-        <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />
-      </div>
+        {err && <p style={{ fontSize: 'var(--text-base)', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
-        {MINUTE_PRESETS.map(m => (
-          <button key={m} onClick={() => setMinutes(m)} aria-pressed={minutes === m} style={{
-            flex: '1 1 3em', padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
-            background: minutes === m ? 'var(--terracotta-lt)' : '#fff',
-            color: minutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
-            border: minutes === m ? '2px solid var(--terracotta)' : 'var(--edge)',
-          }}>{m}m</button>
-        ))}
-      </div>
-
-      {/* How this grant pays: stars, a gift with a pay back, or a free bonus. */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '11px' }}>
+        <button onClick={start} disabled={busy || tooPoor} style={{
+          width: '100%', padding: '15px 14px', borderRadius: 16, border: 'var(--edge)',
+          cursor: busy || tooPoor ? 'default' : 'pointer', opacity: tooPoor ? 0.55 : 1,
+          background: 'var(--terracotta)', color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+          boxShadow: busy || tooPoor ? 'none' : '0 5px 0 var(--terracotta-dark)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        }}>
+          <span aria-hidden style={{ fontSize: '0.9em' }}>▶</span>
+          {busy ? 'Starting…'
+            : tooPoor ? `Needs ${cost} stars`
+            : mode === 'gift' ? `Gift ${minutes} min on ${grantScreen}`
+            : mode === 'bonus' ? `Give ${minutes} min on ${grantScreen}`
+            : `Start ${minutes} min`}
+        </button>
+        {!tooPoor && mode === 'stars' && (
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', margin: '9px 0 0' }}>
+            {cost} star{cost === 1 ? '' : 's'} from {kid.name}&apos;s {kid.balance} · on {grantScreen}
+          </p>
+        )}
+      {/* How this grant pays: stars by default, a gift with a pay back, or a
+          free bonus. Folded away, because stars is the deal as agreed and the
+          other two are the exception. Opens itself when stars fall short. */}
+      <details open={tooPoor || mode !== 'stars'} style={{ marginTop: '11px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+          Gift it or give a bonus instead ›
+        </summary>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
         {GRANT_MODES.map(m => (
           <button key={m.key} onClick={() => setMode(m.key)} aria-pressed={mode === m.key} style={{
             textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
@@ -592,22 +609,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
           </button>
         ))}
       </div>
-
-      {err && <p style={{ fontSize: 'var(--text-base)', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
-
-      <button onClick={start} disabled={busy || tooPoor} style={{
-        width: '100%', padding: '12px', borderRadius: 'var(--radius-tile)', border: 'none',
-        cursor: busy || tooPoor ? 'default' : 'pointer', opacity: tooPoor ? 0.55 : 1,
-        background: 'var(--terracotta)', color: 'var(--ink)',
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-        boxShadow: busy || tooPoor ? 'none' : '0 4px 0 var(--terracotta-dark)',
-      }}>
-        {busy ? 'Starting…'
-          : tooPoor ? `Needs ${cost} stars`
-          : mode === 'gift' ? `Gift ${minutes} min on ${grantScreen} 💛`
-          : mode === 'bonus' ? `Give ${minutes} min on ${grantScreen} 🎁`
-          : `Start ${minutes} min · ${cost} stars`}
-      </button>
+      </details>
       {/* Short this week is an offer, not a wall.
           Justin: "screen timer can be sent and can always send their stars into
           debit, but let parents know maybe check jobs or add another to keep
@@ -617,7 +619,7 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
           through already existed one tab across: a gift starts now, spends
           nothing, and the next approved job settles it. So say that, and say
           the honest thing about the balance in the same breath. */}
-      {tooPoor && (
+        {tooPoor && (
         <div style={{
           background: 'var(--tint-sage)', border: 'var(--edge)',
           borderRadius: 'var(--radius-tile)', padding: '12px 14px', margin: '9px 0 0',
@@ -650,11 +652,63 @@ export function ChildRow({ kid, onChange, onAlarm, deal }: { kid: Kid; onChange:
           </div>
         </div>
       )}
-      {mode === 'gift' && (
+        {mode === 'gift' && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
           The gift starts now and {minutesToStars(minutes, kid.starMinutes)} star{minutesToStars(minutes, kid.starMinutes) === 1 ? '' : 's'} of jobs pay it back later. The next job they finish settles it.
         </p>
       )}
+
+      </div>
+
+      {/* The timer rule this child agreed on their first run, locked in and
+          visible on both sides. */}
+      {kid.agreedAt && (
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '0 0 9px' }}>
+          {kid.name} agreed the timer rule on {new Date(kid.agreedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.{' '}
+          <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
+            See the agreement →
+          </Link>
+        </p>
+      )}
+
+      {/* Today's guide: how much this child has already had against the age
+          banded recommendation, so a grant is made with the day in view. A
+          soft steer, never a block. */}
+      <DailyGuideLine name={kid.name} usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} sessionsToday={kid.sessionsToday ?? 0} jobsLeft={kid.jobsLeft?.count ?? 0} />
+
+      {/* The settings for this child, folded away: who starts the timer and
+          their three kinds of time. Set once, changed rarely, so they sit
+          under the one thing done every day rather than above it. */}
+      <details style={{ marginBottom: '11px', background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-tile)', padding: '10px 12px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>
+          {kid.name}&apos;s timer settings <span style={{ fontWeight: 700, color: 'var(--ink-muted)' }}>· {TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'} ›</span>
+        </summary>
+        <div style={{ marginTop: '11px' }}>
+      {/* Who starts the timer: how much this child does alone, more as they
+          grow. Easy to find, one plain line per option. */}
+      <div style={{ marginBottom: '12px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>
+          Who starts the timer? <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>{TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'}</span>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
+          {TRUST_LEVELS.map(l => (
+            <button key={l.key} onClick={() => setTrust(l.key)} aria-pressed={kid.trust === l.key} style={{
+              textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
+              background: kid.trust === l.key ? 'var(--terracotta-lt)' : '#fff',
+              border: kid.trust === l.key ? '2px solid var(--terracotta)' : 'var(--edge)',
+            }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{l.label}</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {/* Their time, three kinds: the free baseline, the earned stars, and the
+          protected windows. Per child, so siblings keep their own bedtimes. */}
+      <TimeTiersCard childId={kid.id} childName={kid.name} />
+
+        </div>
+      </details>
 
       <WhereTheTimeGoes name={kid.name} ageBand={kid.ageBand ?? null} week={kid.week ?? []} />
     </div>

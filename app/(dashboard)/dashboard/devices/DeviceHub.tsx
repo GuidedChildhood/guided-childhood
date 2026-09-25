@@ -27,6 +27,7 @@ export default function DeviceHub({
   initialAgreed = [],
   initialAgreedDevices = null,
   initialAgreedNotes = {},
+  from = null,
 }: {
   devices: DeviceGuide[]
   childAge: number
@@ -40,6 +41,7 @@ export default function DeviceHub({
   initialAgreedDevices?: string[] | null
   /** What was agreed, keyed by screen id where we have one, guide key otherwise. */
   initialAgreedNotes?: Record<string, string>
+  from?: string | null
 }) {
   const [completed, setCompleted] = useState<Set<string>>(new Set(initialCompleted))
   const [notOwned, setNotOwned] = useState<Set<string>>(new Set(initialNotOwned))
@@ -271,6 +273,7 @@ export default function DeviceHub({
         agreedDevices={agreedDevices}
         agreedNotes={agreedNotes}
         onAgreeDevice={agreeDevice}
+        from={from}
       />
 
       <DeviceCoverageBoard

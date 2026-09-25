@@ -532,6 +532,24 @@ export default function KidQuestScreen({
   }))
   const onTodayState = useCallback((t: TodayTab) => setTodayTab(t), [])
 
+  // ── THE DAY FIRST, EVERYTHING ELSE AFTER (25 September 2026) ─────────────
+  //
+  // Justin, from Teo's home screen: make the child's app "super easy from the
+  // home screen, that runs with the five a day, as a bit cluttered, so they
+  // easily know what to do step by step."
+  //
+  // The page ran to about three and a half phone screens: thirteen blocks, the
+  // five a day fifth of them, then a tile grid, a balance card, goal bars and
+  // the quests tab's own scene below. Everything on it is worth having, and
+  // most of it answers "what else is there" while a child mid day is asking
+  // "what do I do now". So while the day is running, the home keeps what walks
+  // them through it (the diary, the greeting, their ask, the five a day, what
+  // a grown up sent, Use my time and Telling a grown up) and the rest waits
+  // behind one More things to do. The day done, it all comes back. A running
+  // timer always shows its card, because a live countdown is never clutter.
+  const [homeAll, setHomeAll] = useState(false)
+  const focusDay = !homeAll && todayTab.total > 0 && !todayTab.complete
+
   // THE LIVE COUNT.
   //
   // completedStreaks is read on the server when the page loads, and a child who
@@ -1817,12 +1835,35 @@ export default function KidQuestScreen({
               // The ask has its own page now (14 September 2026): three taps
               // on the dotted sky. A live timer still opens the card here.
               onUseTime={() => { playKidSound('tap'); if (liveSession) { setDeviceOpen(true); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } else { window.location.assign(`/k/${token}/ask`) } }}
-              tiles={tiles}
+              tiles={focusDay ? [] : tiles}
               onFriends={() => { setShowIntro(true); playKidSound('tap') }}
               tellHref={token ? `/k/${token}/tell` : null}
             />
           )
         })()}
+
+        {/* The fold. See focusDay. */}
+        {focusDay && (
+          <button
+            data-home-more
+            onClick={() => { playKidSound('tap'); setHomeAll(true) }}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+              background: '#fff', border: '2px dashed rgba(26,26,46,0.28)', borderRadius: 'var(--radius-card)',
+              padding: '13px 16px', marginBottom: 18, cursor: 'pointer', color: 'var(--ink)',
+            }}
+          >
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2 }}>
+                More things to do
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 3, lineHeight: 1.35 }}>
+                Your passport, games, balance and more. They all open up when your {dayWord(todayTab.total)} are done, or peek now.
+              </span>
+            </span>
+            <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>
+          </button>
+        )}
 
         {/* One clear balance card. The thing we celebrate is the healthy balance
             of jobs done against screen used, and the streak of jobs, not the
@@ -1830,7 +1871,7 @@ export default function KidQuestScreen({
             the balance: a warm well done when it is healthy, a gentle Duolingo
             style nudge to do a job when screen has run ahead. Tap to open and
             actually use the time. */}
-        {(() => {
+        {(!focusDay || deviceOpen || !!liveSession) && (() => {
           // Healthy means "you still have time you earned", not "this week's
           // watching is under this week's earning".
           //
@@ -1977,7 +2018,7 @@ export default function KidQuestScreen({
             thing that has not happened to them. A holiday running is enough on
             its own, empty bank or not, because that is the moment the whole
             idea is easiest to understand. */}
-        {holidayLine && (
+        {!focusDay && holidayLine && (
           <div style={{ marginBottom: '16px', background: '#fff', borderRadius: 'var(--radius-card)', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', padding: '15px 17px', display: 'flex', alignItems: 'flex-start', gap: 13 }}>
             <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 'var(--radius-tile)', background: 'var(--tint-amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🌞</span>
             <span style={{ flex: 1, minWidth: 0 }}>
@@ -2145,7 +2186,7 @@ export default function KidQuestScreen({
         <NotesFromGrownUp token={token} notes={notes} />
 
         {/* Today's goal: enough stars in one day completes the day */}
-        {goal?.daily_stars ? (() => {
+        {!focusDay && goal?.daily_stars ? (() => {
           const todayStars = quests.reduce((sum, q) => {
             const st = ticks[q.id]
             return st && st !== 'rejected' ? sum + q.stars : sum
@@ -2179,7 +2220,7 @@ export default function KidQuestScreen({
 
         {/* Goal bar: saving for a reward, and once the bank holds enough it
             becomes a big tappable Redeem, two taps so it is never by accident. */}
-        {goal && (() => {
+        {!focusDay && goal && (() => {
           const ready = bankBalance >= goal.stars_needed && !goalRedeemed
           if (goalRedeemed) {
             // Finished and ticked off: it drops away so the list stays fresh.
@@ -2308,7 +2349,7 @@ export default function KidQuestScreen({
             The bar is a control now, not a position. This is the position. */}
         <div id="kid-tab-content" aria-hidden style={{ width: '100%', scrollMarginTop: 12 }} />
 
-        {tab === 'quests' && (<>
+        {tab === 'quests' && !focusDay && (<>
         {/* THE BALANCE DIAL IS NOT HERE ANY MORE (14 September 2026).
             Justin, from his phone: "can make balance hidden behind tab as a bit
             messy." It led this tab: a child opened Quests to do their jobs and

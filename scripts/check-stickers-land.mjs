@@ -495,7 +495,9 @@ else if (doneAt === -1) problems.push('O: the ticked steps are gone, so the clim
 else if (liveAt > doneAt) problems.push('O: the ticked steps are back above the live step, so the thing to do moves further down the card with every step finished')
 else ok.push('O: the five a day draws the live step first, then the climb, then the week and the mission')
 
-if (!/'Start here'/.test(fiveCode) || !/'Do this next'/.test(fiveCode)) problems.push('O: the live step is not named, so the card shows a count and a bar and leaves a child to guess which row is the way in')
+// Either quote form: since 25 September 2026 the words carry the step number
+// too ("Do this next · step 3 of 5"), which is a template literal.
+if (!/['`]Start here/.test(fiveCode) || !/['`]Do this next/.test(fiveCode)) problems.push('O: the live step is not named, so the card shows a count and a bar and leaves a child to guess which row is the way in')
 else ok.push('O: the live step says Start here on a fresh day and Do this next after')
 
 // ── P. THE DAY SAYS ITS REAL NUMBER ─────────────────────────────────────────
@@ -528,6 +530,20 @@ if (/'Your five for today'/.test(fiveCopy) || /"Your five for today"/.test(fiveC
   problems.push('P: the child home greeting does not use dayWord')
 } else {
   ok.push('P: the greeting and the ribbon both say the day\'s real number, so a four step day never calls itself five')
+}
+
+// ── Q: THE DAY FIRST, AND THE SAFE WAYS NEVER FOLD (25 September 2026) ────
+// Justin: the child's home should run with the five a day, step by step, "as
+// a bit cluttered". While the day runs the extras fold behind one More things
+// to do. What must never fold: the five a day itself, Use my time (the timer
+// rule), Telling a grown up, and a live timer's own card.
+{
+  const q = screen
+  if (!/const focusDay = !homeAll && todayTab\.total > 0 && !todayTab\.complete/.test(q)) problems.push('Q: the home no longer folds its extras while the day is running, so the five a day is lost among thirteen blocks again')
+  else if (!/tiles=\{focusDay \? \[\] : tiles\}/.test(q)) problems.push('Q: the tile grid is no longer the thing that folds, check KidHomeTiles still draws Use my time and Telling a grown up whatever the tiles')
+  else if (/focusDay[^\n]*tellHref|tellHref[^\n]*focusDay/.test(q)) problems.push('Q: Telling a grown up is gated on focusDay. It is the safe way to raise a hard thing and must never be folded away')
+  else if (!/\(!focusDay \|\| deviceOpen \|\| !!liveSession\)/.test(q)) problems.push('Q: a running timer card can be folded away. A live countdown must always show')
+  else ok.push('Q: the day runs first, the extras fold behind More things to do, and the timer, Use my time and Telling a grown up never fold')
 }
 
 if (problems.length > 0) {

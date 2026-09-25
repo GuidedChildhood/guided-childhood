@@ -141,6 +141,33 @@
    matters while typing. */
 body.gc-input-focused .bottom-tab-bar { display: none; }
 
+/* ── DIGI IS ONE SCREEN, WITH THE TYPING BOX ON IT (25 September 2026) ──
+   Justin: "should be able to free type a message in." DiGi's compose box sits
+   at the foot of its own column, and that column used to be a guessed
+   calc(100dvh - 80px) tall. The child badges above it (and the payment or
+   welcome banners when they show) were never in the guess, so the box was
+   pushed down behind the tab bar.
+
+   While DiGi is the page, the shell becomes exactly one screen and main a
+   column that gives DiGi everything left over. main's own bottom padding
+   becomes the tab bar's height (77px plus the home indicator, divided by the
+   1.07 zoom main carries, see the dashboard layout), so the box stops right on
+   top of the tabs. On desktop there is no tab bar, and while the keyboard is
+   up the tab bar steps aside, so the padding goes too. */
+.gc-dash:has(.digi-chat) { height: 100dvh; }
+.gc-dash:has(.digi-chat) > main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: calc((77px + env(safe-area-inset-bottom, 0px)) / 1.07) !important;
+}
+.gc-dash:has(.digi-chat) > main > * { flex-shrink: 0; }
+body.gc-input-focused .gc-dash:has(.digi-chat) > main { padding-bottom: 0 !important; }
+@media (min-width: 768px) {
+  .gc-dash:has(.digi-chat) > main { padding-bottom: 0 !important; }
+}
+
 /* Sentence case at a readable size, the way the best parent apps label a tab
    bar. The old 9px uppercase letterspaced label in muted grey was the hardest
    text in either app to read, and pale butter for the active tab was almost
