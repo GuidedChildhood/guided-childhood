@@ -1,4 +1,9 @@
--- 348 THE STANDALONE LESSON: WHAT PROBLEM WOULD YOU SOLVE?
+-- 349 THE STANDALONE LESSON: WHAT PROBLEM WOULD YOU SOLVE?
+--
+-- Written and applied as 348. PR 1157's grants reached main as 348 first, and
+-- wiring-check.mjs refuses two migrations with one number, so this file moved
+-- to 349 on 25 September 2026. The backup table and the messages below keep
+-- the 348 they ran with, because this file records what was applied.
 --
 -- Justin asked on 24 September 2026 for a lesson Simon Squibb would value, on
 -- the work school does not prepare children for, wrapped in AI. His ideas were

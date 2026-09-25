@@ -378,3 +378,10 @@ safety question. Free to anyone at /lesson/what-problem-would-you-solve, live
 now. The guards read content/standalone rather than skip it. Main holds two 348
 files (this and PR 1157's grants): the database keys migrations by timestamp,
 so nothing clashes, and 349 is next. PR 1158, and the follow up for the guard.
+
+## 25 September 2026: the standalone lesson's migration is 349, and 350 is next
+
+PR 1157's grants reached main as 348 before the standalone lesson did, and
+wiring-check refuses two migrations with one number, so main's wiring went
+red. The lesson's file moved to 349 (it was applied as 348, and its backup
+table keeps that name). This replaces yesterday's "349 is next": 350 is. PR to follow.
