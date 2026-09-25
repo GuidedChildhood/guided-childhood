@@ -423,3 +423,13 @@ safety question. Free to anyone at /lesson/what-problem-would-you-solve, live
 now. The guards read content/standalone rather than skip it. Main holds two 348
 files (this and PR 1157's grants): the database keys migrations by timestamp,
 so nothing clashes, and 349 is next. PR 1158, and the follow up for the guard.
+
+## 25 September 2026: the parent's ten minutes are confirmed, Duolingo style
+
+Justin: clear confirmation the parent has done their 10 minutes and what
+happens next, the Duolingo loop. The day counting used to be a small box under
+the whole path. DayTickFlow now opens when the day's tick lands: your minutes
+done (what you did), the streak with the flame, then what happens next
+(tomorrow's focus, and what is left today only if there is time). Held in
+sessionStorage until closed; the full path close is unchanged. check-today-tick
+guards it. PR 1161.

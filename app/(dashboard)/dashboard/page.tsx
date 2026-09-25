@@ -1254,7 +1254,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {hasKidLink && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} childId={child?.id ?? null} />
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} streakAliveToday={streak.aliveToday} bonus={friendToday} childId={child?.id ?? null} />
 
       {/* The fix of the week: the success help, one device problem for this
           age with the exact words that solve it, under the road. */}
