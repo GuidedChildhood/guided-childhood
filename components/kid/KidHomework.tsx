@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import HomeworkHelp from '@/components/kid/HomeworkHelp'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { playKidSound } from '@/lib/sound/kidSounds'
@@ -25,8 +26,10 @@ const SUBJECT_LABEL: Record<string, string> = {
 }
 
 export default function KidHomework({
-  token, childName, note, holidayTitle, coming, theme,
+  token, childName, note, holidayTitle, coming, theme, canHint = false,
 }: {
+  /** Aged 10 and over: DiGi's hint cards. Under: the button asks the grown up. */
+  canHint?: boolean
   token: string
   childName?: string
   note: string
@@ -191,6 +194,7 @@ export default function KidHomework({
                 {childName ? `Write something first, ${childName}.` : 'Write something first.'}
               </p>
             )}
+            <HomeworkHelp token={token} childName={childName} canHint={canHint} />
           </>
         )}
       </div>

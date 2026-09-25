@@ -491,3 +491,15 @@ from /emails/{id}, which is for sent mail; received mail is at
 (the extractor had been reading subjects alone). A Gmail email with no
 readable code now says so on screen. The forwarding steps are rewritten as
 two parts naming every button. PR 1164.
+
+## 25 September 2026: homework help, hints not answers, no chat
+
+Justin's answers: from 10 the child gets DiGi hint cards, but never an LLM
+chat; under 10 the button asks their grown up (a push, no model); photos read
+once, never kept; the weekly school job becomes one line, no stars, moving
+on Mondays. The child types or snaps the question; one card back says what
+it practises (the curriculum line, revalidated, Year 1 to 6), what the
+teacher wants, one hint and one thing to try; three hints at most, the last
+a worked example on a different question. Daily cap in migration 354.
+check-homework-help guards it. Plan: plans/2026-09-25-homework-help-plan.md.
+PR 1164.
