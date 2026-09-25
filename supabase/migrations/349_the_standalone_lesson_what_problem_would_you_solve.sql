@@ -1,9 +1,9 @@
 -- 349 THE STANDALONE LESSON: WHAT PROBLEM WOULD YOU SOLVE?
 --
--- Renumbered from 348 on 25 September 2026: migration 348 (the table grants)
--- merged a minute earlier under the same number. Same SQL. Production already
--- has this lesson (delivered 24 September, below), and guard 2 stops the run if
--- the module exists, so running it again there changes nothing.
+-- Written and applied as 348. PR 1157's grants reached main as 348 first, and
+-- wiring-check.mjs refuses two migrations with one number, so this file moved
+-- to 349 on 25 September 2026. The backup table and the messages below keep
+-- the 348 they ran with, because this file records what was applied.
 --
 -- Justin asked on 24 September 2026 for a lesson Simon Squibb would value, on
 -- the work school does not prepare children for, wrapped in AI. His ideas were
@@ -124,7 +124,7 @@ begin
   if got_slides is distinct from 30
      or got_n is distinct from 482
      or got_hash is distinct from '78bc62c5499c329c6ac05a8ec7f02982' then
-    raise exception '349_the_standalone_lesson_what_problem_would_you_solve: what-problem-would-you-solve is not intact (slides %, strings %, hash %)',
+    raise exception '348_the_standalone_lesson_what_problem_would_you_solve: what-problem-would-you-solve is not intact (slides %, strings %, hash %)',
       got_slides, got_n, got_hash;
   end if;
 end $$;
