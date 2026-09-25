@@ -91,7 +91,7 @@ export default function ChildRail({ kids, forceShow = false }: { kids: SwitcherC
   const basePath = rest.toString() ? `${pathname}?${rest.toString()}` : pathname
 
   return (
-    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '16px 20px 0' }}>
+    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '12px 20px 0' }}>
       <ChildSwitcher kids={kids} selectedId={selected} basePath={basePath} />
     </div>
   )

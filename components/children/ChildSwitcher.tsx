@@ -45,7 +45,7 @@ export default function ChildSwitcher({
 
   if (kids.length < 2) return null
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 4px', marginBottom: '16px' }} aria-label="Choose which child">
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 4px', marginBottom: '12px' }} aria-label="Choose which child">
       {kids.map(kid => {
         const active = kid.id === activeId
         const isDefault = kid.is_primary ?? false
@@ -96,7 +96,7 @@ export default function ChildSwitcher({
               display: 'inline-flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '10px',
+              gap: '7px',
               minWidth: 64,
               maxWidth: '100%',
               padding: '4px 8px 2px',

@@ -171,7 +171,10 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         Start screen time
       </div>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
-        No phone of their own? Start {name}&apos;s screen time here and it still counts in the balance below, on the same countdown you both watch.
+        {/* The same rule the timer page says, for every family (25 September
+            2026), not only the phone free ones. */}
+        <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>Every screen goes through the timer.</strong>{' '}
+        Start {name}&apos;s time here, or they ask on their app, and the minutes count in the balance below.
       </p>
 
       <div style={{ marginBottom: 10 }}>

@@ -100,6 +100,21 @@ for (const rel of [BIG, STRIP]) {
   }
 }
 
+// ── THE TEN MINUTES ARE CONFIRMED, CLEARLY (25 September 2026) ──────────────
+// Justin: "clear confirmation they have done their 10 mins and confirming what
+// happens next." The day counting used to be a small box under the whole path.
+// DayTickFlow is the confirmation; it must open on the lead landing, from the
+// facts the day-done post returns, and survive a remount of the card.
+{
+  const big = read('components/daily/TodayPathBig.tsx')
+  const flow = read('components/daily/DayTickFlow.tsx')
+  if (!big || !flow) problems.push('TodayPathBig or DayTickFlow is gone, so nothing confirms the day counted')
+  else if (!/<DayTickFlow/.test(big) || !/\{tickFlow\}/.test(big)) problems.push('TodayPathBig no longer renders DayTickFlow, so the ten minutes landing is confirmed in a small box at the foot of the card again')
+  else if (!/setTickFacts\(f\)/.test(big) || !/sessionStorage\.setItem\(tickKey/.test(big)) problems.push('DayTickFlow is no longer opened from the day-done reply and held in sessionStorage, so a re render of Home loses it after one frame')
+  else if (!/What happens next/.test(flow)) problems.push('DayTickFlow no longer says what happens next')
+  else ok.push('the ten minutes landing opens DayTickFlow: done, the streak, what happens next')
+}
+
 if (problems.length > 0) {
   console.error('check-today-tick FAILED\n')
   for (const p of problems) console.error('  ' + p)

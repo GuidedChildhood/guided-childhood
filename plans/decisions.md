@@ -365,6 +365,51 @@ checks the finished reply) and is replaced by two true lines. No brain science
 line: 4 of 142 research rows. Justin confirmed Supabase signing keys are set,
 so PR 1154's local session check is live at full speed. PR 1155.
 
+## 25 September 2026: DiGi's typing box is always on screen, and the page is quieter
+
+Justin, screenshot: he could not type to DiGi, and too much was going on. The
+chat was a guessed calc(100dvh - 80px) tall, so the taller child badges pushed
+the compose box behind the tab bar. Now the dashboard shell sizes DiGi to the
+space left (globals.css, `.gc-dash:has(.digi-chat)`), whatever sits above. The
+empty page loses the device setup card, shows two examples not three, opens at
+the welcome, and the header is one row. Fixture: /ref-digi-chat. PR to follow.
+
+## 25 September 2026: the Devices step ticks on the devices, and "All clear" says what
+
+Justin: "why does it say all clear?" and "i looked at devices but has not
+ticked". The passport rung named Devices set up but waited on the whole
+passport (lessons, jobs, balance too). It now ticks on its own job, and a job
+finished today holds the rung so the tick is seen. The quests rung reads "No
+jobs waiting" instead of "All clear". Devices opens on the family's own screens
+(research card moved below), and all covered says so with Back to today.
+Guarded in check-rung-truth. PR 1161.
+
+## 25 September 2026: Start is the first thing on the parent's timer card
+
+Justin: no obvious way to start the timer, and it must remind parent and child
+that every screen goes through it. Start sat at the foot of each child's card,
+below settings and three payment options. Now: the rule in one line, the jobs
+nudge, device, minutes and a big Start (Jomo and Brink shape); gift or bonus
+folds under it; who starts and time tiers fold into the child's settings. The
+timer and balance pages say the rule for every family, not only phone free ones.
+Holiday time: Teo's 180 min are two July rollovers (90 each). PR 1161.
+
+## 25 September 2026: the child's Print it bar sits on top of the tabs
+
+Justin, photo of the bucket list builder: "print option here hidden by tabs".
+Its Print it bar was fixed to bottom 0 under the kid tab bar added on 15
+September. KidTabBar now publishes its height as --kid-tabs-h and the bar is
+sticky just above it. check-kid-chrome guards both. PR 1161.
+
+## 25 September 2026: the child's home runs the five a day first
+
+Justin: the child's home should run with the five a day, step by step, less
+cluttered. While the day runs, the tiles, balance card, goal bars, holiday line
+and the quests scene fold behind one More things to do; the diary, greeting,
+ask, five a day, what a grown up sent, Use my time and Telling a grown up stay.
+A live timer always shows. The five a day gains numbered step circles, "step 3
+of 5", and one line per step on why it helps a day with screens in it.
+Guarded as rule Q in check-stickers-land. PR 1161.
 ## 24 September 2026: the standalone lesson is built, and opens free at its own link
 
 Built ahead of the flagged lesson checks because Justin asked to see it; those
@@ -385,3 +430,12 @@ PR 1157's grants reached main as 348 before the standalone lesson did, and
 wiring-check refuses two migrations with one number, so main's wiring went
 red. The lesson's file moved to 349 (it was applied as 348, and its backup
 table keeps that name). This replaces yesterday's "349 is next": 350 is. PR to follow.
+## 25 September 2026: the parent's ten minutes are confirmed, Duolingo style
+
+Justin: clear confirmation the parent has done their 10 minutes and what
+happens next, the Duolingo loop. The day counting used to be a small box under
+the whole path. DayTickFlow now opens when the day's tick lands: your minutes
+done (what you did), the streak with the flame, then what happens next
+(tomorrow's focus, and what is left today only if there is time). Held in
+sessionStorage until closed; the full path close is unchanged. check-today-tick
+guards it. PR 1161.

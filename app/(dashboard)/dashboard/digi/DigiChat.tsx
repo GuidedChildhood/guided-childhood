@@ -256,14 +256,6 @@ export default function DigiChat({
     }
   }
   const [dailyCount, setDailyCount] = useState(initialCount)
-  const [deviceSetupDismissed, setDeviceSetupDismissed] = useState(true)
-
-  useEffect(() => {
-    if (stageId) {
-      setDeviceSetupDismissed(localStorage.getItem(`gc_device_setup_confirmed_${stageId}`) === '1')
-    }
-  }, [stageId])
-
   // Reflection state. A reflection saved before the truncation fix may be a
   // clipped fragment, so only surface one that ends as a proper question.
   const [reflectionQuestion, setReflectionQuestion] = useState<string | null>(
@@ -423,6 +415,10 @@ export default function DigiChat({
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
+    // Nothing said yet: the welcome is the page, so it reads from the top. The
+    // bottom pin below used to drop an empty page to its foot, hiding the
+    // greeting behind the example questions on a short phone.
+    if (messages.length === 0) { el.scrollTop = 0; return }
     // The first pass of this effect is the tab opening. With history behind us
     // we put the fresh start line at the top instead of dropping to the bottom,
     // and release the bottom pin so nothing drags them back down to the old
@@ -786,7 +782,19 @@ export default function DigiChat({
   const atLimit = dailyLimit != null && dailyCount >= dailyLimit
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 80px)', maxWidth: '700px', margin: '0 auto' }}>
+    // ── THE BOX TO TYPE IN IS ALWAYS ON SCREEN (25 September 2026) ──────────
+    //
+    // Justin, with a screenshot: "should be able to free type a message in."
+    // The chat used to be a fixed calc(100dvh - 80px) tall, which guessed that
+    // nothing sat above it. The child badges do, and once they grew to a round
+    // avatar with the name underneath they pushed the compose box down behind
+    // the tab bar, where only a ghost of "Type your question" showed through.
+    //
+    // No guessing now. The digi-chat class tells the dashboard shell (see
+    // globals.css) to become exactly one screen tall and hand this box
+    // whatever is left under the badges and above the tabs, so it fits
+    // however many children, banners or bars sit above it.
+    <div className="digi-chat" style={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: 0, width: '100%', maxWidth: '700px', margin: '0 auto' }}>
 
       {/* Header. Wraps on a phone: the eyebrow, the avatar and the way back
           do not fit one row at 390, and the eyebrow was breaking one word per
@@ -794,9 +802,13 @@ export default function DigiChat({
       {/* The top padding carries the phone's own safe area. Installed to the
           home screen the page starts under the status bar, and the eyebrow was
           sitting behind the clock (Justin's screenshot, 12 September 2026). */}
-      <div style={{ padding: '14px 20px', paddingTop: 'calc(14px + env(safe-area-inset-top, 0px))', borderBottom: 'var(--edge)', background: 'var(--white)', flexShrink: 0 }}>
+      {/* One row on a phone again (25 September 2026). The way back used to
+          wrap onto a line of its own, which with the child badges above left
+          the chat a sliver of screen. The eyebrow drops to the small mono size
+          and the way back to the small pill, and both fit a 390 row. */}
+      <div style={{ padding: '10px 20px', paddingTop: 'calc(10px + env(safe-area-inset-top, 0px))', borderBottom: 'var(--edge)', background: 'var(--white)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px 12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0, flex: '1 1 200px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0, flex: '1 1 150px' }}>
             <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <DigiAvatar size={36} mood="wave" />
             </div>
@@ -808,7 +820,7 @@ export default function DigiChat({
               {/* Whose thread this is. The thread is per child and remounts by
                   child id, but the chat itself never said the name, so a
                   parent of two could be answering about the wrong one. */}
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)' }}>
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-xs)' }}>
                 {childName ? `${childName}${stageId ? ` · Stage ${stageId}` : ''}` : 'Your evidence led guide'}
               </p>
               <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
@@ -826,10 +838,10 @@ export default function DigiChat({
               href="/dashboard"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 5,
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)',
                 color: 'var(--ink)', textDecoration: 'none',
                 background: 'var(--cream)', border: 'var(--edge)',
-                borderRadius: 'var(--radius-pill)', padding: '6px 13px', whiteSpace: 'nowrap',
+                borderRadius: 'var(--radius-pill)', padding: '5px 11px', whiteSpace: 'nowrap',
               }}
             >
               <span aria-hidden>←</span> Today&apos;s pathway
@@ -860,11 +872,14 @@ export default function DigiChat({
             a thread gets one warm line, because for them the greeting's job
             is done in a breath and the conversation is what they came for. */}
         {messages.length === 0 ? (
-          <div style={{ margin: '0 -20px 24px' }}>
+          <div style={{ margin: '-20px -20px 18px' }}>
             <DigiHero
               title={<>Let&apos;s make today a little easier.</>}
               subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
               curved={false}
+              compact
+              // The star is already in the header one line up.
+              mark={false}
             />
           </div>
         ) : (
@@ -879,80 +894,16 @@ export default function DigiChat({
 
         {messages.length === 0 && (
           <div style={{ paddingTop: '4px' }}>
-
-            {stageId && stageName && !deviceSetupDismissed && (
-              <div style={{
-                background: 'var(--stage-2)',
-                border: 'var(--edge)',
-                boxShadow: 'var(--lift)',
-                borderRadius: 'var(--radius-btn)',
-                padding: '16px 18px',
-                marginBottom: '20px',
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '12px',
-              }}>
-                <div style={{
-                  width: '32px', height: '32px', borderRadius: '8px',
-                  background: 'var(--terracotta)', flexShrink: 0, border: 'var(--edge)', boxSizing: 'border-box',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)' }}>⚙</span>
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: 'var(--terracotta)', marginBottom: '4px',
-                  }}>
-                    Device setup · Stage {stageId}
-                  </div>
-                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
-                    {/* The name of the CHILD, not the name of the stage.
-                        Justin: "this came up on DiGi after the updates and I am
-                        not sure what Shaper refers to."
-                        Shaper is what we call stage 4. The sentence is "device
-                        settings for X", which reads as a person, so it named the
-                        stage as though it were his son. The eyebrow directly
-                        above already says STAGE 4, so the stage was both wrong
-                        here and redundant.
-                        Falls back to "your child" rather than to the stage,
-                        because a family with no name saved should get a plain
-                        sentence, not a puzzle. */}
-                    Have you set the right device settings for {childName || 'your child'}? I work better when the basics are in place.
-                  </p>
-                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    <Link
-                      href={`/dashboard/pathway`}
-                      style={{
-                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                        color: 'var(--terracotta)', textDecoration: 'underline',
-                        letterSpacing: '0.04em',
-                      }}
-                    >
-                      Check setup →
-                    </Link>
-                    <button
-                      onClick={() => {
-                        if (stageId) localStorage.setItem(`gc_device_setup_confirmed_${stageId}`, '1')
-                        setDeviceSetupDismissed(true)
-                      }}
-                      style={{
-                        background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
-                        color: 'var(--ink-muted)', letterSpacing: '0.04em',
-                      }}
-                    >
-                      All set
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 'var(--text-sm)' }}>Try asking</p>
+            {/* LESS GOING ON (25 September 2026). Justin: "needs less
+                suggestions as a bit too much going on." The empty page carried
+                a device setup card and three example questions on top of the
+                welcome, which left no room for the one thing a parent came to
+                do, type. The setup card has gone (the pathway already asks
+                about device settings) and two examples are enough to show the
+                kind of thing DiGi is for. */}
+            <p className="eyebrow" style={{ marginBottom: '10px', fontSize: 'var(--text-sm)' }}>Try asking</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-              {stagePrompts.map((prompt, i) => (
+              {stagePrompts.slice(0, 2).map((prompt, i) => (
                 <button
                   key={i}
                   onClick={() => sendMessage(prompt)}
@@ -1361,7 +1312,7 @@ export default function DigiChat({
       </div>
 
       {/* Input */}
-      <div style={{ padding: '14px 20px', borderTop: 'var(--edge)', background: 'var(--white)', flexShrink: 0 }}>
+      <div style={{ padding: '10px 20px', borderTop: 'var(--edge)', background: 'var(--white)', flexShrink: 0 }}>
         {/* A quiet strip of example questions that stays under the chat once it
             is under way, so a parent always sees the kind of thing they can ask,
             like how long a child their age should be on a screen. Hidden while
@@ -1488,7 +1439,7 @@ export default function DigiChat({
           </form>
         )}
         {!atLimit && (
-          <p style={{ margin: '9px 6px 0', textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+          <p style={{ margin: '7px 6px 0', textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
             DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.
           </p>
         )}

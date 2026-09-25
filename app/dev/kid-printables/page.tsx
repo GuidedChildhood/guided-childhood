@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
 import KidPrintables from '@/components/kid/KidPrintables'
 import KidPrintPage from '@/components/kid/KidPrintPage'
+import KidScreenChrome from '@/components/kid/KidScreenChrome'
 import BucketBuilder from '@/app/(dashboard)/dashboard/printables/builder/BucketBuilder'
 import HappyNews, { type HappyNewsItem } from '@/components/celebrate/HappyNews'
 import { printablesForStage, getPrintable } from '@/lib/printables/registry'
@@ -38,6 +39,17 @@ export default function KidPrintablesFixture() {
   const theme = resolveTheme(null)
   const token = 'fixture'
 
+  // The builder as the child's route draws it, inside the screen chrome with
+  // its tab bar, so the Print it bar can be checked sitting above the tabs.
+  if (view === 'bucket-tabs') {
+    return (
+      <KidScreenChrome token={token} current="print" today={{ left: 4, total: 5, complete: false, opened: true }}>
+        <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)', paddingBottom: 'calc(96px + env(safe-area-inset-bottom, 0px))' }}>
+          <BucketBuilder variant="kid" kidToken={token} defaultChildName="Teo" backHref="/dev/kid-printables" backLabel="Printables" />
+        </div>
+      </KidScreenChrome>
+    )
+  }
   if (view === 'bucket') {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)' }}>

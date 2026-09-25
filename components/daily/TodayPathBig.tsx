@@ -9,6 +9,7 @@ import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
 import type { FriendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import DayCompleteFlow, { type DayCloseFacts } from '@/components/daily/DayCompleteFlow'
+import DayTickFlow from '@/components/daily/DayTickFlow'
 import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
 import { chunky } from '@/components/scripts/card-system'
 
@@ -76,7 +77,7 @@ function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked:
   )
 }
 
-export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, bonus = null, childId = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; bonus?: FriendOfTheDay | null; childId?: string | null }) {
+export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, streakAliveToday = false, bonus = null, childId = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; /** Whether streakCount already includes today (lib/pathway/streak). */ streakAliveToday?: boolean; bonus?: FriendOfTheDay | null; childId?: string | null }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   // ── THE PLANET FRIEND BESIDE THE ROAD ─────────────────────────────────────
   //
@@ -194,6 +195,29 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // and the localStorage guard is what makes the flow a once a day moment
   // rather than a thing every visit replays.
   const [closeFacts, setCloseFacts] = useState<DayCloseFacts | null>(null)
+  // The ten minutes, confirmed: DayTickFlow, on the visit where the day first
+  // counted. Its facts are the same close facts this post has always returned
+  // and nobody read. See components/daily/DayTickFlow for the Duolingo loop.
+  const [tickFacts, setTickFacts] = useState<DayCloseFacts | null>(null)
+  // Held in sessionStorage until it is closed. Home re renders this card (a
+  // refresh after a tick, a version check), and a fresh copy starts with no
+  // state and finds the day already posted, so without this the confirmation
+  // flashed for a frame and was gone.
+  const tickKey = `gc_daytick_${childId ?? 'family'}`
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(tickKey)
+      if (!raw) return
+      const held = JSON.parse(raw) as { day: string; facts: DayCloseFacts }
+      if (held.day === new Date().toDateString()) setTickFacts(held.facts)
+      else sessionStorage.removeItem(tickKey)
+    } catch { /* nothing held */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const closeTick = () => {
+    try { sessionStorage.removeItem(tickKey) } catch { /* fine */ }
+    setTickFacts(null)
+  }
   useEffect(() => {
     if (!leadDone || !leadKey) return
     const day = new Date().toDateString()
@@ -203,8 +227,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ child_id: childId ?? undefined, focus: focusOf(leadKey) }),
-    }).then(() => {
+    }).then(async r => {
       try { localStorage.setItem(storageKey, day) } catch { /* fine, the server dedupes */ }
+      const facts = await r.json().catch(() => null)
+      if (r.ok) {
+        const f = facts ?? {}
+        try { sessionStorage.setItem(tickKey, JSON.stringify({ day, facts: f })) } catch { /* shown this once anyway */ }
+        setTickFacts(f)
+      }
     }).catch(() => { /* the next open retries */ })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leadDone, leadKey, childId])
@@ -304,10 +334,27 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     <DayCompleteFlow
       childName={childName}
       childId={childId}
-      streakCount={streakCount + 1}
+      streakCount={streakAliveToday ? Math.max(1, streakCount) : streakCount + 1}
       facts={closeFacts}
       quests={(() => { const q = tasks.find(t => t.key === 'quests'); return q ? { label: q.label, href: q.href, done: q.done } : null })()}
       onClose={() => setCloseFacts(null)}
+    />
+  )
+
+  // Not on a day the whole path finished at once: the full close says all of
+  // this and more, and two takeovers in a row is one too many.
+  const todayStreak = streakAliveToday ? Math.max(1, streakCount) : streakCount + 1
+  const nextOpen = steps.find(t => !settled(t)) ?? null
+  const tickFlow = tickFacts && !pathDone && (
+    <DayTickFlow
+      childName={childName}
+      minutes={minutes}
+      streak={todayStreak}
+      doneLabels={steps.filter(t => t.done).map(t => t.label)}
+      left={steps.length - doneCount}
+      next={nextOpen ? { label: nextOpen.label, href: nextOpen.href } : null}
+      facts={tickFacts}
+      onClose={closeTick}
     />
   )
 
@@ -348,6 +395,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   return (
     <>
     {closeFlow}
+    {tickFlow}
     <div style={{
       background: '#fff',
       border: 'var(--edge)',
@@ -741,7 +789,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           background: 'var(--tint-sage)', borderRadius: 'var(--radius-tile)', border: 'var(--edge)', boxShadow: 'var(--lift)',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
-            {lead ? 'Today’s one tick, done 🎉' : `That is your ${minutes} minutes 🎉`}
+            {`Your ${minutes} minutes, done 🎉`}
           </div>
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
             {/* It said "day done" here while the road above it still had rungs

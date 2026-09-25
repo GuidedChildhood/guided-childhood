@@ -172,7 +172,7 @@ export default function BucketBuilder({
   }
 
   return (
-    <div style={{ maxWidth: '760px', margin: '0 auto', padding: kid ? '16px 16px 120px' : '24px 20px 48px' }}>
+    <div style={{ maxWidth: '760px', margin: '0 auto', padding: kid ? '16px 16px 0' : '24px 20px 48px' }}>
       <style>{`
         @media print {
           header, .bottom-tab-bar, .rightnow-desktop, .no-print { display: none !important; }
@@ -338,11 +338,20 @@ export default function BucketBuilder({
       <BucketSheet title={title} childName={childName} picked={picked} />
 
       {/* The child's action bar, always in reach however long the idea list
-          runs: one big Print it, and the ask beside it. */}
+          runs: one big Print it, and the ask beside it.
+
+          ON TOP OF THE TABS, NOT UNDER THEM (25 September 2026). Justin, with
+          a photo of the child's app: "print option here hidden by tabs". This
+          was fixed to the very bottom at zIndex 40, written before the child's
+          screens carried a tab bar; since 15 September the bar (zIndex 60) has
+          sat on the same strip and covered it. It is sticky now, parked just
+          above the tabs at the height KidTabBar publishes, which also takes it
+          out from under the zoomed screen a fixed box drifts inside on iOS. */}
       {kid && (
-        <div className="no-print" style={{
-          position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 40,
-          padding: '10px 14px calc(12px + env(safe-area-inset-bottom))',
+        <div className="no-print" data-kid-print-bar style={{
+          position: 'sticky', bottom: 'calc(var(--kid-tabs-h, 0px) / 1.07)', zIndex: 40,
+          margin: '14px -16px 0',
+          padding: '10px 14px 12px',
           background: 'rgba(249,248,246,0.94)', backdropFilter: 'blur(8px)', borderTop: `2px solid ${HAPPY.ink}`,
         }}>
           {printNote && (

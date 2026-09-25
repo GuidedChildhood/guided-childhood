@@ -51,6 +51,9 @@ type Props = {
   /** What was agreed, keyed by screen id where we have one, guide key otherwise. */
   agreedNotes: Record<string, string>
   onAgreeDevice: (device: FamilyDevice, note: string) => void
+  /** Where the parent came from. From the road, the all done line hands them
+   *  straight back to it. */
+  from?: string | null
 }
 
 // ── WHAT A FAMILY MIGHT HAVE AGREED ───────────────────────────────────────
@@ -78,7 +81,7 @@ const LINK_BTN: React.CSSProperties = {
 
 export default function YourScreens({
   guides, childAge, childName, completed, notOwned, doneDevices, pending, onToggleDevice, onNotOwned,
-  agreedDevices, agreedNotes, onAgreeDevice,
+  agreedDevices, agreedNotes, onAgreeDevice, from = null,
 }: Props) {
   const [devices, setDevices] = useState<FamilyDevice[] | null>(null)
   const [busy, setBusy] = useState(false)
@@ -251,8 +254,40 @@ export default function YourScreens({
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
         {live.length === 0
           ? `Add what you actually have and each one arrives with its own settings guide, matched to ${name ? `${name}'s` : 'your child’s'} age. Nothing here is a rule, it is what most families set.`
-          : 'Tap any screen to walk through its settings. Mark it set up and it ticks off here.'}
+          : 'These are the screens you told us about. Tap one to walk through its settings, then mark it set up, or record what you agreed instead. Something new in the house? Add it at the bottom.'}
       </p>
+
+      {/* ── EVERY SCREEN COVERED, SAID OUT LOUD (25 September 2026) ─────────
+          Justin: "i looked at devices but has not ticked ... needs to be easy
+          to flow". A list that is all green said nothing about what that
+          meant. Now it says so, and from the road it hands the parent back to
+          it, where the Devices step is ticked. */}
+      {live.length > 0 && doneCount === live.length && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+          background: 'var(--tint-sage)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+          padding: '12px 14px', margin: '0 0 16px',
+        }}>
+          <span style={{ flex: '1 1 200px', minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.35 }}>
+            {live.length === 1 ? 'Your screen is covered.' : `All ${live.length} screens are covered.`}{' '}
+            <span style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)' }}>
+              Add anything new the day it arrives.
+            </span>
+          </span>
+          {from === 'today' && (
+            <a
+              href={`/dashboard${currentChildId() ? `?child=${currentChildId()}` : ''}#today`}
+              style={{
+                flexShrink: 0, textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)',
+                border: 'var(--edge)', borderRadius: 16, boxShadow: '0 5px 0 var(--terracotta-dark)',
+                padding: '9px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              }}
+            >
+              Back to today
+            </a>
+          )}
+        </div>
+      )}
 
       {/* The family's own screens. Status on the row, guide inside the row. */}
       {live.length > 0 && (
