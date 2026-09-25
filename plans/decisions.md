@@ -364,3 +364,12 @@ words to use. The old "safety guardrails first" line overclaimed (the verifier
 checks the finished reply) and is replaced by two true lines. No brain science
 line: 4 of 142 research rows. Justin confirmed Supabase signing keys are set,
 so PR 1154's local session check is live at full speed. PR 1155.
+
+## 25 September 2026: DiGi's typing box is always on screen, and the page is quieter
+
+Justin, screenshot: he could not type to DiGi, and too much was going on. The
+chat was a guessed calc(100dvh - 80px) tall, so the taller child badges pushed
+the compose box behind the tab bar. Now the dashboard shell sizes DiGi to the
+space left (globals.css, `.gc-dash:has(.digi-chat)`), whatever sits above. The
+empty page loses the device setup card, shows two examples not three, opens at
+the welcome, and the header is one row. Fixture: /ref-digi-chat. PR to follow.
