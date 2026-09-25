@@ -383,3 +383,13 @@ finished today holds the rung so the tick is seen. The quests rung reads "No
 jobs waiting" instead of "All clear". Devices opens on the family's own screens
 (research card moved below), and all covered says so with Back to today.
 Guarded in check-rung-truth. PR 1161.
+
+## 25 September 2026: Start is the first thing on the parent's timer card
+
+Justin: no obvious way to start the timer, and it must remind parent and child
+that every screen goes through it. Start sat at the foot of each child's card,
+below settings and three payment options. Now: the rule in one line, the jobs
+nudge, device, minutes and a big Start (Jomo and Brink shape); gift or bonus
+folds under it; who starts and time tiers fold into the child's settings. The
+timer and balance pages say the rule for every family, not only phone free ones.
+Holiday time: Teo's 180 min are two July rollovers (90 each). PR 1161.

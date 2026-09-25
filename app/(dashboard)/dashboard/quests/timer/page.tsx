@@ -61,7 +61,11 @@ export default async function TimerPage() {
         Start some screen time
       </h1>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
-        No phone of their own? Start it here and it still counts in the balance, on the same countdown you both watch.
+        {/* The rule, for every family, not only the phone free ones (25
+            September 2026). Justin: remind parent and child "it is the way to
+            use the system, by requesting on the app or asking, so the system
+            runs checks and records". */}
+        Every screen goes through the timer. Your child asks on their app, or asks you and you start it here. Either way the jobs are checked, you both see the countdown, and the minutes count in the balance.
       </p>
 
       {child && !alreadyLinked && (
