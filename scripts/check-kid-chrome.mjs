@@ -171,6 +171,26 @@ if (users.length === 0) {
   ok.push(`${users.length} screen(s) mount the chrome and every one pads for the bar: ${users.map(u => u.replace('app/k/[token]/', '').replace('/page.tsx', '')).join(', ')}`)
 }
 
+// ── A BOTTOM BAR OF ITS OWN SITS ON TOP OF THE TABS ──────────────────────
+// Justin, 25 September 2026, photo of the bucket list builder: "print option
+// here hidden by tabs". Its Print it bar was fixed to bottom 0 at zIndex 40,
+// the exact strip the tab bar (zIndex 60) covers. A screen under the chrome
+// that keeps its own bar at the bottom parks it above --kid-tabs-h, which
+// KidTabBar publishes.
+{
+  const BUCKET = 'app/(dashboard)/dashboard/printables/builder/BucketBuilder.tsx'
+  const src = read(BUCKET)
+  if (src === null) {
+    problems.push(`${BUCKET} is gone. If the child's bucket builder moved, move this check with it.`)
+  } else if (!/data-kid-print-bar[^>]*position: 'sticky', bottom: 'calc\(var\(--kid-tabs-h/.test(src.replace(/\s+/g, ' '))) {
+    problems.push(`${BUCKET}: the child's Print it bar no longer sits above --kid-tabs-h, so the tab bar covers it again.`)
+  }
+  const tabs = read('components/kid/KidTabBar.tsx')
+  if (tabs !== null && !/--kid-tabs-h/.test(tabs)) {
+    problems.push('components/kid/KidTabBar.tsx no longer publishes --kid-tabs-h, so nothing a screen keeps at the bottom can clear the tabs.')
+  }
+}
+
 if (problems.length > 0) {
   console.error('check-kid-chrome FAILED\n')
   for (const p of problems) console.error('  ' + p)

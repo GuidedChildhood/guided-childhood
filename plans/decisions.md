@@ -393,3 +393,10 @@ nudge, device, minutes and a big Start (Jomo and Brink shape); gift or bonus
 folds under it; who starts and time tiers fold into the child's settings. The
 timer and balance pages say the rule for every family, not only phone free ones.
 Holiday time: Teo's 180 min are two July rollovers (90 each). PR 1161.
+
+## 25 September 2026: the child's Print it bar sits on top of the tabs
+
+Justin, photo of the bucket list builder: "print option here hidden by tabs".
+Its Print it bar was fixed to bottom 0 under the kid tab bar added on 15
+September. KidTabBar now publishes its height as --kid-tabs-h and the bar is
+sticky just above it. check-kid-chrome guards both. PR 1161.
