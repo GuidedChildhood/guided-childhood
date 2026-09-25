@@ -325,10 +325,22 @@ export default function StarterPackPage() {
     }
   }, [step, ageBand, challenge, concerns, picks, worryOther, feeling, timeCommitment])
 
+  // ── THE BUILD, LINE BY LINE, ON EVERY PHONE (25 September 2026) ─────────
+  //
+  // Justin: "it used to flash up line by line that it was building the
+  // pathway, but now it just puts all the text there." The three lines were
+  // revealed by a CSS keyframe, and globals.css switches every animation off
+  // when a phone asks for reduced motion, so on those phones all three landed
+  // at once and the beat that shows real work happening was gone. The reveal is
+  // a timer now, which reduced motion does not touch: each line still arrives
+  // in turn, and only the small slide up is dropped for those phones.
+  const [built, setBuilt] = useState(0)
   useEffect(() => {
     if (step !== 'reassure') return
+    setBuilt(0)
+    const timers = [150, 950, 1750].map((ms, i) => setTimeout(() => setBuilt(i + 1), ms))
     const t = setTimeout(() => setStep('result'), 2900)
-    return () => clearTimeout(t)
+    return () => { clearTimeout(t); timers.forEach(clearTimeout) }
   }, [step])
 
   function selectAge(band: AgeBand) {
@@ -803,14 +815,16 @@ export default function StarterPackPage() {
             </h1>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '360px', margin: '0 auto 20px' }}>
               {[
-                { t: `Matching to your stage`, d: '0.1s' },
-                { t: 'Writing the exact words for tonight', d: '0.9s' },
-                { t: 'Mapping the pathway to 16', d: '1.7s' },
-              ].map(row => (
-                <div key={row.t} className="build-row" style={{
+                { t: `Matching to your stage` },
+                { t: 'Writing the exact words for tonight' },
+                { t: 'Mapping the pathway to 16' },
+              ].map((row, i) => (
+                <div key={row.t} className="build-row" data-built={i < built ? 'yes' : 'no'} style={{
                   display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left',
                   background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-tile)',
-                  padding: '12px 15px', opacity: 0, animation: `buildIn 0.5s ease ${row.d} forwards`,
+                  padding: '12px 15px',
+                  visibility: i < built ? 'visible' : 'hidden',
+                  animation: i < built ? 'buildIn 0.5s ease' : 'none',
                 }}>
                   <span style={{
                     width: 22, height: 22, borderRadius: '50%', flexShrink: 0, background: 'var(--tint-sage)',
@@ -825,17 +839,14 @@ export default function StarterPackPage() {
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto' }}>
               You are far from alone. Screens are the hardest daily battle most UK parents name, and there is a calm way through.
             </p>
-            {/* THE LINES ARE THE CONTENT, NOT THE ANIMATION.
-                They start at opacity 0 and are revealed BY the keyframe, and
-                globals.css turns every animation off under reduced motion, so
-                on a phone with that setting the three ticks never appeared at
-                all: the screen was a heading, a gap, and a sentence. The rule
-                below hands them back, visible and still, which is what reduced
-                motion is asking for rather than nothing to read. */}
+            {/* THE LINES ARE THE CONTENT, NOT THE ANIMATION. Which lines show
+                is decided by the timer above (built), so a phone with reduced
+                motion still sees them arrive one at a time; the keyframe is
+                only the slide up, and reduced motion drops just that. */}
             <style>{`
               @keyframes buildIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
               @media (prefers-reduced-motion: reduce) {
-                .build-row { opacity: 1 !important; animation: none !important; transform: none !important; }
+                .build-row { animation: none !important; transform: none !important; }
               }
             `}</style>
           </div>
