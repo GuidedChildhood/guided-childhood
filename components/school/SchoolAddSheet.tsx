@@ -78,7 +78,7 @@ export default function SchoolAddSheet({
    * afterwards. One child, or none passed, and the picker never renders: a
    * single child household sees exactly the sheet it always saw.
    */
-  kids?: { id: string; name: string | null }[]
+  kids?: { id: string; name: string | null; hasApp?: boolean }[]
   /** Preselected owner, normally the child the parent has open. */
   defaultChildId?: string | null
   onCancel: () => void
@@ -112,6 +112,27 @@ export default function SchoolAddSheet({
     return () => window.removeEventListener('keydown', onKey)
   }, [onCancel])
 
+  // ── WHOSE PHONE (25 September 2026) ──────────────────────────────────────
+  //
+  // Justin, choosing Teo: "says send it to Alma's phone, should say Teo has
+  // not got a phone as he is 4." The line read the page's child, not the one
+  // picked here, and never asked whether that child has a phone. Now it names
+  // whoever is picked, and when they have no app on a phone it says so and
+  // sends nothing, because a toggle for a phone that does not exist is a
+  // promise the reminder cannot keep. hasApp unknown (a caller that does not
+  // pass it) keeps the old behaviour.
+  const nameOf = (k?: { name: string | null }) => (k?.name && k.name !== 'Your child' ? k.name : null)
+  const picked = forChild ? kids.find(k => k.id === forChild) : undefined
+  const phoneKids = kids.filter(k => k.hasApp)
+  const knowsPhones = kids.some(k => typeof k.hasApp === 'boolean')
+  const noPhone = knowsPhones && (forChild ? picked?.hasApp === false : phoneKids.length === 0)
+  const phoneLabel = forChild
+    ? `${nameOf(picked) ?? childName ?? 'their'}${nameOf(picked) || childName ? "'s" : ''} phone`
+    : knowsPhones && phoneKids.length === 1
+      ? `${nameOf(phoneKids[0]) ?? 'their'}'s phone`
+      : kids.length > 1 ? "the children's phones" : `${childName ? `${childName}'s` : 'their'} phone`
+  const noPhoneName = forChild ? (nameOf(picked) ?? 'They') : 'Nobody'
+
   const submit = async () => {
     if (!title.trim() || saving) return
     setSaving(true)
@@ -122,7 +143,7 @@ export default function SchoolAddSheet({
         due_date: repeats ? null : dateIso,
         due_time: time || null,
         recurs_weekday: repeats ? dow : null,
-        auto_send_to_child: toChild,
+        auto_send_to_child: toChild && !noPhone,
         runs_in_holidays: repeats ? inHolidays : false,
         child_id: forChild,
       })
@@ -336,6 +357,14 @@ export default function SchoolAddSheet({
         </div>
 
         {/* 4. THE POINT. On the way out, not in a drawer afterwards. */}
+        {noPhone ? (
+          <p data-no-phone style={{
+            background: 'var(--cream)', border: 'var(--edge)', borderRadius: 'var(--radius-tile)',
+            padding: '12px 13px', margin: '0 0 16px', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45,
+          }}>
+            📵 {noPhoneName === 'Nobody' ? 'None of the children has their app on a phone yet' : `${noPhoneName} has no phone yet`}, so this stays on your calendar and you get the reminder.
+          </p>
+        ) : (
         <button
           onClick={() => setToChild(v => !v)}
           style={{
@@ -359,13 +388,14 @@ export default function SchoolAddSheet({
               display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
               fontSize: 'var(--text-base)', color: 'var(--ink)',
             }}>
-              📲 Send it to {childName ? `${childName}'s` : 'their'} phone too
+              📲 Send it to {phoneLabel} too
             </span>
             <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 2, lineHeight: 1.4 }}>
               They get the reminder on the day, so it is not only you remembering it.
             </span>
           </span>
         </button>
+        )}
 
         <div style={{ display: 'flex', gap: 8 }}>
           <button

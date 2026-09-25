@@ -55,7 +55,7 @@ export default function RefSchoolCardPage() {
   return (
     <main style={{ background: 'var(--butter)', minHeight: '100vh', padding: '20px 16px' }}>
       <div style={{ maxWidth: 640, margin: '0 auto' }}>
-        <SchoolActionsCard actions={ACTIONS} childName="Teo" />
+        <SchoolActionsCard actions={ACTIONS} childName="Alma" kids={[{ id: "a", name: "Olga", hasApp: true }, { id: "b", name: "Alma", hasApp: true }, { id: "c", name: "Teo", hasApp: false }]} />
       </div>
     </main>
   )

@@ -18,7 +18,7 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
   const user = await sessionUser(supabase)
   if (!user) redirect('/login')
 
-  const [actionsResult, childResult, allChildrenResult] = await Promise.all([
+  const [actionsResult, childResult, allChildrenResult, kidLinksResult] = await Promise.all([
     supabase
       .from('school_actions')
       .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on, child_id')
@@ -29,7 +29,10 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
     // The selected child rather than always the primary one; the page's own
     // per action child chips still name whoever a row is for.
     getChildren<{ id: string; name: string | null; is_primary: boolean | null }>(supabase, user.id, childParam, 'id, name'),
-    supabase.from('children').select('id, name').eq('parent_id', user.id),
+    supabase.from('children').select('id, name, no_phone').eq('parent_id', user.id),
+    // Which children have their app on a phone, so the add sheet can say
+    // "Teo has no phone yet" rather than offering to send it to one.
+    supabase.from('kid_links').select('child_id').eq('user_id', user.id),
   ])
 
   // Who added what, read on its own and guarded rather than folded into the
@@ -102,7 +105,11 @@ export default async function SchoolPage({ searchParams }: { searchParams: Promi
         <SchoolActionsCard
           actions={actions}
           childName={childName}
-          kids={(allChildrenResult.data ?? []) as { id: string; name: string | null }[]}
+          kids={((allChildrenResult.data ?? []) as { id: string; name: string | null; no_phone?: boolean | null }[]).map(k => ({
+            id: k.id, name: k.name,
+            // Their app is on a phone: linked, and not marked as having none.
+            hasApp: k.no_phone !== true && (kidLinksResult.data ?? []).some(l => l.child_id === k.id),
+          }))}
           region={region}
         />
       </div>

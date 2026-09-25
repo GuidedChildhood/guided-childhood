@@ -503,3 +503,11 @@ teacher wants, one hint and one thing to try; three hints at most, the last
 a worked example on a different question. Daily cap in migration 354.
 check-homework-help guards it. Plan: plans/2026-09-25-homework-help-plan.md.
 PR 1164.
+
+## 25 September 2026: a reminder for a child with no phone says so
+
+Justin picked Teo (4) on a school reminder and it offered to send it to
+Alma's phone. The line read the page's child, not the picked one, and never
+asked whether that child had a phone. It now names whoever is picked, and a
+child with no app on a phone (no link, or marked no phone) gets "Teo has no
+phone yet, so this stays on your calendar" and nothing is sent. PR 1164.
