@@ -65,8 +65,19 @@ for (const m of scriptSelects) {
 if (!/const nextPassportJob\s*=/.test(src)) {
   fails.push('daily-tasks.ts no longer works out the next open passport section, so the rung is back to sending a parent to the book instead of the job.')
 }
-if (!/withChildOn\(nextPassportJob\.href\)/.test(src)) {
+if (!/withChildOn\(passportJob\.href/.test(src)) {
   fails.push('The passport rung does not route to the open section\'s own href on ordinary days.')
+}
+// And it ticks on THAT job. Justin, 25 September 2026: "i looked at devices but
+// has not ticked". The rung named Devices set up and waited on the whole book,
+// lessons and screen balance included, so finishing the devices never moved it.
+if (!/passportJob \? passportJob\.pct >= 100/.test(src)) {
+  fails.push('The passport rung is done on the whole passport again rather than on the job it names, so a parent who finishes that job sees no tick.')
+}
+// And the job finished today holds the rung, or the next open row replaces it
+// the moment it is done and the tick is never seen.
+if (!/const heldPassportJob\s*=/.test(src)) {
+  fails.push('No heldPassportJob in daily-tasks.ts, so a job finished today is replaced on the road by the next open one before its tick can show.')
 }
 // A section href can carry a #fragment, and appending ?child= after a hash
 // makes it part of the anchor rather than a query param.

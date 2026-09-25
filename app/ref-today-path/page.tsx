@@ -33,7 +33,7 @@ export default async function RefTodayPath({
       // The check in is ticked, the road is open, and Quests is settled with
       // nothing owed. Three states on one screen, which is the only way to see
       // whether they actually read as three different things.
-      if (showClear && s.key === 'quests') return { ...s, label: 'All clear', done: false, clear: true }
+      if (showClear && s.key === 'quests') return { ...s, label: 'No jobs waiting', done: false, clear: true }
       return { ...s, done: allDone || i === 0 }
     }),
     { key: 'done' as const, label: 'Done', href: '/dashboard', done: allDone },

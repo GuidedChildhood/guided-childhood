@@ -373,3 +373,13 @@ the compose box behind the tab bar. Now the dashboard shell sizes DiGi to the
 space left (globals.css, `.gc-dash:has(.digi-chat)`), whatever sits above. The
 empty page loses the device setup card, shows two examples not three, opens at
 the welcome, and the header is one row. Fixture: /ref-digi-chat. PR to follow.
+
+## 25 September 2026: the Devices step ticks on the devices, and "All clear" says what
+
+Justin: "why does it say all clear?" and "i looked at devices but has not
+ticked". The passport rung named Devices set up but waited on the whole
+passport (lessons, jobs, balance too). It now ticks on its own job, and a job
+finished today holds the rung so the tick is seen. The quests rung reads "No
+jobs waiting" instead of "All clear". Devices opens on the family's own screens
+(research card moved below), and all covered says so with Back to today.
+Guarded in check-rung-truth. PR 1161.

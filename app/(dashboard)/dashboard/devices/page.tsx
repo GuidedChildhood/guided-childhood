@@ -150,25 +150,6 @@ export default async function DevicesPage({
         </p>
       </div>
 
-      {stageNote && (
-        <div style={{ background: 'var(--stage-3)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '18px 20px', marginBottom: '20px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-            {stage.label}
-          </div>
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
-            {stageNote.desc_text}
-          </p>
-          <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: '10px', padding: '12px 14px', borderLeft: '3px solid var(--terracotta)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
-              What the research says at this age
-            </div>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }}>
-              {stageNote.science}
-            </p>
-          </div>
-        </div>
-      )}
-
       <DeviceSweepCard />
 
       {/* One list of screens, each carrying its own guide and its own status,
@@ -185,7 +166,33 @@ export default async function DevicesPage({
         initialAgreed={agreedKeys}
         initialAgreedDevices={agreedDeviceIds}
         initialAgreedNotes={agreedNotes}
+        from={from ?? null}
       />
+
+      {/* The stage's research, AFTER the screens (25 September 2026). It used
+          to open the page, so a parent sent here to set up their devices read
+          a card of research before reaching a single device of their own.
+          Justin: "present them with devices ... so they know which ones they
+          have and if they set up relevant settings". The list is the job;
+          this is the why, for anyone who wants it. */}
+      {stageNote && (
+        <div style={{ background: 'var(--stage-3)', border: 'var(--edge)', boxShadow: 'var(--lift)', borderRadius: 'var(--radius-btn)', padding: '18px 20px', marginTop: '20px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+            {stage.label}
+          </div>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
+            {stageNote.desc_text}
+          </p>
+          <div style={{ background: '#fff', border: 'var(--edge)', borderRadius: '10px', padding: '12px 14px', borderLeft: '3px solid var(--terracotta)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+              What the research says at this age
+            </div>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }}>
+              {stageNote.science}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -182,6 +182,8 @@ export async function getTodayLoop(
     { data: stageLessons },
     { data: aiLessons },
     { data: lessonRows },
+    { count: devicesTickedToday },
+    { count: devicesAddedToday },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -298,6 +300,11 @@ export async function getTodayLoop(
     // (per child, a row with no child speaks for the household), and whether
     // a lesson landed TODAY, which is what ticks a lesson day.
     supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id, completed_at').eq('user_id', userId).limit(1000),
+    // Did the parent work on their devices TODAY: a screen ticked or agreed,
+    // or a screen added. What lets the devices rung stay on the road, ticked,
+    // on the day it was finished. See heldPassportJob below.
+    supabase.from('device_setup_progress').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('completed_at', dayStart),
+    supabase.from('family_devices').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', dayStart),
   ])
 
   // THIS CHILD'S DAY, out of the rows for today.
@@ -405,6 +412,25 @@ export async function getTodayLoop(
   const nextPassportJob = passportRead === null
     ? null
     : passportRead.sections.find(sec => sec.pct < 100) ?? null
+  // ── THE JOB TICKS ON ITS OWN, AND STAYS ON THE ROAD THE DAY IT IS DONE ────
+  //
+  // Justin, 25 September 2026, on a road reading Devices set up: "i looked at
+  // devices but has not ticked". It could not have. The rung named ONE job and
+  // was done only when the WHOLE passport was, lessons, jobs and screen balance
+  // included, so finishing the devices never moved it. And had it counted the
+  // devices alone, the moment they were finished the next open job would have
+  // taken the rung's place, so the parent would still never have seen a tick.
+  //
+  // So a job finished TODAY holds the rung, ticked. Only the devices can be
+  // read as worked on today (a screen ticked, agreed or added); the other rows
+  // are ongoing or have rungs of their own.
+  const touchedToday: Record<string, boolean> = {
+    devices: (devicesTickedToday ?? 0) > 0 || (devicesAddedToday ?? 0) > 0,
+  }
+  const heldPassportJob = passportRead === null
+    ? null
+    : passportRead.sections.find(sec => sec.pct >= 100 && touchedToday[sec.key]) ?? null
+  const passportJob = heldPassportJob ?? nextPassportJob
 
   // ── THE DAY'S FOCUS ────────────────────────────────────────────────────────
   //
@@ -760,7 +786,11 @@ export async function getTodayLoop(
     // tell a parent different things about their own quests.
     {
       key: 'quests',
-      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : questsActedToday ? 'Quests' : 'All clear',
+      // "No jobs waiting", not "All clear" (25 September 2026). Justin: "why
+      // does it say all clear? need to explain." It sat on the road with no
+      // word saying WHAT was clear. This is the quests rung: jobs are set and
+      // nothing is waiting for the parent to approve.
+      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : questsActedToday ? 'Quests' : 'No jobs waiting',
       href: !anyQuests ? withChild('/dashboard/quests') : `${withChild('/dashboard/quests')}#quest-board`,
       // ── THREE STATES, BECAUSE THERE ARE THREE THINGS TO SAY ──────────────
       //
@@ -797,7 +827,7 @@ export async function getTodayLoop(
     ...(passportOutstanding !== null ? [{
       key: 'passport' as const,
       // The job's own name on every day but passport day. See nextPassportJob.
-      label: focus !== 'passport' && nextPassportJob ? nextPassportJob.label : 'Passport',
+      label: focus !== 'passport' && passportJob ? passportJob.label : 'Passport',
       // Both halves of this line arrived from different branches on the same
       // day and both are right. The route is the passport's own page since
       // 13 August, which is the whole reason that split was worth doing: this
@@ -815,16 +845,19 @@ export async function getTodayLoop(
         // The job itself, not the record of it. withChild is skipped because
         // the section's href is already a real route with its own query; the
         // child rides along below.
-        : nextPassportJob
-          ? withChildOn(nextPassportJob.href)
+        // from=today rather than the row's own from=passport: the parent came
+        // from the road, so the way back on that page must say Today.
+        : passportJob
+          ? withChildOn(passportJob.href.replace('from=passport', 'from=today'))
           : withChild('/dashboard/pathway?from=today'),
       // On passport day the ask is a LOOK, not a finish: reading the record
       // is the day's one thing, and the pathway page records the look when it
       // is opened from the road. Every other day keeps the honest reading the
       // page itself shows: nothing outstanding on the parent's side.
+      // Every other day it is the named job's own row, not the whole book.
       done: focus === 'passport'
         ? (!!session?.completed_at || passportOutstanding === 0)
-        : passportOutstanding === 0,
+        : passportJob ? passportJob.pct >= 100 : passportOutstanding === 0,
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
     //
