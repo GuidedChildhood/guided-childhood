@@ -449,3 +449,14 @@ ending day 3 (first on the last day so a drip cannot take the slot). Justin
 first chose seven days, then kept four the same morning. Lock after the trial
 stays. School family pass is undecided; plan and ideas in
 plans/2026-09-25-trial-and-school-pass-plan.md. PR 1164.
+
+## 25 September 2026: the school link, before any paid school pass
+
+Justin picked idea 1: test whether schools bring families before building a
+paid pass. A school shares /s/<code> in its newsletter; families get the
+ordinary four days and founder rate, and the stage check names their school.
+The profile is tagged once at the trial grant. /dashboard/admin/schools adds
+schools and shows signed up, card on still free, and paying per school
+(a card trial is not counted as paying). Migration 353, its own table, not the
+paid licence. check-school-link guards it. PR 1164.
+

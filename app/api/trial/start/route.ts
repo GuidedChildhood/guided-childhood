@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { trialEndsAtFromNow } from '@/lib/config/trial'
+import { SCHOOL_LINK_COOKIE, normaliseLinkCode } from '@/lib/school/link'
 
 // Start the free trial, once, ever.
 //
@@ -33,7 +34,7 @@ import { trialEndsAtFromNow } from '@/lib/config/trial'
 // leaves a gap two tabs can both pass through, and the whole point of this
 // route is that the grant happens exactly once.
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   // Who is asking is decided by their session, never by anything in the body.
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -74,5 +75,22 @@ export async function POST() {
   // No rows changed means they had one already, which is not a failure and must
   // not read as one to the caller: the starter pack carries on either way.
   const granted = (data ?? []).length > 0
+
+  // ── WHICH SCHOOL SENT THEM (migration 353) ─────────────────────────────
+  //
+  // The school link set a cookie on the way in. Written here, at the grant,
+  // because this runs once per family on both doors, which is exactly the
+  // moment a signup becomes a family worth counting. Only on a fresh grant and
+  // only onto an empty column, so a second school's newsletter read later
+  // never rewrites who brought them. Best effort: a failed write must not cost
+  // anybody their trial.
+  const schoolCode = granted ? normaliseLinkCode(req.cookies.get(SCHOOL_LINK_COOKIE)?.value) : null
+  if (schoolCode) {
+    try {
+      await admin.from('profiles').update({ school_link: schoolCode })
+        .eq('id', user.id).is('school_link', null)
+    } catch { /* attribution is nice to have, the trial is not */ }
+  }
+
   return NextResponse.json({ ok: true, granted })
 }

@@ -166,6 +166,21 @@ export default function StarterPackPage() {
   // A parent who has already been through the quiz on this device. We greet
   // them by name of intent rather than making them start Q1 over again.
   const [returning, setReturning] = useState(false)
+  // ── THE SCHOOL THAT SENT THEM (migration 353) ─────────────────────────
+  //
+  // A family arriving from a school newsletter link (/s/<code>) sees one line
+  // naming their school, so the page they land on matches the newsletter that
+  // sent them. The name comes from the server, read from the cookie the link
+  // set, never from the address bar: ?school only says there is one to ask
+  // about, so the other visitors cost no request.
+  const [schoolName, setSchoolName] = useState<string | null>(null)
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has('school')) return
+    fetch('/api/school-link')
+      .then(r => (r.ok ? r.json() : null))
+      .then(j => { if (typeof j?.name === 'string') setSchoolName(j.name) })
+      .catch(() => { /* the page reads the same without it */ })
+  }, [])
   const [restored, setRestored] = useState(false)
   // True only while we are landing back from Google or Apple. The page draws a
   // different screen for it, because the alternative is a parent who has just
@@ -615,6 +630,15 @@ export default function StarterPackPage() {
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
+            {schoolName && (
+              <p data-school-welcome style={{
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+                textAlign: 'center', margin: '0 0 10px',
+              }}>
+                For families at {schoolName}
+              </p>
+            )}
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.4rem)',
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
