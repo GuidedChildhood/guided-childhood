@@ -115,6 +115,21 @@ for (const rel of [BIG, STRIP]) {
   else ok.push('the ten minutes landing opens DayTickFlow: done, the streak, what happens next')
 }
 
+// ── THE FIRST DAY IS NOT A TEN MINUTE DAY (25 September 2026) ────────────────
+// Justin: "saying 10 mins done is not accurate as it takes 2 seconds... it
+// congrats on streak for first ever sign in." On the family's first check in
+// day the close is the getting started version, once per family.
+{
+  const big = read('components/daily/TodayPathBig.tsx')
+  const flow = read('components/daily/DayTickFlow.tsx')
+  const home = read('app/(dashboard)/dashboard/page.tsx')
+  if (!/title: 'First check in, done'/.test(flow) || !/title: 'Get everything started'/.test(flow)) problems.push('DayTickFlow lost its first day version, so a two second first check in is told its ten minutes are done')
+  else if (!/const beats[^=]*= firstDay \?/.test(flow)) problems.push('DayTickFlow no longer switches to the first day beats when firstDay is passed')
+  else if (!/if \(localStorage\.getItem\(firstKey\) === day\) return/.test(big)) problems.push('the first day close is no longer once per family, so three children means the same four steps three times')
+  else if (!/firstDay=\{firstDay\}/.test(home) || !/ukDay\(new Date\(firstCheckinAt\)\) === ukDay\(new Date\(\)\)/.test(home)) problems.push('Home no longer works out the first day from first_checkin_at, so the first day close never shows')
+  else ok.push('the first day close says getting to know you and the four setup moves, once per family')
+}
+
 if (problems.length > 0) {
   console.error('check-today-tick FAILED\n')
   for (const p of problems) console.error('  ' + p)

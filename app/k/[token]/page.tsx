@@ -545,7 +545,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // feed. The child taps that they practised it, the tap becomes a pending
   // quest tick, and the stars land when the parent approves. In the school
   // holidays there is no card at all.
-  let weekMission: { line: string; second: string | null; state: 'open' | 'pending' | 'done' } | null = null
+  let weekMission: { line: string; second: string | null; state: 'open' | 'pending' | 'done'; yearGroup?: number; strand?: string; subject?: string } | null = null
   if (brief && !brief.preview) {
     const wanted = `School: ${brief.questTitle}`
     const schoolQuest = (schoolQuestRes.data ?? []).find(q => String(q.title) === wanted) ?? null
@@ -554,6 +554,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       line: brief.lead,
       second: brief.second ? brief.second.lead : null,
       state: tickStatus === 'approved' ? 'done' : schoolQuest ? 'pending' : 'open',
+      yearGroup: brief.yearGroup,
+      strand: brief.strand,
+      subject: brief.subjectLabel,
     }
   }
 

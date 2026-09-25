@@ -162,6 +162,13 @@ jobs:
       - run: node scripts/check-followup-lives-in-checkin.mjs
       - run: node scripts/check-page-auth.mjs
       - run: node scripts/check-migration-grants.mjs
+      # The school link is a count, and these are the ways a count lies: a name
+      # from the address bar, a family moved between schools, a card trial
+      # counted as paying, a table a browser can reach.
+      - run: node --experimental-strip-types scripts/check-school-link.mjs
+      # Homework help: under 10 never reaches the model, nobody gets a chat,
+      # the homework is never stored, and the hint never carries the answer.
+      - run: node --experimental-strip-types scripts/check-homework-help.mjs
       # The schools app may not grow a new off scale type or space value.
       # A ratchet, not a zero: the number may only ever fall.
       - run: node scripts/check-schools-scale.mjs

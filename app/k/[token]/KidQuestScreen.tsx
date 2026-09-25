@@ -171,7 +171,7 @@ export default function KidQuestScreen({
   doneLessonKeys?: string[]
   missions?: KidMission[]
   /** This week's school objective as one calm card, null in the holidays. */
-  weekMission?: { line: string; second: string | null; state: 'open' | 'pending' | 'done' } | null
+  weekMission?: { line: string; second: string | null; state: 'open' | 'pending' | 'done'; yearGroup?: number; strand?: string; subject?: string } | null
   adventures?: KidAdventure[]
   bank?: StarBank | null
   // The holiday bank, already put into words on the server so the copy has one
@@ -321,7 +321,6 @@ export default function KidQuestScreen({
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
   const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
   // The school week card's claim state, optimistic on tap.
-  const [weekState, setWeekState] = useState<'open' | 'pending' | 'done'>(weekMission?.state ?? 'open')
   const [lessonCard, setLessonCard] = useState(0)
   const [qIndex, setQIndex] = useState(0)
   const [qAnswers, setQAnswers] = useState<number[]>([])
@@ -966,23 +965,6 @@ export default function KidQuestScreen({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, game_key: game.key }),
-      })
-    } catch { /* best effort, the next load reconciles */ }
-  }
-
-  // This week's school mission claimed: one tap, one pending tick, stars
-  // when the grown up approves. Optimistic to pending; the server recomputes
-  // the objective itself and dedupes per week.
-  async function recordSchoolWeek() {
-    if (weekState !== 'open') return
-    setWeekState('pending')
-    setToast('3 stars sent to your grown up! ⭐')
-    setTimeout(() => setToast(null), 3500)
-    try {
-      await fetch('/api/quests/lesson-complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, school_week: true }),
       })
     } catch { /* best effort, the next load reconciles */ }
   }
@@ -2637,34 +2619,38 @@ export default function KidQuestScreen({
                 </>
               )}
 
-              {/* This week at school: one calm card a week, never a feed.
-                  The same objective the grown up sees on their Home, worded
-                  for the child, paying stars through the normal approve
-                  loop. Absent entirely in the school holidays. */}
+              {/* This week at school: ONE LINE, no stars (25 September 2026).
+                  Justin: "a note that comes up in the child app as a job...
+                  seems a bit unhelpful and messy. For my children I would just
+                  like a weekly note of what they might be studying, one line,
+                  with a click here for homework help." So it is no longer a
+                  job to tick: it names the week's topic and opens homework
+                  help. It still moves on each Monday by itself
+                  (lib/learning/this-week), and is absent in the holidays. */}
               {activeLessonTab === 'learn' && weekMission && (
                 <>
-                  <SectionHead kidIcon="star">From school this week</SectionHead>
-                  <button
-                    onClick={recordSchoolWeek}
-                    disabled={weekState !== 'open'}
-                    style={bigCardShell(weekState !== 'open')}
+                  <SectionHead kidIcon="star">This week at school</SectionHead>
+                  <a
+                    href={`/k/${token}/homework`}
+                    data-school-week-line
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+                      background: '#fff', border: 'var(--edge)', borderRadius: 'var(--radius-card)',
+                      padding: '14px 16px', marginBottom: 14, boxShadow: '0 4px 0 var(--ink)',
+                    }}
                   >
-                    <CardFace
-                      seed="school-week"
-                      done={weekState === 'done'}
-                      emoji={weekState === 'done' ? '🏆' : '📘'}
-                      title={weekMission.line}
-                      subtitle={
-                        weekState === 'done' ? 'Approved! Stars landed ⭐'
-                        : weekState === 'pending' ? 'Waiting for your grown up to tick it ⭐'
-                        : weekMission.second
-                          ? `Your class is also on: ${weekMission.second}. Practised the big one? Tap here!`
-                          : 'Practised it at home? Tap here and your grown up gets the tick!'
-                      }
-                      pill="⭐ 3"
-                      actionIcon={weekState === 'open' ? '✓' : ''}
-                    />
-                  </button>
+                    <span aria-hidden style={{ fontSize: 28, lineHeight: 1, flexShrink: 0 }}>📘</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
+                        {weekMission.yearGroup && weekMission.strand
+                          ? `Year ${weekMission.yearGroup} ${(weekMission.subject ?? 'maths').toLowerCase()}: ${weekMission.strand.toLowerCase()}`
+                          : weekMission.line}
+                      </span>
+                      <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: 3 }}>
+                        Stuck on homework? Tap for help ›
+                      </span>
+                    </span>
+                  </a>
                 </>
               )}
 

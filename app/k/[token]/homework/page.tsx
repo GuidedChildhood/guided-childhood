@@ -8,6 +8,7 @@ import { nextTermTarget } from '@/lib/learning/term'
 import { ukToday } from '@/lib/kid/five-a-day'
 import KidHomework from '@/components/kid/KidHomework'
 import { resolveTheme } from '@/lib/kid/theme'
+import { mayHaveHints } from '@/lib/homework/help'
 
 // The homework row, as somewhere to put the homework.
 //
@@ -44,7 +45,7 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
   if (!link) notFound()
 
   const { data: child } = await supabase
-    .from('children').select('name, date_of_birth, accent').eq('id', link.child_id).maybeSingle()
+    .from('children').select('name, date_of_birth, accent, age_band').eq('id', link.child_id).maybeSingle()
 
   const region = await getFamilyRegion(supabase, link.user_id).catch(() => 'uk' as const)
   const now = new Date()
@@ -111,6 +112,7 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
       note={(existing as { note?: string } | null)?.note ?? ''}
       holidayTitle={onHoliday ? holidayTitle : null}
       coming={coming}
+      canHint={mayHaveHints(dob ?? null, (child as { age_band?: string | null } | null)?.age_band ?? null)}
     />
     </KidScreenChrome>
   )

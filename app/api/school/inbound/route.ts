@@ -99,18 +99,32 @@ function extractGmailLink(haystack: string): string | null {
 // Fetch the full inbound email from Resend by id, so the body is available
 // even when the webhook payload carried only metadata. Best effort: any
 // failure just leaves us with what the webhook already gave us.
+//
+// ── RECEIVED EMAILS LIVE AT /emails/receiving (25 September 2026) ─────────
+//
+// Justin set up Gmail forwarding and the confirmation code never appeared.
+// The live table showed why nothing ever had: not one school connection had
+// a code, a link or a first email, ever. Resend's email.received webhook
+// carries the envelope only (from, to, subject, id), and this fetched the
+// body from /emails/{id}, which is the endpoint for emails WE SENT. A
+// received email is at /emails/receiving/{id} (resend 6.x, emails.receiving
+// .get), so the fetch came back empty, the code was never read, and every
+// school email was extracted from its subject line alone. The old path is
+// kept as a fallback in case a provider or an older payload uses it.
 async function fetchInboundBody(emailId: string | null): Promise<string> {
   if (!emailId || !process.env.RESEND_API_KEY) return ''
-  try {
-    const res = await fetch(`https://api.resend.com/emails/${emailId}`, {
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
-    })
-    if (!res.ok) return ''
-    const j = await res.json() as { text?: string; html?: string }
-    return `${j.text ?? ''}\n${j.html ?? ''}`
-  } catch {
-    return ''
+  for (const path of [`/emails/receiving/${emailId}`, `/emails/${emailId}`]) {
+    try {
+      const res = await fetch(`https://api.resend.com${path}`, {
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+      })
+      if (!res.ok) continue
+      const j = await res.json() as { text?: string | null; html?: string | null }
+      const full = `${j.text ?? ''}\n${j.html ?? ''}`.trim()
+      if (full) return full
+    } catch { /* try the next path */ }
   }
+  return ''
 }
 
 /**
@@ -182,7 +196,9 @@ export async function POST(req: NextRequest) {
   try { payload = JSON.parse(rawBody) } catch {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 })
   }
-  const { to, from, subject, body, emailId } = normalisePayload(payload)
+  const normalised = normalisePayload(payload)
+  const { to, from, subject, emailId } = normalised
+  let body = normalised.body
   // A test ping from the setup screen: run the real token lookup and code
   // parse, but never persist and never create actions. Purely a check that
   // the platform side of the pipeline is alive.
@@ -237,13 +253,13 @@ export async function POST(req: NextRequest) {
     if (isTest) {
       return NextResponse.json({ ok: true, test: true, resolvedToken: true, codeFound: Boolean(code || link) })
     }
-    if (code || link) {
-      await supabase.from('school_connections').update({
-        verification_code: code,
-        verification_link: link,
-        verification_received_at: new Date().toISOString(),
-      }).eq('forward_token', token)
-    }
+    // Stamped even when neither could be read, so the setup screen can say
+    // Gmail's email arrived rather than watching for ever in silence.
+    await supabase.from('school_connections').update({
+      verification_code: code,
+      verification_link: link,
+      verification_received_at: new Date().toISOString(),
+    }).eq('forward_token', token)
     // Diagnostics in the response, never secrets, so the Resend delivery log
     // shows what happened: whether a body arrived and what was found.
     return NextResponse.json({ ok: true, verification: Boolean(code || link), codeFound: Boolean(code), linkFound: Boolean(link), bodyChars: body.length })
@@ -254,6 +270,10 @@ export async function POST(req: NextRequest) {
   if (isTest) {
     return NextResponse.json({ ok: true, test: true, resolvedToken: true, codeFound: false })
   }
+
+  // A real school email with no body in the webhook: fetch it, so the sender
+  // check and the extraction read the email and not just its subject line.
+  if (!body.trim() && emailId) body = await fetchInboundBody(emailId)
 
   // If the parent listed school senders, only accept those (a forwarded
   // email keeps the school in the payload sender or the forwarding header).

@@ -440,6 +440,26 @@ done (what you did), the streak with the flame, then what happens next
 sessionStorage until closed; the full path close is unchanged. check-today-tick
 guards it. PR 1161.
 
+## 25 September 2026: trial emails on the trial clock, trial stays four days
+
+After the Duolingo review. New 'trial' email kind: the welcome, days two to
+four and trial ending skip the one a week floor but never suppression, and
+only inside the free days. Four days reads welcome day 0, stage day 2, trial
+ending day 3 (first on the last day so a drip cannot take the slot). Justin
+first chose seven days, then kept four the same morning. Lock after the trial
+stays. School family pass is undecided; plan and ideas in
+plans/2026-09-25-trial-and-school-pass-plan.md. PR 1164.
+
+## 25 September 2026: the school link, before any paid school pass
+
+Justin picked idea 1: test whether schools bring families before building a
+paid pass. A school shares /s/<code> in its newsletter; families get the
+ordinary four days and founder rate, and the stage check names their school.
+The profile is tagged once at the trial grant. /dashboard/admin/schools adds
+schools and shows signed up, card on still free, and paying per school
+(a card trial is not counted as paying). Migration 353, its own table, not the
+paid licence. check-school-link guards it. PR 1164.
+
 ## 25 September 2026: a second standalone lesson, on being an entrepreneur
 
 Justin saw "What problem would you solve?" and asked for more on being an
@@ -449,3 +469,45 @@ lesson that follows it (working title "Could you be an entrepreneur?", Years
 8 and 9). It covers the ways to work, the honest upsides and risks with ONS
 figures, and what is allowed under 18. It is built after today's flagged
 lesson checks. The sketch is in plans/2026-09-24-simon-squibb-weighed.md.
+
+## 25 September 2026: the first check in says getting started, and a calendar corner
+
+Justin after his own first check in: "10 mins done is not accurate as it takes
+2 seconds", and it congratulated a streak on day one. On the day of
+first_checkin_at the close is now "First check in, done", then four setup
+moves ticked from real state (send the child their app, first jobs, school
+reminders, home screen and reminders), then tomorrow. Once per family, not
+per child. Home also gets a Calendar and Alerts corner top left, before the
+children: the school page (dates, email forwarding, photo a letter) with what
+is due this week, and the alerts hub on phones. PR 1164.
+
+## 25 September 2026: school emails were never read past the subject line
+
+Justin added Gmail forwarding and no code appeared. The live table showed no
+school connection had ever caught a code, a link or an email. Resend's
+email.received webhook carries the envelope only, and the body was fetched
+from /emails/{id}, which is for sent mail; received mail is at
+/emails/receiving/{id}. Fixed for the Gmail code and for every school email
+(the extractor had been reading subjects alone). A Gmail email with no
+readable code now says so on screen. The forwarding steps are rewritten as
+two parts naming every button. PR 1164.
+
+## 25 September 2026: homework help, hints not answers, no chat
+
+Justin's answers: from 10 the child gets DiGi hint cards, but never an LLM
+chat; under 10 the button asks their grown up (a push, no model); photos read
+once, never kept; the weekly school job becomes one line, no stars, moving
+on Mondays. The child types or snaps the question; one card back says what
+it practises (the curriculum line, revalidated, Year 1 to 6), what the
+teacher wants, one hint and one thing to try; three hints at most, the last
+a worked example on a different question. Daily cap in migration 354.
+check-homework-help guards it. Plan: plans/2026-09-25-homework-help-plan.md.
+PR 1164.
+
+## 25 September 2026: a reminder for a child with no phone says so
+
+Justin picked Teo (4) on a school reminder and it offered to send it to
+Alma's phone. The line read the page's child, not the picked one, and never
+asked whether that child had a phone. It now names whoever is picked, and a
+child with no app on a phone (no link, or marked no phone) gets "Teo has no
+phone yet, so this stays on your calendar" and nothing is sent. PR 1164.

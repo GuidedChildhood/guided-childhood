@@ -13,6 +13,7 @@ import SetupNextBar from '@/components/setup/SetupNextBar'
 import BackToToday from '@/components/home/BackToToday'
 import ChildRail from '@/components/children/ChildRail'
 import { pathwayDoneToday } from '@/lib/checkin/done-today'
+import { ukToday } from '@/lib/kid/five-a-day'
 import { Suspense } from 'react'
 import AskPopup from '@/components/quests/AskPopup'
 
@@ -303,8 +304,25 @@ async function ChildRailWithTicks({ kids, userId }: {
   kids: { id: string; name: string | null; is_primary: boolean | null; age_band: string | null }[]
   userId: string | null
 }) {
-  if (kids.length < 2) return null
+  if (!userId) return null
   const supabase = await createClient()
-  const done = userId ? await pathwayDoneToday(supabase, userId) : new Set<string>()
-  return <ChildRail kids={kids.map(k => ({ ...k, done: done.has(k.id) }))} />
+  // The calendar corner's two facts (25 September 2026): what the school
+  // calendar has due in the next seven days, overdue included, and whether
+  // school emails or letters have ever been set up. Read here rather than on
+  // Home so the corner streams in behind the page like the ticks do.
+  const weekOut = ukToday(new Date(Date.now() + 7 * 86400000))
+  const [done, due, conn, anyAction] = await Promise.all([
+    kids.length >= 2 ? pathwayDoneToday(supabase, userId) : Promise.resolve(new Set<string>()),
+    supabase.from('school_actions').select('id', { count: 'exact', head: true })
+      .eq('user_id', userId).eq('status', 'open').lte('due_date', weekOut),
+    supabase.from('school_connections').select('id').eq('user_id', userId).eq('active', true).limit(1),
+    // A photographed letter or a date typed in counts as set up too.
+    supabase.from('school_actions').select('id').eq('user_id', userId).limit(1),
+  ])
+  return (
+    <ChildRail
+      kids={kids.map(k => ({ ...k, done: done.has(k.id) }))}
+      calendar={{ dueThisWeek: due.count ?? 0, hasSchoolSetup: (conn.data ?? []).length > 0 || (anyAction.data ?? []).length > 0 }}
+    />
+  )
 }

@@ -550,6 +550,27 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // no age gate at all, so a family with a co-viewing five year old could be
   // shown "Their own side of it" on their own front page.
   const setupSteps = visibleSetupSteps()
+
+  // ── THE FIRST DAY (25 September 2026) ─────────────────────────────────────
+  //
+  // The family's first check in landed today, so the day's close is the
+  // getting started version rather than "your ten minutes, done": Justin, "it
+  // takes 2 seconds... we could say first time is getting to know what we do".
+  // The four moves are the parts that make the rest work, each ticked from the
+  // same reads the setup page uses. See components/daily/DayTickFlow.
+  const ukDay = (d: Date) => d.toLocaleDateString('en-GB', { timeZone: 'Europe/London' })
+  const firstCheckinAt = (profile?.first_checkin_at as string | null) ?? null
+  const kidWord = child?.name && child.name !== 'Your child' ? child.name : 'your child'
+  const firstDay = firstCheckinAt && ukDay(new Date(firstCheckinAt)) === ukDay(new Date())
+    ? {
+        moves: [
+          { key: 'share', emoji: '📲', label: `Send ${kidWord} their app`, why: 'Show them the code and it opens on their phone. Tick a job together to test it.', href: qc('/dashboard/setup#share'), done: setupFlags.childLink },
+          { key: 'quests', emoji: '⭐', label: 'Set their first jobs', why: 'Jobs done earn screen time, so the deal runs itself.', href: qc('/dashboard/quests'), done: (questsCountResult.count ?? 0) > 0 },
+          { key: 'school', emoji: '🏫', label: 'Add school reminders', why: 'Forward the school emails or photo a letter, and we pull out the dates.', href: qc('/dashboard/school'), done: hasSchoolConnection },
+          { key: 'home', emoji: '🔔', label: 'Home screen and reminders', why: 'One tap to open us, and a nudge at the times screens turn up.', href: qc('/dashboard/setup#home-screen'), done: setupFlags.homeScreen },
+        ],
+      }
+    : null
   // ── SETUP IS AN ACCOUNT JOB, SO IT SITS ON ONE CHILD'S DAY, NOT ALL OF THEM
   //
   // Justin, 19 August 2026: "when I toggle Today for Olga she is saying she
@@ -1254,7 +1275,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {hasKidLink && <StickerNewsCard news={stickerNews} childName={child?.name ?? null} childId={child?.id ?? null} />}
       <ChildDayStrip state={childDay} childName={child?.name ?? null} onApp={hasKidLink} />
 
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} streakAliveToday={streak.aliveToday} bonus={friendToday} childId={child?.id ?? null} />
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} streakAliveToday={streak.aliveToday} bonus={friendToday} childId={child?.id ?? null} firstDay={firstDay} />
 
       {/* The fix of the week: the success help, one device problem for this
           age with the exact words that solve it, under the road. */}

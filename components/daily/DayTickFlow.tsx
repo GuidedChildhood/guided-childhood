@@ -33,7 +33,25 @@ import type { DayCloseFacts } from '@/components/daily/DayCompleteFlow'
 // never on a day the whole path finished at once, because the full close says
 // all of this and more.
 
+// ── THE FIRST DAY IS NOT A TEN MINUTE DAY (25 September 2026) ──────────────
+//
+// Justin, after his own first check in: "saying 10 mins done is not accurate
+// as it takes 2 seconds... it congrats on streak for first ever sign in... we
+// could say first time is getting to know what we do... we want to encourage
+// adding calendar, settings, school reminders and quests first time to give an
+// overview of the important parts."
+//
+// So on the family's first day the three beats change. The minutes beat
+// becomes "first check in, done" and says what it was for. The streak beat,
+// which would congratulate a run nobody has run yet, becomes the four moves
+// that make the whole thing work, each ticked if it is already done and each
+// one tap away. Tomorrow stays as it is. The caller shows it once per family,
+// not once per child.
+export type FirstMove = { key: string; emoji: string; label: string; why: string; href: string; done: boolean }
+
 type Props = {
+  /** The family's first ever day: the getting started version. */
+  firstDay?: { moves: FirstMove[] } | null
   childName?: string
   minutes: number
   /** Consecutive days INCLUDING today. */
@@ -47,7 +65,7 @@ type Props = {
 
 const NAME = 'daytick'
 
-export default function DayTickFlow({ childName, minutes, streak, doneLabels, left, next, facts, onClose }: Props) {
+export default function DayTickFlow({ firstDay = null, childName, minutes, streak, doneLabels, left, next, facts, onClose }: Props) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const [beat, setBeat] = useState(0)
 
@@ -59,7 +77,34 @@ export default function DayTickFlow({ childName, minutes, streak, doneLabels, le
   const milestone = milestoneFor(streak)
   const did = doneLabels.length > 0 ? doneLabels.join(', ') : null
 
-  const beats: { icon: HappyIconName; title: string; body: string; chips?: string[] }[] = [
+  const moves = firstDay?.moves ?? []
+  const movesDone = moves.filter(m => m.done).length
+
+  const beats: { icon: HappyIconName; title: string; body: string; chips?: string[]; moves?: boolean }[] = firstDay ? [
+    {
+      icon: 'cheer',
+      title: 'First check in, done',
+      body: `Today was about getting to know ${kid}. What you told us has built the road, and from tomorrow it is ${minutes} minutes a day.`,
+    },
+    {
+      icon: 'wins',
+      title: 'Get everything started',
+      body: movesDone === moves.length
+        ? 'All set up already. Nice work.'
+        : 'The parts that make it work. A minute each, and any of them can wait.',
+      moves: true,
+    },
+    {
+      icon: 'phonebed',
+      title: 'What happens next',
+      body: [
+        facts?.next_line
+          ? `Tomorrow is ${facts.next_line.charAt(0).toLowerCase()}${facts.next_line.slice(1)}.`
+          : 'Tomorrow is one tick and a few minutes.',
+        'Today was day one of your streak.',
+      ].join(' '),
+    },
+  ] : [
     {
       icon: 'cheer',
       title: `Your ${minutes} minutes, done`,
@@ -125,7 +170,7 @@ export default function DayTickFlow({ childName, minutes, streak, doneLabels, le
         border: 'var(--edge)', boxShadow: '0 6px 0 var(--ink)',
         padding: '28px 24px 22px', textAlign: 'center',
       }}>
-        {beat === 1 ? (
+        {beat === 1 && !firstDay ? (
           // The streak beat wears the flame, big, the way Duolingo's does.
           <div aria-hidden style={{ fontSize: 64, lineHeight: 1, margin: '0 auto 10px' }}>🔥</div>
         ) : (
@@ -150,6 +195,34 @@ export default function DayTickFlow({ childName, minutes, streak, doneLabels, le
         <p style={{ margin: '0 0 18px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
           {b.body}
         </p>
+
+        {b.moves && (
+          <div data-first-moves style={{ display: 'flex', flexDirection: 'column', gap: 8, margin: '0 0 16px', textAlign: 'left' }}>
+            {moves.map(m => (
+              <Link
+                key={m.key}
+                href={m.href}
+                onClick={() => { closePopup(NAME); onClose() }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+                  background: m.done ? 'var(--cream)' : '#fff', border: 'var(--edge)', borderRadius: 14,
+                  padding: '10px 12px',
+                }}
+              >
+                <span aria-hidden style={{ fontSize: 24, lineHeight: 1, flexShrink: 0 }}>{m.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>{m.label}</span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4, marginTop: 2 }}>{m.why}</span>
+                </span>
+                <span aria-label={m.done ? 'done' : 'to do'} style={{
+                  flexShrink: 0, width: 26, height: 26, borderRadius: '50%', border: 'var(--edge)', boxSizing: 'border-box',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 'var(--text-sm)',
+                  background: m.done ? 'var(--retro-green)' : '#fff', color: m.done ? '#fff' : 'var(--ink-muted)',
+                }}>{m.done ? '✓' : '›'}</span>
+              </Link>
+            ))}
+          </div>
+        )}
 
         {last && left > 0 && next && (
           <Link

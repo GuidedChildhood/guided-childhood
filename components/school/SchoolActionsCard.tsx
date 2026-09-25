@@ -140,8 +140,9 @@ function dueInfo(dueDate: string | null, dueTime: string | null | undefined, now
 export default function SchoolActionsCard({ actions: initial, childName, kids = [], region = 'uk', compact = false }: {
   actions: SchoolAction[]
   childName?: string | null
-  /** Every child, for the add sheet's whose is it picker. */
-  kids?: { id: string; name: string | null }[]
+  /** Every child, for the add sheet's whose is it picker. hasApp says whether
+   *  their app is on a phone, so the sheet only offers to send it to one. */
+  kids?: { id: string; name: string | null; hasApp?: boolean }[]
   region?: Region
   /**
    * Inside something that already names this section, so the card drops its own

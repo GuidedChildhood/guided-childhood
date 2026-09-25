@@ -170,6 +170,8 @@ export default async function HealthPage() {
             <Link href="/dashboard/admin/email" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>email health</Link>.
             For the worries families raise that no tile covers yet, see{' '}
             <Link href="/dashboard/admin/asks" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>what parents ask for</Link>.
+            For the newsletter links schools share, and who came through them, see{' '}
+            <Link href="/dashboard/admin/schools" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>school links</Link>.
           </p>
         </>
       )}

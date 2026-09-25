@@ -2,6 +2,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation'
 import ChildSwitcher, { type SwitcherChild } from './ChildSwitcher'
+import CalendarCorner from '@/components/home/CalendarCorner'
 
 // ── THE SWITCHER LIVES IN THE LAYOUT NOW ────────────────────────────────────
 //
@@ -61,16 +62,24 @@ const CHILD_ROUTES = [
   '/dashboard/keepsakes',
 ]
 
-export default function ChildRail({ kids, forceShow = false }: { kids: SwitcherChild[]; forceShow?: boolean }) {
+export default function ChildRail({ kids, forceShow = false, calendar = null }: {
+  kids: SwitcherChild[]
+  forceShow?: boolean
+  /** The calendar and alerts in the top left of Home (25 September 2026).
+   *  See components/home/CalendarCorner. Home only, and there even for a one
+   *  child family, who have no pills but still have a school calendar. */
+  calendar?: { dueThisWeek: number; hasSchoolSetup: boolean } | null
+}) {
   const pathname = usePathname()
   const params = useSearchParams()
 
-  if (kids.length < 2) return null
+  const showCalendar = !!calendar && (forceShow || pathname === '/dashboard')
 
   // forceShow is for the /ref-child-rail layout fixture only, so the pills can
   // be checked at 390 and 1280 without a login. Nothing in the app passes it.
   const onChildPage = forceShow || pathname === '/dashboard' || CHILD_ROUTES.some(r => pathname.startsWith(r))
-  if (!onChildPage) return null
+  const showKids = kids.length >= 2 && onChildPage
+  if (!showKids && !showCalendar) return null
 
   // The selected child, read the same way the server pages read it: the param
   // when it names one of ours, the primary child otherwise. Deliberately NOT
@@ -91,8 +100,13 @@ export default function ChildRail({ kids, forceShow = false }: { kids: SwitcherC
   const basePath = rest.toString() ? `${pathname}?${rest.toString()}` : pathname
 
   return (
-    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '12px 20px 0' }}>
-      <ChildSwitcher kids={kids} selectedId={selected} basePath={basePath} />
+    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '12px 16px 0', display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+      {showCalendar && calendar && <CalendarCorner dueThisWeek={calendar.dueThisWeek} hasSchoolSetup={calendar.hasSchoolSetup} />}
+      {showKids && (
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <ChildSwitcher kids={kids} selectedId={selected} basePath={basePath} />
+        </div>
+      )}
     </div>
   )
 }
